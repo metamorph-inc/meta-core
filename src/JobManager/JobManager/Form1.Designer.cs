@@ -1,6 +1,6 @@
 ﻿namespace JobManager
 {
-    partial class JobManager
+    partial class JobManagerForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JobManager));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JobManagerForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lvJobQueue = new System.Windows.Forms.ListView();
@@ -210,7 +210,7 @@
             this.remoteStatusToolStripMenuItem.Visible = false;
             this.remoteStatusToolStripMenuItem.Click += new System.EventHandler(this.remoteStatusToolStripMenuItem_Click);
             // 
-            // JobManager
+            // JobManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;

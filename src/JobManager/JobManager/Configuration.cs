@@ -14,10 +14,9 @@ namespace JobManager
 {
     public partial class Configuration : Form
     {
-        Jenkins.Jenkins jenkins;
-        public Configuration(Jenkins.Jenkins jenkins, string password = null)
+        public Configuration(string password = null)
         {
-            this.jenkins = jenkins;
+            //this.jenkins = jenkins;
             InitializeComponent();
             AcceptButton = btnSave;
             chbRemoteExec.CheckedChanged +=new EventHandler(delegate (object o, EventArgs args) {
@@ -58,8 +57,8 @@ namespace JobManager
         internal void btnSave_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.UserID = this.txtUsername.Text;
-            jenkins.Username = this.txtUsername.Text;
-            jenkins.Password = this.mtbPassword.Text;
+            //jenkins.Username = this.txtUsername.Text;
+            //jenkins.Password = this.mtbPassword.Text;
 
             if (!chbRemoteExec.Checked)
             {
@@ -85,11 +84,11 @@ namespace JobManager
                 labelJenkinsTest.Visible = true;
                 linkCancelCheck.Visible = true;
                 cancel_Clicked = false;
-                jenkins.Username = txtUsername.Text;
-                jenkins.Password = mtbPassword.Text;
-                Action userCreateDelegate = delegate() { jenkins.Login(); };
+                //jenkins.Username = txtUsername.Text;
+                //jenkins.Password = mtbPassword.Text;
+                //Action userCreateDelegate = delegate() { jenkins.Login(); };
                 IAsyncResult userCreateResult = null;
-                userCreateResult = userCreateDelegate.BeginInvoke(null, null);
+                //userCreateResult = userCreateDelegate.BeginInvoke(null, null);
                 while (true)
                 {
                     Application.DoEvents();
@@ -109,47 +108,47 @@ namespace JobManager
                 {
                     return;
                 }
-                if (userCreateResult != null)
-                    userCreateDelegate.EndInvoke(userCreateResult);
+                //if (userCreateResult != null)
+                //    userCreateDelegate.EndInvoke(userCreateResult);
 
                 Properties.Settings.Default.Save();
 
-                JobManager manager = (Owner as JobManager);
-                if (manager != null)
+                JobManagerForm managerForm = (Owner as JobManagerForm);
+                if (managerForm != null)
                 {
-                    Dictionary<Job.TypeEnum, JobManager.TargetMachine> config = new Dictionary<Job.TypeEnum, JobManager.TargetMachine>();
-                    JobManager.TargetMachine.TargetMachineType type = JobManager.TargetMachine.TargetMachineType.Local;
+                    //Dictionary<Job.TypeEnum, JobManagerForm.TargetMachine> config = new Dictionary<Job.TypeEnum, JobManagerForm.TargetMachine>();
+                    //JobManagerForm.TargetMachine.TargetMachineType type = JobManagerForm.TargetMachine.TargetMachineType.Local;
                     //if (cmd.Host.Equals("localhost"))
                     //{
-                    //    type = JobManager.TargetMachine.TargetMachineType.Local;
+                    //    type = JobManagerForm.TargetMachine.TargetMachineType.Local;
                     //}
                     //else
                     //{
-                    //    type = JobManager.TargetMachine.TargetMachineType.Remote;
+                    //    type = JobManagerForm.TargetMachine.TargetMachineType.Remote;
                     //}
-                    //config.Add(Job.TypeEnum.Command, new JobManager.TargetMachine(cmd, type));
+                    //config.Add(Job.TypeEnum.Command, new JobManagerForm.TargetMachine(cmd, type));
 
                     //if (matlab.Host.Equals("localhost"))
                     //{
-                    //    type = JobManager.TargetMachine.TargetMachineType.Local;
+                    //    type = JobManagerForm.TargetMachine.TargetMachineType.Local;
                     //}
                     //else
                     //{
-                    //    type = JobManager.TargetMachine.TargetMachineType.Remote;
+                    //    type = JobManagerForm.TargetMachine.TargetMachineType.Remote;
                     //}
-                    //config.Add(Job.TypeEnum.Matlab, new JobManager.TargetMachine(matlab, type));
+                    //config.Add(Job.TypeEnum.Matlab, new JobManagerForm.TargetMachine(matlab, type));
 
                     //if (cad.Host.Equals("localhost"))
                     //{
-                    //    type = JobManager.TargetMachine.TargetMachineType.Local;
+                    //    type = JobManagerForm.TargetMachine.TargetMachineType.Local;
                     //}
                     //else
                     //{
-                    //    type = JobManager.TargetMachine.TargetMachineType.Remote;
+                    //    type = JobManagerForm.TargetMachine.TargetMachineType.Remote;
                     //}
-                    //config.Add(Job.TypeEnum.CAD, new JobManager.TargetMachine(cad, type));
+                    //config.Add(Job.TypeEnum.CAD, new JobManagerForm.TargetMachine(cad, type));
 
-                    manager.UpdateRuntimeConfig(config);
+                    //managerForm.UpdateRuntimeConfig(config);
                 }
 
                 DialogResult = System.Windows.Forms.DialogResult.OK;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JobManager;
+using JobManagerFramework;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting;
 using System.Net.Sockets;

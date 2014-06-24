@@ -151,6 +151,10 @@
       <Project>{98831605-E3EF-4A4F-B5E4-092F946DAD53}</Project>
       <Name>CyPhyPET</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\JobManagerFramework\JobManagerFramework.csproj">
+      <Project>{59715556-ef7c-4729-9780-3f7ea3fec627}</Project>
+      <Name>JobManagerFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\JobManager\JobManagerLib\JobManagerLib.csproj">
       <Project>{8B9963D3-F23C-4923-84C9-CBD6872105A6}</Project>
       <Name>JobManagerLib</Name>

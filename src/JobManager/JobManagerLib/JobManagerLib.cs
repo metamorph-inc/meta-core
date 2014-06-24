@@ -45,6 +45,7 @@ namespace JobManager
             FailedAbortOnServer,
             FailedExecution,
             Failed,
+            FailedAbortByUser,
         }
 
         public abstract StatusEnum Status
@@ -69,6 +70,7 @@ namespace JobManager
         {
             return status == StatusEnum.FailedExecution ||
                    status == StatusEnum.FailedAbortOnServer ||
+                   status == StatusEnum.FailedAbortByUser ||
                    status == StatusEnum.FailedToUploadServer ||
                    status == StatusEnum.FailedToDownload ||
                    status == StatusEnum.Failed;

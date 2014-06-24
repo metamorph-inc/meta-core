@@ -252,6 +252,9 @@
         <File Source='..\src\JobManager\JobManager\bin\Release\JobManager.exe'/>
       </Component>
       <Component Directory='INSTALLDIR_BIN' Win64='no'>
+        <File Source='..\src\JobManager\JobManager\bin\Release\JobManagerFramework.dll'/>
+      </Component>
+      <Component Directory='INSTALLDIR_BIN' Win64='no'>
         <File Source='..\3rdParty\System.Data.SQLite\SQLite.Interop.dll'/>
       </Component>
       <Component Directory='INSTALLDIR_BIN' Win64='no'>

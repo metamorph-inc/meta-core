@@ -48,13 +48,14 @@ namespace JobManager
 						title = String.Format("{0} ({1})", txtTitle.Text, i);
 					}
 
-					Job j = (Owner as JobManager).server.CreateJob();
+                    //TODO: Create new jobs in JobManager
+					/*Job j = (Owner as JobManagerForm).server.CreateJob();
 					j.RunCommand = runCommand;
 					j.Title = title;
 					j.WorkingDirectory = workingDirectory;
 					j.Type = type;
                     j.Status = Job.StatusEnum.Ready;
-					(Owner as JobManager).server.AddJob(j);
+					(Owner as JobManagerForm).server.AddJob(j);*/
 				}
 
 				DialogResult = System.Windows.Forms.DialogResult.OK;
