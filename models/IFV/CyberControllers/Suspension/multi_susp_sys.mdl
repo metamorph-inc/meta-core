@@ -1,0 +1,5451 @@
+Model {
+  Name			  "multi_susp_sys"
+  Version		  7.7
+  MdlSubVersion		  0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.2"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SavedCharacterEncoding  "ISO-8859-1"
+  SaveDefaultBlockParams  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  DataTypeOverrideAppliesTo "AllNumericTypes"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  MaxMDLFileLineLength	  120
+  Created		  "Thu Jul 14 22:10:13 2011"
+  Creator		  "jporter"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "jporter"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu Jul 14 22:12:01 2011"
+  RTWModifiedTimeStamp	  0
+  ModelVersionFormat	  "1.%<AutoIncrement:2>"
+  ConfigurationManager	  "None"
+  SampleTimeColors	  off
+  SampleTimeAnnotations	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowSignalResolutionIcons on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  SimulationMode	  "normal"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  Object {
+    $PropName		    "DataLoggingOverride"
+    $ObjectID		    1
+    $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
+    model_		    "multi_susp_sys"
+    signals_		    []
+    overrideMode_	    [0U]
+    Array {
+      Type		      "Cell"
+      Dimension		      1
+      Cell		      "multi_susp_sys"
+      PropName		      "logAsSpecifiedByModels_"
+    }
+    Array {
+      Type		      "Cell"
+      Dimension		      1
+      Cell		      []
+      PropName		      "logAsSpecifiedByModelsSSIDs_"
+    }
+  }
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  CovForceBlockReductionOff on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  CovModelRefEnable	  "Off"
+  CovExternalEMLEnable	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      2
+      Version		      "1.11.0"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  3
+	  Version		  "1.11.0"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ZcThreshold		  "auto"
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  ConcurrentTasks	  off
+	  Solver		  "ode45"
+	  SolverName		  "ode45"
+	  SolverJacobianMethodControl "auto"
+	  ShapePreserveControl	  "DisableAll"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  ZeroCrossAlgorithm	  "Nonadaptive"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  InsertRTBMode		  "Whenever possible"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  4
+	  Version		  "1.11.0"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveCompleteFinalSimState off
+	  SaveFormat		  "Array"
+	  SignalLoggingSaveFormat "ModelDataLogs"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SignalLogging		  on
+	  DSMLogging		  on
+	  InspectSignalLogs	  off
+	  SaveTime		  on
+	  ReturnWorkspaceOutputs  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  DSMLoggingName	  "dsmout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  ReturnWorkspaceOutputsName "out"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  5
+	  Version		  "1.11.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    8
+	    Cell		    "BooleansAsBitfields"
+	    Cell		    "PassReuseOutputArgsAs"
+	    Cell		    "PassReuseOutputArgsThreshold"
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    Cell		    "UseSpecifiedMinMax"
+	    PropName		    "DisabledProps"
+	  }
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  UseIntDivNetSlope	  off
+	  UseSpecifiedMinMax	  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnhancedBackFolding	  off
+	  StrengthReduction	  off
+	  ExpressionFolding	  on
+	  BooleansAsBitfields	  off
+	  BitfieldContainerType	  "uint_T"
+	  EnableMemcpy		  on
+	  MemcpyThreshold	  64
+	  PassReuseOutputArgsAs	  "Structure reference"
+	  ExpressionDepthLimit	  2147483647
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  off
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  EfficientMapNaN2IntZero on
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	  MaxStackSize		  "Inherit from target"
+	  BufferReusableBoundary  on
+	  SimCompilerOptimization "Off"
+	  AccelVerboseBuild	  off
+	  AccelParallelForEachSubsystem	on
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  6
+	  Version		  "1.11.0"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  SignalRangeChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  SaveWithDisabledLinksMsg "warning"
+	  SaveWithParameterizedLinksMsg	"warning"
+	  CheckSSInitialOutputMsg on
+	  UnderspecifiedInitializationDetection	"Classic"
+	  MergeDetectMultiDrivingBlocksExec "none"
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "UseLocalSettings"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  MaskedZcDiagnostic	  "warning"
+	  IgnoredZcDiagnostic	  "warning"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "error"
+	  MultiTaskCondExecSysMsg "error"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  ParameterTunabilityLossMsg "warning"
+	  FixptConstUnderflowMsg  "none"
+	  FixptConstOverflowMsg	  "none"
+	  FixptConstPrecisionLossMsg "none"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "Use local settings"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceMultiInstanceNormalModeStructChecksumCheck "error"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StateNameClashWarn	  "warning"
+	  SimStateInterfaceChecksumMismatchMsg "warning"
+	  SimStateOlderReleaseMsg "error"
+	  InitInArrayFormatMsg	  "warning"
+	  StrictBusMsg		  "ErrorLevel1"
+	  BusNameAdapt		  "WarnAndRepair"
+	  NonBusSignalsTreatedAsBus "none"
+	  LoggingUnavailableSignals "error"
+	  BlockIODiagnostic	  "none"
+	  SFUnusedDataAndEventsDiag "warning"
+	  SFUnexpectedBacktrackingDiag "warning"
+	  SFInvalidInputDataAccessInChartInitDiag "warning"
+	  SFNoUnconditionalDefaultTransitionDiag "warning"
+	  SFTransitionOutsideNaturalParentDiag "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  7
+	  Version		  "1.11.0"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdBitPerFloat	  32
+	  ProdBitPerDouble	  64
+	  ProdBitPerPointer	  32
+	  ProdLargestAtomicInteger "Char"
+	  ProdLargestAtomicFloat  "None"
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetBitPerFloat	  32
+	  TargetBitPerDouble	  64
+	  TargetBitPerPointer	  32
+	  TargetLargestAtomicInteger "Char"
+	  TargetLargestAtomicFloat "None"
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  8
+	  Version		  "1.11.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  EnableParallelModelReferenceBuilds off
+	  ParallelModelReferenceErrorOnInvalidPool on
+	  ParallelModelReferenceMATLABWorkerInit "None"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  PropagateVarSize	  "Infer from blocks in model"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	  PropagateSignalLabelsOutOfModel off
+	  SupportModelReferenceSimTargetCustomCode off
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  9
+	  Version		  "1.11.0"
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SimBlas		  on
+	  SimCtrlC		  on
+	  SimExtrinsic		  on
+	  SimIntegrity		  on
+	  SimUseLocalCustomCode	  off
+	  SimParseCustomCode	  on
+	  SimBuildMode		  "sf_incremental_build"
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  10
+	  Version		  "1.11.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    8
+	    Cell		    "IncludeHyperlinkInReport"
+	    Cell		    "GenerateTraceInfo"
+	    Cell		    "GenerateTraceReport"
+	    Cell		    "GenerateTraceReportSl"
+	    Cell		    "GenerateTraceReportSf"
+	    Cell		    "GenerateTraceReportEml"
+	    Cell		    "GenerateSLWebview"
+	    Cell		    "GenerateCodeMetricsReport"
+	    PropName		    "DisabledProps"
+	  }
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  RTWUseLocalCustomCode	  off
+	  RTWUseSimCustomCode	  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  IncludeERTFirstTime	  off
+	  GenerateTraceInfo	  off
+	  GenerateTraceReport	  off
+	  GenerateTraceReportSl	  off
+	  GenerateTraceReportSf	  off
+	  GenerateTraceReportEml  off
+	  GenerateCodeInfo	  off
+	  GenerateSLWebview	  off
+	  GenerateCodeMetricsReport off
+	  RTWCompilerOptimization "Off"
+	  CheckMdlBeforeBuild	  "Off"
+	  CustomRebuildMode	  "OnUpdate"
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      11
+	      Version		      "1.11.0"
+	      Array {
+		Type			"Cell"
+		Dimension		21
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"IgnoreTestpoints"
+		Cell			"InsertBlockDesc"
+		Cell			"InsertPolySpaceComments"
+		Cell			"SFDataObjDesc"
+		Cell			"MATLABFcnDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		Cell			"CustomSymbolStrGlobalVar"
+		Cell			"CustomSymbolStrType"
+		Cell			"CustomSymbolStrField"
+		Cell			"CustomSymbolStrFcn"
+		Cell			"CustomSymbolStrFcnArg"
+		Cell			"CustomSymbolStrBlkIO"
+		Cell			"CustomSymbolStrTmpVar"
+		Cell			"CustomSymbolStrMacro"
+		Cell			"ReqsInCode"
+		PropName		"DisabledProps"
+	      }
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IgnoreTestpoints	      off
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      MATLABFcnDesc	      off
+	      IncDataTypeInIds	      off
+	      MangleLength	      1
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrFcnArg   "rt$I$N$M"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      InsertPolySpaceComments off
+	      SimulinkBlockComments   on
+	      MATLABSourceComments    off
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	      UseSimReservedNames     off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      12
+	      Version		      "1.11.0"
+	      Array {
+		Type			"Cell"
+		Dimension		16
+		Cell			"GeneratePreprocessorConditionals"
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"GenerateTestInterfaces"
+		Cell			"ModelStepFunctionPrototypeControlCompliant"
+		Cell			"CPPClassGenCompliant"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"PortableWordSizes"
+		PropName		"DisabledProps"
+	      }
+	      TargetFcnLib	      "ansi_tfl_table_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      TargetFunctionLibrary   "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      ERTMultiwordTypeDef     "System defined"
+	      FunctionExecutionProfile off
+	      CodeExecutionProfiling  off
+	      ERTCodeCoverageTool     "None"
+	      ERTMultiwordLength      256
+	      MultiwordLength	      2048
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      ParMdlRefBuildCompliant on
+	      CompOptLevelCompliant   on
+	      IncludeMdlTerminateFcn  on
+	      GeneratePreprocessorConditionals "Disable all"
+	      CombineOutputUpdateFcns off
+	      CombineSignalStateStructs	off
+	      SuppressErrorStatus     off
+	      ERTFirstTimeCompliant   off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      SupportVariableSizeSignals off
+	      EnableShiftOperators    on
+	      ParenthesesLevel	      "Nominal"
+	      PortableWordSizes	      off
+	      ModelStepFunctionPrototypeControlCompliant off
+	      CPPClassGenCompliant    off
+	      AutosarCompliant	      off
+	      UseMalloc		      off
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      ExtModeIntrfLevel	      "Level1"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      RTWCAPIRootIO	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      CurrentDlgPage	      "Solver"
+      ConfigPrmDlgPosition     [ 400, 199, 1280, 829 ] 
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    2
+  }
+  BlockDefaults {
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+    BlockRotation	    0
+    BlockMirror		    off
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    UseDisplayTextAsClickCallback off
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      SamplingMode	      "Sample based"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Inherit from 'Constant value'"
+      LockScale		      off
+      SampleTime	      "inf"
+      FramePeriod	      "inf"
+      PreserveConstantTs      off
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      Derivative
+      LinearizePole	      "inf"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParamMin		      "[]"
+      ParamMax		      "[]"
+      ParamDataTypeStr	      "Inherit: Same as input"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      OutputFunctionCall      off
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchInputForFeedbackSignals off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      SourceOfInitialOutputValue "Dialog"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      RateTransition
+      Integrity		      on
+      Deterministic	      on
+      X0		      "0"
+      OutPortSampleTimeOpt    "Specify"
+      OutPortSampleTimeMultiple	"1"
+      OutPortSampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Scope
+      ModelBased	      off
+      TickLabels	      "OneTimeTick"
+      ZoomMode		      "on"
+      Grid		      "on"
+      TimeRange		      "auto"
+      YMin		      "-5"
+      YMax		      "5"
+      SaveToWorkspace	      off
+      SaveName		      "ScopeData"
+      LimitDataPoints	      on
+      MaxDataPoints	      "5000"
+      Decimation	      "1"
+      SampleInput	      off
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      StateSpace
+      A			      "1"
+      B			      "1"
+      C			      "1"
+      D			      "1"
+      X0		      "0"
+      AbsoluteTolerance	      "auto"
+      ContinuousStateAttributes	"''"
+      Realization	      "auto"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      "FromPortIcon"
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      CheckFcnCallInpInsideContextMsg off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      DataTypeOverrideAppliesTo	"AllNumericTypes"
+      MinMaxOverflowLogging   "UseLocalSettings"
+      Variant		      off
+      GeneratePreprocessorConditionals off
+    }
+    Block {
+      BlockType		      ZeroOrderHold
+      SampleTime	      "1"
+    }
+  }
+  System {
+    Name		    "multi_susp_sys"
+    Location		    [463, 54, 1574, 929]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "80"
+    ReportName		    "simulink-default.rpt"
+    SIDHighWatermark	    "88"
+    Block {
+      BlockType		      Constant
+      Name		      "Constant1"
+      SID		      "12"
+      Position		      [25, 295, 55, 325]
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant10"
+      SID		      "34"
+      Position		      [25, 830, 55, 860]
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant11"
+      SID		      "35"
+      Position		      [160, 860, 190, 890]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant12"
+      SID		      "36"
+      Position		      [205, 875, 235, 905]
+      ShowName		      off
+      Value		      "9.81"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant13"
+      SID		      "45"
+      Position		      [680, 50, 710, 80]
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant14"
+      SID		      "46"
+      Position		      [815, 80, 845, 110]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant15"
+      SID		      "47"
+      Position		      [860, 95, 890, 125]
+      ShowName		      off
+      Value		      "9.81"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant16"
+      SID		      "56"
+      Position		      [675, 300, 705, 330]
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant17"
+      SID		      "57"
+      Position		      [810, 330, 840, 360]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant18"
+      SID		      "58"
+      Position		      [855, 345, 885, 375]
+      ShowName		      off
+      Value		      "9.81"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant19"
+      SID		      "67"
+      Position		      [670, 555, 700, 585]
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant2"
+      SID		      "13"
+      Position		      [160, 325, 190, 355]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant20"
+      SID		      "68"
+      Position		      [805, 585, 835, 615]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant21"
+      SID		      "69"
+      Position		      [850, 600, 880, 630]
+      ShowName		      off
+      Value		      "9.81"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant22"
+      SID		      "78"
+      Position		      [665, 830, 695, 860]
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant23"
+      SID		      "79"
+      Position		      [800, 860, 830, 890]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant24"
+      SID		      "80"
+      Position		      [845, 875, 875, 905]
+      ShowName		      off
+      Value		      "9.81"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant3"
+      SID		      "14"
+      Position		      [205, 340, 235, 370]
+      ShowName		      off
+      Value		      "9.81"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant4"
+      SID		      "23"
+      Position		      [25, 555, 55, 585]
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant5"
+      SID		      "24"
+      Position		      [160, 585, 190, 615]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant6"
+      SID		      "25"
+      Position		      [205, 600, 235, 630]
+      ShowName		      off
+      Value		      "9.81"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant7"
+      SID		      "1"
+      Position		      [25, 50, 55, 80]
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant8"
+      SID		      "2"
+      Position		      [160, 80, 190, 110]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant9"
+      SID		      "3"
+      Position		      [205, 95, 235, 125]
+      ShowName		      off
+      Value		      "9.81"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "LinearController1"
+      SID		      "4"
+      Ports		      [1, 1]
+      Position		      [260, 162, 350, 228]
+      BlockMirror	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"LinearController1"
+	Location		[96, 403, 582, 708]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "yt"
+	  SID			  "5"
+	  Position		  [330, 53, 360, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  ZeroOrderHold
+	  Name			  "Zero-Order\nHold"
+	  SID			  "6"
+	  Position		  [245, 45, 280, 75]
+	  BlockMirror		  on
+	  SampleTime		  "0.01"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "susp_controller"
+	  SID			  "7"
+	  Position		  [80, 26, 175, 94]
+	  BlockMirror		  on
+	  Gain			  "-[-4.5469 1.7393 7 9.3078 0 0]"
+	  Multiplication	  "Matrix(K*u)"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "ut"
+	  SID			  "8"
+	  Position		  [25, 53, 55, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "yt"
+	  SrcPort		  1
+	  DstBlock		  "Zero-Order\nHold"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "susp_controller"
+	  SrcPort		  1
+	  DstBlock		  "ut"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Zero-Order\nHold"
+	  SrcPort		  1
+	  DstBlock		  "susp_controller"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "LinearController2"
+      SID		      "15"
+      Ports		      [1, 1]
+      Position		      [260, 407, 350, 473]
+      BlockMirror	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"LinearController2"
+	Location		[96, 403, 582, 708]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "yt"
+	  SID			  "16"
+	  Position		  [330, 53, 360, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  ZeroOrderHold
+	  Name			  "Zero-Order\nHold"
+	  SID			  "17"
+	  Position		  [245, 45, 280, 75]
+	  BlockMirror		  on
+	  SampleTime		  "0.01"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "susp_controller"
+	  SID			  "18"
+	  Position		  [80, 26, 175, 94]
+	  BlockMirror		  on
+	  Gain			  "-[-4.5469 1.7393 7 9.3078 0 0]"
+	  Multiplication	  "Matrix(K*u)"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "ut"
+	  SID			  "19"
+	  Position		  [25, 53, 55, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "yt"
+	  SrcPort		  1
+	  DstBlock		  "Zero-Order\nHold"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "susp_controller"
+	  SrcPort		  1
+	  DstBlock		  "ut"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Zero-Order\nHold"
+	  SrcPort		  1
+	  DstBlock		  "susp_controller"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "LinearController3"
+      SID		      "26"
+      Ports		      [1, 1]
+      Position		      [260, 667, 350, 733]
+      BlockMirror	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"LinearController3"
+	Location		[96, 403, 582, 708]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "yt"
+	  SID			  "27"
+	  Position		  [330, 53, 360, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  ZeroOrderHold
+	  Name			  "Zero-Order\nHold"
+	  SID			  "28"
+	  Position		  [245, 45, 280, 75]
+	  BlockMirror		  on
+	  SampleTime		  "0.01"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "susp_controller"
+	  SID			  "29"
+	  Position		  [80, 26, 175, 94]
+	  BlockMirror		  on
+	  Gain			  "-[-4.5469 1.7393 7 9.3078 0 0]"
+	  Multiplication	  "Matrix(K*u)"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "ut"
+	  SID			  "30"
+	  Position		  [25, 53, 55, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "yt"
+	  SrcPort		  1
+	  DstBlock		  "Zero-Order\nHold"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "susp_controller"
+	  SrcPort		  1
+	  DstBlock		  "ut"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Zero-Order\nHold"
+	  SrcPort		  1
+	  DstBlock		  "susp_controller"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "LinearController4"
+      SID		      "37"
+      Ports		      [1, 1]
+      Position		      [260, 942, 350, 1008]
+      BlockMirror	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"LinearController4"
+	Location		[96, 403, 582, 708]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "yt"
+	  SID			  "38"
+	  Position		  [330, 53, 360, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  ZeroOrderHold
+	  Name			  "Zero-Order\nHold"
+	  SID			  "39"
+	  Position		  [245, 45, 280, 75]
+	  BlockMirror		  on
+	  SampleTime		  "0.01"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "susp_controller"
+	  SID			  "40"
+	  Position		  [80, 26, 175, 94]
+	  BlockMirror		  on
+	  Gain			  "-[-4.5469 1.7393 7 9.3078 0 0]"
+	  Multiplication	  "Matrix(K*u)"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "ut"
+	  SID			  "41"
+	  Position		  [25, 53, 55, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "yt"
+	  SrcPort		  1
+	  DstBlock		  "Zero-Order\nHold"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "susp_controller"
+	  SrcPort		  1
+	  DstBlock		  "ut"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Zero-Order\nHold"
+	  SrcPort		  1
+	  DstBlock		  "susp_controller"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "LinearController5"
+      SID		      "48"
+      Ports		      [1, 1]
+      Position		      [915, 162, 1005, 228]
+      BlockMirror	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"LinearController5"
+	Location		[96, 403, 582, 708]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "yt"
+	  SID			  "49"
+	  Position		  [330, 53, 360, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  ZeroOrderHold
+	  Name			  "Zero-Order\nHold"
+	  SID			  "50"
+	  Position		  [245, 45, 280, 75]
+	  BlockMirror		  on
+	  SampleTime		  "0.01"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "susp_controller"
+	  SID			  "51"
+	  Position		  [80, 26, 175, 94]
+	  BlockMirror		  on
+	  Gain			  "-[-4.5469 1.7393 7 9.3078 0 0]"
+	  Multiplication	  "Matrix(K*u)"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "ut"
+	  SID			  "52"
+	  Position		  [25, 53, 55, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "yt"
+	  SrcPort		  1
+	  DstBlock		  "Zero-Order\nHold"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "susp_controller"
+	  SrcPort		  1
+	  DstBlock		  "ut"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Zero-Order\nHold"
+	  SrcPort		  1
+	  DstBlock		  "susp_controller"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "LinearController6"
+      SID		      "59"
+      Ports		      [1, 1]
+      Position		      [910, 412, 1000, 478]
+      BlockMirror	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"LinearController6"
+	Location		[96, 403, 582, 708]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "yt"
+	  SID			  "60"
+	  Position		  [330, 53, 360, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  ZeroOrderHold
+	  Name			  "Zero-Order\nHold"
+	  SID			  "61"
+	  Position		  [245, 45, 280, 75]
+	  BlockMirror		  on
+	  SampleTime		  "0.01"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "susp_controller"
+	  SID			  "62"
+	  Position		  [80, 26, 175, 94]
+	  BlockMirror		  on
+	  Gain			  "-[-4.5469 1.7393 7 9.3078 0 0]"
+	  Multiplication	  "Matrix(K*u)"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "ut"
+	  SID			  "63"
+	  Position		  [25, 53, 55, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "yt"
+	  SrcPort		  1
+	  DstBlock		  "Zero-Order\nHold"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "susp_controller"
+	  SrcPort		  1
+	  DstBlock		  "ut"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Zero-Order\nHold"
+	  SrcPort		  1
+	  DstBlock		  "susp_controller"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "LinearController7"
+      SID		      "70"
+      Ports		      [1, 1]
+      Position		      [905, 667, 995, 733]
+      BlockMirror	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"LinearController7"
+	Location		[96, 403, 582, 708]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "yt"
+	  SID			  "71"
+	  Position		  [330, 53, 360, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  ZeroOrderHold
+	  Name			  "Zero-Order\nHold"
+	  SID			  "72"
+	  Position		  [245, 45, 280, 75]
+	  BlockMirror		  on
+	  SampleTime		  "0.01"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "susp_controller"
+	  SID			  "73"
+	  Position		  [80, 26, 175, 94]
+	  BlockMirror		  on
+	  Gain			  "-[-4.5469 1.7393 7 9.3078 0 0]"
+	  Multiplication	  "Matrix(K*u)"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "ut"
+	  SID			  "74"
+	  Position		  [25, 53, 55, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "yt"
+	  SrcPort		  1
+	  DstBlock		  "Zero-Order\nHold"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "susp_controller"
+	  SrcPort		  1
+	  DstBlock		  "ut"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Zero-Order\nHold"
+	  SrcPort		  1
+	  DstBlock		  "susp_controller"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "LinearController8"
+      SID		      "81"
+      Ports		      [1, 1]
+      Position		      [900, 942, 990, 1008]
+      BlockMirror	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"LinearController8"
+	Location		[96, 403, 582, 708]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "yt"
+	  SID			  "82"
+	  Position		  [330, 53, 360, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  ZeroOrderHold
+	  Name			  "Zero-Order\nHold"
+	  SID			  "83"
+	  Position		  [245, 45, 280, 75]
+	  BlockMirror		  on
+	  SampleTime		  "0.01"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "susp_controller"
+	  SID			  "84"
+	  Position		  [80, 26, 175, 94]
+	  BlockMirror		  on
+	  Gain			  "-[-4.5469 1.7393 7 9.3078 0 0]"
+	  Multiplication	  "Matrix(K*u)"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "ut"
+	  SID			  "85"
+	  Position		  [25, 53, 55, 67]
+	  BlockMirror		  on
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "yt"
+	  SrcPort		  1
+	  DstBlock		  "Zero-Order\nHold"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "susp_controller"
+	  SrcPort		  1
+	  DstBlock		  "ut"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Zero-Order\nHold"
+	  SrcPort		  1
+	  DstBlock		  "susp_controller"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Repeating\nSequence\nInterpolated1"
+      SID		      "20"
+      Ports		      [0, 1]
+      Position		      [120, 310, 150, 340]
+      LibraryVersion	      "1.236"
+      SourceBlock	      "simulink/Sources/Repeating\nSequence\nInterpolated"
+      SourceType	      "Repeating Sequence Interpolated"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      OutValues		      "[0 0.5 0 -0.5 0 -0.5 0 0.5 0].'"
+      TimeValues	      "[0 0.1 0.2 0.3 0.4 0.6 0.7 0.8 0.9].'"
+      LookUpMeth	      "Interpolation-Use End Values"
+      tsamp		      "0.01"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "double"
+      OutputDataTypeScalingMode	"double"
+      OutDataType	      "fixdt(0,8)"
+      OutScaling	      "2^-10"
+      LockScale		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Repeating\nSequence\nInterpolated2"
+      SID		      "9"
+      Ports		      [0, 1]
+      Position		      [120, 65, 150, 95]
+      LibraryVersion	      "1.236"
+      SourceBlock	      "simulink/Sources/Repeating\nSequence\nInterpolated"
+      SourceType	      "Repeating Sequence Interpolated"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      OutValues		      "[0 0.5 0 -0.5 0 -0.5 0 0.5 0].'"
+      TimeValues	      "[0 0.1 0.2 0.3 0.4 0.6 0.7 0.8 0.9].'"
+      LookUpMeth	      "Interpolation-Use End Values"
+      tsamp		      "0.01"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "double"
+      OutputDataTypeScalingMode	"double"
+      OutDataType	      "fixdt(0,8)"
+      OutScaling	      "2^-10"
+      LockScale		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Repeating\nSequence\nInterpolated3"
+      SID		      "31"
+      Ports		      [0, 1]
+      Position		      [120, 570, 150, 600]
+      LibraryVersion	      "1.236"
+      SourceBlock	      "simulink/Sources/Repeating\nSequence\nInterpolated"
+      SourceType	      "Repeating Sequence Interpolated"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      OutValues		      "[0 0.5 0 -0.5 0 -0.5 0 0.5 0].'"
+      TimeValues	      "[0 0.1 0.2 0.3 0.4 0.6 0.7 0.8 0.9].'"
+      LookUpMeth	      "Interpolation-Use End Values"
+      tsamp		      "0.01"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "double"
+      OutputDataTypeScalingMode	"double"
+      OutDataType	      "fixdt(0,8)"
+      OutScaling	      "2^-10"
+      LockScale		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Repeating\nSequence\nInterpolated4"
+      SID		      "42"
+      Ports		      [0, 1]
+      Position		      [120, 845, 150, 875]
+      LibraryVersion	      "1.236"
+      SourceBlock	      "simulink/Sources/Repeating\nSequence\nInterpolated"
+      SourceType	      "Repeating Sequence Interpolated"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      OutValues		      "[0 0.5 0 -0.5 0 -0.5 0 0.5 0].'"
+      TimeValues	      "[0 0.1 0.2 0.3 0.4 0.6 0.7 0.8 0.9].'"
+      LookUpMeth	      "Interpolation-Use End Values"
+      tsamp		      "0.01"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "double"
+      OutputDataTypeScalingMode	"double"
+      OutDataType	      "fixdt(0,8)"
+      OutScaling	      "2^-10"
+      LockScale		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Repeating\nSequence\nInterpolated5"
+      SID		      "53"
+      Ports		      [0, 1]
+      Position		      [775, 65, 805, 95]
+      LibraryVersion	      "1.236"
+      SourceBlock	      "simulink/Sources/Repeating\nSequence\nInterpolated"
+      SourceType	      "Repeating Sequence Interpolated"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      OutValues		      "[0 0.5 0 -0.5 0 -0.5 0 0.5 0].'"
+      TimeValues	      "[0 0.1 0.2 0.3 0.4 0.6 0.7 0.8 0.9].'"
+      LookUpMeth	      "Interpolation-Use End Values"
+      tsamp		      "0.01"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "double"
+      OutputDataTypeScalingMode	"double"
+      OutDataType	      "fixdt(0,8)"
+      OutScaling	      "2^-10"
+      LockScale		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Repeating\nSequence\nInterpolated6"
+      SID		      "64"
+      Ports		      [0, 1]
+      Position		      [770, 315, 800, 345]
+      LibraryVersion	      "1.236"
+      SourceBlock	      "simulink/Sources/Repeating\nSequence\nInterpolated"
+      SourceType	      "Repeating Sequence Interpolated"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      OutValues		      "[0 0.5 0 -0.5 0 -0.5 0 0.5 0].'"
+      TimeValues	      "[0 0.1 0.2 0.3 0.4 0.6 0.7 0.8 0.9].'"
+      LookUpMeth	      "Interpolation-Use End Values"
+      tsamp		      "0.01"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "double"
+      OutputDataTypeScalingMode	"double"
+      OutDataType	      "fixdt(0,8)"
+      OutScaling	      "2^-10"
+      LockScale		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Repeating\nSequence\nInterpolated7"
+      SID		      "75"
+      Ports		      [0, 1]
+      Position		      [765, 570, 795, 600]
+      LibraryVersion	      "1.236"
+      SourceBlock	      "simulink/Sources/Repeating\nSequence\nInterpolated"
+      SourceType	      "Repeating Sequence Interpolated"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      OutValues		      "[0 0.5 0 -0.5 0 -0.5 0 0.5 0].'"
+      TimeValues	      "[0 0.1 0.2 0.3 0.4 0.6 0.7 0.8 0.9].'"
+      LookUpMeth	      "Interpolation-Use End Values"
+      tsamp		      "0.01"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "double"
+      OutputDataTypeScalingMode	"double"
+      OutDataType	      "fixdt(0,8)"
+      OutScaling	      "2^-10"
+      LockScale		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Repeating\nSequence\nInterpolated8"
+      SID		      "86"
+      Ports		      [0, 1]
+      Position		      [760, 845, 790, 875]
+      LibraryVersion	      "1.236"
+      SourceBlock	      "simulink/Sources/Repeating\nSequence\nInterpolated"
+      SourceType	      "Repeating Sequence Interpolated"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      OutValues		      "[0 0.5 0 -0.5 0 -0.5 0 0.5 0].'"
+      TimeValues	      "[0 0.1 0.2 0.3 0.4 0.6 0.7 0.8 0.9].'"
+      LookUpMeth	      "Interpolation-Use End Values"
+      tsamp		      "0.01"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "double"
+      OutputDataTypeScalingMode	"double"
+      OutDataType	      "fixdt(0,8)"
+      OutScaling	      "2^-10"
+      LockScale		      off
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope1"
+      SID		      "21"
+      Ports		      [8]
+      Position		      [590, 263, 635, 367]
+      Floating		      off
+      Location		      [6, 88, 1062, 919]
+      Open		      off
+      NumInputPorts	      "8"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+	axes3			"%<SignalLabel>"
+	axes4			"%<SignalLabel>"
+	axes5			"%<SignalLabel>"
+	axes6			"%<SignalLabel>"
+	axes7			"%<SignalLabel>"
+	axes8			"%<SignalLabel>"
+      }
+      YMin		      "-0.5~-0.5~-30~-0.9~-5~-5~-5~-5"
+      YMax		      "0.5~0.5~30~0.3~5~5~5~5"
+      SaveToWorkspace	      on
+      SaveName		      "ScopeData1"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope2"
+      SID		      "32"
+      Ports		      [8]
+      Position		      [590, 523, 635, 627]
+      Floating		      off
+      Location		      [6, 88, 1062, 919]
+      Open		      off
+      NumInputPorts	      "8"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+	axes3			"%<SignalLabel>"
+	axes4			"%<SignalLabel>"
+	axes5			"%<SignalLabel>"
+	axes6			"%<SignalLabel>"
+	axes7			"%<SignalLabel>"
+	axes8			"%<SignalLabel>"
+      }
+      YMin		      "-0.5~-0.5~-30~-0.9~-5~-5~-5~-5"
+      YMax		      "0.5~0.5~30~0.3~5~5~5~5"
+      SaveToWorkspace	      on
+      SaveName		      "ScopeData2"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope3"
+      SID		      "10"
+      Ports		      [8]
+      Position		      [590, 18, 635, 122]
+      Floating		      off
+      Location		      [6, 88, 1062, 919]
+      Open		      off
+      NumInputPorts	      "8"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+	axes3			"%<SignalLabel>"
+	axes4			"%<SignalLabel>"
+	axes5			"%<SignalLabel>"
+	axes6			"%<SignalLabel>"
+	axes7			"%<SignalLabel>"
+	axes8			"%<SignalLabel>"
+      }
+      YMin		      "-0.5~-0.5~-30~-0.9~-5~-5~-5~-5"
+      YMax		      "0.5~0.5~30~0.3~5~5~5~5"
+      SaveToWorkspace	      on
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope4"
+      SID		      "43"
+      Ports		      [8]
+      Position		      [590, 798, 635, 902]
+      Floating		      off
+      Location		      [6, 88, 1062, 919]
+      Open		      off
+      NumInputPorts	      "8"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+	axes3			"%<SignalLabel>"
+	axes4			"%<SignalLabel>"
+	axes5			"%<SignalLabel>"
+	axes6			"%<SignalLabel>"
+	axes7			"%<SignalLabel>"
+	axes8			"%<SignalLabel>"
+      }
+      YMin		      "-0.5~-0.5~-30~-0.9~-5~-5~-5~-5"
+      YMax		      "0.5~0.5~30~0.3~5~5~5~5"
+      SaveToWorkspace	      on
+      SaveName		      "ScopeData3"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope5"
+      SID		      "54"
+      Ports		      [8]
+      Position		      [1245, 18, 1290, 122]
+      Floating		      off
+      Location		      [6, 88, 1062, 919]
+      Open		      off
+      NumInputPorts	      "8"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+	axes3			"%<SignalLabel>"
+	axes4			"%<SignalLabel>"
+	axes5			"%<SignalLabel>"
+	axes6			"%<SignalLabel>"
+	axes7			"%<SignalLabel>"
+	axes8			"%<SignalLabel>"
+      }
+      YMin		      "-0.5~-0.5~-30~-0.9~-5~-5~-5~-5"
+      YMax		      "0.5~0.5~30~0.3~5~5~5~5"
+      SaveToWorkspace	      on
+      SaveName		      "ScopeData4"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope6"
+      SID		      "65"
+      Ports		      [8]
+      Position		      [1240, 268, 1285, 372]
+      Floating		      off
+      Location		      [6, 88, 1062, 919]
+      Open		      off
+      NumInputPorts	      "8"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+	axes3			"%<SignalLabel>"
+	axes4			"%<SignalLabel>"
+	axes5			"%<SignalLabel>"
+	axes6			"%<SignalLabel>"
+	axes7			"%<SignalLabel>"
+	axes8			"%<SignalLabel>"
+      }
+      YMin		      "-0.5~-0.5~-30~-0.9~-5~-5~-5~-5"
+      YMax		      "0.5~0.5~30~0.3~5~5~5~5"
+      SaveToWorkspace	      on
+      SaveName		      "ScopeData5"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope7"
+      SID		      "76"
+      Ports		      [8]
+      Position		      [1235, 523, 1280, 627]
+      Floating		      off
+      Location		      [6, 88, 1062, 919]
+      Open		      off
+      NumInputPorts	      "8"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+	axes3			"%<SignalLabel>"
+	axes4			"%<SignalLabel>"
+	axes5			"%<SignalLabel>"
+	axes6			"%<SignalLabel>"
+	axes7			"%<SignalLabel>"
+	axes8			"%<SignalLabel>"
+      }
+      YMin		      "-0.5~-0.5~-30~-0.9~-5~-5~-5~-5"
+      YMax		      "0.5~0.5~30~0.3~5~5~5~5"
+      SaveToWorkspace	      on
+      SaveName		      "ScopeData6"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope8"
+      SID		      "87"
+      Ports		      [8]
+      Position		      [1230, 798, 1275, 902]
+      Floating		      off
+      Location		      [6, 88, 1062, 919]
+      Open		      off
+      NumInputPorts	      "8"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+	axes3			"%<SignalLabel>"
+	axes4			"%<SignalLabel>"
+	axes5			"%<SignalLabel>"
+	axes6			"%<SignalLabel>"
+	axes7			"%<SignalLabel>"
+	axes8			"%<SignalLabel>"
+      }
+      YMin		      "-0.5~-0.5~-30~-0.9~-5~-5~-5~-5"
+      YMax		      "0.5~0.5~30~0.3~5~5~5~5"
+      SaveToWorkspace	      on
+      SaveName		      "ScopeData7"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Susp_2DOF_D_act1"
+      SID		      "11"
+      Ports		      [5, 8]
+      Position		      [265, 37, 385, 123]
+      ForegroundColor	      "red"
+      BackgroundColor	      "yellow"
+      AncestorBlock	      "suspension_lib/Suspension:G(s)"
+      LibraryVersion	      "*1.18"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "Sprung mass (kg)|Sprung mass spring constant (N/m)|Sprung mass damping coefficient (N s/"
+      "m)|Unsprung mass (kg)|Unsprung mass spring constant (N/m)|Unsprung mass damping coefficient (N s/m)|Damper mass "
+      "(kg)|Damper spring constant (N/m)|Damper damping coeff (N s/m)"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskVariables	      "m_s=@1;k_s=@2;b_s=@3;m_us=@4;k_us=@5;b_us=@6;m_a=@7;k_a=@8;b_a=@9;"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on"
+      MaskInitialization      "w = sqrt( k_us / m_us );\nw_us = sqrt( k_us / m_us );\nrho = m_s / m_us;\nrho_a = 0;\ng"
+      " = 9.81; % m/s^2 gravitational acceleration\n\n% m_s == 0 and m_us == 0 are not allowed\n% Work around possible "
+      "divide by zero when m_a == 0\n%  build A by rows\nA = [0 1 0 0 0 0]; \nA = [A; -(k_us/m_us) (-b_s/m_us)+(b_us/m_"
+      "us) (k_s/m_us) (b_s/m_us) 0 0]; \nA = [A; 0 -1 0 1 0 0]; \nA = [A; 0 (b_s/m_s) -(k_s/m_s) (-b_s/m_s) 0 0];\nif ("
+      " m_a ~= 0 )\n  w_a = sqrt( k_a / m_a );\n  eta_a = b_a / (2 * m_a * w_a);\n  rho_a = m_us / m_a;  \n  A = [A; 0 "
+      "-1 0 0 0 1]; \n  A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\nelse\n  A = [A; 0 0 0 0 0 0];\n  A ="
+      " [A; 0 0 0 0 0 0];\nend\n\nA=-A;\n\n% inputs: active damper control force, \n%   active suspension control force"
+      ",\n%   road velocity, gravity, and sprung mass force\nB = [0 0 -1 0 0];\nB = [B; rho rho -(b_us/m_us) -g 0];\nB "
+      "= [B; 0 0 0 0 0];\nB = [B; 0 -1 0 0 -1];\nB = [B; 0 0 0 0 0];\nB = [B; -rho * rho_a 0 0 0 0];\n\n\n% A = [0 1 0 "
+      "0 0 0]; \n% A = [A; -(k_us/m_us)  (-b_a/m_us) 0 0 (k_a/m_us) (b_a/m_us)]; \n% A = [A; 0 -1 0 1 0 0]; \n% A = [A;"
+      " 0 0 0 0 0 0];\n% if ( m_a ~= 0 )\n%   w_a = sqrt( k_a / m_a );\n%   eta_a = b_a / (2 * m_a * w_a);\n%   rho_a ="
+      " m_us / m_a;  \n%   A = [A; 0 -1 0 0 0 1]; \n%   A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\n% el"
+      "se\n%   A = [A; 0 0 0 0 0 0];\n%   A = [A; 0 0 0 0 0 0];\n% end\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "25000|60000|3500|413|65096.03|15000|0|0|0"
+      System {
+	Name			"Susp_2DOF_D_act1"
+	Location		[890, 143, 1643, 637]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	SIDHighWatermark	"63"
+	SIDPrevWatermark	"42"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua1"
+	  SID			  "11:60"
+	  Position		  [35, 193, 65, 207]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua"
+	  SID			  "11:44"
+	  Position		  [35, 238, 65, 252]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "w"
+	  SID			  "11:45"
+	  Position		  [35, 273, 65, 287]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "g"
+	  SID			  "11:53"
+	  Position		  [35, 313, 65, 327]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vf"
+	  SID			  "11:54"
+	  Position		  [35, 353, 65, 367]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  SID			  "11:47"
+	  Ports			  [1, 6]
+	  Position		  [455, 230, 460, 290]
+	  ShowName		  off
+	  Outputs		  "6"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Derivative
+	  Name			  "Derivative"
+	  SID			  "11:55"
+	  Position		  [490, 335, 520, 365]
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  SID			  "11:46"
+	  Ports			  [5, 1]
+	  Position		  [195, 227, 200, 293]
+	  ShowName		  off
+	  Inputs		  "5"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  RateTransition
+	  Name			  "Rate Transition"
+	  SID			  "11:63"
+	  Position		  [90, 179, 130, 221]
+	}
+	Block {
+	  BlockType		  StateSpace
+	  Name			  "Susp_2DOF_DA"
+	  SID			  "11:43"
+	  Position		  [270, 220, 395, 300]
+	  A			  "A"
+	  B			  "B"
+	  C			  "eye(6)"
+	  D			  "zeros(6,5)"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_wheel"
+	  SID			  "11:42"
+	  Position		  [550, 98, 580, 112]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_us"
+	  SID			  "11:48"
+	  Position		  [550, 138, 580, 152]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_susp"
+	  SID			  "11:49"
+	  Position		  [550, 178, 580, 192]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_s"
+	  SID			  "11:50"
+	  Position		  [550, 218, 580, 232]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_a"
+	  SID			  "11:51"
+	  Position		  [550, 268, 580, 282]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_a"
+	  SID			  "11:52"
+	  Position		  [550, 298, 580, 312]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "a_s"
+	  SID			  "11:56"
+	  Position		  [550, 343, 580, 357]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "all"
+	  SID			  "11:61"
+	  Position		  [550, 398, 580, 412]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Ua"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "w"
+	  SrcPort		  1
+	  Points		  [85, 0; 0, -20]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "Susp_2DOF_DA"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Susp_2DOF_DA"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Demux"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 145]
+	    DstBlock		    "all"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, -130]
+	  DstBlock		  "disp_wheel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  Points		  [45, 0; 0, -100]
+	  DstBlock		  "v_us"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  3
+	  Points		  [55, 0; 0, -70]
+	  DstBlock		  "disp_susp"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  4
+	  Points		  [5, 0]
+	  Branch {
+	    Points		    [60, 0; 0, -40]
+	    DstBlock		    "v_s"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 85]
+	    DstBlock		    "Derivative"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  5
+	  DstBlock		  "disp_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  6
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "v_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "g"
+	  SrcPort		  1
+	  Points		  [95, 0; 0, -45]
+	  DstBlock		  "Mux"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Vf"
+	  SrcPort		  1
+	  Points		  [110, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Derivative"
+	  SrcPort		  1
+	  DstBlock		  "a_s"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Ua1"
+	  SrcPort		  1
+	  DstBlock		  "Rate Transition"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rate Transition"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 30]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Susp_2DOF_D_act2"
+      SID		      "22"
+      Ports		      [5, 8]
+      Position		      [265, 282, 385, 368]
+      ForegroundColor	      "red"
+      BackgroundColor	      "yellow"
+      AncestorBlock	      "suspension_lib/Suspension:G(s)"
+      LibraryVersion	      "*1.18"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "Sprung mass (kg)|Sprung mass spring constant (N/m)|Sprung mass damping coefficient (N s/"
+      "m)|Unsprung mass (kg)|Unsprung mass spring constant (N/m)|Unsprung mass damping coefficient (N s/m)|Damper mass "
+      "(kg)|Damper spring constant (N/m)|Damper damping coeff (N s/m)"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskVariables	      "m_s=@1;k_s=@2;b_s=@3;m_us=@4;k_us=@5;b_us=@6;m_a=@7;k_a=@8;b_a=@9;"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on"
+      MaskInitialization      "w = sqrt( k_us / m_us );\nw_us = sqrt( k_us / m_us );\nrho = m_s / m_us;\nrho_a = 0;\ng"
+      " = 9.81; % m/s^2 gravitational acceleration\n\n% m_s == 0 and m_us == 0 are not allowed\n% Work around possible "
+      "divide by zero when m_a == 0\n%  build A by rows\nA = [0 1 0 0 0 0]; \nA = [A; -(k_us/m_us) (-b_s/m_us)+(b_us/m_"
+      "us) (k_s/m_us) (b_s/m_us) 0 0]; \nA = [A; 0 -1 0 1 0 0]; \nA = [A; 0 (b_s/m_s) -(k_s/m_s) (-b_s/m_s) 0 0];\nif ("
+      " m_a ~= 0 )\n  w_a = sqrt( k_a / m_a );\n  eta_a = b_a / (2 * m_a * w_a);\n  rho_a = m_us / m_a;  \n  A = [A; 0 "
+      "-1 0 0 0 1]; \n  A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\nelse\n  A = [A; 0 0 0 0 0 0];\n  A ="
+      " [A; 0 0 0 0 0 0];\nend\n\nA=-A;\n\n% inputs: active damper control force, \n%   active suspension control force"
+      ",\n%   road velocity, gravity, and sprung mass force\nB = [0 0 -1 0 0];\nB = [B; rho rho -(b_us/m_us) -g 0];\nB "
+      "= [B; 0 0 0 0 0];\nB = [B; 0 -1 0 0 -1];\nB = [B; 0 0 0 0 0];\nB = [B; -rho * rho_a 0 0 0 0];\n\n\n% A = [0 1 0 "
+      "0 0 0]; \n% A = [A; -(k_us/m_us)  (-b_a/m_us) 0 0 (k_a/m_us) (b_a/m_us)]; \n% A = [A; 0 -1 0 1 0 0]; \n% A = [A;"
+      " 0 0 0 0 0 0];\n% if ( m_a ~= 0 )\n%   w_a = sqrt( k_a / m_a );\n%   eta_a = b_a / (2 * m_a * w_a);\n%   rho_a ="
+      " m_us / m_a;  \n%   A = [A; 0 -1 0 0 0 1]; \n%   A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\n% el"
+      "se\n%   A = [A; 0 0 0 0 0 0];\n%   A = [A; 0 0 0 0 0 0];\n% end\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "25000|60000|3500|413|65096.03|15000|0|0|0"
+      System {
+	Name			"Susp_2DOF_D_act2"
+	Location		[890, 143, 1643, 637]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	SIDHighWatermark	"63"
+	SIDPrevWatermark	"42"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua1"
+	  SID			  "22:60"
+	  Position		  [35, 193, 65, 207]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua"
+	  SID			  "22:44"
+	  Position		  [35, 238, 65, 252]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "w"
+	  SID			  "22:45"
+	  Position		  [35, 273, 65, 287]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "g"
+	  SID			  "22:53"
+	  Position		  [35, 313, 65, 327]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vf"
+	  SID			  "22:54"
+	  Position		  [35, 353, 65, 367]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  SID			  "22:47"
+	  Ports			  [1, 6]
+	  Position		  [455, 230, 460, 290]
+	  ShowName		  off
+	  Outputs		  "6"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Derivative
+	  Name			  "Derivative"
+	  SID			  "22:55"
+	  Position		  [490, 335, 520, 365]
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  SID			  "22:46"
+	  Ports			  [5, 1]
+	  Position		  [195, 227, 200, 293]
+	  ShowName		  off
+	  Inputs		  "5"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  RateTransition
+	  Name			  "Rate Transition"
+	  SID			  "22:63"
+	  Position		  [90, 179, 130, 221]
+	}
+	Block {
+	  BlockType		  StateSpace
+	  Name			  "Susp_2DOF_DA"
+	  SID			  "22:43"
+	  Position		  [270, 220, 395, 300]
+	  A			  "A"
+	  B			  "B"
+	  C			  "eye(6)"
+	  D			  "zeros(6,5)"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_wheel"
+	  SID			  "22:42"
+	  Position		  [550, 98, 580, 112]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_us"
+	  SID			  "22:48"
+	  Position		  [550, 138, 580, 152]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_susp"
+	  SID			  "22:49"
+	  Position		  [550, 178, 580, 192]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_s"
+	  SID			  "22:50"
+	  Position		  [550, 218, 580, 232]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_a"
+	  SID			  "22:51"
+	  Position		  [550, 268, 580, 282]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_a"
+	  SID			  "22:52"
+	  Position		  [550, 298, 580, 312]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "a_s"
+	  SID			  "22:56"
+	  Position		  [550, 343, 580, 357]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "all"
+	  SID			  "22:61"
+	  Position		  [550, 398, 580, 412]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Ua"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "w"
+	  SrcPort		  1
+	  Points		  [85, 0; 0, -20]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "Susp_2DOF_DA"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Susp_2DOF_DA"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Demux"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 145]
+	    DstBlock		    "all"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, -130]
+	  DstBlock		  "disp_wheel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  Points		  [45, 0; 0, -100]
+	  DstBlock		  "v_us"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  3
+	  Points		  [55, 0; 0, -70]
+	  DstBlock		  "disp_susp"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  4
+	  Points		  [5, 0]
+	  Branch {
+	    Points		    [60, 0; 0, -40]
+	    DstBlock		    "v_s"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 85]
+	    DstBlock		    "Derivative"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  5
+	  DstBlock		  "disp_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  6
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "v_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "g"
+	  SrcPort		  1
+	  Points		  [95, 0; 0, -45]
+	  DstBlock		  "Mux"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Vf"
+	  SrcPort		  1
+	  Points		  [110, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Derivative"
+	  SrcPort		  1
+	  DstBlock		  "a_s"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Ua1"
+	  SrcPort		  1
+	  DstBlock		  "Rate Transition"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rate Transition"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 30]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Susp_2DOF_D_act3"
+      SID		      "33"
+      Ports		      [5, 8]
+      Position		      [265, 542, 385, 628]
+      ForegroundColor	      "red"
+      BackgroundColor	      "yellow"
+      AncestorBlock	      "suspension_lib/Suspension:G(s)"
+      LibraryVersion	      "*1.18"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "Sprung mass (kg)|Sprung mass spring constant (N/m)|Sprung mass damping coefficient (N s/"
+      "m)|Unsprung mass (kg)|Unsprung mass spring constant (N/m)|Unsprung mass damping coefficient (N s/m)|Damper mass "
+      "(kg)|Damper spring constant (N/m)|Damper damping coeff (N s/m)"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskVariables	      "m_s=@1;k_s=@2;b_s=@3;m_us=@4;k_us=@5;b_us=@6;m_a=@7;k_a=@8;b_a=@9;"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on"
+      MaskInitialization      "w = sqrt( k_us / m_us );\nw_us = sqrt( k_us / m_us );\nrho = m_s / m_us;\nrho_a = 0;\ng"
+      " = 9.81; % m/s^2 gravitational acceleration\n\n% m_s == 0 and m_us == 0 are not allowed\n% Work around possible "
+      "divide by zero when m_a == 0\n%  build A by rows\nA = [0 1 0 0 0 0]; \nA = [A; -(k_us/m_us) (-b_s/m_us)+(b_us/m_"
+      "us) (k_s/m_us) (b_s/m_us) 0 0]; \nA = [A; 0 -1 0 1 0 0]; \nA = [A; 0 (b_s/m_s) -(k_s/m_s) (-b_s/m_s) 0 0];\nif ("
+      " m_a ~= 0 )\n  w_a = sqrt( k_a / m_a );\n  eta_a = b_a / (2 * m_a * w_a);\n  rho_a = m_us / m_a;  \n  A = [A; 0 "
+      "-1 0 0 0 1]; \n  A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\nelse\n  A = [A; 0 0 0 0 0 0];\n  A ="
+      " [A; 0 0 0 0 0 0];\nend\n\nA=-A;\n\n% inputs: active damper control force, \n%   active suspension control force"
+      ",\n%   road velocity, gravity, and sprung mass force\nB = [0 0 -1 0 0];\nB = [B; rho rho -(b_us/m_us) -g 0];\nB "
+      "= [B; 0 0 0 0 0];\nB = [B; 0 -1 0 0 -1];\nB = [B; 0 0 0 0 0];\nB = [B; -rho * rho_a 0 0 0 0];\n\n\n% A = [0 1 0 "
+      "0 0 0]; \n% A = [A; -(k_us/m_us)  (-b_a/m_us) 0 0 (k_a/m_us) (b_a/m_us)]; \n% A = [A; 0 -1 0 1 0 0]; \n% A = [A;"
+      " 0 0 0 0 0 0];\n% if ( m_a ~= 0 )\n%   w_a = sqrt( k_a / m_a );\n%   eta_a = b_a / (2 * m_a * w_a);\n%   rho_a ="
+      " m_us / m_a;  \n%   A = [A; 0 -1 0 0 0 1]; \n%   A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\n% el"
+      "se\n%   A = [A; 0 0 0 0 0 0];\n%   A = [A; 0 0 0 0 0 0];\n% end\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "25000|60000|3500|413|65096.03|15000|0|0|0"
+      System {
+	Name			"Susp_2DOF_D_act3"
+	Location		[890, 143, 1643, 637]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	SIDHighWatermark	"63"
+	SIDPrevWatermark	"42"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua1"
+	  SID			  "33:60"
+	  Position		  [35, 193, 65, 207]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua"
+	  SID			  "33:44"
+	  Position		  [35, 238, 65, 252]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "w"
+	  SID			  "33:45"
+	  Position		  [35, 273, 65, 287]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "g"
+	  SID			  "33:53"
+	  Position		  [35, 313, 65, 327]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vf"
+	  SID			  "33:54"
+	  Position		  [35, 353, 65, 367]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  SID			  "33:47"
+	  Ports			  [1, 6]
+	  Position		  [455, 230, 460, 290]
+	  ShowName		  off
+	  Outputs		  "6"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Derivative
+	  Name			  "Derivative"
+	  SID			  "33:55"
+	  Position		  [490, 335, 520, 365]
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  SID			  "33:46"
+	  Ports			  [5, 1]
+	  Position		  [195, 227, 200, 293]
+	  ShowName		  off
+	  Inputs		  "5"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  RateTransition
+	  Name			  "Rate Transition"
+	  SID			  "33:63"
+	  Position		  [90, 179, 130, 221]
+	}
+	Block {
+	  BlockType		  StateSpace
+	  Name			  "Susp_2DOF_DA"
+	  SID			  "33:43"
+	  Position		  [270, 220, 395, 300]
+	  A			  "A"
+	  B			  "B"
+	  C			  "eye(6)"
+	  D			  "zeros(6,5)"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_wheel"
+	  SID			  "33:42"
+	  Position		  [550, 98, 580, 112]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_us"
+	  SID			  "33:48"
+	  Position		  [550, 138, 580, 152]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_susp"
+	  SID			  "33:49"
+	  Position		  [550, 178, 580, 192]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_s"
+	  SID			  "33:50"
+	  Position		  [550, 218, 580, 232]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_a"
+	  SID			  "33:51"
+	  Position		  [550, 268, 580, 282]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_a"
+	  SID			  "33:52"
+	  Position		  [550, 298, 580, 312]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "a_s"
+	  SID			  "33:56"
+	  Position		  [550, 343, 580, 357]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "all"
+	  SID			  "33:61"
+	  Position		  [550, 398, 580, 412]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Ua"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "w"
+	  SrcPort		  1
+	  Points		  [85, 0; 0, -20]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "Susp_2DOF_DA"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Susp_2DOF_DA"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Demux"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 145]
+	    DstBlock		    "all"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, -130]
+	  DstBlock		  "disp_wheel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  Points		  [45, 0; 0, -100]
+	  DstBlock		  "v_us"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  3
+	  Points		  [55, 0; 0, -70]
+	  DstBlock		  "disp_susp"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  4
+	  Points		  [5, 0]
+	  Branch {
+	    Points		    [60, 0; 0, -40]
+	    DstBlock		    "v_s"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 85]
+	    DstBlock		    "Derivative"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  5
+	  DstBlock		  "disp_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  6
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "v_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "g"
+	  SrcPort		  1
+	  Points		  [95, 0; 0, -45]
+	  DstBlock		  "Mux"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Vf"
+	  SrcPort		  1
+	  Points		  [110, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Derivative"
+	  SrcPort		  1
+	  DstBlock		  "a_s"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Ua1"
+	  SrcPort		  1
+	  DstBlock		  "Rate Transition"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rate Transition"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 30]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Susp_2DOF_D_act4"
+      SID		      "44"
+      Ports		      [5, 8]
+      Position		      [265, 817, 385, 903]
+      ForegroundColor	      "red"
+      BackgroundColor	      "yellow"
+      AncestorBlock	      "suspension_lib/Suspension:G(s)"
+      LibraryVersion	      "*1.18"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "Sprung mass (kg)|Sprung mass spring constant (N/m)|Sprung mass damping coefficient (N s/"
+      "m)|Unsprung mass (kg)|Unsprung mass spring constant (N/m)|Unsprung mass damping coefficient (N s/m)|Damper mass "
+      "(kg)|Damper spring constant (N/m)|Damper damping coeff (N s/m)"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskVariables	      "m_s=@1;k_s=@2;b_s=@3;m_us=@4;k_us=@5;b_us=@6;m_a=@7;k_a=@8;b_a=@9;"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on"
+      MaskInitialization      "w = sqrt( k_us / m_us );\nw_us = sqrt( k_us / m_us );\nrho = m_s / m_us;\nrho_a = 0;\ng"
+      " = 9.81; % m/s^2 gravitational acceleration\n\n% m_s == 0 and m_us == 0 are not allowed\n% Work around possible "
+      "divide by zero when m_a == 0\n%  build A by rows\nA = [0 1 0 0 0 0]; \nA = [A; -(k_us/m_us) (-b_s/m_us)+(b_us/m_"
+      "us) (k_s/m_us) (b_s/m_us) 0 0]; \nA = [A; 0 -1 0 1 0 0]; \nA = [A; 0 (b_s/m_s) -(k_s/m_s) (-b_s/m_s) 0 0];\nif ("
+      " m_a ~= 0 )\n  w_a = sqrt( k_a / m_a );\n  eta_a = b_a / (2 * m_a * w_a);\n  rho_a = m_us / m_a;  \n  A = [A; 0 "
+      "-1 0 0 0 1]; \n  A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\nelse\n  A = [A; 0 0 0 0 0 0];\n  A ="
+      " [A; 0 0 0 0 0 0];\nend\n\nA=-A;\n\n% inputs: active damper control force, \n%   active suspension control force"
+      ",\n%   road velocity, gravity, and sprung mass force\nB = [0 0 -1 0 0];\nB = [B; rho rho -(b_us/m_us) -g 0];\nB "
+      "= [B; 0 0 0 0 0];\nB = [B; 0 -1 0 0 -1];\nB = [B; 0 0 0 0 0];\nB = [B; -rho * rho_a 0 0 0 0];\n\n\n% A = [0 1 0 "
+      "0 0 0]; \n% A = [A; -(k_us/m_us)  (-b_a/m_us) 0 0 (k_a/m_us) (b_a/m_us)]; \n% A = [A; 0 -1 0 1 0 0]; \n% A = [A;"
+      " 0 0 0 0 0 0];\n% if ( m_a ~= 0 )\n%   w_a = sqrt( k_a / m_a );\n%   eta_a = b_a / (2 * m_a * w_a);\n%   rho_a ="
+      " m_us / m_a;  \n%   A = [A; 0 -1 0 0 0 1]; \n%   A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\n% el"
+      "se\n%   A = [A; 0 0 0 0 0 0];\n%   A = [A; 0 0 0 0 0 0];\n% end\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "25000|60000|3500|413|65096.03|15000|0|0|0"
+      System {
+	Name			"Susp_2DOF_D_act4"
+	Location		[890, 143, 1643, 637]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	SIDHighWatermark	"63"
+	SIDPrevWatermark	"42"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua1"
+	  SID			  "44:60"
+	  Position		  [35, 193, 65, 207]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua"
+	  SID			  "44:44"
+	  Position		  [35, 238, 65, 252]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "w"
+	  SID			  "44:45"
+	  Position		  [35, 273, 65, 287]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "g"
+	  SID			  "44:53"
+	  Position		  [35, 313, 65, 327]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vf"
+	  SID			  "44:54"
+	  Position		  [35, 353, 65, 367]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  SID			  "44:47"
+	  Ports			  [1, 6]
+	  Position		  [455, 230, 460, 290]
+	  ShowName		  off
+	  Outputs		  "6"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Derivative
+	  Name			  "Derivative"
+	  SID			  "44:55"
+	  Position		  [490, 335, 520, 365]
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  SID			  "44:46"
+	  Ports			  [5, 1]
+	  Position		  [195, 227, 200, 293]
+	  ShowName		  off
+	  Inputs		  "5"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  RateTransition
+	  Name			  "Rate Transition"
+	  SID			  "44:63"
+	  Position		  [90, 179, 130, 221]
+	}
+	Block {
+	  BlockType		  StateSpace
+	  Name			  "Susp_2DOF_DA"
+	  SID			  "44:43"
+	  Position		  [270, 220, 395, 300]
+	  A			  "A"
+	  B			  "B"
+	  C			  "eye(6)"
+	  D			  "zeros(6,5)"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_wheel"
+	  SID			  "44:42"
+	  Position		  [550, 98, 580, 112]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_us"
+	  SID			  "44:48"
+	  Position		  [550, 138, 580, 152]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_susp"
+	  SID			  "44:49"
+	  Position		  [550, 178, 580, 192]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_s"
+	  SID			  "44:50"
+	  Position		  [550, 218, 580, 232]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_a"
+	  SID			  "44:51"
+	  Position		  [550, 268, 580, 282]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_a"
+	  SID			  "44:52"
+	  Position		  [550, 298, 580, 312]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "a_s"
+	  SID			  "44:56"
+	  Position		  [550, 343, 580, 357]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "all"
+	  SID			  "44:61"
+	  Position		  [550, 398, 580, 412]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Ua"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "w"
+	  SrcPort		  1
+	  Points		  [85, 0; 0, -20]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "Susp_2DOF_DA"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Susp_2DOF_DA"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Demux"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 145]
+	    DstBlock		    "all"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, -130]
+	  DstBlock		  "disp_wheel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  Points		  [45, 0; 0, -100]
+	  DstBlock		  "v_us"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  3
+	  Points		  [55, 0; 0, -70]
+	  DstBlock		  "disp_susp"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  4
+	  Points		  [5, 0]
+	  Branch {
+	    Points		    [60, 0; 0, -40]
+	    DstBlock		    "v_s"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 85]
+	    DstBlock		    "Derivative"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  5
+	  DstBlock		  "disp_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  6
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "v_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "g"
+	  SrcPort		  1
+	  Points		  [95, 0; 0, -45]
+	  DstBlock		  "Mux"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Vf"
+	  SrcPort		  1
+	  Points		  [110, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Derivative"
+	  SrcPort		  1
+	  DstBlock		  "a_s"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Ua1"
+	  SrcPort		  1
+	  DstBlock		  "Rate Transition"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rate Transition"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 30]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Susp_2DOF_D_act5"
+      SID		      "55"
+      Ports		      [5, 8]
+      Position		      [920, 37, 1040, 123]
+      ForegroundColor	      "red"
+      BackgroundColor	      "yellow"
+      AncestorBlock	      "suspension_lib/Suspension:G(s)"
+      LibraryVersion	      "*1.18"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "Sprung mass (kg)|Sprung mass spring constant (N/m)|Sprung mass damping coefficient (N s/"
+      "m)|Unsprung mass (kg)|Unsprung mass spring constant (N/m)|Unsprung mass damping coefficient (N s/m)|Damper mass "
+      "(kg)|Damper spring constant (N/m)|Damper damping coeff (N s/m)"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskVariables	      "m_s=@1;k_s=@2;b_s=@3;m_us=@4;k_us=@5;b_us=@6;m_a=@7;k_a=@8;b_a=@9;"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on"
+      MaskInitialization      "w = sqrt( k_us / m_us );\nw_us = sqrt( k_us / m_us );\nrho = m_s / m_us;\nrho_a = 0;\ng"
+      " = 9.81; % m/s^2 gravitational acceleration\n\n% m_s == 0 and m_us == 0 are not allowed\n% Work around possible "
+      "divide by zero when m_a == 0\n%  build A by rows\nA = [0 1 0 0 0 0]; \nA = [A; -(k_us/m_us) (-b_s/m_us)+(b_us/m_"
+      "us) (k_s/m_us) (b_s/m_us) 0 0]; \nA = [A; 0 -1 0 1 0 0]; \nA = [A; 0 (b_s/m_s) -(k_s/m_s) (-b_s/m_s) 0 0];\nif ("
+      " m_a ~= 0 )\n  w_a = sqrt( k_a / m_a );\n  eta_a = b_a / (2 * m_a * w_a);\n  rho_a = m_us / m_a;  \n  A = [A; 0 "
+      "-1 0 0 0 1]; \n  A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\nelse\n  A = [A; 0 0 0 0 0 0];\n  A ="
+      " [A; 0 0 0 0 0 0];\nend\n\nA=-A;\n\n% inputs: active damper control force, \n%   active suspension control force"
+      ",\n%   road velocity, gravity, and sprung mass force\nB = [0 0 -1 0 0];\nB = [B; rho rho -(b_us/m_us) -g 0];\nB "
+      "= [B; 0 0 0 0 0];\nB = [B; 0 -1 0 0 -1];\nB = [B; 0 0 0 0 0];\nB = [B; -rho * rho_a 0 0 0 0];\n\n\n% A = [0 1 0 "
+      "0 0 0]; \n% A = [A; -(k_us/m_us)  (-b_a/m_us) 0 0 (k_a/m_us) (b_a/m_us)]; \n% A = [A; 0 -1 0 1 0 0]; \n% A = [A;"
+      " 0 0 0 0 0 0];\n% if ( m_a ~= 0 )\n%   w_a = sqrt( k_a / m_a );\n%   eta_a = b_a / (2 * m_a * w_a);\n%   rho_a ="
+      " m_us / m_a;  \n%   A = [A; 0 -1 0 0 0 1]; \n%   A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\n% el"
+      "se\n%   A = [A; 0 0 0 0 0 0];\n%   A = [A; 0 0 0 0 0 0];\n% end\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "25000|60000|3500|413|65096.03|15000|0|0|0"
+      System {
+	Name			"Susp_2DOF_D_act5"
+	Location		[890, 143, 1643, 637]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	SIDHighWatermark	"63"
+	SIDPrevWatermark	"42"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua1"
+	  SID			  "55:60"
+	  Position		  [35, 193, 65, 207]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua"
+	  SID			  "55:44"
+	  Position		  [35, 238, 65, 252]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "w"
+	  SID			  "55:45"
+	  Position		  [35, 273, 65, 287]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "g"
+	  SID			  "55:53"
+	  Position		  [35, 313, 65, 327]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vf"
+	  SID			  "55:54"
+	  Position		  [35, 353, 65, 367]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  SID			  "55:47"
+	  Ports			  [1, 6]
+	  Position		  [455, 230, 460, 290]
+	  ShowName		  off
+	  Outputs		  "6"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Derivative
+	  Name			  "Derivative"
+	  SID			  "55:55"
+	  Position		  [490, 335, 520, 365]
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  SID			  "55:46"
+	  Ports			  [5, 1]
+	  Position		  [195, 227, 200, 293]
+	  ShowName		  off
+	  Inputs		  "5"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  RateTransition
+	  Name			  "Rate Transition"
+	  SID			  "55:63"
+	  Position		  [90, 179, 130, 221]
+	}
+	Block {
+	  BlockType		  StateSpace
+	  Name			  "Susp_2DOF_DA"
+	  SID			  "55:43"
+	  Position		  [270, 220, 395, 300]
+	  A			  "A"
+	  B			  "B"
+	  C			  "eye(6)"
+	  D			  "zeros(6,5)"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_wheel"
+	  SID			  "55:42"
+	  Position		  [550, 98, 580, 112]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_us"
+	  SID			  "55:48"
+	  Position		  [550, 138, 580, 152]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_susp"
+	  SID			  "55:49"
+	  Position		  [550, 178, 580, 192]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_s"
+	  SID			  "55:50"
+	  Position		  [550, 218, 580, 232]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_a"
+	  SID			  "55:51"
+	  Position		  [550, 268, 580, 282]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_a"
+	  SID			  "55:52"
+	  Position		  [550, 298, 580, 312]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "a_s"
+	  SID			  "55:56"
+	  Position		  [550, 343, 580, 357]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "all"
+	  SID			  "55:61"
+	  Position		  [550, 398, 580, 412]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Ua"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "w"
+	  SrcPort		  1
+	  Points		  [85, 0; 0, -20]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "Susp_2DOF_DA"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Susp_2DOF_DA"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Demux"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 145]
+	    DstBlock		    "all"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, -130]
+	  DstBlock		  "disp_wheel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  Points		  [45, 0; 0, -100]
+	  DstBlock		  "v_us"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  3
+	  Points		  [55, 0; 0, -70]
+	  DstBlock		  "disp_susp"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  4
+	  Points		  [5, 0]
+	  Branch {
+	    Points		    [60, 0; 0, -40]
+	    DstBlock		    "v_s"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 85]
+	    DstBlock		    "Derivative"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  5
+	  DstBlock		  "disp_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  6
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "v_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "g"
+	  SrcPort		  1
+	  Points		  [95, 0; 0, -45]
+	  DstBlock		  "Mux"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Vf"
+	  SrcPort		  1
+	  Points		  [110, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Derivative"
+	  SrcPort		  1
+	  DstBlock		  "a_s"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Ua1"
+	  SrcPort		  1
+	  DstBlock		  "Rate Transition"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rate Transition"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 30]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Susp_2DOF_D_act6"
+      SID		      "66"
+      Ports		      [5, 8]
+      Position		      [915, 287, 1035, 373]
+      ForegroundColor	      "red"
+      BackgroundColor	      "yellow"
+      AncestorBlock	      "suspension_lib/Suspension:G(s)"
+      LibraryVersion	      "*1.18"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "Sprung mass (kg)|Sprung mass spring constant (N/m)|Sprung mass damping coefficient (N s/"
+      "m)|Unsprung mass (kg)|Unsprung mass spring constant (N/m)|Unsprung mass damping coefficient (N s/m)|Damper mass "
+      "(kg)|Damper spring constant (N/m)|Damper damping coeff (N s/m)"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskVariables	      "m_s=@1;k_s=@2;b_s=@3;m_us=@4;k_us=@5;b_us=@6;m_a=@7;k_a=@8;b_a=@9;"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on"
+      MaskInitialization      "w = sqrt( k_us / m_us );\nw_us = sqrt( k_us / m_us );\nrho = m_s / m_us;\nrho_a = 0;\ng"
+      " = 9.81; % m/s^2 gravitational acceleration\n\n% m_s == 0 and m_us == 0 are not allowed\n% Work around possible "
+      "divide by zero when m_a == 0\n%  build A by rows\nA = [0 1 0 0 0 0]; \nA = [A; -(k_us/m_us) (-b_s/m_us)+(b_us/m_"
+      "us) (k_s/m_us) (b_s/m_us) 0 0]; \nA = [A; 0 -1 0 1 0 0]; \nA = [A; 0 (b_s/m_s) -(k_s/m_s) (-b_s/m_s) 0 0];\nif ("
+      " m_a ~= 0 )\n  w_a = sqrt( k_a / m_a );\n  eta_a = b_a / (2 * m_a * w_a);\n  rho_a = m_us / m_a;  \n  A = [A; 0 "
+      "-1 0 0 0 1]; \n  A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\nelse\n  A = [A; 0 0 0 0 0 0];\n  A ="
+      " [A; 0 0 0 0 0 0];\nend\n\nA=-A;\n\n% inputs: active damper control force, \n%   active suspension control force"
+      ",\n%   road velocity, gravity, and sprung mass force\nB = [0 0 -1 0 0];\nB = [B; rho rho -(b_us/m_us) -g 0];\nB "
+      "= [B; 0 0 0 0 0];\nB = [B; 0 -1 0 0 -1];\nB = [B; 0 0 0 0 0];\nB = [B; -rho * rho_a 0 0 0 0];\n\n\n% A = [0 1 0 "
+      "0 0 0]; \n% A = [A; -(k_us/m_us)  (-b_a/m_us) 0 0 (k_a/m_us) (b_a/m_us)]; \n% A = [A; 0 -1 0 1 0 0]; \n% A = [A;"
+      " 0 0 0 0 0 0];\n% if ( m_a ~= 0 )\n%   w_a = sqrt( k_a / m_a );\n%   eta_a = b_a / (2 * m_a * w_a);\n%   rho_a ="
+      " m_us / m_a;  \n%   A = [A; 0 -1 0 0 0 1]; \n%   A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\n% el"
+      "se\n%   A = [A; 0 0 0 0 0 0];\n%   A = [A; 0 0 0 0 0 0];\n% end\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "25000|60000|3500|413|65096.03|15000|0|0|0"
+      System {
+	Name			"Susp_2DOF_D_act6"
+	Location		[890, 143, 1643, 637]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	SIDHighWatermark	"63"
+	SIDPrevWatermark	"42"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua1"
+	  SID			  "66:60"
+	  Position		  [35, 193, 65, 207]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua"
+	  SID			  "66:44"
+	  Position		  [35, 238, 65, 252]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "w"
+	  SID			  "66:45"
+	  Position		  [35, 273, 65, 287]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "g"
+	  SID			  "66:53"
+	  Position		  [35, 313, 65, 327]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vf"
+	  SID			  "66:54"
+	  Position		  [35, 353, 65, 367]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  SID			  "66:47"
+	  Ports			  [1, 6]
+	  Position		  [455, 230, 460, 290]
+	  ShowName		  off
+	  Outputs		  "6"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Derivative
+	  Name			  "Derivative"
+	  SID			  "66:55"
+	  Position		  [490, 335, 520, 365]
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  SID			  "66:46"
+	  Ports			  [5, 1]
+	  Position		  [195, 227, 200, 293]
+	  ShowName		  off
+	  Inputs		  "5"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  RateTransition
+	  Name			  "Rate Transition"
+	  SID			  "66:63"
+	  Position		  [90, 179, 130, 221]
+	}
+	Block {
+	  BlockType		  StateSpace
+	  Name			  "Susp_2DOF_DA"
+	  SID			  "66:43"
+	  Position		  [270, 220, 395, 300]
+	  A			  "A"
+	  B			  "B"
+	  C			  "eye(6)"
+	  D			  "zeros(6,5)"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_wheel"
+	  SID			  "66:42"
+	  Position		  [550, 98, 580, 112]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_us"
+	  SID			  "66:48"
+	  Position		  [550, 138, 580, 152]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_susp"
+	  SID			  "66:49"
+	  Position		  [550, 178, 580, 192]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_s"
+	  SID			  "66:50"
+	  Position		  [550, 218, 580, 232]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_a"
+	  SID			  "66:51"
+	  Position		  [550, 268, 580, 282]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_a"
+	  SID			  "66:52"
+	  Position		  [550, 298, 580, 312]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "a_s"
+	  SID			  "66:56"
+	  Position		  [550, 343, 580, 357]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "all"
+	  SID			  "66:61"
+	  Position		  [550, 398, 580, 412]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Ua"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "w"
+	  SrcPort		  1
+	  Points		  [85, 0; 0, -20]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "Susp_2DOF_DA"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Susp_2DOF_DA"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Demux"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 145]
+	    DstBlock		    "all"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, -130]
+	  DstBlock		  "disp_wheel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  Points		  [45, 0; 0, -100]
+	  DstBlock		  "v_us"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  3
+	  Points		  [55, 0; 0, -70]
+	  DstBlock		  "disp_susp"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  4
+	  Points		  [5, 0]
+	  Branch {
+	    Points		    [60, 0; 0, -40]
+	    DstBlock		    "v_s"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 85]
+	    DstBlock		    "Derivative"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  5
+	  DstBlock		  "disp_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  6
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "v_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "g"
+	  SrcPort		  1
+	  Points		  [95, 0; 0, -45]
+	  DstBlock		  "Mux"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Vf"
+	  SrcPort		  1
+	  Points		  [110, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Derivative"
+	  SrcPort		  1
+	  DstBlock		  "a_s"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Ua1"
+	  SrcPort		  1
+	  DstBlock		  "Rate Transition"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rate Transition"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 30]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Susp_2DOF_D_act7"
+      SID		      "77"
+      Ports		      [5, 8]
+      Position		      [910, 542, 1030, 628]
+      ForegroundColor	      "red"
+      BackgroundColor	      "yellow"
+      AncestorBlock	      "suspension_lib/Suspension:G(s)"
+      LibraryVersion	      "*1.18"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "Sprung mass (kg)|Sprung mass spring constant (N/m)|Sprung mass damping coefficient (N s/"
+      "m)|Unsprung mass (kg)|Unsprung mass spring constant (N/m)|Unsprung mass damping coefficient (N s/m)|Damper mass "
+      "(kg)|Damper spring constant (N/m)|Damper damping coeff (N s/m)"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskVariables	      "m_s=@1;k_s=@2;b_s=@3;m_us=@4;k_us=@5;b_us=@6;m_a=@7;k_a=@8;b_a=@9;"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on"
+      MaskInitialization      "w = sqrt( k_us / m_us );\nw_us = sqrt( k_us / m_us );\nrho = m_s / m_us;\nrho_a = 0;\ng"
+      " = 9.81; % m/s^2 gravitational acceleration\n\n% m_s == 0 and m_us == 0 are not allowed\n% Work around possible "
+      "divide by zero when m_a == 0\n%  build A by rows\nA = [0 1 0 0 0 0]; \nA = [A; -(k_us/m_us) (-b_s/m_us)+(b_us/m_"
+      "us) (k_s/m_us) (b_s/m_us) 0 0]; \nA = [A; 0 -1 0 1 0 0]; \nA = [A; 0 (b_s/m_s) -(k_s/m_s) (-b_s/m_s) 0 0];\nif ("
+      " m_a ~= 0 )\n  w_a = sqrt( k_a / m_a );\n  eta_a = b_a / (2 * m_a * w_a);\n  rho_a = m_us / m_a;  \n  A = [A; 0 "
+      "-1 0 0 0 1]; \n  A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\nelse\n  A = [A; 0 0 0 0 0 0];\n  A ="
+      " [A; 0 0 0 0 0 0];\nend\n\nA=-A;\n\n% inputs: active damper control force, \n%   active suspension control force"
+      ",\n%   road velocity, gravity, and sprung mass force\nB = [0 0 -1 0 0];\nB = [B; rho rho -(b_us/m_us) -g 0];\nB "
+      "= [B; 0 0 0 0 0];\nB = [B; 0 -1 0 0 -1];\nB = [B; 0 0 0 0 0];\nB = [B; -rho * rho_a 0 0 0 0];\n\n\n% A = [0 1 0 "
+      "0 0 0]; \n% A = [A; -(k_us/m_us)  (-b_a/m_us) 0 0 (k_a/m_us) (b_a/m_us)]; \n% A = [A; 0 -1 0 1 0 0]; \n% A = [A;"
+      " 0 0 0 0 0 0];\n% if ( m_a ~= 0 )\n%   w_a = sqrt( k_a / m_a );\n%   eta_a = b_a / (2 * m_a * w_a);\n%   rho_a ="
+      " m_us / m_a;  \n%   A = [A; 0 -1 0 0 0 1]; \n%   A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\n% el"
+      "se\n%   A = [A; 0 0 0 0 0 0];\n%   A = [A; 0 0 0 0 0 0];\n% end\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "25000|60000|3500|413|65096.03|15000|0|0|0"
+      System {
+	Name			"Susp_2DOF_D_act7"
+	Location		[890, 143, 1643, 637]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	SIDHighWatermark	"63"
+	SIDPrevWatermark	"42"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua1"
+	  SID			  "77:60"
+	  Position		  [35, 193, 65, 207]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua"
+	  SID			  "77:44"
+	  Position		  [35, 238, 65, 252]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "w"
+	  SID			  "77:45"
+	  Position		  [35, 273, 65, 287]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "g"
+	  SID			  "77:53"
+	  Position		  [35, 313, 65, 327]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vf"
+	  SID			  "77:54"
+	  Position		  [35, 353, 65, 367]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  SID			  "77:47"
+	  Ports			  [1, 6]
+	  Position		  [455, 230, 460, 290]
+	  ShowName		  off
+	  Outputs		  "6"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Derivative
+	  Name			  "Derivative"
+	  SID			  "77:55"
+	  Position		  [490, 335, 520, 365]
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  SID			  "77:46"
+	  Ports			  [5, 1]
+	  Position		  [195, 227, 200, 293]
+	  ShowName		  off
+	  Inputs		  "5"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  RateTransition
+	  Name			  "Rate Transition"
+	  SID			  "77:63"
+	  Position		  [90, 179, 130, 221]
+	}
+	Block {
+	  BlockType		  StateSpace
+	  Name			  "Susp_2DOF_DA"
+	  SID			  "77:43"
+	  Position		  [270, 220, 395, 300]
+	  A			  "A"
+	  B			  "B"
+	  C			  "eye(6)"
+	  D			  "zeros(6,5)"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_wheel"
+	  SID			  "77:42"
+	  Position		  [550, 98, 580, 112]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_us"
+	  SID			  "77:48"
+	  Position		  [550, 138, 580, 152]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_susp"
+	  SID			  "77:49"
+	  Position		  [550, 178, 580, 192]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_s"
+	  SID			  "77:50"
+	  Position		  [550, 218, 580, 232]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_a"
+	  SID			  "77:51"
+	  Position		  [550, 268, 580, 282]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_a"
+	  SID			  "77:52"
+	  Position		  [550, 298, 580, 312]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "a_s"
+	  SID			  "77:56"
+	  Position		  [550, 343, 580, 357]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "all"
+	  SID			  "77:61"
+	  Position		  [550, 398, 580, 412]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Ua"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "w"
+	  SrcPort		  1
+	  Points		  [85, 0; 0, -20]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "Susp_2DOF_DA"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Susp_2DOF_DA"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Demux"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 145]
+	    DstBlock		    "all"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, -130]
+	  DstBlock		  "disp_wheel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  Points		  [45, 0; 0, -100]
+	  DstBlock		  "v_us"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  3
+	  Points		  [55, 0; 0, -70]
+	  DstBlock		  "disp_susp"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  4
+	  Points		  [5, 0]
+	  Branch {
+	    Points		    [60, 0; 0, -40]
+	    DstBlock		    "v_s"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 85]
+	    DstBlock		    "Derivative"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  5
+	  DstBlock		  "disp_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  6
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "v_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "g"
+	  SrcPort		  1
+	  Points		  [95, 0; 0, -45]
+	  DstBlock		  "Mux"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Vf"
+	  SrcPort		  1
+	  Points		  [110, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Derivative"
+	  SrcPort		  1
+	  DstBlock		  "a_s"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Ua1"
+	  SrcPort		  1
+	  DstBlock		  "Rate Transition"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rate Transition"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 30]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Susp_2DOF_D_act8"
+      SID		      "88"
+      Ports		      [5, 8]
+      Position		      [905, 817, 1025, 903]
+      ForegroundColor	      "red"
+      BackgroundColor	      "yellow"
+      AncestorBlock	      "suspension_lib/Suspension:G(s)"
+      LibraryVersion	      "*1.18"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "Sprung mass (kg)|Sprung mass spring constant (N/m)|Sprung mass damping coefficient (N s/"
+      "m)|Unsprung mass (kg)|Unsprung mass spring constant (N/m)|Unsprung mass damping coefficient (N s/m)|Damper mass "
+      "(kg)|Damper spring constant (N/m)|Damper damping coeff (N s/m)"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskVariables	      "m_s=@1;k_s=@2;b_s=@3;m_us=@4;k_us=@5;b_us=@6;m_a=@7;k_a=@8;b_a=@9;"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on"
+      MaskInitialization      "w = sqrt( k_us / m_us );\nw_us = sqrt( k_us / m_us );\nrho = m_s / m_us;\nrho_a = 0;\ng"
+      " = 9.81; % m/s^2 gravitational acceleration\n\n% m_s == 0 and m_us == 0 are not allowed\n% Work around possible "
+      "divide by zero when m_a == 0\n%  build A by rows\nA = [0 1 0 0 0 0]; \nA = [A; -(k_us/m_us) (-b_s/m_us)+(b_us/m_"
+      "us) (k_s/m_us) (b_s/m_us) 0 0]; \nA = [A; 0 -1 0 1 0 0]; \nA = [A; 0 (b_s/m_s) -(k_s/m_s) (-b_s/m_s) 0 0];\nif ("
+      " m_a ~= 0 )\n  w_a = sqrt( k_a / m_a );\n  eta_a = b_a / (2 * m_a * w_a);\n  rho_a = m_us / m_a;  \n  A = [A; 0 "
+      "-1 0 0 0 1]; \n  A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\nelse\n  A = [A; 0 0 0 0 0 0];\n  A ="
+      " [A; 0 0 0 0 0 0];\nend\n\nA=-A;\n\n% inputs: active damper control force, \n%   active suspension control force"
+      ",\n%   road velocity, gravity, and sprung mass force\nB = [0 0 -1 0 0];\nB = [B; rho rho -(b_us/m_us) -g 0];\nB "
+      "= [B; 0 0 0 0 0];\nB = [B; 0 -1 0 0 -1];\nB = [B; 0 0 0 0 0];\nB = [B; -rho * rho_a 0 0 0 0];\n\n\n% A = [0 1 0 "
+      "0 0 0]; \n% A = [A; -(k_us/m_us)  (-b_a/m_us) 0 0 (k_a/m_us) (b_a/m_us)]; \n% A = [A; 0 -1 0 1 0 0]; \n% A = [A;"
+      " 0 0 0 0 0 0];\n% if ( m_a ~= 0 )\n%   w_a = sqrt( k_a / m_a );\n%   eta_a = b_a / (2 * m_a * w_a);\n%   rho_a ="
+      " m_us / m_a;  \n%   A = [A; 0 -1 0 0 0 1]; \n%   A = [A; 0 2 * eta_a * w_a 0 0 -(w_a^2) -2 * eta_a * w_a];\n% el"
+      "se\n%   A = [A; 0 0 0 0 0 0];\n%   A = [A; 0 0 0 0 0 0];\n% end\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "25000|60000|3500|413|65096.03|15000|0|0|0"
+      System {
+	Name			"Susp_2DOF_D_act8"
+	Location		[890, 143, 1643, 637]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	SIDHighWatermark	"63"
+	SIDPrevWatermark	"42"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua1"
+	  SID			  "88:60"
+	  Position		  [35, 193, 65, 207]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ua"
+	  SID			  "88:44"
+	  Position		  [35, 238, 65, 252]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "w"
+	  SID			  "88:45"
+	  Position		  [35, 273, 65, 287]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "g"
+	  SID			  "88:53"
+	  Position		  [35, 313, 65, 327]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vf"
+	  SID			  "88:54"
+	  Position		  [35, 353, 65, 367]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  SID			  "88:47"
+	  Ports			  [1, 6]
+	  Position		  [455, 230, 460, 290]
+	  ShowName		  off
+	  Outputs		  "6"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Derivative
+	  Name			  "Derivative"
+	  SID			  "88:55"
+	  Position		  [490, 335, 520, 365]
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  SID			  "88:46"
+	  Ports			  [5, 1]
+	  Position		  [195, 227, 200, 293]
+	  ShowName		  off
+	  Inputs		  "5"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  RateTransition
+	  Name			  "Rate Transition"
+	  SID			  "88:63"
+	  Position		  [90, 179, 130, 221]
+	}
+	Block {
+	  BlockType		  StateSpace
+	  Name			  "Susp_2DOF_DA"
+	  SID			  "88:43"
+	  Position		  [270, 220, 395, 300]
+	  A			  "A"
+	  B			  "B"
+	  C			  "eye(6)"
+	  D			  "zeros(6,5)"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_wheel"
+	  SID			  "88:42"
+	  Position		  [550, 98, 580, 112]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_us"
+	  SID			  "88:48"
+	  Position		  [550, 138, 580, 152]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_susp"
+	  SID			  "88:49"
+	  Position		  [550, 178, 580, 192]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_s"
+	  SID			  "88:50"
+	  Position		  [550, 218, 580, 232]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "disp_a"
+	  SID			  "88:51"
+	  Position		  [550, 268, 580, 282]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v_a"
+	  SID			  "88:52"
+	  Position		  [550, 298, 580, 312]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "a_s"
+	  SID			  "88:56"
+	  Position		  [550, 343, 580, 357]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "all"
+	  SID			  "88:61"
+	  Position		  [550, 398, 580, 412]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Ua"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "w"
+	  SrcPort		  1
+	  Points		  [85, 0; 0, -20]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "Susp_2DOF_DA"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Susp_2DOF_DA"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Demux"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 145]
+	    DstBlock		    "all"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, -130]
+	  DstBlock		  "disp_wheel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  Points		  [45, 0; 0, -100]
+	  DstBlock		  "v_us"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  3
+	  Points		  [55, 0; 0, -70]
+	  DstBlock		  "disp_susp"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  4
+	  Points		  [5, 0]
+	  Branch {
+	    Points		    [60, 0; 0, -40]
+	    DstBlock		    "v_s"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 85]
+	    DstBlock		    "Derivative"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  5
+	  DstBlock		  "disp_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  6
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "v_a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "g"
+	  SrcPort		  1
+	  Points		  [95, 0; 0, -45]
+	  DstBlock		  "Mux"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Vf"
+	  SrcPort		  1
+	  Points		  [110, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Derivative"
+	  SrcPort		  1
+	  DstBlock		  "a_s"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Ua1"
+	  SrcPort		  1
+	  DstBlock		  "Rate Transition"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rate Transition"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 30]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+      }
+    }
+    Line {
+      SrcBlock		      "Repeating\nSequence\nInterpolated2"
+      SrcPort		      1
+      Points		      [75, 0]
+      Branch {
+	DstBlock		"Susp_2DOF_D_act1"
+	DstPort			3
+      }
+      Branch {
+	Points			[0, -45]
+	DstBlock		"Scope3"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act1"
+      SrcPort		      1
+      DstBlock		      "Scope3"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act1"
+      SrcPort		      2
+      DstBlock		      "Scope3"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act1"
+      SrcPort		      3
+      DstBlock		      "Scope3"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act1"
+      SrcPort		      4
+      DstBlock		      "Scope3"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act1"
+      SrcPort		      5
+      DstBlock		      "Scope3"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act1"
+      SrcPort		      6
+      DstBlock		      "Scope3"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "Constant7"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act1"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant8"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act1"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Constant9"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act1"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act1"
+      SrcPort		      7
+      DstBlock		      "Scope3"
+      DstPort		      8
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act1"
+      SrcPort		      8
+      Points		      [10, 0; 0, 80]
+      DstBlock		      "LinearController1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "LinearController1"
+      SrcPort		      1
+      Points		      [-170, 0; 0, -145]
+      DstBlock		      "Susp_2DOF_D_act1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Repeating\nSequence\nInterpolated1"
+      SrcPort		      1
+      Points		      [75, 0]
+      Branch {
+	DstBlock		"Susp_2DOF_D_act2"
+	DstPort			3
+      }
+      Branch {
+	Points			[0, -45]
+	DstBlock		"Scope1"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act2"
+      SrcPort		      1
+      DstBlock		      "Scope1"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act2"
+      SrcPort		      2
+      DstBlock		      "Scope1"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act2"
+      SrcPort		      3
+      DstBlock		      "Scope1"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act2"
+      SrcPort		      4
+      DstBlock		      "Scope1"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act2"
+      SrcPort		      5
+      DstBlock		      "Scope1"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act2"
+      SrcPort		      6
+      DstBlock		      "Scope1"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "Constant1"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act2"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant2"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act2"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Constant3"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act2"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act2"
+      SrcPort		      7
+      DstBlock		      "Scope1"
+      DstPort		      8
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act2"
+      SrcPort		      8
+      Points		      [10, 0; 0, 80]
+      DstBlock		      "LinearController2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "LinearController2"
+      SrcPort		      1
+      Points		      [-170, 0; 0, -145]
+      DstBlock		      "Susp_2DOF_D_act2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Repeating\nSequence\nInterpolated3"
+      SrcPort		      1
+      Points		      [75, 0]
+      Branch {
+	DstBlock		"Susp_2DOF_D_act3"
+	DstPort			3
+      }
+      Branch {
+	Points			[0, -45]
+	DstBlock		"Scope2"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act3"
+      SrcPort		      1
+      DstBlock		      "Scope2"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act3"
+      SrcPort		      2
+      DstBlock		      "Scope2"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act3"
+      SrcPort		      3
+      DstBlock		      "Scope2"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act3"
+      SrcPort		      4
+      DstBlock		      "Scope2"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act3"
+      SrcPort		      5
+      DstBlock		      "Scope2"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act3"
+      SrcPort		      6
+      DstBlock		      "Scope2"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "Constant4"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act3"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant5"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act3"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Constant6"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act3"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act3"
+      SrcPort		      7
+      DstBlock		      "Scope2"
+      DstPort		      8
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act3"
+      SrcPort		      8
+      Points		      [10, 0; 0, 80]
+      DstBlock		      "LinearController3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "LinearController3"
+      SrcPort		      1
+      Points		      [-170, 0; 0, -145]
+      DstBlock		      "Susp_2DOF_D_act3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Repeating\nSequence\nInterpolated4"
+      SrcPort		      1
+      Points		      [75, 0]
+      Branch {
+	DstBlock		"Susp_2DOF_D_act4"
+	DstPort			3
+      }
+      Branch {
+	Points			[0, -45]
+	DstBlock		"Scope4"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act4"
+      SrcPort		      1
+      DstBlock		      "Scope4"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act4"
+      SrcPort		      2
+      DstBlock		      "Scope4"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act4"
+      SrcPort		      3
+      DstBlock		      "Scope4"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act4"
+      SrcPort		      4
+      DstBlock		      "Scope4"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act4"
+      SrcPort		      5
+      DstBlock		      "Scope4"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act4"
+      SrcPort		      6
+      DstBlock		      "Scope4"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "Constant10"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act4"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant11"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act4"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Constant12"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act4"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act4"
+      SrcPort		      7
+      DstBlock		      "Scope4"
+      DstPort		      8
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act4"
+      SrcPort		      8
+      Points		      [10, 0; 0, 80]
+      DstBlock		      "LinearController4"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "LinearController4"
+      SrcPort		      1
+      Points		      [-170, 0; 0, -145]
+      DstBlock		      "Susp_2DOF_D_act4"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Repeating\nSequence\nInterpolated5"
+      SrcPort		      1
+      Points		      [75, 0]
+      Branch {
+	DstBlock		"Susp_2DOF_D_act5"
+	DstPort			3
+      }
+      Branch {
+	Points			[0, -45]
+	DstBlock		"Scope5"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act5"
+      SrcPort		      1
+      DstBlock		      "Scope5"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act5"
+      SrcPort		      2
+      DstBlock		      "Scope5"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act5"
+      SrcPort		      3
+      DstBlock		      "Scope5"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act5"
+      SrcPort		      4
+      DstBlock		      "Scope5"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act5"
+      SrcPort		      5
+      DstBlock		      "Scope5"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act5"
+      SrcPort		      6
+      DstBlock		      "Scope5"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "Constant13"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act5"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant14"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act5"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Constant15"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act5"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act5"
+      SrcPort		      7
+      DstBlock		      "Scope5"
+      DstPort		      8
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act5"
+      SrcPort		      8
+      Points		      [10, 0; 0, 80]
+      DstBlock		      "LinearController5"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "LinearController5"
+      SrcPort		      1
+      Points		      [-170, 0; 0, -145]
+      DstBlock		      "Susp_2DOF_D_act5"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Repeating\nSequence\nInterpolated6"
+      SrcPort		      1
+      Points		      [75, 0]
+      Branch {
+	DstBlock		"Susp_2DOF_D_act6"
+	DstPort			3
+      }
+      Branch {
+	Points			[0, -45]
+	DstBlock		"Scope6"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act6"
+      SrcPort		      1
+      DstBlock		      "Scope6"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act6"
+      SrcPort		      2
+      DstBlock		      "Scope6"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act6"
+      SrcPort		      3
+      DstBlock		      "Scope6"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act6"
+      SrcPort		      4
+      DstBlock		      "Scope6"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act6"
+      SrcPort		      5
+      DstBlock		      "Scope6"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act6"
+      SrcPort		      6
+      DstBlock		      "Scope6"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "Constant16"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act6"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant17"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act6"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Constant18"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act6"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act6"
+      SrcPort		      7
+      DstBlock		      "Scope6"
+      DstPort		      8
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act6"
+      SrcPort		      8
+      Points		      [10, 0; 0, 80]
+      DstBlock		      "LinearController6"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "LinearController6"
+      SrcPort		      1
+      Points		      [-170, 0; 0, -145]
+      DstBlock		      "Susp_2DOF_D_act6"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Repeating\nSequence\nInterpolated7"
+      SrcPort		      1
+      Points		      [75, 0]
+      Branch {
+	DstBlock		"Susp_2DOF_D_act7"
+	DstPort			3
+      }
+      Branch {
+	Points			[0, -45]
+	DstBlock		"Scope7"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act7"
+      SrcPort		      1
+      DstBlock		      "Scope7"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act7"
+      SrcPort		      2
+      DstBlock		      "Scope7"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act7"
+      SrcPort		      3
+      DstBlock		      "Scope7"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act7"
+      SrcPort		      4
+      DstBlock		      "Scope7"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act7"
+      SrcPort		      5
+      DstBlock		      "Scope7"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act7"
+      SrcPort		      6
+      DstBlock		      "Scope7"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "Constant19"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act7"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant20"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act7"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Constant21"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act7"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act7"
+      SrcPort		      7
+      DstBlock		      "Scope7"
+      DstPort		      8
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act7"
+      SrcPort		      8
+      Points		      [10, 0; 0, 80]
+      DstBlock		      "LinearController7"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "LinearController7"
+      SrcPort		      1
+      Points		      [-170, 0; 0, -145]
+      DstBlock		      "Susp_2DOF_D_act7"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Repeating\nSequence\nInterpolated8"
+      SrcPort		      1
+      Points		      [75, 0]
+      Branch {
+	DstBlock		"Susp_2DOF_D_act8"
+	DstPort			3
+      }
+      Branch {
+	Points			[0, -45]
+	DstBlock		"Scope8"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act8"
+      SrcPort		      1
+      DstBlock		      "Scope8"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act8"
+      SrcPort		      2
+      DstBlock		      "Scope8"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act8"
+      SrcPort		      3
+      DstBlock		      "Scope8"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act8"
+      SrcPort		      4
+      DstBlock		      "Scope8"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act8"
+      SrcPort		      5
+      DstBlock		      "Scope8"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act8"
+      SrcPort		      6
+      DstBlock		      "Scope8"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "Constant22"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act8"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant23"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act8"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Constant24"
+      SrcPort		      1
+      DstBlock		      "Susp_2DOF_D_act8"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act8"
+      SrcPort		      7
+      DstBlock		      "Scope8"
+      DstPort		      8
+    }
+    Line {
+      SrcBlock		      "Susp_2DOF_D_act8"
+      SrcPort		      8
+      Points		      [10, 0; 0, 80]
+      DstBlock		      "LinearController8"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "LinearController8"
+      SrcPort		      1
+      Points		      [-170, 0; 0, -145]
+      DstBlock		      "Susp_2DOF_D_act8"
+      DstPort		      1
+    }
+  }
+}

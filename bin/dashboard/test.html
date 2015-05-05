@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.box {
+  font: 10px sans-serif;
+}
+
+.box line,
+.box rect,
+.box circle {
+  fill: #fff;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.box .center {
+  stroke-dasharray: 3,3;
+}
+
+.box .outlier {
+  fill: none;
+  stroke: #ccc;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="inc/box.js"></script>
+<script>
+	var margin = {top: 10, right: 50, bottom: 20, left: 50},
+		width = 120 - margin.left - margin.right,
+		height = 500 - margin.top - margin.bottom;
+
+	var min = 620,
+		max = 1070;
+
+	var x = d3.scale.linear()
+		.range([0, height])
+		.domain([min, max]);
+		
+	var y = d3.scale.ordinal()
+		.rangeRoundBands([0, width], .1)
+		.domain([0, 20]);
+	  
+	var data = [650, 740, 850, 940, 980, 1070];
+
+	var svg = d3.select("body")
+		  .data(data)
+		.append("svg")
+		  .attr("class", "box")
+		  .attr("height", width + margin.left + margin.right)
+		  .attr("width", height + margin.bottom + margin.top)
+		.append("g")
+		  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	svg.append("line")
+		.attr("x1",function(){ 
+			return x(data[0]);
+		})
+		.attr("y1",0)
+		.attr("x2",function(){ 
+			return x(data[0]);
+		})
+		.attr("y2",20);
+		
+	svg.append("line")
+		.attr("x1",function(){ 
+			return x(data[1]);
+		})
+		.attr("y1",0)
+		.attr("x2",function(){ 
+			return x(data[1]);
+		})
+		.attr("y2",20);
+		
+	svg.append("line")
+		.attr("x1",function(){ 
+			return x(data[2]);
+		})
+		.attr("y1",0)
+		.attr("x2",function(){ 
+			return x(data[2]);
+		})
+		.attr("y2",20);
+		
+	svg.append("line")
+		.attr("x1",function(){ 
+			return x(data[3]);
+		})
+		.attr("y1",0)
+		.attr("x2",function(){ 
+			return x(data[3]);
+		})
+		.attr("y2",20);
+		
+	svg.append("line")
+		.attr("x1",function(){ 
+			return x(data[4]);
+		})
+		.attr("y1",0)
+		.attr("x2",function(){ 
+			return x(data[4]);
+		})
+		.attr("y2",20);
+		
+	svg.append("line")
+		.attr("x1",function(){ 
+			return x(data[1]);
+		})
+		.attr("y1",0)
+		.attr("x2",function(){ 
+			return x(data[3]);
+		})
+		.attr("y2",0);
+		
+	svg.append("line")
+		.attr("x1",function(){ 
+			return x(data[1]);
+		})
+		.attr("y1",20)
+		.attr("x2",function(){ 
+			return x(data[3]);
+		})
+		.attr("y2",20);
+		
+	svg.append("line")
+		.attr("x1",function(){ 
+			return x(data[0]);
+		})
+		.attr("y1",10)
+		.attr("x2",function(){ 
+			return x(data[1]);
+		})
+		.attr("y2",10)
+		.attr("stroke-dasharray","5,5");
+		
+	svg.append("line")
+		.attr("x1",function(){ 
+			return x(data[3]);
+		})
+		.attr("y1",10)
+		.attr("x2",function(){ 
+			return x(data[4]);
+		})
+		.attr("y2",10)
+		.attr("stroke-dasharray","5,5");  
+</script>

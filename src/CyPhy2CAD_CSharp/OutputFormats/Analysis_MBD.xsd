@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 rel. 2 (http://www.altova.com) by Csanad Szabo (Vanderbilt University) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:element name="Model">
+		<xs:annotation>
+			<xs:documentation>Model that contains information needed to create a multibody dynamic simulation model, where geometric information is referenced only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+        <xs:sequence>
+          <xs:element name="Script" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+              <xs:attribute name="Path" type="xs:string" use="required">
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:sequence>
+          <xs:element name="Contact" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+              <xs:attribute name="CyphyId1" type="xs:string" use="required">
+              </xs:attribute>
+              <xs:attribute name="CyphyId2" type="xs:string" use="required">
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+          <xs:element name="Terrain">
+            <xs:complexType>
+              <xs:attribute name="FileName" type="xs:string" use="required">
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+        <xs:element name="Ground">
+          <xs:complexType>
+            <xs:attribute name="CyphyId" type="xs:string" use="required">
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Units">
+					<xs:complexType>
+						<xs:attribute name="Length" type="xs:string" use="required" fixed="mm">
+							<xs:annotation>
+								<xs:documentation>mm</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Angle" use="required">
+							<xs:annotation>
+								<xs:documentation>deg/rad</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="deg"/>
+									<xs:enumeration value="rad"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Force" type="xs:string" use="required" fixed="newton">
+							<xs:annotation>
+								<xs:documentation>newton</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Mass" type="xs:string" use="required" fixed="kg">
+							<xs:annotation>
+								<xs:documentation>kg</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Time" type="xs:string" use="required" fixed="sec">
+							<xs:annotation>
+								<xs:documentation>sec</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Assembly">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Joints">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:choice maxOccurs="unbounded">
+											<xs:element name="Joint_Locations_Only">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="ComponentA">
+															<xs:complexType>
+																<xs:attribute name="ComponentID" type="xs:string" use="required"/>
+																<xs:attribute name="Location_MetricID" type="xs:string" use="required"/>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="ComponentB">
+															<xs:complexType>
+																<xs:attribute name="ComponentID" type="xs:string" use="required"/>
+																<xs:attribute name="Location_MetricID" type="xs:string" use="required"/>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+													<xs:attribute name="ID" type="xs:string" use="required"/>
+													<xs:attribute name="Type" use="required">
+														<xs:annotation>
+															<xs:documentation>Fixed/Spherical</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="Fixed"/>
+																<xs:enumeration value="Spherical"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:attribute>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="Joint_One_Axis_Given">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="ComponentA">
+															<xs:complexType>
+																<xs:attribute name="ComponentID" type="xs:string" use="required"/>
+																<xs:attribute name="Location_MetricID" type="xs:string" use="required"/>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="ComponentB">
+															<xs:complexType>
+																<xs:attribute name="ComponentID" type="xs:string" use="required"/>
+																<xs:attribute name="Location_MetricID" type="xs:string" use="required"/>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="Geometry">
+															<xs:complexType>
+																<xs:attribute name="Type" use="required" fixed="Vector">
+																	<xs:annotation>
+																		<xs:documentation>Vector</xs:documentation>
+																	</xs:annotation>
+																</xs:attribute>
+																<xs:attribute name="MetricID" type="xs:string" use="required"/>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+													<xs:attribute name="ID" type="xs:string" use="required"/>
+													<xs:attribute name="Type" use="required">
+														<xs:annotation>
+															<xs:documentation>Translational/Revolute/Cylindrical</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="Translational"/>
+																<xs:enumeration value="Revolute"/>
+																<xs:enumeration value="Cylindrical"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:attribute>
+												</xs:complexType>
+											</xs:element>
+										</xs:choice>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Loads">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Motion" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="MotionID" type="xs:string" use="required"/>
+									<xs:attribute name="Type" type="xs:string" use="required" fixed="JointMotion">
+										<xs:annotation>
+											<xs:documentation>JointMotion</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="JointID" type="xs:string" use="required"/>
+									<xs:attribute name="FreedomType" use="required">
+										<xs:annotation>
+											<xs:documentation>Translational/Rotational</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Translational"/>
+												<xs:enumeration value="Rotational"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="TimeDerivative" use="required">
+										<xs:annotation>
+											<xs:documentation>Displacement/Velocity/Acceleration</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Displacement"/>
+												<xs:enumeration value="Velocity"/>
+												<xs:enumeration value="Acceleration"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="Function" type="xs:string" use="required"/>
+									<xs:attribute name="Active" use="required">
+										<xs:annotation>
+											<xs:documentation>on/off</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="on"/>
+												<xs:enumeration value="off"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Gravity">
+								<xs:complexType>
+									<xs:attribute name="Value" type="xs:string" use="required">
+										<xs:annotation>
+											<xs:documentation>=> gravity as a 3D vector</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="Active" use="required">
+										<xs:annotation>
+											<xs:documentation>on/off</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="on"/>
+												<xs:enumeration value="off"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Simulation">
+					<xs:complexType>
+						<xs:attribute name="Time" type="xs:float" use="required"/>
+						<xs:attribute name="Steps" type="xs:positiveInteger" use="required"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Results">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Metric_FEA" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="ComponentID" type="xs:string" use="required"/>
+									<xs:attribute name="FEA_Tool" use="required">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="NASTRAN"/>
+												<xs:enumeration value="ANSYS"/>
+												<xs:enumeration value="ABAQUS"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="Type" use="required">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Standard"/>
+												<xs:enumeration value="Dynamic"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Metric_Component_XYZ_Mag" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="ComponentID" type="xs:string" use="required"/>
+									<xs:attribute name="M_Type" use="required">
+										<xs:annotation>
+											<xs:documentation>CM_Position/Velocity/Acceleration, CM_Angular_Vel, CM_Angular_Acc, Trans_Momentum, Angular_Momentum_About_CM</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="CM_Position"/>
+												<xs:enumeration value="CM_Velocity"/>
+												<xs:enumeration value="CM_Acceleration"/>
+												<xs:enumeration value="CM_Angular_Velocity"/>
+												<xs:enumeration value="CM_Angular_Acceleration"/>
+												<xs:enumeration value="Translational_Momentum"/>
+												<xs:enumeration value="Angular_Momentum_About_CM"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="M_Component" use="required">
+										<xs:annotation>
+											<xs:documentation>X/Y/Z/Mag</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="X"/>
+												<xs:enumeration value="Y"/>
+												<xs:enumeration value="Z"/>
+												<xs:enumeration value="Mag"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Metric_Component_Mag_Only" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="ComponentID" type="xs:string" use="required"/>
+									<xs:attribute name="M_Type" use="required">
+										<xs:annotation>
+											<xs:documentation>Kinetic_Energy, Trans_Kinetic_Energy, Angular_Kinetic_Energy, Potential_Energy_Delta</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Kinetic_Energy"/>
+												<xs:enumeration value="Translational_Kinetic_Energy"/>
+												<xs:enumeration value="Angular_Kinetic_Energy"/>
+												<xs:enumeration value="Potential_Energy_Delta"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="M_Component" type="xs:string" use="required" fixed="Mag">
+										<xs:annotation>
+											<xs:documentation>Mag</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Metric_Point" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="Point_MetricID" type="xs:string" use="required"/>
+									<xs:attribute name="M_Type" use="required">
+										<xs:annotation>
+											<xs:documentation>Total_Force/Torque, Trans_Displacement, Trans_Velocity, Trans_Acceleration, Angular_Velocity, Angular_Acceleration</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Total_Force_At_Location"/>
+												<xs:enumeration value="Total_Torque_At_Location"/>
+												<xs:enumeration value="Translational_Displacement"/>
+												<xs:enumeration value="Translational_Velocity"/>
+												<xs:enumeration value="Translational_Acceleration"/>
+												<xs:enumeration value="Angular_Velocity"/>
+												<xs:enumeration value="Angular_Acceleration"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="M_Component" use="required">
+										<xs:annotation>
+											<xs:documentation>X/Y/Z/Mag</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="X"/>
+												<xs:enumeration value="Y"/>
+												<xs:enumeration value="Z"/>
+												<xs:enumeration value="Mag"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Metric_Motion" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="MotionID" type="xs:string" use="required"/>
+									<xs:attribute name="M_Type" type="xs:string" use="required" fixed="Power_Consumption">
+										<xs:annotation>
+											<xs:documentation>Power_Consumption</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="M_Component" type="xs:string" use="required" fixed="Mag">
+										<xs:annotation>
+											<xs:documentation>Mag</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

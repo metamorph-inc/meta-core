@@ -1,0 +1,4 @@
+[console_scripts]
+cheetah = Cheetah.CheetahWrapper:_cheetah
+cheetah-compile = Cheetah.CheetahWrapper:_cheetah_compile
+

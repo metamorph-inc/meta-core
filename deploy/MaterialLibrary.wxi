@@ -1,0 +1,687 @@
+<ns0:Wix xmlns:ns0="http://schemas.microsoft.com/wix/2006/wi">
+    <?define MaterialLibrary=..\models\MaterialLibrary?><!--generated with gen_dir_wxi.py ..\models\MaterialLibrary
+--><ns0:Fragment>
+        <ns0:DirectoryRef Id="MaterialLibrary">
+            <ns0:Directory Id="dirC184B47459B9DB49D9B21D4F2BA81E25" Name="MATERIALS_CREO_MTL" />
+        </ns0:DirectoryRef>
+    </ns0:Fragment>
+    <ns0:Fragment>
+        <ns0:ComponentGroup Id="MaterialLibrary">
+            <ns0:Component Directory="MaterialLibrary" Guid="*" Id="cmp20C3E106002FB65F8D56C88ABB947F97">
+                <ns0:File Id="fil7AB426305BD959D71FA1CF75F7138803" KeyPath="yes" Source="$(var.MaterialLibrary)\CheckVersion.bat" />
+            </ns0:Component>
+            <ns0:Component Directory="MaterialLibrary" Guid="*" Id="cmp7A344D29DF88476E4595137E295938D2">
+                <ns0:File Id="fil6581E72D5A4F6ABA73473ECAA77ABE9F" KeyPath="yes" Source="$(var.MaterialLibrary)\CheckVersion.py" />
+            </ns0:Component>
+            <ns0:Component Directory="MaterialLibrary" Guid="*" Id="cmpA8BF32AA08F7CB69D3E35C0636209609">
+                <ns0:File Id="fil6C4EF95A635F8B9E4D5947F66015EF15" KeyPath="yes" Source="$(var.MaterialLibrary)\Demo.py" />
+            </ns0:Component>
+            <ns0:Component Directory="MaterialLibrary" Guid="*" Id="cmp80BA0CCEE59216676CF93DF17D1B2A73">
+                <ns0:File Id="fil1C77C1A56C36CCEA29D9800ECD6673C9" KeyPath="yes" Source="$(var.MaterialLibrary)\ListAllMaterials.bat" />
+            </ns0:Component>
+            <ns0:Component Directory="MaterialLibrary" Guid="*" Id="cmpA39AF31733716F8836C0EEA33D2B349A">
+                <ns0:File Id="fil45D224C9A01C989D5C5116E18F754179" KeyPath="yes" Source="$(var.MaterialLibrary)\ListAllMaterials.py" />
+            </ns0:Component>
+            <ns0:Component Directory="MaterialLibrary" Guid="*" Id="cmp0C3B726F65E2F91F9587D9002322F6B5">
+                <ns0:File Id="filD7D6CBC8FD0CA0F1099855F30B333310" KeyPath="yes" Source="$(var.MaterialLibrary)\ListPropertyNames.bat" />
+            </ns0:Component>
+            <ns0:Component Directory="MaterialLibrary" Guid="*" Id="cmpD831F64FA6835B61E7145FFA17DF89A7">
+                <ns0:File Id="filCD29D3611590C447A36019D68C9E6F25" KeyPath="yes" Source="$(var.MaterialLibrary)\ListPropertyNames.py" />
+            </ns0:Component>
+            <ns0:Component Directory="MaterialLibrary" Guid="*" Id="cmp17509269BE8700804117C663CE4E4708">
+                <ns0:File Id="filED6AD16F0BFB188B9B1EE291A5A460B1" KeyPath="yes" Source="$(var.MaterialLibrary)\material_library.json" />
+            </ns0:Component>
+            <ns0:Component Directory="MaterialLibrary" Guid="*" Id="cmp0E228BF01CDC46764FA1CBFA53E5361C">
+                <ns0:File Id="filBEA09A934B83F353DE62E4D281B06E53" KeyPath="yes" Source="$(var.MaterialLibrary)\UpdateLibrary.bat" />
+            </ns0:Component>
+            <ns0:Component Directory="MaterialLibrary" Guid="*" Id="cmp91685CBE281E55280AD5A22A3CAE1E05">
+                <ns0:File Id="filB4E635B14D00D7FD4BBECBF682303523" KeyPath="yes" Source="$(var.MaterialLibrary)\UpdateLibrary.py" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp707EAFFB8F7C3DD274AFF3098B12F20F">
+                <ns0:File Id="fil353DC69B05F3604A6A032372C9B7FF26" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\air_0100p0_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp1B3F53B0D4AF8D1A675D22B6C2F971A1">
+                <ns0:File Id="fil9749079E644EA379BF2CC7E12D037121" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\air_0500p0_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp7C85252579C20442A49BF3962FAD1A4C">
+                <ns0:File Id="fil052E1C9911F9745F711C0495C6753779" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\air_1000p0_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp31BA60B9830F7512ACE35F50A42D1D99">
+                <ns0:File Id="filF93C07F15EE0533182E59F0C8047E66E" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\air_1500p0_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpB337D7A215153473B54ACD26EE3D78BC">
+                <ns0:File Id="filBCCF81DEEB116F338FA8D0105E56AA10" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\air_2000p0_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpE7979CC49BF607FD8B910F0B7D32A189">
+                <ns0:File Id="fil051DEEDBA5AC4194A40FF68D5194F088" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\air_2600p0_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpFBD11FA829438CB8B01ECED7D6A21737">
+                <ns0:File Id="fil0025F19180CAE6E190860FF7196592B9" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\air_stp_table.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp19D337CED65BF19F536A1C72F23009F5">
+                <ns0:File Id="filC179C27B966B47B15AB2917CA6EACAB7" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_alloy_1100_annealed.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp6329F9E67574EAE36AFD06C71365DDE8">
+                <ns0:File Id="fil183796FB79F778F52D1620E848BF90E6" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_alloy_1100_h16.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpB120BF11D511D04D0F5A7C3636F3C5F8">
+                <ns0:File Id="filAB87F823B1DED30145893D5E22460545" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_alloy_2024.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpA0E6992957FBA497AD23F063D3552118">
+                <ns0:File Id="fil837075D1AA3C7F92FF07E80C9DBC95D7" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_alloy_2024_t361.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpFF6595F36A9CE963E13545C2DDB43906">
+                <ns0:File Id="filAB076716BDD6E6B4DC1EFA82E9D73931" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_alloy_2219_t31.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp9DF1DFCBFCCD4A55B6E5A341FC75899A">
+                <ns0:File Id="filEE608ABD59BDE0432FFEA7E4731DCF2C" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_alloy_5083_h32.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpB0BB020FD96840E65E5B8D6BFC7C19D2">
+                <ns0:File Id="fil8E8B7BEF5FFB796501BAF560AE2675AC" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_alloy_5086_h323.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp97FF69624BC97E1C07D522762221D86F">
+                <ns0:File Id="fil2E7443D03C72CDF0DE1FC4B62F35DC62" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_alloy_6061_t4.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp3B247E21F5122A4046C0920B767A16BD">
+                <ns0:File Id="fil8A48F7A9521455E4F9EC57D4DA9C280E" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_alloy_6061_t6.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpACA49FA64BEA7336902F20D812C58998">
+                <ns0:File Id="filA0165FD10AD4C553B5687EA1AC67A6CB" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_alloy_6063_t52.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpA57F2C7C6442416CA4C6B9732C8CD7C8">
+                <ns0:File Id="filC1BA48DC8C8AA9D887F2D0058F7ED6C2" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_alloy_6063_t6.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpB0DEFCA55EBC24116F4F12C720705565">
+                <ns0:File Id="fil6B3B5EC6BEAC62392B05F53994CC20F3" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_alloy_7075_t6.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp25E6B3A6DB0799ADAE0F8D2E3598929D">
+                <ns0:File Id="filF481FF5F5BA1F27F5959FC3DDE4C8E53" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_alloy_7075_t651.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpCFD14D4FC833A14E26AEF2FF73746EF5">
+                <ns0:File Id="fil3D7F369D80737F8D0F56F081F5C86EC0" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_armor_5456_h131.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp825CC748983CD6E502647E07D14E73FB">
+                <ns0:File Id="filDC320B800AFF227911C63DFD309A6A11" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_armor_mil_dtl_46027cl1.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp052C9C352A2772C793191B2FDB8FEC7E">
+                <ns0:File Id="fil75D6F5559B3D65B421D8A7323A233F6F" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_filler_weld_1100.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpFA52C1BF82748C638C610989C3372F62">
+                <ns0:File Id="fil0AB1833D7C6D08D8DC285EA5CB9E6368" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_filler_weld_1188.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpADD0EF333FC3A601CBE5BB8F4AD698B4">
+                <ns0:File Id="fil5A909614D177077097A6A3F230DB6BE5" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_filler_weld_2319.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpCB5891E94221693880FA2AE278B7277F">
+                <ns0:File Id="fil525006BC0952995730138F17002DAB6A" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_filler_weld_4043.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpEF85FCFEDD5E4E25929C92023AAA2502">
+                <ns0:File Id="filE39F98E83E22F853FF6C8CCEF919EEBD" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_filler_weld_4047.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpFC8F70EEB2139099572B5C7AA408BFE7">
+                <ns0:File Id="fil46520FF06C4C1ACAD6BED9482B75E9BC" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_filler_weld_4643.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp7650592AA2A9CEAF60DCA228F3E540DC">
+                <ns0:File Id="filF36FB62FFCBA337B4D268C8110A237DC" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_filler_weld_5183.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp04D678BE2D2BA29BD832C3B414306CCA">
+                <ns0:File Id="fil27B3B7E4BAB2DAC5B57282BD531D5AA3" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_filler_weld_5356.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp6E4E464C63730252799FFF7591109D08">
+                <ns0:File Id="fil1E346EE14BD999E685AB235C6D2C1C01" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_filler_weld_5554.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp3E07F53D6201A0DAEC9EE456CF74E801">
+                <ns0:File Id="filDD66EE426AFF4DA8B0DD9009CF246B71" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_filler_weld_5556.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp202E937F6833D5B384A56FC0A6F976F3">
+                <ns0:File Id="fil0D1117090B4F8582B68EE66880FF9012" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_filler_weld_5654.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp39B77D8CCA19190FBD710D385C3C3710">
+                <ns0:File Id="fil46FBD3C41C79B0A65AF231965E05F00C" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_qc7.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp5342E2486250F4D9D54D540037224194">
+                <ns0:File Id="fil2A89B816A9B0C1C0F438772DC318AAD3" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\aluminum_unspecified.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpF741B5D4C344C5852D1A26FD436134F4">
+                <ns0:File Id="fil5C11F00CF6622757BAE97269097FB0AD" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\amalgam.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp522B68278036A7A828D2F07F1D45CE94">
+                <ns0:File Id="fil32897EBCE78C6AC3240F83C0DBF2E4EE" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\brass_unspecified.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpD536196F369410783932F0CC313BAA83">
+                <ns0:File Id="filE2FDF972FCDA2367BA891AA493DB1BE7" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_black_mildtl53039_typ3.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpE288A25C25A187349511D96E9816EE97">
+                <ns0:File Id="fil975DB2C325900E79C0810289F8FA2C4C" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_black_mildtl53039_typ4.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpA45A3221B9AE2B29CD045C4520C32DC3">
+                <ns0:File Id="fil0BCB6AA5808364A1DDF4485E06076018" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_black_mildtl53039_typ9.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpD267699042DD517C089FB7C3118D739B">
+                <ns0:File Id="filAACD5F94A0D371D2EBBFAEC561456F18" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_black_mildtl64159_typ2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp1576124574F571F487ACCD78C7A3EC0D">
+                <ns0:File Id="fil9505774DC5B8B8ADB154C0B65AAECD41" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_brown_mildtl53039_typ3.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpEE364D114FAB6DC52748F3545264AB65">
+                <ns0:File Id="fil0B818A12D58DECF6D137C71455EAE498" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_brown_mildtl53039_typ4.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp52B634F74E94F686D972539260B2C399">
+                <ns0:File Id="fil0F1EC8909D144A0AA9D2E4430A8D7068" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_brown_mildtl53039_typ9.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp94A7171311F9D2788A5D5FD29D40BF50">
+                <ns0:File Id="filA9CCC1E619B8B62A7809FBBFCAD7E125" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_brown_mildtl64159_typ2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp46A5A0F9C3AFA6D63E4473528A30C1E6">
+                <ns0:File Id="fil727D61677F5E4BF841DE16DC04ECE30E" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_gray_mildtl64159_typ2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp6FDDC8F18FFF065C00AFB68EF872D13A">
+                <ns0:File Id="filA888BCDD07339E47303EE68CB1E9A48B" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_green_mildtl53039_typ3.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp49EAD63A4E07D8B9937407025E85D290">
+                <ns0:File Id="filBEE9B449E9F482BCBCCD5D007C73900A" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_green_mildtl53039_typ4.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp17AC2A3A4343ABA8DA9FC3D16244BCCD">
+                <ns0:File Id="fil49E158F233654D2E643AB5BDA9DAB2A2" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_green_mildtl53039_typ9.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpDF15E28196FEE5ECE96CF78CAA78E386">
+                <ns0:File Id="filD8438AF74A139FACAD5539851B61B2EB" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_green_mildtl64159_typ2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp1BF2A9F2B34519A1F9AC8182E628EC8D">
+                <ns0:File Id="fil99CA4A4BB603F89A3D4359CBFB2F817E" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_olive_mildtl53039_typ9.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpCBA322C3E04B60B3BA20E0CEB3B2CC27">
+                <ns0:File Id="fil6B7BF88DEDA25C09D8483CBFEE54B91B" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_sage_mildtl64159_typ2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpB9A06D787599D8347B6EA325B22ED598">
+                <ns0:File Id="fil9F8C349D46EC12ED4903974D0FACDB2A" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_sand_mildtl53039_typ3.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp3B39CEE0C8B5F3971AB26EAA73E29477">
+                <ns0:File Id="fil8BC56E18D14EB71C447FF28D3226F0FA" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_sand_mildtl53039_typ9.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpC39EC960C8740F514DDAEC13E5EF3994">
+                <ns0:File Id="fil6B88D2B8B2035151D1F18878C124BE23" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_stone_mildtl53039_typ9.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpB5DC52915E8E1A3769D463191B9A53F1">
+                <ns0:File Id="filF2733A64B7A3FA300E1FF7694F2D4CB1" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_tan_mildtl53039_typ3.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpC43C61FF0D3BEE961A18EB88F186C6E8">
+                <ns0:File Id="filF701D51DF9C743AD367E47459D05A3EC" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_tan_mildtl53039_typ4.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp5A138B9E0B96A16BB19EFC306CCAC483">
+                <ns0:File Id="fil6543EA46EAE00184C9B11EC16176CDA3" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_tan_mildtl53039_typ9.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp72EC12C80CCD5F18E59B47934BC9A9A8">
+                <ns0:File Id="fil5C41E6540A709314E72CC8E367486A3C" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_ext_tan_mildtl64159_typ2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp58D4865DC17E0BB724D679B3A8FA246A">
+                <ns0:File Id="filBA89837AD5C614E4FFC5B2B2F3A9C450" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_int_gray_milprf22750_typ2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpF08066140B25FC09470EA5418A4CA1F3">
+                <ns0:File Id="fil62176E41DCEEDF2B93CADEC11281381B" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_int_green_milprf22750_typ2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpF6C6A2D15B352CD7CD28B97F0639127C">
+                <ns0:File Id="filE35529CFEFB5F24E193342DB08C9F384" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_int_white_milprf22750_typ2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpF24EAD22E2243E85CDF6980AF3FFD912">
+                <ns0:File Id="fil1C3B2E2EDC25F46EB8E9DF26FEF8CD3D" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_pretreatment_milc8514c.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp49003A2386BF539F5866F193DCAD0357">
+                <ns0:File Id="filD4FFC6AAC40630FA451A52E2F16D12F9" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_primer_mildtl53022_typ3.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp5B1D9FCD6B727204DE5FD9AB659B0B97">
+                <ns0:File Id="filA46C9AB0A0E137E83202BCDE667720F8" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_primer_mildtl53022_typ4.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp81FACC43C5082A066302F3D2F9FC9374">
+                <ns0:File Id="fil3E9A6FD4213710CFDF9DF70F7D92E8C3" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_primer_mildtl53022_typ4voc.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpD0F8ADB10C81A28C728899E63D8C1FA0">
+                <ns0:File Id="fil7B121359392EA70BF2717A1CF834239F" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\carc_primer_milprf32348_typ1.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp04DF179286B9ED6C6676C4C65864A7B8">
+                <ns0:File Id="fil5E223ED2635361445D7BDB70367D6403" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\cast_aluminum_319f.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp1664C5339BB953A7FE5E200B15BEC5AE">
+                <ns0:File Id="filD26778E7528BB3E5CF96273551804403" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\cast_aluminum_319t6.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp6BDFBF01609B1EF9E4BCB3E51F8EDBF0">
+                <ns0:File Id="fil948B1C9A974F43DF532CE265E4BA93B8" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\cast_aluminum_512f.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp88D33A6C5CB2B9F632A2147A888895A1">
+                <ns0:File Id="fil5678E99C8E4F2B61BCD289DBCA474132" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\cast_aluminum_a380.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp2FC665246B881858FF6F4ECB0805F96F">
+                <ns0:File Id="filB2F431F31DC7AB4E17828DC7CF65A8D3" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\cast_aluminum_a413.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp1CF1A62707C057E3A5B9C51DFE70A8EE">
+                <ns0:File Id="fil238BEBD3C9A3ECFD2C616BF8430EB149" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\cast_iron_ductile.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp81F1B2A9BAF568DA5D64D1518B839032">
+                <ns0:File Id="fil156795F1675BAA61CD4183E1B38C9F7D" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\ceramic_armor_alumina_al203.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpFC10C92A9135D6A30F35FDCFD5DD762B">
+                <ns0:File Id="fil3F64BA7AF074443C8C3F9BF6FD28F695" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\ceramic_transp_armor_glass.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp073787E8058C8142CF3990BDC6FD633A">
+                <ns0:File Id="fil98FF433DFE7C00EB4B49B1373E285031" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\ceramic_transp_armor_sapphire.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp2A4AB16C589F564F6405C17154B668CE">
+                <ns0:File Id="filF2DF0E9A7AA0084776E8BC43F4B71804" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\ceramic_transp_armor_spinel.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp8B85A40678DC519EBD81511397082203">
+                <ns0:File Id="filBAC2537BAC233B23C8FA808BA843FD76" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\composite_fiber_dyneema_sk60.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpE788216727DB98458011F6999216EA27">
+                <ns0:File Id="fil5222B24DB06F876A3FD20B6A4E179787" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\composite_fiber_kevlar_129.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp2C668DB16B3405B851FFD26E3B5471D4">
+                <ns0:File Id="fil1B6ECE9E3DBADA6A8A10F1AB309A85D3" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\composite_fiber_kevlar_29.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp5FACF7132C065C446DF193CAB5D8C9B1">
+                <ns0:File Id="filCE4038BD125A11367FE0AEFECEC69EFF" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\composite_fiber_s_glass.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpE8285A69E9F9C1B4CEDB506834420F16">
+                <ns0:File Id="fil47D48E6B156B15D9DEA7C36E40CA03CF" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\composite_fiber_unspecified.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpA8ACB7BD9FAB38DF67B33812A4A33755">
+                <ns0:File Id="fil2C499545CF6B7A18B91BABBEE703B7BF" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\comp_fiber_s_glass_phenolic.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp344EBC8A8935276958A09E71B4CC4D7D">
+                <ns0:File Id="fil858F9FA08C100880368ABC35A8CC89B6" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\copper_tinned_unspecified.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp4CDEE4DBAFA0FF2749314BEA5A8B34E9">
+                <ns0:File Id="fil18E6F215C5385981F6B38BB30D799667" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\fuel_jp_8.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp02C13D1B8D6FB4669CE2A80E47B9614F">
+                <ns0:File Id="fil7E28D6175EC773C053ABDAF9B4FCD83E" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hard_plastic_abs_extruded.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpDB11DDE9FFCF29C306F44277095D2540">
+                <ns0:File Id="fil925E8A9F883E902644815A9474F4249F" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hard_plastic_abs_molded.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp36E9058C1F7B449A3180A90374BF7A2C">
+                <ns0:File Id="fil19525F9213C73CB924DB3B40D9978D86" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hard_plastic_delrin_100_nc010.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpA943637109C05779C41C191E5A76BA19">
+                <ns0:File Id="fil6B6EFE8C0DE45AF6612C04C15E224A89" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hard_plastic_poly_glass_filled.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpC716D8CB32E17D1AEB1D07A6E5BED9C3">
+                <ns0:File Id="fil8A195EE2BB9C8C1A8FB7C1AA38DEBBFA" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hard_plastic_ptfe_teflon.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpBA9DE1F233F07A8C8A6FEA2FE1CC8FD2">
+                <ns0:File Id="filE3D2233DC6DF9B172AA9231ED4A4ADFE" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hard_plastic_silicone.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpC271391F96E230AD1741232CFCC9ABE9">
+                <ns0:File Id="fil52E70C374A9E794515BF71CDBB50A5A1" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hard_plastic_unspecified.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpC7186D16E374B522CF262A9C28769420">
+                <ns0:File Id="filBBC3AC9932285B6DE9619EDB9CF9A468" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hyd_fluid_milprf_83282_313p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpA64C0CF6AFC99AD718F763A3305FC8E8">
+                <ns0:File Id="fil1E62F63CE7A3D887A819B994FAA789FC" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hyd_fluid_milprf_83282_378p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp79E4D15B47DDAEB79AEC0CA1CB0534DC">
+                <ns0:File Id="filA6C1E55AD9730A3F6E84B21D0068DD48" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hyd_fluid_milprf_83282_478p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp011B68A13574030E47858646EE366C1A">
+                <ns0:File Id="filAE06CF67DDB32DE81BEE2ED7113C297D" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hyd_fluid_milprf_87257_233p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpCFED5A55CDFEE0BEBE161136B95F2397">
+                <ns0:File Id="filE483009741AF2A749E05AF4DBC790CC8" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hyd_fluid_milprf_87257_313p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp0ED26F31FAE66927471839E3419BDB7C">
+                <ns0:File Id="fil85489BE0A56711322E8700FB4419AE1F" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hyd_fluid_milprf_87257_373p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp40FBE3AB78BBFFF643BF39564A3E9AA4">
+                <ns0:File Id="fil20F4B2D6756C5A7ADB8C3570BA740E39" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hyd_fluid_mil_h_5606_219p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp2780FDD8248265172F926F6A374AE260">
+                <ns0:File Id="fil3AD4934298D3247398993287B26C9DD8" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hyd_fluid_mil_h_5606_233p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp26AAD0663F9FC354C4BF5F1354894D85">
+                <ns0:File Id="fil9973EFFAA954B40C716AAA1C98E52C94" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hyd_fluid_mil_h_5606_313p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp9E7548390C6E24D7F7AB08577D6D525C">
+                <ns0:File Id="filCDB26E211BCA78977FFF4D5EE5DC73FE" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\hyd_fluid_mil_h_5606_373p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp9B5F3A5BD54AB2ABFC90A01FA81726A3">
+                <ns0:File Id="fil68AEB8D834C77722708DCF450F32937C" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\manikin_essence.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp3917EAC709DDBDEC3E06C967CCA2502A">
+                <ns0:File Id="fil3BD1A962FA274404977498DC641156D6" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\pass_armor_ceramic_comp_nij_1v.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpB93D8E3B59EBD3D844B96A8E5EC919FB">
+                <ns0:File Id="fil83A54C4F9EFD75FB40A427FE2BA683C4" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\pass_armor_high_perf_stanag_1.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpA3C51AA47B8F4F5D77443BD1A1A40D03">
+                <ns0:File Id="fil20317C854861722153AB7FEFF935B99A" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\pass_armor_high_perf_stanag_2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpD249DEC01BCDE9BF96A08C75E4671A9E">
+                <ns0:File Id="filD08D1A1B68B6F4147E673034ED57BD66" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\pass_armor_high_perf_stanag_3.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp03AC7D6D40F5F2EF3549CEF6CB86573D">
+                <ns0:File Id="fil40B69F437A49741178917353C1534C38" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\pass_armor_high_perf_stanag_4.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpCC5E694B6F11EF64EDF99E2C56B34595">
+                <ns0:File Id="filACFF2EB159080A05D5D56D8AB6E21510" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\pass_armor_metal_comp_nij_111.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpA63D7D839B40C2162B2A433194C2B92C">
+                <ns0:File Id="fil412E763D21F730270526DA659B299EB8" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\pass_armor_steel_comp_nij_1v.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpAB0C8392383011825A1DC2F6993778A4">
+                <ns0:File Id="fil6DE9CB4178F0BA99185EB40C314A47F4" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\pass_armor_tencate_comp_nij_111.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpF0A8E3CEA08741A777A15A0F46211DED">
+                <ns0:File Id="filA5831CCADEC0E9F2729505B2441926FC" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\pass_armor_value_stanag_1.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpC00E26039BFB8A3427D945C5A0349321">
+                <ns0:File Id="fil10B6D2D8116E9A83B0554AD89EEAE575" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\pass_armor_value_stanag_2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpE048207744610E93C50DEE1F71508423">
+                <ns0:File Id="fil035BB26FE8CC28DCA615B077A71E3C2A" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\pass_armor_value_stanag_3.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp6895726D2FFE21405591C3218FDD2C1A">
+                <ns0:File Id="filF5A27D96C962E3E89C6577C8D07C1DF2" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\pass_armor_value_stanag_4.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp465573FAEE5037AA1B1C22588DB33C69">
+                <ns0:File Id="filCEF2CA92678BBA40B19A2134FF739D40" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\polymer_rubber_epdm_mil_r_900.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpC046A2ED5562CA61532C4D535FFD4B45">
+                <ns0:File Id="filF9EFC72CAF335A92ED42404BB322DD9C" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\polymer_rubber_fkm_mil_r_83248.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp0512F97DFEA24B10B9C368CC8EFA4297">
+                <ns0:File Id="fil7D6BC65647EA540698D6E096DFE0D2B9" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\polymer_rubber_hnbr.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpD874A583D29264856677234A3ACBB806">
+                <ns0:File Id="fil57569CA729F2E9F33D6E52460D78C1C5" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\polymer_rubber_neoprene.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpD853A82B94A04441CFABCAE798DFAA3D">
+                <ns0:File Id="fil982AC34A2486F6917DD2A6B04696F5C9" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\polymer_rubber_polyolefin_gen.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp56926D624C4B539CF1F7C3D6A3F2428C">
+                <ns0:File Id="fil43A13FFD5991EFD5273B528C91C84E4E" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\seawater_273p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp3DAEAF1E53B215D5BA86DCC512E8D9F8">
+                <ns0:File Id="filCDA4F3E63897758AFD493EF07425578D" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\seawater_278p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp1E10DA16A7ACEBA2C1101CD8391C5ECB">
+                <ns0:File Id="fil086F12FC3D3746AE96F9067270AD70F0" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\seawater_283p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp1A021814FB08BF0D18B7A453B038D619">
+                <ns0:File Id="filACA6FE127BEF23ADBAAA50A19FDFF64C" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\seawater_288p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpAB5C600322CC87CAB788E5E64DD49602">
+                <ns0:File Id="fil6E82121C903C7D62D8F56CC902D38550" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\seawater_293p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpB050F4C265F2909724EA367A96FBCBFA">
+                <ns0:File Id="fil7235918F1764350C01DA2F33B63371FB" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\seawater_298p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpB61C495AD01C6ECC79C8097E4B330FE5">
+                <ns0:File Id="fil4E38D700E53A95A2B594F3227022E402" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\seawater_303p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp48A9C8B22F01F5AF752FAE2AC4A3ABC2">
+                <ns0:File Id="fil55CE8F51A2E2ABE13819D25626B5D600" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\seawater_308p15_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpD01EBD6EFF8B8BB35AECF8A09E7D47CB">
+                <ns0:File Id="fil6E741AD9C4CE8FF4FA1E49291CF7368C" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\seawater_table.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpC8AFC49528A62867BE12F24ED7DB618C">
+                <ns0:File Id="filCB435C75EFD0472C85B324697D7832B1" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_armor_armox_500.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp6566473442618DAB19C20B7C4C4478B9">
+                <ns0:File Id="fil09139B75D83989E1E31D92F1AB8DE624" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_armor_astralloy_v2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpE4609BCE2F389DBADFBADF81E076F783">
+                <ns0:File Id="fil190AF83A1740BDD0DD8D2531895912A4" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_armor_cast_mil_a_11356cl1.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp2BDC37DF6EE355994B75BF2FCCB4C4DE">
+                <ns0:File Id="filB7997DD70B9F6D4A8AF5AFDE51788143" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_armor_cast_mil_a_11356cl2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpE3404E57D87C391A3EAF1BD18C24C963">
+                <ns0:File Id="fil922086AFB781DEE440B651E97DC0113E" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_armor_hha_mil_dtl_46100.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpA03F123795E7F63A0E281FC0B1B9E524">
+                <ns0:File Id="filD0FD3B32687DEA3058080887FAE0807E" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_armor_mars_300.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp1B5BB8C9492CCAD3B1226AD299CC0551">
+                <ns0:File Id="fil0B56FBA1DBA6F2879EA31FF52C4EC001" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_armor_rha_mildtl_12560cl1.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp0EBE028DAD614B22E1974B35C75DB381">
+                <ns0:File Id="filA881618CF9F4C431B2529BB740D1E952" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_armor_rha_mildtl_12560cl2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpF94975E0D3D43CCB8CAD43C2DAB99FD3">
+                <ns0:File Id="fil3AF431CF6A9C9294FAB73162B85EC6ED" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_armor_rha_mil_dtl_46177.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp72089958983C320757BA767553E11DD5">
+                <ns0:File Id="fil3E829C81F702FA786881EF2FFFFFCFBD" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_bolt_metric_class_10p9.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpC575B3B0AFFB318625C178CDF70C50A7">
+                <ns0:File Id="filA75C323F00F303E3A4A4E5846CA0E5B5" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_bolt_metric_class_12p9.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp9502D2B82C4FB1D8FF48B4C665D6D4E2">
+                <ns0:File Id="filF0CF768C52D623CC1968F48C043C7B2B" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_bolt_metric_class_4p6.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp28123BF6682B9080BA128F5103B08BBE">
+                <ns0:File Id="fil560E771675254754DFDBC9A7311122C7" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_bolt_metric_class_4p8.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpE23AAF86AF67C51AFAC718FA72F83578">
+                <ns0:File Id="fil1510A29379778567B14C470BDC1D70DE" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_bolt_metric_class_5p8.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp8B5F0E1E51220E55C421334828ACB01A">
+                <ns0:File Id="filEABB9B1F7DF3B98FB6B57038B2BE20FE" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_bolt_metric_class_8p8.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpB530E5CD80D17F199096597892C1504E">
+                <ns0:File Id="filAE8B885EF06E0E9215F354DD64747FB1" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_bolt_metric_class_9p8.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp7BB8B126103C2E7365C05A5A636F6DB4">
+                <ns0:File Id="fil26BBB61E2DB5BAABEF53A63F4908489B" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_filler_weld_070ksi.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp24E6F1A104A1293A8DA103A96E678EE8">
+                <ns0:File Id="fil807AA6536AFAF3EE5A193A04B2A3A012" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_filler_weld_080ksi.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp9ED0519527EC0919FF3A6581EF7B675A">
+                <ns0:File Id="fil779B7290EC5398B4FB68C25816864160" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_filler_weld_090ksi.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp8F41ECC1C4C0CAA4CBDA190B4F35088A">
+                <ns0:File Id="fil5D9DCC67505A40C7E61719141F3115F4" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_filler_weld_100ksi.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpC0F358F0A35929213E58271D5672AAD8">
+                <ns0:File Id="filB2429F957359623D59BD34ACB40A283E" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_filler_weld_110ksi.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp481DBA51D0FDD4AFF60E59E97205C857">
+                <ns0:File Id="fil473815BE12AAD9C7AE05072D9A91469C" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_filler_weld_120ksi.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp952E2F226A943E8D6CECF6E05C0F2A71">
+                <ns0:File Id="fil3CC53E841EF20E41D727E6D22818134F" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_high_alloy_hy100.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp7F21F1CE55127EE04B75B7DEAA7D8DCE">
+                <ns0:File Id="fil5DEF59EFD241AEC411199059CCE89C9E" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_high_alloy_hy130.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp9C0EF47A7927AB4DBE1490169567CF45">
+                <ns0:File Id="filF299D300847C25060478C6CFCEBB1F6C" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_high_alloy_hy80.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp9F8228E5687E62063B758A81F8501E02">
+                <ns0:File Id="filBCEFBFB3E735B42451BFC85A38B90943" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_alloy_4140_normalized.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpE87490AD2FDFFC2631065BED3CBB9DC6">
+                <ns0:File Id="fil22B63BA41FA59A6CCE19F26BB9988320" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_alloy_a36.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp69B335E9BE953DEB2EFC1CF4683961BC">
+                <ns0:File Id="filA6B3E6BF0EC402BBB40101F23FB088D8" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_alloy_a500_b.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp1FBA266685A2033BC65EDEF672221938">
+                <ns0:File Id="fil297484C06B15DAB89DE17259F2723782" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_alloy_a513.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp0745F4A085FB2A0862070036889C3A61">
+                <ns0:File Id="fil8278DDF71BC03543A7D33536F324AF62" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_alloy_a515_gr70.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpC2E876352ABA25CB7B29AAB1E0F9A4E4">
+                <ns0:File Id="filAD459B00BB1CE9F415F191EAB4B49A40" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_alloy_a572_gr50.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp805A88ACDEB1D0DFDA2E24B5FBD9F57B">
+                <ns0:File Id="fil1BEBC388FCB91DAADE81D450CF4386A2" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_alloy_c250.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp7DCB613BF40055D0CD6E3B66E757AA1B">
+                <ns0:File Id="fil99FB8EBC8661282D9C91C1397CADA252" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_carbon_1006_cold_draw.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp25200671F689025C06B2388D12643E7E">
+                <ns0:File Id="fil2B0A4B2D66D42F7735198708F17C7E6E" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_carbon_1006_hot_roll.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpF68F7D2C2638008E2D9345603F66EF2B">
+                <ns0:File Id="filB6D1DCD4DF553E4C62740CA43283E161" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_carbon_1008_cold_draw.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp8B1463778BA25747B495BDDC2F71B3C5">
+                <ns0:File Id="filF91514CE4CBD41D62AEF5CDE16503EDE" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_carbon_1008_hot_roll.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp547BDCE77BFFE44426F999132666D538">
+                <ns0:File Id="filD3F85E01A3D8186EE28530E2D2744E40" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_carbon_1015_cold_draw.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp11A784761B34CF58968711763370C3D9">
+                <ns0:File Id="fil4AC84EA7760FE0F5B99A3EB8B273FA6F" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_carbon_1015_hot_roll.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpB634D5F79070A9C497647FC287ED4FCD">
+                <ns0:File Id="fil5E02FC795FC0AFB3B91E30F5D17E295A" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_carbon_1018_cold_draw.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp147275B2D23E28DEB14C88EC0EB7FAC2">
+                <ns0:File Id="fil2E4352C0CE1C5ED894A0B38CCB91C4A6" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_carbon_1018_hot_roll.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpE651A55FABA6C00F0C00C3257DECCA99">
+                <ns0:File Id="filA8574242C9ED4353C4B3E3266D817F5C" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_carbon_1117_cold_draw.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp3AB540D0ED8CB590A44D1490193A297C">
+                <ns0:File Id="fil116C4F7ADFEC91C082CE3DAEE4738499" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_low_carbon_1117_hot_roll.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp4832E64AE042CB2FB10AD22206A521A1">
+                <ns0:File Id="fil0C052FCFFD81C88E7149A067766073F2" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_med_carbon_1045_forged.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp6D4754E298E45853F03466EF30963CCC">
+                <ns0:File Id="fil3659DA448D025F9FC7DFA78B344C409B" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_med_carbon_1141_cold_draw.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp2D5F91599935EE6837BDDB52AF9A6E68">
+                <ns0:File Id="fil2E630465DF5B1A5623991B2E54A83AE4" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_med_carbon_1141_hot_roll.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp13B961DD075C112827DED6BE049CA5B0">
+                <ns0:File Id="filCD17D723ACAB16F7BD007635DB72ECBA" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_med_carbon_1144_hot_roll.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp352AA04556B759262964CCE0ECAF64DE">
+                <ns0:File Id="fil2D45813FB2EB58948925642FB695A265" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_201_annealed.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp9B9F9BCDDC7FFD3DF4CE006644736E97">
+                <ns0:File Id="filC8B9C3D4E0463390985EBBE304BB7ACA" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_304_annealed.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpB2C273A35056DBD592EB099E9BDFCBEF">
+                <ns0:File Id="fil78A5813D87D7E40CC4CB3FB3EBE9B779" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_304_half_hard.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpD08A8DD90407EE30235A30456E91A8DB">
+                <ns0:File Id="fil7E8D4D86043A542547ED6EEDC75FD8BF" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_304_l.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp183049CAB162D152D50CBC308B3523BE">
+                <ns0:File Id="fil23D69C5762154EF6E60A9F2F1DBB08B6" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_316_annealed.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpCADD1773F936C394C4A5C617EB73C2C4">
+                <ns0:File Id="filF52AECCFC401601898AF98726B5B5A37" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_316_l.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpE8C0D19644E3780E797B26CCCED31631">
+                <ns0:File Id="filBBBBF99892D3249134E953D62E672671" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_321.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp89A689CA0EA3F0087752C7E0697B123E">
+                <ns0:File Id="fil2C267C614A3A8801C32CAD091AA6E471" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_321_annealed.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpAC56D359294376B24D17A8309083346D">
+                <ns0:File Id="fil9CAF346430577F3FDF0BE1D89AF45F2E" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_321_h.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp92E2CD3843625940393A6CF48583CC84">
+                <ns0:File Id="filBC859DEFBDD5125B6B107B1D2095C8AD" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_409.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp0DD0D3CC795C1B5A457970DC2AC9E79D">
+                <ns0:File Id="fil46A952E8B334BA39582105666AC6B8BB" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_filler_weld_307.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpC199D821495421D19DC4D079DBEEA59D">
+                <ns0:File Id="filCAB561F425206DC6345239FB56954077" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_filler_weld_308.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp0C666EE51502CE54BB4C542DEAA47801">
+                <ns0:File Id="filB0F21BE8266A8D7C465033F258797998" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_filler_weld_309.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpBCF14782A69CE962FDD61AAF65DEF1ED">
+                <ns0:File Id="filB99F5455DB86D70CA457F9814E4CB46B" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_filler_weld_316.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp8AD34CE506D849AD294302CDFCA0B777">
+                <ns0:File Id="fil5E5420BD074A28A7414235A5F5E64161" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_filler_weld_317.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp8A5C11881356E9F22674FE2429009B83">
+                <ns0:File Id="filDE21531A79E00735F5D26D77D5698FE5" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_filler_weld_347.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp0786C03470692AF564124EF6FA337DBD">
+                <ns0:File Id="filB52474AEC717910940D5E3E75B0F91D1" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_stainless_unspecified.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpD0B9EB9214670377D1765D237994AA97">
+                <ns0:File Id="fil0E5836CE8AF69D1BB6F04BB7789A6033" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_tool_s7_annealed.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp4ADB8582162CD0AD53ADA72747E7378B">
+                <ns0:File Id="filE845E657AE4ED966A2CA54ECF400FBC0" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_tool_s7_tempered.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp69AE68EC74579B1EBAF6DDC1E629DE62">
+                <ns0:File Id="fil1066CE7F2D068EA74480ABD0AA7BC568" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\steel_unspecified.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpA42322F4C42F431EE6B5A500DD2EC2A9">
+                <ns0:File Id="fil4995A850AD4185B5EA65E73B7793ADC3" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\titanium_alloy_ti6al4v.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpF18262B6311824C4135DAC57CFBEB341">
+                <ns0:File Id="fil9A79029E67A6C375288036A313071A7E" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\titanium_alloy_ti6al4v_anneal.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpEC2267C1E97569ECB1A1FEF7CEFA37C8">
+                <ns0:File Id="fil35E6EA1528EA6D9EDBD9D7B7B69E677F" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\titanium_filler_weld_erti1.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp01077621AE4C9A8CEC83275A0474A3C6">
+                <ns0:File Id="fil03C4D215ABC2CDD53BBF43E9411C87BA" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\titanium_filler_weld_erti2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp82FE36EEA3C0CADDF16A2DDEED46ACD6">
+                <ns0:File Id="filF7C54FEE86F83D5783046D837CB922E4" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\titanium_filler_weld_erti23.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp1527799670D0DD13C9D05D11D03DE2AC">
+                <ns0:File Id="filC81EE84CD714698B27A98C67B2C651B9" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\titanium_filler_weld_erti3.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpE3B352F74FB96E957BAAF89C3ED303B1">
+                <ns0:File Id="fil7075DD27EF12E82FE5B67B983B241431" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\titanium_filler_weld_erti5.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp044195052127D700A6123558E461895C">
+                <ns0:File Id="fil3E28F130AF5D33F1F4E917C9E43826B0" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\titanium_filler_weld_erti9.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp69B37702B851B04FACD2D855808A3178">
+                <ns0:File Id="filB2D6DCA0F3C236DC523F9F58909B5BF4" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\titanium_pure_cp_gr1.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp54CF3CBDCD497EF2E3FD16FAFBBB4048">
+                <ns0:File Id="fil4EFBEF45DDC4E8865E39E765D40B3816" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\titanium_pure_cp_gr2.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpEC7AFB2D20C4B4F1653C0E73106F89C3">
+                <ns0:File Id="filB5CA745FEB5F3F6ED516670E960AE1E8" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\titanium_pure_cp_gr3.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp0C75D80A6E2A670D58E03D446ACDAB07">
+                <ns0:File Id="fil50BC2724564B3320132F1D549B1912B3" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\titanium_pure_cp_gr4.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp170FCBA240CD7FE5BD3973AF5E86561E">
+                <ns0:File Id="fil1720E7E4D73918610EE7D49892D122A8" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\water_275p0_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp5646F88EDBA5178E6F58979A2D2CADB2">
+                <ns0:File Id="fil0A38017691E1D393AEC7215AB92AEA15" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\water_300p0_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp222A6A8C45A4A43D9EF0B9002F3DE6CF">
+                <ns0:File Id="filFE977C4CA40F3E2D9AF848486F31A5EA" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\water_340p0_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp400DFFA545674EAE413B9C83C2B1D1AD">
+                <ns0:File Id="fil510CC953091193C2FD2B62EC581D0D88" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\water_380p0_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp129427F68B24A6DD155A317917603DA8">
+                <ns0:File Id="fil7E7253147343DBE55EEEEC88FC377675" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\water_420p0_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp1B7CAE8F12345F16611E0E6481B2D979">
+                <ns0:File Id="fil66CFEE1C82234D9C7F0E8B97B72AA222" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\water_cooling_50_50_288p75_k.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmpF0B2D8912C9DA1FF6B8680BF50EF72DF">
+                <ns0:File Id="fil6BABF2422F3C1ACCDA03E3F2863B55B0" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\water_cooling_50_50_table.mtl" />
+            </ns0:Component>
+            <ns0:Component Directory="dirC184B47459B9DB49D9B21D4F2BA81E25" Guid="*" Id="cmp45BD64C3C85652AB05C721B4C41CFB84">
+                <ns0:File Id="fil0C973A9AB1BD174544C21D62F9355A60" KeyPath="yes" Source="$(var.MaterialLibrary)\MATERIALS_CREO_MTL\water_stp_table.mtl" />
+            </ns0:Component>
+        </ns0:ComponentGroup>
+    </ns0:Fragment>
+</ns0:Wix>

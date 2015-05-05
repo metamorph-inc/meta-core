@@ -1,0 +1,1287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?udm interface="AssemblyInterface" version="1.2.0.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ elementFormDefault="qualified" 
+>
+<!-- generated on Mon Aug 25 14:13:08 2014 -->
+
+
+	<xsd:complexType name="LimitReferenceType">
+		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureName" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureGeometryType" type="xsd:string" use="required"/>
+		<xsd:attribute name="Role" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="LimitType">
+		<xsd:attribute name="Role" type="xsd:string" use="required"/>
+		<xsd:attribute name="Value" type="xsd:double" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="JointPairType">
+		<xsd:attribute name="Type" type="xsd:string" use="required"/>
+		<xsd:attribute name="PairID" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ConstraintPairsType">
+		<xsd:sequence>
+			<xsd:element name="JointPair" type="JointPairType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="JointType">
+		<xsd:sequence>
+			<xsd:element name="ConstraintPairs" type="ConstraintPairsType" minOccurs="0"/>
+			<xsd:element name="GeometryMarker" type="GeometryMarkerType" minOccurs="0" maxOccurs="2"/>
+			<xsd:element name="Limit" type="LimitType" minOccurs="0" maxOccurs="6"/>
+			<xsd:element name="LimitReference" type="LimitReferenceType" minOccurs="0" maxOccurs="6"/>
+		</xsd:sequence>
+		<xsd:attribute name="Type" type="xsd:string" use="required"/>
+		<xsd:attribute name="ID" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="CadComponentMLDataType">
+		<xsd:sequence>
+			<xsd:element name="ConnectorMLData" type="ConnectorMLDataType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="ID" type="xsd:string" use="required"/>
+		<xsd:attribute name="AvmID" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="DatumMLDataType">
+		<xsd:attribute name="ID" type="xsd:string" use="required"/>
+		<xsd:attribute name="DisplayName" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ConnectorMLDataType">
+		<xsd:sequence>
+			<xsd:element name="DatumMLData" type="DatumMLDataType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="ID" type="xsd:string" use="required"/>
+		<xsd:attribute name="DisplayName" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="MetaLinkDataType">
+		<xsd:sequence>
+			<xsd:element name="CadComponentMLData" type="CadComponentMLDataType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="FixedType">
+		<xsd:sequence>
+			<xsd:element name="KinematicFeature" type="KinematicFeatureType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="ConnectionID" type="xsd:string" use="required"/>
+		<xsd:attribute name="ConnectedComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureInterfaceType" type="xsd:string" use="required"/>
+		<xsd:attribute name="ERP" type="xsd:double" use="required"/>
+		<xsd:attribute name="CFM" type="xsd:double" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="KinematicFeatureType">
+		<xsd:attribute name="DatumName" type="xsd:string" use="required"/>
+		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureGeometryType" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="PrismaticType">
+		<xsd:sequence>
+			<xsd:element name="KinematicFeature" type="KinematicFeatureType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="ConnectionID" type="xsd:string" use="required"/>
+		<xsd:attribute name="ConnectedComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureInterfaceType" type="xsd:string" use="required"/>
+		<xsd:attribute name="ERP" type="xsd:double" use="required"/>
+		<xsd:attribute name="CFM" type="xsd:double" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="SphericalType">
+		<xsd:sequence>
+			<xsd:element name="KinematicFeature" type="KinematicFeatureType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="ConnectionID" type="xsd:string" use="required"/>
+		<xsd:attribute name="ConnectedComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureInterfaceType" type="xsd:string" use="required"/>
+		<xsd:attribute name="ERP" type="xsd:double" use="required"/>
+		<xsd:attribute name="CFM" type="xsd:double" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="RevoluteType">
+		<xsd:sequence>
+			<xsd:element name="KinematicFeature" type="KinematicFeatureType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="ConnectionID" type="xsd:string" use="required"/>
+		<xsd:attribute name="ConnectedComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureInterfaceType" type="xsd:string" use="required"/>
+		<xsd:attribute name="ERP" type="xsd:double" use="required"/>
+		<xsd:attribute name="CFM" type="xsd:double" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="KinematicConnectionsType">
+		<xsd:sequence>
+			<xsd:element name="Fixed" type="FixedType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Prismatic" type="PrismaticType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Revolute" type="RevoluteType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Spherical" type="SphericalType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="SetOperationType">
+		<xsd:attribute name="Type" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureID" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="GeometryType">
+		<xsd:sequence>
+			<xsd:element name="Features" type="FeaturesType" maxOccurs="unbounded"/>
+			<xsd:element name="SetOperation" type="SetOperationType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="MomentType">
+		<xsd:attribute name="Units" type="xsd:string" use="required"/>
+		<xsd:attribute name="x" type="xsd:double" use="required"/>
+		<xsd:attribute name="y" type="xsd:double" use="required"/>
+		<xsd:attribute name="z" type="xsd:double" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ForceType">
+		<xsd:attribute name="Units" type="xsd:string" use="required"/>
+		<xsd:attribute name="x" type="xsd:double" use="required"/>
+		<xsd:attribute name="y" type="xsd:double" use="required"/>
+		<xsd:attribute name="z" type="xsd:double" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="RotationType">
+		<xsd:attribute name="Units" type="xsd:string" use="required"/>
+		<xsd:attribute name="x" type="xsd:string" use="required"/>
+		<xsd:attribute name="y" type="xsd:string" use="required"/>
+		<xsd:attribute name="z" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="TranslationType">
+		<xsd:attribute name="Units" type="xsd:string" use="required"/>
+		<xsd:attribute name="x" type="xsd:string" use="required"/>
+		<xsd:attribute name="y" type="xsd:string" use="required"/>
+		<xsd:attribute name="z" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="AxialDisplacementType">
+		<xsd:attribute name="Property" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="AxialRotationType">
+		<xsd:attribute name="Property" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="AccelerationType">
+		<xsd:attribute name="Units" type="xsd:string" use="required"/>
+		<xsd:attribute name="x" type="xsd:double" use="required"/>
+		<xsd:attribute name="y" type="xsd:double" use="required"/>
+		<xsd:attribute name="z" type="xsd:double" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="PressureType">
+		<xsd:attribute name="Value" type="xsd:double" use="required"/>
+		<xsd:attribute name="Units" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ForceMomentType">
+		<xsd:sequence>
+			<xsd:element name="Force" type="ForceType"/>
+			<xsd:element name="Moment" type="MomentType"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="BallType">
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="PinType">
+		<xsd:sequence>
+			<xsd:element name="AxialDisplacement" type="AxialDisplacementType"/>
+			<xsd:element name="AxialRotation" type="AxialRotationType"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="DisplacementType">
+		<xsd:sequence>
+			<xsd:element name="Rotation" type="RotationType"/>
+			<xsd:element name="Translation" type="TranslationType"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="FeatureType">
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="FeaturesType">
+		<xsd:sequence>
+			<xsd:element name="Feature" type="FeatureType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="FeatureID" type="xsd:string" use="required"/>
+		<xsd:attribute name="GeometryType" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureInterfaceType" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureGeometryType" type="xsd:string" use="required"/>
+		<xsd:attribute name="PrimaryGeometryQualifier" type="xsd:string" use="required"/>
+		<xsd:attribute name="SecondaryGeometryQualifier" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ThermalElementType">
+		<xsd:sequence>
+			<xsd:element name="Component" type="ComponentType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Geometry" type="GeometryType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="LoadType" type="xsd:string" use="required"/>
+		<xsd:attribute name="Value" type="xsd:double" use="required"/>
+		<xsd:attribute name="Unit" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ThermalElementsType">
+		<xsd:sequence>
+			<xsd:element name="ThermalElement" type="ThermalElementType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="CFDAnalysisTypeType">
+		<xsd:attribute name="VehicleVelocity" type="xsd:double" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="HydrostaticsSolverSettingsType">
+		<xsd:attribute name="VehicleVelocity" type="xsd:double" use="required"/>
+		<xsd:attribute name="FluidMaterial" type="xsd:string" use="required"/>
+		<xsd:attribute name="FluidTemperature" type="xsd:double" use="required"/>
+		<xsd:attribute name="RollAngleStart" type="xsd:double" use="required"/>
+		<xsd:attribute name="RollAngleEnd" type="xsd:double" use="required"/>
+		<xsd:attribute name="RollAngleStepSize" type="xsd:double" use="required"/>
+		<xsd:attribute name="PitchAngleStart" type="xsd:double" use="required"/>
+		<xsd:attribute name="PitchAngleEnd" type="xsd:double" use="required"/>
+		<xsd:attribute name="PitchAngleStepSize" type="xsd:double" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="WaveResistanceSolverSettingsType">
+		<xsd:attribute name="VehicleVelocity" type="xsd:double" use="required"/>
+		<xsd:attribute name="FluidMaterial" type="xsd:string" use="required"/>
+		<xsd:attribute name="FluidTemperature" type="xsd:double" use="required"/>
+		<xsd:attribute name="WaveResistanceAnalysisTier" type="xsd:string" use="required"/>
+		<xsd:attribute name="WaveFrequency" type="xsd:double" use="required"/>
+		<xsd:attribute name="WaveDirection" type="xsd:double" use="required"/>
+		<xsd:attribute name="WaveNumber" type="xsd:double" use="required"/>
+		<xsd:attribute name="WaveHeight" type="xsd:double" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="CorrelationSettingsType">
+		<xsd:attribute name="VehicleVelocity" type="xsd:double" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="CalmWaterSolverSettingsType">
+		<xsd:attribute name="VehicleVelocity" type="xsd:double" use="required"/>
+		<xsd:attribute name="FluidMaterial" type="xsd:string" use="required"/>
+		<xsd:attribute name="FluidTemperature" type="xsd:double" use="required"/>
+		<xsd:attribute name="CalmWaterAnalysisTier" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="StaticType">
+		<xsd:sequence>
+			<xsd:element name="Metrics" type="MetricsType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="AnalysisID" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="BlastType">
+		<xsd:sequence>
+			<xsd:element name="Metrics" type="MetricsType" minOccurs="0"/>
+			<xsd:element name="ReferencePlane" type="ReferencePlaneType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="AnalysisID" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="CFDType">
+		<xsd:sequence>
+			<xsd:element name="CFDAnalysisType" type="CFDAnalysisTypeType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CalmWaterSolverSettings" type="CalmWaterSolverSettingsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CorrelationSettings" type="CorrelationSettingsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="HydrostaticsSolverSettings" type="HydrostaticsSolverSettingsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Metrics" type="MetricsType" minOccurs="0"/>
+			<xsd:element name="WaveResistanceSolverSettings" type="WaveResistanceSolverSettingsType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="AnalysisID" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ShotlineType">
+		<xsd:attribute name="BallisticThreatRef" type="xsd:string" use="required"/>
+		<xsd:attribute name="Azimuth" type="xsd:double" use="required"/>
+		<xsd:attribute name="Elevation" type="xsd:double" use="required"/>
+		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="DatumPoint" type="xsd:string" use="required"/>
+		<xsd:attribute name="ShotlineName" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ReferencePlaneType">
+		<xsd:attribute name="Type" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ShotlinesType">
+		<xsd:sequence>
+			<xsd:element name="Shotline" type="ShotlineType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="BallisticType">
+		<xsd:sequence>
+			<xsd:element name="Metrics" type="MetricsType" minOccurs="0"/>
+			<xsd:element name="ReferencePlane" type="ReferencePlaneType" minOccurs="0"/>
+			<xsd:element name="Shotlines" type="ShotlinesType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="AnalysisID" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="SurfaceTreatmentType">
+		<xsd:sequence>
+			<xsd:element name="Geometry" type="GeometryType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="AdjoiningParts" type="xsd:string"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="SurfaceTreatmentsType">
+		<xsd:sequence>
+			<xsd:element name="SurfaceTreatment" type="SurfaceTreatmentType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ConditionType">
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="Value" type="xsd:double" use="required"/>
+		<xsd:attribute name="Units" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ConditionsType">
+		<xsd:sequence>
+			<xsd:element name="Condition" type="ConditionType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="MetricsType">
+		<xsd:sequence>
+			<xsd:element name="Metric" type="MetricType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="MetricType">
+		<xsd:attribute name="MetricType" type="xsd:string" use="required"/>
+		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="RequestedValueType" type="xsd:string" use="required"/>
+		<xsd:attribute name="MetricID" type="xsd:string" use="required"/>
+		<xsd:attribute name="Details" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ToleranceType">
+		<xsd:sequence>
+			<xsd:element name="Metrics" type="MetricsType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="AnalysisID" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="InterferenceType">
+		<xsd:sequence>
+			<xsd:element name="Metrics" type="MetricsType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="AnalysisID" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="SolversType">
+		<xsd:sequence>
+			<xsd:element name="Solver" type="SolverType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ComponentType">
+		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="InfiniteCycle" type="xsd:boolean" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="PartInterfaceType">
+		<xsd:attribute name="Type" type="xsd:string" use="required"/>
+		<xsd:attribute name="ComponentID_1" type="xsd:string" use="required"/>
+		<xsd:attribute name="ComponentID_2" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="LoadType">
+		<xsd:sequence>
+			<xsd:element name="Acceleration" type="AccelerationType" minOccurs="0"/>
+			<xsd:element name="ForceMoment" type="ForceMomentType" minOccurs="0"/>
+			<xsd:element name="Geometry" type="GeometryType" minOccurs="0"/>
+			<xsd:element name="Pressure" type="PressureType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="AnalysisConstraintType">
+		<xsd:sequence>
+			<xsd:element name="Ball" type="BallType" minOccurs="0"/>
+			<xsd:element name="Displacement" type="DisplacementType" minOccurs="0"/>
+			<xsd:element name="Geometry" type="GeometryType" minOccurs="0"/>
+			<xsd:element name="Pin" type="PinType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="AnalysisComponentsType">
+		<xsd:sequence>
+			<xsd:element name="Component" type="ComponentType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="LoadsType">
+		<xsd:sequence>
+			<xsd:element name="Load" type="LoadType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="SolverType">
+		<xsd:attribute name="Type" type="xsd:string" use="required"/>
+		<xsd:attribute name="MeshType" type="xsd:string" use="required"/>
+		<xsd:attribute name="ShellElementType" type="xsd:string" use="required"/>
+		<xsd:attribute name="ElementShapeType" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="PartInterfacesType">
+		<xsd:sequence>
+			<xsd:element name="PartInterface" type="PartInterfaceType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="AnalysisConstraintsType">
+		<xsd:sequence>
+			<xsd:element name="AnalysisConstraint" type="AnalysisConstraintType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="FEAType">
+		<xsd:sequence>
+			<xsd:element name="AnalysisComponents" type="AnalysisComponentsType" minOccurs="0"/>
+			<xsd:element name="AnalysisConstraints" type="AnalysisConstraintsType" minOccurs="0"/>
+			<xsd:element name="Conditions" type="ConditionsType" minOccurs="0"/>
+			<xsd:element name="Loads" type="LoadsType" minOccurs="0"/>
+			<xsd:element name="Metrics" type="MetricsType" minOccurs="0"/>
+			<xsd:element name="PartInterfaces" type="PartInterfacesType" minOccurs="0"/>
+			<xsd:element name="Solvers" type="SolversType"/>
+			<xsd:element name="SurfaceTreatments" type="SurfaceTreatmentsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="ThermalElements" type="ThermalElementsType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="Type" type="xsd:string" use="required"/>
+		<xsd:attribute name="MeshOnly" type="xsd:boolean" use="required"/>
+		<xsd:attribute name="MaxAdaptiveIterations" type="xsd:long" use="required"/>
+		<xsd:attribute name="MaxElementSize" type="xsd:double" use="required"/>
+		<xsd:attribute name="AnalysisID" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ProcessingInstructionType">
+		<xsd:attribute name="Primary" type="xsd:string" use="required"/>
+		<xsd:attribute name="Secondary" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ProcessingInstructionsType">
+		<xsd:sequence>
+			<xsd:element name="ProcessingInstruction" type="ProcessingInstructionType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="GeometryMarkerType">
+		<xsd:attribute name="ComponentID" type="xsd:string" default=""/>
+		<xsd:attribute name="x" type="xsd:double" use="required"/>
+		<xsd:attribute name="y" type="xsd:double" use="required"/>
+		<xsd:attribute name="z" type="xsd:double" use="required"/>
+		<xsd:attribute name="i" type="xsd:double" use="required"/>
+		<xsd:attribute name="j" type="xsd:double" use="required"/>
+		<xsd:attribute name="k" type="xsd:double" use="required"/>
+		<xsd:attribute name="pi" type="xsd:double" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ManufacturingParameterType">
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="Value" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="SpecialDataFormatInstructionType">
+		<xsd:attribute name="Instruction" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="NonSTEPFormatType">
+		<xsd:attribute name="FormatType" type="xsd:string" use="required"/>
+		<xsd:attribute name="FormatSubType" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="UnassembledComponentsType">
+		<xsd:sequence>
+			<xsd:element name="CADComponent" type="CADComponentType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="STEPFormatType">
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="DataExchangeType">
+		<xsd:sequence>
+			<xsd:element name="NonSTEPFormat" type="NonSTEPFormatType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="STEPFormat" type="STEPFormatType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="SpecialDataFormatInstruction" type="SpecialDataFormatInstructionType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="MaterialsType">
+		<xsd:sequence>
+			<xsd:element name="Material" type="MaterialType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="MaterialPropertyType">
+		<xsd:attribute name="PropertyName" type="xsd:string" use="required"/>
+		<xsd:attribute name="Value" type="xsd:double" use="required"/>
+		<xsd:attribute name="Units" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="MaterialType">
+		<xsd:sequence>
+			<xsd:element name="MaterialProperty" type="MaterialPropertyType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="MaterialName" type="xsd:string" use="required"/>
+		<xsd:attribute name="MaterialID" type="xsd:string" use="required"/>
+		<xsd:attribute name="MaterialType" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="AnalysesType">
+		<xsd:sequence>
+			<xsd:element name="Ballistic" type="BallisticType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Blast" type="BlastType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CFD" type="CFDType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="FEA" type="FEAType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Interference" type="InterferenceType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Static" type="StaticType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Tolerance" type="ToleranceType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="AssembliesType">
+		<xsd:sequence>
+			<xsd:element name="Assembly" type="AssemblyType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="DataExchange" type="DataExchangeType" minOccurs="0"/>
+			<xsd:element name="Materials" type="MaterialsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="ProcessingInstructions" type="ProcessingInstructionsType" minOccurs="0"/>
+			<xsd:element name="UnassembledComponents" type="UnassembledComponentsType" minOccurs="0"/>
+			<xsd:element name="Assemblies" type="AssembliesType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="VersionInfo" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+		<xsd:attribute name="_libname" type="xsd:string"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="CADParameterType">
+		<xsd:sequence>
+			<xsd:element name="Units" type="UnitsType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="Type" type="xsd:string" use="required"/>
+		<xsd:attribute name="Value" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ParametricParametersType">
+		<xsd:sequence>
+			<xsd:element name="CADParameter" type="CADParameterType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ConstraintOffsetType">
+		<xsd:sequence>
+			<xsd:element name="Units" type="UnitsType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="Value" type="xsd:double" use="required"/>
+		<xsd:attribute name="OffsetAlignmentType" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="PairType">
+		<xsd:sequence>
+			<xsd:element name="ConstraintFeature" type="ConstraintFeatureType" minOccurs="2" maxOccurs="2"/>
+			<xsd:element name="ConstraintOffset" type="ConstraintOffsetType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="FeatureInterfaceType" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureGeometryType" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureAlignmentType" type="xsd:string" use="required"/>
+		<xsd:attribute name="ID" type="xsd:string" default=""/>
+		<xsd:attribute name="Guide" type="xsd:string" default=""/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ConstraintFeatureType">
+		<xsd:sequence>
+			<xsd:element name="GeometryMarker" type="GeometryMarkerType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureName" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureOrientationType" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ConstraintType">
+		<xsd:sequence>
+			<xsd:element name="Geometry" type="GeometryType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Joint" type="JointType" minOccurs="0"/>
+			<xsd:element name="Pair" type="PairType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="AdjoiningSurfaceType" type="xsd:string" default=""/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="CADComponentType">
+		<xsd:sequence>
+			<xsd:element name="CADComponent" type="CADComponentType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Constraint" type="ConstraintType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="KinematicConnections" type="KinematicConnectionsType" minOccurs="0"/>
+			<xsd:element name="ManufacturingParameter" type="ManufacturingParameterType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="ParametricParameters" type="ParametricParametersType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="DisplayName" type="xsd:string" use="required"/>
+		<xsd:attribute name="Type" type="xsd:string" use="required"/>
+		<xsd:attribute name="SpecialInstruction" type="xsd:string" use="required"/>
+		<xsd:attribute name="MaterialID" type="xsd:string" use="required"/>
+		<xsd:attribute name="Standalone" type="xsd:boolean" default="false"/>
+		<xsd:attribute name="Representation" type="xsd:string" use="required"/>
+		<xsd:attribute name="Classification" type="xsd:string" default=""/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="UnitsType">
+		<xsd:attribute name="Value" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="PropertiesType">
+		<xsd:sequence>
+			<xsd:element name="Units" type="UnitsType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="AssemblyType">
+		<xsd:sequence>
+			<xsd:element name="Analyses" type="AnalysesType" minOccurs="0"/>
+			<xsd:element name="CADComponent" type="CADComponentType" minOccurs="0"/>
+			<xsd:element name="MetaLinkData" type="MetaLinkDataType" minOccurs="0"/>
+			<xsd:element name="Properties" type="PropertiesType"/>
+		</xsd:sequence>
+		<xsd:attribute name="ConfigurationID" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+ <xsd:element name="Assemblies" type="AssembliesType"/>
+
+</xsd:schema>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>META.CADCreoParametricMetaLink</id>
+    <version>$version$</version>
+    <title>CADCreoParametricMetaLink</title>
+    <authors>ISIS, Vanderbilt University</authors>
+    <owners>ksmyth</owners>
+    <licenseUrl>https://svn.isis.vanderbilt.edu/META/trunk/license.txt</licenseUrl>
+    <projectUrl>https://svn.isis.vanderbilt.edu/META/trunk</projectUrl>
+    <iconUrl>http://repo.isis.vanderbilt.edu/GME/GME.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>CADCreoParametricMetaLink</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2013 ISIS, Vanderbilt University</copyright>
+    <tags></tags>
+  </metadata>
+  <files>
+    <file src="..\x64\Release\CADCreoParametricMetaLink.exe"/>
+    <file src="svnversion"/>
+  </files>
+</package>

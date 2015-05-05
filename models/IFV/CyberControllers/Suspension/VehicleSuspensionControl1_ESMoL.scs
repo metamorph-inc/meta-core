@@ -1,0 +1,73 @@
+Resolution 1ms
+
+Proc SCU_L2 0Hz 0s 0s
+Comp SuspControllerR4 =10Hz 10ms
+Comp SuspSensor_DataHandlerR4 =10Hz 10ms
+Comp SuspSensor_L2 =10Hz 10ms
+Comp SuspActuator_L2 =10Hz 10ms
+Msg SuspSensor_DataHandlerR4.SuspDataMsgIn 1B SCU_L2/SuspSensor_L2 SCU_L2/SuspSensor_DataHandlerR4 
+Msg SuspControllerR4.SuspControlMsg 1B SCU_L2/SuspControllerR4 SCU_L2/SuspActuator_L2
+Msg SuspSensor_DataHandlerR4.SuspDataMsgOut 1B SCU_L2/SuspSensor_DataHandlerR4 SCU_L2/SuspControllerR4 
+
+Proc SCU_R3 0Hz 0s 0s
+Comp SuspControllerR3 =10Hz 10ms
+Comp SuspSensor_DataHandlerR3 =10Hz 10ms
+Comp SuspSensor_R3 =10Hz 10ms
+Comp SuspActuator_R3 =10Hz 10ms
+Msg SuspSensor_DataHandlerR3.SuspDataMsgIn 1B SCU_R3/SuspSensor_R3 SCU_R3/SuspSensor_DataHandlerR3 
+Msg SuspControllerR3.SuspControlMsg 1B SCU_R3/SuspControllerR3 SCU_R3/SuspActuator_R3
+Msg SuspSensor_DataHandlerR3.SuspDataMsgOut 1B SCU_R3/SuspSensor_DataHandlerR3 SCU_R3/SuspControllerR3 
+
+Proc SCU_R4 0Hz 0s 0s
+Comp SuspControllerR2 =10Hz 10ms
+Comp SuspSensor_DataHandlerR2 =10Hz 10ms
+Comp SuspSensor_R4 =10Hz 10ms
+Comp SuspActuator_R4 =10Hz 10ms
+Msg SuspSensor_DataHandlerR2.SuspDataMsgIn 1B SCU_R4/SuspSensor_R4 SCU_R4/SuspSensor_DataHandlerR2 
+Msg SuspControllerR2.SuspControlMsg 1B SCU_R4/SuspControllerR2 SCU_R4/SuspActuator_R4
+Msg SuspSensor_DataHandlerR2.SuspDataMsgOut 1B SCU_R4/SuspSensor_DataHandlerR2 SCU_R4/SuspControllerR2 
+
+Proc SCU_L4 0Hz 0s 0s
+Comp SuspControllerR1 =10Hz 10ms
+Comp SuspSensor_DataHandlerL4 =10Hz 10ms
+Comp SuspSensor_L4 =10Hz 10ms
+Comp SuspActuator_L4 =10Hz 10ms
+Msg SuspSensor_DataHandlerL4.SuspDataMsgIn 1B SCU_L4/SuspSensor_L4 SCU_L4/SuspSensor_DataHandlerL4 
+Msg SuspControllerR1.SuspControlMsg 1B SCU_L4/SuspControllerR1 SCU_L4/SuspActuator_L4
+
+Proc SCU_R2 0Hz 0s 0s
+Comp SuspControllerL4 =10Hz 10ms
+Comp SuspSensor_DataHandlerL3 =10Hz 10ms
+Comp SuspSensor_R2 =10Hz 10ms
+Comp SuspActuator_R2 =10Hz 10ms
+Msg SuspSensor_DataHandlerL3.SuspDataMsgIn 1B SCU_R2/SuspSensor_R2 SCU_R2/SuspSensor_DataHandlerL3 
+Msg SuspControllerL4.SuspControlMsg 1B SCU_R2/SuspControllerL4 SCU_R2/SuspActuator_R2
+
+Proc SCU_L3 0Hz 0s 0s
+Comp SuspControllerL3 =10Hz 10ms
+Comp SuspSensor_DataHandlerL2 =10Hz 10ms
+Comp SuspSensor_L3 =10Hz 10ms
+Comp SuspActuator_L3 =10Hz 10ms
+Msg SuspSensor_DataHandlerL2.SuspDataMsgIn 1B SCU_L3/SuspSensor_L3 SCU_L3/SuspSensor_DataHandlerL2 
+Msg SuspControllerL3.SuspControlMsg 1B SCU_L3/SuspControllerL3 SCU_L3/SuspActuator_L3
+
+Proc SCU_R1 0Hz 0s 0s
+Comp SuspControllerL2 =10Hz 10ms
+Comp SuspSensor_DataHandlerL1 =10Hz 10ms
+Comp SuspSensor_R1 =10Hz 10ms
+Comp SuspActuator_R1 =10Hz 10ms
+Msg SuspSensor_DataHandlerL1.SuspDataMsgIn 1B SCU_R1/SuspSensor_R1 SCU_R1/SuspSensor_DataHandlerL1 
+Msg SuspControllerL2.SuspControlMsg 1B SCU_R1/SuspControllerL2 SCU_R1/SuspActuator_R1
+
+Proc SCU_L1 0Hz 0s 0s
+Comp SuspControllerL1 =10Hz 10ms
+Comp SuspSensor_DataHandlerR1 =10Hz 10ms
+Comp SuspSensor_L1 =10Hz 10ms
+Comp SuspActuator_L1 =10Hz 10ms
+Msg SuspSensor_DataHandlerR1.SuspDataMsgIn 1B SCU_L1/SuspSensor_L1 SCU_L1/SuspSensor_DataHandlerR1 
+Msg SuspControllerL1.SuspControlMsg 1B SCU_L1/SuspControllerL1 SCU_L1/SuspActuator_L1
+
+
+
+
+

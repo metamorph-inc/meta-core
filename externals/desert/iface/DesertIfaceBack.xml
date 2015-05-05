@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Diagram name="DesertIfaceBack" version="1.00" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Uml.xsd">
+
+  <Association _id="id30" assocClass="idD" name="PropertyAssignment" nonpersistent="false">
+    <AssociationRole _id="id31" isNavigable="true" isPrimary="false" max="-1" min="0" name="value_of" target="id7"/>
+    <AssociationRole _id="id32" isNavigable="true" isPrimary="false" max="-1" min="0" name="value" target="id15"/>
+  </Association>
+
+  <Association _id="id33" assocClass="id1D" name="AlternativeAssignment" nonpersistent="false">
+    <AssociationRole _id="id34" isNavigable="true" isPrimary="false" max="-1" min="0" name="alternative_of" target="idF"/>
+    <AssociationRole _id="id35" isNavigable="true" isPrimary="false" max="-1" min="0" name="alternative" target="idF"/>
+  </Association>
+
+  <Class _id="id3" baseTypes="id15" isAbstract="false" name="CustomMember">
+    <Attribute _id="id4" max="1" min="1" name="externalID" nonpersistent="false" ordered="false" registry="false" type="Integer" visibility="public"/>
+    <Attribute _id="id5" max="1" min="1" name="id" nonpersistent="false" ordered="false" registry="false" type="Integer" visibility="public"/>
+    <Attribute _id="id6" max="1" min="1" name="name" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+  </Class>
+
+  <Class _id="id7" associationRoles="id31" childRoles="id22" isAbstract="false" name="VariableProperty">
+    <Attribute _id="id8" max="1" min="1" name="name" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+  </Class>
+
+  <Class _id="id9" childRoles="id28" isAbstract="false" name="Configuration" parentRoles="id20">
+    <Attribute _id="idA" max="1" min="1" name="name" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+    <Attribute _id="idB" max="1" min="1" name="id" nonpersistent="false" ordered="false" registry="false" type="Integer" visibility="public"/>
+    <Attribute _id="idC" max="1" min="1" name="cfgId" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+  </Class>
+
+  <Class _id="idD" association="id30" baseTypes="id19" isAbstract="false" name="PropertyAssignment"/>
+
+  <Class _id="ide" baseTypes="id19" childRoles="id2e" isAbstract="false" name="EquivAssignment"/>
+
+  <Class _id="idF" associationRoles="id34 id35" childRoles="id2B" isAbstract="false" name="Element" parentRoles="id23">
+    <Attribute _id="id10" max="1" min="1" name="externalID" nonpersistent="false" ordered="false" registry="false" type="Integer" visibility="public"/>
+    <Attribute _id="id11" max="1" min="1" name="id" nonpersistent="false" ordered="false" registry="false" type="Integer" visibility="public"/>
+    <Attribute _id="id12" max="1" min="1" name="name" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+  </Class>
+
+  <Class _id="id13" baseTypes="id15" isAbstract="false" name="NaturalMember">
+    <Attribute _id="id14" max="1" min="1" name="value" nonpersistent="false" ordered="false" registry="false" type="Integer" visibility="public"/>
+  </Class>
+
+  <Class _id="id15" associationRoles="id32" childRoles="id25" isAbstract="true" name="Value" subTypes="id3 id13"/>
+
+  <Class _id="id16" isAbstract="false" name="DesertBackSystem" parentRoles="id26 id29 id2C">
+    <Attribute _id="id17" max="1" min="1" name="SystemName" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+    <Attribute _id="id18" max="1" min="1" name="selConfig" nonpersistent="true" ordered="false" registry="false" type="Integer" visibility="public"/>
+  </Class>
+
+  <Class _id="id19" childRoles="id1F" isAbstract="true" name="Assignment" parentRoles="id2F" subTypes="idD ide id1D">
+    <Attribute _id="id1A" max="1" min="1" name="id" nonpersistent="false" ordered="false" registry="false" type="Integer" visibility="public"/>
+    <Attribute _id="id1B" max="1" min="1" name="externalID" nonpersistent="false" ordered="false" registry="false" type="Integer" visibility="public"/>
+    <Attribute _id="id1C" max="1" min="1" name="name" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+  </Class>
+
+  <Class _id="id1D" association="id33" baseTypes="id19" isAbstract="false" name="AlternativeAssignment"/>
+
+  <Composition _id="id1e" name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id1F" isNavigable="true" max="-1" min="0" name="assignments" target="id19"/>
+    <CompositionParentRole _id="id20" isNavigable="true" target="id9"/>
+  </Composition>
+
+  <Composition _id="id21" name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id22" isNavigable="true" max="-1" min="0" name="variableproperties" target="id7"/>
+    <CompositionParentRole _id="id23" isNavigable="true" name="owner" target="idF"/>
+  </Composition>
+
+  <Composition _id="id24" name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id25" isNavigable="true" max="-1" min="0" name="values" target="id15"/>
+    <CompositionParentRole _id="id26" isNavigable="true" target="id16"/>
+  </Composition>
+
+  <Composition _id="id27" name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id28" isNavigable="true" max="-1" min="0" name="configurations" target="id9"/>
+    <CompositionParentRole _id="id29" isNavigable="true" target="id16"/>
+  </Composition>
+
+  <Composition _id="id2A" name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id2B" isNavigable="true" max="-1" min="0" name="elements" target="idF"/>
+    <CompositionParentRole _id="id2C" isNavigable="true" target="id16"/>
+  </Composition>
+
+  <Composition _id="id2D" name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id2e" isNavigable="true" max="-1" min="0" name="equivs" target="ide"/>
+    <CompositionParentRole _id="id2F" isNavigable="true" target="id19"/>
+  </Composition>
+
+</Diagram>

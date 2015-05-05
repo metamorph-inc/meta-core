@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CF4A3F5A-6ABD-46EC-BEF1-63369A9F3EC4}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+    <ProjectName>CADCreoParametricDatumEditor</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeBuildCommandLine>nmake /f CADCreoParametricCreateAssembly_make CADCreoParametricCreateAssembly.exe</NMakeBuildCommandLine>
+    <NMakeOutput>CADCreoParametricCreateAssembly.exe</NMakeOutput>
+    <NMakeCleanCommandLine>nmake /f CADCreoParametricCreateAssembly_make clean</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>nmake /f CADCreoParametricCreateAssembly_make clean</NMakeReBuildCommandLine>
+    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NMakeBuildCommandLine>nmake /f CADCreoParametricDatumEditor_make CADCreoParametricEditor.exe</NMakeBuildCommandLine>
+    <NMakeOutput>CADCreoParametricDatumEditor.exe</NMakeOutput>
+    <NMakeCleanCommandLine>nmake /f CADCreoParametricDatumEditor_make clean</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>nmake /f CADCreoParametricDatumEditor_make clean</NMakeReBuildCommandLine>
+    <NMakePreprocessorDefinitions>WIN64;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(SolutionDir);$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\protk_appls\includes;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includes;$(SolutionDir)..\CADCreoParametricToolkitFunctions;$(SolutionDir)..\CADCreoParametricCommonFunctions;C:\Program Files (x86)\CodeSynthesis XSD 3.3\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeForcedIncludes>
+    </NMakeForcedIncludes>
+    <NMakeAssemblySearchPath>
+    </NMakeAssemblySearchPath>
+    <NMakeForcedUsingAssemblies>
+    </NMakeForcedUsingAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeBuildCommandLine>nmake /f CADCreoParametricCreateAssembly_make CADCreoParametricCreateAssembly.exe</NMakeBuildCommandLine>
+    <NMakeOutput>CADCreoParametricCreateAssembly.exe</NMakeOutput>
+    <NMakeCleanCommandLine>nmake /f CADCreoParametricCreateAssembly_make clean</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>nmake /f CADCreoParametricCreateAssembly_make clean</NMakeReBuildCommandLine>
+    <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NMakeBuildCommandLine>nmake /f CADCreoParametricDatumEditor_make CADCreoParametricEditor.exe</NMakeBuildCommandLine>
+    <NMakeOutput>CADCreoParametricDatumEditor.exe</NMakeOutput>
+    <NMakeCleanCommandLine>nmake /f CADCreoParametricDatumEditor_make clean</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>nmake /f CADCreoParametricDatumEditor_make clean</NMakeReBuildCommandLine>
+    <NMakePreprocessorDefinitions>WIN64;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(SolutionDir);$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\protk_appls\includes;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includes;$(SolutionDir)..\CADCreoParametricToolkitFunctions;$(SolutionDir)..\CADCommonFunctions;$(SolutionDir)..\CADCreoParametricCommonFunctions;C:\Program Files (x86)\CodeSynthesis XSD 3.3\include;$(UDM_PATH)/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="CADCreoParametricDatumEditor_make" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CADEnvironmentSettings.cpp" />
+    <ClCompile Include="CoordinateSystemRoutines.cpp" />
+    <ClCompile Include="CADCreoParametricDatumEditor.cpp" />
+    <ClCompile Include="CADDatumEditor.cpp" />
+    <ClCompile Include="DatumEditorRoutines.cpp" />
+    <ClCompile Include="ISISConstants.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CADEnvironmentSettings.h" />
+    <ClInclude Include="CoordinateSystemRoutines.h" />
+    <ClInclude Include="CADDatumEditor.h" />
+    <ClInclude Include="CADDatumEditor_xsd.h" />
+    <ClInclude Include="DatumEditorRoutines.h" />
+    <ClInclude Include="ISISConstants.h" />
+    <ClInclude Include="ISISVersionNumber.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CADCreoParametricDatumEditor.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<DesertBackSystem SystemName="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="DesertIfaceBack.xsd">
+
+  <Configuration id="1" name="Conf. no: 1">
+    <AlternativeAssignment _id="idBD" alternative_end_="idBC" alternative_of_end_="idBe" externalID="-1" id="-1" name="alternative assignment"/>
+    <AlternativeAssignment _id="idC0" alternative_end_="idBF" alternative_of_end_="idC1" externalID="-1" id="-1" name="alternative assignment"/>
+    <PropertyAssignment _id="idA2" externalID="2000" id="2000" name="" value_end_="idA3" value_of_end_="idA1"/>
+    <PropertyAssignment _id="idA5" externalID="2000" id="2000" name="" value_end_="idA3" value_of_end_="idA4"/>
+    <PropertyAssignment _id="idA7" externalID="2000" id="2000" name="" value_end_="idA3" value_of_end_="idA6"/>
+    <PropertyAssignment _id="idA9" externalID="2000" id="2000" name="" value_end_="idA3" value_of_end_="idA8"/>
+    <PropertyAssignment _id="idAB" externalID="2000" id="2000" name="" value_end_="idA3" value_of_end_="idAA"/>
+    <PropertyAssignment _id="idAD" externalID="2000" id="2000" name="" value_end_="idA3" value_of_end_="idAC"/>
+    <PropertyAssignment _id="idAF" externalID="2000" id="2000" name="" value_end_="idA3" value_of_end_="idAe"/>
+    <PropertyAssignment _id="idB1" externalID="2000" id="2000" name="" value_end_="idA3" value_of_end_="idB0"/>
+    <PropertyAssignment _id="idB3" externalID="2000" id="2000" name="" value_end_="idA3" value_of_end_="idB2"/>
+    <PropertyAssignment _id="idB5" externalID="2000" id="2000" name="" value_end_="idA3" value_of_end_="idB4"/>
+    <PropertyAssignment _id="idB7" externalID="2000" id="2000" name="" value_end_="idA3" value_of_end_="idB6"/>
+    <PropertyAssignment _id="idB9" externalID="2000" id="2000" name="" value_end_="idA3" value_of_end_="idB8"/>
+    <PropertyAssignment _id="idBB" externalID="2000" id="2000" name="" value_end_="idA3" value_of_end_="idBA"/>
+  </Configuration>
+
+  <Element _id="idBC" alternative_of="idBD" externalID="4" id="4" name="Tire_w15">
+    <VariableProperty _id="idA1" name="Cost" value="idA2"/>
+    <VariableProperty _id="idA4" name="Volume" value="idA5"/>
+    <VariableProperty _id="idA6" name="Depth" value="idA7"/>
+    <VariableProperty _id="idA8" name="BoxVolume" value="idA9"/>
+    <VariableProperty _id="idAA" name="Width" value="idAB"/>
+    <VariableProperty _id="idAC" name="Height" value="idAD"/>
+    <VariableProperty _id="idAe" name="ContactPatch" value="idAF"/>
+  </Element>
+
+  <Element _id="idBF" alternative_of="idC0" externalID="20" id="20" name="Differential_w15">
+    <VariableProperty _id="idB0" name="Cost" value="idB1"/>
+    <VariableProperty _id="idB2" name="Width" value="idB3"/>
+    <VariableProperty _id="idB4" name="BoxVolume" value="idB5"/>
+    <VariableProperty _id="idB6" name="Volume" value="idB7"/>
+    <VariableProperty _id="idB8" name="Height" value="idB9"/>
+    <VariableProperty _id="idBA" name="Depth" value="idBB"/>
+  </Element>
+
+  <Element _id="idBe" alternative="idBD" externalID="2" id="2" name="Tire"/>
+
+  <Element _id="idC1" alternative="idC0" externalID="3" id="3" name="Differential"/>
+
+  <NaturalMember _id="idA3" value="0" value_of="idA2 idA5 idA7 idA9 idAB idAD idAF idB1 idB3 idB5 idB7 idB9 idBB"/>
+
+</DesertBackSystem>

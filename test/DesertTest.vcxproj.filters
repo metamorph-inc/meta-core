@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="CPv1_2_9">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="CPv1_2_9\Model Files">
+      <UniqueIdentifier>{a32dc487-ca7d-4c6e-b9f5-fe4b2be32908}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CPv1_2_9\Generated Models">
+      <UniqueIdentifier>{98580c4b-a624-4e19-b4dc-388c454dab18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CPv1_2_9\Generated Files">
+      <UniqueIdentifier>{6641bdd3-9d7f-413e-92e3-cb85783ed1fc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\generated\test\CPv1_2_9\CPv1_2_9.mga">
+      <Filter>CPv1_2_9\Generated Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\generated\test\CPv1_2_9\CPv1_2_9_Desert.xml">
+      <Filter>CPv1_2_9\Generated Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\generated\test\CPv1_2_9\CPv1_2_9_Desert_back.xml">
+      <Filter>CPv1_2_9\Generated Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CPv1_2_9\models\CPv1_2_9.xme">
+      <Filter>CPv1_2_9\Model Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

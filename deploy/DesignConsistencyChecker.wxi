@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="DesignConsistencyChecker">
+  <Component Id="DesignConsistencyChecker.dll" Directory="INSTALLDIR_BIN">
+    <File Id="DesignConsistencyChecker.dll" Name="DesignConsistencyChecker.dll" KeyPath="yes" Source="..\src\DesignConsistencyChecker\bin\Release\DesignConsistencyChecker.dll" />
+    <Class Id="{0C91710F-3B09-4684-A56E-4B6284A5C386}" Context="InprocServer32" Description="MGA.Interpreter.DesignConsistencyChecker" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Interpreter.DesignConsistencyChecker" Description="MGA.Interpreter.DesignConsistencyChecker" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{0C91710F-3B09-4684-A56E-4B6284A5C386}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0C91710F-3B09-4684-A56E-4B6284A5C386}\InprocServer32" Name="Class" Value="DesignConsistencyChecker.DesignConsistencyCheckerInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0C91710F-3B09-4684-A56E-4B6284A5C386}\InprocServer32" Name="Assembly" Value="DesignConsistencyChecker, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0C91710F-3B09-4684-A56E-4B6284A5C386}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0C91710F-3B09-4684-A56E-4B6284A5C386}\InprocServer32" Name="CodeBase" Value="file:///[#DesignConsistencyChecker.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.DesignConsistencyChecker'>
+      <RegistryValue Name='Description' Type='string' Value='Design Consistency Checker'/>
+      <RegistryValue Name='Icon' Type='string' Value='[#DesignConsistencyChecker.ico]'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='*'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='Design Consistency Checker'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+  <Component Directory="INSTALLDIR_BIN">
+    <File Source="..\src\DesignConsistencyChecker\DesignConsistencyChecker.ico" />
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

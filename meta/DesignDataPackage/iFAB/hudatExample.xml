@@ -1,0 +1,1280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<iFAB:hudatWelds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iFAB="iFAB" xsi:schemaLocation="iFAB hudat.xsd">
+	<hudatWeld>
+		<name>Weld_AB</name>
+		<componentClass>HuDATWeld</componentClass>
+		<UUID>Weld_AB_1234</UUID>
+    		<instanceID>Weld_AB_1234.1</instanceID>
+		<jointType>corner</jointType>
+		<grooveConfiguration>custom</grooveConfiguration>
+		<weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+		<weldPenetration>full</weldPenetration>
+		<doubleSided>true</doubleSided>
+		<materialWeldCompatible>true</materialWeldCompatible>
+		<weldProcess>GMAW</weldProcess>
+		<inspectionReqt>Visual</inspectionReqt>
+		<weldLength unit="mm">6883.6</weldLength>
+		<jointStrengthReqt unit="Mpa" >938</jointStrengthReqt>
+		<jointElongationReqt>12</jointElongationReqt>
+		<fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+		<weldSide1>
+			<incAngle unit = "degrees">90</incAngle>
+			<leg1Length unit="mm">22.225</leg1Length>
+			<leg2Length unit="mm">22.22</leg2Length>
+			<weldArea unit="mm2">246.9</weldArea>
+			<weldVolume unit="mm3">1700076</weldVolume>
+		</weldSide1>
+		<weldSide2>
+			<incAngle unit = "degrees">90</incAngle>
+			<leg1Length unit="mm">22.225</leg1Length>
+			<leg2Length unit="mm">22.225</leg2Length>
+			<weldArea unit="mm2">246.9</weldArea>
+			<weldVolume unit="mm3">1700076</weldVolume>
+		</weldSide2>
+		<part1>
+			<id>140_PANEL_A_DET</id>
+			<stockNumber>stockNumber</stockNumber>
+			<thickness unit="mm">25.40</thickness>
+			<material id="Steel MIL-DTL-12560">material</material>
+		</part1>
+		<part2>
+			<id>140_PANEL_B_DET</id>
+			<stockNumber>stockNumber</stockNumber>
+			<thickness unit="mm">25.40</thickness>
+			<material id="Steel MIL-DTL-12560">material</material>
+		</part2>
+	</hudatWeld>
+	<hudatWeld>
+		<name>Weld_AH</name>
+  		<componentClass>HuDATWeld</componentClass>
+  		<UUID>Weld_AH_1234</UUID>
+  		<instanceID>Weld_AH_1234.1</instanceID>
+  		<jointType>corner</jointType>
+  		<grooveConfiguration>custom</grooveConfiguration>
+  		<weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  		<weldPenetration>full</weldPenetration>
+  		<doubleSided>true</doubleSided>
+  		<materialWeldCompatible>true</materialWeldCompatible>
+  		<weldProcess>GMAW</weldProcess>
+  		<inspectionReqt>X-Ray</inspectionReqt>
+  		<weldLength unit="mm">6883.6</weldLength>
+  		<jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  		<jointElongationReqt>12</jointElongationReqt>
+  		<fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  		<weldSide1>
+    			<incAngle>90</incAngle>
+    			<leg1Length unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.22</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume unit="mm3">1700076</weldVolume>
+  		</weldSide1>
+  		<weldSide2>
+    			<incAngle unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.225</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume unit="mm3">1700076</weldVolume>
+  		</weldSide2>
+  		<part1>
+    			<id>140_PANEL_A_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part1>
+  		<part2>
+    			<id>140_PANEL_H_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part2>
+	</hudatWeld>
+	<hudatWeld>
+		<name>Weld_AL</name>
+		<componentClass>HuDATWeld</componentClass>
+  		<UUID>Weld_AL_1234</UUID>
+  		<instanceID>Weld_AL_1234.1</instanceID>
+  		<jointType>skewedplate</jointType>
+  		<grooveConfiguration>custom</grooveConfiguration>
+  		<weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  		<weldPenetration>full</weldPenetration>
+  		<doubleSided>true</doubleSided>
+  		<materialWeldCompatible>true</materialWeldCompatible>
+  		<weldProcess>GMAW</weldProcess>
+  		<inspectionReqt>X-Ray</inspectionReqt>
+  		<weldLength unit="mm">3660</weldLength>
+  		<jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  		<jointElongationReqt>12</jointElongationReqt>
+  		<fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  		<weldSide1>
+    			<incAngle>90</incAngle>
+    			<leg1Length unit="mm">22.23</leg1Length>
+    			<leg2Length unit="mm">22.23</leg2Length>
+    			<weldArea unit="mm2">247.0</weldArea>
+    			<weldVolume unit="mm3">904336</weldVolume>
+  		</weldSide1>
+  		<weldSide2>
+    			<incAngle unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">22.23</leg1Length>
+    			<leg2Length unit="mm">22.23</leg2Length>
+    			<weldArea unit="mm2">247.0</weldArea>
+    			<weldVolume unit="mm3">904336</weldVolume>
+  		</weldSide2>
+  		<part1>
+    			<id>140_PANEL_A_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part1>
+  		<part2>
+    			<id>140_PANEL_L_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part2>
+	</hudatWeld>
+	<hudatWeld>
+	  	<name>Weld_CB</name>
+  		<componentClass>HuDATWeld</componentClass>
+  		<UUID>Weld_CB_1234</UUID>
+  		<instanceID>Weld_CB_1234.1</instanceID>
+  		<jointType>corner</jointType>
+  		<grooveConfiguration>custom</grooveConfiguration>
+  		<weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  		<weldPenetration>full</weldPenetration>
+  		<doubleSided>true</doubleSided>
+  		<materialWeldCompatible>true</materialWeldCompatible>
+  		<weldProcess>GMAW</weldProcess>
+  		<inspectionReqt>Visual</inspectionReqt>
+  		<weldLength unit="mm">7482</weldLength>
+  		<jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  		<jointElongationReqt>12</jointElongationReqt>
+  		<fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  		<weldSide1>
+    			<incAngle unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.22</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume unit="mm3">1848064</weldVolume>
+  		</weldSide1>
+  		<weldSide2>
+    			<incAngle unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.225</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume unit="mm3">1848064</weldVolume>
+  		</weldSide2>
+  		<part1>
+    			<id>140_PANEL_C_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part1>
+  		<part2>
+    			<id>140_PANEL_B_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part2>
+	</hudatWeld>
+	<hudatWeld>
+  		<name>Weld_DC</name>
+  		<componentClass>HuDATWeld</componentClass>
+  		<UUID>Weld_DC_1234</UUID>
+  		<instanceID>Weld_DC_1234.1</instanceID>
+  		<jointType>corner</jointType>
+  		<grooveConfiguration>custom</grooveConfiguration>
+  		<weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  		<weldPenetration>full</weldPenetration>
+  		<doubleSided>true</doubleSided>
+  		<materialWeldCompatible>true</materialWeldCompatible>
+  		<weldProcess>GMAW</weldProcess>
+  		<inspectionReqt>Visual</inspectionReqt>
+  		<weldLength  unit="mm">7482</weldLength>
+  		<jointStrengthReqt  unit="Mpa">938</jointStrengthReqt>
+  		<jointElongationReqt>12</jointElongationReqt>
+  		<fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  		<weldSide1>
+    			<incAngle unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">22.225</leg1Length>
+    			<leg2Length  unit="mm">22.22</leg2Length>
+    			<weldArea  unit="mm2">246.9</weldArea>
+    			<weldVolume  unit="mm3">1848064</weldVolume>
+  		</weldSide1>
+  		<weldSide2>
+    			<incAngle  unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.225</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume  unit="mm3">1848064</weldVolume>
+  		</weldSide2>
+  		<part1>
+    			<id>140_PANEL_D_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness>25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part1>
+  		<part2>
+    			<id>140_PANEL_C_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness>25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part2>
+	</hudatWeld>
+	<hudatWeld>
+  		<name>Weld_ED</name>
+  		<componentClass>HuDATWeld</componentClass>
+  		<UUID>Weld_ED_1234</UUID>
+  		<instanceID>Weld_ED_1234.1</instanceID>
+  		<jointType>corner</jointType>
+  		<grooveConfiguration>custom</grooveConfiguration>
+  		<weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  		<weldPenetration>full</weldPenetration>
+  		<doubleSided>true</doubleSided>
+  		<materialWeldCompatible>true</materialWeldCompatible>
+  		<weldProcess>GMAW</weldProcess>
+  		<inspectionReqt>Visual</inspectionReqt>
+  		<weldLength  unit="mm">6843.5</weldLength>
+  		<jointStrengthReqt  unit="Mpa">938</jointStrengthReqt>
+  		<jointElongationReqt>12</jointElongationReqt>
+  		<fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  		<weldSide1>
+    			<incAngle  unit="degrees">90</incAngle>
+    			<leg1Length  unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.22</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume  unit="mm3">1690175</weldVolume>
+  		</weldSide1>
+  		<weldSide2>
+    			<incAngle  unit="degrees">90</incAngle>
+    			<leg1Length  unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.225</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume  unit="mm3">246.9</weldVolume>
+  		</weldSide2>
+  		<part1>
+    			<id>140_PANEL_E_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness  unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part1>
+  		<part2>
+    			<id>140_PANEL_D_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness  unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part2>
+	</hudatWeld>
+	<hudatWeld>
+  		<name>Weld_EF</name>
+  		<componentClass>HuDATWeld</componentClass>
+  		<UUID>Weld_EF_1234</UUID>
+  		<instanceID>Weld_EF_1234.1</instanceID>
+  		<jointType>corner</jointType>
+  		<grooveConfiguration>custom</grooveConfiguration>
+  		<weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  		<weldPenetration>full</weldPenetration>
+  		<doubleSided>true</doubleSided>
+  		<materialWeldCompatible>true</materialWeldCompatible>
+  		<weldProcess>GMAW</weldProcess>
+  		<inspectionReqt>Visual</inspectionReqt>
+  		<weldLength unit="mm">6843.5</weldLength>
+  		<jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  		<jointElongationReqt>12</jointElongationReqt>
+  		<fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  		<weldSide1>
+    			<incAngle  unit="degrees">90</incAngle>
+    			<leg1Length  unit="mm">22.225</leg1Length>
+    			<leg2Length  unit="mm">22.22</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume unit="mm3">1690175</weldVolume>
+  		</weldSide1>
+  		<weldSide2>
+    			<incAngle unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.225</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume unit="mm3">246.9</weldVolume>
+  		</weldSide2>
+  		<part1>
+    			<id>140_PANEL_E_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part1>
+  		<part2>
+    			<id>140_PANEL_F_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part2>
+	</hudatWeld>
+	<hudatWeld>
+  		<name>Weld_EK</name>
+  		<componentClass>HuDATWeld</componentClass>
+  		<UUID>Weld_EK_1234</UUID>
+   		<instanceID>Weld_EK_1234.1</instanceID>
+  		<jointType>corner</jointType>
+  		<grooveConfiguration>custom</grooveConfiguration>
+  		<weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  		<weldPenetration>full</weldPenetration>
+  		<doubleSided>true</doubleSided>
+  		<materialWeldCompatible>true</materialWeldCompatible>
+  		<weldProcess>GMAW</weldProcess>
+  		<inspectionReqt>Visual</inspectionReqt>
+  		<weldLength unit="mm">2100</weldLength>
+  		<jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  		<jointElongationReqt>12</jointElongationReqt>
+  		<fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  		<weldSide1>
+    			<incAngle unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">16.9</leg1Length>
+    			<leg2Length unit="mm">16.9</leg2Length>
+    			<weldArea unit="mm2">142.8</weldArea>
+    			<weldVolume unit="mm3">300063.2</weldVolume>
+  		</weldSide1>
+  		<weldSide2>
+    			<incAngle unit="degress">90</incAngle>
+    			<leg1Length unit="mm">16.9</leg1Length>
+    			<leg2Length unit="mm">16.9</leg2Length>
+    			<weldArea unit="mm2">142.8</weldArea>
+    			<weldVolume unit="mm3">300063.2</weldVolume>
+  		</weldSide2>
+  		<part1>
+    			<id>140_PANEL_E_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part1>
+  		<part2>
+    			<id>140_PANEL_K_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part2>
+	</hudatWeld>
+	<hudatWeld>
+  		<name>Weld_EL</name>
+  		<componentClass>HuDATWeld</componentClass>
+  		<UUID>Weld_EL_1234</UUID>
+  		<instanceID>Weld_EL_1234.1</instanceID>
+  		<jointType>skewedplate</jointType>
+  		<grooveConfiguration>custom</grooveConfiguration>
+  		<weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  		<weldPenetration>full</weldPenetration>
+  		<doubleSided>true</doubleSided>
+  		<materialWeldCompatible>true</materialWeldCompatible>
+  		<weldProcess>GMAW</weldProcess>
+  		<inspectionReqt>X-Ray</inspectionReqt>
+  		<weldLength unit="mm">2100</weldLength>
+  		<jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  		<jointElongationReqt>12</jointElongationReqt>
+  		<fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  		<weldSide1>
+    			<incAngle>90</incAngle>
+    			<leg1Length unit="mm">17.44</leg1Length>
+    			<leg2Length unit="mm">17.44</leg2Length>
+    			<weldArea unit="mm2">152.2</weldArea>
+    			<weldVolume unit="mm3">319661</weldVolume>
+  		</weldSide1>
+  		<weldSide2>
+    			<incAngle unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">17.44</leg1Length>
+    			<leg2Length unit="mm">17.44</leg2Length>
+    			<weldArea unit="mm2">152.2</weldArea>
+    			<weldVolume unit="mm3">319661</weldVolume>
+  		</weldSide2>
+  		<part1>
+    			<id>140_PANEL_E_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part1>
+  		<part2>
+    			<id>140_PANEL_L_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part2>
+	</hudatWeld>
+	<hudatWeld>
+  		<name>Weld_FG</name>
+  		<componentClass>HuDATWeld</componentClass>
+  		<UUID>Weld_FG_1234</UUID>
+  		<instanceID>Weld_FG_1234.1</instanceID>
+  		<jointType>corner</jointType>
+  		<grooveConfiguration>custom</grooveConfiguration>
+  		<weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  		<weldPenetration>full</weldPenetration>
+  		<doubleSided>true</doubleSided>
+  		<materialWeldCompatible>true</materialWeldCompatible>
+  		<weldProcess>GMAW</weldProcess>
+  		<inspectionReqt>Visual</inspectionReqt>
+  		<weldLength unit="mm">7482</weldLength>
+  		<jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  		<jointElongationReqt>12</jointElongationReqt>
+  		<fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  		<weldSide1>
+    			<incAngle unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.22</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume unit="mm3">1848064</weldVolume>
+  		</weldSide1>
+  		<weldSide2>
+    			<incAngle unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.225</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume unit="mm3">1848064</weldVolume>
+  		</weldSide2>
+  		<part1>
+    			<id>140_PANEL_F_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part1>
+  		<part2>
+    			<id>140_PANEL_G_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part2>
+	</hudatWeld>
+	<hudatWeld>
+  		<name>Weld_GH</name>
+  		<componentClass>HuDATWeld</componentClass>
+  		<UUID>Weld_GH_1234</UUID>
+  		<instanceID>Weld_GH_1234.1</instanceID>
+  		<jointType>corner</jointType>
+  		<grooveConfiguration>custom</grooveConfiguration>
+  		<weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  		<weldPenetration>full</weldPenetration>
+  		<doubleSided>true</doubleSided>
+  		<materialWeldCompatible>true</materialWeldCompatible>
+  		<weldProcess>GMAW</weldProcess>
+  		<inspectionReqt>Visual</inspectionReqt>
+  		<weldLength unit="mm">7482</weldLength>
+  		<jointStrengthReqt unit="Mpa">9380</jointStrengthReqt>
+  		<jointElongationReqt>12</jointElongationReqt>
+  		<fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  		<weldSide1>
+    			<incAngle unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.22</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume unit="mm3">1848064</weldVolume>
+  		</weldSide1>
+  		<weldSide2>
+    			<incAngle unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.225</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume unit="mm3">1848064</weldVolume>
+  		</weldSide2>
+  		<part1>
+    			<id>140_PANEL_G_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part1>
+  		<part2>
+    			<id>140_PANEL_H_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part2>
+	</hudatWeld>
+	<hudatWeld>
+  		<name>Weld_IA</name>  
+  		<componentClass>HuDATWeld</componentClass>
+  		<UUID>Weld_IA_1234</UUID>
+  		<instanceID>Weld_IA_1234.1</instanceID>
+  		<jointType>skewedplate</jointType>
+  		<grooveConfiguration>custom</grooveConfiguration>
+  		<weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  		<weldPenetration>full</weldPenetration>
+  		<doubleSided>true</doubleSided>
+ 		<materialWeldCompatible>true</materialWeldCompatible>
+  		<weldProcess>GMAW</weldProcess>
+  		<inspectionReqt>X-Ray</inspectionReqt>
+  		<weldLength unit="mm">3660</weldLength>
+  		<jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  		<jointElongationReqt>12</jointElongationReqt>
+  		<fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  		<weldSide1>
+    			<incAngle>90</incAngle>
+    			<leg1Length unit="mm">16.3</leg1Length>
+    			<leg2Length unit="mm">16.3</leg2Length>
+    			<weldArea unit="mm2">132.9</weldArea>
+    			<weldVolume unit="mm3">486769.1</weldVolume>
+  		</weldSide1>
+  		<weldSide2>
+    			<incAngle unit="degrees">90</incAngle>
+    			<leg1Length unit="mm">16.3</leg1Length>
+   	 		<leg2Length unit="mm">16.3</leg2Length>
+    			<weldArea unit="mm2">132.9</weldArea>
+    			<weldVolume unit="mm3">486769.1</weldVolume>
+  		</weldSide2>
+  		<part1>
+    			<id>140_PANEL_I_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part1>
+  		<part2>
+    			<id>140_PANEL_A_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part2>
+	</hudatWeld>
+	<hudatWeld>
+  		<name>Weld_IB</name>    
+  		<componentClass>HuDATWeld</componentClass>
+  		<UUID>Weld_IB_1234</UUID>
+    		<instanceID>Weld_IB_1234.1</instanceID>
+  		<jointType>corner</jointType>
+  		<grooveConfiguration>custom</grooveConfiguration>
+  		<weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  		<weldPenetration>full</weldPenetration>
+  		<doubleSided>true</doubleSided>
+  		<materialWeldCompatible>true</materialWeldCompatible>
+  		<weldProcess>GMAW</weldProcess>
+  		<inspectionReqt>Visual</inspectionReqt>
+  		<weldLength unit="mm">1346</weldLength>
+  		<jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  		<jointElongationReqt>12</jointElongationReqt>
+  		<fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  		<weldSide1>
+    			<incAngle unit="degree">90</incAngle>
+    			<leg1Length unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.22</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume unit="mm3">332428</weldVolume>
+  		</weldSide1>
+  		<weldSide2>
+    			<incAngle unit="degree">90</incAngle>
+    			<leg1Length unit="mm">22.225</leg1Length>
+    			<leg2Length unit="mm">22.225</leg2Length>
+    			<weldArea unit="mm2">246.9</weldArea>
+    			<weldVolume unit="mm3">332428</weldVolume>
+  		</weldSide2>
+  		<part1>
+    			<id>140_PANEL_I_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part1>
+  		<part2>
+    			<id>140_PANEL_B_DET</id>
+    			<stockNumber>stockNumber</stockNumber>
+    			<thickness unit="mm">25.40</thickness>
+    			<material id="Steel MIL-DTL-12560">material</material>
+  		</part2>
+	</hudatWeld>
+<hudatWeld>
+  <name>Weld_IH</name>    
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_IH_1234</UUID>
+    <instanceID>Weld_IH_1234.1</instanceID>
+  <jointType>corner</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>Visual</inspectionReqt>
+  <weldLength unit="mm">1346</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.22</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">332428</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.225</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">332428</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_I_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_H_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_JB</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_JB_1234</UUID>
+    <instanceID>Weld_JB_1234.1</instanceID>
+  <jointType>corner</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>Visual</inspectionReqt>
+  <weldLength  unit="mm">395.2</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.22</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">97604.64</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.225</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">97604.64</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_J_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_B_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_JC</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_JC_1234</UUID>
+  <instanceID>Weld_JC_1234.1</instanceID>
+  <jointType>corner</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>Visual</inspectionReqt>
+  <weldLength unit="mm">780</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.22</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">192640.7</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.225</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">192640.7</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_J_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_C_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_JD</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_JD_1234</UUID>
+    <instanceID>Weld_JD_1234.1</instanceID>
+  <jointType>corner</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>Visual</inspectionReqt>
+  <weldLength unit="mm">780</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.22</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">192640.7</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.225</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">192640.7</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_J_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_D_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_JF</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <jointType>corner</jointType>
+  <UUID>Weld_JF_1234</UUID>
+    <instanceID>Weld_JF_1234.1</instanceID>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>Visual</inspectionReqt>
+  <weldLength unit="mm">304.8</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.22</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">75278.08</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.225</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">75278.08</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_J_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_F_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_JG</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_JG_1234</UUID>
+    <instanceID>Weld_JG_1234.1</instanceID>
+  <jointType>corner</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>Visual</inspectionReqt>
+  <weldLength unit="mm">780</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.22</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">192640.7</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.225</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">192640.7</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_J_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_G_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_JH</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_JH_1234</UUID>
+  <instanceID>Weld_JH_1234.1</instanceID>
+  <jointType>corner</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>Visual</inspectionReqt>
+  <weldLength unit="mm">395.2</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.22</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">97604.64</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.225</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">97604.64</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_J_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_H_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_KD</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_KD_1234</UUID>
+    <instanceID>Weld_KD_1234.1</instanceID>
+  <jointType>corner</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>Visual</inspectionReqt>
+  <weldLength unit="mm">510</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.22</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">125957</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.225</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">125957</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_K_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_D_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_KF</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_KF_1234</UUID>
+  <instanceID>Weld_KF_1234.1</instanceID>
+  <jointType>corner</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>Visual</inspectionReqt>
+  <weldLength  unit="mm">510</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt unit="mm">12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.22</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">125957</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.225</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">125957</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_K_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_F_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_KJ</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_KJ_1234</UUID>
+  <instanceID>Weld_KJ_1234.1</instanceID>
+  <jointType>skewedplate</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>X-Ray</inspectionReqt>
+  <weldLength unit="mm">2100</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle>90</incAngle>
+    <leg1Length unit="mm">16.36</leg1Length>
+    <leg2Length unit="mm">16.36</leg2Length>
+    <weldArea unit="mm2">133.8</weldArea>
+    <weldVolume unit="mm3">281106.1</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">16.36</leg1Length>
+    <leg2Length unit="mm">16.36</leg2Length>
+    <weldArea unit="mm2">133.8</weldArea>
+    <weldVolume unit="mm3">281106.1</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_K_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_J_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_LB</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_LB_1234</UUID>
+    <instanceID>Weld_LB_1234.1</instanceID>
+  <jointType>corner</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>Visual</inspectionReqt>
+  <weldLength unit="mm">1312</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.22</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">324165</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.225</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">324165</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_L_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_B_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_LC</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_LC_1234</UUID>
+  <instanceID>Weld_LC_1234.1</instanceID>
+  <jointType>skewedplate</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>X-Ray</inspectionReqt>
+  <weldLength unit="mm">780</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle>90</incAngle>
+    <leg1Length unit="mm">17.44</leg1Length>
+    <leg2Length unit="mm">17.44</leg2Length>
+    <weldArea unit="mm2">152.2</weldArea>
+    <weldVolume unit="mm3">118727.9</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">17.44</leg1Length>
+    <leg2Length unit="mm">17.44</leg2Length>
+    <weldArea unit="mm2">152.2</weldArea>
+    <weldVolume unit="mm3">118727.9</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_L_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_C_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_LD</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_LD_1234</UUID>
+    <instanceID>Weld_LD_1234.1</instanceID>
+  <jointType>corner</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>Visual</inspectionReqt>
+  <weldLength unit="mm">639.8</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.22</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">158014</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.225</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">158014</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_L_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_D_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_LF</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_LF_1234</UUID>
+    <instanceID>Weld_LF_1234.1</instanceID>
+  <jointType>corner</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>Visual</inspectionReqt>
+  <weldLength unit="mm">639.8</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.22</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">158014</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.225</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">158014</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_L_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_F_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_LG</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_LG_1234</UUID>
+  <instanceID>Weld_LG_1234.1</instanceID>
+  <jointType>skewedplate</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>X-Ray</inspectionReqt>
+  <weldLength unit="mm">780</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle>90</incAngle>
+    <leg1Length unit="mm">17.44</leg1Length>
+    <leg2Length unit="mm">17.44</leg2Length>
+    <weldArea unit="mm2">152.2</weldArea>
+    <weldVolume unit="mm3">118728</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">17.44</leg1Length>
+    <leg2Length unit="mm">17.44</leg2Length>
+    <weldArea unit="mm2">152.2</weldArea>
+    <weldVolume unit="mm3">118728</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_L_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_G_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+<hudatWeld>
+  <name>Weld_LH</name>  
+  <componentClass>HuDATWeld</componentClass>
+  <UUID>Weld_LH_1234</UUID>
+    <instanceID>Weld_LH_1234.1</instanceID>
+  <jointType>corner</jointType>
+  <grooveConfiguration>custom</grooveConfiguration>
+  <weldJointConfiguration>ballistic fillet fillet</weldJointConfiguration>
+  <weldPenetration>full</weldPenetration>
+  <doubleSided>true</doubleSided>
+  <materialWeldCompatible>true</materialWeldCompatible>
+  <weldProcess>GMAW</weldProcess>
+  <inspectionReqt>Visual</inspectionReqt>
+  <weldLength unit="mm">1312</weldLength>
+  <jointStrengthReqt unit="Mpa">938</jointStrengthReqt>
+  <jointElongationReqt>12</jointElongationReqt>
+  <fillerMaterialSpec>ERS100S</fillerMaterialSpec>
+  <weldSide1>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.22</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">324031</weldVolume>
+  </weldSide1>
+  <weldSide2>
+    <incAngle unit="degrees">90</incAngle>
+    <leg1Length unit="mm">22.225</leg1Length>
+    <leg2Length unit="mm">22.225</leg2Length>
+    <weldArea unit="mm2">246.9</weldArea>
+    <weldVolume unit="mm3">324031</weldVolume>
+  </weldSide2>
+  <part1>
+    <id>140_PANEL_L_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part1>
+  <part2>
+    <id>140_PANEL_H_DET</id>
+    <stockNumber>stockNumber</stockNumber>
+    <thickness unit="mm">25.40</thickness>
+    <material id="Steel MIL-DTL-12560">material</material>
+  </part2>
+</hudatWeld>
+</iFAB:hudatWelds>

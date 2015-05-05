@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName
+      Include="udm">
+      <Targets>udm</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask
+    TaskName="udm"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="udm"
+    BeforeTargets="$(udm_RuleBeforeTargets)"
+    AfterTargets="$(udm_RuleAfterTargets)"
+    Condition="'@(udm)' != ''"
+    DependsOnTargets="$(udm_RuleDependsOn)"
+    Outputs="%(udm.OutDir)\%(udm.MetaName).cpp"
+    Inputs="%(udm.Identity);%(udm.AdditionalDependencies);$(MSBuildThisFileDirectory)$(MSBuildThisFile)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <udm
+        Remove="@(udm)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'">
+        <!-- MetaName Condition="" TODO: generate meta name? -->
+      </udm>
+    </ItemGroup>
+    <Error Condition="('@(SelectedFiles)' == '%(udm.Identity)') AND %(udm.MetaName) == ''" Text="MetaName must be specified for %(Identity)" />
+    <Message
+      Importance="High"
+      Text="%(udm.ExecutionDescription)" />
+    <udm
+      Condition="'@(udm)' != '' and '%(udm.ExcludedFromBuild)' != 'true'"
+      OutDir="%(udm.OutDir)"
+      IntegrateXSD="%(udm.IntegrateXSD)"
+      CommandLineTemplate="%(udm.CommandLineTemplate) %(udm.AdditionalOptions)"
+      StandardErrorImportance="High"
+      />
+  </Target>
+</Project>

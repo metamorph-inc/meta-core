@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName
+      Include="mga2udmudm">
+      <Targets>mga2udmudm</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask
+    TaskName="mga2udmudm"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="mga2udmudm"
+    BeforeTargets="$(mga2udmudm_RuleBeforeTargets)"
+    AfterTargets="$(mga2udmudm_RuleAfterTargets)"
+    Condition="'@(mga2udmudm)' != ''"
+    DependsOnTargets="$(mga2udmudm_RuleDependsOn)"
+    Outputs="%(mga2udmudm.OutDir)%(mga2udmudm.MetaName)_udm.udm"
+    Inputs="%(mga2udmudm.Identity);%(mga2udmudm.AdditionalDependencies)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <mga2udmudm
+        Remove="@(mga2udmudm)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <Error Condition="('@(SelectedFiles)' == '%(mga2udmudm.Identity)') AND (%(mga2udmudm.MetaName) == '')" Text="MetaName must be specified for %(Identity)" />
+    <Message
+      Importance="High"
+      Text="%(mga2udmudm.ExecutionDescription)" />
+    <mga2udmudm
+      Condition="'@(mga2udmudm)' != '' and '%(mga2udmudm.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(mga2udmudm.CommandLineTemplate)"
+      StandardErrorImportance="High"
+      />
+  </Target>
+</Project>

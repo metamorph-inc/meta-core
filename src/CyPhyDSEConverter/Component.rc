@@ -1,0 +1,222 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "1 TYPELIB ""ComponentLib.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "Vanderbilt University, ISIS"
+            VALUE "FileDescription", "Interpreter Module"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "Interpreter"
+            VALUE "LegalCopyright", "© 2011-2013 Vanderbilt University"
+            VALUE "OriginalFilename", "Interpreter.DLL"
+            VALUE "ProductName", "Interpreter Module"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_COMPICON            ICON                    "compicon.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_PROGRESS_DIALOG DIALOGEX 0, 0, 255, 51
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "DesignContainer Converter in progress..."
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,7,29,241,14
+    EDITTEXT        IDC_EDIT1,7,7,241,18,ES_AUTOHSCROLL | WS_DISABLED | NOT WS_BORDER
+END
+
+IDD_DSEREFACTOR_DIALOG DIALOGEX 0, 0, 276, 95
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "CyPhy DesignSpace Refactor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,77,70,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,145,70,50,14
+    GROUPBOX        "Convert the selected Component(s) to:",IDC_STATIC,10,7,255,50
+    CONTROL         "a new DesignContainer",IDC_DC_RADIO,"Button",BS_AUTORADIOBUTTON,14,23,90,10
+    CONTROL         "a new ComponentAssembly",IDC_CA_RADIO,"Button",BS_AUTORADIOBUTTON,14,38,163,10
+END
+
+IDD_CACONVERTER_DIALOG DIALOGEX 0, 0, 282, 108
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "CyPhy ComponentAssembly Refactor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,42,75,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,183,75,50,14
+    GROUPBOX        "How to convert the selected ComponentAssemly:",IDC_STATIC,7,9,260,61
+    CONTROL         "extract the elements of ComponentAssemly",IDC_EXRADIO,
+                    "Button",BS_AUTORADIOBUTTON,10,22,186,10
+    CONTROL         "convert into a new DesignContainer(Compound)",IDC_DCRADIO,
+                    "Button",BS_AUTORADIOBUTTON,10,36,236,10
+    CONTROL         "convert into a new ComponentAssembly",IDC_CA_RADIO,
+                    "Button",BS_AUTORADIOBUTTON,10,51,147,10
+END
+
+IDD_COMPOUNDDCCONVVERTER_DIALOG DIALOGEX 0, 0, 282, 99
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "CyPhy DesignContainer(Compound) Refactor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,42,75,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,183,75,50,14
+    GROUPBOX        "How to convert the selected Compound DesignContainer:",IDC_STATIC,7,9,260,60
+    CONTROL         "convert into a new DesignContainer(Alternative)",IDC_DCRADIO,
+                    "Button",BS_AUTORADIOBUTTON,10,36,236,10
+    CONTROL         "extract the elements of Compound DesignContainer",IDC_EXRADIO,
+                    "Button",BS_AUTORADIOBUTTON,10,22,186,10
+    CONTROL         "convert into a new ComponentAssembly",IDC_CA_RADIO,
+                    "Button",BS_AUTORADIOBUTTON,10,51,147,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_PROGRESS_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 248
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 44
+    END
+
+    IDD_DSEREFACTOR_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 269
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 86
+    END
+
+    IDD_CACONVERTER_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 275
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 89
+    END
+
+    IDD_COMPOUNDDCCONVVERTER_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 275
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 92
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_PROJNAME            "Component"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "ComponentLib.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

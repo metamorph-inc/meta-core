@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Project _id="id348" name="TransAssembly_ESMoL" statementCount="10" statementIndex="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="SFC.xsd">
+
+  <BasicType _id="id34A" name="unsigned char" statementIndex="2"/>
+
+  <BasicType _id="id34B" name="float" statementIndex="4" te="id34C id34D id34e id359 id35A id35B id35C id35D id35e id35F id365 id36A"/>
+
+  <BasicType _id="id364" name="int" statementIndex="8"/>
+
+  <BasicType _id="id373" name="double" statementIndex="9"/>
+
+  <Program _id="id351" filename="PassThrough2_sl" numInstance="1" stateCount="0" statementCount="1" statementIndex="6">
+    <Class _id="id34F" annotation="" name="PassThrough2_100000186_class" statementCount="3" statementIndex="0">
+      <Function _id="id355" annotation="" argCount="5" name="PassThrough2_100000186_main" returnType="void" scope="" statementCount="2" statementIndex="1">
+        <Arg _id="id354" argIndex="0" dt="id353" name="context" ptr="true" ref="id362 id36D" size="1" type=""/>
+        <Arg _id="id359" argIndex="2" dt="id34B" name="In1_2" ptr="false" ref="id361" size="1" type="double"/>
+        <Arg _id="id35A" argIndex="3" dt="id34B" name="In2_3" ptr="false" ref="id36C" size="1" type="double"/>
+        <Arg _id="id35C" argIndex="4" dt="id34B" name="Out1_4" ptr="true" ref="id360" size="1" type="double"/>
+        <Arg _id="id35D" argIndex="5" dt="id34B" name="Out2_5" ptr="true" ref="id36B" size="1" type="double"/>
+        <UserCode _id="id37A" expr="" statementIndex="0">
+          <BinaryExprs _id="id37B" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id360" argdecl="id35C" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id37e" op="*">
+              <ArgDeclRef __child_as="leftexpr" _id="id361" argdecl="id359" unres=""/>
+              <BinaryExprs __child_as="rightexpr" _id="id37F" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="id362" argdecl="id354" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id363" argdecl="id35F" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id380" expr="" statementIndex="1">
+          <BinaryExprs _id="id381" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id36B" argdecl="id35D" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id382" op="*">
+              <ArgDeclRef __child_as="leftexpr" _id="id36C" argdecl="id35A" unres=""/>
+              <BinaryExprs __child_as="rightexpr" _id="id383" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="id36D" argdecl="id354" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id36e" argdecl="id36A" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Function _id="id370" annotation="" argCount="1" name="PassThrough2_100000186_init" returnType="void" scope="" statementCount="2" statementIndex="2">
+        <Arg _id="id36F" argIndex="0" dt="id353" name="context" ptr="true" ref="id374 id376" size="1" type=""/>
+        <UserCode _id="id37C" expr="" statementIndex="0">
+          <BinaryExprs _id="id37D" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id384" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id374" argdecl="id36F" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id375" argdecl="id35F" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id385" val="1"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id386" expr="" statementIndex="1">
+          <BinaryExprs _id="id387" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id388" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id376" argdecl="id36F" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id377" argdecl="id36A" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id389" val="1"/>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Struct _id="id353" memberCount="2" name="PassThrough2_100000186_context" statementIndex="0" te="id354 id36F">
+        <LocalVar _id="id35F" dt="id34B" initial="" name="Gain863" ref="id363 id375" scope="" size="1" statementIndex="0" type=""/>
+        <LocalVar _id="id36A" dt="id34B" initial="" name="Gain874" ref="id36e id377" scope="" size="1" statementIndex="1" type=""/>
+      </Struct>
+    </Class>
+  </Program>
+
+  <Program _id="id352" filename="PassThrough_sl" numInstance="1" stateCount="0" statementCount="1" statementIndex="7">
+    <Class _id="id350" annotation="" name="PassThrough_100000204_class" statementCount="3" statementIndex="0">
+      <Function _id="id358" annotation="" argCount="3" name="PassThrough_100000204_main" returnType="void" scope="" statementCount="1" statementIndex="1">
+        <Arg _id="id357" argIndex="0" dt="id356" name="context" ptr="true" ref="id368" size="1" type=""/>
+        <Arg _id="id35B" argIndex="2" dt="id34B" name="In_2" ptr="false" ref="id367" size="1" type="double"/>
+        <Arg _id="id35e" argIndex="3" dt="id34B" name="Out_3" ptr="true" ref="id366" size="1" type="double"/>
+        <UserCode _id="id38A" expr="" statementIndex="0">
+          <BinaryExprs _id="id38B" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id366" argdecl="id35e" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id38e" op="*">
+              <ArgDeclRef __child_as="leftexpr" _id="id367" argdecl="id35B" unres=""/>
+              <BinaryExprs __child_as="rightexpr" _id="id38F" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="id368" argdecl="id357" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id369" argdecl="id365" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Function _id="id372" annotation="" argCount="1" name="PassThrough_100000204_init" returnType="void" scope="" statementCount="1" statementIndex="2">
+        <Arg _id="id371" argIndex="0" dt="id356" name="context" ptr="true" ref="id378" size="1" type=""/>
+        <UserCode _id="id38C" expr="" statementIndex="0">
+          <BinaryExprs _id="id38D" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id390" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id378" argdecl="id371" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id379" argdecl="id365" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id391" val="1"/>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Struct _id="id356" memberCount="1" name="PassThrough_100000204_context" statementIndex="0" te="id357 id371">
+        <LocalVar _id="id365" dt="id34B" initial="" name="Gain869" ref="id369 id379" scope="" size="1" statementIndex="0" type=""/>
+      </Struct>
+    </Class>
+  </Program>
+
+  <Struct _id="id349" memberCount="3" name="struct0" statementIndex="5">
+    <LocalVar _id="id34C" dt="id34B" initial="" name="signal3" scope="" size="1" statementIndex="2" type=""/>
+    <LocalVar _id="id34D" dt="id34B" initial="" name="signal2" scope="" size="1" statementIndex="1" type=""/>
+    <LocalVar _id="id34e" dt="id34B" initial="" name="signal1" scope="" size="1" statementIndex="0" type=""/>
+  </Struct>
+
+</Project>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyMasterInterpreter">
+  <Component Id="CyPhyMasterInterpreter.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhyMasterInterpreter.dll" Name="CyPhyMasterInterpreter.dll" KeyPath="yes" Source="../src/CyPhyMasterInterpreter\bin\Release\CyPhyMasterInterpreter.dll" />
+    <Class Id="{97BA8A57-6A66-4F24-BC51-964BA7BAA97B}" Context="InprocServer32" Description="MGA.Interpreter.CyPhyMasterInterpreter" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Interpreter.CyPhyMasterInterpreter" Description="MGA.Interpreter.CyPhyMasterInterpreter" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{97BA8A57-6A66-4F24-BC51-964BA7BAA97B}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{97BA8A57-6A66-4F24-BC51-964BA7BAA97B}\InprocServer32\2.0.0.0" Name="Class" Value="CyPhyMasterInterpreter.CyPhyMasterInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{97BA8A57-6A66-4F24-BC51-964BA7BAA97B}\InprocServer32\2.0.0.0" Name="Assembly" Value="CyPhyMasterInterpreter, Version=2.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{97BA8A57-6A66-4F24-BC51-964BA7BAA97B}\InprocServer32\2.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{97BA8A57-6A66-4F24-BC51-964BA7BAA97B}\InprocServer32\2.0.0.0" Name="CodeBase" Value="file:///[#CyPhyMasterInterpreter.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{97BA8A57-6A66-4F24-BC51-964BA7BAA97B}\InprocServer32" Name="Class" Value="CyPhyMasterInterpreter.CyPhyMasterInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{97BA8A57-6A66-4F24-BC51-964BA7BAA97B}\InprocServer32" Name="Assembly" Value="CyPhyMasterInterpreter, Version=2.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{97BA8A57-6A66-4F24-BC51-964BA7BAA97B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{97BA8A57-6A66-4F24-BC51-964BA7BAA97B}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyMasterInterpreter.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyPhyMasterInterpreter'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhyMasterInterpreter'/>
+      <RegistryValue Name='Icon' Type='string' Value='[#CyPhyMasterInterpreter.ico]'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='CyPhy Master Interpreter'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+
+    <Class Id="{FBA52D8A-F04F-40FD-B186-817427C8D148}" Context="InprocServer32" Description="CyPhyMasterInterpreter.CyPhyMasterInterpreterAPI" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="CyPhyMasterInterpreter.CyPhyMasterInterpreterAPI" Description="CyPhyMasterInterpreter.CyPhyMasterInterpreterAPI" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{FBA52D8A-F04F-40FD-B186-817427C8D148}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{FBA52D8A-F04F-40FD-B186-817427C8D148}\InprocServer32" Name="Class" Value="CyPhyMasterInterpreter.CyPhyMasterInterpreterAPI" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{FBA52D8A-F04F-40FD-B186-817427C8D148}\InprocServer32" Name="Assembly" Value="CyPhyMasterInterpreter, Version=2.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{FBA52D8A-F04F-40FD-B186-817427C8D148}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{FBA52D8A-F04F-40FD-B186-817427C8D148}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyMasterInterpreter.dll]" Type="string" Action="write" />
+
+    <Class Id="{C0FFF9E6-6E0E-471C-9A2D-182DFC244A7F}" Context="InprocServer32" Description="CyPhyMasterInterpreter.ConfigurationSelectionLight" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="CyPhyMasterInterpreter.ConfigurationSelectionLight" Description="CyPhyMasterInterpreter.ConfigurationSelectionLight" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{C0FFF9E6-6E0E-471C-9A2D-182DFC244A7F}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{C0FFF9E6-6E0E-471C-9A2D-182DFC244A7F}\InprocServer32" Name="Class" Value="CyPhyMasterInterpreter.ConfigurationSelectionLight" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{C0FFF9E6-6E0E-471C-9A2D-182DFC244A7F}\InprocServer32" Name="Assembly" Value="CyPhyMasterInterpreter, Version=2.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{C0FFF9E6-6E0E-471C-9A2D-182DFC244A7F}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{C0FFF9E6-6E0E-471C-9A2D-182DFC244A7F}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyMasterInterpreter.dll]" Type="string" Action="write" />
+  </Component>
+
+<Component Directory="INSTALLDIR_BIN">
+  <File Source="..\src\CyPhyMasterInterpreter\CyPhyMasterInterpreter.ico" />
+</Component>
+<Component Directory="INSTALLDIR_BIN">
+  <File Source="..\src\CyPhyCOMInterfacesCS\bin\Release\CyPhyCOMInterfacesCS.dll" />
+</Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

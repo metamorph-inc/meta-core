@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyDesignExporter">
+  <Component Id="CyPhyDesignExporter.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhyDesignExporter.dll" Name="CyPhyDesignExporter.dll" KeyPath="yes" Source="..\src\CyPhyDesignExporter\bin\Release\CyPhyDesignExporter.dll" />
+    <Class Id="{752EBCDD-4797-4A2F-B008-7F948DDE8797}" Context="InprocServer32" Description="MGA.Interpreter.CyPhyDesignExporter" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Interpreter.CyPhyDesignExporter" Description="MGA.Interpreter.CyPhyDesignExporter" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{752EBCDD-4797-4A2F-B008-7F948DDE8797}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{752EBCDD-4797-4A2F-B008-7F948DDE8797}\InprocServer32\1.0.0.0" Name="Class" Value="CyPhyDesignExporter.CyPhyDesignExporterInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{752EBCDD-4797-4A2F-B008-7F948DDE8797}\InprocServer32\1.0.0.0" Name="Assembly" Value="CyPhyDesignExporter, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{752EBCDD-4797-4A2F-B008-7F948DDE8797}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{752EBCDD-4797-4A2F-B008-7F948DDE8797}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#CyPhyDesignExporter.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{752EBCDD-4797-4A2F-B008-7F948DDE8797}\InprocServer32" Name="Class" Value="CyPhyDesignExporter.CyPhyDesignExporterInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{752EBCDD-4797-4A2F-B008-7F948DDE8797}\InprocServer32" Name="Assembly" Value="CyPhyDesignExporter, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{752EBCDD-4797-4A2F-B008-7F948DDE8797}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{752EBCDD-4797-4A2F-B008-7F948DDE8797}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyDesignExporter.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyPhyDesignExporter'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhyDesignExporter'/>
+      <RegistryValue Name='Icon' Type='string' Value='[#CyPhyDesignExporter.ico]'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <!-- RegistryValue Name='Tooltip' Type='string' Value='TOOLTIP_TEXT'/ -->
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+  <Component Directory="INSTALLDIR_BIN">
+    <File Source="..\src\CyPhyDesignExporter/CyPhyDesignExporter.ico" />
+  </Component>
+  <Component Directory="INSTALLDIR_BIN" Win64="no">
+    <File Source="..\meta\DesignDataPackage\iFAB\ManufacturingLib\bin\Release\ManufacturingLib.dll"/>
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

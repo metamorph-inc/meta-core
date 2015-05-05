@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<iFAB:armor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iFAB="iFAB" xsi:schemaLocation="iFAB armor.xsd">
+  <!-- the first layer is the strike face -->
+  <layer>
+    <material>Al2O3</material>
+    <encapsulationType>Polyurea</encapsulationType>
+    <tileSize>Square2x2in</tileSize>
+    <surfaceArea unit="in2">144</surfaceArea>
+    <thickness unit="in">0.35</thickness>
+  </layer>
+  <layer>
+    <material>46100HHsteel</material>
+    <surfaceArea unit="in2">144</surfaceArea>
+    <thickness unit="in">0.2</thickness>
+    <painted>Tan</painted>
+  </layer>
+  <layer>
+    <material>RGlass</material>
+    <surfaceArea unit="in2">144</surfaceArea>
+    <thickness unit="in">0.35</thickness>
+  </layer>
+</iFAB:armor>

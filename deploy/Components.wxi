@@ -1,0 +1,457 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<?define Components=..\models\IFV\Manufacturing-CAD\Components?>
+<!-- generated with gen_dir_wxi.py ../models/IFV/Manufacturing-CAD/Components/ -->
+    <Fragment>
+        <DirectoryRef Id="Components">
+            <Directory Id="dir8F94B91BA1D5D2C914D27858D6817FEC" Name="Armor" />
+            <Directory Id="dirBD3B881B26CBAEE799DAF5C1CE2A66B9" Name="Battery" />
+            <Directory Id="dirADAB7E195120B36667E0ABBFFEE70F71" Name="Chassis" />
+            <Directory Id="dir69CF3DE7808C1EBB0C33FA210A2C3E16" Name="Differential" />
+            <Directory Id="dir74E9C4F567B822CD977EA6D53DF3C63B" Name="ECU" />
+            <Directory Id="dirC32669975739F6DAB4063D9A85A80C23" Name="Electric Drive" />
+            <Directory Id="dir31B48382617FA19E9968B8E5CB4DF628" Name="engine" />
+            <Directory Id="dir3BC1E411322BA2B59261B257D97C9DB4" Name="Fuel_Tank" />
+            <Directory Id="dir38C9C9751ED2621098DE7B8FFCF09EB3" Name="Generator" />
+            <Directory Id="dir3D30FBFBA3CB4F8A535A8A5C3806DB1A" Name="Hybrid_Power_Controller" />
+            <Directory Id="dirB87F7D1ABB695FC58F552B6DEBA3D275" Name="isg" />
+            <Directory Id="dir157D2D9AF6030AF6CE9EBB58D96DF7AB" Name="Seats" />
+            <Directory Id="dir04B3EC9FB2A490F789B0769A0B57289D" Name="Section" />
+            <Directory Id="dir37BCCC6389E01EEAA169504ABDA55CE2" Name="Shafts" />
+            <Directory Id="dir6EA78B5E737C5301551FB9AE5C12F4F4" Name="Suspension" />
+            <Directory Id="dir79A74006F00B6F8198A6E0983EA0B621" Name="Transfer_Case" />
+            <Directory Id="dir7E1E41082DB4D858DE065B54C08358AB" Name="Transmission" />
+            <Directory Id="dir75CAC95F19AE337C12ABDFD3846C34D1" Name="Turret" />
+            <Directory Id="dir934A293CB46AA0FDDF9FE1536323F1F0" Name="Ultra_Caps" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="Components">
+            <Component Id="cmpB08F8BE6A4D47BB8333CF2CFF578D650" Directory="dirBD3B881B26CBAEE799DAF5C1CE2A66B9" Guid="*">
+                <File Id="fil15C2ABEB15B3945AC9FB3592A32A903C" KeyPath="yes" Source="$(var.Components)\Battery\BatteryInternational_Module_NPS-1160_CutSheet.pdf" />
+            </Component>
+            <Component Id="cmp6764CAC4E901B9269279C11F313CDF36" Directory="dirBD3B881B26CBAEE799DAF5C1CE2A66B9" Guid="*">
+                <File Id="fil07D0396DB9295ACE5CF4EE462516DEA8" KeyPath="yes" Source="$(var.Components)\Battery\BPOW0008_BPSwingTempoDS7.pdf" />
+            </Component>
+            <Component Id="cmp64FF8768E97BA64EE9CDA3349049C401" Directory="dirBD3B881B26CBAEE799DAF5C1CE2A66B9" Guid="*">
+                <File Id="fil61B381A5CAC1E82929B56D7777C87193" KeyPath="yes" Source="$(var.Components)\Battery\HEMV 5-8 Data Sheet.74ee69b4-34ed-49b5-a870-bd5f6160ab8d.pdf" />
+            </Component>
+            <Component Id="cmp00AB57F8E010CE2A006C586B4C1C98BD" Directory="dir5CDA2F720F2D77A45B95A844A03038D6" Guid="*">
+                <File Id="fil11EFBB5F77ED13159E00FE32DD4C0807" KeyPath="yes" Source="$(var.Components)\Differential\Differential_End\ZF end transmission.pdf" />
+            </Component>
+            <Component Id="cmp5A7B689E7EB0F14C82AC07164A851EFC" Directory="dir18608854C78070AE7C3D32E54BF63E73" Guid="*">
+                <File Id="filE12ED83ECD39F64D77A8432DC562D605" KeyPath="yes" Source="$(var.Components)\Differential\Differential_Thru\zf_tru_transmission.pdf" />
+            </Component>
+            <Component Id="cmpF4AA2C489BA83621BC1568CDCC84F9AA" Directory="dirC32669975739F6DAB4063D9A85A80C23" Guid="*">
+                <File Id="fil0E03980863D7A03F473872E5D7010FF3" KeyPath="yes" Source="$(var.Components)\Electric Drive\HVH250_r3_Sept_2010.pdf" />
+            </Component>
+            <Component Id="cmpDB5A5D959A06B534887EF9AFBD05E8E7" Directory="dir78BCE2C7923864B941A1D1EE1C7EE56A" Guid="*">
+                <File Id="filEDA03BFC53CDD9F5B52C8FF1583C6043" KeyPath="yes" Source="$(var.Components)\engine\C13\C13 Mil Engine Spec Sht.pdf" />
+            </Component>
+            <Component Id="cmp2ACF085A320835B40737304F42DD70A3" Directory="dirA9C80D1D478F251A95EF749F000AD410" Guid="*">
+                <File Id="fil2CA03992A2D7F568385E5EA8CF04EC59" KeyPath="yes" Source="$(var.Components)\engine\C15\C15 Mil Engine Spec Sht.pdf" />
+            </Component>
+            <Component Id="cmp8182845593849714AA65E2404F6DF860" Directory="dir03C3D26823CCB6E9E01217392B0312A8" Guid="*">
+                <File Id="filFA52ADA5DC291FD9B88055181A437A3F" KeyPath="yes" Source="$(var.Components)\engine\C18\C18 Engine Spec Sht Euro3.pdf" />
+            </Component>
+            <Component Id="cmp5C6A137713238F97AEAC8B75CED2FD79" Directory="dirEAE70A70B8DBD4B24B19F460E3169F5D" Guid="*">
+                <File Id="filAEFE28442CC212E82DCA9C97ACAAB952" KeyPath="yes" Source="$(var.Components)\engine\C7\C7 Mil Engine Spec Sht.pdf" />
+            </Component>
+            <Component Id="cmpC0C44994449470583EAA6C78A9EE2ADD" Directory="dirC44881437B5E643ED82307B1452A398A" Guid="*">
+                <File Id="fil877774DBC22D96E0C9963FAC8819D869" KeyPath="yes" Source="$(var.Components)\engine\C9\C9 Mil Engine Spec Sht.pdf" />
+            </Component>
+            <Component Id="cmpA4D7F2DA26708599DF9778E0AD09E687" Directory="dir3BC1E411322BA2B59261B257D97C9DB4" Guid="*">
+                <File Id="filC5538ED8BE79381DB9B32C77DD3E8997" KeyPath="yes" Source="$(var.Components)\Fuel_Tank\Self_sealing_fuel_cell.pdf" />
+            </Component>
+            <Component Id="cmpF94341BC660423DF6543129D9F191FA4" Directory="dir38C9C9751ED2621098DE7B8FFCF09EB3" Guid="*">
+                <File Id="fil911DBA3EC19BC45DE78F1FA577421F67" KeyPath="yes" Source="$(var.Components)\Generator\MM_G35_datasheet_low_01-1.pdf" />
+            </Component>
+            <Component Id="cmpF892F5C3304D8E24D4083D700CA3768D" Directory="dirB87F7D1ABB695FC58F552B6DEBA3D275" Guid="*">
+                <File Id="filE646352B9F1FA064C5459F52D5DDC386" KeyPath="yes" Source="$(var.Components)\isg\MM_G36_datasheet_low-1.pdf" />
+            </Component>
+            <Component Id="cmpE06929295948E9E40BA24B6F254A2935" Directory="dirB87F7D1ABB695FC58F552B6DEBA3D275" Guid="*">
+                <File Id="fil8F33BA3931D680FE175254FF4FADFF18" KeyPath="yes" Source="$(var.Components)\isg\MM_G37datasheet_low.pdf" />
+            </Component>
+            <Component Id="cmp6577254F5010B935058BD17E49A5CB72" Directory="dir37BCCC6389E01EEAA169504ABDA55CE2" Guid="*">
+                <File Id="filB215FF230BEA21A583B4260DBC79F85C" KeyPath="yes" Source="$(var.Components)\Shafts\J300-P11.pdf" />
+            </Component>
+            <Component Id="cmp5B4AC8839036BF138C88846B0B29E217" Directory="dir37BCCC6389E01EEAA169504ABDA55CE2" Guid="*">
+                <File Id="fil3C1C7067D7940F143181B444E79CFB0E" KeyPath="yes" Source="$(var.Components)\Shafts\J300P-5.pdf" />
+            </Component>
+            <Component Id="cmp49C28C906EA02A43ECC435C7D7B7F566" Directory="dir37BCCC6389E01EEAA169504ABDA55CE2" Guid="*">
+                <File Id="fil6675B832339B7DD62539CC060D0FE837" KeyPath="yes" Source="$(var.Components)\Shafts\JOINTDRIVELINE_ID_PART1_8_05.pdf" />
+            </Component>
+            <Component Id="cmp80336B3113DD5BC0C5C19B15E9F7988C" Directory="dirF47FB89E2A1AEF4D0849666ACCA2F345" Guid="*">
+                <File Id="filEFD90F783A9AC891B622189B995FFA02" KeyPath="yes" Source="$(var.Components)\Transfer_Case\CAT_455\455 T-case mm.pdf" />
+            </Component>
+            <Component Id="cmp9D7A9DD5CC9E7F2872EB287D54B0A649" Directory="dirA0A64228E33432D891D6FE784D943FE3" Guid="*">
+                <File Id="fil68945F7ECFC72477E35820AAF47EC414" KeyPath="yes" Source="$(var.Components)\Transfer_Case\CAT_484\484 T-case mm.pdf" />
+            </Component>
+            <Component Id="cmpF7FAA9B368599B139BBBC0D89CABB801" Directory="dir900F631BCF4FDC19C316B7BF86D3E66E" Guid="*">
+                <File Id="fil99CA835E6AC777D6D2E69D15018323F4" KeyPath="yes" Source="$(var.Components)\Transmission\CX28\CX28-nonPTO Trans Spec Sht.pdf" />
+            </Component>
+            <Component Id="cmp8AD3A41B876080ED6A5DCEBF90A6F5D3" Directory="dir900F631BCF4FDC19C316B7BF86D3E66E" Guid="*">
+                <File Id="fil95C804E1416D46BAC9278CA8CBBD7C3F" KeyPath="yes" Source="$(var.Components)\Transmission\CX28\CX28-PTO Trans Spec Sht.pdf" />
+            </Component>
+            <Component Id="cmpB04BD65C8DD6D89322EDC3D632305700" Directory="dir26A97DC3035E5F0C2E28B187C185DCC6" Guid="*">
+                <File Id="fil9F767AF76EF7C2FE9B7A26F3763F5EF2" KeyPath="yes" Source="$(var.Components)\Transmission\CX31\CX31 Trans Spec Sht.pdf" />
+            </Component>
+            <Component Id="cmpB0BCB9CEDC42220071F20BEEF178ABFF" Directory="dirA8EEC1F74AB04891FBA3C45CFC9D8149" Guid="*">
+                <File Id="fil17AE062164F68BD8C5E44FC15EC64A56" KeyPath="yes" Source="$(var.Components)\Turret\Manned\25mm_dragar_turret_and_7.62mm_cannon_system.pdf" />
+            </Component>
+            <Component Id="cmp100349F56C7D09F63C4FB710D91A79A6" Directory="dir1AF0EDA7909505A6B16E7829D7D39C66" Guid="*">
+                <File Id="fil0F6FE7194AA0E25983F332E41342036D" KeyPath="yes" Source="$(var.Components)\Turret\Unmanned\PAWS\PAWS - Palletized Autonomous Weapon System.pdf" />
+            </Component>
+            <Component Id="cmpBD3550C98375A3B3FFD219BDE51B623D" Directory="dir1AF0EDA7909505A6B16E7829D7D39C66" Guid="*">
+                <File Id="fil0ED2348A056E7F0DC2820ECBB396A1CA" KeyPath="yes" Source="$(var.Components)\Turret\Unmanned\PAWS\TOW.pdf" />
+            </Component>
+            <Component Id="cmp0A679E432253519DA10E2B2E9EF12AD6" Directory="dir934A293CB46AA0FDDF9FE1536323F1F0" Guid="*">
+                <File Id="fil2773EDA6101A5A7248869972FD4E12D8" KeyPath="yes" Source="$(var.Components)\Ultra_Caps\TecateGroup_PBM MODULES.pdf" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir157D2D9AF6030AF6CE9EBB58D96DF7AB" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir0600EF27272B9890C01711C6FFD6C432" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir26A97DC3035E5F0C2E28B187C185DCC6" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir934A293CB46AA0FDDF9FE1536323F1F0" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir95E83F7B02A3211868BF09096BC30C8C" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirDEB71F9D6B10F9B5A43668327DD7CBB5" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir8F94B91BA1D5D2C914D27858D6817FEC" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir5CDA2F720F2D77A45B95A844A03038D6" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir2C7D75B592BF9F794F6AD65B37B576DF" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir8F48946FC4247FC65596505B7395548E" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir8A6F1586E1EEC4858F56F25A49706BB1" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir74E9C4F567B822CD977EA6D53DF3C63B" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirA9C80D1D478F251A95EF749F000AD410" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirACC23CE1F168F5C08D49107C7AE94A05" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir4FC3FD51DC24661A68B70A0177D2C231" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir1AF0EDA7909505A6B16E7829D7D39C66" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir917D68B248E5A5D0618CF5936F66744C" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir559ED5A615F7CB9FFF6D3A65DEF4D758" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirDDEF71510A24635DF5229ABA4BD01F70" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirEAE70A70B8DBD4B24B19F460E3169F5D" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir37BCCC6389E01EEAA169504ABDA55CE2" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir18608854C78070AE7C3D32E54BF63E73" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir03C3D26823CCB6E9E01217392B0312A8" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirAFBBC6C3679DA395E9FFEB1E49917382" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirC9BE50336E0D53B0155F80D22CFAAEFD" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir3D30FBFBA3CB4F8A535A8A5C3806DB1A" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir3BC1E411322BA2B59261B257D97C9DB4" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir337EC4E63C2EF2FF0B629F5E7B6FED3A" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirADAB7E195120B36667E0ABBFFEE70F71" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirC32669975739F6DAB4063D9A85A80C23" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirBD3B881B26CBAEE799DAF5C1CE2A66B9" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirA8EEC1F74AB04891FBA3C45CFC9D8149" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirF5C53F4C50F02BE1A5B2FF3305B4275B" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirA0A64228E33432D891D6FE784D943FE3" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirC9331FA537C3AC0F65563FAF44267ECC" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirC44881437B5E643ED82307B1452A398A" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir830E202EFA1D415D5DA42B929D532473" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirAD8F477314715BA94BF7F26661CFC0BF" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir6719A393945D771B216CB5E3279B2193" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir78BCE2C7923864B941A1D1EE1C7EE56A" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirC7EDACC7703800B1B86EF23C6600A9E9" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir5B1595F3606D38922DE501B9CE43D966" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirF47FB89E2A1AEF4D0849666ACCA2F345" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir900F631BCF4FDC19C316B7BF86D3E66E" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirB87F7D1ABB695FC58F552B6DEBA3D275" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir38C9C9751ED2621098DE7B8FFCF09EB3" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirF516CB13C4911E76B8C3E8FD8A58B112" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir866A109D1C87FCA4DC599F0004D870F7" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir31B48382617FA19E9968B8E5CB4DF628">
+            <Directory Id="dir03C3D26823CCB6E9E01217392B0312A8" Name="C18" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir56E5BC284094DF209495BBCC272F1B27">
+            <Directory Id="dir0600EF27272B9890C01711C6FFD6C432" Name="4x6" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir69CF3DE7808C1EBB0C33FA210A2C3E16">
+            <Directory Id="dir18608854C78070AE7C3D32E54BF63E73" Name="Differential_Thru" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir9F990DD1B9014CC8F15CF2CD65251070">
+            <Directory Id="dir1AF0EDA7909505A6B16E7829D7D39C66" Name="PAWS" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir7E1E41082DB4D858DE065B54C08358AB">
+            <Directory Id="dir26A97DC3035E5F0C2E28B187C185DCC6" Name="CX31" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirB87F7D1ABB695FC58F552B6DEBA3D275">
+            <Directory Id="dir2C7D75B592BF9F794F6AD65B37B576DF" Name="VU_ISG_V3" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirDEA7415D4C4D80D1EBCCDA5731B149F7">
+            <Directory Id="dir337EC4E63C2EF2FF0B629F5E7B6FED3A" Name="Cap_Rack_4x12" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir04B3EC9FB2A490F789B0769A0B57289D">
+            <Directory Id="dir4FC3FD51DC24661A68B70A0177D2C231" Name="Troop_Section" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir04B3EC9FB2A490F789B0769A0B57289D">
+            <Directory Id="dir559ED5A615F7CB9FFF6D3A65DEF4D758" Name="Turret_Section" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir934A293CB46AA0FDDF9FE1536323F1F0">
+            <Directory Id="dir56E5BC284094DF209495BBCC272F1B27" Name="bcap0650Cells" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir8F94B91BA1D5D2C914D27858D6817FEC">
+            <Directory Id="dir5B1595F3606D38922DE501B9CE43D966" Name="Bottom" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir69CF3DE7808C1EBB0C33FA210A2C3E16">
+            <Directory Id="dir5CDA2F720F2D77A45B95A844A03038D6" Name="Differential_End" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir56E5BC284094DF209495BBCC272F1B27">
+            <Directory Id="dir6719A393945D771B216CB5E3279B2193" Name="3x6" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir31B48382617FA19E9968B8E5CB4DF628">
+            <Directory Id="dir78BCE2C7923864B941A1D1EE1C7EE56A" Name="C13" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir4FC3FD51DC24661A68B70A0177D2C231">
+            <Directory Id="dir830E202EFA1D415D5DA42B929D532473" Name="Hatch" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirDEA7415D4C4D80D1EBCCDA5731B149F7">
+            <Directory Id="dir866A109D1C87FCA4DC599F0004D870F7" Name="Cap_Rack_7x12" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirD1EF88C55C0A1CAC0673C9DA317508B2">
+            <Directory Id="dir8A6F1586E1EEC4858F56F25A49706BB1" Name="Round" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir37BCCC6389E01EEAA169504ABDA55CE2">
+            <Directory Id="dir8F48946FC4247FC65596505B7395548E" Name="Half_Shaft" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir7E1E41082DB4D858DE065B54C08358AB">
+            <Directory Id="dir900F631BCF4FDC19C316B7BF86D3E66E" Name="CX28" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir9F990DD1B9014CC8F15CF2CD65251070">
+            <Directory Id="dir917D68B248E5A5D0618CF5936F66744C" Name="Arrows" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirBD3B881B26CBAEE799DAF5C1CE2A66B9">
+            <Directory Id="dir95E83F7B02A3211868BF09096BC30C8C" Name="Battery_Case" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir75CAC95F19AE337C12ABDFD3846C34D1">
+            <Directory Id="dir9F990DD1B9014CC8F15CF2CD65251070" Name="Unmanned" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir79A74006F00B6F8198A6E0983EA0B621">
+            <Directory Id="dirA0A64228E33432D891D6FE784D943FE3" Name="CAT_484" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir75CAC95F19AE337C12ABDFD3846C34D1">
+            <Directory Id="dirA8EEC1F74AB04891FBA3C45CFC9D8149" Name="Manned" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir31B48382617FA19E9968B8E5CB4DF628">
+            <Directory Id="dirA9C80D1D478F251A95EF749F000AD410" Name="C15" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir04B3EC9FB2A490F789B0769A0B57289D">
+            <Directory Id="dirACC23CE1F168F5C08D49107C7AE94A05" Name="Engine_Section" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirBD3B881B26CBAEE799DAF5C1CE2A66B9">
+            <Directory Id="dirAD8F477314715BA94BF7F26661CFC0BF" Name="Battery_Unit" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirB87F7D1ABB695FC58F552B6DEBA3D275">
+            <Directory Id="dirAFBBC6C3679DA395E9FFEB1E49917382" Name="VU_ISG_V1" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir31B48382617FA19E9968B8E5CB4DF628">
+            <Directory Id="dirC44881437B5E643ED82307B1452A398A" Name="C9" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir6EA78B5E737C5301551FB9AE5C12F4F4">
+            <Directory Id="dirC7EDACC7703800B1B86EF23C6600A9E9" Name="Damper" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirB87F7D1ABB695FC58F552B6DEBA3D275">
+            <Directory Id="dirC9331FA537C3AC0F65563FAF44267ECC" Name="VU_ISG_V4" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirDEA7415D4C4D80D1EBCCDA5731B149F7">
+            <Directory Id="dirC9BE50336E0D53B0155F80D22CFAAEFD" Name="Cap_Rack_6x12" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir04B3EC9FB2A490F789B0769A0B57289D">
+            <Directory Id="dirD1EF88C55C0A1CAC0673C9DA317508B2" Name="Hatch" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirBD3B881B26CBAEE799DAF5C1CE2A66B9">
+            <Directory Id="dirDDEF71510A24635DF5229ABA4BD01F70" Name="Chassis Battery Racks" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir934A293CB46AA0FDDF9FE1536323F1F0">
+            <Directory Id="dirDEA7415D4C4D80D1EBCCDA5731B149F7" Name="Cap_Rack" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirB87F7D1ABB695FC58F552B6DEBA3D275">
+            <Directory Id="dirDEB71F9D6B10F9B5A43668327DD7CBB5" Name="VU_ISG_V2" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir31B48382617FA19E9968B8E5CB4DF628">
+            <Directory Id="dirEAE70A70B8DBD4B24B19F460E3169F5D" Name="C7" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir79A74006F00B6F8198A6E0983EA0B621">
+            <Directory Id="dirF47FB89E2A1AEF4D0849666ACCA2F345" Name="CAT_455" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirD1EF88C55C0A1CAC0673C9DA317508B2">
+            <Directory Id="dirF516CB13C4911E76B8C3E8FD8A58B112" Name="Square" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir6EA78B5E737C5301551FB9AE5C12F4F4">
+            <Directory Id="dirF5C53F4C50F02BE1A5B2FF3305B4275B" Name="Linkage" />
+        </DirectoryRef>
+    </Fragment>
+</Wix>

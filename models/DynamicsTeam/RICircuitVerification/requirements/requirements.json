@@ -1,0 +1,25 @@
+           {
+                "category": true,
+                "weightNeg": 1,
+                "description": "Potential",
+                "weightPos": 1,
+                "Priority": 1,
+                "children": [
+                    {
+                        "KPP": true,
+                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                        "weightNeg": 1,
+                        "name": "VoltageOverInductor",
+                        "weightPos": 1,
+                        "description": "",
+                        "Priority": 1,
+                        "objective": 0.25,
+                        "testBench": "RICircuit",
+                        "threshold": 0.15,
+                        "unit": "V",
+                        "metricName": "VoltageOverInductor",
+                        "successCriterion": "abs(VoltageSensor.v) > 0.15"
+                    }
+                ],
+                "name": "Velocities"
+            }

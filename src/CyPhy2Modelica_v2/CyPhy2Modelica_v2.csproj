@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D2DEA0A5-78D5-4346-9C24-4CD7AE10B8AF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CyPhy2Modelica_v2</RootNamespace>
+    <AssemblyName>CyPhy2Modelica_v2</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>AssemblySignature.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ISIS.GME.Common, Version=1.0.4.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\externals\common-scripts\ISIS.GME.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\3rdParty\Json.NET\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="GME, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.MGA, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.MGA.Core, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.MGA.Parser, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonFiles\MgaUtils.cs">
+      <Link>MgaUtils.cs</Link>
+    </Compile>
+    <Compile Include="ComponentConfig.cs" />
+    <Compile Include="CyPhy2Modelica_v2PreConfiguration.cs" />
+    <Compile Include="CyPhy2Modelica_v2Settings.cs" />
+    <Compile Include="CyPhy2Modelica_v2.cs" />
+    <Compile Include="CyPhyTypeFactory.cs" />
+    <Compile Include="FolderFilter.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModelicaLibrary.cs" />
+    <Compile Include="ModelConfig.cs" />
+    <Compile Include="Modelica\CodeGenerator.cs" />
+    <Compile Include="Modelica\Component.cs" />
+    <Compile Include="Modelica\ComponentAssembly.cs" />
+    <Compile Include="Modelica\ComponentAssemblyInstance.cs" />
+    <Compile Include="Modelica\ComponentInfo.cs" />
+    <Compile Include="Modelica\ComponentInstance.cs" />
+    <Compile Include="Modelica\ComponentMap.cs" />
+    <Compile Include="Modelica\Connection.cs" />
+    <Compile Include="Modelica\Connector.cs" />
+    <Compile Include="Modelica\UnitRedeclareParameter.cs" />
+    <Compile Include="Modelica\Environment.cs" />
+    <Compile Include="Modelica\Extensions.cs" />
+    <Compile Include="Modelica\Limit.cs" />
+    <Compile Include="Modelica\LimitCheck.cs" />
+    <Compile Include="Modelica\LimitDefinition.cs" />
+    <Compile Include="Modelica\Metric.cs" />
+    <Compile Include="Modelica\ModelBase.cs" />
+    <Compile Include="Modelica\ModelicaValue.cs" />
+    <Compile Include="Modelica\Package.cs" />
+    <Compile Include="Modelica\Parameter.cs" />
+    <Compile Include="Modelica\RedeclareParameter.cs" />
+    <Compile Include="Modelica\RequirementsMetric.cs" />
+    <Compile Include="Modelica\SolverSettings.cs" />
+    <Compile Include="Modelica\TestBench.cs" />
+    <Compile Include="Modelica\UnitParameter.cs" />
+    <Compile Include="Registrar.cs" />
+    <Compile Include="MgaGateway.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\Checker.cs" />
+    <Compile Include="Rules\Global.cs" />
+    <Compile Include="Scripts\Generator.cs" />
+    <Compile Include="Templates\compile_and_run_jmodelica_py.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>compile_and_run_jmodelica_py.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\dymola_simulate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dymola_simulate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\jmodelica_compile_py.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>jmodelica_compile_py.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\jmodelica_simulate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>jmodelica_simulate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\jmodelica_simulate_py.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>jmodelica_simulate_py.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\om_simulate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>om_simulate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\open_package_in_dymola.cs">
+      <DependentUpon>open_package_in_dymola.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Templates\open_package_in_om.cs">
+      <DependentUpon>open_package_in_om.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Templates\simulate_py.cs">
+      <DependentUpon>simulate_py.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <!--$ADDITIONALFILES$-->
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AssemblySignature.snk" />
+    <None Include="Properties\DataSources\ModelicaLibrary.datasource" />
+    <None Include="Templates\compile_and_run_jmodelica_py.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>compile_and_run_jmodelica_py.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\jmodelica_compile_py.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>jmodelica_compile_py.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\jmodelica_simulate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>jmodelica_simulate.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\jmodelica_simulate_py.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>jmodelica_simulate_py.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\om_simulate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>om_simulate.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\dymola_simulate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>dymola_simulate.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\open_package_in_dymola.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>open_package_in_dymola.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\open_package_in_om.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>open_package_in_om.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\simulate_py.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>simulate_py.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AvmDdp\AvmDdp.csproj">
+      <Project>{8880FD8F-C7DA-4491-908D-778B67057DA0}</Project>
+      <Name>AvmDdp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyCOMInterfacesCS\CyPhyCOMInterfacesCS.csproj">
+      <Project>{F8627136-5AEB-4501-A0FE-E5642D86827B}</Project>
+      <Name>CyPhyCOMInterfacesCS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyElaborateCS\CyPhyElaborateCS.csproj">
+      <Project>{ABDA448D-4C24-4E96-93D8-B6E64DBB2F51}</Project>
+      <Name>CyPhyElaborateCS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyGUIs\CyPhyGUIs.csproj">
+      <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
+      <Name>CyPhyGUIs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DesignConsistencyChecker\DesignConsistencyChecker.csproj">
+      <Project>{93FCCA2C-34B2-4855-A8DE-0A5A7F3FDECF}</Project>
+      <Name>DesignConsistencyChecker</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyMLCS\CyPhyMLCS.csproj">
+      <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>
+      <Name>CyPhyMLCS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JobManager\JobManagerLib\JobManagerLib.csproj">
+      <Project>{8B9963D3-F23C-4923-84C9-CBD6872105A6}</Project>
+      <Name>JobManagerLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CyPhy2Modelica_v2.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)..\instrumentdll $(TargetDir) $(TargetFileName) $(ProjectDir)\AssemblySignature.snk</PostBuildEvent>
+  </PropertyGroup>
+  <!--
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

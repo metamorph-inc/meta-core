@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{898E74D1-DCAA-4F05-B208-020742EE609E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ManufacturingLib</RootNamespace>
+    <AssemblyName>ManufacturingLib</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>AssemblyKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="assemblyDetails.cs">
+      <DependentUpon>assemblyDetails.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Serializers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assemblyDetails.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="AssemblyKey.snk" />
+    <None Include="common.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="manufacturingDetails.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="armor.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets. -->
+  <Target Name="Copy_files">
+    <Copy SourceFiles="..\assemblyDetails.xsd;..\manufacturingDetails.xsd;..\common.xsd;..\materials.xsd;..\procurementDetails.xsd;..\armor.xsd" DestinationFolder="." SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="xsd_assemblyDetails" Inputs="..\assemblyDetails.xsd" Outputs="assemblyDetails.cs" DependsOnTargets="Copy_files">
+    <Exec Command="&quot;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\NETFX 4.0 Tools\xsd.exe&quot; assemblyDetails.xsd /classes /namespace:Assembly /out:." StandardOutputImportance="High" />
+  </Target>
+  <Target Name="xsd_manufacturingDetails" Inputs="..\manufacturingDetails.xsd" Outputs="manufacturingDetails.cs" DependsOnTargets="Copy_files">
+    <Exec Command="&quot;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\NETFX 4.0 Tools\xsd.exe&quot; manufacturingDetails.xsd /classes /namespace:Part /out:." StandardOutputImportance="High" />
+  </Target>
+  <Target Name="BeforeBuild" DependsOnTargets="xsd_assemblyDetails;xsd_manufacturingDetails" />
+  <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)..\instrumentdll $(TargetDir) $(TargetFileName) $(ProjectDir)\AssemblyKey.snk</PostBuildEvent>
+  </PropertyGroup>
+  <!-- <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

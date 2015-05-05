@@ -1,0 +1,490 @@
+testrunner Edge Cases
+=====================
+
+This document has some edge-case examples to test various aspects of
+the test runner.
+
+Separating Python path and test directories
+-------------------------------------------
+
+The --path option defines a directory to be searched for tests *and* a
+directory to be added to Python's search path.  The --test-path option
+can be used when you want to set a test search path without also
+affecting the Python path:
+
+    >>> import os, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+
+    >>> from zope import testrunner
+
+    >>> defaults = [
+    ...     '--test-path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+    >>> sys.argv = ['test']
+    >>> testrunner.run_internal(defaults)
+    ... # doctest: +ELLIPSIS
+    Test-module import failures:
+    <BLANKLINE>
+    Module: sampletestsf
+    <BLANKLINE>
+    Traceback (most recent call last):
+    ImportError: No module named sampletestsf
+    ...
+
+    >>> sys.path.append(directory_with_tests)
+    >>> sys.argv = ['test']
+    >>> testrunner.run_internal(defaults)
+    ... # doctest: +ELLIPSIS
+    Running samplelayers.Layer1 tests:
+      Set up samplelayers.Layer1 in 0.000 seconds.
+      Ran 9 tests with 0 failures and 0 errors in 0.000 seconds.
+    ...
+    Running zope.testrunner.layer.UnitTests tests:
+      Tear down samplelayers.Layer122 in N.NNN seconds.
+      Tear down samplelayers.Layer12 in N.NNN seconds.
+      Tear down samplelayers.Layer1 in N.NNN seconds.
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+      Ran 156 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    Total: 321 tests, 0 failures, 0 errors in N.NNN seconds.
+    False
+
+Bug #251759: The test runner's protection against descending into non-package
+directories was ineffective, e.g. picking up tests from eggs that were stored
+close by:
+
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex-251759')
+
+    >>> defaults = [
+    ...     '--test-path', directory_with_tests,
+    ...     ]
+    >>> testrunner.run_internal(defaults)
+    Total: 0 tests, 0 failures, 0 errors in 0.000 seconds.
+    False
+
+
+Debugging Edge Cases
+--------------------
+
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> defaults = [
+    ...     '--test-path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+    >>> class Input:
+    ...     def __init__(self, src):
+    ...         self.lines = src.split('\n')
+    ...     def readline(self):
+    ...         line = self.lines.pop(0)
+    ...         print line
+    ...         return line+'\n'
+
+    >>> real_stdin = sys.stdin
+
+Using pdb.set_trace in a function called by an ordinary test:
+
+    >>> sys.stdin = Input('p x\nc')
+    >>> sys.argv = ('test -ssample3 --tests-pattern ^sampletests_d$'
+    ...             ' -t set_trace2').split()
+    >>> try: testrunner.run_internal(defaults)
+    ... finally: sys.stdin = real_stdin
+    ... # doctest: +ELLIPSIS
+    Running zope.testrunner.layer.UnitTests tests:...
+    > testrunner-ex/sample3/sampletests_d.py(47)f()
+    -> y = x
+    (Pdb) p x
+    1
+    (Pdb) c
+      Ran 1 tests with 0 failures and 0 errors in 0.001 seconds.
+    ...
+    False
+
+Using pdb.set_trace in a function called by a doctest in a doc string:
+
+    >>> sys.stdin = Input('n\np x\nc')
+    >>> sys.argv = ('test -ssample3 --tests-pattern ^sampletests_d$'
+    ...             ' -t set_trace4').split()
+    >>> try: testrunner.run_internal(defaults)
+    ... finally: sys.stdin = real_stdin
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+    > testrunner-ex/sample3/sampletests_d.py(NNN)f()
+    -> y = x
+    (Pdb) n
+    --Return--
+    > ...->None
+    -> y = x
+    (Pdb) p x
+    1
+    (Pdb) c
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    False
+
+Using pdb in a docstring-based doctest
+
+    >>> sys.stdin = Input('n\np x\nc')
+    >>> sys.argv = ('test -ssample3 --tests-pattern ^sampletests_d$'
+    ...             ' -t set_trace3').split()
+    >>> try: testrunner.run_internal(defaults)
+    ... finally: sys.stdin = real_stdin
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+    > <doctest sample3.sampletests_d.set_trace3[1]>(3)?()
+    -> y = x
+    (Pdb) n
+    --Return--
+    > ...->None
+    -> y = x
+    (Pdb) p x
+    1
+    (Pdb) c
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    False
+
+Using pdb.set_trace in a doc file:
+
+
+    >>> sys.stdin = Input('n\np x\nc')
+    >>> sys.argv = ('test -ssample3 --tests-pattern ^sampletests_d$'
+    ...             ' -t set_trace5').split()
+    >>> try: testrunner.run_internal(defaults)
+    ... finally: sys.stdin = real_stdin
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+    > <doctest set_trace5.txt[1]>(3)?()
+    -> y = x
+    (Pdb) n
+    --Return--
+    > ...->None
+    -> y = x
+    (Pdb) p x
+    1
+    (Pdb) c
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    False
+
+Using pdb.set_trace in a function called by a doctest in a doc file:
+
+
+    >>> sys.stdin = Input('n\np x\nc')
+    >>> sys.argv = ('test -ssample3 --tests-pattern ^sampletests_d$'
+    ...             ' -t set_trace6').split()
+    >>> try: testrunner.run_internal(defaults)
+    ... finally: sys.stdin = real_stdin
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+    > testrunner-ex/sample3/sampletests_d.py(NNN)f()
+    -> y = x
+    (Pdb) n
+    --Return--
+    > ...->None
+    -> y = x
+    (Pdb) p x
+    1
+    (Pdb) c
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    False
+
+Post-mortem debugging function called from ordinary test:
+
+    >>> sys.stdin = Input('p x\nc')
+    >>> sys.argv = ('test -ssample3 --tests-pattern ^sampletests_d$'
+    ...             ' -t post_mortem2 -D').split()
+    >>> try: testrunner.run_internal(defaults)
+    ... finally: sys.stdin = real_stdin
+    ... # doctest: +NORMALIZE_WHITESPACE
+    Running zope.testrunner.layer.UnitTests tests:...
+    <BLANKLINE>
+    <BLANKLINE>
+    Error in test test_post_mortem2 (sample3.sampletests_d.TestSomething)
+    Traceback (most recent call last):
+      File "testrunner-ex/sample3/sampletests_d.py",
+           line 37, in test_post_mortem2
+        g()
+      File "testrunner-ex/sample3/sampletests_d.py", line 46, in g
+        raise ValueError
+    ValueError
+    <BLANKLINE>
+    ...ValueError:
+    <BLANKLINE>
+    > testrunner-ex/sample3/sampletests_d.py(46)g()
+    -> raise ValueError
+    (Pdb) p x
+    1
+    (Pdb) c
+    True
+
+
+Post-mortem debugging docstring-based doctest:
+
+    >>> sys.stdin = Input('p x\nc')
+    >>> sys.argv = ('test -ssample3 --tests-pattern ^sampletests_d$'
+    ...             ' -t post_mortem3 -D').split()
+    >>> try: testrunner.run_internal(defaults)
+    ... finally: sys.stdin = real_stdin
+    ... # doctest: +NORMALIZE_WHITESPACE
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+    <BLANKLINE>
+    <BLANKLINE>
+    Error in test post_mortem3 (sample3.sampletests_d)
+    Traceback (most recent call last):
+    ...UnexpectedException: testrunner-ex/sample3/sampletests_d.py:NNN (2 examples)>
+    <BLANKLINE>
+    ...ValueError:
+    <BLANKLINE>
+    > <doctest sample3.sampletests_d.post_mortem3[1]>(1)?()
+    (Pdb) p x
+    1
+    (Pdb) c
+    True
+
+Post-mortem debugging function called from docstring-based doctest:
+
+    >>> sys.stdin = Input('p x\nc')
+    >>> sys.argv = ('test -ssample3 --tests-pattern ^sampletests_d$'
+    ...             ' -t post_mortem4 -D').split()
+    >>> try: testrunner.run_internal(defaults)
+    ... finally: sys.stdin = real_stdin
+    ... # doctest: +NORMALIZE_WHITESPACE
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+    <BLANKLINE>
+    <BLANKLINE>
+    Error in test post_mortem4 (sample3.sampletests_d)
+    Traceback (most recent call last):
+    ...UnexpectedException: testrunner-ex/sample3/sampletests_d.py:NNN (1 example)>
+    <BLANKLINE>
+    ...ValueError:
+    <BLANKLINE>
+    > testrunner-ex/sample3/sampletests_d.py(NNN)g()
+    -> raise ValueError
+    (Pdb) p x
+    1
+    (Pdb) c
+    True
+
+Post-mortem debugging file-based doctest:
+
+    >>> sys.stdin = Input('p x\nc')
+    >>> sys.argv = ('test -ssample3 --tests-pattern ^sampletests_d$'
+    ...             ' -t post_mortem5 -D').split()
+    >>> try: testrunner.run_internal(defaults)
+    ... finally: sys.stdin = real_stdin
+    ... # doctest: +NORMALIZE_WHITESPACE
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+    <BLANKLINE>
+    <BLANKLINE>
+    Error testrunner-ex/sample3/post_mortem5.txt
+    Traceback (most recent call last):
+    ...UnexpectedException: testrunner-ex/sample3/post_mortem5.txt:0 (2 examples)>
+    <BLANKLINE>
+    ...ValueError:
+    <BLANKLINE>
+    > <doctest post_mortem5.txt[1]>(1)?()
+    (Pdb) p x
+    1
+    (Pdb) c
+    True
+
+
+
+Post-mortem debugging function called from file-based doctest:
+
+    >>> sys.stdin = Input('p x\nc')
+    >>> sys.argv = ('test -ssample3 --tests-pattern ^sampletests_d$'
+    ...             ' -t post_mortem6 -D').split()
+    >>> try: testrunner.run_internal(defaults)
+    ... finally: sys.stdin = real_stdin
+    ... # doctest: +NORMALIZE_WHITESPACE
+    Running zope.testrunner.layer.UnitTests tests:...
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+    <BLANKLINE>
+    <BLANKLINE>
+    Error testrunner-ex/sample3/post_mortem6.txt
+    Traceback (most recent call last):
+      File ".../zope/testing/doctest/__init__.py", Line NNN, in debug
+        runner.run(self._dt_test, clear_globs=False)
+      File ".../zope/testing/doctest/__init__.py", Line NNN, in run
+        r = DocTestRunner.run(self, test, compileflags, out, False)
+      File ".../zope/testing/doctest/__init__.py", Line NNN, in run
+        return self.__run(test, compileflags, out)
+      File ".../zope/testing/doctest/__init__.py", Line NNN, in __run
+        exc_info)
+      File ".../zope/testing/doctest/__init__.py", Line NNN, in report_unexpected_exception
+        raise UnexpectedException(test, example, exc_info)
+    ...UnexpectedException: testrunner-ex/sample3/post_mortem6.txt:0 (2 examples)>
+    <BLANKLINE>
+    ...ValueError:
+    <BLANKLINE>
+    > testrunner-ex/sample3/sampletests_d.py(NNN)g()
+    -> raise ValueError
+    (Pdb) p x
+    1
+    (Pdb) c
+    True
+
+Post-mortem debugging of a docstring doctest failure:
+
+    >>> sys.stdin = Input('p x\nc')
+    >>> sys.argv = ('test -ssample3 --tests-pattern ^sampletests_d$'
+    ...             ' -t post_mortem_failure2 -D').split()
+    >>> try: testrunner.run_internal(defaults)
+    ... finally: sys.stdin = real_stdin
+    ... # doctest: +NORMALIZE_WHITESPACE
+    Running zope.testrunner.layer.UnitTests tests:...
+    <BLANKLINE>
+    <BLANKLINE>
+    Error in test post_mortem_failure2 (sample3.sampletests_d)
+    <BLANKLINE>
+    File "testrunner-ex/sample3/sampletests_d.py",
+                   line 81, in sample3.sampletests_d.post_mortem_failure2
+    <BLANKLINE>
+    x
+    <BLANKLINE>
+    Want:
+    2
+    <BLANKLINE>
+    Got:
+    1
+    <BLANKLINE>
+    <BLANKLINE>
+    > testrunner-ex/sample3/sampletests_d.py(81)_()
+    ...ValueError:
+    Expected and actual output are different
+    > <string>(1)...()
+    (Pdb) p x
+    1
+    (Pdb) c
+    True
+
+
+Post-mortem debugging of a docfile doctest failure:
+
+    >>> sys.stdin = Input('p x\nc')
+    >>> sys.argv = ('test -ssample3 --tests-pattern ^sampletests_d$'
+    ...             ' -t post_mortem_failure.txt -D').split()
+    >>> try: testrunner.run_internal(defaults)
+    ... finally: sys.stdin = real_stdin
+    ... # doctest: +NORMALIZE_WHITESPACE
+    Running zope.testrunner.layer.UnitTests tests:...
+    <BLANKLINE>
+    <BLANKLINE>
+    Error in test /home/jim/z3/zope.testrunner/src/zope/testing/testrunner-ex/sample3/post_mortem_failure.txt
+    <BLANKLINE>
+    File "testrunner-ex/sample3/post_mortem_failure.txt",
+                                      line 2, in post_mortem_failure.txt
+    <BLANKLINE>
+    x
+    <BLANKLINE>
+    Want:
+    2
+    <BLANKLINE>
+    Got:
+    1
+    <BLANKLINE>
+    <BLANKLINE>
+    > testrunner-ex/sample3/post_mortem_failure.txt(2)_()
+    ...ValueError:
+    Expected and actual output are different
+    > <string>(1)...()
+    (Pdb) p x
+    1
+    (Pdb) c
+    True
+
+Post-mortem debugging with triple verbosity
+
+    >>> sys.argv = 'test --layer samplelayers.Layer1$ -vvv -D'.split()
+    >>> testrunner.run_internal(defaults)
+    Running tests at level 1
+    Running samplelayers.Layer1 tests:
+      Set up samplelayers.Layer1 in 0.000 seconds.
+      Running:
+        test_x1 (sampletestsf.TestA1) (0.000 s)
+        test_y0 (sampletestsf.TestA1) (0.000 s)
+        test_z0 (sampletestsf.TestA1) (0.000 s)
+        test_x0 (sampletestsf.TestB1) (0.000 s)
+        test_y1 (sampletestsf.TestB1) (0.000 s)
+        test_z0 (sampletestsf.TestB1) (0.000 s)
+        test_1 (sampletestsf.TestNotMuch1) (0.000 s)
+        test_2 (sampletestsf.TestNotMuch1) (0.000 s)
+        test_3 (sampletestsf.TestNotMuch1) (0.000 s)
+      Ran 9 tests with 0 failures and 0 errors in 0.001 seconds.
+    Tearing down left over layers:
+      Tear down samplelayers.Layer1 in 0.000 seconds.
+    False
+
+Test Suites with None for suites or tests
+-----------------------------------------
+
+    >>> sys.argv = ['test',
+    ...             '--tests-pattern', '^sampletests_none_suite$',
+    ...     ]
+    >>> testrunner.run_internal(defaults)
+    Test-module import failures:
+    <BLANKLINE>
+    Module: sample1.sampletests_none_suite
+    <BLANKLINE>
+    Traceback (most recent call last):
+    TypeError: Invalid test_suite, None, in sample1.sampletests_none_suite
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Test-modules with import problems:
+      sample1.sampletests_none_suite
+    Total: 0 tests, 0 failures, 0 errors in N.NNN seconds.
+    True
+
+
+    >>> sys.argv = ['test',
+    ...             '--tests-pattern', '^sampletests_none_test$',
+    ...     ]
+    >>> testrunner.run_internal(defaults)
+    Test-module import failures:
+    <BLANKLINE>
+    Module: sample1.sampletests_none_test
+    <BLANKLINE>
+    Traceback (most recent call last):
+    TypeError: ...
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Test-modules with import problems:
+      sample1.sampletests_none_test
+    Total: 0 tests, 0 failures, 0 errors in N.NNN seconds.
+    True
+
+You must use --repeat with --report-refcounts
+---------------------------------------------
+
+It is an error to specify --report-refcounts (-r) without specifying a
+repeat count greater than 1
+
+    >>> sys.argv = 'test -r'.split()
+    >>> testrunner.run_internal(defaults)
+            You must use the --repeat (-N) option to specify a repeat
+            count greater than 1 when using the --report_refcounts (-r)
+            option.
+    <BLANKLINE>
+    True
+
+    >>> sys.argv = 'test -r -N1'.split()
+    >>> testrunner.run_internal(defaults)
+            You must use the --repeat (-N) option to specify a repeat
+            count greater than 1 when using the --report_refcounts (-r)
+            option.
+    <BLANKLINE>
+    True
+

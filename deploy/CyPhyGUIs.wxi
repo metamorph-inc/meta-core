@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+<!-- based on "c:\Program Files (x86)\Windows Installer XML v3.5\bin\heat.exe" file  ..\src\CyPhyGUIs\bin\Release\CyPhyGUIs.dll -dr bin -o tmp -suid -->
+    <Fragment>
+        <DirectoryRef Id="bin">
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="CyPhyGUIs">
+            <Component Id="CyPhyGUIs.dll" Directory="bin">
+                <Class Id="{6C9DC950-A72A-40A2-8EFA-87FEF8777BA3}" Context="InprocServer32" Description="CyPhyGUIs.InterpreterMainParameters" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="ISIS.CyPhyML.InterpreterConfiguration" Description="CyPhyGUIs.InterpreterMainParameters" />
+                </Class>
+                <Class Id="{82FADB53-8EAA-471F-BE03-084338D9C830}" Context="InprocServer32" Description="CyPhyGUIs.InterpreterResult" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="ISIS.CyPhyML.InterpreterResult" Description="CyPhyGUIs.InterpreterResult" />
+                </Class>
+                <Class Id="{FA6EE6D3-97FA-4B9F-B350-AAE8AEFC4312}" Context="InprocServer32" Description="CyPhyGUIs.PreConfigArgs" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="ISIS.CyPhyML.PreConfigArgs" Description="CyPhyGUIs.PreConfigArgs" />
+                </Class>
+                <Class Id="{846F6E5E-16B3-46FE-A3D9-16C6A2DA9CC6}" Context="InprocServer32" Description="CyPhyGUIs.NullInterpreterConfiguration" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="ISIS.CyPhyML.NullInterpreterConfiguration" Description="CyPhyGUIs.NullInterpreterConfiguration" />
+                </Class>
+                <File Id="CyPhyGUIs.dll" KeyPath="yes" Source="..\src\CyPhyGUIs\bin\Release\CyPhyGUIs.dll" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6C9DC950-A72A-40A2-8EFA-87FEF8777BA3}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6C9DC950-A72A-40A2-8EFA-87FEF8777BA3}\InprocServer32\1.0.0.0" Name="Class" Value="CyPhyGUIs.InterpreterMainParameters" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6C9DC950-A72A-40A2-8EFA-87FEF8777BA3}\InprocServer32\1.0.0.0" Name="Assembly" Value="CyPhyGUIs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a2bc4de2a6ddf666" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6C9DC950-A72A-40A2-8EFA-87FEF8777BA3}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6C9DC950-A72A-40A2-8EFA-87FEF8777BA3}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#CyPhyGUIs.dll]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6C9DC950-A72A-40A2-8EFA-87FEF8777BA3}\InprocServer32" Name="Class" Value="CyPhyGUIs.InterpreterMainParameters" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6C9DC950-A72A-40A2-8EFA-87FEF8777BA3}\InprocServer32" Name="Assembly" Value="CyPhyGUIs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a2bc4de2a6ddf666" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6C9DC950-A72A-40A2-8EFA-87FEF8777BA3}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6C9DC950-A72A-40A2-8EFA-87FEF8777BA3}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyGUIs.dll]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{82FADB53-8EAA-471F-BE03-084338D9C830}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{82FADB53-8EAA-471F-BE03-084338D9C830}\InprocServer32\1.0.0.0" Name="Class" Value="CyPhyGUIs.InterpreterResult" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{82FADB53-8EAA-471F-BE03-084338D9C830}\InprocServer32\1.0.0.0" Name="Assembly" Value="CyPhyGUIs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a2bc4de2a6ddf666" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{82FADB53-8EAA-471F-BE03-084338D9C830}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{82FADB53-8EAA-471F-BE03-084338D9C830}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#CyPhyGUIs.dll]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{82FADB53-8EAA-471F-BE03-084338D9C830}\InprocServer32" Name="Class" Value="CyPhyGUIs.InterpreterResult" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{82FADB53-8EAA-471F-BE03-084338D9C830}\InprocServer32" Name="Assembly" Value="CyPhyGUIs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a2bc4de2a6ddf666" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{82FADB53-8EAA-471F-BE03-084338D9C830}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{82FADB53-8EAA-471F-BE03-084338D9C830}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyGUIs.dll]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{FA6EE6D3-97FA-4B9F-B350-AAE8AEFC4312}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{FA6EE6D3-97FA-4B9F-B350-AAE8AEFC4312}\InprocServer32\1.0.0.0" Name="Class" Value="CyPhyGUIs.PreConfigArgs" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{FA6EE6D3-97FA-4B9F-B350-AAE8AEFC4312}\InprocServer32\1.0.0.0" Name="Assembly" Value="CyPhyGUIs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a2bc4de2a6ddf666" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{FA6EE6D3-97FA-4B9F-B350-AAE8AEFC4312}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{FA6EE6D3-97FA-4B9F-B350-AAE8AEFC4312}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#CyPhyGUIs.dll]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{FA6EE6D3-97FA-4B9F-B350-AAE8AEFC4312}\InprocServer32" Name="Class" Value="CyPhyGUIs.PreConfigArgs" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{FA6EE6D3-97FA-4B9F-B350-AAE8AEFC4312}\InprocServer32" Name="Assembly" Value="CyPhyGUIs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a2bc4de2a6ddf666" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{FA6EE6D3-97FA-4B9F-B350-AAE8AEFC4312}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{FA6EE6D3-97FA-4B9F-B350-AAE8AEFC4312}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyGUIs.dll]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{846F6E5E-16B3-46FE-A3D9-16C6A2DA9CC6}\InprocServer32" Name="Class" Value="CyPhyGUIs.NullInterpreterConfiguration" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{846F6E5E-16B3-46FE-A3D9-16C6A2DA9CC6}\InprocServer32" Name="Assembly" Value="CyPhyGUIs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a2bc4de2a6ddf666" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{846F6E5E-16B3-46FE-A3D9-16C6A2DA9CC6}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{846F6E5E-16B3-46FE-A3D9-16C6A2DA9CC6}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyGUIs.dll]" Type="string" Action="write" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

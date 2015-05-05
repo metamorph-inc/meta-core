@@ -1,0 +1,129 @@
+Code Coverage
+=============
+
+If the --coverage option is used, test coverage reports will be generated.  The
+directory name given as the parameter will be used to hold the reports.
+
+
+    >>> import os.path, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+
+    >>> sys.argv = 'test --coverage=coverage_dir'.split()
+
+    >>> from zope import testrunner
+    >>> testrunner.run_internal(defaults)
+    Running samplelayers.Layer1 tests:
+      Set up samplelayers.Layer1 in 0.000 seconds.
+      Ran 9 tests with 0 failures and 0 errors in 0.000 seconds.
+    Running samplelayers.Layer11 tests:
+      Set up samplelayers.Layer11 in 0.000 seconds.
+      Ran 26 tests with 0 failures and 0 errors in 0.125 seconds.
+    Running samplelayers.Layer111 tests:
+      Set up samplelayers.Layerx in 0.000 seconds.
+      Set up samplelayers.Layer111 in 0.000 seconds.
+      Ran 26 tests with 0 failures and 0 errors in 0.125 seconds.
+    Running samplelayers.Layer112 tests:
+      Tear down samplelayers.Layer111 in 0.000 seconds.
+      Set up samplelayers.Layer112 in 0.000 seconds.
+      Ran 26 tests with 0 failures and 0 errors in 0.125 seconds.
+    Running samplelayers.Layer12 tests:
+      Tear down samplelayers.Layer112 in 0.000 seconds.
+      Tear down samplelayers.Layerx in 0.000 seconds.
+      Tear down samplelayers.Layer11 in 0.000 seconds.
+      Set up samplelayers.Layer12 in 0.000 seconds.
+      Ran 26 tests with 0 failures and 0 errors in 0.140 seconds.
+    Running samplelayers.Layer121 tests:
+      Set up samplelayers.Layer121 in 0.000 seconds.
+      Ran 26 tests with 0 failures and 0 errors in 0.125 seconds.
+    Running samplelayers.Layer122 tests:
+      Tear down samplelayers.Layer121 in 0.000 seconds.
+      Set up samplelayers.Layer122 in 0.000 seconds.
+      Ran 26 tests with 0 failures and 0 errors in 0.125 seconds.
+    Running zope.testrunner.layer.UnitTests tests:
+      Tear down samplelayers.Layer122 in 0.000 seconds.
+      Tear down samplelayers.Layer12 in 0.000 seconds.
+      Tear down samplelayers.Layer1 in 0.000 seconds.
+      Set up zope.testrunner.layer.UnitTests in 0.000 seconds.
+      Ran 156 tests with 0 failures and 0 errors in 0.687 seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in 0.000 seconds.
+    lines   cov%   module   (path)
+    ...
+       48   100%   sampletests.test1   (testrunner-ex/sampletests/test1.py)
+       74   100%   sampletests.test11   (testrunner-ex/sampletests/test11.py)
+       74   100%   sampletests.test111   (testrunner-ex/sampletests/test111.py)
+       76   100%   sampletests.test112   (testrunner-ex/sampletests/test112.py)
+       74   100%   sampletests.test12   (testrunner-ex/sampletests/test12.py)
+       74   100%   sampletests.test121   (testrunner-ex/sampletests/test121.py)
+       74   100%   sampletests.test122   (testrunner-ex/sampletests/test122.py)
+       48   100%   sampletests.test_one   (testrunner-ex/sampletests/test_one.py)
+      112    95%   sampletestsf   (testrunner-ex/sampletestsf.py)
+    Total: 321 tests, 0 failures, 0 errors in 0.630 seconds.
+    False
+
+The directory specified with the --coverage option will have been created and
+will hold the coverage reports.
+
+    >>> os.path.exists('coverage_dir')
+    True
+    >>> os.listdir('coverage_dir')
+    [...]
+
+(We should clean up after ourselves.)
+
+    >>> import shutil
+    >>> shutil.rmtree('coverage_dir')
+
+
+Ignoring Tests
+--------------
+
+The ``trace`` module supports ignoring directories and modules based the test
+selection. Only directories selected for testing should report coverage. The
+test runner provides a custom implementation of the relevant API.
+
+The ``TestIgnore`` class, the class managing the ignoring, is initialized by
+passing the command line options. It uses the options to determine the
+directories that should be covered.
+
+  >>> class FauxOptions(object):
+  ...   package = None
+  ...   test_path = [('/myproject/src/blah/foo', ''),
+  ...                ('/myproject/src/blah/bar', '')]
+  >>> from zope.testrunner import coverage
+  >>> from zope.testrunner.find import test_dirs
+  >>> ignore = coverage.TestIgnore(test_dirs(FauxOptions(), {}))
+  >>> ignore._test_dirs
+  ['/myproject/src/blah/foo/', '/myproject/src/blah/bar/']
+
+We can now ask whether a particular module should be ignored:
+
+  >>> ignore.names('/myproject/src/blah/foo/baz.py', 'baz')
+  False
+  >>> ignore.names('/myproject/src/blah/bar/mine.py', 'mine')
+  False
+  >>> ignore.names('/myproject/src/blah/foo/__init__.py', 'foo')
+  False
+  >>> ignore.names('/myproject/src/blah/hello.py', 'hello')
+  True
+
+When running the test runner, modules are sometimes created from text
+strings. Those should *always* be ignored:
+
+  >>> ignore.names('/myproject/src/blah/hello.txt', '<string>')
+  True
+
+To make this check fast, the class implements a cache. In an early
+implementation, the result was cached by the module name, which was a problem,
+since a lot of modules carry the same name (not the Python dotted name
+here!). So just because a module has the same name in an ignored and tested
+directory, does not mean it is always ignored:
+
+  >>> ignore.names('/myproject/src/blah/module.py', 'module')
+  True
+  >>> ignore.names('/myproject/src/blah/foo/module.py', 'module')
+  False

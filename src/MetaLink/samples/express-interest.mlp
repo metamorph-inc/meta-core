@@ -1,0 +1,49 @@
+== EDIT DELIMITER : "9290EECE-9B5A-4310-8F5B-14C248B996A4" ==
+timestamp: 1373409995631
+== BEGIN ==
+editMode: INTEREST
+topic: "ISIS.METALINK.CADASSEMBLY"
+topic: "the assembly id"
+guid: "guid-4.0"
+origin: "foo of bar" 
+sequence: 7 
+== EDIT DELIMITER : "9290EECE-9B5A-4310-8F5B-14C248B996A4" ==
+timestamp: 1373409995631
+== BEGIN ==
+editMode: POST
+topic: "ISIS.METALINK.CADASSEMBLY"
+topic: "the other assembly id"
+guid: "guid-4.1"
+origin: "foo of bar" 
+sequence: 8 
+actions {
+  actionMode: INSERT
+  payload {
+    components {
+      AvmComponentID: "fb7ad538-e513-4c3e-b72e-66d99010562c"
+      ComponentID: "fb7ad538-e513-4c3e-b72e-66d99010562c"
+      Name: "spring"
+    }
+  }
+}
+== EDIT DELIMITER : "9290EECE-9B5A-4310-8F5B-14C248B996A4" ==
+timestamp: 1373409995631
+== BEGIN ==
+editMode: POST
+topic: "ISIS.METALINK.CADASSEMBLY"
+topic: "the assembly id"
+guid: "guid-4.2"
+origin: "foo of bar" 
+sequence: 9 
+actions {
+  actionMode: INSERT
+  payload {
+    components {
+      AvmComponentID: "fb7ad538-e513-4c3e-b72e-66d99010562c"
+      ComponentID: "fb7ad538-e513-4c3e-b72e-66d99010562c"
+      Name: "spring"
+    }
+  }
+}
+
+

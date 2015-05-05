@@ -1,0 +1,13 @@
+! Comments are O-K
+fang.VEH	! Vehicle input file
+track.OBS			! Terrain input file
+fang_OBS.OUT	! Summary output file (This file is appended to the end of
+!		 	the NRMM II main module vehicle input data file.)
+nul: 		! "plot" output (not currently implemented)
+! the following can be the path name of a file with the following data
+! or the data itself
+ $SCENAR
+  DETAIL    = 1,
+  FMU       = 0.95, 0.95, 0.95,
+  RTOW      = 0.0, 0.0, 0.0,
+ $END

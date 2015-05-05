@@ -1,0 +1,59 @@
+Support for testing logging code
+================================
+
+If you want to test that your code generates proper log output, you
+can create and install a handler that collects output:
+
+  >>> from zope.testing.loggingsupport import InstalledHandler
+  >>> handler = InstalledHandler('foo.bar')
+
+The handler is installed into loggers for all of the names passed. In
+addition, the logger level is set to 1, which means, log
+everything. If you want to log less than everything, you can provide a
+level keyword argument.  The level setting effects only the named
+loggers.
+
+  >>> import logging
+  >>> handler_with_levels = InstalledHandler('baz', level=logging.WARNING)
+
+Then, any log output is collected in the handler:
+
+  >>> logging.getLogger('foo.bar').exception('eek')
+  >>> logging.getLogger('foo.bar').info('blah blah')
+
+  >>> for record in handler.records:
+  ...     print_(record.name, record.levelname)
+  ...     print_(' ', record.getMessage())
+  foo.bar ERROR
+    eek
+  foo.bar INFO
+    blah blah
+
+A similar effect can be gotten by just printing the handler:
+
+  >>> print_(handler)
+  foo.bar ERROR
+    eek
+  foo.bar INFO
+    blah blah
+
+After checking the log output, you need to uninstall the handler:
+
+  >>> handler.uninstall()
+  >>> handler_with_levels.uninstall()
+
+At which point, the handler won't get any more log output.
+Let's clear the handler:
+
+  >>> handler.clear()
+  >>> handler.records
+  []
+
+And then log something:
+
+  >>> logging.getLogger('foo.bar').info('blah')
+
+and, sure enough, we still have no output:
+
+  >>> handler.records
+  []

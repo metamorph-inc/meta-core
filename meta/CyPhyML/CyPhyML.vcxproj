@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A6B875EF-43CF-4430-B0CD-BE36FB41E8D2}</ProjectGuid>
+    <RootNamespace>CyPhyML</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\externals\common-scripts\build_customization\meta2uml.props" />
+    <Import Project="..\..\externals\common-scripts\build_customization\mga2udmxml.props" />
+    <Import Project="..\..\externals\common-scripts\build_customization\mga2xmp.props" />
+    <Import Project="..\..\externals\common-scripts\build_customization\udm.props" />
+    <Import Project="..\..\externals\common-scripts\build_customization\xme2mga.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <mga2udmxml_RuleAfterTargets>meta2uml</mga2udmxml_RuleAfterTargets>
+    <mga2xmp_RuleAfterTargets>xme2mga</mga2xmp_RuleAfterTargets>
+    <IntDir>$(META_PATH)\generated\CyPhyML\models\</IntDir>
+    <meta2uml_RuleAfterTargets>xme2mga</meta2uml_RuleAfterTargets>
+    <udm_RuleBeforeTargets />
+    <udm_RuleAfterTargets>mga2udmxml</udm_RuleAfterTargets>
+    <mga2udmxml_RuleBeforeTargets>udm</mga2udmxml_RuleBeforeTargets>
+    <meta2uml_RuleBeforeTargets>mga2udmxml</meta2uml_RuleBeforeTargets>
+    <xme2mga_RuleBeforeTargets>meta2uml</xme2mga_RuleBeforeTargets>
+    <xme2mga_RuleAfterTargets>CustomBuild</xme2mga_RuleAfterTargets>
+    <ExtensionsToDeleteOnClean>*.mga;*.xmp;*.xml;$(ExtensionsToDeleteOnClean)</ExtensionsToDeleteOnClean>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>echo "Registering META_PATH = $(META_PATH) ..."
+reg add HKLM\Software\META /v META_PATH /t REG_SZ /d "$(META_PATH)\" /f
+IF NOT %ERRORLEVEL%==0 exit /b %ERRORLEVEL%
+IF EXIST c:\windows\sysnative\reg.exe c:\windows\sysnative\reg add HKLM\Software\META /v META_PATH /t REG_SZ /d "$(META_PATH)\" /f
+echo "Done."
+echo "Registering MAX_DYMOLA_STEP_TIME = 300 ..."
+reg add HKLM\Software\META /v MAX_DYMOLA_STEP_TIME /t REG_DWORD /d 300 /f
+IF NOT %ERRORLEVEL%==0 exit /b %ERRORLEVEL%
+IF EXIST c:\windows\sysnative\reg.exe c:\windows\sysnative\reg add HKLM\Software\META /v MAX_DYMOLA_STEP_TIME /t REG_DWORD /d 300 /f
+echo "Done."
+echo "Registering MAX_SIMULATION_TIME = 86400 ..."
+reg add HKLM\Software\META /v MAX_SIMULATION_TIME /t REG_DWORD /d 86400 /f
+IF NOT %ERRORLEVEL%==0 exit /b %ERRORLEVEL%
+IF EXIST c:\windows\sysnative\reg.exe c:\windows\sysnative\reg add HKLM\Software\META /v MAX_SIMULATION_TIME /t REG_DWORD /d 86400 /f
+echo "Done."
+
+$(META_PATH)\bin\Python27\Scripts\python.exe $(ProjectDir)\add_registry_entries.py</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <xme2mga Include="CyPhyML.xme">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mkdir $(META_PATH)\generated\CyPhyML\models
+$(META_PATH)\externals\common-scripts\gmepy.exe xme2mga %(FullPath) $(META_PATH)\generated\CyPhyML\models\%(Filename).mga
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename) XME -&gt; MGA</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated\CyPhyML\models\%(Filename).mga</Outputs>
+      <FileType>Document</FileType>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated\CyPhyML\models\%(FileName).mga</OutFile>
+    </xme2mga>
+  </ItemGroup>
+  <ItemGroup>
+    <meta2uml Include="..\..\generated\CyPhyML\models\CyPhyML.mga">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(GREAT_PATH)\bin\MetaGME2UML.exe" "%(FullPath)" "%(RootDir)%(Directory)\%(Filename)_uml.mga"
+"$(META_PATH)\externals\common-scripts\gmepy.exe" mga2xmp "%(FullPath)"
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename): Convert to UML and Register</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\%(Filename)_uml.mga;%(RootDir)%(Directory)\%(Filename).xmp</Outputs>
+      <FileType>Document</FileType>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated\CyPhyML\models\%(FileName)_uml.mga</OutFile>
+    </meta2uml>
+  </ItemGroup>
+  <ItemGroup>
+    <mga2udmxml Include="..\..\generated\CyPhyML\models\CyPhyML_uml.mga">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd %(RootDir)%(Directory)
+"$(UDM_PATH)\etc\CreateUdmXml.vbs" %(FullPath)
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">uml.mga -&gt;udm.xml</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)$(Directory)\CyPhyML_udm.xml</Outputs>
+      <FileType>Document</FileType>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CyPhyML</MetaName>
+    </mga2udmxml>
+    <udm Include="..\..\generated\CyPhyML\models\CyPhyML_udm.xml">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mkdir "%(RootDir)%(Directory)\..\generated"
+cd "%(RootDir)%(Directory)\..\generated"
+"$(UDM_PATH)\bin\Udm.exe" -g -v %(FullPath)
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Executing UDM on $(Filename).xml</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\..\generated\CyPhyML.cpp;%(RootDir)%(Directory)\..\generated\CyPhyML.h;%(RootDir)%(Directory)\..\generated\CyPhyML.xsd;%(RootDir)%(Directory)\..\generated\CyPhyML_xsd.h</Outputs>
+      <IntegrateXSD Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</IntegrateXSD>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CyPhyML</MetaName>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated</OutDir>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">-g -v -l CYPHYML_DLL %(AdditionalOptions)</AdditionalOptions>
+    </udm>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\externals\common-scripts\build_customization\meta2uml.targets" />
+    <Import Project="..\..\externals\common-scripts\build_customization\mga2udmxml.targets" />
+    <Import Project="..\..\externals\common-scripts\build_customization\mga2xmp.targets" />
+    <Import Project="..\..\externals\common-scripts\build_customization\udm.targets" />
+    <Import Project="..\..\externals\common-scripts\build_customization\xme2mga.targets" />
+  </ImportGroup>
+</Project>

@@ -1,0 +1,36 @@
+
+
+Topic: ISIS.METALINK.CADASSEMBLY  + <assembly design id>
+
+This two part topic is used for any communication related to a specific CAD assembly.
+The assumption is that these conform to the CADAssemblies schema.
+
+
+
+Topic: ISIS.METALINK.COMPONENT.MANIFEST
+
+Messages related to the names of avm components.
+
+
+
+
+Topic: ISIS.METALINK.COMPONENT.UPDATE  + <component id>
+
+Intoduced in: http://escher.isis.vanderbilt.edu/JIRA/browse/META-1355
+Messages related to the creation and editing of ba base/avm component.
+
+
+
+
+Topic: ISIS.METALINK.COMPONENT.SELECT
+
+Messages related to the focus to a particular component.
+  
+
+
+
+Topic: ISIS.METALINK.CAD.PASSIVE
+
+Messages related to CAD packages (Creo CADAssembler) delegating work.
+the focus to a particular component.
+  

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="1367fe9e-1a2c-41af-8285-a18d9aaa4c5c" Name="Plate100x100" Version="" xmlns="avm">
+  <DomainModel xmlns:q1="cad" xsi:type="q1:CADModel" UsesResource="cad.path" Author="Ted" Notes="" xmlns="">
+    <Datum xsi:type="q1:CoordinateSystem" ID="Side1" PortMap="" Name="Side1" Notes="" Definition="" DatumName="CS0" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="TopSide4" PortMap="" Name="TopSide4" Notes="" Definition="" DatumName="CS7" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="Side2" PortMap="" Name="Side2" Notes="" Definition="" DatumName="CS1" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="Side3" PortMap="" Name="Side3" Notes="" Definition="" DatumName="CS2" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="Side4" PortMap="" Name="Side4" Notes="" Definition="" DatumName="CS3" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="TopSide1" PortMap="" Name="TopSide1" Notes="" Definition="" DatumName="CS4" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="TopSide3" PortMap="" Name="TopSide3" Notes="" Definition="" DatumName="CS6" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="TopSide2" PortMap="" Name="TopSide2" Notes="" Definition="" DatumName="CS5" />
+  </DomainModel>
+  <DomainModel xmlns:q2="cad" xsi:type="q2:CADModel" UsesResource="id-d15bc144-ba7e-4e7e-a45e-d30db88eb437" Author="" Notes="" xmlns="">
+    <Datum xsi:type="q2:Point" ID="cad.PNT2" PortMap="" Name="PNT2" Notes="" Definition="" DatumName="PNT2" />
+    <Datum xsi:type="q2:Point" ID="cad.PNT4" PortMap="" Name="PNT4" Notes="" Definition="" DatumName="PNT4" />
+    <Datum xsi:type="q2:Point" ID="cad.PNT7" PortMap="" Name="PNT7" Notes="" Definition="" DatumName="PNT7" />
+    <Datum xsi:type="q2:Point" ID="cad.PNT3" PortMap="" Name="PNT3" Notes="" Definition="" DatumName="PNT3" />
+    <Datum xsi:type="q2:Point" ID="cad.PNT8" PortMap="" Name="PNT8" Notes="" Definition="" DatumName="PNT8" />
+    <Datum xsi:type="q2:Point" ID="cad.PNT5" PortMap="" Name="PNT5" Notes="" Definition="" DatumName="PNT5" />
+    <Datum xsi:type="q2:Point" ID="cad.PNT6" PortMap="" Name="PNT6" Notes="" Definition="" DatumName="PNT6" />
+    <Datum xsi:type="q2:Point" ID="cad.PNT9" PortMap="" Name="PNT9" Notes="" Definition="" DatumName="PNT9" />
+    <Datum xsi:type="q2:Point" ID="cad.PNT0" PortMap="" Name="PNT0" Notes="" Definition="" DatumName="PNT0" />
+    <Datum xsi:type="q2:Point" ID="cad.PNT1" PortMap="" Name="PNT1" Notes="" Definition="" DatumName="PNT1" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.INT_BOLT_02" PortMap="" Name="INT_BOLT_02" Notes="" Definition="" DatumName="INT_BOLT_02" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.INT_LOAD_LOCATION" PortMap="" Name="INT_LOAD_LOCATION" Notes="" Definition="" DatumName="INT_LOAD_LOCATION" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.INT_BOLT_03" PortMap="" Name="INT_BOLT_03" Notes="" Definition="" DatumName="INT_BOLT_03" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.INT_BOLT_01" PortMap="" Name="INT_BOLT_01" Notes="" Definition="" DatumName="INT_BOLT_01" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.INT_BOLT_04" PortMap="" Name="INT_BOLT_04" Notes="" Definition="" DatumName="INT_BOLT_04" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.INT_BOLT_06" PortMap="" Name="INT_BOLT_06" Notes="" Definition="" DatumName="INT_BOLT_06" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.INT_BOLT_08" PortMap="" Name="INT_BOLT_08" Notes="" Definition="" DatumName="INT_BOLT_08" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.INT_BOLT_07" PortMap="" Name="INT_BOLT_07" Notes="" Definition="" DatumName="INT_BOLT_07" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.INT_BOLT_05" PortMap="" Name="INT_BOLT_05" Notes="" Definition="" DatumName="INT_BOLT_05" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.BDB1385_ASM" PortMap="" Name="BDB1385_ASM" Notes="" Definition="" DatumName="BDB1385_ASM" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.EXT_MOUNT_1" PortMap="" Name="EXT_MOUNT_1" Notes="" Definition="" DatumName="EXT_MOUNT_1" />
+    <Datum xsi:type="q2:Plane" ID="cad.DTM4" PortMap="" Name="DTM4" Notes="" Definition="" DatumName="DTM4" SurfaceReverseMap="" />
+    <Datum xsi:type="q2:Plane" ID="cad.DTM2" PortMap="" Name="DTM2" Notes="" Definition="" DatumName="DTM2" SurfaceReverseMap="" />
+    <Datum xsi:type="q2:Plane" ID="cad.DTM1" PortMap="" Name="DTM1" Notes="" Definition="" DatumName="DTM1" SurfaceReverseMap="" />
+    <Datum xsi:type="q2:Plane" ID="cad.DEFAULT_1" PortMap="" Name="DEFAULT_1" Notes="" Definition="" DatumName="DEFAULT_1" SurfaceReverseMap="" />
+    <Datum xsi:type="q2:Plane" ID="cad.DTM3" PortMap="" Name="DTM3" Notes="" Definition="" DatumName="DTM3" SurfaceReverseMap="" />
+    <Datum xsi:type="q2:Axis" ID="cad.A_2" PortMap="" Name="A_2" Notes="" Definition="" DatumName="A_2" />
+    <Datum xsi:type="q2:Axis" ID="cad.A_1" PortMap="" Name="A_1" Notes="" Definition="" DatumName="A_1" />
+    <Datum xsi:type="q2:Axis" ID="cad.A_4" PortMap="" Name="A_4" Notes="" Definition="" DatumName="A_4" />
+    <Datum xsi:type="q2:Axis" ID="cad.A_3" PortMap="" Name="A_3" Notes="" Definition="" DatumName="A_3" />
+    <Datum xsi:type="q2:Axis" ID="cad.A_9" PortMap="" Name="A_9" Notes="" Definition="" DatumName="A_9" />
+    <Parameter Name="PTC_MATERIAL_NAME">
+      <Value DataType="String" Unit="" ID="id-fc4abb3d-4a6f-4627-b5d7-27b6ee394d8b">
+        <ValueExpression xmlns:q3="avm" xsi:type="q3:DerivedValue" ValueSource="id-19c7bafe-3609-4a5c-8b09-3cea2f5911a5" />
+      </Value>
+    </Parameter>
+    <Parameter Name="TOTAL_MASS">
+      <Value DataType="Real" Unit="kg" ID="id-7ab76849-9da1-441f-abb3-1ec316e634b4">
+        <ValueExpression xmlns:q4="avm" xsi:type="q4:DerivedValue" ValueSource="id-5708c52a-bb2a-4306-ae20-397056f12ecb" />
+      </Value>
+    </Parameter>
+    <Parameter Name="COMPONENT_CLASS">
+      <Value DataType="String" Unit="" ID="id-661707c7-880a-4563-82ee-315d46dfba3f">
+        <ValueExpression xmlns:q5="avm" xsi:type="q5:DerivedValue" ValueSource="id-0367db22-6c55-4d08-8de9-3a5a557aad96" />
+      </Value>
+    </Parameter>
+    <ModelMetric ID="id-83faa7cf-5e73-4579-a403-70fe0a695f04" Name="PART_VOLUME">
+      <Value>
+        <ValueExpression xmlns:q6="avm" xsi:type="q6:FixedValue">
+          <Value>1.08241e+006</Value>
+        </ValueExpression>
+      </Value>
+    </ModelMetric>
+    <ModelMetric ID="id-da88890e-cae6-4442-bd39-77753d1f2030" Name="PART_SURFACE_AREA">
+      <Value>
+        <ValueExpression xmlns:q7="avm" xsi:type="q7:FixedValue">
+          <Value>103139</Value>
+        </ValueExpression>
+      </Value>
+    </ModelMetric>
+  </DomainModel>
+  <DomainModel xmlns:q8="cad" xsi:type="q8:CADModel" UsesResource="id-07bd8370-d7a8-4da3-b379-3998fd2a71cd" Author="" Notes="" xmlns="">
+    <Datum xsi:type="q8:Point" ID="cad.PNT2" PortMap="" Name="PNT2" Notes="" Definition="" DatumName="PNT2" />
+    <Datum xsi:type="q8:Point" ID="cad.PNT6" PortMap="" Name="PNT6" Notes="" Definition="" DatumName="PNT6" />
+    <Datum xsi:type="q8:Point" ID="cad.PNT3" PortMap="" Name="PNT3" Notes="" Definition="" DatumName="PNT3" />
+    <Datum xsi:type="q8:Point" ID="cad.PNT4" PortMap="" Name="PNT4" Notes="" Definition="" DatumName="PNT4" />
+    <Datum xsi:type="q8:Point" ID="cad.PNT5" PortMap="" Name="PNT5" Notes="" Definition="" DatumName="PNT5" />
+    <Datum xsi:type="q8:Point" ID="cad.PNT8" PortMap="" Name="PNT8" Notes="" Definition="" DatumName="PNT8" />
+    <Datum xsi:type="q8:Point" ID="cad.PNT9" PortMap="" Name="PNT9" Notes="" Definition="" DatumName="PNT9" />
+    <Datum xsi:type="q8:Point" ID="cad.PNT7" PortMap="" Name="PNT7" Notes="" Definition="" DatumName="PNT7" />
+    <Datum xsi:type="q8:Point" ID="cad.PNT0" PortMap="" Name="PNT0" Notes="" Definition="" DatumName="PNT0" />
+    <Datum xsi:type="q8:Point" ID="cad.PNT1" PortMap="" Name="PNT1" Notes="" Definition="" DatumName="PNT1" />
+    <Datum xsi:type="q8:CoordinateSystem" ID="cad.INT_BOLT_08" PortMap="" Name="INT_BOLT_08" Notes="" Definition="" DatumName="INT_BOLT_08" />
+    <Datum xsi:type="q8:CoordinateSystem" ID="cad.EXT_MOUNT_1" PortMap="" Name="EXT_MOUNT_1" Notes="" Definition="" DatumName="EXT_MOUNT_1" />
+    <Datum xsi:type="q8:CoordinateSystem" ID="cad.INT_LOAD_LOCATION" PortMap="" Name="INT_LOAD_LOCATION" Notes="" Definition="" DatumName="INT_LOAD_LOCATION" />
+    <Datum xsi:type="q8:CoordinateSystem" ID="cad.INT_BOLT_01" PortMap="" Name="INT_BOLT_01" Notes="" Definition="" DatumName="INT_BOLT_01" />
+    <Datum xsi:type="q8:CoordinateSystem" ID="cad.INT_BOLT_02" PortMap="" Name="INT_BOLT_02" Notes="" Definition="" DatumName="INT_BOLT_02" />
+    <Datum xsi:type="q8:CoordinateSystem" ID="cad.INT_BOLT_04" PortMap="" Name="INT_BOLT_04" Notes="" Definition="" DatumName="INT_BOLT_04" />
+    <Datum xsi:type="q8:CoordinateSystem" ID="cad.INT_BOLT_06" PortMap="" Name="INT_BOLT_06" Notes="" Definition="" DatumName="INT_BOLT_06" />
+    <Datum xsi:type="q8:CoordinateSystem" ID="cad.INT_BOLT_03" PortMap="" Name="INT_BOLT_03" Notes="" Definition="" DatumName="INT_BOLT_03" />
+    <Datum xsi:type="q8:CoordinateSystem" ID="cad.INT_BOLT_07" PortMap="" Name="INT_BOLT_07" Notes="" Definition="" DatumName="INT_BOLT_07" />
+    <Datum xsi:type="q8:CoordinateSystem" ID="cad.INT_BOLT_05" PortMap="" Name="INT_BOLT_05" Notes="" Definition="" DatumName="INT_BOLT_05" />
+    <Datum xsi:type="q8:CoordinateSystem" ID="cad.BDB1385_ASM" PortMap="" Name="BDB1385_ASM" Notes="" Definition="" DatumName="BDB1385_ASM" />
+    <Datum xsi:type="q8:Plane" ID="cad.DTM4" PortMap="" Name="DTM4" Notes="" Definition="" DatumName="DTM4" SurfaceReverseMap="" />
+    <Datum xsi:type="q8:Plane" ID="cad.DEFAULT_1" PortMap="" Name="DEFAULT_1" Notes="" Definition="" DatumName="DEFAULT_1" SurfaceReverseMap="" />
+    <Datum xsi:type="q8:Plane" ID="cad.DTM3" PortMap="" Name="DTM3" Notes="" Definition="" DatumName="DTM3" SurfaceReverseMap="" />
+    <Datum xsi:type="q8:Plane" ID="cad.DTM1" PortMap="" Name="DTM1" Notes="" Definition="" DatumName="DTM1" SurfaceReverseMap="" />
+    <Datum xsi:type="q8:Plane" ID="cad.DTM2" PortMap="" Name="DTM2" Notes="" Definition="" DatumName="DTM2" SurfaceReverseMap="" />
+    <Datum xsi:type="q8:Axis" ID="cad.A_1" PortMap="" Name="A_1" Notes="" Definition="" DatumName="A_1" />
+    <Datum xsi:type="q8:Axis" ID="cad.A_2" PortMap="" Name="A_2" Notes="" Definition="" DatumName="A_2" />
+    <Datum xsi:type="q8:Axis" ID="cad.A_3" PortMap="" Name="A_3" Notes="" Definition="" DatumName="A_3" />
+    <Datum xsi:type="q8:Axis" ID="cad.A_4" PortMap="" Name="A_4" Notes="" Definition="" DatumName="A_4" />
+    <Datum xsi:type="q8:Axis" ID="cad.A_9" PortMap="" Name="A_9" Notes="" Definition="" DatumName="A_9" />
+    <Parameter Name="PTC_MATERIAL_NAME">
+      <Value DataType="String" Unit="" ID="id-917c7f7b-832e-4e43-bb9c-5305967a5472">
+        <ValueExpression xmlns:q9="avm" xsi:type="q9:DerivedValue" ValueSource="id-1c77724c-b0cc-41f2-93c1-d775f1dde029" />
+      </Value>
+    </Parameter>
+    <Parameter Name="TOTAL_MASS">
+      <Value DataType="Real" Unit="kg" ID="id-e1ada890-0f3c-41c6-9153-9edf2bc1424c">
+        <ValueExpression xmlns:q10="avm" xsi:type="q10:DerivedValue" ValueSource="id-c6d8c48e-60db-45fd-a1c9-24466fd25b74" />
+      </Value>
+    </Parameter>
+    <Parameter Name="COMPONENT_CLASS">
+      <Value DataType="String" Unit="" ID="id-5b1d6071-c00d-4823-9db6-c99ec6a3688e">
+        <ValueExpression xmlns:q11="avm" xsi:type="q11:DerivedValue" ValueSource="id-65619392-f45c-41dc-a474-776f2f447115" />
+      </Value>
+    </Parameter>
+    <ModelMetric ID="id-ca241b1a-c66e-473a-93a5-92a3a208912e" Name="PART_VOLUME">
+      <Value>
+        <ValueExpression xmlns:q12="avm" xsi:type="q12:FixedValue">
+          <Value>1.08241e+006</Value>
+        </ValueExpression>
+      </Value>
+    </ModelMetric>
+    <ModelMetric ID="id-2c299361-cd4c-411b-b0d6-16896e008783" Name="PART_SURFACE_AREA">
+      <Value>
+        <ValueExpression xmlns:q13="avm" xsi:type="q13:FixedValue">
+          <Value>103139</Value>
+        </ValueExpression>
+      </Value>
+    </ModelMetric>
+  </DomainModel>
+  <DomainModel xmlns:q14="manufacturing" xsi:type="q14:ManufacturingModel" UsesResource="id90" Author="" Notes="" xmlns="" />
+  <Property xmlns:q15="avm" xsi:type="q15:PrimitiveProperty" Name="TOTAL_MASS" ID="property.id-5708c52a-bb2a-4306-ae20-397056f12ecb" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="id-5708c52a-bb2a-4306-ae20-397056f12ecb">
+      <ValueExpression xsi:type="q15:FixedValue">
+        <Value>8.437</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q16="avm" xsi:type="q16:PrimitiveProperty" Name="COMPONENT_CLASS" ID="property.id-0367db22-6c55-4d08-8de9-3a5a557aad96" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="id-0367db22-6c55-4d08-8de9-3a5a557aad96">
+      <ValueExpression xsi:type="q16:FixedValue">
+        <Value>Drawbar_bolted</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q17="avm" xsi:type="q17:PrimitiveProperty" Name="PTC_MATERIAL_NAME" ID="property.id-19c7bafe-3609-4a5c-8b09-3cea2f5911a5" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="id-19c7bafe-3609-4a5c-8b09-3cea2f5911a5">
+      <ValueExpression xsi:type="q17:FixedValue">
+        <Value>STEEL</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q18="avm" xsi:type="q18:PrimitiveProperty" Name="PTC_MATERIAL_NAME" ID="property.id-1c77724c-b0cc-41f2-93c1-d775f1dde029" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="id-1c77724c-b0cc-41f2-93c1-d775f1dde029">
+      <ValueExpression xsi:type="q18:FixedValue">
+        <Value>STEEL</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q19="avm" xsi:type="q19:PrimitiveProperty" Name="COMPONENT_CLASS" ID="property.id-65619392-f45c-41dc-a474-776f2f447115" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="id-65619392-f45c-41dc-a474-776f2f447115">
+      <ValueExpression xsi:type="q19:FixedValue">
+        <Value>Drawbar_bolted</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q20="avm" xsi:type="q20:PrimitiveProperty" Name="TOTAL_MASS" ID="property.id-c6d8c48e-60db-45fd-a1c9-24466fd25b74" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="id-c6d8c48e-60db-45fd-a1c9-24466fd25b74">
+      <ValueExpression xsi:type="q20:FixedValue">
+        <Value>8.437</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <ResourceDependency Name="Resource" Path="CAD/sidepart.prt.8" Hash="" ID="cad.path" Notes="" xmlns="" />
+  <ResourceDependency Name="Resource" Path="generic_cots_mfg.xml" Hash="" ID="id90" Notes="" xmlns="" />
+  <ResourceDependency Name="e247_db_bolt_bp_o_27216kg.prt.5" Path="CAD\e247_db_bolt_bp_o_27216kg.prt.5" Hash="" ID="id-07bd8370-d7a8-4da3-b379-3998fd2a71cd" Notes="CAD Model Import tool added this resource object for the imported CAD file" xmlns="" />
+  <ResourceDependency Name="e247_db_bolt_bp_o_27216kgz3z.prt.1" Path="CAD\e247_db_bolt_bp_o_27216kgz3z.prt.1" Hash="" ID="id-d15bc144-ba7e-4e7e-a45e-d30db88eb437" Notes="CAD Model Import tool added this resource object for the imported CAD file" xmlns="" />
+  <Connector ConnectorComposition="" ID="id905" ApplyJoinData="" Notes="" Name="TopSide1" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q21="cad" xsi:type="q21:CoordinateSystem" ID="ID0" PortMap="TopSide1" Name="TopSide1" Notes="" Definition="" />
+    <DefaultJoin xmlns:q22="iFAB" xsi:type="q22:welded" q22:id="jd5fec44b2-c916-4023-9d49-3b4f76364bcc">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id903" ApplyJoinData="" Notes="" Name="Side3" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q23="cad" xsi:type="q23:CoordinateSystem" ID="ID1" PortMap="Side3" Name="Side3" Notes="" Definition="" />
+    <DefaultJoin xmlns:q24="iFAB" xsi:type="q24:welded" q24:id="jd8836325a-569c-4777-9128-a7f4ea347e1d">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id904" ApplyJoinData="" Notes="" Name="Side4" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q25="cad" xsi:type="q25:CoordinateSystem" ID="ID2" PortMap="Side4" Name="Side4" Notes="" Definition="" />
+    <DefaultJoin xmlns:q26="iFAB" xsi:type="q26:welded" q26:id="jdd9ed56e5-4fc4-4b07-b211-74a57748ef65">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id908" ApplyJoinData="" Notes="" Name="TopSide4" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q27="cad" xsi:type="q27:CoordinateSystem" ID="ID4" PortMap="TopSide4" Name="TopSide4" Notes="" Definition="" />
+    <DefaultJoin xmlns:q28="iFAB" xsi:type="q28:welded" q28:id="jda4dd902b-5138-4cc3-9e90-fc5165b81c00">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id907" ApplyJoinData="" Notes="" Name="TopSide3" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q29="cad" xsi:type="q29:CoordinateSystem" ID="ID3" PortMap="TopSide3" Name="TopSide3" Notes="" Definition="" />
+    <DefaultJoin xmlns:q30="iFAB" xsi:type="q30:welded" q30:id="jdcdf07293-64fd-4576-8062-ba576855c812">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id906" ApplyJoinData="" Notes="" Name="TopSide2" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q31="cad" xsi:type="q31:CoordinateSystem" ID="ID5" PortMap="TopSide2" Name="TopSide2" Notes="" Definition="" />
+    <DefaultJoin xmlns:q32="iFAB" xsi:type="q32:welded" q32:id="jd6a40b68c-53e0-4955-a1e0-d7d213ea5578">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id902" ApplyJoinData="" Notes="" Name="Side2" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q33="cad" xsi:type="q33:CoordinateSystem" ID="ID6" PortMap="Side2" Name="Side2" Notes="" Definition="" />
+    <DefaultJoin xmlns:q34="iFAB" xsi:type="q34:welded" q34:id="jd9f8557b4-9f53-437e-826c-7715d7edac5e">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id901" ApplyJoinData="" Notes="" Name="Side1" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q35="cad" xsi:type="q35:CoordinateSystem" ID="ID7" PortMap="Side1" Name="Side1" Notes="" Definition="" />
+    <DefaultJoin xmlns:q36="iFAB" xsi:type="q36:welded" q36:id="jd4b0fe9c5-532e-4a1b-bd28-ee8ffc5c25b7">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Classifications xmlns="" />
+</Component>

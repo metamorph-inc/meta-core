@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName
+      Include="meta2uml">
+      <Targets>meta2uml</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask
+    TaskName="meta2uml"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="meta2uml"
+    BeforeTargets="$(meta2uml_RuleBeforeTargets)"
+    AfterTargets="$(meta2uml_RuleAfterTargets)"
+    Condition="'@(meta2uml)' != ''"
+    DependsOnTargets="$(meta2uml_RuleDependsOn)"
+    Outputs="%(meta2uml.OutFile)"
+    Inputs="%(meta2uml.Identity);%(meta2uml.AdditionalDependencies)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <meta2uml
+        Remove="@(meta2uml)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(meta2uml.ExecutionDescription)" />
+    <meta2uml
+      Condition="'@(meta2uml)' != '' and '%(meta2uml.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(meta2uml.CommandLineTemplate)"
+      StandardErrorImportance="High"
+      />
+  </Target>
+</Project>

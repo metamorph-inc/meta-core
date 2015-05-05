@@ -1,0 +1,38 @@
+<!-- Custom scripts -->
+<script type="text/javascript" src="./rankings.js"></script>
+
+<div class="row-fluid">
+	<div class="span12">
+		<div class="navbar" style="width: auto;">
+			<div class="navbar-inner">
+				<div class="brand">Views:</div>
+				<ul class="nav" id="pageView">
+					<li class="active"><a href="#">Default</a></li>
+					<li><a href="#">Custom</a></li>
+				</ul>
+				<ul class="nav pull-right" style="display:block;">
+					<li><a href="#" id="settingsBtn"><i class="icon-cog icon-white"></i>  Settings</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row-fluid">
+		<div class="span12">
+			<iframe src="rankings/SREPVisualizer.html?resource_url=simulation_report.srep" class="visualizerContainer" id="visualizerContainer" style="height: 1028px; "></iframe>
+		</div>
+		<div class="modal hide fade" id="adminSettings">
+			<div class="modal-header">
+				<button class="close" data-dismiss="modal">x</button>
+				<h3>Ranking View Settings</h3>
+			</div>
+			<div class="modal-body">
+				<p>Soon you will be able to change viewing and widget settings here ...</p>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal">Close</a>
+				<a href="#" class="btn btn-primary">Open</a>
+			</div>
+		</div>
+</div>

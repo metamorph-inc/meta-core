@@ -1,0 +1,79 @@
+body, html{
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin:  0px;
+    font-family: Helvetica, Arial;
+}
+
+body {
+    background-color: #000;
+    overflow: hidden;
+}
+
+.visualizerContainer {
+    width: 100%;
+    height: auto;
+    border: 0px solid #aaa;
+    padding:  0px;
+    margin:  0px;
+    border-bottom:  1px solid #999;
+}
+
+.visualizerToolbar {
+    height: 30px;
+    line-height: 30px;
+    border-bottom:  1px solid #999;
+}
+
+.visualizerWrapper .visualizerToolbar {
+    border-top:  1px solid #999;
+    background-color: #aaa;
+    padding:  5px;
+    height: 20px;
+}
+
+.visualizerWrapper .visualizerContainer {
+    min-height: 440px;
+}
+
+.visualizerFooter {
+    height: 20px;
+    line-height: 20px;
+    line-height: 15px;
+    padding:  0px 5px;
+}
+
+.visualizerWrapper .visualizerFooter {
+    border-bottom:  1px solid #999;
+    padding: 2px;
+    height: 15px;
+}
+
+#vfLink {
+    width: 150px;
+    height: 30px;
+    display: inline-block;
+    background-image: url(vf_icon.png);
+    background-repeat: no-repeat;
+}
+
+.bomLocation {
+    font-weight: normal;
+    font-size: 11px;
+    color: #fff;
+    float: left;
+    vertical-align: top;
+}
+
+.visualizerWrapper .bomLocation {
+    color: #555;
+}
+
+.newWindowButton {
+    float: right;
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 11px;
+}
+

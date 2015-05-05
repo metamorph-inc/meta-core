@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="PIControllerSFSaturation" xmlns="avm">
+  <DomainModel xmlns:q1="cyber" xsi:type="q1:CyberModel" UsesResource="cyber.path" Name="PIControllerSFSaturation" Locator="RootFolder/Components/PIControllerSFSaturation" Class="Simulink.DiscreteWrapperSFSaturation_type" Type="Simulink" xmlns="">
+    <Connector ID="id-435e2311-b637-4a79-8fce-d0f584ce7ef3" PortMap="" Name="u1" Locator="u1" Class="Modelica.Blocks.Interfaces.RealInput" />
+    <Connector ID="id-97ec3d45-9b09-49d0-b0b4-9529c32d6f52" PortMap="" Name="u" Locator="u" Class="Modelica.Blocks.Interfaces.RealInput" />
+    <Connector ID="id-9e3874dd-5853-4c46-b973-65bb591d9cee" PortMap="" Name="y1" Locator="y1" Class="Modelica.Blocks.Interfaces.RealOutput" />
+    <Parameter Locator="samplePeriod">
+      <Value ID="id-3f4eef51-797e-4633-af32-a48a21e7a561">
+        <ValueExpression xmlns:q2="avm" xsi:type="q2:FixedValue">
+          <Value>.01</Value>
+        </ValueExpression>
+      </Value>
+    </Parameter>
+  </DomainModel>
+  <ResourceDependency Name="CyberModel" Path="Cyber\SingleTankPIDWithSFController.mga" ID="cyber.path" xmlns="" />
+  <ResourceDependency Name="CyberXML" Path="Cyber\SingleTankPIDWithSFController.xml" ID="cyberxml.path" xmlns="" />
+</Component>

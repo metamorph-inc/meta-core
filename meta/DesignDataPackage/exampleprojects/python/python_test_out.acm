@@ -1,0 +1,43 @@
+<ns1:Component xmlns:ns1="avm" xmlns:ns2="modelica" xmlns:ns3="cad" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="Example Component" Version="1.2">
+  <DomainModel Class="path.to.class" xsi:type="ns2:ModelicaModel">
+    <Connector Class="Modelica.Mechanics.Rotational.Interfaces.Flange_a" ID="ID1" Locator="RotationalOut"/>
+    <Connector Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" ID="ID10" Locator="TranslationalInput"/>
+    <Metric ID="ID3" Locator="subsystem.max_force" Notes="maximum force exerted over simulation"/>
+  </DomainModel>
+  <DomainModel Notes="A detailed CAD representation of the component" UsesResource="ID30" xsi:type="ns3:CADModel">
+    <Datum ID="ID22" Name="MATING_POINT" xsi:type="ns3:CoordinateSystem"/>
+    <Parameter Name="LENGTH">
+      <Value DataType="Real" DimensionType="Scalar" ID="ID21" Unit="m">
+        <ValueExpression ValueSource="ID4" xsi:type="ns1:DerivedValue"/>
+      </Value>
+    </Parameter>
+  </DomainModel>
+  <Property Name="Property1" OnDataSheet="true" xsi:type="ns1:PrimitiveProperty">
+    <Value DataType="Integer" ID="ID4" Unit="m">
+      <ValueExpression xsi:type="ns1:FixedValue">
+        <Value>34513</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property Name="ADerivedValue" OnDataSheet="false" xsi:type="ns1:PrimitiveProperty">
+    <Value DataType="Integer" ID="ID5" Unit="m">
+      <ValueExpression ValueSource="ID4" xsi:type="ns1:DerivedValue"/>
+    </Value>
+  </Property>
+  <Property Name="AParametricValue" OnDataSheet="false" xsi:type="ns1:PrimitiveProperty">
+    <Value DataType="Real" ID="ID20" Unit="m">
+      <ValueExpression xsi:type="ns1:ParametricValue">
+        <Default ValueSource="ID4" xsi:type="ns1:DerivedValue"/>
+        <Minimum xsi:type="ns1:FixedValue">
+          <Value>1.0</Value>
+        </Minimum>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <ResourceDependency ID="ID30" Name="CAD Model" Notes="Creo model representing this component" Path="cad/Model.prt"/>
+  <Connector Name="BogusInterface">
+    <Role Class="Modelica.Mechanics.Rotational.Interfaces.Flange_a" Name="Role1 for Modelica Connector" xsi:type="ns2:Connector"/>
+    <Role Name="Role2 for CAD CoordinateSystem" xsi:type="ns3:CoordinateSystem"/>
+  </Connector>
+</ns1:Component>
+

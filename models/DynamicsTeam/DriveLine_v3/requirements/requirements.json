@@ -1,0 +1,582 @@
+           {
+                "category": true,
+                "weightNeg": 1,
+                "description": "Performance of test designs",
+                "weightPos": 1,
+                "Priority": 1,
+                "children": [
+                    {
+                        "name": "Movement",
+                        "weightNeg": 1,
+                        "description": "Performance of the Vehicle Movement",
+                        "weightPos": 1,
+                        "Priority": 1,
+                        "children": [
+                            {
+                                "weightNeg": 1,
+                                "name": "Speed",
+                                "description": "Speed and Accelerations",
+                                "weightPos": 1,
+                                "Priority": 1,
+                                "children": [
+                                    {
+                                        "weightNeg": 1,
+                                        "name": "Accelerations",
+                                        "description": "Quickness of Acceleration",
+                                        "weightPos": 1,
+                                        "Priority": 1,
+                                        "children": [
+                                            {
+                                                "KPP": true,
+                                                "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                                "weightNeg": 0.5,
+                                                "name": "Acc20kph Full Throttle",
+                                                "weightPos": 0.555556,
+                                                "description": "",
+                                                "Priority": 1,
+                                                "objective": 11,
+                                                "testBench": "FullSpeedForward",
+                                                "threshold": 13,
+                                                "unit": "s",
+                                                "metricName": "Acc20kph"
+                                            },
+                                            {
+                                                "KPP": true,
+                                                "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                                "weightNeg": 0.5,
+                                                "name": "Acc40kph Full Throttle",
+                                                "weightPos": 0.555556,
+                                                "description": "",
+                                                "Priority": 1,
+                                                "objective": 18,
+                                                "testBench": "FullSpeedForward",
+                                                "threshold": 22,
+                                                "unit": "s",
+                                                "metricName": "Acc40kph"
+                                            },
+                                            {
+                                               "KPP": true,
+                                               "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                               "weightNeg": 0.5,
+                                               "name": "ReverseAcc10kph",
+                                               "weightPos": 0.555556,
+                                               "description": "",
+                                               "Priority": 1,
+                                               "objective": 7,
+                                               "testBench": "FullSpeedReverse",
+                                               "threshold": 8,
+                                               "unit": "s",
+                                               "metricName": "ReverseAcc10kph"
+                                           },
+                                            {
+                                                "KPP": true,
+                                                "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                                "weightNeg": 0.5,
+                                                "name": "Acc20kph Hill Climb",
+                                                "weightPos": 0.555556,
+                                                "description": "",
+                                                "Priority": 1,
+                                                "objective": 70,
+                                                "testBench": "HillClimb",
+                                                "threshold": 80,
+                                                "unit": "s",
+                                                "metricName": "Acc20kph"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "weightNeg": 1,
+                                        "name": "Speed",
+                                        "description": "Speed of the vehicle",
+                                        "weightPos": 1,
+                                        "Priority": 1,
+                                        "children": [
+                                            {
+                                                "KPP": true,
+                                                "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                                "weightNeg": 0.5,
+                                                "name": "Maximum Speed Full Throttle",
+                                                "weightPos": 0.555556,
+                                                "description": "Maximum speed at flat ground",
+                                                "Priority": 1,
+                                                "objective": 80,
+                                                "testBench": "FullSpeedForward",
+                                                "threshold": 73,
+                                                "unit": "kph",
+                                                "metricName": "VehicleSpeed"
+                                            },
+                                            {
+                                                "KPP": true,
+                                                "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                                "weightNeg": 0.5,
+                                                "name": "Maximum Reverse Speed",
+                                                "weightPos": 0.555556,
+                                                "description": "",
+                                                "Priority": 1,
+                                                "objective": 30,
+                                                "testBench": "FullSpeedReverse",
+                                                "threshold": 24,
+                                                "unit": "kph",
+                                                "metricName": "MaxReverseSpeed"
+                                            },
+                                            {
+                                                "KPP": true,
+                                                "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                                "weightNeg": 0.5,
+                                                "name": "Maximum Speed Hill Climb",
+                                                "weightPos": 0.555556,
+                                                "description": "",
+                                                "Priority": 1,
+                                                "objective": 23,
+                                                "testBench": "HillClimb",
+                                                "threshold": 20,
+                                                "unit": "kph",
+                                                "metricName": "MaxVehicleSpeed"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "weightNeg": 1,
+                                "name": "Range",
+                                "description": "Distance the vehicle travelled",
+                                "weightPos": 1,
+                                "Priority": 1,
+                                "children": [
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Distance Travelled ColdAndHot",
+                                        "weightPos": 0.555556,
+                                        "description": "Total distance travelled at the end of the simulation",
+                                        "Priority": 1,
+                                        "objective": 10,
+                                        "testBench": "ColdAndHotDrive",
+                                        "threshold": 0,
+                                        "unit": "km",
+                                        "metricName": "DistanceCovered"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Distance Travelled Highway",
+                                        "weightPos": 0.555556,
+                                        "description": "Total distance travelled at the end of the simulation",
+                                        "Priority": 1,
+                                        "objective": 10,
+                                        "testBench": "HighwayCruise",
+                                        "threshold": 0,
+                                        "unit": "km",
+                                        "metricName": "DistanceCovered"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Distance Travelled Urban",
+                                        "weightPos": 0.555556,
+                                        "description": "Total distance travelled at the end of the simulation",
+                                        "Priority": 1,
+                                        "objective": 10,
+                                        "testBench": "MondayMorningTraffic",
+                                        "threshold": 0,
+                                        "unit": "km",
+                                        "metricName": "DistanceCovered"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Distance Travelled Small Town",
+                                        "weightPos": 0.555556,
+                                        "description": "Total distance travelled at the end of the simulation",
+                                        "Priority": 1,
+                                        "objective": 10,
+                                        "testBench": "SmallTownDrive",
+                                        "threshold": 0,
+                                        "unit": "km",
+                                        "metricName": "DistanceCovered"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Distance Travelled Sunday Drive",
+                                        "weightPos": 0.555556,
+                                        "description": "Total distance travelled at the end of the simulation",
+                                        "Priority": 1,
+                                        "objective": 10,
+                                        "testBench": "TheSundayDrive",
+                                        "threshold": 0,
+                                        "unit": "km",
+                                        "metricName": "DistanceCovered"
+                                    }
+                                ]
+                            }
+
+                        ]
+                    },
+                    {
+                        "name": "Controlling",
+                        "weightNeg": 1,
+                        "description": "Responses to demands from driver.",
+                        "weightPos": 1,
+                        "Priority": 1,
+                        "children": [
+                            {
+                                "weightNeg": 1,
+                                "name": "Acceleration Lag",
+                                "description": "Distance the vehicle travelled",
+                                "weightPos": 1,
+                                "Priority": 1,
+                                "children": [
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Acceleration Lag ColdAndHot",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "ColdAndHotDrive",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "AccelerationResponse"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Acceleration Lag Highway",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "HighwayCruise",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "AccelerationResponse"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Acceleration Lag Urban",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "MondayMorningTraffic",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "AccelerationResponse"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Acceleration Lag Small Town",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "SmallTownDrive",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "AccelerationResponse"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Acceleration Lag The Sunday Drive",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "TheSundayDrive",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "AccelerationResponse"
+                                    }
+                                ]
+                            },
+                            {
+                                "weightNeg": 1,
+                                "name": "Deceleration Lag",
+                                "description": "Distance the vehicle travelled",
+                                "weightPos": 1,
+                                "Priority": 1,
+                                "children": [
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Deceleration Lag ColdAndHot",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "ColdAndHotDrive",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "DecelerationResponse"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Deceleration Lag Highway",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "HighwayCruise",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "DecelerationResponse"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Deceleration Lag Urban",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "MondayMorningTraffic",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "DecelerationResponse"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Deceleration Lag Small Town",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "SmallTownDrive",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "DecelerationResponse"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Deceleration Lag The Sunday Drive",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "TheSundayDrive",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "DecelerationResponse"
+                                    }
+                                ]
+                            },
+                            {
+                                "weightNeg": 1,
+                                "name": "Average Lag",
+                                "description": "Distance the vehicle travelled",
+                                "weightPos": 1,
+                                "Priority": 1,
+                                "children": [
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Average Lag ColdAndHot",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "ColdAndHotDrive",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "AverageResponse"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Average Lag Highway",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "HighwayCruise",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "AverageResponse"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Average Lag Urban",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "MondayMorningTraffic",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "AverageResponse"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Average Lag Small Town",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "SmallTownDrive",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "AverageResponse"
+                                    },
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Average Lag The Sunday Drive",
+                                        "weightPos": 0.555556,
+                                        "description": "...",
+                                        "Priority": 1,
+                                        "objective": 1,
+                                        "testBench": "TheSundayDrive",
+                                        "threshold": 0,
+                                        "unit": "...",
+                                        "metricName": "AverageResponse"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Temperature/Cooling",
+                        "weightNeg": 1,
+                        "description": "Temperatures and heat-flows",
+                        "weightPos": 1,
+                        "Priority": 1,
+                        "children": [
+                            {
+                                "weightNeg": 1,
+                                "name": "Engine",
+                                "description": "Engine",
+                                "weightPos": 1,
+                                "Priority": 1,
+                                "children": [
+                                    {
+                                        "KPP": true,
+                                        "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                        "weightNeg": 0.5,
+                                        "name": "Temperature",
+                                        "weightPos": 0.555556,
+                                        "description": "Heat on surface of Engine",
+                                        "Priority": 1,
+                                        "objective": 21,
+                                        "testBench": "HillClimb",
+                                        "threshold": 23,
+                                        "unit": "C",
+                                        "metricName": "EngineTemperature"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "weightNeg": 1,
+                        "description": "Fuel used by Engine.",
+                        "weightPos": 2,
+                        "Priority": 2,
+                        "children": [
+                            {
+                                "KPP": true,
+                                "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                "weightNeg": 0.5,
+                                "name": "Fuel Consumption - TheSundayDrive",
+                                "weightPos": 0.555556,
+                                "description": "",
+                                "Priority": 3,
+                                "objective": 5,
+                                "testBench": "TheSundayDrive",
+                                "threshold": 16,
+                                "unit": "Liters",
+                                "metricName": "FuelConsumption"
+                            },
+                            {
+                                "KPP": true,
+                                "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                "weightNeg": 0.5,
+                                "name": "Fuel Consumption - Cold And Hot",
+                                "weightPos": 0.555556,
+                                "description": "",
+                                "Priority": 3,
+                                "objective": 5,
+                                "testBench": "ColdAndHotDrive",
+                                "threshold": 16,
+                                "unit": "Liters",
+                                "metricName": "FuelConsumption"
+                            },
+                            {
+                                "KPP": true,
+                                "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                "weightNeg": 0.5,
+                                "name": "Fuel Consumption - Highway",
+                                "weightPos": 0.555556,
+                                "description": "",
+                                "Priority": 3,
+                                "objective": 5,
+                                "testBench": "HighwayCruise",
+                                "threshold": 16,
+                                "unit": "Liters",
+                                "metricName": "FuelConsumption"
+                            },
+                            {
+                                "KPP": true,
+                                "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                "weightNeg": 0.5,
+                                "name": "Fuel Consumption - Urban",
+                                "weightPos": 0.555556,
+                                "description": "",
+                                "Priority": 3,
+                                "objective": 5,
+                                "testBench": "MondayMorningTraffic",
+                                "threshold": 16,
+                                "unit": "Liters",
+                                "metricName": "FuelConsumption"
+                            },
+                            {
+                                "KPP": true,
+                                "function": "expUtil=1e-06;thrUtil=0.1;designVal = (i-threshold)/(objective-threshold) ;(1-Math.exp(expUtil*designVal))/(1-Math.exp(expUtil))*(1-thrUtil)+thrUtil",
+                                "weightNeg": 0.5,
+                                "name": "Fuel Consumption - Small Town",
+                                "weightPos": 0.555556,
+                                "description": "",
+                                "Priority": 3,
+                                "objective": 5,
+                                "testBench": "SmallTownDrive",
+                                "threshold": 16,
+                                "unit": "Liters",
+                                "metricName": "FuelConsumption"
+                            }
+
+                        ],
+                        "name": "Fuel Economy"
+                    }
+                ],
+                "name": "Automotive Performance"
+            }

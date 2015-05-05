@@ -1,0 +1,3288 @@
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{7975A9A8-7382-4DB0-9B3E-687BF6672361}" cdate="Mon Feb 27 10:03:15 2012" mdate="Mon Feb 27 10:03:15 2012" version="" metaguid="{2EC61AD6-ADB8-46BB-BE4D-96DA02A32DAD}" metaversion="12.1.$Rev: 6003 $" metaname="CyPhyML">
+	<name>MathFunctionTest</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x1" kind="RootFolder" guid="{bf12cd22-329d-4373-ab4a-d43709d25b68}">
+		<name>MathFunctionTest</name>
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x2" kind="DesignSpace" guid="{9e0a0f20-0e5b-42d6-93ce-292c488eb107}">
+			<name>DesignSpaceModels</name>
+			<model id="id-0065-00000001" kind="DesignContainer" guid="{cb04c6bb-b23e-4f25-ab52-5ed86c6b0d11}" relid="0x2" childrelidcntr="0x2b">
+				<name>Tester</name>
+				<regnode name="annotations" status="undefined">
+					<value></value>
+					<regnode name="Annotation0" isopaque="yes">
+						<value>CONSTRAINT NOT IMPLEMENTED:  BinaryAndIsOne
+Tests Binary AND (&amp;&amp;) and EQUALITY (==)</value>
+						<regnode name="aspects" isopaque="yes">
+							<value>979,803</value>
+							<regnode name="DesignSpaceAspect" isopaque="yes">
+								<value>593,897</value>
+							</regnode>
+						</regnode>
+						<regnode name="castshadow" isopaque="yes">
+							<value>0</value>
+						</regnode>
+						<regnode name="gradientdirection" isopaque="yes">
+							<value>0</value>
+						</regnode>
+						<regnode name="gradientfill" isopaque="yes">
+							<value>0</value>
+						</regnode>
+						<regnode name="hidden" isopaque="yes">
+							<value>0</value>
+						</regnode>
+						<regnode name="inheritable" isopaque="yes">
+							<value>0</value>
+						</regnode>
+						<regnode name="roundrectcorner" isopaque="yes">
+							<value>0</value>
+						</regnode>
+						<regnode name="roundrectcornerradius" isopaque="yes">
+							<value>9</value>
+						</regnode>
+						<regnode name="shadowdepth" isopaque="yes">
+							<value>9</value>
+						</regnode>
+						<regnode name="shadowdirection" isopaque="yes">
+							<value>45</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<regnode name="icon" isopaque="yes">
+					<value>mandatory_ds.png</value>
+				</regnode>
+				<attribute kind="Cardinality" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ContainerType" status="meta">
+					<value>Compound</value>
+				</attribute>
+				<attribute kind="DecisionGroup" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GenerationSemantics" status="meta">
+					<value>Normal</value>
+				</attribute>
+				<attribute kind="ID">
+					<value>1</value>
+				</attribute>
+				<attribute kind="NumAssociatedConfigs" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000002" kind="DesignContainer" role="DesignContainer" guid="{25aa9b3d-4559-4233-a897-38490b7fb000}" relid="0x2" childrelidcntr="0x12">
+					<name>SineFunction</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>77,49</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>77,49</value>
+							</regnode>
+						</regnode>
+						<regnode name="Cyber" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>114,53</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>77,49</value>
+							</regnode>
+						</regnode>
+						<regnode name="Dynamics" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>114,53</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>114,53</value>
+							</regnode>
+						</regnode>
+						<regnode name="Testing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>114,53</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="icon" isopaque="yes">
+						<value>alternative_ds.png</value>
+					</regnode>
+					<regnode name="portLabelLength" isopaque="yes">
+						<value>0</value>
+					</regnode>
+					<attribute kind="Cardinality" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ContainerType">
+						<value>Alternative</value>
+					</attribute>
+					<attribute kind="DecisionGroup" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="GenerationSemantics" status="meta">
+						<value>Normal</value>
+					</attribute>
+					<attribute kind="ID">
+						<value>3</value>
+					</attribute>
+					<attribute kind="NumAssociatedConfigs">
+						<value>32/32</value>
+					</attribute>
+					<model id="id-0065-00000003" kind="Component" role="Component" guid="{7f01b5c2-ff3e-496f-b451-e951453658c9}" relid="0x1" childrelidcntr="0x2">
+						<name>DoNotChoose-SinLessThanOneHalf</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>35,21</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>35,238</value>
+								</regnode>
+							</regnode>
+							<regnode name="Cyber" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>35,21</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>63,238</value>
+								</regnode>
+							</regnode>
+							<regnode name="Dynamics" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>35,21</value>
+								</regnode>
+							</regnode>
+							<regnode name="SolidModeling" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>35,21</value>
+								</regnode>
+							</regnode>
+							<regnode name="Testing" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>35,21</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="portLabelLength" isopaque="yes">
+							<value>0</value>
+						</regnode>
+						<attribute kind="Cardinality" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID">
+							<value>2</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="NumAssociatedConfigs">
+							<value>0/32</value>
+						</attribute>
+						<reference id="id-0067-00000001" kind="Property" role="Property" guid="{d5289cee-115c-424c-b3af-0a4adacd75fc}" relid="0x1">
+							<name>Opposite</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>323,247</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>323,247</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>363,92</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>323,247</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>5</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000002" kind="Property" role="Property" guid="{464fc7df-2ae4-4086-adbd-188fb6c17ae6}" relid="0x2">
+							<name>Hypotenuse</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>323,247</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>323,247</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>361,183</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>323,247</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>10</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-00000004" kind="Component" role="Component" guid="{63f8c29e-fdc1-4c14-a382-1e43ef900142}" relid="0x2" childrelidcntr="0x2">
+						<name>Choose-SinGreaterThanOneHalf</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>117,140</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>45,21</value>
+								</regnode>
+							</regnode>
+							<regnode name="Cyber" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>189,21</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>70,21</value>
+								</regnode>
+							</regnode>
+							<regnode name="Dynamics" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>189,21</value>
+								</regnode>
+							</regnode>
+							<regnode name="SolidModeling" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>189,21</value>
+								</regnode>
+							</regnode>
+							<regnode name="Testing" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>189,21</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="portLabelLength" isopaque="yes">
+							<value>0</value>
+						</regnode>
+						<attribute kind="Cardinality" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID">
+							<value>4</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="NumAssociatedConfigs">
+							<value>32/32</value>
+						</attribute>
+						<reference id="id-0067-00000003" kind="Property" role="Property" guid="{60d51501-3b53-4633-b516-6fb30c381f3c}" relid="0x1">
+							<name>Opposite</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>323,247</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>323,247</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>363,92</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>323,247</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>6</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000004" kind="Property" role="Property" guid="{4175dc36-5e14-4dbc-a924-6c61373c1623}" relid="0x2">
+							<name>Hypotenuse</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>323,247</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>323,247</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>361,183</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>323,247</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>10</value>
+							</attribute>
+						</reference>
+					</model>
+					<reference id="id-0067-00000005" kind="Property" role="Property" guid="{f6dbef58-f27f-422a-8b66-7c7511d0793a}" relid="0xd">
+						<name>Hypotenuse</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>273,259</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>280,238</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>277,233</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ComputationType" status="meta">
+							<value>Addition</value>
+						</attribute>
+						<attribute kind="DefaultValue" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Disable" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Tolerance" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Value" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-00000006" kind="Property" role="Property" guid="{f465c474-b53f-4552-aec4-184a5702dff5}" relid="0x10">
+						<name>Opposite</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>280,42</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>208,140</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>202,135</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ComputationType" status="meta">
+							<value>Addition</value>
+						</attribute>
+						<attribute kind="DefaultValue" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Disable" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Tolerance" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Value" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<connection id="id-0068-00000001" kind="ValueFlow" role="ValueFlow" guid="{72891671-dd7c-47c6-a225-05de0f868669}" relid="0xe">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000002"></connpoint>
+						<connpoint role="dst" target="id-0067-00000005"></connpoint>
+					</connection>
+					<connection id="id-0068-00000002" kind="ValueFlow" role="ValueFlow" guid="{bb0da220-6e04-430a-92a2-dd2cff7471bd}" relid="0xf">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000004"></connpoint>
+						<connpoint role="dst" target="id-0067-00000005"></connpoint>
+					</connection>
+					<connection id="id-0068-00000003" kind="ValueFlow" role="ValueFlow" guid="{9f727356-223a-4e0e-a3f8-f9b321d7ff94}" relid="0x11">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000001"></connpoint>
+						<connpoint role="dst" target="id-0067-00000006"></connpoint>
+					</connection>
+					<connection id="id-0068-00000004" kind="ValueFlow" role="ValueFlow" guid="{b1442644-8704-4cd7-ad6d-49f26c8b9945}" relid="0x12">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000003"></connpoint>
+						<connpoint role="dst" target="id-0067-00000006"></connpoint>
+					</connection>
+				</model>
+				<model id="id-0065-00000005" kind="DesignContainer" role="DesignContainer" guid="{c5e038a2-75bb-4ba3-ba41-f02df5755cdd}" relid="0xe" childrelidcntr="0x5">
+					<name>LogFunction</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>112,294</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>112,294</value>
+							</regnode>
+						</regnode>
+						<regnode name="Cyber" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>109,294</value>
+							</regnode>
+						</regnode>
+						<regnode name="Dynamics" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="Testing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="icon" isopaque="yes">
+						<value>alternative_ds.png</value>
+					</regnode>
+					<regnode name="portLabelLength" isopaque="yes">
+						<value>0</value>
+					</regnode>
+					<attribute kind="Cardinality" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ContainerType">
+						<value>Alternative</value>
+					</attribute>
+					<attribute kind="DecisionGroup" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="GenerationSemantics" status="meta">
+						<value>Normal</value>
+					</attribute>
+					<attribute kind="ID">
+						<value>6</value>
+					</attribute>
+					<attribute kind="NumAssociatedConfigs">
+						<value>32/32</value>
+					</attribute>
+					<model id="id-0065-00000006" kind="Component" role="Component" guid="{abf934d1-3266-4b55-980b-e9683b2b1e1d}" relid="0x1" childrelidcntr="0x1">
+						<name>DoNotChoose-LogUnderTen</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>196,84</value>
+								</regnode>
+							</regnode>
+							<regnode name="Cyber" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>105,182</value>
+								</regnode>
+							</regnode>
+							<regnode name="Dynamics" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="SolidModeling" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Testing" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Cardinality" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID">
+							<value>7</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="NumAssociatedConfigs">
+							<value>16/32</value>
+						</attribute>
+						<reference id="id-0067-00000007" kind="Property" role="Property" guid="{cee56b5c-64af-46ea-8fca-c76e419485c9}" relid="0x1">
+							<name>ValueToLog</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>227,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>100</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-00000007" kind="Component" role="Component" guid="{0ae28ff3-423d-43a6-8d1b-24b47cbe9502}" relid="0x2" childrelidcntr="0x1">
+						<name>Choose-LogOverTen</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>196,224</value>
+								</regnode>
+							</regnode>
+							<regnode name="Cyber" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>203,84</value>
+								</regnode>
+							</regnode>
+							<regnode name="Dynamics" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="SolidModeling" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Testing" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Cardinality" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID">
+							<value>8</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="NumAssociatedConfigs">
+							<value>16/32</value>
+						</attribute>
+						<reference id="id-0067-00000008" kind="Property" role="Property" guid="{c81d2217-6ab9-4528-a9d1-6e1cfb53a8dc}" relid="0x1">
+							<name>ValueToLog</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>10000</value>
+							</attribute>
+						</reference>
+					</model>
+					<reference id="id-0067-00000009" kind="Property" role="Property" guid="{9ebccfd3-4ad3-455c-804c-80ad3963f4d6}" relid="0x3">
+						<name>ValueToLog</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>402,163</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>395,205</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ComputationType" status="meta">
+							<value>Addition</value>
+						</attribute>
+						<attribute kind="DefaultValue" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Disable" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Tolerance" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Value" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<connection id="id-0068-00000005" kind="ValueFlow" role="ValueFlow" guid="{1698f3eb-a88a-4d59-898d-0cce3863c2ce}" relid="0x4">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000007"></connpoint>
+						<connpoint role="dst" target="id-0067-00000009"></connpoint>
+					</connection>
+					<connection id="id-0068-00000006" kind="ValueFlow" role="ValueFlow" guid="{5df92a60-eb67-4f72-8e07-cb332debc0f4}" relid="0x5">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000008"></connpoint>
+						<connpoint role="dst" target="id-0067-00000009"></connpoint>
+					</connection>
+				</model>
+				<model id="id-0065-00000008" kind="DesignContainer" role="DesignContainer" guid="{66739715-8731-4966-a13d-66d354059d40}" relid="0x12" childrelidcntr="0x5">
+					<name>LogNFunction</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>112,294</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>25,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="Cyber" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>109,448</value>
+							</regnode>
+						</regnode>
+						<regnode name="Dynamics" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="Testing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="icon" isopaque="yes">
+						<value>alternative_ds.png</value>
+					</regnode>
+					<regnode name="portLabelLength" isopaque="yes">
+						<value>0</value>
+					</regnode>
+					<attribute kind="Cardinality" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ContainerType">
+						<value>Alternative</value>
+					</attribute>
+					<attribute kind="DecisionGroup" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="GenerationSemantics" status="meta">
+						<value>Normal</value>
+					</attribute>
+					<attribute kind="ID">
+						<value>6</value>
+					</attribute>
+					<attribute kind="NumAssociatedConfigs">
+						<value>32/32</value>
+					</attribute>
+					<model id="id-0065-00000009" kind="Component" role="Component" guid="{9dabe772-05c1-41eb-9e3e-bf3f819176f8}" relid="0x1" childrelidcntr="0x1">
+						<name>DoNotChoose-LogNUnderOne</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>196,84</value>
+								</regnode>
+							</regnode>
+							<regnode name="Cyber" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>98,175</value>
+								</regnode>
+							</regnode>
+							<regnode name="Dynamics" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="SolidModeling" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Testing" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Cardinality" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID">
+							<value>7</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="NumAssociatedConfigs">
+							<value>16/32</value>
+						</attribute>
+						<reference id="id-0067-0000000a" kind="Property" role="Property" guid="{883f4ff4-bcde-4170-aa3a-9e4d7da4fd7b}" relid="0x1">
+							<name>ValueToLogN</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>2</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-0000000a" kind="Component" role="Component" guid="{c5a8e54d-dc3b-4f47-8abe-ff1e428953bb}" relid="0x2" childrelidcntr="0x1">
+						<name>Choose-LogNOverOne</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>196,224</value>
+								</regnode>
+							</regnode>
+							<regnode name="Cyber" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>98,35</value>
+								</regnode>
+							</regnode>
+							<regnode name="Dynamics" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="SolidModeling" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Testing" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Cardinality" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID">
+							<value>8</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="NumAssociatedConfigs">
+							<value>16/32</value>
+						</attribute>
+						<reference id="id-0067-0000000b" kind="Property" role="Property" guid="{de90f70f-a27f-462e-a123-719ad8ecabf3}" relid="0x1">
+							<name>ValueToLogN</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>3</value>
+							</attribute>
+						</reference>
+					</model>
+					<reference id="id-0067-0000000c" kind="Property" role="Property" guid="{5f4dfc9d-bdf4-43bd-8282-dd8b5bcdca1b}" relid="0x3">
+						<name>ValueToLogN</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>402,163</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>388,121</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ComputationType" status="meta">
+							<value>Addition</value>
+						</attribute>
+						<attribute kind="DefaultValue" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Disable" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Tolerance" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Value" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<connection id="id-0068-00000007" kind="ValueFlow" role="ValueFlow" guid="{ccf585f8-433f-4a8e-81b7-b28a377452ec}" relid="0x5">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-0000000b"></connpoint>
+						<connpoint role="dst" target="id-0067-0000000c"></connpoint>
+					</connection>
+					<connection id="id-0068-00000008" kind="ValueFlow" role="ValueFlow" guid="{195f6b23-481a-4ceb-b351-4b0b9c23a6f7}" relid="0x4">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-0000000a"></connpoint>
+						<connpoint role="dst" target="id-0067-0000000c"></connpoint>
+					</connection>
+				</model>
+				<model id="id-0065-0000000b" kind="DesignContainer" role="DesignContainer" guid="{7ed59df6-941a-4746-8490-35feadfa51e0}" relid="0x16" childrelidcntr="0x5">
+					<name>AbsFunction</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>112,294</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>210,189</value>
+							</regnode>
+						</regnode>
+						<regnode name="Cyber" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>109,588</value>
+							</regnode>
+						</regnode>
+						<regnode name="Dynamics" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="Testing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="icon" isopaque="yes">
+						<value>alternative_ds.png</value>
+					</regnode>
+					<regnode name="portLabelLength" isopaque="yes">
+						<value>0</value>
+					</regnode>
+					<attribute kind="Cardinality" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ContainerType">
+						<value>Alternative</value>
+					</attribute>
+					<attribute kind="DecisionGroup" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="GenerationSemantics" status="meta">
+						<value>Normal</value>
+					</attribute>
+					<attribute kind="ID">
+						<value>6</value>
+					</attribute>
+					<attribute kind="NumAssociatedConfigs">
+						<value>32/32</value>
+					</attribute>
+					<model id="id-0065-0000000c" kind="Component" role="Component" guid="{b9301287-387c-4b61-9f4e-b85df0359a6a}" relid="0x1" childrelidcntr="0x1">
+						<name>DoNotChoose-AbsIsUnderOne</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>196,84</value>
+								</regnode>
+							</regnode>
+							<regnode name="Cyber" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>98,175</value>
+								</regnode>
+							</regnode>
+							<regnode name="Dynamics" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="SolidModeling" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Testing" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Cardinality" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID">
+							<value>7</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="NumAssociatedConfigs">
+							<value>16/32</value>
+						</attribute>
+						<reference id="id-0067-0000000d" kind="Property" role="Property" guid="{a7d94095-75d0-4bbe-a1de-efec98224041}" relid="0x1">
+							<name>ValueToAbs</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>0.25</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-0000000d" kind="Component" role="Component" guid="{83b46bf2-6b14-45ff-82bb-d517ff29ab33}" relid="0x2" childrelidcntr="0x1">
+						<name>Choose-AbsIsOverOne</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>196,224</value>
+								</regnode>
+							</regnode>
+							<regnode name="Cyber" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>98,35</value>
+								</regnode>
+							</regnode>
+							<regnode name="Dynamics" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="SolidModeling" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Testing" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Cardinality" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID">
+							<value>8</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="NumAssociatedConfigs">
+							<value>16/32</value>
+						</attribute>
+						<reference id="id-0067-0000000e" kind="Property" role="Property" guid="{3ec20ecb-dbdb-4a61-b50e-9bb9384ebece}" relid="0x1">
+							<name>ValueToAbs</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>-2</value>
+							</attribute>
+						</reference>
+					</model>
+					<reference id="id-0067-0000000f" kind="Property" role="Property" guid="{a61df19e-ea1e-4a39-8a18-6dc1c524f232}" relid="0x3">
+						<name>ValueToAbs</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>402,163</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>388,121</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ComputationType" status="meta">
+							<value>Addition</value>
+						</attribute>
+						<attribute kind="DefaultValue" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Disable" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Tolerance" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Value" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<connection id="id-0068-00000009" kind="ValueFlow" role="ValueFlow" guid="{8be31d7d-e026-4a75-b37a-6eaab47cafa5}" relid="0x4">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-0000000d"></connpoint>
+						<connpoint role="dst" target="id-0067-0000000f"></connpoint>
+					</connection>
+					<connection id="id-0068-0000000a" kind="ValueFlow" role="ValueFlow" guid="{d4972d85-65f4-41c3-965a-5a83c36a2e9b}" relid="0x5">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-0000000e"></connpoint>
+						<connpoint role="dst" target="id-0067-0000000f"></connpoint>
+					</connection>
+				</model>
+				<model id="id-0065-0000000e" kind="DesignContainer" role="DesignContainer" guid="{56a19002-cb20-4d74-b06c-0c8bf3bab2b0}" relid="0x1a" childrelidcntr="0x8">
+					<name>SumFunction</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>112,294</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>13,392</value>
+							</regnode>
+						</regnode>
+						<regnode name="Cyber" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>109,735</value>
+							</regnode>
+						</regnode>
+						<regnode name="Dynamics" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="Testing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="icon" isopaque="yes">
+						<value>alternative_ds.png</value>
+					</regnode>
+					<regnode name="portLabelLength" isopaque="yes">
+						<value>0</value>
+					</regnode>
+					<attribute kind="Cardinality" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ContainerType">
+						<value>Alternative</value>
+					</attribute>
+					<attribute kind="DecisionGroup" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="GenerationSemantics" status="meta">
+						<value>Normal</value>
+					</attribute>
+					<attribute kind="ID">
+						<value>6</value>
+					</attribute>
+					<attribute kind="NumAssociatedConfigs">
+						<value>32/32</value>
+					</attribute>
+					<model id="id-0065-0000000f" kind="Component" role="Component" guid="{e3044d41-333c-4401-b4b0-4411244cf75e}" relid="0x2" childrelidcntr="0x2">
+						<name>Choose-SumIsOverTen</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>196,224</value>
+								</regnode>
+							</regnode>
+							<regnode name="Cyber" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>98,35</value>
+								</regnode>
+							</regnode>
+							<regnode name="Dynamics" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="SolidModeling" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Testing" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Cardinality" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID">
+							<value>8</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="NumAssociatedConfigs">
+							<value>16/32</value>
+						</attribute>
+						<reference id="id-0067-00000010" kind="Property" role="Property" guid="{6e36bb3c-0388-49b3-b3d3-65e12c716833}" relid="0x1">
+							<name>ValueToSum1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>-2</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000011" kind="Property" role="Property" guid="{1391c8cc-d441-46fe-ba3f-10233dca7d7b}" relid="0x2">
+							<name>ValueToSum2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>227,246</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>161,43</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>9</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-00000010" kind="Component" role="Component" guid="{16624281-cded-4d98-ac73-391f40d09763}" relid="0x1" childrelidcntr="0x2">
+						<name>DoNotChoose-SumIsUnderTen</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>196,84</value>
+								</regnode>
+							</regnode>
+							<regnode name="Cyber" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>98,175</value>
+								</regnode>
+							</regnode>
+							<regnode name="Dynamics" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="SolidModeling" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Testing" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Cardinality" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID">
+							<value>7</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="NumAssociatedConfigs">
+							<value>16/32</value>
+						</attribute>
+						<reference id="id-0067-00000012" kind="Property" role="Property" guid="{bee7df99-b150-42c1-b954-a5b901accd0d}" relid="0x1">
+							<name>ValueToSum1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>276,127</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>9</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000013" kind="Property" role="Property" guid="{98b87b53-967e-4dfb-a756-b6dec32d66dc}" relid="0x2">
+							<name>ValueToSum2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>276,232</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>2</value>
+							</attribute>
+						</reference>
+					</model>
+					<reference id="id-0067-00000014" kind="Property" role="Property" guid="{ab7cfdd6-4a24-400e-9d62-75cc4431f969}" relid="0x3">
+						<name>ValueToSum1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>402,163</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>388,121</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ComputationType" status="meta">
+							<value>Addition</value>
+						</attribute>
+						<attribute kind="DefaultValue" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Disable" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Tolerance" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Value" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-00000015" kind="Property" role="Property" guid="{83059246-2406-491b-a899-4f18edf69f3a}" relid="0x6">
+						<name>ValueToSum2</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>406,247</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>385,212</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ComputationType" status="meta">
+							<value>Addition</value>
+						</attribute>
+						<attribute kind="DefaultValue" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Disable" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Tolerance" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Value" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<connection id="id-0068-0000000b" kind="ValueFlow" role="ValueFlow" guid="{eda9637a-f5de-470e-a455-428402214357}" relid="0x5">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000010"></connpoint>
+						<connpoint role="dst" target="id-0067-00000014"></connpoint>
+					</connection>
+					<connection id="id-0068-0000000c" kind="ValueFlow" role="ValueFlow" guid="{468cafc6-671a-4c29-99f2-793da3ca3c06}" relid="0x4">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000012"></connpoint>
+						<connpoint role="dst" target="id-0067-00000014"></connpoint>
+					</connection>
+					<connection id="id-0068-0000000d" kind="ValueFlow" role="ValueFlow" guid="{d315c967-1148-4204-9d54-d05d07f32c00}" relid="0x7">
+						<name>ValueFlow</name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000011"></connpoint>
+						<connpoint role="dst" target="id-0067-00000015"></connpoint>
+					</connection>
+					<connection id="id-0068-0000000e" kind="ValueFlow" role="ValueFlow" guid="{f2367a11-92e1-480f-a2bf-06fb47a0de81}" relid="0x8">
+						<name>ValueFlow</name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000013"></connpoint>
+						<connpoint role="dst" target="id-0067-00000015"></connpoint>
+					</connection>
+				</model>
+				<model id="id-0065-00000011" kind="DesignContainer" role="DesignContainer" guid="{e62f5354-1527-4103-8b8d-b2752427f8ec}" relid="0x20" childrelidcntr="0x9">
+					<name>BinaryAndFunction</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>112,294</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>209,392</value>
+							</regnode>
+						</regnode>
+						<regnode name="Cyber" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>116,910</value>
+							</regnode>
+						</regnode>
+						<regnode name="Dynamics" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+						<regnode name="Testing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>121,298</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="icon" isopaque="yes">
+						<value>alternative_ds.png</value>
+					</regnode>
+					<regnode name="portLabelLength" isopaque="yes">
+						<value>0</value>
+					</regnode>
+					<attribute kind="Cardinality" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ContainerType">
+						<value>Alternative</value>
+					</attribute>
+					<attribute kind="DecisionGroup" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="GenerationSemantics" status="meta">
+						<value>Normal</value>
+					</attribute>
+					<attribute kind="ID">
+						<value>6</value>
+					</attribute>
+					<attribute kind="NumAssociatedConfigs">
+						<value>32/32</value>
+					</attribute>
+					<model id="id-0065-00000012" kind="Component" role="Component" guid="{fdb3e74c-9abf-4ebf-ba7e-9da3e7e7a071}" relid="0x2" childrelidcntr="0x2">
+						<name>Choose-BinaryAndIsOne</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>196,224</value>
+								</regnode>
+							</regnode>
+							<regnode name="Cyber" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>98,35</value>
+								</regnode>
+							</regnode>
+							<regnode name="Dynamics" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="SolidModeling" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Testing" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Cardinality" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID">
+							<value>8</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="NumAssociatedConfigs">
+							<value>16/32</value>
+						</attribute>
+						<reference id="id-0067-00000016" kind="Property" role="Property" guid="{8d9f6149-7df8-4699-b65b-db80ac7817ce}" relid="0x1">
+							<name>Value1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>-2</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000017" kind="Property" role="Property" guid="{9fc9c705-181f-43ae-9c01-c0234ba83185}" relid="0x2">
+							<name>Value2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>227,246</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>-2</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-00000013" kind="Component" role="Component" guid="{95c26162-2bcd-44ec-a04a-fe34f1826310}" relid="0x1" childrelidcntr="0x3">
+						<name>DoNotChoose-BinaryAndIsZero</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>196,84</value>
+								</regnode>
+							</regnode>
+							<regnode name="Cyber" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>98,175</value>
+								</regnode>
+							</regnode>
+							<regnode name="Dynamics" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="SolidModeling" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+							<regnode name="Testing" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,119</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Cardinality" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID">
+							<value>7</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="NumAssociatedConfigs">
+							<value>16/32</value>
+						</attribute>
+						<reference id="id-0067-00000018" kind="Property" role="Property" guid="{bf1341bd-7a70-48b1-8ded-e6edbcae7b7d}" relid="0x2">
+							<name>Value1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>-2</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000019" kind="Property" role="Property" guid="{830b642f-ed70-42d4-be31-68ccd14d553e}" relid="0x3">
+							<name>Value2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="All" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Analytical" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+								<regnode name="Architectural" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>227,246</value>
+									</regnode>
+								</regnode>
+								<regnode name="BehaviorModelsAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>232,114</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Tolerance" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>2</value>
+							</attribute>
+						</reference>
+					</model>
+					<reference id="id-0067-0000001a" kind="Property" role="Property" guid="{1ce937bf-9a48-4034-8623-09132ba190ec}" relid="0x3">
+						<name>Value1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>402,163</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>388,121</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ComputationType" status="meta">
+							<value>Addition</value>
+						</attribute>
+						<attribute kind="DefaultValue" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Disable" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Tolerance" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Value" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-0000001b" kind="Property" role="Property" guid="{1aea869e-1f96-4b3c-9a84-c0c851b399be}" relid="0x6">
+						<name>Value2</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Architectural" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>406,254</value>
+								</regnode>
+							</regnode>
+							<regnode name="DesignSpaceAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>388,212</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ComputationType" status="meta">
+							<value>Addition</value>
+						</attribute>
+						<attribute kind="DefaultValue" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Disable" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Tolerance" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Value" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<connection id="id-0068-0000000f" kind="ValueFlow" role="ValueFlow" guid="{07d371b8-64c3-44fd-bab2-eeb676510d4d}" relid="0x5">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000016"></connpoint>
+						<connpoint role="dst" target="id-0067-0000001a"></connpoint>
+					</connection>
+					<connection id="id-0068-00000010" kind="ValueFlow" role="ValueFlow" guid="{c2701953-e5e0-4f27-af36-a47acbd7568f}" relid="0x7">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000018"></connpoint>
+						<connpoint role="dst" target="id-0067-0000001a"></connpoint>
+					</connection>
+					<connection id="id-0068-00000011" kind="ValueFlow" role="ValueFlow" guid="{9a2c3ab7-69b7-4998-bb5f-68aa4cdcf1eb}" relid="0x8">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000017"></connpoint>
+						<connpoint role="dst" target="id-0067-0000001b"></connpoint>
+					</connection>
+					<connection id="id-0068-00000012" kind="ValueFlow" role="ValueFlow" guid="{f130ffe2-0b02-49c4-8ac2-56a28cf05db8}" relid="0x9">
+						<name></name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0067-00000019"></connpoint>
+						<connpoint role="dst" target="id-0067-0000001b"></connpoint>
+					</connection>
+				</model>
+				<atom id="id-0066-00000001" kind="Constraint" role="Constraint" guid="{88b3afc1-8ebc-4e14-a691-ac407677a6b6}" relid="0x1b">
+					<name>SumGreaterThanTen</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>628,712</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Context">
+						<value>constraint SumGreaterThanTen() {
+ ( SumFunction.ValueToSum1() + SumFunction.ValueToSum2() ) &gt; 10
+}</value>
+					</attribute>
+					<attribute kind="ID">
+						<value>5</value>
+					</attribute>
+					<attribute kind="Inactive" status="meta">
+						<value>false</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000002" kind="Constraint" role="Constraint" guid="{62b05b37-f48c-48f2-adbc-df6cd3c9ed8c}" relid="0x26">
+					<name>SinGreaterThanHalf</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>628,54</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Context">
+						<value>constraint SinGreaterThanHalf() {
+ sin( SineFunction.Opposite() / SineFunction.Hypotenuse() ) &gt; 0.5
+}</value>
+					</attribute>
+					<attribute kind="ID">
+						<value>26</value>
+					</attribute>
+					<attribute kind="Inactive" status="meta">
+						<value>false</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000003" kind="Constraint" role="Constraint" guid="{fa4a7d5c-e5b2-44df-a37d-a0f5f99c8951}" relid="0x27">
+					<name>Log10GreaterThanThree</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>628,306</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Context">
+						<value>constraint Log10GreaterThanThree() {
+ log10( LogFunction.ValueToLog() ) &gt; 3
+}</value>
+					</attribute>
+					<attribute kind="ID">
+						<value>27</value>
+					</attribute>
+					<attribute kind="Inactive" status="meta">
+						<value>false</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000004" kind="Constraint" role="Constraint" guid="{a0d63921-b6ca-4f26-bd2a-2803b75e9f9e}" relid="0x28">
+					<name>LogNGreaterThanOne</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>628,453</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Context">
+						<value>constraint LogNGreaterThanOne() {
+ ln( LogNFunction.ValueToLogN() ) &gt; 1
+}</value>
+					</attribute>
+					<attribute kind="ID">
+						<value>28</value>
+					</attribute>
+					<attribute kind="Inactive" status="meta">
+						<value>false</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000005" kind="Constraint" role="Constraint" guid="{e6f18e23-bc10-4c5a-a110-11fc21105763}" relid="0x29">
+					<name>AbsGreaterThanOne</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>628,600</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Context">
+						<value>constraint AbsGreaterThanOne() {
+ abs( AbsFunction.ValueToAbs() ) &gt; 1
+}</value>
+					</attribute>
+					<attribute kind="ID">
+						<value>29</value>
+					</attribute>
+					<attribute kind="Inactive" status="meta">
+						<value>false</value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-0000001c" kind="Property" role="Property" guid="{42f79332-0562-4171-9e87-3a14a5c4a209}" relid="0x3">
+					<name>Hypotenuse</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,114</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,114</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,114</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Value" status="meta">
+						<value></value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-0000001d" kind="Property" role="Property" guid="{22fe7534-0963-4e23-8786-d933aee48aff}" relid="0x7">
+					<name>Opposite</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>349,9</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>349,9</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>349,9</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Value" status="meta">
+						<value></value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-0000001e" kind="Property" role="Property" guid="{211d3af0-83aa-4db9-8de6-9fd8b9351f23}" relid="0xf">
+					<name>ValueToLog</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,303</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>403,247</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>353,303</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Value" status="meta">
+						<value></value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-0000001f" kind="Property" role="Property" guid="{762872c7-3f59-43a7-af53-58de81e3f178}" relid="0x13">
+					<name>ValueToLogN</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,303</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>412,373</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,457</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Value" status="meta">
+						<value></value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000020" kind="Property" role="Property" guid="{ad63051f-d098-4fb7-9d37-954c877ea5fc}" relid="0x17">
+					<name>ValueToAbs</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,303</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>459,191</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>342,597</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Value" status="meta">
+						<value></value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000021" kind="Property" role="Property" guid="{bbaa073e-921e-47e5-93bc-c24c7a2ef156}" relid="0x1c">
+					<name>ValueToSum1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,303</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>481,443</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>334,716</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Value" status="meta">
+						<value></value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000022" kind="Property" role="Property" guid="{81207c1a-6e23-4500-84bc-2a4fc9fd796c}" relid="0x1e">
+					<name>ValueToSum2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,303</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>26,142</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>334,807</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Value" status="meta">
+						<value></value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000023" kind="Property" role="Property" guid="{36e24ebf-8de8-416a-b192-83a1bc059ce1}" relid="0x22">
+					<name>ValueToBinaryAnd1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,303</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>518,128</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>329,898</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Value" status="meta">
+						<value></value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000024" kind="Property" role="Property" guid="{30d2169f-193c-4a40-93f6-76bc8d3e8b9f}" relid="0x24">
+					<name>ValueToBinaryAnd2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,303</value>
+							</regnode>
+						</regnode>
+						<regnode name="Architectural" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,303</value>
+							</regnode>
+						</regnode>
+						<regnode name="DesignSpaceAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>329,996</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Value" status="meta">
+						<value></value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-00000013" kind="ValueFlow" role="ValueFlow" guid="{ec200a46-0340-47ac-93eb-3324356903f7}" relid="0xb">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0067-00000005"></connpoint>
+					<connpoint role="dst" target="id-0067-0000001c"></connpoint>
+				</connection>
+				<connection id="id-0068-00000014" kind="ValueFlow" role="ValueFlow" guid="{8b91687e-14e0-4117-83e9-f0437f83b0b7}" relid="0xc">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0067-00000006"></connpoint>
+					<connpoint role="dst" target="id-0067-0000001d"></connpoint>
+				</connection>
+				<connection id="id-0068-00000015" kind="ValueFlow" role="ValueFlow" guid="{d50c033a-6350-44fd-a42a-9dd077bcf6dd}" relid="0x10">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0067-00000009"></connpoint>
+					<connpoint role="dst" target="id-0067-0000001e"></connpoint>
+				</connection>
+				<connection id="id-0068-00000016" kind="ValueFlow" role="ValueFlow" guid="{07a9f6ec-223d-462f-b33e-1bd678ed99cd}" relid="0x14">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0067-0000000c"></connpoint>
+					<connpoint role="dst" target="id-0067-0000001f"></connpoint>
+				</connection>
+				<connection id="id-0068-00000017" kind="ValueFlow" role="ValueFlow" guid="{a3980715-d3b4-412e-8c8d-b9deaf621518}" relid="0x19">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0067-0000000f"></connpoint>
+					<connpoint role="dst" target="id-0067-00000020"></connpoint>
+				</connection>
+				<connection id="id-0068-00000018" kind="ValueFlow" role="ValueFlow" guid="{1430c9bf-ecc8-4c07-b140-beb30aefddf1}" relid="0x1d">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0067-00000014"></connpoint>
+					<connpoint role="dst" target="id-0067-00000021"></connpoint>
+				</connection>
+				<connection id="id-0068-00000019" kind="ValueFlow" role="ValueFlow" guid="{a3931462-0cfa-4a02-a5e1-a4fe9206b748}" relid="0x1f">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0067-00000015"></connpoint>
+					<connpoint role="dst" target="id-0067-00000022"></connpoint>
+				</connection>
+				<connection id="id-0068-0000001a" kind="ValueFlow" role="ValueFlow" guid="{d8693b44-6fbf-4304-8bd2-c391d6e47181}" relid="0x23">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0067-0000001a"></connpoint>
+					<connpoint role="dst" target="id-0067-00000023"></connpoint>
+				</connection>
+				<connection id="id-0068-0000001b" kind="ValueFlow" role="ValueFlow" guid="{3ec95569-d1a7-4af4-b10a-669dc7a97eec}" relid="0x25">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0067-0000001b"></connpoint>
+					<connpoint role="dst" target="id-0067-00000024"></connpoint>
+				</connection>
+			</model>
+		</folder>
+	</folder>
+</project>

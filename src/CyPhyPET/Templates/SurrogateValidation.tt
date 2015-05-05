@@ -1,0 +1,252 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ assembly name="$(SolutionDir)\..\..\..\trunk\externals\common-scripts\ISIS.GME.Common.dll" #>
+<#@ assembly name="$(SolutionDir)\..\..\..\trunk\generated\CyPhyML\models\ISIS.GME.Dsml.CyPhyML.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="ISIS.GME.Dsml.CyPhyML.Classes" #> 
+<#@ output extension=".py" #>
+# ===========================================================================
+# Auto generated from SurrogateValidation.tt
+# ===========================================================================
+# OpenMDAO Assembly Component (Surrogate validation)
+import os
+import pickle
+import numpy
+import logging
+import json
+import shutil
+import numpy as np
+
+from openmdao.main.api import Assembly, set_as_top
+from openmdao.lib.drivers.api import DOEdriver
+from openmdao.lib.doegenerators.api import Uniform
+from openmdao.lib.casehandlers.api import ListCaseRecorder
+from openmdao.lib.components.api import MetaModel
+from openmdao.lib.surrogatemodels.api import KrigingSurrogate
+from openmdao.main.uncertain_distributions import NormalDistribution
+
+from save_results import save_results
+
+from surrogate_model import SurrogateAssembly
+from ParameterStudy import ParameterStudy
+
+log = logging.getLogger()
+while len(log.handlers) > 2:
+    log.removeHandler(log.handlers[-1])
+
+
+class SurrogateValidation(Assembly):
+    """ Validates the surrogate model. Requires input from the Parameter study execution. """
+   
+    def __init__(self):
+        super(SurrogateValidation, self).__init__()
+
+        f = open( "meta_model_info.p", "rb" )
+        meta_model_info = pickle.load(f)
+
+        meta_model = meta_model_info['meta_model']
+
+        ## Create component instances
+        self.add("meta_model", meta_model)
+        self.meta_model.default_surrogate = meta_model.default_surrogate
+
+        self.meta_model.model = SurrogateAssembly()
+        
+        self.meta_model._training_input_history = meta_model_info['training_input_history']
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+            string name = conn.GenericSrcEnd.Name;
+        #>
+        self.meta_model._training_data['<#= name #>'] = meta_model_info['surrogate_info']['<#= name #>'][1]
+<#        }
+    } #>
+        
+        self.add('driver', DOEdriver())
+        self.add('calc', SurrogateAssembly())
+
+        # The type and level attributes of DOE
+        self.driver.DOEgenerator = Uniform()
+        self.driver.DOEgenerator.num_samples = 10
+
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.DesignVariableCollection)
+    {
+        string low = "0.0";
+        string high = "0.0";
+        string range = item.Attributes.Range;
+		low = range.Split(',').FirstOrDefault().Trim();
+		high = range.Split(',').LastOrDefault().Trim();
+        foreach (var conn in item.DstConnections.VariableSweepCollection)
+        {
+            string name = conn.GenericDstEnd.Name;
+            InOuts += "meta_model." + name + ":%f ";
+        #>
+        if 'numpy' in str(type(self.meta_model.<#= name #>)):
+            self.meta_model.<#= name #> = numpy.asscalar(self.meta_model.<#= name #>) 
+        self.driver.add_parameter(('meta_model.<#= name #>', 'calc.<#= name #>'), low = <#= low #>, high = <#= high #>) # <#= item.Attributes.Range #>
+
+<#         }
+    } #>
+        self.driver.case_outputs = [ \
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+			string name = conn.GenericSrcEnd.Name;
+            InOuts += "meta_model." + name + ":%f ";
+			InOuts += "calc." + name + ":%f ";
+        #>
+            'meta_model.<#= name #>', \
+            'calc.<#= name #>', \
+<#        }
+    } #>
+            ]
+
+        self.driver.recorders = [ListCaseRecorder(),]
+        self.driver.force_execute = True
+        self.driver.workflow.add('meta_model')
+        self.driver.workflow.add('calc')
+        self._logger.info('Assembly was created. (SurrogateValidation)')
+
+
+def main():
+    if os.path.exists('testbench_manifest.json') and os.path.isdir('TestBench'):
+        shutil.copy('testbench_manifest.json', os.path.join('TestBench', 'testbench_manifest.json'))
+
+    doe = SurrogateValidation()
+    set_as_top(doe)
+    doe.run()
+
+    isKrigingDefault = isinstance(doe.meta_model.default_surrogate, KrigingSurrogate)
+
+    if isKrigingDefault:
+        for i, c in enumerate(doe.driver.recorders[0].cases):
+            for case_output in doe.driver.case_outputs:
+                if isinstance(c[case_output], NormalDistribution):
+                    c[case_output] = c[case_output].mu
+            doe.driver.recorders[0].cases[i] = c
+
+    sr = save_results(doe, doe.driver.recorders[0])
+    sr.save('output.mdao')
+    
+    # write the case output to the screen
+    for c in doe.driver.recorders[0].get_iterator():
+        print "<#= InOuts #>"%(
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.DesignVariableCollection)
+    {
+        foreach (var conn in item.DstConnections.VariableSweepCollection)
+        {
+			string name = conn.GenericDstEnd.Name;
+        #>
+            c['meta_model.<#= name #>'],
+<#        }
+    } 
+    foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+			string name = conn.GenericSrcEnd.Name;
+        #>
+            c['meta_model.<#= name #>'],
+            c['calc.<#= name #>'],
+<#        }
+    } #>
+            )
+<# if (SurrogateType == "ResponseSurface")
+{#>
+    ##  ResponseSurface is surrogate,
+    #   write model validation info in model_perf.json.
+    params = {}
+    actual = {}
+    predicted = {}
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.DesignVariableCollection)
+    {
+        foreach (var conn in item.DstConnections.VariableSweepCollection)
+        {
+			string name = conn.GenericDstEnd.Name;
+        #>
+    params['<#= name #>'] = []
+<#        }
+    } 
+    foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+			string name = conn.GenericSrcEnd.Name;
+        #>
+    actual['<#= name #>'] = []
+    predicted['<#= name #>'] = []
+<#        }
+    } #>
+
+    for c in doe.driver.recorders[0].get_iterator():
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.DesignVariableCollection)
+    {
+        foreach (var conn in item.DstConnections.VariableSweepCollection)
+        {
+			string name = conn.GenericDstEnd.Name;
+        #>
+        doe.meta_model.<#= name #> = c['meta_model.<#= name #>']
+        params['<#= name #>'].append(c['meta_model.<#= name #>'])
+<#        }
+    } 
+    foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+			string name = conn.GenericSrcEnd.Name;
+        #>
+        actual['<#= name #>'].append(c['calc.<#= name #>'])
+        predicted['<#= name #>'].append(c['meta_model.<#= name #>'])
+<#        }
+    } #>
+
+    f = open('model_perf.json','rb')
+    perf_json = json.load(f)
+
+    for resp in perf_json:
+        y_name = resp['responseName']
+        y_pred = np.array(predicted[y_name])
+        y_act = np.array(actual[y_name])
+        y_mean = y_pred.mean()
+        n = len(y_pred)
+        p = len(params.keys())
+
+        SStot = np.linalg.norm(y_pred - y_mean) ** 2
+        SSres = np.linalg.norm(y_pred - y_act) ** 2
+
+        resp['R2']['validation'] = 1 - SSres / SStot
+        Rsq = resp['R2']['validation']
+        resp['R2adjusted']['validation'] = Rsq - (1 - Rsq) * p / (n - p - 1)
+
+        residual = y_act-y_pred
+        resp['MRE'] = {}
+        resp['MRE']['mean'] = residual.mean()
+        resp['MRE']['stdDeviation'] = residual.std()
+        resp['MRE']['data'] = residual.tolist()
+
+        resp['actualByPredicted']['validation'] = [ [y_act[i],y_pred[i]] for i in xrange(len(y_act)) ]
+
+        resp['residualByPredicted']['validation'] = [ [residual[i],y_pred[i]] for i in xrange(len(y_act)) ]
+
+    with open('model_perf.json','wb') as f_out:
+        json.dump(perf_json, f_out, indent=4)
+<#}#>
+
+if __name__ == "__main__":
+    main()
+<#+
+    public ISIS.GME.Dsml.CyPhyML.Interfaces.ParametricExploration pet { get; set; }
+    public string InOuts {get; set;}
+	public string SurrogateType {get;set;}
+#>

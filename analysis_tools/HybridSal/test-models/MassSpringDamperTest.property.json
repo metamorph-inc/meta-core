@@ -1,0 +1,14 @@
+{"context" : "TRUE",
+ "property" : 
+ {"f"    : "G", 
+  "nargs": 1, 
+  "args" : 
+   [{"f"    : "=>", 
+     "nargs": 2, 
+     "args" : 
+   [{"f"    : ">=", 
+     "nargs": 2, 
+     "args" : ["MassSpringDamper_Mass_Steel_ModelicaModel_s", 1] },
+    {"f"    : "<=", 
+     "nargs": 2, 
+     "args" : ["MassSpringDamper_Damper_Damper_mo_v_rel", -4] } ] } ] } }

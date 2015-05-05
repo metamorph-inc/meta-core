@@ -1,0 +1,217 @@
+ 
+package edu.vanderbilt.isis.meta;
+
+/**
+* Advanced Vehicle Make (AVM) META interactive communications.
+* This is the schema for communication through the Live-Sync
+* Component Design Bridge (CDB).
+* There are two main messages, the header which contains
+* information used for routing and the payload which is
+* processed by the end-points.
+*/
+
+import "AssemblyInterface.proto";
+
+/**
+* This message describes the information which may be
+* used for routing of messages.
+* 
+*/
+message Edit {
+    enum EditMode {
+      /** express interest in something */
+      INTEREST = 1;
+      /** express interest in something */
+      DISINTEREST = 2;
+      /** insert new or update all the fields */
+      POST = 3;
+      /** insert new or update all the fields */
+      NOTICE = 4;
+    }
+    repeated EditMode mode = 1;
+    optional EditMode editMode = 2 [default=POST];
+
+    optional string guid = 5;
+    repeated string topic = 6;
+
+    /** 
+     The origin holds the name of the most recent sender of this message.
+     The relay holds a history of the previous senders of this message
+
+     used for NACK
+     The sequence holds a counter from the origin, it should not
+     have gaps in the sequence.
+    */
+    repeated string origin = 10;
+    optional uint32 sequence = 11;
+
+    repeated Notice notices = 20;
+    repeated Action actions = 21;
+}
+
+/**
+* During network transmission the payload should be placed in the 
+* encoded form so as to minimize parsing cost. 
+*  
+* Deletion may be accomplished with either the DISCARD or the RESET action.
+*  
+* The DISCARD action is accompanied by a list of object where the
+* only important field is the "guid" which will be used to 
+* identify the items to be dicarded.
+*
+* The CLEAR action clears the items in the model.
+* It is expected that new items will be provided in a subsequent action.  
+* If any item's guids are supplied with the CLEAR they will be retained.
+*
+* The INSERT action expects a sufficient number of fields to be supplied
+* so that the item can be fully instantiated.  The item need not
+* be present before the insert but if it is present then any 
+* bound fields which are not explicitly changed will remain as they were.
+*
+* The UPDATE is similar to the INSERT but does not require a full set
+* of fields.  In fact the item *must* be already present.
+*
+* The REPLACE action has the same effect as a DISCARD followed by an INSERT.
+* The item must already exist. 
+*/
+message Action {
+    enum ActionMode {
+      /** do whatever is needed to discard the named items */
+      DISCARD = 0;
+      /** insert new or update all the fields */
+      INSERT = 1;
+      /** replace an existing with the new */
+      REPLACE = 2;
+      /** update the fields explicitly specified */
+      UPDATE = 3;
+      /** select specific objects */
+      SELECT = 4;
+      /** clear specific objects */
+      CLEAR = 5;
+      /** switch to a different mode of operation */
+      SWITCH = 6;
+    }
+    required ActionMode actionMode = 1 [default=REPLACE];
+    optional string guid = 2;
+
+    optional Alien alien = 3;
+
+    optional Payload payload = 4;
+    repeated Environment environment = 5;
+	
+    repeated Notice notices = 6;
+    repeated ComponentManifestNode manifest = 7;
+
+    optional Interest interest = 8;
+}
+
+/**
+* The interest is a request for the action on the specified item.
+* Primarily used for the SWITCH action.
+*/
+message Interest {
+    repeated string topic = 1;
+    repeated string uid = 2;
+}
+
+/**
+* Sometimes the encoding is not compatible with 
+* protobuf, such as XML or JSON.
+* Generally these should only be used as an
+* interim hack.
+*/
+message Alien {
+    enum EncodingMode {
+      /** XML binary */
+      XML = 1;
+      /** JSON */
+      JSON = 2;
+    }
+    required EncodingMode encodingMode = 1 [default=XML];
+    required bytes encoded = 2;
+}
+
+/**
+* The payload is a set of objects which have changed.
+* They will be used to perform the requested action.
+*/
+message Payload {
+    optional AssembliesType assemblies = 1;
+    repeated CADComponentType components = 2;
+    repeated ConstraintType constraints = 3;
+    repeated ParametricParametersType parameters = 4;
+    repeated DatumType datums = 5;
+	repeated ConnectorType connectors = 6;
+}
+
+/**
+* The datums by which the components are aligned.
+*/
+message DatumType {
+    optional string componentId = 1;
+    optional string type = 2;
+    optional string name = 3;
+}
+
+/**
+* The environment specified named properties 
+* in the environment where the edit was performed.
+* This will typically be things like the Creo Component path list.
+*/
+message Environment {
+    required string name = 1;
+    repeated string value = 2;
+}
+
+/**
+* Usually used for reporting faults of various types.
+* May also be used for generating general acknowledgements.
+*/
+message Notice {
+    enum NoticeMode {
+      /** the bridge received your post and has acknowledged it */
+      BACK = 0;
+      /** what you asked for was received */
+      ACK = 1;
+      /** what you asked for was completed */
+      DONE = 2;
+      /** something interesting happened */
+      INFO = 3;
+      /** there was a problem but the model is still consistent (probably) */
+      WARN = 4;
+      /** there was a severe problem but it "worked" */
+      FAULT = 5;
+      /** no part of the request was performed */
+      REJECT = 6;
+      /** the target model was probably damaged */
+      FAIL = 7;
+    }
+    required NoticeMode noticeMode = 1 [default=BACK];
+    /** the unique identifier */
+    optional string id = 2;
+    /** intended for reading by a human */
+    optional string msg = 3;
+    /** intended for processing by machine */
+    optional bytes code = 4;
+}
+
+message ComponentManifestNode {
+    enum NodeMode {
+      /** the node is for a folder */
+      FOLDER = 0;
+      /** the node is for a AVM component */
+      COMPONENT = 1;
+    }
+    required NodeMode nodeMode = 1 [default=COMPONENT];
+
+    /** the component or folder globally unique identifier */
+    optional string guid = 2;
+    /** a human recognizable name */
+    optional string name = 3;
+    /** the guid of the cyphy parent folder */
+    optional string cyphyParentId = 4;
+    /** the component groups to which this component belongs (e.g. bolt. wheel, bracket) */
+    repeated string componentGroup = 5;
+}
+
+

@@ -1,0 +1,158 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ assembly name="$(SolutionDir)\..\..\..\trunk\externals\common-scripts\ISIS.GME.Common.dll" #>
+<#@ assembly name="$(SolutionDir)\..\..\..\trunk\generated\CyPhyML\models\ISIS.GME.Dsml.CyPhyML.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="ISIS.GME.Dsml.CyPhyML.Classes" #> 
+<#@ output extension=".py" #>
+# ===========================================================================
+# Auto generated from TestBenchComponent.tt
+# ===========================================================================
+# OpenMDAO Component
+#   Type: CAD
+import sys
+import json
+import os
+import logging
+import shutil
+from openmdao.main.api import Component
+from openmdao.lib.datatypes.api import Float
+import py_modelica.report_functions as pym_report
+import <#= this.TestBenchType #>_executor as executor
+from driver_runner import TestBenchExecutionError
+
+class TestBench(Component):
+    """ Documentation comment for this Assembly. """
+    ## set up interface to the framework
+    tool = None                          # simulation tool class, Dymola or OpenModelica
+    root_dir = ''                        # root_directory
+    tb_dir = ''                          # test bench directory
+    rp_file = ''                         # testbench_manifest.json in tb-dir				 
+    def_parameters = {}                  # parameters after default simulation
+    def_metrics = {}                     # metrics after default simulation
+    tool_stat = {}
+    initialized = False
+
+    # input (parameters) definitions
+<#    foreach (var item in this.Parameters)
+        {
+            string value = item.Attributes.Value == "" ? "0.0" : item.Attributes.Value;
+            //string unit = item.Referred.ParamPropTarget != null ? ", units='" + item.Referred.ParamPropTarget.Name + "'" : "";
+			string unit = "";
+            #>
+    <#= item.Name #> = Float(<#= value #>, iotype='in', desc='<#= item.Name #>'<#= unit #>)
+<#        } #>
+
+    # output (parameters) definitions
+<#     foreach (var item in this.Metrics)
+        { 
+            string value = item.Attributes.Value == "" ? "0.0" : item.Attributes.Value;
+            //string unit = item.Referred.ParamPropTarget != null ? ", units='" + item.Referred.ParamPropTarget.Name + "'" : "";
+			string unit = "";
+            #>
+    <#= item.Name #> = Float(0.0, iotype='out', desc='<#= item.Name #>'<#= unit #>)
+<#        } #>
+
+    def __init__(self):
+        super(TestBench, self).__init__()
+        self._logger.level = logging.DEBUG
+
+    def initialize(self):
+        self._logger.info('Initializing model...')
+        self.root_dir = os.getcwd()
+        self.tb_dir = os.path.join(self.root_dir, 'TestBench')
+        self.rp_file = os.path.join(self.tb_dir, 'testbench_manifest.json')
+        self.pet_rp_file = os.path.join(self.root_dir, 'testbench_manifest.json')
+        tb_report = os.path.isfile(self.rp_file)
+        pet_report = os.path.isfile(self.pet_rp_file)
+        if not tb_report and pet_report:
+            self._logger.info('Did not find testbench_manifest.json inside TestBench dir.')
+            self._logger.info('Copying over from output directory...')
+            shutil.copy(self.pet_rp_file, self.rp_file)
+        elif not pet_report and tb_report:
+            self._logger.info('Did not find testbench_manifest.json inside output dir.')
+            self._logger.info('Copying over from TestBench directory...')
+            shutil.copy(self.rp_file, self.pet_rp_file)
+        elif tb_report and pet_report:
+            self._logger.info('Both testbench_manifest.json exists.')
+        else:
+            message = 'Did not find testbench_manifest.json inside TestBench dir, nor in output dir.'
+            message += ' Unless running through the MasterInterpreter, the Interpreter type must generate it.'
+            raise TestBenchExecutionError(message)
+        self._logger.info('TestBench-report-file : {}'.format(self.rp_file))
+        self._logger.info('PET-report-file       : {}'.format(self.pet_rp_file))
+
+        os.chdir(self.tb_dir)
+        executor.initial_run()
+        self.def_metrics, self.def_parameters = pym_report.copy_metrics_and_parameters(self.rp_file)
+        self.initialized = True
+        os.chdir(self.root_dir)
+
+    def execute(self):
+        if not self.initialized:
+            self.initialize()
+        os.chdir(self.tb_dir)
+        self._logger.info(" ------ ====== **** New Iteration Started **** ====== -----")
+
+        params = {
+<#     foreach (var item in this.Parameters)
+        { #>
+            '<#= item.Name #>': self.<#= item.Name #>,
+<#        } #>
+        }
+<# if (this.PCCPropertyInputs.Any()){ #>
+        # PCC-properties were defined for modelica.
+<# foreach (var kvp in this.PCCPropertyInputs)
+       {#>
+       params.update({'<#= kvp.Value #>': self.<#= kvp.Key #>})
+<#}}#>
+
+        self._logger.info(' ---------- >>> ======= Parameters ======= <<< ---------- ')
+        for p_name, p_value in params.iteritems():
+            self._logger.info('{0:20} : {1}'.format(p_name, p_value))
+
+        pym_report.update_parameters_in_report_json(params, self.rp_file)
+        executor.update_parameters(params)
+
+        metrics = executor.execute()
+        if not metrics:
+            # Read result from testbench_manifest.json['Metrics'].
+            metrics = pym_report.get_metrics_from_report_json(report_file=self.rp_file)
+<#	    foreach (var item in this.Metrics)
+		{ #>
+        try:
+            self.<#= item.Name #> = float(metrics['<#= item.Name #>'])
+        except ValueError:
+            msg = 'Could not convert value "{0}" of metric "<#= item.Name #>" to a float!'.format(metrics['<#= item.Name #>'])
+            raise TestBenchExecutionError(msg)
+<#      } #>
+
+        # Print out the metrics.
+        self._logger.info('  ---------- <<< ======= Metrics ======= >>> ----------  ')
+<#	    foreach (var item in this.Metrics)
+        { #>
+        self._logger.info('{0:20} : {1}'.format('<#= item.Name #>', self.<#= item.Name #>))
+<#        } #>
+
+        self._logger.info('Iteration ended.')
+        # Move over default values
+        pym_report.update_metrics_and_parameters(self.def_metrics, self.def_parameters, self.pet_rp_file)
+
+        os.chdir(self.root_dir)
+    # End execute
+# End TestBench.py
+<#+
+	public List<ISIS.GME.Dsml.CyPhyML.Interfaces.Parameter> Parameters {get;set;}
+	public List<ISIS.GME.Dsml.CyPhyML.Interfaces.Metric> Metrics {get;set;}
+	public Dictionary<string, string> PCCPropertyInputs {get;set;}
+	public string TestBenchType {get;set;}
+#>

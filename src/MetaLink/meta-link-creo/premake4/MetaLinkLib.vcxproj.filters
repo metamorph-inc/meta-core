@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{619597C1-1821-3D49-9BA3-2A3416E95263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gen">
+      <UniqueIdentifier>{D82D6B41-6C00-2842-A6D0-EF8A0EBA0981}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\BridgeClient.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\FramedEdit.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gen\AssemblyInterface.pb.h">
+      <Filter>src\gen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gen\MetaLinkMsg.pb.h">
+      <Filter>src\gen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BridgeClientST.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\BridgeClient.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\FramedEdit.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gen\AssemblyInterface.pb.cc">
+      <Filter>src\gen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gen\MetaLinkMsg.pb.cc">
+      <Filter>src\gen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\BridgeClientST.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

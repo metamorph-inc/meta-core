@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9618C9B8-CDA1-4E8E-A066-E30968F77D65}</ProjectGuid>
+    <RootNamespace>UdmCodeGen</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\externals\common-scripts\build_customization\meta2uml.props" />
+    <Import Project="..\..\externals\common-scripts\build_customization\mga2udmxml.props" />
+    <Import Project="..\..\externals\common-scripts\build_customization\udm.props" />
+    <Import Project="..\..\externals\common-scripts\build_customization\xme2mga.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <meta2uml_RuleAfterTargets>xme2mga</meta2uml_RuleAfterTargets>
+    <mga2udmxml_RuleAfterTargets>meta2uml</mga2udmxml_RuleAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <meta2uml_RuleAfterTargets>xme2mga</meta2uml_RuleAfterTargets>
+    <mga2udmxml_RuleAfterTargets>meta2uml</mga2udmxml_RuleAfterTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\generated\CyPhyML\models\CyPhyML_udm.xml">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(UdmCliGen)" -o ..\CyPhyMLUdmCli "%(Identity)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(UdmCliGen)" -o ..\CyPhyMLUdmCli "%(Identity)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">UdmCliGen %(Identity)</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UdmCliGen %(Identity)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\CyPhyMLUdmCli\CyPhyML.cs</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\CyPhyMLUdmCli\CyPhyML.cs</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(UdmCliGen)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(UdmCliGen)</AdditionalInputs>
+      <SubType>Designer</SubType>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\meta\ESMoL\\ESMoL_udm.xml">
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ESMoL</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ESMoL</MetaName>
+      <IntegrateXSD Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IntegrateXSD>
+      <IntegrateXSD Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IntegrateXSD>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(UdmCliGen)" -o ..\CyPhyMLUdmCli "%(Identity)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(UdmCliGen)" -o ..\CyPhyMLUdmCli "%(Identity)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">UdmCliGen %(Identity)</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UdmCliGen %(Identity)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\CyPhyMLUdmCli\ESMoL.cs</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\CyPhyMLUdmCli\ESMoL.cs</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(UdmCliGen)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(UdmCliGen)</AdditionalInputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\meta\CyPhyML\CyPhyML.vcxproj">
+      <Project>{a6b875ef-43cf-4430-b0cd-be36fb41e8d2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ESMoL\ESMoL.vcxproj">
+      <Project>{04778b4c-e1f6-4f10-9a45-319568e92d70}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\externals\common-scripts\build_customization\meta2uml.targets" />
+    <Import Project="..\..\externals\common-scripts\build_customization\mga2udmxml.targets" />
+    <Import Project="..\..\externals\common-scripts\build_customization\udm.targets" />
+    <Import Project="..\..\externals\common-scripts\build_customization\xme2mga.targets" />
+  </ImportGroup>
+</Project>

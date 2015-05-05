@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<DesertBackSystem SystemName="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="DesertIfaceBack.xsd">
+
+  <Configuration id="1" name="Conf. no: 1">
+    <AlternativeAssignment _id="id37" alternative_end_="id36" alternative_of_end_="id38" externalID="-1" id="-1" name="alternative assignment"/>
+    <AlternativeAssignment _id="id3A" alternative_end_="id39" alternative_of_end_="id3B" externalID="-1" id="-1" name="alternative assignment"/>
+    <PropertyAssignment _id="id31" externalID="2000" id="2000" name="" value_end_="id32" value_of_end_="id30"/>
+    <PropertyAssignment _id="id34" externalID="2000" id="2000" name="" value_end_="id35" value_of_end_="id33"/>
+  </Configuration>
+
+  <Configuration id="2" name="Conf. no: 2">
+    <AlternativeAssignment _id="id43" alternative_end_="id42" alternative_of_end_="id38" externalID="-1" id="-1" name="alternative assignment"/>
+    <AlternativeAssignment _id="id45" alternative_end_="id44" alternative_of_end_="id3B" externalID="-1" id="-1" name="alternative assignment"/>
+    <PropertyAssignment _id="id3D" externalID="2000" id="2000" name="" value_end_="id3e" value_of_end_="id3C"/>
+    <PropertyAssignment _id="id40" externalID="2000" id="2000" name="" value_end_="id41" value_of_end_="id3F"/>
+  </Configuration>
+
+  <Element _id="id39" alternative_of="id3A" externalID="8" id="8" name="Wing_2_1">
+    <VariableProperty _id="id30" name="Weight" value="id31"/>
+  </Element>
+
+  <Element _id="id36" alternative_of="id37" externalID="6" id="6" name="Wing_1_1_1">
+    <VariableProperty _id="id33" name="Weight" value="id34"/>
+  </Element>
+
+  <Element _id="id38" alternative="id37 id43" externalID="2" id="2" name="Wing1"/>
+
+  <Element _id="id3B" alternative="id3A id45" externalID="3" id="3" name="Wing2"/>
+
+  <Element _id="id44" alternative_of="id45" externalID="9" id="9" name="Wing_2_2">
+    <VariableProperty _id="id3C" name="Weight" value="id3D"/>
+  </Element>
+
+  <Element _id="id42" alternative_of="id43" externalID="5" id="5" name="Wing_1_2_1">
+    <VariableProperty _id="id3F" name="Weight" value="id40"/>
+  </Element>
+
+  <NaturalMember _id="id32" value="21" value_of="id31"/>
+
+  <NaturalMember _id="id35" value="11" value_of="id34"/>
+
+  <NaturalMember _id="id3e" value="2" value_of="id3D"/>
+
+  <NaturalMember _id="id41" value="9" value_of="id40"/>
+
+</DesertBackSystem>

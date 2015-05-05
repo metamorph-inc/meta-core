@@ -1,0 +1,106 @@
+Module setup
+============
+
+Normally when you create a class in a doctest, it will have the
+``__module__`` attribute of ``'__builtin__'``. This is sometimes not
+desirable. Let's demonstrate the behavior::
+
+  >>> class Foo(object):
+  ...    pass
+
+  >>> 'builtin' in Foo.__module__ 
+  True
+
+By using ``zope.testing.module.setUp`` this can be
+controlled. Normally you set up your tests with it, but in this case
+we'll just call it manually.
+
+To call this function manually, we need to set up a fake ``test``
+object.  This because the ``setUp`` function expects a test with at
+least the ``globs`` dictionary attribute being present. Let's make
+such a fake test object, using the globals of the doctest::
+
+  >>> class FakeTest(object):
+  ...     def __init__(self):
+  ...        self.globs = globals()
+
+  >>> test = FakeTest()
+
+We can now call the ``setUp`` function::
+
+  >>> from zope.testing.module import setUp
+  >>> setUp(test)
+
+We will now demonstrate that the ``__module__`` argument is something
+else, in this case the default, ``__main__``::
+
+  >>> class Foo(object):
+  ...     pass
+  >>> Foo.__module__
+  '__main__'
+
+Let's tear this down again::
+
+  >>> from zope.testing.module import tearDown
+  >>> tearDown(test)
+
+We should now be back to the original situation::
+
+  >>> class Foo(object):
+  ...    pass
+  >>> 'builtin' in Foo.__module__ 
+  True
+
+Importing
+---------
+
+Let's now imagine a more complicated example, were we actually want to
+be able to import the fake module as well::
+
+  >>> setUp(test, 'fake')
+  >>> a = 'Hello world'
+
+The import should not fail::
+
+  >>> import fake
+  >>> fake.a
+  'Hello world'
+
+Let's tear it down again::
+
+  >>> tearDown(test)
+  >>> import fake
+  Traceback (most recent call last):
+    ...
+  ImportError: No module named fake
+
+If we enter a dotted name, it will actually try to place the fake
+module in that dotted name::
+
+  >>> setUp(test, 'zope.testing.unlikelymodulename')
+  >>> a = 'Bye world'
+  >>> import zope.testing.unlikelymodulename
+  >>> zope.testing.unlikelymodulename.a
+  'Bye world'
+  >>> from zope.testing import unlikelymodulename
+  >>> unlikelymodulename.a
+  'Bye world'
+  >>> tearDown(test)
+  >>> import zope.testing.unlikelymodulename
+  Traceback (most recent call last):
+    ...
+  ImportError: No module named unlikelymodulename
+
+This only works for packages that already exist::
+ 
+  >>> setUp(test, 'unlikelynamespacename.fake')
+  Traceback (most recent call last):
+    ...
+  KeyError: 'unlikelynamespacename'
+
+Even so, we still need to tear down::
+
+  >>> tearDown(test)
+  Traceback (most recent call last):
+    ...
+  KeyError: 'unlikelynamespacename'

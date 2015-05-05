@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="muparser_init">
+  <PropertyGroup Label="Default initializers for properties">
+    <Linkage-muparser Condition="'$(Linkage-muparser)' == ''">dynamic</Linkage-muparser>
+    <CallingConvention-muparser Condition="'$(CallingConvention-muparser)' == ''">cdecl</CallingConvention-muparser>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\default-propertiesui.xml" />
+  </ItemGroup>
+  <UsingTask TaskName="muparser_Contains" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" TaskFactory="CodeTaskFactory">
+    <ParameterGroup>
+      <Text Output="false" ParameterType="System.String" />
+      <Library Output="false" Required="true" ParameterType="System.String" />
+      <Value Output="false" Required="true" ParameterType="System.String" />
+      <Result Output="true" ParameterType="System.String" />
+    </ParameterGroup>
+    <Task>
+      <Code>Result = ((Text ?? "").Split(';').Contains(Library) ) ? Value : String.Empty;</Code>
+    </Task>
+  </UsingTask>
+  <Target Name="muparser_init">
+    <muparser_Contains Text="Linkage-dynamic" Library="muparser" Value="dynamic" Condition="'$(Linkage-muparser)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-muparser" />
+    </muparser_Contains>
+    <muparser_Contains Text="Linkage-static" Library="muparser" Value="static" Condition="'$(Linkage-muparser)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-muparser" />
+    </muparser_Contains>
+    <muparser_Contains Text="Linkage-ltcg" Library="muparser" Value="ltcg" Condition="'$(Linkage-muparser)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-muparser" />
+    </muparser_Contains>
+    <muparser_Contains Text="Linkage-sxs" Library="muparser" Value="sxs" Condition="'$(Linkage-muparser)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-muparser" />
+    </muparser_Contains>
+    <muparser_Contains Text="CallingConvention-cdecl" Library="muparser" Value="cdecl" Condition="'$(CallingConvention-muparser)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-muparser" />
+    </muparser_Contains>
+    <muparser_Contains Text="CallingConvention-stdcall" Library="muparser" Value="stdcall" Condition="'$(CallingConvention-muparser)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-muparser" />
+    </muparser_Contains>
+    <muparser_Contains Text="CallingConvention-fastcall" Library="muparser" Value="fastcall" Condition="'$(CallingConvention-muparser)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-muparser" />
+    </muparser_Contains>
+    <muparser_Contains Text="CallingConvention-thiscall" Library="muparser" Value="thiscall" Condition="'$(CallingConvention-muparser)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-muparser" />
+    </muparser_Contains>
+    <muparser_Contains Text="CallingConvention-clrcall" Library="muparser" Value="clrcall" Condition="'$(CallingConvention-muparser)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-muparser" />
+    </muparser_Contains>
+  </Target>
+</Project>

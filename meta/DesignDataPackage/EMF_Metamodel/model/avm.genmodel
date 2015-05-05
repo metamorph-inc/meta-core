@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/DDP_2.0/src" modelPluginID="DDP_2.0" modelName="AVM"
+    rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl"
+    reflectiveDelegation="true" importerID="org.eclipse.emf.importer.ecore" featureDelegation="Reflective"
+    complianceLevel="6.0" copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/XMLType.genmodel#//type">
+  <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
+    <genAnnotations source="selectedPackages">
+      <details key="avm" value="avm.xsd"/>
+      <details key="modelica" value="avm.modelica.xsd"/>
+      <details key="cad" value="avm.cad.xsd"/>
+      <details key="manufacturing" value="avm.manufacturing.xsd"/>
+      <details key="http://www.eclipse.org/emf/2003/XMLType" value="XMLType.xsd"/>
+      <details key="iFAB" value="AssemblyDetails.xsd"/>
+      <details key="cyber" value="avm.cyber.xsd"/>
+    </genAnnotations>
+    <details key="directoryURI" value="."/>
+  </genAnnotations>
+  <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.emf.exporter.html">
+    <genAnnotations source="selectedPackages">
+      <details key="avm" value="AVM.html"/>
+      <details key="modelica" value="avm.modelica.html"/>
+      <details key="cad" value="avm.cad.html"/>
+      <details key="manufacturing" value="avm.manufacturing.html"/>
+      <details key="simulink" value="avm.simulink.html"/>
+      <details key="http://www.eclipse.org/emf/2003/XMLType" value="XMLType.html"/>
+    </genAnnotations>
+    <details key="directoryURI" value="."/>
+  </genAnnotations>
+  <foreignModel>AVM.ecore</foreignModel>
+  <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
+  <genPackages prefix="Avm" resource="XML" disposableProviderFactory="true" ecorePackage="AVM.ecore#/">
+    <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
+      <genAnnotations source="avm.xsd">
+        <details key="http://www.eclipse.org/emf/2003/XMLType" value="XMLType.xsd"/>
+      </genAnnotations>
+    </genAnnotations>
+    <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.emf.exporter.html">
+      <genAnnotations source="AVM.html">
+        <details key="http://www.eclipse.org/emf/2003/XMLType" value="XMLType.html"/>
+      </genAnnotations>
+    </genAnnotations>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="AVM.ecore#//CalculationTypeEnum">
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//CalculationTypeEnum/Declarative"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//CalculationTypeEnum/Python"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="AVM.ecore#//DataTypeEnum">
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//DataTypeEnum/String"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//DataTypeEnum/Boolean"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//DataTypeEnum/Integer"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//DataTypeEnum/Real"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="AVM.ecore#//DimensionTypeEnum">
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//DimensionTypeEnum/Matrix"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//DimensionTypeEnum/Vector"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//DimensionTypeEnum/Scalar"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="AVM.ecore#//SimpleFormulaOperation">
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//SimpleFormulaOperation/Addition"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//SimpleFormulaOperation/Multiplication"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//SimpleFormulaOperation/ArithmeticMean"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//SimpleFormulaOperation/GeometricMean"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//SimpleFormulaOperation/Maximum"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//SimpleFormulaOperation/Minimum"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="AVM.ecore#//DoDDistributionStatementEnum">
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//DoDDistributionStatementEnum/StatementA"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//DoDDistributionStatementEnum/StatementB"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//DoDDistributionStatementEnum/StatementC"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//DoDDistributionStatementEnum/StatementD"/>
+      <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//DoDDistributionStatementEnum/StatementE"/>
+    </genEnums>
+    <genClasses ecoreClass="AVM.ecore#//Component">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Component/Name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Component/DomainModel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Component/Property"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Component/ResourceDependency"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Component/Connector"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Component/DistributionRestriction"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Component/Version"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Component/SchemaVersion"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Component/Port"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Component/Classifications"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Component/AnalysisConstruct"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Component/ID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Component/Supercedes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Component/Formula"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//DomainModel">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AVM.ecore#//DomainModel/UsesResource"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModel/Author"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModel/Notes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModel/XPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModel/YPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModel/Name"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//Property">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Property/Name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Property/OnDataSheet"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Property/Notes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Property/Definition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Property/ID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Property/XPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Property/YPosition"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//Value">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Value/Unit"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Value/ValueExpression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Value/DataType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Value/DimensionType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Value/Dimensions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Value/DataSource"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//FixedValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//FixedValue/Value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//FixedValue/Uncertainty"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//CalculatedValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//CalculatedValue/Expression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//CalculatedValue/Type"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//DerivedValue">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AVM.ecore#//DerivedValue/ValueSource"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//Resource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Resource/Name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Resource/Path"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Resource/Hash"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Resource/ID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Resource/Notes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Resource/XPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Resource/YPosition"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//Connector">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Connector/Definition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Connector/Name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Connector/Role"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Connector/Notes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Connector/Property"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Connector/DefaultJoin"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Connector/Connector"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Connector/XPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Connector/YPosition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Connector/ConnectorFeature"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//Port">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Port/Notes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Port/XPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Port/Definition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Port/YPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Port/Name"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//DomainModelPort"/>
+    <genClasses image="false" ecoreClass="AVM.ecore#//DomainModelParameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModelParameter/Notes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModelParameter/XPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModelParameter/YPosition"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//ParametricValue">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//ParametricValue/Default"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//ParametricValue/Maximum"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//ParametricValue/Minimum"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AVM.ecore#//ParametricValue/AssignedValue"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//ValueExpressionType"/>
+    <genClasses image="false" ecoreClass="AVM.ecore#//ProbabilisticValue"/>
+    <genClasses ecoreClass="AVM.ecore#//NormalDistribution">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//NormalDistribution/Mean"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//NormalDistribution/StandardDeviation"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//DistributionRestriction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DistributionRestriction/Notes"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//SecurityClassification">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//SecurityClassification/Level"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//Proprietary">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Proprietary/Organization"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//ITAR"/>
+    <genClasses image="false" ecoreClass="AVM.ecore#//DomainModelMetric">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModelMetric/ID"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//DomainModelMetric/Value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModelMetric/Notes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModelMetric/XPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModelMetric/YPosition"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//UniformDistribution"/>
+    <genClasses ecoreClass="AVM.ecore#//PrimitiveProperty">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//PrimitiveProperty/Value"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//CompoundProperty">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//CompoundProperty/CompoundProperty"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//CompoundProperty/PrimitiveProperty"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//ParametricEnumeratedValue">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//ParametricEnumeratedValue/AssignedValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//ParametricEnumeratedValue/Enum"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//AbstractPort"/>
+    <genClasses image="false" ecoreClass="AVM.ecore#//AnalysisConstruct"/>
+    <genClasses ecoreClass="AVM.ecore#//DataSource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DataSource/Notes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AVM.ecore#//DataSource/FromResource"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//Design">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Design/RootContainer"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Design/SchemaVersion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Design/DesignID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Design/Name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Design/DesignSpaceSrcID"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//Container">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Container/Name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Container/Container"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Container/Property"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Container/ComponentInstance"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Container/Port"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Container/Connector"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Container/JoinData"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Container/XPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Container/YPosition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Container/Formula"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//Compound"/>
+    <genClasses ecoreClass="AVM.ecore#//Optional"/>
+    <genClasses ecoreClass="AVM.ecore#//Alternative"/>
+    <genClasses ecoreClass="AVM.ecore#//ComponentInstance">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//ComponentInstance/PortInstance"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//ComponentInstance/PrimitivePropertyInstance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ComponentInstance/ComponentID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ComponentInstance/ID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ComponentInstance/Name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//ComponentInstance/ConnectorInstance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ComponentInstance/DesignSpaceSrcComponentID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ComponentInstance/XPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ComponentInstance/YPosition"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//ComponentPortInstance">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ComponentPortInstance/IDinComponentModel"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//ComponentPrimitivePropertyInstance">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//ComponentPrimitivePropertyInstance/Value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ComponentPrimitivePropertyInstance/IDinComponentModel"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//DesignSpaceContainer"/>
+    <genClasses ecoreClass="AVM.ecore#//PortMapTarget">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//PortMapTarget/ID"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AVM.ecore#//PortMapTarget/PortMap"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//ComponentConnectorInstance">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ComponentConnectorInstance/IDinComponentModel"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//ConnectorCompositionTarget">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AVM.ecore#//ConnectorCompositionTarget/ConnectorComposition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ConnectorCompositionTarget/ID"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AVM.ecore#//ConnectorCompositionTarget/ApplyJoinData"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//Formula">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Formula/Name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Formula/XPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Formula/YPosition"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//SimpleFormula">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//SimpleFormula/Operation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AVM.ecore#//SimpleFormula/Operand"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//ValueNode">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ValueNode/ID"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//ComplexFormula">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ComplexFormula/Expression"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//ComplexFormula/Operand"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//Operand">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Operand/Symbol"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AVM.ecore#//Operand/ValueSource"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//DoDDistributionStatement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DoDDistributionStatement/Type"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//ConnectorFeature"/>
+    <nestedGenPackages prefix="Modelica" basePackage="avm" resource="XML" disposableProviderFactory="true"
+        ecorePackage="AVM.ecore#//modelica">
+      <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
+        <genAnnotations source="avm.modelica.xsd">
+          <details key="http://www.eclipse.org/emf/2003/XMLType" value="XMLType.xsd"/>
+        </genAnnotations>
+      </genAnnotations>
+      <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.emf.exporter.html">
+        <genAnnotations source="avm.modelica.html">
+          <details key="http://www.eclipse.org/emf/2003/XMLType" value="XMLType.html"/>
+        </genAnnotations>
+      </genAnnotations>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="AVM.ecore#//modelica/BoundTypeEnum">
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/BoundTypeEnum/MustNotExceed"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/BoundTypeEnum/MustNotMeetOrExceed"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/BoundTypeEnum/MustExceed"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/BoundTypeEnum/MustExceedOrEqual"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="AVM.ecore#//modelica/RedeclareTypeEnum">
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/RedeclareTypeEnum/Package"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/RedeclareTypeEnum/Class"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/RedeclareTypeEnum/Model"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/RedeclareTypeEnum/Record"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/RedeclareTypeEnum/Block"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/RedeclareTypeEnum/Connector"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/RedeclareTypeEnum/Function"/>
+      </genEnums>
+      <genClasses ecoreClass="AVM.ecore#//modelica/ModelicaModel">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/ModelicaModel/Class"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//modelica/ModelicaModel/Parameter"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//modelica/ModelicaModel/Connector"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//modelica/ModelicaModel/Metric"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//modelica/ModelicaModel/Limit"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//modelica/ModelicaModel/Redeclare"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//modelica/Connector">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/Connector/Class"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/Connector/Locator"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//modelica/Connector/Parameter"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//modelica/Connector/Redeclare"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//modelica/Parameter">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//modelica/Parameter/Value"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/Parameter/Locator"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//modelica/Metric">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/Metric/Locator"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//modelica/Limit">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/Limit/VariableLocator"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/Limit/BoundType"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/Limit/Name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//modelica/Limit/TargetValue"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/Limit/ToleranceTimeWindow"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/Limit/Notes"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//modelica/Redeclare">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/Redeclare/Locator"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//modelica/Redeclare/Value"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/Redeclare/Type"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Cad" basePackage="avm" resource="XML" disposableProviderFactory="true"
+        ecorePackage="AVM.ecore#//cad">
+      <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
+        <genAnnotations source="avm.cad.xsd">
+          <details key="http://www.eclipse.org/emf/2003/XMLType" value="XMLType.xsd"/>
+        </genAnnotations>
+      </genAnnotations>
+      <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.emf.exporter.html">
+        <genAnnotations source="avm.cad.html">
+          <details key="http://www.eclipse.org/emf/2003/XMLType" value="XMLType.html"/>
+        </genAnnotations>
+      </genAnnotations>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="AVM.ecore#//cad/CustomGeometryInputOperationEnum">
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//cad/CustomGeometryInputOperationEnum/Union"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//cad/CustomGeometryInputOperationEnum/Intersection"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//cad/CustomGeometryInputOperationEnum/Subtraction"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="AVM.ecore#//cad/PartIntersectionEnum">
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//cad/PartIntersectionEnum/None"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//cad/PartIntersectionEnum/IntersectionWithAnyParts"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//cad/PartIntersectionEnum/IntersectionWithReferencedParts"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="AVM.ecore#//cad/GeometryQualifierEnum">
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//cad/GeometryQualifierEnum/InteriorAndBoundary"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//cad/GeometryQualifierEnum/InteriorOnly"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//cad/GeometryQualifierEnum/BoundaryOnly"/>
+      </genEnums>
+      <genClasses ecoreClass="AVM.ecore#//cad/CADModel">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/CADModel/Datum"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/CADModel/Parameter"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/CADModel/ModelMetric"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="AVM.ecore#//cad/Datum">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//cad/Datum/DatumName"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/Datum/DatumMetric"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/Parameter">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//cad/Parameter/Name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/Parameter/Value"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/Point"/>
+      <genClasses ecoreClass="AVM.ecore#//cad/Axis"/>
+      <genClasses ecoreClass="AVM.ecore#//cad/Plane">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AVM.ecore#//cad/Plane/SurfaceReverseMap"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/CoordinateSystem">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/CoordinateSystem/Metric"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/Metric">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//cad/Metric/Name"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="AVM.ecore#//cad/Geometry">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//cad/Geometry/GeometryQualifier"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//cad/Geometry/PartIntersectionModifier"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="AVM.ecore#//cad/Geometry2D"/>
+      <genClasses image="false" ecoreClass="AVM.ecore#//cad/Geometry3D"/>
+      <genClasses ecoreClass="AVM.ecore#//cad/Circle">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/Circle/CircleCenter"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/Circle/CircleEdge"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/Polygon">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/Polygon/PolygonPoint"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/ExtrudedGeometry">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/ExtrudedGeometry/ExtrusionHeight"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/ExtrudedGeometry/ExtrusionSurface"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/Sphere">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/Sphere/SphereCenter"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/Sphere/SphereEdge"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/CustomGeometry">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/CustomGeometry/CustomGeometryInput"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/CustomGeometryInput">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//cad/CustomGeometryInput/Operation"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/CustomGeometryInput/InputGeometry"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/PointReference">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AVM.ecore#//cad/PointReference/ReferredPoint"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/Surface">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/Surface/ReferencePlane"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/PlaneReference">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AVM.ecore#//cad/PlaneReference/ReferredPlane"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/GuideDatum">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AVM.ecore#//cad/GuideDatum/Datum"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Manufacturing" basePackage="avm" resource="XML" disposableProviderFactory="true"
+        ecorePackage="AVM.ecore#//manufacturing">
+      <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
+        <genAnnotations source="avm.manufacturing.xsd">
+          <details key="http://www.eclipse.org/emf/2003/XMLType" value="XMLType.xsd"/>
+        </genAnnotations>
+      </genAnnotations>
+      <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.emf.exporter.html">
+        <genAnnotations source="avm.manufacturing.html">
+          <details key="http://www.eclipse.org/emf/2003/XMLType" value="XMLType.html"/>
+        </genAnnotations>
+      </genAnnotations>
+      <genClasses ecoreClass="AVM.ecore#//manufacturing/ManufacturingModel">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//manufacturing/ManufacturingModel/Parameter"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AVM.ecore#//manufacturing/ManufacturingModel/Metric"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//manufacturing/Parameter">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//manufacturing/Parameter/Value"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//manufacturing/Parameter/Locator"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//manufacturing/Parameter/Name"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//manufacturing/Metric">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//manufacturing/Metric/Name"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Cyber" basePackage="avm" resource="XML" disposableProviderFactory="true"
+        ecorePackage="AVM.ecore#//cyber">
+      <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
+        <genAnnotations source="avm.cyber.xsd">
+          <details key="http://www.eclipse.org/emf/2003/XMLType" value="XMLType.xsd"/>
+        </genAnnotations>
+      </genAnnotations>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="AVM.ecore#//cyber/ModelType">
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//cyber/ModelType/SignalFlow"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//cyber/ModelType/Simulink"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//cyber/ModelType/ESMoL"/>
+      </genEnums>
+      <genClasses ecoreClass="AVM.ecore#//cyber/CyberModel">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//cyber/CyberModel/Type"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//cyber/CyberModel/Class"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cyber/CyberModel/Connector"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cyber/CyberModel/Parameter"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//cyber/CyberModel/Locator"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+  <genPackages prefix="IFAB" ecorePackage="iFAB.ecore#/">
+    <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
+      <genAnnotations source="AssemblyDetails.xsd">
+        <details key="http://www.eclipse.org/emf/2003/XMLType" value="XMLType.xsd"/>
+      </genAnnotations>
+    </genAnnotations>
+    <genClasses ecoreClass="iFAB.ecore#//assemblyDetail">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iFAB.ecore#//assemblyDetail/description"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

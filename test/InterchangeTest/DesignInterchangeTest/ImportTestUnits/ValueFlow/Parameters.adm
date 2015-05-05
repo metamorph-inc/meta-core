@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Parameters" DesignID="{4175d2e6-b49d-425f-b91c-492a1cc87c05}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="Parameters" xmlns="">
+    <Property xsi:type="q1:PrimitiveProperty" Name="InvalidRange_OneNumber" ID="param.93354123-dc2b-4393-af8e-c39f7fe79872" XPosition="105" YPosition="420">
+      <Value ID="93354123-dc2b-4393-af8e-c39f7fe79872" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <AssignedValue xsi:type="q1:FixedValue">
+            <Value />
+          </AssignedValue>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="DerivedValue_HasRangeReals" ID="param.30fc08fc-8a1a-4bcd-ae75-b3615a3f3fed" XPosition="385" YPosition="63">
+      <Value ID="30fc08fc-8a1a-4bcd-ae75-b3615a3f3fed" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <Maximum xsi:type="q1:FixedValue">
+            <Value>2.93</Value>
+          </Maximum>
+          <Minimum xsi:type="q1:FixedValue">
+            <Value>-2.3</Value>
+          </Minimum>
+          <AssignedValue xsi:type="q1:DerivedValue" ValueSource="351bdc6a-a463-4e76-9c7e-df071e7661d1" />
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="InvalidRange_Whitespace" ID="param.5dc1dce2-0c04-4a03-8de2-87d1feae9c29" XPosition="105" YPosition="350">
+      <Value ID="5dc1dce2-0c04-4a03-8de2-87d1feae9c29" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <AssignedValue xsi:type="q1:FixedValue">
+            <Value />
+          </AssignedValue>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="InvalidRange_String" ID="param.f05835bc-7c9d-435f-8ab5-0472bbb113f6" XPosition="105" YPosition="490">
+      <Value ID="f05835bc-7c9d-435f-8ab5-0472bbb113f6" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <AssignedValue xsi:type="q1:FixedValue">
+            <Value />
+          </AssignedValue>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="HasRangeIntegers" ID="param.bdf0b1af-e983-49b1-8bb1-ae3e014da531" XPosition="105" YPosition="112">
+      <Value ID="bdf0b1af-e983-49b1-8bb1-ae3e014da531" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <Maximum xsi:type="q1:FixedValue">
+            <Value>2</Value>
+          </Maximum>
+          <Minimum xsi:type="q1:FixedValue">
+            <Value>-2</Value>
+          </Minimum>
+          <AssignedValue xsi:type="q1:FixedValue">
+            <Value />
+          </AssignedValue>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="DerivedValue_HasDefault" ID="param.4e9b93a6-fdbe-48e2-96b3-5ffdadd1d76e" XPosition="385" YPosition="196">
+      <Value ID="4e9b93a6-fdbe-48e2-96b3-5ffdadd1d76e" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <Default xsi:type="q1:FixedValue">
+            <Value>4</Value>
+          </Default>
+          <Maximum xsi:type="q1:FixedValue">
+            <Value>inf</Value>
+          </Maximum>
+          <Minimum xsi:type="q1:FixedValue">
+            <Value>-inf</Value>
+          </Minimum>
+          <AssignedValue xsi:type="q1:DerivedValue" ValueSource="351bdc6a-a463-4e76-9c7e-df071e7661d1" />
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="HasValue" ID="param.351bdc6a-a463-4e76-9c7e-df071e7661d1" XPosition="105" YPosition="245">
+      <Value ID="351bdc6a-a463-4e76-9c7e-df071e7661d1" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <Maximum xsi:type="q1:FixedValue">
+            <Value>inf</Value>
+          </Maximum>
+          <Minimum xsi:type="q1:FixedValue">
+            <Value>-inf</Value>
+          </Minimum>
+          <AssignedValue xsi:type="q1:FixedValue">
+            <Value>1</Value>
+          </AssignedValue>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="DerivedValue_HasValue" ID="param.0204b38d-7e0e-4dd3-af3a-fe4c5ce7e5d9" XPosition="385" YPosition="245">
+      <Value ID="0204b38d-7e0e-4dd3-af3a-fe4c5ce7e5d9" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <Maximum xsi:type="q1:FixedValue">
+            <Value>inf</Value>
+          </Maximum>
+          <Minimum xsi:type="q1:FixedValue">
+            <Value>-inf</Value>
+          </Minimum>
+          <AssignedValue xsi:type="q1:DerivedValue" ValueSource="351bdc6a-a463-4e76-9c7e-df071e7661d1" />
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="HasRangeReals" ID="param.6f14a08a-3280-4576-bcae-1ddb4625a360" XPosition="105" YPosition="175">
+      <Value ID="6f14a08a-3280-4576-bcae-1ddb4625a360" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <Maximum xsi:type="q1:FixedValue">
+            <Value>2.93</Value>
+          </Maximum>
+          <Minimum xsi:type="q1:FixedValue">
+            <Value>-2.3</Value>
+          </Minimum>
+          <AssignedValue xsi:type="q1:FixedValue">
+            <Value />
+          </AssignedValue>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="DerivedValue_HasRangeIntegers" ID="param.e87c4888-1078-4f38-b47d-52fc14c7859d" XPosition="385" YPosition="126">
+      <Value ID="e87c4888-1078-4f38-b47d-52fc14c7859d" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <Maximum xsi:type="q1:FixedValue">
+            <Value>2</Value>
+          </Maximum>
+          <Minimum xsi:type="q1:FixedValue">
+            <Value>-2</Value>
+          </Minimum>
+          <AssignedValue xsi:type="q1:DerivedValue" ValueSource="351bdc6a-a463-4e76-9c7e-df071e7661d1" />
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="HasDefault" ID="param.1c3af800-69c3-4ed3-bf3c-337bb28c7e32" XPosition="105" YPosition="63">
+      <Value ID="1c3af800-69c3-4ed3-bf3c-337bb28c7e32" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <Default xsi:type="q1:FixedValue">
+            <Value>1</Value>
+          </Default>
+          <Maximum xsi:type="q1:FixedValue">
+            <Value>inf</Value>
+          </Maximum>
+          <Minimum xsi:type="q1:FixedValue">
+            <Value>-inf</Value>
+          </Minimum>
+          <AssignedValue xsi:type="q1:FixedValue">
+            <Value />
+          </AssignedValue>
+        </ValueExpression>
+      </Value>
+    </Property>
+  </RootContainer>
+</Design>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="DiscreteWrapper" xmlns="avm">
+  <DomainModel xmlns:q1="cyber" xsi:type="q1:CyberModel" UsesResource="cyber.path" Name="DiscreteWrapper" Locator="RootFolder/Components/DiscreteWrapper" Class="Simulink.DiscreteWrapper_type" Type="Simulink" xmlns="">
+    <Connector ID="id-b5db10de-0ead-444b-b4c2-c238a0831c16" PortMap="" Name="u" Locator="u" Class="Modelica.Blocks.Interfaces.RealInput" />
+    <Connector ID="id-2f011c80-c04d-4b34-89b4-d1d8ab12004a" PortMap="" Name="u1" Locator="u1" Class="Modelica.Blocks.Interfaces.RealInput" />
+    <Connector ID="id-a3667377-8ba4-4189-9115-9fddac25d9e1" PortMap="" Name="y1" Locator="y1" Class="Modelica.Blocks.Interfaces.RealOutput" />
+    <Parameter Locator="samplePeriod">
+      <Value ID="id-6222cb53-adda-479d-b2b2-4d82de5a0596">
+        <ValueExpression xmlns:q2="avm" xsi:type="q2:FixedValue">
+          <Value>.01</Value>
+        </ValueExpression>
+      </Value>
+    </Parameter>
+  </DomainModel>
+  <ResourceDependency Name="CyberModel" Path="Cyber\SingleTankPIController.mga" ID="cyber.path" xmlns="" />
+  <ResourceDependency Name="CyberXML" Path="Cyber\SingleTankPIController.xml" ID="cyberxml.path" xmlns="" />
+</Component>

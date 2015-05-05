@@ -1,0 +1,247 @@
+This is a test for a fix in buffering of output from a layer in a subprocess.
+
+Prior to the change that this tests, output from within a test layer in a
+subprocess would be buffered.  This could wreak havoc on supervising processes
+(or human) that would kill a test run if no output was seen for some period of
+time.
+
+First, we wrap stdout with an object that instruments it. It notes the time at
+which a given line was written.
+
+    >>> import os, sys, datetime
+    >>> class RecordingStreamWrapper:
+    ...     def __init__(self, wrapped):
+    ...         self.record = []
+    ...         self.wrapped = wrapped
+    ...     def write(self, out):
+    ...         self.record.append((out, datetime.datetime.now()))
+    ...         self.wrapped.write(out)
+    ...     def flush(self):
+    ...         self.wrapped.flush()
+    ...
+    >>> sys.stdout = RecordingStreamWrapper(sys.stdout)
+
+Now we actually call our test.  If you open the file to which we are referring
+here (zope/testing/testrunner-ex/sampletests_buffering.py) you will see two test
+suites, each with its own layer that does not know how to tear down.  This
+forces the second suite to be run in a subprocess.
+
+That second suite has two tests.  Both sleep for half a second each.
+
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> from zope import testrunner
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     ]
+    >>> argv = [sys.argv[0],
+    ...         '-vv', '--tests-pattern', '^sampletests_buffering.*']
+
+    >>> try:
+    ...     testrunner.run_internal(defaults, argv)
+    ...     record = sys.stdout.record
+    ... finally:
+    ...     sys.stdout = sys.stdout.wrapped
+    ...
+    Running tests at level 1
+    Running sampletests_buffering.Layer1 tests:
+      Set up sampletests_buffering.Layer1 in N.NNN seconds.
+      Running:
+     test_something (sampletests_buffering.TestSomething1)
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running sampletests_buffering.Layer2 tests:
+      Tear down sampletests_buffering.Layer1 ... not supported
+      Running in a subprocess.
+      Set up sampletests_buffering.Layer2 in N.NNN seconds.
+      Running:
+     test_something (sampletests_buffering.TestSomething2)
+     test_something2 (sampletests_buffering.TestSomething2)
+      Ran 2 tests with 0 failures and 0 errors in N.NNN seconds.
+      Tear down sampletests_buffering.Layer2 ... not supported
+    Total: 3 tests, 0 failures, 0 errors in N.NNN seconds.
+    False
+
+Now we actually check the results we care about.  We should see that there are
+two pauses of about half a second, one around the first test and one around the
+second.  Before the change that this test verifies, there was a single pause of
+more than a second after the second suite ran.
+
+    >>> def assert_progressive_output():
+    ...     pause = datetime.timedelta(seconds=0.3)
+    ...     last_line, last_time = record.pop(0)
+    ...     print '---'
+    ...     for line, time in record:
+    ...         if time-last_time >= pause:
+    ...             # We paused!
+    ...             print 'PAUSE FOUND BETWEEN THESE LINES:'
+    ...             print ''.join([last_line, line, '-'*70])
+    ...         last_line, last_time = line, time
+
+    >>> assert_progressive_output() # doctest: +ELLIPSIS
+    ---...
+    PAUSE FOUND BETWEEN THESE LINES:...
+      Running:
+     test_something (sampletests_buffering.TestSomething2)
+    ----------------------------------------------------------------------
+    PAUSE FOUND BETWEEN THESE LINES:
+     test_something (sampletests_buffering.TestSomething2)
+     test_something2 (sampletests_buffering.TestSomething2)
+    ---...
+
+Because this is a test based on timing, it may be somewhat fragile.  However,
+on a relatively slow machine, this timing works out fine; I'm hopeful that this
+test will not be a source of spurious errors.  If it is, we will have to
+readdress.
+
+Now let's do the same thing, but with multiple processes at once.  We'll get
+a different result that has similar characteristics.
+
+    >>> sys.stdout = RecordingStreamWrapper(sys.stdout)
+    >>> argv.extend(['-j', '2'])
+    >>> try:
+    ...     testrunner.run_internal(defaults, argv)
+    ...     record = sys.stdout.record
+    ... finally:
+    ...     sys.stdout = sys.stdout.wrapped
+    ...
+    Running tests at level 1
+    Running sampletests_buffering.Layer1 tests:
+      Set up sampletests_buffering.Layer1 in N.NNN seconds.
+      Running:
+     test_something (sampletests_buffering.TestSomething1)
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    [Parallel tests running in sampletests_buffering.Layer2:
+      .. LAYER FINISHED]
+    Running sampletests_buffering.Layer2 tests:
+      Running in a subprocess.
+      Set up sampletests_buffering.Layer2 in N.NNN seconds.
+      Ran 2 tests with 0 failures and 0 errors in N.NNN seconds.
+      Tear down sampletests_buffering.Layer2 ... not supported
+    Tearing down left over layers:
+      Tear down sampletests_buffering.Layer1 ... not supported
+    Total: 3 tests, 0 failures, 0 errors in N.NNN seconds.
+    False
+
+Notice that, with a -vv (or greater) verbosity, the parallel test run includes
+a progress report to keep track of tests run in the various layers.  Because
+the actual results are saved to be displayed assembled in the original test
+order, the progress report shows up before we are given the news that the
+testrunner is starting Layer2.  This is counterintuitive, but lets us keep the
+primary reporting information for the given layer in one location, while also
+giving us progress reports that can be used for keepalive analysis by a human or
+automated agent. In particular for the second point, notice below that, as
+before, the progress output is not buffered.
+
+    >>> def assert_progressive_output():
+    ...     pause = datetime.timedelta(seconds=0.3)
+    ...     last_line, last_time = record.pop(0)
+    ...     print '---'
+    ...     for line, time in record:
+    ...         if time-last_time >= pause:
+    ...             # We paused!
+    ...             print 'PAUSE FOUND BETWEEN THIS OUTPUT:'
+    ...             print '\n'.join([last_line, line, '-'*70])
+    ...         last_line, last_time = line, time
+
+    >>> assert_progressive_output() # doctest: +ELLIPSIS
+    ---...
+    PAUSE FOUND BETWEEN THIS OUTPUT:...
+    .
+    .
+    ----------------------------------------------------------------------
+    PAUSE FOUND BETWEEN THIS OUTPUT:
+    .
+     LAYER FINISHED
+    ---...
+
+
+Fake an IOError reading the output of the subprocess to exercise the
+reporting of that error:
+
+    >>> class FakeStdout(object):
+    ...     raised = False
+    ...     def __init__(self, msg):
+    ...         self.msg = msg
+    ...     def readline(self):
+    ...         if not self.raised:
+    ...             self.raised = True
+    ...             raise IOError(self.msg)
+
+    >>> class FakeStderr(object):
+    ...     def __init__(self, msg):
+    ...         self.msg = msg
+    ...     def read(self):
+    ...         return self.msg
+
+    >>> class FakeProcess(object):
+    ...     def __init__(self, out, err):
+    ...         self.stdout = FakeStdout(out)
+    ...         self.stderr = FakeStderr(err)
+
+    >>> class FakePopen(object):
+    ...     def __init__(self, out, err):
+    ...         self.out = out
+    ...         self.err = err
+    ...     def __call__(self, *args, **kw):
+    ...         return FakeProcess(self.out, self.err)
+
+    >>> import subprocess
+    >>> Popen = subprocess.Popen
+    >>> subprocess.Popen = FakePopen(
+    ...      "Failure triggered to verify error reporting",
+    ...      "0 0 0")
+
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> from zope import testrunner
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     ]
+    >>> argv = [sys.argv[0],
+    ...         '-vv', '--tests-pattern', '^sampletests_buffering.*']
+
+    >>> _ = testrunner.run_internal(defaults, argv)
+    Running tests at level 1
+    Running sampletests_buffering.Layer1 tests:
+      Set up sampletests_buffering.Layer1 in N.NNN seconds.
+      Running:
+     test_something (sampletests_buffering.TestSomething1)
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running sampletests_buffering.Layer2 tests:
+      Tear down sampletests_buffering.Layer1 ... not supported
+    Error reading subprocess output for sampletests_buffering.Layer2
+    Failure triggered to verify error reporting
+    Total: 1 tests, 0 failures, 0 errors in N.NNN seconds.
+
+Now fake an empty stderr to test reporting a failure when
+communicating with the subprocess:
+
+    >>> subprocess.Popen = FakePopen(
+    ...      "Failure triggered to verify error reporting",
+    ...      "")
+
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> from zope import testrunner
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     ]
+    >>> argv = [sys.argv[0],
+    ...         '-vv', '--tests-pattern', '^sampletests_buffering.*']
+
+    >>> _ = testrunner.run_internal(defaults, argv)
+    Running tests at level 1
+    Running sampletests_buffering.Layer1 tests:
+      Set up sampletests_buffering.Layer1 in N.NNN seconds.
+      Running:
+     test_something (sampletests_buffering.TestSomething1)
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running sampletests_buffering.Layer2 tests:
+      Tear down sampletests_buffering.Layer1 ... not supported
+    Error reading subprocess output for sampletests_buffering.Layer2
+    Failure triggered to verify error reporting
+    <BLANKLINE>
+    **********************************************************************
+    Could not communicate with subprocess
+    **********************************************************************
+    <BLANKLINE>
+    Total: 1 tests, 0 failures, 0 errors in N.NNN seconds.
+
+    >>> subprocess.Popen = Popen

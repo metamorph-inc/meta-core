@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="DC_CustomFormula" DesignID="{11913700-dcf1-4598-b4fd-a993fe8dce30}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="DC_CustomFormula" xmlns="">
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop2" ID="property.721c2deb-90d9-43ab-bbb5-9b5e450ca3db" XPosition="49" YPosition="21">
+      <Value ID="721c2deb-90d9-43ab-bbb5-9b5e450ca3db" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:FixedValue">
+          <Value>2</Value>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop3" ID="property.9804d8f9-e640-4b56-be95-b24e5b6f6b82" XPosition="280" YPosition="98">
+      <Value ID="9804d8f9-e640-4b56-be95-b24e5b6f6b82" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:DerivedValue" ValueSource="8531dfbb-1dfd-4fa1-a6c1-a39deb025ffa" />
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop1" ID="property.b0f67012-582f-472e-b7f5-56765e166654" XPosition="49" YPosition="189">
+      <Value ID="b0f67012-582f-472e-b7f5-56765e166654" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:FixedValue">
+          <Value>5</Value>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Formula xsi:type="q1:ComplexFormula" ID="631dd2ab-46e7-4bec-a596-574813841fdc" Name="CustomFormula1" XPosition="77" YPosition="105" Expression="Prop1 - A">
+      <Operand Symbol="A" ValueSource="721c2deb-90d9-43ab-bbb5-9b5e450ca3db" />
+      <Operand Symbol="Prop1" ValueSource="b0f67012-582f-472e-b7f5-56765e166654" />
+    </Formula>
+    <Formula xsi:type="q1:ComplexFormula" ID="8531dfbb-1dfd-4fa1-a6c1-a39deb025ffa" Name="CustomFormula2" XPosition="189" YPosition="105" Expression="C^Prop1">
+      <Operand Symbol="Prop1" ValueSource="b0f67012-582f-472e-b7f5-56765e166654" />
+      <Operand Symbol="C" ValueSource="631dd2ab-46e7-4bec-a596-574813841fdc" />
+    </Formula>
+  </RootContainer>
+</Design>

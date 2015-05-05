@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="CustomFormula" DesignID="{9d3663cf-ffc3-48c9-8313-7854fcb1c7cb}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="CustomFormula" xmlns="">
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop2" ID="property.1886f7cf-ce70-4361-8d3e-9f8e2cd843cd" XPosition="49" YPosition="21">
+      <Value ID="1886f7cf-ce70-4361-8d3e-9f8e2cd843cd" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:FixedValue">
+          <Value>2</Value>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop1" ID="property.8513dcc4-5164-476a-b1da-7f4582452273" XPosition="49" YPosition="189">
+      <Value ID="8513dcc4-5164-476a-b1da-7f4582452273" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:FixedValue">
+          <Value>5</Value>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop3" ID="property.778ffaf7-fa11-421f-a15a-de1cacad5410" XPosition="280" YPosition="98">
+      <Value ID="778ffaf7-fa11-421f-a15a-de1cacad5410" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:DerivedValue" ValueSource="bbdc9059-c601-4375-a54f-17dbeda51feb" />
+      </Value>
+    </Property>
+    <Formula xsi:type="q1:ComplexFormula" ID="13fc12f0-6691-4e51-a953-661b7dac05a6" Name="CustomFormula1" XPosition="77" YPosition="105" Expression="Prop1 - A">
+      <Operand Symbol="Prop1" ValueSource="8513dcc4-5164-476a-b1da-7f4582452273" />
+      <Operand Symbol="A" ValueSource="1886f7cf-ce70-4361-8d3e-9f8e2cd843cd" />
+    </Formula>
+    <Formula xsi:type="q1:ComplexFormula" ID="bbdc9059-c601-4375-a54f-17dbeda51feb" Name="CustomFormula2" XPosition="189" YPosition="105" Expression="C^Prop1">
+      <Operand Symbol="C" ValueSource="13fc12f0-6691-4e51-a953-661b7dac05a6" />
+      <Operand Symbol="Prop1" ValueSource="8513dcc4-5164-476a-b1da-7f4582452273" />
+    </Formula>
+  </RootContainer>
+</Design>

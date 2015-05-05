@@ -1,0 +1,33 @@
+<configuration>
+
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="io.netty.util.internal" level="warn" />
+    <logger name="io.netty.util.NetUtil" level="warn" />
+    <logger name="io.netty.buffer" level="warn" />
+    <logger name="io.netty.channel" level="warn" />
+
+    <logger name="meta.link.bridge.server" level="trace"/>
+
+    <logger name="meta.link.frame.decoder.cooked" level="warn"/>
+    <logger name="meta.link.frame.decoder.raw" level="warn"/>
+
+    <logger name="meta.link.frame.encoder.cooked" level="warn"/>
+    <logger name="meta.link.frame.encoder.raw" level="warn"/>
+
+    <logger name="meta.link.msg.distributor.major" level="trace" />
+    <logger name="meta.link.msg.distributor.detail" level="trace" />
+    <logger name="meta.link.msg.interest" level="trace" />
+
+    <root level="warn">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>

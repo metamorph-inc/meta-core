@@ -1,0 +1,48 @@
+Automatically discovering tests
+===============================
+
+You can explicitly specify which tests to run by providing a function that
+returns a unittest.TestSuite in the test modules (the name of the function can
+be configured with the --suite-name parameter, it defaults to 'test_suite'). If
+no such function is present, testrunner will use all classes in the module that
+inherit from unittest.TestCase as tests:
+
+    >>> import os, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+
+    >>> from zope import testrunner
+
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+    >>> sys.argv = ['test',
+    ...             '--tests-pattern', '^sampletests_discover$',
+    ...     ]
+    >>> testrunner.run(defaults)
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    False
+
+If the module neither provides a TestSuite nor has discoverable tests,
+testrunner will exit with an error to prevent acidentally missing test cases:
+
+    >>> sys.argv = ['test',
+    ...             '--tests-pattern', '^sampletests_discover_notests$',
+    ...     ]
+    >>> testrunner.run(defaults)
+    Test-module import failures:
+    <BLANKLINE>
+    Module: sample1.sampletests_discover_notests
+    <BLANKLINE>
+    TypeError: Module sample1.sampletests_discover_notests does not define any tests
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Test-modules with import problems:
+      sample1.sampletests_discover_notests
+    Total: 0 tests, 0 failures, 0 errors in 0.000 seconds.
+    True

@@ -1,0 +1,1013 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{B705CB51-6106-4843-8232-840DDD597E8A}" cdate="Fri Sep 06 17:59:21 2013" mdate="Fri Sep 06 17:59:21 2013" version="" metaguid="{1405FB14-8516-494D-9B63-C22104422F7D}" metaversion="12.1.$Rev: 17952 $" metaname="CyPhyML">
+	<name>RootFolder</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0xc" kind="RootFolder" guid="{e30db627-2b68-46a7-ad9b-fff19a95efda}">
+		<name>RootFolder</name>
+		<folder id="id-006a-00000002" relid="0x2" childrelidcntr="0x2" kind="Connectors" guid="{bded3721-5142-4910-9b2f-b137b12f08ea}">
+			<name>Interface and Port Definitions</name>
+			<folder id="id-006a-00000003" relid="0x1" childrelidcntr="0x7" kind="Ports" guid="{cff68f7d-8940-4331-890e-3d4794150476}">
+				<name>Ports</name>
+				<folder id="id-006a-00000004" relid="0x2" childrelidcntr="0x1d" kind="Ports" guid="{2371312e-1a75-4e56-896a-9d5f9310c011}">
+					<name>Modelica Ports</name>
+					<model id="id-0065-00000001" kind="ModelicaConnector" guid="{fc882a57-7d9a-4e4a-8b1d-f0c0eca251c4}" relid="0x1" childrelidcntr="0x0">
+						<name>RotationalFlange</name>
+						<regnode name="icon" isopaque="yes">
+							<value>Modelica_RotationalFlange.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>Modelica_RotationalFlange_port.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Mechanics.Rotational.Interfaces.Flange_a</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000002" kind="ModelicaConnector" guid="{75df97ed-51f1-406c-af7a-61a5ec597a0d}" relid="0x2" childrelidcntr="0x0">
+						<name>TranslationalFlange</name>
+						<regnode name="icon" isopaque="yes">
+							<value>Modelica_TranslationalFlange.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>Modelica_TranslationalFlange_port.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Mechanics.Translational.Interfaces.Flange_a</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000003" kind="ModelicaConnector" guid="{11341b2d-b690-4d40-8d23-b66abcfe2a9a}" relid="0x3" childrelidcntr="0x2">
+						<name>FlangeWithBearing</name>
+						<regnode name="icon" isopaque="yes">
+							<value>RotationalPowerPort.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>RotationalPowerPort.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Mechanics.MultiBody.Interfaces.FlangeWithBearing</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+						<reference id="id-0066-00000001" kind="ModelicaParameter" role="ModelicaParameter" guid="{ad371f79-2bfe-4078-a7ea-d00a5efc90bc}" relid="0x2">
+							<name>includeBearingConnector</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Aspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>441,231</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="DefaultValue">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>false</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-00000004" kind="ModelicaConnector" guid="{10645696-c8cb-4229-92f4-d54748259e92}" relid="0x4" childrelidcntr="0x0">
+						<name>HydraulicPower</name>
+						<regnode name="icon" isopaque="yes">
+							<value>simple_fluid_a.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>simple_fluid_a.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>C2M2L_Ext.Fluid.Hydraulics_Simple.Interfaces.Hydraulic_Port</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000005" kind="ModelicaConnector" guid="{50233f07-89ed-4fb3-b804-314f217e8cbf}" relid="0x5" childrelidcntr="0x0">
+						<name>ElectricalPin</name>
+						<regnode name="icon" isopaque="yes">
+							<value>electrical_analog_pos.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>electrical_analog_pos.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Electrical.Analog.Interfaces.Pin</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000006" kind="ModelicaConnector" guid="{6887303f-5dab-4360-b352-b56c82557007}" relid="0x6" childrelidcntr="0x0">
+						<name>MultibodyFrame</name>
+						<regnode name="icon" isopaque="yes">
+							<value>3D_a.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>3D_a.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Mechanics.MultiBody.Interfaces.Frame</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000007" kind="ModelicaConnector" guid="{5be54d0e-7cab-4d9d-9d77-2e1be0b7c1a0}" relid="0xa" childrelidcntr="0x0">
+						<name>RealOutput</name>
+						<regnode name="icon" isopaque="yes">
+							<value>Modelica_RealOutput.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>Modelica_RealOutput_port.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Blocks.Interfaces.RealOutput</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000008" kind="ModelicaConnector" guid="{7b0bc8fa-a3f4-4f1f-badf-af4fe89d6b4c}" relid="0xb" childrelidcntr="0x0">
+						<name>HeatPort</name>
+						<regnode name="icon" isopaque="yes">
+							<value>heat_transfer_a.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>heat_transfer_a.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000009" kind="ModelicaConnector" guid="{7541fc5f-a71c-42a5-b793-0fa9a4962b13}" relid="0xc" childrelidcntr="0x0">
+						<name>BooleanInput</name>
+						<regnode name="icon" isopaque="yes">
+							<value>Modelica_BooleanInput.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>Modelica_BooleanInput_port.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Blocks.Interfaces.BooleanInput</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-0000000a" kind="ModelicaConnector" guid="{e19ca106-2cb3-4b5f-b462-7b559d96694d}" relid="0xd" childrelidcntr="0x0">
+						<name>RealInput</name>
+						<regnode name="icon" isopaque="yes">
+							<value>Modelica_RealInput.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>Modelica_RealInput_port.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Blocks.Interfaces.RealInput</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-0000000b" kind="ModelicaConnector" guid="{26534aae-5b3c-4710-9e11-46987179a19b}" relid="0xe" childrelidcntr="0x0">
+						<name>BooleanOutput</name>
+						<regnode name="icon" isopaque="yes">
+							<value>Modelica_BooleanOutput.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>Modelica_BooleanOutput_port.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Blocks.Interfaces.BooleanOutput</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-0000000c" kind="ModelicaConnector" guid="{7cfb11d4-06ac-4577-831e-154d12720ebf}" relid="0xf" childrelidcntr="0x2">
+						<name>FluidPort</name>
+						<regnode name="icon" isopaque="yes">
+							<value>simple_fluid_a.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>simple_fluid_a.png</value>
+						</regnode>
+						<regnode name="subTypeIcon" isopaque="yes">
+							<value></value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Fluid.Interfaces.FluidPort_a</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+						<atom id="id-0066-00000002" kind="ModelicaRedeclare" role="ModelicaRedeclare" guid="{cfa8260c-ca75-4ce2-9baf-497956aafe6a}" relid="0x2">
+							<name>Medium</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Aspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>364,245</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ModelicaRedeclareType">
+								<value>Package</value>
+							</attribute>
+							<attribute kind="Notes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>Modelica.Media.Interfaces.PartialMedium</value>
+							</attribute>
+						</atom>
+					</model>
+					<model id="id-0065-0000000d" kind="ModelicaConnector" guid="{d10712bc-0ded-4648-9276-95e09557c15c}" relid="0x10" childrelidcntr="0x0">
+						<name>IntegerOutput</name>
+						<regnode name="icon" isopaque="yes">
+							<value>Modelica_IntegerOutput.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>Modelica_IntegerOutput_port.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Blocks.Interfaces.IntegerOutput</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-0000000e" kind="ModelicaConnector" guid="{50154f00-3cbc-4b70-8b15-db1a374943b9}" relid="0x13" childrelidcntr="0x0">
+						<name>IntegerInput</name>
+						<regnode name="icon" isopaque="yes">
+							<value>Modelica_IntegerInput.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>Modelica_IntegerInput_port.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Blocks.Interfaces.IntegerInput</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-0000000f" kind="ModelicaConnector" guid="{c08076f5-2975-4371-8a2d-1fa91c41553a}" relid="0x14" childrelidcntr="0x0">
+						<name>EngineControlBus</name>
+						<regnode name="icon" isopaque="yes">
+							<value>bus.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>bus_icon.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>C2M2L_Ext.C2M2L_Component_Building_Blocks.Prime_Movers.Common_Controls.Engine_Control_Bus</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000010" kind="ModelicaConnector" guid="{f8646310-87f0-41a2-9102-da1df16324a5}" relid="0x15" childrelidcntr="0x0">
+						<name>RangePackControlBus</name>
+						<regnode name="icon" isopaque="yes">
+							<value>bus.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>bus_icon.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>C2M2L_Ext.C2M2L_Component_Building_Blocks.Drive_Line.Range_Packs.Common_Controls.Range_Pack_Control_Bus</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000011" kind="ModelicaConnector" guid="{08c6ed18-fabf-49a5-bfbb-39f6c1b6837d}" relid="0x16" childrelidcntr="0x0">
+						<name>SteeringControlBus</name>
+						<regnode name="icon" isopaque="yes">
+							<value>bus.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>bus_icon.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>C2M2L_Ext.C2M2L_Component_Building_Blocks.Drive_Line.Cross_Drive_Steering.Common_Controls.Steering_Control_Bus</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000012" kind="ModelicaConnector" guid="{ee443573-1c55-4ed8-bb36-fdaabec2abf9}" relid="0x17" childrelidcntr="0x0">
+						<name>ElectricMachineBus</name>
+						<regnode name="icon" isopaque="yes">
+							<value>bus.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>bus_icon.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>C2M2L_Ext.Electrical.Interfaces.Electric_Machine_Bus</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000013" kind="ModelicaConnector" guid="{925c9c5e-38f2-47ec-930d-3a5315f4e485}" relid="0x18" childrelidcntr="0x0">
+						<name>DriverBus</name>
+						<regnode name="icon" isopaque="yes">
+							<value>bus.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>bus_icon.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>C2M2L_Ext.Interfaces.Context_Interfaces.Driver.Driver_Bus</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000014" kind="ModelicaConnector" guid="{3b44a9ed-6331-4ffa-abb5-c0e0a6763c37}" relid="0x19" childrelidcntr="0x0">
+						<name>BatteryBus</name>
+						<regnode name="icon" isopaque="yes">
+							<value>bus.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>bus_icon.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>C2M2L_Ext.Electrical.Interfaces.Battery_Bus</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000015" kind="ModelicaConnector" guid="{0d9cad7e-8b88-4811-934e-8551f8643bbf}" relid="0x1a" childrelidcntr="0x0">
+						<name>TorqueConverterControlBus</name>
+						<regnode name="icon" isopaque="yes">
+							<value>bus.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>bus_icon.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>C2M2L_Ext.C2M2L_Component_Building_Blocks.Drive_Line.Torque_Converters.Common_Controls.Torque_Converter_Control_Bus</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000016" kind="ModelicaConnector" guid="{5287e8c9-1ec0-45c3-b56a-fe5447ea6c35}" relid="0x1b" childrelidcntr="0x0">
+						<name>BrakeControlBus</name>
+						<regnode name="icon" isopaque="yes">
+							<value>bus.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>bus_icon.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>C2M2L_Ext.C2M2L_Component_Building_Blocks.Drive_Line.Brakes_Clutch.Common_Controls.Brake_Control_Bus</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000017" kind="ModelicaConnector" guid="{9b7a8d3e-1c76-40b4-8e74-3ff7d0aca37e}" relid="0x1c" childrelidcntr="0x0">
+						<name>AtmosphericEnvironmentBus</name>
+						<attribute kind="Class">
+							<value>C2M2L_Ext.Interfaces.Context_Interfaces.Atmospheric_Environment.Atmospheric_Environment_Bus</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000018" kind="ModelicaConnector" guid="{bccaad47-c177-41bd-95f7-9778485145b0}" relid="0x1d" childrelidcntr="0x1">
+						<name>FlowPort</name>
+						<regnode name="icon" isopaque="yes">
+							<value>thermo_fluid_a.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>thermo_fluid_a.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Thermal.FluidHeatFlow.Interfaces.FlowPort_a</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+						<reference id="id-0066-00000003" kind="ModelicaParameter" role="ModelicaParameter" guid="{c0fc029f-2a47-4088-9385-d233e775cf0a}" relid="0x1">
+							<name>medium</name>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value></value>
+							</attribute>
+						</reference>
+					</model>
+				</folder>
+				<folder id="id-006a-00000005" relid="0x7" childrelidcntr="0x6" kind="Ports" guid="{13ba5590-7ffd-4507-88a8-e032f22a6214}">
+					<name>Abstract Ports</name>
+					<atom id="id-0066-00000004" kind="AbstractPort" guid="{0ebfb901-0ca1-4ed0-a0a9-0fc03ade6455}" relid="0x1">
+						<name>ElectricalPower</name>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000005" kind="AbstractPort" guid="{21022279-949a-4dba-9b5d-c18bdf79c690}" relid="0x2">
+						<name>RotationalPower</name>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000006" kind="AbstractPort" guid="{a33f1164-05f3-4bc7-b863-1833ab2e8068}" relid="0x3">
+						<name>Signal</name>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000007" kind="AbstractPort" guid="{d783cbdd-9d17-4702-9951-f5f21a3728ee}" relid="0x4">
+						<name>OutputSignal</name>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000008" kind="AbstractPort" guid="{0658454a-9591-40d6-8cf5-3a117bacdecc}" relid="0x5">
+						<name>InputSignal</name>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000009" kind="AbstractPort" guid="{a8650e97-3904-46a5-8e6a-46dcfd53b07e}" relid="0x6">
+						<name>Bus</name>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+					</atom>
+				</folder>
+				<model id="id-0065-00000019" kind="TaxonomySheet" guid="{35cf821a-d8ca-4df1-b681-be01422f55e3}" relid="0x6" childrelidcntr="0x15">
+					<name>Taxonomy</name>
+					<reference id="id-0067-00000001" kind="PortReference" role="PortReference" guid="{27293166-6e07-4ad5-8fc4-025907ac30e8}" relid="0x1" referred="id-0066-00000004">
+						<name>ElectricalPower</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="TaxonomyAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>336,98</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="namePosition" isopaque="yes">
+							<value>0</value>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000002" kind="PortReference" role="PortReference" guid="{32af8c2a-e49e-43c0-8307-58f0a06b0abb}" relid="0x2" referred="id-0065-00000005">
+						<name>ElectricalPin</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="TaxonomyAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>336,217</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000003" kind="PortReference" role="PortReference" guid="{640fc63b-a59a-4e62-8dd6-46f237a7622d}" relid="0x4" referred="id-0066-00000008">
+						<name>InputSignal</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="TaxonomyAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>630,217</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="namePosition" isopaque="yes">
+							<value>0</value>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000004" kind="PortReference" role="PortReference" guid="{5d57edca-cc92-466f-aa5b-6dd4b8575201}" relid="0x5" referred="id-0065-0000000e">
+						<name>IntegerInput</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="TaxonomyAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>637,357</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000005" kind="PortReference" role="PortReference" guid="{c6cfab0c-cc41-4f4f-ae06-f97935d21b7e}" relid="0x6" referred="id-0065-0000000a">
+						<name>RealInput</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="TaxonomyAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>553,357</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000006" kind="PortReference" role="PortReference" guid="{d0e57c53-15c6-42db-a19f-ae6508eea99e}" relid="0x9" referred="id-0065-00000009">
+						<name>BooleanInput</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="TaxonomyAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>728,357</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000007" kind="PortReference" role="PortReference" guid="{a0f76c16-e98a-41b3-a900-2bd821fdb415}" relid="0xb" referred="id-0066-00000007">
+						<name>OutputSignal</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="TaxonomyAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>931,217</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="namePosition" isopaque="yes">
+							<value>0</value>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000008" kind="PortReference" role="PortReference" guid="{403e51fd-e4b2-4982-a35e-0a264aaae5f6}" relid="0xc" referred="id-0065-0000000b">
+						<name>BooleanOutput</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="TaxonomyAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>1022,357</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000009" kind="PortReference" role="PortReference" guid="{f4e39b64-a1fb-49d8-8d0a-bd09a55bb723}" relid="0xd" referred="id-0065-0000000d">
+						<name>IntegerOutput</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="TaxonomyAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>854,357</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-0000000a" kind="PortReference" role="PortReference" guid="{091ee7e3-63ec-4855-87cb-6b0e213bc470}" relid="0xe" referred="id-0065-00000007">
+						<name>RealOutput</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="TaxonomyAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>938,357</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-0000000b" kind="PortReference" role="PortReference" guid="{e340a072-8d95-4da0-8e0c-a2f20630d6aa}" relid="0x12" referred="id-0066-00000006">
+						<name>Signal</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="TaxonomyAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>777,98</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="namePosition" isopaque="yes">
+							<value>0</value>
+						</regnode>
+					</reference>
+					<connection id="id-0068-00000001" kind="SubtypeOf" role="SubtypeOf" guid="{8fa1e85e-b67e-4871-a59f-67d6a03f1806}" relid="0x3">
+						<name>SubtypeOf</name>
+						<connpoint role="dst" target="id-0067-00000001"/>
+						<connpoint role="src" target="id-0067-00000002"/>
+					</connection>
+					<connection id="id-0068-00000002" kind="SubtypeOf" role="SubtypeOf" guid="{0a05b5f5-6f9f-4d1b-941f-1903f446b501}" relid="0x7">
+						<name>SubtypeOf</name>
+						<connpoint role="dst" target="id-0067-00000003"/>
+						<connpoint role="src" target="id-0067-00000005"/>
+					</connection>
+					<connection id="id-0068-00000003" kind="SubtypeOf" role="SubtypeOf" guid="{458bcbaf-6af6-4b94-966e-06c4fb87f888}" relid="0x8">
+						<name>SubtypeOf</name>
+						<connpoint role="dst" target="id-0067-00000003"/>
+						<connpoint role="src" target="id-0067-00000004"/>
+					</connection>
+					<connection id="id-0068-00000004" kind="SubtypeOf" role="SubtypeOf" guid="{3dd23067-f6ce-45c8-aae1-0ea3a332b17c}" relid="0xa">
+						<name>SubtypeOf</name>
+						<connpoint role="dst" target="id-0067-00000003"/>
+						<connpoint role="src" target="id-0067-00000006"/>
+					</connection>
+					<connection id="id-0068-00000005" kind="SubtypeOf" role="SubtypeOf" guid="{e44840c5-b6c1-4841-a45d-c6ddb0e12e96}" relid="0xf">
+						<name>SubtypeOf</name>
+						<connpoint role="dst" target="id-0067-00000007"/>
+						<connpoint role="src" target="id-0067-00000009"/>
+					</connection>
+					<connection id="id-0068-00000006" kind="SubtypeOf" role="SubtypeOf" guid="{963e48ab-de24-4bcd-bbe4-c42dae8e70bc}" relid="0x10">
+						<name>SubtypeOf</name>
+						<connpoint role="dst" target="id-0067-00000007"/>
+						<connpoint role="src" target="id-0067-0000000a"/>
+					</connection>
+					<connection id="id-0068-00000007" kind="SubtypeOf" role="SubtypeOf" guid="{203e950e-627b-4605-9aa5-5f0f23156930}" relid="0x11">
+						<name>SubtypeOf</name>
+						<connpoint role="dst" target="id-0067-00000007"/>
+						<connpoint role="src" target="id-0067-00000008"/>
+					</connection>
+					<connection id="id-0068-00000008" kind="SubtypeOf" role="SubtypeOf" guid="{db268751-a591-4572-9cc0-ddf62d6f17b3}" relid="0x14">
+						<name>SubtypeOf</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>sE</value>
+						</regnode>
+						<connpoint role="src" target="id-0067-00000003"/>
+						<connpoint role="dst" target="id-0067-0000000b"/>
+					</connection>
+					<connection id="id-0068-00000009" kind="SubtypeOf" role="SubtypeOf" guid="{bc55c6e0-cfb8-4057-8a59-6d13d845451d}" relid="0x15">
+						<name>SubtypeOf</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>sW</value>
+						</regnode>
+						<connpoint role="src" target="id-0067-00000007"/>
+						<connpoint role="dst" target="id-0067-0000000b"/>
+					</connection>
+				</model>
+			</folder>
+		</folder>
+	</folder>
+</project>

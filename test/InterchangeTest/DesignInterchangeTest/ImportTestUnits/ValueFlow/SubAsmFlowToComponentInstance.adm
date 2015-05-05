@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SubAsmFlowToComponentInstance" DesignID="{c326320f-7bd3-4522-ba01-1048ee8b1c68}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="SubAsmFlowToComponentInstance" xmlns="">
+    <Container xsi:type="q1:Compound" YPosition="252" XPosition="168" Name="SubAsm">
+      <Property xsi:type="q1:PrimitiveProperty" Name="in_prop_param" ID="property.70d0143e-dcaf-44e7-9d43-08b3692ccce1" XPosition="35" YPosition="350">
+        <Value ID="70d0143e-dcaf-44e7-9d43-08b3692ccce1" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="77804107-bcf1-44f4-8231-35f49b3bbc5e" />
+        </Value>
+      </Property>
+      <Property xsi:type="q1:PrimitiveProperty" Name="in_prop_prop" ID="property.9e926ca7-873f-472e-9087-90c1dc6f5932" XPosition="35" YPosition="252">
+        <Value ID="9e926ca7-873f-472e-9087-90c1dc6f5932" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="0d8246d8-27d4-4c59-85eb-f87dd5b41b3d" />
+        </Value>
+      </Property>
+      <Property xsi:type="q1:PrimitiveProperty" Name="out_prop" ID="property.25d243fd-f7e0-4050-92df-c2f0ac3a232c" XPosition="406" YPosition="21">
+        <Value ID="25d243fd-f7e0-4050-92df-c2f0ac3a232c" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:FixedValue">
+            <Value />
+          </ValueExpression>
+        </Value>
+      </Property>
+      <Property xsi:type="q1:PrimitiveProperty" Name="out_param" ID="param.33fab398-553e-4ef4-bfbc-2ee7efa7b9db" XPosition="406" YPosition="77">
+        <Value ID="33fab398-553e-4ef4-bfbc-2ee7efa7b9db" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:ParametricValue">
+            <Maximum xsi:type="q1:FixedValue">
+              <Value>inf</Value>
+            </Maximum>
+            <Minimum xsi:type="q1:FixedValue">
+              <Value>-inf</Value>
+            </Minimum>
+            <AssignedValue xsi:type="q1:FixedValue">
+              <Value />
+            </AssignedValue>
+          </ValueExpression>
+        </Value>
+      </Property>
+      <Property xsi:type="q1:PrimitiveProperty" Name="in_param_param" ID="param.3fedaf39-3bdd-4607-b019-d3602f1e7204" XPosition="35" YPosition="301">
+        <Value ID="3fedaf39-3bdd-4607-b019-d3602f1e7204" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:ParametricValue">
+            <Maximum xsi:type="q1:FixedValue">
+              <Value>inf</Value>
+            </Maximum>
+            <Minimum xsi:type="q1:FixedValue">
+              <Value>-inf</Value>
+            </Minimum>
+            <AssignedValue xsi:type="q1:DerivedValue" ValueSource="77804107-bcf1-44f4-8231-35f49b3bbc5e" />
+          </ValueExpression>
+        </Value>
+      </Property>
+      <Property xsi:type="q1:PrimitiveProperty" Name="in_param_prop" ID="param.6cc46e36-7451-4ebe-b9d1-d41615afaad4" XPosition="35" YPosition="203">
+        <Value ID="6cc46e36-7451-4ebe-b9d1-d41615afaad4" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:ParametricValue">
+            <Maximum xsi:type="q1:FixedValue">
+              <Value>inf</Value>
+            </Maximum>
+            <Minimum xsi:type="q1:FixedValue">
+              <Value>-inf</Value>
+            </Minimum>
+            <AssignedValue xsi:type="q1:DerivedValue" ValueSource="0d8246d8-27d4-4c59-85eb-f87dd5b41b3d" />
+          </ValueExpression>
+        </Value>
+      </Property>
+    </Container>
+    <ComponentInstance XPosition="210" YPosition="91" ComponentID="db290a13-5530-4fa1-a149-d2b7f2cfa7be" ID="{5c2909fd-c938-4627-b646-b357dbb4a5a3}" Name="CompA">
+      <PrimitivePropertyInstance IDinComponentModel="Prop2">
+        <Value ID="1c14f348-8104-451e-994e-79fa8223ee6b" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="25d243fd-f7e0-4050-92df-c2f0ac3a232c" />
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="Prop1">
+        <Value ID="0d8246d8-27d4-4c59-85eb-f87dd5b41b3d" DimensionType="Scalar" Dimensions="" DataType="String" />
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="Param2">
+        <Value ID="e851a530-d7e4-4a84-af36-ca22663f5d91" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="33fab398-553e-4ef4-bfbc-2ee7efa7b9db" />
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="Param1">
+        <Value ID="77804107-bcf1-44f4-8231-35f49b3bbc5e" DimensionType="Scalar" Dimensions="" DataType="String" />
+      </PrimitivePropertyInstance>
+    </ComponentInstance>
+  </RootContainer>
+</Design>

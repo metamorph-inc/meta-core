@@ -1,0 +1,279 @@
+///////////////////////////////////////////////////////////////////////////
+// RawComponent.cpp, the main RAW COM component implementation file
+// This is the file (along with its header RawComponent.h)
+// that the component implementor is expected to modify in the first place
+//
+///////////////////////////////////////////////////////////////////////////
+#include "stdafx.h"
+
+#include <atlsafe.h>
+#include <fstream>
+
+#include <ComHelp.h>
+#include <GMECOM.h>
+#include "ComponentConfig.h"
+#include "RawComponent.h"
+
+// Console
+#include "UdmConsole.h"
+
+
+// Udm includes
+#include "UdmBase.h"
+#include "Uml.h"
+#include "UmlExt.h"
+
+using namespace std;
+
+#ifdef _USE_DOM
+	#include "UdmDOM.h"
+#endif
+
+#include "UdmGme.h"
+#include "UdmStatic.h"
+#include "UdmUtil.h"
+
+#include "UdmApp.h"
+#include "UdmConfig.h"
+
+// this method is called after all the generic initialization is done
+// this should be empty, unless application-specific initialization is needed
+STDMETHODIMP RawComponent::Initialize(struct IMgaProject *) {
+	return S_OK;
+}
+
+// this is the obsolete component interface
+// this present implementation either tries to call InvokeEx, or returns an error;
+STDMETHODIMP RawComponent::Invoke(IMgaProject* gme, IMgaFCOs *models, long param) {
+#ifdef SUPPORT_OLD_INVOKE
+	CComPtr<IMgaFCO> focus;
+	CComVariant parval = param;
+	return InvokeEx(gme, focus, selected, parvar);
+#else
+	if(interactive) {
+		AfxMessageBox("This component does not support the obsolete invoke mechanism");
+	}
+	return E_MGA_NOT_SUPPORTED;
+#endif
+}
+
+#ifdef _DYNAMIC_META
+			void dummy(void) {; } // Dummy function for UDM meta initialization
+#endif
+
+struct RAIIFreeLibrary
+{
+	HMODULE module;
+
+	~RAIIFreeLibrary()
+	{
+		::FreeLibrary(module);
+	}
+};
+
+// This is the main component method for interpereters and plugins. 
+// May als be used in case of invokeable addons
+STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,  
+									IMgaFCOs *selectedobjs,  long param) 
+{
+	CUdmApp udmApp;
+
+	CComPtr<IMgaProject>ccpProject(project);
+	
+	try
+	{
+		// Setting up the console
+		GMEConsole::Console::SetupConsole(ccpProject);
+
+		CComBSTR projname;
+		CComBSTR focusname = "<nothing>";
+		CComPtr<IMgaTerritory> terr;
+		COMTHROW(ccpProject->CreateTerritory(NULL, &terr));
+
+		// Setting up Udm
+		// Loading the project
+		UdmGme::GmeDataNetwork dngBackend(META_NAMESPACE::diagram);
+		try
+		{
+			// Opening backend
+			dngBackend.OpenExisting(ccpProject, Udm::CHANGES_LOST_DEFAULT);
+
+			std::string metapath;
+			HKEY software_meta;
+			if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\META", 0, KEY_READ, &software_meta) == ERROR_SUCCESS)
+			{
+				BYTE data[MAX_PATH];
+				DWORD type, size = sizeof(data) / sizeof(data[0]);
+				if (RegQueryValueExA(software_meta, "META_PATH", 0, &type, data, &size) == ERROR_SUCCESS)
+				{
+					metapath = std::string(data, data + strnlen((const char*)data, size));
+				}
+				RegCloseKey(software_meta);
+			}
+			if (!metapath.length())
+			{
+				throw udm_exception("Could not read META_PATH from HKLM\\Software\\META");
+			}
+			udmApp.meta_path = metapath;
+			std::string python_dll_path = metapath + "\\bin\\Python27\\Scripts\\python27.dll";
+			HMODULE python_dll = LoadLibrary(python_dll_path.c_str());
+			if (python_dll == nullptr)
+				throw udm_exception("Could not load Python27.dll at " + python_dll_path);
+			RAIIFreeLibrary python_dll_cleanup;
+			python_dll_cleanup.module = python_dll;
+			
+			CComPtr<IMgaFCO> ccpFocus(currentobj);
+			Udm::Object currentObject;
+			if(ccpFocus)
+			{
+				currentObject=dngBackend.Gme2Udm(ccpFocus);
+			}
+
+			std::set<Udm::Object> selectedObjects;
+
+			CComPtr<IMgaFCOs> ccpSelObject(selectedobjs);
+
+			MGACOLL_ITERATE(IMgaFCO,ccpSelObject){
+				Udm::Object currObj;
+				if(MGACOLL_ITER)
+				{
+					currObj=dngBackend.Gme2Udm(MGACOLL_ITER);
+				}
+			 selectedObjects.insert(currObj);
+			}MGACOLL_ITERATE_END;
+
+			std::string workingDir;
+			_bstr_t tmpbstr;
+			const char* mgaFile = 0;
+			auto original_project_it = componentParameters.find(_bstr_t(L"original_project_file"));
+			if (original_project_it != componentParameters.end() && original_project_it->second.vt == VT_BSTR && wcslen(original_project_it->second.bstrVal))
+			{
+				tmpbstr = original_project_it->second.bstrVal;
+				mgaFile = static_cast<const char*>(tmpbstr);
+			}
+			else
+			{
+				COMTHROW(project->get_ProjectConnStr(tmpbstr.GetAddress()));
+				if (wcsnicmp(L"MGA=", tmpbstr, 4) == 0)
+				{
+					mgaFile = (static_cast<const char*>(tmpbstr) + 4);
+				}
+			}
+			if (mgaFile)
+			{
+				char fullPath[MAX_PATH] = { '\0' };
+				LPSTR filepart;
+				if (GetFullPathNameA(mgaFile, sizeof(fullPath) / sizeof(fullPath[0]), fullPath, &filepart))
+				{
+					*(filepart-1) = '\0';
+					workingDir = fullPath;
+				}
+			}
+
+
+			// Calling the main entry point
+			udmApp.UdmMain(&dngBackend, currentObject, selectedObjects, param, componentParameters, workingDir);
+			// Closing backend
+			dngBackend.CloseWithUpdate();
+
+		}
+		catch(udm_exception &exc)
+		{
+			// Close GME Backend (we may close it twice, but GmeDataNetwork handles it)
+			dngBackend.CloseNoUpdate();
+
+			GMEConsole::Console::Error::writeLine(exc.what());
+			return S_FALSE;
+		}
+	}
+	catch (udm_exception& e)
+	{
+		ccpProject->AbortTransaction();
+		GMEConsole::Console::gmeoleapp = 0;
+		std::string msg = "Udm exception: ";
+		msg += e.what();
+		AfxMessageBox(msg.c_str());
+		return E_FAIL;
+	}
+	catch (python_error& e)
+	{
+		if (componentParameters.find(L"output_dir") != componentParameters.end())
+		{
+			_bstr_t output_dir = componentParameters.find(L"output_dir")->second;
+			if (output_dir.length() > 0)
+			{
+				std::ofstream failed_txt(static_cast<const wchar_t*>(output_dir + L"\\_FAILED.txt"));
+				if (failed_txt.good())
+				{
+					failed_txt << e.what();
+				}
+				else
+				{
+					ASSERT(false);
+				}
+				std::ofstream CyPhyPython_error(static_cast<const wchar_t*>(output_dir + L"\\CyPhyPython_error.txt"));
+				if (CyPhyPython_error.good())
+				{
+					CyPhyPython_error << e.what();
+				}
+				else
+				{
+					ASSERT(false);
+				}
+			}
+		}
+		GMEConsole::Console::Error::writeLine(e.what());
+		return E_FAIL;
+	}
+	catch(...)
+	{
+		ccpProject->AbortTransaction();
+		GMEConsole::Console::gmeoleapp = 0;
+		// This can be a problem with the GME Console, so we display it in a message box
+		AfxMessageBox("An unexpected error has occurred during the interpretation process.");
+		return E_FAIL;
+	}
+	GMEConsole::Console::gmeoleapp = 0;
+	return S_OK;
+
+}
+
+// GME currently does not use this function
+// you only need to implement it if other invokation mechanisms are used
+STDMETHODIMP RawComponent::ObjectsInvokeEx( IMgaProject *project,  IMgaObject *currentobj,  IMgaObjects *selectedobjs,  long param) {
+	if(interactive) {
+		AfxMessageBox("The ObjectsInvoke method is not implemented");
+	}
+	return E_MGA_NOT_SUPPORTED;
+}
+
+
+// implement application specific parameter-mechanism in these functions:
+STDMETHODIMP RawComponent::get_ComponentParameter(BSTR name, VARIANT *pVal) {
+	if (wcscmp(name, L"parameter_list") == 0)
+	{
+		CComSafeArray<BSTR> safe;
+		for (map<_bstr_t, _variant_t>::const_iterator it = componentParameters.begin(); it != componentParameters.end(); ++it)
+		{
+			safe.Add(_bstr_t(it->first));
+		}
+		CComVariant(safe).Detach(pVal);
+		return S_OK;
+	}
+	auto ent = componentParameters.find(_bstr_t(name));
+	if (ent != componentParameters.end())
+	{
+		_variant_t copy = ent->second;
+		*pVal = copy.Detach();
+		return S_OK;
+	}
+
+	CComVariant(L"").Detach(pVal);
+	return S_OK;
+}
+
+STDMETHODIMP RawComponent::put_ComponentParameter(BSTR name, VARIANT newVal) {
+	componentParameters[_bstr_t(name)] = _variant_t(newVal);
+	return S_OK;
+}
+

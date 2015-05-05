@@ -1,0 +1,64 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ output extension=".py" #>
+# ===========================================================================
+# Auto generated from zip.tt
+# ===========================================================================
+#!/usr/bin/python
+import zipfile
+import os
+import shutil
+package_paths = [ \
+<# foreach (var packagePath in FullPackagePaths)
+	{ #>
+    r"<#= packagePath #>", \
+<#  } #>
+	]
+
+for package_path in package_paths:
+    dst = os.path.join('<#= TestBenchName #>', 'Modelica', os.path.basename(package_path))
+    try:
+        if os.path.exists(dst):
+            shutil.rmtree(dst)
+        if not os.path.isabs(package_path):
+            # Go up to project-dir where the relative path starts at
+            package_path = os.path.abspath(os.path.join('..', '..', package_path))
+        shutil.copytree(package_path, dst)
+    except Exception as msg:
+        with open('_FAILED.txt', 'wb') as f_out:
+            f_out.write(str(msg))
+            f_out.write('\nMost likely due to a too long file-path for Windows (max 260).')
+        if os.name == 'nt':
+            os._exit(3)
+        elif os.name == 'posix':
+            os._exit(os.EX_OSFILE)
+
+output_filename = '<#= OutputFileName #>'
+
+if os.path.exists(output_filename):
+    os.remove(output_filename)
+
+with zipfile.ZipFile(output_filename, 'w', allowZip64=True) as z:
+    parent_dir_name = os.path.basename(os.getcwd())
+    os.chdir('..\\')
+    for dirpath,dirs,files in os.walk(parent_dir_name):
+        if '.git' in dirpath or '.svn' in dirpath:
+            continue        
+        for f in files:
+            if output_filename == f or f.endswith('.suo'):
+                continue
+            fn = os.path.join(dirpath, f)
+            #print fn
+            z.write(fn, compress_type=zipfile.ZIP_DEFLATED)
+<#+  
+public List<string> FullPackagePaths {get;set;}
+public string OutputFileName {get;set;}
+public string TestBenchName {get;set;}
+#>

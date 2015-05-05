@@ -1,0 +1,214 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ assembly name="$(SolutionDir)\..\..\..\trunk\externals\common-scripts\ISIS.GME.Common.dll" #>
+<#@ assembly name="$(SolutionDir)\..\..\..\trunk\generated\CyPhyML\models\ISIS.GME.Dsml.CyPhyML.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="ISIS.GME.Dsml.CyPhyML.Classes" #> 
+<#@ output extension=".py" #>
+# ===========================================================================
+# Auto generated from Optimizer.tt
+# ===========================================================================
+# OpenMDAO Assembly Component (Optimization)
+from openmdao.main.api import Assembly, set_as_top
+from openmdao.lib.drivers.api import <#= OptimizerType #>
+
+from test_bench import TestBench
+
+class Optimizer(Assembly):
+    """ Documentation comment for this Assembly. """
+
+    def __init__(self):
+        super(Optimizer, self).__init__()
+
+        ## Create component instances
+        self.add('TestBench', TestBench())
+        self.add('driver', <#= OptimizerType #>())
+
+        # The type and level attributes of Optimization
+        self.driver.iprint = 0
+        self.driver.itmax  = 30
+        self.driver.fdch   = .000001
+        self.driver.fdchm  = .000001
+
+<# 		foreach (var item in GetDoeOptions())
+		{#>
+        self.driver.<#= item #>
+<# 		}#>
+
+        # Design Variables
+<# foreach (var item in pet.Children.OptimizerCollection.FirstOrDefault().Children.DesignVariableCollection)
+    {
+        string low = "0.0";
+        string high = "0.0";
+        string range = item.Attributes.Range;
+		low = range.Split(',').FirstOrDefault().Trim();
+		high = range.Split(',').LastOrDefault().Trim();
+        foreach (var conn in item.DstConnections.VariableSweepCollection)
+        {
+            string name = "TestBench." + conn.GenericDstEnd.Name;
+            InOuts += name + ":%f ";
+        #>        
+        self.driver.add_parameter('<#= name #>', low = <#= low #>, high = <#= high #>) # <#= item.Attributes.Range #>
+<#         }
+    } #>
+
+        # Objective
+<# foreach (var item in pet.Children.OptimizerCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+            string name = "TestBench." + conn.GenericSrcEnd.Name;
+            InOuts += name + ":%f ";
+        #>
+        self.driver.add_objective('<#= name #>')
+<#        }
+    } #>
+
+        # Constraints
+<# foreach (var item in pet.Children.OptimizerCollection.FirstOrDefault().Children.OptimizerConstraintCollection)
+    { #>
+        self.driver.add_constraint('<#= item.Attributes.MinValue #>') # MinValue of <#= item.Name #>
+<#  } #>
+
+        self.driver.workflow.add(["TestBench"])
+
+<#        foreach (var item in pet.Children.ResultFlowCollection)
+        {#>                
+        self.connect('<#= item.GenericSrcEndRef.Name + "." + item.GenericSrcEnd.Name #>', '<#= item.GenericDstEndRef.Name + "." + item.GenericDstEnd.Name #>')
+<#    } #>
+
+
+def main():
+    import time
+
+    opt_problem = Optimizer()
+    set_as_top(opt_problem)
+
+    tt = time.time()
+    opt_problem.run()
+
+    print "\n"
+    print "Optimizer: %s" % type(opt_problem.driver)
+    print "Minimum: %f" % opt_problem.driver.eval_objective()
+
+    print "Minimum found at (<#= InOuts #>)" % (
+<# foreach (var item in pet.Children.OptimizerCollection.FirstOrDefault().Children.DesignVariableCollection)
+    {
+        foreach (var conn in item.DstConnections.VariableSweepCollection)
+        {
+            string name = "TestBench." + conn.GenericDstEnd.Name;
+        #>
+        opt_problem.<#= name #>, \
+<#        }
+    } 
+    foreach (var item in pet.Children.OptimizerCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+            string name = "TestBench." + conn.GenericSrcEnd.Name;
+        #>
+        opt_problem.<#= name #>, \
+<#        }
+    } #>  
+    )
+	
+    print "Elapsed time: ", time.time()-tt, "seconds"
+
+if __name__ == "__main__":
+    main()
+
+
+<#+
+	public string OptimizerType {get; set;}
+	
+    public ISIS.GME.Dsml.CyPhyML.Interfaces.ParametricExploration pet { get; set; }    
+    public string InOuts {get; set;}
+    public List<string> GetWorkflow()
+    {
+        List<ISIS.GME.Dsml.CyPhyML.Interfaces.TestBenchRef> tbref = pet.Children.TestBenchRefCollection.ToList();
+        List<ISIS.GME.Dsml.CyPhyML.Interfaces.TestBenchRef> workflow = new List<ISIS.GME.Dsml.CyPhyML.Interfaces.TestBenchRef>();
+        foreach (var item in pet.Children.ObjectiveMappingCollection)
+        {
+            var tb = tbref.FirstOrDefault(x => x.ID == item.GenericSrcEndRef.ID);
+            if (workflow.FirstOrDefault(x => x.ID == tb.ID) == null)
+            {
+                workflow.Add(tb);
+                InsertDependency(workflow, tb);
+            }
+        }
+
+        var wokflowNames = workflow.Select(x => x.Name).ToList();
+		wokflowNames.Reverse();
+        return wokflowNames;
+    }
+    
+    private void InsertDependency(List<ISIS.GME.Dsml.CyPhyML.Interfaces.TestBenchRef> workflow, ISIS.GME.Dsml.CyPhyML.Interfaces.TestBenchRef tb)
+    {
+        var outConns = pet.Children.ResultFlowCollection.Where(x => x.GenericDstEndRef.ID == tb.ID);
+		bool cyclic = false;
+        foreach (var item in outConns)
+        {
+            var nexttb = pet.Children.TestBenchRefCollection.FirstOrDefault(x => item.GenericSrcEndRef.ID == x.ID);
+            
+            if (pet.Children.TestBenchRefCollection.Count() != workflow.Count)
+            {
+                var tbinlist = workflow.FirstOrDefault(x => x.ID == tb.ID);
+                int i = workflow.IndexOf(tbinlist);
+                i++;
+                if (workflow.FirstOrDefault(x => x.ID == nexttb.ID) == null)
+                {
+                    workflow.Insert(i, nexttb);
+                    InsertDependency(workflow, nexttb);
+                }
+                else
+                {
+                    // break loop!
+					cyclic = true;
+					break;
+                    //throw new Exception("cyclic dependency was detected among testbenchrefs");
+                }
+            }
+        }
+    }
+	
+	public string OutputDirectory = "";
+	
+	
+	public string GetRelativeFileName() {
+		System.Uri uri1 = new Uri(OutputDirectory + "/", UriKind.RelativeOrAbsolute);
+		System.Uri uri2 = new Uri(OutputDirectory + "/", UriKind.RelativeOrAbsolute);
+ 
+		if (uri2.IsAbsoluteUri)
+		{
+			Uri relativeUri = uri1.MakeRelativeUri(uri2);
+			return Uri.UnescapeDataString(relativeUri.ToString());
+		}
+		else
+		{
+			return OutputDirectory + "/";
+		}
+	}
+
+	
+	private IEnumerable<string> GetDoeOptions() {
+		List<string> result = new List<string>();		
+		string[] vals = pet.Children.OptimizerCollection.FirstOrDefault().Attributes.Code.Split('\n');
+		foreach (var item in vals)
+		{
+			if (string.IsNullOrEmpty(item) == false)
+			{
+				result.Add(item);
+			}
+		}		
+		return result;
+	}
+#>

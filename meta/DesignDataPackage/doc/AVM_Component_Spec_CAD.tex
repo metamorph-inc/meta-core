@@ -1,0 +1,237 @@
+\section{CAD Domain Model Specification}
+
+\subsection{Overview}
+
+Computer Aided Design (CAD) models are needed in the Adaptive Vehicle Make (AVM) program to support 3D geometry composition and design analysis including structural, thermal, fluid, blast, and ballistic. Reasoning about the geometry of an AVM component requires a CAD model and additional information contained in the AVM Component Model (ACM). This appendix describes the conventions and guidelines for these CAD models as well as the related information in the AVM Component Model.
+
+\subsection{CAD Files}
+
+\subsubsection{File Format}
+
+The CAD format supported by the META tools is PTC Inc. Creo\textsuperscript{\textregistered} 2.0 M070 or above.
+
+\subsubsection{Units}
+
+All CAD files must have units specified in millimeters, kilograms, and seconds (mmKs).
+
+\subsubsection{View representations}
+\label{p:view_representations}
+
+In addition to the default representations, each Creo\textsuperscript{\textregistered} model shall contain the following view representations:\\
+
+\begin{tabular}{ l p{9.5cm} }
+\textbf{View Representation} & \textbf{Description} \\ \hline
+Featured\_Rep & Contains all of the geometry\\ \hline
+Defeatured\_Rep & Contains the basic shape without details such as fillets, chamfers, smaller holes\\ \hline
+\end{tabular}
+\\
+\\
+The Creo\textsuperscript{\textregistered} model tree defines the sequential order in which features are created. The model tree starts with a primitive extrusion that contains no detail features such as holes, fillets, and chamfers. The detail features are added to the primitive feature such that the detail features are dependent only on the first primitive extrusion.  Additionally, detail features do not depend upon other detail features. For example, a hole is positioned relative to the first primitive extrusion and not relative to a fillet. This approach accommodates building a simplified representation (view feature in Creo\textsuperscript{\textregistered}) by simply removing the detail features from the model tree. Off-the-shelf part views are created in a similar fashion, however, for geometry imported rather than created natively in Creo\textsuperscript{\textregistered}, the defeatured representation may be created through a shrink-wrap or other geometry simplification technique.\\
+
+\paragraph{Properties}
+\label{ss:part_properties}
+
+All .prt files  have the material specified which is represented with a single material. Composite materials such as carbon fiber-reinforced resin and braid-reinforced rubber are considered a single material. Creo\textsuperscript{\textregistered} has two approaches to specifying material properties.  One approach is to specify the material (e.g. 6060-T6) and use the material properties along with the model geometry to compute the mass properties.  If the model geometry accurately represents the part, then this approach is used.  The other approach is to explicitly enter the mass properties into the CAD model and thus not compute the mass properties based on geometry. This approach is used when the model is incomplete such as when the geometry uses surfaces instead of solids, when the geometry does not accurately represent the part, and when the material properties are approximated. Composites (and other inseparable assemblies) with imbibed components and dissimilar materials such as metallic frame and backing plate, inserts, stand offs, and ceramic tiles are best managed as an assembly.  \\
+\\
+For the case where the part geometry accurately represents the part, the model is set to use Creo\textsuperscript{\textregistered}'s ``Geometry and Density" and the model material is specified.  The material specification in the CAD model at a minimum contains the density which corresponds to the density found in the META Material Library.\\
+\\
+For the case where the mass properties are explicitly entered, the model is set to compute mass properties via Creo\textsuperscript{\textregistered}'s ``Geometry and Parameters" or "Fully Assigned". Additionally, the following model parameters are set:\\
+
+\begin{tabular}{ l l p{3.5cm} }
+\textbf{Description} & \textbf{Creo\textsuperscript{\textregistered} Parameter} & \textbf{Units} \\ \hline
+Density & MP\_DENSITY & kg/mm$^3$ \\ \hline
+Mass & PRO\_MP\_ALT\_MASS & kg \\ \hline
+Volume & PRO\_MP\_ALT\_VOLUME & mm$^3$ \\ \hline
+Center of gravity, x-component & PRO\_MP\_ALT\_COGX & mm  \\ \hline
+Center of gravity, y-component & PRO\_MP\_ALT\_COGY & mm  \\ \hline
+Center of gravity, z-component & PRO\_MP\_ALT\_COGZ & mm  \\ \hline
+Moment of inertia, xx-component & PRO\_MP\_ALT\_IXX & kg mm$^2$  \\ \hline
+Moment of inertia, yy-component & PRO\_MP\_ALT\_IYY & kg mm$^2$  \\ \hline
+Moment of inertia, zz-component & PRO\_MP\_ALT\_IZZ & kg mm$^2$  \\ \hline
+Moment of inertia, xz-component & PRO\_MP\_ALT\_IXZ & kg mm$^2$  \\ \hline
+Moment of inertia, yz-component & PRO\_MP\_ALT\_IYZ & kg mm$^2$  \\ \hline
+Moment of inertia, xy-component & PRO\_MP\_ALT\_IXY & kg mm$^2$  \\ \hline
+\end{tabular}
+\\
+\\
+Material properties (e.g. density, yield strength, ultimate strength, etc.) are stored in the CAD file for user reference however the values are retrieved from the META Material Library when needed by a tool for analysis. The material name specified in the Creo\textsuperscript{\textregistered} part file must be identical to the material name in the META Material Library. All .prt files shall have the material specified. 
+
+\paragraph{Datums}
+
+Datums are used to support composition of components within a 3D space and also support the application of boundary conditions on the component. Creo\textsuperscript{\textregistered} default datums shall not be used as geometric datums to define interfaces or for geometric dimensioning and tolerancing. 
+
+\subparagraph{Planes}
+
+Side A of datum planes point away from the part surface associated with the datum plane. Interface coordinate systems shall have the positive Z axes shall point away from the part surface associated with side A of the datum plane
+
+\subparagraph{Axes}
+
+An example of an axis is the centerline of a cylinder.
+
+\subparagraph{Points}
+
+In addition to supporting component composition, datum points are used to define polygons, circles, spheres, cylinders, and extrusions for identifying the geometric placement of loads and constraints. Datum points are consistent across parts within a component class.
+
+\subparagraph{Coordinate Systems}
+
+One or more coordinate systems in each component may be used to position the component in the assembly before the necessary structural support components are present in the design. The location of the coordinate systems is based on functional factors of the component. For example, a hatch may have the coordinate system centered on the opening. All components in a class have one coordinate system for positioning and that coordinate system's name, location, and orientation is consistent for all components in that class. 
+
+\paragraph{Connectors}
+
+The AVM Component Model Specification contains details for connectors. For CAD, connectors represent the physical connection between parts and assemblies. Datums are used to identify the connector geometry.
+
+\paragraph{Joins}
+
+Joins such as welds, bolts, and rivets are specified according to the Design Data Package.
+
+\subparagraph{Welds}
+
+Welds are represented by 3D geometry.
+
+\subparagraph{Bolts}
+
+Bolts are represented using bolt parts.
+
+\subparagraph{Rivets}
+
+Rivets are represented using rivet parts.
+
+\paragraph{Part Notes}
+
+Part notes shall be specified in accordance with ANSI Y14.41. These notes provide information needed for manufacturing. All notes shall include the corresponding parameter note names. Notes must be in a true 3D model orientation. Notes shall not be placed “Flat to Screen”.  
+
+\paragraph{Default Tolerances}
+
+Default tolerances are specified in the notes. The default tolerances for a metric (mm) dimensioning system are:\\
+\\
+\begin{tabular}{ l p{3.5cm} }
+\textbf{Value} & \textbf{Tolerance} \\ \hline
+X.X		& $\pm$ 1.0 \\ \hline
+X.XX	 	& $\pm$ .750 \\ \hline
+X.XXX	& $\pm$ 0.250 \\ \hline
+ANG	 	& $\pm 5^{\circ}$ \\ \hline
+\end{tabular}
+\\
+\\
+\\
+If these default tolerances are not appropriate for a particular part, the default tolerance parameter must be changed.
+
+
+\paragraph{Surface Treatments}
+
+Default surface treatments are specified in the notes.
+
+\paragraph{CAD Model Maturity}
+
+CAD models must include model maturity which is specified via the AVM component model parameter MODEL\_MATURITY with the following possible values:\\
+
+\begin{tabular}{ l p{9.5cm} }
+\textbf{Value} & \textbf{Description} \\ \hline
+Conceptual & Part file is conceptual and lacks detailed geometry needed to fabricate the part\\ \hline
+Fully\_Detailed\_Geometry & Part file contains fully detailed geometry\\ \hline
+Fully\_Detailed\_Model & Part file contains fully-detailed geometry, model notes, and complete ANSI Y14.41 annotations. \\ \hline
+\end{tabular}
+\\
+\\
+
+
+\paragraph{CAD Model Release State}
+
+CAD models must include release state specified which is specified via the AVM component model parameter MODEL\_RELEASE\_STATE with the following possible values:\\
+
+\begin{tabular}{ l p{9.5cm} }
+\textbf{Value} & \textbf{Description} \\ \hline
+In\_Work & CAD model is in-work\\ \hline
+Checking & CAD model is being checked prior to release\\ \hline
+Release & CAD model is released\\ \hline
+\end{tabular}
+\\
+
+
+\subsection{Content in the AVM Component Model}
+
+Additional information required for geometric analysis must be provided in the \textit{wrapper} AVM component model for a given component. The AVM Component Model is detailed in the AVM Component Model Specification. Sections \ref{ss:make_parts} and \ref{ss:buy_parts} contain details for the different types of CAD files. 
+
+\subsubsection{Manufacturer Load Ratings}
+
+Load ratings are specified for off-the-shelf components and are used in structural analysis. 
+
+\subsection{Feature Requirements and Guidelines}
+
+Geometric features must adhere to the following requirements and guidelines.
+ \\
+ \\
+\begin{tabular}{ l p{9.5cm} }
+\textbf{Feature} & \textbf{Notes} \\ \hline
+Internal threads & Hole shall be tap drill size to the maximum drilled depth with cosmetic feature for the thread at nominal diameter to the full thread length \\ \hline
+External threads & Solid body on the part shall be nominal size with cosmetic feature for the thread at tap drill size \\ \hline
+Internal gears and splines & Extruded feature shall be modeled to the inside diameter with the cosmetic feature at the outside (root) diameter \\ \hline
+External gears and splines & Extruded feature shall be modeled to the outside diameter with the cosmetic feature at the root diameter \\ \hline
+Counterbores and countersinks &  Provide clearance for the head of a screw or mating part \\ \hline
+Small features & Standard edge breaks and other small features should not be added to the model  \\ \hline
+\end{tabular}
+\\
+\\
+The following additional guidelines are related to creating a model that is readily re-usable for make parts. \\
+\\
+\begin{tabular}{ l p{9.5cm} }
+\textbf{Feature} & \textbf{Notes} \\ \hline
+Edges & There should be no edges shorter than .005 inch (.127 mm).\\ \hline
+Cylindrical surfaces & There should be no small cylindrical surfaces smaller than .05 R (1.27 mm).\\ \hline
+Surface gaps & There should be no surface gaps or overlaps in the model. \\ \hline
+Mirrored features & When required, mirrored features shall be created by mirroring in conjunction with the copy command.  Straight mirroring creates features that cannot be easily redefined and does not show the proper dimensioning on a drawing.\\ \hline
+Copied features & When copying features make sure only the dimensions which should be dependent on the original are copied. \\ \hline
+\end{tabular}
+\\
+\\
+
+\subsection{Mesh Files}
+
+The META tools support pre-meshed components which can be used for various analyses such as structural finite element analysis. Components are typically meshed automatically as needed for a particular analysis. Pre-meshing components supports situations where automatic meshing yields a less-than-desirable mesh. Mesh files are stored in the same directory as the component's CAD files. Mesh file formats are dictated by each analysis tool. 
+
+\subsection{Make parts}
+\label{ss:make_parts}
+
+Make parts are those parts that are custom and would be built as part of fabricating the design. This is in contrast to off-the-shelf parts that are available for purchase. Part geometry for a make part is represented through detailed CAD features. One make part is represented by one CAD part file. Models shall be full scale to the dimensional mean of the design tolerance zone unless otherwise specified in the model notes.  The mean of dimensional tolerance limits is the average of the upper and lower limits of the tolerance zone.  This should not be confused with the nominal condition, which is the explicitly stated base value of a dimension to which tolerance is applied. \\
+\\
+See the following table for examples.\\
+
+\begin{tabular}{ l l p {3.5cm} }
+\textbf{Example dimension/tolerance} & \textbf{Mean} & \textbf{Nominal} \\ \hline
+1.125  $\pm$ 0.125	& 1.125	& 1.125 \\ \hline
+1.00  +0.25/-0.00	& 1.125	& 1.00 \\ \hline
+1.25  +0.00/-0.25	& 1.125	& 1.25 \\ \hline
+1.00 to 1.25	& 1.125	& No meaning \\ \hline
+1.0625  +.1875/-0.0625	& 1.125	& 1.0625 \\ \hline
+\end{tabular}
+\\
+\\
+\\
+The following details model simplification and other exceptions.\\
+
+\begin{tabular}{ l p{9.5cm} }
+\textbf{Item} & \textbf{Notes} \\ \hline
+Standard stock materials & Stock materials shall be modeled at nominal. \\ \hline
+Threads, gears, and splines & May be cosmetic features if full feature definition is provided in the notes. Their geometry shall be nominal.  For example, torsion bar splines commonly have one tooth missing to define positioning during assembly, therefore a fully detailed model is required.  \\ \hline
+Components with repetitive detail & Springs, chains, perforated plate, expanded metal sheet, and other components with repetitive detail shall be modeled with simplified geometry, the minimum required to convey design intent.  \\ \hline
+Minimum and maximum radii & The radius shall be modeled to mean value.  \\ \hline
+Maximum and minimum angles & Maximum and minimum angles, be modeled to the recommended values applicable to objective process such as castings and forging draft angles. \\ \hline
+\end{tabular}
+\\
+
+
+\subsection{Off-the-shelf parts}
+\label{ss:buy_parts}
+
+Off-the-shelf parts, or buy parts, are parts that can be purchased and don't have to be built as part of fabricating the design. Part geometry for an off-the-shelf part is represented through CAD features. Off-the-shelf part vendors often supply lower fidelity models to obfuscate details of their design. In this case, the model may be sufficient for a lower fidelity representation of the part. Vendors sometimes supply fully detailed models that are not suitable for purposes such as meshing and design rendering. In this case, a lower fidelity representation is warranted to facilitate rendering and analysis. While a structural analysis of these parts typically would not involve finite element analysis, meshing the part is needed to transfer loads to other parts. Representing the multiple fidelities is achieved with one part file using the Creo\textsuperscript{\textregistered} views feature. Typically, off-the-shelf parts CAD model maturity would be ``Conceptual" and in some cases ``Fully\_Detailed\_Geometry" but rarely ``Fully\_Detailed\_Model". For off-the-shelf parts, the default CAD model release state would be ``Release".
+
+\subsubsection{Component Geometry Captured with a CAD Part File that Represents an Assembly}
+\label{ss:part_as_assembly}
+
+In some cases, assemblies are better represented without detailing all parts that represent the assembly. For example, the engine can be sufficiently defined with exterior geometry and aggregate mass properties without adding individual parts such as pistons, manifolds, bearings, and bolts. In this case, one CAD part file represents an assembly. Make parts, or in this case make assemblies, are not represented by a CAD part file that represents an assembly because insufficient information exists to manufacture the assembly. Therefore, only off-the-shelf assemblies are represented by these part files. Properties identified in Section \ref{ss:part_properties} are still specified for part files, however the material name corresponds to the most common material in the assembly. The part file must convey that the part represents an assembly via setting the AVM component model parameter name PART\_REPRESENTS\_AN\_ASSEMBLY to ``Yes".  Additionally, the AVM component model parameter ASSEMBLY\_MOST\_COMMON\_MATERIAL must be set to a material name resident in the META Material Library. Each CAD part file that represents an assembly must be set to compute mass properties via Creo\textsuperscript{\textregistered}'s ``Geometry and Parameters'' or "Fully Specified". The density of the most common material is retrieved from the META Material Library when needed by a tool for analysis or an effective density may be used by dividing the specified mass by the specified volume. 
+
+\subsubsection{Component Geometry Represented with a CAD Assembly}
+\label{s:CAD_assembly}
+
+A CAD assembly consisting of multiple CAD part files can be used describe a buy component. Examples include suspension assemblies, damper assemblies, and brake calipers. Each part file must have the material specified using a material name resident in the META Material Library. 
+

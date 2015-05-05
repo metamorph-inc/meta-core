@@ -1,0 +1,21 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="All" ToolsVersion="4.0">
+
+  <Import Project="externals\common-scripts\common.msbuild"/>
+  <Import Project="META.props"/>
+  
+  <Target Name="MDL2MGA">
+    <MSBuild Projects="src\Cyber2Code.sln" Targets="Cyber" Properties="Configuration=Release"/>
+    <MSBuild Projects="make.msbuild" Targets="MDL2MGA"/>
+  </Target>
+
+  <Target Name="All" DependsOnTargets="MDL2MGA">
+  </Target>
+
+  <Target Name="Push_MDL2MGA_NuGet">
+    <Exec Command="cmd /c build_mdl2mga_nuget_package.py pack_nuget push_nuget"
+        WorkingDirectory="$(MSBuildThisFileDirectory)deploy" IgnoreExitCode="false"/>
+  </Target>
+
+  <Target Name="Push_All_NuGet" DependsOnTargets="Push_MDL2MGA_NuGet" />
+
+</Project>

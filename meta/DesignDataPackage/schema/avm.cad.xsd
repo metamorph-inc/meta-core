@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:avm="avm" xmlns:cad="cad" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="cad" ecore:package="avm.cad" targetNamespace="cad">
+  <xsd:import namespace="avm" schemaLocation="avm.xsd"/>
+  <xsd:element ecore:ignore="true" name="CADModel" type="cad:CADModel"/>
+  <xsd:element ecore:ignore="true" name="Datum" type="cad:Datum"/>
+  <xsd:element ecore:ignore="true" name="Parameter" type="cad:Parameter"/>
+  <xsd:element ecore:ignore="true" name="Point" type="cad:Point"/>
+  <xsd:element ecore:ignore="true" name="Axis" type="cad:Axis"/>
+  <xsd:element ecore:ignore="true" name="Plane" type="cad:Plane"/>
+  <xsd:element ecore:ignore="true" name="CoordinateSystem" type="cad:CoordinateSystem"/>
+  <xsd:element ecore:ignore="true" name="Metric" type="cad:Metric"/>
+  <xsd:element ecore:ignore="true" name="Geometry" type="cad:Geometry"/>
+  <xsd:element ecore:ignore="true" name="Geometry2D" type="cad:Geometry2D"/>
+  <xsd:element ecore:ignore="true" name="Geometry3D" type="cad:Geometry3D"/>
+  <xsd:element ecore:ignore="true" name="Circle" type="cad:Circle"/>
+  <xsd:element ecore:ignore="true" name="Polygon" type="cad:Polygon"/>
+  <xsd:element ecore:ignore="true" name="ExtrudedGeometry" type="cad:ExtrudedGeometry"/>
+  <xsd:element ecore:ignore="true" name="Sphere" type="cad:Sphere"/>
+  <xsd:element ecore:ignore="true" name="CustomGeometry" type="cad:CustomGeometry"/>
+  <xsd:element ecore:ignore="true" name="CustomGeometryInput" type="cad:CustomGeometryInput"/>
+  <xsd:element ecore:ignore="true" name="PointReference" type="cad:PointReference"/>
+  <xsd:element ecore:ignore="true" name="Surface" type="cad:Surface"/>
+  <xsd:element ecore:ignore="true" name="PlaneReference" type="cad:PlaneReference"/>
+  <xsd:element ecore:ignore="true" name="GuideDatum" type="cad:GuideDatum"/>
+  <xsd:complexType name="CADModel">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModel">
+        <xsd:sequence>
+          <xsd:element ecore:name="Datum" ecore:ordered="false" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Datum" type="cad:Datum"/>
+          <xsd:element ecore:name="Parameter" ecore:ordered="false" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Parameter" type="cad:Parameter"/>
+          <xsd:element ecore:name="ModelMetric" ecore:ordered="false" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="ModelMetric" type="cad:Metric"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="Datum">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModelPort">
+        <xsd:sequence>
+          <xsd:element ecore:name="DatumMetric" ecore:ordered="false" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="DatumMetric" type="cad:Metric"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="DatumName" name="DatumName" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Parameter">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModelParameter">
+        <xsd:sequence>
+          <xsd:element ecore:name="Value" ecore:resolveProxies="true" minOccurs="0" name="Value" type="avm:Value"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="Name" name="Name" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Point">
+    <xsd:complexContent>
+      <xsd:extension base="cad:Datum"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Axis">
+    <xsd:complexContent>
+      <xsd:extension base="cad:Datum"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Plane">
+    <xsd:complexContent>
+      <xsd:extension base="cad:Datum">
+        <xsd:attribute ecore:name="SurfaceReverseMap" ecore:reference="cad:Plane" name="SurfaceReverseMap">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CoordinateSystem">
+    <xsd:complexContent>
+      <xsd:extension base="cad:Datum">
+        <xsd:sequence>
+          <xsd:element ecore:name="Metric" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Metric" type="cad:Metric"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Metric">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModelMetric">
+        <xsd:attribute ecore:name="Name" name="Name" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="Geometry">
+    <xsd:complexContent>
+      <xsd:extension base="avm:AnalysisConstruct">
+        <xsd:attribute ecore:name="GeometryQualifier" ecore:unsettable="false" name="GeometryQualifier" type="cad:GeometryQualifierEnum"/>
+        <xsd:attribute ecore:name="PartIntersectionModifier" ecore:unsettable="false" name="PartIntersectionModifier" type="cad:PartIntersectionEnum"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="Geometry2D">
+    <xsd:complexContent>
+      <xsd:extension base="cad:Geometry"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="Geometry3D">
+    <xsd:complexContent>
+      <xsd:extension base="cad:Geometry"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Circle">
+    <xsd:complexContent>
+      <xsd:extension base="cad:Geometry2D">
+        <xsd:sequence>
+          <xsd:element ecore:name="CircleCenter" ecore:resolveProxies="true" name="CircleCenter" type="cad:PointReference"/>
+          <xsd:element ecore:name="CircleEdge" ecore:ordered="false" ecore:resolveProxies="true" maxOccurs="2" minOccurs="2" name="CircleEdge" type="cad:PointReference"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Polygon">
+    <xsd:complexContent>
+      <xsd:extension base="cad:Geometry2D">
+        <xsd:sequence>
+          <xsd:element ecore:name="PolygonPoint" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="3" name="PolygonPoint" type="cad:PointReference"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExtrudedGeometry">
+    <xsd:complexContent>
+      <xsd:extension base="cad:Geometry3D">
+        <xsd:sequence>
+          <xsd:element ecore:name="ExtrusionHeight" ecore:resolveProxies="true" name="ExtrusionHeight" type="cad:PointReference"/>
+          <xsd:element ecore:name="ExtrusionSurface" ecore:resolveProxies="true" name="ExtrusionSurface" type="cad:Geometry2D"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Sphere">
+    <xsd:complexContent>
+      <xsd:extension base="cad:Geometry3D">
+        <xsd:sequence>
+          <xsd:element ecore:name="SphereCenter" ecore:resolveProxies="true" name="SphereCenter" type="cad:PointReference"/>
+          <xsd:element ecore:name="SphereEdge" ecore:resolveProxies="true" name="SphereEdge" type="cad:PointReference"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CustomGeometry">
+    <xsd:complexContent>
+      <xsd:extension base="cad:Geometry">
+        <xsd:sequence>
+          <xsd:element ecore:name="CustomGeometryInput" ecore:ordered="false" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="2" name="CustomGeometryInput" type="cad:CustomGeometryInput"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CustomGeometryInput">
+    <xsd:sequence>
+      <xsd:element ecore:name="InputGeometry" ecore:resolveProxies="true" name="InputGeometry" type="cad:Geometry"/>
+    </xsd:sequence>
+    <xsd:attribute ecore:name="Operation" ecore:unsettable="false" name="Operation" type="cad:CustomGeometryInputOperationEnum" use="required"/>
+  </xsd:complexType>
+  <xsd:simpleType name="CustomGeometryInputOperationEnum">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Union"/>
+      <xsd:enumeration value="Intersection"/>
+      <xsd:enumeration value="Subtraction"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PointReference">
+    <xsd:attribute ecore:name="ReferredPoint" ecore:reference="cad:Point" name="ReferredPoint">
+      <xsd:simpleType>
+        <xsd:list itemType="xsd:anyURI"/>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:simpleType name="PartIntersectionEnum">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="IntersectionWithAnyParts"/>
+      <xsd:enumeration value="IntersectionWithReferencedParts"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="GeometryQualifierEnum">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="InteriorAndBoundary"/>
+      <xsd:enumeration value="InteriorOnly"/>
+      <xsd:enumeration value="BoundaryOnly"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="Surface">
+    <xsd:complexContent>
+      <xsd:extension base="cad:Geometry3D">
+        <xsd:sequence>
+          <xsd:element ecore:name="ReferencePlane" ecore:resolveProxies="true" name="ReferencePlane" type="cad:PlaneReference"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PlaneReference">
+    <xsd:attribute ecore:name="ReferredPlane" ecore:reference="cad:Plane" name="ReferredPlane">
+      <xsd:simpleType>
+        <xsd:list itemType="xsd:anyURI"/>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:complexType name="GuideDatum">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ConnectorFeature">
+        <xsd:attribute ecore:keys="ID" ecore:name="Datum" ecore:reference="cad:Datum" name="Datum" type="xsd:anyURI" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

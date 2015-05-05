@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="CA_with_Instances" DesignID="{e15ee6ec-39e0-4337-aa7f-6888217a84cd}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="CA_with_Instances" xmlns="">
+    <ComponentInstance XPosition="595" YPosition="203" ComponentID="4020c4b1-f33e-4955-a8a2-25fb07a825a4" ID="{7c6e8647-af06-4e05-a039-509531cc3f97}" Name="Comp2">
+      <ConnectorInstance ConnectorComposition="{2e499af7-84fd-47a6-b22c-0e5cf0ce1db9}-12" ID="{7c6e8647-af06-4e05-a039-509531cc3f97}-12" ApplyJoinData="" IDinComponentModel="12" />
+    </ComponentInstance>
+    <ComponentInstance XPosition="595" YPosition="63" ComponentID="4020c4b1-f33e-4955-a8a2-25fb07a825a4" ID="{2e499af7-84fd-47a6-b22c-0e5cf0ce1db9}" Name="Comp1">
+      <ConnectorInstance ConnectorComposition="{7c6e8647-af06-4e05-a039-509531cc3f97}-12" ID="{2e499af7-84fd-47a6-b22c-0e5cf0ce1db9}-12" ApplyJoinData="jd710d7236-78dd-4c7b-bdf5-9a9ce67109cb" IDinComponentModel="12" />
+    </ComponentInstance>
+    <JoinData d3p1:id="jd710d7236-78dd-4c7b-bdf5-9a9ce67109cb" xmlns:d3p1="iFAB">
+      <name>Soldered Join</name>
+      <part1 />
+      <part2 />
+      <description />
+      <soldered>
+        <length>3</length>
+        <fillerMaterial>123</fillerMaterial>
+        <fluxMaterial>abc</fluxMaterial>
+      </soldered>
+    </JoinData>
+  </RootContainer>
+</Design>

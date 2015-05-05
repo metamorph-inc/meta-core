@@ -1,0 +1,362 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{007b2f21-6272-4d51-9388-a7d61c9cb9c2}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{baefa46b-193d-492f-99be-51ebf4f02c07}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{c1d96096-f207-423d-89f6-310c41f7e37a}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Library Files">
+      <UniqueIdentifier>{8659b83b-c981-4214-80a6-66edbe304d82}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CPMAttributePart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CPMBasePart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CPMDecoratorStyle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Decorator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DecoratorApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DecoratorCompositePart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DecoratorImpl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GMEOLEData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mfcdual.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelComplexPart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PortBitmapPart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PortPart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Decorator.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="..\..\..\externals\DecoratorLib\DecoratorLib.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DecoratorApp.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ArrowPortGreen-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ArrowPortGreen.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ArrowPortRed-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ArrowPortRed.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="component.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Decorator.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ElectronicSignal-In.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ElectronicSignal-Out.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ElectronicSignal.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ElectronicSignal_port_IN.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ElectronicSignal_port_OUT.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="facet-port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="facet.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="function.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientBlue-CFP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientBlue-CFP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientBlue.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientBlue_FP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientBlue_FP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientGray-CFP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientGray-CFP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientGray-FP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientGray-FP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientGray.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientGreen-CFP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientGreen-CFP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientGreen-FP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientGreen-FP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientGreen.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientLightBlue-CFP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientLightBlue-CFP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientLightBlue-FP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientLightBlue-FP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientLightBlue.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientOrange-CFP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientOrange-CFP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientOrange-FP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientOrange-FP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientOrange.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientPurple-CFP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientPurple-CFP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientPurple-FP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientPurple-FP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientPurple.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientRed-CFP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientRed-CFP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientRed-FP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientRed-FP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientRed.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientYellow-CFP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientYellow-CFP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientYellow-FP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientYellow-FP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientYellow.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="param-port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="parameter.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="property.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="receptacle-port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="receptacle.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="softwareconnector.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bitmap6.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientSkyBlue-FP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientSkyBlue.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientSkyBlue-CFP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientTurquoise.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientTurquoise-CFP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientTurquoise-CFP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientTurquoise-FP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientTurquoise-FP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientBrown.png" />
+    <None Include="GradientBrown-CFP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientBrown-CFP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientBrown-FP.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientBrown-FP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientSkyBlue-CFP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientSkyBlue-FP-Port.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GradientBrown.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="metric.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="DecoratorLib.idl">
+      <Filter>Source Files</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CPMAttributePart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPMBasePart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPMDecoratorStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Decorator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DecoratorCompositePart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DecoratorConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DecoratorImpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GMEOLEData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mfcdual.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelComplexPart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PortBitmapPart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PortPart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GmeApi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DecoratorLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

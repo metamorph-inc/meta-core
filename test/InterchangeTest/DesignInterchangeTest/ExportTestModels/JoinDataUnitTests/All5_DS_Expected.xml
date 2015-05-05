@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="All_5_JoinTypes_TopAsm_DS" DesignID="{30cc63a1-9689-4a3f-9f11-ffeb936bf72e}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="All_5_JoinTypes_TopAsm_DS" xmlns="">
+    <Container xsi:type="q1:Compound" YPosition="77" XPosition="511" Name="subAsm_5">
+      <Container xsi:type="q1:Compound" YPosition="273" XPosition="616" Name="subAsm_2">
+        <ComponentInstance XPosition="672" YPosition="287" ComponentID="9676c708-d3ac-4bcf-a702-9f374c28b17d" ID="{bfe15182-a6d3-4454-8066-283ac0b8392d}" Name="Comp4">
+          <ConnectorInstance ConnectorComposition="{d6559925-4042-4e40-b322-1a09d0ed64b9}-id-7c0ef6ef-7ae1-4322-827e-78a547ea9c7c" ID="{bfe15182-a6d3-4454-8066-283ac0b8392d}-id-35ef7fbb-2afc-4b5c-88ba-1abeaeb05de2" ApplyJoinData="" IDinComponentModel="id-62194b30-cafa-495a-8c15-ec770ca78355" />
+        </ComponentInstance>
+        <ComponentInstance XPosition="672" YPosition="133" ComponentID="eb31d017-e1f5-46a7-8711-19e86b1d83f8" ID="{d6559925-4042-4e40-b322-1a09d0ed64b9}" Name="Comp3">
+          <ConnectorInstance ConnectorComposition="{bfe15182-a6d3-4454-8066-283ac0b8392d}-id-35ef7fbb-2afc-4b5c-88ba-1abeaeb05de2" ID="{d6559925-4042-4e40-b322-1a09d0ed64b9}-id-7c0ef6ef-7ae1-4322-827e-78a547ea9c7c" ApplyJoinData="jd8fec3081-2854-42f6-aa4a-77b9ba04b3ba" IDinComponentModel="id-d286c719-f9e0-4dec-b2bc-005b158d32ef" />
+        </ComponentInstance>
+        <Connector ConnectorComposition="id-e8100fe5-54bf-4c4a-91fe-6f0f38a57e29" ID="id-654b513e-1b38-4e39-af69-06076b0a4e4a" ApplyJoinData="" XPosition="112" YPosition="413" Definition="" Name="SolderedConnector" />
+        <JoinData d5p1:id="jd8fec3081-2854-42f6-aa4a-77b9ba04b3ba" xmlns:d5p1="iFAB">
+          <name>BrazedJoin</name>
+          <part1 />
+          <part2 />
+          <description />
+          <brazed>
+            <length>3</length>
+            <fillerMaterial>abc</fillerMaterial>
+            <fluxMaterial>def</fluxMaterial>
+          </brazed>
+        </JoinData>
+      </Container>
+      <Container xsi:type="q1:Compound" YPosition="112" XPosition="602" Name="subAsm_1">
+        <ComponentInstance XPosition="630" YPosition="238" ComponentID="853a9634-241c-403e-b097-733673d47203" ID="{0826a059-6ba7-4cc1-91a3-f89a41f3404d}" Name="Comp6">
+          <ConnectorInstance ConnectorComposition="{2e341f6a-da23-4ff7-a518-579c9cc6d0d2}-id-6eb3fa7b-75ee-40a9-b976-bcb2239554f9" ID="{0826a059-6ba7-4cc1-91a3-f89a41f3404d}-id-dbd72c38-9605-47ce-a400-56b5a3591494" ApplyJoinData="" IDinComponentModel="id-052703be-d1f0-40fd-b49b-49de3538517e" />
+        </ComponentInstance>
+        <ComponentInstance XPosition="630" YPosition="119" ComponentID="a6e5bd3e-53b9-49e4-84da-0facd844efad" ID="{2e341f6a-da23-4ff7-a518-579c9cc6d0d2}" Name="Comp5">
+          <ConnectorInstance ConnectorComposition="{0826a059-6ba7-4cc1-91a3-f89a41f3404d}-id-dbd72c38-9605-47ce-a400-56b5a3591494" ID="{2e341f6a-da23-4ff7-a518-579c9cc6d0d2}-id-6eb3fa7b-75ee-40a9-b976-bcb2239554f9" ApplyJoinData="jda44d70be-b226-4f34-a2f8-00bbb88fd22f" IDinComponentModel="id-12eb7a1b-93f6-4f0c-b6ac-01e3fc7de10a" />
+        </ComponentInstance>
+        <Connector ConnectorComposition="id-654b513e-1b38-4e39-af69-06076b0a4e4a" ID="id-e8100fe5-54bf-4c4a-91fe-6f0f38a57e29" ApplyJoinData="jd807e9298-5295-44e6-a1c5-29134224bb8e" XPosition="154" YPosition="364" Definition="" Name="SolderedConnector" />
+        <JoinData d5p1:id="jda44d70be-b226-4f34-a2f8-00bbb88fd22f" xmlns:d5p1="iFAB">
+          <name>GluedJoin</name>
+          <part1 />
+          <part2 />
+          <description />
+          <glued>
+            <length>3</length>
+            <volume>9</volume>
+            <material>abc</material>
+          </glued>
+        </JoinData>
+      </Container>
+      <Connector ConnectorComposition="{f9d9f6a1-c63e-439b-9e88-f98613957ac7}-id-4055f037-4e72-4b0d-b065-7e4a5090d2dc" ID="id-91ed71e1-e96e-4f7d-bf6c-6733bae87ed8" ApplyJoinData="" XPosition="119" YPosition="420" Definition="" Name="WeldedConnector" />
+      <JoinData d4p1:id="jd807e9298-5295-44e6-a1c5-29134224bb8e" xmlns:d4p1="iFAB">
+        <name>SolderedJoin</name>
+        <part1 />
+        <part2 />
+        <description />
+        <soldered>
+          <length>3</length>
+          <fillerMaterial>abc</fillerMaterial>
+          <fluxMaterial>def</fluxMaterial>
+        </soldered>
+      </JoinData>
+    </Container>
+    <Container xsi:type="q1:Compound" YPosition="210" XPosition="518" Name="subAsm_3">
+      <ComponentInstance XPosition="616" YPosition="273" ComponentID="4020c4b1-f33e-4955-a8a2-25fb07a825a4" ID="{52fd8266-9c72-4287-913f-062f913f0ba9}" Name="Comp2">
+        <ConnectorInstance ConnectorComposition="{f6707a42-8a69-40dd-a392-20d28526fc41}-id-5c390448-9c9d-454e-b690-b631a1a837a5" ID="{52fd8266-9c72-4287-913f-062f913f0ba9}-id-98d9c66d-5966-4a40-956d-d8a209d07229" ApplyJoinData="" IDinComponentModel="id-3baa3a37-c0d9-443d-9b54-46647742d288" />
+      </ComponentInstance>
+      <ComponentInstance XPosition="616" YPosition="140" ComponentID="516e45cb-56df-4734-b514-03f1967343f7" ID="{f6707a42-8a69-40dd-a392-20d28526fc41}" Name="Comp1">
+        <ConnectorInstance ConnectorComposition="{52fd8266-9c72-4287-913f-062f913f0ba9}-id-98d9c66d-5966-4a40-956d-d8a209d07229" ID="{f6707a42-8a69-40dd-a392-20d28526fc41}-id-5c390448-9c9d-454e-b690-b631a1a837a5" ApplyJoinData="jd9e2180a8-9807-4491-ada2-27298534a325" IDinComponentModel="id-5c104e08-aa15-429e-8881-4e3bfaf1e393" />
+      </ComponentInstance>
+      <Connector ConnectorComposition="{f9d9f6a1-c63e-439b-9e88-f98613957ac7}-id-9cc87f84-0f22-423f-8847-481a8376839f" ID="id-5876abbb-01b9-48fe-bd47-f626225e4221" ApplyJoinData="" XPosition="112" YPosition="462" Definition="" Name="WeldedConnector" />
+      <JoinData d4p1:id="jd9e2180a8-9807-4491-ada2-27298534a325" xmlns:d4p1="iFAB">
+        <name>WeldedJoin</name>
+        <part1 />
+        <part2 />
+        <description />
+        <welded>
+          <length>3</length>
+          <jointType>Butt</jointType>
+          <weldType>Stitch</weldType>
+          <weldPenetration>Full</weldPenetration>
+          <twoSided>true</twoSided>
+          <inspectionRequirement>X-Ray</inspectionRequirement>
+          <part1Thickness>0</part1Thickness>
+          <part1Material>Al</part1Material>
+          <part2Thickness>0</part2Thickness>
+          <part2Material>Al</part2Material>
+        </welded>
+      </JoinData>
+    </Container>
+    <Container xsi:type="q1:Alternative" YPosition="357" XPosition="406" Name="subAsm_4">
+      <ComponentInstance XPosition="693" YPosition="287" ComponentID="b211fc08-dbd9-4374-96c4-699a728b5803" ID="{06059b2f-3db4-402c-9f9f-2221c612eb8d}" Name="Comp8">
+        <ConnectorInstance ConnectorComposition="{10ed4f68-deb2-41a1-804e-35b759a4a303}-id-5ef5b48a-f492-4b7b-b2f7-a484cd78dfb1" ID="{06059b2f-3db4-402c-9f9f-2221c612eb8d}-id-40c78038-d76f-45b3-9597-6ba1996bcb3f" ApplyJoinData="" IDinComponentModel="id-40c78038-d76f-45b3-9597-6ba1996bcb3f" />
+      </ComponentInstance>
+      <ComponentInstance XPosition="693" YPosition="133" ComponentID="dffc808f-3f2f-4283-ad9f-91b9caf428f8" ID="{10ed4f68-deb2-41a1-804e-35b759a4a303}" Name="Comp7">
+        <ConnectorInstance ConnectorComposition="{06059b2f-3db4-402c-9f9f-2221c612eb8d}-id-40c78038-d76f-45b3-9597-6ba1996bcb3f" ID="{10ed4f68-deb2-41a1-804e-35b759a4a303}-id-5ef5b48a-f492-4b7b-b2f7-a484cd78dfb1" ApplyJoinData="" IDinComponentModel="id-5ef5b48a-f492-4b7b-b2f7-a484cd78dfb1" />
+      </ComponentInstance>
+      <Connector ConnectorComposition="{f9d9f6a1-c63e-439b-9e88-f98613957ac7}-id-6cc237cf-0dcc-4fbe-a6a9-f4cf470c6791" ID="id-e2fddb94-d0d7-46aa-bed6-fa2b95b7ed54" ApplyJoinData="" XPosition="91" YPosition="427" Definition="" Name="WeldedConnector" />
+      <JoinData d4p1:id="jd14dff155-f49a-4621-952c-34609d29834a" xmlns:d4p1="iFAB">
+        <name>MechanicalJoin</name>
+        <part1 />
+        <part2 />
+        <description />
+        <mechanical>
+          <linkingPart d4p1:id="" />
+          <fasteningMethod>Bolted</fasteningMethod>
+          <torque>1</torque>
+          <force>1</force>
+        </mechanical>
+      </JoinData>
+    </Container>
+    <ComponentInstance XPosition="56" YPosition="175" ComponentID="793738fd-6fbf-4fc8-8bd5-bb43ed4fb3bc" ID="{f9d9f6a1-c63e-439b-9e88-f98613957ac7}" Name="Comp9">
+      <ConnectorInstance ConnectorComposition="id-e2fddb94-d0d7-46aa-bed6-fa2b95b7ed54" ID="{f9d9f6a1-c63e-439b-9e88-f98613957ac7}-id-6cc237cf-0dcc-4fbe-a6a9-f4cf470c6791" ApplyJoinData="" IDinComponentModel="id-6cc237cf-0dcc-4fbe-a6a9-f4cf470c6791" />
+      <ConnectorInstance ConnectorComposition="id-5876abbb-01b9-48fe-bd47-f626225e4221" ID="{f9d9f6a1-c63e-439b-9e88-f98613957ac7}-id-9cc87f84-0f22-423f-8847-481a8376839f" ApplyJoinData="" IDinComponentModel="id-9cc87f84-0f22-423f-8847-481a8376839f" />
+      <ConnectorInstance ConnectorComposition="id-91ed71e1-e96e-4f7d-bf6c-6733bae87ed8" ID="{f9d9f6a1-c63e-439b-9e88-f98613957ac7}-id-4055f037-4e72-4b0d-b065-7e4a5090d2dc" ApplyJoinData="" IDinComponentModel="id-4055f037-4e72-4b0d-b065-7e4a5090d2dc" />
+    </ComponentInstance>
+    <JoinData d3p1:id="jd4b360a89-616c-4b5a-b109-b2d15d084c12" xmlns:d3p1="iFAB">
+      <name>WeldedJoin</name>
+      <part1 />
+      <part2 />
+      <description />
+      <welded>
+        <length>3</length>
+        <jointType>Butt</jointType>
+        <weldType>Stitch</weldType>
+        <weldPenetration>Full</weldPenetration>
+        <twoSided>true</twoSided>
+        <inspectionRequirement>X-Ray</inspectionRequirement>
+        <part1Thickness>0</part1Thickness>
+        <part1Material>Al</part1Material>
+        <part2Thickness>0</part2Thickness>
+        <part2Material>Al</part2Material>
+      </welded>
+    </JoinData>
+  </RootContainer>
+</Design>

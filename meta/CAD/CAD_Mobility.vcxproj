@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{538BFD1F-88F2-4615-B636-8A03D31FAF91}</ProjectGuid>
+    <RootNamespace>CAD_Mobility</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\externals\common-scripts\build_customization\mga2udmxml.props" />
+    <Import Project="..\..\externals\common-scripts\build_customization\udm.props" />
+    <Import Project="..\..\externals\common-scripts\build_customization\xme2mga.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(META_PATH)\generated\CAD\models\</IntDir>
+    <ExtensionsToDeleteOnClean>*.mga;*.xmp;*.xml;$(ExtensionsToDeleteOnClean)</ExtensionsToDeleteOnClean>
+    <xme2mga_RuleBeforeTargets>mga2udmxml</xme2mga_RuleBeforeTargets>
+    <mga2udmxml_RuleBeforeTargets>udm</mga2udmxml_RuleBeforeTargets>
+    <mga2udmxml_RuleAfterTargets>xme2mga</mga2udmxml_RuleAfterTargets>
+    <udm_RuleAfterTargets>mga2udmxml</udm_RuleAfterTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist "$(META_PATH)\generated\CAD\mobility" mkdir "$(META_PATH)\generated\CAD\mobility"</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <xme2mga Include="CAD_Mobility_Uml.xme">
+      <FileType>Document</FileType>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated\CAD\mobility\%(FileName).mga</OutFile>
+    </xme2mga>
+  </ItemGroup>
+  <ItemGroup>
+    <mga2udmxml Include="..\..\generated\CAD\mobility\CAD_Mobility_Uml.mga">
+      <FileType>Document</FileType>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CAD2Mobility</MetaName>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated\CAD\mobility\</OutDir>
+    </mga2udmxml>
+  </ItemGroup>
+  <ItemGroup>
+    <udm Include="..\..\generated\CAD\mobility\CAD2Mobility_udm.xml">
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CAD2Mobility</MetaName>
+      <IntegrateXSD Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IntegrateXSD>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RelativeDir)\..\mobility</OutDir>
+    </udm>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\externals\common-scripts\build_customization\mga2udmxml.targets" />
+    <Import Project="..\..\externals\common-scripts\build_customization\udm.targets" />
+    <Import Project="..\..\externals\common-scripts\build_customization\xme2mga.targets" />
+  </ImportGroup>
+</Project>

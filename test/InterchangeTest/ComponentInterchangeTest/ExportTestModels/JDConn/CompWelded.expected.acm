@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="4020c4b1-f33e-4955-a8a2-25fb07a825a4" Name="CompWelded" Version="" xmlns="avm">
+  <Connector ConnectorComposition="" ID="id-5c104e08-aa15-429e-8881-4e3bfaf1e393" ApplyJoinData="" Notes="" Name="WeldedConnector" Definition="" xmlns="">
+    <DefaultJoin d3p1:id="jd9b78cbf6-f9db-4982-94ac-ab6ea8de8645" xmlns:d3p1="iFAB">
+      <name>WeldedJoinDefaultJoinData</name>
+      <part1 />
+      <part2 />
+      <description />
+      <welded>
+        <length>3</length>
+        <jointType>Butt</jointType>
+        <weldType>Stitch</weldType>
+        <weldPenetration>Full</weldPenetration>
+        <twoSided>true</twoSided>
+        <inspectionRequirement>X-Ray</inspectionRequirement>
+        <part1Thickness>0</part1Thickness>
+        <part1Material>Al</part1Material>
+        <part2Thickness>0</part2Thickness>
+        <part2Material>Al</part2Material>
+      </welded>
+    </DefaultJoin>
+  </Connector>
+  <Classifications xmlns="" />
+</Component>

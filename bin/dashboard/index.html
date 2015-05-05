@@ -1,0 +1,56 @@
+<html lang="en" class="no-js">
+<head>
+  <title>DashBoard</title>
+  <script type="text/javascript" src="./inc/jquery.min.js"></script>
+  <script type="text/javascript" src="./inc/modernizr-latest.js"></script>
+  <script>
+    <!--
+    $(function() {
+      console.log("DOM Ready");
+      var has_js = 01;
+      var has_inlinesvg = 02;
+      
+      var capable = has_js + has_inlinesvg;
+
+
+      var status = 0;
+      if ($("html").hasClass("js")) {
+        console.log("javascript is active");
+        $(".no-js").css("display","none");
+        status += has_js;
+      }        
+      //if ($("html").hasClass("inlinesvg")) {
+      if (Modernizr.inlinesvg) {
+        console.log("inline svg is active");
+        $(".no-inlinesvg").css("display","none");
+        status += has_inlinesvg;
+      }
+      
+      if (status === capable) {
+        console.log("CAPABLE");
+        $(".no-capable").css("display","none");
+        $(".capable").css("display","block");
+        document.location = unescape("./dashboard.html" + '?' + document.URL.split('?').slice(1).join('?'));
+      }
+    });
+    -->
+  </script>
+  <style>
+    .capable {
+      display: none;
+    }
+    .no-capable {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="no-capable">
+    <h1>This browser is not capable of running the dashboard</h1>
+    <ol>
+      <li class="no-js">This browser does not support scripting</li>
+      <li class="no-inlinesvg">This browser does not support inline SVG</li>
+    </ol>
+  </div>
+</body>
+</html>

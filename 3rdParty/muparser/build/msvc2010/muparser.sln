@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "muParser", "muparser_muParser.vcxproj", "{2A1F639A-7642-57CC-BF97-3EC5B5C89D91}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A1F639A-7642-57CC-BF97-3EC5B5C89D91}.Debug|Win32.ActiveCfg = Debug Static|Win32
+		{2A1F639A-7642-57CC-BF97-3EC5B5C89D91}.Debug|Win32.Build.0 = Debug Static|Win32
+		{2A1F639A-7642-57CC-BF97-3EC5B5C89D91}.Debug|x64.ActiveCfg = Debug Static|x64
+		{2A1F639A-7642-57CC-BF97-3EC5B5C89D91}.Debug|x64.Build.0 = Debug Static|x64
+		{2A1F639A-7642-57CC-BF97-3EC5B5C89D91}.Release|Win32.ActiveCfg = Release Static|Win32
+		{2A1F639A-7642-57CC-BF97-3EC5B5C89D91}.Release|Win32.Build.0 = Release Static|Win32
+		{2A1F639A-7642-57CC-BF97-3EC5B5C89D91}.Release|x64.ActiveCfg = Release Static|x64
+		{2A1F639A-7642-57CC-BF97-3EC5B5C89D91}.Release|x64.Build.0 = Release Static|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

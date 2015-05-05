@@ -1,0 +1,77 @@
+{
+  "Artifacts": [
+    {
+      "Location": "design1235.metadesign.xml", 
+      "Tag": "Design Model"
+    }, 
+    {
+      "Location": "components/index.json", 
+      "Tag": "Component Model Index"
+    }
+  ], 
+  "Created": "2013-06-13T20:40:42.578236", 
+  "DesignID": "123-245-2342-23421", 
+  "DesignName": "ABC Analysis", 
+  "Metrics": [
+    {
+      "Description" : null,
+      "ID" : null,
+      "DisplayedName" : null,
+      "GMEID" : null,
+      "Name": "Metric1", 
+      "Unit": "DegreeAngle", 
+      "Value": null
+    }
+  ], 
+  "Parameters": [
+    {
+      "Description" : null,
+      "ID" : null,
+      "DisplayedName" : null,
+      "GMEID" : null,
+      "Name": "Parameter1", 
+      "Unit": "Millimeter", 
+      "Value": 1.2
+    }, 
+    {
+      "Description" : null,
+      "ID" : null,
+      "DisplayedName" : null,
+      "GMEID" : null,
+      "Name": "Parameter2", 
+      "Unit": "Kilogram", 
+      "Value": 99.21
+    }
+  ], 
+  "Status": "UNEXECUTED", 
+  "Steps": [
+    {
+      "Description": "Build CAD Assembly of system. In post-processing, write calculated metrics and artifact locators back to this file.", 
+      "ExecutionCompletionTimestamp": null, 
+      "ExecutionStartTimestamp": null, 
+      "Invocation": "buildIt.bat", 
+      "Parameters": [], 
+      "PostProcess": "retrieveMetrics.py", 
+      "PreProcess": null, 
+      "Type": "CMD"
+    }, 
+    {
+      "Description": "Submit artifacts to iFAB analysis. cIn post-processing, poll their service until results are available, then write them back to this file.", 
+      "ExecutionCompletionTimestamp": null, 
+      "ExecutionStartTimestamp": null, 
+      "Invocation": "https://ifab.com/analyze", 
+      "Parameters": [
+        {
+          "Name": "PackageID", 
+          "Unit": null, 
+          "Value": "1245522"
+        }
+      ], 
+      "PostProcess": "retrieveMetrics.py", 
+      "PreProcess": "sendArtifactsToIFAB.py", 
+      "Type": "REST"
+    }
+  ]
+  "TestBench" : "BallisticsTestBench",
+  "TierLevel" : 0
+}

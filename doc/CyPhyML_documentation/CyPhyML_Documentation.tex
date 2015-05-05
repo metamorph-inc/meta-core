@@ -1,0 +1,84 @@
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{outlines}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{wrapfig}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+
+
+\begin{document}
+
+\title{CyPhyML Language User Documentation}
+\author{Institute for Software Integrated Systems (ISIS)\\Vanderbilt University}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Overview}
+This document will help a user of the CyPhyML language.
+\subsection{Modeling Activities}
+The primary modeling activities are Component Models, Design Space, Designs, and Test Benches.
+
+\subsection{A Picture, As A Figure, With Text Wrapping}
+\begin{wrapfigure}{r}{0cm} % "placement and width parameter for the width of the image space.
+\centering
+\includegraphics[scale=0.40]{eng-musicrow.jpg}
+\caption{It's an image, ya'll.}
+\label{imageyall}
+\end{wrapfigure}
+I hear the train a comin'. It's rollin' 'round the bend, and I ain't seen the sunshine since I don't know when. I'm stuck in Folsom Prison, and time keeps draggin' on. But that train keeps a-rollin', on down to San Antone.
+
+When I was just a baby, my mama told me: "Son, always be a good boy. Don't ever play with guns."
+
+\section{Aspects}
+Many structures are common across all four modeling activities.
+\subsection{ValueFlow}
+\input{Aspect_ValueFlow}
+\subsection{Dynamics}
+\input{Aspect_Dynamics.tex}
+\subsection{SolidModeling}
+\input{Aspect_SolidModeling.tex}
+
+
+\section{Modeling Activities}
+There are four primary modeling activities in CyPhyML.
+\subsection{Component Models}
+\subsubsection{Behavior Models}
+\input{ComponentModels_BehaviorModels.tex}
+\subsubsection{CAD Models}
+\input{ComponentModels_CADModels.tex}
+
+\subsection{Design Models}
+\input{DesignModels.tex}
+
+\subsection{Design Space Models}
+\label{sec:designspace}
+\input{DesignSpace.tex}
+
+\subsection{Test Benches}
+\subsubsection{Core Concepts}
+\input{TestBenchCoreConcepts.tex}
+\subsubsection{Static Test Benches}
+\input{StaticTestBench.tex}
+\subsubsection{Dynamics Test Benches}
+\input{DynamicsTestBench.tex}
+\subsubsection{CAD / FEA Test Benches}
+\input{CAD_FEA_TestBench.tex}
+
+\end{document}

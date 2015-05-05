@@ -1,0 +1,38 @@
+{
+	"field_of_view" : {
+		"version": "00.02",
+		"outputDirectory": "output_fov",
+		"runCommand": "run_fov.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhyCADAnalysis"
+		},
+	"field_of_fire" : {
+		"version": "00.02",
+		"outputDirectory": "output_field_of_fire",
+		"runCommand": "run_field_of_fire.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhyCADAnalysis"
+		},
+	"closures" : {
+		"version": "00.02",
+		"outputDirectory": "output_closures",
+		"runCommand": "run_closures.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhyCADAnalysis"
+		},
+	"ingress_egress" : {
+		"version": "00.01",
+		"outputDirectory": "output_ingress_egress",
+		"runCommand": "run_ingress_egress.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhyCADAnalysis"
+		},
+	"transportability" : {
+		"version": "00.01",
+		"outputDirectory": "output_transportability",
+		"runCommand": "run_transportability.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhyCADAnalysis"
+		},
+	"ergonomics" : {
+		"version": "00.01",
+		"outputDirectory": "output_ergonomics",
+		"runCommand": "run_ergonomics.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhyCADAnalysis"
+		}
+}

@@ -1,0 +1,8 @@
+{
+    "FreedLinkageAssembler" : {
+        "version": "0.1",
+        "outputDirectory": "output",
+        "runCommand": "runFreedLinkageAssembler.cmd",
+        "requiredInterpreter": "MGA.Interpreter.CyPhy2CAD_CSharp"
+    }
+}

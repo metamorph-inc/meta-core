@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup
+    Condition="'$(CSharpDsml_RuleBeforeTargets)' == '' and '$(CSharpDsml_RuleAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <CSharpDsml_RuleBeforeTargets>CustomBuild</CSharpDsml_RuleBeforeTargets>
+    <CSharpDsml_RuleAfterTargets></CSharpDsml_RuleAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <CSharpDsml_RuleDependsOn
+      Condition="'$(ConfigurationType)' != 'Makefile'">_SelectedFiles;$(CSharpDsml_RuleDependsOn)</CSharpDsml_RuleDependsOn>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <CSharpDsml>
+      <ParadigmName>%(FileName)</ParadigmName>
+      <OutDir>%(RelativeDir)</OutDir>
+      <CompileDll>Yes</CompileDll>
+      <CommandLineTemplate>pushd %(CSharpDsml.OutDir) &amp;&amp; &quot;$(MSBuildThisFileDirectory)..\gmepy.exe&quot; run_interpreter MGA.Interpreter.CSharpDSMLGenerator &quot;$(ProjectDir)%(Identity)&quot;</CommandLineTemplate>
+      <ExecutionDescription>CSharpDsml &quot;%(Identity)&quot;</ExecutionDescription>
+      <ShowOnlyRuleProperties>false</ShowOnlyRuleProperties>
+    </CSharpDsml>
+  </ItemDefinitionGroup>
+</Project>

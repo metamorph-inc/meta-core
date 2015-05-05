@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="avm" nsURI="avm" nsPrefix="avm">
+  <eClassifiers xsi:type="ecore:EClass" name="Component">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Test documentation for Component type. Yep."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DomainModel" ordered="false"
+        upperBound="-1" eType="#//DomainModel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Property" ordered="false"
+        upperBound="-1" eType="#//Property" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ResourceDependency" ordered="false"
+        upperBound="-1" eType="#//Resource" containment="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Connector" ordered="false"
+        upperBound="-1" eType="#//Connector" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DistributionRestriction"
+        ordered="false" upperBound="-1" eType="#//DistributionRestriction" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Version" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="SchemaVersion" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Port" upperBound="-1" eType="#//Port"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Classifications" upperBound="-1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//AnyURI"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="AnalysisConstruct" upperBound="-1"
+        eType="#//AnalysisConstruct" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Supercedes" upperBound="-1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Formula" upperBound="-1"
+        eType="#//Formula" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DomainModel" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="UsesResource" ordered="false"
+        upperBound="-1" eType="#//Resource" resolveProxies="false" eKeys="#//Resource/ID"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Author" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Notes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="XPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Property" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="OnDataSheet" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//Boolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Notes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Definition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//AnyURI"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//ID"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="XPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Value" eSuperTypes="#//ValueNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Unit" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ValueExpression" ordered="false"
+        eType="#//ValueExpressionType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DataType" eType="#//DataTypeEnum"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DimensionType" eType="#//DimensionTypeEnum"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Dimensions" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DataSource" upperBound="-1"
+        eType="#//DataSource" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FixedValue" eSuperTypes="#//ValueExpressionType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Value" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Uncertainty" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//Float"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CalculatedValue" eSuperTypes="#//ValueExpressionType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Expression" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Type" lowerBound="1" eType="#//CalculationTypeEnum"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DerivedValue" eSuperTypes="#//ValueExpressionType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ValueSource" lowerBound="1"
+        eType="#//ValueNode" resolveProxies="false" eKeys="#//ValueNode/ID">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="ValueSource"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="Resource"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Path" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//AnyURI"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Hash" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" ordered="false" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//ID"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Notes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="XPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connector" eSuperTypes="#//ConnectorCompositionTarget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Definition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//AnyURI"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Role" ordered="false" upperBound="-1"
+        eType="#//Port" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Notes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Property" upperBound="-1"
+        eType="#//Property" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DefaultJoin" upperBound="-1"
+        eType="ecore:EClass iFAB.ecore#//assemblyDetail" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Connector" upperBound="-1"
+        eType="#//Connector" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="XPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ConnectorFeature" upperBound="-1"
+        eType="#//ConnectorFeature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Port" abstract="true" eSuperTypes="#//PortMapTarget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Notes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="XPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Definition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//AnyURI"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DomainModelPort" abstract="true" eSuperTypes="#//Port"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DomainModelParameter" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Notes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="XPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParametricValue" eSuperTypes="#//ValueExpressionType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Default" lowerBound="1"
+        eType="#//ValueExpressionType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Maximum" eType="#//ValueExpressionType"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Minimum" eType="#//ValueExpressionType"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="AssignedValue" eType="#//ValueExpressionType"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueExpressionType" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProbabilisticValue" abstract="true"
+      eSuperTypes="#//ValueExpressionType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NormalDistribution" eSuperTypes="#//ProbabilisticValue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Mean" lowerBound="1" eType="#//ValueExpressionType"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="StandardDeviation" lowerBound="1"
+        eType="#//ValueExpressionType" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CalculationTypeEnum">
+    <eLiterals name="Declarative"/>
+    <eLiterals name="Python" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DataTypeEnum">
+    <eLiterals name="String"/>
+    <eLiterals name="Boolean" value="1"/>
+    <eLiterals name="Integer" value="2"/>
+    <eLiterals name="Real" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DimensionTypeEnum">
+    <eLiterals name="Matrix"/>
+    <eLiterals name="Vector" value="1"/>
+    <eLiterals name="Scalar" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DistributionRestriction" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Notes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityClassification" eSuperTypes="#//DistributionRestriction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Level" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Proprietary" eSuperTypes="#//DistributionRestriction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Organization" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ITAR" eSuperTypes="#//DistributionRestriction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DomainModelMetric" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//ID"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Value" eType="#//Value"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Notes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="XPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UniformDistribution" eSuperTypes="#//ProbabilisticValue"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveProperty" eSuperTypes="#//Property">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Value" eType="#//Value"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompoundProperty" eSuperTypes="#//Property">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="CompoundProperty" upperBound="-1"
+        eType="#//CompoundProperty" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PrimitiveProperty" upperBound="-1"
+        eType="#//PrimitiveProperty" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParametricEnumeratedValue" eSuperTypes="#//ValueExpressionType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="AssignedValue" eType="#//FixedValue"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Enum" lowerBound="1" upperBound="-1"
+        eType="#//ValueExpressionType" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractPort" eSuperTypes="#//Port"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalysisConstruct" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataSource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Notes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="FromResource" upperBound="-1"
+        eType="#//Resource" eKeys="#//Resource/ID"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Design">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="RootContainer" eType="#//Container"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="SchemaVersion" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DesignID" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DesignSpaceSrcID" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Container" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Container" upperBound="-1"
+        eType="#//Container" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Property" upperBound="-1"
+        eType="#//Property" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ComponentInstance" upperBound="-1"
+        eType="#//ComponentInstance" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Port" upperBound="-1" eType="#//Port"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Connector" ordered="false"
+        upperBound="-1" eType="#//Connector" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="JoinData" upperBound="-1"
+        eType="ecore:EClass iFAB.ecore#//assemblyDetail" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="XPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Formula" upperBound="-1"
+        eType="#//Formula" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Compound" eSuperTypes="#//Container"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Optional" eSuperTypes="#//DesignSpaceContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Alternative" eSuperTypes="#//DesignSpaceContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentInstance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PortInstance" upperBound="-1"
+        eType="#//ComponentPortInstance" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PrimitivePropertyInstance"
+        upperBound="-1" eType="#//ComponentPrimitivePropertyInstance" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ComponentID" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//ID"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ConnectorInstance" upperBound="-1"
+        eType="#//ComponentConnectorInstance" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DesignSpaceSrcComponentID"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="XPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentPortInstance" eSuperTypes="#//PortMapTarget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="IDinComponentModel" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentPrimitivePropertyInstance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Value" eType="#//Value"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="IDinComponentModel" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DesignSpaceContainer" abstract="true"
+      eSuperTypes="#//Container"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PortMapTarget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" ordered="false" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//ID"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PortMap" ordered="false"
+        upperBound="-1" eType="#//PortMapTarget" eKeys="#//PortMapTarget/ID"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentConnectorInstance" eSuperTypes="#//ConnectorCompositionTarget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="IDinComponentModel" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectorCompositionTarget">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ConnectorComposition" ordered="false"
+        upperBound="-1" eType="#//ConnectorCompositionTarget" eKeys="#//ConnectorCompositionTarget/ID"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ApplyJoinData" upperBound="-1"
+        eType="ecore:EClass iFAB.ecore#//assemblyDetail"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Formula" abstract="true" eSuperTypes="#//ValueNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="XPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleFormula" eSuperTypes="#//Formula">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Operation" eType="#//SimpleFormulaOperation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Operand" lowerBound="1"
+        upperBound="-1" eType="#//ValueNode" eKeys="#//ValueNode/ID"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SimpleFormulaOperation">
+    <eLiterals name="Addition"/>
+    <eLiterals name="Multiplication" value="1"/>
+    <eLiterals name="ArithmeticMean" value="2"/>
+    <eLiterals name="GeometricMean" value="3"/>
+    <eLiterals name="Maximum" value="4"/>
+    <eLiterals name="Minimum" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueNode" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" ordered="false" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//ID"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexFormula" eSuperTypes="#//Formula">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Expression" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Operand" lowerBound="1"
+        upperBound="-1" eType="#//Operand" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Symbol" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ValueSource" lowerBound="1"
+        eType="#//ValueNode" eKeys="#//ValueNode/ID"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DoDDistributionStatement" eSuperTypes="#//DistributionRestriction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Type" lowerBound="1" eType="#//DoDDistributionStatementEnum"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DoDDistributionStatementEnum">
+    <eLiterals name="StatementA"/>
+    <eLiterals name="StatementB" value="1"/>
+    <eLiterals name="StatementC" value="2"/>
+    <eLiterals name="StatementD" value="3"/>
+    <eLiterals name="StatementE" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectorFeature" abstract="true"/>
+  <eSubpackages name="modelica" nsURI="modelica" nsPrefix="modelica">
+    <eClassifiers xsi:type="ecore:EClass" name="ModelicaModel" eSuperTypes="#//DomainModel">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Class" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Parameter" upperBound="-1"
+          eType="#//modelica/Parameter" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Connector" upperBound="-1"
+          eType="#//modelica/Connector" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Metric" upperBound="-1"
+          eType="#//modelica/Metric" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Limit" upperBound="-1"
+          eType="#//modelica/Limit" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Redeclare" upperBound="-1"
+          eType="#//modelica/Redeclare" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Connector" eSuperTypes="#//DomainModelPort">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Class" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Locator" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Parameter" upperBound="-1"
+          eType="#//modelica/Parameter" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Redeclare" upperBound="-1"
+          eType="#//modelica/Redeclare" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//DomainModelParameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Value" eType="#//Value"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Locator" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Metric" eSuperTypes="#//DomainModelMetric">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Locator" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Limit">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="VariableLocator" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="BoundType" lowerBound="1"
+          eType="#//modelica/BoundTypeEnum"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="TargetValue" lowerBound="1"
+          eType="#//Value" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ToleranceTimeWindow"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//Float"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Notes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="BoundTypeEnum">
+      <eLiterals name="MustNotExceed"/>
+      <eLiterals name="MustNotMeetOrExceed" value="1"/>
+      <eLiterals name="MustExceed" value="2"/>
+      <eLiterals name="MustExceedOrEqual" value="3"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Redeclare" eSuperTypes="#//DomainModelParameter">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Locator" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Value" eType="#//Value"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Type" eType="#//modelica/RedeclareTypeEnum"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="RedeclareTypeEnum">
+      <eLiterals name="Package"/>
+      <eLiterals name="Class" value="1"/>
+      <eLiterals name="Model" value="2"/>
+      <eLiterals name="Record" value="3"/>
+      <eLiterals name="Block" value="4"/>
+      <eLiterals name="Connector" value="5"/>
+      <eLiterals name="Function" value="6"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="cad" nsURI="cad" nsPrefix="cad">
+    <eClassifiers xsi:type="ecore:EClass" name="CADModel" eSuperTypes="#//DomainModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Datum" ordered="false"
+          upperBound="-1" eType="#//cad/Datum" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Parameter" ordered="false"
+          upperBound="-1" eType="#//cad/Parameter" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ModelMetric" ordered="false"
+          upperBound="-1" eType="#//cad/Metric" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Datum" abstract="true" eSuperTypes="#//DomainModelPort">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="DatumName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="DatumMetric" ordered="false"
+          upperBound="-1" eType="#//cad/Metric" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//DomainModelParameter">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Value" ordered="false"
+          eType="#//Value" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Point" eSuperTypes="#//cad/Datum"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Axis" eSuperTypes="#//cad/Datum"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Plane" eSuperTypes="#//cad/Datum">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="SurfaceReverseMap" upperBound="-1"
+          eType="#//cad/Plane"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CoordinateSystem" eSuperTypes="#//cad/Datum">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Metric" upperBound="-1"
+          eType="#//cad/Metric" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Metric" eSuperTypes="#//DomainModelMetric">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Geometry" abstract="true" eSuperTypes="#//AnalysisConstruct">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="GeometryQualifier" eType="#//cad/GeometryQualifierEnum"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="PartIntersectionModifier"
+          eType="#//cad/PartIntersectionEnum"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Geometry2D" abstract="true" eSuperTypes="#//cad/Geometry"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Geometry3D" abstract="true" eSuperTypes="#//cad/Geometry"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Circle" eSuperTypes="#//cad/Geometry2D">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="CircleCenter" ordered="false"
+          lowerBound="1" eType="#//cad/PointReference" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="CircleEdge" ordered="false"
+          lowerBound="2" upperBound="2" eType="#//cad/PointReference" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Polygon" eSuperTypes="#//cad/Geometry2D">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="PolygonPoint" lowerBound="3"
+          upperBound="-1" eType="#//cad/PointReference" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ExtrudedGeometry" eSuperTypes="#//cad/Geometry3D">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ExtrusionHeight" ordered="false"
+          lowerBound="1" eType="#//cad/PointReference" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ExtrusionSurface" lowerBound="1"
+          eType="#//cad/Geometry2D" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Sphere" eSuperTypes="#//cad/Geometry3D">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="SphereCenter" ordered="false"
+          lowerBound="1" eType="#//cad/PointReference" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="SphereEdge" ordered="false"
+          lowerBound="1" eType="#//cad/PointReference" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CustomGeometry" eSuperTypes="#//cad/Geometry">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="CustomGeometryInput"
+          ordered="false" lowerBound="2" upperBound="-1" eType="#//cad/CustomGeometryInput"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CustomGeometryInput">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Operation" lowerBound="1"
+          eType="#//cad/CustomGeometryInputOperationEnum"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="InputGeometry" lowerBound="1"
+          eType="#//cad/Geometry" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="CustomGeometryInputOperationEnum">
+      <eLiterals name="Union"/>
+      <eLiterals name="Intersection" value="1"/>
+      <eLiterals name="Subtraction" value="2"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PointReference">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ReferredPoint" upperBound="-1"
+          eType="#//cad/Point"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="PartIntersectionEnum">
+      <eLiterals name="None"/>
+      <eLiterals name="IntersectionWithAnyParts" value="1" literal="IntersectionWithAnyParts"/>
+      <eLiterals name="IntersectionWithReferencedParts" value="2"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="GeometryQualifierEnum">
+      <eLiterals name="InteriorAndBoundary"/>
+      <eLiterals name="InteriorOnly" value="1"/>
+      <eLiterals name="BoundaryOnly" value="2"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Surface" eSuperTypes="#//cad/Geometry3D">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ReferencePlane" lowerBound="1"
+          eType="#//cad/PlaneReference" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PlaneReference">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ReferredPlane" upperBound="-1"
+          eType="#//cad/Plane"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GuideDatum" eSuperTypes="#//ConnectorFeature">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Datum" lowerBound="1"
+          eType="#//cad/Datum" eKeys="#//PortMapTarget/ID"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="manufacturing" nsURI="manufacturing" nsPrefix="manufacturing">
+    <eClassifiers xsi:type="ecore:EClass" name="ManufacturingModel" eSuperTypes="#//DomainModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Parameter" upperBound="-1"
+          eType="#//manufacturing/Parameter" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Metric" upperBound="-1"
+          eType="#//manufacturing/Metric" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//DomainModelParameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Value" eType="#//Value"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Locator" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Metric" eSuperTypes="#//DomainModelMetric">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="cyber" nsURI="cyber" nsPrefix="cyber">
+    <eClassifiers xsi:type="ecore:EClass" name="CyberModel" eSuperTypes="#//DomainModel">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Type" lowerBound="1"
+          eType="#//cyber/ModelType"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Class" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Connector" upperBound="-1"
+          eType="#//modelica/Connector" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Parameter" upperBound="-1"
+          eType="#//modelica/Parameter" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Locator" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="ModelType">
+      <eLiterals name="SignalFlow"/>
+      <eLiterals name="Simulink" value="1"/>
+      <eLiterals name="ESMoL" value="2"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

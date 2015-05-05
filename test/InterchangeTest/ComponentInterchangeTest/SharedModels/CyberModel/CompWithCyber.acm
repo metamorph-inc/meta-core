@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" SchemaVersion="2.5" ID="91bb0ff9-5c7f-4d72-8b37-2b85a4062edf" Name="Excavator_controller" Version="" xmlns="avm">
+  <DomainModel xmlns:q1="cyber" xsi:type="q1:CyberModel" UsesResource="cyber.path" Author="author" Notes="notes" XPosition="322" YPosition="49" Name="CyberModel" Locator="RootFolder.Components.excavator_control" Class="Simulink.excavator_control_type" Type="Simulink" xmlns="">
+    <Connector ID="id-eca68a56-ac47-409f-86d1-0d98c79c1016" PortMap="id-4da4fb52-f18c-4740-8eb2-632580aad539 id-1ff0e345-a3de-4866-ad49-893095cc9350" Notes="" XPosition="98" Definition="" YPosition="42" Name="ActualBoom_1" Locator="u" Class="Modelica.Blocks.Interfaces.RealInput" />
+    <Connector ID="id-113b7914-96f4-41fc-903d-ac2f710cc7cf" PortMap="id-235bfd23-2f51-4849-8051-792a788a8ca7" Notes="" XPosition="469" Definition="" YPosition="42" Name="boomValve_1" Locator="y" Class="Modelica.Blocks.Interfaces.RealOutput" />
+    <Parameter XPosition="427" YPosition="161" Locator="SamplePeriod">
+      <Value ID="id-c2703163-3b50-4ca4-8a8a-c05cb7a78c5d">
+        <ValueExpression xmlns:q2="avm" xsi:type="q2:DerivedValue" ValueSource="id-d4d18e8b-eeef-4764-b866-26c6d1233263" />
+      </Value>
+    </Parameter>
+  </DomainModel>
+  <Property xmlns:q3="avm" xsi:type="q3:PrimitiveProperty" Name="sample_Period" ID="param.id-d4d18e8b-eeef-4764-b866-26c6d1233263" XPosition="322" YPosition="182" xmlns="">
+    <Value ID="id-d4d18e8b-eeef-4764-b866-26c6d1233263" DimensionType="Scalar" Dimensions="" DataType="String">
+      <ValueExpression xsi:type="q3:ParametricValue">
+        <Default xsi:type="q3:FixedValue">
+          <Value>.25</Value>
+        </Default>
+        <Maximum xsi:type="q3:FixedValue">
+          <Value>inf</Value>
+        </Maximum>
+        <Minimum xsi:type="q3:FixedValue">
+          <Value>-inf</Value>
+        </Minimum>
+        <AssignedValue xsi:type="q3:FixedValue">
+          <Value>.1</Value>
+        </AssignedValue>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <ResourceDependency Name="CyberModel" Path="Cyber\excavator_control.mga" Hash="" ID="cyber.path" Notes="" XPosition="245" YPosition="273" xmlns="" />
+  <ResourceDependency Name="CyberXML" Path="Cyber\excavator_control.xml" Hash="" ID="cyberxml.path" Notes="" XPosition="434" YPosition="301" xmlns="" />
+  <Connector ConnectorComposition="" ID="id-6c183cfc-ab2d-44be-abe1-45a8058b6c28" ApplyJoinData="" XPosition="77" YPosition="49" Notes="" Definition="" Name="ActualBoom_Connector" xmlns="">
+    <Role xmlns:q4="modelica" xsi:type="q4:Connector" ID="id-4da4fb52-f18c-4740-8eb2-632580aad539" PortMap="" Notes="" XPosition="420" Definition="" YPosition="203" Name="AcutalBoom_1" Locator="u" Class="Modelica.Blocks.Interfaces.RealInput" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="id-061465dd-ac9f-4b36-8ae2-2db2dfe0f41e" ApplyJoinData="" XPosition="623" YPosition="42" Notes="" Definition="" Name="boomValve_Connector" xmlns="">
+    <Role xmlns:q5="modelica" xsi:type="q5:Connector" ID="id-235bfd23-2f51-4849-8051-792a788a8ca7" PortMap="" Notes="" Definition="" Name="boomValve_1" Locator="y1" Class="Modelica.Blocks.Interfaces.RealOutput" />
+  </Connector>
+  <Port xmlns:q6="modelica" xsi:type="q6:Connector" ID="id-15f22dc8-5ee5-4910-bc78-d64bcb795bc2" PortMap="id-113b7914-96f4-41fc-903d-ac2f710cc7cf" Notes="" XPosition="651" Definition="" YPosition="168" Name="boomValve_Port" Locator="y1" Class="Modelica.Blocks.Interfaces.RealOutput" xmlns="" />
+  <Port xmlns:q7="modelica" xsi:type="q7:Connector" ID="id-1ff0e345-a3de-4866-ad49-893095cc9350" PortMap="" Notes="" XPosition="119" Definition="" YPosition="175" Name="ActualBoom_Port" Locator="u" Class="Modelica.Blocks.Interfaces.RealInput" xmlns="" />
+  <Classifications xmlns="" />
+</Component>

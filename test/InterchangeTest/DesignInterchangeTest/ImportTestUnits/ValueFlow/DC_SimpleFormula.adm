@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="DC_SimpleFormula" DesignID="{75a7c50c-d7fb-40f0-831c-cd457c2865c3}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="DC_SimpleFormula" xmlns="">
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop3" ID="property.0582ab58-5c82-4b1d-bbe8-d571ae3fa2bd" XPosition="413" YPosition="98">
+      <Value ID="0582ab58-5c82-4b1d-bbe8-d571ae3fa2bd" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:DerivedValue" ValueSource="116d8886-4544-48b1-9e95-c05b8421b636" />
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop2" ID="property.10f21b86-173c-4ba3-b22d-339b04140cf6" XPosition="49" YPosition="21">
+      <Value ID="10f21b86-173c-4ba3-b22d-339b04140cf6" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:FixedValue">
+          <Value>2</Value>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop1" ID="property.5e433d9c-c382-4931-b8ed-cfd254289415" XPosition="49" YPosition="189">
+      <Value ID="5e433d9c-c382-4931-b8ed-cfd254289415" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:FixedValue">
+          <Value>5</Value>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Formula xsi:type="q1:SimpleFormula" ID="116d8886-4544-48b1-9e95-c05b8421b636" Name="SimpleFormula2" XPosition="238" YPosition="91" Operation="Addition" Operand="31b999c4-a4ff-433d-a737-12f016d801f5 10f21b86-173c-4ba3-b22d-339b04140cf6" />
+    <Formula xsi:type="q1:SimpleFormula" ID="31b999c4-a4ff-433d-a737-12f016d801f5" Name="SimpleFormula1" XPosition="70" YPosition="91" Operation="Multiplication" Operand="10f21b86-173c-4ba3-b22d-339b04140cf6 5e433d9c-c382-4931-b8ed-cfd254289415" />
+  </RootContainer>
+</Design>

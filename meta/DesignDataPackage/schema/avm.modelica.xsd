@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:avm="avm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:modelica="modelica" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="modelica" ecore:package="avm.modelica" targetNamespace="modelica">
+  <xsd:import namespace="avm" schemaLocation="avm.xsd"/>
+  <xsd:element ecore:ignore="true" name="ModelicaModel" type="modelica:ModelicaModel"/>
+  <xsd:element ecore:ignore="true" name="Connector" type="modelica:Connector"/>
+  <xsd:element ecore:ignore="true" name="Parameter" type="modelica:Parameter"/>
+  <xsd:element ecore:ignore="true" name="Metric" type="modelica:Metric"/>
+  <xsd:element ecore:ignore="true" name="Limit" type="modelica:Limit"/>
+  <xsd:element ecore:ignore="true" name="Redeclare" type="modelica:Redeclare"/>
+  <xsd:complexType name="ModelicaModel">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModel">
+        <xsd:sequence>
+          <xsd:element ecore:name="Parameter" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Parameter" type="modelica:Parameter"/>
+          <xsd:element ecore:name="Connector" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Connector" type="modelica:Connector"/>
+          <xsd:element ecore:name="Metric" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Metric" type="modelica:Metric"/>
+          <xsd:element ecore:name="Limit" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Limit" type="modelica:Limit"/>
+          <xsd:element ecore:name="Redeclare" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Redeclare" type="modelica:Redeclare"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="Class" name="Class" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Connector">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModelPort">
+        <xsd:sequence>
+          <xsd:element ecore:name="Parameter" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Parameter" type="modelica:Parameter"/>
+          <xsd:element ecore:name="Redeclare" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Redeclare" type="modelica:Redeclare"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="Class" name="Class" type="xsd:string" use="required"/>
+        <xsd:attribute ecore:name="Locator" name="Locator" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Parameter">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModelParameter">
+        <xsd:sequence>
+          <xsd:element ecore:name="Value" ecore:resolveProxies="true" minOccurs="0" name="Value" type="avm:Value"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="Locator" name="Locator" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Metric">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModelMetric">
+        <xsd:attribute ecore:name="Locator" name="Locator" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Limit">
+    <xsd:sequence>
+      <xsd:element ecore:name="TargetValue" ecore:resolveProxies="true" name="TargetValue" type="avm:Value"/>
+    </xsd:sequence>
+    <xsd:attribute ecore:name="VariableLocator" name="VariableLocator" type="xsd:string" use="required"/>
+    <xsd:attribute ecore:name="BoundType" ecore:unsettable="false" name="BoundType" type="modelica:BoundTypeEnum" use="required"/>
+    <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+    <xsd:attribute ecore:name="ToleranceTimeWindow" ecore:unsettable="false" name="ToleranceTimeWindow" type="xsd:float"/>
+    <xsd:attribute ecore:name="Notes" name="Notes" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:simpleType name="BoundTypeEnum">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="MustNotExceed"/>
+      <xsd:enumeration value="MustNotMeetOrExceed"/>
+      <xsd:enumeration value="MustExceed"/>
+      <xsd:enumeration value="MustExceedOrEqual"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="Redeclare">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModelParameter">
+        <xsd:sequence>
+          <xsd:element ecore:name="Value" ecore:resolveProxies="true" minOccurs="0" name="Value" type="avm:Value"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="Locator" name="Locator" type="xsd:string" use="required"/>
+        <xsd:attribute ecore:name="Type" ecore:unsettable="false" name="Type" type="modelica:RedeclareTypeEnum"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="RedeclareTypeEnum">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Package"/>
+      <xsd:enumeration value="Class"/>
+      <xsd:enumeration value="Model"/>
+      <xsd:enumeration value="Record"/>
+      <xsd:enumeration value="Block"/>
+      <xsd:enumeration value="Connector"/>
+      <xsd:enumeration value="Function"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

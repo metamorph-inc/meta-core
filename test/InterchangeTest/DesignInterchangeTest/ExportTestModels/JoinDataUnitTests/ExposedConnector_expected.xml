@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="ExposedConnector_TopAsm" DesignID="{0487edd2-f2f7-4ab0-899f-a82e3db85d01}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="ExposedConnector_TopAsm" xmlns="">
+    <Container xsi:type="q1:Compound" YPosition="217" XPosition="483" Name="Component1_CA">
+      <ComponentInstance XPosition="448" YPosition="217" ComponentID="516e45cb-56df-4734-b514-03f1967343f7" ID="{be11824a-5d75-4961-86b2-e1c9e34cfc30}" Name="Comp1">
+        <ConnectorInstance ConnectorComposition="id-93e63e19-88e7-4180-90c4-41d4a19b2b27" ID="{be11824a-5d75-4961-86b2-e1c9e34cfc30}-id-5c104e08-aa15-429e-8881-4e3bfaf1e393" ApplyJoinData="" IDinComponentModel="id-5c104e08-aa15-429e-8881-4e3bfaf1e393" />
+      </ComponentInstance>
+      <Connector ConnectorComposition="{be11824a-5d75-4961-86b2-e1c9e34cfc30}-id-5c104e08-aa15-429e-8881-4e3bfaf1e393 {0b288b4b-16e3-4f6e-8b7c-4fd895c7267f}-id-3baa3a37-c0d9-443d-9b54-46647742d288" ID="id-93e63e19-88e7-4180-90c4-41d4a19b2b27" ApplyJoinData="jd670e7f55-6294-4fde-9871-fc86ea741b44" XPosition="63" YPosition="210" Definition="" Name="WeldedConnector" />
+    </Container>
+    <ComponentInstance XPosition="483" YPosition="343" ComponentID="4020c4b1-f33e-4955-a8a2-25fb07a825a4" ID="{0b288b4b-16e3-4f6e-8b7c-4fd895c7267f}" Name="Comp2">
+      <ConnectorInstance ConnectorComposition="id-93e63e19-88e7-4180-90c4-41d4a19b2b27" ID="{0b288b4b-16e3-4f6e-8b7c-4fd895c7267f}-id-3baa3a37-c0d9-443d-9b54-46647742d288" ApplyJoinData="" IDinComponentModel="id-3baa3a37-c0d9-443d-9b54-46647742d288" />
+    </ComponentInstance>
+    <JoinData d3p1:id="jd670e7f55-6294-4fde-9871-fc86ea741b44" xmlns:d3p1="iFAB">
+      <name>SolderedJoin</name>
+      <part1 />
+      <part2 />
+      <description />
+      <soldered>
+        <length>3</length>
+        <fillerMaterial>123</fillerMaterial>
+        <fluxMaterial>abc</fluxMaterial>
+      </soldered>
+    </JoinData>
+  </RootContainer>
+</Design>

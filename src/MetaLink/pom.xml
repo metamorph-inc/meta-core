@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <prerequisites>
+     <maven>3.0.4</maven>
+  </prerequisites>
+
+  <modelVersion>4.0.0</modelVersion>
+  <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <groupId>edu.vanderbilt.isis.meta.link</groupId>
+  <artifactId>metalink-parent</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <name>meta protocol buffer message parent</name>
+  <url>http://maven.apache.org</url>
+
+  <modules>
+       <module>meta-protobuf</module>
+       <module>meta-bridge</module>
+       <module>meta-link-creo</module>
+  </modules>
+
+</project>

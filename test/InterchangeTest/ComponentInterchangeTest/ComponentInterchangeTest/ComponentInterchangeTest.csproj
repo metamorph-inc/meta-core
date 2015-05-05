@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{17DB8717-F9C4-44EF-B32B-BF6B6770AF54}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ComponentInterchangeTest</RootNamespace>
+    <AssemblyName>ComponentInterchangeTest</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\ComponentInterchangeTest.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\ComponentInterchangeTest.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GME.MGA, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Windows\assembly\GAC_MSIL\GME.MGA\1.0.1.0__f240a760fe751c2e\GME.MGA.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="GME.MGA.Core, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Windows\assembly\GAC_MSIL\GME.MGA.Core\1.0.1.0__f240a760fe751c2e\GME.MGA.Core.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Windows\assembly\GAC_MSIL\GME.MGA.Meta\1.0.1.0__f240a760fe751c2e\GME.MGA.Meta.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="GME.MGA.Parser, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Windows\assembly\GAC_MSIL\GME.MGA.Parser\1.0.1.0__f240a760fe751c2e\GME.MGA.Parser.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Windows\assembly\GAC_MSIL\GME.Util\1.0.1.0__f240a760fe751c2e\GME.Util.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ISIS.GME.Common, Version=1.0.4.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\src\CyPhyMLCS\ISIS.GME.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\..\..\..\3rdParty\xunit-1.9.1\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.console.clr4">
+      <HintPath>..\..\..\..\3rdParty\xunit-1.9.1\xunit.console.clr4.exe</HintPath>
+    </Reference>
+    <Reference Include="xunit.gui.clr4.x86">
+      <HintPath>..\..\..\..\3rdParty\xunit-1.9.1\xunit.gui.clr4.x86.exe</HintPath>
+    </Reference>
+    <Reference Include="xunit.runner.utility">
+      <HintPath>..\..\..\..\3rdParty\xunit-1.9.1\xunit.runner.utility.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\src\CommonFiles\MgaUtils.cs">
+      <Link>MgaUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PyLibUtils\PyLibUtils.cs">
+      <Link>PyLibUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\ImportTestUnits\MgaGateway.cs">
+      <Link>MgaGateway.cs</Link>
+    </Compile>
+    <Compile Include="CAD.cs" />
+    <Compile Include="Common.cs" />
+    <Compile Include="ComponentInterchangeTest.cs" />
+    <Compile Include="CyberModel.cs" />
+    <Compile Include="DistributionRestriction.cs" />
+    <Compile Include="ExportImport.cs" />
+    <Compile Include="Formulas.cs" />
+    <Compile Include="GuideDatum.cs" />
+    <Compile Include="ID_Handling.cs" />
+    <Compile Include="Layout.cs" />
+    <Compile Include="Manufacturing.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PyLibTest.cs" />
+    <Compile Include="Supercedes.cs" />
+    <Compile Include="ValueFlow.cs" />
+    <Compile Include="ValueFlowFixture.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\meta\DesignDataPackage\lib\csharp\XSD2CSharp\XSD2CSharp.csproj">
+      <Project>{B4B9DC90-2857-4C8E-9BDE-47EC4649122B}</Project>
+      <Name>XSD2CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\ComponentLibraryManager\ComponentLibraryManager.csproj">
+      <Project>{0B1EAA2B-5B37-4D27-868E-60CF820B3273}</Project>
+      <Name>ComponentLibraryManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\CyPhy2ComponentModel\CyPhy2ComponentModel.csproj">
+      <Project>{E6267D3D-FDAA-4173-A5E7-87B23B46F883}</Project>
+      <Name>CyPhy2ComponentModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\CyPhy2DesignInterchange\CyPhy2DesignInterchange.csproj">
+      <Project>{931606C8-6178-4F8C-8E02-9D28C6D79FEA}</Project>
+      <Name>CyPhy2DesignInterchange</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\CyPhyComponentAuthoring\CyPhyComponentAuthoring.csproj">
+      <Project>{61EEAC67-BA67-4EC8-8779-031E9092EE42}</Project>
+      <Name>CyPhyComponentAuthoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\CyPhyComponentExporterCL\CyPhyComponentExporterCL.csproj">
+      <Project>{F75AE9B3-C38F-410F-AA6F-6FDB981BB9AB}</Project>
+      <Name>CyPhyComponentExporterCL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\CyPhyComponentExporter\CyPhyComponentExporter.csproj">
+      <Project>{A2F4C950-6B54-4414-B091-83A9D44C9A48}</Project>
+      <Name>CyPhyComponentExporter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\CyPhyComponentImporterCL\CyPhyComponentImporterCL.csproj">
+      <Project>{227BA24D-58A1-46D0-948F-68B888A62F2C}</Project>
+      <Name>CyPhyComponentImporterCL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\CyPhyComponentImporter\CyPhyComponentImporter.csproj">
+      <Project>{4D62D66B-732C-40E2-B7E2-B0A72FBC2BDC}</Project>
+      <Name>CyPhyComponentImporter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\CyPhyGUIs\CyPhyGUIs.csproj">
+      <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
+      <Name>CyPhyGUIs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\CyPhyMLCS\CyPhyMLCS.csproj">
+      <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>
+      <Name>CyPhyMLCS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\CyPhyMLCS\CyPhyMLCS.csproj">
+      <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>
+      <Name>CyPhyMLCS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExportTestUnits\ComponentExporterUnitTests.csproj">
+      <Project>{24637B48-C960-44B4-9431-651A52505B26}</Project>
+      <Name>ComponentExporterUnitTests</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

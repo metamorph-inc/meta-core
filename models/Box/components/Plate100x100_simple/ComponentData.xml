@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="4367fe9e-1a2c-41af-8285-a18d9aaa4c5c" Name="Plate100x100_simple" Version="" xmlns="avm">
+  <DomainModel xmlns:q1="cad" xsi:type="q1:CADModel" UsesResource="cad.path" Author="Ted" Notes="" xmlns="">
+    <Datum xsi:type="q1:CoordinateSystem" ID="Side4" PortMap="" Name="Side4" Notes="" Definition="" DatumName="CS3" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="Side2" PortMap="" Name="Side2" Notes="" Definition="" DatumName="CS1" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="TopSide1" PortMap="" Name="TopSide1" Notes="" Definition="" DatumName="CS4" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="TopSide3" PortMap="" Name="TopSide3" Notes="" Definition="" DatumName="CS6" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="Side3" PortMap="" Name="Side3" Notes="" Definition="" DatumName="CS2" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="Side1" PortMap="" Name="Side1" Notes="" Definition="" DatumName="CS0" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="TopSide4" PortMap="" Name="TopSide4" Notes="" Definition="" DatumName="CS7" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="TopSide2" PortMap="" Name="TopSide2" Notes="" Definition="" DatumName="CS5" />
+  </DomainModel>
+  <DomainModel xmlns:q2="manufacturing" xsi:type="q2:ManufacturingModel" UsesResource="id90" Author="" Notes="" xmlns="" />
+  <ResourceDependency Name="Resource" Path="generic_cots_mfg.xml" Hash="" ID="id90" Notes="" xmlns="" />
+  <ResourceDependency Name="Resource" Path="CAD/sidepart.prt.5" Hash="" ID="cad.path" Notes="" xmlns="" />
+  <Connector ConnectorComposition="" ID="id907" ApplyJoinData="" Notes="" Name="TopSide3" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q3="cad" xsi:type="q3:CoordinateSystem" ID="ID3" PortMap="TopSide3" Name="TopSide3" Notes="" Definition="" />
+    <DefaultJoin xmlns:q4="iFAB" xsi:type="q4:welded" q4:id="jdaba9179b-df92-4a5b-854d-13a6fa52c477">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id908" ApplyJoinData="" Notes="" Name="TopSide4" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q5="cad" xsi:type="q5:CoordinateSystem" ID="ID4" PortMap="TopSide4" Name="TopSide4" Notes="" Definition="" />
+    <DefaultJoin xmlns:q6="iFAB" xsi:type="q6:welded" q6:id="jd37a13ef6-230b-49af-93b0-a458de4873ed">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id901" ApplyJoinData="" Notes="" Name="Side1" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q7="cad" xsi:type="q7:CoordinateSystem" ID="ID7" PortMap="Side1" Name="Side1" Notes="" Definition="" />
+    <DefaultJoin xmlns:q8="iFAB" xsi:type="q8:welded" q8:id="jd0852a82c-a7c7-4b38-b0cf-7aab46949fcd">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Classifications xmlns="" />
+</Component>

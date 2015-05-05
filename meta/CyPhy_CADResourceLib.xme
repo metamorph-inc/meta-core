@@ -1,0 +1,2240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{EA05CB24-444A-4341-9436-75F9057D971D}" cdate="Mon Dec 02 14:05:54 2013" mdate="Mon Dec 02 14:05:54 2013" version="" metaguid="{A23568F6-5C2A-4DCD-9449-0A1286A2D9A0}" metaversion="12.1.$Rev: 21725 $" metaname="CyPhyML">
+	<name>RootFolder</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x8" kind="RootFolder" guid="{13b19e07-ff61-4a7f-82c6-58dea72fb96f}">
+		<name>RootFolder</name>
+		<folder id="id-006a-00000002" relid="0x4" childrelidcntr="0xe" kind="GeometryFolder" guid="{7c595b3d-3b50-4594-a8ca-b78952921e4a}">
+			<name>GeometryDefinition</name>
+			<model id="id-0065-00000001" kind="Circle" guid="{38b843a1-bdaa-4fa4-a560-b3b91f51388a}" relid="0x1" childrelidcntr="0x3">
+				<name>Circle</name>
+				<attribute kind="BoundaryQualifier" status="meta">
+					<value>Interior And Boundary</value>
+				</attribute>
+				<attribute kind="GeometryModifier" status="meta">
+					<value>None</value>
+				</attribute>
+				<attribute kind="InclusionSemantics" status="meta">
+					<value>Additive</value>
+				</attribute>
+				<atom id="id-0066-00000001" kind="Point" role="CircleCenter" guid="{eb44e2ce-95da-4ece-a086-63edac6b234a}" relid="0x1">
+					<name>CircleCenter</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>105,217</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000002" kind="Point" role="CircleEdge" guid="{7f840fe1-34d5-4e50-b3b4-ade152550bce}" relid="0x2">
+					<name>CircleEdge_1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>105,28</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000003" kind="Point" role="CircleEdge" guid="{0e7d1208-e14a-4a88-8d60-7ab04f53211b}" relid="0x3">
+					<name>CircleEdge_2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>105,119</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-00000002" kind="Cylinder" guid="{a5493a38-a4ad-44e3-964e-9c48a183c594}" relid="0x2" childrelidcntr="0x3">
+				<name>Cylinder</name>
+				<attribute kind="BoundaryQualifier" status="meta">
+					<value>Interior And Boundary</value>
+				</attribute>
+				<attribute kind="EndCapInclusionQualifier" status="meta">
+					<value>IncludeEndCaps</value>
+				</attribute>
+				<attribute kind="GeometryModifier" status="meta">
+					<value>None</value>
+				</attribute>
+				<attribute kind="InclusionSemantics" status="meta">
+					<value>Additive</value>
+				</attribute>
+				<atom id="id-0066-00000004" kind="Point" role="CylinderEnd" guid="{d5384a19-1f61-4f51-a4bd-6a0dbc8dfa05}" relid="0x1">
+					<name>CylinderEnd</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>119,287</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000005" kind="Point" role="CylinderStart" guid="{8e9f1abb-96ae-4f5c-bb74-37ca29f06962}" relid="0x2">
+					<name>CylinderStart</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>119,42</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000006" kind="Point" role="CylinderRadius" guid="{3b2b1e29-acf4-441b-8c75-761de0e435be}" relid="0x3">
+					<name>CylinderRadius</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>119,161</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-00000003" kind="Extrusion" guid="{8a037d79-9ef7-451a-9c49-fa5761dc8068}" relid="0x3" childrelidcntr="0x9">
+				<name>Extrusion_From_3Pt_Polygon</name>
+				<attribute kind="BoundaryQualifier" status="meta">
+					<value>Interior And Boundary</value>
+				</attribute>
+				<attribute kind="GeometryModifier" status="meta">
+					<value>None</value>
+				</attribute>
+				<attribute kind="InclusionSemantics" status="meta">
+					<value>Additive</value>
+				</attribute>
+				<model id="id-0065-00000004" kind="Polygon" role="ExtrusionGeometry" guid="{030e7280-56ba-40b0-bb3f-a2e066bcea06}" relid="0x3" childrelidcntr="0x3">
+					<name>ExtrusionGeometry</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>385,140</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BoundaryQualifier" status="meta">
+						<value>Interior And Boundary</value>
+					</attribute>
+					<attribute kind="GeometryModifier" status="meta">
+						<value>None</value>
+					</attribute>
+					<attribute kind="InclusionSemantics" status="meta">
+						<value>Additive</value>
+					</attribute>
+					<atom id="id-0066-00000007" kind="OrdinalPoint" role="OrdinalPoint" guid="{ef935e9c-bd98-4e76-98d8-8cfd173664b5}" relid="0x1">
+						<name>OrdinalPosition_1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>462,91</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition" status="meta">
+							<value>1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000008" kind="OrdinalPoint" role="OrdinalPoint" guid="{76c74db9-6274-4bc0-97b4-c3d85be1f295}" relid="0x2">
+						<name>OrdinalPosition_2</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>462,175</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>2</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000009" kind="OrdinalPoint" role="OrdinalPoint" guid="{b1876702-b7cd-44d0-9667-705a0e855643}" relid="0x3">
+						<name>OrdinalPosition_3</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>462,259</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>3</value>
+						</attribute>
+					</atom>
+				</model>
+				<atom id="id-0066-0000000a" kind="Point" role="PointDatumForwarder" guid="{9d9b63eb-1e58-4c01-8ee5-9f2ec4670fa7}" relid="0x2">
+					<name>OrdinalPosition_1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>637,63</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000000b" kind="Point" role="PointDatumForwarder" guid="{0655a8ac-07b3-4526-bbee-42099e1d5e80}" relid="0x4">
+					<name>OrdinalPosition_2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>637,161</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000000c" kind="Point" role="ExtrusionHeight" guid="{804bce64-83ea-4add-9a50-a2c5d265ad99}" relid="0x5">
+					<name>ExtrusionHeight</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>637,336</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000000d" kind="Point" role="PointDatumForwarder" guid="{db6799ae-a9fb-4ca4-bac3-e168ffc5dc61}" relid="0x6">
+					<name>OrdinalPosition_3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>637,245</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<connection id="id-0068-00000001" kind="PortComposition" role="PortComposition" guid="{692f58e2-54f5-442b-a54a-5e2a57409e0d}" relid="0x7">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000007"/>
+					<connpoint role="dst" target="id-0066-0000000a"/>
+				</connection>
+				<connection id="id-0068-00000002" kind="PortComposition" role="PortComposition" guid="{8c3c73a9-c53e-4ea2-b6cb-38e8c92b6ff6}" relid="0x8">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000008"/>
+					<connpoint role="dst" target="id-0066-0000000b"/>
+				</connection>
+				<connection id="id-0068-00000003" kind="PortComposition" role="PortComposition" guid="{59f31add-55ee-42ce-a6ab-417b767f0bf7}" relid="0x9">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000009"/>
+					<connpoint role="dst" target="id-0066-0000000d"/>
+				</connection>
+			</model>
+			<model id="id-0065-00000005" kind="Polygon" guid="{dbf51774-9eed-40ba-b71d-f98a1939951f}" relid="0x4" childrelidcntr="0x3">
+				<name>3Pt_Polygon</name>
+				<attribute kind="BoundaryQualifier" status="meta">
+					<value>Interior And Boundary</value>
+				</attribute>
+				<attribute kind="GeometryModifier" status="meta">
+					<value>None</value>
+				</attribute>
+				<attribute kind="InclusionSemantics" status="meta">
+					<value>Additive</value>
+				</attribute>
+				<atom id="id-0066-0000000e" kind="OrdinalPoint" role="OrdinalPoint" guid="{7b9c281c-8b5a-40c4-b00b-a91ff42cbd9c}" relid="0x1">
+					<name>OrdinalPosition_1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,21</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000000f" kind="OrdinalPoint" role="OrdinalPoint" guid="{d1dde3cb-aee7-4312-ae46-7309ed336073}" relid="0x2">
+					<name>OrdinalPosition_2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,105</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>2</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000010" kind="OrdinalPoint" role="OrdinalPoint" guid="{aefa310c-a650-4f1e-afd2-880a68409ba7}" relid="0x3">
+					<name>OrdinalPosition_3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,189</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>3</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-00000006" kind="Sphere" guid="{c32238b9-8d4a-4189-93f1-801a37d5d2f6}" relid="0x5" childrelidcntr="0x2">
+				<name>Sphere</name>
+				<attribute kind="BoundaryQualifier" status="meta">
+					<value>Interior And Boundary</value>
+				</attribute>
+				<attribute kind="GeometryModifier" status="meta">
+					<value>None</value>
+				</attribute>
+				<attribute kind="InclusionSemantics" status="meta">
+					<value>Additive</value>
+				</attribute>
+				<atom id="id-0066-00000011" kind="Point" role="SphereEdge" guid="{9b442ba2-e69c-4cb0-a6d5-dc52373e537e}" relid="0x1">
+					<name>SphereEdge</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>126,49</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000012" kind="Point" role="SphereCenter" guid="{025ebe14-6cef-44fc-99f9-9c6a3beba530}" relid="0x2">
+					<name>SphereCenter</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>126,147</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-00000007" kind="Polygon" guid="{02c49085-8e57-4eae-b2cc-2de38398324c}" relid="0x6" childrelidcntr="0x4">
+				<name>4Pt_Polygon</name>
+				<attribute kind="BoundaryQualifier" status="meta">
+					<value>Interior And Boundary</value>
+				</attribute>
+				<attribute kind="GeometryModifier" status="meta">
+					<value>None</value>
+				</attribute>
+				<attribute kind="InclusionSemantics" status="meta">
+					<value>Additive</value>
+				</attribute>
+				<atom id="id-0066-00000013" kind="OrdinalPoint" role="OrdinalPoint" guid="{4a841efd-350d-4523-9105-d3d1366c9212}" relid="0x1">
+					<name>OrdinalPosition_1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,21</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000014" kind="OrdinalPoint" role="OrdinalPoint" guid="{745217b4-a534-4c5a-b5aa-cee84cc6f70b}" relid="0x2">
+					<name>OrdinalPosition_2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,112</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>2</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000015" kind="OrdinalPoint" role="OrdinalPoint" guid="{31db26da-e359-44bb-86e3-382b041a0f8e}" relid="0x3">
+					<name>OrdinalPosition_3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,203</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>3</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000016" kind="OrdinalPoint" role="OrdinalPoint" guid="{c86e5ca5-e268-4c00-890a-1a6ceb7249d1}" relid="0x4">
+					<name>OrdinalPosition_4</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,301</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>4</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-00000008" kind="Polygon" guid="{38eed0ed-36f4-4820-a658-97a5e1a6f3d9}" relid="0x8" childrelidcntr="0x5">
+				<name>5Pt_Polygon</name>
+				<attribute kind="BoundaryQualifier" status="meta">
+					<value>Interior And Boundary</value>
+				</attribute>
+				<attribute kind="GeometryModifier" status="meta">
+					<value>None</value>
+				</attribute>
+				<attribute kind="InclusionSemantics" status="meta">
+					<value>Additive</value>
+				</attribute>
+				<atom id="id-0066-00000017" kind="OrdinalPoint" role="OrdinalPoint" guid="{159bff6a-879a-4566-9f4f-6d6811bb79b9}" relid="0x1">
+					<name>OrdinalPosition_1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,21</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000018" kind="OrdinalPoint" role="OrdinalPoint" guid="{68ad82f0-159b-4d60-9791-a8bf5d7264ee}" relid="0x2">
+					<name>OrdinalPosition_2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,112</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>2</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000019" kind="OrdinalPoint" role="OrdinalPoint" guid="{b020a0d5-5805-4caa-8f8b-7c41fbbfd840}" relid="0x3">
+					<name>OrdinalPosition_3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,203</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>3</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001a" kind="OrdinalPoint" role="OrdinalPoint" guid="{c160e287-acee-4f0c-87f3-e9e3e1191ba4}" relid="0x4">
+					<name>OrdinalPosition_4</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,301</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>4</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001b" kind="OrdinalPoint" role="OrdinalPoint" guid="{6f36528b-1da0-4fa1-b58c-44fe3384b449}" relid="0x5">
+					<name>OrdinalPosition_5</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,399</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>5</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-00000009" kind="Polygon" guid="{46cee5ce-eaf2-4842-a888-f3482cfcd373}" relid="0x9" childrelidcntr="0x6">
+				<name>6Pt_Polygon</name>
+				<attribute kind="BoundaryQualifier" status="meta">
+					<value>Interior And Boundary</value>
+				</attribute>
+				<attribute kind="GeometryModifier" status="meta">
+					<value>None</value>
+				</attribute>
+				<attribute kind="InclusionSemantics" status="meta">
+					<value>Additive</value>
+				</attribute>
+				<atom id="id-0066-0000001c" kind="OrdinalPoint" role="OrdinalPoint" guid="{f28ef2e4-d095-41df-acef-6b89e1bfd160}" relid="0x2">
+					<name>OrdinalPosition_2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,112</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>2</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001d" kind="OrdinalPoint" role="OrdinalPoint" guid="{e43e5886-5e0c-4ce3-85ad-d870390e9e54}" relid="0x1">
+					<name>OrdinalPosition_1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,21</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001e" kind="OrdinalPoint" role="OrdinalPoint" guid="{69ca9c9d-8005-4905-8a59-5cfa6a6dc980}" relid="0x4">
+					<name>OrdinalPosition_4</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,301</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>4</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001f" kind="OrdinalPoint" role="OrdinalPoint" guid="{f00c1495-ab7a-4c71-b84a-237cb8841d09}" relid="0x3">
+					<name>OrdinalPosition_3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,203</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>3</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000020" kind="OrdinalPoint" role="OrdinalPoint" guid="{97992210-d0c2-4e35-8999-540f12014b56}" relid="0x5">
+					<name>OrdinalPosition_5</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,399</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>5</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000021" kind="OrdinalPoint" role="OrdinalPoint" guid="{a8b3dd21-ff6c-4d47-96ea-680a38985eda}" relid="0x6">
+					<name>OrdinalPosition_6</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,497</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PolygonOrdinalPosition">
+						<value>6</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-0000000a" kind="Extrusion" guid="{0e7fbc7a-01cb-46ca-9acd-fb27fba95b0c}" relid="0xa" childrelidcntr="0xa">
+				<name>Extrusion_From_4Pt_Polygon</name>
+				<attribute kind="BoundaryQualifier" status="meta">
+					<value>Interior And Boundary</value>
+				</attribute>
+				<attribute kind="GeometryModifier" status="meta">
+					<value>None</value>
+				</attribute>
+				<attribute kind="InclusionSemantics" status="meta">
+					<value>Additive</value>
+				</attribute>
+				<model id="id-0065-0000000b" kind="Polygon" role="ExtrusionGeometry" guid="{5d68f265-72ae-4fc6-ae56-0085a317e801}" relid="0x1" childrelidcntr="0x4">
+					<name>ExtrusionGeometry</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>357,224</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BoundaryQualifier" status="meta">
+						<value>Interior And Boundary</value>
+					</attribute>
+					<attribute kind="GeometryModifier" status="meta">
+						<value>None</value>
+					</attribute>
+					<attribute kind="InclusionSemantics" status="meta">
+						<value>Additive</value>
+					</attribute>
+					<atom id="id-0066-00000022" kind="OrdinalPoint" role="OrdinalPoint" guid="{cfc311cc-2707-43ae-abab-2299bb0cfdcf}" relid="0x1">
+						<name>OrdinalPosition_1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>266,49</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition" status="meta">
+							<value>1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000023" kind="OrdinalPoint" role="OrdinalPoint" guid="{6917157d-5b5e-4842-9b4c-18537c539165}" relid="0x2">
+						<name>OrdinalPosition_2</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>266,140</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>2</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000024" kind="OrdinalPoint" role="OrdinalPoint" guid="{8831fa26-bcc1-46a1-ba44-e8847ef28baf}" relid="0x3">
+						<name>OrdinalPosition_3</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>266,231</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>3</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000025" kind="OrdinalPoint" role="OrdinalPoint" guid="{4fec8c6a-ec6c-4701-86d4-be80b8f8f278}" relid="0x4">
+						<name>OrdinalPosition_4</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>266,329</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>4</value>
+						</attribute>
+					</atom>
+				</model>
+				<atom id="id-0066-00000026" kind="Point" role="PointDatumForwarder" guid="{2c0c0c13-6874-4d0a-820a-f2272bfb5509}" relid="0x2">
+					<name>OrdinalPosition_1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>609,98</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000027" kind="Point" role="PointDatumForwarder" guid="{370bb598-4fb7-4a24-9819-f89b6c905870}" relid="0x3">
+					<name>OrdinalPosition_2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>609,189</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000028" kind="Point" role="ExtrusionHeight" guid="{d073639f-435f-4a71-812e-919ce56dd68d}" relid="0x4">
+					<name>ExtrusionHeight</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>609,476</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000029" kind="Point" role="PointDatumForwarder" guid="{107533e8-012f-457b-8a86-0044ca6fca18}" relid="0x5">
+					<name>OrdinalPosition_3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>609,280</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000002a" kind="Point" role="PointDatumForwarder" guid="{a160fb23-2798-4606-8725-8a031add3334}" relid="0x6">
+					<name>OrdinalPosition_4</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>609,378</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<connection id="id-0068-00000004" kind="PortComposition" role="PortComposition" guid="{8af696eb-70c4-43ae-be5f-9f60a2662805}" relid="0x7">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000022"/>
+					<connpoint role="dst" target="id-0066-00000026"/>
+				</connection>
+				<connection id="id-0068-00000005" kind="PortComposition" role="PortComposition" guid="{522ea98b-b836-4a56-925b-ec8d85750e5a}" relid="0x8">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000023"/>
+					<connpoint role="dst" target="id-0066-00000027"/>
+				</connection>
+				<connection id="id-0068-00000006" kind="PortComposition" role="PortComposition" guid="{5ed1d70a-0e65-44a7-9614-6093d6c7d549}" relid="0x9">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000024"/>
+					<connpoint role="dst" target="id-0066-00000029"/>
+				</connection>
+				<connection id="id-0068-00000007" kind="PortComposition" role="PortComposition" guid="{6afa2974-c5ba-4a76-9f18-da12853486d1}" relid="0xa">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000025"/>
+					<connpoint role="dst" target="id-0066-0000002a"/>
+				</connection>
+			</model>
+			<model id="id-0065-0000000c" kind="Extrusion" guid="{f334c404-b4d6-4d00-9028-7f4f62bf1ccf}" relid="0xb" childrelidcntr="0xc">
+				<name>Extrusion_From_5Pt_Polygon</name>
+				<attribute kind="BoundaryQualifier" status="meta">
+					<value>Interior And Boundary</value>
+				</attribute>
+				<attribute kind="GeometryModifier" status="meta">
+					<value>None</value>
+				</attribute>
+				<attribute kind="InclusionSemantics" status="meta">
+					<value>Additive</value>
+				</attribute>
+				<model id="id-0065-0000000d" kind="Polygon" role="ExtrusionGeometry" guid="{d208d791-b3a8-4124-915b-fdca3ec66082}" relid="0x2" childrelidcntr="0x5">
+					<name>ExtrusionGeometry</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>448,224</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BoundaryQualifier" status="meta">
+						<value>Interior And Boundary</value>
+					</attribute>
+					<attribute kind="GeometryModifier" status="meta">
+						<value>None</value>
+					</attribute>
+					<attribute kind="InclusionSemantics" status="meta">
+						<value>Additive</value>
+					</attribute>
+					<atom id="id-0066-0000002b" kind="OrdinalPoint" role="OrdinalPoint" guid="{099f8c1d-8187-47fa-9647-2a609377405e}" relid="0x1">
+						<name>OrdinalPosition_4</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>140,301</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>4</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000002c" kind="OrdinalPoint" role="OrdinalPoint" guid="{bc1cc939-39ef-49a4-89ec-494ee2e7266b}" relid="0x2">
+						<name>OrdinalPosition_3</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>140,203</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>3</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000002d" kind="OrdinalPoint" role="OrdinalPoint" guid="{2aff7471-c4ba-4b7d-b8b3-0e0105459ec8}" relid="0x3">
+						<name>OrdinalPosition_2</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>140,112</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>2</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000002e" kind="OrdinalPoint" role="OrdinalPoint" guid="{e6da09be-195f-4674-80a2-700e40d76062}" relid="0x4">
+						<name>OrdinalPosition_1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>140,21</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition" status="meta">
+							<value>1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000002f" kind="OrdinalPoint" role="OrdinalPoint" guid="{e335b7d0-89cf-4df9-b097-1b28560f7bcc}" relid="0x5">
+						<name>OrdinalPosition_5</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>140,399</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>5</value>
+						</attribute>
+					</atom>
+				</model>
+				<atom id="id-0066-00000030" kind="Point" role="ExtrusionHeight" guid="{ea9fa485-7c1d-4a69-b05d-b7560a075074}" relid="0x1">
+					<name>ExtrusionHeight</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,469</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000031" kind="Point" role="PointDatumForwarder" guid="{a3143bce-b4b3-4658-93d9-dec6ef38531d}" relid="0x3">
+					<name>OrdinalPosition_1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,28</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000032" kind="Point" role="PointDatumForwarder" guid="{f6d2ff8f-a239-4118-9e1e-a7e51c7dd2d4}" relid="0x4">
+					<name>OrdinalPosition_2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,119</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000033" kind="Point" role="PointDatumForwarder" guid="{079d1a00-e0b2-4b95-91e7-e7a872c671c8}" relid="0x5">
+					<name>OrdinalPosition_3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,210</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000034" kind="Point" role="PointDatumForwarder" guid="{765ad275-edb6-427a-9de9-a78987f439f8}" relid="0x6">
+					<name>OrdinalPosition_4</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,294</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000035" kind="Point" role="PointDatumForwarder" guid="{90d81a56-92c5-404f-8e1b-57bd35e904da}" relid="0x7">
+					<name>OrdinalPosition_5</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,385</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<connection id="id-0068-00000008" kind="PortComposition" role="PortComposition" guid="{3085da18-19ea-4033-8031-bedf8b3a1007}" relid="0x8">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-0000002e"/>
+					<connpoint role="dst" target="id-0066-00000031"/>
+				</connection>
+				<connection id="id-0068-00000009" kind="PortComposition" role="PortComposition" guid="{40e034ef-0998-4692-bd9c-86f5a7eb87b9}" relid="0x9">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-0000002d"/>
+					<connpoint role="dst" target="id-0066-00000032"/>
+				</connection>
+				<connection id="id-0068-0000000a" kind="PortComposition" role="PortComposition" guid="{cd333b6d-e42c-457d-93d8-6d293969e42e}" relid="0xa">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-0000002c"/>
+					<connpoint role="dst" target="id-0066-00000033"/>
+				</connection>
+				<connection id="id-0068-0000000b" kind="PortComposition" role="PortComposition" guid="{19383b43-d891-4226-9fc1-5707519bb77b}" relid="0xb">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-0000002b"/>
+					<connpoint role="dst" target="id-0066-00000034"/>
+				</connection>
+				<connection id="id-0068-0000000c" kind="PortComposition" role="PortComposition" guid="{1239d804-407a-40b5-ae30-0a7d115b6abd}" relid="0xc">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-0000002f"/>
+					<connpoint role="dst" target="id-0066-00000035"/>
+				</connection>
+			</model>
+			<model id="id-0065-0000000e" kind="Extrusion" guid="{72a0707b-6971-40d9-ba19-b11fcbb66e5f}" relid="0xc" childrelidcntr="0xe">
+				<name>Extrusion_From_6Pt_Polygon</name>
+				<attribute kind="BoundaryQualifier" status="meta">
+					<value>Interior And Boundary</value>
+				</attribute>
+				<attribute kind="GeometryModifier" status="meta">
+					<value>None</value>
+				</attribute>
+				<attribute kind="InclusionSemantics" status="meta">
+					<value>Additive</value>
+				</attribute>
+				<model id="id-0065-0000000f" kind="Polygon" role="ExtrusionGeometry" guid="{a73c908f-537e-4171-a32d-20c003b4b132}" relid="0x1" childrelidcntr="0x6">
+					<name>ExtrusionGeometry</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>413,259</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BoundaryQualifier" status="meta">
+						<value>Interior And Boundary</value>
+					</attribute>
+					<attribute kind="GeometryModifier" status="meta">
+						<value>None</value>
+					</attribute>
+					<attribute kind="InclusionSemantics" status="meta">
+						<value>Additive</value>
+					</attribute>
+					<atom id="id-0066-00000036" kind="OrdinalPoint" role="OrdinalPoint" guid="{a2c296b6-d1bf-4d86-9056-562f3dece4c0}" relid="0x1">
+						<name>OrdinalPosition_5</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>357,427</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>5</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000037" kind="OrdinalPoint" role="OrdinalPoint" guid="{ce59376b-e288-4f62-9de8-4919b65ccbd9}" relid="0x2">
+						<name>OrdinalPosition_3</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>357,231</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>3</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000038" kind="OrdinalPoint" role="OrdinalPoint" guid="{53d1abd9-7c16-41bd-a228-f8ea1ab62386}" relid="0x3">
+						<name>OrdinalPosition_4</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>357,329</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>4</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000039" kind="OrdinalPoint" role="OrdinalPoint" guid="{0b583ee5-4e5d-4dda-b16e-5eedc24c204f}" relid="0x4">
+						<name>OrdinalPosition_1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>357,49</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition" status="meta">
+							<value>1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000003a" kind="OrdinalPoint" role="OrdinalPoint" guid="{d220261e-facb-4892-907d-c38fd912b4da}" relid="0x5">
+						<name>OrdinalPosition_2</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>357,140</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>2</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000003b" kind="OrdinalPoint" role="OrdinalPoint" guid="{4d037513-da8b-4c51-a50d-d6d2473c64d6}" relid="0x6">
+						<name>OrdinalPosition_6</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>357,525</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PolygonOrdinalPosition">
+							<value>6</value>
+						</attribute>
+					</atom>
+				</model>
+				<atom id="id-0066-0000003c" kind="Point" role="ExtrusionHeight" guid="{021f6368-393d-49f8-9af5-9b1c708c1f66}" relid="0x2">
+					<name>ExtrusionHeight</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,546</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000003d" kind="Point" role="PointDatumForwarder" guid="{7b6cd48b-4a41-454c-8963-c80f7dcdf8bb}" relid="0x3">
+					<name>OrdinalPosition_1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,35</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000003e" kind="Point" role="PointDatumForwarder" guid="{25a9b125-05be-4597-928b-eca13d4c65bc}" relid="0x4">
+					<name>OrdinalPosition_2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,119</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000003f" kind="Point" role="PointDatumForwarder" guid="{3a2bbabe-36b9-4a07-af95-79d5cd678338}" relid="0x5">
+					<name>OrdinalPosition_3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,210</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000040" kind="Point" role="PointDatumForwarder" guid="{96d17b8c-ffb5-4cb6-a21e-1fe3dffd8eba}" relid="0x6">
+					<name>OrdinalPosition_4</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,294</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000041" kind="Point" role="PointDatumForwarder" guid="{b088a5d5-5814-4549-b0f2-97bead31a495}" relid="0x7">
+					<name>OrdinalPosition_5</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,385</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000042" kind="Point" role="PointDatumForwarder" guid="{4c9ecbdb-cfba-4e8b-b0e4-016054dce6a3}" relid="0x8">
+					<name>OrdinalPosition_6</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,462</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<connection id="id-0068-0000000d" kind="PortComposition" role="PortComposition" guid="{3c80b333-8f77-42bf-bb67-f40e6ad88931}" relid="0x9">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000039"/>
+					<connpoint role="dst" target="id-0066-0000003d"/>
+				</connection>
+				<connection id="id-0068-0000000e" kind="PortComposition" role="PortComposition" guid="{ab1caa01-7a12-41a9-b80f-0271d0c550ea}" relid="0xa">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-0000003a"/>
+					<connpoint role="dst" target="id-0066-0000003e"/>
+				</connection>
+				<connection id="id-0068-0000000f" kind="PortComposition" role="PortComposition" guid="{0a468e53-db9d-4251-83e6-749cd709346e}" relid="0xb">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000037"/>
+					<connpoint role="dst" target="id-0066-0000003f"/>
+				</connection>
+				<connection id="id-0068-00000010" kind="PortComposition" role="PortComposition" guid="{91e56e01-9a2e-4c7b-9b79-cb64eed820a6}" relid="0xc">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000038"/>
+					<connpoint role="dst" target="id-0066-00000040"/>
+				</connection>
+				<connection id="id-0068-00000011" kind="PortComposition" role="PortComposition" guid="{44cbdf9b-1928-4465-a11f-3b98c1b6e633}" relid="0xd">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000036"/>
+					<connpoint role="dst" target="id-0066-00000041"/>
+				</connection>
+				<connection id="id-0068-00000012" kind="PortComposition" role="PortComposition" guid="{b3c476a3-0029-46d4-94fa-0d45f921951c}" relid="0xe">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-0000003b"/>
+					<connpoint role="dst" target="id-0066-00000042"/>
+				</connection>
+			</model>
+			<model id="id-0065-00000010" kind="Face" guid="{561e14d9-ae2e-4325-95f1-a8627f629c3b}" relid="0xd" childrelidcntr="0x1">
+				<name>Plane</name>
+				<attribute kind="BoundaryQualifier" status="meta">
+					<value>Interior And Boundary</value>
+				</attribute>
+				<attribute kind="GeometryModifier" status="meta">
+					<value>None</value>
+				</attribute>
+				<attribute kind="InclusionSemantics" status="meta">
+					<value>Additive</value>
+				</attribute>
+				<atom id="id-0066-00000043" kind="Point" role="ReferencePoint" guid="{8ecd5902-ce6c-475d-84b1-0699c4679393}" relid="0x1">
+					<name>ReferencePoint</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>119,42</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-00000011" kind="Face" guid="{ca72a9d2-1ebb-4c67-bf09-de4583cc0509}" relid="0xe" childrelidcntr="0x1">
+				<name>Surface</name>
+				<attribute kind="BoundaryQualifier" status="meta">
+					<value>Interior And Boundary</value>
+				</attribute>
+				<attribute kind="GeometryModifier" status="meta">
+					<value>None</value>
+				</attribute>
+				<attribute kind="InclusionSemantics" status="meta">
+					<value>Additive</value>
+				</attribute>
+				<atom id="id-0066-00000044" kind="Surface" role="ReferenceSurface" guid="{4fe17295-359d-46f9-841b-1c3089dc2ad4}" relid="0x1">
+					<name>ReferenceSurface</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>133,77</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Alignment" status="meta">
+						<value>MATE</value>
+					</attribute>
+					<attribute kind="DatumName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+			</model>
+		</folder>
+	</folder>
+</project>

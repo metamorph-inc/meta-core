@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Offline Dashboard - </title>
+    <script type="text/javascript" src="./dashboard/inc/jquery.min.js"></script>
+    <script type="text/javascript" src="./dashboard/inc/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet"
+          type="text/css"
+          href="./dashboard/_local/embedder/vf_visualizer_embedder.css"
+	>
+    <link rel="stylesheet"
+          type="text/css"
+          href="./dashboard/inc/bootstrap/css/bootstrap.css"
+	>
+		<script type="text/javascript">
+        $(document).ready(function () {
+
+            visualizerContainerE = $('#visualizerContainer');
+            lessHeight = $('#visualizerToolbar').outerHeight()+$('#visualizerFooter').outerHeight()+2;
+
+            visualizerContainerE.height($(window).height() - lessHeight);
+
+            $(window).resize(function() {
+                visualizerContainerE.height($(window).height() - lessHeight);
+            });
+
+        });
+    </script>
+
+</head>
+<body style="background-color: black;">
+<div class="visualizerToolbar" id="visualizerToolbar">
+    <a href="https://www.vehicleforge.net" target="_blank" id="vfLink" title="Vehicle Forge"></a>
+</div>
+<iframe src="./dashboard/index.html?resource_url=../manifest.project.json" class="visualizerContainer" id="visualizerContainer"></iframe>
+<div class="visualizerFooter" id="visualizerFooter">
+    <div class="srepLocation">Source: [%%Location of the resource%%]</div>
+</div>
+</body>
+</html>
+
+

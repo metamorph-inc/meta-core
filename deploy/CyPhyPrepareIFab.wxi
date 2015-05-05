@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyPrepareIFab">
+  <Component Id="CyPhyPrepareIFab.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhyPrepareIFab.dll" Name="CyPhyPrepareIFab.dll" KeyPath="yes" Source="..\src\CyPhyPrepareIFab\bin\Release\CyPhyPrepareIFab.dll" />
+    <Class Id="{D3B4ECEE-36EC-4753-9B10-312084B48F2A}" Context="InprocServer32" Description="MGA.Interpreter.CyPhyPrepareIFab" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Interpreter.CyPhyPrepareIFab" Description="MGA.Interpreter.CyPhyPrepareIFab" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{D3B4ECEE-36EC-4753-9B10-312084B48F2A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{D3B4ECEE-36EC-4753-9B10-312084B48F2A}\InprocServer32\1.0.0.0" Name="Class" Value="CyPhyPrepareIFab.CyPhyPrepareIFabInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{D3B4ECEE-36EC-4753-9B10-312084B48F2A}\InprocServer32\1.0.0.0" Name="Assembly" Value="CyPhyPrepareIFab, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{D3B4ECEE-36EC-4753-9B10-312084B48F2A}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{D3B4ECEE-36EC-4753-9B10-312084B48F2A}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#CyPhyPrepareIFab.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{D3B4ECEE-36EC-4753-9B10-312084B48F2A}\InprocServer32" Name="Class" Value="CyPhyPrepareIFab.CyPhyPrepareIFabInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{D3B4ECEE-36EC-4753-9B10-312084B48F2A}\InprocServer32" Name="Assembly" Value="CyPhyPrepareIFab, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{D3B4ECEE-36EC-4753-9B10-312084B48F2A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{D3B4ECEE-36EC-4753-9B10-312084B48F2A}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyPrepareIFab.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+
+    <Class Id="{70A46D21-441A-495E-BEC0-62F10205D5DE}" Context="InprocServer32" Description="ISIS.META.PrepareIFabConfigSettings" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="ISIS.META.PrepareIFabConfigSettings" Description="ISIS.META.PrepareIFabConfigSettings" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{70A46D21-441A-495E-BEC0-62F10205D5DE}\InprocServer32" Name="Class" Value="CyPhyPrepareIFab.PrepareIFabConfig" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{70A46D21-441A-495E-BEC0-62F10205D5DE}\InprocServer32" Name="Assembly" Value="CyPhyPrepareIFab, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{70A46D21-441A-495E-BEC0-62F10205D5DE}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{70A46D21-441A-495E-BEC0-62F10205D5DE}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyPrepareIFab.dll]" Type="string" Action="write" />
+
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyPhyPrepareIFab'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhyPrepareIFab'/>
+      <RegistryValue Name='Icon' Type='string' Value='[#CyPhyPrepareIFab.ico]'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='CyPhyPrepareIFab'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+  <Component Directory="INSTALLDIR_BIN">
+    <File Source="..\src\CyPhyPrepareIFab/CyPhyPrepareIFab.ico" />
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

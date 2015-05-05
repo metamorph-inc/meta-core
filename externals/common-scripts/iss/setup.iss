@@ -1,0 +1,12 @@
+AppCopyright=Copyright (C) 2009-2010 ISIS, Vanderbilt University
+AppName=ISIS {#APP_LONGNAME} {#APP_VERSION}
+AppPublisher=ISIS, Vanderbilt University
+AppPublisherURL=www.isis.vanderbilt.edu
+AppSupportURL=www.isis.vanderbilt.edu
+AppVerName=ISIS {#APP_LONGNAME} {#APP_VERSION}
+Compression=lzma
+DefaultGroupName=ISIS {#APP_LONGNAME}
+LicenseFile={#TRUNK_PATH}\common-doc\license.txt
+OutputBaseFilename=setup_ISIS-{#APP_SHORTNAME}_{#APP_VERSION}
+OutputDir=.
+SolidCompression=yes

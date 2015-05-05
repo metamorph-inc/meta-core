@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f875e947-6ab5-4903-babe-87870e6671a7" Name="Comp_PortRedeclareAtCompLvl" Version="" xmlns="avm">
+  <DomainModel xmlns:q1="modelica" xsi:type="q1:ModelicaModel" Author="" Notes="" XPosition="275" YPosition="150" Name="ModelicaModel" Class="C2M2L_Ext.C2M2L_Delivered_Component_Implementations.Prime_Movers.Reciprocating.Compression_Ignition.Engine_Basic.Example_Engine_Basic" xmlns="">
+    <Connector ID="id-eef76095-07ba-422b-853a-255206106e36" PortMap="" Name="fluid_in" Notes="" Definition="" XPosition="25" YPosition="25" Locator="" Class="Modelica.Fluid.Interfaces.FluidPort_a">
+      <Redeclare Notes="" XPosition="364" YPosition="245" Type="Package" Locator="Medium">
+        <Value>
+          <ValueExpression xmlns:q2="avm" xsi:type="q2:FixedValue">
+            <Value>C2M2L_Ext.Media.Ideal_Gases.Simple_Air</Value>
+          </ValueExpression>
+        </Value>
+      </Redeclare>
+    </Connector>
+  </DomainModel>
+  <Connector ConnectorComposition="" ID="id-5c10f400-ead7-4969-af9f-de7200d576fe" ApplyJoinData="" XPosition="21" YPosition="21" Notes="" Definition="" Name="fluid_in" xmlns="">
+    <Role xmlns:q3="modelica" xsi:type="q3:Connector" ID="id-da0e026b-1417-4916-b984-a91a1e01b99f" PortMap="" Name="fluid_in" Notes="" Definition="" Locator="" Class="Modelica.Fluid.Interfaces.FluidPort_a">
+      <Redeclare Notes="" XPosition="364" YPosition="245" Type="Package" Locator="Medium">
+        <Value>
+          <ValueExpression xmlns:q4="avm" xsi:type="q4:FixedValue">
+            <Value>C2M2L_Ext.Media.Ideal_Gases.Simple_Air</Value>
+          </ValueExpression>
+        </Value>
+      </Redeclare>
+    </Role>
+  </Connector>
+  <Port xmlns:q5="modelica" xsi:type="q5:Connector" ID="id-1050e4fc-2388-4395-a577-bbd3d02f8029" PortMap="" Name="fluid_in" Notes="" Definition="" XPosition="273" YPosition="21" Locator="" Class="Modelica.Fluid.Interfaces.FluidPort_a" xmlns="">
+    <Redeclare Notes="" XPosition="364" YPosition="245" Type="Package" Locator="Medium">
+      <Value>
+        <ValueExpression xmlns:q6="avm" xsi:type="q6:FixedValue">
+          <Value>C2M2L_Ext.Media.Ideal_Gases.Simple_Air</Value>
+        </ValueExpression>
+      </Value>
+    </Redeclare>
+  </Port>
+  <Classifications xmlns="">Engine</Classifications>
+</Component>

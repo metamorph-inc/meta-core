@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DesignID="{b40f8b0e-41ca-4dbe-9fd5-f16e52a83891}" Name="WheelWithFormula" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="WheelWithFormula" xmlns="" XPosition="191" YPosition="430">
+    <Property xsi:type="q1:PrimitiveProperty" Name="WheelMassDst" ID="param.id4bbea91d-341b-6a62-8ba9-e7b24f6282bc" XPosition="1177" YPosition="413">
+      <Value ID="id4bbea91d-341b-6a62-8ba9-e7b24f6282bc" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <Default xsi:type="q1:FixedValue">
+          </Default>
+          <AssignedValue xsi:type="q1:DerivedValue" ValueSource="id17d7c2ff-a244-8e22-7620-c9c11a108851"/>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="DamperCoeff" ID="property.id33ebece7-e300-450d-0438-34797206ece7" XPosition="383" YPosition="520">
+      <Value ID="id33ebece7-e300-450d-0438-34797206ece7" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:FixedValue">
+          <Value>2</Value>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="WheelMass" ID="param.id3d1110ea-5fb1-5dc8-1b76-3bdcba04a834" XPosition="35" YPosition="301">
+      <Value ID="id3d1110ea-5fb1-5dc8-1b76-3bdcba04a834" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <AssignedValue xsi:type="q1:FixedValue">
+            <Value>1</Value>
+          </AssignedValue>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop2" ID="property.id61961cf9-f889-4692-bb89-d47b2a098708" XPosition="49" YPosition="21">
+      <Value ID="id61961cf9-f889-4692-bb89-d47b2a098708" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:FixedValue">
+          <Value>2</Value>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop1" ID="property.id8f74a212-3d99-4e75-ab8d-ec882f13565c" XPosition="49" YPosition="189">
+      <Value ID="id8f74a212-3d99-4e75-ab8d-ec882f13565c" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:FixedValue">
+          <Value>5</Value>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <ComponentInstance Name="Inertia" ComponentID="8e012b2d-7087-4d97-b319-f6a617199a5f" ID="id56421715-aa02-ff31-77f7-3cbed77109c0" XPosition="569" YPosition="76">
+      <PrimitivePropertyInstance IDinComponentModel="id-9edcdacd-abc4-4a7c-a0cb-70af1c4fc91a">
+        <Value ID="idid56421715-aa02-ff31-77f7-3cbed77109c0-id-9edcdacd-abc4-4a7c-a0cb-70af1c4fc91a" DimensionType="Scalar" Dimensions="" DataType="String"/>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="id-93f39f7b-cfda-4235-bfff-6d9fcd5cf394">
+        <Value ID="idid56421715-aa02-ff31-77f7-3cbed77109c0-id-93f39f7b-cfda-4235-bfff-6d9fcd5cf394" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="id4bbea91d-341b-6a62-8ba9-e7b24f6282bc"/>
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="id-0760fa39-aa17-4750-a9fd-993d9020a51b">
+        <Value ID="idid56421715-aa02-ff31-77f7-3cbed77109c0-id-0760fa39-aa17-4750-a9fd-993d9020a51b" DimensionType="Scalar" Dimensions="" DataType="String"/>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="id-90c01223-c059-447a-8aa9-37f9653a06be">
+        <Value ID="idid56421715-aa02-ff31-77f7-3cbed77109c0-id-90c01223-c059-447a-8aa9-37f9653a06be" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="id38a692e6-82f1-9d46-2608-cce25a3c0ddc-id-6d7d9cc3-6cc7-4725-91a6-de1203266615"/>
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="id-b59c60e6-cf92-4828-b087-ac9ef4b6aae3">
+        <Value ID="idid56421715-aa02-ff31-77f7-3cbed77109c0-id-b59c60e6-cf92-4828-b087-ac9ef4b6aae3" DimensionType="Scalar" Dimensions="" DataType="String"/>
+      </PrimitivePropertyInstance>
+      <ConnectorInstance ID="idid56421715-aa02-ff31-77f7-3cbed77109c0-id-10c61afd-3f68-4cf5-9493-fcc88d2784ad" IDinComponentModel="id-10c61afd-3f68-4cf5-9493-fcc88d2784ad" ConnectorComposition="{97523c06-9277-90d3-8dc9-a08a41d25b55}-id-9370f5a8-5961-4a7a-aec0-640e9cc6c4c6" ApplyJoinData=""/>
+      <ConnectorInstance ID="idid56421715-aa02-ff31-77f7-3cbed77109c0-id-3abe6223-70d3-42ec-815b-f21f3c08c2b3" IDinComponentModel="id-3abe6223-70d3-42ec-815b-f21f3c08c2b3" ConnectorComposition="id38a692e6-82f1-9d46-2608-cce25a3c0ddc-id-891a1944-4678-43b6-a7a9-3cdbf0a40966" ApplyJoinData=""/>
+    </ComponentInstance>
+    <Formula xmlns:q1="avm" xmlns="" xsi:type="q1:SimpleFormula" ID="id17d7c2ff-a244-8e22-7620-c9c11a108851" Name="SimpleFormula" XPosition="464" YPosition="322" Operation="Addition" Operand="id3d1110ea-5fb1-5dc8-1b76-3bdcba04a834 id33ebece7-e300-450d-0438-34797206ece7"/>
+  </RootContainer>
+</Design>

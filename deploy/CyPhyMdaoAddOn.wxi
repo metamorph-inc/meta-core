@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyMdaoAddOn">
+  <Component Id="CyPhyMdaoAddOn.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhyMdaoAddOn.dll" Name="CyPhyMdaoAddOn.dll" KeyPath="yes" Source="../src/CyPhyMdaoAddOn\bin\Release\CyPhyMdaoAddOn.dll" />
+    <Class Id="{47113616-7182-4CAC-AF91-3111B23546E1}" Context="InprocServer32" Description="MGA.Addon.CyPhyMdaoAddOn" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Addon.CyPhyMdaoAddOn" Description="MGA.Addon.CyPhyMdaoAddOn" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{47113616-7182-4CAC-AF91-3111B23546E1}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{47113616-7182-4CAC-AF91-3111B23546E1}\InprocServer32\1.0.0.0" Name="Class" Value="CyPhyMdaoAddOn.CyPhyMdaoAddOnAddon" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{47113616-7182-4CAC-AF91-3111B23546E1}\InprocServer32\1.0.0.0" Name="Assembly" Value="CyPhyMdaoAddOn, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{47113616-7182-4CAC-AF91-3111B23546E1}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{47113616-7182-4CAC-AF91-3111B23546E1}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#CyPhyMdaoAddOn.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{47113616-7182-4CAC-AF91-3111B23546E1}\InprocServer32" Name="Class" Value="CyPhyMdaoAddOn.CyPhyMdaoAddOnAddon" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{47113616-7182-4CAC-AF91-3111B23546E1}\InprocServer32" Name="Assembly" Value="CyPhyMdaoAddOn, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{47113616-7182-4CAC-AF91-3111B23546E1}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{47113616-7182-4CAC-AF91-3111B23546E1}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyMdaoAddOn.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Addon.CyPhyMdaoAddOn'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhyMdaoAddOn'/>
+      <RegistryValue Name='Icon' Type='string' Value='CyPhyMdaoAddOn.ico'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <!-- RegistryValue Name='Tooltip' Type='string' Value='TOOLTIP_TEXT'/ -->
+      <RegistryValue Name='Type' Type='integer' Value='2'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

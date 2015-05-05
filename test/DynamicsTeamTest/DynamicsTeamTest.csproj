@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{33011618-1B17-4BC7-B204-B84D0FC40B30}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DynamicsTeamTest</RootNamespace>
+    <AssemblyName>DynamicsTeamTest</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\DynamicsTeamTest.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\DynamicsTeamTest.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FiddlerCore4">
+      <HintPath>..\..\3rdParty\FiddlerCoreAPI\DotNet4\FiddlerCore4.dll</HintPath>
+    </Reference>
+    <Reference Include="GME.MGA, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="GME.MGA.Core, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="GME.MGA.Parser, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="GME.Util, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Selenium.WebDriverBackedSelenium">
+      <HintPath>..\..\3rdParty\selenium-dotnet-2.35.0\net40\Selenium.WebDriverBackedSelenium.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ThoughtWorks.Selenium.Core">
+      <HintPath>..\..\3rdParty\selenium-dotnet-2.35.0\net40\ThoughtWorks.Selenium.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver">
+      <HintPath>..\..\3rdParty\selenium-dotnet-2.35.0\net40\WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver.Support">
+      <HintPath>..\..\3rdParty\selenium-dotnet-2.35.0\net40\WebDriver.Support.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit">
+      <HintPath>..\..\3rdParty\xunit-1.9.1\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.console.clr4">
+      <HintPath>..\..\3rdParty\xunit-1.9.1\xunit.console.clr4.exe</HintPath>
+    </Reference>
+    <Reference Include="xunit.gui.clr4.x86">
+      <HintPath>..\..\3rdParty\xunit-1.9.1\xunit.gui.clr4.x86.exe</HintPath>
+    </Reference>
+    <Reference Include="xunit.runner.utility">
+      <HintPath>..\..\3rdParty\xunit-1.9.1\xunit.runner.utility.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CLM_LightRunner.cs" />
+    <Compile Include="CyPhy2ModelicaRunner.cs" />
+    <Compile Include="CyPhyPETRunner.cs" />
+    <Compile Include="CyPhySoTRunner.cs" />
+    <Compile Include="DynamicsTeamTest.cs" />
+    <Compile Include="JobManagerTests.cs" />
+    <Compile Include="Projects\CLM_Light.cs" />
+    <Compile Include="Projects\ComponentTree1.cs" />
+    <Compile Include="Projects\ComponentTree1.designer.cs">
+      <DependentUpon>ComponentTree1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\ComponentTree2.cs" />
+    <Compile Include="Projects\ComponentTree2.designer.cs">
+      <DependentUpon>ComponentTree2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\ComponentTree3.cs" />
+    <Compile Include="Projects\ComponentTree3.designer.cs">
+      <DependentUpon>ComponentTree3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\ComponentTree4.cs" />
+    <Compile Include="Projects\ComponentTree4.designer.cs">
+      <DependentUpon>ComponentTree4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\DriveLine_v3.Designer.cs">
+      <DependentUpon>DriveLine_v3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\MSDVerification.cs" />
+    <Compile Include="Projects\MSDVerification.designer.cs">
+      <DependentUpon>MSDVerification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\MSD_CAD.cs" />
+    <Compile Include="Projects\MSD_CAD.Designer.cs">
+      <DependentUpon>MSD_CAD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\MSD_DerivedFromCheck.cs" />
+    <Compile Include="Projects\MSD_DerivedFromCheck.Designer.cs">
+      <DependentUpon>MSD_DerivedFromCheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\MSD_FailChecker.cs" />
+    <Compile Include="Projects\MSD_FailChecker.Designer.cs">
+      <DependentUpon>MSD_FailChecker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\MSD_PCC.Designer.cs">
+      <DependentUpon>MSD_PCC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\MSD_PET.Designer.cs">
+      <DependentUpon>MSD_PET.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\MSD_PET_RuleFailure.cs" />
+    <Compile Include="Projects\MSD_PET_RuleFailure.designer.cs">
+      <DependentUpon>MSD_PET_RuleFailure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\RICheckerTestModel.cs" />
+    <Compile Include="Projects\RICheckerTestModel.designer.cs">
+      <DependentUpon>RICheckerTestModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\RICircuitVerification.cs" />
+    <Compile Include="Projects\RICircuitVerification.Designer.cs">
+      <DependentUpon>RICircuitVerification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\RICircuitWithConnectors.cs" />
+    <Compile Include="Projects\RICircuitWithConnectors.Designer.cs">
+      <DependentUpon>RICircuitWithConnectors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\RISimpleFormula.cs" />
+    <Compile Include="Projects\RISimpleFormula.designer.cs">
+      <DependentUpon>RISimpleFormula.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\MSD_PET.cs" />
+    <Compile Include="Projects\DriveLine_v3.cs" />
+    <Compile Include="Projects\MSD_PCC.cs" />
+    <Compile Include="Projects\RollingWheel.cs" />
+    <Compile Include="Projects\RollingWheel.designer.cs">
+      <DependentUpon>RollingWheel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\TableModel.cs" />
+    <Compile Include="Projects\TableModel.designer.cs">
+      <DependentUpon>TableModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Projects\WaterPump.cs" />
+    <Compile Include="Projects\WaterPump.designer.cs">
+      <DependentUpon>WaterPump.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ClmLib\ClmLib.csproj">
+      <Project>{8E8FEDA5-F72C-40C8-8E3F-BE2FF0694702}</Project>
+      <Name>ClmLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CLM_light\CLM_light.csproj">
+      <Project>{62B36CB2-CC94-40D6-9081-FCF9256CC035}</Project>
+      <Name>CLM_light</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhy2Modelica_v2\CyPhy2Modelica_v2.csproj">
+      <Project>{D2DEA0A5-78D5-4346-9C24-4CD7AE10B8AF}</Project>
+      <Name>CyPhy2Modelica_v2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhyGUIs\CyPhyGUIs.csproj">
+      <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
+      <Name>CyPhyGUIs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhyMultiJobRun\CyPhyMultiJobRun.csproj">
+      <Project>{FF47F48A-384E-45C6-897C-67BB1AFA3068}</Project>
+      <Name>CyPhyMultiJobRun</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhyPET\CyPhyPET.csproj">
+      <Project>{98831605-E3EF-4A4F-B5E4-092F946DAD53}</Project>
+      <Name>CyPhyPET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhySoT\CyPhySoT.csproj">
+      <Project>{42744B43-DD80-4D4C-AA20-949CA8EAB76E}</Project>
+      <Name>CyPhySoT</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

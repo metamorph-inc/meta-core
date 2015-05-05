@@ -1,0 +1,1362 @@
+// -*-C++-*-
+// manager.cpp
+// Implementation of manager class
+
+#include <math.h>
+#include "manager.h"
+#include "clmain.h"
+#include "static.h"
+#include "dynamic.h"
+#include "../../common/config.h"
+
+CManager *CManager::theInstance=NULL;
+
+static char *setNames[] =
+{
+  "Undef",
+  "UniSpace",
+  "BiSpace",
+  "UniDomain",
+  "SpaceDomain",
+  "BiSpaceDomain",
+  "BiDomain",
+  "SpaceBiDomain",
+  "BiSpaceBiDomain"
+};
+
+#define MAX_LONG (long)(1 << 30)
+
+CManager::
+CManager() : CCosmic()
+{
+  type = typeManager;
+  currentGeneration = -1;
+  ClFunction::CreateAll();
+}
+
+CManager::
+~CManager()
+{
+  Destroy(baseSpaces);
+  Destroy(baseDomains);
+  Destroy(baseConstraintSets);
+  for (int i=0; i<MAX_GENERATIONS; i++)
+  {
+    Destroy(dynSpaces[i]);
+    Destroy(dynDomains[i]);
+    Destroy(dynConstraintSets[i]);
+  }
+  ClFunction::DestroyAll();
+}
+
+CCosmicList *
+CManager::
+Resources()
+{
+  CCosmicList* list = 0;
+  if (currentGeneration < 0)
+  {
+    CDomain *d;
+    bool ret = Find(baseDomains, d, "resources");
+    if (!ret) return 0;
+    CCustomDomain *cd = (CCustomDomain *)d;
+    list = (CCosmicList *)(cd->GetElements(0));
+  }
+  else
+  {
+    CDynDomain *d;
+    bool ret = Find(dynDomains[currentGeneration], d, "resources");
+    if (!ret) return 0;
+    CDynCustomDomain *cd = (CDynCustomDomain *)d;
+    list = (CCosmicList *)(cd->GetElements(0));
+  }
+  return list;
+}
+
+CCosmicList *
+CManager::
+Modes()
+{
+  CCosmicList *list=0;
+  if (currentGeneration < 0)
+  {
+    CSpace* s;
+    bool ret = Find(baseSpaces, s, "modes");
+    if (!ret) return 0;
+    list = (CCosmicList *)(s->GetRootElements(0));
+  }
+  else
+  {
+    CDynSpace* s;
+    bool ret = Find(dynSpaces[currentGeneration], s, "modes");
+    if (!ret) return 0;
+    list = (CCosmicList *)(s->GetRootElements(0));
+  }
+  return list;
+}  
+
+CCosmicList *
+CManager::
+Processes()
+{
+  CCosmicList *list=0;
+  if (currentGeneration < 0)
+  {
+    CSpace* s;
+    bool ret = Find(baseSpaces, s, "processes");
+    if (!ret) return 0;
+    list = (CCosmicList *)(s->GetRootElements(0));
+  }
+  else
+  {
+    CDynSpace* s;
+    bool ret = Find(dynSpaces[currentGeneration], s, "processes");
+    if (!ret) return 0;
+    list = (CCosmicList *)(s->GetRootElements(0));
+  }
+  return list;
+}  
+
+long
+CManager::
+CreateSpace(CString &n)
+{
+  CSpace *s = new CSpace(n);
+  ASSERT_EX( s != NULL, "CManager::Space", "new CSpace failed" );
+  baseSpaces.AddTail(s);
+  return *s;
+}
+
+long
+CManager::
+CreateSpace(const char *n)
+{
+  CSpace *s = new CSpace(n);
+  ASSERT_EX( s, "CManager::Space", "new CSpace failed" );
+  baseSpaces.AddTail(s);
+  return *s;
+}
+
+long
+CManager::
+CreateElement(CString &n, long s, short d, long p, long e)
+{
+  CSpace *space = 0;
+  bool ret;
+  
+  ASSERT_EX( d>=0 && d<=2, "CManager::Element", "invalid decomposition" );
+  ret = Find(baseSpaces, space, s);
+  ASSERT_EX( ret, "CManager::Element", "space not found" );
+  CElement *parent = space->FindElement(p);
+  CElement *el = new CElement(n, space, (CDecomposition)d, parent, e);
+  ASSERT_EX( el, "CManager::Element", "new CElement failed" );
+  space->InsertElement(el);
+  if (parent) parent->InsertChild(el);
+  return *el;
+}
+
+long
+CManager::
+CreateElement(const char *n, long s, short d, long p, long e)
+{
+  CSpace *space = 0;
+  bool ret;
+  
+  ASSERT_EX( d>=0 && d<=2, "CManager::Element", "invalid decomposition" );
+  ret = Find(baseSpaces, space, s);
+  ASSERT_EX( ret, "CManager::Element", "space not found" );
+  CElement *parent = space->FindElement(p);
+  CElement *el = new CElement(n, space, (CDecomposition)d, parent, e);
+  ASSERT_EX( el, "CManager::Element", "new CElement failed" );
+  space->InsertElement(el);
+  if (parent) parent->InsertChild(el);
+  return *el;
+}
+
+long
+CManager::
+CreateNaturalDomain(CString& n, int mx, int mn)
+{
+  CDomain *d = new CNaturalDomain(n, mx, mn);
+  ASSERT_EX( d, "CManager::NaturalDomain", "new CNaturalDomain failed" );
+  baseDomains.AddTail(d);
+  return *d;
+}
+
+long
+CManager::
+CreateNaturalDomain(const char *n, int mx, int mn)
+{
+  CDomain *d = new CNaturalDomain(n, mx, mn);
+  ASSERT_EX( d, "CManager::NaturalDomain", "new CNaturalDomain failed" );
+  baseDomains.AddTail(d);
+  return *d;
+}
+
+long
+CManager::
+CreateCustomDomain(CString& n)
+{
+  CDomain *d = new CCustomDomain(n);
+  ASSERT_EX( d, "CManager::CustomDomain", "new CCustomDomain failed" );
+  baseDomains.AddTail(d);
+  return *d;
+}
+
+long
+CManager::
+CreateCustomDomain(const char *n)
+{
+  CDomain *d = new CCustomDomain(n);
+  ASSERT_EX( d, "CManager::CustomDomain", "new CCustomDomain failed" );
+  baseDomains.AddTail(d);
+  return *d;
+}
+
+long
+CManager::
+CreateElement(CString &n, long d, long e)
+{
+  CDomain *domain = 0;
+  bool ret;
+  ret = Find(baseDomains, domain, d);
+  ASSERT_EX( ret, "CManager::Element", "domain not found" );
+  CElement *el = new CElement(n, domain, e);
+  ASSERT_EX( el, "CManager::Element", "new CElement failed" );
+  domain->InsertElement(el);
+  return *el;
+}
+
+long
+CManager::
+CreateElement(const char *n, long d, long e)
+{
+  CDomain *domain = 0;
+  bool ret = Find(baseDomains, domain, d);
+  ASSERT_EX( ret, "CManager::Element", "domain not found" );
+  CElement *el = new CElement(n, domain, e);
+  ASSERT_EX( el, "CManager::Element", "new CElement failed" );
+  domain->InsertElement(el);
+  return *el;
+}
+
+long
+CManager::
+CreateConstantProperty(CString& n, long o, long d, int v)
+{
+  CDomain *domain = 0;
+  bool ret = Find(baseDomains, domain, d);
+  ASSERT_EX( ret, "CManager::ConstantProperty", "domain not found" );
+  CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
+  ASSERT_EX( owner, "CManager::ConstantProperty", "owner not found" );
+  CProperty *property = new CConstantProperty(n, domain, owner, v);
+  ASSERT_EX( property, "CManager::ConstantProperty", "new CConstantProperty failed" );
+  owner->InsertProperty(property);
+  return *property;
+}
+
+long
+CManager::
+CreateConstantProperty(const char *n, long o, long d, int v)
+{
+  CDomain *domain = 0;
+  bool ret = Find(baseDomains, domain, d);
+  ASSERT_EX( ret, "CManager::ConstantProperty", "domain not found" );
+  CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
+  ASSERT_EX( owner, "CManager::ConstantProperty", "owner not found" );
+  CProperty *property = new CConstantProperty(n, domain, owner, v);
+  ASSERT_EX( property, "CManager::ConstantProperty", "new CConstantProperty failed" );
+  owner->InsertProperty(property);
+  return *property;
+}
+
+long
+CManager::
+CreateVariableProperty(CString& n, long o, long d)
+{
+  CDomain *domain = 0;
+  bool ret = Find(baseDomains, domain, d);
+  ASSERT_EX( ret, "CManager::VariableProperty", "domain not found" );
+  CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
+  ASSERT_EX( owner, "CManager::VariableProperty", "owner not found" );
+  CProperty *property = new CVariableProperty(n, domain, owner);
+  ASSERT_EX( property, "CManager::VariableProperty", "new CVariableProperty failed" );
+  owner->InsertProperty(property);
+  return *property;
+}
+
+long
+CManager::
+CreateVariableProperty(const char *n, long o, long d)
+{
+  CDomain *domain = 0;
+  bool ret = Find(baseDomains, domain, d);
+  ASSERT_EX( ret, "CManager::VariableProperty", "domain not found" );
+  CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
+  ASSERT_EX( owner, "CManager::VariableProperty", "owner not found" );
+  CProperty *property = new CVariableProperty(n, domain, owner);
+  ASSERT_EX( property, "CManager::VariableProperty", "new CVariableProperty failed" );
+  owner->InsertProperty(property);
+  return *property;
+}
+
+long
+CManager::
+CreateRelation(long c, long s, long d)
+{
+  CElement *context = FindElement(baseSpaces, c);
+  ASSERT_EX( context, "CManager::CreateRelation", "context not found" );
+  CElement *source = FindElement(baseSpaces, s);
+  ASSERT_EX( source, "CManager::CreateRelation", "source not found" );
+  CElement *destination = FindElement(baseSpaces, d);
+  ASSERT_EX( destination, "CManager::CreateRelation", "destination not found" );
+
+  CRelation *relation = new CRelation(context, source, destination);
+  ASSERT_EX( relation, "CManager::CreateRelation", "new failed" );
+
+  context->InsertRelation(relation);
+  return *relation;
+}
+
+long
+CManager::
+CreateConstraintSet(CString& n)
+{
+  CConstraintSet *s = new CConstraintSet(n);
+  ASSERT_EX( s, "CManager::ConstraintSet", "new CConstraintSet failed" );
+  baseConstraintSets.AddTail(s);
+  return *s;
+}
+
+long
+CManager::
+CreateConstraintSet(const char *n)
+{
+  CConstraintSet *s = new CConstraintSet(n);
+  ASSERT_EX( s, "CManager::ConstraintSet", "new CConstraintSet failed" );
+  baseConstraintSets.AddTail(s);
+  return *s;
+}
+
+long
+CManager::
+CreateConstraint(CString& n, long s, long c, CString& t)
+{
+  CConstraintSet *set = 0;
+  bool ret = Find(baseConstraintSets, set, s);
+  ASSERT_EX( ret, "CManager::Constraint", "constraint set not found" );
+  CElement *context = FindElement(baseSpaces, c);
+  ASSERT_EX( context, "CManager::Constraint", "context not found" );
+  CConstraint *constraint = new CConstraint(n, set, context, t);
+  ASSERT_EX( constraint, "CManager::Constraint", "new CConstraint failed" );
+  ret = constraint->Parse();
+  if (!ret)
+  {
+    delete constraint;
+    return -1;
+  }
+  set->InsertConstraint(constraint);
+  return *constraint;
+}
+
+long
+CManager::
+CreateConstraint(const char *n, long s, long c, CString& t)
+{
+  CConstraintSet *set = 0;
+  bool ret = Find(baseConstraintSets, set, s);
+  ASSERT_EX( ret, "CManager::Constraint", "constraint set not found" );
+  CElement *context = FindElement(baseSpaces, c);
+  ASSERT_EX( context, "CManager::Constraint", "context not found" );
+  CConstraint *constraint = new CConstraint(n, set, context, t);
+  ASSERT_EX( constraint, "CManager::Constraint", "new CConstraint failed" );
+  ret = constraint->Parse();
+  if (!ret)
+  {
+    delete constraint;
+    return -1;
+  }
+  set->InsertConstraint(constraint);
+  return *constraint;
+}
+
+long
+CManager::
+CreateConstraint(CString& n, long s, long c, const char *t)
+{
+  CConstraintSet *set = 0;
+  bool ret = Find(baseConstraintSets, set, s);
+  ASSERT_EX( ret, "CManager::Constraint", "constraint set not found" );
+  CElement *context = FindElement(baseSpaces, c);
+  ASSERT_EX( context, "CManager::Constraint", "context not found" );
+  CConstraint *constraint = new CConstraint(n, set, context, t);
+  ASSERT_EX( constraint, "CManager::Constraint", "new CConstraint failed" );
+  ret = constraint->Parse();
+  if (!ret)
+  {
+    delete constraint;
+    return -1;
+  }
+  set->InsertConstraint(constraint);
+  return *constraint;
+}
+
+long
+CManager::
+CreateConstraint(const char *n, long s, long c, const char *t)
+{
+  CConstraintSet *set = 0;
+  bool ret = Find(baseConstraintSets, set, s);
+  ASSERT_EX( ret, "CManager::Constraint", "constraint set not found" );
+  CElement *context = FindElement(baseSpaces, c);
+  ASSERT_EX( context, "CManager::Constraint", "context not found" );
+  CConstraint *constraint = new CConstraint(n, set, context, t);
+  ASSERT_EX( constraint, "CManager::Constraint", "new CConstraint failed" );
+  ret = constraint->Parse();
+  if (!ret)
+  {
+    delete constraint;
+    return -1;
+  }
+  set->InsertConstraint(constraint);
+  return *constraint;
+}
+
+long
+CManager::
+AddtoVariableProperty(const char *n, long o, long v, long d)
+{
+  CDomain *domain = 0;
+  bool ret = Find(baseDomains, domain, d);
+  ASSERT_EX( ret, "CManager::AddToVariableProperty", "domain not found" );
+  CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
+  ASSERT_EX( owner, "CManager::AddToVariableProperty", "owner not found" );
+  CVariableProperty *property = (CVariableProperty *)owner->FindProperty(n);
+  ASSERT_EX( property && property->IsType(typeVariableProperty), "CManager::AddToVariableProperty", "property not found" );
+  CElement *value = domain->FindElement(v);
+  ASSERT_EX( value, "CManager::AddToVariableProperty", "value not found in domain" );
+  property->AddToRange(value);
+
+  return *property;
+}
+
+long
+CManager::
+AddtoVariableProperty(long p, long o, long v, long d)
+{
+  CDomain *domain = 0;
+  bool ret = Find(baseDomains, domain, d);
+  ASSERT_EX( ret, "CManager::AddToVariableProperty", "domain not found" );
+  CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
+  ASSERT_EX( owner, "CManager::AddToVariableProperty", "owner not found" );
+  CVariableProperty *property = (CVariableProperty *)owner->FindProperty(p);
+  ASSERT_EX( property && property->IsType(typeVariableProperty), "CManager::AddToVariableProperty", "property not found" );
+  CElement *value = domain->FindElement(v);
+  ASSERT_EX( value, "CManager::AddToVariableProperty", "value not found in domain" );
+  property->AddToRange(value);
+
+  return *property;
+}
+
+void
+CManager::
+PrintDot(const char *n) const
+{
+  const char *Colors[] = {
+    "red", "blue", "green", "brown", "orange", "goldenrod", "cyan", "tan"
+  };
+
+  FILE *f = fopen(n ? n : "cosmic.dot", "wt");
+  fprintf(f, "digraph Cosmic {\n");
+  {
+    POSITION pos;
+    int i=0;
+    pos = baseDomains.GetHeadPosition();
+    while(pos) baseDomains.GetNext(pos)->PrintDot(f, Colors[i++ & 0x7]);
+    pos = baseSpaces.GetHeadPosition();
+    while(pos) baseSpaces.GetNext(pos)->PrintDot(f, Colors[i++ & 0x7]);
+    pos = baseConstraintSets.GetHeadPosition();
+    while(pos) baseConstraintSets.GetNext(pos)->PrintDot(f, Colors[i++ & 0x7]);
+    for (int j=0; j<MAX_GENERATIONS; j++)
+    {
+      const CDynDomainList &domains = dynDomains[j];
+      const CDynSpaceList &spaces = dynSpaces[j];
+      const CDynConstraintSetList &consets = dynConstraintSets[j];
+      pos = domains.GetHeadPosition();
+      while(pos) domains.GetNext(pos)->PrintDot(f, Colors[i++ & 0x7]);
+      pos = spaces.GetHeadPosition();
+      while(pos) spaces.GetNext(pos)->PrintDot(f, Colors[i++ & 0x7]);
+      pos = consets.GetHeadPosition();
+      while(pos) consets.GetNext(pos)->PrintDot(f, Colors[i++ & 0x7]);
+    }
+  }
+  fprintf(f, "}\n");
+  fclose(f);
+}
+
+void
+CManager::
+PrintConstraintDot(const char *n) const
+{
+  POSITION pos = baseConstraintSets.GetHeadPosition();
+  while(pos) baseConstraintSets.GetNext(pos)->PrintConstraintDot(n);
+}
+
+double
+CManager::
+ComputeSize() const
+{
+  double ret = 1;
+  if (currentGeneration < 0)
+  {
+    POSITION pos = baseSpaces.GetHeadPosition();
+    while(pos) ret *= baseSpaces.GetNext(pos)->ComputeSize();
+  }
+  else
+  {
+    POSITION pos = dynSpaces[currentGeneration].GetHeadPosition();
+    while(pos) ret *= dynSpaces[currentGeneration].GetNext(pos)->ComputeSize();
+  }
+  return ret;
+}
+
+double
+CManager::
+ComputeSize(long elid)
+{
+  CElement *elm = FindElement(elid);
+
+  if (currentGeneration < 0)
+    return elm ? elm->ComputeSize() : 0;
+
+  CDynElement *delm = elm ? FindElement(elm) : 0;
+  return delm ? delm->ComputeSize() : 0;
+}
+
+bool
+CManager::
+VerifyConstraints()
+{
+  bool ret=true;
+  POSITION pos = baseConstraintSets.GetHeadPosition();
+  while(pos) ret = ret && baseConstraintSets.GetNext(pos)->Verify();
+  return ret;
+}
+
+void
+CManager::
+AnalyseConstraints()
+{
+  POSITION pos = baseConstraintSets.GetHeadPosition();
+  while(pos) baseConstraintSets.GetNext(pos)->Analyse();
+  SortConstraints();
+}
+
+void
+CManager::
+SortConstraints()
+{
+  int i;
+  CConstraintSet *sets[9];
+  for(i=0; i<9; i++) sets[i] = 0;
+
+  POSITION pos = baseConstraintSets.GetHeadPosition();
+  while(pos)
+  {
+    CConstraintList& list = baseConstraintSets.GetNext(pos)->GetConstraints();
+    POSITION pos1 = list.GetHeadPosition();
+    while(pos1)
+    {
+      CConstraint *cur = list.GetNext(pos1);
+      int consType = (int)cur->GetConstraintType();
+      if (!sets[consType]) sets[consType] = new CConstraintSet(setNames[consType]);
+      sets[consType]->InsertConstraint(cur);
+    }
+    list.RemoveAll();
+  }
+  ::Destroy(baseConstraintSets);
+
+  for(i=0; i<9; i++)
+    if (sets[i]) baseConstraintSets.AddTail(sets[i]);
+}
+
+bool
+CManager::
+IsDone()
+{
+  Todo("CManager::IsDone", "implement this");
+  return currentGeneration < 0 ? false : true;
+}
+
+void
+CManager::
+ShowStats()
+{
+  double size = ComputeSize();
+  printf("\n\nSize of the design space = %2.2e\n", size);
+  Todo("CManager::ShowStats", "stats on the active constraints etc.");
+}
+
+void
+CManager::
+GenerateNextHierarchy()
+{
+  int prev = currentGeneration;
+  currentGeneration = (currentGeneration + 1) % MAX_GENERATIONS;
+  CDynSpaceList& spaces = dynSpaces[currentGeneration];
+  CDynDomainList& domains = dynDomains[currentGeneration];
+  CDynConstraintSetList& consets = dynConstraintSets[currentGeneration];
+
+  ::Destroy(domains);                   // MAX_GENERATIONS must be atleast 2
+  ::Destroy(spaces);
+  ::Destroy(consets);
+  
+  if (prev < 0)
+  {
+    {
+      POSITION pos = baseDomains.GetHeadPosition();
+      while(pos)
+      {
+        CDynDomain *dmn = CDynDomain::Make(baseDomains.GetNext(pos));
+        domains.AddTail(dmn);
+      }
+      pos = domains.GetHeadPosition();
+      while(pos) domains.GetNext(pos)->Clone();
+    }
+    {
+      POSITION pos = baseSpaces.GetHeadPosition();
+      while(pos)
+      {
+        CDynSpace *spc = CDynSpace::Make(baseSpaces.GetNext(pos));
+        spaces.AddTail(spc);
+      }
+      pos = spaces.GetHeadPosition();
+      while(pos) spaces.GetNext(pos)->Clone();
+    }
+    {
+      POSITION pos = baseConstraintSets.GetHeadPosition();
+      while(pos)
+      {
+        CDynConstraintSet *set = CDynConstraintSet::Make(baseConstraintSets.GetNext(pos));
+        consets.AddTail(set);
+      }
+      pos = consets.GetHeadPosition();
+      while(pos) consets.GetNext(pos)->Clone();
+    }
+  }
+  else
+  {
+    CDynSpaceList& prevSpaces = dynSpaces[prev];
+    CDynDomainList& prevDomains = dynDomains[prev];
+    CDynConstraintSetList& prevConsets = dynConstraintSets[prev];
+    {
+      POSITION pos = prevDomains.GetHeadPosition();
+      while(pos)
+      {
+        CDynDomain *frm = prevDomains.GetNext(pos);
+        CDynDomain *dmn = CDynDomain::Make(frm);
+        if (dmn)
+        {
+          domains.AddTail(dmn);
+          dmn->Clone(frm);
+        }
+      }
+
+    }
+    {
+      POSITION pos = prevSpaces.GetHeadPosition();
+      while(pos)
+      {
+        CDynSpace *frm = prevSpaces.GetNext(pos);
+        CDynSpace *spc = CDynSpace::Make(frm);
+        if (spc)
+        {
+          spaces.AddTail(spc);
+          spc->Clone(frm);
+        }
+      }
+    }
+    {
+      POSITION pos = prevConsets.GetHeadPosition();
+      while(pos)
+      {
+        CDynConstraintSet *frm = prevConsets.GetNext(pos);
+        CDynConstraintSet *set = CDynConstraintSet::Make(frm);
+        if (set)
+        {
+          consets.AddTail(set);
+          set->Clone(frm);
+        }
+      }
+    }
+  }
+}
+
+CDynConstraintSet*
+CManager::
+GetConstraintSet(ConstraintType t)
+{
+  if (currentGeneration >= 0)
+  {
+    CDynConstraintSetList& consets = dynConstraintSets[currentGeneration];
+    POSITION pos = consets.GetHeadPosition();
+    while(pos)
+    {
+      CDynConstraintSet *set = consets.GetNext(pos);
+      if (strcmp(setNames[t], (const char *)*set) == 0)
+        return set;
+    }
+  }
+  return 0;
+}
+
+bool
+CManager::
+Prune(CDynConstraintSet* set)
+{
+  if (!set || set->IsEmpty() || currentGeneration<0) return false;
+
+  // find the root of the (sub)space/s affected by the constraints in the set
+  bool propertyDependent = false;
+  CDynSpaceList spaces;
+  CDynElement *root = set->FindAffectedSpace(spaces, propertyDependent);
+
+  return root ?
+    (propertyDependent ? Prune(set, root, propertyDependent) : Prune(set, root)) :
+    (propertyDependent ? Prune(set, spaces, propertyDependent) : Prune(set, spaces));
+
+}
+
+bool
+CManager::
+Prune(CDynConstraintSet *set, CDynElement *root)
+{
+  // compute encoding length
+  root->SetEncodingLen(0);
+  int encodingLength = root->FindEncodingLen();
+
+  // init bdd library
+  CBdd::Init(encodingLength, 0);
+
+  // now encode the space/subspace
+  // 
+  // a) assign an encoding value to each element in the space
+  //    encoding value is basically a string of bits, which represents the binary encoding
+  //    of the element. don't cares in this string are represented by -1
+  // b) translate the encoding bit string to a bdd, and combine all the bdds (conjunction/disjunction) to form a
+  //    single bdd, that encodes the entire space
+  //
+
+  root->SetEncodingValue(0, 0);		// this sets the encoding value (fills bit strings)
+  CBdd config = root->MaptoBdd(CBdd::One(), 0); // this tranlates the bit strings to bdd's and combines the bdds of all elements in the space
+  CBdd cons = set->MaptoBdd();        // translate the constraints to bdd
+
+  // conjunct the configbdd & constraintbdd. bingo!! there is your pruned (bdd) space
+  CBdd res = config && cons;
+
+  // now restrict (actually prune the space), remove the dead alternatives
+  bool r1 = root->Restrict(res);
+
+  // the constraints whose dependency is entirely pruned, mark those as dead
+  bool r2 = set->Restrict();
+
+  // terminate bdd library
+  CBdd::Finit();
+
+  return r1 || r2;
+}
+
+bool
+CManager::
+Prune(CDynConstraintSet *set, CDynSpaceList& spaces)
+{
+  int encodingLength = 0;
+  // compute encoding length
+  POSITION pos = spaces.GetHeadPosition();
+  while(pos)
+  {
+    CDynSpace *space = spaces.GetNext(pos);
+    space->SetEncodingLen(0);
+    encodingLength += space->FindEncodingLen();
+  }
+
+  // init bdd library
+  CBdd::Init(encodingLength, 0);
+  CBdd one = CBdd::One();
+  CBdd config = one;
+
+  // now encode the space/subspace
+  // 
+  // a) assign an encoding value to each element in the space
+  //    encoding value is basically a string of bits, which represents the binary encoding
+  //    of the element. don't cares in this string are represented by -1
+  // b) translate the encoding bit string to a bdd, and combine all the bdds (conjunction/disjunction) to form a
+  //    single bdd, that encodes the entire space
+  //
+
+  int sb=0, psv=0;
+  pos = spaces.GetHeadPosition();
+  while(pos)
+  {
+    CDynSpace *space = spaces.GetNext(pos);
+    sb += space->SetEncodingValue(0, sb);
+    config = space->MaptoBdd(one, 0) && config;
+  }
+  CBdd cons = set->MaptoBdd();        // translate the constraints to bdd
+
+  // conjunct the configbdd & constraintbdd. bingo!! there is your pruned (bdd) space
+  CBdd res = config && cons;
+
+  // now restrict (actually prune the space), remove the dead alternatives
+  bool r1 = false;
+  pos = spaces.GetHeadPosition();
+  while(pos) r1 = spaces.GetNext(pos)->Restrict(res) || r1;
+
+  // the constraints whose dependency is entirely pruned, mark those as dead
+  bool r2 = set->Restrict();
+
+  // terminate bdd library
+  CBdd::Finit();
+
+  return r1 || r2;
+}
+
+bool
+CManager::
+Prune(CDynConstraintSet *set, CDynElement *root, bool)
+{
+#ifdef ENCODE_PROPERTY
+  // this is property dependent -- treat accordingly
+  int vectors = root->FindNonOrthElementCount();
+  int propEncodingLength = root->FindPropertyEncodingLen("latency");
+  // the largest sum could be vectors*(2^propEncodingLen-1), so increment propEncodingLen
+  // to hold that many more bits
+  propEncodingLength += log2(vectors);
+  propertyVectors = vectors;
+  propertyEncodingLength = propEncodingLength; // store as class variables to be used later
+
+  // compute encoding length
+  root->SetEncodingLen(0);
+  int encodingLength = root->FindEncodingLen();
+
+  // init bdd library
+  int start = encodingLength;
+  encodingLength += propEncodingLength*(vectors+3);
+  CBdd::Init(encodingLength, 1, "latency", start, propEncodingLength, vectors+3);
+
+  root->SetEncodingValue(0, 0);		// this sets the encoding value (fills bit strings)
+  root->SetPropertyEncodingValue("latency", 0); // this is setting the vector number of the property
+
+  CBdd config = root->MaptoBdd(CBdd::One(), 1, "latency"); // this tranlates the bit strings to bdd's and combines the bdds of all elements in the space alongwith the properties
+  int size = config.size();
+
+  CBdd cons = set->MaptoBdd();        // translate the constraints to bdd
+
+  // conjunct the configbdd & constraintbdd. bingo!! there is your pruned (bdd) space
+  CBdd res = config && cons;
+
+
+  for (int i=vectors+2; i>=0; i--)
+    res = CBdd::QuantifyPropertyExistentially("latency", res, i);
+#else
+
+  int vectors = root->FindNonOrthElementCount();
+  int propEncodingLength = root->FindPropertyEncodingLen("latency");
+  // the largest sum could be vectors*(2^propEncodingLen-1), so increment propEncodingLen
+  // to hold that many more bits
+  propEncodingLength += log2(vectors);
+  propertyVectors = vectors;
+  propertyEncodingLength = propEncodingLength; // store as class variables to be used later
+
+
+  // compute encoding length
+  root->SetEncodingLen(0);
+  int encodingLength = root->FindEncodingLen();
+
+  // init bdd library
+  int start = encodingLength;
+  CBdd::Init(encodingLength, 0);
+
+  root->SetEncodingValue(0, 0);		// this sets the encoding value (fills bit strings)
+
+  // this tranlates the bit strings to bdd's and combines the bdds of all elements in the space
+  CBdd config = root->MaptoBdd(CBdd::One(), 0);
+  int size = config.size();
+
+  CBdd cons = set->MaptoBdd();
+  
+  CBdd res = config && cons;
+#endif
+  // now restrict (actually prune the space), remove the dead alternatives
+  bool r1 = root->Restrict(res);
+
+  // the constraints whose dependency is entirely pruned, mark those as dead
+  bool r2 = set->Restrict();
+
+  // terminate bdd library
+  CBdd::Finit();
+
+  return r1 || r2;
+}
+
+bool
+CManager::
+Prune(CDynConstraintSet *set, CDynSpaceList& spaces, bool)
+{
+  return false;
+}
+
+void
+CManager::
+StoreConfigurations(const char *fname)
+{
+  // get the root elements of the processSpace
+  if (currentGeneration < 0) GenerateNextHierarchy();
+  ASSERT_EX(currentGeneration>=0, "CManager::StoreConfigurations", "invalid generation");
+  CDynSpace *procSpace = FindSpace(CString("processes"));
+  ASSERT_EX(procSpace, "CManager::StoreConfigurations", "process space does not exist");
+  CDynElementList& roots = procSpace->GetRootElements();
+
+  // we create a configuration object hierarchy that is used to serialize all configurations
+  // create a configuration store
+  CConfigurationStore *cs = new CConfigurationStore(fname);
+  ASSERT_EX(cs, "CManager::StoreConfigurations", "new failed");
+
+  double spaceSize = ComputeSize();
+  if (spaceSize > MAX_CONFIGURATIONS)
+  {
+    Error((const char *)*procSpace,
+          "Space is extremely large <%2.2e>.\n\
+Prune the space before storing configurations",
+          spaceSize);
+    delete cs;
+    return;
+  }
+
+  // build configuration for each root element
+  POSITION pos = roots.GetHeadPosition();
+  while(pos) BuildConfigurations(cs, roots.GetNext(pos));
+
+  // store all the built configurations
+  cs->Store();
+
+  delete cs;
+}
+
+void
+CManager::
+BuildConfigurations(CConfigurationStore *cs, CDynElement *root)
+{
+  // encode the space rooted at root
+  root->SetEncodingLen(0);
+  int encLen = root->FindEncodingLen();
+  root->SetEncodingValue(0, 0);
+  CBdd::Init(encLen, 0);
+  CBdd config = root->MaptoBdd(CBdd::One(), 0);
+  
+  // create a configuration root object in the configurationstore
+  CConfigurationRoot *cfgRoot = cs->CreateConfigurationRoot(root->GetExternal());
+
+  // build configurations for space rooted at root
+  BuildConfigurations(cfgRoot, root, config, encLen);
+
+  CBdd::Finit();
+}
+
+void
+CManager::
+BuildConfigurations(CConfigurationRoot *cfgRoot, CDynElement *root, CBdd& config, int encLen)
+{
+  CPtrList encVectors;
+  int count = CBdd::Satisfy(config, encVectors);
+  POSITION pos = encVectors.GetHeadPosition();
+
+  while(pos)
+  {
+    int *encVec = (int *)encVectors.GetNext(pos);
+
+    // convert the value to bdd, to write configuration
+    CBdd enc = CBdd::Encode(encVec, 0, encLen);
+    if ( root->NotRedundant(encVec) )
+    {
+      CConfiguration *cfg = cfgRoot->CreateConfiguration();
+      root->BuildConfiguration(cfg, enc);
+    }
+    delete[] encVec;
+  }
+  encVectors.RemoveAll();
+}
+
+bool
+CManager::
+HasConstraints()
+{
+  ASSERT_EX(currentGeneration>=0, "CManager::HasConstraints", "invalid generation");
+  CDynConstraintSetList& sets = dynConstraintSets[currentGeneration];
+
+  bool empty = true;
+  POSITION pos = sets.GetHeadPosition();
+  while(pos) empty = sets.GetNext(pos)->IsEmpty() && empty;
+
+  return !empty;
+}
+
+
+CBdd
+CManager::
+ComposeLatencyExpression(int limit, int startVec, int numVecs)
+{
+  int vectors = propertyVectors;
+
+  CBdd ret = CBdd::One();
+  CBdd eq, gt, ge, ze;
+
+  int t1vec = vectors;                  // first temp vector
+  int t2vec = vectors + 1;              // second temp vector
+  int lvec = vectors + 2;               // limit vector
+
+  switch(numVecs)
+  {
+  case 0:
+    return ret;
+
+  case 1:
+    ret = CBdd::GtProperty("latency", startVec+0, t1vec, lvec);
+    ze = CBdd::EncodeProperty("latency", t1vec, 0);
+    ret = ret && ze;
+    ret = CBdd::QuantifyPropertyExistentially("latency", ret, t1vec);
+    break;
+
+  case 2:
+    ret = CBdd::GtProperty("latency", startVec+0, startVec+1, lvec);
+    break;
+
+  default:
+    eq = CBdd::EqProperty("latency", startVec+0, startVec+1, t1vec);
+    gt = CBdd::GtProperty("latency", startVec+0, startVec+1, t1vec);
+    ge = eq || gt;
+    ret = ge;
+    
+    for (int i=2; i<numVecs-1; i++)
+    {
+      eq = CBdd::EqProperty("latency", t1vec, i+startVec, t2vec);
+      gt = CBdd::GtProperty("latency", t1vec, i+startVec, t2vec);
+      ge = eq || gt;
+      ret = ret && ge;
+      ret = CBdd::QuantifyPropertyExistentially("latency", ret, t1vec);
+      int swp = t2vec;
+      t2vec = t1vec;
+      t1vec = swp;
+    }
+    gt = CBdd::GtProperty("latency", t1vec, i+startVec, lvec);
+    ret = ret && gt;
+    ret = CBdd::QuantifyPropertyExistentially("latency", ret, t1vec);
+  }
+  {
+    // now restrict the generated bdd with limit
+    CBdd lim = CBdd::EncodeProperty("latency", lvec, limit);
+    ret = ret && lim;
+    ret = CBdd::QuantifyPropertyExistentially("latency", ret, lvec);
+  }
+
+  return ret;
+}
+
+bool
+CManager::
+CheckLatencyLimit(int limit)
+{
+  int maxLimit = pow(2, propertyEncodingLength) - 1;
+  return (limit <= maxLimit);
+}
+
+ClData
+CManager::
+Eval(const CCosmic *other) const
+{
+  // check function type??
+  ClData ret = true;
+  if (other)
+  {
+    switch(other->GetType())
+    {
+    case typeDynElement:
+      ret = ((CDynElement *)other)->GetEncoding();
+      break;
+      
+    default:
+      Todo("CDynElement::Eval", "Eval for unimplemented type %d", (int)(other->GetType()));
+    }
+  }
+  else
+  {
+    ret = CBdd::One();
+  }
+  return ret;
+}
+
+bool
+CManager::
+Profile(double& dspSize, long& repSize, long& encSize)
+{
+  CDynSpaceList& spaces = dynSpaces[currentGeneration];
+  int encodingLength = 0;
+
+  // compute encoding length
+  POSITION pos = spaces.GetHeadPosition();
+  while(pos)
+  {
+    CDynSpace *space = spaces.GetNext(pos);
+    space->SetEncodingLen(0);
+    encodingLength += space->FindEncodingLen();
+  }
+
+  // init bdd library
+  CBdd::Init(encodingLength, 0);
+  CBdd one = CBdd::One();
+  CBdd config = one;
+
+  int sb=0, psv=0;
+  pos = spaces.GetHeadPosition();
+  while(pos)
+  {
+    CDynSpace *space = spaces.GetNext(pos);
+    sb += space->SetEncodingValue(0, sb);
+    config = space->MaptoBdd(one, 0) && config;
+  }
+
+  dspSize = ComputeSize();
+  repSize = config.size();
+  encSize = encodingLength;
+
+  // terminate bdd library
+  CBdd::Finit();
+
+  return true;
+}
+
+extern int maxLatBddSz;
+
+bool
+CManager::
+Profile(double& dspSize, long& repSize, long& encSize, long& consSize, long& prRepSize, double& prDegree)
+{
+  CDynSpaceList& spaces = dynSpaces[currentGeneration];
+  CDynConstraintSetList& consets = dynConstraintSets[currentGeneration];
+  int encodingLength = 0;
+
+  // compute encoding length
+  POSITION pos = spaces.GetHeadPosition();
+  while(pos)
+  {
+    CDynSpace *space = spaces.GetNext(pos);
+    space->SetEncodingLen(0);
+    encodingLength += space->FindEncodingLen();
+  }
+
+  int vectors = 0;
+  propertyEncodingLength = 0;
+  pos = spaces.GetHeadPosition();
+  while(pos)
+  {
+    CDynSpace *space = spaces.GetNext(pos); 
+    vectors += space->FindNonOrthElementCount();
+	propertyEncodingLength += space->FindPropertyEncodingLen("latency");
+  }
+  propertyEncodingLength += log2(vectors);
+  propertyVectors = vectors;
+
+  // init bdd library
+  int start = encodingLength;
+#ifdef OLD_LATENCY
+  encodingLength += propertyEncodingLength*(vectors+3);
+  CBdd::Init(encodingLength, 1, "latency", start, propertyEncodingLength, vectors+3);
+#else
+  CBdd::Init(encodingLength, 0);
+#endif
+
+  CBdd one = CBdd::One();
+  CBdd config = one;
+
+  // encode the space
+  int sb=0, psv=0, vec=0;
+  pos = spaces.GetHeadPosition();
+  while(pos)
+  {
+    CDynSpace *space = spaces.GetNext(pos);
+    sb += space->SetEncodingValue(0, sb);
+#ifdef OLD_LATENCY
+	vec += space->SetPropertyEncodingValue("latency", 0);
+    config = space->MaptoBdd(one, 1, "latency") && config;
+#else
+    config = space->MaptoBdd(one, 0) && config;
+#endif
+  }
+
+  int size = config.size();
+
+  CBdd cons = CBdd::One();
+  pos = consets.GetHeadPosition();
+  while(pos)
+  {
+    CDynConstraintSet *set = consets.GetNext(pos);
+    cons = cons && set->MaptoBdd();
+  }
+
+  CBdd prun = config && cons;
+
+#ifdef OLD_LATENCY
+  for (int i=vectors+2; i>=0; i--)
+    prun = CBdd::QuantifyPropertyExistentially("latency", prun, i);
+#endif
+
+  // set the propertyEncodingLength, so that checklatencylimits succeeds
+
+  // encode the constraints
+
+
+  dspSize = ComputeSize();
+  repSize = config.size();
+  encSize = encodingLength;
+  consSize = maxLatBddSz;               // cons.size();
+  prRepSize = vectors;                  // prun.size();
+
+  prDegree = prun.sat_fract()/config.sat_fract();
+
+  // terminate bdd library
+  CBdd::Finit();
+
+  return true;
+}
+
+
+bool
+CManager::
+GetSizeInfo(double& dspSize, long& repSize, long& clockTime, CDynConstraintSet* toSet)
+{
+  CDynSpaceList& spaces = dynSpaces[currentGeneration];
+  CDynConstraintSetList& consets = dynConstraintSets[currentGeneration];
+  int encodingLength = 0;
+
+  // compute encoding length
+  POSITION pos = spaces.GetHeadPosition();
+  while(pos)
+  {
+    CDynSpace *space = spaces.GetNext(pos);
+    space->SetEncodingLen(0);
+    encodingLength += space->FindEncodingLen();
+  }
+
+  int vectors = 0;
+  propertyEncodingLength = 0;
+  pos = spaces.GetHeadPosition();
+  while(pos)
+  {
+    CDynSpace *space = spaces.GetNext(pos); 
+    vectors += space->FindNonOrthElementCount();
+	propertyEncodingLength += space->FindPropertyEncodingLen("latency");
+  }
+  propertyEncodingLength += log2(vectors);
+  propertyVectors = vectors;
+
+  // init bdd library
+  int start = encodingLength;
+#ifdef OLD_LATENCY
+  encodingLength += propertyEncodingLength*(vectors+3);
+  CBdd::Init(encodingLength, 1, "latency", start, propertyEncodingLength, vectors+3);
+#else
+  CBdd::Init(encodingLength, 0);
+#endif
+
+  CBdd one = CBdd::One();
+  CBdd config = one;
+
+  clockTime = 0;
+
+  clock_t t1,t2;
+  t1 = clock();
+  // encode the space
+  int sb=0, psv=0, vec=0;
+  pos = spaces.GetHeadPosition();
+  while(pos)
+  {
+    CDynSpace *space = spaces.GetNext(pos);
+    sb += space->SetEncodingValue(0, sb);
+#ifdef OLD_LATENCY
+	vec += space->SetPropertyEncodingValue("latency", 0);
+    config = space->MaptoBdd(one, 1, "latency") && config;
+#else
+    config = space->MaptoBdd(one, 0) && config;
+#endif
+  }
+  t2 = clock();
+
+  clockTime += (t2-t1);
+
+  int size = config.size();
+
+  bool doRestrict = (toSet != NULL);
+
+  if (!doRestrict)
+  {
+    toSet = new CDynConstraintSet(0);
+    toSet->RemoveAll();
+  }
+
+  pos = consets.GetHeadPosition();
+  while(pos)
+  {
+    CDynConstraintSet *set = consets.GetNext(pos);
+    CDynConstraintList& cons = set->GetConstraints();
+    POSITION consPos = cons.GetHeadPosition();
+    while(consPos)
+    {
+      CDynConstraint *c = cons.GetNext(consPos);
+      if (c->WasApplied()) toSet->InsertConstraint(c);
+    }
+  }
+
+  t1 = clock();
+  CBdd cons = toSet->MaptoBdd();
+  CBdd prun = config && cons;
+  t2 = clock();
+
+  clockTime += (t2-t1);
+
+#ifdef OLD_LATENCY
+  for (int i=vectors+2; i>=0; i--)
+    prun = CBdd::QuantifyPropertyExistentially("latency", prun, i);
+#endif
+
+  // set the propertyEncodingLength, so that checklatencylimits succeeds
+
+  // encode the constraints
+
+
+  dspSize = prun.sat_fract()*pow(2,encodingLength);
+  repSize = prun.size();
+  clockTime = (clockTime/(double)CLOCKS_PER_SEC)*1000;
+
+
+  // now restrict (actually prune the space), remove the dead alternatives
+  bool r1 = false;
+  pos = spaces.GetHeadPosition();
+  while(pos) r1 = spaces.GetNext(pos)->Restrict(prun) || r1;
+
+  // the constraints whose dependency is entirely pruned, mark those as dead
+  bool r2 = toSet->Restrict();
+
+
+  // terminate bdd library
+  CBdd::Finit();
+
+  if (!doRestrict)
+  {
+    toSet->RemoveAll();
+    delete toSet;
+  }
+
+  return true;
+
+}
+

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="CADConnectorAsm" DesignID="{c99ec74c-0229-48d9-a6ae-1b1ba6f00990}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="CADConnectorAsm" xmlns="">
+    <ComponentInstance XPosition="217" YPosition="196" ComponentID="5dc5d715-1dfa-4884-91c2-8e81f7ee9387" ID="{1c1c76c2-8ce0-4dbf-8148-f3b0e1148c4f}" Name="Component">
+      <ConnectorInstance ConnectorComposition="eaf32436-25db-4ccd-8b41-9123a2837c66" ID="{1c1c76c2-8ce0-4dbf-8148-f3b0e1148c4f}-id-34a46163-a922-429c-a616-306e4c49dd83" ApplyJoinData="" IDinComponentModel="id-34a46163-a922-429c-a616-306e4c49dd83" />
+    </ComponentInstance>
+    <Connector ConnectorComposition="{1c1c76c2-8ce0-4dbf-8148-f3b0e1148c4f}-id-34a46163-a922-429c-a616-306e4c49dd83" ID="eaf32436-25db-4ccd-8b41-9123a2837c66" ApplyJoinData="" XPosition="98" YPosition="42" Definition="" Name="CADConnector">
+      <Role xmlns:q2="modelica" xsi:type="q2:Connector" ID="4c751bd0-3cf8-4ffa-8c75-0dc430147415" PortMap="" XPosition="259" YPosition="455" Name="ModelicaConnector" Locator="" Class="" />
+      <Role xmlns:q3="cad" xsi:type="q3:Point" ID="id-4475226c-093a-4e3d-aafe-70c6db975013" PortMap="" Notes="" XPosition="294" Definition="" YPosition="140" Name="Point" DatumName="Point" />
+      <Role xmlns:q4="cad" xsi:type="q4:CoordinateSystem" ID="id-70e10a7b-4f63-43bf-80c2-7a9cb60a6538" PortMap="" Notes="" XPosition="294" Definition="" YPosition="329" Name="CoordinateSystem" DatumName="CoordSys" />
+      <Role xmlns:q5="cad" xsi:type="q5:Plane" ID="id-a6e44110-2d9f-4cb6-a63d-cd5073c152f1" PortMap="" Notes="" XPosition="294" Definition="" YPosition="231" Name="Surface" DatumName="Surface" SurfaceReverseMap="" />
+      <Role xmlns:q6="cad" xsi:type="q6:Axis" ID="id-dc852244-c801-4075-b3b1-58d873b2191b" PortMap="" Notes="" XPosition="294" Definition="" YPosition="42" Name="Axis" DatumName="Axis" />
+    </Connector>
+  </RootContainer>
+</Design>

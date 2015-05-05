@@ -1,0 +1,279 @@
+
+The first field is the notice code and must be a string of bytes.
+No values should be less than four bytes and no more than six.
+
+Values where the first byte is an 'b' are from the bridge.
+
+b001 : No other client has expressed interest in the specified topic
+
+Values where the first byte is an 'C' are exception from the creo.
+
+exception C00000: No exception.
+exception C00001: System exception.
+exception C00002: Unknown exception.
+exception C00003: Need to be defined.
+
+//ParametricParameters(No.01)
+exception C01001: Exceeded maximum number of characters. Parameter Name: "  + std::string(in_ParameterName) + ", Maximum allowed characters: " + itoa(PRO_NAME_SIZE - 1, temp_char_array, 10);
+exception C01002: Part/Assembly Name: " + in_model_name + ", Parameter Name: " + in_ParameterName + ", " + ex.what();
+exception C01003: Exceeded maximum number of characters. Owner Name: "  + std::string(in_ParameterOwner) + ", Maximum allowed characters: " + itoa(PRO_NAME_SIZE - 1, temp_char_array, 10);
+exception C01004: Exceeded maximum number of characters. Parameter Name: "  + std::string(in_ParameterName) + ", Maximum allowed characters: " + itoa(PRO_NAME_SIZE - 1, temp_char_array, 10);
+exception C01005: Part/Assembly Name: " + in_model_name + ", Parameter Name: " + in_ParameterName + ", " + ex.what();
+
+//StringToEnumConversions(No.02)
+exception C02001: Function ProMdlType_enum was passed " + in_ProMdlType_string + " which is an erroneous type.";
+exception C02002: Function ProModelType_string was passed " +  std::string(itoa(in_ProMdlType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are PRO_MDL_PART and PRO_MDL_ASSEMBLY.";							
+exception C02003: Function FeatureGeometryType_enum was passed " + in_FeatureGeometryType_string + " which is an erroneous type.";								
+exception C02004: Function FeatureGeometryType_string was passed " +  std::string(itoa(in_FeatureGeometryType_enum,temp_char_array, 10)) + " which is an erroneous type.  Allowed enum values are PRO_POINT, PRO_SURFACE, PRO_AXIS and PRO_DATUM_PLANE.";								
+exception C02005: Function ProAsmcompConstrType_enum was passed " + in_FeatureAlignmentType_string + " which is an erroneous type.";								
+exception C02006: Function ProAsmcompConstrType_string was passed " +  std::string(itoa(in_ProAsmcompConstrType_enum,temp_char_array, 10)) + " which is an erroneous type.  Allowed enum values are PRO_ASM_ALIGN,PRO_ASM_MATE,PRO_ASM_ALIGN_OFF, PRO_ASM_MATE_OFF, PRO_ASM_ORIENT, and PRO_ASM_AUTO.";								
+exception C02007: Function ProDatumside_enum was passed " + in_FeatureOrientationType_string + " which is an erroneous type.";								
+exception C02008: Function ProDatumside_string was passed " +  std::string(itoa(in_ProDatumside_enum,temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are PRO_DATUM_SIDE_NONE, PRO_DATUM_SIDE_YELLOW,  and PRO_DATUM_SIDE_RED.";						
+exception C02009: Function FeatureInterfaceType_enum was passed " + in_FeatureInterfaceType_string + " which is an erroneous type.";
+exception C02010: Function ProModelType_string was passed " +  std::string(itoa(in_FeatureInterfaceType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_DATUM, CAD_MODEL_INTERFACE, and CAD_MODEL_USER_DATA.";
+exception C02011: Function CADParameterType_enum was passed " + in_CADParameterType_string + " which is an erroneous type.";;
+exception C02012: Function ProModelType_string was passed " +  std::string(itoa(in_CADParameterType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are PRO_MDL_PART and PRO_MDL_ASSEMBLY.";
+exception C02013: Function String_To_ProBoolean was passed " + in_Boolean_string + " which is an erroneous type.";
+exception C02014: Function SpecialInstruction_enum was passed " + in_SpecialInstruction_string + " which is an erroneous type.";;
+exception C02015: Function SpecialInstruction_string was passed " +  std::string(itoa(in_CADComponentType_enum,temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_SPECIAL_INSTRUCTION_NONE and CAD_SPECIAL_INSTRUCTION_SIZE_TO_FIT.";
+exception C02016: Function CADUnitsDistance_enum was passed " + in_Units_string + " which is an erroneous type.";
+exception C02017: Function CADUnitsDistance_string was passed " +  std::string(itoa(in_Units_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_UNITS_MM, CAD_UNITS_CM, CAD_UNITS_INCH, and CAD_UNITS_NA.";
+exception C02018: Function CADUnitsForce_enum was passed " + in_UnitsForce_string + " which is an erroneous type.";
+exception C02019: Function CADUnitsForce_string was passed " +  std::string(itoa(in_UnitsForce_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_UNITS_LBF and CAD_UNITS_N.";
+exception C02020: Function CADUnitsMoment_enum was passed " + in_UnitsMoment_string + " which is an erroneous type.";
+exception C02021: Function CADUnitsMoment_string was passed " +  std::string(itoa(in_UnitsMoment_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_UNITS_FT_LBF, CAD_UNITS_IN_LBF, CAD_UNITS_N_M and CAD_UNITS_N_MM.";
+exception C02022: Function UnitsPressure_enum was passed " + in_UnitsPressure_string + " which is an erroneous type.";
+exception C02023: Function UnitsPressure_string was passed " +  std::string(itoa(in_UnitsPressure_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_UNITS_LBF_PER_INCH_SQ and CAD_UNITS_PA.";
+exception C02024: Function UnitsAcceleration_enum was passed " + in_UnitsAcceleration_string + " which is an erroneous type.";
+exception C02025: Function UnitsAcceleration_string was passed " +  std::string(itoa(in_UnitsAcceleration_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_UNITS_FT_PER_SEC_SQ, CAD_UNITS_MM_PER_SEC_SQ, and CAD_UNITS_M_PER_SEC_SQ.";
+exception C02026: Function CADUnitsAngle_enum was passed " + in_UnitsAngle_string + " which is an erroneous type.";
+exception C02027: Function CADUnitsAngle_string was passed " +  std::string(itoa(in_UnitsAngle_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_UNITS_RADIANS, and CAD_UNITS_DEGREES.";
+exception C02028: Function AnalysisType_enum was passed " + in_AnalysisType_string + " which is an erroneous type.";
+exception C02029: Function AnalysisType_string was passed " +  std::string(itoa(in_AnalysisType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are ANALYSIS_STRUCTURAL, ANALYSIS_BUCKLING, ANALYSIS_MODAL, ANALYSIS_THERMAL, and ANALYSIS_FATIGUE.";
+exception C02030: Function AnalysisPartInterfaceType_enum was passed " + in_AnalysisPartInterfaceType_string + " which is an erroneous type.";
+exception C02031: Function AnalysisPartInterfaceType_string was passed " +  std::string(itoa(in_AnalysisPartInterfaceType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are ANALYSIS_PART_INTERFACE_FREE, ANALYSIS_PART_INTERFACE_CONTACTING, and ANALYSIS_PART_INTERFACE_BONDED.";
+exception C02032: Function AnalysisSolverType_enum was passed " + in_AnalysisSolverType_string + " which is an erroneous type.";
+exception C02033: Function AnalysisSolverType_string was passed " +  std::string(itoa(in_AnalysisSolverType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are PRO_FEM_FEAS_NASTRAN, PRO_FEM_FEAS_ANSYS, and PRO_FEM_FEAS_ABAQUS.";
+exception C02034: Function AnalysisConstraintFixedFree_enum was passed " + in_AnalysisConstraintFixedFree_string + " which is an erroneous type.";
+exception C02035: Function AnalysisConstraintFixedFree_string was passed " + std::string(itoa(in_AnalysisConstraintFixedFree_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are ANALYSIS_CONSTRAINT_FIXED and ANALYSIS_CONSTRAINT_FREE.";
+exception C02036: Function AnalysisMeshType_enum was passed " + in_AnalysisMeshType_string + " which is an erroneous type.";
+exception C02037: Function AnalysisMeshType_string was passed " +  std::string(itoa(in_AnalysisMeshType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are PRO_FEM_SOLID_MESH, PRO_FEM_SHELL_MESH,PRO_FEM_MIXED_MESH, PRO_FEM_QUILT_MESH, PRO_FEM_BOUNDARY_MESH, and PRO_FEM_BAR_MESH.";
+exception C02038: Function AnalysisShellElementType_enum was passed " + in_AnalysisShellElementType_string + " which is an erroneous type.";
+exception C02039: Function AnalysisShellElementType_string was passed " +  std::string(itoa(in_AnalysisShellElementType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are PRO_FEM_SHELL_MESH_TRIANGLE and PRO_FEM_SHELL_MESH_QUADRANGLE.";
+exception C02040: Function AnalysisElementShapeType_enum was passed " + in_AnalysisElementShapeType_string + " which is an erroneous type.";
+exception C02041: Function AnalysisElementShapeType_string was passed " +  std::string(itoa(in_AnalysisElementShapeType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are PRO_FEM_MIDPNT_LINEAR, PRO_FEM_MIDPNT_PARABOLIC, and PRO_FEM_MIDPNT_PARABOLIC_FIXED.";
+exception C02042: Function CADGeometryType_enum was passed " + in_CADGeometryType_string + " which is an erroneous type.";
+exception C02043: Function CADGeometryType_string was passed " +  std::string(itoa(in_CADGeometryType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_GEOMETRY_POLYGON, CAD_GEOMETRY_CYLINDER, CAD_GEOMETRY_CONCENTRIC_CIRCLES, CAD_GEOMETRY_CYLINDER, CAD_GEOMETRY_CYLINDER_SURFACE, CAD_GEOMETRY_SPHERE, CAD_GEOMETRY_SPHERE_SURFACE, CAD_GEOMETRY_EXTRUSION, and CAD_GEOMETRY_EXTRUSION_SURFACE.";
+exception C02044: Function CADFeatureGeometryType_enum was passed " + in_CADFeatureGeometryType_string + " which is an erroneous type.";
+exception C02045: Function CADFeatureGeometryType_string was passed " +  std::string(itoa(in_CADFeatureGeometryType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_FEATURE_GEOMETRY_POINT.";
+exception C02046: Function CADPrimaryGeometryQualifier_enum was passed " + in_CADPrimaryGeometryQualifier_string + " which is an erroneous type.";
+exception C02047: Function CADPrimaryGeometryQualifier_string was passed " +  std::string(itoa(in_CADPrimaryGeometryQualifier_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_INTERIOR_ONLY, CAD_BOUNDARY_ONLY, and CAD_INTERIOR_AND_BOUNDARY.";
+exception C02048: Function CADSecondaryGeometryQualifier_enum was passed " + in_CADSecondaryGeometryQualifier_string + " which is an erroneous type.";
+exception C02049: Function CADSecondaryGeometryQualifier_string was passed " +  std::string(itoa(in_CADSecondaryGeometryQualifier_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_INCLUDE_END_CAPS, CAD_EXCLUDE_END_CAPS, and CAD_SECONDARY_GEOMETRY_QUALIFIER_NONE";
+exception C02050: Function MaterialType_enum was passed " + in_MaterialType_string + " which is an erroneous type.";
+exception C02051: Function MaterialType_string was passed " +  std::string(itoa(in_MaterialType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are MATERIAL_STEEL, MATERIAL_ALUMINUM, MATERIAL_PLASTIC, and MATERIAL_CERAMIC.";
+exception C02052: Function DataExchangeFormat_enum was passed " + in_DataExchangeFormat_string + " which is an erroneous type.";
+exception C02053: Function DataExchangeFormat_string was passed " +  std::string(itoa(in_DataExchangeFormat_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum value DATA_EXCHANGE_FORMAT_STEP.";
+exception C02054: Function DataExchangeVersion_enum was passed " + in_DataExchangeVersion_string + " which is an erroneous type.";
+exception C02055: Function DataExchangeVersion_string was passed " +  std::string(itoa(in_DataExchangeVersion_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are AP203_SINGLE_FILE, AP203_E2_SINGLE_FILE, AP203_E2_SEPERATE_PART_FILES, AP214_SINGLE_FILE and AP214_SEPERATE_PART_FILES.";
+exception C02056: Function ComputationType_enum was passed " + in_ComputationType_string + " which is an erroneous type.";
+exception C02057: Function ComputationType_string was passed " +  std::string(itoa(in_ComputationType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are COMPUTATION_BOUNDING_BOX, COMPUTATION_CG, Z_COORDINATE, COMPUTATION_MASS, and COMPUTATION_POINT.";
+exception C02058: Function ComputationDimension_enum was passed " + in_ComputationDimension_string + " which is an erroneous type.";
+exception C02059: Function ComputationDimension_string was passed " +  std::string(itoa(in_ComputationDimension_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are COMPUTATION_X_COORDINATE, COMPUTATION_Y_COORDINATE, Z_COORDINATE, COMPUTATION_VECTOR, and COMPUTATION_SCALAR.";
+exception C02060: Function GeometrySetOperation_enum was passed " + in_GeometrySetOperation_string + " which is an erroneous type.";
+exception C02061: Function GeometrySetOperation_string was passed " +  std::string(itoa(in_GeometrySetOperation_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_GEOMETRY_SET_PLUS, CAD_GEOMETRY_SET_MINUS, and CAD_GEOMETRY_SET_INTERSECTION.";
+exception C02062: Function CoordinatePlaneAlignment_enum was passed " + in_CoordinatePlaneAlignment_string + " which is an erroneous type.";
+exception C02063: Function CoordinatePlaneAlignment_string was passed " +  std::string(itoa(in_CoordinatePlaneAlignment_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are PRO_DTMPLN_THRU_CSYS_XY, PRO_DTMPLN_THRU_CSYS_YZ, and PRO_DTMPLN_THRU_CSYS_ZX.";
+exception C02064: Function CoordinateAxisAlignment_enum was passed " + in_CoordinateAxisAlignment_string + " which is an erroneous type.";
+exception C02065: Function CoordinateAxisAlignment_string was passed " +  std::string(itoa(in_CoordinateAxisAlignment_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are PRO_CSYS_AXIS_X, PRO_CSYS_AXIS_Y, and PRO_CSYS_AXIS_Z.";
+exception C02066: Function CadFileType_enum was passed " + in_CadFileType_string + " which is an erroneous type.";
+exception C02067: Function CadFileType_string was passed " +  std::string(itoa(in_CadFileType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_CREO and CAD_STEP.";
+exception C02068: Function CADMetricsError_enum was passed " + in_CADMetricsError_string + " which is an erroneous type.";
+exception C02069: Function CADMetricsError_string was passed " +  std::string(itoa(in_CADMetricsError_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_MASS_PROP_NOT_DEFINED, CAD_INTERIA_AT_DEFAULT_CSYS_NOT_DEFINED, CAD_INTERIA_AT_CENTER_OF_GRAVITY_NOT_DEFINED, and CAD_SURFACE_AREA_NOT_DEFINED.";
+exception C02070: Function CADInertiaAt_enum was passed " + in_CADInertiaAt_string + " which is an erroneous type.";
+exception C02071: Function CADInertiaAt_string was passed " +  std::string(itoa(in_CADInertiaAt_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are CAD_DEFAULT_CSYS and CAD_CENTER_OF_GRAVITY.";
+exception C02072: Function ReferencePlane_enum was passed " + in_ReferencePlane_string + " which is an erroneous type.";
+exception C:02073 Function ReferencePlane_string was passed " +  std::string(itoa(in_ReferencePlane_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are GROUND and WATERLINE.";
+exception C02074: Function ComputationSubType_enum was passed " + in_ComputationSubType_string + " which is an erroneous type.";
+exception C02075: Function ComputationSubType_string was passed " +  std::string(itoa(in_ComputationSubType_enum, temp_char_array, 10)) +  " which is an erroneous type.  Allowed enum values are COMPUTATION_SUBTYPE_GROUND.";
+
+//AssembleUtils No.03
+exception C03001: Could not open log file: " + logFile_PathAndFileName;
+exception C03002: Function - CreateModelNameWithUniqueSuffix, string lengths exceed 31 characters.  " + std::string("in_OrigName: ") + 	in_OrigName + "  out_ModelName: " + out_ModelName + "  out_CompleteName: " + out_CompleteName;  	
+exception C03003: Function - ComponentVistorMaterialTokens Functor, called from ReplaceMaterialTokens_ReturnMaterialToComponentID), material properties not defined for component Instance ID: " + in_ComponentID;
+
+//BuildAssembly(No.04)
+exception C04001: Sorting error.  See log file for additional information.");  
+exception C04002: The ComponentID string is too long to store as a paramter in the Creo model.  Component Instance ID: " <<  in_CADComponentData_map[*itr].componentID;
+exception C04003: All assemblies were built; however, some Size-to-Fit components were not added. " + std::string(" This condition would occur if the Size-to-Fit components were constrained to ComponentIDs") + " that were not present in the XML file. The unassembled Size-to-Fit components are: ";
+
+//ToolKitPassThroughFunctions(No.05)
+exception C05001: Failed to open a Creo Model:"  << std::endl << "   Model Name:        " << in_Model_Name << std::endl << "   Model Type:        " << isis::ProMdlType_string(type) <<  std::endl << "   Component Instance ID:      " << in_ComponentID << std::endl << "   Exception Message: " << ex.what();
+exception C05002: Could not find feature in Creo model:"  << std::endl << "   Feature Name:      " << featureName <<  std::endl << "   Model Name:        " << in_Model_Name << std::endl << "   Model Type:        " << isis::ProMdlType_string(mdltype)<<  std::endl << "   Exception Message: " << ex.what();
+						
+//isis_ptc_toolkit_functions(No.06)
+exception C06001: ProEngineerStart returned ProError: %d, proe_path: %s,  prodev_text_path: %s", err, proe_path, prodev_text_path 
+exception C06002: ProMdlRetrieve returned ProError: %s(%d), Model Name: %s", ProToolKitError_string(err).c_str(), err, name_narrow 
+exception C06003: ProMdlDisplay returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06004: ProWindowRefresh returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06005: ProWindowRepaint  returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06006: ProMdlWindowGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06007: ProWindowCurrentSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06008: ProWindowActivate returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06009: ProMdlDelete returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06010: ProMdlEraseNotDisplayed returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06011: ProSolidCreate returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06012: ProEngineerEnd returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06013: PTApplsUnicodeFopen returned Null" 
+exception C06014: ProMdlDataGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06015: ProSolidFeatVisit returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06016: ProAsmcompMdlGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err
+exception C06017: ProAsmcomppathMdlGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06018: ProFeatureTypeGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06019: ProAsmcompAssemble returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06020: ProMdlSave returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06021: ProMdlErase returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06022: ProMdlfileCopy returned ProError: %s(%d), From Name: %s, To Name: %s", ProToolKitError_string(err).c_str(), err, from_name_narrow, to_name_narrow 
+exception C06023: ProModelitemByNameInit returned ProError: %s(%d), Model Name: %s, Feature Name: %s", ProToolKitError_string(err).c_str(), err, model_name_narrow, name_narrow
+exception C06024: isis_ProModelitemNameGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06025: ProFeatureInit returned ProError: %s(%d), Feature ID: %d", ProToolKitError_string(err).c_str(),err, feat_id
+exception C06026: ProFeatureElemValueGet returned ProError: %s(%d), Feature ID: %d",ProToolKitError_string(err).c_str(), err, feature->id 
+exception C06027: ProElempathAlloc returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06028: ProElempathDataSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06029: ProValueDataGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06030: ProElementArrayCount returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06031: ProFeatureElemtreeExtract returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06032: ProGeomitemFeatureGet returned ProError: %s(%d), Feature ID: %d", ProToolKitError_string(err).c_str(), err, p_geom_item->id
+exception C06033: isis_ProMdlCurrentGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06034: ProModelitemInit returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06035: ProMdlToModelitem returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06036: ProArrayAlloc returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06037: ProArrayFreereturned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06038: ProArraySizeGetreturned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06039: ProAsmcomppathInit returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06040: ProSelectionAlloc returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err
+exception C06041: ProFeatureCreate returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06042: ProSelectionFree returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06043: ProAsmcompconstraintAlloc returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06044: ProAsmcompconstraintFree returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06045: ProAsmcompconstraintTypeSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06046: ProAsmcompconstraintAsmreferenceSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06047: ProAsmcompconstraintCompreferenceSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06048: ProAsmcompRegenerate returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06049: ProArrayObjectAdd returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06050: ProAsmcompConstraintsSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06051: ProSolidRegenerate returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06052: ProSolidRegenerationstatusGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06053: ProAsmcompconstraintOffsetSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06054: ProUnitsystemTypeGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06055: ProMdlPrincipalunitsystemSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06056: ProElementAlloc  returned ProError: %s(%d), ProElemId name_id: %d", ProToolKitError_string(err).c_str(),err, name_id 
+exception C06057: ProElementValueSet  returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06058: ProElementIntegerSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06059: ProElementReferencesSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06060: ProElemtreeElementAdd returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06061: ProValueAlloc returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06062: ProValueFree returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06063: ProValueDataSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06064: ProParameterInit returned ProError: %s(%d), Parameter Name: %s", ProToolKitError_string(err).c_str(), err, name_narrow 
+exception C06065: ProParameterValueSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06066: ProParameterCreate returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err
+exception C06067: ProParameterValueGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06068: ProParameterScaledvalueSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06069: ProUnitInit returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06070: ProMacroLoad returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06071: ProSolidMassPropertyGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06072: ProDirectoryChange returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06073: ProAsmcomppathTrfGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06074: ProMdlPrincipalunitsystemGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06075: ProUnitsystemUnitGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06076: ProWstringCopy returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06077: ProElementWstringSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06078: ProMaterialCreate returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06079: ProMaterialDelete returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06080: ProMaterialCurrentGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06081: ProMaterialCurrentSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06082: ProPartMaterialsGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06083: ProMaterialPropertyGet returned ProError: %s(%d), ProMaterialPropertyType %d: ", ProToolKitError_string(err).c_str(),err, prop_type 
+exception C06084: ProMaterialPropertySet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06085: ProFemmeshExport returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06086: ProPointInit returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06087: ProPointCoordGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06088: ProPntTrfEval returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06089: ProOutputFileWrite returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06090: ProConfigoptSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06091: ProRasterFileWrite returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06092: ProWindowCurrentGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06093: ProSolidOutlineGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06094: ProAsmcompPositionSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06095: ProFeatureDelete returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06096: ProFeatureWithoptionsDelete returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06097: ProMdlNameGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06098: ProElementFree returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06099: ProDtmcsysTransformfileRead returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06100: ProSelect returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06101: ProCsysIdGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06102: ProAxisIdGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+exception C06103: ProIntfimportModelWithOptionsCreate returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err 
+
+//AssemblyCreationViaInputFile(No.07)
+exception C07001: Could not find the assembly definition xml file, file name: " + in_XMLInputFile_PathAndFileName;
+exception C07002: The input xml file, " << std::endl << in_XMLInputFile_PathAndFileName  << ", did not define any assemblies nor did it define unassembled parts/sub-assemblies.  " << std::endl << "The input xml file must specify assemblies and/or unassembled parts/sub-assemblies."; 
+exception C07003: One and only one assembly allowed per analysis run (FEA or Ballistic).  The XML file defines " << out_CADComponentAssemblies.topLevelAssemblies.size() << std::string(" assemblies.");
+exception C07004: Unassembled components were found.  Cannot perform analysis (FEA or Ballistic) on partial assemblies.  Number of unassembled components: " << out_CADComponentAssemblies.unassembledComponents.size();
+exception C07005: Erroneous XML File: A NON_SIZE_TO_FIT component cannot be constrained to a SIZE_TO_FIT component. " + std::string("The SIZE_TO_FIT component(s) (i.e. ComponentIDs) that were erroneously referenced are:");
+
+//AssemblyEditingViaLink(No.08)
+exception C08001: Function MetaLinkAssemblyEditor::AddComponentToAssembly invoked, but no assemblies have been created. " << 	 generalMsg.str();
+exception C08002: Function MetaLinkAssemblyEditor::AddComponentToAssembly invoked, but in_ParentAssemblyInstanceID does not exists in the assembly. " <<  generalMsg.str(); <<  generalMsg.str();
+exception C08004: Function MetaLinkAssemblyEditor::AddComponentToAssembly invoked, but in_ComponentInstanceID already exists in the assembly. " << "A ComponentInstanceID can exist one and only one time in a assembly. " <<  generalMsg.str();
+exception C08005: Function MetaLinkAssemblyEditor::AddComponentToAssembly invoked, but in_CreoModelName is longer than " << (PRO_NAME_SIZE - 1) << " characters." <<  generalMsg;
+exception C08006: MetaLinkAssemblyEditor::ConstrainComponent invoked, but in_ComponentInstanceID is an empty string." << "A ComponentInstanceID must exist before a constraint can be added.";
+exception C08007: MetaLinkAssemblyEditor::ConstrainComponent invoked, but in_ComponentInstanceID does not exist in the assembly. " << "A ComponentInstanceID must exist before a constraint can be added. in_ComponentInstanceID: " << in_ConstraintComponentInstanceID;
+exception C08008: Function MetaLinkAssemblyEditor::ConstrainComponent invoked, but component is already constrained, in_ConstrainedComponentInstanceID:  " << in_ConstraintComponentInstanceID;
+exception C08009: MetaLinkAssemblyEditor::ModifyParameters invoked, but in_ComponentInstanceID is an empty string." << "A ComponentInstanceID must exist before a parameter can be modeified.";
+exception C08010: MetaLinkAssemblyEditor::ModifyParameters invoked, but in_ComponentInstanceID does not exist in the assembly. " << "A ComponentInstanceID must exist before a parameter can be modifed on that component. in_ComponentInstanceID: " << in_ComponentInstanceID;
+exception C08011: MetaLinkAssemblyEditor::ModifyParameters invoked, but in_ComponentInstanceID is an empty string." << "A ComponentInstanceID must exist before a constraint can be added.";
+exception C08012: Function MetaLinkAssemblyEditor::AddComponentToAssembly was passed an incorrect DesignID, Passed DesignID:    " << in_ParentAssemblyInstanceID << "Expected DesignID:  " << programInputArguments.designID;
+exception C08013: Function MetaLinkAssemblyEditor::ConstrainComponent invoked, but no assemblies have been created. 
+exception C08014: Function MetaLinkAssemblyEditor::ModifyParameters invoked, but no assemblies have been created. 
+exception C08015: One and only one assembly allowed in MetaLink mode.  The XML defines " << cADComponentAssemblies.topLevelAssemblies.size() << std::string(" assemblies.");
+exception C08016: Function: MetaLinkAssemblyEditor::AddSerachPaths, std::application_exception. 
+exception C08017: Function: MetaLinkAssemblyEditor::AddSerachPaths, std::exception;
+exception C08018: Function: MetaLinkAssemblyEditor::AddSerachPaths, Caught exception (...).  Please report the error to the help desk.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

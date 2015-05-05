@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<?define DashboardVisualizer=..\src\DashboardVisualizer?>
+<!-- generated with gen_dir_wxi.py ../src/DashboardVisualizer/ -->
+    <Fragment>
+        <DirectoryRef Id="DashboardVisualizer">
+            <Directory Id="dir49E18E5E3A3352373FD45121E9EADA4E" Name="inc" />
+            <Directory Id="dirDDF53B26004F9C5789BBCED86631E8C1" Name="inc_css" />
+            <Directory Id="dir4222B64439E34B042D9D60AF48DF2E8D" Name="_local" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="DashboardVisualizer">
+            <Component Id="cmpDD515F1D4D553F40D40C309CE278EFF2" Directory="DashboardVisualizer" Guid="*">
+                <File Id="fil1F99D0A8F717386C2A99F717DE1BA81F" KeyPath="yes" Source="$(var.DashboardVisualizer)\DashboardMetricMerge.py" />
+            </Component>
+            <Component Id="cmpEDB19A1ED05A8BBDCD0643C74FC5892A" Directory="DashboardVisualizer" Guid="*">
+                <File Id="filDEB772FFBF404ADF69C4A2304D8FAFFC" KeyPath="yes" Source="$(var.DashboardVisualizer)\dashboardschema.py" />
+            </Component>
+            <Component Id="cmp7C0233B8E73C8AD9BFDA3969CA29522F" Directory="DashboardVisualizer" Guid="*">
+                <File Id="fil3B7A8F2590DB741DBD8C7564496EE83E" KeyPath="yes" Source="$(var.DashboardVisualizer)\DashboardVisualizer.html" />
+            </Component>
+            <Component Id="cmpC2226AB413A290FDDBD5ADFA8D82BA05" Directory="DashboardVisualizer" Guid="*">
+                <File Id="filE08472B0E22D5C0EC8C81D72AE0F078F" KeyPath="yes" Source="$(var.DashboardVisualizer)\DashboardVisualizer.js" />
+            </Component>
+            <Component Id="cmp79D1A9B88CC05950D37D0AAD51143B55" Directory="DashboardVisualizer" Guid="*">
+                <File Id="fil27239DCD6DF3B268F9334A110107EE68" KeyPath="yes" Source="$(var.DashboardVisualizer)\Dashboard_visualizer.css" />
+            </Component>
+            <Component Id="cmp178D40E62AAC6E752157F4E2357632D0" Directory="DashboardVisualizer" Guid="*">
+                <File Id="filC247704D8D7A30D13F1053CE31057ABA" KeyPath="yes" Source="$(var.DashboardVisualizer)\input.xml" />
+            </Component>
+            <Component Id="cmpB519BF5FDEFB484EC04DBE083FF46D0E" Directory="DashboardVisualizer" Guid="*">
+                <File Id="fil8DAE8A0D01106DD97670023D2F74196B" KeyPath="yes" Source="$(var.DashboardVisualizer)\input2.xml" />
+            </Component>
+            <Component Id="cmpA9A7012E23509E84EE9FC79E03C5A948" Directory="DashboardVisualizer" Guid="*">
+                <File Id="filEE15142B1BAFFD06E516342B7363887F" KeyPath="yes" Source="$(var.DashboardVisualizer)\README.txt" />
+            </Component>
+            <Component Id="cmpE749AA29868E53C6340B79E101961199" Directory="dir49E18E5E3A3352373FD45121E9EADA4E" Guid="*">
+                <File Id="filFDAED6C70F215E387FF805252B530DFB" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc\excanvas.js" />
+            </Component>
+            <Component Id="cmpB9EFCFFD336095F4B08D6AC90F61AA3C" Directory="dir49E18E5E3A3352373FD45121E9EADA4E" Guid="*">
+                <File Id="filB0BC748D964F9831484C79F2E0C00768" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc\jquery-1.7.1-vsdoc.js" />
+            </Component>
+            <Component Id="cmp0D51ED5646B8F1A2F711A96F0E5B036A" Directory="dir49E18E5E3A3352373FD45121E9EADA4E" Guid="*">
+                <File Id="fil5AFBAF3AB5E1C6EA6707B93083F2CA39" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc\jquery-1.7.1.js" />
+            </Component>
+            <Component Id="cmpC1537788047AEF60F0269F0DE398CEA8" Directory="dir49E18E5E3A3352373FD45121E9EADA4E" Guid="*">
+                <File Id="fil976D2BDF0E5665D52E2EAAD5D2199CEB" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc\jquery-ui.min.js" />
+            </Component>
+            <Component Id="cmp7BB3E5AC07AE4FC077E70A031FC7BC0D" Directory="dir49E18E5E3A3352373FD45121E9EADA4E" Guid="*">
+                <File Id="filF47D79DE47834070A7E90EC4F24B09FB" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc\jquery.min.js" />
+            </Component>
+            <Component Id="cmp3DB44187ADB19E8A65DBD67C19170470" Directory="dir49E18E5E3A3352373FD45121E9EADA4E" Guid="*">
+                <File Id="fil65D485D02944CE280A561728BA009FCD" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc\naba_utils.js" />
+            </Component>
+            <Component Id="cmp8BD7B1FA6F017D5633451F45F14C77EA" Directory="dir17B828C9EFBEADF76116025279109E5D" Guid="*">
+                <File Id="filE84FB1A3E9D4D9BAA286AFB1A3E87623" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\jquery-ui-1.8.13.custom.css" />
+            </Component>
+            <Component Id="cmp42928337D74F85CC9D1FCA8098775243" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="filE7C49E3A5E48527FB366938BCFA3D021" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-bg_diagonals-thick_8_333333_40x40.png" />
+            </Component>
+            <Component Id="cmp96A4E8351129C33EAB014E0955EF4BDD" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="fil0487CAC643ED04BA59F60C72D9536923" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-bg_flat_65_ffffff_40x100.png" />
+            </Component>
+            <Component Id="cmp6FCF2FBA13BC22C2662D9D5625EEAD03" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="filF8957BF0A3E75799D41A0BF3B591487E" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-bg_glass_40_111111_1x400.png" />
+            </Component>
+            <Component Id="cmp16010A97000825300E5DFEB99F958A48" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="fil24A1A5C9A49E4A476C50FF7C4D2223F1" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-bg_glass_55_1c1c1c_1x400.png" />
+            </Component>
+            <Component Id="cmpDFEE0C5EA2E46FD676EE779D1B3F141D" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="fil95D851A8746CCE2E56AEDEC0D3D0FC0A" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-bg_highlight-hard_100_f9f9f9_1x100.png" />
+            </Component>
+            <Component Id="cmp46B089E92AAA1BF2A633AB24D786833F" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="fil9FCD2B66F159DD4CFDA987F90F2441E4" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-bg_highlight-hard_40_aaaaaa_1x100.png" />
+            </Component>
+            <Component Id="cmp54E0B73C25E13983359C40A456AB8FFF" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="fil89EF3A6910F8D804907F598E92A27A7D" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-bg_highlight-soft_50_aaaaaa_1x100.png" />
+            </Component>
+            <Component Id="cmp9D877A9BFDF22627A84EDBCA00632929" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="fil93757073B0F75135BD2A24D439A4AB8F" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-bg_inset-hard_45_cd0a0a_1x100.png" />
+            </Component>
+            <Component Id="cmp62FD22CD912C7E159E835537857B8C5E" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="fil895CCCB2FD55AE55220B9F483B746F75" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-bg_inset-hard_55_ffeb80_1x100.png" />
+            </Component>
+            <Component Id="cmp253941ED4F0515725DB267CA405F3FA7" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="filAAC142FB6E3C2F837C82FD5C1B6C37CD" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-icons_222222_256x240.png" />
+            </Component>
+            <Component Id="cmp6EBC239334F407777BC03731475B5631" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="fil049D094919637C04B89C49C416466F87" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-icons_4ca300_256x240.png" />
+            </Component>
+            <Component Id="cmpBF4B1FB409393D1A703F95225654FAED" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="filA76484F717DBF94CDBF0B70015355D06" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-icons_bbbbbb_256x240.png" />
+            </Component>
+            <Component Id="cmpE1CD337419ECB32361EE5ED001BCCAD1" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="filB270A63D0A5FE74DE3B633C33DFB0CED" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-icons_ededed_256x240.png" />
+            </Component>
+            <Component Id="cmpD2422C9B5433A337DEE627F4693835FF" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="filEAACC37A5AAB6BA8683185FD48470E90" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-icons_ffcf29_256x240.png" />
+            </Component>
+            <Component Id="cmpCF3FDD2A3A28275577C6DE937662743A" Directory="dirE7290D0E82B1B8242C12D4C672A98688" Guid="*">
+                <File Id="filD1C65D9B1524760A1D5D2295D4B6B364" KeyPath="yes" Source="$(var.DashboardVisualizer)\inc_css\jquery_skins\black-tie\images\ui-icons_ffffff_256x240.png" />
+            </Component>
+            <Component Id="cmpC039DDB20140526F0976F2F82BCAFEFB" Directory="dir4222B64439E34B042D9D60AF48DF2E8D" Guid="*">
+                <File Id="filAABE19CACC26C1003F1D95BC1407EE64" KeyPath="yes" Source="$(var.DashboardVisualizer)\_local\DashboardVisualizer_fullscreen_local.html" />
+            </Component>
+            <Component Id="cmpB4E386D09E78B291D483F881141AACA9" Directory="dir4222B64439E34B042D9D60AF48DF2E8D" Guid="*">
+                <File Id="filAF5ED38298D0E9D15FF7DD769B6EA367" KeyPath="yes" Source="$(var.DashboardVisualizer)\_local\DashboardVisualizer_fullscreen_local_test2.html" />
+            </Component>
+            <Component Id="cmpB0DEC01B37C24BC9BB29905C4029A5A5" Directory="dir4222B64439E34B042D9D60AF48DF2E8D" Guid="*">
+                <File Id="fil9CC61E305F4118600E0A5B5CD229B8E9" KeyPath="yes" Source="$(var.DashboardVisualizer)\_local\Open in Chrome.cmd" />
+            </Component>
+            <Component Id="cmp8F22C009BFEAB73390555077D72E75B8" Directory="dir45E44B6F17B2BCBFB2B8EB2A4929DFC5" Guid="*">
+                <File Id="filD39D1F52A8DF207103BBFFAF956D59F2" KeyPath="yes" Source="$(var.DashboardVisualizer)\_local\embedder\VFVisualizerEmbedder.js" />
+            </Component>
+            <Component Id="cmp0F45B6271166C6E4DD6F6B54B7A8111A" Directory="dir45E44B6F17B2BCBFB2B8EB2A4929DFC5" Guid="*">
+                <File Id="fil6324C728224C936297A8E2D08FC449F4" KeyPath="yes" Source="$(var.DashboardVisualizer)\_local\embedder\vf_icon.png" />
+            </Component>
+            <Component Id="cmp7C01753CDCD9E8BE0726BEFE9383E120" Directory="dir45E44B6F17B2BCBFB2B8EB2A4929DFC5" Guid="*">
+                <File Id="filFCC89336F3D41CA7E284FC61C5A6D836" KeyPath="yes" Source="$(var.DashboardVisualizer)\_local\embedder\vf_visualizer_embedder.css" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirE7290D0E82B1B8242C12D4C672A98688" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir17B828C9EFBEADF76116025279109E5D" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir45E44B6F17B2BCBFB2B8EB2A4929DFC5" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir4222B64439E34B042D9D60AF48DF2E8D" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir49E18E5E3A3352373FD45121E9EADA4E" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir9B578811EB0694DCE1785FF53B3E29BE">
+            <Directory Id="dir17B828C9EFBEADF76116025279109E5D" Name="black-tie" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir4222B64439E34B042D9D60AF48DF2E8D">
+            <Directory Id="dir45E44B6F17B2BCBFB2B8EB2A4929DFC5" Name="embedder" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirDDF53B26004F9C5789BBCED86631E8C1">
+            <Directory Id="dir9B578811EB0694DCE1785FF53B3E29BE" Name="jquery_skins" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir17B828C9EFBEADF76116025279109E5D">
+            <Directory Id="dirE7290D0E82B1B8242C12D4C672A98688" Name="images" />
+        </DirectoryRef>
+    </Fragment>
+</Wix>

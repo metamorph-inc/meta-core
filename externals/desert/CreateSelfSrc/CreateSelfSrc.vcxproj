@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FE06CA3D-DE71-4561-99C5-F88C44EF11C5}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <TypeLibraryName>.\Debug/CreateSelfSrc.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TypeLibraryName>.\Debug/CreateSelfSrc.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <TypeLibraryName>.\Release/CreateSelfSrc.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TypeLibraryName>.\Release/CreateSelfSrc.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\iface\DesertIface.xml">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"
+move            /Y            DesertIface.h            ..\\iface\\
+move            /Y            DesertIface.cpp            ..\\iface\\
+move            /Y            DesertIface.xsd            ..\\iface\\
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"
+move            /Y            DesertIface.h            ..\\iface\\
+move            /Y            DesertIface.cpp            ..\\iface\\
+move            /Y            DesertIface.xsd            ..\\iface\\
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\\iface\\DesertIface.h;..\\iface\\DesertIface.cpp;..\\iface\\DesertIface.xsd;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\\iface\\DesertIface.h;..\\iface\\DesertIface.cpp;..\\iface\\DesertIface.xsd;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"
+move            /Y            DesertIface.h            ..\\iface\\
+move            /Y            DesertIface.cpp            ..\\iface\\
+move            /Y            DesertIface.xsd            ..\\iface\\
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"
+move            /Y            DesertIface.h            ..\\iface\\
+move            /Y            DesertIface.cpp            ..\\iface\\
+move            /Y            DesertIface.xsd            ..\\iface\\
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\\iface\\DesertIface.h;..\\iface\\DesertIface.cpp;..\\iface\\DesertIface.xsd;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\\iface\\DesertIface.h;..\\iface\\DesertIface.cpp;..\\iface\\DesertIface.xsd;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\iface\DesertIfaceBack.xml">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"%UDM_PATH%\bin\Udm.exe" -g -v "%(FullPath)"
+move            /Y            DesertIfaceBack.h                ..\\iface\\
+move            /Y            DesertIfaceBack_xsd.h        ..\\iface\\
+move            /Y            DesertIfaceBack.cpp            ..\\iface\\
+move            /Y            DesertIfaceBack.xsd            ..\\iface\\
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"%UDM_PATH%\bin\Udm.exe" -g -v "%(FullPath)"
+move            /Y            DesertIfaceBack.h                ..\\iface\\
+move            /Y            DesertIfaceBack_xsd.h        ..\\iface\\
+move            /Y            DesertIfaceBack.cpp            ..\\iface\\
+move            /Y            DesertIfaceBack.xsd            ..\\iface\\
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\\iface\\DesertIfaceBack.h;..\\iface\\DesertIfaceBack.cpp;..\\iface\\DesertIfaceBack.xsd;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\\iface\\DesertIfaceBack.h;..\\iface\\DesertIfaceBack.cpp;..\\iface\\DesertIfaceBack.xsd;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"%UDM_PATH%\bin\Udm.exe" -g -v "%(FullPath)"
+move            /Y            DesertIfaceBack.h                ..\\iface\\
+move            /Y            DesertIfaceBack_xsd.h        ..\\iface\\
+move            /Y            DesertIfaceBack.cpp            ..\\iface\\
+move            /Y            DesertIfaceBack.xsd            ..\\iface\\
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"%UDM_PATH%\bin\Udm.exe" -g -v "%(FullPath)"
+move            /Y            DesertIfaceBack.h                ..\\iface\\
+move            /Y            DesertIfaceBack_xsd.h        ..\\iface\\
+move            /Y            DesertIfaceBack.cpp            ..\\iface\\
+move            /Y            DesertIfaceBack.xsd            ..\\iface\\
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\\iface\\DesertIfaceBack.h;..\\iface\\DesertIfaceBack.cpp;..\\iface\\DesertIfaceBack.xsd;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\\iface\\DesertIfaceBack.h;..\\iface\\DesertIfaceBack.cpp;..\\iface\\DesertIfaceBack.xsd;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,48 @@
+﻿                     MASS PROPERTIES OF THE ASSEMBLY ASM0001
+
+                         VOLUME =  0.0000000e+00 MM^3
+                   SURFACE AREA =  0.0000000e+00 MM^2
+                AVERAGE DENSITY =  0.0000000e+00 KILOGRAM / MM^3
+                           MASS =  0.0000000e+00 KILOGRAM 
+
+          CENTER OF GRAVITY with respect to _ASM0001 coordinate frame:
+X   Y   Z           0.0000000e+00  0.0000000e+00  0.0000000e+00  MM
+
+      INERTIA with respect to _ASM0001 coordinate frame:  (KILOGRAM * MM^2)
+
+INERTIA TENSOR:
+Ixx Ixy Ixz         0.0000000e+00  0.0000000e+00  0.0000000e+00
+Iyx Iyy Iyz         0.0000000e+00  0.0000000e+00  0.0000000e+00
+Izx Izy Izz         0.0000000e+00  0.0000000e+00  0.0000000e+00
+
+     INERTIA at CENTER OF GRAVITY with respect to _ASM0001 coordinate frame:
+                                                          (KILOGRAM * MM^2)     
+INERTIA TENSOR:
+Ixx Ixy Ixz         0.0000000e+00  0.0000000e+00  0.0000000e+00
+Iyx Iyy Iyz         0.0000000e+00  0.0000000e+00  0.0000000e+00
+Izx Izy Izz         0.0000000e+00  0.0000000e+00  0.0000000e+00
+
+                PRINCIPAL MOMENTS OF INERTIA:  (KILOGRAM * MM^2)
+I1  I2  I3          0.0000000e+00  0.0000000e+00  0.0000000e+00
+
+          ROTATION MATRIX from _ASM0001 orientation to PRINCIPAL AXES:
+                       1.00000        0.00000        0.00000
+                       0.00000        1.00000        0.00000
+                       0.00000        0.00000        1.00000
+
+     ROTATION ANGLES from _ASM0001 orientation to PRINCIPAL AXES (degrees):
+angles about x  y  z    0.000          0.000          0.000 
+
+                RADII OF GYRATION with respect to PRINCIPAL AXES:
+R1  R2  R3          0.0000000e+00  0.0000000e+00  0.0000000e+00  MM
+
+
+
+                  MASS PROPERTIES OF COMPONENTS OF THE ASSEMBLY
+              (in assembly units and the _ASM0001 coordinate frame)
+
+                                     MATERIAL
+           DENSITY        MASS       C.G.:  X        Y         Z
+
+    WIGLEYHULLFULLMM                 STEEL_STAINLESS_321_ANNEALED
+         7.95000e-06  0.00000e+00      ***          ***          ***    

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyPET">
+  <Component Id="CyPhyPET.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhyPET.dll" Name="CyPhyPET.dll" KeyPath="yes" Source="../src/CyPhyPET\bin\Release\CyPhyPET.dll" />
+    <Class Id="{81E827E2-5871-4DE6-B283-CDBE43DD65DE}" Context="InprocServer32" Description="MGA.Interpreter.CyPhyPET" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Interpreter.CyPhyPET" Description="MGA.Interpreter.CyPhyPET" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{81E827E2-5871-4DE6-B283-CDBE43DD65DE}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{81E827E2-5871-4DE6-B283-CDBE43DD65DE}\InprocServer32" Name="Class" Value="CyPhyPET.CyPhyPETInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{81E827E2-5871-4DE6-B283-CDBE43DD65DE}\InprocServer32" Name="Assembly" Value="CyPhyPET, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{81E827E2-5871-4DE6-B283-CDBE43DD65DE}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{81E827E2-5871-4DE6-B283-CDBE43DD65DE}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyPET.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+
+    <Class Id="{93554F4A-EEB4-4E93-B532-23CD5EC06250}" Context="InprocServer32" Description="ISIS.META.CyPhyPETSettings" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="ISIS.META.CyPhyPETSettings" Description="ISIS.META.CyPhyPETSettings" />
+    </Class>
+
+    <RegistryValue Root="HKCR" Key="CLSID\{93554F4A-EEB4-4E93-B532-23CD5EC06250}\InprocServer32" Name="Class" Value="CyPhyPET.CyPhyPETSettings" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{93554F4A-EEB4-4E93-B532-23CD5EC06250}\InprocServer32" Name="Assembly" Value="CyPhyPET, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{93554F4A-EEB4-4E93-B532-23CD5EC06250}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{93554F4A-EEB4-4E93-B532-23CD5EC06250}\InprocServer32" Name="SupportedRuntimeVersions" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{93554F4A-EEB4-4E93-B532-23CD5EC06250}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyPET.dll]" Type="string" Action="write" />
+
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyPhyPET'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhyPET'/>
+      <RegistryValue Name='Icon' Type='string' Value='[#CyPhyPET.ico]'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <!-- RegistryValue Name='Tooltip' Type='string' Value='TOOLTIP_TEXT'/ -->
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+  <Component Directory="INSTALLDIR_BIN">
+    <File Source="..\src\CyPhyPET\bin\Release\CyPhyPET.ico" />
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

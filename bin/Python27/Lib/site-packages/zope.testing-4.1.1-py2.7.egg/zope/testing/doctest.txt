@@ -1,0 +1,34 @@
+========================
+Additional doctest Tests
+========================
+
+Most `doctest` module tests are located within the module. This file only
+tests a few additional features not covered by the module tests, so that the
+changes to the `doctest` module -- which is forked from the Python standard
+library -- are minimized.
+
+Working with Carriage Returns
+-----------------------------
+
+Due to the way releases are made on different platforms, we sometimes test
+files on a *nix system with Windows file endings. Unfortunately, that leaves
+some of the test files broken:
+
+  >>> import tempfile
+  >>> fn = tempfile.mktemp()
+  >>> foo = open(fn, 'w').write('Test:\r\n\r\n  >>> x = 1 + 1\r\n\r\nDone.\r\n')
+
+Let's now run it as a doctest:
+
+  >>> from zope.testing import doctest
+  >>> a, b = doctest.testfile(fn, False) # doctest 2.6 and later uses a named tuple here.
+  >>> a, b
+  (0, 1)
+
+It worked. Let's also try the test file suite:
+
+  >>> import unittest
+  >>> result = unittest.TestResult()
+  >>> doctest.DocFileSuite(fn, module_relative=False).run(result) #doctest: +ELLIPSIS
+  <...TestResult run=1 errors=0 failures=0>
+

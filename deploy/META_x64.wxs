@@ -1,0 +1,459 @@
+<?xml version='1.0' encoding='windows-1252'?>
+
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' RequiredVersion='3.0.4813.0'
+ xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
+
+  <?define UpgradeCode='E7E2109B-6CEA-4D8C-B020-1F0588DA719A' ?>
+
+  <Product Name='META toolchain' Id='*' UpgradeCode='$(var.UpgradeCode)'
+      Language='1033' Codepage='1252' Version='$(var.VERSIONSTR)' Manufacturer='Vanderbilt University, ISIS'>
+
+    <Package Id='*' Description='META Vehicle Design Suite'
+        Manufacturer='Vanderbilt University, ISIS'
+        InstallerVersion='300' Languages='1033' Compressed='yes' SummaryCodepage='1252'
+        InstallPrivileges='elevated' InstallScope='perMachine' Platform='x64'
+		Comments='Created from SVN r$(var.SVNVERSION)'/>
+
+    <Upgrade Id="$(var.UpgradeCode)">
+      <UpgradeVersion Minimum="$(var.VERSIONSTR)" OnlyDetect="yes" Property="NEWERFOUND"/>
+      <UpgradeVersion OnlyDetect="no" Minimum="0.0.1" IncludeMinimum="yes" Maximum="$(var.VERSIONSTR)" IncludeMaximum="no" Property="PREVIOUSFOUND"/>
+    </Upgrade>
+    <CustomActionRef Id="WixExitEarlyWithSuccess"/>
+	<CustomAction Id='NoDowngrade' Error='A later version of is already installed. To downgrade, please uninstall it first, then restart this installer.' />
+	
+
+    <InstallExecuteSequence>
+      <RemoveExistingProducts After="InstallValidate" />
+	  <Custom Action='NoDowngrade' After='FindRelatedProducts'>NEWERFOUND</Custom>
+    </InstallExecuteSequence>
+
+    <Media Id='1' Cabinet='META.cab' EmbedCab='yes' />
+    <Media Id='2' Cabinet='META_MMs.cab' EmbedCab='yes' />
+    <Media Id='3' Cabinet='META_bin.cab' EmbedCab='yes' />
+    <Media Id='4' Cabinet='META_CAD.cab' EmbedCab='yes' />
+    <Media Id='5' Cabinet='META_analysis_tools.cab' EmbedCab='yes' />
+
+    <Condition Message="This application is only supported on Windows XP or higher.">
+      <![CDATA[Installed OR (VersionNT >= 501)]]>
+    </Condition>
+
+    <PropertyRef Id="NETFRAMEWORK40FULL"/>
+    <Condition Message="This application requires .NET Framework 4.0 Full. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
+    </Condition>
+
+    <Property Id='ARPPRODUCTICON' Value='META.ico' />
+    <PropertyRef Id='WIX_DIR_COMMON_DOCUMENTS' />
+
+    <CustomAction Id="SetDocProps" Return="check" Property="Documentation.5875F5A4_E9AD_421C_BDF1_7E7D36837AEF" Value="[ProgramFilesFolder]META\Documentation"/>
+    <InstallExecuteSequence>
+      <Custom Action="SetDocProps" After="CostInitialize" />
+    </InstallExecuteSequence>
+    <InstallUISequence>
+      <Custom Action="SetDocProps" After="CostInitialize" />
+    </InstallUISequence>
+
+    <WixVariable Id="WixUILicenseRtf" Value="..\license.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="WixUiBanner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="WixUIDialog.bmp" />
+
+    <!-- =========================================================== -->
+    <!-- DIRECTORY STRUCTURE -->
+    <!-- =========================================================== -->
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id='ProgramFiles64Folder'>
+        <Directory Id='INSTALLDIR64' Name='META'>
+          <Directory Id='INSTALLDIR64_BIN' Name='bin'/>
+          <Directory Id='Proe_ISIS_Extensions_x64' Name='Proe ISIS Extensions'/>
+        </Directory>
+      </Directory>
+      <Directory Id='ProgramFilesFolder'>
+        <Directory Id='INSTALLDIR' Name='META'>
+          <Directory Id='analysis_tools' Name='analysis_tools'/>
+          <Directory Id='INSTALLDIR_BIN' Name='bin'>
+            <Directory Id='bin'/>
+            <Directory Id='Json.NET'/>
+            <Directory Id='Ionic.Zip' />
+            <Directory Id='dot_bin' Name='dot'/>
+            <Directory Id='CodeGenPython' Name='CodeGenPython'>
+              <Directory Id='generated_BlockTemplate_Python'/>
+              <Directory Id='src_BlockTemplate_Python'/>
+            </Directory>
+          </Directory>
+          <Directory Id='INSTALLDIR_DOC' Name='doc'/>
+          <Directory Id='INSTALLDIR_META' Name='meta'>
+            <Directory Id='icons' Name='icons'/>
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="CommonAppDataFolder">
+        <Directory Id="WIX_DIR_COMMON_DOCUMENTS">
+          <Directory Id='example_models' Name='META Documents'>
+            <Directory Id='WebGME' Name='WebGME'/>
+            <Directory Id='ifv_model' Name='IFV Model'>
+              <Directory Id='Manufacturing_CAD' Name='Manufacturing-CAD'>
+                <Directory Id='Components' Name='Components'/>
+              </Directory>
+              <Directory Id='Include' Name='Include'/>
+            </Directory>
+            <Directory Id='MaterialLibrary' Name='MaterialLibrary'/>
+            <Directory Id='Validation' Name='Validation'/>
+
+            <Directory Id='doc' Name='Documentation'/>
+            <!-- <Directory Id='DashboardVisualizer' Name='DashboardVisualizer'/> -->
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="META"/>
+      </Directory>
+    </Directory>
+
+    <!-- =========================================================== -->
+    <!-- MERGE MODULES -->
+    <!-- =========================================================== -->
+    <DirectoryRef Id='TARGETDIR'>
+      <Merge Id="UdmDll_VS10" Language="1033" SourceFile="UdmDll_VS10.msm" DiskId="2" />
+      <Merge Id="UdmDll_VS10_x64" Language="1033" SourceFile="UdmDll_VS10_x64.msm" DiskId="2" />
+      <Merge Id="xerces_c" Language="1033" SourceFile="xerces_c.msm" DiskId="2" />
+      <Merge Id="xerces_c_x64" Language="1033" SourceFile="xerces_c_x64.msm" DiskId="2" />
+      <Merge Id="CRT100" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_CRT_x86.msm" DiskId="2" />
+      <Merge Id="MFC100" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_MFC_x86.msm" DiskId="2" />
+      <Merge Id="ATL100" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_ATL_x86.msm" DiskId="2" />
+      <Merge Id="CRT100x64" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_CRT_x64.msm" DiskId="2" />
+      <Merge Id="MFC100x64" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_MFC_x64.msm" DiskId="2" />
+      <Merge Id="ATL100x64" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_ATL_x64.msm" DiskId="2" />
+      <Merge Id='DocModule' Language='1033' SourceFile='Documentation.msm' DiskId='2' />
+    </DirectoryRef>
+
+    <!-- =========================================================== -->
+    <!-- COMPONENTS -->
+    <!-- =========================================================== -->
+
+    <DirectoryRef Id='Proe_ISIS_Extensions_x64'>
+      <Component Id='PROE_ISIS_EXTENSIONS' Guid='{81FF799C-5509-4BAF-A420-82E256556D3A}' Win64='yes'>
+        <Environment Id="PROE_ISIS_EXTENSIONS" Action="set" System="yes" Name="PROE_ISIS_EXTENSIONS" Value="[Proe_ISIS_Extensions_x64]" />
+        <CreateFolder/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="{C5414B00-7AB4-47F4-85A9-A66ACFF764B2}">
+        <Shortcut Id="JobManagerShortcut" Name="META Job Manager" Description="META Job Manager" Target="[#JobManager.exe]"/>
+        <RemoveFolder Id='ApplicationProgramsFolderDir' On='uninstall' />
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\META" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    
+    <DirectoryRef Id="INSTALLDIR_META">
+      <Component Win64='no'>
+        <File Name="CyPhyML.mta" Source="..\generated\CyPhyML\models\CyPhyML.mta" />
+        <RegistryKey Root='HKLM' Key='Software\GME\Paradigms\CyPhyML'>
+          <RegistryValue Name='CurrentVersion' Type='string' Value='$(var.GUIDSTRCYPHYML)'/>
+          <RegistryValue Name='$(var.VERSIONSTRCYPHYML)' Type='string' Value='$(var.GUIDSTRCYPHYML)'/>
+          <RegistryKey Key='$(var.GUIDSTRCYPHYML)'>
+            <RegistryValue Name='ConnStr' Type='string' Value='MGA=[INSTALLDIR_META]CyPhyML.mta'/>
+          </RegistryKey>
+        </RegistryKey>
+		<RegistryKey Root='HKCU' Key='Software\GME'>
+		  <RegistryValue Name='TimeStamping' Type='string' Value='1'/>
+		</RegistryKey>
+        <RemoveRegistryKey Id='RemoveUserCyPhyML' Action='removeOnInstall' Root='HKCU' Key='Software\GME\Paradigms\CyPhyML' />
+      </Component>
+      <Component Win64='no'>
+        <File Source="..\meta\CyPhyML\CyPhyML.xme"/>
+      </Component>
+       <Component Win64='no'>
+        <File Source="..\src\CyPhyMLCS\bin\Release\CyPhyML.xml"/>
+      </Component>
+      <Component Win64='no'>
+        <File Source="..\generated\CyPhyML\models\CyPhyML_udm.xml"/>
+      </Component>
+      <Component Win64='no'>
+        <File Source="..\generated\CyPhyML.xsd"/>
+      </Component>
+
+    </DirectoryRef>
+
+    <DirectoryRef Id='INSTALLDIR'>
+      <Component Id='META_PATH' Guid='{f6504e26-e4c7-4667-a5b4-b5e8a4110235}' Win64='no'>
+        <RegistryKey Root='HKLM' Key='Software\META'>
+          <RegistryValue Name='META_PATH' Type='string' Value='[INSTALLDIR]'/>
+        </RegistryKey>
+      </Component>
+      <Component Id='MAX_DYMOLA_STEP_TIME' Guid='{4ED177DD-87CC-4FF8-9E0A-23D640C5C312}' Win64='no'>
+        <RegistryKey Root='HKLM' Key='Software\META'>
+          <RegistryValue Name='MAX_DYMOLA_STEP_TIME' Type='integer' Value='3000'/>
+        </RegistryKey>
+      </Component>
+      <Component Id='MAX_SIMULATION_TIME' Guid='{DE4B7358-A824-4C34-B6D0-32E60EFFF25F}' Win64='no'>
+        <RegistryKey Root='HKLM' Key='Software\META'>
+          <RegistryValue Name='MAX_SIMULATION_TIME' Type='integer' Value='86400'/>
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id='INSTALLDIR64'>
+      <Component Id='META_PATH64' Guid='{f6a44af1-b3ff-4720-b38b-fbc7686fa3b7}' Win64='yes'>
+        <RegistryKey Root='HKLM' Key='Software\META'>
+          <RegistryValue Name='META_PATH' Type='string' Value='[INSTALLDIR64]'/>
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+
+
+    <ComponentGroup Id="JobManager">
+      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+        <File Source='..\src\JobManager\JobManager\bin\Release\JobManager.exe'/>
+      </Component>
+      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+        <File Source='..\3rdParty\System.Data.SQLite\SQLite.Interop.dll'/>
+      </Component>
+      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+        <File Source='..\3rdParty\System.Data.SQLite\System.Data.SQLite.dll'/>
+      </Component>
+      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+        <File Source='..\3rdParty\System.Data.SQLite\System.Data.SQLite.Linq.dll'/>
+      </Component>
+      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+        <File Source='..\src\JobManager\JobManagerLib\bin\Release\JobManagerLib.dll' Assembly='.net' />
+      </Component>
+      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+        <File Source='..\src\CyPhyMasterExe\bin\Release\CyPhyMasterExe.exe'/>
+      </Component>
+      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+        <File Source='..\src\JobManager\JobManager\app.config' Name='JobManager.exe.config'/>
+      </Component>
+      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+        <File Source='..\src\AvmDdp\bin\Release\AvmDdp.dll'/>
+      </Component>
+    </ComponentGroup>
+    <DirectoryRef Id='INSTALLDIR_BIN'>
+      <Component Id='CPMDecorator.dll' Win64='no'>
+        <File Id="CPMDecorator.dll" Name="CPMDecorator.dll" KeyPath="yes" Source="..\src\bin\CPMDecorator.dll">
+          <Class Id="{BF4CBC84-0816-4FAD-A088-F61598B29F51}" Context="InprocServer32" Description="MGA Decorator CoClass (CPMDecorator)" ThreadingModel="apartment" Programmable="yes">
+            <ProgId Id="MGA.CPMDecorator.1" Description="MGA Decorator CoClass (CPMDecorator)">
+              <ProgId Id="MGA.CPMDecorator" Description="MGA Decorator CoClass (CPMDecorator)" />
+            </ProgId>
+          </Class>
+        </File>
+      </Component>
+	  
+      <Component Win64='no'>
+        <File Source="..\src\CLM_light\bin\Release\ClmLib.dll"/>
+      </Component>
+      <Component Win64='no'>
+        <File Source="..\src\ISIS.VehicleForge\bin\Release\ISIS.VehicleForge.dll"/>
+      </Component>
+      <Component Win64='no'>
+        <File Source="..\src\ISIS.Jenkins\bin\Release\ISIS.Jenkins.dll"/>
+      </Component>
+      <Component Win64='no'>
+        <File Source="..\src\ISIS.Web\bin\Release\ISIS.Web.dll"/>
+      </Component>
+      
+      <Component Win64='no'>
+        <File Source="..\meta\Complexity\ComplexityDomainLib_vs10\bin\Release\ComplexityDomainLib_vs10.dll"/>
+      </Component>
+      <Component Win64='no'>
+        <File Source="..\src\DesignInterchange2ComplexityLib\bin\Release\MetaDesignInterchange2ComplexityLib_vs10.dll"/>
+      </Component>
+
+      <Component Win64='no'>
+        <File Source='..\src\CyPhyMLCS\bin\Release\CyPhyML.dll' Assembly='.net' />
+      </Component>
+      <Component Win64='no'>
+        <File Source='..\externals\common-scripts\ISIS.GME.Common.dll' Assembly='.net' />
+      </Component>
+   </DirectoryRef>
+    <DirectoryRef Id='INSTALLDIR_BIN'>
+      <Component Win64='no'>
+        <File Source="..\src\bin\desert.dll" />
+      </Component>
+      <Component Win64='no'>
+        <File Source="..\src\bin\DesertTool.exe" />
+      </Component>      
+      <Component Id='boost_thread_vc100_mt_1_44.dll' Win64='no'>
+        <File Source="..\src\bin\boost_thread-vc100-mt-1_44.dll" />
+      </Component>
+      <Component Id='boost_thread_vc100_mt_1_55.dll' Win64='no'>
+        <File Source="..\src\bin\boost_thread-vc100-mt-1_55.dll" />
+      </Component>
+      <Component Id='boost_system_vc100_mt_1_55.dll' Win64='no'>
+        <File Source="..\src\bin\boost_system-vc100-mt-1_55.dll" />
+      </Component>
+      <Component Id='boost_chrono_vc100_mt_1_55.dll' Win64='no'>
+        <File Source="..\src\bin\boost_chrono-vc100-mt-1_55.dll" />
+      </Component>
+    </DirectoryRef>
+
+    <Component Directory="INSTALLDIR_BIN" Win64="no">
+      <File Source="..\meta\DesignDataPackage\lib\csharp\XSD2CSharp\bin\Release\XSD2CSharp.dll"/>
+    </Component>
+    <Component Directory="INSTALLDIR_BIN" Win64="no">
+      <File Source="..\src\CyPhyComponentImporter\bin\Release\CyPhy2ComponentModel.dll"/>
+    </Component>
+    <Component Directory="INSTALLDIR_BIN" Win64="no">
+      <File Source="..\src\CyPhy2DesignInterchange\bin\Release\CyPhy2DesignInterchange.dll"/>
+    </Component>
+    <Component Directory="INSTALLDIR_BIN" Win64="no">
+      <File Source="..\src\ComponentLibraryManager\bin\Release\ComponentLibraryManager.dll"/>
+    </Component>
+
+    <!-- =========================================================== -->
+    <!-- FEATURES -->
+    <!-- =========================================================== -->
+    <Feature Id='Complete' Title='META Toolchain' Description='The complete package' Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
+      <ComponentGroupRef Id='WebGME'/>
+      <ComponentRef Id='CPMDecorator.dll'/>
+      <ComponentRef Id='ApplicationShortcut'/>
+      <ComponentRef Id='CyPhyML.mta'/>
+      <ComponentGroupRef Id='icons'/>
+      <ComponentRef Id='CyPhyML.xme'/>
+      <ComponentRef Id='CyPhyML.xml'/>
+      <ComponentRef Id='CyPhyML_udm.xml'/>
+      <ComponentRef Id='CyPhyML.xsd'/>
+
+      <ComponentRef Id='CyPhyAddOn.dll'/>
+
+      <ComponentRef Id='CyPhyFormulaEvaluator.dll'/>
+      <ComponentRef Id='DesignSpaceHelper.dll'/>
+      <ComponentRef Id='desert.dll'/>
+      <ComponentRef Id='DesertTool.exe'/>
+      <ComponentRef Id='CyPhyCAExporter.dll'/>
+      <ComponentRef Id='ComponentLibraryManager.dll'/>
+      <ComponentGroupRef Id='ComponentLibraryManagerAddOn'/>
+      <ComponentGroupRef Id='CyPhyCriticalityMeter'/>
+      <ComponentGroupRef Id='CyphyDSEConverter'/>
+      <ComponentGroupRef Id='CyPhyDSRefiner'/>
+      <!-- Commented out in install.cmd: CADAddOn.dll -->
+      <ComponentRef Id='XSD2CSharp.dll' />
+      <ComponentRef Id='CyPhy2ComponentModel.dll' />
+      <ComponentGroupRef Id='CyPhyComponentImporter' />
+      <ComponentGroupRef Id='CyPhyComponentExporter' />
+      <ComponentGroupRef Id='ComponentExportImportCL' />
+      <ComponentGroupRef Id='SubTreeMerge' />
+      <ComponentGroupRef Id="CyPhyDesignExporter" />
+      <ComponentGroupRef Id="CyPhyDesignImporter" />
+      <ComponentGroupRef Id='dot_bin'/>
+      <ComponentGroupRef Id='bin'/>
+      <ComponentGroupRef Id='analysis_tools'/>
+      <ComponentRef Id='META_PATH'/>
+      <ComponentRef Id='META_PATH64'/>
+
+      <ComponentRef Id='MAX_DYMOLA_STEP_TIME'/>
+      <ComponentRef Id='MAX_SIMULATION_TIME'/>
+      <ComponentRef Id='CyPhyML.dll'/>
+      <ComponentRef Id='ISIS.GME.Common.dll'/>
+
+      <ComponentGroupRef Id='CyPhyPET'/>
+
+      <ComponentGroupRef Id="CyPhySignalBlocksAddOn"/>
+      <ComponentGroupRef Id="CyPhySignalBlocksAddOn_x64"/>
+      <ComponentGroupRef Id="CyPhyPython"/>
+      <ComponentGroupRef Id="python_packages"/>
+      <ComponentGroupRef Id='CADPython'/>
+	  
+      <ComponentGroupRef Id='CyPhyMasterInterpreter'/>
+	  <ComponentGroupRef Id='CyPhyPrepareIFab'/>
+	  <ComponentGroupRef Id='CyPhyCADAnalysis'/>
+	  <ComponentGroupRef Id='CyPhySoT'/>
+      <ComponentGroupRef Id='JobManager'/>
+      <ComponentRef Id='JobManagerLib.dll'/>
+      <ComponentGroupRef Id='CyPhyGUIs'/>
+      <ComponentRef Id='CyPhyMasterExe.exe'/>
+      <ComponentGroupRef Id='CLM_light'/>
+      <ComponentRef Id='ClmLib.dll'/>
+      
+      <ComponentRef Id='ISIS.Jenkins.dll'/>
+      <ComponentRef Id='ISIS.VehicleForge.dll'/>
+      <ComponentRef Id='ISIS.Web.dll'/>
+      
+      <ComponentRef Id='ComplexityDomainLib_vs10.dll'/>
+      <ComponentRef Id='MetaDesignInterchange2ComplexityLib_vs10.dll'/>
+      <ComponentRef Id='CyPhy2DesignInterchange.dll'/>
+      <ComponentRef Id='CyPhyDecoratorAddon.dll'/>
+
+      <!-- <ComponentGroupRef Id='DashboardVisualizer'/> -->
+
+      <ComponentRef Id='CyPhyMdaoAddOn.dll'/>
+      <ComponentRef Id='WorkflowDecorator.dll'/>
+
+      <ComponentGroupRef Id='CyPhy2Modelica_v2'/>
+      <ComponentGroupRef Id='CyPhyElaborateCS'/>
+      <ComponentGroupRef Id='CyPhyReliabilityAnalysis'/>
+      <ComponentGroupRef Id='CyPhyComponentFidelitySelector'/>
+      <ComponentGroupRef Id='CyPhyComponentAuthoring'/>
+      <ComponentGroupRef Id='ModelicaImporter'/>
+      <ComponentGroupRef Id='CyPhyComplexity'/>
+      <ComponentGroupRef Id='CyPhyMLSync'/>
+      <ComponentGroupRef Id='CyPhyComponentParameterEditor'/>
+      <ComponentGroupRef Id='CyPhyMultiJobRun'/>
+
+	  <ComponentGroupRef Id='DesignConsistencyChecker'/>
+      
+      <ComponentRef Id='CyPhyElaborate.dll'/>
+
+      <ComponentRef Id='ReferenceSwitcher.dll'/>
+
+      <!-- <ComponentRef Id='CyPhyMLUdmCli.dll'/> -->
+      <ComponentRef Id='boost_thread_vc100_mt_1_44.dll'/>
+      <ComponentRef Id='boost_thread_vc100_mt_1_55.dll'/>
+      <ComponentRef Id='boost_system_vc100_mt_1_55.dll'/>
+      <ComponentRef Id='boost_chrono_vc100_mt_1_55.dll'/>
+
+      <ComponentGroupRef Id='Json.NET'/>
+
+      <ComponentGroupRef Id='MaterialLibrary'/>
+      <ComponentGroupRef Id='Validation'/>
+      
+      <ComponentGroupRef Id='Ionic.Zip'/>
+      <!--<ComponentGroupRef Id='ComponentAuthoringAssistant'/>-->
+      <ComponentGroupRef Id='CyPhy2CAD_CSharp'/>
+      <Feature Id='DSE' Title='Design Space Exploration' Level='1'/>
+      <Feature Id='Static_Analysis' Title='Statics Analysis' Level='1' />
+      <Feature Id='Dynamics_Analysis' Title='Dynamics Analysis' Level='1' />
+      <Feature Id='doc' Title='Documentation' Level='1'>
+        <ComponentGroupRef Id='doc'/>
+      </Feature>
+      <Feature Id='models' Title='Example Models' Level='1'>
+        <!-- TODO: storyboard -->
+      </Feature>
+
+      <Feature Id='CAD' Title='CAD' Level='1'>
+        <!--<ComponentRef Id='CyPhy2CAD.dll'/>-->
+
+        <Feature Id='Creo_ISIS_Extensions' Title='Creo ISIS Extensions' Level='1' ConfigurableDirectory='INSTALLDIR64'>
+          <ComponentGroupRef Id='Proe_ISIS_Extensions_x64'/>
+          <ComponentRef Id='PROE_ISIS_EXTENSIONS'/>
+          <MergeRef Id='CRT100x64' />
+          <MergeRef Id='MFC100x64' />
+          <MergeRef Id='ATL100x64' />
+        </Feature>
+      </Feature>
+
+
+
+      <MergeRef Id='UdmDll_VS10' />
+      <MergeRef Id='UdmDll_VS10_x64' />
+      <MergeRef Id='xerces_c' />
+      <MergeRef Id='xerces_c_x64' />
+      <MergeRef Id='CRT100' />
+      <MergeRef Id='MFC100' />
+      <MergeRef Id='ATL100' />
+      <MergeRef Id='DocModule' />
+    </Feature>
+
+    <!-- =========================================================== -->
+    <!-- USER INTERFACE -->
+    <!-- =========================================================== -->
+    <UI>
+      <UIRef Id="WixUI_Minimal" />
+      <UIRef Id="WixUI_ErrorProgressText" />
+      <InstallUISequence>
+	    <Custom Action='NoDowngrade' After='FindRelatedProducts'>NEWERFOUND</Custom>
+        <Show Dialog="UserExit" OnExit="cancel">0</Show>
+      </InstallUISequence>
+    </UI>
+
+  </Product>
+</Wix>

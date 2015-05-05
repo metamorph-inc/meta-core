@@ -1,0 +1,61 @@
+Profiling
+=========
+The testrunner supports hotshot and cProfile profilers. Hotshot profiler
+support does not work with python2.6
+
+    >>> import os.path, sys
+    >>> profiler = '--profile=hotshot'
+    >>> if sys.hexversion >= 0x02060000:
+    ...     profiler = '--profile=cProfile'
+
+The testrunner includes the ability to profile the test execution with hotshot
+via the --profile option, if it a python <= 2.6
+
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> sys.path.append(directory_with_tests)
+
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+
+    >>> sys.argv = [testrunner_script, profiler]
+
+When the tests are run, we get profiling output.
+
+    >>> from zope import testrunner
+    >>> testrunner.run_internal(defaults)
+    Running samplelayers.Layer1 tests:
+    ...
+    Running samplelayers.Layer11 tests:
+    ...
+    Running zope.testrunner.layer.UnitTests tests:
+    ...
+       ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    ...
+    Total: ... tests, 0 failures, 0 errors in ... seconds.
+    False
+
+Profiling also works across layers.
+
+    >>> sys.argv = [testrunner_script, '-ssample2', profiler,
+    ...             '--tests-pattern', 'sampletests_ntd']
+    >>> testrunner.run_internal(defaults)
+    Running...
+      Tear down ... not supported...
+       ncalls  tottime  percall  cumtime  percall filename:lineno(function)...
+
+The testrunner creates temnporary files containing hotshot profiler
+data:
+
+    >>> import glob
+    >>> files = list(glob.glob('tests_profile.*.prof'))
+    >>> files.sort()
+    >>> files
+    ['tests_profile.cZj2jt.prof', 'tests_profile.yHD-so.prof']
+
+It deletes these when rerun.  We'll delete these ourselves:
+
+    >>> import os
+    >>> for f in files:
+    ...     os.unlink(f)

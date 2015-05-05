@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyPython">
+  <Component Id="CyPhyPython.dll" Directory="INSTALLDIR_BIN">
+    <File Source="..\src\Release\CyPhyPython.dll">
+      <TypeLib Id="B4706F3D-679F-409D-95E5-C87980CF59BC" Description="MGA Interpreter TypeLibrary (CyPhyPython)" Language="0" MajorVersion="1" MinorVersion="0">
+        <Class Id="{83D57532-DB24-4592-A540-14629B9ECBD0}" Context="InprocServer32" ThreadingModel="apartment" Description="MGA.Interpreter.CyPhyPython">
+          <ProgId Id="MGA.Interpreter.CyPhyPython" Description="MGA.Interpreter.CyPhyPython" />
+        </Class>
+      </TypeLib>
+    </File>
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyPhyPython'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhyPython'/>
+      <RegistryValue Name='Icon' Type='string' Value=',IDI_COMPICON'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='CyPhyPython Interpreter'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

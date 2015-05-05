@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="CADConnectorDupComponentAsm" DesignID="{b8c4f09d-f152-4271-844e-581bc8de9445}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="CADConnectorDupComponentAsm" xmlns="">
+    <ComponentInstance XPosition="210" YPosition="294" ComponentID="5dc5d715-1dfa-4884-91c2-8e81f7ee9387" ID="{3070f2ba-2268-4e6a-b041-c2c992cca1cd}" Name="Component2">
+      <ConnectorInstance ConnectorComposition="efcfb004-a81f-4ce1-b083-b5c3cc52131f" ID="{3070f2ba-2268-4e6a-b041-c2c992cca1cd}-id-34a46163-a922-429c-a616-306e4c49dd83" ApplyJoinData="" IDinComponentModel="id-34a46163-a922-429c-a616-306e4c49dd83" />
+    </ComponentInstance>
+    <ComponentInstance XPosition="217" YPosition="196" ComponentID="5dc5d715-1dfa-4884-91c2-8e81f7ee9387" ID="{4aef52e4-bab6-4d62-a03f-8966e2e41ac3}" Name="Component">
+      <ConnectorInstance ConnectorComposition="efcfb004-a81f-4ce1-b083-b5c3cc52131f" ID="{4aef52e4-bab6-4d62-a03f-8966e2e41ac3}-id-34a46163-a922-429c-a616-306e4c49dd83" ApplyJoinData="" IDinComponentModel="id-34a46163-a922-429c-a616-306e4c49dd83" />
+    </ComponentInstance>
+    <Connector ConnectorComposition="{4aef52e4-bab6-4d62-a03f-8966e2e41ac3}-id-34a46163-a922-429c-a616-306e4c49dd83 {3070f2ba-2268-4e6a-b041-c2c992cca1cd}-id-34a46163-a922-429c-a616-306e4c49dd83" ID="efcfb004-a81f-4ce1-b083-b5c3cc52131f" ApplyJoinData="" XPosition="98" YPosition="42" Definition="" Name="CADConnector">
+      <Role xmlns:q2="modelica" xsi:type="q2:Connector" ID="4cd0f4f3-b8e3-4ce3-9e08-b822a04d3fe6" PortMap="" XPosition="259" YPosition="455" Name="ModelicaConnector" Locator="" Class="" />
+      <Role xmlns:q3="cad" xsi:type="q3:Point" ID="id-b62c2e75-715d-4fc4-b765-15a22de18102" PortMap="" Notes="" XPosition="294" Definition="" YPosition="140" Name="Point" DatumName="Point" />
+      <Role xmlns:q4="cad" xsi:type="q4:CoordinateSystem" ID="id-e31063f3-4ddc-447f-92f9-535c79fa8e03" PortMap="" Notes="" XPosition="294" Definition="" YPosition="329" Name="CoordinateSystem" DatumName="CoordSys" />
+      <Role xmlns:q5="cad" xsi:type="q5:Plane" ID="id-e27282d1-a20c-4794-a205-5aea3e14f481" PortMap="" Notes="" XPosition="294" Definition="" YPosition="231" Name="Surface" DatumName="Surface" SurfaceReverseMap="" />
+      <Role xmlns:q6="cad" xsi:type="q6:Axis" ID="id-ea5c615b-cfb0-4216-8ee5-6d87315dcbb5" PortMap="" Notes="" XPosition="294" Definition="" YPosition="42" Name="Axis" DatumName="Axis" />
+    </Connector>
+  </RootContainer>
+</Design>

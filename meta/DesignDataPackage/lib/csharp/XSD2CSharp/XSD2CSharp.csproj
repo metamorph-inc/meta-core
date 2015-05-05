@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B4B9DC90-2857-4C8E-9BDE-47EC4649122B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XSD2CSharp</RootNamespace>
+    <AssemblyName>XSD2CSharp</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <NoWarn>0114,0108</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Assembly.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <!-- http://stackoverflow.com/questions/9297402/generate-c-sharp-classes-from-xml-only-if-xml-has-changed -->
+  <ItemGroup>
+    <Preprocess Include="..\..\..\schema\avm.cad.xsd" />
+    <Preprocess Include="..\..\..\schema\avm.xsd" />
+    <Preprocess Include="..\..\..\schema\avm.manufacturing.xsd" />
+    <Preprocess Include="..\..\..\schema\avm.modelica.xsd" />
+    <Preprocess Include="..\..\..\schema\avm.cyber.xsd" />
+    <Preprocess Include="..\..\..\schema\assemblyDetails.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AvmXmlSerializer.cs" />
+    <Compile Include="generated\avm.cad.designer.cs" />
+    <Compile Include="generated\avm.designer.cs" />
+    <Compile Include="generated\avm.manufacturing.designer.cs" />
+    <Compile Include="generated\avm.modelica.designer.cs" />
+    <Compile Include="generated\avm.cyber.designer.cs" />
+    <Compile Include="generated\AssemblyDetails.designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assembly.snk" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)..\instrumentdll $(TargetDir) $(TargetFileName) $(ProjectDir)\Assembly.snk</PostBuildEvent>
+  </PropertyGroup>
+  <Target Name="BeforeBuild" Inputs="@(Preprocess)" Outputs="@(Preprocess->'$(ProjectDir)generated\%(Filename).designer.cs')">
+    <!--<Exec Command="echo %(FullPath)  @(Preprocess)" />-->
+    <!--<Exec Command="..\..\..\..\..\3rdParty\xsd2code\Xsd2Code %(FullPath) /eit /is /xa /output %22$(ProjectDir)generated\%(Filename).designer.cs%22 @(Preprocess)" />-->
+    <!-- with the above commented-out, and the output checked in SVN, it can happen that the input is checked out earlier than the output, and the output is always out-of-date. so Touch it -->
+    <!-- Touch Files="$(ProjectDir)generated\%(Preprocess.Filename).designer.cs" / -->
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

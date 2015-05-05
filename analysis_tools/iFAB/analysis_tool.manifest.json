@@ -1,0 +1,26 @@
+{
+	"conceptual_mfg" : {
+		"version": "00.01",
+		"outputDirectory": "output_conceptual_mfg",
+		"runCommand": "run_conceptual_mfg.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhyCADAnalysis"
+		},
+	"detailed_mfg" : {
+		"version": "00.01",
+		"outputDirectory": "output_detailed_mfg",
+		"runCommand": "run_detailed_mfg.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhyCADAnalysis"
+		},
+	"completeness" : {
+		"version": "00.01",
+		"outputDirectory": "output_completeness",
+		"runCommand": "run_completeness.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhyCADAnalysis"
+		},
+    "RAMD" : {
+		"version": "00.01",
+		"outputDirectory": "output_RAMD",
+		"runCommand": "run_RAMD.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhyCADAnalysis"
+		}    
+}

@@ -1,0 +1,15 @@
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+      <DirectoryRef Id="bin"/>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ComponentExportImportCL">
+            <Component Directory="bin" Guid="*">
+                <File KeyPath="yes" Source="..\src\CyPhyComponentExporterCL\bin\Release\CyPhyComponentExporterCL.exe" />
+            </Component>
+            <Component Directory="bin" Guid="*">
+                <File KeyPath="yes" Source="..\src\CyPhyComponentImporterCL\bin\Release\CyPhyComponentImporterCL.exe" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="CAD">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="CADMetrics">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="PostProcessing">
+      <UniqueIdentifier>{e7d145dd-206f-4b54-83bd-910db4679cb6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <xme2mga Include="CADMetrics_Uml.xme">
+      <Filter>CADMetrics</Filter>
+    </xme2mga>
+    <xme2mga Include="CAD_Uml.xme">
+      <Filter>CAD</Filter>
+    </xme2mga>
+    <xme2mga Include="CADPostProcessingParams.xme">
+      <Filter>PostProcessing</Filter>
+    </xme2mga>
+    <xme2mga Include="AssemblyData_Creo.xme">
+      <Filter>CAD</Filter>
+    </xme2mga>
+  </ItemGroup>
+  <ItemGroup>
+    <mga2udmxml Include="..\..\generated\CAD\models\CAD_uml.mga">
+      <Filter>CAD</Filter>
+    </mga2udmxml>
+    <mga2udmxml Include="..\..\generated\CAD\models\CADMetrics_Uml.mga">
+      <Filter>CADMetrics</Filter>
+    </mga2udmxml>
+    <mga2udmxml Include="..\..\generated\CAD\models\CADPostProcessingParams.mga">
+      <Filter>PostProcessing</Filter>
+    </mga2udmxml>
+    <mga2udmxml Include="..\..\generated\CAD\models\AssemblyData_Creo.mga">
+      <Filter>CAD</Filter>
+    </mga2udmxml>
+  </ItemGroup>
+  <ItemGroup>
+    <udm Include="..\..\generated\CAD\models\AssemblyInterface_udm.xml">
+      <Filter>CAD</Filter>
+    </udm>
+    <udm Include="..\..\generated\CAD\models\CADMetrics_udm.xml">
+      <Filter>CADMetrics</Filter>
+    </udm>
+    <udm Include="..\..\generated\CAD\models\CADPostProcessingParameters_udm.xml">
+      <Filter>PostProcessing</Filter>
+    </udm>
+    <udm Include="..\..\generated\CAD\models\CreoMetaData_udm.xml">
+      <Filter>CAD</Filter>
+    </udm>
+  </ItemGroup>
+</Project>

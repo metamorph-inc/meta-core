@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<?define Json.NET=..\3rdParty\Json.NET?>
+<!-- generated with gen_dir_wxi.py ../3rdParty/Json.NET/ -->
+    <Fragment>
+        <DirectoryRef Id="Json.NET" />
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="Json.NET">
+            <Component Id="cmp00CB085A9AC320EF8A3FD034D86DEDCD" Directory="Json.NET" Guid="*">
+                <File Id="filD2471E705A6BCB8A785A0BE3130380FA" KeyPath="yes" Source="$(var.Json.NET)\LICENSE_Json.NET.txt" />
+            </Component>
+            <Component Id="cmp742C5B56EDBA2BAA53BBE07D198FDA57" Directory="Json.NET" Guid="*">
+                <File Id="filD48CD401E612752C28DD0530541C0FFA" KeyPath="yes" Source="$(var.Json.NET)\Newtonsoft.Json.dll" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

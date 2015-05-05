@@ -1,0 +1,118 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".cmd" #>
+
+REM	The following system environment variable must be set:
+REM	    PROE_ISIS_EXTENSIONS	// typically set to C:\Program Files\META\Proe ISIS Extensions
+REM
+REM	See "C:\Program Files\META\Proe ISIS Extensions\0Readme - CreateAssembly.txt" for the complete setup instructions.
+
+set WORKING_DIR="."
+set ERROR_CODE=0
+
+set ERROR_MSG=""
+
+
+Rem ****************************
+REM Create Creo Assembly
+Rem ****************************
+
+set EXE_FILE_NAME=CADCreoParametricCreateAssembly.exe
+set EXE="%PROE_ISIS_EXTENSIONS%\bin\%EXE_FILE_NAME%"
+
+set ASSEMBLY_XML_FILE="<#=XMLFileName#>.xml"
+set LOG_FILE=%ASSEMBLY_XML_FILE%.log
+
+
+if exist %EXE% goto  :EXE_FOUND
+@echo off
+echo		Error: Could not find %EXE_FILE_NAME%.
+echo		Your system is not properly configured to run %EXE_FILE_NAME%.
+echo		Please see For instructions on how to configure your system, please see "0Readme - CreateAssembly.txt"
+echo		which is typically located at "C:\Program Files\META\Proe ISIS Extensions"
+set ERROR_CODE=2
+set ERROR_MSG="Error from runCreateCADAssembly.bat: Could not find CADCreoParametricCreateAssembly.exe."
+goto :ERROR_SECTION
+:EXE_FOUND
+
+%EXE% -w %WORKING_DIR%  -i %ASSEMBLY_XML_FILE% -l %LOG_FILE% <# if (!Automation) { #>-p<# } #> <# if (LiveLink){ #>-s 127.0.0.1:15150 -g<# } #> <#=AdditionalOptions#>
+
+
+set ERROR_CODE=%ERRORLEVEL%
+if %ERRORLEVEL% NEQ 0 (
+set ERROR_MSG="Error from runCreateCADAssembly.bat: %EXE_FILE_NAME% encountered error during execution, error level is %ERROR_CODE%"
+goto :ERROR_SECTION
+)
+
+if exist TestBench_PreProcess.cmd (
+cmd /c TestBench_PreProcess.cmd
+)
+
+set ERROR_CODE=%ERRORLEVEL%
+if %ERRORLEVEL% NEQ 0 (
+set ERROR_MSG="Error from runCreateCADAssembly.bat: Encountered error during execution of TestBench_PreProcess.cmd, error level is %ERROR_CODE%"
+goto :ERROR_SECTION
+)
+
+<#=CallDomainTool#>
+
+
+<# if (Automation) { #>
+@echo off
+
+
+Rem ****************************
+REM Python Metric Update Script
+Rem ****************************
+
+set RESULT_XML_FILE=<#=ComputedMetricsPath#>
+set PY_SCRIPT_NAME=UpdateReportJson_CAD.py
+set PY_SCRIPT="%PROE_ISIS_EXTENSIONS%\bin\%PY_SCRIPT_NAME%"
+set PYTHONPATH=%PYTHONPATH%;%PROE_ISIS_EXTENSIONS%
+
+if exist %PY_SCRIPT% goto  :PY_FOUND
+@echo off
+echo		Error: Could not find %PY_SCRIPT_NAME%.
+echo		Your system is not properly configured to run %PY_SCRIPT_NAME%.
+echo		Please see For instructions on how to configure your system, please see "0Readme - CreateAssembly.txt"
+echo		which is typically located at "C:\Program Files\META\Proe ISIS Extensions"
+set ERROR_CODE=2
+set ERROR_MSG="Error from runCreateCADAssembly.bat: Could not find UpdateReportJson_CAD.py."
+goto :ERROR_SECTION
+
+:PY_FOUND
+FOR /F "skip=2 tokens=2,*" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO "%%B\bin\Python27\Scripts\Python.exe" %PY_SCRIPT% -m %RESULT_XML_FILE%
+
+set ERROR_CODE=%ERRORLEVEL%
+if %ERRORLEVEL% NEQ 0 (
+set ERROR_MSG="Error from runCreateCADAssembly.bat: %PY_SCRIPT_NAME% encountered error during execution, error level is %ERROR_CODE%"
+goto :ERROR_SECTION
+)
+
+if exist TestBench_PostProcess.cmd (
+cmd /c TestBench_PostProcess.cmd
+)
+
+set ERROR_CODE=%ERRORLEVEL%
+if %ERRORLEVEL% NEQ 0 (
+set ERROR_MSG="Error from runCreateCADAssembly.bat: Encountered error during execution of TestBench_PostProcess.cmd, error level is %ERROR_CODE%"
+goto :ERROR_SECTION
+)
+<# } #>
+
+exit 0
+
+:ERROR_SECTION
+echo %ERROR_MSG% >>_FAILED.txt
+echo ""
+echo "See Error Log: _FAILED.txt"
+ping -n 8 127.0.0.1 > nul
+exit /b %ERROR_CODE%
+
+<#+  
+public string XMLFileName {get;set;}
+public bool Automation {get;set;}
+public string ComputedMetricsPath = "ComputedValues.xml";
+public bool LiveLink {get; set;}
+public string CallDomainTool{get;set;}
+public string AdditionalOptions = "";
+#>

@@ -1,0 +1,1256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{291F5228-B5AA-41B8-91B1-03EAA1B9C3CF}" cdate="Mon Jul 15 15:57:13 2013" mdate="Mon Jul 15 15:57:13 2013" version="" metaguid="{9BDD6E81-CEA9-427A-AD04-63B947ADAB30}" metaversion="" metaname="CyberComposition">
+	<name>RootFolder</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x2" kind="RootFolder" guid="{d81d1448-1e22-4bb8-898e-49071fba16fb}">
+		<name>RootFolder</name>
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x1" kind="Components" guid="{e448976d-34b0-4133-afaa-2d97da4c8dea}">
+			<name>Component</name>
+			<model id="id-0065-00000001" kind="SimulinkWrapper" guid="{6fc4d790-7716-4b0a-a013-ac044b74d079}" relid="0x1" childrelidcntr="0x9">
+				<name>SimulinkComponent</name>
+				<attribute kind="Class">
+					<value>Real</value>
+				</attribute>
+				<model id="id-0065-00000002" kind="BusInterface" role="BusInterface" guid="{f52502e1-c6e6-414c-9805-cec0d4c9be4b}" relid="0x1" childrelidcntr="0x2">
+					<name>BusInterface</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,77</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Class">
+						<value>SignalFlow.BusPortType</value>
+					</attribute>
+					<model id="id-0065-00000003" kind="InputSignalInterface" role="InputSignalInterface" guid="{79fe2a76-daa1-4f39-8a8f-596a9febe8ae}" relid="0x1" childrelidcntr="0x0">
+						<name>InputSignalInterface</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>357,63</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Blocks.Interfaces.IntegerPort</value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000004" kind="OutputSignalInterface" role="OutputSignalInterface" guid="{7096099a-c8a7-4448-9b7d-c9e7185a3ec9}" relid="0x2" childrelidcntr="0x0">
+						<name>OutputSignalInterface</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>357,224</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Blocks.Interfaces.IntegerPort</value>
+						</attribute>
+					</model>
+				</model>
+				<model id="id-0065-00000005" kind="InputSignalInterface" role="InputSignalInterface" guid="{a5547834-d717-4ea4-95fe-a4b3127dada9}" relid="0x2" childrelidcntr="0x0">
+					<name>InputSignalInterface</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,224</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Class">
+						<value>Modelica.Blocks.Interfaces.RealPort</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000006" kind="OutputSignalInterface" role="OutputSignalInterface" guid="{8fd378c4-9efa-4992-b54c-f5e0a0afc22d}" relid="0x3" childrelidcntr="0x0">
+					<name>OutputSignalInterface</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>840,119</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Class">
+						<value>Modelica.Blocks.Interfaces.DoublePort</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000007" kind="Simulink::Subsystem" role="Simulink::Subsystem" guid="{80716780-c36c-49a8-91ec-9c2ec0ecda6b}" relid="0x4" childrelidcntr="0xd">
+					<name>TopLevel</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>462,133</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BlockType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Name" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Priority" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="RefId" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="SampleTime" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="UserData" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000008" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{94478c0c-5795-4823-8e26-35433133b449}" relid="0x1" childrelidcntr="0x1">
+						<name>In1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>119,42</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<reference id="id-0067-00000001" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{d7d7e9e3-889d-4f9c-9e94-2c219584d399}" relid="0x1" referred="id-0066-00000001">
+							<name>double</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Aspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>84,63</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="MemberIndex" status="meta">
+								<value>0</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-00000009" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{d82ccfdd-d9dd-4574-acb3-40308ca6a22f}" relid="0x2" childrelidcntr="0x1">
+						<name>In2</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>119,189</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<reference id="id-0067-00000002" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{ace7781b-9389-44cf-aef4-8aaa0a3e34ac}" relid="0x1" referred="id-0066-00000001">
+							<name>double</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Aspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>84,63</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="MemberIndex" status="meta">
+								<value>0</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-0000000a" kind="Simulink::OutputPort" role="Simulink::OutputPort" guid="{cc76c0d0-523a-4b94-bbfb-192eb554f09c}" relid="0x3" childrelidcntr="0x1">
+						<name>Out1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>714,49</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<reference id="id-0067-00000003" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{ab63ce6e-e5ec-4f70-9613-4f723d9ff4d9}" relid="0x1" referred="id-0066-00000001">
+							<name>double</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Aspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>84,63</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="MemberIndex" status="meta">
+								<value>0</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-0000000b" kind="Simulink::OutputPort" role="Simulink::OutputPort" guid="{bf646485-ad42-486d-86aa-8bfabd943e42}" relid="0x4" childrelidcntr="0x1">
+						<name>Out2</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>714,203</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<reference id="id-0067-00000004" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{dfc395ab-1b1f-436f-9f2b-5974d76fba66}" relid="0x1" referred="id-0066-00000001">
+							<name>double</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Aspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>84,63</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="MemberIndex" status="meta">
+								<value>0</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-0000000c" kind="Simulink::Subsystem" role="Simulink::Subsystem" guid="{1deed75d-6d20-4392-b43d-07e00f9bd7dc}" relid="0x6" childrelidcntr="0xa">
+						<name>Chart</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>462,133</value>
+								</regnode>
+							</regnode>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>483,77</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="BlockType" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Priority" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="SampleTime" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="Tag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="UserData" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-0000000d" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{7a752fa3-06b2-4850-9082-6abfcc0eb1d0}" relid="0x2" childrelidcntr="0x1">
+							<name>In2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>119,189</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="RefId" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000005" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{1cf743b5-53fb-4a6e-9299-c4412834560a}" relid="0x1" referred="id-0066-00000001">
+								<name>double</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="Aspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>84,63</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-0000000e" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{27648cd3-78ae-4c08-8d63-bb649930be1f}" relid="0x1" childrelidcntr="0x1">
+							<name>In1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>119,91</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="RefId" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000006" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{58cd9bb5-fea7-48bd-8e59-d5a67ce3b257}" relid="0x1" referred="id-0066-00000001">
+								<name>double</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="Aspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>84,63</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-0000000f" kind="Simulink::OutputPort" role="Simulink::OutputPort" guid="{b990bd59-9c69-45c6-ad6f-dc212403d9b0}" relid="0x3" childrelidcntr="0x1">
+							<name>Out1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>714,98</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="RefId" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000007" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{1b7949d6-9936-4b12-afec-4696a419e980}" relid="0x1" referred="id-0066-00000001">
+								<name>double</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="Aspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>84,63</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-00000010" kind="Simulink::OutputPort" role="Simulink::OutputPort" guid="{d0f290ab-71c0-4793-a3dc-3a936ee1f95a}" relid="0x4" childrelidcntr="0x1">
+							<name>Out2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>714,203</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="RefId" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000008" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{6ffccabe-46c7-4e0c-989f-c1dd73c596a5}" relid="0x1" referred="id-0066-00000001">
+								<name>double</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="Aspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>84,63</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-00000011" kind="Simulink::SFState" role="Simulink::SFState" guid="{d8997faf-4a5f-4326-8de2-719aa19c30c8}" relid="0x6" childrelidcntr="0xa">
+							<name>ChartDefinition</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>350,119</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Decomposition" status="meta">
+								<value>OR_STATE</value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DuringAction" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="EnterAction" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ExitAction" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Methods" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Order" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="RefId" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-00000012" kind="Simulink::SFData" role="Simulink::SFData" guid="{fc062897-6986-43e2-bf72-3a2d62810703}" relid="0x1" childrelidcntr="0x1">
+								<name>In1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="SFStateAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>70,28</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="ArrayFirstIndex" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="ArraySize" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="DataType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="InitialValue" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Max" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Min" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Port" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="RefId" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Scope" status="meta">
+									<value>LOCAL_DATA</value>
+								</attribute>
+								<attribute kind="Units" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-0000000a" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{52b87a9d-2698-47df-9b74-915d3eb070d1}" relid="0x1" referred="id-0066-00000001">
+									<name>double</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="Aspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>91,63</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<model id="id-0065-00000013" kind="Simulink::SFData" role="Simulink::SFData" guid="{d1bcf656-6150-453b-b193-d68a40d87393}" relid="0x2" childrelidcntr="0x1">
+								<name>In2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="SFStateAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>70,161</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="ArrayFirstIndex" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="ArraySize" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="DataType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="InitialValue" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Max" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Min" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Port" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="RefId" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Scope" status="meta">
+									<value>LOCAL_DATA</value>
+								</attribute>
+								<attribute kind="Units" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-0000000b" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{dfa080dd-4f54-4d21-b0e5-ad5d801a3244}" relid="0x1" referred="id-0066-00000001">
+									<name>double</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="Aspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>91,63</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<model id="id-0065-00000014" kind="Simulink::SFData" role="Simulink::SFData" guid="{ae4bb7a4-0abf-44be-98bf-51f1ce98d4b8}" relid="0x3" childrelidcntr="0x1">
+								<name>Storage</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="SFStateAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>70,294</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="ArrayFirstIndex" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="ArraySize" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="DataType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="InitialValue" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Max" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Min" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Port" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="RefId" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Scope" status="meta">
+									<value>LOCAL_DATA</value>
+								</attribute>
+								<attribute kind="Units" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-00000009" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{daf6d9f7-b445-4080-b2b4-a34720806249}" relid="0x1" referred="id-0066-00000001">
+									<name>double</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="Aspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>91,63</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<model id="id-0065-00000015" kind="Simulink::SFData" role="Simulink::SFData" guid="{3767f867-df56-4b58-9c28-cc43248f963e}" relid="0x4" childrelidcntr="0x1">
+								<name>Out1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="SFStateAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>756,21</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="ArrayFirstIndex" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="ArraySize" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="DataType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="InitialValue" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Max" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Min" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Port" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="RefId" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Scope" status="meta">
+									<value>LOCAL_DATA</value>
+								</attribute>
+								<attribute kind="Units" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-0000000c" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{afe4a8f3-7b05-49bc-8292-165c08f259dd}" relid="0x1" referred="id-0066-00000001">
+									<name>double</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="Aspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>91,63</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<model id="id-0065-00000016" kind="Simulink::SFData" role="Simulink::SFData" guid="{e41f0514-ff7c-49fc-bfc0-77cbcef793a9}" relid="0x5" childrelidcntr="0x1">
+								<name>Out2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="SFStateAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>763,161</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="ArrayFirstIndex" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="ArraySize" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="DataType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="InitialValue" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Max" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Min" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Port" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="RefId" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Scope" status="meta">
+									<value>LOCAL_DATA</value>
+								</attribute>
+								<attribute kind="Units" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-0000000d" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{d5276177-bdc3-46ec-a0c0-b6aa7718dee4}" relid="0x1" referred="id-0066-00000001">
+									<name>double</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="Aspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>91,63</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<model id="id-0065-00000017" kind="Simulink::SFState" role="Simulink::SFState" guid="{7cb19137-3f7b-4db4-8f33-f21064a111ec}" relid="0x6" childrelidcntr="0x0">
+								<name>State1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="SFStateAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>364,84</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Decomposition" status="meta">
+									<value>OR_STATE</value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="DuringAction" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="EnterAction">
+									<value>Out1 = Out2 = 0; Storage = In1 + 2;</value>
+								</attribute>
+								<attribute kind="ExitAction" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Methods" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Order" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="RefId" status="meta">
+									<value></value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000018" kind="Simulink::SFState" role="Simulink::SFState" guid="{bd3536cb-c5a1-4b39-8c59-01f929671bb4}" relid="0x8" childrelidcntr="0x0">
+								<name>State2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="SFStateAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>399,224</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Decomposition" status="meta">
+									<value>OR_STATE</value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="DuringAction" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="EnterAction">
+									<value>Out1 = ((int) Storage) + In1; Out2 = In2 * Storage;</value>
+								</attribute>
+								<attribute kind="ExitAction" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Methods" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Order" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="RefId" status="meta">
+									<value></value>
+								</attribute>
+							</model>
+							<atom id="id-0066-00000003" kind="Simulink::SFTransStart" role="Simulink::SFTransStart" guid="{20cc084f-32e4-4773-adce-423ab941653f}" relid="0x7">
+								<name>Init</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="SFStateAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>308,35</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId" status="meta">
+									<value></value>
+								</attribute>
+							</atom>
+							<connection id="id-0068-00000005" kind="Simulink::SFTransition" role="Simulink::Transition" guid="{c81d5f34-d20d-4d69-862d-a6cc6289a827}" relid="0x9">
+								<name>Simulink::Transition</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>Sn</value>
+								</regnode>
+								<attribute kind="Action" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="ConditionAction" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Guard">
+									<value>In2 &gt; 3.0</value>
+								</attribute>
+								<attribute kind="Order" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="RefId" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Trigger" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-00000017"/>
+								<connpoint role="dst" target="id-0065-00000018"/>
+							</connection>
+							<connection id="id-0068-00000006" kind="Simulink::SFTransition" role="Simulink::Transition" guid="{571b36e0-75af-464e-86af-4f3f340d9e74}" relid="0xa">
+								<name>Simulink::Transition</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>En</value>
+								</regnode>
+								<attribute kind="Action" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="ConditionAction" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Guard" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Order" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="RefId" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Trigger" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-00000017"/>
+								<connpoint role="src" target="id-0066-00000003"/>
+							</connection>
+						</model>
+						<connection id="id-0068-00000007" kind="Simulink::ConnToSFStates" role="Simulink::ConnToSFStates" guid="{affede28-5a07-4e70-b9cd-23b18baf862a}" relid="0x7">
+							<name>Simulink::ConnToSFStates</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>E</value>
+							</regnode>
+							<connpoint role="src" target="id-0065-0000000e"/>
+							<connpoint role="dst" target="id-0065-00000012"/>
+						</connection>
+						<connection id="id-0068-00000008" kind="Simulink::ConnToSFStates" role="Simulink::ConnToSFStates" guid="{72472ebe-e7f6-4e97-be97-a2f1e2628b9f}" relid="0x8">
+							<name>Simulink::ConnToSFStates</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>E</value>
+							</regnode>
+							<connpoint role="src" target="id-0065-0000000d"/>
+							<connpoint role="dst" target="id-0065-00000013"/>
+						</connection>
+						<connection id="id-0068-00000009" kind="Simulink::ConnToSFStates" role="Simulink::ConnToSFStates" guid="{dec1d61a-6100-4877-bfcd-0b399ef2f3b5}" relid="0x9">
+							<name>Simulink::ConnToSFStates</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>w</value>
+							</regnode>
+							<connpoint role="dst" target="id-0065-0000000f"/>
+							<connpoint role="src" target="id-0065-00000015"/>
+						</connection>
+						<connection id="id-0068-0000000a" kind="Simulink::ConnToSFStates" role="Simulink::ConnToSFStates" guid="{d09c6b3a-72da-4a5f-8d75-5214868891ea}" relid="0xa">
+							<name>Simulink::ConnToSFStates</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>w</value>
+							</regnode>
+							<connpoint role="dst" target="id-0065-00000010"/>
+							<connpoint role="src" target="id-0065-00000016"/>
+						</connection>
+					</model>
+					<model id="id-0065-00000019" kind="Simulink::Primitive" role="Simulink::Primitive" guid="{c7529188-ee70-446e-b765-141661f057d8}" relid="0xb" childrelidcntr="0x5">
+						<name>Simulink::Primitive</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>273,147</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="BlockType">
+							<value>Gain</value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Priority" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="SampleTime" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="Tag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="UserData" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-0000001a" kind="Simulink::OutputPort" role="Simulink::OutputPort" guid="{af94d455-0bd9-474e-b2a7-e204cb544bfc}" relid="0x1" childrelidcntr="0x1">
+							<name>Out2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>714,203</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="RefId" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-0000000f" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{25252f86-aa09-4057-9132-0fe2a85ffaf3}" relid="0x1" referred="id-0066-00000001">
+								<name>double</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="Aspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>84,63</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-0000001b" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{5282f30d-e9be-475b-8e6b-d1d8eeeeadc6}" relid="0x2" childrelidcntr="0x1">
+							<name>In2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>119,189</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="RefId" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000010" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{b5640536-2316-4f28-ba22-8f126452e5b0}" relid="0x1" referred="id-0066-00000001">
+								<name>double</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="Aspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>84,63</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<atom id="id-0066-00000004" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{f21c220a-e26a-491c-8206-8b700bfa4665}" relid="0x3">
+							<name>Gain</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>483,175</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>3.0</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000005" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{f57d9a1f-3e09-4180-8f98-67c8cfbc94b2}" relid="0x4">
+							<name>ParamDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>259,98</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>double</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000006" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{394a7bea-d74a-4414-b10e-db3943680f44}" relid="0x5">
+							<name>OutDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>259,196</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>double</value>
+							</attribute>
+						</atom>
+					</model>
+					<connection id="id-0068-0000000b" kind="Simulink::Line" role="Simulink::Line" guid="{0cbcb48d-9b87-4b11-a179-c9eb85c543b8}" relid="0x7">
+						<name>Simulink::Line</name>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000008"/>
+						<connpoint role="dst" target="id-0065-0000000e"/>
+					</connection>
+					<connection id="id-0068-0000000d" kind="Simulink::Line" role="Simulink::Line" guid="{6d6ee22a-68de-421a-8ec5-97668758e506}" relid="0x9">
+						<name>Simulink::Line</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>w</value>
+						</regnode>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="dst" target="id-0065-0000000a"/>
+						<connpoint role="src" target="id-0065-0000000f"/>
+					</connection>
+					<connection id="id-0068-0000000e" kind="Simulink::Line" role="Simulink::Line" guid="{ee2b494e-1559-4b42-b4b7-eb0503a9e3bd}" relid="0xa">
+						<name>Simulink::Line</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>w</value>
+						</regnode>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="dst" target="id-0065-0000000b"/>
+						<connpoint role="src" target="id-0065-00000010"/>
+					</connection>
+					<connection id="id-0068-0000000f" kind="Simulink::Line" role="Simulink::Line" guid="{a84ca6d2-35f1-46b0-992d-8f6d4460ce90}" relid="0xc">
+						<name>Simulink::Line</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>E</value>
+						</regnode>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000009"/>
+						<connpoint role="dst" target="id-0065-0000001b"/>
+					</connection>
+					<connection id="id-0068-00000010" kind="Simulink::Line" role="Simulink::Line" guid="{a1ffc892-87a7-4caa-bd30-a992a13e2c27}" relid="0xd">
+						<name>Simulink::Line</name>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="dst" target="id-0065-0000000d"/>
+						<connpoint role="src" target="id-0065-0000001a"/>
+					</connection>
+				</model>
+				<reference id="id-0067-0000000e" kind="ParameterRef" role="ParameterRef" guid="{9693be2f-e936-4875-b213-697eefdc22d2}" relid="0x9" referred="id-0065-00000014">
+					<name>Storage</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>77,336</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Class" status="meta">
+						<value></value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-00000001" kind="InputSignalInterfaceConnection" role="InputSignalInterfaceConnection" guid="{30360efb-f8f2-4564-b16a-9dbb913c45f3}" relid="0x5">
+					<name>InputSignalInterfaceConnection</name>
+					<connpoint role="src" target="id-0065-00000003"/>
+					<connpoint role="dst" target="id-0065-00000008"/>
+				</connection>
+				<connection id="id-0068-00000002" kind="OutputSignalInterfaceConnection" role="OutputSignalInterfaceConnection" guid="{c79247e6-6ea6-4812-bd3e-bcd6fc7ddea5}" relid="0x6">
+					<name>OutputSignalInterfaceConnection</name>
+					<connpoint role="dst" target="id-0065-00000004"/>
+					<connpoint role="src" target="id-0065-0000000a"/>
+				</connection>
+				<connection id="id-0068-00000003" kind="InputSignalInterfaceConnection" role="InputSignalInterfaceConnection" guid="{c1f27206-c0ac-4e63-a501-b99424574e56}" relid="0x7">
+					<name>InputSignalInterfaceConnection</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000005"/>
+					<connpoint role="dst" target="id-0065-00000009"/>
+				</connection>
+				<connection id="id-0068-00000004" kind="OutputSignalInterfaceConnection" role="OutputSignalInterfaceConnection" guid="{81f5b9ce-2bd4-4fff-99c7-7c4311c65f8e}" relid="0x8">
+					<name>OutputSignalInterfaceConnection</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000006"/>
+					<connpoint role="src" target="id-0065-0000000b"/>
+				</connection>
+			</model>
+		</folder>
+		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x2" kind="Simulink::Types" guid="{df67cd8c-32ef-404a-a76a-7dbdc0b8b6c4}">
+			<name>DataTypes</name>
+			<atom id="id-0066-00000001" kind="Simulink::SF_Matrix" guid="{580220bf-76b2-48b5-b078-6d2fbc994321}" relid="0x1">
+				<name>double</name>
+				<attribute kind="Type">
+					<value>double</value>
+				</attribute>
+				<attribute kind="columns">
+					<value>1</value>
+				</attribute>
+				<attribute kind="rows">
+					<value>1</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000002" kind="Simulink::SF_Matrix" guid="{9e1f5971-ce8a-4fe3-8603-41a5823a3f25}" relid="0x2">
+				<name>integer</name>
+				<attribute kind="Type">
+					<value>integer</value>
+				</attribute>
+				<attribute kind="columns">
+					<value>1</value>
+				</attribute>
+				<attribute kind="rows">
+					<value>1</value>
+				</attribute>
+			</atom>
+		</folder>
+	</folder>
+</project>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="DesignSpaceHelper">
+  <Component Id="DesignSpaceHelper.dll" Directory="INSTALLDIR_BIN">
+    <File Id="DesignSpaceHelper.dll" Name="DesignSpaceHelper.dll" KeyPath="yes" Source="$(var.InterpreterBin)\DesignSpaceHelper.dll">
+      <TypeLib Id="4bd19a4b-4520-4dd2-9ff5-e527f9e64405" Description="MGA Interpreter TypeLibrary (DesignSpaceHelper)" Language="0" MajorVersion="1" MinorVersion="0">
+        <Class Id="{0232bc79-a930-49e2-86ea-20371e4e7787}" Context="InprocServer32" Description="MGA.Interpreter.DesignSpaceHelper">
+          <ProgId Id="MGA.Interpreter.DesignSpaceHelper" Description="MGA.Interpreter.DesignSpaceHelper" />
+        </Class>
+      </TypeLib>
+    </File>
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.DesignSpaceHelper'>
+      <RegistryValue Name='Description' Type='string' Value='DesignSpaceHelper'/>
+      <RegistryValue Name='Icon' Type='string' Value=',IDI_COMPICON'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='Design Space Exploration Tool'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

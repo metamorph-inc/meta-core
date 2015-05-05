@@ -1,0 +1,104 @@
+{
+    "CSharp": {
+        "command": "\"%ProgramFiles%\\Microsoft Visual Studio 10.0\\Team Tools\\Static Analysis Tools\\FxCop\\FxCopCmd.exe\" /searchgac /console /summary /file:\"{srcDir}\\bin\\Release\\{name}\" /out:{name}.fxcop-result.xml",
+        "projects": [
+            {
+                "name": "CLM_light.dll",
+                "srcDir": "..\\src\\CLM_light"
+            },
+            {
+                "name": "ClmLib.dll",
+                "srcDir": "..\\src\\ClmLib"
+            },
+            {
+                "name": "CyPhy2Modelica_v2.dll",
+                "srcDir": "..\\src\\CyPhy2Modelica_v2"
+            },
+            {
+                "name": "CyPhyGUIs.dll",
+                "srcDir": "..\\src\\CyPhyGUIs"
+            },
+            {
+                "name": "CyPhyMasterExe.exe",
+                "srcDir": "..\\src\\CyPhyMasterExe"
+            },
+            {
+                "name": "CyPhyMasterInterpreter.dll",
+                "srcDir": "..\\src\\CyPhyMasterInterpreter"
+            },
+            {
+                "name": "CyPhyMdaoAddOn.dll",
+                "srcDir": "..\\src\\CyPhyMdaoAddOn"
+            },
+            {
+                "name": "CyPhyPET.dll",
+                "srcDir": "..\\src\\CyPhyPET"
+            },
+            {
+                "name": "CyPhySoT.dll",
+                "srcDir": "..\\src\\CyPhySoT"
+            },
+            {
+                "name": "CyPhySignalBlocksAddOn.dll",
+                "srcDir": "..\\src\\CyPhySignalBlocksAddOn"
+            },
+            {
+                "name": "JobManager.exe",
+                "srcDir": "..\\src\\JobManager\\JobManager"
+            },
+            {
+                "name": "JobManagerLib.dll",
+                "srcDir": "..\\src\\JobManager\\JobManagerLib"
+            },
+            {
+                "name": "ReferenceSwitcher.dll",
+                "srcDir": "..\\src\\ReferenceSwitcher"
+            }
+
+        ]
+    },
+    "Python": {
+        "command": "..\\bin\\Python27\\Scripts\\python.exe ..\\bin\\Python27\\Scripts\\pylint-script.py --rcfile=pylint_cfg.txt -f html \"{srcDir}{name}\" > {name}.pylint.html",
+        "projects": [
+            {
+                "name": "source_code_analysis.py",
+                "srcDir": ""
+            },
+            {
+                "name": "build_msi.py",
+                "srcDir": "..\\deploy\\"
+            },
+            {
+                "name": "gen_analysis_tool_wxi.py",
+                "srcDir": "..\\deploy\\"
+            },
+            {
+                "name": "gen_dir_wxi.py",
+                "srcDir": "..\\deploy\\"
+            },
+            {
+                "name": "gen_GME_CS_interpreter_wxi.py",
+                "srcDir": "..\\deploy\\"
+            },
+            {
+                "name": "gen_GME_interpreter_wxi.py",
+                "srcDir": "..\\deploy\\"
+            },
+            {
+                "name": "py_modelica",
+                "srcDir": "..\\src\\Python27Packages\\py_modelica\\"
+            },
+            {
+                "name": "PCC",
+                "srcDir": "..\\src\\Python27Packages\\PCC\\"
+            },
+            {
+                "name": "meta_nrmm",
+                "srcDir": "..\\src\\Python27Packages\\meta_nrmm\\"
+            }
+        ]
+    },
+    "Javascript": {
+        "projects": []
+    }
+}

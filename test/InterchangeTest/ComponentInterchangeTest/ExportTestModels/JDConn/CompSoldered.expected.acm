@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c3b9fd83-ab62-4564-981b-8b3d8bbeffcd" Name="CompSoldered" Version="" xmlns="avm">
+  <Connector ConnectorComposition="" ID="id-2a62d820-3d9a-451d-9ecc-8c2ce7ba52e4" ApplyJoinData="" Notes="" Name="SolderedConnector" Definition="" xmlns="">
+    <DefaultJoin d3p1:id="jdcaa31422-5ca2-4abb-b275-087e64708368" xmlns:d3p1="iFAB">
+      <name>SolderedJoinDefaultJoinData</name>
+      <part1 />
+      <part2 />
+      <description />
+      <soldered>
+        <length>3</length>
+        <fillerMaterial>abc</fillerMaterial>
+        <fluxMaterial>def</fluxMaterial>
+      </soldered>
+    </DefaultJoin>
+  </Connector>
+  <Classifications xmlns="" />
+</Component>

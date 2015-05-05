@@ -1,0 +1,51 @@
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage{outlines}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{nameref}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{titlepic}
+\usepackage[margin=1in]{geometry}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+\hypersetup{%
+	pdfborder = {0 0 0}
+}
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\begin{document}
+
+\title{AVM Component Model Specification Documentation\\Cyber Domain Appendix\\Draft 1}
+\author{Joseph Porter\\
+	Institute for Software Integrated Systems (ISIS)\\
+	Vanderbilt University\\
+	\texttt{jporter@isis.vanderbilt.edu}\\
+	\\
+	Developed for the DARPA Adaptive Vehicle Make (AVM) Program}
+\date{\today}
+
+\titlepic{
+\includegraphics[scale=0.75]{ISIS-logoNEW} \hspace{1cm}
+\includegraphics[scale=0.103]{DARPA-logo}
+}
+
+\maketitle
+
+\tableofcontents
+
+\include{AVM_Component_Spec_Cyber_Domain}
+
+\end{document}

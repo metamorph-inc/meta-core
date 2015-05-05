@@ -1,0 +1,130 @@
+
+<link rel="stylesheet" href="./css/probabilityCertificateCorrectness.css"></link>
+<link rel="stylesheet" href="./css/colorbrewer.css"></link>
+<script type="text/javascript" src="./js/probabilityCertificateCorrectness.js"></script>
+
+
+<div class="container-fluid">
+	<div class = "row-fluid">
+		<div class = "span12">
+			<h1>Probabilistic Certificate of Correctness</h1>
+			<div>Click for PCC details.</div>
+			<div>Control click for more options.</div>
+		</div>
+	</div>
+
+	<div class = "row-fluid">
+		<div class = "span12">
+			<div data-bind="visible: showPCC()">
+				<div class="span12">
+					<vf-heatmap id="heatmap" data="vm.dataproviders.pccHeatMap()"></vf-heatmap>
+				</div>
+				<div class="span12">
+					<div class="span6">
+						<p style="text-align: center; color: #bbbbbb; margin-bottom: 2px;">PCC Color Legend (based on total PCC)</p>
+						<div class="span1" style="margin: 3px 5px 0px 0px; text-align: right;">0</div>
+						<div class="span10" style="margin: 0; border: 1px solid black; background: linear-gradient(to right, #ff3300, #f78204, #efca07, #c3e70b, #7adf0e, #38d811, #14d02c, #17c967, #1ac29b, #1cadbb, #1f77b4);"></div>
+						<div class="span1" style="margin: 3px 0px 0px 5px;">1</div>
+					</div>
+					<div class="span6">
+					</div>
+				</div>
+				<div>Grey signifies that there is no PCC for that testbench and configuration.</div>
+				<div>Missing squares represent missing simulation data.</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal hide fade" id="pccModal">		
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Probability-Certificate-of-Correctness Details</h3>
+	</div>
+	<div class="modal-body">
+		<div class = "row-fluid">
+			<div class = "span4">
+				<div data-bind="visible: showPCC()">
+					<div class = "span12">
+						<div>
+							Configuration:  <div data-bind="html: selectedConfiguration" style="display: inline;"></div>
+						</div>
+						<div>
+							Test Bench:  <div data-bind="html: selectedBench" style="display: inline;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="span4" data-bind="visible: showPCC()">
+				<div>UP Method: </div>
+				<div data-bind="html: currentPccUpMethod"></div>
+			</div>
+			<div class="span4" data-bind="visible: currentPccSaMethod">
+				<div>SA Method: </div>
+				<div data-bind="html: currentPccSaMethod"></div>
+			</div>
+		</div>	
+		<div class = "row-fluid">
+			<div class = "span12">
+				</br>
+				<div style="width:99%" data-bind="visible: showPCC()" >
+					<vf-datatable id="pccTable" class="pccTable" data="vm.dataproviders.pccTable()" pag = "true" height="400" ratio = ".5"></vf-datatable>
+					</br>
+					<br />
+				</div>
+			</div>
+		</div>	
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-bind="click: mada_ok" data-dismiss="modal">Close</a>
+	</div>
+</div>
+
+
+<div class="modal hide fade" id="help">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Probability-Certificate-of-Correctness Help</h3>
+	</div>
+	<div class="modal-body">
+		<div class = "container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<h1>Overview:</h1>
+					<p>
+						The Probabilistic Certificate of Correctness (PCC) tab provides visualizations to determine whether a particular configuration will meet the requirements.  The tab tabulates all the metrics of a selected configuration and shows the probability vertificate of correctness index, complexity index, probability density function, and sensitivity analysis for each.
+					</p><p>
+						The PCC index is a measure of the probability that the metric meets the requirements.  The complexity index is a measure of how complex a metric is.  
+						The probability density function (PDF) provides a visualization of the distribution of the results of each metric.  
+					</br>
+					<p>
+						Sensitivity analysis is accomplished using a Pareto plot, which provides a visualization of which parameters control the most variability in reaching the metric goals.  Pareto analysis uses the Pareto principle which states that 80% of the variability of a design is controlled by 20% of the parameters. The red dashed line seperates the top, most influential parameters (80% of the variability), from the bottom less impactful parameters (20% of the variability).
+					</p>
+					</p>
+						<center><img src="./staticPics/pcc.png" width="80%"></center>
+					<p>
+					</p>
+					</p>
+					<h1>Instructions:</h1>
+					<p>
+					If no design is selected, the tab will display the first configuration of the first testbench upon being opened for the first time.  
+					
+					The drop down menus located above tables can be used to select a configuration to examine.  Once a configuration is selected, the table will populate based on data from that configuration in the first test bench.  The test bench drop down menu will update, based on the configuration selected, to only display test benches in which that configuration exists.  Changing the test bench selection will repopulate the data in the table to reflect the configuration in a the new test bench.
+					</p>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-bind="click: mada_ok" data-dismiss="modal">Close</a>
+	</div>
+</div>
+
+
+<div class="" id="contextmenu" style="zIndex: 5000, position: absolute; width: 250px">
+	<a class="dropdown-toggle" data-toggle="dropdown" href="#"></a>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" data-bind="foreach: pccContextMenuHtml">
+		<li data-bind="css: { divider: divider}" ><i data-bind="css: { 'icon-white': !check}, visible: type, style: {'text-align': type ? 'left' : 'center'}"" class="icon-ok"></i><a data-bind="html: text, attr:{index : index, type: type, value: value}, css: {divider: !type}, style: {'font-weight': type ? 'normal' : 'bold'}" style="display:inline; !important"></a></li>
+	</ul>
+</div>

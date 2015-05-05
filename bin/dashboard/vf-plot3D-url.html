@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Plot3D</title>
+<!-- added for 3D plot -->
+	<script type="text/javascript" src="./inc/MathBox-bundle.js"></script> <!-- required by vf-plot3D -->
+	<script type="text/javascript" src="./inc/vf-widgets/vf-plot3D.js"></script> <!-- required by vf-plot3D -->
+  
+	<style type="text/css" media="screen">
+		html, body { height: 100%; }
+		body { margin: 0; padding: 0 }
+		canvas { display: block }
+	</style>
+	<style>
+		body { background:white;}
+	</style>
+<!-- end of 3D plot -->
+  
+</head>
+<body>
+     <div id="plot-element"></div>
+	 
+	  <script type="text/javascript" charset="utf-8">
+       //console.debug(window.location.href); //this url
+       var params = window.location.href.substr(window.location.href.indexOf("?")+1);
+       params = params.split("&");
+	   
+	   //assume the order of attributes
+	   var xmin = new Number(params[0].split("=")[1]);
+       var xmax = new Number(params[1].split("=")[1]);
+       var ymin = new Number(params[2].split("=")[1]);
+       var ymax = new Number(params[3].split("=")[1]);
+	   var zmin = new Number(params[4].split("=")[1]);
+       var zmax = new Number(params[5].split("=")[1]);
+       var ztarget = new Number(params[6].split("=")[1]);
+       var scolor = params[7].split("=")[1];
+       var a = new Number(params[8].split("=")[1]);
+       var b = new Number(params[9].split("=")[1]);
+       var c = new Number(params[10].split("=")[1]);
+       var d = new Number(params[11].split("=")[1]);
+       var e = new Number(params[12].split("=")[1]);
+       var f = new Number(params[13].split("=")[1]);
+	   var name = params[14].split("=")[1];
+	   var xlabel = params[15].split("=")[1];
+	   var ylabel = params[16].split("=")[1];
+	   var reverse = params[17].split("=")[1]; //1 is true, 0 is false
+	   var inequality = params[18].split("=")[1]; 
+	   var sfunction = function (x, y) {return [x, a + b * x + c * y + d * x * x + e * y * y + f * x * y, y]; };
+	   
+	   if ( reverse == 1 ){ //replace
+			sfunction = function (y,x) {return [y, a + b * x + c * y + d * x * x + e * y * y + f * x * y, x]; };		
+	   }
+	   vf_plotIn3D(xmin, xmax, ymin, ymax, zmin, zmax, ztarget, sfunction, scolor, xlabel, ylabel, inequality);
+		
+		//Adding this(in body) will move axis label not next to axis any more.
+		//var title=$("<h2></h2>").text(name + " (" + xlabel + " vs. " + ylabel + ")");
+		//$("#plot-element").append(title);
+		
+	</script>
+</body>
+</html>

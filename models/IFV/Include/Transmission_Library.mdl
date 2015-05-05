@@ -1,0 +1,4129 @@
+Model {
+  Name			  "Transmission_Library"
+  Version		  7.6
+  MdlSubVersion		  0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.5"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SavedCharacterEncoding  "windows-1252"
+  PostLoadFcn		  "%%% BEGIN CX28 CODE %%%\n% Import the data from Excel for a lookup table\ndata = xlsread('Transmissi"
+  "on_Specification.xlsx', 'CX28');\nfor idx=1:length(data(:,1))\nif isnan(data(idx,1))\n  break\nend\nTransmission_CX2"
+  "8_FWD_gear_number_raw(idx) = data(idx,1);\nend\nfor idx=1:length(data(:,2))\nif isnan(data(idx,2))\n  break\nend\nTr"
+  "ansmission_CX28_FWD_gear_ratio_raw(idx) = data(idx,2);\nend\nif length(Transmission_CX28_FWD_gear_ratio_raw) ~= leng"
+  "th(Transmission_CX28_FWD_gear_number_raw)\ndisp('ERROR: CX28_FWD_gear_number and CX28_FWD_gear_ratio sizes are not m"
+  "atch. Fix it in excel.');\nend\nfor idx=1:length(data(:,3))\nif isnan(data(idx,3))\n  break\nend\nTransmission_CX28_"
+  "Reverse_gear_ratio_raw(idx) = data(idx,3);\nend\nfor idx=1:length(data(:,4))\nif isnan(data(idx,4))\n  break\nend\nT"
+  "ransmission_CX28_Reverse_gear_number_raw(idx) = data(idx,4);\nend\nif length(Transmission_CX28_Reverse_gear_ratio_ra"
+  "w) ~= length(Transmission_CX28_Reverse_gear_number_raw)\ndisp('ERROR: CX28_Reverse_gear_number and CX28_Reverse_gear"
+  "_ratio sizes are not match. Fix it in excel.');\nend\n%%% END CX28 CODE %%%%%% BEGIN CX31 CODE %%%\n% Import the dat"
+  "a from Excel for a lookup table\ndata = xlsread('Transmission_Specification.xlsx', 'CX31');\nfor idx=1:length(data(:"
+  ",1))\nif isnan(data(idx,1))\n  break\nend\nTransmission_CX31_FWD_gear_number_raw(idx) = data(idx,1);\nend\nfor idx=1"
+  ":length(data(:,2))\nif isnan(data(idx,2))\n  break\nend\nTransmission_CX31_FWD_gear_ratio_raw(idx) = data(idx,2);\ne"
+  "nd\nif length(Transmission_CX31_FWD_gear_ratio_raw) ~= length(Transmission_CX31_FWD_gear_number_raw)\ndisp('ERROR: C"
+  "X31_FWD_gear_number and CX31_FWD_gear_ratio sizes are not match. Fix it in excel.');\nend\nfor idx=1:length(data(:,3"
+  "))\nif isnan(data(idx,3))\n  break\nend\nTransmission_CX31_Reverse_gear_ratio_raw(idx) = data(idx,3);\nend\nfor idx="
+  "1:length(data(:,4))\nif isnan(data(idx,4))\n  break\nend\nTransmission_CX31_Reverse_gear_number_raw(idx) = data(idx,"
+  "4);\nend\nif length(Transmission_CX31_Reverse_gear_ratio_raw) ~= length(Transmission_CX31_Reverse_gear_number_raw)\n"
+  "disp('ERROR: CX31_Reverse_gear_number and CX31_Reverse_gear_ratio sizes are not match. Fix it in excel.');\nend\n%%%"
+  " END CX31 CODE %%%%%% BEGIN DP8963 CODE %%%\n% Import the data from Excel for a lookup table\ndata = xlsread('Transm"
+  "ission_Specification.xlsx', 'DP8963');\nfor idx=1:length(data(:,1))\nif isnan(data(idx,1))\n  break\nend\nTransmissi"
+  "on_DP8963_FWD_gear_number_raw(idx) = data(idx,1);\nend\nfor idx=1:length(data(:,2))\nif isnan(data(idx,2))\n  break\n"
+  "end\nTransmission_DP8963_FWD_gear_ratio_raw(idx) = data(idx,2);\nend\nif length(Transmission_DP8963_FWD_gear_ratio_r"
+  "aw) ~= length(Transmission_DP8963_FWD_gear_number_raw)\ndisp('ERROR: DP8963_FWD_gear_number and DP8963_FWD_gear_rati"
+  "o sizes are not match. Fix it in excel.');\nend\nfor idx=1:length(data(:,3))\nif isnan(data(idx,3))\n  break\nend\nT"
+  "ransmission_DP8963_Reverse_gear_ratio_raw(idx) = data(idx,3);\nend\nfor idx=1:length(data(:,4))\nif isnan(data(idx,4"
+  "))\n  break\nend\nTransmission_DP8963_Reverse_gear_number_raw(idx) = data(idx,4);\nend\nif length(Transmission_DP896"
+  "3_Reverse_gear_ratio_raw) ~= length(Transmission_DP8963_Reverse_gear_number_raw)\ndisp('ERROR: DP8963_Reverse_gear_n"
+  "umber and DP8963_Reverse_gear_ratio sizes are not match. Fix it in excel.');\nend\n%%% END DP8963 CODE %%%%%% BEGIN "
+  "M9600 CODE %%%\n% Import the data from Excel for a lookup table\ndata = xlsread('Transmission_Specification.xlsx', '"
+  "M9600');\nfor idx=1:length(data(:,1))\nif isnan(data(idx,1))\n  break\nend\nTransmission_M9600_FWD_gear_number_raw(i"
+  "dx) = data(idx,1);\nend\nfor idx=1:length(data(:,2))\nif isnan(data(idx,2))\n  break\nend\nTransmission_M9600_FWD_ge"
+  "ar_ratio_raw(idx) = data(idx,2);\nend\nif length(Transmission_M9600_FWD_gear_ratio_raw) ~= length(Transmission_M9600"
+  "_FWD_gear_number_raw)\ndisp('ERROR: M9600_FWD_gear_number and M9600_FWD_gear_ratio sizes are not match. Fix it in ex"
+  "cel.');\nend\nfor idx=1:length(data(:,3))\nif isnan(data(idx,3))\n  break\nend\nTransmission_M9600_Reverse_gear_rati"
+  "o_raw(idx) = data(idx,3);\nend\nfor idx=1:length(data(:,4))\nif isnan(data(idx,4))\n  break\nend\nTransmission_M9600"
+  "_Reverse_gear_number_raw(idx) = data(idx,4);\nend\nif length(Transmission_M9600_Reverse_gear_ratio_raw) ~= length(Tr"
+  "ansmission_M9600_Reverse_gear_number_raw)\ndisp('ERROR: M9600_Reverse_gear_number and M9600_Reverse_gear_ratio sizes"
+  " are not match. Fix it in excel.');\nend\n%%% END M9600 CODE %%%"
+  SaveDefaultBlockParams  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  DataTypeOverrideAppliesTo "AllNumericTypes"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  MaxMDLFileLineLength	  120
+  Created		  "Mon Jun 27 15:37:29 2011"
+  Creator		  "Zsolt"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "Zsolt"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Fri Aug 05 09:10:02 2011"
+  RTWModifiedTimeStamp	  234436170
+  ModelVersionFormat	  "1.%<AutoIncrement:5>"
+  ConfigurationManager	  "None"
+  SampleTimeColors	  off
+  SampleTimeAnnotations	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowSignalResolutionIcons on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  SimulationMode	  "normal"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  CovForceBlockReductionOff on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  CovModelRefEnable	  "Off"
+  CovExternalEMLEnable	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.10.0"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.10.0"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ZcThreshold		  "auto"
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  ConcurrentTasks	  off
+	  Solver		  "ode45"
+	  SolverName		  "ode45"
+	  SolverJacobianMethodControl "auto"
+	  ShapePreserveControl	  "DisableAll"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  ZeroCrossAlgorithm	  "Nonadaptive"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  InsertRTBMode		  "Whenever possible"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.10.0"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveCompleteFinalSimState off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SignalLogging		  on
+	  DSMLogging		  on
+	  InspectSignalLogs	  off
+	  SaveTime		  on
+	  ReturnWorkspaceOutputs  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  DSMLoggingName	  "dsmout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  ReturnWorkspaceOutputsName "out"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.10.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    8
+	    Cell		    "BooleansAsBitfields"
+	    Cell		    "PassReuseOutputArgsAs"
+	    Cell		    "PassReuseOutputArgsThreshold"
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    Cell		    "UseSpecifiedMinMax"
+	    PropName		    "DisabledProps"
+	  }
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  UseIntDivNetSlope	  off
+	  UseSpecifiedMinMax	  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnhancedBackFolding	  off
+	  StrengthReduction	  off
+	  ExpressionFolding	  on
+	  BooleansAsBitfields	  off
+	  BitfieldContainerType	  "uint_T"
+	  EnableMemcpy		  on
+	  MemcpyThreshold	  64
+	  PassReuseOutputArgsAs	  "Structure reference"
+	  ExpressionDepthLimit	  2147483647
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  off
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  EfficientMapNaN2IntZero on
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	  MaxStackSize		  "Inherit from target"
+	  BufferReusableBoundary  on
+	  SimCompilerOptimization "Off"
+	  AccelVerboseBuild	  off
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.10.0"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  SignalRangeChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  SaveWithDisabledLinksMsg "warning"
+	  SaveWithParameterizedLinksMsg	"warning"
+	  CheckSSInitialOutputMsg on
+	  UnderspecifiedInitializationDetection	"Classic"
+	  MergeDetectMultiDrivingBlocksExec "none"
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "UseLocalSettings"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  MaskedZcDiagnostic	  "warning"
+	  IgnoredZcDiagnostic	  "warning"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "error"
+	  MultiTaskCondExecSysMsg "error"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  ParameterTunabilityLossMsg "warning"
+	  FixptConstUnderflowMsg  "none"
+	  FixptConstOverflowMsg	  "none"
+	  FixptConstPrecisionLossMsg "none"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "Use local settings"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceMultiInstanceNormalModeStructChecksumCheck "error"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StateNameClashWarn	  "warning"
+	  SimStateInterfaceChecksumMismatchMsg "warning"
+	  InitInArrayFormatMsg	  "warning"
+	  StrictBusMsg		  "ErrorLevel1"
+	  BusNameAdapt		  "WarnAndRepair"
+	  NonBusSignalsTreatedAsBus "none"
+	  LoggingUnavailableSignals "error"
+	  BlockIODiagnostic	  "none"
+	  SFUnusedDataAndEventsDiag "warning"
+	  SFUnexpectedBacktrackingDiag "warning"
+	  SFInvalidInputDataAccessInChartInitDiag "warning"
+	  SFNoUnconditionalDefaultTransitionDiag "warning"
+	  SFTransitionOutsideNaturalParentDiag "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.10.0"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdBitPerFloat	  32
+	  ProdBitPerDouble	  64
+	  ProdBitPerPointer	  32
+	  ProdLargestAtomicInteger "Char"
+	  ProdLargestAtomicFloat  "None"
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetBitPerFloat	  32
+	  TargetBitPerDouble	  64
+	  TargetBitPerPointer	  32
+	  TargetLargestAtomicInteger "Char"
+	  TargetLargestAtomicFloat "None"
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Zero"
+	  TargetEndianess	  "LittleEndian"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "MATLAB Host"
+	  TargetUnknown		  off
+	  ProdEqTarget		  off
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.10.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  EnableParallelModelReferenceBuilds off
+	  ParallelModelReferenceErrorOnInvalidPool on
+	  ParallelModelReferenceMATLABWorkerInit "None"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  PropagateVarSize	  "Infer from blocks in model"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	  PropagateSignalLabelsOutOfModel off
+	  SupportModelReferenceSimTargetCustomCode off
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  8
+	  Version		  "1.10.0"
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SimBlas		  on
+	  SimCtrlC		  on
+	  SimExtrinsic		  on
+	  SimIntegrity		  on
+	  SimUseLocalCustomCode	  off
+	  SimParseCustomCode	  on
+	  SimBuildMode		  "sf_incremental_build"
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  9
+	  Version		  "1.10.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    7
+	    Cell		    "IncludeHyperlinkInReport"
+	    Cell		    "GenerateTraceInfo"
+	    Cell		    "GenerateTraceReport"
+	    Cell		    "GenerateTraceReportSl"
+	    Cell		    "GenerateTraceReportSf"
+	    Cell		    "GenerateTraceReportEml"
+	    Cell		    "GenerateSLWebview"
+	    PropName		    "DisabledProps"
+	  }
+	  SystemTargetFile	  "rsim.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  TemplateMakefile	  "rsim_default_tmf"
+	  Description		  "Rapid Simulation Target"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ProcessScript		  "rsim_make_rtw_hook"
+	  ConfigAtBuild		  off
+	  RTWUseLocalCustomCode	  off
+	  RTWUseSimCustomCode	  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  IncludeERTFirstTime	  off
+	  GenerateTraceInfo	  off
+	  GenerateTraceReport	  off
+	  GenerateTraceReportSl	  off
+	  GenerateTraceReportSf	  off
+	  GenerateTraceReportEml  off
+	  GenerateCodeInfo	  off
+	  GenerateSLWebview	  off
+	  RTWCompilerOptimization "Off"
+	  CheckMdlBeforeBuild	  "Off"
+	  CustomRebuildMode	  "OnUpdate"
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      10
+	      Version		      "1.10.0"
+	      Array {
+		Type			"Cell"
+		Dimension		21
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"IgnoreTestpoints"
+		Cell			"InsertBlockDesc"
+		Cell			"InsertPolySpaceComments"
+		Cell			"SFDataObjDesc"
+		Cell			"MATLABFcnDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		Cell			"CustomSymbolStrGlobalVar"
+		Cell			"CustomSymbolStrType"
+		Cell			"CustomSymbolStrField"
+		Cell			"CustomSymbolStrFcn"
+		Cell			"CustomSymbolStrFcnArg"
+		Cell			"CustomSymbolStrBlkIO"
+		Cell			"CustomSymbolStrTmpVar"
+		Cell			"CustomSymbolStrMacro"
+		Cell			"ReqsInCode"
+		PropName		"DisabledProps"
+	      }
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IgnoreTestpoints	      off
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      MATLABFcnDesc	      off
+	      IncDataTypeInIds	      off
+	      MangleLength	      1
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrFcnArg   "rt$I$N$M"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      InsertPolySpaceComments off
+	      SimulinkBlockComments   on
+	      MATLABSourceComments    off
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	      UseSimReservedNames     off
+	    }
+	    RTW.RSimTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      11
+	      Version		      "1.10.0"
+	      Array {
+		Type			"Cell"
+		Dimension		16
+		Cell			"GeneratePreprocessorConditionals"
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"GenerateTestInterfaces"
+		Cell			"ModelStepFunctionPrototypeControlCompliant"
+		Cell			"CPPClassGenCompliant"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"PortableWordSizes"
+		PropName		"DisabledProps"
+	      }
+	      TargetFcnLib	      "ansi_tfl_table_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      TargetFunctionLibrary   "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      ERTMultiwordTypeDef     "System defined"
+	      ERTCodeCoverageTool     "None"
+	      ERTMultiwordLength      256
+	      MultiwordLength	      2048
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      ParMdlRefBuildCompliant on
+	      CompOptLevelCompliant   on
+	      IncludeMdlTerminateFcn  on
+	      GeneratePreprocessorConditionals "Disable all"
+	      CombineOutputUpdateFcns off
+	      CombineSignalStateStructs	off
+	      SuppressErrorStatus     off
+	      ERTFirstTimeCompliant   off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      SupportVariableSizeSignals off
+	      EnableShiftOperators    on
+	      ParenthesesLevel	      "Nominal"
+	      PortableWordSizes	      off
+	      ModelStepFunctionPrototypeControlCompliant off
+	      CPPClassGenCompliant    off
+	      AutosarCompliant	      off
+	      RSIM_SOLVER_SELECTION   "Auto"
+	      ExtMode		      off
+	      ExtModeTransport	      0
+	      ExtModeStaticAlloc      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTesting	      off
+	      ExtModeMexFile	      "ext_comm"
+	      ExtModeIntrfLevel	      "Level1"
+	      RSIM_PARAMETER_LOADING  on
+	      RSIM_STORAGE_CLASS_AUTO on
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      CurrentDlgPage	      "Solver"
+      ConfigPrmDlgPosition    " [ 520, 225, 1400, 855 ] "
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+    BlockRotation	    0
+    BlockMirror		    off
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    UseDisplayTextAsClickCallback off
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      SamplingMode	      "Sample based"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Inherit from 'Constant value'"
+      LockScale		      off
+      SampleTime	      "inf"
+      FramePeriod	      "inf"
+      PreserveConstantTs      off
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      From
+      IconDisplay	      "Tag"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      IconDisplay	      "Tag"
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchInputForFeedbackSignals off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Memory
+      X0		      "0"
+      InheritSampleTime	      off
+      LinearizeMemory	      off
+      LinearizeAsDelay	      off
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      SourceOfInitialOutputValue "Dialog"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      SFunctionModules	      "''"
+      PortCounts	      "[]"
+      SFunctionDeploymentMode off
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      "FromPortIcon"
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      CheckFcnCallInpInsideContextMsg off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      DataTypeOverrideAppliesTo	"AllNumericTypes"
+      MinMaxOverflowLogging   "UseLocalSettings"
+      Variant		      off
+      GeneratePreprocessorConditionals off
+    }
+    Block {
+      BlockType		      Terminator
+    }
+  }
+  System {
+    Name		    "Transmission_Library"
+    Location		    [484, 93, 1020, 382]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    SIDHighWatermark	    "88"
+    Block {
+      BlockType		      SubSystem
+      Name		      "CX28"
+      SID		      "1"
+      Ports		      [4, 2]
+      Position		      [150, 20, 270, 100]
+      LibraryVersion	      "1.225"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"CX28"
+	Location		[442, 105, 1478, 975]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "RPM"
+	  SID			  "2"
+	  Position		  [50, 13, 80, 27]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Min_Optimal_RPM"
+	  SID			  "3"
+	  Position		  [50, 43, 80, 57]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Max_Optimal_RPM"
+	  SID			  "4"
+	  Position		  [50, 73, 80, 87]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Shifter"
+	  SID			  "5"
+	  Position		  [50, 268, 80, 282]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Automatic transmission\nController"
+	  SID			  "6"
+	  Ports			  [8, 2]
+	  Position		  [260, 13, 420, 237]
+	  ForegroundColor	  "lightBlue"
+	  BackgroundColor	  "yellow"
+	  LibraryVersion	  "1.31"
+	  PermitHierarchicalResolution "ExplicitOnly"
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  MaskType		  "Stateflow"
+	  MaskDescription	  "Embedded MATLAB block"
+	  MaskSelfModifiable	  on
+	  MaskDisplay		  "disp('fcn');"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  off
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "Automatic transmission\nController"
+	    Location		    [257, 457, 812, 717]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    SIDHighWatermark	    "27"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "RPM"
+	      SID		      "6::1"
+	      Position		      [20, 101, 40, 119]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Min_RPM"
+	      SID		      "6::21"
+	      Position		      [20, 136, 40, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Max_RPM"
+	      SID		      "6::22"
+	      Position		      [20, 171, 40, 189]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "FWD_number"
+	      SID		      "6::24"
+	      Position		      [20, 206, 40, 224]
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "FWD_ratio"
+	      SID		      "6::25"
+	      Position		      [20, 246, 40, 264]
+	      Port		      "5"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Reverse_number"
+	      SID		      "6::26"
+	      Position		      [20, 281, 40, 299]
+	      Port		      "6"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Reverse_ratio"
+	      SID		      "6::27"
+	      Position		      [20, 316, 40, 334]
+	      Port		      "7"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "gear_num_in"
+	      SID		      "6::19"
+	      Position		      [20, 351, 40, 369]
+	      Port		      "8"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      " Demux "
+	      SID		      "6::15"
+	      Ports		      [1, 1]
+	      Position		      [270, 285, 320, 325]
+	      Outputs		      "1"
+	    }
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      " SFunction "
+	      SID		      "6::14"
+	      Tag		      "Stateflow S-Function Transmission_Library 4"
+	      Ports		      [8, 3]
+	      Position		      [180, 105, 230, 285]
+	      FunctionName	      "sf_sfun"
+	      PortCounts	      "[8 3]"
+	      EnableBusSupport	      on
+	      Port {
+		PortNumber		2
+		Name			"gearbox_ratio"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		3
+		Name			"gear_num_out"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      " Terminator "
+	      SID		      "6::17"
+	      Position		      [460, 296, 480, 314]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "gearbox_ratio"
+	      SID		      "6::20"
+	      Position		      [460, 101, 480, 119]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "gear_num_out"
+	      SID		      "6::5"
+	      Position		      [460, 136, 480, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      " Demux "
+	      SrcPort		      1
+	      DstBlock		      " Terminator "
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "gear_num_out"
+	      Labels		      [0, 0; 0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      3
+	      DstBlock		      "gear_num_out"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "gearbox_ratio"
+	      Labels		      [0, 0; 0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      2
+	      DstBlock		      "gearbox_ratio"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "gear_num_in"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      8
+	    }
+	    Line {
+	      SrcBlock		      "Reverse_ratio"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      7
+	    }
+	    Line {
+	      SrcBlock		      "Reverse_number"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      6
+	    }
+	    Line {
+	      SrcBlock		      "FWD_ratio"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      5
+	    }
+	    Line {
+	      SrcBlock		      "FWD_number"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      4
+	    }
+	    Line {
+	      SrcBlock		      "Max_RPM"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Min_RPM"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "RPM"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      " SFunction "
+	      SrcPort		      1
+	      DstBlock		      " Demux "
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "FWD_gear_number"
+	  SID			  "7"
+	  Position		  [20, 389, 610, 411]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_CX28_FWD_gear_number_raw"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "FWD_gear_ratio"
+	  SID			  "8"
+	  Position		  [20, 433, 610, 457]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_CX28_FWD_gear_ratio_raw"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From"
+	  SID			  "9"
+	  Position		  [120, 101, 235, 119]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_number"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From1"
+	  SID			  "10"
+	  Position		  [120, 131, 235, 149]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_ratio"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From2"
+	  SID			  "11"
+	  Position		  [120, 161, 235, 179]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_number"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From3"
+	  SID			  "12"
+	  Position		  [120, 191, 235, 209]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_ratio"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto"
+	  SID			  "13"
+	  Position		  [660, 391, 785, 409]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_number"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto1"
+	  SID			  "14"
+	  Position		  [660, 436, 785, 454]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_ratio"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto2"
+	  SID			  "15"
+	  Position		  [660, 481, 785, 499]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_number"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto3"
+	  SID			  "16"
+	  Position		  [660, 526, 785, 544]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_ratio"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Reverse_gear_number"
+	  SID			  "17"
+	  Position		  [20, 478, 610, 502]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_CX28_Reverse_gear_number_raw"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Reverse_gear_ratio"
+	  SID			  "18"
+	  Position		  [20, 522, 610, 548]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_CX28_Reverse_gear_ratio_raw"
+	}
+	Block {
+	  BlockType		  Memory
+	  Name			  "gear memory"
+	  SID			  "19"
+	  Position		  [325, 280, 355, 310]
+	  BlockMirror		  on
+	  ForegroundColor	  "lightBlue"
+	  BackgroundColor	  "gray"
+	  X0			  "1"
+	}
+	Block {
+	  BlockType		  Memory
+	  Name			  "gear_ratio memory"
+	  SID			  "20"
+	  Position		  [505, 55, 535, 85]
+	  ForegroundColor	  "lightBlue"
+	  BackgroundColor	  "gray"
+	  X0			  "1"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Ratio"
+	  SID			  "21"
+	  Position		  [650, 63, 680, 77]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Gear_number"
+	  SID			  "22"
+	  Position		  [650, 263, 680, 277]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "From3"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  7
+	}
+	Line {
+	  SrcBlock		  "From2"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "From1"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "From"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Max_Optimal_RPM"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Min_Optimal_RPM"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "RPM"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "gear_ratio memory"
+	  SrcPort		  1
+	  DstBlock		  "Ratio"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Automatic transmission\nController"
+	  SrcPort		  1
+	  DstBlock		  "gear_ratio memory"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Automatic transmission\nController"
+	  SrcPort		  2
+	  Points		  [5, 0; 0, 115]
+	  DstBlock		  "gear memory"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "gear memory"
+	  SrcPort		  1
+	  Points		  [-75, 0; 0, -25]
+	  Branch {
+	    DstBlock		    "Gear_number"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Automatic transmission\nController"
+	    DstPort		    8
+	  }
+	}
+	Line {
+	  SrcBlock		  "Reverse_gear_ratio"
+	  SrcPort		  1
+	  DstBlock		  "Goto3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Reverse_gear_number"
+	  SrcPort		  1
+	  DstBlock		  "Goto2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "FWD_gear_ratio"
+	  SrcPort		  1
+	  DstBlock		  "Goto1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "FWD_gear_number"
+	  SrcPort		  1
+	  DstBlock		  "Goto"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "CX31"
+      SID		      "23"
+      Ports		      [4, 2]
+      Position		      [150, 150, 270, 230]
+      LibraryVersion	      "1.225"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"CX31"
+	Location		[442, 105, 1478, 975]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "RPM"
+	  SID			  "24"
+	  Position		  [50, 13, 80, 27]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Min_Optimal_RPM"
+	  SID			  "25"
+	  Position		  [50, 43, 80, 57]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Max_Optimal_RPM"
+	  SID			  "26"
+	  Position		  [50, 73, 80, 87]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Shifter"
+	  SID			  "27"
+	  Position		  [50, 268, 80, 282]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Automatic transmission\nController"
+	  SID			  "28"
+	  Ports			  [8, 2]
+	  Position		  [260, 13, 420, 237]
+	  ForegroundColor	  "lightBlue"
+	  BackgroundColor	  "yellow"
+	  LibraryVersion	  "1.31"
+	  PermitHierarchicalResolution "ExplicitOnly"
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  MaskType		  "Stateflow"
+	  MaskDescription	  "Embedded MATLAB block"
+	  MaskSelfModifiable	  on
+	  MaskDisplay		  "disp('fcn');"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  off
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "Automatic transmission\nController"
+	    Location		    [257, 457, 812, 717]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    SIDHighWatermark	    "27"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "RPM"
+	      SID		      "28::1"
+	      Position		      [20, 101, 40, 119]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Min_RPM"
+	      SID		      "28::21"
+	      Position		      [20, 136, 40, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Max_RPM"
+	      SID		      "28::22"
+	      Position		      [20, 171, 40, 189]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "FWD_number"
+	      SID		      "28::24"
+	      Position		      [20, 206, 40, 224]
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "FWD_ratio"
+	      SID		      "28::25"
+	      Position		      [20, 246, 40, 264]
+	      Port		      "5"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Reverse_number"
+	      SID		      "28::26"
+	      Position		      [20, 281, 40, 299]
+	      Port		      "6"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Reverse_ratio"
+	      SID		      "28::27"
+	      Position		      [20, 316, 40, 334]
+	      Port		      "7"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "gear_num_in"
+	      SID		      "28::19"
+	      Position		      [20, 351, 40, 369]
+	      Port		      "8"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      " Demux "
+	      SID		      "28::15"
+	      Ports		      [1, 1]
+	      Position		      [270, 285, 320, 325]
+	      Outputs		      "1"
+	    }
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      " SFunction "
+	      SID		      "28::14"
+	      Tag		      "Stateflow S-Function Transmission_Library 1"
+	      Ports		      [8, 3]
+	      Position		      [180, 105, 230, 285]
+	      FunctionName	      "sf_sfun"
+	      PortCounts	      "[8 3]"
+	      EnableBusSupport	      on
+	      Port {
+		PortNumber		2
+		Name			"gearbox_ratio"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		3
+		Name			"gear_num_out"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      " Terminator "
+	      SID		      "28::17"
+	      Position		      [460, 296, 480, 314]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "gearbox_ratio"
+	      SID		      "28::20"
+	      Position		      [460, 101, 480, 119]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "gear_num_out"
+	      SID		      "28::5"
+	      Position		      [460, 136, 480, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      " Demux "
+	      SrcPort		      1
+	      DstBlock		      " Terminator "
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "gear_num_out"
+	      Labels		      [0, 0; 0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      3
+	      DstBlock		      "gear_num_out"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "gearbox_ratio"
+	      Labels		      [0, 0; 0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      2
+	      DstBlock		      "gearbox_ratio"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "gear_num_in"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      8
+	    }
+	    Line {
+	      SrcBlock		      "Reverse_ratio"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      7
+	    }
+	    Line {
+	      SrcBlock		      "Reverse_number"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      6
+	    }
+	    Line {
+	      SrcBlock		      "FWD_ratio"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      5
+	    }
+	    Line {
+	      SrcBlock		      "FWD_number"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      4
+	    }
+	    Line {
+	      SrcBlock		      "Max_RPM"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Min_RPM"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "RPM"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      " SFunction "
+	      SrcPort		      1
+	      DstBlock		      " Demux "
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "FWD_gear_number"
+	  SID			  "29"
+	  Position		  [20, 389, 610, 411]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_CX31_FWD_gear_number_raw"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "FWD_gear_ratio"
+	  SID			  "30"
+	  Position		  [20, 433, 610, 457]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_CX31_FWD_gear_ratio_raw"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From"
+	  SID			  "31"
+	  Position		  [120, 101, 235, 119]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_number"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From1"
+	  SID			  "32"
+	  Position		  [120, 131, 235, 149]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_ratio"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From2"
+	  SID			  "33"
+	  Position		  [120, 161, 235, 179]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_number"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From3"
+	  SID			  "34"
+	  Position		  [120, 191, 235, 209]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_ratio"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto"
+	  SID			  "35"
+	  Position		  [660, 391, 785, 409]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_number"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto1"
+	  SID			  "36"
+	  Position		  [660, 436, 785, 454]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_ratio"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto2"
+	  SID			  "37"
+	  Position		  [660, 481, 785, 499]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_number"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto3"
+	  SID			  "38"
+	  Position		  [660, 526, 785, 544]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_ratio"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Reverse_gear_number"
+	  SID			  "39"
+	  Position		  [20, 478, 610, 502]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_CX31_Reverse_gear_number_raw"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Reverse_gear_ratio"
+	  SID			  "40"
+	  Position		  [20, 522, 610, 548]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_CX31_Reverse_gear_ratio_raw"
+	}
+	Block {
+	  BlockType		  Memory
+	  Name			  "gear memory"
+	  SID			  "41"
+	  Position		  [325, 280, 355, 310]
+	  BlockMirror		  on
+	  ForegroundColor	  "lightBlue"
+	  BackgroundColor	  "gray"
+	  X0			  "1"
+	}
+	Block {
+	  BlockType		  Memory
+	  Name			  "gear_ratio memory"
+	  SID			  "42"
+	  Position		  [505, 55, 535, 85]
+	  ForegroundColor	  "lightBlue"
+	  BackgroundColor	  "gray"
+	  X0			  "1"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Ratio"
+	  SID			  "43"
+	  Position		  [650, 63, 680, 77]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Gear_number"
+	  SID			  "44"
+	  Position		  [650, 263, 680, 277]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "From3"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  7
+	}
+	Line {
+	  SrcBlock		  "From2"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "From1"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "From"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Max_Optimal_RPM"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Min_Optimal_RPM"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "RPM"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "gear_ratio memory"
+	  SrcPort		  1
+	  DstBlock		  "Ratio"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Automatic transmission\nController"
+	  SrcPort		  1
+	  DstBlock		  "gear_ratio memory"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Automatic transmission\nController"
+	  SrcPort		  2
+	  Points		  [5, 0; 0, 115]
+	  DstBlock		  "gear memory"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "gear memory"
+	  SrcPort		  1
+	  Points		  [-75, 0; 0, -25]
+	  Branch {
+	    DstBlock		    "Gear_number"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Automatic transmission\nController"
+	    DstPort		    8
+	  }
+	}
+	Line {
+	  SrcBlock		  "Reverse_gear_ratio"
+	  SrcPort		  1
+	  DstBlock		  "Goto3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Reverse_gear_number"
+	  SrcPort		  1
+	  DstBlock		  "Goto2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "FWD_gear_ratio"
+	  SrcPort		  1
+	  DstBlock		  "Goto1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "FWD_gear_number"
+	  SrcPort		  1
+	  DstBlock		  "Goto"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "DP8963"
+      SID		      "45"
+      Ports		      [4, 2]
+      Position		      [150, 280, 270, 360]
+      LibraryVersion	      "1.225"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"DP8963"
+	Location		[442, 105, 1478, 975]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "RPM"
+	  SID			  "46"
+	  Position		  [50, 13, 80, 27]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Min_Optimal_RPM"
+	  SID			  "47"
+	  Position		  [50, 43, 80, 57]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Max_Optimal_RPM"
+	  SID			  "48"
+	  Position		  [50, 73, 80, 87]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Shifter"
+	  SID			  "49"
+	  Position		  [50, 268, 80, 282]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Automatic transmission\nController"
+	  SID			  "50"
+	  Ports			  [8, 2]
+	  Position		  [260, 13, 420, 237]
+	  ForegroundColor	  "lightBlue"
+	  BackgroundColor	  "yellow"
+	  LibraryVersion	  "1.31"
+	  PermitHierarchicalResolution "ExplicitOnly"
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  MaskType		  "Stateflow"
+	  MaskDescription	  "Embedded MATLAB block"
+	  MaskSelfModifiable	  on
+	  MaskDisplay		  "disp('fcn');"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  off
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "Automatic transmission\nController"
+	    Location		    [257, 457, 812, 717]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    SIDHighWatermark	    "27"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "RPM"
+	      SID		      "50::1"
+	      Position		      [20, 101, 40, 119]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Min_RPM"
+	      SID		      "50::21"
+	      Position		      [20, 136, 40, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Max_RPM"
+	      SID		      "50::22"
+	      Position		      [20, 171, 40, 189]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "FWD_number"
+	      SID		      "50::24"
+	      Position		      [20, 206, 40, 224]
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "FWD_ratio"
+	      SID		      "50::25"
+	      Position		      [20, 246, 40, 264]
+	      Port		      "5"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Reverse_number"
+	      SID		      "50::26"
+	      Position		      [20, 281, 40, 299]
+	      Port		      "6"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Reverse_ratio"
+	      SID		      "50::27"
+	      Position		      [20, 316, 40, 334]
+	      Port		      "7"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "gear_num_in"
+	      SID		      "50::19"
+	      Position		      [20, 351, 40, 369]
+	      Port		      "8"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      " Demux "
+	      SID		      "50::15"
+	      Ports		      [1, 1]
+	      Position		      [270, 285, 320, 325]
+	      Outputs		      "1"
+	    }
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      " SFunction "
+	      SID		      "50::14"
+	      Tag		      "Stateflow S-Function Transmission_Library 2"
+	      Ports		      [8, 3]
+	      Position		      [180, 105, 230, 285]
+	      FunctionName	      "sf_sfun"
+	      PortCounts	      "[8 3]"
+	      EnableBusSupport	      on
+	      Port {
+		PortNumber		2
+		Name			"gearbox_ratio"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		3
+		Name			"gear_num_out"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      " Terminator "
+	      SID		      "50::17"
+	      Position		      [460, 296, 480, 314]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "gearbox_ratio"
+	      SID		      "50::20"
+	      Position		      [460, 101, 480, 119]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "gear_num_out"
+	      SID		      "50::5"
+	      Position		      [460, 136, 480, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      " Demux "
+	      SrcPort		      1
+	      DstBlock		      " Terminator "
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "gear_num_out"
+	      Labels		      [0, 0; 0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      3
+	      DstBlock		      "gear_num_out"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "gearbox_ratio"
+	      Labels		      [0, 0; 0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      2
+	      DstBlock		      "gearbox_ratio"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "gear_num_in"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      8
+	    }
+	    Line {
+	      SrcBlock		      "Reverse_ratio"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      7
+	    }
+	    Line {
+	      SrcBlock		      "Reverse_number"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      6
+	    }
+	    Line {
+	      SrcBlock		      "FWD_ratio"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      5
+	    }
+	    Line {
+	      SrcBlock		      "FWD_number"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      4
+	    }
+	    Line {
+	      SrcBlock		      "Max_RPM"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Min_RPM"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "RPM"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      " SFunction "
+	      SrcPort		      1
+	      DstBlock		      " Demux "
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "FWD_gear_number"
+	  SID			  "51"
+	  Position		  [20, 389, 610, 411]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_DP8963_FWD_gear_number_raw"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "FWD_gear_ratio"
+	  SID			  "52"
+	  Position		  [20, 433, 610, 457]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_DP8963_FWD_gear_ratio_raw"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From"
+	  SID			  "53"
+	  Position		  [120, 101, 235, 119]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_number"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From1"
+	  SID			  "54"
+	  Position		  [120, 131, 235, 149]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_ratio"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From2"
+	  SID			  "55"
+	  Position		  [120, 161, 235, 179]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_number"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From3"
+	  SID			  "56"
+	  Position		  [120, 191, 235, 209]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_ratio"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto"
+	  SID			  "57"
+	  Position		  [660, 391, 785, 409]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_number"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto1"
+	  SID			  "58"
+	  Position		  [660, 436, 785, 454]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_ratio"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto2"
+	  SID			  "59"
+	  Position		  [660, 481, 785, 499]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_number"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto3"
+	  SID			  "60"
+	  Position		  [660, 526, 785, 544]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_ratio"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Reverse_gear_number"
+	  SID			  "61"
+	  Position		  [20, 478, 610, 502]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_DP8963_Reverse_gear_number_raw"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Reverse_gear_ratio"
+	  SID			  "62"
+	  Position		  [20, 522, 610, 548]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_DP8963_Reverse_gear_ratio_raw"
+	}
+	Block {
+	  BlockType		  Memory
+	  Name			  "gear memory"
+	  SID			  "63"
+	  Position		  [325, 280, 355, 310]
+	  BlockMirror		  on
+	  ForegroundColor	  "lightBlue"
+	  BackgroundColor	  "gray"
+	  X0			  "1"
+	}
+	Block {
+	  BlockType		  Memory
+	  Name			  "gear_ratio memory"
+	  SID			  "64"
+	  Position		  [505, 55, 535, 85]
+	  ForegroundColor	  "lightBlue"
+	  BackgroundColor	  "gray"
+	  X0			  "1"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Ratio"
+	  SID			  "65"
+	  Position		  [650, 63, 680, 77]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Gear_number"
+	  SID			  "66"
+	  Position		  [650, 263, 680, 277]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "From3"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  7
+	}
+	Line {
+	  SrcBlock		  "From2"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "From1"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "From"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Max_Optimal_RPM"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Min_Optimal_RPM"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "RPM"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "gear_ratio memory"
+	  SrcPort		  1
+	  DstBlock		  "Ratio"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Automatic transmission\nController"
+	  SrcPort		  1
+	  DstBlock		  "gear_ratio memory"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Automatic transmission\nController"
+	  SrcPort		  2
+	  Points		  [5, 0; 0, 115]
+	  DstBlock		  "gear memory"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "gear memory"
+	  SrcPort		  1
+	  Points		  [-75, 0; 0, -25]
+	  Branch {
+	    DstBlock		    "Gear_number"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Automatic transmission\nController"
+	    DstPort		    8
+	  }
+	}
+	Line {
+	  SrcBlock		  "Reverse_gear_ratio"
+	  SrcPort		  1
+	  DstBlock		  "Goto3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Reverse_gear_number"
+	  SrcPort		  1
+	  DstBlock		  "Goto2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "FWD_gear_ratio"
+	  SrcPort		  1
+	  DstBlock		  "Goto1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "FWD_gear_number"
+	  SrcPort		  1
+	  DstBlock		  "Goto"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "M9600"
+      SID		      "67"
+      Ports		      [4, 2]
+      Position		      [150, 410, 270, 490]
+      LibraryVersion	      "1.225"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"M9600"
+	Location		[442, 105, 1478, 975]
+	Open			on
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "RPM"
+	  SID			  "68"
+	  Position		  [50, 13, 80, 27]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Min_Optimal_RPM"
+	  SID			  "69"
+	  Position		  [50, 43, 80, 57]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Max_Optimal_RPM"
+	  SID			  "70"
+	  Position		  [50, 73, 80, 87]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Shifter"
+	  SID			  "71"
+	  Position		  [50, 268, 80, 282]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Automatic transmission\nController"
+	  SID			  "72"
+	  Ports			  [8, 2]
+	  Position		  [260, 13, 420, 237]
+	  ForegroundColor	  "lightBlue"
+	  BackgroundColor	  "yellow"
+	  LibraryVersion	  "1.31"
+	  PermitHierarchicalResolution "ExplicitOnly"
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  MaskType		  "Stateflow"
+	  MaskDescription	  "Embedded MATLAB block"
+	  MaskSelfModifiable	  on
+	  MaskDisplay		  "disp('fcn');"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  off
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "Automatic transmission\nController"
+	    Location		    [257, 457, 812, 717]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    SIDHighWatermark	    "27"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "RPM"
+	      SID		      "72::1"
+	      Position		      [20, 101, 40, 119]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Min_RPM"
+	      SID		      "72::21"
+	      Position		      [20, 136, 40, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Max_RPM"
+	      SID		      "72::22"
+	      Position		      [20, 171, 40, 189]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "FWD_number"
+	      SID		      "72::24"
+	      Position		      [20, 206, 40, 224]
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "FWD_ratio"
+	      SID		      "72::25"
+	      Position		      [20, 246, 40, 264]
+	      Port		      "5"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Reverse_number"
+	      SID		      "72::26"
+	      Position		      [20, 281, 40, 299]
+	      Port		      "6"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Reverse_ratio"
+	      SID		      "72::27"
+	      Position		      [20, 316, 40, 334]
+	      Port		      "7"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "gear_num_in"
+	      SID		      "72::19"
+	      Position		      [20, 351, 40, 369]
+	      Port		      "8"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      " Demux "
+	      SID		      "72::15"
+	      Ports		      [1, 1]
+	      Position		      [270, 285, 320, 325]
+	      Outputs		      "1"
+	    }
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      " SFunction "
+	      SID		      "72::14"
+	      Tag		      "Stateflow S-Function Transmission_Library 3"
+	      Ports		      [8, 3]
+	      Position		      [180, 105, 230, 285]
+	      FunctionName	      "sf_sfun"
+	      PortCounts	      "[8 3]"
+	      EnableBusSupport	      on
+	      Port {
+		PortNumber		2
+		Name			"gearbox_ratio"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		3
+		Name			"gear_num_out"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      " Terminator "
+	      SID		      "72::17"
+	      Position		      [460, 296, 480, 314]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "gearbox_ratio"
+	      SID		      "72::20"
+	      Position		      [460, 101, 480, 119]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "gear_num_out"
+	      SID		      "72::5"
+	      Position		      [460, 136, 480, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      " Demux "
+	      SrcPort		      1
+	      DstBlock		      " Terminator "
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "gear_num_out"
+	      Labels		      [0, 0; 0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      3
+	      DstBlock		      "gear_num_out"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "gearbox_ratio"
+	      Labels		      [0, 0; 0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      2
+	      DstBlock		      "gearbox_ratio"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "gear_num_in"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      8
+	    }
+	    Line {
+	      SrcBlock		      "Reverse_ratio"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      7
+	    }
+	    Line {
+	      SrcBlock		      "Reverse_number"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      6
+	    }
+	    Line {
+	      SrcBlock		      "FWD_ratio"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      5
+	    }
+	    Line {
+	      SrcBlock		      "FWD_number"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      4
+	    }
+	    Line {
+	      SrcBlock		      "Max_RPM"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Min_RPM"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "RPM"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      " SFunction "
+	      SrcPort		      1
+	      DstBlock		      " Demux "
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "FWD_gear_number"
+	  SID			  "73"
+	  Position		  [20, 389, 610, 411]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_M9600_FWD_gear_number_raw"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "FWD_gear_ratio"
+	  SID			  "74"
+	  Position		  [20, 433, 610, 457]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_M9600_FWD_gear_ratio_raw"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From"
+	  SID			  "75"
+	  Position		  [120, 101, 235, 119]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_number"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From1"
+	  SID			  "76"
+	  Position		  [120, 131, 235, 149]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_ratio"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From2"
+	  SID			  "77"
+	  Position		  [120, 161, 235, 179]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_number"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From3"
+	  SID			  "78"
+	  Position		  [120, 191, 235, 209]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_ratio"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto"
+	  SID			  "79"
+	  Position		  [660, 391, 785, 409]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_number"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto1"
+	  SID			  "80"
+	  Position		  [660, 436, 785, 454]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "FWD_ratio"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto2"
+	  SID			  "81"
+	  Position		  [660, 481, 785, 499]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_number"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto3"
+	  SID			  "82"
+	  Position		  [660, 526, 785, 544]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Reverse_ratio"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Reverse_gear_number"
+	  SID			  "83"
+	  Position		  [20, 478, 610, 502]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_M9600_Reverse_gear_number_raw"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Reverse_gear_ratio"
+	  SID			  "84"
+	  Position		  [20, 522, 610, 548]
+	  BackgroundColor	  "orange"
+	  Value			  "Transmission_M9600_Reverse_gear_ratio_raw"
+	}
+	Block {
+	  BlockType		  Memory
+	  Name			  "gear memory"
+	  SID			  "85"
+	  Position		  [325, 280, 355, 310]
+	  BlockMirror		  on
+	  ForegroundColor	  "lightBlue"
+	  BackgroundColor	  "gray"
+	  X0			  "1"
+	}
+	Block {
+	  BlockType		  Memory
+	  Name			  "gear_ratio memory"
+	  SID			  "86"
+	  Position		  [505, 55, 535, 85]
+	  ForegroundColor	  "lightBlue"
+	  BackgroundColor	  "gray"
+	  X0			  "1"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Ratio"
+	  SID			  "87"
+	  Position		  [650, 63, 680, 77]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Gear_number"
+	  SID			  "88"
+	  Position		  [650, 263, 680, 277]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "From3"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  7
+	}
+	Line {
+	  SrcBlock		  "From2"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "From1"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "From"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Max_Optimal_RPM"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Min_Optimal_RPM"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "RPM"
+	  SrcPort		  1
+	  DstBlock		  "Automatic transmission\nController"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "gear_ratio memory"
+	  SrcPort		  1
+	  DstBlock		  "Ratio"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Automatic transmission\nController"
+	  SrcPort		  1
+	  DstBlock		  "gear_ratio memory"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Automatic transmission\nController"
+	  SrcPort		  2
+	  Points		  [5, 0; 0, 115]
+	  DstBlock		  "gear memory"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "gear memory"
+	  SrcPort		  1
+	  Points		  [-75, 0; 0, -25]
+	  Branch {
+	    DstBlock		    "Gear_number"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Automatic transmission\nController"
+	    DstPort		    8
+	  }
+	}
+	Line {
+	  SrcBlock		  "Reverse_gear_ratio"
+	  SrcPort		  1
+	  DstBlock		  "Goto3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Reverse_gear_number"
+	  SrcPort		  1
+	  DstBlock		  "Goto2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "FWD_gear_ratio"
+	  SrcPort		  1
+	  DstBlock		  "Goto1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "FWD_gear_number"
+	  SrcPort		  1
+	  DstBlock		  "Goto"
+	  DstPort		  1
+	}
+      }
+    }
+  }
+}
+# Finite State Machines
+#
+#    Stateflow Version 7.5 (R2010a) dated Jul 24 2010, 07:30:36
+#
+#
+
+
+Stateflow {
+  machine {
+    id			    1
+    name		    "Transmission_Library"
+    created		    "27-Jun-2011 15:37:30"
+    isLibrary		    0
+    firstTarget		    62
+    sfVersion		    75014000.000003
+  }
+  chart {
+    id			    2
+    name		    "CX31/Automatic transmission\nController"
+    windowPosition	    [420.75 158.25 200.25 189.75]
+    viewLimits		    [0 156.75 0 153.75]
+    screen		    [1 1 1920 1080 1.333333333333333]
+    treeNode		    [0 3 0 0]
+    firstTransition	    5
+    firstJunction	    4
+    viewObj		    2
+    machine		    1
+    ssIdHighWaterMark	    14
+    decomposition	    CLUSTER_CHART
+    type		    EML_CHART
+    firstData		    6
+    chartFileNumber	    1
+    disableImplicitCasting  1
+    eml {
+      name		      "fcn"
+    }
+  }
+  state {
+    id			    3
+    labelString		    "eML_blk_kernel()"
+    position		    [18 64.5 118 66]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 0 0]
+    superState		    SUBCHART
+    subviewer		    2
+    ssIdNumber		    1
+    type		    FUNC_STATE
+    decomposition	    CLUSTER_STATE
+    eml {
+      isEML		      1
+      script		      "function [gearbox_ratio, gear_num_out] = fcn(RPM, ...\n                                          "
+      "   Min_RPM, ...\n                                             Max_RPM, ...\n                                    "
+      "         FWD_number, ...\n                                             FWD_ratio, ...\n                         "
+      "                    Reverse_number, ...\n                                             Reverse_ratio, ...\n      "
+      "                                       gear_num_in)\n%#eml\n\ngear_num_out = gear_num_in;\n%gearbox_ratio = 0.12"
+      "/min(FWD_number);\n\n\nif (RPM > Max_RPM) && (gear_num_in < max(FWD_number))\n    gear_num_out = gear_num_in + 1"
+      ";    \nelseif (RPM < Min_RPM) && (gear_num_in > min(FWD_number))\n    gear_num_out = gear_num_in - 1;\nend\n\nr "
+      "= find(FWD_number == gear_num_out);\nrr = FWD_ratio(r(1));\ngearbox_ratio = 1/rr(1);\n% gearbox_ratio = FWD_rati"
+      "o(find(FWD_number == gear_num_out));\n\n% switch gear_num_out\n%     case 1\n%         gearbox_ratio = 0.12/3.5;"
+      "\n%     case 2\n%         gearbox_ratio = 0.12/2.2;        \n%     case 3\n%         gearbox_ratio = 0.12/1.4;  "
+      "      \n%     case 4\n%         gearbox_ratio = 0.12/1;\nend"
+      editorLayout	      "100 M4x1[573 170 1080 650]"
+    }
+  }
+  junction {
+    id			    4
+    position		    [23.5747 49.5747 7]
+    chart		    2
+    linkNode		    [2 0 0]
+    subviewer		    2
+    ssIdNumber		    3
+    type		    CONNECTIVE_JUNCTION
+  }
+  transition {
+    id			    5
+    labelString		    "{eML_blk_kernel();}"
+    labelPosition	    [32.125 19.875 102.544 14.964]
+    fontSize		    12
+    src {
+      intersection	      [0 0 1 0 23.5747 14.625 0 0]
+    }
+    dst {
+      id		      4
+      intersection	      [7 0 -1 -1 23.5747 42.5747 0 0]
+    }
+    midPoint		    [23.5747 24.9468]
+    chart		    2
+    linkNode		    [2 0 0]
+    dataLimits		    [23.575 23.575 14.625 34.575]
+    subviewer		    2
+    drawStyle		    SMART
+    executionOrder	    1
+    ssIdNumber		    2
+  }
+  data {
+    id			    6
+    ssIdNumber		    6
+    name		    "gearbox_ratio"
+    linkNode		    [2 0 7]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    7
+    ssIdNumber		    4
+    name		    "RPM"
+    linkNode		    [2 6 8]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+      }
+      complexity	      SF_COMPLEX_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    8
+    ssIdNumber		    8
+    name		    "Min_RPM"
+    linkNode		    [2 7 9]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    9
+    ssIdNumber		    9
+    name		    "Max_RPM"
+    linkNode		    [2 8 10]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    10
+    ssIdNumber		    11
+    name		    "FWD_number"
+    linkNode		    [2 9 11]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    11
+    ssIdNumber		    12
+    name		    "FWD_ratio"
+    linkNode		    [2 10 12]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    12
+    ssIdNumber		    13
+    name		    "Reverse_number"
+    linkNode		    [2 11 13]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    13
+    ssIdNumber		    14
+    name		    "Reverse_ratio"
+    linkNode		    [2 12 14]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    14
+    ssIdNumber		    5
+    name		    "gear_num_out"
+    linkNode		    [2 13 15]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    15
+    ssIdNumber		    7
+    name		    "gear_num_in"
+    linkNode		    [2 14 0]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  instance {
+    id			    16
+    name		    "CX31/Automatic transmission\nController"
+    machine		    1
+    chart		    2
+  }
+  chart {
+    id			    17
+    name		    "DP8963/Automatic transmission\nController"
+    windowPosition	    [420.75 158.25 200.25 189.75]
+    viewLimits		    [0 156.75 0 153.75]
+    screen		    [1 1 1920 1080 1.333333333333333]
+    treeNode		    [0 18 0 0]
+    firstTransition	    20
+    firstJunction	    19
+    viewObj		    17
+    machine		    1
+    ssIdHighWaterMark	    14
+    decomposition	    CLUSTER_CHART
+    type		    EML_CHART
+    firstData		    21
+    chartFileNumber	    2
+    disableImplicitCasting  1
+    eml {
+      name		      "fcn"
+    }
+  }
+  state {
+    id			    18
+    labelString		    "eML_blk_kernel()"
+    position		    [18 64.5 118 66]
+    fontSize		    12
+    chart		    17
+    treeNode		    [17 0 0 0]
+    superState		    SUBCHART
+    subviewer		    17
+    ssIdNumber		    1
+    type		    FUNC_STATE
+    decomposition	    CLUSTER_STATE
+    eml {
+      isEML		      1
+      script		      "function [gearbox_ratio, gear_num_out] = fcn(RPM, ...\n                                          "
+      "   Min_RPM, ...\n                                             Max_RPM, ...\n                                    "
+      "         FWD_number, ...\n                                             FWD_ratio, ...\n                         "
+      "                    Reverse_number, ...\n                                             Reverse_ratio, ...\n      "
+      "                                       gear_num_in)\n%#eml\n\ngear_num_out = gear_num_in;\n%gearbox_ratio = 0.12"
+      "/min(FWD_number);\n\n\nif (RPM > Max_RPM) && (gear_num_in < max(FWD_number))\n    gear_num_out = gear_num_in + 1"
+      ";    \nelseif (RPM < Min_RPM) && (gear_num_in > min(FWD_number))\n    gear_num_out = gear_num_in - 1;\nend\n\nr "
+      "= find(FWD_number == gear_num_out);\nrr = FWD_ratio(r(1));\ngearbox_ratio = 1/rr(1);\n% gearbox_ratio = FWD_rati"
+      "o(find(FWD_number == gear_num_out));\n\n% switch gear_num_out\n%     case 1\n%         gearbox_ratio = 0.12/3.5;"
+      "\n%     case 2\n%         gearbox_ratio = 0.12/2.2;        \n%     case 3\n%         gearbox_ratio = 0.12/1.4;  "
+      "      \n%     case 4\n%         gearbox_ratio = 0.12/1;\nend"
+      editorLayout	      "100 M4x1[573 170 1080 650]"
+    }
+  }
+  junction {
+    id			    19
+    position		    [23.5747 49.5747 7]
+    chart		    17
+    linkNode		    [17 0 0]
+    subviewer		    17
+    ssIdNumber		    3
+    type		    CONNECTIVE_JUNCTION
+  }
+  transition {
+    id			    20
+    labelString		    "{eML_blk_kernel();}"
+    labelPosition	    [32.125 19.875 102.544 14.964]
+    fontSize		    12
+    src {
+      intersection	      [0 0 1 0 23.5747 14.625 0 0]
+    }
+    dst {
+      id		      19
+      intersection	      [7 0 -1 -1 23.5747 42.5747 0 0]
+    }
+    midPoint		    [23.5747 24.9468]
+    chart		    17
+    linkNode		    [17 0 0]
+    dataLimits		    [23.575 23.575 14.625 34.575]
+    subviewer		    17
+    drawStyle		    SMART
+    executionOrder	    1
+    ssIdNumber		    2
+  }
+  data {
+    id			    21
+    ssIdNumber		    6
+    name		    "gearbox_ratio"
+    linkNode		    [17 0 22]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    22
+    ssIdNumber		    4
+    name		    "RPM"
+    linkNode		    [17 21 23]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+      }
+      complexity	      SF_COMPLEX_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    23
+    ssIdNumber		    8
+    name		    "Min_RPM"
+    linkNode		    [17 22 24]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    24
+    ssIdNumber		    9
+    name		    "Max_RPM"
+    linkNode		    [17 23 25]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    25
+    ssIdNumber		    11
+    name		    "FWD_number"
+    linkNode		    [17 24 26]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    26
+    ssIdNumber		    12
+    name		    "FWD_ratio"
+    linkNode		    [17 25 27]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    27
+    ssIdNumber		    13
+    name		    "Reverse_number"
+    linkNode		    [17 26 28]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    28
+    ssIdNumber		    14
+    name		    "Reverse_ratio"
+    linkNode		    [17 27 29]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    29
+    ssIdNumber		    5
+    name		    "gear_num_out"
+    linkNode		    [17 28 30]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    30
+    ssIdNumber		    7
+    name		    "gear_num_in"
+    linkNode		    [17 29 0]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  instance {
+    id			    31
+    name		    "DP8963/Automatic transmission\nController"
+    machine		    1
+    chart		    17
+  }
+  chart {
+    id			    32
+    name		    "M9600/Automatic transmission\nController"
+    windowPosition	    [420.75 158.25 200.25 189.75]
+    viewLimits		    [0 156.75 0 153.75]
+    screen		    [1 1 1920 1080 1.333333333333333]
+    treeNode		    [0 33 0 0]
+    firstTransition	    35
+    firstJunction	    34
+    viewObj		    32
+    machine		    1
+    ssIdHighWaterMark	    14
+    decomposition	    CLUSTER_CHART
+    type		    EML_CHART
+    firstData		    36
+    chartFileNumber	    3
+    disableImplicitCasting  1
+    eml {
+      name		      "fcn"
+    }
+  }
+  state {
+    id			    33
+    labelString		    "eML_blk_kernel()"
+    position		    [18 64.5 118 66]
+    fontSize		    12
+    chart		    32
+    treeNode		    [32 0 0 0]
+    superState		    SUBCHART
+    subviewer		    32
+    ssIdNumber		    1
+    type		    FUNC_STATE
+    decomposition	    CLUSTER_STATE
+    eml {
+      isEML		      1
+      script		      "function [gearbox_ratio, gear_num_out] = fcn(RPM, ...\n                                          "
+      "   Min_RPM, ...\n                                             Max_RPM, ...\n                                    "
+      "         FWD_number, ...\n                                             FWD_ratio, ...\n                         "
+      "                    Reverse_number, ...\n                                             Reverse_ratio, ...\n      "
+      "                                       gear_num_in)\n%#eml\n\ngear_num_out = gear_num_in;\n%gearbox_ratio = 0.12"
+      "/min(FWD_number);\n\n\nif (RPM > Max_RPM) && (gear_num_in < max(FWD_number))\n    gear_num_out = gear_num_in + 1"
+      ";    \nelseif (RPM < Min_RPM) && (gear_num_in > min(FWD_number))\n    gear_num_out = gear_num_in - 1;\nend\n\nr "
+      "= find(FWD_number == gear_num_out);\nrr = FWD_ratio(r(1));\ngearbox_ratio = 1/rr(1);\n% gearbox_ratio = FWD_rati"
+      "o(find(FWD_number == gear_num_out));\n\n% switch gear_num_out\n%     case 1\n%         gearbox_ratio = 0.12/3.5;"
+      "\n%     case 2\n%         gearbox_ratio = 0.12/2.2;        \n%     case 3\n%         gearbox_ratio = 0.12/1.4;  "
+      "      \n%     case 4\n%         gearbox_ratio = 0.12/1;\nend"
+      editorLayout	      "100 M4x1[573 170 1080 650]"
+    }
+  }
+  junction {
+    id			    34
+    position		    [23.5747 49.5747 7]
+    chart		    32
+    linkNode		    [32 0 0]
+    subviewer		    32
+    ssIdNumber		    3
+    type		    CONNECTIVE_JUNCTION
+  }
+  transition {
+    id			    35
+    labelString		    "{eML_blk_kernel();}"
+    labelPosition	    [32.125 19.875 102.544 14.964]
+    fontSize		    12
+    src {
+      intersection	      [0 0 1 0 23.5747 14.625 0 0]
+    }
+    dst {
+      id		      34
+      intersection	      [7 0 -1 -1 23.5747 42.5747 0 0]
+    }
+    midPoint		    [23.5747 24.9468]
+    chart		    32
+    linkNode		    [32 0 0]
+    dataLimits		    [23.575 23.575 14.625 34.575]
+    subviewer		    32
+    drawStyle		    SMART
+    executionOrder	    1
+    ssIdNumber		    2
+  }
+  data {
+    id			    36
+    ssIdNumber		    6
+    name		    "gearbox_ratio"
+    linkNode		    [32 0 37]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    37
+    ssIdNumber		    4
+    name		    "RPM"
+    linkNode		    [32 36 38]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+      }
+      complexity	      SF_COMPLEX_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    38
+    ssIdNumber		    8
+    name		    "Min_RPM"
+    linkNode		    [32 37 39]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    39
+    ssIdNumber		    9
+    name		    "Max_RPM"
+    linkNode		    [32 38 40]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    40
+    ssIdNumber		    11
+    name		    "FWD_number"
+    linkNode		    [32 39 41]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    41
+    ssIdNumber		    12
+    name		    "FWD_ratio"
+    linkNode		    [32 40 42]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    42
+    ssIdNumber		    13
+    name		    "Reverse_number"
+    linkNode		    [32 41 43]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    43
+    ssIdNumber		    14
+    name		    "Reverse_ratio"
+    linkNode		    [32 42 44]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    44
+    ssIdNumber		    5
+    name		    "gear_num_out"
+    linkNode		    [32 43 45]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    45
+    ssIdNumber		    7
+    name		    "gear_num_in"
+    linkNode		    [32 44 0]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  instance {
+    id			    46
+    name		    "M9600/Automatic transmission\nController"
+    machine		    1
+    chart		    32
+  }
+  chart {
+    id			    47
+    name		    "CX28/Automatic transmission\nController"
+    windowPosition	    [420.75 158.25 200.25 189.75]
+    viewLimits		    [0 156.75 0 153.75]
+    screen		    [1 1 1920 1080 1.333333333333333]
+    treeNode		    [0 48 0 0]
+    firstTransition	    50
+    firstJunction	    49
+    viewObj		    47
+    machine		    1
+    ssIdHighWaterMark	    14
+    decomposition	    CLUSTER_CHART
+    type		    EML_CHART
+    firstData		    51
+    chartFileNumber	    4
+    disableImplicitCasting  1
+    eml {
+      name		      "fcn"
+    }
+  }
+  state {
+    id			    48
+    labelString		    "eML_blk_kernel()"
+    position		    [18 64.5 118 66]
+    fontSize		    12
+    chart		    47
+    treeNode		    [47 0 0 0]
+    superState		    SUBCHART
+    subviewer		    47
+    ssIdNumber		    1
+    type		    FUNC_STATE
+    decomposition	    CLUSTER_STATE
+    eml {
+      isEML		      1
+      script		      "function [gearbox_ratio, gear_num_out] = fcn(RPM, ...\n                                          "
+      "   Min_RPM, ...\n                                             Max_RPM, ...\n                                    "
+      "         FWD_number, ...\n                                             FWD_ratio, ...\n                         "
+      "                    Reverse_number, ...\n                                             Reverse_ratio, ...\n      "
+      "                                       gear_num_in)\n%#eml\n\ngear_num_out = gear_num_in;\n%gearbox_ratio = 0.12"
+      "/min(FWD_number);\n\n\nif (RPM > Max_RPM) && (gear_num_in < max(FWD_number))\n    gear_num_out = gear_num_in + 1"
+      ";    \nelseif (RPM < Min_RPM) && (gear_num_in > min(FWD_number))\n    gear_num_out = gear_num_in - 1;\nend\n\nr "
+      "= find(FWD_number == gear_num_out);\nrr = FWD_ratio(r(1));\ngearbox_ratio = 1/rr(1);\n% gearbox_ratio = FWD_rati"
+      "o(find(FWD_number == gear_num_out));\n\n% switch gear_num_out\n%     case 1\n%         gearbox_ratio = 0.12/3.5;"
+      "\n%     case 2\n%         gearbox_ratio = 0.12/2.2;        \n%     case 3\n%         gearbox_ratio = 0.12/1.4;  "
+      "      \n%     case 4\n%         gearbox_ratio = 0.12/1;\nend"
+      editorLayout	      "100 M4x1[573 170 1080 650]"
+    }
+  }
+  junction {
+    id			    49
+    position		    [23.5747 49.5747 7]
+    chart		    47
+    linkNode		    [47 0 0]
+    subviewer		    47
+    ssIdNumber		    3
+    type		    CONNECTIVE_JUNCTION
+  }
+  transition {
+    id			    50
+    labelString		    "{eML_blk_kernel();}"
+    labelPosition	    [32.125 19.875 102.544 14.964]
+    fontSize		    12
+    src {
+      intersection	      [0 0 1 0 23.5747 14.625 0 0]
+    }
+    dst {
+      id		      49
+      intersection	      [7 0 -1 -1 23.5747 42.5747 0 0]
+    }
+    midPoint		    [23.5747 24.9468]
+    chart		    47
+    linkNode		    [47 0 0]
+    dataLimits		    [23.575 23.575 14.625 34.575]
+    subviewer		    47
+    drawStyle		    SMART
+    executionOrder	    1
+    ssIdNumber		    2
+  }
+  data {
+    id			    51
+    ssIdNumber		    6
+    name		    "gearbox_ratio"
+    linkNode		    [47 0 52]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    52
+    ssIdNumber		    4
+    name		    "RPM"
+    linkNode		    [47 51 53]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+      }
+      complexity	      SF_COMPLEX_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    53
+    ssIdNumber		    8
+    name		    "Min_RPM"
+    linkNode		    [47 52 54]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    54
+    ssIdNumber		    9
+    name		    "Max_RPM"
+    linkNode		    [47 53 55]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    55
+    ssIdNumber		    11
+    name		    "FWD_number"
+    linkNode		    [47 54 56]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    56
+    ssIdNumber		    12
+    name		    "FWD_ratio"
+    linkNode		    [47 55 57]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    57
+    ssIdNumber		    13
+    name		    "Reverse_number"
+    linkNode		    [47 56 58]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    58
+    ssIdNumber		    14
+    name		    "Reverse_ratio"
+    linkNode		    [47 57 59]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    59
+    ssIdNumber		    5
+    name		    "gear_num_out"
+    linkNode		    [47 58 60]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    60
+    ssIdNumber		    7
+    name		    "gear_num_in"
+    linkNode		    [47 59 0]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  instance {
+    id			    61
+    name		    "CX28/Automatic transmission\nController"
+    machine		    1
+    chart		    47
+  }
+  target {
+    id			    62
+    name		    "sfun"
+    description		    "Default Simulink S-Function Target."
+    machine		    1
+    linkNode		    [1 0 0]
+  }
+}

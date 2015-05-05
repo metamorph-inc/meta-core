@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyphyDSEConverter">
+  <Component Id="CyPhyDesignSpaceRefactor.dll" Directory="INSTALLDIR_BIN">
+    <File Source="$(var.InterpreterBin)\CyPhyDesignSpaceRefactor.dll">
+      <TypeLib Id="700382ea-4316-4a27-abaf-d7182b078c00" Description="MGA Interpreter TypeLibrary CyphyDSEConverter)" Language="0" MajorVersion="1" MinorVersion="0">
+        <Class Id="{2b52ef70-5de5-4f45-b672-dd90930e158f}" Context="InprocServer32" Description="MGA.Interpreter.CyphyDSEConverter">
+          <ProgId Id="MGA.Interpreter.CyphyDSEConverter" Description="MGA.Interpreter.CyphyDSEConverter" />
+        </Class>
+      </TypeLib>
+    </File>
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyphyDSEConverter'>
+      <RegistryValue Name='Description' Type='string' Value='Design Space Refactorer'/>
+      <RegistryValue Name='Icon' Type='string' Value=',IDI_COMPICON'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='Design Space Refactorer'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

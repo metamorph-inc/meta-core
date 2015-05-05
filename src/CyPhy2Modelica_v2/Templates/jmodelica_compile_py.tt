@@ -1,0 +1,97 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ output extension=".py" #>
+ 
+# ---------------------------------------------------------
+# Auto generated from jmodelica_compile_py.tt
+# Execute this script using system Python (with JModelica)
+# ---------------------------------------------------------
+import os
+import sys
+import json
+import logging
+
+try:
+    from pymodelica import compile_fmu  # JModelica.org's 'pymodelica', NOT ISIS' 'py_modelica'
+except:
+    print "pymodelica module was not found. Call this script using system Python."
+
+from optparse import OptionParser
+
+parser = OptionParser()
+parser.add_option("-n", "--name", dest="model_name", help="Path to Modelica model within its package")
+
+logging.basicConfig(filename="j_compile.log",
+                    level=logging.DEBUG,
+                    format="%(asctime)s %(levelname)s: %(message)s",
+                    datefmt="%Y-%m-%d %H:%M:%S")
+
+def compile_model(modelica_class, extra_libs):
+
+    # Rather than 'CyPhy.TestBenches.TBName_cfg000', => 'TBName_cfg000'
+    fmu_file_name = modelica_class.split('.')[-1] + '.fmu'
+
+    # Create the compiled fmu binary file from the Modelica model
+    # py_modelica has already added all Libraries to %MODELICAPATH%
+    try:
+        compiled_fmu = compile_fmu(modelica_class, compile_to=fmu_file_name, compiler_options={'extra_lib_dirs':extra_libs})
+        log.info('FMU was compiled: {0}'.format(compiled_fmu))
+    except:
+        log.error('Problem compiling fmu from modelica model.')
+        log.error('%MODELICAPATH may not be set properly.')
+        raise
+
+
+def main():
+    log = logging.getLogger()
+    working_dir = os.getcwd()  # should be CyPhy
+    this_script_path = os.path.abspath(__file__)
+
+    log.info('Running {0} from {1}'.format(this_script_path, working_dir))
+
+    (options, args) = parser.parse_args()
+    modelica_class = options.model_name
+
+    if not modelica_class:
+        log.info('modelica_class not specified in options, trying to load model_config.json')
+        with open('model_config.json') as f_in:
+            model_config = json.load(f_in)
+            modelica_class = model_config['model_name']
+            lib_package_paths = model_config['lib_package_paths']
+
+    libraries = []
+    libraries.append(os.path.abspath('..'))
+    for lib_path in lib_package_paths:
+        libraries.append(os.path.abspath(lib_path))
+
+    log.info('libraries : {0}'.format(libraries))
+
+    compile_model(modelica_class, libraries)
+
+
+if __name__ == '__main__':
+    log = logging.getLogger()
+    root_dir = os.getcwd()
+
+    try:
+        main()
+    except:
+        import traceback
+        trace = traceback.format_exc()
+        with open(os.path.join(root_dir, '_j_compile_FAILED.txt'), 'wb') as f_out:
+            f_out.write(trace)
+        log.error('See {0} for details.'.format(os.path.join(root_dir, '_j_compile_FAILED.txt')))
+        sys.exit(2)
+
+
+
+<#+ public string ToolName ="";
+	public string DymolaHome = "";
+    public string ResultMatFile = "";#>

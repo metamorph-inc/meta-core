@@ -1,0 +1,47 @@
+[
+    {
+        "base_model": "C2M2L_Ext.C2M2L_Delivered_Component_Implementations.Drive_Line.Drive_Shafts.Test_Bench_Drive_Shaft", 
+        "parameters": [
+            {
+                "default_instance": "Drive_Shaft_param_length_2.xml__.xml", 
+                "name": "drive_Shaft", 
+                "constraint_clause": "C2M2L_Ext.C2M2L_Delivered_Component_Implementations.Drive_Line.Drive_Shafts.Drive_Shaft"
+            }
+        ]
+    },
+    {
+        "base_model": "C2M2L_Ext.C2M2L_Delivered_Component_Implementations.Drive_Line.Drive_Shafts.Test_Bench_Drive_Shaft_CV", 
+        "parameters": [
+            {
+                "default_instance": "Drive_Shaft_param_length_2.xml__.xml", 
+                "name": "drive_Shaft_CV_Joint", 
+                "constraint_clause": "C2M2L_Ext.C2M2L_Delivered_Component_Implementations.Drive_Line.Drive_Shafts.Drive_Shaft"
+            }
+        ]
+    },
+    {
+        "base_model": "C2M2L_Ext.C2M2L_Delivered_Component_Implementations.Drive_Line.Drive_Shafts.Test_Bench_Intermediate_Shaft", 
+        "parameters": [
+            {
+                "default_instance": "Drive_Shaft_param_length_2.xml__.xml", 
+                "name": "intermediate_Shaft", 
+                "constraint_clause": "C2M2L_Ext.C2M2L_Delivered_Component_Implementations.Drive_Line.Drive_Shafts.Drive_Shaft"
+            }
+        ]
+    },
+    {
+        "base_model": "C2M2L_Ext.C2M2L_Test_Assemblies.no_controls", 
+        "parameters": [
+            {
+                "default_instance": "Drive_Shaft_param_length_2.xml__.xml", 
+                "name": "drive_Shaft", 
+                "constraint_clause": "C2M2L_Ext.C2M2L_Delivered_Component_Implementations.Drive_Line.Drive_Shafts.Drive_Shaft"
+            },
+            {
+                "default_instance": "Drive_Shaft_param_length_1.xml__.xml", 
+                "name": "drive_Shaft1", 
+                "constraint_clause": "C2M2L_Ext.C2M2L_Delivered_Component_Implementations.Drive_Line.Drive_Shafts.Drive_Shaft"
+            }
+        ]
+    }
+]

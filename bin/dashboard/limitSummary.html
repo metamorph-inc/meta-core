@@ -1,0 +1,72 @@
+<style type="text/css">
+			@import url("./css/limitSummary.css");
+</style>
+
+<!-- Custom scripts -->
+<script src="./js/limitSummary.js"></script>
+
+
+<div class="row-fluid">
+	
+		<div class="span12">
+			<h1>Limits Violations Summary</h1>
+			<p style="color: #666;">A red exclamation point will appear in the tab's label if there was an violation</p>
+			<p>
+			<table style="text-align: right">
+				<tr>
+					<td>
+						Total number of limit violations:  
+					</td>
+					<td data-bind="html: limitSummary().length"></td>
+				</tr>
+				<tr>
+					<td>
+						Designs that violate a limit:  
+					</td>
+					<td data-bind="html: numberOfLimitExceededDesigns"></td>
+				</tr>
+				<tr>
+					<td>
+						Test benches that violate a limit:  
+					</td>
+					<td data-bind="html: numberOfLimitExceededTestBenches"></td>
+				</tr>
+			</table>
+			</p>
+			<form class="form-inline">
+				<button class="btn btn-inverse csv" type="button" style="margin-left: 20px; display: inline;margin-top: 15px;" data="vm.dataproviders.limitExceededSummary()" table="limitExceededSummary" style="display: inline"><i class="icon-th-list icon-white"></i> Export</button>
+			</form>	
+			<vf-datatable id="limitSummary" data="vm.dataproviders.limitExceededSummary()" pag = "true" height="" ratio = "1.2" ></vf-datatable>
+		</div>
+
+<div class="modal hide fade" id="help">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Limit-violations-Summary Help</h3>
+	</div>
+	<div class="modal-body">
+		<div class = "container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<h1>Overview:</h1>
+					<p>
+						The Limit-violations-Summary tab shows occurances of designs where maximum or minimum limits have been exceeded.
+                        The presence of a red exclamation point in the tab title indicates that
+												Limit Exceeded errors were detected during the file
+                        load process.  The table shows the test bench and design that produced the limit error.  The name
+												of the limit exceeded is displayed along with the pre-defined limit value and the actual value generated when
+												the design was run through the test bench.
+					</p>
+					<p>
+						<div class="well">
+							When evaluating the results be aware of whether the limit is a maximum or a minimum.
+						</div>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-bind="click: mada_ok" data-dismiss="modal">OK</a>
+	</div>
+</div>

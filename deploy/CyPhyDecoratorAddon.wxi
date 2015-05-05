@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyDecoratorAddon">
+  <Component Id="CyPhyDecoratorAddon.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhyDecoratorAddon.dll" Name="CyPhyDecoratorAddon.dll" KeyPath="yes" Source="../src/CyPhyDecoratorAddon\bin\Release\CyPhyDecoratorAddon.dll" />
+    <Class Id="{E50DB0D8-7E8D-4B1C-A519-693C5DBB4CB2}" Context="InprocServer32" Description="MGA.Addon.CyPhyDecoratorAddon" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Addon.CyPhyDecoratorAddon" Description="MGA.Addon.CyPhyDecoratorAddon" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{E50DB0D8-7E8D-4B1C-A519-693C5DBB4CB2}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{E50DB0D8-7E8D-4B1C-A519-693C5DBB4CB2}\InprocServer32\1.0.0.0" Name="Class" Value="CyPhyDecoratorAddon.CyPhyDecoratorAddon" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{E50DB0D8-7E8D-4B1C-A519-693C5DBB4CB2}\InprocServer32\1.0.0.0" Name="Assembly" Value="CyPhyDecoratorAddon, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{E50DB0D8-7E8D-4B1C-A519-693C5DBB4CB2}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{E50DB0D8-7E8D-4B1C-A519-693C5DBB4CB2}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#CyPhyDecoratorAddon.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{E50DB0D8-7E8D-4B1C-A519-693C5DBB4CB2}\InprocServer32" Name="Class" Value="CyPhyDecoratorAddon.CyPhyDecoratorAddon" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{E50DB0D8-7E8D-4B1C-A519-693C5DBB4CB2}\InprocServer32" Name="Assembly" Value="CyPhyDecoratorAddon, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{E50DB0D8-7E8D-4B1C-A519-693C5DBB4CB2}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{E50DB0D8-7E8D-4B1C-A519-693C5DBB4CB2}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyDecoratorAddon.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Addon.CyPhyDecoratorAddon'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhyDecoratorAddon'/>
+      <RegistryValue Name='Icon' Type='string' Value='CyPhyDecoratorAddon.ico'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <!-- RegistryValue Name='Tooltip' Type='string' Value='TOOLTIP_TEXT'/ -->
+      <RegistryValue Name='Type' Type='integer' Value='2'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:Component xmlns:ns2="avm" Version="1.0" Name="Example Component">
+    <DomainModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns4="modelica" xsi:type="ns4:ModelicaModel" Class="path.to.class">
+        <Connector Locator="RotationalOut" Class="Modelica.Mechanics.Rotational.Interfaces.Flange_a" ID="ID1"/>
+        <Connector Locator="TranslationalInput" Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" ID="ID10"/>
+        <Metric Locator="subsystem.max_force" Notes="maximum force exerted over simulation" ID="ID3"/>
+    </DomainModel>
+    <DomainModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns4="cad" xsi:type="ns4:CADModel" Notes="A detailed CAD representation of the component" UsesResource="ID30">
+        <Datum xsi:type="ns4:CoordinateSystem" ID="ID22" Name="MATING_POINT"/>
+        <Parameter Name="LENGTH">
+            <Value DimensionType="Scalar" DataType="Real" ID="ID21" Unit="m">
+                <ValueExpression xsi:type="ns2:DerivedValue" ValueSource="ID4"/>
+            </Value>
+        </Parameter>
+    </DomainModel>
+    <Property xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:PrimitiveProperty" OnDataSheet="true" Name="Property1">
+        <Value DataType="Integer" ID="ID4" Unit="m">
+            <ValueExpression xsi:type="ns2:FixedValue">
+                <Value>
+					34513
+				</Value>
+            </ValueExpression>
+        </Value>
+    </Property>
+    <Property xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:PrimitiveProperty" OnDataSheet="false" Name="ADerivedValue">
+        <Value DataType="Integer" ID="ID5" Unit="m">
+            <ValueExpression xsi:type="ns2:DerivedValue" ValueSource="ID4"/>
+        </Value>
+    </Property>
+    <Property xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:PrimitiveProperty" OnDataSheet="false" Name="AParametricValue">
+        <Value DataType="Real" ID="ID20" Unit="m">
+            <ValueExpression xsi:type="ns2:ParametricValue">
+                <Default xsi:type="ns2:DerivedValue" ValueSource="ID4"/>
+                <Minimum xsi:type="ns2:FixedValue">
+                    <Value>
+						1.0
+					</Value>
+                </Minimum>
+            </ValueExpression>
+        </Value>
+    </Property>
+    <ResourceDependency Notes="Creo model representing this component" ID="ID30" Path="cad/Model.prt" Name="CAD Model"/>
+    <Connector Name="BogusInterface">
+        <Role xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns4="modelica" xsi:type="ns4:Connector" Class="Modelica.Mechanics.Rotational.Interfaces.Flange_a" Name="Role1 for Modelica Connector"/>
+        <Role xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns4="cad" xsi:type="ns4:CoordinateSystem" Name="Role2 for CAD CoordinateSystem"/>
+    </Connector>
+</ns2:Component>

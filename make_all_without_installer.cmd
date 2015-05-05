@@ -1,0 +1,1 @@
+msbuild make.msbuild /t:All /m /nodeReuse:false

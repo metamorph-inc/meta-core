@@ -1,0 +1,105 @@
+<style type="text/css">
+			@import url("./css/loadSummary.css");
+</style>
+
+<!-- Custom scripts -->
+<script src="./js/loadSummary.js"></script>
+
+
+<div class="row-fluid">
+	
+		<div class="span12">
+			<h1>File Load Summary</h1>
+			<p style="color: #666;">A red exclamation point will appear in the tab's label if there was an error</p>
+			<p>
+			<table style="text-align: right">
+				<tr>
+					<td>
+						Files Requested:  
+					</td>
+					<td data-bind="html: numberOfFiles"></td>
+				</tr>
+				<tr>
+					<td>
+						Configurations Found:  
+					</td>
+					<td data-bind="html: numberOfConfigurations"></td>
+				</tr>
+				<tr>
+					<td>
+						Variables Found:  
+					</td>
+					<td data-bind="html: numberOfVariables"></td>
+				</tr>
+			</table>
+			</p>
+			<form class="form-inline">
+				<button class="btn btn-inverse csv" type="button" style="margin-left: 20px; display: inline;margin-top: 15px;" data="vm.dataproviders.fileLoadSummary()" table="fileLoadSummary" style="display: inline"><i class="icon-th-list icon-white"></i> Export</button>
+			</form>	
+			<vf-datatable id="loadSummary" data="vm.dataproviders.fileLoadSummary()" pag = "true" height="" ratio = "1.2" ></vf-datatable>
+		</div>
+
+<div class="modal hide fade" id="help">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>File-Load-Summary Help</h3>
+	</div>
+	<div class="modal-body">
+		<div class = "container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<h1>Overview:</h1>
+					<p>
+						The File-Load-Summary tab shows the load status of the files being read by the visualizer.
+                        The presence of a red exclamation point in the tab title indicates that an error was encountered during the file
+                        load process.
+					</p>
+					<p>
+						<div class="well">
+							The Visualizer operates in two modes, from the VehicleForge server and locally.
+						</div>
+					</p>
+					<h1>Instructions:</h1>
+					<p>
+						The table shows the results of each attempt to load a data file.  
+                        The column <b>URL</b> identifies the file and the column <b>Status</b> displays the result of the read attempt.
+                        The status will usually be one of <i>OK</i>, <i>Not Found</i>, or <i>Parser Error</i>.  If any other error is 
+                        reported, create a ticket on the VehicleForge Helpdesk.
+                        <dl>
+                            <dt><i>OK</i></dt>
+                            <dd>The file loaded successfully.</dd>
+                            <dt><i>Not Found</i></dt>
+                            <dd>The file was not found.</dd>
+                            <dt><i>Parser Error</i></dt>
+                            <dd>The contents of the file could not be parsed.  Check the contents and verify that they are in valid JSON format.</dd>
+                        </dl>
+                        Clicking on the <b>URL</b> name of any file in the table will attempt to display it.  For <i>Not Found</i> errors this can be used to
+                        verify whether the file is available.  For <i>Parser Errors</i> the contents of the file may be examined.
+					</p>
+                    <h2>From VehicleForge Server</h2>
+					<p>
+						When running the visualizer from the VehicleForge server:
+                            <ol>
+                                <li>Confirm that you still have network connectivity.</li>
+                                <li>Confirm that the file is actually located on the server.</li>
+                                <li>Confirm that the file is correctly listed in the project file.</li>
+                            </ol>
+                        If you are unable to correct the problem, create a ticket on the VehicleForge Helpdesk for assistance.
+					</p>
+					<h2>Local</h2>
+					<p>
+						In local mode, the files that are loaded reside on your disk.  
+                        <ol>
+                            <li>Confirm that the file is present on your disk.</li>
+                            <li>Confirm that file is correctly listed in the project file.</li>
+                            <li>Confirm that file permissions permit the visualizer to read the file.</li>
+                        </ol>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-bind="click: mada_ok" data-dismiss="modal">OK</a>
+	</div>
+</div>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="dffc808f-3f2f-4283-ad9f-91b9caf428f8" Name="CompMechanical" Version="" xmlns="avm">
+  <Connector ConnectorComposition="" ID="id-5ef5b48a-f492-4b7b-b2f7-a484cd78dfb1" ApplyJoinData="" Notes="" Name="MechanicalConnector" Definition="" xmlns="">
+    <DefaultJoin d3p1:id="jd1cbb56bc-7326-42f9-bf8b-5d0a0116a3ae" xmlns:d3p1="iFAB">
+      <name>MechanicalJoinDefaultJoinData</name>
+      <part1 />
+      <part2 />
+      <description />
+      <mechanical>
+        <linkingPart d3p1:id="" />
+        <fasteningMethod>Bolted</fasteningMethod>
+        <torque>1</torque>
+        <force>1</force>
+      </mechanical>
+    </DefaultJoin>
+  </Connector>
+  <Classifications xmlns="" />
+</Component>

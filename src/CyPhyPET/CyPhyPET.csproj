@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{98831605-E3EF-4A4F-B5E4-092F946DAD53}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CyPhyPET</RootNamespace>
+    <AssemblyName>CyPhyPET</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>AssemblySignature.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ISIS.GME.Common, Version=1.0.1.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\externals\common-scripts\ISIS.GME.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.0.5.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3rdParty\Json.NET\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="GME, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.MGA, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.MGA.Core, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PCCPropertyInputDistributionEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PCCPropertyInputDistributionEditor.Designer.cs">
+      <DependentUpon>PCCPropertyInputDistributionEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PCC\PCCProperty.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Rules\Checker.cs" />
+    <Compile Include="ComponentConfig.cs" />
+    <Compile Include="CyPhyPET.cs" />
+    <Compile Include="CyPhyPETSettings.cs" />
+    <Compile Include="Rules\Global.cs" />
+    <Compile Include="PCC\Inputformat.cs" />
+    <Compile Include="PET.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <DependentUpon>Settings.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Registrar.cs" />
+    <Compile Include="MgaGateway.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Templates\CSVParameterStudy.cs">
+      <DependentUpon>CSVParameterStudy.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Templates\TestBenchComponent.cs">
+      <DependentUpon>TestBenchComponent.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Templates\runDriverLINUX.cs">
+      <DependentUpon>runDriverLINUX.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Templates\Modelica_v2.cs">
+      <DependentUpon>Modelica_v2.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Templates\Optimizer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Optimizer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\PCCDriver.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PCCDriver.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\runDriver.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>runDriver.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\TestBenchExecutors\CAD.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CAD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\TestBenchExecutors\TemplateExecutor.cs">
+      <DependentUpon>TemplateExecutor.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Templates\TestBenchExecutors\FEA.cs">
+      <DependentUpon>FEA.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Templates\TestBenchExecutors\Formula.cs">
+      <DependentUpon>Formula.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Templates\ParameterStudy.cs">
+      <DependentUpon>ParameterStudy.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Templates\ParameterStudySurrogate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParameterStudySurrogate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\SurrogateAssembly.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SurrogateAssembly.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\SurrogateValidation.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SurrogateValidation.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PCCexperimentSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PCCexperimentSettings.Designer.cs">
+      <DependentUpon>PCCexperimentSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\TestBenchExecutors\Modelica.cs">
+      <DependentUpon>Modelica.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ToolConfig.cs" />
+    <!--$ADDITIONALFILES$-->
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CyPhyPET.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Properties\DataSources\CyPhyPET.PCC.PCCProperty.datasource" />
+    <None Include="Properties\DataSources\PCCPropertyInputDistributionEditor.PCCProperty.datasource" />
+    <None Include="Resources\beta.bmp" />
+    <Content Include="Resources\driver_runner_simpleCalc.py" />
+    <None Include="Resources\driver_runner_cad.py" />
+    <None Include="Resources\lognormal.bmp" />
+    <None Include="Resources\normal.bmp" />
+    <None Include="Resources\uniform.bmp" />
+    <Content Include="Resources\zip.py" />
+    <None Include="Resources\driver_runner.py" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\index.html" />
+    <None Include="Resources\save_results.py" />
+    <None Include="Templates\CSVParameterStudy.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>CSVParameterStudy.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\TestBenchComponent.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>TestBenchComponent.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\runDriverLINUX.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>runDriverLINUX.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\Modelica_v2.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>Modelica_v2.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\PCCDriver.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>PCCDriver.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\runDriver.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>runDriver.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\ParameterStudySurrogate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>ParameterStudySurrogate.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\SurrogateAssembly.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SurrogateAssembly.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\SurrogateValidation.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SurrogateValidation.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\TestBenchExecutors\CAD.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>CAD.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\TestBenchExecutors\TemplateExecutor.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>TemplateExecutor.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\TestBenchExecutors\FEA.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>FEA.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\TestBenchExecutors\Modelica.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>Modelica.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AssemblySignature.snk" />
+    <None Include="Templates\Optimizer.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>Optimizer.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\TestBenchExecutors\Formula.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>Formula.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\ParameterStudy.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ParameterStudy.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PCCPropertyInputDistributionEditor.resx">
+      <DependentUpon>PCCPropertyInputDistributionEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PCCexperimentSettings.resx">
+      <DependentUpon>PCCexperimentSettings.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CyPhy2CAD_CSharp\CyPhy2CAD_CSharp.csproj">
+      <Project>{EA9CC9FA-046F-47C6-80D9-A2B1CFE8BBAE}</Project>
+      <Name>CyPhy2CAD_CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhy2Modelica_v2\CyPhy2Modelica_v2.csproj">
+      <Project>{D2DEA0A5-78D5-4346-9C24-4CD7AE10B8AF}</Project>
+      <Name>CyPhy2Modelica_v2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyCOMInterfacesCS\CyPhyCOMInterfacesCS.csproj">
+      <Project>{F8627136-5AEB-4501-A0FE-E5642D86827B}</Project>
+      <Name>CyPhyCOMInterfacesCS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyGUIs\CyPhyGUIs.csproj">
+      <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
+      <Name>CyPhyGUIs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyMLCS\CyPhyMLCS.csproj">
+      <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>
+      <Name>CyPhyMLCS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DesignConsistencyChecker\DesignConsistencyChecker.csproj">
+      <Project>{93FCCA2C-34B2-4855-A8DE-0A5A7F3FDECF}</Project>
+      <Name>DesignConsistencyChecker</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JobManager\JobManagerLib\JobManagerLib.csproj">
+      <Project>{8B9963D3-F23C-4923-84C9-CBD6872105A6}</Project>
+      <Name>JobManagerLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if exist %25windir%25\sysnative\reg.exe (%25windir%25\sysnative\reg.exe query HKLM\Software\Classes\CLSID\{F1D6BB06-42EE-11D4-B3F4-005004D38590} 2&gt;NUL &gt;NUL &amp;&amp; %25windir%25\Microsoft.NET\Framework64\v4.0.30319\RegAsm.exe /codebase "$(TargetPath)" || exit /b 0 )
+$(SolutionDir)..\instrumentdll $(TargetDir) $(TargetFileName) $(ProjectDir)\AssemblySignature.snk</PostBuildEvent>
+  </PropertyGroup>
+  <!--
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

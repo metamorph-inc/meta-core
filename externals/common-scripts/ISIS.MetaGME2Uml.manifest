@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" 
+  manifestVersion="1.0">
+
+<assemblyIdentity
+   type="win32"
+   name="ISIS.MetaGME2Uml"
+   version="1.7.4.5" />
+
+<file name="MetaGME2Uml.dll">
+
+<comClass
+    clsid="{2FB04482-C9BC-4574-B933-51A007FFB07C}"
+    progid="MGA.Interpreter.MetaGME2Uml"
+    threadingModel="Apartment"/>
+
+<typelib tlbid="{18213F2B-8BA4-451D-831C-C3FAB10AA4B7}"
+       version="1.0" helpdir=""/>
+
+</file>
+
+<comInterfaceExternalProxyStub 
+    name="IMgaComponentEx" 
+    iid="{11BB44D9-2E2C-11D3-B36D-0060082DF884}"
+    proxyStubClsid32="{00020424-0000-0000-C000-000000000046}"
+    baseInterface="{00000000-0000-0000-C000-000000000046}"
+    tlbid="{270B4F86-B17C-11D3-9AD1-00AA00B6FE26}" />
+
+</assembly>
+

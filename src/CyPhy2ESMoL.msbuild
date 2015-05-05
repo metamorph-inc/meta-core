@@ -1,0 +1,14 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CyPhy2ESMoL">
+
+  <Import Project="..\externals\common-scripts\common.msbuild"/>
+  <Import Project="..\META.props"/>
+
+  <Target Name="CheckEnv" DependsOnTargets="CheckEnvGme;CheckEnvUdm;CheckEnvGreat">
+    <Error Text="META_PATH='$(META_PATH)' doesn't exist" Condition="!Exists('$(META_PATH)')"/>
+    <Error Text="VCP_PATH='$(VCP_PATH)' doesn't exist" Condition="!Exists('$(VCP_PATH)')"/>
+  </Target>
+
+  <Target Name="CyPhy2ESMoL" DependsOnTargets="CheckEnv">
+    <MSBuild Projects="CyPhy2ESMoL.sln" Properties="Configuration=Debug"/>
+  </Target>
+</Project>

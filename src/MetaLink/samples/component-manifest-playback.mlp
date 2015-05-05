@@ -1,0 +1,32 @@
+== EDIT DELIMITER : "9290EECE-9B5A-4310-8F5B-14C248B996A4" ==
+timestamp: 1373409995631
+== BEGIN ==
+editMode: POST
+topic: "edu.vanderbilt.isis.metalink.manifest.component"
+guid: "guid-2.0"
+actions {
+  actionMode: INSERT
+  manifest {
+    nodeMode: FOLDER
+    guid: "dbc249ec-52dd-4eca-bd34-e9f9e799ab03"
+    name: "Imported Components"
+  }
+  manifest {
+    nodeMode: COMPONENT
+    guid: "cf5cfb0a-acb8-487f-97e8-1128d2796493"
+    cyphyParentId: "dbc249ec-52dd-4eca-bd34-e9f9e799ab03"
+    name: "drawbar_bolted__bp__orthogonal_27216kg"
+  }
+  manifest {
+    nodeMode: COMPONENT
+    guid: "d9d5269c-0207-499e-887c-293430a46bbb"
+    cyphyParentId: "dbc249ec-52dd-4eca-bd34-e9f9e799ab03"
+    name: "hull_assembly__example_with_connector__flat_bottom_flat_roof"
+  }
+  manifest {
+    nodeMode: COMPONENT
+    guid: "63f0a6d5-877c-49d0-b66c-ea2d177c40ba"
+    cyphyParentId: "dbc249ec-52dd-4eca-bd34-e9f9e799ab03"
+    name: "periscope__6650007043549__m17_mechanical_periscope"
+  } 
+}

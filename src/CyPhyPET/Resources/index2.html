@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>
+      MDAO sample
+    </title>
+    <style type="text/css">
+        body {
+            width: 1400px;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+        
+        #legend {
+            max-height: 380px;
+            y-overflow: auto;
+            x-overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        #placeholder {
+            width: 1000px;
+            height: 380px;
+            text-align: center;
+            vertical-align: middle;
+            float: left;
+        }
+        
+        #chart_div {
+            height: 400px;
+            border: 1px solid #999;
+            border-radius: 5px;
+            background: #f5f5f5;
+            padding: 10px;
+            margin: 5px;
+        }
+        #console_log {
+            border: 1px solid #999;
+            border-radius: 5px;
+            background: #EEE;
+            padding: 10px;
+            margin: 5px;
+            border-image: initial;
+            font-family: Lucida Console;
+            line-height: 130%;
+        }
+    </style>
+    
+    <!-- Required libraries -->    
+    <!--<script type="text/javascript" src="https://www.google.com/jsapi"></script>-->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.flot.min.js"></script>
+    
+    <script type="text/javascript">
+      //google.load('visualization', '1', {packages: ['corechart']});
+    </script>
+    <script type="text/javascript">
+      function drawVisualization() {
+        var headerId = "#id";
+
+        var table = [];
+        var firstRow = [];
+        
+        var options = {
+          title : 'Results for MDAO',
+          vAxis: {title: "Value"},
+          hAxis: {title: "iteration"},
+          seriesType: "bars",
+          //width: "100%",
+          height: 600,
+          series: {} // {3: {type: "line"}, 1: {type: "line"}}
+        };        
+        
+        firstRow.push(headerId);
+        
+        $.getJSON('output.mdao', function(data) {
+            
+            $.each(data.inputNames, function(k, v) {
+                firstRow.push(v);
+            });
+            
+            $.each(data.outputNames, function(k, v) {
+                firstRow.push(v);
+                options.series[firstRow.length - 2] = {type: "line"};
+            });
+            table.push(firstRow);
+            
+            $.each(data.result, function(k, v) {
+                var row = [];
+                $.each(firstRow, function(kk, vv) {
+                    if (vv == headerId) {
+                        row.push(String(k + 1));
+                    } else {
+                        row.push(v[vv]);
+                    }
+                });
+                table.push(row);
+            });
+            // Some raw data (not necessarily accurate)
+            var data = google.visualization.arrayToDataTable(table);
+           // [
+           //   ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua  Guinea','Rwanda', 'Average'],
+           //   ['2004/05', 165, 938, 522, 998, 450, 614.6],
+            //  ['2005/06', 135, 1120, 599, 1268, 288, 682],
+           //   ['2006/07', 157, 1167, 587, 807, 397, 623],
+           //   ['2007/08', 139, 1110, 615, 968, 215, 609.4],
+            //  ['2008/09', 136, 691, 629, 1026, 366, 569.6]
+            //]);
+
+            
+
+            // for each output set the type as line
+            
+            
+            // TODO: what if we have more than >10 items in the table ???
+            
+            // Resize the chart to 'fullscreen'
+            
+            var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+            
+        })
+        .error(function(d){
+            $("#chart_div").html('Results are not available yet.');
+        });
+      
+      
+
+        
+      }
+      //google.setOnLoadCallback(drawVisualization);
+      
+      $(function() {
+      
+      
+        function generate(start, end, fn) {
+            var res = [];
+            for (var i = 0; i <= 100; ++i) {
+                var x = start + i / 100 * (end - start);
+                res.push([x, fn(x)]);
+            }
+            return res;
+        }
+    
+        var headerId = "#id";
+
+        var table = [];
+        var firstRow = [];
+        
+        var options = {
+          title : 'Results for MDAO',
+          vAxis: {title: "Value"},
+          hAxis: {title: "iteration"},
+          seriesType: "bars",
+          //width: "100%",
+          height: 600,
+          series: {} // {3: {type: "line"}, 1: {type: "line"}}
+        };        
+        
+        firstRow.push(headerId);
+        var mdaoResults = [];
+        $.getJSON('output.mdao', function(data) {
+            
+            $.each(data.inputNames, function(k, v) {
+                var mdaoResult = { data: []};
+                firstRow.push(v);
+                mdaoResult.label = v;
+                mdaoResult.yaxis = k + 1;
+                mdaoResult.bars = { show: true, barWidth: 0.6 * 1 / (data.inputNames.length + 1)};
+                mdaoResults.push(mdaoResult);
+            });
+            
+            $.each(data.outputNames, function(k, v) {
+                var mdaoResult = { data: []};
+                firstRow.push(v);
+                mdaoResult.label = v;
+                mdaoResult.yaxis = data.inputNames.length + k + 1;
+                mdaoResult.lines = { show: true };
+                mdaoResults.push(mdaoResult);
+                options.series[firstRow.length - 2] = {type: "line"};
+            });
+            table.push(firstRow);
+            
+            $.each(data.result, function(k, v) {
+                var row = [];
+                $.each(firstRow, function(kk, vv) {
+                    if (vv == headerId) {
+                        row.push(String(k + 1));
+                        //mdaoResults[kk].data = [];
+                        //mdaoResults[kk].data.push(String(k+1), "0");
+                    } else {
+                        mdaoResults[kk - 1].data.push([String(k + 1 / (data.inputNames.length + 1) * (kk - 1)), String(v[vv])]);
+                        row.push(v[vv]);
+                    }
+                });
+                table.push(row);
+            });
+            
+            // draw table
+            var data2 = [
+                { label: "series1", data: generate(0, 10, function (x) { return Math.sqrt(x)}), xaxis: 1, yaxis:1, lines: { show: true, fill: true } },
+                { label: "series2", data: generate(0, 10, function (x) { return Math.sin(x)}), xaxis: 1, yaxis:2, bars: { show: true } },
+                { label: "series3", data: generate(0, 10, function (x) { return Math.cos(x)}), xaxis: 1, yaxis:3 },
+                { label: "series4", data: generate(2, 10, function (x) { return Math.tan(x)}), xaxis: 1, yaxis: 4 }
+            ];
+
+            var plot = $.plot($("#placeholder"), mdaoResults, { legend: { container: $('#legend')} });
+            
+            
+            function getBoundingBoxForAxis(plot, axis) {
+                var left = axis.box.left, top = axis.box.top,
+                    right = left + axis.box.width, bottom = top + axis.box.height;
+
+                // some ticks may stick out, enlarge the box to encompass all ticks
+                var cls = axis.direction + axis.n + 'Axis';
+                plot.getPlaceholder().find('.' + cls + ' .tickLabel').each(function () {
+                    var pos = $(this).position();
+                    left = Math.min(pos.left, left);
+                    top = Math.min(pos.top, top);
+                    right = Math.max(Math.round(pos.left) + $(this).outerWidth(), right);
+                    bottom = Math.max(Math.round(pos.top) + $(this).outerHeight(), bottom);
+                });
+                
+                return { left: left, top: top, width: right - left, height: bottom - top };
+            }
+            
+            $.each(plot.getAxes(), function (i, axis) {
+                if (!axis.show)
+                    return;
+                
+                var box = getBoundingBoxForAxis(plot, axis);
+                
+                $('<div class="axisTarget" style="position:absolute;left:' + box.left + 'px;top:' + box.top + 'px;width:' + box.width +  'px;height:' + box.height + 'px"></div>')
+                    .data('axis.direction', axis.direction)
+                    .data('axis.n', axis.n)
+                    .css({ backgroundColor: "#f00", opacity: 0, cursor: "pointer" })
+                    .appendTo(plot.getPlaceholder())
+                    .hover(
+                        function () { $(this).css({ opacity: 0.10 }) },
+                        function () { $(this).css({ opacity: 0 }) }
+                    )
+                    .click(function () {
+                        //$("#click").text("You clicked the " + axis.direction + axis.n + "axis!")
+                    });
+            });
+            
+        })
+        .error(function(d){
+            $("#chart_div").html('Results are not available yet.');
+        });
+      
+      
+      
+        $.ajax({
+            url:'openmdao_log.txt',
+            mimeType:'text/plain',
+            success: function(logFile) {
+                $('#console_log').html(logFile.replace(/\r\n/g,'<br>'));
+            },
+            error: function(logFile) {
+                $('#console_log').html('Log file is not available yet. You can drag and drop a log file.');
+            },
+            complete: function(logFile) {
+            }
+        });
+      });
+    </script>
+  </head>
+  <body>
+  
+    <div id="chart_div">
+        <div id="placeholder"></div>
+        <div id="legend"></div>
+    </div>
+    <div id="console_log"></div>
+  </body>
+</html>
+
+

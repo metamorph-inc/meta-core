@@ -1,0 +1,475 @@
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{CB20C492-64DF-47F4-B629-AFFC6FA59D92}" cdate="Tue Oct 22 12:15:42 2013" mdate="Tue Oct 22 12:15:42 2013" version="" metaguid="{106FBA02-FC84-46C6-9A8C-059DDB494551}" metaversion="12.1.$Rev: 19952 $" metaname="CyPhyML">
+	<name>RI</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" kind="RootFolder" guid="{968369df-6526-4aff-b422-5b38ee90e894}">
+		<name>RI</name>
+		<folder id="id-006a-00000002" kind="Components" guid="{309c446c-66f7-463a-b40d-b6ec97085142}">
+			<name>Components</name>
+			<model id="id-0065-00000011" kind="Component" guid="{a53869ec-0ed7-460d-9adc-908c31d3d081}">
+				<name>DoubleSeriesResistor</name>
+				<attribute kind="AVMID">
+					<value>945ad50a-3763-4006-845b-7aaf7a77e7e0</value>
+				</attribute>
+				<attribute kind="Cardinality" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Classifications" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Description" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ID">
+					<value>6</value>
+				</attribute>
+				<attribute kind="InstanceGUID">
+					<value>{a53869ec-0ed7-460d-9adc-908c31d3d081}</value>
+				</attribute>
+				<attribute kind="ManagedGUID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="NumAssociatedConfigs" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Revision" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000012" kind="ModelicaModel" role="ModelicaModel" guid="{b2bf8416-43b5-46fa-969a-01da24d3fb14}">
+					<name>doubleResistor</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="AbstractPortAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>357,203</value>
+							</regnode>
+						</regnode>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>336,126</value>
+							</regnode>
+						</regnode>
+						<regnode name="BehaviorModelsAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>357,203</value>
+							</regnode>
+						</regnode>
+						<regnode name="ConnectorAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>357,203</value>
+							</regnode>
+						</regnode>
+						<regnode name="ModelicaAspect2" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>357,203</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Author" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Class">
+						<value>RIExternalPackage.DoubleSeriesResistor</value>
+					</attribute>
+					<attribute kind="FilePathWithinResource" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Notes" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000013" kind="ModelicaConnector" role="ModelicaConnector" guid="{4634322d-83df-4c91-9c89-a1b3274438df}">
+						<name>p</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>175,203</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="icon" isopaque="yes">
+							<value>electrical_analog_pos.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>electrical_analog_pos.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Electrical.Analog.Interfaces.Pin</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000014" kind="ModelicaConnector" role="ModelicaConnector" guid="{c7efe222-858a-4756-aef2-58fe66ea607e}">
+						<name>n</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>602,217</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="icon" isopaque="yes">
+							<value>electrical_analog_pos.png</value>
+						</regnode>
+						<regnode name="porticon" isopaque="yes">
+							<value>electrical_analog_pos.png</value>
+						</regnode>
+						<attribute kind="Class">
+							<value>Modelica.Electrical.Analog.Interfaces.Pin</value>
+						</attribute>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Locator" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<atom id="id-0066-00000006" kind="LimitCheck" role="LimitCheck" guid="{44bc587a-bb11-46b0-a027-9344f0d3bbdb}">
+						<name>CurrentInResistor</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>427,161</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="LimitType">
+							<value>min</value>
+						</attribute>
+						<attribute kind="Value">
+							<value>-25</value>
+						</attribute>
+						<attribute kind="VariableName">
+							<value>resistor1.i</value>
+						</attribute>
+					</atom>
+					<reference id="id-0066-00000007" kind="ModelicaParameter" role="ModelicaParameter" guid="{c6886a33-71f1-4288-b1d5-67060b8afcba}">
+						<name>DoubleR</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>140,63</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="DefaultValue" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Value">
+							<value>1</value>
+						</attribute>
+					</reference>
+				</model>
+				<model id="id-0065-00000015" kind="ModelicaConnector" role="ModelicaConnector" guid="{092be7d6-0e89-4ed6-abfe-bab200a16cb4}">
+					<name>n</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>637,133</value>
+							</regnode>
+						</regnode>
+						<regnode name="ModelicaAspect2" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>581,112</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="icon" isopaque="yes">
+						<value>electrical_analog_pos.png</value>
+					</regnode>
+					<regnode name="porticon" isopaque="yes">
+						<value>electrical_analog_pos.png</value>
+					</regnode>
+					<attribute kind="Class">
+						<value>Modelica.Electrical.Analog.Interfaces.Pin</value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Locator" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000016" kind="ModelicaConnector" role="ModelicaConnector" guid="{7f640d7f-1b03-4e68-bb8e-9537598e6ad8}">
+					<name>p</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="ModelicaAspect2" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>161,112</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="icon" isopaque="yes">
+						<value>electrical_analog_pos.png</value>
+					</regnode>
+					<regnode name="porticon" isopaque="yes">
+						<value>electrical_analog_pos.png</value>
+					</regnode>
+					<attribute kind="Class">
+						<value>Modelica.Electrical.Analog.Interfaces.Pin</value>
+					</attribute>
+					<attribute kind="Definition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefinitionNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="InstanceNotes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Locator" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<reference id="id-0067-00000003" kind="Parameter" role="Parameter" guid="{4da0b61d-1461-48d0-946c-7fe83955e4d1}">
+					<name>R</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>119,266</value>
+							</regnode>
+						</regnode>
+						<regnode name="BehaviorModelsAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>119,266</value>
+							</regnode>
+						</regnode>
+						<regnode name="ManufacturingAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>119,266</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>119,266</value>
+							</regnode>
+						</regnode>
+						<regnode name="ValueFlowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>119,266</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Dimension" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Range" status="meta">
+						<value>-inf..inf</value>
+					</attribute>
+					<attribute kind="Type" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Value">
+						<value>6</value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-00000008" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{e75a7822-ae12-4c9e-8784-1039c1a6a1b2}">
+					<name>ModelicaParameterPortMap</name>
+					<connpoint role="dst" target="id-0066-00000007"></connpoint>
+					<connpoint role="src" target="id-0067-00000003"></connpoint>
+				</connection>
+				<connection id="id-0068-00000009" kind="PortComposition" role="PortComposition" guid="{4e95949e-f192-44bf-befe-5234d0a9c0ca}">
+					<name>PortComposition</name>
+					<connpoint role="src" target="id-0065-00000014"></connpoint>
+					<connpoint role="dst" target="id-0065-00000015"></connpoint>
+				</connection>
+				<connection id="id-0068-0000000a" kind="PortComposition" role="PortComposition" guid="{e234dba4-2b54-4d54-ac7e-5df35f00771a}">
+					<name>PortComposition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>W</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000013"></connpoint>
+					<connpoint role="src" target="id-0065-00000016"></connpoint>
+				</connection>
+			</model>
+		</folder>
+		<folder id="id-006a-00000003" kind="ComponentAssemblies" guid="{9ed427a6-2aba-43be-9be1-a7377a69bdcc}">
+			<name>configs</name>
+			<model id="id-0065-00000017" kind="ComponentAssembly" guid="{d4fc9bf9-6e32-4d55-b9cf-3e593c090c3d}">
+				<name>GroundedRI_cfg1</name>
+				<attribute kind="Cardinality" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ConfigurationUniqueID">
+					<value>a180f183-d436-400c-90f9-012d3ea574d8</value>
+				</attribute>
+				<attribute kind="Description" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ID">
+					<value>1</value>
+				</attribute>
+				<attribute kind="ManagedGUID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="NumAssociatedConfigs" status="meta">
+					<value></value>
+				</attribute>
+				<reference id="id-0067-00000004" kind="ComponentRef" role="ComponentRef" guid="{d1714b7a-7331-4810-ad3b-9e23698c6437}" referred="id-0065-00000011">
+					<name>Resistor__DoubleSeriesResistor</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="AbstractPortAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>490,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>490,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraphAspect2" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>490,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="ConnectorAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>490,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="Cyber" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>490,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="DynamicsAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>490,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="ModelicaAspect2" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>490,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="SimulinkAspect2" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>490,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>490,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="ValueFlowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>490,112</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Cardinality" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID">
+						<value>2</value>
+					</attribute>
+					<attribute kind="InstanceGUID">
+						<value>{d1714b7a-7331-4810-ad3b-9e23698c6437}</value>
+					</attribute>
+					<attribute kind="NumAssociatedConfigs" status="meta">
+						<value></value>
+					</attribute>
+				</reference>
+			</model>
+		</folder>
+	</folder>
+</project>

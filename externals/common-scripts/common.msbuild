@@ -1,0 +1,47 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)'==''">Release</Configuration>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(ISCC)'==''">
+    <ISCC>$(MSBuildProgramFiles32)\Inno Setup 5\ISCC.exe</ISCC>
+  </PropertyGroup>
+  
+  <!-- Recursive targets -->
+  <Target Name="Build" DependsOnTargets="CheckEnv">
+    <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=$(Configuration);THIRDPARTY_PATH=$(THIRDPARTY_PATH)"/>
+  </Target>
+  <Target Name="Clean" DependsOnTargets="CheckEnv">
+    <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=$(Configuration);THIRDPARTY_PATH=$(THIRDPARTY_PATH)" Targets="Clean"/>
+  </Target>
+  <Target Name="Rebuild" DependsOnTargets="CheckEnv">
+    <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=$(Configuration);THIRDPARTY_PATH=$(THIRDPARTY_PATH)" Targets="Rebuild"/>
+  </Target>
+  <Target Name="Installer">
+    <MSBuild Projects="@(ProjectToBuild)" Targets="Installer" Properties="THIRDPARTY_PATH=$(THIRDPARTY_PATH)"/>
+  </Target>
+
+  <!-- Convenience targets -->
+  <Target Name="BuildRelease">
+    <!-- KMS: I think we can't use CallTarget here since we may want to BuildRelease and BuildDebug, 
+    and msbuild.exe won't run the Build target twice. However, I think this will be inefficient
+    for `msbuild /t:Build;Installer` (assuming Installer Targets depend on BuildRelease -->
+    <MSBuild Projects="$(MSBuildProjectFile)" Targets="Build" Properties="Configuration=Release;THIRDPARTY_PATH=$(THIRDPARTY_PATH)" />
+  </Target>
+  <Target Name="BuildDebug">
+    <MSBuild Projects="$(MSBuildProjectFile)" Targets="Build" Properties="Configuration=Debug;THIRDPARTY_PATH=$(THIRDPARTY_PATH)" />
+  </Target>
+  <Target Name="ISCC">
+    <Exec Command="&quot;$(ISCC)&quot; &quot;$(ISS)&quot;"/>
+  </Target>
+  <!-- Target to fail fast if a required environment variable is invalid -->
+  <Target Name="CheckEnv"/>
+  <Target Name="CheckEnvGme">
+    <Error Text="GME_ROOT='$(GME_ROOT)' doesn't exist" Condition="!Exists('$(GME_ROOT)')"/>
+  </Target>
+  <Target Name="CheckEnvUdm">
+    <Error Text="UDM_PATH='$(UDM_PATH)' doesn't exist" Condition="!Exists('$(UDM_PATH)')"/>
+  </Target>
+  <Target Name="CheckEnvGreat">
+    <Error Text="GREAT_PATH='$(GREAT_PATH)' doesn't exist" Condition="!Exists('$(GREAT_PATH)')"/>
+  </Target>
+</Project>

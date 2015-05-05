@@ -1,0 +1,315 @@
+﻿<Window x:Class="DesignConsistencyChecker.Views.RuleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:controls="clr-namespace:DesignConsistencyChecker.Controls" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        mc:Ignorable="d"
+        Width="800"
+        Height="500">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                   Source="/DesignConsistencyChecker;component/Resources/Resources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        
+
+        <Grid Grid.Column="1" Grid.Row="0" Background="{StaticResource DarkBg}">
+            <Grid.RowDefinitions>
+                
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <!--<TextBlock Style="{StaticResource TitleFont}" Grid.Row="0" Margin="3,3,10,3" HorizontalAlignment="Right">Commands</TextBlock>
+            <Rectangle HorizontalAlignment="Stretch" Margin="10,4,10,4" Stroke="DarkGray" Height="5" Fill="{StaticResource Fff}" Grid.Row="1"></Rectangle>-->
+
+            <!--<Grid Grid.Row="2" Background="Transparent" Margin="10,4,10,4" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button FontSize="12" Margin="4" Grid.Column="1" Style="{StaticResource TagStyle}">Check selected</Button>
+                <Button FontSize="12" Margin="4" Grid.Column="2" Style="{StaticResource TagStyle}">Exit</Button>
+            </Grid>-->
+
+            <controls:ListTagControl Grid.Row="0" Tags="{Binding TagList, Mode=TwoWay}"></controls:ListTagControl>
+
+            <TextBlock Style="{StaticResource TitleFont}" Grid.Row="1" Margin="3,3,10,3" HorizontalAlignment="Right">Commands</TextBlock>
+            <Rectangle HorizontalAlignment="Stretch" Margin="10,4,10,4" Stroke="DarkGray" Height="5" Fill="{StaticResource Fff}" Grid.Row="2"></Rectangle>
+            
+            <StackPanel Grid.Row="3">
+                <Button FontSize="12" Style="{StaticResource TagStyle}" Command="{Binding CheckCommand}" Margin="10,4,10,4">Check selected rules</Button>
+                <Button FontSize="12" Style="{StaticResource TagStyle}" HorizontalAlignment="Stretch" Command="{Binding CloseCommand}"  Margin="10,4,10,4">Close</Button>
+            </StackPanel>
+            
+        </Grid>
+        
+        <!--<controls:RuleListControl Grid.Column="0"></controls:RuleListControl>-->
+
+        <Grid Background="{StaticResource DarkBg}" Grid.Column="0" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <!--<RowDefinition Height="*"></RowDefinition>-->
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="10,3,3,3">
+                <TextBlock Style="{StaticResource TitleFont}">
+                    <Span>Rules -</Span>
+                    <Run Text="{Binding ContextName}"></Run>
+                    <Span>(</Span>
+                    <Run Text="{Binding ContextType}"></Run>
+                    <Span>)</Span>
+                </TextBlock>
+               
+            </StackPanel>
+            
+            <Rectangle HorizontalAlignment="Stretch" Margin="10,4,10,4" Stroke="DarkGray" Height="5" Fill="{StaticResource Fff}" Grid.Row="1"></Rectangle>
+
+
+            <ListView Grid.Row="2" ItemsSource="{Binding RuleList}" SelectionMode="Single" Background="Transparent" Margin="10,4,10,4" AlternationCount="2" BorderThickness="0">
+                <ListView.Resources>
+                    
+                </ListView.Resources>
+                <!--<ListView.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Padding" Value="3"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                        <Setter Property="VerticalContentAlignment" Value="Top"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="TabNavigation" Value="Local"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Grid Background="{TemplateBinding Background}">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal"/>
+                                                <VisualState x:Name="MouseOver"/>
+                                            </VisualStateGroup>
+                                            <VisualStateGroup x:Name="SelectionStates">
+                                                <VisualState x:Name="Unselected"/>
+                                                <VisualState x:Name="Selected"/>
+                                            </VisualStateGroup>
+                                            <VisualStateGroup x:Name="FocusStates">
+                                                <VisualState x:Name="Focused"/>
+                                                <VisualState x:Name="Unfocused"/>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <Rectangle x:Name="fillColor" Fill="#FFBADDE9" IsHitTestVisible="False" Opacity="0" RadiusY="1" RadiusX="1"/>
+                                            <Rectangle x:Name="fillColor2" Fill="#FFBADDE9" IsHitTestVisible="False" Opacity="0" RadiusY="1" RadiusX="1"/>
+                                                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                    Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                    Margin="{TemplateBinding Padding}"/>
+                                                    <Rectangle x:Name="FocusVisualElement" RadiusY="1" RadiusX="1" Stroke="#FF6DBDD1"
+                                                        StrokeThickness="1" Visibility="Collapsed"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>-->
+
+                <!--<ListView.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="{DynamicResource {x:Static SystemColors.ControlTextColorKey}}" />
+                        </Style.Resources>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="Transparent" />
+                                <Setter Property="Effect" Value="{x:Null}"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                    </Style>
+                </ListView.ItemContainerStyle>-->
+
+                
+                <!--<ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Style.Triggers>
+                            <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                                <Setter Property="Background" Value="LightSkyBlue"></Setter>
+                            </Trigger>
+                            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                <Setter Property="Background" Value="LightGray"></Setter>
+                            </Trigger>
+                            
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>-->
+
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn>
+                            <GridViewColumn.Header>
+                                <CheckBox Tag="Select all" IsChecked="{Binding IsAllSelected, Mode=TwoWay}"></CheckBox>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"></CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Rule" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Rule.Name}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!--<GridViewColumn Header="Tags">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ItemsControl ItemsSource="{Binding Rule.Tags}" Name="icTags">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel></WrapPanel>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock  Text="{Binding .}"></TextBlock>
+                                                    <TextBlock  Text="; "></TextBlock>
+                                                </StackPanel>
+                                                
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>-->
+                        <GridViewColumn Header="Description">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Rule.Description}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Result">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding Icon}" Width="16" Height="16" ToolTip="{Binding FeedbackResultMessage}"></Image>
+                                        <Image Source="{Binding CheckerIcon}" Width="16" Height="16" ToolTip="{Binding CheckerResultMessage}"></Image>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+
+            <!--<StackPanel  Grid.Row="3" HorizontalAlignment="Left" Orientation="Horizontal">
+                <StackPanel.Margin>
+                    <Thickness Left="10" Right="10"></Thickness>
+                </StackPanel.Margin>-->
+                <!--<Button FontSize="12" Style="{StaticResource TagStyle}" Command="{Binding SelectAllRules}">
+                    Select all
+                </Button>
+                <Button FontSize="12" Style="{StaticResource TagStyle}" Command="{Binding DeselectAllRules}">
+                    Deselect all
+                </Button>-->
+                <!--<Button FontSize="12" Style="{StaticResource TagStyle}" Command="{Binding CheckCommand}">
+                    Check selected rules
+                </Button>-->    
+            <!--</StackPanel>-->
+            
+            <!--<TextBlock Style="{StaticResource TitleFont}" Grid.Row="4" Margin="10,3,3,3">Output</TextBlock>
+            <Rectangle HorizontalAlignment="Stretch" Margin="10,4,10,4" Stroke="DarkGray" Height="5" Fill="{StaticResource Fff}" Grid.Row="5"></Rectangle>
+
+            <controls:OutputMessageResult Grid.Row="6" Margin="10,4,10,4" Background="{StaticResource DarkBg}" DescriptorList="{Binding Feedbacks, Mode=TwoWay}"></controls:OutputMessageResult>-->
+        </Grid>
+        
+        <!--<StackPanel Grid.Row="1" Background="{StaticResource DarkBg}">
+            <TextBlock Text="Loading rules..." Foreground="{StaticResource Fff}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsRulesLoading, Mode=OneWay}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsRulesLoading, Mode=OneWay}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <TextBlock Text="Loading model elements..." Foreground="{StaticResource Fff}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsModelElementsLoading, Mode=OneWay}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsModelElementsLoading, Mode=OneWay}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </StackPanel>-->
+
+        <Rectangle Grid.RowSpan="2" Grid.ColumnSpan="2" Fill="DarkRed" Stroke="Black" StrokeThickness="1" Grid.Row="0" Grid.Column="0" Opacity=".4" Width="300" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Rectangle.Style>
+                <Style TargetType="Rectangle">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsModelElementsLoading, Mode=OneWay}" Value="False">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsModelElementsLoading, Mode=OneWay}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
+        </Rectangle>
+
+        <TextBlock Foreground="Red" Background="Black" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Collecting nodes...">
+        <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsModelElementsLoading, Mode=OneWay}" Value="False">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsModelElementsLoading, Mode=OneWay}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        
+    </Grid>
+</Window>

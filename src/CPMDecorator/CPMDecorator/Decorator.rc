@@ -1,0 +1,208 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "1 TYPELIB ""DecoratorLib.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "Vanderbilt University, ISIS\0"
+            VALUE "FileDescription", "Decorator Module"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "Decorator"
+            VALUE "LegalCopyright", "© 2011-2013 Vanderbilt University\0"
+            VALUE "OriginalFilename", "Decorator.DLL"
+            VALUE "ProductName", "Decorator Module"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_DECORATOR           REGISTRY                "Decorator.rgs"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_INPLACEEDITSLDIALOG DIALOGEX 0, 0, 76, 16
+STYLE DS_SETFOREGROUND | WS_CHILD | WS_VISIBLE | WS_BORDER
+BEGIN
+    EDITTEXT        IDC_INPLACETEXTEDIT,0,0,75,16,ES_AUTOHSCROLL | NOT WS_BORDER
+END
+
+IDD_INPLACEEDITMLDIALOG DIALOGEX 0, 0, 76, 16
+STYLE DS_SETFOREGROUND | WS_CHILD | WS_VISIBLE | WS_BORDER
+BEGIN
+    EDITTEXT        IDC_INPLACETEXTEDIT,0,0,75,16,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | NOT WS_BORDER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_PARAMETER           BITMAP                  "parameter.bmp"
+IDB_PROPERTY            BITMAP                  "property.bmp"
+IDB_VALUEFORMULA        BITMAP                  "function.bmp"
+IDB_ELECTRONIC_IN       BITMAP                  "ElectronicSignal-In.bmp"
+IDB_ELECTRONIC_PORTIN   BITMAP                  "ElectronicSignal_port_IN.bmp"
+IDB_ELECTRONIC_PORTOUT  BITMAP                  "ElectronicSignal_port_OUT.bmp"
+IDB_ELECTRONIC_OUT      BITMAP                  "ElectronicSignal-Out.bmp"
+IDB_COMPONENT           BITMAP                  "component.bmp"
+IDB_THERMAL_OUT         BITMAP                  "GradientRed-CFP.bmp"
+IDB_THERMAL_IN          BITMAP                  "GradientRed-FP.bmp"
+IDB_THERMAL             BITMAP                  "GradientRed.bmp"
+IDB_THERMAL_PORTIN      BITMAP                  "GradientRed-FP-Port.bmp"
+IDB_THERMAL_PORTOUT     BITMAP                  "GradientRed-CFP-Port.bmp"
+IDB_FACET               BITMAP                  "facet.bmp"
+IDB_HYDROLIC            BITMAP                  "GradientBlue.bmp"
+IDB_HYDROLIC_IN         BITMAP                  "GradientBlue_FP.bmp"
+IDB_HYDROLIC_PORTIN     BITMAP                  "GradientBlue_FP-Port.bmp"
+IDB_HYDROLIC_OUT        BITMAP                  "GradientBlue-CFP.bmp"
+IDB_HYDROLIC_PORTOUT    BITMAP                  "GradientBlue-CFP-Port.bmp"
+IDB_EM                  BITMAP                  "GradientLightBlue.bmp"
+IDB_EM_OUT              BITMAP                  "GradientLightBlue-CFP.bmp"
+IDB_EM_PORTOUT          BITMAP                  "GradientLightBlue-CFP-Port.bmp"
+IDB_EM_IN               BITMAP                  "GradientLightBlue-FP.bmp"
+IDB_EM_PORTIN           BITMAP                  "GradientLightBlue-FP-Port.bmp"
+IDB_MAG                 BITMAP                  "GradientOrange.bmp"
+IDB_MAG_OUT             BITMAP                  "GradientOrange-CFP.bmp"
+IDB_MAG_PORTOUT         BITMAP                  "GradientOrange-CFP-Port.bmp"
+IDB_MAG_IN              BITMAP                  "GradientOrange-FP.bmp"
+IDB_MAG_PORTIN          BITMAP                  "GradientOrange-FP-Port.bmp"
+IDB_RECEPTACLE          BITMAP                  "receptacle.bmp"
+IDB_RECEPTACLE_PORT     BITMAP                  "receptacle-port.bmp"
+IDB_FACET_PORT          BITMAP                  "facet-port.bmp"
+IDB_ELECTRONIC          BITMAP                  "ElectronicSignal.bmp"
+IDB_FP_IN               BITMAP                  "ArrowPortGreen.bmp"
+IDB_FP_PORTIN           BITMAP                  "ArrowPortGreen-Port.bmp"
+IDB_FP_OUT              BITMAP                  "ArrowPortRed.bmp"
+IDB_FP_PORTOUT          BITMAP                  "ArrowPortRed-Port.bmp"
+IDB_ELECTRICAL_PORTIN   BITMAP                  "GradientYellow-FP-Port.bmp"
+IDB_ELECTRICAL_IN       BITMAP                  "GradientYellow-FP.bmp"
+IDB_ELECTRICAL          BITMAP                  "GradientYellow.bmp"
+IDB_ELECTRICAL_OUT      BITMAP                  "GradientYellow-CFP.bmp"
+IDB_ELECTRICAL_PORTOUT  BITMAP                  "GradientYellow-CFP-Port.bmp"
+IDB_SOFTWARE            BITMAP                  "softwareconnector.bmp"
+IDBROTATIONAL_PORTIN    BITMAP                  "GradientPurple-FP-Port.bmp"
+IDBROTATIONAL           BITMAP                  "GradientPurple.bmp"
+IDBROTATIONAL_OUT       BITMAP                  "GradientPurple-CFP.bmp"
+IDBROTATIONAL_PORTOUT   BITMAP                  "GradientPurple-CFP-Port.bmp"
+IDBROTATIONAL_IN        BITMAP                  "GradientPurple-FP.bmp"
+IDB_ACOUSTIC_IN         BITMAP                  "GradientSkyBlue-FP.bmp"
+IDB_ACOUSTIC            BITMAP                  "GradientSkyBlue.bmp"
+IDB_ACOUSTIC_OUT        BITMAP                  "GradientSkyBlue-CFP.bmp"
+IDB_PNEUMATIC           BITMAP                  "GradientTurquoise.bmp"
+IDB_PNEUMATIC_OUT       BITMAP                  "GradientTurquoise-CFP.bmp"
+IDB_PNEUMATIC_PORTOUT   BITMAP                  "GradientTurquoise-CFP-Port.bmp"
+IDB_PNEUMATIC_IN        BITMAP                  "GradientTurquoise-FP.bmp"
+IDB_PNEUMATIC_PORTIN    BITMAP                  "GradientTurquoise-FP-Port.bmp"
+IDB_TRANSLATIONAL_OUT   BITMAP                  "GradientBrown-CFP.bmp"
+IDB_TRANSLATIONAL_PORTOUT BITMAP                  "GradientBrown-CFP-Port.bmp"
+IDB_TRANSLATIONAL_IN    BITMAP                  "GradientBrown-FP.bmp"
+IDB_TRANSLATIONAL_PORTIN BITMAP                  "GradientBrown-FP-Port.bmp"
+IDB_ACOUSTIC_PORTOUT    BITMAP                  "GradientSkyBlue-CFP-Port.bmp"
+IDB_ACOUSTIC_PORTIN     BITMAP                  "GradientSkyBlue-FP-Port.bmp"
+IDB_TRANSLATIONAL       BITMAP                  "GradientBrown.bmp"
+IDB_METRIC              BITMAP                  "metric.bmp"
+IDB_ASSEMBLY            BITMAP                  "..\\..\\..\\meta\\CyPhyML\\icons\\assembly.bmp"
+IDB_SYSTEMUNDERTEST            BITMAP           "..\\..\\..\\meta\\CyPhyML\\icons\\SystemUnderTest.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_PROJNAME            "Decorator"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "DecoratorLib.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

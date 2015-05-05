@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iFAB="iFAB" targetNamespace="iFAB">
+
+  <xs:annotation>
+    <xs:appinfo>iFAB Foundry Armor XML Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This schema defines an XML file for representing armor plates.</xs:documentation>
+  </xs:annotation>
+
+  <xs:include schemaLocation="common.xsd" />
+
+  <xs:element name="armor" type="iFAB:armor" />
+
+  <xs:complexType name="armor">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="layer" type="iFAB:layer" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="layer">
+    <xs:sequence>
+      <xs:element name="material" type="iFAB:armorMaterial" />
+      <xs:element name="encapsulationType" type="iFAB:encapsulationType" minOccurs="0" />
+      <xs:element name="tileSize" type="iFAB:tileSize" minOccurs="0" />
+      <xs:element name="surfaceArea" type="iFAB:area" />
+      <xs:element name="thickness" type="iFAB:length" />
+      <xs:element name="painted" type="iFAB:paintColor" minOccurs="0" default="None" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="armorMaterial">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Al2O3" />
+      <xs:enumeration value="SiC" />
+      <xs:enumeration value="46100HHsteel" />
+      <xs:enumeration value="12560RHsteel" />
+      <xs:enumeration value="5083H131AL" />
+      <xs:enumeration value="6061AL" />
+      <xs:enumeration value="Kevlar754" />
+      <xs:enumeration value="RGlass" />
+      <xs:enumeration value="SGlass" />
+      <xs:enumeration value="EGlass" />
+      <xs:enumeration value="DyneemaHB50" />
+      <xs:enumeration value="AirGap" />
+      <xs:enumeration value="EPDMrubber" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="encapsulationType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Polyurea" />
+      <xs:enumeration value="SGlasswrap" />
+      <xs:enumeration value="EPDM" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="tileSize">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Square1x1in" />
+      <xs:enumeration value="Square2x2in" />
+      <xs:enumeration value="Square4x4in" />
+      <xs:enumeration value="Hex20mm" />
+      <xs:enumeration value="Hex40mm" />
+      <xs:enumeration value="Hex50mm" />
+      <xs:enumeration value="Hex63.5mm" />
+      <xs:enumeration value="Hex75mm" />
+      <xs:enumeration value="Hex100mm" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="paintColor">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="Tan" />
+      <xs:enumeration value="White" />
+      <xs:enumeration value="None" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

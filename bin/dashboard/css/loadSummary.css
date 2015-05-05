@@ -1,0 +1,41 @@
+
+input[type=range]
+{
+width: 100%;
+}
+
+#results th,
+#results td
+{
+text-align: left;
+}
+
+#settings tr:hover td
+{
+cursor:pointer;
+color:black;
+}
+
+ #preferences .btn-group
+{
+width: 90px;
+}
+
+td:nth-of-type(2)
+{
+	text-align: left !important;
+}
+
+.table 
+{
+	color: whiteSmoke;
+}
+.table tbody tr:hover td,
+.table tbody tr:hover th {
+  background-color: #333;
+  cursor:pointer;
+}
+.table
+{
+	background-color: #000;
+}

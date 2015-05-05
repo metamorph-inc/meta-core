@@ -1,0 +1,33 @@
+{
+  "Project": {
+    "Components": [],
+    "DesignSpaceModels": [
+      "./design-space/PlateContainer.adm",
+      "./design-space/PlateContainer.metadesign.json",
+      "./design-space/DesignContainer.adm",
+      "./design-space/DesignContainer.metadesign.json"
+    ],
+    "Configurations": [
+      "./designs/DesignContainer_cfg1.adm"
+    ],
+    "TestBenches": [
+      "./test-benches/StructuralFEATestBench.testbench.json",
+      "./test-benches/Plate with a hole.testbench.json"
+    ],
+    "Results": {
+      "UrlHints": [
+        "./results/results.metaresults.json"
+      ]
+    },
+    "Requirements": {
+      "UrlHints": [
+        "./requirements/requirements.json"
+      ],
+      "id": "",
+      "vfLink": "",
+      "text": ""
+    },
+    "CyPhyProjectFileName": "PlateWithHoleModel.mga",
+    "LastModified": "2014-02-03 14-54-41"
+  }
+}

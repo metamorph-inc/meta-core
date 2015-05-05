@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="id1" Name="Comp_PortRedeclare" Version="" xmlns="avm">
+  <DomainModel xmlns:q1="modelica" xsi:type="q1:ModelicaModel" Author="user" Notes="A Note" XPosition="462" YPosition="112" Name="ModelicaModel" Class="Class.Path" xmlns="">
+    <Connector ID="id30" PortMap="id32" Name="mc1" Notes="" Definition="" XPosition="91" YPosition="98" Locator="port_mc1" Class="someclass">
+      <Redeclare Notes="" XPosition="91" YPosition="56" Type="Package" Locator="redec1">
+        <Value>
+          <ValueExpression xmlns:q2="avm" xsi:type="q2:FixedValue">
+            <Value>thisValue</Value>
+          </ValueExpression>
+        </Value>
+      </Redeclare>
+    </Connector>
+  </DomainModel>
+  <Port xmlns:q3="modelica" xsi:type="q3:Connector" ID="id32" PortMap="" Name="MC1" Notes="" Definition="" XPosition="161" YPosition="245" Locator="" Class="someclass" xmlns="">
+    <Redeclare Notes="" XPosition="91" YPosition="56" Type="Package" Locator="redec1">
+      <Value>
+        <ValueExpression xmlns:q4="avm" xsi:type="q4:FixedValue">
+          <Value>thisValue</Value>
+        </ValueExpression>
+      </Value>
+    </Redeclare>
+  </Port>
+  <Classifications xmlns="" />
+</Component>

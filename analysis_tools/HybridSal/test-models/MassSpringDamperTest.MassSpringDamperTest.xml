@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dae xmlns:p1="http://www.w3.org/1998/Math/MathML"
+                                               xmlns:xlink="http://www.w3.org/1999/xlink"
+                                               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                               xsi:noNamespaceSchemaLocation="http://home.dei.polimi.it/donida/Projects/AutoEdit/Images/DAE.xsd">
+<variables dimension="31">
+<orderedVariables dimension="14">
+<variablesList>
+<variable id="1" name="MassSpringDamper.Mass_Steel.ModelicaModel.v" variability="continuousState" direction="none" type="Real" index="-1" fixed="false" flow="NonConnector" stream="NonStreamConnector" comment="Absolute velocity of component">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Mass_Steel_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Mass
+</element>
+<element>
+Modelica.SIunits.Velocity
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Velocity&quot;">
+</quantity>
+<unit string="&quot;m/s&quot;">
+</unit>
+<stateSelect>
+Default
+</stateSelect>
+<initialValue string="0.0">
+</initialValue>
+</attributesValues>
+</variable>
+<variable id="2" name="MassSpringDamper.Mass_Steel.ModelicaModel.s" variability="continuousState" direction="none" type="Real" index="-1" fixed="false" flow="NonConnector" stream="NonStreamConnector" comment="Absolute position of center of component (s = flange_a.s + L/2 = flange_b.s - L/2)">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Mass_Steel_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Mass
+</element>
+<element>
+Modelica.SIunits.Position
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Length&quot;">
+</quantity>
+<unit string="&quot;m&quot;">
+</unit>
+<stateSelect>
+Default
+</stateSelect>
+<initialValue string="0.0">
+</initialValue>
+</attributesValues>
+</variable>
+<variable id="3" name="MassSpringDamper.Mass_Steel.ModelicaModel.a" variability="continuous" direction="none" type="Real" index="-1" fixed="false" flow="NonConnector" stream="NonStreamConnector" comment="Absolute acceleration of component">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Mass_Steel_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Mass
+</element>
+<element>
+Modelica.SIunits.Acceleration
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Acceleration&quot;">
+</quantity>
+<unit string="&quot;m/s2&quot;">
+</unit>
+<initialValue string="0.0">
+</initialValue>
+</attributesValues>
+</variable>
+<variable id="4" name="MassSpringDamper.Mass_Steel.flange_a.f" variability="continuous" direction="none" type="Real" index="-1" fixed="false" flow="Flow" stream="NonStream" comment="Cut force directed into flange">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Mass_Steel_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Interfaces.Flange_a
+</element>
+<element>
+Modelica.SIunits.Force
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Force&quot;">
+</quantity>
+<unit string="&quot;N&quot;">
+</unit>
+</attributesValues>
+</variable>
+<variable id="5" name="MassSpringDamper.Spring_Steel.Spring.f" variability="continuous" direction="none" type="Real" index="-1" fixed="false" flow="NonConnector" stream="NonStreamConnector" comment="Force between flanges (positive in direction of flange axis R)">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Spring_Steel_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Spring
+</element>
+<element>
+Modelica.SIunits.Force
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Force&quot;">
+</quantity>
+<unit string="&quot;N&quot;">
+</unit>
+</attributesValues>
+</variable>
+<variable id="6" name="MassSpringDamper.Spring_Steel.Spring.s_rel" variability="continuous" direction="none" type="Real" index="-1" fixed="false" flow="NonConnector" stream="NonStreamConnector" comment="Relative distance (= flange_b.s - flange_a.s)">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Spring_Steel_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Spring
+</element>
+<element>
+Modelica.SIunits.Position
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Length&quot;">
+</quantity>
+<unit string="&quot;m&quot;">
+</unit>
+<initialValue string="0.0">
+</initialValue>
+</attributesValues>
+</variable>
+<variable id="7" name="MassSpringDamper.Spring_Steel.flange_b.s" variability="continuous" direction="none" type="Real" index="-1" fixed="false" flow="NonFlow" stream="NonStream" comment="Absolute position of flange">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Spring_Steel_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Interfaces.Flange_a
+</element>
+<element>
+Modelica.SIunits.Position
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Length&quot;">
+</quantity>
+<unit string="&quot;m&quot;">
+</unit>
+</attributesValues>
+</variable>
+<variable id="8" name="MassSpringDamper.Damper.Damper_mo.s_rel" variability="continuousState" direction="none" type="Real" index="-1" fixed="false" flow="NonConnector" stream="NonStreamConnector" comment="Relative distance (= flange_b.s - flange_a.s)">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Damper_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Damper
+</element>
+<element>
+Modelica.SIunits.Position
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Length&quot;">
+</quantity>
+<unit string="&quot;m&quot;">
+</unit>
+<stateSelect>
+Prefer
+</stateSelect>
+<nominal string="MassSpringDamper.Damper.Damper_mo.s_nominal">
+</nominal>
+<initialValue string="0.0">
+</initialValue>
+</attributesValues>
+</variable>
+<variable id="9" name="MassSpringDamper.Damper.Damper_mo.v_rel" variability="continuousState" direction="none" type="Real" index="-1" fixed="false" flow="NonConnector" stream="NonStreamConnector" comment="Relative velocity (= der(s_rel))">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Damper_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Damper
+</element>
+<element>
+Modelica.SIunits.Velocity
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Velocity&quot;">
+</quantity>
+<unit string="&quot;m/s&quot;">
+</unit>
+<stateSelect>
+Prefer
+</stateSelect>
+<initialValue string="0.0">
+</initialValue>
+</attributesValues>
+</variable>
+<variable id="10" name="MassSpringDamper.Damper.Damper_mo.lossPower" variability="continuous" direction="none" type="Real" index="-1" fixed="false" flow="NonConnector" stream="NonStreamConnector" comment="Loss power leaving component via heatPort (&gt; 0, if heat is flowing out of component)">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Damper_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Damper
+</element>
+<element>
+Modelica.SIunits.Power
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Power&quot;">
+</quantity>
+<unit string="&quot;W&quot;">
+</unit>
+</attributesValues>
+</variable>
+<variable id="11" name="MassSpringDamper.Damper.Damper_mo.f" variability="continuous" direction="none" type="Real" index="-1" fixed="false" flow="NonConnector" stream="NonStreamConnector" comment="Forces between flanges (= flange_b.f)">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Damper_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Damper
+</element>
+<element>
+Modelica.SIunits.Force
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Force&quot;">
+</quantity>
+<unit string="&quot;N&quot;">
+</unit>
+</attributesValues>
+</variable>
+<variable id="12" name="m_Velocity.Signal[1].SignalValue" variability="continuous" direction="none" type="Real" index="-1" fixed="false" flow="NonConnector" stream="NonStreamConnector">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.ISIS.Extension.LibMetric
+</element>
+<element>
+MassSpringDamperTest.ISIS.Ports.LibSignalConnector
+</element>
+<element>
+MassSpringDamperTest.ISIS.Types.SimpleSignal
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Signal&quot;">
+</quantity>
+</attributesValues>
+</variable>
+<variable id="13" name="Fixed.flange.f" variability="continuous" direction="none" type="Real" index="-1" fixed="false" flow="Flow" stream="NonStream" comment="Cut force directed into flange">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.Fixed_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Interfaces.Flange_a
+</element>
+<element>
+Modelica.SIunits.Force
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Force&quot;">
+</quantity>
+<unit string="&quot;N&quot;">
+</unit>
+</attributesValues>
+</variable>
+<variable id="14" name="SpeedSensor.SpeedSensor.flange.s" variability="continuousState" direction="none" type="Real" index="-1" fixed="false" flow="NonFlow" stream="NonStream" comment="Absolute position of flange">
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.SpeedSensor_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Sensors.SpeedSensor
+</element>
+<element>
+Modelica.Mechanics.Translational.Interfaces.Flange_a
+</element>
+<element>
+Modelica.SIunits.Position
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Length&quot;">
+</quantity>
+<unit string="&quot;m&quot;">
+</unit>
+</attributesValues>
+</variable>
+</variablesList>
+</orderedVariables>
+<knownVariables dimension="17">
+<variablesList>
+<variable id="1" name="MassSpringDamper.Damper.Damper_mo.s_nominal" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector" comment="Nominal value of s_rel (used for scaling)">
+<bindValueExpression>
+<bindExpression string="0.0001">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Damper_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Damper
+</element>
+<element>
+Modelica.SIunits.Distance
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Length&quot;">
+</quantity>
+<unit string="&quot;m&quot;">
+</unit>
+<minValue string="0.0">
+</minValue>
+</attributesValues>
+</variable>
+<variable id="2" name="MassSpringDamper.Damper.Damper_mo.d" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector" comment="Damping constant">
+<bindValueExpression>
+<bindExpression string="MassSpringDamper.Damper.Damping_constant">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Damper_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Damper
+</element>
+<element>
+Modelica.SIunits.TranslationalDampingConstant
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;TranslationalDampingConstant&quot;">
+</quantity>
+<unit string="&quot;N.s/m&quot;">
+</unit>
+<minValue string="0.0">
+</minValue>
+<initialValue string="0.0">
+</initialValue>
+</attributesValues>
+</variable>
+<variable id="3" name="Fixed.ModelicaModel.s0" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector" comment="Fixed offset position of housing">
+<bindValueExpression>
+<bindExpression string="Fixed.s0">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.Fixed_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Fixed
+</element>
+<element>
+Modelica.SIunits.Position
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Length&quot;">
+</quantity>
+<unit string="&quot;m&quot;">
+</unit>
+</attributesValues>
+</variable>
+<variable id="4" name="MassSpringDamper.Spring_Steel.Spring.c" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector" comment="Spring constant ">
+<bindValueExpression>
+<bindExpression string="MassSpringDamper.Spring_Steel.spring_constant">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Spring_Steel_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Spring
+</element>
+<element>
+Modelica.SIunits.TranslationalSpringConstant
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;TranslationalSpringConstant&quot;">
+</quantity>
+<unit string="&quot;N/m&quot;">
+</unit>
+<minValue string="0.0">
+</minValue>
+<initialValue string="1.0">
+</initialValue>
+</attributesValues>
+</variable>
+<variable id="5" name="MassSpringDamper.Spring_Steel.Spring.s_rel0" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector" comment="Unstretched spring length">
+<bindValueExpression>
+<bindExpression string="0.0">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Spring_Steel_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Spring
+</element>
+<element>
+Modelica.SIunits.Distance
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Length&quot;">
+</quantity>
+<unit string="&quot;m&quot;">
+</unit>
+<minValue string="0.0">
+</minValue>
+</attributesValues>
+</variable>
+<variable id="6" name="MassSpringDamper.Mass_Steel.ModelicaModel.m" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector" comment="Mass of the sliding mass">
+<bindValueExpression>
+<bindExpression string="MassSpringDamper.Mass_Steel.m">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Mass_Steel_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Mass
+</element>
+<element>
+Modelica.SIunits.Mass
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Mass&quot;">
+</quantity>
+<unit string="&quot;kg&quot;">
+</unit>
+<minValue string="0.0">
+</minValue>
+<initialValue string="1.0">
+</initialValue>
+</attributesValues>
+</variable>
+<variable id="7" name="ConstantForce.ConstantForce.f_constant" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector" comment="Nominal force (if negative, force is acting as load)">
+<bindValueExpression>
+<bindExpression string="ConstantForce.f_const">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.ConstantForce_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Sources.ConstantForce
+</element>
+<element>
+Modelica.SIunits.Force
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Force&quot;">
+</quantity>
+<unit string="&quot;N&quot;">
+</unit>
+</attributesValues>
+</variable>
+<variable id="8" name="MassSpringDamper.Mass_Steel.ModelicaModel.L" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector" comment="Length of component, from left flange to right flange (= flange_b.s - flange_a.s)">
+<bindValueExpression>
+<bindExpression string="0.0">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Mass_Steel_type
+</element>
+<element>
+Modelica.Mechanics.Translational.Components.Mass
+</element>
+<element>
+Modelica.SIunits.Length
+</element>
+</classesNames>
+<attributesValues>
+<quantity string="&quot;Length&quot;">
+</quantity>
+<unit string="&quot;m&quot;">
+</unit>
+<initialValue string="0.0">
+</initialValue>
+</attributesValues>
+</variable>
+<variable id="9" name="MassSpringDamper.Mass_Steel.m" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector">
+<bindValueExpression>
+<bindExpression string="MassSpringDamper.mass">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Mass_Steel_type
+</element>
+<element>
+Real
+</element>
+</classesNames>
+</variable>
+<variable id="10" name="MassSpringDamper.mass" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector">
+<bindValueExpression>
+<bindExpression string="mass">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+Real
+</element>
+</classesNames>
+</variable>
+<variable id="11" name="MassSpringDamper.Spring_Steel.spring_constant" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector">
+<bindValueExpression>
+<bindExpression string="MassSpringDamper.spring_constant">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Spring_Steel_type
+</element>
+<element>
+Real
+</element>
+</classesNames>
+</variable>
+<variable id="12" name="MassSpringDamper.spring_constant" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector">
+<bindValueExpression>
+<bindExpression string="spring_constant">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+Real
+</element>
+</classesNames>
+</variable>
+<variable id="13" name="mass" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector">
+<bindValueExpression>
+<bindExpression string="0.1">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+Real
+</element>
+</classesNames>
+</variable>
+<variable id="14" name="spring_constant" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector">
+<bindValueExpression>
+<bindExpression string="10.0">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+Real
+</element>
+</classesNames>
+</variable>
+<variable id="15" name="MassSpringDamper.Damper.Damping_constant" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector">
+<bindValueExpression>
+<bindExpression string="2.0">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.MassSpringDamper_type.Damper_type
+</element>
+<element>
+Real
+</element>
+</classesNames>
+</variable>
+<variable id="16" name="Fixed.s0" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector">
+<bindValueExpression>
+<bindExpression string="0.0">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.Fixed_type
+</element>
+<element>
+Real
+</element>
+</classesNames>
+</variable>
+<variable id="17" name="ConstantForce.f_const" variability="parameter" direction="none" type="Real" index="-1" fixed="true" flow="NonConnector" stream="NonStreamConnector">
+<bindValueExpression>
+<bindExpression string="5.0">
+</bindExpression>
+</bindValueExpression>
+<classesNames>
+<element>
+MassSpringDamperTest.MassSpringDamperTest
+</element>
+<element>
+MassSpringDamperTest.MassSpringDamperTest.ConstantForce_type
+</element>
+<element>
+Real
+</element>
+</classesNames>
+</variable>
+</variablesList>
+</knownVariables>
+</variables>
+<equations dimension="14">
+<equation id="1">MassSpringDamper.Damper.Damper_mo.f = MassSpringDamper.Damper.Damper_mo.d * MassSpringDamper.Damper.Damper_mo.v_rel
+</equation>
+<equation id="2">MassSpringDamper.Damper.Damper_mo.lossPower = MassSpringDamper.Damper.Damper_mo.f * MassSpringDamper.Damper.Damper_mo.v_rel
+</equation>
+<equation id="3">MassSpringDamper.Damper.Damper_mo.s_rel = MassSpringDamper.Spring_Steel.flange_b.s - Fixed.ModelicaModel.s0
+</equation>
+<equation id="4">MassSpringDamper.Spring_Steel.Spring.f = MassSpringDamper.Spring_Steel.Spring.c * (MassSpringDamper.Spring_Steel.Spring.s_rel - MassSpringDamper.Spring_Steel.Spring.s_rel0)
+</equation>
+<equation id="5">MassSpringDamper.Spring_Steel.Spring.s_rel = MassSpringDamper.Damper.Damper_mo.s_rel
+</equation>
+<equation id="6">MassSpringDamper.Mass_Steel.ModelicaModel.m * MassSpringDamper.Mass_Steel.ModelicaModel.a = ConstantForce.ConstantForce.f_constant + MassSpringDamper.Mass_Steel.flange_a.f
+</equation>
+<equation id="7">SpeedSensor.SpeedSensor.flange.s = MassSpringDamper.Mass_Steel.ModelicaModel.s + (-MassSpringDamper.Mass_Steel.ModelicaModel.L) / 2.0
+</equation>
+<equation id="8">MassSpringDamper.Spring_Steel.flange_b.s = MassSpringDamper.Mass_Steel.ModelicaModel.s + MassSpringDamper.Mass_Steel.ModelicaModel.L / 2.0
+</equation>
+<equation id="9">Fixed.flange.f + (-MassSpringDamper.Spring_Steel.Spring.f) - MassSpringDamper.Damper.Damper_mo.f = 0.0
+</equation>
+<equation id="10">MassSpringDamper.Damper.Damper_mo.f + MassSpringDamper.Spring_Steel.Spring.f + MassSpringDamper.Mass_Steel.flange_a.f = 0.0
+</equation>
+<equation id="11">m_Velocity.Signal[1].SignalValue = der(SpeedSensor.SpeedSensor.flange.s)
+</equation>
+<equation id="12">MassSpringDamper.Damper.Damper_mo.v_rel = der(MassSpringDamper.Damper.Damper_mo.s_rel)
+</equation>
+<equation id="13">MassSpringDamper.Mass_Steel.ModelicaModel.v = der(MassSpringDamper.Mass_Steel.ModelicaModel.s)
+</equation>
+<equation id="14">MassSpringDamper.Mass_Steel.ModelicaModel.a = der(MassSpringDamper.Mass_Steel.ModelicaModel.v)
+</equation>
+</equations>
+<functions>
+</functions>
+</dae>

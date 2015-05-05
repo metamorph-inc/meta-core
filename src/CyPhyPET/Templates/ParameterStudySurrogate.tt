@@ -1,0 +1,478 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ assembly name="$(SolutionDir)\..\..\..\trunk\externals\common-scripts\ISIS.GME.Common.dll" #>
+<#@ assembly name="$(SolutionDir)\..\..\..\trunk\generated\CyPhyML\models\ISIS.GME.Dsml.CyPhyML.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="ISIS.GME.Dsml.CyPhyML.Classes" #> 
+<#@ output extension=".py" #>
+# ===========================================================================
+# Auto generated from ParameterStudySurrogate.tt
+# ===========================================================================
+# OpenMDAO Assembly Component (Surrogate)
+import os
+import json
+import pickle
+import logging
+import numpy as np
+
+from openmdao.main.api import Assembly, Component, SequentialWorkflow, set_as_top
+from openmdao.lib.drivers.api import DOEdriver, CONMINdriver
+from openmdao.lib.doegenerators.api import <#= DOEType #>
+from openmdao.lib.casehandlers.api import ListCaseRecorder
+from openmdao.lib.components.api import MetaModel
+<# string t = SurrogateType; 
+if (t == "ResponseSurface") { #>
+from openmdao.lib.surrogatemodels.api import <#= SurrogateType #>
+<# } else if (t == "NeuralNet") { #>
+from neural_net.neural_net import NeuralNet
+<# } else if (t == "LogisticRegression") { #>
+from openmdao.lib.surrogatemodels.api import <#= SurrogateType #>
+<# } else if (t == "KrigingSurrogate") { #>
+from openmdao.lib.surrogatemodels.api import <#= SurrogateType #>
+<# } else { #>
+# ERROR: Surrogate model type might not supported: <#= pet.Children.ParameterStudyCollection.FirstOrDefault().Attributes.SurrogateType #>
+#from openmdao.lib.surrogatemodels.api import <#= pet.Children.ParameterStudyCollection.FirstOrDefault().Attributes.SurrogateType #>
+<# } #>
+from openmdao.lib.surrogatemodels.api import KrigingSurrogate
+
+from save_results import save_results
+from surrogate_model import SurrogateAssembly
+
+log = logging.getLogger()
+while len(log.handlers) > 2:
+    log.removeHandler(log.handlers[-1])
+
+
+class ParameterStudy(Assembly):
+    """ Documentation comment for this Assembly. """
+
+    def __init__(self):
+        super(ParameterStudy, self).__init__()
+
+        ## Create component instances
+        self.add("meta_model", MetaModel())
+        self.meta_model.default_surrogate = <#= SurrogateType #>()
+<# if (SurrogateType == "NeuralNet")
+{
+	this.GetDoeOptions();
+	if (string.IsNullOrWhiteSpace(this.NeuralNetNHiddenNodes) == false)
+    {
+#>
+        self.meta_model.<#= this.NeuralNetNHiddenNodes #>
+<# }
+} #>
+        self.meta_model.model = SurrogateAssembly()
+
+        self.add('driver', DOEdriver())
+        
+        # The type and level attributes of DOE
+        self.driver.DOEgenerator = <#= DOEType #>()
+<#foreach (var item in GetDoeOptions())
+		{#>
+        self.driver.DOEgenerator.<#= item #>
+<# 		}#>
+
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.DesignVariableCollection)
+    {
+        string low = "0.0";
+        string high = "0.0";
+        string range = item.Attributes.Range;
+		low = range.Split(',').FirstOrDefault().Trim();
+		high = range.Split(',').LastOrDefault().Trim();
+        foreach (var conn in item.DstConnections.VariableSweepCollection)
+        {
+            string name = conn.GenericDstEnd.Name;
+            InOuts += "meta_model." + name + ":%f ";
+        #>
+        self.driver.add_parameter('meta_model.<#= name #>', low = <#= low #>, high = <#= high #>) # <#= item.Attributes.Range #>
+<#         }
+    } #>
+
+        self.driver.case_outputs = [ \
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+            string name = conn.GenericSrcEnd.Name;
+            InOuts += "meta_model." + name + ":%f ";
+        #>
+            'meta_model.<#= name #>', \
+<#        }
+    } #>
+            ]
+        self.driver.add_event("meta_model.train_next")
+        self.driver.recorders = [ListCaseRecorder(),]
+        self.driver.force_execute = True
+        self.driver.workflow.add('meta_model')
+        self._logger.info('ParameterStudy assembly was created.')
+
+
+class Solver(Assembly):
+    """ Documentation comment for this Assembly. """
+
+    def __init__(self, surrogate_trainer):
+        super(Solver, self).__init__()
+
+        ## Create component instances
+        self.add('driver', CONMINdriver())
+
+        # Add surrogate model
+        meta_model = surrogate_trainer.meta_model
+        self.add('meta_model', meta_model)
+        self.driver.workflow.add('meta_model')
+
+        # The type and level attributes of Optimization
+        self.driver.iprint = 0
+        self.driver.itmax  = 100
+        self.driver.fdch   = .000001
+        self.driver.fdchm  = .000001
+
+        self.driver.accuracy = 1e-5
+        self.driver.maxiter = 100
+
+        # Design Variables
+        params = surrogate_trainer.driver.get_parameters()
+        for x in meta_model._surrogate_input_names:
+            min_val = params['meta_model.'+x].low
+            max_val = params['meta_model.'+x].high
+            self.driver.add_parameter('meta_model.'+x, low = min_val, high =  max_val) # -50, 50
+
+        # Objective
+        self.driver.add_objective('meta_model.'+meta_model._output_names[0])
+    # End __init__
+
+    def set_objective(self, yname, type='min'):
+
+        self.driver.clear_objectives()
+
+        if type=='min':
+            doe_res = self.meta_model._training_data[yname]
+            doe_min_i = doe_res.index(min(doe_res))
+
+            for j,x in enumerate(self.meta_model._surrogate_input_names):
+                setattr(self.meta_model, x, self.meta_model._training_input_history[doe_min_i][j])
+            self.driver.add_objective('meta_model.'+yname)
+
+        elif type=='max':
+            doe_res = self.meta_model._training_data[yname]
+            doe_max_i = doe_res.index(max(doe_res))
+
+            for j,x in enumerate(self.meta_model._surrogate_input_names):
+                setattr(self.meta_model, x, self.meta_model._training_input_history[doe_max_i][j])
+            self.driver.add_objective('-1.0*meta_model.'+yname)
+
+# End class
+
+def y_min_max(surrogate_trainer):
+    result = {}
+
+    s = Solver(surrogate_trainer)
+
+    responses = surrogate_trainer.meta_model._training_data.keys()
+
+    for r_name in responses:
+        s.set_objective(r_name,type='min')
+        s.run()
+        y_min = eval('s.meta_model.'+r_name)
+
+        s.set_objective(r_name,type='max')
+        s.run()
+        y_max = eval('s.meta_model.'+r_name)
+
+        result[r_name] = [y_min, y_max]
+
+    return result
+
+
+def main():
+    doe = ParameterStudy()
+    set_as_top(doe)
+    doe.run()
+
+    meta_model_info = {}
+    meta_model_info['training_input_history'] = doe.meta_model._training_input_history
+    meta_model_info['surrogate_info'] = {}
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+            string name = conn.GenericSrcEnd.Name;
+        #>
+    meta_model_info['surrogate_info']['<#= name #>'] = (
+           doe.meta_model._default_surrogate_copies['<#= name #>'],
+           doe.meta_model._training_data['<#= name #>'])
+<#        }
+    } #>
+
+    meta_model_info['meta_model'] = doe.meta_model
+
+    f = open("meta_model_info.p", "wb")
+    pickle.dump(meta_model_info, f)
+    f.close()
+
+    isKrigingDefault = isinstance(doe.meta_model.default_surrogate, KrigingSurrogate)
+
+    if isKrigingDefault:
+        for i, c in enumerate(doe.driver.recorders[0].cases):
+            for case_output in doe.driver.case_outputs:
+                c[case_output] = c[case_output].mu
+            doe.driver.recorders[0].cases[i] = c
+
+
+    sr = save_results(doe, doe.driver.recorders[0])
+    sr.save('output.mdao')
+
+    # write the case output to the screen
+    for c in doe.driver.recorders[0].get_iterator():
+        print "<#= InOuts #>"%(
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.DesignVariableCollection)
+    {
+        foreach (var conn in item.DstConnections.VariableSweepCollection)
+        {
+			string name = conn.GenericDstEnd.Name;
+        #>
+            c['meta_model.<#= name #>'],
+<#        }
+    } 
+    foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+			string name = conn.GenericSrcEnd.Name;
+        #>
+            c['meta_model.<#= name #>'],
+<#        }
+    } #>
+            )
+<# if (SurrogateType == "ResponseSurface")
+{#>
+    ##  ResponseSurface is surrogate,
+    #   write model info to meta_model.json
+    doe.meta_model.execute()
+
+    try:
+        with open('testbench_manifest.json', 'r') as f_in:
+            json_out = json.load(f_in)
+            json_out['responses']=[]
+    except IOError:
+        json_out = {'responses':[]}
+
+    yminmax = y_min_max(doe)
+
+    for i, y in enumerate(meta_model_info['meta_model']._training_data.keys()):
+
+        yy = {}
+        yy['rid'] = 'r' + str(i)
+        yy['metric'] = y
+        yy['min'] = yminmax[y][0]
+        yy['max'] = yminmax[y][1]
+        yy['surrogateType'] = 'Response Surface'
+        
+        yy['inputs'] = []
+        doe_params = doe.driver.get_parameters()
+        for i, x in enumerate(meta_model_info['meta_model']._surrogate_input_names):
+            min_val = doe_params['meta_model.'+x].low
+            max_val = doe_params['meta_model.'+x].high
+            yy['inputs'].append({'min':min_val, 'max':max_val, 'label': x})
+
+        yy['coefficients'] = {}
+        n_inp = meta_model_info['surrogate_info'][y][0].n
+        betas = meta_model_info['surrogate_info'][y][0].betas
+
+        beta_names = []
+        for j in range(0,n_inp+1):
+            beta_names.append('b'+str(j))
+
+        for j in range(1,n_inp+1):
+            beta_names.append('b'+str(j)+str(j))
+
+        for j in range(1,n_inp):
+            for k in range(j+1,n_inp+1):
+                beta_names.append('b'+str(j)+str(k))
+
+        for j, b in enumerate(betas):
+            yy['coefficients'][beta_names[j]] = b.item(0)
+
+        c = yy['coefficients']
+        x_names = meta_model_info['meta_model']._surrogate_input_names
+        yy['function'] = ''+str(c['b0'])
+        for j in range(1,n_inp+1):
+            coeff = c['b'+str(j)]
+            if coeff >=0:
+                yy['function'] += '+'+str(coeff)
+            else:
+                yy['function'] += str(coeff)
+            yy['function'] += '*'+x_names[j-1]
+
+        for j in range(1,n_inp+1):
+            coeff = str(c['b'+str(j)+str(j)])
+            if coeff >= 0:
+                yy['function'] += '+'+str(coeff)
+            else:
+                yy['function'] += str(coeff)
+            yy['function'] += '*'+x_names[j-1]+'*'+x_names[j-1]
+        for j in range(1,n_inp):
+            for k in range(j+1,n_inp+1):
+                coeff = str(c['b'+str(j)+str(k)])
+                if coeff >= 0:
+                    yy['function'] += '+'+str(coeff)
+                else:
+                    yy['function'] += str(coeff)
+                yy['function'] += '*'+x_names[j-1]+'*'+x_names[k-1]
+        json_out['responses'].append(yy)
+
+    with open('testbench_manifest.json','wb') as f_out:
+        json.dump(json_out, f_out, indent=4)
+
+    ## Model fit info in model_perf.json
+    params = {}
+    actual = {}
+    predicted = {}
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.DesignVariableCollection)
+    {
+        foreach (var conn in item.DstConnections.VariableSweepCollection)
+        {
+			string name = conn.GenericDstEnd.Name;
+        #>
+    params['<#= name #>'] = []
+<#        }
+    } 
+    foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+			string name = conn.GenericSrcEnd.Name;
+        #>
+    actual['<#= name #>'] = []
+    predicted['<#= name #>'] = []
+<#        }
+    } #>
+
+    for c in doe.driver.recorders[0].get_iterator():
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.DesignVariableCollection)
+    {
+        foreach (var conn in item.DstConnections.VariableSweepCollection)
+        {
+			string name = conn.GenericDstEnd.Name;
+        #>
+        doe.meta_model.<#= name #> = c['meta_model.<#= name #>']
+<#        }
+    }
+#>
+        doe.meta_model.execute()
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.DesignVariableCollection)
+    {
+        foreach (var conn in item.DstConnections.VariableSweepCollection)
+        {
+			string name = conn.GenericDstEnd.Name;
+        #>
+        params['<#= name #>'].append(c['meta_model.<#= name #>'])
+<#        }
+    }
+    foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+			string name = conn.GenericSrcEnd.Name;
+        #>
+        actual['<#= name #>'].append(c['meta_model.<#= name #>'])  
+        predicted['<#= name #>'].append(doe.meta_model.<#= name #>)
+<#        }
+    } #>
+    perf_json = []
+
+    for y_name, y_pred in predicted.iteritems():
+
+        y_pred = np.array(y_pred)
+        y_act = np.array(actual[y_name])
+        y_mean = y_pred.mean()
+        n = len(y_pred)
+        p = len(params.keys())
+
+        for x in json_out['responses']:
+            if x['metric'] == y_name:
+                fn = x['function']
+                coef = x['coefficients']
+                vars = {}
+                for v in x['inputs']:
+                    vars[v['label']] = [v['min'], v['max']]
+                break
+
+        resp = {}
+        resp['responseName'] = y_name
+        resp['responseType'] = 'RSE'
+        resp['response'] = y_name + '=' + fn
+        resp['coefficients'] = coef
+        resp['variables'] = vars
+
+        SStot = np.linalg.norm(y_pred - y_mean) ** 2
+        SSres = np.linalg.norm(y_pred - y_act) ** 2
+        MFE = (SSres / n) ** 0.5
+
+        resp['R2'] = {}
+        resp['R2']['training'] = 1 - SSres / SStot
+        Rsq = resp['R2']['training']
+        resp['R2adjusted'] = {}
+        resp['R2adjusted']['training'] = Rsq - (1 - Rsq) * p / (n - p - 1)
+
+        residual = y_act-y_pred
+        resp['MFE'] = {}
+        resp['MFE']['mean'] = residual.mean()
+        resp['MFE']['stdDeviation'] = residual.std()
+        resp['MFE']['data'] = residual.tolist()
+
+        resp['actualByPredicted'] = {}
+        resp['actualByPredicted']['training'] = \
+            [ [y_act[i], y_pred[i]] for i in xrange(len(y_act)) ]
+
+        resp['residualByPredicted'] = {}
+        resp['residualByPredicted']['training'] = \
+            [ [residual[i], y_pred[i]] for i in xrange(len(y_act)) ]
+
+        perf_json.append(resp)
+
+    with open('model_perf.json','wb') as f_out:
+        json.dump(perf_json, f_out, indent=4)
+<#}#>
+
+
+if __name__ == "__main__":
+    main()
+# End
+
+<#+
+	public string DOEType {get; set;}
+	public string SurrogateType {get; set;}
+	public string ParameterStudyName {get; set; }
+    public ISIS.GME.Dsml.CyPhyML.Interfaces.ParametricExploration pet { get; set; }    
+    public string InOuts {get; set;}
+    private string NeuralNetNHiddenNodes {get;set;}
+	private IEnumerable<string> GetDoeOptions() {
+		List<string> result = new List<string>();		
+		string[] vals = pet.Children.ParameterStudyCollection.FirstOrDefault().Attributes.Code.Split('\n');
+		foreach (var item in vals)
+		{
+			if (string.IsNullOrEmpty(item) == false)
+			{
+				if (item.StartsWith("n_hidden_nodes"))
+                {
+					this.NeuralNetNHiddenNodes = item.Trim();
+                }
+				else
+                {
+					result.Add(item);
+                }
+			}
+		}		
+		return result;
+	}
+#>

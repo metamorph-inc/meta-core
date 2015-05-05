@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCommonFunctions", "CADCommonFunctions\CADCommonFunctions.vcxproj", "{9438FDE8-A6E2-41E7-8523-250484CB4981}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCreoParametricCommonFunctions", "CADCreoParametricCommonFunctions\CADCreoParametricCommonFunctions.vcxproj", "{49C0C132-DFD9-47E4-A860-01FD6E34AC3A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCreoParametricToolkitFunctions", "CADCreoParametricToolkitFunctions\CADCreoParametricToolkitFunctions.vcxproj", "{7CFD6932-09B9-4C2D-9483-C70A460E6996}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExtractACM-XMLfromCreoModels", "ExtractACM-XMLfromCreoModels\ExtractACM-XMLfromCreoModels.vcxproj", "{DD43860B-C5EC-4331-80BC-36CA40DE463A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9438FDE8-A6E2-41E7-8523-250484CB4981}.Debug|Win32.ActiveCfg = Debug|x64
+		{9438FDE8-A6E2-41E7-8523-250484CB4981}.Debug|Win32.Build.0 = Debug|x64
+		{9438FDE8-A6E2-41E7-8523-250484CB4981}.Debug|x64.ActiveCfg = Debug|x64
+		{9438FDE8-A6E2-41E7-8523-250484CB4981}.Debug|x64.Build.0 = Debug|x64
+		{9438FDE8-A6E2-41E7-8523-250484CB4981}.Release|Win32.ActiveCfg = Release|x64
+		{9438FDE8-A6E2-41E7-8523-250484CB4981}.Release|Win32.Build.0 = Release|x64
+		{9438FDE8-A6E2-41E7-8523-250484CB4981}.Release|x64.ActiveCfg = Release|x64
+		{9438FDE8-A6E2-41E7-8523-250484CB4981}.Release|x64.Build.0 = Release|x64
+		{49C0C132-DFD9-47E4-A860-01FD6E34AC3A}.Debug|Win32.ActiveCfg = Debug|x64
+		{49C0C132-DFD9-47E4-A860-01FD6E34AC3A}.Debug|Win32.Build.0 = Debug|x64
+		{49C0C132-DFD9-47E4-A860-01FD6E34AC3A}.Debug|x64.ActiveCfg = Debug|x64
+		{49C0C132-DFD9-47E4-A860-01FD6E34AC3A}.Debug|x64.Build.0 = Debug|x64
+		{49C0C132-DFD9-47E4-A860-01FD6E34AC3A}.Release|Win32.ActiveCfg = Release|x64
+		{49C0C132-DFD9-47E4-A860-01FD6E34AC3A}.Release|Win32.Build.0 = Release|x64
+		{49C0C132-DFD9-47E4-A860-01FD6E34AC3A}.Release|x64.ActiveCfg = Release|x64
+		{49C0C132-DFD9-47E4-A860-01FD6E34AC3A}.Release|x64.Build.0 = Release|x64
+		{7CFD6932-09B9-4C2D-9483-C70A460E6996}.Debug|Win32.ActiveCfg = Debug|x64
+		{7CFD6932-09B9-4C2D-9483-C70A460E6996}.Debug|Win32.Build.0 = Debug|x64
+		{7CFD6932-09B9-4C2D-9483-C70A460E6996}.Debug|x64.ActiveCfg = Debug|x64
+		{7CFD6932-09B9-4C2D-9483-C70A460E6996}.Debug|x64.Build.0 = Debug|x64
+		{7CFD6932-09B9-4C2D-9483-C70A460E6996}.Release|Win32.ActiveCfg = Release|x64
+		{7CFD6932-09B9-4C2D-9483-C70A460E6996}.Release|Win32.Build.0 = Release|x64
+		{7CFD6932-09B9-4C2D-9483-C70A460E6996}.Release|x64.ActiveCfg = Release|x64
+		{7CFD6932-09B9-4C2D-9483-C70A460E6996}.Release|x64.Build.0 = Release|x64
+		{DD43860B-C5EC-4331-80BC-36CA40DE463A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DD43860B-C5EC-4331-80BC-36CA40DE463A}.Debug|Win32.Build.0 = Debug|Win32
+		{DD43860B-C5EC-4331-80BC-36CA40DE463A}.Debug|x64.ActiveCfg = Debug|x64
+		{DD43860B-C5EC-4331-80BC-36CA40DE463A}.Debug|x64.Build.0 = Debug|x64
+		{DD43860B-C5EC-4331-80BC-36CA40DE463A}.Release|Win32.ActiveCfg = Release|Win32
+		{DD43860B-C5EC-4331-80BC-36CA40DE463A}.Release|Win32.Build.0 = Release|Win32
+		{DD43860B-C5EC-4331-80BC-36CA40DE463A}.Release|x64.ActiveCfg = Release|x64
+		{DD43860B-C5EC-4331-80BC-36CA40DE463A}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

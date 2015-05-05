@@ -1,0 +1,7 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".sh" #>
+#!/bin/sh
+
+cd CFD/OpenFoam/case
+chmod 755 Allrun.sh
+sh Allrun.sh

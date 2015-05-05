@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:ecore.xml.type="http://www.eclipse.org/emf/2003/XMLType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:documentRoot="XMLTypeDocumentRoot" ecore:nsPrefix="ecore.xml.type" ecore:package="org.eclipse.emf.ecore.xml.type" targetNamespace="http://www.eclipse.org/emf/2003/XMLType">
+  <xsd:import namespace="http://www.eclipse.org/emf/2002/Ecore" schemaLocation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xsd"/>
+  <xsd:element name="cDATA" type="xsd:string"/>
+  <xsd:element name="comment" type="xsd:string"/>
+  <xsd:element name="processingInstruction" type="xsd:processingInstruction_._type"/>
+  <xsd:element name="text" type="xsd:string"/>
+  <xsd:simpleType ecore:instanceClass="java.lang.Object" ecore:name="AnySimpleType" name="anySimpleType">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:complexType ecore:name="AnyType" mixed="true" name="anyType">
+    <xsd:sequence>
+      <xsd:any ecore:name="any" maxOccurs="unbounded" minOccurs="0" namespace="##any"/>
+    </xsd:sequence>
+    <xsd:anyAttribute ecore:name="anyAttribute" namespace="##any"/>
+  </xsd:complexType>
+  <xsd:simpleType ecore:instanceClass="java.lang.String" ecore:name="AnyURI" name="anyURI">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="byte[]" ecore:name="Base64Binary" name="base64Binary">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="boolean" ecore:name="Boolean" name="boolean">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="byte" ecore:name="Byte" name="byte">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" ecore:name="Date" name="date">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" ecore:name="DateTime" name="dateTime">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.math.BigDecimal" ecore:name="Decimal" name="decimal">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="double" ecore:name="Double" name="double">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="javax.xml.datatype.Duration" ecore:name="Duration" name="duration">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ENTITIES">
+    <xsd:restriction base="xsd:ENTITIES_._base">
+      <xsd:minLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:name="ENTITIESBase" name="ENTITIES_._base">
+    <xsd:list itemType="xsd:ENTITY"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="ENTITY">
+    <xsd:restriction base="xsd:NCName"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="float" ecore:name="Float" name="float">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" ecore:name="GDay" name="gDay">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" ecore:name="GMonth" name="gMonth">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" ecore:name="GMonthDay" name="gMonthDay">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" ecore:name="GYear" name="gYear">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" ecore:name="GYearMonth" name="gYearMonth">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="byte[]" ecore:name="HexBinary" name="hexBinary">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ID">
+    <xsd:restriction base="xsd:NCName"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="IDREF">
+    <xsd:restriction base="xsd:NCName"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="IDREFS">
+    <xsd:restriction base="xsd:IDREFS_._base">
+      <xsd:minLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:name="IDREFSBase" name="IDREFS_._base">
+    <xsd:list itemType="xsd:IDREF"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="int" ecore:name="Int" name="int">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.math.BigInteger" ecore:name="Integer" name="integer">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:name="Language" name="language">
+    <xsd:restriction base="xsd:token">
+      <xsd:pattern value="[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="long" ecore:name="Long" name="long">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="Name">
+    <xsd:restriction base="xsd:token">
+      <xsd:pattern value="\i\c*"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="NCName">
+    <xsd:restriction base="xsd:Name">
+      <xsd:pattern value="[\i-[:]][\c-[:]]*"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:name="NegativeInteger" name="negativeInteger">
+    <xsd:restriction base="xsd:nonPositiveInteger">
+      <xsd:maxInclusive value="-1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="NMTOKEN">
+    <xsd:restriction base="xsd:token">
+      <xsd:pattern value="\c+"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="NMTOKENS">
+    <xsd:restriction base="xsd:NMTOKENS_._base">
+      <xsd:minLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:name="NMTOKENSBase" name="NMTOKENS_._base">
+    <xsd:list itemType="xsd:NMTOKEN"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:name="NonNegativeInteger" name="nonNegativeInteger">
+    <xsd:restriction base="xsd:integer">
+      <xsd:minInclusive value="0"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:name="NonPositiveInteger" name="nonPositiveInteger">
+    <xsd:restriction base="xsd:integer">
+      <xsd:maxInclusive value="0"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:name="NormalizedString" name="normalizedString">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="replace"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="javax.xml.namespace.QName" name="NOTATION">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:name="PositiveInteger" name="positiveInteger">
+    <xsd:restriction base="xsd:nonNegativeInteger">
+      <xsd:minInclusive value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType ecore:name="ProcessingInstruction" name="processingInstruction_._type">
+    <xsd:attribute name="data" type="xsd:string"/>
+    <xsd:attribute name="target" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <xsd:simpleType ecore:instanceClass="javax.xml.namespace.QName" name="QName">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="short" ecore:name="Short" name="short">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:complexType ecore:name="SimpleAnyType" name="simpleAnyType">
+    <xsd:simpleContent ecore:lowerBound="1" ecore:name="instanceType" ecore:reference="ecore:EDataType">
+      <xsd:extension base="xsd:IDREF"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType ecore:instanceClass="java.lang.String" ecore:name="String" name="string">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="preserve"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" ecore:name="Time" name="time">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:name="Token" name="token">
+    <xsd:restriction base="xsd:normalizedString">
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="short" ecore:name="UnsignedByte" name="unsignedByte">
+    <xsd:restriction base="xsd:string">
+      <xsd:minInclusive value="0"/>
+      <xsd:maxInclusive value="255"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="long" ecore:name="UnsignedInt" name="unsignedInt">
+    <xsd:restriction base="xsd:string">
+      <xsd:minInclusive value="0"/>
+      <xsd:maxInclusive value="4294967295"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:name="UnsignedLong" name="unsignedLong">
+    <xsd:restriction base="xsd:nonNegativeInteger">
+      <xsd:minInclusive value="0"/>
+      <xsd:maxInclusive value="18446744073709551615"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="int" ecore:name="UnsignedShort" name="unsignedShort">
+    <xsd:restriction base="xsd:string">
+      <xsd:minInclusive value="0"/>
+      <xsd:maxInclusive value="65535"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

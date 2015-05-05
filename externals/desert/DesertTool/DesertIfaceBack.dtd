@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- generated on Mon Jun 09 19:11:14 2003 -->
+
+<!ELEMENT VariableProperty EMPTY>
+<!ATTLIST VariableProperty
+	_id	ID	#IMPLIED
+	name	CDATA	#REQUIRED
+	value	IDREFS	#IMPLIED
+	archetype 	IDREF	#IMPLIED
+	derived 	IDREFS	#IMPLIED
+	instances 	IDREFS	#IMPLIED
+	desynched_atts 	CDATA	#IMPLIED
+	real_archetype 	(true|false)	#IMPLIED
+	subtype 	(true|false)	#IMPLIED
+>
+
+<!ELEMENT PropertyAssignment (EquivAssignment*)>
+<!ATTLIST PropertyAssignment
+	_id	ID	#IMPLIED
+	externalID	CDATA	#REQUIRED
+	id	CDATA	#REQUIRED
+	name	CDATA	#REQUIRED
+	value_end_	IDREF	#IMPLIED
+	value_of_end_	IDREF	#IMPLIED
+	archetype 	IDREF	#IMPLIED
+	derived 	IDREFS	#IMPLIED
+	instances 	IDREFS	#IMPLIED
+	desynched_atts 	CDATA	#IMPLIED
+	real_archetype 	(true|false)	#IMPLIED
+	subtype 	(true|false)	#IMPLIED
+>
+
+<!ELEMENT DesertBackSystem (Configuration*, CustomMember*, Element*, NaturalMember*)>
+<!ATTLIST DesertBackSystem
+	_id	ID	#IMPLIED
+	SystemName	CDATA	#REQUIRED
+	archetype 	IDREF	#IMPLIED
+	derived 	IDREFS	#IMPLIED
+	instances 	IDREFS	#IMPLIED
+	desynched_atts 	CDATA	#IMPLIED
+	real_archetype 	(true|false)	#IMPLIED
+	subtype 	(true|false)	#IMPLIED
+>
+
+<!ELEMENT CustomMember EMPTY>
+<!ATTLIST CustomMember
+	_id	ID	#IMPLIED
+	id	CDATA	#REQUIRED
+	externalID	CDATA	#REQUIRED
+	name	CDATA	#REQUIRED
+	value_of	IDREFS	#IMPLIED
+	archetype 	IDREF	#IMPLIED
+	derived 	IDREFS	#IMPLIED
+	instances 	IDREFS	#IMPLIED
+	desynched_atts 	CDATA	#IMPLIED
+	real_archetype 	(true|false)	#IMPLIED
+	subtype 	(true|false)	#IMPLIED
+>
+
+<!ELEMENT NaturalMember EMPTY>
+<!ATTLIST NaturalMember
+	_id	ID	#IMPLIED
+	value	CDATA	#REQUIRED
+	value_of	IDREFS	#IMPLIED
+	archetype 	IDREF	#IMPLIED
+	derived 	IDREFS	#IMPLIED
+	instances 	IDREFS	#IMPLIED
+	desynched_atts 	CDATA	#IMPLIED
+	real_archetype 	(true|false)	#IMPLIED
+	subtype 	(true|false)	#IMPLIED
+>
+
+<!ELEMENT AlternativeAssignment (EquivAssignment*)>
+<!ATTLIST AlternativeAssignment
+	_id	ID	#IMPLIED
+	externalID	CDATA	#REQUIRED
+	id	CDATA	#REQUIRED
+	name	CDATA	#REQUIRED
+	alternative_end_	IDREF	#IMPLIED
+	alternative_of_end_	IDREF	#IMPLIED
+	archetype 	IDREF	#IMPLIED
+	derived 	IDREFS	#IMPLIED
+	instances 	IDREFS	#IMPLIED
+	desynched_atts 	CDATA	#IMPLIED
+	real_archetype 	(true|false)	#IMPLIED
+	subtype 	(true|false)	#IMPLIED
+>
+
+<!ELEMENT Element (VariableProperty*)>
+<!ATTLIST Element
+	_id	ID	#IMPLIED
+	id	CDATA	#REQUIRED
+	externalID	CDATA	#REQUIRED
+	name	CDATA	#REQUIRED
+	alternative	IDREFS	#IMPLIED
+	alternative_of	IDREFS	#IMPLIED
+	archetype 	IDREF	#IMPLIED
+	derived 	IDREFS	#IMPLIED
+	instances 	IDREFS	#IMPLIED
+	desynched_atts 	CDATA	#IMPLIED
+	real_archetype 	(true|false)	#IMPLIED
+	subtype 	(true|false)	#IMPLIED
+>
+
+<!ELEMENT EquivAssignment (EquivAssignment*)>
+<!ATTLIST EquivAssignment
+	_id	ID	#IMPLIED
+	externalID	CDATA	#REQUIRED
+	id	CDATA	#REQUIRED
+	name	CDATA	#REQUIRED
+	archetype 	IDREF	#IMPLIED
+	derived 	IDREFS	#IMPLIED
+	instances 	IDREFS	#IMPLIED
+	desynched_atts 	CDATA	#IMPLIED
+	real_archetype 	(true|false)	#IMPLIED
+	subtype 	(true|false)	#IMPLIED
+>
+
+<!ELEMENT Configuration (AlternativeAssignment*, EquivAssignment*, PropertyAssignment*)>
+<!ATTLIST Configuration
+	_id	ID	#IMPLIED
+	id	CDATA	#REQUIRED
+	name	CDATA	#REQUIRED
+	archetype 	IDREF	#IMPLIED
+	derived 	IDREFS	#IMPLIED
+	instances 	IDREFS	#IMPLIED
+	desynched_atts 	CDATA	#IMPLIED
+	real_archetype 	(true|false)	#IMPLIED
+	subtype 	(true|false)	#IMPLIED
+>
+

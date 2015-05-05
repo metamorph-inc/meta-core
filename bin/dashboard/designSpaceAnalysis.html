@@ -1,0 +1,306 @@
+<style type="text/css">
+			@import url("./css/designSpaceAnalysis.css");
+</style>
+
+<script type="text/javascript" src="./js/designSpaceAnalysis.js"></script>
+
+
+<div class="dropdown" id="contextmenu" style="zIndex: 5000, position: absolute">
+	<a class="dropdown-toggle" data-toggle="dropdown" href="#"></a>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+		<li><a href="#" id="add"><i class="icon-th-list icon-white"></i> Add to Compare</a></li>
+		<li><a href="#" id="annotate"><i class="icon-pencil icon-white"></i> Annotate</a></li>
+		<li><a href="#" id="tag"><i class="icon-tag icon-white"></i> Tag</a></li>
+		<li><a href="#" id="blacklist"><i class="icon-trash icon-white"></i> Blacklist</a></li>
+	</ul>
+</div>
+	
+<div class="row-fluid" data-bind="visible: showDsaWidgets()">
+	<div class="span12 tabPageBody">
+		<div class="row-fluid widget">
+			<div class="span12">
+				<h1>Parallel Axes Plot
+					<a href="#" id="pplot_helpBtn" style="opacity: .2;">
+						<i class="icon-question-sign icon-white"></i>
+					</a>
+				</h1>	
+			</div>
+			<vf-pplot id="pplot" data="vm.dataproviders.parallelAxis()"></vf-pplot>
+		</div>
+		<div class="row-fluid widget">
+			<div class="span12">
+				<h1>Multivariate Plot
+					<a href="#" id="mvplot_helpBtn" style="opacity: .2;">
+						 <i class="icon-question-sign icon-white"></i> 
+					</a>
+				</h1>	
+			</div>
+			<vf-mvplot id="mvplot" data="vm.dataproviders.multiVariate()"></vf-mvplot>
+		</div>
+	</div>
+</div>
+<div class="row-fluid widget" data-bind="visible: showDsaWidgets()">
+	<div class="span12">
+		<h1>Selected Designs
+			<a href="#" id="dsatable_helpBtn" style="opacity: .2;">	
+				<i class="icon-question-sign icon-white"></i> 
+			</a>
+		</h1>
+		<vf-dsatable id="dsatable" data="vm"></vf-dsatable>
+	</div>
+</div>
+
+
+<div class="row-fluid" data-bind="visible: !showDsaWidgets()">
+	<div class="span3"></div>
+	<div class="span6 well">
+		<h1>Please select at least two variable</h1>
+		<div>
+			No variables or designs are currently selected for this analysis. Please click on the settings button and select at least two variables and one design.
+		</div>
+	</div>
+</div>
+	
+<div class="modal hide fade" id="pplot_help">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Parallel Axis Help Page</h3>
+	</div>
+	<div class="modal-body">
+		<p>The parallel axes plot allows a user to see many designs (lines) across each, and every variable (axes) all at once.  It is a useful way of visualizing data with respect to many dimensions, or variables.  Each axis can be filtered using a brush function.   This is done by clicking (left click) on a value axis value desired (either the maximum, or the minimum), drag towards the value desired, and then releasing the mouse.  A white brushing rectangle should appear from the initial value to the final value.  Notice few things happen:</p>
+		<ul>
+			<li>Initially, all the blue lines turn grey, showing that there are no designs that meet the filter criteria</li>
+			<li>As the dragging occurs, if there is a design who's metric falls within the range of metric chosen, it will turn back to blue</li>
+			<img src="./staticPics/dsa_selection.png"></img>
+		</ul>
+		<p>If you'd like to clear the brush, click outside of the brushed area.  To set multiple criteria, multiple variables can be brushed, too.  If a design meets the brushed variables, then it'll be toggled blue.
+			<br />
+			<br />If you'd like to know the name of the design (the design ID), simply hover the mouse over it.  It doesn't matter of the design is selected or not.
+			<br />
+			<br />One of the key strengths of the parallel axes plot, is that trends between variables are apparent.
+			<br />
+			<br />A few notes on how to use the parallel axes plot and its features:
+		</p>
+		<ul>
+			<li>The names of each metric is above each axis, followed by the name of the testbench to the left of it</li>
+			<li>If the metric has a unit associated with it, the unit is enclosed by brackets, e.g. "[s]"</li>
+			<li>If the metric is a parameter, it has a "P" enclosed within parenthesis, e.g. "(P)"</li>
+			<li>If the metric has a threshold associated with it, the threshold value appears on the right of the axis line in red</li>
+			<li>If the metric has an objective associated with it, the objective value appears on the right of the axis line in green</li>
+			<li>Metric axes can be reordered by clicking and dragging the label of the axis to the sides.  A move cursor will appear when the mouse is placed on the axis label, indicating that this function is available</li>
+			<li>To change a brushed range, place the cursor near the edge of the brush rectangle until a North-South cursor appears, then drag up or down.  If the cursor is placed in the inside of the brush rectangle, and a move cursor appears, the brush rectangle can be moved while preserving the original range, as well</li>
+			<li>Place cursor over a design to see its name
+			<li>Any brushing action will update the selected designs real-time
+		</ul>
+		<p>A few suggestions:</p>
+		<ul>
+			<li>Loading many designs is fast, inexpensive, and very useful to view using the parallel axes plot</li>
+			<li>Loading many variables at once is slow, expensive, and cumbersome to view using the parallel axes plot</li>
+		</ul>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">OK</a>
+	</div>
+</div>	
+
+<div class="modal hide fade" id="mvplot_help">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Multivariate Plot Help Page</h3>
+	</div>
+	<div class="modal-body">
+		<p>The Multivariate plot shows the same information as the parallel plot does, but in a different way.  Each metric is plotted in against another variables, allowing users to identify trends two variables at a time.   Upon quick inspection a few characteristics about the Multivariate plot stand out:</p>
+		<ul>
+			<li>The multivariate plot is a square plot (same number of rows as columns)</li>
+			<li>All trends are linear along the diagonal, as each variable is plotted against itself</li>
+			<li>The multivariate plot is symmetric along the diagonal, meaning plots on one side of the diagonal are the same, but mirrored (much like a reflection), on the other side.</li>
+		</ul>
+			<p>To read the Multivariate plot properly, notice the name of the variable and testbench from the diagonal.  If the plots to the left and right are read, the variable's values are along the vertical axis for all plots left and right.  Notice the name of another variable along the diagonal.  If the plot is followed up and down, the variable's values are along the horizontal axis for all plots up and down.  Essentially, you'll form a "cross-hair" between two variables of interest.  This can be done for any variables of interest.
+			<br />
+			<br />The Multivariate plot also allows brushing between two variables plotted against each other.  Brushing within the plot itself occurs real-time, meaning if the plot of two variables is brushed, the only designs that fall within the filter are displayed along all the other dimensions. 
+			<br />
+			<br />A few notes on how to use the parallel axes plot and its features:
+		</p>
+		<ul>
+			<li>The names of each variable is above each axis, followed by the name of the testbench to the left of it</li>
+			<li>If the variable has a unit associated with it, the unit is enclosed by brackets, e.g. "[s]"</li>
+			<li>If the variable is a parameter, it has a "P" enclosed within parenthesis, e.g. "(P)"</li>
+			<li>If the variable has a threshold associated with it, the threshold value appears on the right of the axis line in red</li>
+			<li>If the variable has an objective associated with it, the objective value appears on the right of the axis line in green</li>
+			<li>If a design violates has a variable that violates a limit, then it will have an orange-red color; if it doesn't, it will be a light-blue color</li>
+			<li>To change a brushed range, place the cursor near the edge of the brush rectangle until a North-South or an East-West cursor appears, then drag up or down, or left and right.  If the cursor is placed in the inside of the brush rectangle, and a move cursor appears, the brush rectangle can be moved while preserving the original ranges, as well</li>
+			<li>Place cursor over a design to see its name</li>
+			<li>Any brushing action will update the selected designs real-time</li>
+			<li>Simultaneous brushings between different dimensions cannot occur, and clicking the plot of another dimension view will reset the first brushing</li>
+		</ul>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">OK</a>
+	</div>
+</div>	
+
+<div class="modal hide fade" id="dsatable_help">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Selected Designs Table Help Page</h3>
+	</div>
+	<div class="modal-body">
+		<p>This table is perhaps the easiest to read.  Upon page loading, all designs are loaded, along with its chosen variables.   Hovering over a row will highlight it, making it easier to read.
+		<br />
+		A few notes on how to use the parallel axes plot and its features: 
+		<ul>
+			<li>The first column contains the name of the design ID that have the variables in common selected from the Settings modal (the blue window that appears on tab load)</li>
+			<li>If the metric has a unit associated with it, the unit is enclosed by brackets, e.g. "[s]"</li>
+			<li>If the metric is a parameter, it has a "P" enclosed within parenthesis, e.g. "(P)"</li>
+			<li>No threshold data is displayed</li>
+			<li>No objective data is displayed</li>
+		</ul>
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">OK</a>
+	</div>
+</div>	
+
+<div class="modal hide fade" id="mvplot_help">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Multivariate Plot Help Page</h3>
+	</div>
+	<div class="modal-body">
+		<p>The Multivariate plot shows the same information as the parallel plot does, but in a different way.  Each metric is plotted in against another variables, allowing users to identify trends two variables at a time.   Upon quick inspection a few characteristics about the Multivariate plot stand out:</p>
+		<ul>
+			<li>The multivariate plot is a square plot (same number of rows as columns)</li>
+			<li>All trends are linear along the diagonal, as each variable is plotted against itself</li>
+			<li>The multivariate plot is symmetric along the diagonal, meaning plots on one side of the diagonal are the same, but mirrored (much like a reflection), on the other side.</li>
+		</ul>
+			<p>To read the Multivariate plot properly, notice the name of the variable and testbench from the diagonal.  If the plots to the left and right are read, the variable's values are along the vertical axis for all plots left and right.  Notice the name of another variable along the diagonal.  If the plot is followed up and down, the variable's values are along the horizontal axis for all plots up and down.  Essentially, you'll form a "cross-hair" between two variables of interest.  This can be done for any variables of interest.
+			<br />
+			<br />The Multivariate plot also allows brushing between two variables plotted against each other.  Brushing within the plot itself occurs real-time, meaning if the plot of two variables is brushed, the only designs that fall within the filter are displayed along all the other dimensions. 
+			<br />
+			<br />A few notes on how to use the parallel axes plot and its features:
+		</p>
+		<ul>
+			<li>The names of each variable is above each axis, followed by the name of the testbench to the left of it</li>
+			<li>If the variable has a unit associated with it, the unit is enclosed by brackets, e.g. "[s]"</li>
+			<li>If the variable is a parameter, it has a "P" enclosed within parenthesis, e.g. "(P)"</li>
+			<li>If the variable has a threshold associated with it, the threshold value appears on the right of the axis line in red</li>
+			<li>If the variable has an objective associated with it, the objective value appears on the right of the axis line in green</li>
+			<li>If a design violates has a variable that violates a limit, then it will have an orange-red color; if it doesn't, it will be a light-blue color</li>
+			<li>To change a brushed range, place the cursor near the edge of the brush rectangle until a North-South or an East-West cursor appears, then drag up or down, or left and right.  If the cursor is placed in the inside of the brush rectangle, and a move cursor appears, the brush rectangle can be moved while preserving the original ranges, as well</li>
+			<li>Place cursor over a design to see it's name</li>
+			<li>Any brushing action will update the selected designs real-time</li>
+			<li>Simultaneous brushings between different dimensions cannot occur, and clicking the plot of another dimension will reset the first brushing</li>
+		</ul>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">OK</a>
+	</div>
+</div>	
+
+<div class="modal hide fade" id="help">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Design Space Analysis Help Page</h3>
+	</div>
+	<div class="modal-body">
+		<h2>Introduction</h2>
+		<p>The Design Space Analysis tab consists of three widgets:  the Parallel Axes Plot, the Multivariate Plot, and the Selected Design Table.  Each plot will be individually covered and then how to use them together.  This tab allows the user to analyze trends, view all designs against each other, view data in multiple dimensions, and allow for filtering designs based on variable filter settings.</p>
+		<h2>The Settings Window</h2>
+		<p>When the tab is first clicked, a blue Settings window will appear.
+			<img src="./staticPics/dsa_settings.png"></img>
+			<br />
+			This window allows you to select what variables or designs to view.   If you would like to select which variables to view, note that only designs that have all the selected variables will be plotted.  In other words, if you have a design called "Design123" that contains "var1", "var2", and "var3", and another design "Design456" that has the same variables, but one more called "var4", selecting "var1" and "var4" from the list will result in "Design456" begin displayed.  This can be checked afterwards on the Selected Designs table on the bottom of the page after clicking "OK" on the Settings window.
+			<br />
+			<br />If you would like to select designs to view instead, click "By Designs" and then the Designs button
+			<br />
+			<br />Any variables or designs selected from the Available table will automatically be removed from the Available table and be placed under the Selected table and vice versa.
+			<br />
+			<br />Once all variables or designs have been selected, click "OK" to proceed.  Note:  if "X" is clicked instead, your changes will not be saved.
+			<br />
+			<br />If at any point you would like to change the variables or designs chosen, the Settings window can be revisited.
+		</p>
+		<h2>Using Everything Together</h2>
+		<p>Using all the widgets available on this tab, here are a few notes:</p>
+		<ul>
+			<li>If a brushing event occurs within the Parallel Axes or the Multivariate Plots, the selected designs will remain blue within the plot brushed, as well as the other plots, too.</li>
+			<img src="./staticPics/dsa_multiselection.png" align="center"></img>
+			<br />
+			<img src="./staticPics/dsa_mvpplot.png" align="center"></img>
+			<li>Any designs selected via brushing will also be shown in the Selected Designs table, allowing for finer inspection of the exact metric values</li>
+		</ul>
+		<h2>General Comments on the DSA Tab</h2>
+		<ul>
+			<li>If you would like to change the variables displayed, or look at specific designs, click the Settings button on the header of the page to display the Settings window</li>
+			<li>If the browser is resized, click on Refresh on the page's header to reload the plots only.</li>
+			<li>All brushing functions will not work as anticipated if the page's zoom is not set at 100%.  To reset the page's zoom, in both Chrome and Firefox, press ctrl+0</li>
+			<li>Switching between tabs will erase any bushings saved, but will preserve the current view</li>
+			<li>If the Settings window is exited without clicking "OK", or no variables nor designs are selected, the plots will not load and instead, a yellow banner will appear informing you to please select at least two variables</li>
+			<img src="./staticPics/dsa_novars.png"></img>
+		</ul>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">OK</a>
+	</div>
+</div>
+		
+<div class="modal hide fade" id="settings">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Settings</h3>
+	</div>
+	<div class="modal-body">
+		<div class="row-fluid">
+			<div class="span12">
+				<ul class="nav nav-tabs">
+				  <li data-bind="css: {active: byVariable}, click: function(data,event){byVariable(true)}" class="active"><a>By Variable</a></li>
+				  <li data-bind="css: {active: !byVariable()}, click: function(data,event){byVariable(false)}"><a>By Design</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<form class="form-horizontal">
+				<fieldset>
+					<div class="control-group" data-bind="visible: dsaTab">
+						<label class="control-label">Select:</label>
+						<div class="controls">
+							<!-- Selection buttons -->
+							<div class="btn-group">
+								<button class="btn" data-bind="click: function(data,event){selectAllVariables()}">Add All Variables</button>
+								<button class="btn" data-bind="click: function(data,event){unselectAllVariables()}">Remove All Variables</button>
+								<button class="btn" data-bind="click: function(data,event){selectAllMetrics()}">Add All Metrics</button>
+								<button class="btn" data-bind="click: function(data,event){unselectAllMetrics()}">Remove All Metrics</button>
+								<button class="btn" data-bind="click: function(data,event){selectAllParameters()}">Add All Parameters</button>
+								<button class="btn" data-bind="click: function(data,event){unselectAllParameters()}">Remove All Parameters</button>
+								<button class="btn" data-bind="click: function(data,event){selectAllConfigurations()}">Add All Designs</button>
+								<button class="btn" data-bind="click: function(data,event){unselectAllConfigurations()}">Remove All Designs</button>
+							</div>
+						</div>
+					</div>	
+				</fieldset>
+			</form>
+		</div>
+		<div class="row-fluid" data-bind="visible: byVariable">
+			<div class="span6">
+				<h3 style="margin-left: 53%;">Variables</h3>
+			</div>
+			<div class="span6">
+				<h3 style="margin-left: 35%;">Designs</h3>
+			</div>
+		</div>
+		<div class="row-fluid" data-bind="visible: !byVariable()">
+			<div class="span6">
+				<h3 style="margin-left: 53%;">Designs</h3>
+			</div>
+			<div class="span6">
+				<h3 style="margin-left: 35%;">Variables</h3>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<vf-comparelist id="d_v_comparelist" data="vm.dataproviders.configSettingWidget()"></vf-comparelist>
+		</div>
+	</div> 
+	<div class="modal-footer">
+		<a href="#" class="btn" data-bind="click: dsa_ok" data-dismiss="modal">OK</a>
+	</div>
+</div>

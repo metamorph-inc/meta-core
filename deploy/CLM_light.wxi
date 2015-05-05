@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CLM_light">
+  <Component Id="CLM_light.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CLM_light.dll" Name="CLM_light.dll" KeyPath="yes" Source="..\src\CLM_light\bin\Release\CLM_light.dll" />
+    <Class Id="{F6764731-0489-4997-9DD8-BC7A39C0C1EA}" Context="InprocServer32" Description="MGA.Interpreter.CLM_light" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Interpreter.CLM_light" Description="MGA.Interpreter.CLM_light" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{F6764731-0489-4997-9DD8-BC7A39C0C1EA}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{F6764731-0489-4997-9DD8-BC7A39C0C1EA}\InprocServer32\1.0.0.0" Name="Class" Value="CLM_light.CLM_lightInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{F6764731-0489-4997-9DD8-BC7A39C0C1EA}\InprocServer32\1.0.0.0" Name="Assembly" Value="CLM_light, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{F6764731-0489-4997-9DD8-BC7A39C0C1EA}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{F6764731-0489-4997-9DD8-BC7A39C0C1EA}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#CLM_light.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{F6764731-0489-4997-9DD8-BC7A39C0C1EA}\InprocServer32" Name="Class" Value="CLM_light.CLM_lightInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{F6764731-0489-4997-9DD8-BC7A39C0C1EA}\InprocServer32" Name="Assembly" Value="CLM_light, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{F6764731-0489-4997-9DD8-BC7A39C0C1EA}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{F6764731-0489-4997-9DD8-BC7A39C0C1EA}\InprocServer32" Name="CodeBase" Value="file:///[#CLM_light.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CLM_light'>
+      <RegistryValue Name='Description' Type='string' Value='CLM_light'/>
+      <RegistryValue Name='Icon' Type='string' Value='[#CLM_light.ico]'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='CLM_light'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+  <Component Directory="INSTALLDIR_BIN">
+    <File Source="..\src\CLM_light\CLM_light.ico" />
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

@@ -1,0 +1,68 @@
+# Microsoft Developer Studio Generated Dependency File, included by mcl.mak
+
+.\AParser.cpp : \
+	".\config.h"\
+	
+
+.\ATokenBuffer.cpp : \
+	".\config.h"\
+	
+
+.\cldef.cpp : \
+	"..\include\cldef.h"\
+	"..\include\defs.h"\
+	
+
+.\DLexerBase.cpp : \
+	".\config.h"\
+	
+
+.\mcl.cpp : \
+	"..\include\cldef.h"\
+	"..\include\defs.h"\
+	".\AParser.h"\
+	".\ATokenBuffer.h"\
+	".\ATokPtr.h"\
+	".\config.h"\
+	".\DLexerBase.h"\
+	".\MCLLexer.h"\
+	".\MCLParser.h"\
+	".\PBlackBox.h"\
+	".\pure.h"\
+	".\tokens.h"\
+	
+
+!IF  "$(CFG)" == "mcl - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "mcl - Win32 Debug"
+
+!ENDIF 
+
+.\MCLLexer.cpp : \
+	"..\include\cldef.h"\
+	"..\include\defs.h"\
+	".\AParser.h"\
+	".\AToken.h"\
+	".\ATokenBuffer.h"\
+	".\config.h"\
+	".\DLexer.cpp"\
+	".\DLexerBase.h"\
+	".\MCLLexer.h"\
+	".\PBlackBox.h"\
+	".\pure.h"\
+	".\tokens.h"\
+	
+
+.\MCLParser.cpp : \
+	"..\include\cldef.h"\
+	"..\include\defs.h"\
+	".\AParser.h"\
+	".\ATokenBuffer.h"\
+	".\config.h"\
+	".\DLexerBase.h"\
+	".\MCLLexer.h"\
+	".\MCLParser.h"\
+	".\PBlackBox.h"\
+	".\pure.h"\
+	".\tokens.h"\
+	

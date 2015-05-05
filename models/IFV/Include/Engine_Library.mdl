@@ -1,0 +1,6915 @@
+Model {
+  Name			  "Engine_Library"
+  Version		  7.7
+  MdlSubVersion		  0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.32"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SavedCharacterEncoding  "windows-1252"
+  PostLoadFcn		  "%%% BEGIN C7_225HP_D_HF CODE %%%\n% Import the data from Excel for a lookup table\ndata = xlsread('E"
+  "ngine_Specification.xlsx', 'C7_225HP_D');\n% Row indices for lookup table\nbreakpoints1 = data(2:end,1)';\n% Column "
+  "indices for lookup table\nbreakpoints2 = data(1,2:end);\n% Output values for lookup table\ntable_data = data(2:end,2"
+  ":end);\nEngine_C7_225HP_D_RPM_raw = table_data(:,1);\nEngine_C7_225HP_D_Torque_raw = table_data(:,3);\nEngine_C7_225"
+  "HP_D_Power_raw = table_data(:,2);\nEngine_C7_225HP_D_sfc_raw = table_data(:,4);\nEngine_C7_225HP_D_ne_raw = table_da"
+  "ta(:,5);\n%%% END C7_225HP_D_HF CODE %%%%%% BEGIN C9_350HP_D_HF CODE %%%\n% Import the data from Excel for a lookup "
+  "table\ndata = xlsread('Engine_Specification.xlsx', 'C9_350HP_D');\n% Row indices for lookup table\nbreakpoints1 = da"
+  "ta(2:end,1)';\n% Column indices for lookup table\nbreakpoints2 = data(1,2:end);\n% Output values for lookup table\nt"
+  "able_data = data(2:end,2:end);\nEngine_C9_350HP_D_RPM_raw = table_data(:,1);\nEngine_C9_350HP_D_Torque_raw = table_d"
+  "ata(:,3);\nEngine_C9_350HP_D_Power_raw = table_data(:,2);\nEngine_C9_350HP_D_sfc_raw = table_data(:,4);\nEngine_C9_3"
+  "50HP_D_ne_raw = table_data(:,5);\n%%% END C9_350HP_D_HF CODE %%%%%% BEGIN C13_475HP_D_HF CODE %%%\n% Import the data"
+  " from Excel for a lookup table\ndata = xlsread('Engine_Specification.xlsx', 'C13_475HP_D');\n% Row indices for looku"
+  "p table\nbreakpoints1 = data(2:end,1)';\n% Column indices for lookup table\nbreakpoints2 = data(1,2:end);\n% Output "
+  "values for lookup table\ntable_data = data(2:end,2:end);\nEngine_C13_475HP_D_RPM_raw = table_data(:,1);\nEngine_C13_"
+  "475HP_D_Torque_raw = table_data(:,3);\nEngine_C13_475HP_D_Power_raw = table_data(:,2);\nEngine_C13_475HP_D_sfc_raw ="
+  " table_data(:,4);\nEngine_C13_475HP_D_ne_raw = table_data(:,5);\n%%% END C13_475HP_D_HF CODE %%%%%% BEGIN C15_600HP_"
+  "D_HF CODE %%%\n% Import the data from Excel for a lookup table\ndata = xlsread('Engine_Specification.xlsx', 'C15_600"
+  "HP_D');\n% Row indices for lookup table\nbreakpoints1 = data(2:end,1)';\n% Column indices for lookup table\nbreakpoi"
+  "nts2 = data(1,2:end);\n% Output values for lookup table\ntable_data = data(2:end,2:end);\nEngine_C15_600HP_D_RPM_raw"
+  " = table_data(:,1);\nEngine_C15_600HP_D_Torque_raw = table_data(:,3);\nEngine_C15_600HP_D_Power_raw = table_data(:,2"
+  ");\nEngine_C15_600HP_D_sfc_raw = table_data(:,4);\nEngine_C15_600HP_D_ne_raw = table_data(:,5);\n%%% END C15_600HP_D"
+  "_HF CODE %%%%%% BEGIN C7_230HP_LEFT CODE %%%\n% Import the data from Excel for a lookup table\ndata = xlsread('Engin"
+  "e_Specification.xlsx', 'C7_230HP_LEFT');\n% Row indices for lookup table\nbreakpoints1 = data(2:end,1)';\n% Column i"
+  "ndices for lookup table\nbreakpoints2 = data(1,2:end);\n% Output values for lookup table\ntable_data = data(2:end,2:"
+  "end);\nEngine_C7_230HP_LEFT_RPM_raw = table_data(:,1);\nEngine_C7_230HP_LEFT_Torque_raw = table_data(:,3);\nEngine_C"
+  "7_230HP_LEFT_Power_raw = table_data(:,2);\nEngine_C7_230HP_LEFT_sfc_raw = table_data(:,4);\nEngine_C7_230HP_LEFT_ne_"
+  "raw = table_data(:,5);\n%%% END C7_230HP_LEFT CODE %%%%%% BEGIN C9_COM_350HP CODE %%%\n% Import the data from Excel "
+  "for a lookup table\ndata = xlsread('Engine_Specification.xlsx', 'C9_COM_350HP');\n% Row indices for lookup table\nbr"
+  "eakpoints1 = data(2:end,1)';\n% Column indices for lookup table\nbreakpoints2 = data(1,2:end);\n% Output values for "
+  "lookup table\ntable_data = data(2:end,2:end);\nEngine_C9_COM_350HP_RPM_raw = table_data(:,1);\nEngine_C9_COM_350HP_T"
+  "orque_raw = table_data(:,3);\nEngine_C9_COM_350HP_Power_raw = table_data(:,2);\nEngine_C9_COM_350HP_sfc_raw = table_"
+  "data(:,4);\n%%% END C9_COM_350HP CODE %%%%%% BEGIN C13_COM_430HP CODE %%%\n% Import the data from Excel for a lookup"
+  " table\ndata = xlsread('Engine_Specification.xlsx', 'C13_COM_430HP');\n% Row indices for lookup table\nbreakpoints1 "
+  "= data(2:end,1)';\n% Column indices for lookup table\nbreakpoints2 = data(1,2:end);\n% Output values for lookup tabl"
+  "e\ntable_data = data(2:end,2:end);\nEngine_C13_COM_430HP_RPM_raw = table_data(:,1);\nEngine_C13_COM_430HP_Torque_raw"
+  " = table_data(:,3);\nEngine_C13_COM_430HP_Power_raw = table_data(:,2);\nEngine_C13_COM_430HP_sfc_raw = table_data(:,"
+  "4);\n%%% END C13_COM_430HP CODE %%%\n"
+  SaveDefaultBlockParams  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  DataTypeOverrideAppliesTo "AllNumericTypes"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  MaxMDLFileLineLength	  120
+  Created		  "Sat Jul 16 16:54:14 2011"
+  Creator		  "Zsolt"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "jscott"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Fri Dec 16 11:05:36 2011"
+  RTWModifiedTimeStamp	  245934294
+  ModelVersionFormat	  "1.%<AutoIncrement:32>"
+  ConfigurationManager	  "None"
+  SampleTimeColors	  off
+  SampleTimeAnnotations	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowSignalResolutionIcons on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  SimulationMode	  "normal"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  CovForceBlockReductionOff on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  CovModelRefEnable	  "Off"
+  CovExternalEMLEnable	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.11.0"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.11.0"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ZcThreshold		  "auto"
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  ConcurrentTasks	  off
+	  Solver		  "ode45"
+	  SolverName		  "ode45"
+	  SolverJacobianMethodControl "auto"
+	  ShapePreserveControl	  "DisableAll"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  ZeroCrossAlgorithm	  "Nonadaptive"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  InsertRTBMode		  "Whenever possible"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.11.0"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveCompleteFinalSimState off
+	  SaveFormat		  "Array"
+	  SignalLoggingSaveFormat "ModelDataLogs"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SignalLogging		  on
+	  DSMLogging		  on
+	  InspectSignalLogs	  off
+	  SaveTime		  on
+	  ReturnWorkspaceOutputs  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  DSMLoggingName	  "dsmout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  ReturnWorkspaceOutputsName "out"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.11.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    8
+	    Cell		    "BooleansAsBitfields"
+	    Cell		    "PassReuseOutputArgsAs"
+	    Cell		    "PassReuseOutputArgsThreshold"
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    Cell		    "UseSpecifiedMinMax"
+	    PropName		    "DisabledProps"
+	  }
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  UseIntDivNetSlope	  off
+	  UseSpecifiedMinMax	  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnhancedBackFolding	  off
+	  StrengthReduction	  off
+	  ExpressionFolding	  on
+	  BooleansAsBitfields	  off
+	  BitfieldContainerType	  "uint_T"
+	  EnableMemcpy		  on
+	  MemcpyThreshold	  64
+	  PassReuseOutputArgsAs	  "Structure reference"
+	  ExpressionDepthLimit	  2147483647
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  off
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  EfficientMapNaN2IntZero on
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	  MaxStackSize		  "Inherit from target"
+	  BufferReusableBoundary  on
+	  SimCompilerOptimization "Off"
+	  AccelVerboseBuild	  off
+	  AccelParallelForEachSubsystem	on
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.11.0"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  SignalRangeChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  SaveWithDisabledLinksMsg "warning"
+	  SaveWithParameterizedLinksMsg	"warning"
+	  CheckSSInitialOutputMsg on
+	  UnderspecifiedInitializationDetection	"Classic"
+	  MergeDetectMultiDrivingBlocksExec "none"
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "UseLocalSettings"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  MaskedZcDiagnostic	  "warning"
+	  IgnoredZcDiagnostic	  "warning"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "error"
+	  MultiTaskCondExecSysMsg "error"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  ParameterTunabilityLossMsg "warning"
+	  FixptConstUnderflowMsg  "none"
+	  FixptConstOverflowMsg	  "none"
+	  FixptConstPrecisionLossMsg "none"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "Use local settings"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceMultiInstanceNormalModeStructChecksumCheck "error"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StateNameClashWarn	  "warning"
+	  SimStateInterfaceChecksumMismatchMsg "warning"
+	  SimStateOlderReleaseMsg "error"
+	  InitInArrayFormatMsg	  "warning"
+	  StrictBusMsg		  "ErrorLevel1"
+	  BusNameAdapt		  "WarnAndRepair"
+	  NonBusSignalsTreatedAsBus "none"
+	  LoggingUnavailableSignals "error"
+	  BlockIODiagnostic	  "none"
+	  SFUnusedDataAndEventsDiag "warning"
+	  SFUnexpectedBacktrackingDiag "warning"
+	  SFInvalidInputDataAccessInChartInitDiag "warning"
+	  SFNoUnconditionalDefaultTransitionDiag "warning"
+	  SFTransitionOutsideNaturalParentDiag "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.11.0"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdBitPerFloat	  32
+	  ProdBitPerDouble	  64
+	  ProdBitPerPointer	  32
+	  ProdLargestAtomicInteger "Char"
+	  ProdLargestAtomicFloat  "None"
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetBitPerFloat	  32
+	  TargetBitPerDouble	  64
+	  TargetBitPerPointer	  32
+	  TargetLargestAtomicInteger "Char"
+	  TargetLargestAtomicFloat "None"
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Zero"
+	  TargetEndianess	  "LittleEndian"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "MATLAB Host"
+	  TargetUnknown		  off
+	  ProdEqTarget		  off
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.11.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  EnableParallelModelReferenceBuilds off
+	  ParallelModelReferenceErrorOnInvalidPool on
+	  ParallelModelReferenceMATLABWorkerInit "None"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  PropagateVarSize	  "Infer from blocks in model"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	  PropagateSignalLabelsOutOfModel off
+	  SupportModelReferenceSimTargetCustomCode off
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  8
+	  Version		  "1.11.0"
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SimBlas		  on
+	  SimCtrlC		  on
+	  SimExtrinsic		  on
+	  SimIntegrity		  on
+	  SimUseLocalCustomCode	  off
+	  SimParseCustomCode	  on
+	  SimBuildMode		  "sf_incremental_build"
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  9
+	  Version		  "1.11.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    7
+	    Cell		    "IncludeHyperlinkInReport"
+	    Cell		    "GenerateTraceInfo"
+	    Cell		    "GenerateTraceReport"
+	    Cell		    "GenerateTraceReportSl"
+	    Cell		    "GenerateTraceReportSf"
+	    Cell		    "GenerateTraceReportEml"
+	    Cell		    "GenerateSLWebview"
+	    PropName		    "DisabledProps"
+	  }
+	  SystemTargetFile	  "rsim.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  TemplateMakefile	  "rsim_default_tmf"
+	  Description		  "Rapid Simulation Target"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ProcessScript		  "rsim_make_rtw_hook"
+	  ConfigAtBuild		  off
+	  RTWUseLocalCustomCode	  off
+	  RTWUseSimCustomCode	  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  IncludeERTFirstTime	  off
+	  GenerateTraceInfo	  off
+	  GenerateTraceReport	  off
+	  GenerateTraceReportSl	  off
+	  GenerateTraceReportSf	  off
+	  GenerateTraceReportEml  off
+	  GenerateCodeInfo	  off
+	  GenerateSLWebview	  off
+	  GenerateCodeMetricsReport off
+	  RTWCompilerOptimization "Off"
+	  CheckMdlBeforeBuild	  "Off"
+	  CustomRebuildMode	  "OnUpdate"
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      10
+	      Version		      "1.11.0"
+	      Array {
+		Type			"Cell"
+		Dimension		21
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"IgnoreTestpoints"
+		Cell			"InsertBlockDesc"
+		Cell			"InsertPolySpaceComments"
+		Cell			"SFDataObjDesc"
+		Cell			"MATLABFcnDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		Cell			"CustomSymbolStrGlobalVar"
+		Cell			"CustomSymbolStrType"
+		Cell			"CustomSymbolStrField"
+		Cell			"CustomSymbolStrFcn"
+		Cell			"CustomSymbolStrFcnArg"
+		Cell			"CustomSymbolStrBlkIO"
+		Cell			"CustomSymbolStrTmpVar"
+		Cell			"CustomSymbolStrMacro"
+		Cell			"ReqsInCode"
+		PropName		"DisabledProps"
+	      }
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IgnoreTestpoints	      off
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      MATLABFcnDesc	      off
+	      IncDataTypeInIds	      off
+	      MangleLength	      1
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrFcnArg   "rt$I$N$M"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      InsertPolySpaceComments off
+	      SimulinkBlockComments   on
+	      MATLABSourceComments    off
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	      UseSimReservedNames     off
+	    }
+	    RTW.RSimTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      11
+	      Version		      "1.11.0"
+	      Array {
+		Type			"Cell"
+		Dimension		16
+		Cell			"GeneratePreprocessorConditionals"
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"GenerateTestInterfaces"
+		Cell			"ModelStepFunctionPrototypeControlCompliant"
+		Cell			"CPPClassGenCompliant"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"PortableWordSizes"
+		PropName		"DisabledProps"
+	      }
+	      TargetFcnLib	      "ansi_tfl_table_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      TargetFunctionLibrary   "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      ERTMultiwordTypeDef     "System defined"
+	      FunctionExecutionProfile off
+	      CodeExecutionProfiling  off
+	      ERTCodeCoverageTool     "None"
+	      ERTMultiwordLength      256
+	      MultiwordLength	      2048
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      ParMdlRefBuildCompliant on
+	      CompOptLevelCompliant   on
+	      IncludeMdlTerminateFcn  on
+	      GeneratePreprocessorConditionals "Disable all"
+	      CombineOutputUpdateFcns off
+	      CombineSignalStateStructs	off
+	      SuppressErrorStatus     off
+	      ERTFirstTimeCompliant   off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      SupportVariableSizeSignals off
+	      EnableShiftOperators    on
+	      ParenthesesLevel	      "Nominal"
+	      PortableWordSizes	      off
+	      ModelStepFunctionPrototypeControlCompliant off
+	      CPPClassGenCompliant    off
+	      AutosarCompliant	      off
+	      RSIM_SOLVER_SELECTION   "Auto"
+	      ExtMode		      off
+	      ExtModeTransport	      0
+	      ExtModeStaticAlloc      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTesting	      off
+	      ExtModeMexFile	      "ext_comm"
+	      ExtModeIntrfLevel	      "Level1"
+	      RSIM_PARAMETER_LOADING  on
+	      RSIM_STORAGE_CLASS_AUTO on
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      CurrentDlgPage	      "Solver"
+      ConfigPrmDlgPosition     [ 520, 225, 1400, 855 ] 
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+    BlockRotation	    0
+    BlockMirror		    off
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    UseDisplayTextAsClickCallback off
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      SamplingMode	      "Sample based"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Inherit from 'Constant value'"
+      LockScale		      off
+      SampleTime	      "inf"
+      FramePeriod	      "inf"
+      PreserveConstantTs      off
+    }
+    Block {
+      BlockType		      Display
+      Format		      "short"
+      Decimation	      "10"
+      Floating		      off
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      From
+      IconDisplay	      "Tag"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      IconDisplay	      "Tag"
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      OutputFunctionCall      off
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchInputForFeedbackSignals off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Logic
+      Operator		      "AND"
+      Inputs		      "2"
+      IconShape		      "rectangular"
+      AllPortsSameDT	      on
+      OutDataTypeStr	      "Inherit: Logical (see Configuration Parameters: Optimization)"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Lookup
+      InputValues	      "[-4:5]"
+      Table		      " rand(1,10)-0.5"
+      LookUpMeth	      "Interpolation-Extrapolation"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+      LUTDesignTableMode      "Redesign Table"
+      LUTDesignDataSource     "Block Dialog"
+      LUTDesignFunctionName   "sqrt(x)"
+      LUTDesignUseExistingBP  on
+      LUTDesignRelError	      "0.01"
+      LUTDesignAbsError	      "1e-6"
+    }
+    Block {
+      BlockType		      Lookup2D
+      RowIndex		      "[0 1]"
+      ColumnIndex	      "[0 1]"
+      Table		      "[0 0;0 0]"
+      LookUpMeth	      "Interpolation-Extrapolation"
+      InputSameDT	      on
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as first input"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+      LUTDesignTableMode      "Redesign Table"
+      LUTDesignDataSource     "Block Dialog"
+      LUTDesignFunctionName   "sqrt(x)"
+      LUTDesignUseExistingBP  on
+      LUTDesignRelError	      "0.01"
+      LUTDesignAbsError	      "1e-6"
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      SourceOfInitialOutputValue "Dialog"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      CollapseMode	      "All dimensions"
+      CollapseDim	      "1"
+      InputSameDT	      on
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as first input"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      RelationalOperator
+      Operator		      ">="
+      InputSameDT	      on
+      OutDataTypeStr	      "Inherit: Logical (see Configuration Parameters: Optimization)"
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Saturate
+      UpperLimitSource	      "Dialog"
+      UpperLimit	      "0.5"
+      LowerLimitSource	      "Dialog"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
+      LockScale		      off
+      RndMeth		      "Floor"
+    }
+    Block {
+      BlockType		      Scope
+      ModelBased	      off
+      TickLabels	      "OneTimeTick"
+      ZoomMode		      "on"
+      Grid		      "on"
+      TimeRange		      "auto"
+      YMin		      "-5"
+      YMax		      "5"
+      SaveToWorkspace	      off
+      SaveName		      "ScopeData"
+      LimitDataPoints	      on
+      MaxDataPoints	      "5000"
+      Decimation	      "1"
+      SampleInput	      off
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      "FromPortIcon"
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      CheckFcnCallInpInsideContextMsg off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      DataTypeOverrideAppliesTo	"AllNumericTypes"
+      MinMaxOverflowLogging   "UseLocalSettings"
+      Variant		      off
+      GeneratePreprocessorConditionals off
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      CollapseMode	      "All dimensions"
+      CollapseDim	      "1"
+      InputSameDT	      on
+      AccumDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as first input"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Switch
+      Criteria		      "u2 >= Threshold"
+      Threshold		      "0"
+      InputSameDT	      on
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+      SampleTime	      "-1"
+      AllowDiffInputSizes     off
+    }
+  }
+  System {
+    Name		    "Engine_Library"
+    Location		    [589, 83, 1518, 808]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    SIDHighWatermark	    "548"
+    Block {
+      BlockType		      SubSystem
+      Name		      "C13_475HP_D_HF"
+      SID		      "479"
+      Ports		      [8, 3]
+      Position		      [70, 492, 255, 683]
+      LibraryVersion	      "1.225"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"C13_475HP_D_HF"
+	Location		[236, 194, 1455, 822]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "FuelFlow"
+	  SID			  "480"
+	  Position		  [45, 18, 75, 32]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "RPM"
+	  SID			  "481"
+	  Position		  [45, 73, 75, 87]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "AirMassFlow"
+	  SID			  "482"
+	  Position		  [45, 118, 75, 132]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "BARO"
+	  SID			  "483"
+	  Position		  [45, 168, 75, 182]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "FuelTemp"
+	  SID			  "484"
+	  Position		  [45, 208, 75, 222]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "CoolantTemp"
+	  SID			  "485"
+	  Position		  [45, 253, 75, 267]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "IntakeAirTemp"
+	  SID			  "486"
+	  Position		  [45, 293, 75, 307]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "FuelEnergy"
+	  SID			  "487"
+	  Position		  [45, 343, 75, 357]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "BTU/hr"
+	  SID			  "488"
+	  Ports			  [1]
+	  Position		  [570, 125, 660, 155]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "BTU_per_hr_to_hp"
+	  SID			  "489"
+	  Position		  [515, 12, 625, 28]
+	  BackgroundColor	  "gray"
+	  Value			  "0.000393014779"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide1"
+	  SID			  "490"
+	  Ports			  [2, 1]
+	  Position		  [865, 193, 895, 257]
+	  Inputs		  "*/"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide2"
+	  SID			  "491"
+	  Ports			  [2, 1]
+	  Position		  [570, 178, 600, 242]
+	  Inputs		  "*/"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "HP_to_Torque_lb_ft"
+	  SID			  "492"
+	  Position		  [425, 207, 535, 223]
+	  BackgroundColor	  "gray"
+	  Value			  "2*pi"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Hu"
+	  SID			  "493"
+	  Position		  [265, 67, 375, 83]
+	  BackgroundColor	  "gray"
+	  Value			  "18500"
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "Ne lookup"
+	  SID			  "494"
+	  Position		  [255, 158, 320, 222]
+	  BackgroundColor	  "orange"
+	  InputValues		  "Engine_C13_475HP_D_RPM_raw "
+	  Table			  "Engine_C13_475HP_D_ne_raw "
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Ne1"
+	  SID			  "495"
+	  Position		  [375, 167, 485, 183]
+	  BackgroundColor	  "gray"
+	  Value			  "33000"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product6"
+	  SID			  "496"
+	  Ports			  [3, 1]
+	  Position		  [470, 51, 510, 119]
+	  Inputs		  "3"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product7"
+	  SID			  "497"
+	  Ports			  [2, 1]
+	  Position		  [660, 86, 690, 119]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product8"
+	  SID			  "498"
+	  Ports			  [2, 1]
+	  Position		  [795, 156, 825, 189]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product9"
+	  SID			  "499"
+	  Ports			  [2, 1]
+	  Position		  [905, 305, 940, 340]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "RPM_Sat"
+	  SID			  "500"
+	  Ports			  [1]
+	  Position		  [600, 859, 630, 891]
+	  Floating		  off
+	  Location		  [-1709, 122, -1098, 361]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  SaveName		  "ScopeData4"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "RPM_Sat1"
+	  SID			  "501"
+	  Ports			  [1]
+	  Position		  [745, 289, 775, 321]
+	  Floating		  off
+	  Location		  [-1709, 122, -1098, 361]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  SaveName		  "ScopeData7"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Saturation"
+	  SID			  "502"
+	  Ports			  [1, 1]
+	  Position		  [620, 265, 650, 295]
+	  InputPortMap		  "u0"
+	  UpperLimit		  "2100"
+	  LowerLimit		  "600"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "T_Nm"
+	  SID			  "503"
+	  Ports			  [1]
+	  Position		  [735, 825, 825, 855]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "T_Nm1"
+	  SID			  "504"
+	  Ports			  [1]
+	  Position		  [1000, 364, 1030, 396]
+	  Floating		  off
+	  Location		  [80, 601, 404, 840]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  SaveName		  "ScopeData6"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "T_lb-ft"
+	  SID			  "505"
+	  Ports			  [1]
+	  Position		  [970, 160, 1060, 190]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "_T_lb_ft"
+	  SID			  "506"
+	  Ports			  [1]
+	  Position		  [1100, 129, 1130, 161]
+	  Floating		  off
+	  Location		  [-1080, -172, -756, 67]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  SaveName		  "ScopeData5"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "_hp"
+	  SID			  "507"
+	  Ports			  [1]
+	  Position		  [1050, 59, 1080, 91]
+	  Floating		  off
+	  Location		  [-393, -173, -69, 66]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  SaveName		  "ScopeData3"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "hp"
+	  SID			  "508"
+	  Ports			  [1]
+	  Position		  [910, 20, 1035, 50]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "lb_ft_to_Nm"
+	  SID			  "509"
+	  Position		  [705, 342, 785, 368]
+	  BackgroundColor	  "gray"
+	  Value			  "1.355818039"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "mf1"
+	  SID			  "510"
+	  Ports			  [1]
+	  Position		  [220, 34, 250, 66]
+	  Floating		  off
+	  Location		  [-2041, -177, -1717, 62]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  SaveName		  "ScopeData8"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_Nm"
+	  SID			  "511"
+	  Position		  [1000, 318, 1030, 332]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_lb_ft"
+	  SID			  "512"
+	  Position		  [970, 218, 1000, 232]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "HP"
+	  SID			  "513"
+	  Position		  [970, 98, 1000, 112]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "FuelFlow"
+	  SrcPort		  1
+	  Points		  [125, 0]
+	  Branch {
+	    Points		    [215, 0; 0, 40]
+	    DstBlock		    "Product6"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "mf1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Hu"
+	  SrcPort		  1
+	  Points		  [0, 10]
+	  DstBlock		  "Product6"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "HP_to_Torque_lb_ft"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  DstBlock		  "Divide2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Ne1"
+	  SrcPort		  1
+	  Points		  [30, 0; 0, 20]
+	  DstBlock		  "Divide2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "BTU_per_hr_to_hp"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, 75]
+	  DstBlock		  "Product7"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product7"
+	  SrcPort		  1
+	  Points		  [0, 5; 85, 0]
+	  Branch {
+	    DstBlock		    "Product8"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [155, 0]
+	    Branch {
+	      Points		      [20, 0]
+	      DstBlock		      "HP"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -35]
+	      Branch {
+		DstBlock		"_hp"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[-40, 0]
+		DstBlock		"hp"
+		DstPort			1
+	      }
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product6"
+	  SrcPort		  1
+	  Points		  [35, 0]
+	  Branch {
+	    Points		    [30, 0; 0, 25]
+	    DstBlock		    "Product7"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 55]
+	    DstBlock		    "BTU/hr"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Divide2"
+	  SrcPort		  1
+	  Points		  [100, 0; 0, -30]
+	  DstBlock		  "Product8"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "lb_ft_to_Nm"
+	  SrcPort		  1
+	  Points		  [0, -25]
+	  DstBlock		  "Product9"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Divide1"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  Branch {
+	    DstBlock		    "Torque_lb_ft"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [-15, 0; 0, 65; -25, 0]
+	    DstBlock		    "Product9"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -50; 5, 0]
+	    Branch {
+	      DstBlock		      "T_lb-ft"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -30]
+	      DstBlock		      "_T_lb_ft"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product8"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, 35]
+	  DstBlock		  "Divide1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Saturation"
+	  SrcPort		  1
+	  Points		  [70, 0]
+	  Branch {
+	    Points		    [125, 0]
+	    DstBlock		    "Divide1"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 25]
+	    DstBlock		    "RPM_Sat1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product9"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  Branch {
+	    DstBlock		    "Torque_Nm"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 55]
+	    DstBlock		    "T_Nm1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "RPM"
+	  SrcPort		  1
+	  Points		  [75, 0; 0, 110]
+	  Branch {
+	    Points		    [0, 90]
+	    DstBlock		    "Saturation"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Ne lookup"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Ne lookup"
+	  SrcPort		  1
+	  Points		  [45, 0; 0, -85]
+	  DstBlock		  "Product6"
+	  DstPort		  3
+	}
+	Annotation {
+	  Name			  "lb/hr"
+	  Position		  [167, 44]
+	  BackgroundColor	  "red"
+	  FontName		  "Arial Narrow"
+	  FontSize		  16
+	}
+	Annotation {
+	  Name			  "BTU/lb"
+	  Position		  [358, 92]
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "C13_COM_430HP"
+      SID		      "161"
+      Ports		      [2, 5]
+      Position		      [320, 305, 440, 385]
+      LibraryVersion	      "1.225"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"C13_COM_430HP"
+	Location		[282, 82, 1318, 871]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "RPM"
+	  SID			  "162"
+	  Position		  [15, 18, 45, 32]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Throttle"
+	  SID			  "163"
+	  Position		  [15, 73, 45, 87]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Add"
+	  SID			  "164"
+	  Ports			  [2, 1]
+	  Position		  [130, 682, 160, 713]
+	  Inputs		  "+-"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Add1"
+	  SID			  "165"
+	  Ports			  [2, 1]
+	  Position		  [130, 742, 160, 773]
+	  Inputs		  "-+"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Logic
+	  Name			  "Between"
+	  SID			  "166"
+	  Ports			  [2, 1]
+	  Position		  [250, 167, 280, 198]
+	  AllPortsSameDT	  off
+	  OutDataTypeStr	  "boolean"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Between 0 and 1"
+	  SID			  "167"
+	  Ports			  [1, 1]
+	  Position		  [85, 65, 115, 95]
+	  InputPortMap		  "u0"
+	  UpperLimit		  "1"
+	  LowerLimit		  "0"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide"
+	  SID			  "168"
+	  Ports			  [4, 1]
+	  Position		  [735, 51, 765, 114]
+	  Inputs		  "**/*"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide1"
+	  SID			  "169"
+	  Ports			  [2, 1]
+	  Position		  [185, 717, 215, 748]
+	  Inputs		  "/*"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From"
+	  SID			  "170"
+	  Position		  [55, 176, 150, 194]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From1"
+	  SID			  "171"
+	  Position		  [15, 426, 110, 444]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From10"
+	  SID			  "172"
+	  Position		  [445, 486, 575, 504]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_Torque"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From11"
+	  SID			  "173"
+	  Position		  [445, 616, 575, 634]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_Power"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From12"
+	  SID			  "174"
+	  Position		  [445, 51, 540, 69]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From13"
+	  SID			  "175"
+	  Position		  [445, 736, 575, 754]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_sfc"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From14"
+	  SID			  "176"
+	  Position		  [15, 681, 110, 699]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From15"
+	  SID			  "177"
+	  Position		  [445, 166, 575, 184]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_Power"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From16"
+	  SID			  "178"
+	  Position		  [535, 26, 665, 44]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_Power"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From17"
+	  SID			  "179"
+	  Position		  [445, 201, 540, 219]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Throttle"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From18"
+	  SID			  "180"
+	  Position		  [625, 96, 720, 114]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Throttle"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From19"
+	  SID			  "181"
+	  Position		  [445, 341, 575, 359]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_full_load_sfc"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From2"
+	  SID			  "182"
+	  Position		  [15, 511, 110, 529]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From20"
+	  SID			  "183"
+	  Position		  [445, 306, 555, 324]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Normalized"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From21"
+	  SID			  "184"
+	  Position		  [445, 271, 540, 289]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Throttle"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From22"
+	  SID			  "185"
+	  Position		  [15, 721, 110, 739]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Min_RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From23"
+	  SID			  "186"
+	  Position		  [15, 756, 110, 774]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From24"
+	  SID			  "187"
+	  Position		  [15, 321, 110, 339]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From25"
+	  SID			  "188"
+	  Position		  [15, 286, 110, 304]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From26"
+	  SID			  "189"
+	  Position		  [15, 356, 110, 374]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Min_RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From3"
+	  SID			  "190"
+	  Position		  [15, 596, 110, 614]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From4"
+	  SID			  "191"
+	  Position		  [445, 451, 575, 469]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_InRange"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From5"
+	  SID			  "192"
+	  Position		  [445, 581, 575, 599]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_InRange"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From6"
+	  SID			  "193"
+	  Position		  [445, 701, 575, 719]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_InRange"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From7"
+	  SID			  "194"
+	  Position		  [445, 416, 575, 434]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Default_Output"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From8"
+	  SID			  "195"
+	  Position		  [445, 546, 575, 564]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Default_Output"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From9"
+	  SID			  "196"
+	  Position		  [445, 666, 575, 684]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Default_Output"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto"
+	  SID			  "197"
+	  Position		  [70, 16, 170, 34]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto1"
+	  SID			  "198"
+	  Position		  [300, 176, 405, 194]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_InRange"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto10"
+	  SID			  "199"
+	  Position		  [280, 231, 405, 249]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Min_RPM"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto11"
+	  SID			  "200"
+	  Position		  [230, 726, 355, 744]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Normalized"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto12"
+	  SID			  "201"
+	  Position		  [265, 321, 390, 339]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto2"
+	  SID			  "202"
+	  Position		  [280, 21, 405, 39]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Default_Output"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto3"
+	  SID			  "203"
+	  Position		  [220, 426, 345, 444]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_Torque"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto4"
+	  SID			  "204"
+	  Position		  [220, 511, 345, 529]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_Power"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto5"
+	  SID			  "205"
+	  Position		  [220, 596, 345, 614]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_sfc"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto6"
+	  SID			  "206"
+	  Position		  [710, 581, 835, 599]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_Power"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto7"
+	  SID			  "207"
+	  Position		  [710, 701, 835, 719]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_full_load_sfc"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto8"
+	  SID			  "208"
+	  Position		  [155, 71, 255, 89]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Throttle"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto9"
+	  SID			  "209"
+	  Position		  [280, 121, 405, 139]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_RPM"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  RelationalOperator
+	  Name			  "Greater"
+	  SID			  "210"
+	  Ports			  [2, 1]
+	  Position		  [200, 192, 230, 223]
+	  Operator		  ">"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "boolean"
+	}
+	Block {
+	  BlockType		  RelationalOperator
+	  Name			  "Less"
+	  SID			  "211"
+	  Ports			  [2, 1]
+	  Position		  [200, 142, 230, 173]
+	  Operator		  "<"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "boolean"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Max_Engine_RPM"
+	  SID			  "212"
+	  Position		  [15, 119, 175, 141]
+	  BackgroundColor	  "orange"
+	  Value			  "max(Engine_C13_COM_430HP_RPM_raw)"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Max_Torque_curve"
+	  SID			  "213"
+	  Ports			  [1]
+	  Position		  [760, 444, 790, 476]
+	  Floating		  off
+	  Location		  [471, 391, 795, 630]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "10"
+	  YMin			  "500"
+	  YMax			  "1000"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Min_Engine_RPM"
+	  SID			  "214"
+	  Position		  [15, 229, 175, 251]
+	  BackgroundColor	  "orange"
+	  Value			  "min(Engine_C13_COM_430HP_RPM_raw)"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Nm_to_lb_ft"
+	  SID			  "215"
+	  Position		  [730, 15, 790, 35]
+	  BackgroundColor	  "gray"
+	  Value			  "0.737562"
+	}
+	Block {
+	  BlockType		  Lookup2D
+	  Name			  "Normalized sfc lookup"
+	  SID			  "216"
+	  Position		  [590, 264, 665, 331]
+	  BackgroundColor	  "gray"
+	  RowIndex		  "[0,0.25,0.5,0.75,1]"
+	  ColumnIndex		  "[0,0.25,0.5,0.75,1]"
+	  Table			  "[ 1.3562, 1.1898, 1.0652, 1.0227, 1.0000; 1.3918, 1.2098, 1.0718, 1.0316, 1.0000; 1.4074, 1.2248, 1.0865"
+	  ", 1.0461, 1.0000; 1.4502, 1.2557, 1.1108, 1.0540, 1.0000; 1.4127, 1.2404, 1.1120, 1.0628, 1.0000]'"
+	  LookUpMeth		  "Interpolation-Use End Values"
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "Power lookup"
+	  SID			  "217"
+	  Position		  [130, 488, 195, 552]
+	  BackgroundColor	  "orange"
+	  InputValues		  "Engine_C13_COM_430HP_RPM_raw"
+	  Table			  "Engine_C13_COM_430HP_Power_raw"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Power_curve"
+	  SID			  "218"
+	  Ports			  [1]
+	  Position		  [760, 524, 790, 556]
+	  Floating		  off
+	  Location		  [124, 696, 448, 935]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "10"
+	  YMin			  "50"
+	  YMax			  "250"
+	  SaveName		  "ScopeData1"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  SID			  "219"
+	  Ports			  [3, 1]
+	  Position		  [620, 194, 650, 226]
+	  Inputs		  "3"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product1"
+	  SID			  "220"
+	  Ports			  [2, 1]
+	  Position		  [585, 71, 615, 104]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product2"
+	  SID			  "221"
+	  Ports			  [2, 1]
+	  Position		  [760, 236, 790, 269]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product3"
+	  SID			  "222"
+	  Ports			  [3, 1]
+	  Position		  [705, 293, 735, 327]
+	  Inputs		  "3"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product4"
+	  SID			  "223"
+	  Ports			  [2, 1]
+	  Position		  [805, 61, 835, 94]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Switch
+	  Name			  "RPM is out of operation\nrange"
+	  SID			  "224"
+	  Position		  [630, 440, 680, 480]
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Switch
+	  Name			  "RPM is out of operation\nrange1"
+	  SID			  "225"
+	  Position		  [630, 570, 680, 610]
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Switch
+	  Name			  "RPM is out of operation\nrange2"
+	  SID			  "226"
+	  Position		  [630, 690, 680, 730]
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Saturate RPM"
+	  SID			  "227"
+	  Ports			  [3, 1]
+	  Position		  [155, 310, 235, 350]
+	  LibraryVersion	  "1.236"
+	  SourceBlock		  "simulink/Discontinuities/Saturation\nDynamic"
+	  SourceType		  "Saturation Dynamic"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  OutMin		  "[]"
+	  OutMax		  "[]"
+	  OutDataTypeStr	  "Inherit: Same as second input"
+	  OutputDataTypeScalingMode "Same as second input"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^-10"
+	  LockScale		  off
+	  RndMeth		  "Floor"
+	  DoSatur		  off
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "Torque lookup"
+	  SID			  "228"
+	  Position		  [130, 403, 195, 467]
+	  BackgroundColor	  "orange"
+	  InputValues		  "Engine_C13_COM_430HP_RPM_raw"
+	  Table			  "Engine_C13_COM_430HP_Torque_raw"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Zero Output constant"
+	  SID			  "229"
+	  Position		  [220, 15, 250, 45]
+	  BackgroundColor	  "gray"
+	  Value			  "0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "kW_to_HP_factor"
+	  SID			  "230"
+	  Position		  [445, 236, 555, 254]
+	  BackgroundColor	  "gray"
+	  Value			  "1.341022"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "kW_to_W_factor"
+	  SID			  "231"
+	  Position		  [645, 57, 700, 73]
+	  BackgroundColor	  "gray"
+	  Value			  "1000"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "rpm_to_rad_factor"
+	  SID			  "232"
+	  Position		  [445, 87, 555, 103]
+	  BackgroundColor	  "gray"
+	  Value			  "pi/30"
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "sfc lookup"
+	  SID			  "233"
+	  Position		  [130, 573, 195, 637]
+	  BackgroundColor	  "orange"
+	  InputValues		  "Engine_C13_COM_430HP_RPM_raw"
+	  Table			  "Engine_C13_COM_430HP_sfc_raw"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "sfc_curve"
+	  SID			  "234"
+	  Ports			  [1]
+	  Position		  [760, 654, 790, 686]
+	  Floating		  off
+	  Location		  [463, 694, 787, 933]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "10"
+	  YMin			  "40"
+	  YMax			  "120"
+	  SaveName		  "ScopeData2"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "sfc_metric_to_english"
+	  SID			  "235"
+	  Position		  [445, 376, 555, 394]
+	  BackgroundColor	  "gray"
+	  Value			  "1.643987198"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "HP"
+	  SID			  "236"
+	  Position		  [860, 203, 890, 217]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_lb_ft"
+	  SID			  "237"
+	  Position		  [860, 73, 890, 87]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Fuel_flow"
+	  SID			  "238"
+	  Position		  [860, 248, 890, 262]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "sfc"
+	  SID			  "239"
+	  Position		  [860, 308, 890, 322]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_nm"
+	  SID			  "240"
+	  Position		  [860, 118, 890, 132]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Power lookup"
+	  SrcPort		  1
+	  DstBlock		  "Goto4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "sfc lookup"
+	  SrcPort		  1
+	  DstBlock		  "Goto5"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Torque lookup"
+	  SrcPort		  1
+	  DstBlock		  "Goto3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Max_Engine_RPM"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Less"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Goto9"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "RPM is out of operation\nrange"
+	  SrcPort		  1
+	  DstBlock		  "Max_Torque_curve"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Throttle"
+	  SrcPort		  1
+	  DstBlock		  "Between 0 and 1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "kW_to_HP_factor"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, -25]
+	  DstBlock		  "Product"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  Branch {
+	    DstBlock		    "HP"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 35]
+	    DstBlock		    "Product2"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "rpm_to_rad_factor"
+	  SrcPort		  1
+	  DstBlock		  "Product1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product1"
+	  SrcPort		  1
+	  DstBlock		  "Divide"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "kW_to_W_factor"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  DstBlock		  "Divide"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product2"
+	  SrcPort		  1
+	  DstBlock		  "Fuel_flow"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "RPM"
+	  SrcPort		  1
+	  DstBlock		  "Goto"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    Points		    [0, -20]
+	    DstBlock		    "Less"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 15]
+	    DstBlock		    "Greater"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "From1"
+	  SrcPort		  1
+	  DstBlock		  "Torque lookup"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From2"
+	  SrcPort		  1
+	  DstBlock		  "Power lookup"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From3"
+	  SrcPort		  1
+	  DstBlock		  "sfc lookup"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From4"
+	  SrcPort		  1
+	  DstBlock		  "RPM is out of operation\nrange"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From5"
+	  SrcPort		  1
+	  DstBlock		  "RPM is out of operation\nrange1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From6"
+	  SrcPort		  1
+	  DstBlock		  "RPM is out of operation\nrange2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Zero Output constant"
+	  SrcPort		  1
+	  DstBlock		  "Goto2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From7"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "RPM is out of operation\nrange"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From8"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "RPM is out of operation\nrange1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From9"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "RPM is out of operation\nrange2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From10"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -20]
+	  DstBlock		  "RPM is out of operation\nrange"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "From11"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -20]
+	  DstBlock		  "RPM is out of operation\nrange1"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "From12"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 20]
+	  DstBlock		  "Product1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From13"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -20]
+	  DstBlock		  "RPM is out of operation\nrange2"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "RPM is out of operation\nrange1"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Goto6"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -50]
+	    DstBlock		    "Power_curve"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "RPM is out of operation\nrange2"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Goto7"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -40]
+	    DstBlock		    "sfc_curve"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "From15"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, 25]
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From16"
+	  SrcPort		  1
+	  Points		  [50, 0]
+	  DstBlock		  "Divide"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Between 0 and 1"
+	  SrcPort		  1
+	  DstBlock		  "Goto8"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From17"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From18"
+	  SrcPort		  1
+	  DstBlock		  "Divide"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Min_Engine_RPM"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Greater"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "Goto10"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Less"
+	  SrcPort		  1
+	  DstBlock		  "Between"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Greater"
+	  SrcPort		  1
+	  DstBlock		  "Between"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Between"
+	  SrcPort		  1
+	  DstBlock		  "Goto1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Normalized sfc lookup"
+	  SrcPort		  1
+	  DstBlock		  "Product3"
+	  DstPort		  1
+	}
+	Line {
+	  Labels		  [0, 0]
+	  SrcBlock		  "From19"
+	  SrcPort		  1
+	  Points		  [105, 0; 0, -40]
+	  DstBlock		  "Product3"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "sfc_metric_to_english"
+	  SrcPort		  1
+	  Points		  [130, 0]
+	  DstBlock		  "Product3"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Product3"
+	  SrcPort		  1
+	  Points		  [0, 5; 5, 0]
+	  Branch {
+	    DstBlock		    "sfc"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Product2"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "From14"
+	  SrcPort		  1
+	  DstBlock		  "Add"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From22"
+	  SrcPort		  1
+	  Points		  [0, 0]
+	  Branch {
+	    DstBlock		    "Add"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "Add1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "From23"
+	  SrcPort		  1
+	  DstBlock		  "Add1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Add"
+	  SrcPort		  1
+	  Points		  [0, 25]
+	  DstBlock		  "Divide1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Add1"
+	  SrcPort		  1
+	  Points		  [0, -20]
+	  DstBlock		  "Divide1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Divide1"
+	  SrcPort		  1
+	  DstBlock		  "Goto11"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From21"
+	  SrcPort		  1
+	  DstBlock		  "Normalized sfc lookup"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From20"
+	  SrcPort		  1
+	  DstBlock		  "Normalized sfc lookup"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From24"
+	  SrcPort		  1
+	  DstBlock		  "Saturate RPM"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From25"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, 20]
+	  DstBlock		  "Saturate RPM"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From26"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, -20]
+	  DstBlock		  "Saturate RPM"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Saturate RPM"
+	  SrcPort		  1
+	  DstBlock		  "Goto12"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Divide"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    Points		    [0, 40]
+	    DstBlock		    "Torque_nm"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Product4"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product4"
+	  SrcPort		  1
+	  DstBlock		  "Torque_lb_ft"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Nm_to_lb_ft"
+	  SrcPort		  1
+	  Points		  [0, 45]
+	  DstBlock		  "Product4"
+	  DstPort		  1
+	}
+	Annotation {
+	  Name			  "TBD: do we need to limit the max torque???"
+	  Position		  [802, 159]
+	  BackgroundColor	  "red"
+	  FontName		  "Arial Narrow"
+	  FontSize		  16
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "C15_600HP_D_HF"
+      SID		      "514"
+      Ports		      [8, 3]
+      Position		      [70, 712, 255, 903]
+      LibraryVersion	      "1.225"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"C15_600HP_D_HF"
+	Location		[236, 194, 1455, 822]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "FuelFlow"
+	  SID			  "515"
+	  Position		  [45, 18, 75, 32]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "RPM"
+	  SID			  "516"
+	  Position		  [45, 73, 75, 87]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "AirMassFlow"
+	  SID			  "517"
+	  Position		  [45, 118, 75, 132]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "BARO"
+	  SID			  "518"
+	  Position		  [45, 168, 75, 182]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "FuelTemp"
+	  SID			  "519"
+	  Position		  [45, 208, 75, 222]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "CoolantTemp"
+	  SID			  "520"
+	  Position		  [45, 253, 75, 267]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "IntakeAirTemp"
+	  SID			  "521"
+	  Position		  [45, 293, 75, 307]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "FuelEnergy"
+	  SID			  "522"
+	  Position		  [45, 343, 75, 357]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "BTU/hr"
+	  SID			  "523"
+	  Ports			  [1]
+	  Position		  [570, 125, 660, 155]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "BTU_per_hr_to_hp"
+	  SID			  "524"
+	  Position		  [515, 12, 625, 28]
+	  BackgroundColor	  "gray"
+	  Value			  "0.000393014779"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide1"
+	  SID			  "525"
+	  Ports			  [2, 1]
+	  Position		  [865, 193, 895, 257]
+	  Inputs		  "*/"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide2"
+	  SID			  "526"
+	  Ports			  [2, 1]
+	  Position		  [570, 178, 600, 242]
+	  Inputs		  "*/"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "HP_to_Torque_lb_ft"
+	  SID			  "527"
+	  Position		  [425, 207, 535, 223]
+	  BackgroundColor	  "gray"
+	  Value			  "2*pi"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Hu"
+	  SID			  "528"
+	  Position		  [265, 67, 375, 83]
+	  BackgroundColor	  "gray"
+	  Value			  "18500"
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "Ne lookup"
+	  SID			  "529"
+	  Position		  [255, 158, 320, 222]
+	  BackgroundColor	  "orange"
+	  InputValues		  "Engine_C15_600HP_D_RPM_raw "
+	  Table			  "Engine_C15_600HP_D_ne_raw "
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Ne1"
+	  SID			  "530"
+	  Position		  [375, 167, 485, 183]
+	  BackgroundColor	  "gray"
+	  Value			  "33000"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product6"
+	  SID			  "531"
+	  Ports			  [3, 1]
+	  Position		  [470, 51, 510, 119]
+	  Inputs		  "3"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product7"
+	  SID			  "532"
+	  Ports			  [2, 1]
+	  Position		  [660, 86, 690, 119]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product8"
+	  SID			  "533"
+	  Ports			  [2, 1]
+	  Position		  [795, 156, 825, 189]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product9"
+	  SID			  "534"
+	  Ports			  [2, 1]
+	  Position		  [905, 305, 940, 340]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "RPM_Sat"
+	  SID			  "535"
+	  Ports			  [1]
+	  Position		  [600, 859, 630, 891]
+	  Floating		  off
+	  Location		  [-1709, 122, -1098, 361]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  SaveName		  "ScopeData4"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "RPM_Sat1"
+	  SID			  "536"
+	  Ports			  [1]
+	  Position		  [745, 289, 775, 321]
+	  Floating		  off
+	  Location		  [-1709, 122, -1098, 361]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  SaveName		  "ScopeData7"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Saturation"
+	  SID			  "537"
+	  Ports			  [1, 1]
+	  Position		  [620, 265, 650, 295]
+	  InputPortMap		  "u0"
+	  UpperLimit		  "2100"
+	  LowerLimit		  "600"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "T_Nm"
+	  SID			  "538"
+	  Ports			  [1]
+	  Position		  [735, 825, 825, 855]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "T_Nm1"
+	  SID			  "539"
+	  Ports			  [1]
+	  Position		  [1000, 364, 1030, 396]
+	  Floating		  off
+	  Location		  [80, 601, 404, 840]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  SaveName		  "ScopeData6"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "T_lb-ft"
+	  SID			  "540"
+	  Ports			  [1]
+	  Position		  [970, 160, 1060, 190]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "_T_lb_ft"
+	  SID			  "541"
+	  Ports			  [1]
+	  Position		  [1100, 129, 1130, 161]
+	  Floating		  off
+	  Location		  [-1080, -172, -756, 67]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  SaveName		  "ScopeData5"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "_hp"
+	  SID			  "542"
+	  Ports			  [1]
+	  Position		  [1050, 59, 1080, 91]
+	  Floating		  off
+	  Location		  [-393, -173, -69, 66]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  SaveName		  "ScopeData3"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "hp"
+	  SID			  "543"
+	  Ports			  [1]
+	  Position		  [910, 20, 1035, 50]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "lb_ft_to_Nm"
+	  SID			  "544"
+	  Position		  [705, 342, 785, 368]
+	  BackgroundColor	  "gray"
+	  Value			  "1.355818039"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "mf1"
+	  SID			  "545"
+	  Ports			  [1]
+	  Position		  [220, 34, 250, 66]
+	  Floating		  off
+	  Location		  [-2041, -177, -1717, 62]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  SaveName		  "ScopeData8"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_Nm"
+	  SID			  "546"
+	  Position		  [1000, 318, 1030, 332]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_lb_ft"
+	  SID			  "547"
+	  Position		  [970, 218, 1000, 232]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "HP"
+	  SID			  "548"
+	  Position		  [970, 98, 1000, 112]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "FuelFlow"
+	  SrcPort		  1
+	  Points		  [125, 0]
+	  Branch {
+	    Points		    [215, 0; 0, 40]
+	    DstBlock		    "Product6"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "mf1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Hu"
+	  SrcPort		  1
+	  Points		  [0, 10]
+	  DstBlock		  "Product6"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "HP_to_Torque_lb_ft"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  DstBlock		  "Divide2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Ne1"
+	  SrcPort		  1
+	  Points		  [30, 0; 0, 20]
+	  DstBlock		  "Divide2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "BTU_per_hr_to_hp"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, 75]
+	  DstBlock		  "Product7"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product7"
+	  SrcPort		  1
+	  Points		  [0, 5; 85, 0]
+	  Branch {
+	    DstBlock		    "Product8"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [155, 0]
+	    Branch {
+	      Points		      [20, 0]
+	      DstBlock		      "HP"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -35]
+	      Branch {
+		DstBlock		"_hp"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[-40, 0]
+		DstBlock		"hp"
+		DstPort			1
+	      }
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product6"
+	  SrcPort		  1
+	  Points		  [35, 0]
+	  Branch {
+	    Points		    [30, 0; 0, 25]
+	    DstBlock		    "Product7"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 55]
+	    DstBlock		    "BTU/hr"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Divide2"
+	  SrcPort		  1
+	  Points		  [100, 0; 0, -30]
+	  DstBlock		  "Product8"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "lb_ft_to_Nm"
+	  SrcPort		  1
+	  Points		  [0, -25]
+	  DstBlock		  "Product9"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Divide1"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  Branch {
+	    DstBlock		    "Torque_lb_ft"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [-15, 0; 0, 65; -25, 0]
+	    DstBlock		    "Product9"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -50; 5, 0]
+	    Branch {
+	      DstBlock		      "T_lb-ft"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -30]
+	      DstBlock		      "_T_lb_ft"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product8"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, 35]
+	  DstBlock		  "Divide1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Saturation"
+	  SrcPort		  1
+	  Points		  [70, 0]
+	  Branch {
+	    Points		    [125, 0]
+	    DstBlock		    "Divide1"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 25]
+	    DstBlock		    "RPM_Sat1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product9"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  Branch {
+	    DstBlock		    "Torque_Nm"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 55]
+	    DstBlock		    "T_Nm1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "RPM"
+	  SrcPort		  1
+	  Points		  [75, 0; 0, 110]
+	  Branch {
+	    Points		    [0, 90]
+	    DstBlock		    "Saturation"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Ne lookup"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Ne lookup"
+	  SrcPort		  1
+	  Points		  [45, 0; 0, -85]
+	  DstBlock		  "Product6"
+	  DstPort		  3
+	}
+	Annotation {
+	  Name			  "lb/hr"
+	  Position		  [167, 44]
+	  BackgroundColor	  "red"
+	  FontName		  "Arial Narrow"
+	  FontSize		  16
+	}
+	Annotation {
+	  Name			  "BTU/lb"
+	  Position		  [358, 92]
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "C7_225HP_D_HF"
+      SID		      "334"
+      Ports		      [8, 3]
+      Position		      [70, 37, 255, 228]
+      LibraryVersion	      "1.225"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"C7_225HP_D_HF"
+	Location		[236, 194, 1455, 822]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "FuelFlow"
+	  SID			  "335"
+	  Position		  [45, 18, 75, 32]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "RPM"
+	  SID			  "336"
+	  Position		  [45, 73, 75, 87]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "AirMassFlow"
+	  SID			  "337"
+	  Position		  [45, 118, 75, 132]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "BARO"
+	  SID			  "338"
+	  Position		  [45, 168, 75, 182]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "FuelTemp"
+	  SID			  "339"
+	  Position		  [45, 208, 75, 222]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "CoolantTemp"
+	  SID			  "340"
+	  Position		  [45, 253, 75, 267]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "IntakeAirTemp"
+	  SID			  "341"
+	  Position		  [45, 293, 75, 307]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "FuelEnergy"
+	  SID			  "342"
+	  Position		  [45, 343, 75, 357]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "BTU/hr"
+	  SID			  "390"
+	  Ports			  [1]
+	  Position		  [570, 125, 660, 155]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "BTU_per_hr_to_hp"
+	  SID			  "387"
+	  Position		  [515, 12, 625, 28]
+	  BackgroundColor	  "gray"
+	  Value			  "0.000393014779"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide1"
+	  SID			  "389"
+	  Ports			  [2, 1]
+	  Position		  [865, 193, 895, 257]
+	  Inputs		  "*/"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide2"
+	  SID			  "385"
+	  Ports			  [2, 1]
+	  Position		  [570, 178, 600, 242]
+	  Inputs		  "*/"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "HP_to_Torque_lb_ft"
+	  SID			  "381"
+	  Position		  [425, 207, 535, 223]
+	  BackgroundColor	  "gray"
+	  Value			  "2*pi"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Hu"
+	  SID			  "378"
+	  Position		  [265, 67, 375, 83]
+	  BackgroundColor	  "gray"
+	  Value			  "18500"
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "Ne lookup"
+	  SID			  "404"
+	  Position		  [245, 158, 310, 222]
+	  BackgroundColor	  "orange"
+	  InputValues		  "Engine_C7_225HP_D_RPM_raw"
+	  Table			  "Engine_C7_225HP_D_ne_raw"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Ne1"
+	  SID			  "384"
+	  Position		  [375, 167, 485, 183]
+	  BackgroundColor	  "gray"
+	  Value			  "33000"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product6"
+	  SID			  "380"
+	  Ports			  [3, 1]
+	  Position		  [470, 51, 510, 119]
+	  Inputs		  "3"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product7"
+	  SID			  "383"
+	  Ports			  [2, 1]
+	  Position		  [660, 86, 690, 119]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product8"
+	  SID			  "386"
+	  Ports			  [2, 1]
+	  Position		  [795, 156, 825, 189]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product9"
+	  SID			  "388"
+	  Ports			  [2, 1]
+	  Position		  [905, 305, 940, 340]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "RPM_Sat"
+	  SID			  "392"
+	  Ports			  [1]
+	  Position		  [600, 859, 630, 891]
+	  Floating		  off
+	  Location		  [-1709, 122, -1098, 361]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  SaveName		  "ScopeData4"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "RPM_Sat1"
+	  SID			  "400"
+	  Ports			  [1]
+	  Position		  [745, 289, 775, 321]
+	  Floating		  off
+	  Location		  [-1709, 122, -1098, 361]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  SaveName		  "ScopeData7"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Saturation"
+	  SID			  "399"
+	  Ports			  [1, 1]
+	  Position		  [620, 265, 650, 295]
+	  InputPortMap		  "u0"
+	  UpperLimit		  "2500"
+	  LowerLimit		  "600"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "T_Nm"
+	  SID			  "396"
+	  Ports			  [1]
+	  Position		  [735, 825, 825, 855]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "T_Nm1"
+	  SID			  "393"
+	  Ports			  [1]
+	  Position		  [1000, 364, 1030, 396]
+	  Floating		  off
+	  Location		  [80, 601, 404, 840]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  SaveName		  "ScopeData6"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "T_lb-ft"
+	  SID			  "397"
+	  Ports			  [1]
+	  Position		  [970, 160, 1060, 190]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "_T_lb_ft"
+	  SID			  "395"
+	  Ports			  [1]
+	  Position		  [1100, 129, 1130, 161]
+	  Floating		  off
+	  Location		  [-1080, -172, -756, 67]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  SaveName		  "ScopeData5"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "_hp"
+	  SID			  "394"
+	  Ports			  [1]
+	  Position		  [1050, 59, 1080, 91]
+	  Floating		  off
+	  Location		  [-393, -173, -69, 66]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  SaveName		  "ScopeData3"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "hp"
+	  SID			  "398"
+	  Ports			  [1]
+	  Position		  [910, 20, 1035, 50]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "lb_ft_to_Nm"
+	  SID			  "382"
+	  Position		  [705, 342, 785, 368]
+	  BackgroundColor	  "gray"
+	  Value			  "1.355818039"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "mf1"
+	  SID			  "401"
+	  Ports			  [1]
+	  Position		  [220, 34, 250, 66]
+	  Floating		  off
+	  Location		  [-2041, -177, -1717, 62]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  SaveName		  "ScopeData8"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_Nm"
+	  SID			  "373"
+	  Position		  [1000, 318, 1030, 332]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_lb_ft"
+	  SID			  "369"
+	  Position		  [970, 218, 1000, 232]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "HP"
+	  SID			  "368"
+	  Position		  [970, 98, 1000, 112]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "FuelFlow"
+	  SrcPort		  1
+	  Points		  [125, 0]
+	  Branch {
+	    Points		    [215, 0; 0, 40]
+	    DstBlock		    "Product6"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "mf1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Hu"
+	  SrcPort		  1
+	  Points		  [0, 10]
+	  DstBlock		  "Product6"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "HP_to_Torque_lb_ft"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  DstBlock		  "Divide2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Ne1"
+	  SrcPort		  1
+	  Points		  [30, 0; 0, 20]
+	  DstBlock		  "Divide2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "BTU_per_hr_to_hp"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, 75]
+	  DstBlock		  "Product7"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product7"
+	  SrcPort		  1
+	  Points		  [0, 5; 85, 0]
+	  Branch {
+	    DstBlock		    "Product8"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [155, 0]
+	    Branch {
+	      Points		      [20, 0]
+	      DstBlock		      "HP"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -35]
+	      Branch {
+		DstBlock		"_hp"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[-40, 0]
+		DstBlock		"hp"
+		DstPort			1
+	      }
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product6"
+	  SrcPort		  1
+	  Points		  [35, 0]
+	  Branch {
+	    Points		    [30, 0; 0, 25]
+	    DstBlock		    "Product7"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 55]
+	    DstBlock		    "BTU/hr"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Divide2"
+	  SrcPort		  1
+	  Points		  [100, 0; 0, -30]
+	  DstBlock		  "Product8"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "lb_ft_to_Nm"
+	  SrcPort		  1
+	  Points		  [0, -25]
+	  DstBlock		  "Product9"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Divide1"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  Branch {
+	    DstBlock		    "Torque_lb_ft"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [-15, 0; 0, 65; -25, 0]
+	    DstBlock		    "Product9"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -50; 5, 0]
+	    Branch {
+	      DstBlock		      "T_lb-ft"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -30]
+	      DstBlock		      "_T_lb_ft"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product8"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, 35]
+	  DstBlock		  "Divide1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Saturation"
+	  SrcPort		  1
+	  Points		  [70, 0]
+	  Branch {
+	    Points		    [125, 0]
+	    DstBlock		    "Divide1"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 25]
+	    DstBlock		    "RPM_Sat1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product9"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  Branch {
+	    DstBlock		    "Torque_Nm"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 55]
+	    DstBlock		    "T_Nm1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "RPM"
+	  SrcPort		  1
+	  Points		  [75, 0; 0, 110]
+	  Branch {
+	    Points		    [0, 90]
+	    DstBlock		    "Saturation"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Ne lookup"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Ne lookup"
+	  SrcPort		  1
+	  Points		  [55, 0; 0, -85]
+	  DstBlock		  "Product6"
+	  DstPort		  3
+	}
+	Annotation {
+	  Name			  "lb/hr"
+	  Position		  [167, 44]
+	  BackgroundColor	  "red"
+	  FontName		  "Arial Narrow"
+	  FontSize		  16
+	}
+	Annotation {
+	  Name			  "BTU/lb"
+	  Position		  [358, 92]
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "C7_230HP_LEFT"
+      SID		      "1"
+      Ports		      [2, 5]
+      Position		      [320, 45, 440, 125]
+      LibraryVersion	      "1.225"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"C7_230HP_LEFT"
+	Location		[282, 100, 1318, 800]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "RPM"
+	  SID			  "2"
+	  Position		  [15, 18, 45, 32]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Throttle"
+	  SID			  "3"
+	  Position		  [15, 73, 45, 87]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Add"
+	  SID			  "4"
+	  Ports			  [2, 1]
+	  Position		  [130, 682, 160, 713]
+	  Inputs		  "+-"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Add1"
+	  SID			  "5"
+	  Ports			  [2, 1]
+	  Position		  [130, 742, 160, 773]
+	  Inputs		  "-+"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Logic
+	  Name			  "Between"
+	  SID			  "6"
+	  Ports			  [2, 1]
+	  Position		  [250, 167, 280, 198]
+	  AllPortsSameDT	  off
+	  OutDataTypeStr	  "boolean"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Between 0 and 1"
+	  SID			  "7"
+	  Ports			  [1, 1]
+	  Position		  [85, 65, 115, 95]
+	  InputPortMap		  "u0"
+	  UpperLimit		  "1"
+	  LowerLimit		  "0"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide"
+	  SID			  "8"
+	  Ports			  [4, 1]
+	  Position		  [735, 51, 765, 114]
+	  Inputs		  "**/*"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide1"
+	  SID			  "9"
+	  Ports			  [2, 1]
+	  Position		  [185, 717, 215, 748]
+	  Inputs		  "/*"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From"
+	  SID			  "10"
+	  Position		  [55, 176, 150, 194]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From1"
+	  SID			  "11"
+	  Position		  [15, 426, 110, 444]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From10"
+	  SID			  "12"
+	  Position		  [445, 486, 575, 504]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_Torque"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From11"
+	  SID			  "13"
+	  Position		  [445, 616, 575, 634]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_Power"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From12"
+	  SID			  "14"
+	  Position		  [445, 51, 540, 69]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From13"
+	  SID			  "15"
+	  Position		  [445, 736, 575, 754]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_sfc"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From14"
+	  SID			  "16"
+	  Position		  [15, 681, 110, 699]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From15"
+	  SID			  "17"
+	  Position		  [445, 166, 575, 184]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_Power"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From16"
+	  SID			  "18"
+	  Position		  [535, 26, 665, 44]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_Power"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From17"
+	  SID			  "19"
+	  Position		  [445, 201, 540, 219]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Throttle"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From18"
+	  SID			  "20"
+	  Position		  [625, 96, 720, 114]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Throttle"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From19"
+	  SID			  "21"
+	  Position		  [445, 341, 575, 359]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_full_load_sfc"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From2"
+	  SID			  "22"
+	  Position		  [15, 511, 110, 529]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From20"
+	  SID			  "23"
+	  Position		  [445, 306, 555, 324]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Normalized"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From21"
+	  SID			  "24"
+	  Position		  [445, 271, 540, 289]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Throttle"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From22"
+	  SID			  "25"
+	  Position		  [15, 721, 110, 739]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Min_RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From23"
+	  SID			  "26"
+	  Position		  [15, 756, 110, 774]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From24"
+	  SID			  "27"
+	  Position		  [15, 321, 110, 339]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From25"
+	  SID			  "28"
+	  Position		  [15, 286, 110, 304]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From26"
+	  SID			  "29"
+	  Position		  [15, 356, 110, 374]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Min_RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From3"
+	  SID			  "30"
+	  Position		  [15, 596, 110, 614]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From4"
+	  SID			  "31"
+	  Position		  [445, 451, 575, 469]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_InRange"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From5"
+	  SID			  "32"
+	  Position		  [445, 581, 575, 599]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_InRange"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From6"
+	  SID			  "33"
+	  Position		  [445, 701, 575, 719]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_InRange"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From7"
+	  SID			  "34"
+	  Position		  [445, 416, 575, 434]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Default_Output"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From8"
+	  SID			  "35"
+	  Position		  [445, 546, 575, 564]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Default_Output"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From9"
+	  SID			  "36"
+	  Position		  [445, 666, 575, 684]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Default_Output"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto"
+	  SID			  "37"
+	  Position		  [70, 16, 170, 34]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto1"
+	  SID			  "38"
+	  Position		  [300, 176, 405, 194]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_InRange"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto10"
+	  SID			  "39"
+	  Position		  [280, 231, 405, 249]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Min_RPM"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto11"
+	  SID			  "40"
+	  Position		  [230, 726, 355, 744]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Normalized"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto12"
+	  SID			  "41"
+	  Position		  [265, 321, 390, 339]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto2"
+	  SID			  "42"
+	  Position		  [280, 21, 405, 39]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Default_Output"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto3"
+	  SID			  "43"
+	  Position		  [220, 426, 345, 444]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_Torque"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto4"
+	  SID			  "44"
+	  Position		  [220, 511, 345, 529]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_Power"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto5"
+	  SID			  "45"
+	  Position		  [220, 596, 345, 614]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_sfc"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto6"
+	  SID			  "46"
+	  Position		  [710, 581, 835, 599]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_Power"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto7"
+	  SID			  "47"
+	  Position		  [710, 701, 835, 719]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_full_load_sfc"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto8"
+	  SID			  "48"
+	  Position		  [155, 71, 255, 89]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Throttle"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto9"
+	  SID			  "49"
+	  Position		  [280, 121, 405, 139]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_RPM"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  RelationalOperator
+	  Name			  "Greater"
+	  SID			  "50"
+	  Ports			  [2, 1]
+	  Position		  [200, 192, 230, 223]
+	  Operator		  ">"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "boolean"
+	}
+	Block {
+	  BlockType		  RelationalOperator
+	  Name			  "Less"
+	  SID			  "51"
+	  Ports			  [2, 1]
+	  Position		  [200, 142, 230, 173]
+	  Operator		  "<"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "boolean"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Max_Engine_RPM"
+	  SID			  "52"
+	  Position		  [15, 119, 175, 141]
+	  BackgroundColor	  "orange"
+	  Value			  "max(Engine_C7_230HP_LEFT_RPM_raw)"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Max_Torque_curve"
+	  SID			  "53"
+	  Ports			  [1]
+	  Position		  [760, 444, 790, 476]
+	  Floating		  off
+	  Location		  [471, 391, 795, 630]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "10"
+	  YMin			  "500"
+	  YMax			  "1000"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Min_Engine_RPM"
+	  SID			  "54"
+	  Position		  [15, 229, 175, 251]
+	  BackgroundColor	  "orange"
+	  Value			  "min(Engine_C7_230HP_LEFT_RPM_raw)"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Nm_to_lb_ft"
+	  SID			  "55"
+	  Position		  [730, 15, 790, 35]
+	  BackgroundColor	  "gray"
+	  Value			  "0.737562"
+	}
+	Block {
+	  BlockType		  Lookup2D
+	  Name			  "Normalized sfc lookup"
+	  SID			  "56"
+	  Position		  [590, 264, 665, 331]
+	  BackgroundColor	  "gray"
+	  RowIndex		  "[0,0.25,0.5,0.75,1]"
+	  ColumnIndex		  "[0,0.25,0.5,0.75,1]"
+	  Table			  "[ 1.3562, 1.1898, 1.0652, 1.0227, 1.0000; 1.3918, 1.2098, 1.0718, 1.0316, 1.0000; 1.4074, 1.2248, 1.0865"
+	  ", 1.0461, 1.0000; 1.4502, 1.2557, 1.1108, 1.0540, 1.0000; 1.4127, 1.2404, 1.1120, 1.0628, 1.0000]'"
+	  LookUpMeth		  "Interpolation-Use End Values"
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "Power lookup"
+	  SID			  "57"
+	  Position		  [130, 488, 195, 552]
+	  BackgroundColor	  "orange"
+	  InputValues		  "Engine_C7_230HP_LEFT_RPM_raw"
+	  Table			  "Engine_C7_230HP_LEFT_Power_raw"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Power_curve"
+	  SID			  "58"
+	  Ports			  [1]
+	  Position		  [760, 524, 790, 556]
+	  Floating		  off
+	  Location		  [124, 696, 448, 935]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "10"
+	  YMin			  "50"
+	  YMax			  "250"
+	  SaveName		  "ScopeData1"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  SID			  "59"
+	  Ports			  [3, 1]
+	  Position		  [620, 194, 650, 226]
+	  Inputs		  "3"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product1"
+	  SID			  "60"
+	  Ports			  [2, 1]
+	  Position		  [585, 71, 615, 104]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product2"
+	  SID			  "61"
+	  Ports			  [2, 1]
+	  Position		  [760, 236, 790, 269]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product3"
+	  SID			  "62"
+	  Ports			  [3, 1]
+	  Position		  [705, 293, 735, 327]
+	  Inputs		  "3"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product4"
+	  SID			  "63"
+	  Ports			  [2, 1]
+	  Position		  [805, 61, 835, 94]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Switch
+	  Name			  "RPM is out of operation\nrange"
+	  SID			  "64"
+	  Position		  [630, 440, 680, 480]
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Switch
+	  Name			  "RPM is out of operation\nrange1"
+	  SID			  "65"
+	  Position		  [630, 570, 680, 610]
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Switch
+	  Name			  "RPM is out of operation\nrange2"
+	  SID			  "66"
+	  Position		  [630, 690, 680, 730]
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Saturate RPM"
+	  SID			  "67"
+	  Ports			  [3, 1]
+	  Position		  [155, 310, 235, 350]
+	  LibraryVersion	  "1.236"
+	  SourceBlock		  "simulink/Discontinuities/Saturation\nDynamic"
+	  SourceType		  "Saturation Dynamic"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  OutMin		  "[]"
+	  OutMax		  "[]"
+	  OutDataTypeStr	  "Inherit: Same as second input"
+	  OutputDataTypeScalingMode "Same as second input"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^-10"
+	  LockScale		  off
+	  RndMeth		  "Floor"
+	  DoSatur		  off
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "Torque lookup"
+	  SID			  "68"
+	  Position		  [130, 403, 195, 467]
+	  BackgroundColor	  "orange"
+	  InputValues		  "Engine_C7_230HP_LEFT_RPM_raw"
+	  Table			  "Engine_C7_230HP_LEFT_Torque_raw"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Zero Output constant"
+	  SID			  "69"
+	  Position		  [220, 15, 250, 45]
+	  BackgroundColor	  "gray"
+	  Value			  "0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "kW_to_HP_factor"
+	  SID			  "70"
+	  Position		  [445, 236, 555, 254]
+	  BackgroundColor	  "gray"
+	  Value			  "1.341022"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "kW_to_W_factor"
+	  SID			  "71"
+	  Position		  [645, 57, 700, 73]
+	  BackgroundColor	  "gray"
+	  Value			  "1000"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "rpm_to_rad_factor"
+	  SID			  "72"
+	  Position		  [445, 87, 555, 103]
+	  BackgroundColor	  "gray"
+	  Value			  "pi/30"
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "sfc lookup"
+	  SID			  "73"
+	  Position		  [130, 573, 195, 637]
+	  BackgroundColor	  "orange"
+	  InputValues		  "Engine_C7_230HP_LEFT_RPM_raw"
+	  Table			  "Engine_C7_230HP_LEFT_sfc_raw"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "sfc_curve"
+	  SID			  "74"
+	  Ports			  [1]
+	  Position		  [760, 654, 790, 686]
+	  Floating		  off
+	  Location		  [463, 694, 787, 933]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "10"
+	  YMin			  "40"
+	  YMax			  "120"
+	  SaveName		  "ScopeData2"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "sfc_metric_to_english"
+	  SID			  "75"
+	  Position		  [445, 376, 555, 394]
+	  BackgroundColor	  "gray"
+	  Value			  "1.643987198"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "HP"
+	  SID			  "76"
+	  Position		  [860, 203, 890, 217]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_lb_ft"
+	  SID			  "77"
+	  Position		  [860, 73, 890, 87]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Fuel_flow"
+	  SID			  "78"
+	  Position		  [860, 248, 890, 262]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "sfc"
+	  SID			  "79"
+	  Position		  [860, 308, 890, 322]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_nm"
+	  SID			  "80"
+	  Position		  [860, 118, 890, 132]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Power lookup"
+	  SrcPort		  1
+	  DstBlock		  "Goto4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "sfc lookup"
+	  SrcPort		  1
+	  DstBlock		  "Goto5"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Torque lookup"
+	  SrcPort		  1
+	  DstBlock		  "Goto3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Max_Engine_RPM"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Less"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Goto9"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "RPM is out of operation\nrange"
+	  SrcPort		  1
+	  DstBlock		  "Max_Torque_curve"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Throttle"
+	  SrcPort		  1
+	  DstBlock		  "Between 0 and 1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "kW_to_HP_factor"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, -25]
+	  DstBlock		  "Product"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  Branch {
+	    DstBlock		    "HP"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 35]
+	    DstBlock		    "Product2"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "rpm_to_rad_factor"
+	  SrcPort		  1
+	  DstBlock		  "Product1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product1"
+	  SrcPort		  1
+	  DstBlock		  "Divide"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "kW_to_W_factor"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  DstBlock		  "Divide"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product2"
+	  SrcPort		  1
+	  DstBlock		  "Fuel_flow"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "RPM"
+	  SrcPort		  1
+	  DstBlock		  "Goto"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    Points		    [0, -20]
+	    DstBlock		    "Less"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 15]
+	    DstBlock		    "Greater"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "From1"
+	  SrcPort		  1
+	  DstBlock		  "Torque lookup"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From2"
+	  SrcPort		  1
+	  DstBlock		  "Power lookup"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From3"
+	  SrcPort		  1
+	  DstBlock		  "sfc lookup"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From4"
+	  SrcPort		  1
+	  DstBlock		  "RPM is out of operation\nrange"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From5"
+	  SrcPort		  1
+	  DstBlock		  "RPM is out of operation\nrange1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From6"
+	  SrcPort		  1
+	  DstBlock		  "RPM is out of operation\nrange2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Zero Output constant"
+	  SrcPort		  1
+	  DstBlock		  "Goto2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From7"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "RPM is out of operation\nrange"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From8"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "RPM is out of operation\nrange1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From9"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "RPM is out of operation\nrange2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From10"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -20]
+	  DstBlock		  "RPM is out of operation\nrange"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "From11"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -20]
+	  DstBlock		  "RPM is out of operation\nrange1"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "From12"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 20]
+	  DstBlock		  "Product1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From13"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -20]
+	  DstBlock		  "RPM is out of operation\nrange2"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "RPM is out of operation\nrange1"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Goto6"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -50]
+	    DstBlock		    "Power_curve"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "RPM is out of operation\nrange2"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Goto7"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -40]
+	    DstBlock		    "sfc_curve"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "From15"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, 25]
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From16"
+	  SrcPort		  1
+	  Points		  [50, 0]
+	  DstBlock		  "Divide"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Between 0 and 1"
+	  SrcPort		  1
+	  DstBlock		  "Goto8"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From17"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From18"
+	  SrcPort		  1
+	  DstBlock		  "Divide"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Min_Engine_RPM"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Greater"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "Goto10"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Less"
+	  SrcPort		  1
+	  DstBlock		  "Between"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Greater"
+	  SrcPort		  1
+	  DstBlock		  "Between"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Between"
+	  SrcPort		  1
+	  DstBlock		  "Goto1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Normalized sfc lookup"
+	  SrcPort		  1
+	  DstBlock		  "Product3"
+	  DstPort		  1
+	}
+	Line {
+	  Labels		  [0, 0]
+	  SrcBlock		  "From19"
+	  SrcPort		  1
+	  Points		  [105, 0; 0, -40]
+	  DstBlock		  "Product3"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "sfc_metric_to_english"
+	  SrcPort		  1
+	  Points		  [130, 0]
+	  DstBlock		  "Product3"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Product3"
+	  SrcPort		  1
+	  Points		  [0, 5; 5, 0]
+	  Branch {
+	    DstBlock		    "sfc"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Product2"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "From14"
+	  SrcPort		  1
+	  DstBlock		  "Add"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From22"
+	  SrcPort		  1
+	  Points		  [0, 0]
+	  Branch {
+	    DstBlock		    "Add"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "Add1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "From23"
+	  SrcPort		  1
+	  DstBlock		  "Add1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Add"
+	  SrcPort		  1
+	  Points		  [0, 25]
+	  DstBlock		  "Divide1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Add1"
+	  SrcPort		  1
+	  Points		  [0, -20]
+	  DstBlock		  "Divide1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Divide1"
+	  SrcPort		  1
+	  DstBlock		  "Goto11"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From21"
+	  SrcPort		  1
+	  DstBlock		  "Normalized sfc lookup"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From20"
+	  SrcPort		  1
+	  DstBlock		  "Normalized sfc lookup"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From24"
+	  SrcPort		  1
+	  DstBlock		  "Saturate RPM"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From25"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, 20]
+	  DstBlock		  "Saturate RPM"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From26"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, -20]
+	  DstBlock		  "Saturate RPM"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Saturate RPM"
+	  SrcPort		  1
+	  DstBlock		  "Goto12"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Divide"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    Points		    [0, 40]
+	    DstBlock		    "Torque_nm"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Product4"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product4"
+	  SrcPort		  1
+	  DstBlock		  "Torque_lb_ft"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Nm_to_lb_ft"
+	  SrcPort		  1
+	  Points		  [0, 45]
+	  DstBlock		  "Product4"
+	  DstPort		  1
+	}
+	Annotation {
+	  Name			  "TBD: do we need to limit the max torque???"
+	  Position		  [802, 159]
+	  BackgroundColor	  "red"
+	  FontName		  "Arial Narrow"
+	  FontSize		  16
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "C9_350HP_D_HF"
+      SID		      "443"
+      Ports		      [8, 3]
+      Position		      [70, 272, 255, 463]
+      LibraryVersion	      "1.225"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"C9_350HP_D_HF"
+	Location		[342, 151, 1561, 727]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "FuelFlow"
+	  SID			  "444"
+	  Position		  [45, 18, 75, 32]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "RPM"
+	  SID			  "445"
+	  Position		  [45, 73, 75, 87]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "AirMassFlow"
+	  SID			  "446"
+	  Position		  [45, 118, 75, 132]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "BARO"
+	  SID			  "447"
+	  Position		  [45, 168, 75, 182]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "FuelTemp"
+	  SID			  "448"
+	  Position		  [45, 208, 75, 222]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "CoolantTemp"
+	  SID			  "449"
+	  Position		  [45, 253, 75, 267]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "IntakeAirTemp"
+	  SID			  "450"
+	  Position		  [45, 293, 75, 307]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "FuelEnergy"
+	  SID			  "451"
+	  Position		  [45, 343, 75, 357]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "BTU/hr"
+	  SID			  "453"
+	  Ports			  [1]
+	  Position		  [570, 125, 660, 155]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "BTU_per_hr_to_hp"
+	  SID			  "454"
+	  Position		  [515, 12, 625, 28]
+	  BackgroundColor	  "gray"
+	  Value			  "0.000393014779"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide1"
+	  SID			  "455"
+	  Ports			  [2, 1]
+	  Position		  [865, 193, 895, 257]
+	  Inputs		  "*/"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide2"
+	  SID			  "456"
+	  Ports			  [2, 1]
+	  Position		  [570, 178, 600, 242]
+	  Inputs		  "*/"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "HP_to_Torque_lb_ft"
+	  SID			  "457"
+	  Position		  [425, 207, 535, 223]
+	  BackgroundColor	  "gray"
+	  Value			  "2*pi"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Hu"
+	  SID			  "458"
+	  Position		  [265, 67, 375, 83]
+	  BackgroundColor	  "gray"
+	  Value			  "18500"
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "Ne lookup"
+	  SID			  "459"
+	  Position		  [255, 158, 320, 222]
+	  BackgroundColor	  "orange"
+	  InputValues		  "Engine_C9_350HP_D_RPM_raw"
+	  Table			  "Engine_C9_350HP_D_ne_raw"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Ne1"
+	  SID			  "460"
+	  Position		  [375, 167, 485, 183]
+	  BackgroundColor	  "gray"
+	  Value			  "33000"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product6"
+	  SID			  "461"
+	  Ports			  [3, 1]
+	  Position		  [470, 51, 510, 119]
+	  Inputs		  "3"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product7"
+	  SID			  "462"
+	  Ports			  [2, 1]
+	  Position		  [660, 86, 690, 119]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product8"
+	  SID			  "463"
+	  Ports			  [2, 1]
+	  Position		  [795, 156, 825, 189]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product9"
+	  SID			  "464"
+	  Ports			  [2, 1]
+	  Position		  [905, 305, 940, 340]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "RPM_Sat"
+	  SID			  "465"
+	  Ports			  [1]
+	  Position		  [600, 859, 630, 891]
+	  Floating		  off
+	  Location		  [-1709, 122, -1098, 361]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  SaveName		  "ScopeData4"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "RPM_Sat1"
+	  SID			  "466"
+	  Ports			  [1]
+	  Position		  [745, 289, 775, 321]
+	  Floating		  off
+	  Location		  [-1709, 122, -1098, 361]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  SaveName		  "ScopeData7"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Saturation"
+	  SID			  "467"
+	  Ports			  [1, 1]
+	  Position		  [620, 265, 650, 295]
+	  InputPortMap		  "u0"
+	  UpperLimit		  "2100"
+	  LowerLimit		  "600"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "T_Nm"
+	  SID			  "468"
+	  Ports			  [1]
+	  Position		  [735, 825, 825, 855]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "T_Nm1"
+	  SID			  "469"
+	  Ports			  [1]
+	  Position		  [1000, 364, 1030, 396]
+	  Floating		  off
+	  Location		  [80, 601, 404, 840]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  SaveName		  "ScopeData6"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "T_lb-ft"
+	  SID			  "470"
+	  Ports			  [1]
+	  Position		  [970, 160, 1060, 190]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "_T_lb_ft"
+	  SID			  "471"
+	  Ports			  [1]
+	  Position		  [1100, 129, 1130, 161]
+	  Floating		  off
+	  Location		  [-1080, -172, -756, 67]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  SaveName		  "ScopeData5"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "_hp"
+	  SID			  "472"
+	  Ports			  [1]
+	  Position		  [1050, 59, 1080, 91]
+	  Floating		  off
+	  Location		  [-393, -173, -69, 66]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  SaveName		  "ScopeData3"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "hp"
+	  SID			  "473"
+	  Ports			  [1]
+	  Position		  [910, 20, 1035, 50]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "lb_ft_to_Nm"
+	  SID			  "474"
+	  Position		  [705, 342, 785, 368]
+	  BackgroundColor	  "gray"
+	  Value			  "1.355818039"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "mf1"
+	  SID			  "475"
+	  Ports			  [1]
+	  Position		  [220, 34, 250, 66]
+	  Floating		  off
+	  Location		  [-2041, -177, -1717, 62]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  SaveName		  "ScopeData8"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_Nm"
+	  SID			  "476"
+	  Position		  [1000, 318, 1030, 332]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_lb_ft"
+	  SID			  "477"
+	  Position		  [970, 218, 1000, 232]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "HP"
+	  SID			  "478"
+	  Position		  [970, 98, 1000, 112]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "FuelFlow"
+	  SrcPort		  1
+	  Points		  [125, 0]
+	  Branch {
+	    Points		    [215, 0; 0, 40]
+	    DstBlock		    "Product6"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "mf1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Hu"
+	  SrcPort		  1
+	  Points		  [0, 10]
+	  DstBlock		  "Product6"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "HP_to_Torque_lb_ft"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  DstBlock		  "Divide2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Ne1"
+	  SrcPort		  1
+	  Points		  [30, 0; 0, 20]
+	  DstBlock		  "Divide2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "BTU_per_hr_to_hp"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, 75]
+	  DstBlock		  "Product7"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product7"
+	  SrcPort		  1
+	  Points		  [0, 5; 85, 0]
+	  Branch {
+	    DstBlock		    "Product8"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [155, 0]
+	    Branch {
+	      Points		      [20, 0]
+	      DstBlock		      "HP"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -35]
+	      Branch {
+		DstBlock		"_hp"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[-40, 0]
+		DstBlock		"hp"
+		DstPort			1
+	      }
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product6"
+	  SrcPort		  1
+	  Points		  [35, 0]
+	  Branch {
+	    Points		    [30, 0; 0, 25]
+	    DstBlock		    "Product7"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 55]
+	    DstBlock		    "BTU/hr"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Divide2"
+	  SrcPort		  1
+	  Points		  [100, 0; 0, -30]
+	  DstBlock		  "Product8"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "lb_ft_to_Nm"
+	  SrcPort		  1
+	  Points		  [0, -25]
+	  DstBlock		  "Product9"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Divide1"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  Branch {
+	    DstBlock		    "Torque_lb_ft"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [-15, 0; 0, 65; -25, 0]
+	    DstBlock		    "Product9"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -50; 5, 0]
+	    Branch {
+	      DstBlock		      "T_lb-ft"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -30]
+	      DstBlock		      "_T_lb_ft"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product8"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, 35]
+	  DstBlock		  "Divide1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Saturation"
+	  SrcPort		  1
+	  Points		  [70, 0]
+	  Branch {
+	    Points		    [125, 0]
+	    DstBlock		    "Divide1"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 25]
+	    DstBlock		    "RPM_Sat1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product9"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  Branch {
+	    DstBlock		    "Torque_Nm"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 55]
+	    DstBlock		    "T_Nm1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "RPM"
+	  SrcPort		  1
+	  Points		  [75, 0; 0, 110]
+	  Branch {
+	    Points		    [0, 90]
+	    DstBlock		    "Saturation"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Ne lookup"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Ne lookup"
+	  SrcPort		  1
+	  Points		  [45, 0; 0, -85]
+	  DstBlock		  "Product6"
+	  DstPort		  3
+	}
+	Annotation {
+	  Name			  "lb/hr"
+	  Position		  [167, 44]
+	  BackgroundColor	  "red"
+	  FontName		  "Arial Narrow"
+	  FontSize		  16
+	}
+	Annotation {
+	  Name			  "BTU/lb"
+	  Position		  [358, 92]
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "C9_COM_350HP"
+      SID		      "81"
+      Ports		      [2, 5]
+      Position		      [320, 175, 440, 255]
+      LibraryVersion	      "1.225"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"C9_COM_350HP"
+	Location		[282, 82, 1318, 871]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "RPM"
+	  SID			  "82"
+	  Position		  [15, 18, 45, 32]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Throttle"
+	  SID			  "83"
+	  Position		  [15, 73, 45, 87]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Add"
+	  SID			  "84"
+	  Ports			  [2, 1]
+	  Position		  [130, 682, 160, 713]
+	  Inputs		  "+-"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Add1"
+	  SID			  "85"
+	  Ports			  [2, 1]
+	  Position		  [130, 742, 160, 773]
+	  Inputs		  "-+"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Logic
+	  Name			  "Between"
+	  SID			  "86"
+	  Ports			  [2, 1]
+	  Position		  [250, 167, 280, 198]
+	  AllPortsSameDT	  off
+	  OutDataTypeStr	  "boolean"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Between 0 and 1"
+	  SID			  "87"
+	  Ports			  [1, 1]
+	  Position		  [85, 65, 115, 95]
+	  InputPortMap		  "u0"
+	  UpperLimit		  "1"
+	  LowerLimit		  "0"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide"
+	  SID			  "88"
+	  Ports			  [4, 1]
+	  Position		  [735, 51, 765, 114]
+	  Inputs		  "**/*"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide1"
+	  SID			  "89"
+	  Ports			  [2, 1]
+	  Position		  [185, 717, 215, 748]
+	  Inputs		  "/*"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From"
+	  SID			  "90"
+	  Position		  [55, 176, 150, 194]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From1"
+	  SID			  "91"
+	  Position		  [15, 426, 110, 444]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From10"
+	  SID			  "92"
+	  Position		  [445, 486, 575, 504]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_Torque"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From11"
+	  SID			  "93"
+	  Position		  [445, 616, 575, 634]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_Power"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From12"
+	  SID			  "94"
+	  Position		  [445, 51, 540, 69]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From13"
+	  SID			  "95"
+	  Position		  [445, 736, 575, 754]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_sfc"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From14"
+	  SID			  "96"
+	  Position		  [15, 681, 110, 699]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From15"
+	  SID			  "97"
+	  Position		  [445, 166, 575, 184]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_Power"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From16"
+	  SID			  "98"
+	  Position		  [535, 26, 665, 44]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_Power"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From17"
+	  SID			  "99"
+	  Position		  [445, 201, 540, 219]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Throttle"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From18"
+	  SID			  "100"
+	  Position		  [625, 96, 720, 114]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Throttle"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From19"
+	  SID			  "101"
+	  Position		  [445, 341, 575, 359]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_full_load_sfc"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From2"
+	  SID			  "102"
+	  Position		  [15, 511, 110, 529]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From20"
+	  SID			  "103"
+	  Position		  [445, 306, 555, 324]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Normalized"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From21"
+	  SID			  "104"
+	  Position		  [445, 271, 540, 289]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Throttle"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From22"
+	  SID			  "105"
+	  Position		  [15, 721, 110, 739]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Min_RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From23"
+	  SID			  "106"
+	  Position		  [15, 756, 110, 774]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From24"
+	  SID			  "107"
+	  Position		  [15, 321, 110, 339]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From25"
+	  SID			  "108"
+	  Position		  [15, 286, 110, 304]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From26"
+	  SID			  "109"
+	  Position		  [15, 356, 110, 374]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Min_RPM"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From3"
+	  SID			  "110"
+	  Position		  [15, 596, 110, 614]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From4"
+	  SID			  "111"
+	  Position		  [445, 451, 575, 469]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_InRange"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From5"
+	  SID			  "112"
+	  Position		  [445, 581, 575, 599]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_InRange"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From6"
+	  SID			  "113"
+	  Position		  [445, 701, 575, 719]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_InRange"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From7"
+	  SID			  "114"
+	  Position		  [445, 416, 575, 434]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Default_Output"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From8"
+	  SID			  "115"
+	  Position		  [445, 546, 575, 564]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Default_Output"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From9"
+	  SID			  "116"
+	  Position		  [445, 666, 575, 684]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Default_Output"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto"
+	  SID			  "117"
+	  Position		  [70, 16, 170, 34]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto1"
+	  SID			  "118"
+	  Position		  [300, 176, 405, 194]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_InRange"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto10"
+	  SID			  "119"
+	  Position		  [280, 231, 405, 249]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Min_RPM"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto11"
+	  SID			  "120"
+	  Position		  [230, 726, 355, 744]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Normalized"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto12"
+	  SID			  "121"
+	  Position		  [265, 321, 390, 339]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "RPM_Saturated"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto2"
+	  SID			  "122"
+	  Position		  [280, 21, 405, 39]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Default_Output"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto3"
+	  SID			  "123"
+	  Position		  [220, 426, 345, 444]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_Torque"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto4"
+	  SID			  "124"
+	  Position		  [220, 511, 345, 529]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_Power"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto5"
+	  SID			  "125"
+	  Position		  [220, 596, 345, 614]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_sfc"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto6"
+	  SID			  "126"
+	  Position		  [710, 581, 835, 599]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_Power"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto7"
+	  SID			  "127"
+	  Position		  [710, 701, 835, 719]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Limited_full_load_sfc"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto8"
+	  SID			  "128"
+	  Position		  [155, 71, 255, 89]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Throttle"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto9"
+	  SID			  "129"
+	  Position		  [280, 121, 405, 139]
+	  BackgroundColor	  "darkGreen"
+	  GotoTag		  "Max_RPM"
+	  TagVisibility		  "local"
+	}
+	Block {
+	  BlockType		  RelationalOperator
+	  Name			  "Greater"
+	  SID			  "130"
+	  Ports			  [2, 1]
+	  Position		  [200, 192, 230, 223]
+	  Operator		  ">"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "boolean"
+	}
+	Block {
+	  BlockType		  RelationalOperator
+	  Name			  "Less"
+	  SID			  "131"
+	  Ports			  [2, 1]
+	  Position		  [200, 142, 230, 173]
+	  Operator		  "<"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "boolean"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Max_Engine_RPM"
+	  SID			  "132"
+	  Position		  [15, 119, 175, 141]
+	  BackgroundColor	  "orange"
+	  Value			  "max(Engine_C9_COM_350HP_RPM_raw)"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Max_Torque_curve"
+	  SID			  "133"
+	  Ports			  [1]
+	  Position		  [760, 444, 790, 476]
+	  Floating		  off
+	  Location		  [471, 391, 795, 630]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "10"
+	  YMin			  "500"
+	  YMax			  "1000"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Min_Engine_RPM"
+	  SID			  "134"
+	  Position		  [15, 229, 175, 251]
+	  BackgroundColor	  "orange"
+	  Value			  "min(Engine_C9_COM_350HP_RPM_raw)"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Nm_to_lb_ft"
+	  SID			  "135"
+	  Position		  [730, 15, 790, 35]
+	  BackgroundColor	  "gray"
+	  Value			  "0.737562"
+	}
+	Block {
+	  BlockType		  Lookup2D
+	  Name			  "Normalized sfc lookup"
+	  SID			  "136"
+	  Position		  [590, 264, 665, 331]
+	  BackgroundColor	  "gray"
+	  RowIndex		  "[0,0.25,0.5,0.75,1]"
+	  ColumnIndex		  "[0,0.25,0.5,0.75,1]"
+	  Table			  "[ 1.3562, 1.1898, 1.0652, 1.0227, 1.0000; 1.3918, 1.2098, 1.0718, 1.0316, 1.0000; 1.4074, 1.2248, 1.0865"
+	  ", 1.0461, 1.0000; 1.4502, 1.2557, 1.1108, 1.0540, 1.0000; 1.4127, 1.2404, 1.1120, 1.0628, 1.0000]'"
+	  LookUpMeth		  "Interpolation-Use End Values"
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "Power lookup"
+	  SID			  "137"
+	  Position		  [130, 488, 195, 552]
+	  BackgroundColor	  "orange"
+	  InputValues		  "Engine_C9_COM_350HP_RPM_raw"
+	  Table			  "Engine_C9_COM_350HP_Power_raw"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Power_curve"
+	  SID			  "138"
+	  Ports			  [1]
+	  Position		  [760, 524, 790, 556]
+	  Floating		  off
+	  Location		  [124, 696, 448, 935]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "10"
+	  YMin			  "50"
+	  YMax			  "250"
+	  SaveName		  "ScopeData1"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  SID			  "139"
+	  Ports			  [3, 1]
+	  Position		  [620, 194, 650, 226]
+	  Inputs		  "3"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product1"
+	  SID			  "140"
+	  Ports			  [2, 1]
+	  Position		  [585, 71, 615, 104]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product2"
+	  SID			  "141"
+	  Ports			  [2, 1]
+	  Position		  [760, 236, 790, 269]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product3"
+	  SID			  "142"
+	  Ports			  [3, 1]
+	  Position		  [705, 293, 735, 327]
+	  Inputs		  "3"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product4"
+	  SID			  "143"
+	  Ports			  [2, 1]
+	  Position		  [805, 61, 835, 94]
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Switch
+	  Name			  "RPM is out of operation\nrange"
+	  SID			  "144"
+	  Position		  [630, 440, 680, 480]
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Switch
+	  Name			  "RPM is out of operation\nrange1"
+	  SID			  "145"
+	  Position		  [630, 570, 680, 610]
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Switch
+	  Name			  "RPM is out of operation\nrange2"
+	  SID			  "146"
+	  Position		  [630, 690, 680, 730]
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Saturate RPM"
+	  SID			  "147"
+	  Ports			  [3, 1]
+	  Position		  [155, 310, 235, 350]
+	  LibraryVersion	  "1.236"
+	  SourceBlock		  "simulink/Discontinuities/Saturation\nDynamic"
+	  SourceType		  "Saturation Dynamic"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  OutMin		  "[]"
+	  OutMax		  "[]"
+	  OutDataTypeStr	  "Inherit: Same as second input"
+	  OutputDataTypeScalingMode "Same as second input"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^-10"
+	  LockScale		  off
+	  RndMeth		  "Floor"
+	  DoSatur		  off
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "Torque lookup"
+	  SID			  "148"
+	  Position		  [130, 403, 195, 467]
+	  BackgroundColor	  "orange"
+	  InputValues		  "Engine_C9_COM_350HP_RPM_raw"
+	  Table			  "Engine_C9_COM_350HP_Torque_raw"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Zero Output constant"
+	  SID			  "149"
+	  Position		  [220, 15, 250, 45]
+	  BackgroundColor	  "gray"
+	  Value			  "0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "kW_to_HP_factor"
+	  SID			  "150"
+	  Position		  [445, 236, 555, 254]
+	  BackgroundColor	  "gray"
+	  Value			  "1.341022"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "kW_to_W_factor"
+	  SID			  "151"
+	  Position		  [645, 57, 700, 73]
+	  BackgroundColor	  "gray"
+	  Value			  "1000"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "rpm_to_rad_factor"
+	  SID			  "152"
+	  Position		  [445, 87, 555, 103]
+	  BackgroundColor	  "gray"
+	  Value			  "pi/30"
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "sfc lookup"
+	  SID			  "153"
+	  Position		  [130, 573, 195, 637]
+	  BackgroundColor	  "orange"
+	  InputValues		  "Engine_C9_COM_350HP_RPM_raw"
+	  Table			  "Engine_C9_COM_350HP_sfc_raw"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "sfc_curve"
+	  SID			  "154"
+	  Ports			  [1]
+	  Position		  [760, 654, 790, 686]
+	  Floating		  off
+	  Location		  [463, 694, 787, 933]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "10"
+	  YMin			  "40"
+	  YMax			  "120"
+	  SaveName		  "ScopeData2"
+	  DataFormat		  "StructureWithTime"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "sfc_metric_to_english"
+	  SID			  "155"
+	  Position		  [445, 376, 555, 394]
+	  BackgroundColor	  "gray"
+	  Value			  "1.643987198"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "HP"
+	  SID			  "156"
+	  Position		  [860, 203, 890, 217]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_lb_ft"
+	  SID			  "157"
+	  Position		  [860, 73, 890, 87]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Fuel_flow"
+	  SID			  "158"
+	  Position		  [860, 248, 890, 262]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "sfc"
+	  SID			  "159"
+	  Position		  [860, 308, 890, 322]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Torque_nm"
+	  SID			  "160"
+	  Position		  [860, 118, 890, 132]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Power lookup"
+	  SrcPort		  1
+	  DstBlock		  "Goto4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "sfc lookup"
+	  SrcPort		  1
+	  DstBlock		  "Goto5"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Torque lookup"
+	  SrcPort		  1
+	  DstBlock		  "Goto3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Max_Engine_RPM"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Less"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Goto9"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "RPM is out of operation\nrange"
+	  SrcPort		  1
+	  DstBlock		  "Max_Torque_curve"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Throttle"
+	  SrcPort		  1
+	  DstBlock		  "Between 0 and 1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "kW_to_HP_factor"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, -25]
+	  DstBlock		  "Product"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  Branch {
+	    DstBlock		    "HP"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 35]
+	    DstBlock		    "Product2"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "rpm_to_rad_factor"
+	  SrcPort		  1
+	  DstBlock		  "Product1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product1"
+	  SrcPort		  1
+	  DstBlock		  "Divide"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "kW_to_W_factor"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  DstBlock		  "Divide"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product2"
+	  SrcPort		  1
+	  DstBlock		  "Fuel_flow"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "RPM"
+	  SrcPort		  1
+	  DstBlock		  "Goto"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    Points		    [0, -20]
+	    DstBlock		    "Less"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 15]
+	    DstBlock		    "Greater"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "From1"
+	  SrcPort		  1
+	  DstBlock		  "Torque lookup"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From2"
+	  SrcPort		  1
+	  DstBlock		  "Power lookup"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From3"
+	  SrcPort		  1
+	  DstBlock		  "sfc lookup"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From4"
+	  SrcPort		  1
+	  DstBlock		  "RPM is out of operation\nrange"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From5"
+	  SrcPort		  1
+	  DstBlock		  "RPM is out of operation\nrange1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From6"
+	  SrcPort		  1
+	  DstBlock		  "RPM is out of operation\nrange2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Zero Output constant"
+	  SrcPort		  1
+	  DstBlock		  "Goto2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From7"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "RPM is out of operation\nrange"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From8"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "RPM is out of operation\nrange1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From9"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, 20]
+	  DstBlock		  "RPM is out of operation\nrange2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From10"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -20]
+	  DstBlock		  "RPM is out of operation\nrange"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "From11"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -20]
+	  DstBlock		  "RPM is out of operation\nrange1"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "From12"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 20]
+	  DstBlock		  "Product1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From13"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -20]
+	  DstBlock		  "RPM is out of operation\nrange2"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "RPM is out of operation\nrange1"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Goto6"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -50]
+	    DstBlock		    "Power_curve"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "RPM is out of operation\nrange2"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Goto7"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -40]
+	    DstBlock		    "sfc_curve"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "From15"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, 25]
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From16"
+	  SrcPort		  1
+	  Points		  [50, 0]
+	  DstBlock		  "Divide"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Between 0 and 1"
+	  SrcPort		  1
+	  DstBlock		  "Goto8"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From17"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From18"
+	  SrcPort		  1
+	  DstBlock		  "Divide"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Min_Engine_RPM"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Greater"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "Goto10"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Less"
+	  SrcPort		  1
+	  DstBlock		  "Between"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Greater"
+	  SrcPort		  1
+	  DstBlock		  "Between"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Between"
+	  SrcPort		  1
+	  DstBlock		  "Goto1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Normalized sfc lookup"
+	  SrcPort		  1
+	  DstBlock		  "Product3"
+	  DstPort		  1
+	}
+	Line {
+	  Labels		  [0, 0]
+	  SrcBlock		  "From19"
+	  SrcPort		  1
+	  Points		  [105, 0; 0, -40]
+	  DstBlock		  "Product3"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "sfc_metric_to_english"
+	  SrcPort		  1
+	  Points		  [130, 0]
+	  DstBlock		  "Product3"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Product3"
+	  SrcPort		  1
+	  Points		  [0, 5; 5, 0]
+	  Branch {
+	    DstBlock		    "sfc"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Product2"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "From14"
+	  SrcPort		  1
+	  DstBlock		  "Add"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From22"
+	  SrcPort		  1
+	  Points		  [0, 0]
+	  Branch {
+	    DstBlock		    "Add"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "Add1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "From23"
+	  SrcPort		  1
+	  DstBlock		  "Add1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Add"
+	  SrcPort		  1
+	  Points		  [0, 25]
+	  DstBlock		  "Divide1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Add1"
+	  SrcPort		  1
+	  Points		  [0, -20]
+	  DstBlock		  "Divide1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Divide1"
+	  SrcPort		  1
+	  DstBlock		  "Goto11"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From21"
+	  SrcPort		  1
+	  DstBlock		  "Normalized sfc lookup"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From20"
+	  SrcPort		  1
+	  DstBlock		  "Normalized sfc lookup"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From24"
+	  SrcPort		  1
+	  DstBlock		  "Saturate RPM"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From25"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, 20]
+	  DstBlock		  "Saturate RPM"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From26"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, -20]
+	  DstBlock		  "Saturate RPM"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Saturate RPM"
+	  SrcPort		  1
+	  DstBlock		  "Goto12"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Divide"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    Points		    [0, 40]
+	    DstBlock		    "Torque_nm"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Product4"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product4"
+	  SrcPort		  1
+	  DstBlock		  "Torque_lb_ft"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Nm_to_lb_ft"
+	  SrcPort		  1
+	  Points		  [0, 45]
+	  DstBlock		  "Product4"
+	  DstPort		  1
+	}
+	Annotation {
+	  Name			  "TBD: do we need to limit the max torque???"
+	  Position		  [802, 159]
+	  BackgroundColor	  "red"
+	  FontName		  "Arial Narrow"
+	  FontSize		  16
+	}
+      }
+    }
+  }
+}

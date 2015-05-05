@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="13a4c47c-39ce-44e0-8732-b946e8821ec7" Name="hull_assembly__example_with_connector__flat_bottom_flat_roof" Version="" xmlns="avm">
+  <DomainModel xmlns:q1="cad" xsi:type="q1:CADModel" UsesResource="cad.path" FilePathWithinResource="" Author="" Notes="" xmlns="">
+    <Datum xsi:type="q1:Point" PortMap="" Name="Point" Notes="" Definition="" DatumName="TARGET" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.CSYS_HULL_X0Y0Z0" PortMap="" Name="CSYS_HULL_X0Y0Z0" Notes="" Definition="" DatumName="CSYS_HULL_X0Y0Z0" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.CSYS_145_GUS_M17" PortMap="" Name="CSYS_145_GUS_M17" Notes="" Definition="" DatumName="CSYS_145_GUS_M17" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.CSYS_SOAPBOX" PortMap="" Name="CSYS_SOAPBOX" Notes="" Definition="" DatumName="CSYS_SOAPBOX" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.CG_CSYS" PortMap="" Name="CG_CSYS" Notes="" Definition="" DatumName="CG_CSYS" />
+    <Datum xsi:type="q1:Plane" ID="cad.DTM4" PortMap="" Name="DTM4" Notes="" Definition="" DatumName="DTM4" />
+    <Datum xsi:type="q1:Plane" ID="cad.DTM1" PortMap="" Name="DTM1" Notes="" Definition="" DatumName="DTM1" />
+    <Datum xsi:type="q1:Plane" ID="cad.DTM3" PortMap="" Name="DTM3" Notes="" Definition="" DatumName="DTM3" />
+    <Datum xsi:type="q1:Axis" ID="cad.A_4" PortMap="" Name="A_4" Notes="" Definition="" DatumName="A_4" />
+    <Datum xsi:type="q1:Axis" ID="cad.A_1" PortMap="" Name="A_1" Notes="" Definition="" DatumName="A_1" />
+    <Datum xsi:type="q1:Axis" ID="cad.A_3" PortMap="" Name="A_3" Notes="" Definition="" DatumName="A_3" />
+    <Datum xsi:type="q1:Axis" ID="cad.A_2" PortMap="" Name="A_2" Notes="" Definition="" DatumName="A_2" />
+    <Parameter Name="FC_4">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q2="avm" xsi:type="q2:DerivedValue" ValueSource="nv.FC_4" />
+      </Value>
+    </Parameter>
+    <Parameter Name="F4">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q3="avm" xsi:type="q3:DerivedValue" ValueSource="nv.F4" />
+      </Value>
+    </Parameter>
+    <Parameter Name="F1">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q4="avm" xsi:type="q4:DerivedValue" ValueSource="nv.F1" />
+      </Value>
+    </Parameter>
+    <Parameter Name="S13">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q5="avm" xsi:type="q5:DerivedValue" ValueSource="nv.S13" />
+      </Value>
+    </Parameter>
+    <Parameter Name="S12">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q6="avm" xsi:type="q6:DerivedValue" ValueSource="nv.S12" />
+      </Value>
+    </Parameter>
+    <Parameter Name="S11">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q7="avm" xsi:type="q7:DerivedValue" ValueSource="nv.S11" />
+      </Value>
+    </Parameter>
+    <Parameter Name="S10">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q8="avm" xsi:type="q8:DerivedValue" ValueSource="nv.S10" />
+      </Value>
+    </Parameter>
+    <Parameter Name="FC_5">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q9="avm" xsi:type="q9:DerivedValue" ValueSource="nv.FC_5" />
+      </Value>
+    </Parameter>
+    <Parameter Name="S9">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q10="avm" xsi:type="q10:DerivedValue" ValueSource="nv.S9" />
+      </Value>
+    </Parameter>
+    <Parameter Name="S8">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q11="avm" xsi:type="q11:DerivedValue" ValueSource="nv.S8" />
+      </Value>
+    </Parameter>
+    <Parameter Name="S7">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q12="avm" xsi:type="q12:DerivedValue" ValueSource="nv.S7" />
+      </Value>
+    </Parameter>
+    <Parameter Name="FC_7">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q13="avm" xsi:type="q13:DerivedValue" ValueSource="nv.FC_7" />
+      </Value>
+    </Parameter>
+    <Parameter Name="REC_1">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q14="avm" xsi:type="q14:DerivedValue" ValueSource="nv.REC_1" />
+      </Value>
+    </Parameter>
+    <Parameter Name="FC_1">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q15="avm" xsi:type="q15:DerivedValue" ValueSource="nv.FC_1" />
+      </Value>
+    </Parameter>
+    <Parameter Name="REC_2">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q16="avm" xsi:type="q16:DerivedValue" ValueSource="nv.REC_2" />
+      </Value>
+    </Parameter>
+    <Parameter Name="FC_6">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q17="avm" xsi:type="q17:DerivedValue" ValueSource="nv.FC_6" />
+      </Value>
+    </Parameter>
+    <Parameter Name="R1">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q18="avm" xsi:type="q18:DerivedValue" ValueSource="nv.R1" />
+      </Value>
+    </Parameter>
+    <Parameter Name="F3">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q19="avm" xsi:type="q19:DerivedValue" ValueSource="nv.F3" />
+      </Value>
+    </Parameter>
+    <Parameter Name="BCF_3">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q20="avm" xsi:type="q20:DerivedValue" ValueSource="nv.BCF_3" />
+      </Value>
+    </Parameter>
+    <Parameter Name="ROC_1">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q21="avm" xsi:type="q21:DerivedValue" ValueSource="nv.ROC_1" />
+      </Value>
+    </Parameter>
+    <Parameter Name="BCF_1">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q22="avm" xsi:type="q22:DerivedValue" ValueSource="nv.BCF_1" />
+      </Value>
+    </Parameter>
+    <Parameter Name="BCF_2">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q23="avm" xsi:type="q23:DerivedValue" ValueSource="nv.BCF_2" />
+      </Value>
+    </Parameter>
+    <Parameter Name="S2">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q24="avm" xsi:type="q24:DerivedValue" ValueSource="nv.S2" />
+      </Value>
+    </Parameter>
+    <Parameter Name="SOAPBOX_Y">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q25="avm" xsi:type="q25:DerivedValue" ValueSource="nv.soapbox_y" />
+      </Value>
+    </Parameter>
+    <Parameter Name="S3">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q26="avm" xsi:type="q26:DerivedValue" ValueSource="nv.S3" />
+      </Value>
+    </Parameter>
+    <Parameter Name="SOAPBOX_X">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q27="avm" xsi:type="q27:DerivedValue" ValueSource="nv.soapbox_x" />
+      </Value>
+    </Parameter>
+    <Parameter Name="S5">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q28="avm" xsi:type="q28:DerivedValue" ValueSource="nv.S5" />
+      </Value>
+    </Parameter>
+    <Parameter Name="S1">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q29="avm" xsi:type="q29:DerivedValue" ValueSource="nv.S1" />
+      </Value>
+    </Parameter>
+    <Parameter Name="SOAPBOX_Z">
+      <Value Unit="mm">
+        <ValueExpression xmlns:q30="avm" xsi:type="q30:DerivedValue" ValueSource="nv.soapbox_z" />
+      </Value>
+    </Parameter>
+    <ModelMetric ID="ID14" Name="moment_of_inertia">
+      <Value>
+        <ValueExpression xmlns:q31="avm" xsi:type="q31:FixedValue">
+          <Value>[[5.28207950827358e+010,0,-4.37351589561101e+009],[0,2.22072699586236e+011,0],[-4.37351589561101e+009,0,2.50698087633749e+011]]</Value>
+        </ValueExpression>
+      </Value>
+    </ModelMetric>
+    <ModelMetric ID="ID15" Name="TOTAL_MASS">
+      <Value>
+        <ValueExpression xmlns:q32="avm" xsi:type="q32:FixedValue">
+          <Value>44473148631.0228</Value>
+        </ValueExpression>
+      </Value>
+    </ModelMetric>
+    <ModelMetric ID="ID16" Name="PART_SURFACE_AREA">
+      <Value>
+        <ValueExpression xmlns:q33="avm" xsi:type="q33:DerivedValue" ValueSource="nv.common_info.surface_area" />
+      </Value>
+    </ModelMetric>
+    <ModelMetric ID="ID17" Name="PART_VOLUME">
+      <Value>
+        <ValueExpression xmlns:q34="avm" xsi:type="q34:DerivedValue" ValueSource="nv.common_info.volume" />
+      </Value>
+    </ModelMetric>
+    <ModelMetric ID="ID18" Name="COMPONENT_CLASS">
+      <Value>
+        <ValueExpression xmlns:q35="avm" xsi:type="q35:FixedValue">
+          <Value>HULL_ASSEMBLY_PARAMETRIC</Value>
+        </ValueExpression>
+      </Value>
+    </ModelMetric>
+  </DomainModel>
+  <Property xmlns:q36="avm" xsi:type="q36:PrimitiveProperty" Name="volume" ID="property.nv.common_info.volume" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.volume">
+      <ValueExpression xsi:type="q36:FixedValue">
+        <Value>47.2056780740713</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q37="avm" xsi:type="q37:PrimitiveProperty" Name="S6" ID="property.nv.S6" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.S6">
+      <ValueExpression xsi:type="q37:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q38="avm" xsi:type="q38:PrimitiveProperty" Name="S9" ID="property.nv.S9" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.S9">
+      <ValueExpression xsi:type="q38:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q39="avm" xsi:type="q39:PrimitiveProperty" Name="soapbox_z" ID="property.nv.soapbox_z" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.soapbox_z">
+      <ValueExpression xsi:type="q39:FixedValue">
+        <Value>2.288</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q40="avm" xsi:type="q40:PrimitiveProperty" Name="soapbox_y" ID="property.nv.soapbox_y" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.soapbox_y">
+      <ValueExpression xsi:type="q40:FixedValue">
+        <Value>3.66</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q41="avm" xsi:type="q41:PrimitiveProperty" Name="soapbox_x" ID="property.nv.soapbox_x" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.soapbox_x">
+      <ValueExpression xsi:type="q41:FixedValue">
+        <Value>8.3</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q42="avm" xsi:type="q42:PrimitiveProperty" Name="S8" ID="property.nv.S8" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.S8">
+      <ValueExpression xsi:type="q42:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q43="avm" xsi:type="q43:PrimitiveProperty" Name="S7" ID="property.nv.S7" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.S7">
+      <ValueExpression xsi:type="q43:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q44="avm" xsi:type="q44:PrimitiveProperty" Name="S3" ID="property.nv.S3" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.S3">
+      <ValueExpression xsi:type="q44:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q45="avm" xsi:type="q45:PrimitiveProperty" Name="S11" ID="property.nv.S11" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.S11">
+      <ValueExpression xsi:type="q45:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q46="avm" xsi:type="q46:PrimitiveProperty" Name="ROC_3" ID="property.nv.ROC_3" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.ROC_3">
+      <ValueExpression xsi:type="q46:FixedValue">
+        <Value>0.53167</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q47="avm" xsi:type="q47:PrimitiveProperty" Name="ROC_2" ID="property.nv.ROC_2" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.ROC_2">
+      <ValueExpression xsi:type="q47:FixedValue">
+        <Value>0.58</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q48="avm" xsi:type="q48:PrimitiveProperty" Name="S5" ID="property.nv.S5" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.S5">
+      <ValueExpression xsi:type="q48:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q49="avm" xsi:type="q49:PrimitiveProperty" Name="S13" ID="property.nv.S13" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.S13">
+      <ValueExpression xsi:type="q49:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q50="avm" xsi:type="q50:PrimitiveProperty" Name="S4" ID="property.nv.S4" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.S4">
+      <ValueExpression xsi:type="q50:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q51="avm" xsi:type="q51:PrimitiveProperty" Name="S10" ID="property.nv.S10" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.S10">
+      <ValueExpression xsi:type="q51:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q52="avm" xsi:type="q52:PrimitiveProperty" Name="S2" ID="property.nv.S2" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.S2">
+      <ValueExpression xsi:type="q52:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q53="avm" xsi:type="q53:PrimitiveProperty" Name="S12" ID="property.nv.S12" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.S12">
+      <ValueExpression xsi:type="q53:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q54="avm" xsi:type="q54:PrimitiveProperty" Name="S1" ID="property.nv.S1" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.S1">
+      <ValueExpression xsi:type="q54:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q55="avm" xsi:type="q55:PrimitiveProperty" Name="REC_1" ID="property.nv.REC_1" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.REC_1">
+      <ValueExpression xsi:type="q55:FixedValue">
+        <Value>0.1524</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q56="avm" xsi:type="q56:PrimitiveProperty" Name="FC_4" ID="property.nv.FC_4" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.FC_4">
+      <ValueExpression xsi:type="q56:FixedValue">
+        <Value>0.7</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q57="avm" xsi:type="q57:PrimitiveProperty" Name="R1" ID="property.nv.R1" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.R1">
+      <ValueExpression xsi:type="q57:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q58="avm" xsi:type="q58:PrimitiveProperty" Name="FC_3" ID="property.nv.FC_3" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.FC_3">
+      <ValueExpression xsi:type="q58:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q59="avm" xsi:type="q59:PrimitiveProperty" Name="FC_2" ID="property.nv.FC_2" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.FC_2">
+      <ValueExpression xsi:type="q59:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q60="avm" xsi:type="q60:PrimitiveProperty" Name="FC_1" ID="property.nv.FC_1" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.FC_1">
+      <ValueExpression xsi:type="q60:FixedValue">
+        <Value>1.2476</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q61="avm" xsi:type="q61:PrimitiveProperty" Name="ROC_1" ID="property.nv.ROC_1" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.ROC_1">
+      <ValueExpression xsi:type="q61:FixedValue">
+        <Value>0.1016</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q62="avm" xsi:type="q62:PrimitiveProperty" Name="FC_7" ID="property.nv.FC_7" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.FC_7">
+      <ValueExpression xsi:type="q62:FixedValue">
+        <Value>0.8476</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q63="avm" xsi:type="q63:PrimitiveProperty" Name="REC_2" ID="property.nv.REC_2" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.REC_2">
+      <ValueExpression xsi:type="q63:FixedValue">
+        <Value>0.6096</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q64="avm" xsi:type="q64:PrimitiveProperty" Name="FC_6" ID="property.nv.FC_6" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.FC_6">
+      <ValueExpression xsi:type="q64:FixedValue">
+        <Value>0.1524</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q65="avm" xsi:type="q65:PrimitiveProperty" Name="FC_5" ID="property.nv.FC_5" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.FC_5">
+      <ValueExpression xsi:type="q65:FixedValue">
+        <Value>0.6</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q66="avm" xsi:type="q66:PrimitiveProperty" Name="BCF_3" ID="property.nv.BCF_3" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.BCF_3">
+      <ValueExpression xsi:type="q66:FixedValue">
+        <Value>0.3048</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q67="avm" xsi:type="q67:PrimitiveProperty" Name="BCF_2" ID="property.nv.BCF_2" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.BCF_2">
+      <ValueExpression xsi:type="q67:FixedValue">
+        <Value>0.6</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q68="avm" xsi:type="q68:PrimitiveProperty" Name="F3" ID="property.nv.F3" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.F3">
+      <ValueExpression xsi:type="q68:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q69="avm" xsi:type="q69:PrimitiveProperty" Name="F1" ID="property.nv.F1" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.F1">
+      <ValueExpression xsi:type="q69:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q70="avm" xsi:type="q70:PrimitiveProperty" Name="F4" ID="property.nv.F4" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.F4">
+      <ValueExpression xsi:type="q70:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q71="avm" xsi:type="q71:PrimitiveProperty" Name="F2" ID="property.nv.F2" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.F2">
+      <ValueExpression xsi:type="q71:FixedValue">
+        <Value>0.0254</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q72="avm" xsi:type="q72:PrimitiveProperty" Name="BCF_1" ID="property.nv.BCF_1" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.BCF_1">
+      <ValueExpression xsi:type="q72:FixedValue">
+        <Value>0.78</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q73="avm" xsi:type="q73:PrimitiveProperty" Name="cots_or_parametric" ID="property.nv.procurement.cots_or_parametric" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.cots_or_parametric">
+      <ValueExpression xsi:type="q73:FixedValue">
+        <Value>Parametric</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q74="avm" xsi:type="q74:PrimitiveProperty" Name="make_or_buy" ID="property.nv.procurement.make_or_buy" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.make_or_buy">
+      <ValueExpression xsi:type="q74:FixedValue">
+        <Value>Make</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q75="avm" xsi:type="q75:PrimitiveProperty" Name="instance_description" ID="property.nv.instance_description" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.instance_description">
+      <ValueExpression xsi:type="q75:FixedValue">
+        <Value>Discrete example soapbox hull with a flat bottom flat roof three panel front with a periscope connector</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q76="avm" xsi:type="q76:PrimitiveProperty" Name="I_zz" ID="property.nv.common_info.moment_of_inertia.I_zz" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.moment_of_inertia.I_zz">
+      <ValueExpression xsi:type="q76:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q77="avm" xsi:type="q77:PrimitiveProperty" Name="surface_area" ID="property.nv.common_info.surface_area" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.surface_area">
+      <ValueExpression xsi:type="q77:FixedValue">
+        <Value>340.340829304015</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q78="avm" xsi:type="q78:PrimitiveProperty" Name="orientation_description" ID="property.nv.common_info.orientation_description" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.orientation_description">
+      <ValueExpression xsi:type="q78:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q79="avm" xsi:type="q79:PrimitiveProperty" Name="origin_description" ID="property.nv.common_info.origin_description" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.origin_description">
+      <ValueExpression xsi:type="q79:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q80="avm" xsi:type="q80:PrimitiveProperty" Name="I_yy" ID="property.nv.common_info.moment_of_inertia.I_yy" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.moment_of_inertia.I_yy">
+      <ValueExpression xsi:type="q80:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q81="avm" xsi:type="q81:PrimitiveProperty" Name="height" ID="property.nv.common_info.overall_dimensions.height" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.overall_dimensions.height">
+      <ValueExpression xsi:type="q81:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q82="avm" xsi:type="q82:PrimitiveProperty" Name="mass" ID="property.nv.common_info.mass" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.mass">
+      <ValueExpression xsi:type="q82:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q83="avm" xsi:type="q83:PrimitiveProperty" Name="length" ID="property.nv.common_info.overall_dimensions.length" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.overall_dimensions.length">
+      <ValueExpression xsi:type="q83:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q84="avm" xsi:type="q84:PrimitiveProperty" Name="operating_condition_description" ID="property.nv.common_info.operating_condition_description" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.operating_condition_description">
+      <ValueExpression xsi:type="q84:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q85="avm" xsi:type="q85:PrimitiveProperty" Name="width" ID="property.nv.common_info.overall_dimensions.width" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.overall_dimensions.width">
+      <ValueExpression xsi:type="q85:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q86="avm" xsi:type="q86:PrimitiveProperty" Name="I_zy" ID="property.nv.common_info.moment_of_inertia.I_zy" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.moment_of_inertia.I_zy">
+      <ValueExpression xsi:type="q86:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q87="avm" xsi:type="q87:PrimitiveProperty" Name="I_zx" ID="property.nv.common_info.moment_of_inertia.I_zx" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.moment_of_inertia.I_zx">
+      <ValueExpression xsi:type="q87:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q88="avm" xsi:type="q88:PrimitiveProperty" Name="I_yx" ID="property.nv.common_info.moment_of_inertia.I_yx" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.moment_of_inertia.I_yx">
+      <ValueExpression xsi:type="q88:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q89="avm" xsi:type="q89:PrimitiveProperty" Name="I_xx" ID="property.nv.common_info.moment_of_inertia.I_xx" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.moment_of_inertia.I_xx">
+      <ValueExpression xsi:type="q89:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q90="avm" xsi:type="q90:PrimitiveProperty" Name="x" ID="property.nv.common_info.cg_location.x" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.cg_location.x">
+      <ValueExpression xsi:type="q90:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q91="avm" xsi:type="q91:PrimitiveProperty" Name="z" ID="property.nv.common_info.cg_location.z" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.cg_location.z">
+      <ValueExpression xsi:type="q91:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q92="avm" xsi:type="q92:PrimitiveProperty" Name="y" ID="property.nv.common_info.cg_location.y" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.cg_location.y">
+      <ValueExpression xsi:type="q92:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <ResourceDependency Name="e137_flat_3_roofflat_h1_gus.asm" Path="CAD Library\e137_flat_3_roofflat_h1_gus.asm" Hash="" ID="cad.path" Notes="" xmlns="" />
+  <Connector ConnectorComposition="" ID="conn.hull_to_hook_BL" ApplyJoinData="" Notes="" Name="hull_to_hook_BL" Definition="cml_zodb.cml_connectors_mechanical.CML_Connector_Mechanical" xmlns="">
+    <Role xmlns:q93="cad" xsi:type="q93:Plane" ID="ID1" PortMap="" Name="3" Notes="" Definition="" />
+    <Role xmlns:q94="cad" xsi:type="q94:Plane" ID="ID2" PortMap="" Name="2" Notes="" Definition="" />
+    <Role xmlns:q95="cad" xsi:type="q95:Axis" ID="ID3" PortMap="" Name="1" Notes="" Definition="" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="conn.hull_to_hook_FR" ApplyJoinData="" Notes="" Name="hull_to_hook_FR" Definition="cml_zodb.cml_connectors_mechanical.CML_Connector_Mechanical" xmlns="">
+    <Role xmlns:q96="cad" xsi:type="q96:Plane" ID="ID4" PortMap="" Name="3" Notes="" Definition="" />
+    <Role xmlns:q97="cad" xsi:type="q97:Plane" ID="ID5" PortMap="" Name="2" Notes="" Definition="" />
+    <Role xmlns:q98="cad" xsi:type="q98:Axis" ID="ID6" PortMap="" Name="1" Notes="" Definition="" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="conn.hull_to_periscope_mount_mech" ApplyJoinData="" Notes="" Name="hull_to_periscope_mount_mech" Definition="cml_zodb.cml_connectors_mechanical.CML_Connector_Mechanical" xmlns="">
+    <Role xmlns:q99="cad" xsi:type="q99:CoordinateSystem" ID="ID7" PortMap="cad.CSYS_145_GUS_M17" Name="" Notes="" Definition="" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="conn.hull_to_hook_BR" ApplyJoinData="" Notes="" Name="hull_to_hook_BR" Definition="cml_zodb.cml_connectors_mechanical.CML_Connector_Mechanical" xmlns="">
+    <Role xmlns:q100="cad" xsi:type="q100:Plane" ID="ID8" PortMap="" Name="2" Notes="" Definition="" />
+    <Role xmlns:q101="cad" xsi:type="q101:Plane" ID="ID9" PortMap="" Name="3" Notes="" Definition="" />
+    <Role xmlns:q102="cad" xsi:type="q102:Axis" ID="ID10" PortMap="" Name="1" Notes="" Definition="" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="conn.hull_to_hook_FL" ApplyJoinData="" Notes="" Name="hull_to_hook_FL" Definition="cml_zodb.cml_connectors_mechanical.CML_Connector_Mechanical" xmlns="">
+    <Role xmlns:q103="cad" xsi:type="q103:Plane" ID="ID11" PortMap="" Name="2" Notes="" Definition="" />
+    <Role xmlns:q104="cad" xsi:type="q104:Plane" ID="ID12" PortMap="" Name="3" Notes="" Definition="" />
+    <Role xmlns:q105="cad" xsi:type="q105:Axis" ID="ID13" PortMap="" Name="1" Notes="" Definition="" />
+  </Connector>
+  <DistributionRestriction xmlns:q106="avm" xsi:type="q106:ITAR" Notes="" Level="NotITAR" xmlns="" />
+  <Port xmlns:q107="cad" xsi:type="q107:Point" ID="ID0" PortMap="" Name="Point" Notes="" Definition="" xmlns="" />
+  <Classifications xmlns="">cml_zodb.usr_classes.components_hull_frame_body_cab.Hull_Assembly_Example_With_Connector</Classifications>
+</Component>

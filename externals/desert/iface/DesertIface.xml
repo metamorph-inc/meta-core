@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Diagram name="DesertIface" version="1.00" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Uml.xsd">
+
+  <Association _id="id2e" assocClass="idF" name="MemberRelation" nonpersistent="false">
+    <AssociationRole _id="id2F" isNavigable="true" isPrimary="false" max="-1" min="0" name="src" target="id8"/>
+    <AssociationRole _id="id30" isNavigable="true" isPrimary="false" max="-1" min="0" name="dst" target="id8"/>
+  </Association>
+
+  <Association name="Association" nonpersistent="false">
+    <AssociationRole _id="id31" isNavigable="false" isPrimary="false" max="-1" min="0" name="Property" target="idC"/>
+    <AssociationRole _id="id32" isNavigable="true" isPrimary="false" max="1" min="0" name="domain" target="id16"/>
+  </Association>
+
+  <Association name="Association" nonpersistent="false">
+    <AssociationRole _id="id33" isNavigable="true" isPrimary="false" max="-1" min="0" name="value_of" target="idD"/>
+    <AssociationRole _id="id34" isNavigable="true" isPrimary="false" max="1" min="0" name="value" target="id9"/>
+  </Association>
+
+  <Association _id="id35" assocClass="idA" name="AssignedValues" nonpersistent="false">
+    <AssociationRole _id="id36" isNavigable="true" isPrimary="false" max="-1" min="0" name="properties" target="ide"/>
+    <AssociationRole _id="id37" isNavigable="true" isPrimary="false" max="-1" min="0" name="values" target="id9"/>
+  </Association>
+
+  <Association name="Association" nonpersistent="false">
+    <AssociationRole _id="id38" isNavigable="true" isPrimary="false" max="-1" min="0" name="srcProperty" target="ide"/>
+    <AssociationRole _id="id39" isNavigable="true" isPrimary="false" max="-1" min="0" name="simple_formula" target="id5"/>
+  </Association>
+
+  <Association name="Association" nonpersistent="false">
+    <AssociationRole _id="id3A" isNavigable="true" isPrimary="false" max="-1" min="0" name="property_end" target="ide"/>
+    <AssociationRole _id="id3B" isNavigable="true" isPrimary="false" max="-1" min="0" name="formula_end" target="id4"/>
+  </Association>
+
+  <Association _id="id3C" assocClass="id11" name="ElementRelation" nonpersistent="false">
+    <AssociationRole _id="id3D" isNavigable="true" isPrimary="false" max="-1" min="0" name="src" target="id14"/>
+    <AssociationRole _id="id3e" isNavigable="true" isPrimary="false" max="-1" min="0" name="dst" target="id14"/>
+  </Association>
+
+  <Association name="Association" nonpersistent="false">
+    <AssociationRole _id="id3F" isNavigable="true" isPrimary="false" max="1" min="0" name="context" target="id14"/>
+    <AssociationRole _id="id40" isNavigable="false" isPrimary="false" max="-1" min="0" name="Formula" target="id4"/>
+  </Association>
+
+  <Association name="Association" nonpersistent="false">
+    <AssociationRole _id="id41" isNavigable="true" isPrimary="false" max="1" min="0" name="context" target="id14"/>
+    <AssociationRole _id="id42" isNavigable="false" isPrimary="false" max="-1" min="0" name="Constraint" target="id13"/>
+  </Association>
+
+  <Class _id="id3" baseTypes="id4" isAbstract="false" name="CustomFormula">
+    <Attribute max="1" min="1" name="expression" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+  </Class>
+
+  <Class _id="id5" associationRoles="id39" baseTypes="id4" isAbstract="false" name="SimpleFormula">
+    <Attribute max="1" min="1" name="ComputationType" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+  </Class>
+
+  <Class _id="id4" associationRoles="id3B id40" baseTypes="id6" childRoles="id19" isAbstract="true" name="Formula" subTypes="id3 id5"/>
+
+  <Class _id="id7" baseTypes="id6" isAbstract="false" name="FormulaSet" parentRoles="id1A"/>
+
+  <Class _id="id8" associationRoles="id2F id30" baseTypes="id9" childRoles="id1B id2C" isAbstract="false" name="CustomMember" parentRoles="id1C">
+    <Attribute max="1" min="1" name="decomposition" nonpersistent="false" ordered="false" registry="false" type="Boolean" visibility="public"/>
+  </Class>
+
+  <Class _id="idA" association="id35" baseTypes="id6" childRoles="id23" isAbstract="false" name="AssignedValues"/>
+
+  <Class _id="idB" baseTypes="id9" childRoles="id2A" isAbstract="false" name="NaturalMember">
+    <Attribute max="1" min="1" name="value" nonpersistent="false" ordered="false" registry="false" type="Real" visibility="public"/>
+  </Class>
+
+  <Class _id="idC" associationRoles="id31" baseTypes="id6" childRoles="id1F" isAbstract="true" name="Property" subTypes="idD ide">
+    <Attribute max="1" min="1" name="PCM_STR" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+    <Attribute max="1" min="1" name="Max" nonpersistent="false" ordered="false" registry="false" type="Integer" visibility="public"/>
+    <Attribute max="1" min="1" name="CUSTName" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+  </Class>
+
+  <Class _id="idD" associationRoles="id33" baseTypes="idC" isAbstract="false" name="ConstantProperty"/>
+
+  <Class _id="id9" associationRoles="id34 id37" baseTypes="id6" isAbstract="true" name="Member" subTypes="id8 idB"/>
+
+  <Class _id="idF" association="id2e" baseTypes="id10" isAbstract="false" name="MemberRelation"/>
+
+  <Class _id="id10" baseTypes="id6" isAbstract="true" name="Relation" subTypes="idF id11">
+    <Attribute max="1" min="1" name="type" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+  </Class>
+
+  <Class _id="id12" baseTypes="id6" isAbstract="false" name="ConstraintSet" parentRoles="id1e"/>
+
+  <Class _id="id13" associationRoles="id42" baseTypes="id6" childRoles="id1D" isAbstract="false" name="Constraint">
+    <Attribute max="1" min="1" name="expression" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+  </Class>
+
+  <Class _id="id11" association="id3C" baseTypes="id10" isAbstract="false" name="ElementRelation"/>
+
+  <Class _id="id6" childRoles="id27" isAbstract="true" name="DesertBase" subTypes="id4 id7 id9 idA idC id10 id12 id13 id14 id15 id16">
+    <Attribute max="1" min="1" name="id" nonpersistent="false" ordered="false" registry="false" type="Integer" visibility="public"/>
+    <Attribute max="1" min="1" name="name" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+    <Attribute max="1" min="1" name="externalID" nonpersistent="false" ordered="false" registry="false" type="Integer" visibility="public"/>
+  </Class>
+
+  <Class _id="ide" associationRoles="id36 id38 id3A" baseTypes="idC" isAbstract="false" name="VariableProperty">
+    <Attribute max="1" min="1" name="parametric" nonpersistent="false" ordered="false" registry="false" type="Boolean" visibility="public"/>
+  </Class>
+
+  <Class _id="id14" associationRoles="id3D id3e id3F id41" baseTypes="id6" childRoles="id21 id25" isAbstract="false" name="Element" parentRoles="id20 id22 id24">
+    <Attribute max="1" min="1" name="decomposition" nonpersistent="false" ordered="false" registry="false" type="Boolean" visibility="public"/>
+  </Class>
+
+  <Class _id="id15" baseTypes="id6" isAbstract="false" name="Space" parentRoles="id26">
+    <Attribute max="1" min="1" name="decomposition" nonpersistent="false" ordered="false" registry="false" type="Boolean" visibility="public"/>
+  </Class>
+
+  <Class _id="id28" isAbstract="false" name="DesertSystem" parentRoles="id29">
+    <Attribute max="1" min="1" name="SystemName" nonpersistent="false" ordered="false" registry="false" type="String" visibility="public"/>
+  </Class>
+
+  <Class _id="id16" associationRoles="id32" baseTypes="id6" isAbstract="true" name="Domain" subTypes="id17 id18"/>
+
+  <Class _id="id17" baseTypes="id16" isAbstract="false" name="NaturalDomain" parentRoles="id2B">
+    <Attribute max="1" min="1" name="minimum" nonpersistent="false" ordered="false" registry="false" type="Integer" visibility="public"/>
+    <Attribute max="1" min="1" name="maximum" nonpersistent="false" ordered="false" registry="false" type="Integer" visibility="public"/>
+  </Class>
+
+  <Class _id="id18" baseTypes="id16" isAbstract="false" name="CustomDomain" parentRoles="id2D">
+    <Attribute max="1" min="1" name="decomposition" nonpersistent="false" ordered="false" registry="false" type="Boolean" visibility="public"/>
+  </Class>
+
+  <Composition name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id19" isNavigable="true" max="-1" min="0" target="id4"/>
+    <CompositionParentRole _id="id1A" isNavigable="true" target="id7"/>
+  </Composition>
+
+  <Composition name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id1B" isNavigable="true" max="-1" min="0" target="id8"/>
+    <CompositionParentRole _id="id1C" isNavigable="true" target="id8"/>
+  </Composition>
+
+  <Composition name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id1D" isNavigable="true" max="-1" min="0" target="id13"/>
+    <CompositionParentRole _id="id1e" isNavigable="true" target="id12"/>
+  </Composition>
+
+  <Composition name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id1F" isNavigable="true" max="-1" min="0" name="property" target="idC"/>
+    <CompositionParentRole _id="id20" isNavigable="true" name="owner" target="id14"/>
+  </Composition>
+
+  <Composition name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id21" isNavigable="true" max="-1" min="0" target="id14"/>
+    <CompositionParentRole _id="id22" isNavigable="true" target="id14"/>
+  </Composition>
+
+  <Composition name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id23" isNavigable="true" max="-1" min="0" target="idA"/>
+    <CompositionParentRole _id="id24" isNavigable="true" name="assignments" target="id14"/>
+  </Composition>
+
+  <Composition name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id25" isNavigable="true" max="-1" min="0" target="id14"/>
+    <CompositionParentRole _id="id26" isNavigable="true" target="id15"/>
+  </Composition>
+
+  <Composition name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id27" isNavigable="true" max="-1" min="0" target="id6"/>
+    <CompositionParentRole _id="id29" isNavigable="true" target="id28"/>
+  </Composition>
+
+  <Composition name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id2A" isNavigable="true" max="-1" min="0" name="members" target="idB"/>
+    <CompositionParentRole _id="id2B" isNavigable="true" target="id17"/>
+  </Composition>
+
+  <Composition name="Composition" nonpersistent="false">
+    <CompositionChildRole _id="id2C" isNavigable="true" max="-1" min="0" name="members" target="id8"/>
+    <CompositionParentRole _id="id2D" isNavigable="true" target="id18"/>
+  </Composition>
+
+</Diagram>

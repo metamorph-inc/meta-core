@@ -1,0 +1,98 @@
+<style type="text/css">
+			@import url("./css/rankings.css");
+</style>
+
+<!-- Custom scripts -->
+<script type="text/javascript" src="./js/rankings.js"></script>
+
+
+<div class="row-fluid" data-bind="visible: !scoresAvailble()">
+		<div class="span3"></div>
+		<div class="span6 well">
+			<h1>Load Score Data</h1>
+			<p>
+				This tab is visible whenever the project analyzers is launched from the vehicle forge server.
+				Either multiple challenges are defined on the server or the project analyzer was unable to load the appropriate score data for the project selected below.
+				<form class="form-inline">
+					<label style="color: black; font-weight: bold;">Challenge: </label><select data-bind="options: allRequirementsIds(), value: currentRequirementsId"></select>
+				</form>
+			</p>
+		</div>
+</div>
+
+<div class="row-fluid" data-bind="visible: scoresAvailble">
+		<div class="span12 widget" >
+			<h1>Leader Board Rankings</h1>
+			<form class="form-inline">
+				<label>Challenge: </label><select data-bind="options: allRequirementsIds(), value: currentRequirementsId"></select>
+			</form>
+		 <vf-datatable id="rankings" data="vm.dataproviders.leaderBoardRankings()" pag = "true" height="" ratio = "1.2" ></vf-datatable> 
+		 <!--<vf-table id="rankings" data="vm.dataproviders.leaderBoardRankings()"></vf-table>-->
+		</div>	
+</div>
+
+<div class="row-fluid" data-bind="visible: scoresAvailble">
+		<div class="span12 widget">
+			<h1>Submission History</h1>
+			<form class="form-inline">
+				<label>Challenge: </label><select data-bind="options: allRequirementsIds(), value: currentRequirementsId"></select>
+			</form>
+			<vf-mbar2 id="history" data="vm.dataproviders.rankingsHistory()"></vf-mbar2>
+		</div>	
+</div>
+
+<!-- <div class="row-fluid" data-bind="visible: scoresAvailble">
+	
+		<div class="span12">
+			<h1>Pareto Frontier</h1>
+			<form class="form-inline">
+				<label>Challenge: </label><select data-bind="options: allRequirementsIds(), value: currentRequirementsId"></select>
+			</form>
+			<vf-splot id="scoresSplot" data="vm.dataproviders.pareto()"></vf-splot>
+			
+			<style>
+			label
+			{
+			
+			color: whiteSmoke;
+			margin-right: 5px;
+			}
+			select+label
+			{
+			margin-left: 20px;
+			}
+			h1+form
+			{
+			margin-top: 20px;
+			}
+			select
+			{
+			background-color: black;
+			color: whiteSmoke;
+			}
+			select:focus
+			{
+			border-color: yellow;
+			}
+			</style>			
+			<form class="form-inline">
+			<center>
+			<div style="max-width: 550px;">
+				<div style="width: 265px; float: left; margin-right: 20px;"><label>y-axis:</label><select data-bind="options: scores().categories, value: pfYaxis"></select></div>
+				<div style="width: 265px; float: left;"><label style="">x-axis:</label><select data-bind="options: scores().categories, value: pfXaxis"></select></div>
+			</div>
+			</center>
+			</form>
+			
+		</div>
+</div> -->
+
+<div class="row-fluid" data-bind="visible: scoresAvailble">		
+		<div class="span12 widget">
+			<h1>Design Info Box</h1>
+			<form class="form-inline">
+				<label>Configuration: </label><select data-bind="options: listOfConfigurations(), value: selectedConfiguration"></select>
+			</form>
+			<vf-datatable id="designBox" data="vm.dataproviders.designInfoBox()"  pag = "true" height="400" ratio = ".5" ></vf-datatable>
+		</div>
+</div>

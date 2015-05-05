@@ -1,0 +1,191 @@
+== EDIT DELIMITER : "9290EECE-9B5A-4310-8F5B-14C248B996A4" ==
+timestamp: 1373409995631
+== BEGIN ==
+edit editMode: POST
+topic: "edu.vanderbilt.isis.metalink.manifest.component"
+guid: "guid-3.0"
+actions {
+  actionMode: INSERT
+  manifest {
+    nodeMode: FOLDER
+    guid: "dbc249ec-52dd-4eca-bd34-e9f9e799ab03"
+    name: "Imported Components"
+  }
+  manifest {
+    nodeMode: COMPONENT
+    guid: "3aa0a9d2-1dc1-4aee-890d-e4c2491613e3"
+    name: "drawbar_bolted__bp__orthogonal_27216kg"
+    cyphyParentId: "dbc249ec-52dd-4eca-bd34-e9f9e799ab03"
+  }
+  manifest {
+    nodeMode: COMPONENT
+    guid: "13a4c47c-39ce-44e0-8732-b946e8821ec7"
+    name: "hull_assembly__example_with_connector__flat_bottom_flat_roof"
+    cyphyParentId: "dbc249ec-52dd-4eca-bd34-e9f9e799ab03"
+  }
+}
+== EDIT DELIMITER : "9290EECE-9B5A-4310-8F5B-14C248B996A4" ==
+timestamp: 1373409995631
+== BEGIN ==
+editMode: POST
+guid: "6f13d9e9-0f54-4cf1-a067-ba37d430731b"
+topic: "ISIS.METALINK.CADASSEMBLY"
+topic: "1"
+origin: "Unknown"
+actions {
+  actionMode: REPLACE
+  payload {
+    components {
+      ParametricParameters {
+        CADParameter {
+          Name: "SOAPBOX_Z"
+          Type: "Float"
+          Value: "1.270"
+       }
+        CADParameter {
+          Name: "SOAPBOX_Y"
+          Type: "Float"
+          Value: "0"
+        }
+        CADParameter {
+          Name: "FC_7"
+          Type: "Float"
+          Value: "0.8476"
+        }
+        CADParameter {
+          Name: "FC_1"
+          Type: "Float"
+          Value: "1.2476"
+        }
+        CADParameter {
+          Name: "FC_4"
+          Type: "Float"
+          Value: "0.7"
+        }
+        CADParameter {
+          Name: "REC_1"
+          Type: "Float"
+          Value: "0.1524"
+        }
+        CADParameter {
+          Name: "S1"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "S2"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "S7"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "S3"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "S12"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "S11"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "FC_6"
+          Type: "Float"
+          Value: "0.1524"
+        }
+        CADParameter {
+          Name: "FC_5"
+          Type: "Float"
+          Value: "0.6"
+        }
+        CADParameter {
+          Name: "S10"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "S13"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "S5"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "S9"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "BCF_3"
+          Type: "Float"
+          Value: "0.3048"
+        }
+        CADParameter {
+          Name: "F4"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "F3"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "F1"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "REC_2"
+          Type: "Float"
+          Value: "0.6096"
+        }
+        CADParameter {
+          Name: "ROC_1"
+          Type: "Float"
+          Value: "0.1016"
+        }
+        CADParameter {
+          Name: "SOAPBOX_X"
+          Type: "Float"
+          Value: "1270"
+        }
+        CADParameter {
+          Name: "S8"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "R1"
+          Type: "Float"
+          Value: "0.0254"
+        }
+        CADParameter {
+          Name: "BCF_1"
+          Type: "Float"
+          Value: "0.78"
+        }
+        CADParameter {
+          Name: "BCF_2"
+          Type: "Float"
+          Value: "0.6"
+        }
+      }
+      ComponentID: "{53029786-d564-4e72-bd26-e29924d90c3d}"
+      Name: "e137_flat_3_roofflat_h1_gus"
+      Type: "ASSEMBLY"
+    }
+  }
+}

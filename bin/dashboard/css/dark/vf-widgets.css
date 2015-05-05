@@ -1,0 +1,1241 @@
+svg {
+  font: 10px sans-serif;
+  //background-color:white;
+}
+
+vf-mvplot g {
+  fill: none;
+}
+
+vf-mvplot .axis {
+  shape-rendering: crispEdges;
+}
+
+vf-mvplot.axis line {
+  stroke: #ddd;
+  stroke-width: .5px;
+}
+
+vf-mvplot.axis path {
+  display: none;
+}
+
+vf-mvplot text{
+	fill:white;
+}
+
+vf-mvplot .objective line
+{
+	stroke: green;
+	stroke-width: 2px;
+	/*shape-rendering: crispedges;*/
+	opacity: 0.7;
+}
+
+vf-mvplot .threshold line
+{
+	stroke: red;
+	stroke-width: 2px;
+	/*shape-rendering: crispedges;*/
+	opacity: 0.7;
+}
+
+vf-mvplot rect.extent {
+  fill: #3182bd;
+  fill-opacity: .125;
+  stroke: #3182bd;
+  stroke-width:2;
+}
+
+vf-mvplot rect.frame {
+  fill: none;
+  fill-opacity: .7;
+  stroke: #fff;
+}
+
+vf-mvplot circle 
+{
+  /* fill:#3182bd; */
+  fill-opacity: .15;
+}
+
+vf-mvplot .cell text {
+  pointer-events: none;
+  z-index: 999;
+}
+
+vf-mvplot circle.selected
+{
+	/* fill:#3182bd; */
+	fill-opacity: 1;
+}
+
+vf-mvplot circle.violation
+{
+	fill: #FF3300; !important
+	opacity: 1;
+}
+
+vf-splot .twodscatterplotaxislabel
+{
+font-family:Verdana;
+color:white;
+font-size:10;
+}
+
+vf-splot g > text, #xlabel, #ylabel
+{
+	fill:white;
+}
+
+vf-splot circle
+{
+	fill:#1f77b4;
+}
+
+vf-splot .domain
+{
+	stroke:#fff;
+	fill-opacity:0;
+}
+
+vf-splot .tick
+{
+	stroke:#fff;
+}
+
+vf-splot .selected
+{
+	fill: red;
+}
+
+vf-pplot .foreground path 
+{
+  fill: none;
+  stroke-opacity: .9;
+  stroke-width: 1.5px;
+}
+
+vf-pplot .foreground path.fade 
+{
+  stroke: grey;
+  stroke-opacity: .5;
+}
+
+vf-pplot .brush .extent 
+{
+  fill-opacity: .3;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+vf-pplot .axis line, vf-pplot .axis path 
+{
+  fill: none;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+vf-pplot .axis text 
+{
+  /*text-shadow: 0 1px 0 #fff;*/
+  /*font-family: "Times New Roman";*/
+  font-size: 11px;
+  fill: #fff;
+  cursor: move;
+}  
+
+vf-pplot .thresholdtick text
+{
+	fill: red;
+}
+
+vf-pplot .objectivetick text
+{
+	fill: green;
+}
+
+vf-pplot line.tick
+{
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+vf-pplot text.designID
+{
+	fill: white;
+}
+
+vf-pplot .design
+{
+	/* stroke: #1f77b4; */
+	opacity: 0.15;
+}
+
+vf-pplot .selected
+{
+	/* stroke: #1f77b4; */
+	opacity: 1;
+}
+
+vf-pplot .violation
+{
+	stroke: #FF3300; !important
+	opacity: 1;
+}
+
+vf-pplot .axislabel
+{
+	text-anchor: left;
+	fill: white;
+	z-index: 999;
+}
+
+vf-pareto .bar rect 
+{
+  fill: steelblue;
+}
+
+vf-pareto .bar text.value 
+{
+  fill: white;
+}
+
+vf-pareto .axis 
+{
+  shape-rendering: crispEdges;
+}
+
+vf-pareto .axis path 
+{
+  fill: none;
+}
+
+vf-pareto .x.axis line 
+{
+  stroke: #fff;
+  stroke-opacity: .5;
+}
+  
+vf-pareto .x.axis g text
+{
+	fill: #fff;
+}
+
+vf-pareto .y.axis g text
+{
+	fill: #fff;
+}
+
+vf-pareto .y.axis path 
+{
+  stroke: white;
+}
+
+vf-pareto .x.pareto.axis g text
+{
+	fill: #fff;
+}
+
+vf-pareto .dot
+{
+  /*fill: white; */
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+vf-pareto .pareto.threshold
+{
+	stroke: red;
+	stroke-dasharray: 9;
+	stroke-width: 2;
+}
+
+vf-pareto .x.pareto.axis path
+{
+	stroke: #fff;
+}
+
+vf-pareto .x.axis path
+{
+	stroke: #fff;
+}
+
+vf-mbar text 
+{
+	font-size: 11px;
+}
+
+vf-mbar svg  
+{
+	shape-rendering: crispEdges;
+}
+
+vf-mbar.value 
+{
+	fill: white;
+}
+
+vf-mbar g.x g line, vf-mbar g.y g line
+{
+	stroke: #fff;
+}
+
+vf-mbar g.x path
+{
+	stroke: #fff;
+	fill: none;
+}
+
+vf-mbar g text
+{
+	fill: #fff;
+}
+
+vf-mbar.x.axis line 
+{
+	stroke: #fff;
+	stroke-opacity: .5;
+}
+  
+vf-mbar.x.axis g text
+{
+	fill: #fff;
+}
+
+vf-mbar.y.axis g text
+{
+	fill: #fff;
+}
+
+vf-mbar g.y.axis path 
+{
+	stroke: white;
+	fill: none;
+}
+
+vf-mbar.x.pareto.axis g text
+{
+	fill: #fff;
+}
+
+vf-mbar line.tick
+{
+	stroke: #fff;
+}
+
+vf-mbar .selected
+{
+	fill: red;
+}
+
+vf-mbar2 text 
+{
+	font-size: 11px;
+}
+
+vf-mbar2 svg  
+{
+	shape-rendering: crispEdges;
+}
+
+vf-mbar2.value 
+{
+	fill: white;
+}
+
+vf-mbar2 g.x g line, vf-mbar2 g.y g line
+{
+	stroke: #fff;
+}
+
+vf-mbar2 g.x path
+{
+	stroke: #fff;
+	fill: none;
+}
+
+vf-mbar2 g text
+{
+	fill: #fff;
+}
+
+vf-mbar2.x.axis line 
+{
+	stroke: #fff;
+	stroke-opacity: .5;
+}
+  
+vf-mbar2.x.axis g text
+{
+	fill: #fff;
+}
+
+vf-mbar2.y.axis g text
+{
+	fill: #fff;
+}
+
+vf-mbar2 g.y.axis path 
+{
+	stroke: white;
+	fill: none;
+}
+
+vf-mbar2.x.pareto.axis g text
+{
+	fill: #fff;
+}
+
+vf-mbar2 line.tick
+{
+	stroke: #fff;
+}
+
+vf-mbar2 .selected
+{
+	fill: red;
+}
+
+
+vf-dsatable table
+{
+	color: whiteSmoke;
+	background-color: #000;
+	table-layout:fixed;
+	width: 100%;
+}
+
+vf-dsatable table tbody tr:nth-child(odd) td,
+vf-dsatable table tbody tr:nth-child(odd) th 
+{
+	background-color: #212121;
+}
+
+vf-dsatable table tbody tr:hover td,
+vf-dsatable table tbody tr:hover th 
+{
+	background-color: #666666;
+	cursor:pointer;
+}
+
+
+
+vf-dsatable table td, th
+{
+	padding: 5px 15px;
+	overflow: hidden;
+}
+
+vf-dsatable .table-bordered 
+{
+	border: 1px solid #292929;
+	border-collapse: separate;
+	*border-collapse: collapsed;
+	border-left: 0;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+vf-dsatable .table-bordered th,
+vf-dsatable .table-bordered td 
+{
+	border-left: 1px solid #292929;
+}
+
+vf-table table
+{
+	color: whiteSmoke;
+	background-color: #000;
+	table-layout:fixed;
+	width: 100%;
+}
+
+vf-table table tbody tr:nth-child(odd) td,
+vf-table table tbody tr:nth-child(odd) th 
+{
+	background-color: #212121;
+}
+
+vf-table table tbody tr:hover td,
+vf-table table tbody tr:hover th 
+{
+	background-color: #666666;
+	cursor:pointer;
+}
+
+vf-table table td, th
+{
+	padding: 5px 15px;
+	overflow: hidden;
+}
+
+vf-table .table-bordered 
+{
+	margin-top: 12px;
+	border: 1px solid whitesmoke;
+	border-collapse: separate;
+	*border-collapse: collapsed;
+	border-left: 0;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	border-color: whiteSmoke;
+	border-width: 1px;
+	border-style: solid;
+}
+
+vf-table .table-bordered th, vf-table .table-bordered td
+{
+border-left:none;
+text-align: center;
+
+}
+
+vf-table .table-bordered th:not(:first-of-type)
+{
+border-bottom-color: whiteSmoke;
+border-bottom-width: 1px;
+border-bottom-style: solid;
+}
+
+vf-table .table-bordered th:first-of-type
+{
+border-right-color: whiteSmoke;
+border-right-width: 1px;
+border-right-style: solid;
+border-bottom-color: whiteSmoke;
+border-bottom-width: 1px;
+border-bottom-style: solid;
+}
+
+vf-table .table-bordered td:first-of-type
+{
+border-right-color: whiteSmoke;
+border-right-width: 1px;
+border-right-style: solid;
+}
+
+vf-stoplight .chart {
+  display: block;
+  margin: auto;
+  margin-top: 60px;
+  font-size: 11px;
+}
+
+vf-stoplight{
+  margin: 0;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica;
+}
+
+vf-stoplight rect {
+  stroke: #eee;
+  fill: #aaa;
+  fill-opacity: 1;
+}
+
+vf-stoplight rect.parent {
+  cursor: pointer;
+  fill: steelblue;
+}
+
+vf-stoplight rect.PlotRect{
+   fill: black;
+}
+
+vf-stoplight text {
+  pointer-events: none;
+}
+
+vf-stoplight .axis path,
+
+vf-stoplight .axis line {
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+}
+
+vf-stoplight .axis text {
+	font-family: sans-serif;
+	font-size: 11px;
+}
+
+vf-stoplight .line{
+	fill:none;
+	stroke: red;
+	stroke-width: 2px;
+}
+
+vf-stoplight .currentPoint{
+	fill:red;
+	stroke: black;
+	stroke-width: 2px;
+}
+
+vf-stoplight .xline{
+	fill:#282828;
+	stroke:#181818;
+}
+
+vf-dist .axis path, vf-dist .axis line 
+{
+  fill: none;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+vf-dist .axis text
+{
+	fill: white;
+}
+
+vf-dist .line 
+{
+  fill: steelblue;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+vf-dist .dot 
+{
+  fill: white;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+vf-dist .pareto.threshold
+{
+	stroke: white;
+	stroke-dasharray: 5;
+	stroke-width: 2;
+}
+
+vf-dist .paretomin
+{
+	stroke: red;
+	stroke-dasharray: 5;
+	stroke-width: 2;
+}
+
+vf-dist .paretomax
+{
+	stroke: #00FF00;
+	stroke-dasharray: 5;
+	stroke-width: 2;
+}
+
+vf-dist #xlabelmin
+{
+	font-weight: bold;
+	line-height: 14px;
+	fill: red;
+}
+vf-dist #xlabelmax
+{
+	font-weight: bold;
+	line-height: 14px;
+	fill: #00FF00;
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables display
+ */
+ 
+vf-datatable table
+{
+	color: whiteSmoke;
+	//background-color: #000; //black
+	clear: both;
+	margin: 0 auto;
+}
+
+vf-datatable table td, th
+{
+	padding: 5px 15px;
+	overflow: hidden;
+}
+
+
+ 
+vf-datatable table.display {
+	margin: 0 auto;
+	width: 100%;
+	clear: both;
+	border-collapse: collapse;
+}
+
+ vf-datatable table.display thead th {
+	cursor: pointer;
+	* cursor: hand;
+}
+
+
+
+/*
+ * Sort arrow icon positioning
+ */
+vf-datatable table.display thead th div.DataTables_sort_wrapper {
+	position: relative;
+	padding-right: 20px;
+}
+
+vf-datatable table.display thead th div.DataTables_sort_wrapper span {
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	right: 0;
+}
+
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables features
+ */
+
+vf-datatable.dataTables_wrapper {
+	position: relative;
+	clear: both;
+}
+
+ vf-datatable .dataTables_wrapper label input, .dataTables_wrapper label textarea, .dataTables_wrapper label select{
+	display: inline-block;
+}
+
+vf-datatable .dataTables_wrapper td.center{
+	text-align: center;
+}
+
+/* Top of table */
+vf-datatable .dataTables_length {
+	float: left;
+	width: 40%;
+}
+
+vf-datatable .dataTables_length label select {
+	width: 60px;
+	margin :0px;
+}
+
+
+vf-datatable .dataTables_filter {
+    float: right;
+	text-align: right;
+	width: 60%;
+	
+}
+
+vf-datatable .dataTables_filter label , .dataTables_length label {
+	padding-left:10px;
+	padding-top: 4px;
+	color: #666;
+}
+
+vf-datatable .dataTables_filter label input{
+	margin :0px;
+}
+
+/* Bottom of table */
+vf-datatable .dataTables_info {
+	float: left;
+	text-align: left;
+	padding-left:10px;
+	padding-top: 2px;
+	color: #666;
+	width: 50%;
+	font-weight: normal;
+}
+
+vf-datatable .dataTables_paginate {
+	float: right;
+	text-align: right;
+	padding-top:2px;
+	width:auto;
+}
+
+
+/*
+ * color - Sorting classes for columns 
+ */
+
+vf-datatable tr.odd {
+	background-color: #212121;
+}
+vf-datatable tr.even {
+	background-color: #000;
+}
+
+vf-datatable tbody tr.even:hover, vf-datatable tbodytbody tr.even td.highlighted {
+	background-color: #666666;
+}
+
+vf-datatable tbody tr.odd:hover, vf-datatable tbody tbody tr.odd td.highlighted {
+	background-color: #666666;
+}
+
+vf-datatable tr.even:hover {
+	background-color: #666666;
+}
+
+vf-datatable tr.even:hover td.sorting_1 {
+	background-color: #8d8d8d;
+}
+
+vf-datatable tr.even:hover td.sorting_2 {
+	background-color: #8d8d8d;
+}
+
+vf-datatable tr.even:hover td.sorting_3 {
+	background-color: #8d8d8d;
+}
+
+vf-datatable tr.odd:hover {
+	background-color: #666666;
+}
+
+vf-datatable tr.odd:hover td.sorting_1 {
+	background-color: #808080;
+}
+
+vf-datatable tr.odd:hover td.sorting_2 {
+	background-color: #808080;
+}
+
+vf-datatable tr.odd:hover td.sorting_3 {
+	background-color: #808080;
+}
+
+
+vf-datatable tr.odd td.sorting_1, tr th.sorting_asc, tr th.sorting_desc{
+	background-color: #353535;
+}
+
+vf-datatable tr.odd td.sorting_2 {
+	background-color: #353535;
+}
+
+vf-datatable tr.odd td.sorting_3 {
+	background-color: #353535;
+}
+
+vf-datatable tr.even td.sorting_1 {
+	background-color: #212121;
+}
+
+vf-datatable tr.even td.sorting_2 {
+	background-color: #212121;
+}
+
+vf-datatable tr.even td.sorting_3 {
+	background-color: #212121;
+}
+
+
+
+/*
+ * jQuery UI specific styling
+ */
+ 
+vf-datatable.dataTables_paginate .ui-button {
+	margin-right: -0.1em !important;
+}
+vf-datatable .dataTables_wrapper .ui-toolbar {
+	padding: 2px;
+	//border: none;
+}
+
+vf-datatable.paging_two_button  a.paginate_button  a.paginate_active{
+	cursor: pointer;
+	*cursor:hand;
+}
+vf-datatable .paging_two_button a.fg-button{
+	margin-right: 1px;
+}
+vf-datatable .dataTables_info .ui-widget-header {
+	font-weight: normal; /*default is bold */
+}
+vf-datatable .dataTables_wrapper table thead tr th {
+	border-top: none; /* so not to show 2 lines on top of each other for jQueryUI default */
+	//border-color: whiteSmoke;
+ }
+ 
+ 
+ /* over writing option-1 simipler color */
+ vf-datatable table.display  thead tr th{
+	//background: #333;
+	background: #000;
+}
+ vf-datatable .dataTables_wrapper .ui-toolbar {
+	background: inherit;
+	border: none;
+}
+
+
+
+/* Adding a line after 1st column */
+vf-datatable .dataTables_wrapper tbody td:first-of-type
+{
+	border-right: 1px solid  #777;
+	text-align: left;
+}
+
+vf-datatable table tbody
+{
+	border-left: 1px solid  #777;
+	border-right: 1px solid  #777;
+}
+
+vf-datatable .dataTables_wrapper table thead tr th {
+	border-color: #777;
+ }
+ 
+vf-datatable table.display  thead tr th{
+	border-top: 1px solid  #777;
+} 
+
+vf-datatable table tbody
+{
+	border-bottom: 1px solid #777;
+
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+vf-profiler{
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+vf-profiler body {
+  margin: 0;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica;
+}
+/*
+vf-profiler rect {
+  stroke: #eee;
+  fill: #aaa;
+  fill-opacity: 1;
+}
+
+vf-profiler rect.parent {
+  cursor: pointer;
+  fill: steelblue;
+}
+
+vf-profiler rect.PlotRect{
+   fill: white;
+}
+*/
+vf-profiler rect
+{
+	stroke: white;
+	shape-rendering: crispEdges;
+}
+
+
+vf-profiler text {
+  fill: white;
+  pointer-events: none;
+}
+
+vf-profiler .axis path,
+vf-profiler .axis line {
+	fill: none;
+	stroke: white;
+	shape-rendering: crispEdges;
+}
+
+vf-profiler .axis text {
+	font-family: sans-serif;
+	font-size: 11px;
+}
+
+vf-profiler .border{
+	fill:none;
+	stroke: white;
+	shape-rendering: crispEdges;
+}
+
+vf-profiler .line{
+	fill:none;
+	stroke: red;
+	stroke-width: 2px;
+}
+
+vf-profiler .yline:hover,
+vf-profiler .yline:focus,
+vf-profiler .yline:active
+{
+	stroke: lime;
+	cursor: e-resize;
+}
+
+vf-profiler .yline{
+	opacity: 0.5;
+	stroke-dasharray: 1;
+}
+
+vf-profiler .xline{
+	opacity: 0.5;
+	stroke-dasharray: 1;
+}
+
+vf-profiler .currentPoint{
+	fill:red;
+	stroke: black;
+	stroke-width: 2px;
+}
+
+
+vf-constraintplot .cpdefaultxline, .cpdefaultyline{
+	fill:none;
+	stroke: white;
+	stroke-width: 1px;
+	
+	opacity: 0.5;
+	stroke-dasharray: 1;
+}
+vf-constraintplot .clickedPoint{
+	fill:none;
+	stroke: red;
+	stroke-width: 3px;
+	
+	opacity: 0.5;
+	stroke-dasharray: 1;
+}
+vf-constraintplot .cpyvalue, .cpxvalue, .labeltext{
+	 cursor: pointer;
+}
+vf-constraintplot .cpxline, .cpyline{
+	fill:none;
+	stroke: red;
+	stroke-width: 3px;
+	
+	opacity: 0.5;
+	stroke-dasharray: 1;
+}
+
+vf-constraintplot  .cpyline:hover,
+vf-constraintplot  .cpyline:focus,
+vf-constraintplot  .cpyline.active
+{
+	stroke: lime;
+	cursor: e-resize;
+}
+
+vf-constraintplot [mover = true] {
+        opacity : 1;
+        visibility: visible;
+}
+
+vf-constraintplot .domain, .cell
+{
+	fill: none;
+}
+
+vf-constraintplot {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+	
+}
+
+
+vf-constraintplot body {
+  margin: 0;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica;
+}
+vf-constraintplot rect
+{
+	stroke: white;
+	shape-rendering: crispEdges;
+}
+
+
+vf-constraintplot {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+	
+}
+vf-constraintplot body {
+  margin: 0;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica;
+}
+vf-constraintplot rect
+{
+	stroke: white;
+	shape-rendering: crispEdges;
+}
+
+vf-constraintplot text{
+	fill:white;
+}
+vf-constraintplot  line.crosstick
+{
+	stroke: white;
+    shape-rendering: crispEdges;
+	stroke-width: 3px;
+}
+/* when text color is not white 
+vf-constraintplot  text.crossticktext
+{
+	stroke: green;
+	fill:none;
+}
+*/
+
+/*
+	border-color = whiteSmoke
+*/
+/*
+vf-datatable .dataTables_wrapper tbody td:first-of-type
+{
+	border-right: 1px solid  whiteSmoke;
+	text-align: left;
+}
+
+vf-datatable table tbody
+{
+	border-left: 1px solid  whiteSmoke;
+	border-right: 1px solid  whiteSmoke;
+}
+
+vf-datatable .dataTables_wrapper table thead tr th {
+	border-color: whiteSmoke;
+ }
+ 
+vf-datatable table.display  thead tr th{
+	border-top: 1px solid whiteSmoke;
+} 
+
+vf-datatable table tbody
+{
+	border-bottom: 1px solid whiteSmoke;
+
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+*/
+
+vf-hist .bar rect {
+  fill: steelblue;
+  shape-rendering: crispEdges;
+}
+
+vf-hist .bar text {
+  fill: #fff;
+}
+
+vf-hist .axis path, vf-hist .axis line {
+  fill: none;
+  stroke: #FFF;
+  shape-rendering: crispEdges;
+}
+
+vf-hist text{
+	fill: #FFF;
+	shape-rendering: crispEdges;
+}
+
+vf-splot2 .twodscatterplotaxislabel
+{
+	font-family:Verdana;
+	color:white;
+	font-size:10;
+}
+
+vf-splot2 g > text, #xlabel, #ylabel
+{
+	fill:white;
+}
+
+vf-splot2 circle
+{
+	fill:#1f77b4;
+}
+
+vf-splot2 .domain
+{
+	stroke:#fff;
+	fill-opacity:0;
+	shape-rendering: crispEdges;
+}
+
+vf-heatmap text {
+	fill: white;
+	z-index: 999;
+}
+
+vf-comparelist  .comparelist rect[selected1=true]
+{
+     fill-opacity : 1;
+	 stroke-opacity: 1; 
+}
+vf-comparelist .comparelist rect[selected1=false]
+{
+     fill-opacity : 0.3;
+	 stroke-opacity: 0.5;
+}
+vf-comparelist  .comparelist text[selected1=true]
+{
+     /*fill-opacity : 1;*/
+	 stroke-opacity: 1; 
+	 fill : white;
+	 font-size: 13px;
+}
+vf-comparelist .comparelist text[selected1=false]
+{
+    /*fill-opacity : 0.3;*/
+	 stroke-opacity: 0.5;
+	 fill : white;
+	 font-size: 13px;
+	 cursor: default !important;
+}
+
+vf-comparelist .comparelist rect  
+{
+     stroke: white;
+}
+vf-comparelist .comparelist line[selected1=true] 
+{
+     stroke-width: 1.5;
+	 stroke : white !important;
+	 stroke-opacity: 1;
+}
+vf-comparelist .comparelist line[selected1=false]
+{
+	 stroke : white !important;
+	 stroke-opacity: 0.3;
+}
+
+vf-comparelist  .comparelist text[mousein = true] {
+        stroke-opacity : 1;
+		cursor:pointer;
+}
+vf-comparelist  .comparelist text [mousein = false] {
+        stroke-opacity : 0.5;
+}
+
+vf-comparelist  .comparelist rect[mousein = true] {
+        stroke-opacity: 1; 
+		stroke-width: 2;
+		cursor:pointer;
+}
+
+vf-bubbles text {
+	fill: #FFFFFF;
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iFAB="iFAB" targetNamespace="iFAB">
+
+  <xs:annotation>
+    <xs:appinfo>iFAB Foundry Special Details XML Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This schema defines an XML file for representing special details (wire harnesses, junction boxes, etc.)</xs:documentation>
+  </xs:annotation>
+
+  <xs:include schemaLocation="common.xsd" />
+  <xs:include schemaLocation="wireHarness.xsd" />
+  <xs:include schemaLocation="controlBox.xsd" />
+  <xs:include schemaLocation="hydraulicAssembly.xsd" />
+  <xs:include schemaLocation="armor.xsd" />
+
+  <xs:element name="specialDetail" type="iFAB:specialDetail" />
+
+  <xs:complexType name="specialDetail">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="attributes" type="iFAB:attributes" />
+      <xs:element name="bom" type="iFAB:bom" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="attributes">
+    <xs:choice>
+      <xs:element name="wireHarness" type="iFAB:wireHarness" />
+      <xs:element name="controlBox" type="iFAB:controlBox" />
+      <xs:element name="hydraulicAssembly" type="iFAB:hydraulicAssembly" />
+      <xs:element name="armor" type="iFAB:armor" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="bom">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="lineItem" type="iFAB:lineItem" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="lineItem">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="fabricated" type="xs:string" />
+      <xs:element name="manufacturer" type="xs:string" />
+      <xs:element name="partNumber" type="xs:string" />
+      <xs:element name="description" type="xs:string" />
+      <xs:element name="quantity" type="xs:double" />
+      <xs:element name="unitOfMeasure" type="xs:string" />
+      <xs:element name="unitCost" type="xs:double" />
+      <xs:element name="leadTime" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

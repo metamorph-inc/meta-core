@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<iFAB:manufacturingDetails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iFAB="iFAB" xsi:schemaLocation="iFAB manufacturingDetails.xsd">
+  <purchased>
+    <supplier>
+      <CAGEIdentifier>
+        <CAGECode>
+          <code>Supplier2</code>
+        </CAGECode>
+      </CAGEIdentifier>
+      <catalogNumber>catalogNumber1</catalogNumber>
+      <componentInfo>http://uri1</componentInfo>
+      <FOB>Origin</FOB>
+      <leadTime unit="days">7</leadTime>
+      <leadTimeBasis>leadTimeBasis1</leadTimeBasis>
+      <leadTimeUncertainty>1</leadTimeUncertainty>
+      <packaging>Pallet</packaging>
+      <partDescription>partDescription1</partDescription>
+      <paymentTerms>paymentTerms1</paymentTerms>
+      <price currency="USD">159.99</price>
+      <quantity>1</quantity>
+      <shipmentDimensions>{4 8 12}</shipmentDimensions>
+      <shippingMass>550</shippingMass>
+      <shippingPointAddress>street city state zip</shippingPointAddress>
+      <transportationNeeds>
+        <TransportationNeed>TemperatureControl</TransportationNeed>
+        <TransportationNeed>HazardousMaterial</TransportationNeed>
+      </transportationNeeds>
+      <unitOfIssue>1</unitOfIssue>
+    </supplier>
+  </purchased>
+</iFAB:manufacturingDetails>

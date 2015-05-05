@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhySoT">
+  <Component Id="CyPhySoT.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhySoT.dll" Name="CyPhySoT.dll" KeyPath="yes" Source="..\src\CyPhySoT\bin\Release\CyPhySoT.dll" />
+    <Class Id="{4AC09660-0B8E-4B13-9871-A0DC91FADE0A}" Context="InprocServer32" Description="MGA.Interpreter.CyPhySoT" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Interpreter.CyPhySoT" Description="MGA.Interpreter.CyPhySoT" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{4AC09660-0B8E-4B13-9871-A0DC91FADE0A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{4AC09660-0B8E-4B13-9871-A0DC91FADE0A}\InprocServer32" Name="Class" Value="CyPhySoT.CyPhySoTInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{4AC09660-0B8E-4B13-9871-A0DC91FADE0A}\InprocServer32" Name="Assembly" Value="CyPhySoT, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{4AC09660-0B8E-4B13-9871-A0DC91FADE0A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{4AC09660-0B8E-4B13-9871-A0DC91FADE0A}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhySoT.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+
+    <Class Id="{B08E33CA-6FAF-4528-B3A0-23318DC1F093}" Context="InprocServer32" Description="ISIS.META.CyPhySoTSettings" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="ISIS.META.CyPhySoTSettings" Description="ISIS.META.CyPhySoTSettings" />
+    </Class>
+
+    <RegistryValue Root="HKCR" Key="CLSID\{B08E33CA-6FAF-4528-B3A0-23318DC1F093}\InprocServer32" Name="Class" Value="CyPhySoT.CyPhySoTSettings" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{B08E33CA-6FAF-4528-B3A0-23318DC1F093}\InprocServer32" Name="Assembly" Value="CyPhySoT, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{B08E33CA-6FAF-4528-B3A0-23318DC1F093}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{B08E33CA-6FAF-4528-B3A0-23318DC1F093}\InprocServer32" Name="SupportedRuntimeVersions" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{B08E33CA-6FAF-4528-B3A0-23318DC1F093}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhySoT.dll]" Type="string" Action="write" />
+
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyPhySoT'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhySoT'/>
+      <RegistryValue Name='Icon' Type='string' Value='[#CyPhySoT.ico]'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <!-- RegistryValue Name='Tooltip' Type='string' Value='TOOLTIP_TEXT'/ -->
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+  <Component Directory="INSTALLDIR_BIN">
+    <File Source="..\src\CyPhySoT\CyPhySoT.ico" />
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

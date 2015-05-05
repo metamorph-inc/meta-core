@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated Models">
+      <UniqueIdentifier>{e257d511-767f-48b2-8b63-ed2ba2179b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XME">
+      <UniqueIdentifier>{e06eb0e3-e7d0-4fd9-8e3f-35842d064a88}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <meta2uml Include="..\..\generated\Cyber\models\CyberComposition.mga">
+      <Filter>Generated Models</Filter>
+    </meta2uml>
+  </ItemGroup>
+  <ItemGroup>
+    <udm Include="..\..\generated\Cyber\models\CyberComposition_udm.xml">
+      <Filter>Generated Models</Filter>
+    </udm>
+  </ItemGroup>
+  <ItemGroup>
+    <mga2udmxml Include="..\..\generated\Cyber\models\CyberComposition_uml.mga">
+      <Filter>Generated Models</Filter>
+    </mga2udmxml>
+  </ItemGroup>
+  <ItemGroup>
+    <xme2mga Include="CyberComposition.xme">
+      <Filter>XME</Filter>
+    </xme2mga>
+  </ItemGroup>
+</Project>

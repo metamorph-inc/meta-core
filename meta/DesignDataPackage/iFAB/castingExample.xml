@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<iFAB:manufacturingDetails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iFAB="iFAB" xsi:schemaLocation="iFAB manufacturingDetails.xsd">
+  <casting>
+    <material>
+      <carbonSteel>4130 - 130/115</carbonSteel>
+    </material>
+    <planarFaces>
+      <generalTolerance unit="mm">0.127</generalTolerance>
+      <surfaceRoughness unit="um">1.5875</surfaceRoughness>
+    </planarFaces>
+    <curvedSurfaces>
+      <generalTolerance unit="mm">0.127</generalTolerance>
+      <surfaceRoughness unit="um">1.5875</surfaceRoughness>
+    </curvedSurfaces>
+    <curvedWalls>
+      <generalTolerance unit="mm">0.127</generalTolerance>
+      <surfaceRoughness unit="um">1.5875</surfaceRoughness>
+    </curvedWalls>
+    <simpleHoles>
+      <diametricalTolerance unit="mm">0.0254</diametricalTolerance>
+      <positionalTolerance unit="mm">0.0254</positionalTolerance>
+      <surfaceRoughness unit="um">1.5875</surfaceRoughness>
+      <threaded>true</threaded>
+    </simpleHoles>
+    <inorganicCoatings>
+      <inorganicCoating>Sulfuric Acid Annodize</inorganicCoating>
+    </inorganicCoatings>
+    <organicCoatings>
+      <organicCoating>non-CARC</organicCoating>
+    </organicCoatings>
+  </casting>
+</iFAB:manufacturingDetails>

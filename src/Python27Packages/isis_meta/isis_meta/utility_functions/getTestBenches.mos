@@ -1,0 +1,34 @@
+
+//loadModel(Modelica,{"3.2"});
+
+loadFile("C2M2L_Ext/package.mo");
+//list(C2M2L_Ext);
+allClassNames := getClassNames(C2M2L_Ext, qualified = true, recursive=true, sort=true);
+
+json := "{";
+
+all_items := 0;
+for item in allClassNames[1:end-1] loop
+	all_items := all_items + 1;
+end for;
+
+
+index := 0;
+for item in allClassNames[1:end-1] loop
+	index := index + 1;
+	isExtends := "false";
+	if OpenModelica.Scripting.extendsFrom(item, Icons.Simple_Test_Case) or OpenModelica.Scripting.extendsFrom(item, C2M2L_Ext.Icons.Simple_Test_Case) then
+		isExtends := "true";
+	end if;
+	item_separator := ",";
+	if index==all_items then
+		item_separator := "";
+	end if;
+	json := json + "    \"" + OpenModelica.Scripting.typeNameString(item) + "\":" + isExtends + item_separator + "\n";
+end for;
+json := json + "}";
+
+filetmp := "test_benches.json";
+writeFile(filetmp, json);
+
+

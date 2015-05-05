@@ -1,0 +1,86 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ output extension=".py" #>
+import os
+import sys
+import logging
+import subprocess
+
+def find_python_path():
+    import _winreg
+    meta_python_path = ""
+    try:
+        uninstall_key = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r"Software\META", 0,
+                                        _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY)
+        val, typ = _winreg.QueryValueEx(uninstall_key, 'META_PATH')
+        meta_python_path = os.path.join(val, r"bin\Python27\Scripts\Python.exe")
+    except WindowsError as e:
+        meta_python_path = None
+        
+    return meta_python_path
+
+
+def call_script(meta_python, scriptname, logger):
+    return_out = 0
+    try:
+        script_cmd = '"{0}" "{1}"'\
+                    .format(meta_python, scriptname)
+            
+        status = subprocess.check_output(script_cmd, stderr=subprocess.STDOUT, shell=True)
+        logger.info('Subprocess call [{0}] ' + scriptname + ' successful')
+    except subprocess.CalledProcessError as err:
+        msg = "Subprocess call failed!"
+        msg += "\n  command       : {0}".format(err.cmd)
+        msg += "\n  return-code   : {0}".format(err.returncode)
+        if err.output:
+            msg += "\n  console output: \n\n{0}".format(err.output)
+        if err.message:
+            msg +=  "\n  error message : {0}".format(err.message)
+        logger.error(msg)
+        return_out = 1
+
+    return return_out
+ 
+if __name__ == '__main__':
+    debuglogfile = r'log/<#= CyPhy2CAD_CSharp.TestBenchModel.TestBenchBase.SanitizePythonRawString(LogName) #>'
+    if os.path.exists(debuglogfile):
+        os.remove(debuglogfile)
+    logger = logging.getLogger('debug')
+    if not os.path.exists('log'):
+        os.mkdir('log')
+    hdlr = logging.FileHandler(debuglogfile)
+    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    hdlr.setFormatter(formatter)
+    logger.addHandler(hdlr)
+    logger.setLevel(logging.INFO)
+
+    if not os.path.exists('testbench_manifest.json'):
+        logger.error('File does not exist: testbench_manifest.json')
+        sys.exit(1)
+    if (len(sys.argv) > 1):
+        if not os.path.exists(sys.argv[1]):
+            logger.error('Given result file does not exist: {0}'.format(sys.argv[1]))
+            sys.exit(1)
+    errorcnt = 0
+    meta_python = find_python_path()
+    if meta_python is not None:
+    <# foreach (var name in ScriptNames)
+    { #>
+    if call_script(meta_python, r'<#= CyPhy2CAD_CSharp.TestBenchModel.TestBenchBase.SanitizePythonRawString(name) #>', logger) > 0:
+    <#  } #>
+        logger.error('Can not find META Python Package!')
+            errorcnt +=1
+
+    if errorcnt > 0:
+        open('_FAILED.txt', 'wb').write('Script error, for details see ' + debuglogfile)
+<#+  
+public List<string> ScriptNames {get;set;}
+public string LogName {get;set;}
+#>

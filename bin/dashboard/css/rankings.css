@@ -1,0 +1,20 @@
+/* vf-datatable table *
+{
+border:none !important;
+border-collapse: separate !important;
+}
+
+vf-datatable table
+{
+border-radius: 4px;
+border-color: whiteSmoke;
+border-width: 1px;
+border-style: solid;
+} */
+
+#tabpage a,
+#tabpage a:hover
+{
+color: whiteSmoke;
+text-decoration: none;
+}

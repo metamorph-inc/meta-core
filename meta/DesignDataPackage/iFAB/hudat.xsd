@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iFAB="iFAB" targetNamespace="iFAB">
+
+  <xs:annotation>
+    <xs:appinfo>iFAB Foundry Hull Design and Analysis Tool XML Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This schema defines an XML file for representing the input data to the HuDAT software.</xs:documentation>
+  </xs:annotation>
+
+  <xs:include schemaLocation="common.xsd" />
+
+	<xs:element name="hudatWelds">
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="hudatWeld" type="iFAB:hudatWeld"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:complexType name="hudatWeld" xmlns="iFAB">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="componentClass" type="xs:string" />
+			<xs:element name="UUID" type="guid" />
+			<xs:element name="instanceID" type="xs:string" />
+			<xs:element name="jointType" type="jointType" />
+			<xs:element name="grooveConfiguration" type="grooveConfiguration" />
+			<xs:element name="weldJointConfiguration" type="weldJointConfiguration" />
+			<xs:element name="weldPenetration" type="weldPenetration" />
+			<xs:element name="doubleSided" type="xs:boolean" />
+			<xs:element name="materialWeldCompatible" type="xs:boolean" />
+			<xs:element name="weldProcess" type="weldProcess" />
+			<xs:element name="inspectionReqt" type="xs:string" />
+			<xs:element name="weldLength" type="length" />
+			<xs:element name="jointStrengthReqt" type="pressure" />
+			<xs:element name="jointElongationReqt" type="xs:double" />
+			<xs:element name="fillerMaterialSpec" type="fillerMaterial" />
+			<xs:element name="weldSide1" type="weldSide" />
+			<xs:element name="weldSide2" type="weldSide" minOccurs="0" />
+			<xs:element name="part1" type="part" />
+			<xs:element name="part2" type="part" />
+		</xs:sequence>
+	</xs:complexType>
+
+  <xs:complexType name="weldSide" xmlns="iFAB">
+    <xs:sequence>
+      <xs:element name="incAngle" type="angle" />
+      <xs:element name="leg1Length" type="length" />
+      <xs:element name="leg2Length" type="length" />
+      <xs:element name="weldArea" type="area" />
+      <xs:element name="weldVolume" type="volume" />
+    </xs:sequence>
+  </xs:complexType>
+  
+    <!-- TODO: Need a proper definition of material -->
+	<xs:complexType name="material" xmlns="iFAB">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="id" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+						
+  <xs:complexType name="part" xmlns="iFAB">
+    <xs:sequence>
+      <xs:element name="id" type="guid" />
+      <xs:element name="stockNumber" type="xs:string" />
+	  <xs:element name="creoName" type="xs:string" />
+	  <xs:element name="stepName" type="xs:string" />
+      <xs:element name="thickness" type="length" />
+      <xs:element name="material" type="material" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="jointType" xmlns="iFAB">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="tee" />
+      <xs:enumeration value="butt" />
+      <xs:enumeration value="corner" />
+      <xs:enumeration value="skewedplate" />
+      <xs:enumeration value="edge" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="grooveConfiguration" xmlns="iFAB">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="square" />
+      <xs:enumeration value="v" />
+      <xs:enumeration value="bevel" />
+      <xs:enumeration value="double v" />
+      <xs:enumeration value="double bevel" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="weldJointConfiguration" xmlns="iFAB">
+    <xs:restriction base="xs:token">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="weldPenetration" xmlns="iFAB">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="partial" />
+      <xs:enumeration value="complete" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="weldProcess" xmlns="iFAB">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="GMAW" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="fillerMaterial">
+    <xs:restriction base="xs:token">
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

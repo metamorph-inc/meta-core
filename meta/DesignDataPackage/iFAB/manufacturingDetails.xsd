@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iFAB="iFAB" targetNamespace="iFAB">
+
+  <xs:annotation>
+    <xs:appinfo>iFAB Foundry BOM Part Manufacturing Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This schema defines an XML file for representing the manufacturing details for parts.</xs:documentation>
+  </xs:annotation>
+
+  <xs:include schemaLocation="common.xsd" />
+  <xs:include schemaLocation="materials.xsd" />
+  <xs:include schemaLocation="procurementDetails.xsd" />
+  <xs:include schemaLocation="armor.xsd" />
+
+  <xs:element name="manufacturingDetails">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="purchased" type="iFAB:purchased" />
+        <xs:element name="machined" type="iFAB:machined" />
+        <xs:element name="casting" type="iFAB:casting" />
+        <!-- <xs:element name="forging" type="forging" /> -->
+        <xs:element name="plate" type="iFAB:plate" />
+        <xs:element name="pipeBarTube" type="iFAB:pipeBarTube" />
+        <!-- <xs:element name="additive" type="additive" /> -->
+        <!-- <xs:element name="polymer" type="polymer" /> -->
+        <!-- <xs:element name="plastic" type="plastic" /> -->
+        <xs:element name="armor" type="iFAB:armor" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="baseClass" abstract="true">
+    <xs:sequence>
+      <xs:element name="notes" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="purchased">
+    <xs:complexContent>
+      <xs:extension base="iFAB:baseClass">
+        <xs:sequence>
+          <xs:element name="NSN" type="xs:string" minOccurs="0" />
+          <!-- for backwards compatibility, too be removed -->
+          <xs:choice minOccurs="1">
+            <xs:element name="supplier" type="iFAB:supplier" />
+            <xs:element name="fabricationSupplier" type="iFAB:fabricationSupplier" />
+            <xs:element name="manufacturer" type="iFAB:manufacturer" />
+            <xs:element name="historicalSupplier" type="iFAB:historicalSupplier" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="machined">
+    <xs:complexContent>
+      <xs:extension base="iFAB:baseClass">
+        <xs:sequence>
+          <xs:element name="material" type="iFAB:machinedMaterials" />
+          <xs:element name="planarFaces" type="iFAB:generalTolerance" />
+          <xs:element name="curvedSurfaces" type="iFAB:generalTolerance" />
+          <xs:element name="curvedWalls" type="iFAB:generalTolerance" />
+          <xs:element name="simpleHoles" type="iFAB:simpleHoles" />
+          <xs:element name="inorganicCoatings" type="iFAB:inorganicCoatings" minOccurs="0" />
+          <xs:element name="organicCoatings" type="iFAB:organicCoatings" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="casting">
+    <xs:complexContent>
+      <xs:extension base="iFAB:baseClass">
+        <xs:sequence>
+          <xs:element name="material" type="iFAB:castingMaterials" />
+          <xs:element name="planarFaces" type="iFAB:castingGeneralTolerance" />
+          <xs:element name="curvedSurfaces" type="iFAB:castingGeneralTolerance" />
+          <xs:element name="curvedWalls" type="iFAB:castingGeneralTolerance" />
+          <xs:element name="simpleHoles" type="iFAB:castingSimpleHoles" />
+          <!-- <xs:element ref="heatTreatment" minOccurs="0" /> -->
+          <xs:element name="inorganicCoatings" type="iFAB:inorganicCoatings" minOccurs="0" />
+          <xs:element name="organicCoatings" type="iFAB:organicCoatings" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!--
+  <xs:complexType name="forging">
+    <xs:complexContent>
+      <xs:extension base="baseClass">
+        <xs:sequence>
+          <xs:element ref="baseMaterial" />
+          <xs:element ref="material" />
+          <xs:element ref="planarFaces" />
+          <xs:element ref="curvedSurfaces" />
+          <xs:element ref="curvedWalls" />
+          <xs:element ref="simpleHoles" />
+          <xs:element ref="heatTreatment" minOccurs="0" />
+          <xs:element ref="inorganicCoatings" minOccurs="0" />
+          <xs:element ref="organicCoatings" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  -->
+
+  <xs:complexType name="plate">
+    <xs:complexContent>
+      <xs:extension base="iFAB:baseClass">
+        <xs:sequence>
+          <xs:element name="material" type="iFAB:plateSheetMaterials" />
+          <xs:element name="planarFaces" type="iFAB:generalTolerance" />
+          <xs:element name="bends" type="iFAB:bends" />
+          <xs:element name="simpleHoles" type="iFAB:simpleHoles" />
+          <xs:element name="complexHoles" type="iFAB:generalTolerance" />
+          <xs:element name="inorganicCoatings" type="iFAB:inorganicCoatings" minOccurs="0" />
+          <xs:element name="organicCoatings" type="iFAB:organicCoatings" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="pipeBarTube">
+    <xs:complexContent>
+      <xs:extension base="iFAB:baseClass">
+        <xs:sequence>
+          <xs:element name="material" type="iFAB:pipeBarTubeMaterials" />
+          <xs:element name="ends" type="iFAB:ends" />
+          <xs:element name="bends" type="iFAB:bends" />
+          <xs:element name="simpleHoles" type="iFAB:simpleHoles" />
+          <xs:element name="complexHoles" type="iFAB:generalTolerance" />
+          <xs:element name="inorganicCoatings" type="iFAB:inorganicCoatings" minOccurs="0" />
+          <xs:element name="organicCoatings" type="iFAB:organicCoatings" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!--
+  <xs:complexType name="additive">
+    <xs:complexContent>
+      <xs:extension base="baseClass">
+        <xs:sequence>
+          <xs:element ref="baseMaterial" />
+          <xs:element ref="material" />
+          <xs:element ref="planarFaces" />
+          <xs:element ref="curvedSurfaces" />
+          <xs:element ref="curvedWalls" />
+          <xs:element ref="simpleHoles" />
+          <xs:element ref="heatTreatment" minOccurs="0" />
+          <xs:element ref="inorganicCoatings" minOccurs="0" />
+          <xs:element ref="organicCoatings" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="polymer">
+    <xs:complexContent>
+      <xs:extension base="baseClass">
+        <xs:sequence>
+          <xs:element ref="baseMaterial" />
+          <xs:element ref="material" />
+          <xs:element ref="planarFaces" />
+          <xs:element ref="curvedSurfaces" />
+          <xs:element ref="curvedWalls" />
+          <xs:element ref="simpleHoles" />
+          <xs:element ref="organicCoatings" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="plastic">
+    <xs:complexContent>
+      <xs:extension base="baseClass">
+        <xs:sequence>
+          <xs:element ref="baseMaterial" />
+          <xs:element ref="material" />
+          <xs:element ref="process" />
+          <xs:element ref="planarFaces" />
+          <xs:element ref="curvedSurfaces" />
+          <xs:element ref="curvedWalls" />
+          <xs:element ref="simpleHoles" />
+          <xs:element ref="organicCoatings" minOccurs="0" /> 
+       </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  -->
+
+  <!-- <xs:element name="heatTreatment" type="heatTreatment" /> -->
+  <!-- <xs:element name="surfaceTreatment" type="surfaceTreatmentType" default="None" /> -->
+
+  <xs:complexType name="bends">
+    <xs:sequence>
+      <xs:element name="bendAngleTolerance" type="iFAB:angle" default="0.1" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="castingGeneralTolerance">
+    <xs:sequence>
+      <xs:element name="generalTolerance" type="iFAB:length" default="0.254" />
+      <xs:element name="surfaceRoughness" type="iFAB:length" default="0.006352" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="castingSimpleHoles">
+    <xs:sequence>
+      <xs:element name="diametricalTolerance" type="iFAB:length" default="0.254" />
+      <xs:element name="positionalTolerance" type="iFAB:length" default="0.254" />
+      <xs:element name="surfaceRoughness" type="iFAB:length" default="0.006352" />
+      <xs:element name="threaded" type="xs:boolean" default="false" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ends">
+    <xs:sequence>
+      <xs:element name="generalTolerance" type="iFAB:length" default="0.254" />
+      <xs:element name="surfaceRoughness" type="iFAB:length" default="0.003176" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="generalTolerance">
+    <xs:sequence>
+      <xs:element name="generalTolerance" type="iFAB:length" default="0.127" />
+      <xs:element name="surfaceRoughness" type="iFAB:length" default="0.001588" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="simpleHoles">
+    <xs:sequence>
+      <xs:element name="diametricalTolerance" type="iFAB:length" default="0.127" />
+      <xs:element name="positionalTolerance" type="iFAB:length" default="0.127" />
+      <xs:element name="surfaceRoughness" type="iFAB:length" default="0.001588" />
+      <xs:element name="threaded" type="xs:boolean" default="false" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- heat treatment option is currently disabled
+  <xs:complexType name="heatTreatment">
+    <xs:sequence>
+      <xs:element name="type" type="heatTreatmentType" />
+      <xs:element name="hardness" type="hardness" />
+    </xs:sequence>
+  </xs:complexType>
+-->
+
+  <xs:complexType name="inorganicCoatings">
+    <xs:sequence>
+      <xs:element name="inorganicCoating" type="iFAB:inorganicCoatingType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="organicCoatings">
+    <xs:sequence>
+      <xs:element name="organicCoating" type="iFAB:organicCoatingType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- the heat treatment option is currently disabled (derived from properties)
+  <xs:simpleType name="heatTreatmentType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Annealing" />
+      <xs:enumeration value="Hardening" />
+      <xs:enumeration value="Tempering" />
+      <xs:enumeration value="Surface Carburizing" />
+      <xs:enumeration value="Carbon Restoration" />
+      <xs:enumeration value="Induction Hardening" />
+    </xs:restriction>
+  </xs:simpleType>
+-->
+
+  <!-- the surface treatment option is currently disabled
+  <xs:simpleType name="surfaceTreatmentType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Shot Peening" />
+      <xs:enumeration value="Blasting" />
+    </xs:restriction>
+  </xs:simpleType>
+-->
+
+  <xs:simpleType name="inorganicCoatingType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Black Chrome" />
+      <xs:enumeration value="Cadmium" />
+      <xs:enumeration value="Sulfuric Acid Annodize" />
+      <xs:enumeration value="Hard Coat Annodize" />
+      <xs:enumeration value="Manganese Phosphate" />
+      <xs:enumeration value="Black Oxide" />
+      <xs:enumeration value="Nickel" />
+      <xs:enumeration value="Zinc Phosphate" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="organicCoatingType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="CARC" />
+      <xs:enumeration value="non-CARC" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="processType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Injection Molding" />
+      <xs:enumeration value="Blow Molding" />
+      <xs:enumeration value="Roto Molding" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Purchased part elements defined below -->
+
+  <xs:complexType name="ArrayOfCAGEIdentifier">
+    <xs:sequence>
+      <xs:choice minOccurs="1">
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="CAGECode" type="iFAB:CAGECode" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="CAGEInformation" type="iFAB:CAGEInformation" />
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="CAGEIdentifier" abstract="true">
+    <xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CAGECode">
+    <xs:complexContent>
+      <xs:extension base="iFAB:CAGEIdentifier">
+        <xs:sequence>
+          <xs:element name="code" type="xs:string" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CAGEInformation">
+    <xs:complexContent>
+      <xs:extension base="iFAB:CAGEIdentifier">
+        <xs:sequence>
+          <xs:element name="address" type="xs:string" minOccurs="0" />
+          <xs:element name="city" type="xs:string" minOccurs="0" />
+          <xs:element name="companyName" type="xs:string" minOccurs="0"/>
+          <xs:element name="companyWebsite" type="xs:string" minOccurs="0" />
+          <xs:element name="faxNumber" type="xs:string" minOccurs="0" />
+          <xs:element name="POBox" type="xs:string" minOccurs="0" />
+          <xs:element name="POC" type="xs:string" minOccurs="0" />
+          <xs:element name="state" type="xs:string" minOccurs="0" />
+          <xs:element name="phoneNumber" type="xs:string" minOccurs="0" />
+          <xs:element name="zip" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="CAGE" abstract="true">
+    <xs:sequence>
+      <xs:element name="CAGEIdentifier" type="iFAB:ArrayOfCAGEIdentifier" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="FOBEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Origin" />
+      <xs:enumeration value="Destination" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="PackagingEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Pallet" />
+      <xs:enumeration value="Box" />
+      <xs:enumeration value="Crate" />
+      <xs:enumeration value="Pieces" />
+      <xs:enumeration value="Each" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="ArrayOfTransportationNeedsEnum">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TransportationNeed" type="iFAB:TransportationNeedsEnum" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:simpleType name="TransportationNeedsEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TemperatureControl" />
+      <xs:enumeration value="HazardousMaterial" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="UnitType">
+    <xs:restriction base="xs:normalizedString" />
+  </xs:simpleType>
+
+  <xs:complexType name="LeadTimeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:float">
+        <xs:attribute name="unit" type="iFAB:UnitType" default="days"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:simpleType name="CurrencyType">
+    <xs:restriction base="xs:normalizedString" />
+  </xs:simpleType>
+
+  <xs:complexType name="PriceType">
+    <xs:simpleContent>
+      <xs:extension base="xs:float">
+        <xs:attribute name="currency" type="iFAB:CurrencyType" default="USD"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="PriceRangeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="currency" type="iFAB:CurrencyType" default="USD" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="MassType">
+    <xs:simpleContent>
+      <xs:extension base="xs:float">
+        <xs:attribute name="unit" type="iFAB:UnitType" default="kg"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="RangeWithUnitType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="unit" type="iFAB:UnitType" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="ShipmentDimensionsType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="unit" type="iFAB:UnitType" default="mm"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="supplier">
+    <xs:complexContent>
+      <xs:extension base="iFAB:CAGE">
+        <xs:sequence>
+          <xs:element name="catalogNumber" type="xs:string" minOccurs="0" />
+          <xs:element name="componentInfo" type="xs:anyURI" minOccurs="0" />
+          <xs:element name="FOB" type="iFAB:FOBEnum" minOccurs="0" />
+          <xs:element name="leadTime" type="iFAB:LeadTimeType" />
+          <xs:element name="leadTimeBasis" type="xs:string" minOccurs="0" />
+          <xs:element name="leadTimeUncertainty" type="xs:float" minOccurs="0" />
+          <xs:element name="packaging" type="iFAB:PackagingEnum" minOccurs="0" />
+          <xs:element name="partDescription" type="xs:string" minOccurs="0" />
+          <xs:element name="paymentTerms" type="xs:string" minOccurs="0" />
+          <xs:element name="price" type="iFAB:PriceType" />
+          <xs:element name="quantity" type="xs:integer" minOccurs="0" default="1" />
+          <xs:element name="shipmentDimensions" type="iFAB:ShipmentDimensionsType" minOccurs="0" />
+          <xs:element name="shippingMass" type="iFAB:MassType" minOccurs="0" />
+          <xs:element name="shippingPointAddress" type="xs:string" minOccurs="0" />
+          <xs:element name="transportationNeeds" type="iFAB:ArrayOfTransportationNeedsEnum" minOccurs="0" />
+          <xs:element name="unitOfIssue" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="fabricationSupplier">
+    <xs:complexContent>
+      <xs:extension base="iFAB:supplier">
+        <xs:sequence>
+          <xs:element name="productionPartCostUncertainty" type="xs:float" minOccurs="0" />
+          <xs:element name="productionPartNRECost" type="iFAB:PriceType" minOccurs="0" />
+          <xs:element name="productionPartToolingCost" type="iFAB:PriceType" minOccurs="0" />
+          <xs:element name="prototypePartCost" type="iFAB:PriceType" minOccurs="0" />
+          <xs:element name="prototypeCostUncertainty" type="xs:float" minOccurs="0" />
+          <xs:element name="prototypeNRECost" type="iFAB:PriceType" minOccurs="0" />
+          <xs:element name="prototypePartToolingCost" type="iFAB:PriceType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="manufacturer">
+    <xs:complexContent>
+      <xs:extension base="iFAB:CAGE">
+        <xs:sequence>
+          <xs:element name="componentInfo" type="xs:anyURI" minOccurs="0" />
+          <xs:element name="partDescription" type="xs:string" minOccurs="0" />
+          <xs:element name="partNumber" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="historicalSupplier">
+    <xs:complexContent>
+      <xs:extension base="iFAB:CAGE">
+        <xs:sequence>
+          <xs:element name="componentInfo" type="xs:anyURI" minOccurs="0" />
+          <xs:element name="lastPurchased" type="xs:date" minOccurs="0" />
+          <xs:element name="price" type="iFAB:PriceType" minOccurs="0" />
+          <xs:element name="priceRange" type="iFAB:PriceRangeType" minOccurs="0" />
+          <xs:element name="quantity" type="xs:string" minOccurs="0" />
+          <xs:element name="unitOfIssue" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+</xs:schema>

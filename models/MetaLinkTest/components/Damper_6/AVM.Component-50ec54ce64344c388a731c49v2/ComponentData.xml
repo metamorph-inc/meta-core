@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="AVM.Component:50ec54ce64344c388a731c49" Name="Damper_6" Version="2" xmlns="avm">
+  <DomainModel xmlns:q1="modelica" xsi:type="q1:ModelicaModel" FilePathWithinResource="" Author="" Notes="" Class="Modelica.Mechanics.Translational.Components.Damper" xmlns="">
+    <Parameter Locator="d">
+      <Value ID="id-8b835f43-369d-40fb-8d53-4665831ef8bc">
+        <ValueExpression xmlns:q2="avm" xsi:type="q2:DerivedValue" ValueSource="ID0" />
+      </Value>
+    </Parameter>
+    <Connector ID="id-df4b8bad-13cf-47a6-bd4c-492245487815" PortMap="" Name="flange_b" Notes="" Definition="" Locator="" Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" />
+    <Connector ID="id-66a53591-1bde-43e0-8fab-15bfa0543147" PortMap="" Name="flange_a" Notes="" Definition="" Locator="" Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" />
+  </DomainModel>
+  <DomainModel xmlns:q3="cad" xsi:type="q3:CADModel" UsesResource="cad.path" Author="" Notes="" xmlns="">
+    <Datum xsi:type="q3:Point" ID="id-11cd4ccc-5fd9-4b4f-b805-6cef771b3804" PortMap="" Name="Point" Notes="" Definition="" DatumName="DAMPER_PT" />
+    <Datum xsi:type="q3:Plane" ID="id-74a7127f-9ca4-4eb4-942d-61ad00e49eb5" PortMap="id-c5c2fc20-9df4-4fec-95c6-b7922185b458" Name="Bottom Flange" Notes="" Definition="" DatumName="COMMON_PLANE_1_BOTTOM" />
+    <Datum xsi:type="q3:Plane" ID="id-0fe8be51-2a3e-4665-a6ac-b5bf8cc242ef" PortMap="id-7d73cc01-c3a3-4261-a9eb-c7c9442b05e4 id-8270dc0d-b02f-4e28-9d3b-7833c6adaa65" Name="Rotational Constraint Plane" Notes="" Definition="" DatumName="COMMON_PLANE_2" />
+    <Datum xsi:type="q3:Plane" ID="id-cc91545e-a2c3-43ed-bf65-7141dec6b15a" PortMap="id-37239795-8cd7-4617-a1e5-0881b45ce5ea" Name="Top Flange" Notes="" Definition="" DatumName="COMMON_PLANE_1_TOP" />
+    <Datum xsi:type="q3:Axis" ID="id-b883c76a-c982-4b27-a445-aac730712b22" PortMap="id-f99e4157-71f5-49d0-833b-36e8ad0a00b4 id-9e5dd2b9-9f8d-47c3-9340-4dd22f839194" Name="Interface Centerline Axis" Notes="" Definition="" DatumName="COMMON_AXIS" />
+    <Parameter Name="DAMPER_D">
+      <Value Unit="mm" ID="id-00090cc7-7877-416f-bf6e-aae889812635">
+        <ValueExpression xmlns:q4="avm" xsi:type="q4:DerivedValue" ValueSource="ID3" />
+      </Value>
+    </Parameter>
+  </DomainModel>
+  <DomainModel xmlns:q5="manufacturing" xsi:type="q5:ManufacturingModel" UsesResource="manufacturing.path" FilePathWithinResource="" Author="" Notes="" xmlns="" />
+  <Property xmlns:q6="avm" xsi:type="q6:PrimitiveProperty" Name="Damping_constant" ID="property.ID0" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="Real" ID="ID0">
+      <ValueExpression xsi:type="q6:FixedValue">
+        <Value>6</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q7="avm" xsi:type="q7:PrimitiveProperty" Name="Damping_offset" ID="property.ID2" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="Real" ID="ID2">
+      <ValueExpression xsi:type="q7:FixedValue">
+        <Value>-2.18</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q8="avm" xsi:type="q8:PrimitiveProperty" Name="Damping_gain" ID="property.ID1" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="Real" ID="ID1">
+      <ValueExpression xsi:type="q8:FixedValue">
+        <Value>0.2511</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q9="avm" xsi:type="q9:PrimitiveProperty" Name="Damper_diameter" ID="param.ID3" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="Real" ID="ID3">
+      <ValueExpression xsi:type="q9:ParametricValue" AssignedValue="5.7076">
+        <Default xsi:type="q9:FixedValue">
+          <Value>5.7076</Value>
+        </Default>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <ResourceDependency Name="Manufacturing_Resource" Path="Manufacturing/DAMPER_6.xml" Hash="" ID="manufacturing.path" Notes="" xmlns="" />
+  <ResourceDependency Name="Resource" Path="CAD/DAMPER" Hash="" ID="cad.path" Notes="" xmlns="" />
+  <Connector ConnectorComposition="" ID="id-a99ef60b-351f-45f1-ace9-530801163cea" ApplyJoinData="" Notes="" Name="Threaded_Hole" Definition="COMMON_INTERFACE" xmlns="">
+    <Role xmlns:q10="cad" xsi:type="q10:Plane" ID="id-8270dc0d-b02f-4e28-9d3b-7833c6adaa65" PortMap="" Name="Rotational Constraint Plane" Notes="" Definition="" />
+    <Role xmlns:q11="cad" xsi:type="q11:Plane" ID="id-37239795-8cd7-4617-a1e5-0881b45ce5ea" PortMap="" Name="Flange" Notes="" Definition="" />
+    <Role xmlns:q12="cad" xsi:type="q12:Axis" ID="id-9e5dd2b9-9f8d-47c3-9340-4dd22f839194" PortMap="" Name="Connector Axis" Notes="" Definition="" />
+    <Role xmlns:q13="modelica" xsi:type="q13:Connector" ID="id-f69b16d3-9b4a-4659-a7ee-fbd52db5dff8" PortMap="id-df4b8bad-13cf-47a6-bd4c-492245487815" Name="TranslationalFlange" Notes="" Definition="" Locator="" Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="id-c20b5e4c-3156-4290-bc63-a30ae8202b66" ApplyJoinData="" Notes="" Name="Threaded_Pin" Definition="COMMON_INTERFACE" xmlns="">
+    <Role xmlns:q14="cad" xsi:type="q14:Plane" ID="id-c5c2fc20-9df4-4fec-95c6-b7922185b458" PortMap="" Name="Flange" Notes="" Definition="" />
+    <Role xmlns:q15="cad" xsi:type="q15:Plane" ID="id-7d73cc01-c3a3-4261-a9eb-c7c9442b05e4" PortMap="" Name="Rotational Constraint Plane" Notes="" Definition="" />
+    <Role xmlns:q16="cad" xsi:type="q16:Axis" ID="id-f99e4157-71f5-49d0-833b-36e8ad0a00b4" PortMap="" Name="Connector Axis" Notes="" Definition="" />
+    <Role xmlns:q17="modelica" xsi:type="q17:Connector" ID="id-ff11f823-6485-49f3-a096-ad6f95f7efa4" PortMap="id-66a53591-1bde-43e0-8fab-15bfa0543147" Name="TranslationalFlange" Notes="" Definition="" Locator="" Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" />
+  </Connector>
+  <Port xmlns:q18="cad" xsi:type="q18:Point" ID="id-d3baf565-6e52-48f5-b55a-b9fe111ef8a9" PortMap="" Name="Point" Notes="" Definition="" xmlns="" />
+  <Classifications xmlns="">AVM.Ontology.8.Category.Damper</Classifications>
+</Component>

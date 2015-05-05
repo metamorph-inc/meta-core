@@ -1,0 +1,56 @@
+<Project DefaultTargets="Test" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+
+  <UsingTask AssemblyFile="..\3rdParty\xunit-1.9.1\xunit.runner.msbuild.dll"
+    TaskName="Xunit.Runner.MSBuild.xunit" />
+
+  <Target Name="Test">
+    <Exec Command="..\bin\Python27\Scripts\Python.exe run_tests_console_output_xml.py" />
+  </Target>
+
+  <ItemGroup>
+    <TestProjects Include="**/*Test.csproj;**/*Tests.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <TestDirectories Include="@(TestProjects->'%(rootdir)%(directory)')"/>
+  </ItemGroup>
+
+  <UsingTask TaskName="GetTestAssemblies" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <Directories ParameterType="System.String[]" Required="true" />
+      <TestAssemblies ParameterType="System.String[]" Output="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System.IO"/>
+      <Using Namespace="System.Linq"/>
+      <Using Namespace="System.Collections.Generic"/>
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+      var ret = new List<string>();
+      foreach (var dir in Directories)
+      {
+        string binDir = Path.Combine(dir, "bin", "Release");
+        if (Directory.Exists(binDir) == false)
+            continue;
+        // TODO: read <AssemblyName> and <OutputPath> from csproj instead?
+        ret.AddRange(
+            new string[]{ "*Test.dll", "*Test.exe" }.SelectMany(pattern => Directory.GetFiles(binDir, pattern)));
+      }
+      TestAssemblies = ret.ToArray();
+]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="Test_csprojs">
+    <GetTestAssemblies Directories='@(TestDirectories)'>
+      <Output ItemName="TestAssemblies" TaskParameter="TestAssemblies"/>
+    </GetTestAssemblies>
+    <Message Text="Running xUnit test assemblies: @(TestAssemblies)" Importance="High"/>
+    <xunit Assemblies="@(TestAssemblies)" Xml="xunit_results.xml" Html="xunit_results.html" ContinueOnError="true"/>
+
+    <XslTransformation XslInputPath="..\3rdParty\xunit-1.9.1\NUnitXml.xslt"
+      XmlInputPaths=".\xunit_results.xml"
+      OutputPaths=".\nunit_results.xml" />
+  </Target>
+
+</Project>

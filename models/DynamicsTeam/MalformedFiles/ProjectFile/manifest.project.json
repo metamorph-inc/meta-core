@@ -1,0 +1,28 @@
+{
+  "Project": {
+    "Components": [],
+    "DesignSpaceModels": [],
+    "Configurations": [
+      "./designs/ComponentAssembly.adm"
+      <
+    ],
+    "TestBenches": [
+      "./test-benches/TestBench.testbench.json"
+    ],
+    "Results": {
+      "UrlHints": [
+        "./results/results.metaresults.json"
+      ]
+    },
+    "Requirements": {
+      "UrlHints": [
+        "./requirements/requirements.json"
+      ],
+      "id": "",
+      "vfLink": "",
+      "text": ""
+    },
+    "CyPhyProjectFileName": "ProjectFile.mga",
+    "LastModified": "2014-07-07 13-04-16"
+  }
+}

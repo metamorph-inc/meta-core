@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Output Example -->
+<iFAB:ddmhOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iFAB="iFAB" xsi:schemaLocation="iFAB ddmhOutput.xsd">
+	<ddmhResult>
+		<queryUUID>10000000-0000-0000-0000-000000000000</queryUUID>
+		<spindleSpeed unit="rpm">8950</spindleSpeed>
+		<axialDepthOfCut unit="mm">9.715</axialDepthOfCut>
+		<radialDepthOfCut unit="mm">18.035</radialDepthOfCut>
+		<feedPerTooth unit="mm">0.050</feedPerTooth>
+	</ddmhResult>
+	<ddmhResult>
+		<queryUUID>20000000-0000-0000-0000-000000000000</queryUUID>
+		<spindleSpeed unit="rpm">10300</spindleSpeed>
+		<axialDepthOfCut unit="mm">12.010</axialDepthOfCut>
+		<radialDepthOfCut unit="mm">22.490</radialDepthOfCut>
+		<feedPerTooth unit="mm">0.063</feedPerTooth>
+	</ddmhResult>
+	<ddmhResult>
+		<error>Unknown material type</error>
+		<queryUUID>30000000-0000-0000-0000-000000000000</queryUUID>
+		<spindleSpeed unit="rpm">0</spindleSpeed>
+		<axialDepthOfCut unit="mm">0</axialDepthOfCut>
+		<radialDepthOfCut unit="mm">0</radialDepthOfCut>
+		<feedPerTooth unit="mm">0</feedPerTooth>
+	</ddmhResult>
+</iFAB:ddmhOutput>

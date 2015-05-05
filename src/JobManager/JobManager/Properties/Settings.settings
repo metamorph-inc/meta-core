@@ -1,0 +1,42 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="JobManager.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="CommandUri" Type="System.String" Scope="User">
+      <Value Profile="(Default)">tcp://localhost:35010/JobServer</Value>
+    </Setting>
+    <Setting Name="MatLabUri" Type="System.String" Scope="User">
+      <Value Profile="(Default)">tcp://localhost:35010/JobServer</Value>
+    </Setting>
+    <Setting Name="CADUri" Type="System.String" Scope="User">
+      <Value Profile="(Default)">tcp://localhost:35010/JobServer</Value>
+    </Setting>
+    <Setting Name="VehicleForgeUri" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SSHHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)">129.59.105.248</Value>
+    </Setting>
+    <Setting Name="SSHUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)">meta</Value>
+    </Setting>
+    <Setting Name="SSHPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">8080</Value>
+    </Setting>
+    <Setting Name="RemoteExecution" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="WipeWorkspaceOnSuccess" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DeleteJobOnSuccess" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UserID" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="JenkinsUri" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

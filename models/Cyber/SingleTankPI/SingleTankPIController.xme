@@ -1,0 +1,2623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{7161AEFA-533E-4E0A-AAD7-A2E5487CCE26}" cdate="Tue Nov 05 15:50:41 2013" mdate="Tue Nov 05 15:50:41 2013" version="" metaguid="{B77C553D-30B2-4B2A-B6B9-00BDFF6F0A58}" metaversion="$Rev: 19506 $" metaname="CyberComposition">
+	<name>RootFolder</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x3" kind="RootFolder" guid="{e58e2a66-e395-4cf4-8acd-d0b81765df7f}">
+		<name>RootFolder</name>
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x8" kind="Components" guid="{9e0ed1c5-5978-4fdc-9d92-42a80ececc1d}">
+			<name>Components</name>
+			<model id="id-0065-00000001" kind="SimulinkWrapper" guid="{fc8f5ebf-0bbc-4991-86a9-eefbd6e6d57d}" relid="0x5" childrelidcntr="0xe">
+				<name>DiscreteWrapper</name>
+				<attribute kind="Class">
+					<value>Simulink.DiscreteWrapper_type</value>
+				</attribute>
+				<model id="id-0065-00000002" kind="Simulink::Subsystem" role="Simulink::Subsystem" guid="{93be1d71-1b24-4430-a44b-29c1ebf6bb80}" relid="0xb" childrelidcntr="0x9">
+					<name>DiscreteControllerOnly</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>154,84</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BlockType">
+						<value>Model</value>
+					</attribute>
+					<attribute kind="Description">
+						<value></value>
+					</attribute>
+					<attribute kind="Name">
+						<value>DiscreteControllerOnly</value>
+					</attribute>
+					<attribute kind="Priority">
+						<value>0</value>
+					</attribute>
+					<attribute kind="RefId">
+						<value>ID0</value>
+					</attribute>
+					<attribute kind="SampleTime">
+						<value>-2</value>
+					</attribute>
+					<attribute kind="Tag">
+						<value></value>
+					</attribute>
+					<attribute kind="UserData" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000003" kind="Simulink::Subsystem" role="Simulink::Subsystem" guid="{ee8cd5d0-3eb6-405c-8b18-272cac94f7f1}" relid="0x1" childrelidcntr="0x30">
+						<name>Subsystem</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>336,133</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="BlockType">
+							<value>SubSystem</value>
+						</attribute>
+						<attribute kind="Description">
+							<value></value>
+						</attribute>
+						<attribute kind="Name">
+							<value>Subsystem</value>
+						</attribute>
+						<attribute kind="Priority">
+							<value>0</value>
+						</attribute>
+						<attribute kind="RefId">
+							<value>ID1</value>
+						</attribute>
+						<attribute kind="SampleTime">
+							<value>0.01</value>
+						</attribute>
+						<attribute kind="Tag">
+							<value></value>
+						</attribute>
+						<attribute kind="UserData" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-00000004" kind="Simulink::Primitive" role="Simulink::Primitive" guid="{14010b24-43b7-4752-965a-b20f41ca0814}" relid="0x2c" childrelidcntr="0x10">
+							<name>Sum1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>133,263</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="BlockType">
+								<value>Sum</value>
+							</attribute>
+							<attribute kind="Description">
+								<value></value>
+							</attribute>
+							<attribute kind="Name">
+								<value>Sum1</value>
+							</attribute>
+							<attribute kind="Priority">
+								<value>0</value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID124</value>
+							</attribute>
+							<attribute kind="SampleTime">
+								<value>0.01</value>
+							</attribute>
+							<attribute kind="Tag">
+								<value></value>
+							</attribute>
+							<attribute kind="UserData" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-00000005" kind="Simulink::OutputPort" role="Simulink::OutputPort" guid="{88b20787-6611-431a-9f88-392f5767a7a0}" relid="0xf" childrelidcntr="0x1">
+								<name>Out_1</name>
+								<attribute kind="Number">
+									<value>1</value>
+								</attribute>
+								<attribute kind="RefId">
+									<value>ID141</value>
+								</attribute>
+								<reference id="id-0067-00000002" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{b54c3917-b0cb-4b07-90f3-d719a31ca7bb}" relid="0x1" referred="id-0066-00000074">
+									<name>double</name>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<model id="id-0065-00000006" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{baa1e324-51ca-4388-bc33-1a8e7209d1ff}" relid="0xe" childrelidcntr="0x1">
+								<name>In_2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>42,7</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number">
+									<value>2</value>
+								</attribute>
+								<attribute kind="RefId">
+									<value>ID139</value>
+								</attribute>
+								<reference id="id-0067-00000003" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{83e4040d-ead9-488d-8e80-f5354ac294e5}" relid="0x1" referred="id-0066-00000074">
+									<name>double</name>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<model id="id-0065-00000007" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{d7b66cd3-b20b-418f-bc79-e1f144112483}" relid="0xd" childrelidcntr="0x1">
+								<name>In_1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>42,42</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number">
+									<value>1</value>
+								</attribute>
+								<attribute kind="RefId">
+									<value>ID137</value>
+								</attribute>
+								<reference id="id-0067-00000004" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{da7baf3c-9120-4045-95b7-319bad7d16f6}" relid="0x1" referred="id-0066-00000074">
+									<name>double</name>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<atom id="id-0066-00000001" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{25ca6e7d-7950-430f-9b87-d85630e0cb6e}" relid="0x9">
+								<name>OutMax</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>77,7</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID133</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000002" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{8b26d0df-015b-4575-9b3e-255d5e3cecc1}" relid="0x8">
+								<name>OutDataTypeStr</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>77,70</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID132</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Inherit via internal rule</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000003" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{005c9ba0-329d-4ce8-a20a-58f4d302ca3b}" relid="0x7">
+								<name>LockScale</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>133,133</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID131</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000004" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{7c001e85-5d58-4fad-9e67-7488d62703a1}" relid="0x6">
+								<name>Inputs</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>7,133</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID130</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>|+-</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000005" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{e29db077-781c-432b-a745-e43d65642647}" relid="0x5">
+								<name>InputSameDT</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>196,196</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID129</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000006" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{995abe2f-ac7d-4498-a73b-028f132383f4}" relid="0x4">
+								<name>IconShape</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>7,196</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID128</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>round</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000007" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{b2bf19af-ad77-438c-a19a-57121d7fd463}" relid="0x3">
+								<name>CollapseMode</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>203,7</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID127</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>All dimensions</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000008" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{9f9a7a89-f911-4f41-a7d3-e32052a8faba}" relid="0x2">
+								<name>CollapseDim</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>203,70</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID126</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>1</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000009" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{ff30077f-86df-4614-bde9-34ae1140bfd7}" relid="0x1">
+								<name>AccumDataTypeStr</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>259,133</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID125</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Inherit via internal rule</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000000a" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{cb6f7d8a-d90e-4a96-8f59-232a944b8184}" relid="0x10">
+								<name>ParamDataTypeStr</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>259,259</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID144</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>double</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000000b" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{aeb55ed3-9cee-4cb3-8197-b71440fcc8aa}" relid="0xc">
+								<name>SaturateOnIntegerOverflow</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>7,259</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID136</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000000c" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{1d3880ee-66e0-40b4-ad8f-13b3a149d606}" relid="0xb">
+								<name>RndMeth</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>133,259</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID135</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Floor</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000000d" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{9470726d-6e23-4943-b624-f56abb23dd4b}" relid="0xa">
+								<name>OutMin</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>322,196</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID134</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+						</model>
+						<model id="id-0065-00000008" kind="Simulink::Primitive" role="Simulink::Primitive" guid="{7548bf48-e3bc-4b02-b9e2-a39fd1f25592}" relid="0x28" childrelidcntr="0x10">
+							<name>Sum</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>324,21</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="BlockType">
+								<value>Sum</value>
+							</attribute>
+							<attribute kind="Description">
+								<value></value>
+							</attribute>
+							<attribute kind="Name">
+								<value>Sum</value>
+							</attribute>
+							<attribute kind="Priority">
+								<value>4</value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID104</value>
+							</attribute>
+							<attribute kind="SampleTime">
+								<value>0.01</value>
+							</attribute>
+							<attribute kind="Tag">
+								<value></value>
+							</attribute>
+							<attribute kind="UserData" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-00000009" kind="Simulink::OutputPort" role="Simulink::OutputPort" guid="{c67e313c-c148-4d7f-9bd8-844dec9ff253}" relid="0xf" childrelidcntr="0x1">
+								<name>Out_1</name>
+								<attribute kind="Number">
+									<value>1</value>
+								</attribute>
+								<attribute kind="RefId">
+									<value>ID121</value>
+								</attribute>
+								<reference id="id-0067-00000005" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{ac2a316e-0d36-4c40-a292-f7ab6b40cd58}" relid="0x1" referred="id-0066-00000074">
+									<name>double</name>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<model id="id-0065-0000000a" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{191ada6b-659d-477d-af28-f3c06dc3c8b8}" relid="0xe" childrelidcntr="0x1">
+								<name>In_2</name>
+								<attribute kind="Number">
+									<value>2</value>
+								</attribute>
+								<attribute kind="RefId">
+									<value>ID119</value>
+								</attribute>
+								<reference id="id-0067-00000006" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{22abadfd-4e93-48d6-869d-4c684f753fff}" relid="0x1" referred="id-0066-00000074">
+									<name>double</name>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<model id="id-0065-0000000b" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{ae708287-77da-4342-871e-8c6f3fe653c5}" relid="0xd" childrelidcntr="0x1">
+								<name>In_1</name>
+								<attribute kind="Number">
+									<value>1</value>
+								</attribute>
+								<attribute kind="RefId">
+									<value>ID117</value>
+								</attribute>
+								<reference id="id-0067-00000007" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{5e684293-81a2-4955-b4f2-3b03bdaf496d}" relid="0x1" referred="id-0066-00000074">
+									<name>double</name>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<atom id="id-0066-0000000e" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{b71ff8a4-cf57-4d12-a4a2-29f2b1ce7119}" relid="0x10">
+								<name>ParamDataTypeStr</name>
+								<attribute kind="RefId">
+									<value>ID123</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>double</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000000f" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{2731dfe5-6f03-4214-bef0-2425a66f4446}" relid="0xc">
+								<name>SaturateOnIntegerOverflow</name>
+								<attribute kind="RefId">
+									<value>ID116</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000010" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{ddbf7896-c14c-4f21-8592-265887353e45}" relid="0xb">
+								<name>RndMeth</name>
+								<attribute kind="RefId">
+									<value>ID115</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Floor</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000011" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{c9400a39-4183-4631-a3f7-aa56b8c53a3e}" relid="0xa">
+								<name>OutMin</name>
+								<attribute kind="RefId">
+									<value>ID114</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000012" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{b9097047-5000-413d-8723-ca5d2c46b19a}" relid="0x9">
+								<name>OutMax</name>
+								<attribute kind="RefId">
+									<value>ID113</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000013" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{98562ba6-c6bf-4cea-9d33-3e872dc85ad5}" relid="0x8">
+								<name>OutDataTypeStr</name>
+								<attribute kind="RefId">
+									<value>ID112</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Inherit via internal rule</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000014" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{fb968d25-9f6e-4c6b-ae63-ab7964ec7beb}" relid="0x7">
+								<name>LockScale</name>
+								<attribute kind="RefId">
+									<value>ID111</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000015" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{c7841a8c-d0a2-4ea5-b993-f423063befa7}" relid="0x6">
+								<name>Inputs</name>
+								<attribute kind="RefId">
+									<value>ID110</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>|++</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000016" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{7177783a-2767-473c-93f4-06cdac2a349f}" relid="0x5">
+								<name>InputSameDT</name>
+								<attribute kind="RefId">
+									<value>ID109</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000017" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{b5e18968-b17b-41d7-b063-f53c52be5587}" relid="0x4">
+								<name>IconShape</name>
+								<attribute kind="RefId">
+									<value>ID108</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>round</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000018" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{705e4629-aa43-4f4c-8bde-01eda8db930a}" relid="0x3">
+								<name>CollapseMode</name>
+								<attribute kind="RefId">
+									<value>ID107</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>All dimensions</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000019" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{1fc58725-66cd-4252-9e6d-bbff28951138}" relid="0x2">
+								<name>CollapseDim</name>
+								<attribute kind="RefId">
+									<value>ID106</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>1</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000001a" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{2b781027-da05-42ab-a77b-d6141780ae0f}" relid="0x1">
+								<name>AccumDataTypeStr</name>
+								<attribute kind="RefId">
+									<value>ID105</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Inherit via internal rule</value>
+								</attribute>
+							</atom>
+						</model>
+						<model id="id-0065-0000000c" kind="Simulink::Primitive" role="Simulink::Primitive" guid="{9fb31905-cde0-4e0f-bd04-ce00b6233b25}" relid="0x27" childrelidcntr="0xd">
+							<name>Gain1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>173,143</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="BlockType">
+								<value>Gain</value>
+							</attribute>
+							<attribute kind="Description">
+								<value></value>
+							</attribute>
+							<attribute kind="Name">
+								<value>Gain1</value>
+							</attribute>
+							<attribute kind="Priority">
+								<value>1</value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID90</value>
+							</attribute>
+							<attribute kind="SampleTime">
+								<value>0.01</value>
+							</attribute>
+							<attribute kind="Tag">
+								<value></value>
+							</attribute>
+							<attribute kind="UserData" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-0000000d" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{295aac0b-6162-409b-b5c8-f6fd7e4c12d3}" relid="0xc" childrelidcntr="0x1">
+								<name>In_1</name>
+								<attribute kind="Number">
+									<value>1</value>
+								</attribute>
+								<attribute kind="RefId">
+									<value>ID102</value>
+								</attribute>
+								<reference id="id-0067-00000008" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{a0abd41e-1cef-4f2f-b9e9-b109acd7a3d5}" relid="0x1" referred="id-0066-00000074">
+									<name>double</name>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<model id="id-0065-0000000e" kind="Simulink::OutputPort" role="Simulink::OutputPort" guid="{c8f06e5c-0248-401c-b72f-9bbd01e2708a}" relid="0xd" childrelidcntr="0x1">
+								<name>Out_1</name>
+								<attribute kind="Number">
+									<value>1</value>
+								</attribute>
+								<attribute kind="RefId">
+									<value>ID103</value>
+								</attribute>
+								<reference id="id-0067-00000009" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{c1c66966-4f06-49a6-9545-4182c76d95bc}" relid="0x1" referred="id-0066-00000074">
+									<name>double</name>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<atom id="id-0066-0000001b" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{41253deb-535e-4b93-a8f2-218152769679}" relid="0xb">
+								<name>SaturateOnIntegerOverflow</name>
+								<attribute kind="RefId">
+									<value>ID101</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000001c" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{556738f4-ffb4-4453-9a48-d69479433e23}" relid="0xa">
+								<name>RndMeth</name>
+								<attribute kind="RefId">
+									<value>ID100</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Floor</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000001d" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{1a2f156a-b8a2-4354-8654-7abe0180ed17}" relid="0x9">
+								<name>ParamMin</name>
+								<attribute kind="RefId">
+									<value>ID99</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000001e" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{687c986a-5fd0-43cd-b22d-30487335a653}" relid="0x8">
+								<name>ParamMax</name>
+								<attribute kind="RefId">
+									<value>ID98</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000001f" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{d72c0a21-1c46-4009-a46b-a5c6953cb4be}" relid="0x7">
+								<name>ParamDataTypeStr</name>
+								<attribute kind="RefId">
+									<value>ID97</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>double</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000020" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{a290239a-b07d-461e-ad73-3d99b5702f70}" relid="0x6">
+								<name>OutMin</name>
+								<attribute kind="RefId">
+									<value>ID96</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000021" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{e1ab16c7-c238-4ef1-8dae-5398ea39a7c2}" relid="0x5">
+								<name>OutMax</name>
+								<attribute kind="RefId">
+									<value>ID95</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000022" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{d7cc7220-6e63-43f7-b855-a909614028ab}" relid="0x4">
+								<name>OutDataTypeStr</name>
+								<attribute kind="RefId">
+									<value>ID94</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Inherit via internal rule</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000023" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{2aacda92-05e4-4359-b3d0-05c5f1f16c49}" relid="0x3">
+								<name>Multiplication</name>
+								<attribute kind="RefId">
+									<value>ID93</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Element-wise(K.*u)</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000024" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{b0df4124-1484-443f-9411-b28b71f8ebc4}" relid="0x2">
+								<name>LockScale</name>
+								<attribute kind="RefId">
+									<value>ID92</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000025" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{2ced6943-8cd4-4916-8cc3-033d4078520c}" relid="0x1">
+								<name>Gain</name>
+								<attribute kind="RefId">
+									<value>ID91</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>0.40000000000000002</value>
+								</attribute>
+							</atom>
+						</model>
+						<model id="id-0065-0000000f" kind="Simulink::Primitive" role="Simulink::Primitive" guid="{bf64ec68-b47b-4c8f-aa4e-8429354c3d19}" relid="0x25" childrelidcntr="0xd">
+							<name>Gain</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>322,263</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="BlockType">
+								<value>Gain</value>
+							</attribute>
+							<attribute kind="Description">
+								<value></value>
+							</attribute>
+							<attribute kind="Name">
+								<value>Gain</value>
+							</attribute>
+							<attribute kind="Priority">
+								<value>2</value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID75</value>
+							</attribute>
+							<attribute kind="SampleTime">
+								<value>0.01</value>
+							</attribute>
+							<attribute kind="Tag">
+								<value></value>
+							</attribute>
+							<attribute kind="UserData" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-00000010" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{0ceeb227-a2db-40a3-bd36-3dc58e49aa8c}" relid="0xc" childrelidcntr="0x1">
+								<name>In_1</name>
+								<attribute kind="Number">
+									<value>1</value>
+								</attribute>
+								<attribute kind="RefId">
+									<value>ID87</value>
+								</attribute>
+								<reference id="id-0067-0000000a" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{5cb90143-4b02-419f-836d-81859a9e44e2}" relid="0x1" referred="id-0066-00000074">
+									<name>double</name>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<model id="id-0065-00000011" kind="Simulink::OutputPort" role="Simulink::OutputPort" guid="{6c8103e4-a3b7-4f73-8044-a2146d6ebf19}" relid="0xd" childrelidcntr="0x1">
+								<name>Out_1</name>
+								<attribute kind="Number">
+									<value>1</value>
+								</attribute>
+								<attribute kind="RefId">
+									<value>ID88</value>
+								</attribute>
+								<reference id="id-0067-0000000b" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{e87a6d35-0f84-4be8-89b4-11dd3f77049d}" relid="0x1" referred="id-0066-00000074">
+									<name>double</name>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<atom id="id-0066-00000026" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{7c48e9a4-e06e-421b-a2f2-15dc151fc4a6}" relid="0xb">
+								<name>SaturateOnIntegerOverflow</name>
+								<attribute kind="RefId">
+									<value>ID86</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000027" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{11a56a63-e3b1-46ac-8961-2cf005a77d4b}" relid="0xa">
+								<name>RndMeth</name>
+								<attribute kind="RefId">
+									<value>ID85</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Floor</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000028" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{5ebd4b40-3b0a-448d-b5be-0d18d0d0a2ac}" relid="0x9">
+								<name>ParamMin</name>
+								<attribute kind="RefId">
+									<value>ID84</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000029" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{fffc6230-66ec-46ee-aae8-3184dbf5480f}" relid="0x8">
+								<name>ParamMax</name>
+								<attribute kind="RefId">
+									<value>ID83</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000002a" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{db37abb5-5e81-4659-9192-061bca7eaa23}" relid="0x7">
+								<name>ParamDataTypeStr</name>
+								<attribute kind="RefId">
+									<value>ID82</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>double</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000002b" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{1f39dc9e-8bf8-456b-ad57-f31a820a0393}" relid="0x6">
+								<name>OutMin</name>
+								<attribute kind="RefId">
+									<value>ID81</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000002c" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{eaee75b8-c5e1-406a-9a4f-4d5e99b00f34}" relid="0x5">
+								<name>OutMax</name>
+								<attribute kind="RefId">
+									<value>ID80</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000002d" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{350fbc65-505e-4165-b134-f3175a40be88}" relid="0x4">
+								<name>OutDataTypeStr</name>
+								<attribute kind="RefId">
+									<value>ID79</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Inherit via internal rule</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000002e" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{469fa512-167f-4996-b2f0-8aaecf79d2f5}" relid="0x3">
+								<name>Multiplication</name>
+								<attribute kind="RefId">
+									<value>ID78</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Element-wise(K.*u)</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000002f" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{d6f6bb77-8e65-4857-aec4-a3bc0606ead6}" relid="0x2">
+								<name>LockScale</name>
+								<attribute kind="RefId">
+									<value>ID77</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000030" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{c78074f1-9f32-4152-9bdd-5039a92e7653}" relid="0x1">
+								<name>Gain</name>
+								<attribute kind="RefId">
+									<value>ID76</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>2</value>
+								</attribute>
+							</atom>
+						</model>
+						<model id="id-0065-00000012" kind="Simulink::Primitive" role="Simulink::Primitive" guid="{37923b41-f9f2-4fe7-a727-bc806ad9aac3}" relid="0x24" childrelidcntr="0x25">
+							<name>DiscreteIntegrator</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>362,140</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="BlockType">
+								<value>DiscreteTransferFcn</value>
+							</attribute>
+							<attribute kind="Description">
+								<value></value>
+							</attribute>
+							<attribute kind="Name">
+								<value>Discrete
+Transfer Fcn</value>
+							</attribute>
+							<attribute kind="Priority">
+								<value>3</value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID37</value>
+							</attribute>
+							<attribute kind="SampleTime">
+								<value>0.01</value>
+							</attribute>
+							<attribute kind="Tag">
+								<value></value>
+							</attribute>
+							<attribute kind="UserData" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-00000013" kind="Simulink::OutputPort" role="Simulink::OutputPort" guid="{a9f940a9-1762-4674-8025-c2d6c18bb380}" relid="0x24" childrelidcntr="0x1">
+								<name>Out_1</name>
+								<attribute kind="Number">
+									<value>1</value>
+								</attribute>
+								<attribute kind="RefId">
+									<value>ID73</value>
+								</attribute>
+								<reference id="id-0067-0000000c" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{4369d64c-01c9-438d-9190-56ff1d7a6f3a}" relid="0x1" referred="id-0066-00000074">
+									<name>double</name>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<model id="id-0065-00000014" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{40ff4f7c-4487-4a54-b426-3c1ab0edb12d}" relid="0x23" childrelidcntr="0x1">
+								<name>In_1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>42,7</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number">
+									<value>1</value>
+								</attribute>
+								<attribute kind="RefId">
+									<value>ID72</value>
+								</attribute>
+								<reference id="id-0067-0000000d" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{b39aae4d-4eae-4c4b-9330-e752e47db150}" relid="0x1" referred="id-0066-00000074">
+									<name>double</name>
+									<attribute kind="MemberIndex" status="meta">
+										<value>0</value>
+									</attribute>
+								</reference>
+							</model>
+							<atom id="id-0066-00000031" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{e9966743-d686-4615-987c-83408b222ffd}" relid="0x1a">
+								<name>RTWStateStorageClass</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>42,42</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID63</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Auto</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000032" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{d52df6cd-ea44-4fc9-af62-0529b2e774ff}" relid="0x19">
+								<name>OutMin</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>105,105</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID62</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000033" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{2ec98479-b2ec-46d8-bcf0-1648a57e78d0}" relid="0x18">
+								<name>OutMax</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>168,7</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID61</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000034" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{1285040f-1b24-4aef-aca4-fadf4f6ca917}" relid="0x17">
+								<name>OutDataTypeStr</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>168,168</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID60</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Inherit via internal rule</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000035" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{3703c0a9-65ea-4279-aefa-5255c68e51f3}" relid="0x16">
+								<name>NumeratorSource</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>7,168</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID59</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Dialog</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000036" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{cc619ac0-ff4e-48ca-b238-f28de9d5394b}" relid="0x15">
+								<name>Numerator</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>231,70</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID58</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>0.01</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000037" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{e772330a-caba-44be-a32d-c5aefb2d0969}" relid="0x14">
+								<name>NumProductDataTypeStr</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>231,231</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID57</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Inherit via internal rule</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000038" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{dc939a4f-9f65-43b1-8de8-8b1f328ea236}" relid="0x13">
+								<name>NumCoefMin</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>7,231</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID56</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000039" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{6ceccdd7-6f03-4b66-a26c-652341dab663}" relid="0x12">
+								<name>NumCoefMax</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>294,7</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID55</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000003a" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{ac0d38ab-2108-45a4-8154-574102fb9cc2}" relid="0x11">
+								<name>NumCoefDataTypeStr</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>294,133</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID54</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Inherit via internal rule</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000003b" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{9dd02afd-879a-4451-92cd-83b9ed9edb1b}" relid="0x10">
+								<name>NumAccumDataTypeStr</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>294,294</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID53</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Inherit via internal rule</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000003c" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{26ae47c5-e612-4e93-8496-1a7d5cef52d0}" relid="0xf">
+								<name>MultiplicandDataTypeStr</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>7,294</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID52</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Same as input</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000003d" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{3acd8a2d-8346-43b4-9caf-7b31f8a82f7d}" relid="0xe">
+								<name>LockScale</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>133,294</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID51</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000003e" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{b5abdb97-e2e0-497e-8bb4-18116deefc11}" relid="0xd">
+								<name>InputProcessing</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>357,70</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID50</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Elements as channels (sample based)</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000003f" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{654bad8a-1150-473e-82fb-4b00920a98ea}" relid="0xc">
+								<name>InitialStatesSource</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>357,196</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID49</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Dialog</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000040" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{ba1e1bd8-9a11-41da-975b-3446a7979dfb}" relid="0xb">
+								<name>InitialStates</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>357,357</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID48</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>0</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000041" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{b112722b-2606-4130-8c70-e23d4f6532f9}" relid="0xa">
+								<name>InitialDenominatorStates</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>7,357</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID47</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>0</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000042" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{cf38244d-e1d1-4ee9-ba73-e03c8b1a3950}" relid="0x9">
+								<name>FilterStructure</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>133,357</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID46</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Direct form II</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000043" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{2c3ea143-fb16-498c-976d-6d5f27da7a01}" relid="0x8">
+								<name>ExternalReset</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>420,7</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID45</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>None</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000044" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{f56574f5-a1fa-472e-8d9e-04ac0604ad8d}" relid="0x7">
+								<name>DenominatorSource</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>420,133</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID44</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Dialog</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000045" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{a7d14f81-b2d3-4d71-ba6e-cbda9c7d4c51}" relid="0x6">
+								<name>Denominator</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>420,259</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID43</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[1 -1]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000046" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{90a36211-a5bb-4925-aa12-436ecb3d81c1}" relid="0x5">
+								<name>DenProductDataTypeStr</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>420,420</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID42</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Inherit via internal rule</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000047" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{5c08419b-1d09-4c2d-837d-d6581701e5cb}" relid="0x4">
+								<name>DenCoefMin</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>7,420</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID41</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000048" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{177f0fef-009b-4d0d-a61f-36d15d4b51a0}" relid="0x3">
+								<name>DenCoefMax</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>133,420</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID40</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000049" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{2ec207e4-ac56-40a0-a0db-dad33c9ca955}" relid="0x2">
+								<name>DenCoefDataTypeStr</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>259,420</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID39</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Inherit via internal rule</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000004a" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{485f3208-f147-43a9-b62a-08803c357617}" relid="0x1">
+								<name>DenAccumDataTypeStr</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>483,70</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID38</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Inherit via internal rule</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000004b" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{7443942e-80ea-497b-bf50-21752f9a51ff}" relid="0x25">
+								<name>ParamDataTypeStr</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>483,196</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID74</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>double</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000004c" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{e960b5de-2b6e-4b62-a2c1-01dcfa7061f0}" relid="0x22">
+								<name>a0EqualsOne</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>483,322</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID71</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000004d" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{ec292d58-7815-4f03-8f14-3583c46cb525}" relid="0x21">
+								<name>StateSignalObject</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>483,483</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID70</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>[]</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000004e" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{a015f3e3-3139-4ebe-991d-fa2804ba5cee}" relid="0x20">
+								<name>StateMustResolveToSignalObject</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>7,483</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID69</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-0000004f" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{8ca18d9b-a264-46d2-a3cf-9df0f0eeefde}" relid="0x1f">
+								<name>StateIdentifier</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>133,483</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID68</value>
+								</attribute>
+								<attribute kind="Value">
+									<value></value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000050" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{39a01a58-7650-4f43-b451-fdd6099f58c9}" relid="0x1e">
+								<name>StateDataTypeStr</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>259,483</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID67</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Inherit: Same as input</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000051" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{d10a3823-eae3-4ee7-867b-b7708d80841a}" relid="0x1d">
+								<name>SaturateOnIntegerOverflow</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>546,7</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID66</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>off</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000052" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{3b048d21-3958-4b05-90bf-d69214f1bc46}" relid="0x1c">
+								<name>RndMeth</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>546,133</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID65</value>
+								</attribute>
+								<attribute kind="Value">
+									<value>Floor</value>
+								</attribute>
+							</atom>
+							<atom id="id-0066-00000053" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{eed2e3f4-4e97-40e0-b52e-f88cffb0a36c}" relid="0x1b">
+								<name>RTWStateStorageTypeQualifier</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>546,259</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="RefId">
+									<value>ID64</value>
+								</attribute>
+								<attribute kind="Value">
+									<value></value>
+								</attribute>
+							</atom>
+						</model>
+						<model id="id-0065-00000015" kind="Simulink::OutputPort" role="Simulink::OutputPort" guid="{e1b5176a-791c-401f-80d4-1d637cced677}" relid="0x22" childrelidcntr="0x1">
+							<name>Out1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>588,154</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID35</value>
+							</attribute>
+							<reference id="id-0067-0000000e" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{970ce665-1dad-4fbe-90e9-b7ca44484740}" relid="0x1" referred="id-0066-00000074">
+								<name>double</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-00000016" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{b359f0b9-284a-42fd-8d84-6e99e2253a98}" relid="0x21" childrelidcntr="0x1">
+							<name>u1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>35,289</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>2</value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID34</value>
+							</attribute>
+							<reference id="id-0067-0000000f" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{b2528a59-3db3-4c92-96ff-b2c8bce5a059}" relid="0x1" referred="id-0066-00000074">
+								<name>double</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-00000017" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{f7fd439c-7e18-4c72-b6c0-fb673d703a03}" relid="0x20" childrelidcntr="0x1">
+							<name>u</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>14,175</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID33</value>
+							</attribute>
+							<reference id="id-0067-00000010" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{749749df-e9f1-4cd8-a94f-d4198e2622f9}" relid="0x1" referred="id-0066-00000074">
+								<name>double</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<atom id="id-0066-00000054" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{0a08ac96-0a43-4442-a5f1-84b661d4cfa7}" relid="0x23">
+							<name>ParamDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>343,639</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID36</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>double</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000055" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{e39c1e15-fc21-4761-a5ec-2f30bd8eb5f6}" relid="0x1f">
+							<name>VariantControl</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>35,716</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID32</value>
+							</attribute>
+							<attribute kind="Value">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000056" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{dbefeda8-dcda-4480-bbf4-5c3d5d782417}" relid="0x1e">
+							<name>Variant</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>189,716</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID31</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000057" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{441c1d84-d0ad-42ca-8bd4-711afadf0250}" relid="0x1d">
+							<name>TreatAsAtomicUnit</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>343,716</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID30</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000058" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{a8fc5b6a-7c69-48b2-902d-14ab092674eb}" relid="0x1c">
+							<name>TemplateBlock</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>35,793</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID29</value>
+							</attribute>
+							<attribute kind="Value">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000059" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{d112914a-0238-4a65-a96c-2cf76788e879}" relid="0x1b">
+							<name>SystemSampleTime</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>189,793</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID28</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>-1</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000005a" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{bdd33e63-83e3-4f60-95bb-96d67537cdd9}" relid="0x1a">
+							<name>ShowPortLabels</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>343,793</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID27</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>FromPortIcon</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000005b" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{df64e602-0edb-4c4e-931f-86a6408639a4}" relid="0x19">
+							<name>RTWSystemCode</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>35,870</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID26</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>Auto</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000005c" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{94f00f12-0e2b-4eaf-bf2e-807df687daf0}" relid="0x18">
+							<name>RTWMemSecFuncInitTerm</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>189,870</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID25</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>Inherit from model</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000005d" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{c6274067-51d7-492c-9261-e469ec75ebb0}" relid="0x17">
+							<name>RTWMemSecFuncExecute</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>189,562</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID24</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>Inherit from model</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000005e" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{8fe4f0e0-82c0-40de-b8d4-df8edfd3129d}" relid="0x16">
+							<name>RTWMemSecDataParameters</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>189,485</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID23</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>Inherit from model</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000005f" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{1c21d34f-24e5-4c9f-91ce-51cffdedcf1e}" relid="0x15">
+							<name>RTWMemSecDataInternal</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>35,485</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID22</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>Inherit from model</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000060" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{3fd82675-4da6-4a2a-8a43-87b1b0481230}" relid="0x14">
+							<name>RTWMemSecDataConstants</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>343,562</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID21</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>Inherit from model</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000061" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{4e254040-7ff6-4e26-a5cd-1bc8366e6084}" relid="0x13">
+							<name>RTWFileNameOpts</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>35,562</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID20</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>Auto</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000062" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{e010db2f-40d2-4db7-82d8-372af0479181}" relid="0x12">
+							<name>RTWFileName</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>35,639</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID19</value>
+							</attribute>
+							<attribute kind="Value">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000063" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{c3dbd757-8889-48b3-bee9-1bcaebfe9e98}" relid="0x11">
+							<name>RTWFcnNameOpts</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>343,870</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID18</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>Auto</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000064" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{d09dd4b6-eff9-4dcf-a949-fc9accdbe930}" relid="0x10">
+							<name>RTWFcnName</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>189,1255</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID17</value>
+							</attribute>
+							<attribute kind="Value">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000065" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{6e5c8248-3489-4865-b4ac-93585ec5a90a}" relid="0xf">
+							<name>PropExecContextOutsideSubsystem</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>35,1101</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID16</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000066" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{9a26cfe5-051d-4a42-8a7c-f5e81f5d848d}" relid="0xe">
+							<name>PermitHierarchicalResolution</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>343,947</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID15</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>All</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000067" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{301e22a1-5bbb-49c1-9137-f273788fc306}" relid="0xd">
+							<name>Permissions</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>343,1024</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID14</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>ReadWrite</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000068" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{1f269b89-b6f0-4b47-9355-57bb7f11d7fd}" relid="0xc">
+							<name>OverrideUsingVariant</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>189,1024</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID13</value>
+							</attribute>
+							<attribute kind="Value">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000069" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{5d64c600-74e9-4449-a4ee-4722440923c4}" relid="0xb">
+							<name>MinAlgLoopOccurrences</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>189,947</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID12</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000006a" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{3d4dbf22-6d2e-419e-8db1-53155ab0047c}" relid="0xa">
+							<name>MemberBlocks</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>35,1024</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID11</value>
+							</attribute>
+							<attribute kind="Value">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000006b" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{a605bde8-2ffd-457e-9156-9a346774121c}" relid="0x9">
+							<name>IsSubsystemVirtual</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>35,947</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID10</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>on</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000006c" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{b54e49a6-87d4-45a8-87cc-62f6f7ca170c}" relid="0x8">
+							<name>GeneratePreprocessorConditionals</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>35,1255</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID9</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000006d" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{1ed686e2-a6d5-49ed-a1e2-79874f133b21}" relid="0x7">
+							<name>FunctionWithSeparateData</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>189,1101</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID8</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000006e" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{cbe0a2d3-4de6-4284-be8b-ce1ce0c1069b}" relid="0x6">
+							<name>FunctionInterfaceSpec</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>189,1178</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID7</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>void_void</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000006f" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{8e943ff3-e37a-434e-8b91-0dc393f17ca3}" relid="0x5">
+							<name>ErrorFcn</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>35,1178</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID6</value>
+							</attribute>
+							<attribute kind="Value">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000070" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{30c96219-60cf-403e-9651-67efd56c8eb7}" relid="0x4">
+							<name>CheckFcnCallInpInsideContextMsg</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>343,1178</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID5</value>
+							</attribute>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000071" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{8d1c12df-4111-4ce8-999b-420d0c14a415}" relid="0x3">
+							<name>BlockChoice</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>343,1101</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID4</value>
+							</attribute>
+							<attribute kind="Value">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000072" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{cd06e194-63ab-48c5-af82-2896db129896}" relid="0x2">
+							<name>ActiveVariantBlock</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>189,639</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID3</value>
+							</attribute>
+							<attribute kind="Value">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000073" kind="Simulink::SF_Parameter" role="Simulink::Parameter" guid="{893a1842-2e86-4515-806c-35705c00467b}" relid="0x1">
+							<name>ActiveVariant</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>343,485</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="RefId">
+								<value>ID2</value>
+							</attribute>
+							<attribute kind="Value">
+								<value></value>
+							</attribute>
+						</atom>
+						<connection id="id-0068-00000001" kind="Simulink::Line" role="Simulink::Line" guid="{467f1d07-b1be-44aa-8e6d-d92381fb38c6}" relid="0x30">
+							<name></name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID143</value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000005"/>
+							<connpoint role="dst" target="id-0065-0000000d"/>
+						</connection>
+						<connection id="id-0068-00000002" kind="Simulink::Line" role="Simulink::Line" guid="{7f243528-dde3-4b83-bfdf-f8f1a1e53448}" relid="0x2f">
+							<name></name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID142</value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000005"/>
+							<connpoint role="dst" target="id-0065-00000010"/>
+						</connection>
+						<connection id="id-0068-00000003" kind="Simulink::Line" role="Simulink::Line" guid="{c2057e8f-7139-4898-98b9-a3466640fffb}" relid="0x2e">
+							<name></name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID140</value>
+							</attribute>
+							<connpoint role="dst" target="id-0065-00000006"/>
+							<connpoint role="src" target="id-0065-00000016"/>
+						</connection>
+						<connection id="id-0068-00000004" kind="Simulink::Line" role="Simulink::Line" guid="{39098763-7f8b-4f9d-810b-71ca7c5ca1ac}" relid="0x2d">
+							<name></name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID138</value>
+							</attribute>
+							<connpoint role="dst" target="id-0065-00000007"/>
+							<connpoint role="src" target="id-0065-00000017"/>
+						</connection>
+						<connection id="id-0068-00000005" kind="Simulink::Line" role="Simulink::Line" guid="{cab9fa40-d761-40e6-9084-4bd14f56d1c4}" relid="0x2b">
+							<name></name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID122</value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000009"/>
+							<connpoint role="dst" target="id-0065-00000015"/>
+						</connection>
+						<connection id="id-0068-00000006" kind="Simulink::Line" role="Simulink::Line" guid="{4dbb0ab4-d85c-46e2-92b8-40f05aeaa1ca}" relid="0x2a">
+							<name></name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID120</value>
+							</attribute>
+							<connpoint role="dst" target="id-0065-0000000a"/>
+							<connpoint role="src" target="id-0065-0000000e"/>
+						</connection>
+						<connection id="id-0068-00000007" kind="Simulink::Line" role="Simulink::Line" guid="{115f2d0e-15c8-46ba-972a-8ad081dedb62}" relid="0x29">
+							<name></name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID118</value>
+							</attribute>
+							<connpoint role="dst" target="id-0065-0000000b"/>
+							<connpoint role="src" target="id-0065-00000013"/>
+						</connection>
+						<connection id="id-0068-00000008" kind="Simulink::Line" role="Simulink::Line" guid="{115dbc4d-1750-4d3f-9071-e5dcaf42c622}" relid="0x26">
+							<name></name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="RefId">
+								<value>ID89</value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000011"/>
+							<connpoint role="dst" target="id-0065-00000014"/>
+						</connection>
+					</model>
+					<model id="id-0065-00000018" kind="Simulink::OutputPort" role="Simulink::OutputPort" guid="{3344100f-b56b-458b-821d-2540c99aadc8}" relid="0x6" childrelidcntr="0x1">
+						<name>y1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>553,161</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number">
+							<value>1</value>
+						</attribute>
+						<attribute kind="RefId">
+							<value>ID35</value>
+						</attribute>
+						<reference id="id-0067-00000011" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{017460f2-9539-4ce1-8d6a-fa4933543e51}" relid="0x1" referred="id-0066-00000074">
+							<name>double</name>
+							<attribute kind="MemberIndex" status="meta">
+								<value>0</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-00000019" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{2830ea74-3ab7-44ab-9edc-e597c843c7b4}" relid="0x4" childrelidcntr="0x1">
+						<name>u1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>147,231</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number">
+							<value>2</value>
+						</attribute>
+						<attribute kind="RefId">
+							<value>ID34</value>
+						</attribute>
+						<reference id="id-0067-00000012" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{b10ccdc6-a452-41fb-8f46-a33787b4347d}" relid="0x1" referred="id-0066-00000074">
+							<name>double</name>
+							<attribute kind="MemberIndex" status="meta">
+								<value>0</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-0000001a" kind="Simulink::InputPort" role="Simulink::InputPort" guid="{6beac2d9-6075-4bac-9d3d-6f79bff4b313}" relid="0x5" childrelidcntr="0x1">
+						<name>u</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>147,112</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number">
+							<value>1</value>
+						</attribute>
+						<attribute kind="RefId">
+							<value>ID33</value>
+						</attribute>
+						<reference id="id-0067-00000013" kind="Simulink::TypeBaseRef" role="Simulink::TypeBaseRef" guid="{f3255ce7-d81b-49c7-8a2b-fef133e150ae}" relid="0x1" referred="id-0066-00000074">
+							<name>double</name>
+							<attribute kind="MemberIndex" status="meta">
+								<value>0</value>
+							</attribute>
+						</reference>
+					</model>
+					<connection id="id-0068-00000009" kind="Simulink::Line" role="Simulink::Line" guid="{d5576db2-6038-4e69-bda4-911b0c8f8a3f}" relid="0x9">
+						<name>Simulink::Line</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>w</value>
+						</regnode>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000015"/>
+						<connpoint role="dst" target="id-0065-00000018"/>
+					</connection>
+					<connection id="id-0068-0000000a" kind="Simulink::Line" role="Simulink::Line" guid="{4e0d3cf5-4ad8-43e2-bda5-b4cd1e637024}" relid="0x8">
+						<name>Simulink::Line</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>E</value>
+						</regnode>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="dst" target="id-0065-00000016"/>
+						<connpoint role="src" target="id-0065-00000019"/>
+					</connection>
+					<connection id="id-0068-0000000b" kind="Simulink::Line" role="Simulink::Line" guid="{183c6d99-e8b0-4edb-9768-66e040d47e8d}" relid="0x7">
+						<name>Simulink::Line</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>E</value>
+						</regnode>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="RefId" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="dst" target="id-0065-00000017"/>
+						<connpoint role="src" target="id-0065-0000001a"/>
+					</connection>
+				</model>
+				<model id="id-0065-0000001b" kind="InputSignalInterface" role="InputSignalInterface" guid="{b5db10de-0ead-444b-b4c2-c238a0831c16}" relid="0x2" childrelidcntr="0x0">
+					<name>u</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,42</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Class">
+						<value>Modelica.Blocks.Interfaces.RealInput</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000001c" kind="InputSignalInterface" role="InputSignalInterface" guid="{2f011c80-c04d-4b34-89b4-d1d8ab12004a}" relid="0x3" childrelidcntr="0x0">
+					<name>u1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,147</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Class">
+						<value>Modelica.Blocks.Interfaces.RealInput</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000001d" kind="OutputSignalInterface" role="OutputSignalInterface" guid="{a3667377-8ba4-4189-9115-9fddac25d9e1}" relid="0x4" childrelidcntr="0x0">
+					<name>y1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>378,105</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Class">
+						<value>Modelica.Blocks.Interfaces.RealOutput</value>
+					</attribute>
+				</model>
+				<reference id="id-0067-00000001" kind="ParameterRef" role="ParameterRef" guid="{6222cb53-adda-479d-b2b2-4d82de5a0596}" relid="0x8">
+					<name>samplePeriod</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>196,266</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Class">
+						<value>Real</value>
+					</attribute>
+					<attribute kind="Value">
+						<value>.01</value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-0000000c" kind="OutputSignalInterfaceConnection" role="OutputSignalInterfaceConnection" guid="{6bf70e04-7cb8-4e41-b3c0-458f51b67dca}" relid="0xe">
+					<name>OutputSignalInterfaceConnection</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000018"/>
+					<connpoint role="dst" target="id-0065-0000001d"/>
+				</connection>
+				<connection id="id-0068-0000000d" kind="InputSignalInterfaceConnection" role="InputSignalInterfaceConnection" guid="{dafb7a77-c0b4-4b01-8f7e-c1fd9660ed4b}" relid="0xd">
+					<name>InputSignalInterfaceConnection</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000019"/>
+					<connpoint role="src" target="id-0065-0000001c"/>
+				</connection>
+				<connection id="id-0068-0000000e" kind="InputSignalInterfaceConnection" role="InputSignalInterfaceConnection" guid="{42960e62-b043-42da-b4e1-38c53565afda}" relid="0xc">
+					<name>InputSignalInterfaceConnection</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-0000001a"/>
+					<connpoint role="src" target="id-0065-0000001b"/>
+				</connection>
+			</model>
+		</folder>
+		<folder id="id-006a-00000003" relid="0x3" childrelidcntr="0x38" kind="Simulink::Types" guid="{f627e629-0716-463a-801e-5f41d4159ca7}">
+			<name>Types</name>
+			<atom id="id-0066-00000074" kind="Simulink::SF_Matrix" guid="{b801e641-11eb-4cfe-bdc9-0869a8e1c147}" relid="0x1">
+				<name>double</name>
+				<attribute kind="Type">
+					<value>double</value>
+				</attribute>
+				<attribute kind="columns">
+					<value>1</value>
+				</attribute>
+				<attribute kind="rows">
+					<value>1</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000075" kind="Simulink::SF_Matrix" guid="{8e985d48-cd36-4cc2-ade2-7f528cc38791}" relid="0x1d">
+				<name>float</name>
+				<attribute kind="Type">
+					<value>float</value>
+				</attribute>
+				<attribute kind="columns">
+					<value>1</value>
+				</attribute>
+				<attribute kind="rows">
+					<value>1</value>
+				</attribute>
+			</atom>
+		</folder>
+	</folder>
+</project>

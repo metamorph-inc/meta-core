@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyCADAnalysis">
+  <Component Id="CyPhyCADAnalysis.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhyCADAnalysis.dll" Name="CyPhyCADAnalysis.dll" KeyPath="yes" Source="..\src\CyPhyCADAnalysis\bin\Release\CyPhyCADAnalysis.dll" />
+    <Class Id="{7D170543-D1D1-4CF1-A93B-BEA1B8C89679}" Context="InprocServer32" Description="MGA.Interpreter.CyPhyCADAnalysis" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Interpreter.CyPhyCADAnalysis" Description="MGA.Interpreter.CyPhyCADAnalysis" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{7D170543-D1D1-4CF1-A93B-BEA1B8C89679}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{7D170543-D1D1-4CF1-A93B-BEA1B8C89679}\InprocServer32\1.0.0.0" Name="Class" Value="CyPhyCADAnalysis.CyPhyCADAnalysisInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{7D170543-D1D1-4CF1-A93B-BEA1B8C89679}\InprocServer32\1.0.0.0" Name="Assembly" Value="CyPhyCADAnalysis, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{7D170543-D1D1-4CF1-A93B-BEA1B8C89679}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{7D170543-D1D1-4CF1-A93B-BEA1B8C89679}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#CyPhyCADAnalysis.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{7D170543-D1D1-4CF1-A93B-BEA1B8C89679}\InprocServer32" Name="Class" Value="CyPhyCADAnalysis.CyPhyCADAnalysisInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{7D170543-D1D1-4CF1-A93B-BEA1B8C89679}\InprocServer32" Name="Assembly" Value="CyPhyCADAnalysis, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{7D170543-D1D1-4CF1-A93B-BEA1B8C89679}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{7D170543-D1D1-4CF1-A93B-BEA1B8C89679}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyCADAnalysis.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+
+    <Class Id="{B8347593-FE34-4F1D-B2C0-8E97C41B23D4}" Context="InprocServer32" Description="ISIS.META.CADAnalysisConfig" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="ISIS.META.CADAnalysisConfig" Description="ISIS.META.CADAnalysisConfig" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{B8347593-FE34-4F1D-B2C0-8E97C41B23D4}\InprocServer32" Name="Class" Value="CyPhyCADAnalysis.CADAnalysisConfig" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{B8347593-FE34-4F1D-B2C0-8E97C41B23D4}\InprocServer32" Name="Assembly" Value="CyPhyCADAnalysis, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{B8347593-FE34-4F1D-B2C0-8E97C41B23D4}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{B8347593-FE34-4F1D-B2C0-8E97C41B23D4}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyCADAnalysis.dll]" Type="string" Action="write" />
+
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyPhyCADAnalysis'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhyCADAnalysis'/>
+      <RegistryValue Name='Icon' Type='string' Value='[#CyPhyCADAnalysis.ico]'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='CyPhyCADAnalysis'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+  <Component Directory="INSTALLDIR_BIN">
+    <File Source="..\src\CyPhyCADAnalysis/CyPhyCADAnalysis.ico" />
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

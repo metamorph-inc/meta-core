@@ -1,0 +1,20 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ output extension=".cmd" #>
+
+:: CAD TestBench processing script
+echo off
+FOR /F "skip=2 tokens=2,*" %%A IN ('C:\Windows\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO set META_PATH=%%B
+set META_PYTHON_PATH="%META_PATH%\bin\Python27\Scripts\Python.exe"
+%META_PYTHON_PATH% <#=ScriptName#>
+
+<#+  
+public string ScriptName {get;set;}
+#>

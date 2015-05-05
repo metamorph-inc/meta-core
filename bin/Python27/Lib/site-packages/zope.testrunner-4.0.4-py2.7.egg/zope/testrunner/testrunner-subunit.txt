@@ -1,0 +1,659 @@
+Subunit Output
+==============
+
+Subunit is a streaming protocol for interchanging test results. More
+information can be found at https://launchpad.net/subunit.
+
+    >>> import os.path, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+
+    >>> from zope import testrunner
+
+
+Basic output
+------------
+
+Subunit output is line-based, with a 'test:' line for the start of each test
+and a 'successful:' line for each successful test.
+
+Zope layer set up and tear down events are represented as tests tagged with
+'zope:layer'. This allows them to be distinguished from actual tests, provides
+a place for the layer timing information in the subunit stream and allows us
+to include error information if necessary.
+
+Once the layer is set up, all future tests are tagged with
+'zope:layer:LAYER_NAME'.
+
+    >>> sys.argv = 'test --layer 122 --subunit -t TestNotMuch'.split()
+    >>> testrunner.run_internal(defaults)
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: samplelayers.Layer1:setUp
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: samplelayers.Layer1:setUp
+    tags: zope:layer:samplelayers.Layer1
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: samplelayers.Layer12:setUp
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: samplelayers.Layer12:setUp
+    tags: zope:layer:samplelayers.Layer12
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: samplelayers.Layer122:setUp
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: samplelayers.Layer122:setUp
+    tags: zope:layer:samplelayers.Layer122
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample1.sampletests.test122.TestNotMuch.test_1
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample1.sampletests.test122.TestNotMuch.test_1
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample1.sampletests.test122.TestNotMuch.test_2
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample1.sampletests.test122.TestNotMuch.test_2
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample1.sampletests.test122.TestNotMuch.test_3
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample1.sampletests.test122.TestNotMuch.test_3
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sampletests.test122.TestNotMuch.test_1
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sampletests.test122.TestNotMuch.test_1
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sampletests.test122.TestNotMuch.test_2
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sampletests.test122.TestNotMuch.test_2
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sampletests.test122.TestNotMuch.test_3
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sampletests.test122.TestNotMuch.test_3
+    tags: -zope:layer:samplelayers.Layer122
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: samplelayers.Layer122:tearDown
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: samplelayers.Layer122:tearDown
+    tags: -zope:layer:samplelayers.Layer12
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: samplelayers.Layer12:tearDown
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: samplelayers.Layer12:tearDown
+    tags: -zope:layer:samplelayers.Layer1
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: samplelayers.Layer1:tearDown
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: samplelayers.Layer1:tearDown
+    False
+
+
+Listing tests
+-------------
+
+A subunit stream is a stream of test results, more or less, so the most
+natural way of listing tests in subunit is to simply emit successful test
+results without actually running the tests.
+
+Note that in this stream, we don't emit fake tests for the layer set up and
+tear down, because it simply doesn't happen.
+
+We also don't include the dependent layers in the stream (in this case Layer1
+and Layer12), since they are not provided to the reporter.
+
+    >>> sys.argv = (
+    ...     'test --layer 122 --list-tests --subunit -t TestNotMuch').split()
+    >>> testrunner.run_internal(defaults)
+    tags: zope:layer:samplelayers.Layer122
+    test: sample1.sampletests.test122.TestNotMuch.test_1
+    successful: sample1.sampletests.test122.TestNotMuch.test_1
+    test: sample1.sampletests.test122.TestNotMuch.test_2
+    successful: sample1.sampletests.test122.TestNotMuch.test_2
+    test: sample1.sampletests.test122.TestNotMuch.test_3
+    successful: sample1.sampletests.test122.TestNotMuch.test_3
+    test: sampletests.test122.TestNotMuch.test_1
+    successful: sampletests.test122.TestNotMuch.test_1
+    test: sampletests.test122.TestNotMuch.test_2
+    successful: sampletests.test122.TestNotMuch.test_2
+    test: sampletests.test122.TestNotMuch.test_3
+    successful: sampletests.test122.TestNotMuch.test_3
+    tags: -zope:layer:samplelayers.Layer122
+    False
+
+
+Profiling tests
+---------------
+
+Test suites often cover a lot of code, and the performance of test suites
+themselves is often a critical part of the development process. Thus, it's
+good to be able to profile a test run.
+
+    >>> sys.argv = (
+    ...     'test --layer 122 --profile=cProfile --subunit '
+    ...     '-t TestNotMuch').split()
+    >>> testrunner.run_internal(defaults)
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: samplelayers.Layer1:setUp
+    ...
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: samplelayers.Layer1:tearDown
+    test: zope:profiler_stats
+    tags: zope:profiler_stats
+    successful: zope:profiler_stats [ multipart
+    Content-Type: application/x-binary-profile
+    profiler-stats
+    ...\r
+    <BLANKLINE>
+    ...
+    <BLANKLINE>
+    ]
+    False
+
+
+Errors
+------
+
+Errors are recorded in the subunit stream as MIME-encoded chunks of text.
+
+    >>> sys.argv = [
+    ...     'test', '--subunit' , '--tests-pattern', '^sampletests_e$',
+    ...     ]
+    >>> testrunner.run_internal(defaults)
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: zope.testrunner.layer.UnitTests:setUp
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: zope.testrunner.layer.UnitTests:setUp
+    tags: zope:layer:zope.testrunner.layer.UnitTests
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample2.sampletests_e.eek
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    failure: sample2.sampletests_e.eek [ multipart
+    Content-Type: text/x-traceback;charset=utf8,language=python
+    traceback
+    NNN\r
+    <BLANKLINE>
+    Failed doctest test for sample2.sampletests_e.eek
+     testrunner-ex/sample2/sampletests_e.py", Line NNN, in eek
+    <BLANKLINE>
+    ----------------------------------------------------------------------
+    File testrunner-ex/sample2/sampletests_e.py", Line NNN, in sample2.sampletests_e.eek
+    Failed example:
+        f()
+    Exception raised:
+        Traceback (most recent call last):
+          File "<doctest sample2.sampletests_e.eek[0]>", Line NNN, in ?
+            f()
+     testrunner-ex/sample2/sampletests_e.py", Line NNN, in f
+            g()
+     testrunner-ex/sample2/sampletests_e.py", Line NNN, in g
+            x = y + 1
+           - __traceback_info__: I don't know what Y should be.
+        NameError: global name 'y' is not defined
+    0\r
+    <BLANKLINE>
+    ]
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample2.sampletests_e.Test.test1
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample2.sampletests_e.Test.test1
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample2.sampletests_e.Test.test2
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample2.sampletests_e.Test.test2
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample2.sampletests_e.Test.test3
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    error: sample2.sampletests_e.Test.test3 [ multipart
+    Content-Type: text/x-traceback;charset=utf8,language=python
+    traceback
+    NNN\r
+    <BLANKLINE>
+    Traceback (most recent call last):
+     testrunner-ex/sample2/sampletests_e.py", Line NNN, in test3
+        f()
+     testrunner-ex/sample2/sampletests_e.py", Line NNN, in f
+        g()
+     testrunner-ex/sample2/sampletests_e.py", Line NNN, in g
+        x = y + 1
+       - __traceback_info__: I don't know what Y should be.
+    NameError: global name 'y' is not defined
+    0\r
+    <BLANKLINE>
+    ]
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample2.sampletests_e.Test.test4
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample2.sampletests_e.Test.test4
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample2.sampletests_e.Test.test5
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample2.sampletests_e.Test.test5
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: e_txt
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    failure: e_txt [ multipart
+    Content-Type: text/x-traceback;charset=utf8,language=python
+    traceback
+    NNN\r
+    <BLANKLINE>
+    Failed doctest test for e.txt
+     testrunner-ex/sample2/e.txt", line 0
+    <BLANKLINE>
+    ----------------------------------------------------------------------
+    File testrunner-ex/sample2/e.txt", Line NNN, in e.txt
+    Failed example:
+        f()
+    Exception raised:
+        Traceback (most recent call last):
+          File "<doctest e.txt[1]>", Line NNN, in ?
+            f()
+          File "<doctest e.txt[0]>", Line NNN, in f
+            return x
+        NameError: global name 'x' is not defined
+    0\r
+    <BLANKLINE>
+    ]
+    tags: -zope:layer:zope.testrunner.layer.UnitTests
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: zope.testrunner.layer.UnitTests:tearDown
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: zope.testrunner.layer.UnitTests:tearDown
+    True
+
+
+Layers that can't be torn down
+------------------------------
+
+A layer can have a tearDown method that raises NotImplementedError. If this is
+the case and there are no remaining tests to run, the subunit stream will say
+that the layer skipped its tearDown.
+
+    >>> import os.path, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> from zope import testrunner
+    >>> defaults = [
+    ...     '--subunit',
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+
+    >>> sys.argv = 'test -ssample2 --tests-pattern sampletests_ntd$'.split()
+    >>> testrunner.run_internal(defaults)
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample2.sampletests_ntd.Layer:setUp
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample2.sampletests_ntd.Layer:setUp
+    tags: zope:layer:sample2.sampletests_ntd.Layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample2.sampletests_ntd.TestSomething.test_something
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample2.sampletests_ntd.TestSomething.test_something
+    tags: -zope:layer:sample2.sampletests_ntd.Layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample2.sampletests_ntd.Layer:tearDown
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    skip: sample2.sampletests_ntd.Layer:tearDown [
+    tearDown not supported
+    ]
+    False
+
+
+Module import errors
+--------------------
+
+We report module import errors too. They get encoded as tests with errors. The
+name of the test is the module that could not be imported, the test's result
+is an error containing the traceback. These "tests" are tagged with
+zope:import_error.
+
+Let's create a module with some bad syntax:
+
+    >>> badsyntax_path = os.path.join(directory_with_tests,
+    ...                               "sample2", "sampletests_i.py")
+    >>> f = open(badsyntax_path, "w")
+    >>> print >> f, "importx unittest"  # syntax error
+    >>> f.close()
+
+And then run the tests:
+
+    >>> sys.argv = (
+    ...     'test --subunit --tests-pattern ^sampletests(f|_i)?$ --layer 1 '
+    ...     ).split()
+    >>> testrunner.run_internal(defaults)
+    test: sample2.sampletests_i
+    tags: zope:import_error
+    error: sample2.sampletests_i [
+      File "/home/benji/workspace/all-the-trunks/zope.testrunner/src/zope/testrunner/testrunner-ex/sample2/sampletests_i.py", line 1
+        importx unittest
+                       ^
+    SyntaxError: invalid syntax
+    ]
+    test: sample2.sample21.sampletests_i
+    tags: zope:import_error
+    error: sample2.sample21.sampletests_i [
+    Traceback (most recent call last):
+      File "/home/benji/workspace/all-the-trunks/zope.testrunner/src/zope/testrunner/testrunner-ex/sample2/sample21/sampletests_i.py", line 16, in <module>
+        import zope.testrunner.huh
+    ImportError: No module named huh
+    ]
+    test: sample2.sample23.sampletests_i
+    tags: zope:import_error
+    error: sample2.sample23.sampletests_i [
+    Traceback (most recent call last):
+      File "/home/benji/workspace/all-the-trunks/zope.testrunner/src/zope/testrunner/testrunner-ex/sample2/sample23/sampletests_i.py", line 17, in <module>
+        class Test(unittest.TestCase):
+      File "/home/benji/workspace/all-the-trunks/zope.testrunner/src/zope/testrunner/testrunner-ex/sample2/sample23/sampletests_i.py", line 22, in Test
+        raise TypeError('eek')
+    TypeError: eek
+    ]
+    time: 2010-07-19 21:27:16.708260Z
+    test: samplelayers.Layer1:setUp
+    tags: zope:layer
+    ...
+    True
+
+Of course, because we care deeply about test isolation, we're going to have to
+delete the module with bad syntax now, lest it contaminate other tests or even
+future test runs.
+
+    >>> os.unlink(badsyntax_path)
+
+
+Tests in subprocesses
+---------------------
+
+If the tearDown method raises NotImplementedError and there are remaining
+layers to run, the test runner will restart itself as a new process,
+resuming tests where it left off:
+
+    >>> sys.argv = [testrunner_script, '--tests-pattern', 'sampletests_ntd$']
+    >>> testrunner.run_internal(defaults)
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample1.sampletests_ntd.Layer:setUp
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample1.sampletests_ntd.Layer:setUp
+    tags: zope:layer:sample1.sampletests_ntd.Layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample1.sampletests_ntd.TestSomething.test_something
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample1.sampletests_ntd.TestSomething.test_something
+    tags: -zope:layer:sample1.sampletests_ntd.Layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample1.sampletests_ntd.Layer:tearDown
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    skip: sample1.sampletests_ntd.Layer:tearDown [
+    tearDown not supported
+    ]
+    test: Running in a subprocess.
+    tags: zope:info_suboptimal
+    successful: Running in a subprocess.
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample2.sampletests_ntd.Layer:setUp
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample2.sampletests_ntd.Layer:setUp
+    tags: zope:layer:sample2.sampletests_ntd.Layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample2.sampletests_ntd.TestSomething.test_something
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample2.sampletests_ntd.TestSomething.test_something
+    tags: -zope:layer:sample2.sampletests_ntd.Layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample2.sampletests_ntd.Layer:tearDown
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    skip: sample2.sampletests_ntd.Layer:tearDown [
+    tearDown not supported
+    ]
+    test: Running in a subprocess.
+    tags: zope:info_suboptimal
+    successful: Running in a subprocess.
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.Layer:setUp
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample3.sampletests_ntd.Layer:setUp
+    tags: zope:layer:sample3.sampletests_ntd.Layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.TestSomething.test_error1
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    error: sample3.sampletests_ntd.TestSomething.test_error1 [ multipart
+    Content-Type: text/x-traceback;charset=utf8,language=python
+    traceback
+    14F\r
+    <BLANKLINE>
+    Traceback (most recent call last):
+     testrunner-ex/sample3/sampletests_ntd.py", Line NNN, in test_error1
+        raise TypeError("Can we see errors")
+    TypeError: Can we see errors
+    0\r
+    <BLANKLINE>
+    ]
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.TestSomething.test_error2
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    error: sample3.sampletests_ntd.TestSomething.test_error2 [ multipart
+    Content-Type: text/x-traceback;charset=utf8,language=python
+    traceback
+    13F\r
+    <BLANKLINE>
+    Traceback (most recent call last):
+     testrunner-ex/sample3/sampletests_ntd.py", Line NNN, in test_error2
+        raise TypeError("I hope so")
+    TypeError: I hope so
+    0\r
+    <BLANKLINE>
+    ]
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.TestSomething.test_fail1
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    failure: sample3.sampletests_ntd.TestSomething.test_fail1 [ multipart
+    Content-Type: text/x-traceback;charset=utf8,language=python
+    traceback
+    1AA\r
+    <BLANKLINE>
+    Traceback (most recent call last):
+     testrunner-ex/sample3/sampletests_ntd.py", Line NNN, in test_fail1
+        self.assertEqual(1, 2)
+    AssertionError: 1 != 2
+    0\r
+    <BLANKLINE>
+    ]
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.TestSomething.test_fail2
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    failure: sample3.sampletests_ntd.TestSomething.test_fail2 [ multipart
+    Content-Type: text/x-traceback;charset=utf8,language=python
+    traceback
+    1AA\r
+    <BLANKLINE>
+    Traceback (most recent call last):
+     testrunner-ex/sample3/sampletests_ntd.py", Line NNN, in test_fail2
+        self.assertEqual(1, 3)
+    AssertionError: 1 != 3
+    0\r
+    <BLANKLINE>
+    ]
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.TestSomething.test_something
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample3.sampletests_ntd.TestSomething.test_something
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.TestSomething.test_something_else
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample3.sampletests_ntd.TestSomething.test_something_else
+    tags: -zope:layer:sample3.sampletests_ntd.Layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.Layer:tearDown
+    tags: zope:layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    skip: sample3.sampletests_ntd.Layer:tearDown [
+    tearDown not supported
+    ]
+    True
+
+Note that debugging doesn't work when running tests in a subprocess:
+
+    >>> sys.argv = [testrunner_script, '--tests-pattern', 'sampletests_ntd$',
+    ...             '-D', ]
+    >>> testrunner.run_internal(defaults)
+    time: 2010-02-10 22:41:25.279692Z
+    test: sample1.sampletests_ntd.Layer:setUp
+    tags: zope:layer
+    time: 2010-02-10 22:41:25.279695Z
+    successful: sample1.sampletests_ntd.Layer:setUp
+    tags: zope:layer:sample1.sampletests_ntd.Layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample1.sampletests_ntd.TestSomething.test_something
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample1.sampletests_ntd.TestSomething.test_something
+    tags: -zope:layer:sample1.sampletests_ntd.Layer
+    time: 2010-02-10 22:41:25.310078Z
+    test: sample1.sampletests_ntd.Layer:tearDown
+    tags: zope:layer
+    time: 2010-02-10 22:41:25.310171Z
+    skip: sample1.sampletests_ntd.Layer:tearDown [
+    tearDown not supported
+    ]
+    test: Running in a subprocess.
+    tags: zope:info_suboptimal
+    successful: Running in a subprocess.
+    time: 2010-02-10 22:41:25.753076Z
+    test: sample2.sampletests_ntd.Layer:setUp
+    tags: zope:layer
+    time: 2010-02-10 22:41:25.753079Z
+    successful: sample2.sampletests_ntd.Layer:setUp
+    tags: zope:layer:sample2.sampletests_ntd.Layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample2.sampletests_ntd.TestSomething.test_something
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample2.sampletests_ntd.TestSomething.test_something
+    tags: -zope:layer:sample2.sampletests_ntd.Layer
+    time: 2010-02-10 22:41:25.779256Z
+    test: sample2.sampletests_ntd.Layer:tearDown
+    tags: zope:layer
+    time: 2010-02-10 22:41:25.779326Z
+    skip: sample2.sampletests_ntd.Layer:tearDown [
+    tearDown not supported
+    ]
+    test: Running in a subprocess.
+    tags: zope:info_suboptimal
+    successful: Running in a subprocess.
+    time: 2010-02-10 22:41:26.310296Z
+    test: sample3.sampletests_ntd.Layer:setUp
+    tags: zope:layer
+    time: 2010-02-10 22:41:26.310299Z
+    successful: sample3.sampletests_ntd.Layer:setUp
+    tags: zope:layer:sample3.sampletests_ntd.Layer
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.TestSomething.test_error1
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    error: sample3.sampletests_ntd.TestSomething.test_error1 [ multipart
+    Content-Type: text/x-traceback;charset=utf8,language=python
+    traceback
+    16A\r
+    <BLANKLINE>
+    Traceback (most recent call last):
+      File "/usr/lib/python2.6/unittest.py", line 305, in debug
+        getattr(self, self._testMethodName)()
+      File "/home/jml/src/zope.testrunner/subunit-output-formatter/src/zope/testing/testrunner/testrunner-ex/sample3/sampletests_ntd.py", line 42, in test_error1
+        raise TypeError("Can we see errors")
+    TypeError: Can we see errors
+    0\r
+    <BLANKLINE>
+    ]
+    test: Can't post-mortem debug when running a layer as a subprocess!
+    tags: zope:error_with_banner
+    successful: Can't post-mortem debug when running a layer as a subprocess!
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.TestSomething.test_error2
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    error: sample3.sampletests_ntd.TestSomething.test_error2 [ multipart
+    Content-Type: text/x-traceback;charset=utf8,language=python
+    traceback
+    15A\r
+    <BLANKLINE>
+    Traceback (most recent call last):
+      File "/usr/lib/python2.6/unittest.py", line 305, in debug
+        getattr(self, self._testMethodName)()
+      File "/home/jml/src/zope.testrunner/subunit-output-formatter/src/zope/testing/testrunner/testrunner-ex/sample3/sampletests_ntd.py", line 45, in test_error2
+        raise TypeError("I hope so")
+    TypeError: I hope so
+    0\r
+    <BLANKLINE>
+    ]
+    test: Can't post-mortem debug when running a layer as a subprocess!
+    tags: zope:error_with_banner
+    successful: Can't post-mortem debug when running a layer as a subprocess!
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.TestSomething.test_fail1
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    error: sample3.sampletests_ntd.TestSomething.test_fail1 [ multipart
+    Content-Type: text/x-traceback;charset=utf8,language=python
+    traceback
+    1C5\r
+    <BLANKLINE>
+    Traceback (most recent call last):
+      File "/usr/lib/python2.6/unittest.py", line 305, in debug
+        getattr(self, self._testMethodName)()
+      File "/home/jml/src/zope.testrunner/subunit-output-formatter/src/zope/testing/testrunner/testrunner-ex/sample3/sampletests_ntd.py", line 48, in test_fail1
+        self.assertEqual(1, 2)
+      File "/usr/lib/python2.6/unittest.py", line 350, in failUnlessEqual
+        (msg or '%r != %r' % (first, second))
+    AssertionError: 1 != 2
+    0\r
+    <BLANKLINE>
+    ]
+    test: Can't post-mortem debug when running a layer as a subprocess!
+    tags: zope:error_with_banner
+    successful: Can't post-mortem debug when running a layer as a subprocess!
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.TestSomething.test_fail2
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    error: sample3.sampletests_ntd.TestSomething.test_fail2 [ multipart
+    Content-Type: text/x-traceback;charset=utf8,language=python
+    traceback
+    1C5\r
+    <BLANKLINE>
+    Traceback (most recent call last):
+      File "/usr/lib/python2.6/unittest.py", line 305, in debug
+        getattr(self, self._testMethodName)()
+      File "/home/jml/src/zope.testrunner/subunit-output-formatter/src/zope/testing/testrunner/testrunner-ex/sample3/sampletests_ntd.py", line 51, in test_fail2
+        self.assertEqual(1, 3)
+      File "/usr/lib/python2.6/unittest.py", line 350, in failUnlessEqual
+        (msg or '%r != %r' % (first, second))
+    AssertionError: 1 != 3
+    0\r
+    <BLANKLINE>
+    ]
+    test: Can't post-mortem debug when running a layer as a subprocess!
+    tags: zope:error_with_banner
+    successful: Can't post-mortem debug when running a layer as a subprocess!
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.TestSomething.test_something
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample3.sampletests_ntd.TestSomething.test_something
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    test: sample3.sampletests_ntd.TestSomething.test_something_else
+    time: YYYY-MM-DD HH:MM:SS.mmmmmmZ
+    successful: sample3.sampletests_ntd.TestSomething.test_something_else
+    tags: -zope:layer:sample3.sampletests_ntd.Layer
+    time: 2010-02-10 22:41:26.340878Z
+    test: sample3.sampletests_ntd.Layer:tearDown
+    tags: zope:layer
+    time: 2010-02-10 22:41:26.340945Z
+    skip: sample3.sampletests_ntd.Layer:tearDown [
+    tearDown not supported
+    ]
+    True

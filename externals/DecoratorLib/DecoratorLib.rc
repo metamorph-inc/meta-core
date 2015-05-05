@@ -1,0 +1,79 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "DecoratorLibResource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "DecoratorLibResource.h\0"
+    "\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_ATOM                BITMAP                  "res\\atom.bmp"
+IDB_ATOMPORT            BITMAP                  "res\\atomport.bmp"
+IDB_REFERENCEPORT       BITMAP                  "res\\referenceport.bmp"
+IDB_SETPORT             BITMAP                  "res\\setport.bmp"
+IDB_REFERENCE           BITMAP                  "res\\reference.bmp"
+IDB_SET                 BITMAP                  "res\\set.bmp"
+IDB_MODELPORT           BITMAP                  "res\\modelport.bmp"
+IDB_ICON_TYPE           BITMAP                  "res\\icon_type.bmp"
+IDB_ICON_SUBTYPE        BITMAP                  "res\\icon_subtype.bmp"
+IDB_ICON_INSTANCE       BITMAP                  "res\\icon_instance.bmp"
+IDB_ICON_REFERENCE      BITMAP                  "res\\icon_reference.bmp"
+IDB_MODEL               BITMAP                  "res\\model.bmp"
+IDB_ICON_INSTANCE_DIS   BITMAP                  "res\\icon_instance_disabled.bmp"
+IDB_ICON_REFERENCE_DIS  BITMAP                  "res\\icon_reference_disabled.bmp"
+IDB_ICON_SUBTYPE_DIS    BITMAP                  "res\\icon_subtype_disabled.bmp"
+IDB_ICON_TYPE_DIS       BITMAP                  "res\\icon_type_disabled.bmp"
+IDB_REFERENCE_SIGN      BITMAP                  "res\\referencesign.bmp"
+IDB_EXPAND_SIGN         BITMAP                  "res\\expandsign.bmp"
+IDB_COLLAPSE_SIGN       BITMAP                  "res\\collapsesign.bmp"
+
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+

@@ -1,0 +1,42 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".py" #>
+import os
+import sys
+import subprocess
+
+LINUX_VIR_ENV = os.path.join('~', 'openmdao-0.6.2')
+# This cmd will be called from this directory
+script_cmd = 'scripts/driver_runner.py --driver <#= DriverName #>'
+
+if not os.name == 'posix':
+    raw_input('This script is designed for LINUX only. \n[Press any key to exit.]')
+    sys.exit(1)
+
+py_exc = os.path.join(LINUX_VIR_ENV, 'bin', 'python')
+
+if not os.path.exists(py_exc):
+    raw_input('{0} not found on file system. \n[Press any key to exit.]'.format(py_exc))
+    sys.exit(2)
+
+cmd = '{0} {1}'.format(py_exc, script_cmd)
+
+popen = subprocess.Popen(cmd, shell=True)
+(stdoutdata, _) = popen.communicate()
+print stdoutdata
+popen.wait()
+
+if not popen.returncode == 0:
+    raw_input('{0} failed! \n[Press any key to exit.]'.format(cmd))
+    sys.exit(3)
+
+<#+
+	public string DriverName {get;set;}
+#>

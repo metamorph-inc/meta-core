@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="AVM.Component:50eb60f66e6cc370ae16ae4e" Name="Spring_Titanium" Version="1" xmlns="avm">
+  <DomainModel xmlns:q1="modelica" xsi:type="q1:ModelicaModel" FilePathWithinResource="" Author="" Notes="" Class="Modelica.Mechanics.Translational.Components.Spring" xmlns="">
+    <Parameter Locator="c">
+      <Value ID="id-9fbd6cdb-857d-452f-8c6b-fe6989cdb464">
+        <ValueExpression xmlns:q2="avm" xsi:type="q2:DerivedValue" ValueSource="ID9" />
+      </Value>
+    </Parameter>
+    <Connector ID="id-1834de1a-e717-49a6-8ef4-eaa5946035b7" PortMap="" Name="flange_a" Notes="" Definition="" Locator="" Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" />
+    <Connector ID="id-298cf99d-9580-46ee-92a8-e99fef5eeb65" PortMap="" Name="flange_b" Notes="" Definition="" Locator="" Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" />
+  </DomainModel>
+  <DomainModel xmlns:q3="cad" xsi:type="q3:CADModel" UsesResource="cad.path" Author="" Notes="" xmlns="">
+    <Datum xsi:type="q3:Plane" ID="id-46e481d7-cd54-4960-9f75-a3d245fcc9ac" PortMap="id-f52fd67a-3910-4d15-a643-b5fb953fdd72" Name="Top Inner" Notes="" Definition="" DatumName="COMMON_PLANE_1_TOP_INNER" />
+    <Datum xsi:type="q3:Plane" ID="id-7c30bb7c-f81e-46d0-813e-8ace068bf159" PortMap="id-99b5818d-d07e-4113-8081-b308bc406fae id-a0e522af-5d32-410b-9242-23254dcce037 id-2b19725a-9959-4b7f-8d34-4713fd64464e id-8160eee3-296f-47bf-a25e-b3c439d6fc21" Name="Rotational Constraint Plane" Notes="" Definition="" DatumName="COMMON_PLANE_2" />
+    <Datum xsi:type="q3:Plane" ID="id-2035c8c1-9b5f-48f1-815e-22c27254e6d5" PortMap="id-feb32745-a018-4d7e-962b-c862ecd0f2b7" Name="Bottom Inner" Notes="" Definition="" DatumName="COMMON_PLANE_1_BOTTOM_INNER" />
+    <Datum xsi:type="q3:Plane" ID="id-63fe87b6-0649-4373-9f1f-dda1b39df3c5" PortMap="id-f2fde5e7-e3d2-467c-ab50-97941b5eaf4c" Name="Bottom Outer" Notes="" Definition="" DatumName="COMMON_PLANE_1_BOTTOM_OUTER" />
+    <Datum xsi:type="q3:Plane" ID="id-187fd2d1-ce2d-4309-bd73-5b225b37cc21" PortMap="id-bfc888b9-7691-4536-9e3a-fb1d1d17314e" Name="Top Outer" Notes="" Definition="" DatumName="COMMON_PLANE_1_TOP_OUTER" />
+    <Datum xsi:type="q3:Axis" ID="id-f1510dd8-2bcb-4bff-8dd4-0927813cd783" PortMap="id-bba59252-aac5-42c0-b64c-062d7ab152a0 id-18d8aade-99c1-4dfa-8e36-bd84fed99e4a id-eeb2f654-a9a6-44ca-ae04-0c9cc3e4138b id-98929b40-ccc7-4ef5-b3df-105bc7bfd0d5" Name="Connector Axis" Notes="" Definition="" DatumName="COMMON_AXIS" />
+    <Parameter Name="SPRING_D">
+      <Value Unit="mm" ID="id-34dbab39-6812-4a66-b216-1b26891eacd8">
+        <ValueExpression xmlns:q4="avm" xsi:type="q4:DerivedValue" ValueSource="ID8" />
+      </Value>
+    </Parameter>
+  </DomainModel>
+  <DomainModel xmlns:q5="manufacturing" xsi:type="q5:ManufacturingModel" UsesResource="manufacturing.path" FilePathWithinResource="" Author="" Notes="" xmlns="" />
+  <Property xmlns:q6="avm" xsi:type="q6:PrimitiveProperty" Name="Active_coils" ID="property.ID3" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="Real" ID="ID3">
+      <ValueExpression xsi:type="q6:FixedValue">
+        <Value>10</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q7="avm" xsi:type="q7:PrimitiveProperty" Name="Shear_Modulus" ID="property.ID2" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="Real" ID="ID2">
+      <ValueExpression xsi:type="q7:FixedValue">
+        <Value>4.4e+10</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q8="avm" xsi:type="q8:PrimitiveProperty" Name="Mean_coil_diameter" ID="property.ID4" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="Real" ID="ID4">
+      <ValueExpression xsi:type="q8:FixedValue">
+        <Value>0.015</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q9="avm" xsi:type="q9:PrimitiveProperty" Name="spring_constant" ID="param.ID9" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="Real" ID="ID9">
+      <ValueExpression xsi:type="q9:ParametricValue" AssignedValue="13200">
+        <Default xsi:type="q9:FixedValue">
+          <Value>13200</Value>
+        </Default>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q10="avm" xsi:type="q10:PrimitiveProperty" Name="Wire_Diameter" ID="param.ID8" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="Real" ID="ID8">
+      <ValueExpression xsi:type="q10:ParametricValue" AssignedValue="0.003">
+        <Default xsi:type="q10:FixedValue">
+          <Value>0.003</Value>
+        </Default>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <ResourceDependency Name="Resource" Path="CAD/titanium_spring" Hash="" ID="cad.path" Notes="" xmlns="" />
+  <ResourceDependency Name="Manufacturing_Resource" Path="Manufacturing/TITANIUM_SPRING.xml" Hash="" ID="manufacturing.path" Notes="" xmlns="" />
+  <Connector ConnectorComposition="" ID="id-d5bc7a35-9c11-440b-ac08-6f64b1c71369" ApplyJoinData="" Notes="" Name="INSIDE_PIN" Definition="COMMON_INTERFACE" xmlns="">
+    <Role xmlns:q11="cad" xsi:type="q11:Plane" ID="id-f52fd67a-3910-4d15-a643-b5fb953fdd72" PortMap="" Name="Flange" Notes="" Definition="" />
+    <Role xmlns:q12="cad" xsi:type="q12:Plane" ID="id-a0e522af-5d32-410b-9242-23254dcce037" PortMap="" Name="Rotational Constraint Plane" Notes="" Definition="" />
+    <Role xmlns:q13="cad" xsi:type="q13:Axis" ID="id-bba59252-aac5-42c0-b64c-062d7ab152a0" PortMap="" Name="Connector Axis" Notes="" Definition="" />
+    <Role xmlns:q14="modelica" xsi:type="q14:Connector" ID="id-a946a94a-85d0-407a-b796-25b299d63cb0" PortMap="id-1834de1a-e717-49a6-8ef4-eaa5946035b7" Name="TranslationalFlange" Notes="" Definition="" Locator="" Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="id-77a6f184-2794-4648-a6c2-1f5b182b659b" ApplyJoinData="" Notes="" Name="INSIDE_HOLE" Definition="COMMON_INTERFACE" xmlns="">
+    <Role xmlns:q15="cad" xsi:type="q15:Plane" ID="id-feb32745-a018-4d7e-962b-c862ecd0f2b7" PortMap="" Name="Flange" Notes="" Definition="" />
+    <Role xmlns:q16="cad" xsi:type="q16:Plane" ID="id-99b5818d-d07e-4113-8081-b308bc406fae" PortMap="" Name="Rotational Constraint Plane" Notes="" Definition="" />
+    <Role xmlns:q17="cad" xsi:type="q17:Axis" ID="id-18d8aade-99c1-4dfa-8e36-bd84fed99e4a" PortMap="" Name="Connector Axis" Notes="" Definition="" />
+    <Role xmlns:q18="modelica" xsi:type="q18:Connector" ID="id-840f92ce-2393-4bd7-bd5a-79e2358c1290" PortMap="id-298cf99d-9580-46ee-92a8-e99fef5eeb65" Name="TranslationalFlange" Notes="" Definition="" Locator="" Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="id-fd51c8c2-c5ab-496f-ad94-9e685e453ca5" ApplyJoinData="" Notes="" Name="OUTSIDE_HOLE" Definition="COMMON_INTERFACE" xmlns="">
+    <Role xmlns:q19="cad" xsi:type="q19:Plane" ID="id-bfc888b9-7691-4536-9e3a-fb1d1d17314e" PortMap="" Name="Flange" Notes="" Definition="" />
+    <Role xmlns:q20="cad" xsi:type="q20:Plane" ID="id-8160eee3-296f-47bf-a25e-b3c439d6fc21" PortMap="" Name="Rotational Constraint Plane" Notes="" Definition="" />
+    <Role xmlns:q21="cad" xsi:type="q21:Axis" ID="id-eeb2f654-a9a6-44ca-ae04-0c9cc3e4138b" PortMap="" Name="Connector Axis" Notes="" Definition="" />
+    <Role xmlns:q22="modelica" xsi:type="q22:Connector" ID="id-332a0873-e46f-40e2-98d3-6482f1ab7302" PortMap="id-1834de1a-e717-49a6-8ef4-eaa5946035b7" Name="TranslationalFlange" Notes="" Definition="" Locator="" Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="id-e0753a6d-e644-45a1-99dc-3a5313b78b60" ApplyJoinData="" Notes="" Name="OUTSIDE_PIN" Definition="COMMON_INTERFACE" xmlns="">
+    <Role xmlns:q23="cad" xsi:type="q23:Plane" ID="id-f2fde5e7-e3d2-467c-ab50-97941b5eaf4c" PortMap="" Name="Flange" Notes="" Definition="" />
+    <Role xmlns:q24="cad" xsi:type="q24:Plane" ID="id-2b19725a-9959-4b7f-8d34-4713fd64464e" PortMap="" Name="Rotational Constraint Plane" Notes="" Definition="" />
+    <Role xmlns:q25="cad" xsi:type="q25:Axis" ID="id-98929b40-ccc7-4ef5-b3df-105bc7bfd0d5" PortMap="" Name="Connector Axis" Notes="" Definition="" />
+    <Role xmlns:q26="modelica" xsi:type="q26:Connector" ID="id-e2c69173-298a-4001-901d-0a2aee55683b" PortMap="id-298cf99d-9580-46ee-92a8-e99fef5eeb65" Name="TranslationalFlange" Notes="" Definition="" Locator="" Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" />
+  </Connector>
+  <Classifications xmlns="">AVM.Ontology.8.Category.Spring</Classifications>
+</Component>

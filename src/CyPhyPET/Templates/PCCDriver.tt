@@ -1,0 +1,128 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ output extension=".py" #>
+# ===========================================================================
+# Auto generated from PCCDriver.tt
+# ===========================================================================
+# imports
+import os
+import sys
+import logging
+
+# OpenMDAO Assembly Component (Optimization)
+from openmdao.main.api import Assembly, set_as_top
+from openmdao.main.file_supp import FileMetadata
+
+# Import from META-PCC Module
+from PCC.model_calls import ListGen, InitializeCluster
+from PCC.pcc_driver import PCCdriver
+from PCC.model_calls import UseLocalParallel # Call this function to enable parallel execution
+
+from test_bench import TestBench
+
+# Remove all log-handlers that except for the two from pym
+log = logging.getLogger()
+while len(log.handlers) > 2:
+    log.removeHandler(log.handlers[-1])
+<# if (DriverName.Contains("parallel_execution"))
+ {#>
+UseLocalParallel()
+ <# } 
+ else
+ {
+#>
+#UseLocalParallel()
+ <#
+ }
+ #>
+
+
+class PCC_Experiment_v1(Assembly):
+    """ Documentation comment for this Assembly. """
+
+    def __init__(self):
+        super(PCC_Experiment_v1, self).__init__()
+
+        # Create Assembly Instance
+        self.add('TestBench', TestBench())
+
+        # Add driver
+        self.add('driver', PCCdriver())
+        self.driver.DOEgenerator = ListGen()
+
+        # Add files (for parallel execution)
+        log.debug('Adding files : ')
+        for path, dirs, files in os.walk('.'):
+            if path[2:5]!='Sim':
+                for filename in files:
+                    log.debug('    {0}'.format(os.path.join(path[2:],filename)))
+                    needed = FileMetadata (os.path.join(path[2:],filename),input=True,binary=True)
+                    self.external_files.append(needed)
+        log.debug(' to list of required files.')
+        # Load configuration for the PCC-driver
+        self.driver.load_json_file('<#=PCCConfigJson#>')
+        log.debug('<#=PCCConfigJson#> succesfully loaded')
+        #don't re-copy model files to remote server every time. Reuse them.
+        self.driver.reload_model = False 
+
+        # Design Variables
+<# foreach (var name in DesignVariables)
+   {
+        #>
+        self.driver.add_parameter('<#= name #>', low = 0, high = 1)
+<#}#>
+        # Extra design variables (Properties).
+<# foreach (var kvp in this.PCCPropertyInputs)
+       {#>
+        self.driver.add_parameter('TestBench.<#= kvp.Key #>', low = 0, high = 1)
+<#}#>
+
+        # Objectives
+<#foreach (var name in Objectives)
+	{#>
+        self.driver.add_objective('<#= name #>')
+<#}#>
+        self.driver.case_outputs=[
+<#foreach (var name in Objectives)
+	{#>
+            '<#= name #>',
+<#}#>
+        ]
+
+        self.driver.workflow.add(['TestBench'])
+
+def main():
+    import time
+    #    InitializeCluster(['ubuntu@ec2-107-22-122-74.compute-1.amazonaws.com'],'/home/ubuntu/openmdao-0.6.2/bin/python')
+    #    InitializeCluster(['ubuntu@ec2-23-22-37-92.compute-1.amazonaws.com',\
+    #                       'ubuntu@ec2-107-22-122-74.compute-1.amazonaws.com',\
+    #                       'ubuntu@ec2-23-22-252-101.compute-1.amazonaws.com',\
+    #                       'ubuntu@ec2-54-226-198-113.compute-1.amazonaws.com'],\
+    #                       '/home/ubuntu/openmdao-0.6.2/bin/python')
+
+    pcc_problem = PCC_Experiment_v1()
+    set_as_top(pcc_problem)
+    tt = time.time()
+    pcc_problem.run()
+
+    print "Elapsed time: ", time.time()-tt, "seconds"
+
+if __name__ == "__main__":
+    main()
+<#+
+	public string DriverName {get;set;}
+	public string PCCConfigJson {get;set;}
+	public List<string> Objectives {get;set;}
+	public List<string> DesignVariables{get;set;}
+	public Dictionary<string, string> PCCPropertyInputs {get;set;}
+#>

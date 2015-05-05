@@ -1,0 +1,181 @@
+<style type="text/css">
+	.table 
+	{
+		color: whiteSmoke;
+	}
+	.table tbody tr:hover td,
+	.table tbody tr:hover th {
+	  background-color: #333;
+	  cursor:pointer;
+	}
+	.table
+	{
+		background-color: #000;
+	}
+</style>
+<!-- Custom scripts -->
+<script type="text/javascript" src="./designSpaceAnalysis.js"></script>
+
+<div class="row-fluid">
+	<div class="span12">
+		<div class="navbar" style="width: auto;">
+			<div class="navbar-inner">
+				<div class="brand">Views:</div>
+				<ul class="nav" id="pageView">
+					<li class="active"><a href="#">Default</a></li>
+					<li><a href="#">Custom</a></li>
+				</ul>
+				<ul class="nav pull-right" style="display:block;">
+					<li><a href="#" id="settingsBtn"><i class="icon-cog icon-white"></i>  Settings</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row-fluid">
+		<div class=span6>
+			<table class="table table-bordered">
+				 <thead>
+					<tr>
+					  <th>Design</th>
+					  <th>Time</th>
+					  <th>isSelected</th>
+					  <th>isActive</th>
+					  <th>Variables</th>
+					</tr>
+				  </thead>
+				<tbody data-bind="foreach: configurations">  
+					<tr data-bind="click: toggleActive">                
+						<td data-bind="html: design"></td>
+						<td data-bind="html: time"></td>
+						<td data-bind="html: isSelected, style: { color: isSelected() ? 'limegreen' : 'red' }"></td>
+						<td data-bind="html: isActive, style: { color: isActive() ? 'limegreen' : 'red' }"></td>
+						<td>
+						   <table class="table table-bordered">
+							   <tbody data-bind="foreach: variables">  
+								   <tr>   
+									  <td data-bind="html: Name "></td>
+									  <td data-bind="html: Value "></td>
+								   </tr>
+							   </tbody>
+						   </table>
+						</td>
+					</tr>                    
+				</tbody>
+		   </table>
+	   </div>
+	   <div class="span2">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+					  <th>Mode</th>
+					  <th>value</th>
+					</tr>
+			  </thead>
+			   <tbody>  
+				   <tr data-bind="click: toggleByVar">
+					  <td>byVariable</td>
+					  <td data-bind="html: byVariable, style: { color: byVariable() ? 'limegreen' : 'red' }"></td>
+				   </tr>
+				   <tr data-bind="click: toggleDemo">
+					  <td>isDemo</td>
+					  <td data-bind="html: isDemo, style: { color: isDemo() ? 'limegreen' : 'red' }"></td>
+				   </tr>
+			   </tbody>
+		   </table>
+		   <table class="table table-bordered">
+				<thead>
+					<tr>
+					  <th>Variables</th>
+					  <th>isActive</th>
+					</tr>
+			  </thead>
+			   <tbody data-bind="foreach: variables">  
+				   <tr data-bind="click: toggleActive">
+					  <td data-bind="html: name "></td>
+					  <td data-bind="html: isActive, style: { color: isActive() ? 'limegreen' : 'red' }"></td>
+				   </tr>
+			   </tbody>
+		   </table>
+	   </div>
+	   <div class="span2">
+			<table class="table table-bordered" style="background-color: darkslategrey;">
+				<thead>
+					<tr>
+					  <th>Current Designs</th>
+					</tr>
+			  </thead>
+			   <tbody data-bind="foreach: currentConfigurations">  
+				   <tr>
+					  <td data-bind="html: design"></td>
+				   </tr>
+			   </tbody>
+		   </table>
+		   <table class="table table-bordered" style="background-color: darkred;">
+				<thead>
+					<tr>
+					  <th>Hidden Designs</th>
+					</tr>
+			  </thead>
+			   <tbody data-bind="foreach: uncurrentConfigurations">  
+				   <tr>
+					  <td data-bind="html: design"></td>
+				   </tr>
+			   </tbody>
+		   </table>
+	   </div>
+	   <div class="span2">
+		   <table class="table table-bordered" style="background-color: darkslategrey;">
+				<thead>
+					<tr>
+					  <th>Current Variables</th>
+					</tr>
+			  </thead>
+			   <tbody data-bind="foreach: currentVariables">  
+				   <tr>
+					  <td data-bind="html: $data"></td>
+				   </tr>
+			   </tbody>
+		   </table>
+		   <table class="table table-bordered" style="background-color: darkred;">
+				<thead>
+					<tr>
+					  <th>Hidden Variables</th>
+					</tr>
+			  </thead>
+			   <tbody data-bind="foreach: uncurrentVariables">  
+				   <tr>
+					  <td data-bind="html: $data"></td>
+				   </tr>
+			   </tbody>
+		   </table>
+	   </div>
+	   
+</div>
+<script>
+	function toggleActive(item){
+		if(item.isActive()){
+			item.isActive(false);
+		}
+		else{
+			item.isActive(true);
+		}
+	}
+	function toggleByVar(item){
+		if(item.byVariable()){
+			item.byVariable(false);
+		}
+		else{
+			item.byVariable(true);
+		}
+	}
+	function toggleDemo(item){
+		if(item.isDemo()){
+			item.isDemo(false);
+		}
+		else{
+			item.isDemo(true);
+		}
+	}
+	ko.applyBindings(vm);
+</script>

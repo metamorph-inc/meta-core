@@ -1,0 +1,69 @@
+Passing arguments explicitly
+============================
+
+In most of the examples here, we set up `sys.argv`.  In normal usage,
+the testrunner just uses `sys.argv`.  It is possible to pass arguments
+explicitly.
+
+    >>> import os.path
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+    >>> from zope import testrunner
+    >>> testrunner.run_internal(defaults, 'test --layer 111'.split())
+    Running samplelayers.Layer111 tests:
+      Set up samplelayers.Layerx in N.NNN seconds.
+      Set up samplelayers.Layer1 in N.NNN seconds.
+      Set up samplelayers.Layer11 in N.NNN seconds.
+      Set up samplelayers.Layer111 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down samplelayers.Layer111 in N.NNN seconds.
+      Tear down samplelayers.Layerx in N.NNN seconds.
+      Tear down samplelayers.Layer11 in N.NNN seconds.
+      Tear down samplelayers.Layer1 in N.NNN seconds.
+    False
+
+If options already have default values, then passing a different default will
+override.
+
+For example, --list-tests defaults to being turned off, but if we pass in a
+different default, that one takes effect.
+
+    >>> defaults = [
+    ...     '--list-tests',
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+    >>> from zope import testrunner
+    >>> testrunner.run_internal(defaults, 'test --layer 111'.split())
+    Listing samplelayers.Layer111 tests:
+      test_x1 (sample1.sampletests.test111.TestA)
+      test_y0 (sample1.sampletests.test111.TestA)
+      test_z0 (sample1.sampletests.test111.TestA)
+      test_x0 (sample1.sampletests.test111.TestB)
+      test_y1 (sample1.sampletests.test111.TestB)
+      test_z0 (sample1.sampletests.test111.TestB)
+      test_1 (sample1.sampletests.test111.TestNotMuch)
+      test_2 (sample1.sampletests.test111.TestNotMuch)
+      test_3 (sample1.sampletests.test111.TestNotMuch)
+      test_x0 (sample1.sampletests.test111)
+      test_y0 (sample1.sampletests.test111)
+      test_z1 (sample1.sampletests.test111)
+      /home/benji/workspace/zope.testrunner/1/src/zope/testing/testrunner/testrunner-ex/sample1/sampletests/../../sampletestsl.txt
+      test_x1 (sampletests.test111.TestA)
+      test_y0 (sampletests.test111.TestA)
+      test_z0 (sampletests.test111.TestA)
+      test_x0 (sampletests.test111.TestB)
+      test_y1 (sampletests.test111.TestB)
+      test_z0 (sampletests.test111.TestB)
+      test_1 (sampletests.test111.TestNotMuch)
+      test_2 (sampletests.test111.TestNotMuch)
+      test_3 (sampletests.test111.TestNotMuch)
+      test_x0 (sampletests.test111)
+      test_y0 (sampletests.test111)
+      test_z1 (sampletests.test111)
+      /home/benji/workspace/zope.testrunner/1/src/zope/testing/testrunner/testrunner-ex/sampletests/../sampletestsl.txt
+    False

@@ -1,0 +1,25 @@
+vf-dist .axis path, vf-dist .axis line 
+{
+  fill: none;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+vf-dist .axis text
+{
+	fill: white;
+}
+
+vf-dist .line 
+{
+  fill: steelblue;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+vf-dist .dot 
+{
+  fill: white;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}

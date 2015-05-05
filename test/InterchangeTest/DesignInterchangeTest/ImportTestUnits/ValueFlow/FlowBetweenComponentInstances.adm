@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="FlowBetweenComponentInstances" DesignID="{81285abe-773b-4f42-9177-5c1051d5077a}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="FlowBetweenComponentInstances" xmlns="">
+    <ComponentInstance XPosition="168" YPosition="224" ComponentID="db290a13-5530-4fa1-a149-d2b7f2cfa7be" ID="{16d45b6a-ced8-4147-9202-bd6cac8dd05f}" Name="CompB">
+      <PrimitivePropertyInstance IDinComponentModel="Prop1">
+        <Value ID="f362ed94-a9f4-4520-b812-8dba20a9e9ed" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="c94553dd-7161-46f9-8364-1593072d7e4b" />
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="Prop2">
+        <Value ID="dd9d6f29-0d86-42ed-9902-91d37c5b743f" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="0bae1f5e-8acc-4932-9f65-56d1ebcffaec" />
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="Param1">
+        <Value ID="0bc0a6ee-52b5-483a-b260-4bc8737bf65f" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="0bae1f5e-8acc-4932-9f65-56d1ebcffaec" />
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="Param2">
+        <Value ID="08cd67d7-2659-4a4b-a401-2559022bdbde" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="c94553dd-7161-46f9-8364-1593072d7e4b" />
+        </Value>
+      </PrimitivePropertyInstance>
+    </ComponentInstance>
+    <ComponentInstance XPosition="175" YPosition="105" ComponentID="db290a13-5530-4fa1-a149-d2b7f2cfa7be" ID="{e3a31025-54fd-42d3-915e-63a7e3f0612a}" Name="CompA">
+      <PrimitivePropertyInstance IDinComponentModel="Prop2">
+        <Value ID="7cde314c-4534-4a4d-aa65-0a2f73cf85be" DimensionType="Scalar" Dimensions="" DataType="String" />
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="Prop1">
+        <Value ID="c94553dd-7161-46f9-8364-1593072d7e4b" DimensionType="Scalar" Dimensions="" DataType="String" />
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="Param1">
+        <Value ID="0bae1f5e-8acc-4932-9f65-56d1ebcffaec" DimensionType="Scalar" Dimensions="" DataType="String" />
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="Param2">
+        <Value ID="ca60b13b-efd0-4990-b842-c73738cc135f" DimensionType="Scalar" Dimensions="" DataType="String" />
+      </PrimitivePropertyInstance>
+    </ComponentInstance>
+  </RootContainer>
+</Design>

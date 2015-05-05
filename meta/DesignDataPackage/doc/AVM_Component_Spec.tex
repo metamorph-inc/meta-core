@@ -1,0 +1,137 @@
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage{outlines}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{nameref}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{titlepic}
+\usepackage{comment}
+\usepackage{fancyvrb}
+\usepackage[margin=1in]{geometry}
+\usepackage{pdfpages}
+\usepackage{float}
+
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+\restylefloat{table}
+
+
+\definecolor{maroon}{rgb}{0.5,0,0}
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+
+\definecolor{FormulaKeywordColor}{RGB}{0,0,204}
+\definecolor{FormulaAnnotColor}{RGB}{128,128,128}
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+
+\lstdefinelanguage{XML}
+{
+  basicstyle=\ttfamily\footnotesize,
+  morestring=[s]{"}{"},
+  morecomment=[s]{?}{?},
+  morecomment=[s]{!--}{--},
+  commentstyle=\color{darkgreen},
+  moredelim=[s][\color{black}]{>}{<},
+  moredelim=[s][\color{red}]{\ }{=},
+  stringstyle=\color{blue},
+  identifierstyle=\color{maroon},
+  breaklines=true
+}
+
+
+
+ 
+
+
+\hypersetup{%
+	pdfborder = {0 0 0}
+}
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\g@addto@macro\@floatboxreset\centering
+\makeatother
+
+
+\title{AVM Component Model Specification\\Version 2.5}
+\author{Adam Nagel, Sandeep Neema, Mike Myers, Robert Owens, Zsolt Lattman\\
+	Institute for Software Integrated Systems (ISIS)\\
+	Vanderbilt University\\
+	\texttt{adam@isis.vanderbilt.edu}\\
+	\\
+	Dan Finke\\
+	Applied Research Laboratory (ARL)\\
+	Pennsylvania State University\\
+	\\
+	Developed for the DARPA Adaptive Vehicle Make (AVM) Program}
+\date{\today}
+
+\titlepic{
+\includegraphics[scale=0.75]{ISIS-logoNEW} \hspace{1cm}
+\includegraphics[scale=0.103]{DARPA-logo}
+}
+
+\begin{document}
+\maketitle
+
+\def\chapterautorefname{Chapter}
+\def\subsubsectionautorefname{Section}
+\def\subsectionautorefname{Section}
+\def\sectionautorefname{Section}
+
+\newpage
+\tableofcontents
+\cleardoublepage
+\listoffigures
+
+\newpage
+
+% Chapter 1 - introduction, scope, purpose
+\include{AVM_Component_Introduction}
+
+% Chapter 2 - 
+% 2.1 Overview
+% 2.2 Component Packaging
+\include{AVM_Component_Model}
+
+% 2.3
+\include{AVM_Component_Spec_schema}
+
+% 2.4
+\include{AVM_Component_Spec_CAD}
+
+% 2.5
+\include{AVM_Component_Spec_Dynamics_Domain}
+
+% 2.6
+\include{AVM_Component_Spec_Cyber_Domain}
+
+% 2.7
+\include{AVM_Component_Spec_manufacturing}
+
+% 2.8
+\include{AVM_Component_General_Conventions}
+
+% Chapter 3 - 
+\include{AVM_Component_Spec_Authoring_and_Curation}
+
+% Chapter 4 -
+\include{AVM_Component_Validation}
+
+% Chapter 5 -
+\include{./AVM_Formal_Semantics/AVM_Formal_Semantics}
+
+% Chapter 6 - 
+% Reference Implementations
+\include{Revision_History}
+
+\end{document}

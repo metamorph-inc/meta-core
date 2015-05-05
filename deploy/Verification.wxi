@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<?define Verification=..\models\Verification?>
+<!-- generated with gen_dir_wxi.py ../models/Verification -->
+    <Fragment>
+        <DirectoryRef Id="Verification">
+            <Directory Id="dir3543A5701D514E4F9F74FD5D2B4A8BE6" Name="FixedTorqueSource" />
+            <Directory Id="dir4C88F602EFA9E6D60FEF3D3EA55B492B" Name="generated" />
+            <Directory Id="dir04D120DEBDD416FC957774E63C57085D" Name="Include" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="Verification">
+            <Component Id="cmp7CB81899FAF43D564302817E5C8CD874" Directory="Verification" Guid="*">
+                <File Id="fil9B083F94105A0031056E1EB51E920390" KeyPath="yes" Source="$(var.Verification)\1stOrderStateFlowSimulink.PNG" />
+            </Component>
+            <Component Id="cmp513747DD243CB838077164DC8A5DE634" Directory="Verification" Guid="*">
+                <File Id="filC4A4C429C200ED87E224C4426ECD0923" KeyPath="yes" Source="$(var.Verification)\4thOrderFcnModelicaEngineAnularVelocity.PNG" />
+            </Component>
+            <Component Id="cmpD88509E78EBFFCAD39BC51BE801F5F9F" Directory="Verification" Guid="*">
+                <File Id="filC795908829FE19F87F3C4574D570FE7D" KeyPath="yes" Source="$(var.Verification)\4thOrderFcnModelicaGearRatio.PNG" />
+            </Component>
+            <Component Id="cmp64E189CF764E163D1F59C0E2B036628F" Directory="Verification" Guid="*">
+                <File Id="filAE63F033B41385DBC7FED97B1D8D789F" KeyPath="yes" Source="$(var.Verification)\4thOrderFcnModelicaSpeed.PNG" />
+            </Component>
+            <Component Id="cmp262FBE5017487D6F255333E97AD74FD1" Directory="Verification" Guid="*">
+                <File Id="fil525FD5DCE97587DE90FF255C505387AF" KeyPath="yes" Source="$(var.Verification)\4thOrderStateFlowSimulink.PNG" />
+            </Component>
+            <Component Id="cmpECD8FED47EA241AC38074FC3E8CDFD77" Directory="Verification" Guid="*">
+                <File Id="fil314BE99D989C8E4BFF1B58B7474E88F6" KeyPath="yes" Source="$(var.Verification)\Verification_Models.pptx" />
+            </Component>
+            <Component Id="cmpD883E3969BE716B1584227633855EDD6" Directory="dir3543A5701D514E4F9F74FD5D2B4A8BE6" Guid="*">
+                <File Id="fil888689929B10DA2350CF87155097D11D" KeyPath="yes" Source="$(var.Verification)\FixedTorqueSource\Drive Line model.pptx" />
+            </Component>
+            <Component Id="cmp5AD4A2A4ACAB5F266DD6106FA00F8FCD" Directory="dir3543A5701D514E4F9F74FD5D2B4A8BE6" Guid="*">
+                <File Id="fil88F855792B335D6F61DE1EF4D52F15F5" KeyPath="yes" Source="$(var.Verification)\FixedTorqueSource\results_01_modelica.svg" />
+            </Component>
+            <Component Id="cmpE7CB89459684F30047D15618C17CCDFE" Directory="dir3543A5701D514E4F9F74FD5D2B4A8BE6" Guid="*">
+                <File Id="fil8DF8784E9339CF341B57777DAAF007D4" KeyPath="yes" Source="$(var.Verification)\FixedTorqueSource\VechicleDriveLine_equ.mo" />
+            </Component>
+            <Component Id="cmp5843AA453F856A16A9832C72DA65BD6B" Directory="dir3543A5701D514E4F9F74FD5D2B4A8BE6" Guid="*">
+                <File Id="fil41AE0AA6DC6A94448617D822EAE56859" KeyPath="yes" Source="$(var.Verification)\FixedTorqueSource\VerificationTestBench_w_Fixed_torque.png" />
+            </Component>
+            <Component Id="cmpD50878A1CBCED271AE2E8D1384CC3B31" Directory="dir4C88F602EFA9E6D60FEF3D3EA55B492B" Guid="*">
+                <File Id="fil61A965BB48CA9E3FF7650F0E55476F41" KeyPath="yes" Source="$(var.Verification)\generated\IFV.mdl" />
+            </Component>
+            <Component Id="cmp3874A7B86EBA802B0433BD54F25062A6" Directory="dir4C88F602EFA9E6D60FEF3D3EA55B492B" Guid="*">
+                <File Id="filDA98746217E0C0DD7C54561EA1973771" KeyPath="yes" Source="$(var.Verification)\generated\IFV_datastruct.m" />
+            </Component>
+            <Component Id="cmp6B4E4EC9DBFB626356CF5B9B02B5672E" Directory="dir4C88F602EFA9E6D60FEF3D3EA55B492B" Guid="*">
+                <File Id="fil0B70BDC0DD5C773528371F05455261D1" KeyPath="yes" Source="$(var.Verification)\generated\IFV_equ.html" />
+            </Component>
+            <Component Id="cmp9D73DDDB613981A89AFA16BB61466B93" Directory="dir4C88F602EFA9E6D60FEF3D3EA55B492B" Guid="*">
+                <File Id="fil98E826610EA988409DCA3DAACF1075E1" KeyPath="yes" Source="$(var.Verification)\generated\IFV_equ.mo" />
+            </Component>
+            <Component Id="cmp9CF4B246CE3BFBD4B4C2F5CD19D8E82A" Directory="dir4C88F602EFA9E6D60FEF3D3EA55B492B" Guid="*">
+                <File Id="fil91B124D61519A630727C7AEEB4A9BB49" KeyPath="yes" Source="$(var.Verification)\generated\IFV_equ.mos" />
+            </Component>
+            <Component Id="cmpCD9636818D8691D150A8504561F17BA5" Directory="dir4C88F602EFA9E6D60FEF3D3EA55B492B" Guid="*">
+                <File Id="filE571FA0E938B8FB21F2B9CC8E6CA1507" KeyPath="yes" Source="$(var.Verification)\generated\MDAO_Init.m" />
+            </Component>
+            <Component Id="cmp7456AFD34ED22FB7988E223BD2EFB871" Directory="dir4C88F602EFA9E6D60FEF3D3EA55B492B" Guid="*">
+                <File Id="fil4AB87E1FC5A3784C3343C71D4DBFC528" KeyPath="yes" Source="$(var.Verification)\generated\registerMETALibraries.m" />
+            </Component>
+            <Component Id="cmp830C5DCEC4D7941DEF676FEE8FBEE23B" Directory="dir4C88F602EFA9E6D60FEF3D3EA55B492B" Guid="*">
+                <File Id="filB2E27A67003F8591E9F9B10FDF456DF6" KeyPath="yes" Source="$(var.Verification)\generated\SimplifiedVerificationTestBenchExtended.png" />
+            </Component>
+            <Component Id="cmp3EAACB90F8EB347A88478AAD31F70436" Directory="dir04D120DEBDD416FC957774E63C57085D" Guid="*">
+                <File Id="filD99642D39E09870A56238027BF139586" KeyPath="yes" Source="$(var.Verification)\Include\Controllers.mdl" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir3543A5701D514E4F9F74FD5D2B4A8BE6" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir04D120DEBDD416FC957774E63C57085D" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir4C88F602EFA9E6D60FEF3D3EA55B492B" />
+    </Fragment>
+</Wix>

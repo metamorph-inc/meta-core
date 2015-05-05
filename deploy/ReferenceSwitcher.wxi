@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="ReferenceSwitcher">
+  <Component Id="ReferenceSwitcher.dll" Directory="INSTALLDIR_BIN">
+    <File Id="ReferenceSwitcher.dll" Name="ReferenceSwitcher.dll" KeyPath="yes" Source="../src/ReferenceSwitcher\bin\Release\ReferenceSwitcher.dll" />
+    <Class Id="{0CB32575-EB7C-4363-A9E6-4F6F0EC6EC84}" Context="InprocServer32" Description="MGA.Interpreter.ReferenceSwitcher" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Interpreter.ReferenceSwitcher" Description="MGA.Interpreter.ReferenceSwitcher" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{0CB32575-EB7C-4363-A9E6-4F6F0EC6EC84}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0CB32575-EB7C-4363-A9E6-4F6F0EC6EC84}\InprocServer32\1.0.0.0" Name="Class" Value="ReferenceSwitcher.ReferenceSwitcherInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0CB32575-EB7C-4363-A9E6-4F6F0EC6EC84}\InprocServer32\1.0.0.0" Name="Assembly" Value="ReferenceSwitcher, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0CB32575-EB7C-4363-A9E6-4F6F0EC6EC84}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0CB32575-EB7C-4363-A9E6-4F6F0EC6EC84}\InprocServer32\1.0.0.0" Name="SupportedRuntimeVersions" Value="v4.0.30319;v2.0.50727" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0CB32575-EB7C-4363-A9E6-4F6F0EC6EC84}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#ReferenceSwitcher.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0CB32575-EB7C-4363-A9E6-4F6F0EC6EC84}\InprocServer32" Name="Class" Value="ReferenceSwitcher.ReferenceSwitcherInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0CB32575-EB7C-4363-A9E6-4F6F0EC6EC84}\InprocServer32" Name="Assembly" Value="ReferenceSwitcher, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0CB32575-EB7C-4363-A9E6-4F6F0EC6EC84}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0CB32575-EB7C-4363-A9E6-4F6F0EC6EC84}\InprocServer32" Name="SupportedRuntimeVersions" Value="v4.0.30319;v2.0.50727" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0CB32575-EB7C-4363-A9E6-4F6F0EC6EC84}\InprocServer32" Name="CodeBase" Value="file:///[#ReferenceSwitcher.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.ReferenceSwitcher'>
+      <RegistryValue Name='Description' Type='string' Value='ReferenceSwitcher'/>
+      <RegistryValue Name='Icon' Type='string' Value='ReferenceSwitcher.ico'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='*'/>
+      <!-- RegistryValue Name='Tooltip' Type='string' Value='TOOLTIP_TEXT'/ -->
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+
+    </RegistryKey>
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

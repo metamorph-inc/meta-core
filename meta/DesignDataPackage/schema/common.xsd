@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iFAB="iFAB" targetNamespace="iFAB">
+
+  <xs:annotation>
+    <xs:appinfo>iFAB Foundry Common XML Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This schema defines common elements, attributes and types shared across multiple XML schemas.</xs:documentation>
+  </xs:annotation>
+
+  <xs:attribute name="id" type="iFAB:guid" />
+
+  <xs:simpleType name="guid">
+    <xs:restriction base="xs:normalizedString">
+      <xs:pattern value="[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="nonNegativeDecimal">
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0.0" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+
+
+  <xs:complexType name="duration">
+    <xs:simpleContent>
+      <xs:extension base="iFAB:nonNegativeDecimal">
+        <xs:attribute name="unit" type="iFAB:timeUnit" default="day" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="price">
+    <xs:simpleContent>
+      <xs:extension base="iFAB:nonNegativeDecimal">
+        <xs:attribute name="currency" type="iFAB:currency" default="USD" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="length">
+    <xs:simpleContent>
+      <xs:extension base="iFAB:nonNegativeDecimal">
+        <xs:attribute name="unit" type="iFAB:lengthUnit" default="mm" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="area">
+    <xs:simpleContent>
+      <xs:extension base="iFAB:nonNegativeDecimal">
+        <xs:attribute name="unit" type="iFAB:areaUnit" default="mm2" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="volume">
+    <xs:simpleContent>
+      <xs:extension base="iFAB:nonNegativeDecimal">
+        <xs:attribute name="unit" type="iFAB:volumeUnit" default="mm3" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="weight">
+    <xs:simpleContent>
+      <xs:extension base="iFAB:nonNegativeDecimal">
+        <xs:attribute name="unit" type="iFAB:massUnit" default="g" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="force">
+    <xs:simpleContent>
+      <xs:extension base="iFAB:nonNegativeDecimal">
+        <xs:attribute name="unit" type="iFAB:forceUnit" default="N" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="torque">
+    <xs:simpleContent>
+      <xs:extension base="iFAB:nonNegativeDecimal">
+        <xs:attribute name="unit" type="iFAB:torqueUnit" default="N m" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="hardness">
+    <xs:simpleContent>
+      <xs:extension base="iFAB:nonNegativeDecimal">
+        <xs:attribute name="unit" type="iFAB:hardnessUnit" default="bh" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="angle">
+    <xs:simpleContent>
+      <xs:extension base="iFAB:nonNegativeDecimal">
+        <xs:attribute name="unit" type="iFAB:angleUnit" default="degrees" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="temperature">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="unit" type="iFAB:temperatureUnit" default="C" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="pressure">
+    <xs:simpleContent>
+      <xs:extension base="iFAB:nonNegativeDecimal">
+        <xs:attribute name="unit" type="iFAB:pressureUnit" default="Pa" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:simpleType name="currency">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="USD" /> <!-- United States Dollars -->
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="timeUnit">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="week" /> <!-- Weeks (5 day weeks excluding weekends/holidays) -->
+      <xs:enumeration value="day" /> <!-- Days -->
+      <xs:enumeration value="hr" /> <!-- Hours -->
+      <xs:enumeration value="min" /> <!-- Minutes -->
+      <xs:enumeration value="sec" /> <!-- Seconds-->
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="lengthUnit">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="mile" /> <!-- Miles -->
+      <xs:enumeration value="yd" /> <!-- Yards -->
+      <xs:enumeration value="ft" /> <!-- Feet -->
+      <xs:enumeration value="in" /> <!-- Inches -->
+      <xs:enumeration value="km" /> <!-- Kilometers -->
+      <xs:enumeration value="m" /> <!-- Meters -->
+      <xs:enumeration value="cm" /> <!-- Centimeters -->
+      <xs:enumeration value="mm" /> <!-- Millimeters -->
+      <xs:enumeration value="um" /> <!-- Micrometers -->
+      <xs:enumeration value="nm" /> <!-- Nanometers -->
+    </xs:restriction>
+  </xs:simpleType>
+      
+  <xs:simpleType name="areaUnit">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="in2" /> <!-- Square inches -->
+      <xs:enumeration value="ft2" /> <!-- Square feet -->
+      <xs:enumeration value="yd2" /> <!-- Square yards -->
+      <xs:enumeration value="acre" /> <!-- Acres -->
+      <xs:enumeration value="mile2" /> <!-- Square miles -->
+      <xs:enumeration value="mm2" /> <!-- Square millimeters -->
+      <xs:enumeration value="cm2" /> <!-- Square centimeters -->
+      <xs:enumeration value="m2" /> <!-- Square meters -->
+      <xs:enumeration value="km2" /> <!-- Square kilometers -->
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="volumeUnit">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="in3" /> <!-- Cubic inches -->
+      <xs:enumeration value="ft3" /> <!-- Cubic feet -->
+      <xs:enumeration value="fl oz" /> <!-- Fluid ounces -->
+      <xs:enumeration value="pt" /> <!-- Pints -->
+      <xs:enumeration value="gal" /> <!-- Gallons -->
+      <xs:enumeration value="mL" /> <!-- Milliliters -->
+      <xs:enumeration value="L" /> <!-- Liters -->
+      <xs:enumeration value="mm3" /> <!-- Cubic millimeters -->
+      <xs:enumeration value="cm3" /> <!-- Cubic centimeters -->
+      <xs:enumeration value="m3" /> <!-- Cubic meters -->
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="massUnit">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="oz" /> <!-- Ounces -->
+      <xs:enumeration value="lb" /> <!-- Pounds -->
+      <xs:enumeration value="ton" /> <!-- Tons -->
+      <xs:enumeration value="mg" /> <!-- Milligrams -->
+      <xs:enumeration value="g" /> <!-- Grams -->
+      <xs:enumeration value="kg" /> <!-- Kilograms -->
+      <xs:enumeration value="tonne" /> <!-- Metric tons -->
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="forceUnit">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="N" /> <!-- Newtons -->
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="torqueUnit">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="N m" /> <!-- Newton meters -->
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="temperatureUnit">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="F" /> <!-- Fahrenheit -->
+      <xs:enumeration value="C" /> <!-- Celcius -->
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="hardnessUnit">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="bh" /> <!-- Brinell Hardness -->
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="angleUnit">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="degrees" /> <!-- Degrees -->
+      <xs:enumeration value="radians" /> <!-- Radians -->
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="pressureUnit">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="Pa" /> <!-- Pascals -->
+	  <xs:enumeration value="kPa" /> <!-- Kilopascals -->
+	  <xs:enumeration value="MPa" /> <!-- Megapascals -->
+	  <xs:enumeration value="GPa" /> <!-- Gigapascals -->
+      <xs:enumeration value="psi" /> <!-- Pounds per Sq. In. -->
+	  <xs:enumeration value="ksi" /> <!-- Kilopounds per Sq. In. -->
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

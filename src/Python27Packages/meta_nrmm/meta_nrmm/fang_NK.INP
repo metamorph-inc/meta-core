@@ -1,0 +1,55 @@
+ECHO=ON
+!output=output.log       ! system output
+!pred  =output.prd	 ! prediction output
+!stats =output.sta	 ! statistics output
+!ssfile=output.xls	 ! "Spread-Sheet" file output
+!specl =output.spc       ! special output
+!vsumry=VehSmry.xls	 ! Not supported in v2.5.9 - vehicle summary spread sheet report
+!auxout=outaux.xls       ! Not supported in v2.5.9 - auxilliary output spread sheet report
+vehfile=fang_gen.STD
+sfile=scenario.dat
+scenario=DRY-NORMAL   	 ! scenario #1
+scenario=WET-NORMAL   	 ! scenario #2
+scenario=WET-SLIPRY  	 ! scenario #3
+!scenario=SAND         	 ! scenario #4
+!scenario=SNOW         	 ! scenario #5
+!
+!tvfile=cktern.a90	 ! Terrain file
+!rtfile=cktern.r90
+!
+!output=fang_Germany.log      ! system output
+!pred  =fang_Germany.prd      ! prediction output
+!stats =fang_Germany.sta      ! statistics output
+!ssfile=fang_Germany.xls      ! "Spread-Sheet" file output
+!tvfile=5322.a90         ! Germany
+!rvfile=5520.r90         ! Germany
+!CALL=wgmrs.dat          ! Germany
+!
+!output=fang_ME.log           ! system output
+!pred  =fang_ME.prd           ! prediction output
+!stats =fang_ME.sta           ! statistics output
+!ssfile=fang_ME.xls           ! "Spread-Sheet" file output
+!tvfile=3254iv.a90       ! Middle East
+!rvfile=MEDATA.r90       ! Middle East
+!CALL=memrs.dat          ! Middle East
+!
+output=fang_NK.log           ! system output
+pred  =fang_NK.prd           ! prediction output
+stats =fang_NK.sta           ! statistics output
+ssfile=fang_NK.xls           ! "Spread-Sheet" file output
+tvfile=32223.a90        ! North Korea
+rvfile=3222III.RT       ! North Korea
+CALL=wgmrs.dat          ! Same as Germany - Richard Alvin
+!
+ECHO=Begin Control
+!#VEH=1,3
+ECHO=Begin Control
+ $CONTRL
+  GOMIN=0.1
+! DETAIL=6,
+  KVEH=0 KTPP=0 KSCEN=0
+  KVSMRY = 0
+  VNAMES = 'vcicmb'
+  NTUX=16 17,SEARCH=0 	 ! Does nothing since SEARCH=0
+                      	 ! [ explicit TU's run are defined by: (NTUX(i),i=1,SEARCH) ]
+ $END

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SimpleFormula" DesignID="{c7f4db80-5cef-4541-9431-4b3f04076b89}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="SimpleFormula" xmlns="">
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop1" ID="property.8f74a212-3d99-4e75-ab8d-ec882f13565c" XPosition="49" YPosition="189">
+      <Value ID="8f74a212-3d99-4e75-ab8d-ec882f13565c" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:FixedValue">
+          <Value>5</Value>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop2" ID="property.61961cf9-f889-4692-bb89-d47b2a098708" XPosition="49" YPosition="21">
+      <Value ID="61961cf9-f889-4692-bb89-d47b2a098708" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:FixedValue">
+          <Value>2</Value>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="Prop3" ID="property.7337b983-f8f2-4f94-9946-baf19b66dfaf" XPosition="413" YPosition="98">
+      <Value ID="7337b983-f8f2-4f94-9946-baf19b66dfaf" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:DerivedValue" ValueSource="dbe818c8-bf10-4847-b5f8-f5686acfb40c" />
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="Param" ID="param.54f08f72-2161-45c4-b363-76a47cd7256b" XPosition="413" YPosition="168">
+      <Value ID="54f08f72-2161-45c4-b363-76a47cd7256b" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <Maximum xsi:type="q1:FixedValue">
+            <Value>inf</Value>
+          </Maximum>
+          <Minimum xsi:type="q1:FixedValue">
+            <Value>-inf</Value>
+          </Minimum>
+          <AssignedValue xsi:type="q1:DerivedValue" ValueSource="dbe818c8-bf10-4847-b5f8-f5686acfb40c" />
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Formula xsi:type="q1:SimpleFormula" ID="dbe818c8-bf10-4847-b5f8-f5686acfb40c" Name="SimpleFormula2" XPosition="238" YPosition="91" Operation="Addition" Operand="61961cf9-f889-4692-bb89-d47b2a098708 f11d8a8e-add4-4e82-9ed2-958976804627" />
+    <Formula xsi:type="q1:SimpleFormula" ID="f11d8a8e-add4-4e82-9ed2-958976804627" Name="SimpleFormula1" XPosition="70" YPosition="91" Operation="Multiplication" Operand="8f74a212-3d99-4e75-ab8d-ec882f13565c 61961cf9-f889-4692-bb89-d47b2a098708" />
+  </RootContainer>
+</Design>

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<?define Include=..\models\IFV\Include?>
+<!-- generated with gen_dir_wxi.py ../models/IFV/Include/ -->
+    <Fragment>
+        <DirectoryRef Id="Include" />
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="Include">
+            <Component Id="cmpD7EC8CA39D700FE10E8B7DBA09CF05B6" Directory="Include" Guid="*">
+                <File Id="fil8FDB7DA31162FC1C56D131FF3870AE94" KeyPath="yes" Source="$(var.Include)\Driveline_Library.mdl" />
+            </Component>
+            <Component Id="cmp50C6E9F8A2B6FFEE680F0BF9C27D2E7F" Directory="Include" Guid="*">
+                <File Id="fil7E653FA603C3FAA67A34EAAE82DA8DE2" KeyPath="yes" Source="$(var.Include)\EngineController.mdl" />
+            </Component>
+            <Component Id="cmpB58999B1A8C1B1B56757E875C18C1489" Directory="Include" Guid="*">
+                <File Id="fil5737155A690212261A2D138F9B6067DB" KeyPath="yes" Source="$(var.Include)\Engine_Library.mdl" />
+            </Component>
+            <Component Id="cmp7299A2B4FCBA5DAD8FB2F70FF963ACA1" Directory="Include" Guid="*">
+                <File Id="filF5EF9FFA340D4AF309ED9BC401A6BB99" KeyPath="yes" Source="$(var.Include)\Engine_Specification.xlsx" />
+            </Component>
+            <Component Id="cmpB52955F8B8F186AF766F8E0FE64AE1C7" Directory="Include" Guid="*">
+                <File Id="filF6C6F6863A0FE1144E55153065453DCA" KeyPath="yes" Source="$(var.Include)\HybridController.mdl" />
+            </Component>
+            <Component Id="cmpEDC925394D4766376C7076BEE90AAC09" Directory="Include" Guid="*">
+                <File Id="fil6A91A98AA9518D2867A2CC278EFFBA0E" KeyPath="yes" Source="$(var.Include)\ScenarioLib.mdl" />
+            </Component>
+            <Component Id="cmpBA5ECBC33A2C56FA623C1DA1575ED136" Directory="Include" Guid="*">
+                <File Id="filCC56E639D6B8C6C57B5E426F7B8B50C2" KeyPath="yes" Source="$(var.Include)\ScenarioNew.mdl" />
+            </Component>
+            <Component Id="cmp0BC1F7CE05A4CA0AD670C6D63819DECF" Directory="Include" Guid="*">
+                <File Id="fil4695F70CBD8096C5ACBA6CE5C3B286B6" KeyPath="yes" Source="$(var.Include)\SuspSys_w_params.mdl" />
+            </Component>
+            <Component Id="cmpD22047868E02E8A845CBFECFEC49A0C4" Directory="Include" Guid="*">
+                <File Id="filA62EB8E2D0AA63E69FF303F3F32F742B" KeyPath="yes" Source="$(var.Include)\TransmissionController.mdl" />
+            </Component>
+            <Component Id="cmp20AB928EE2B90AF17E1B9A7A54D8C714" Directory="Include" Guid="*">
+                <File Id="fil2526BF0C20277D26CF5270DF46A357C2" KeyPath="yes" Source="$(var.Include)\Transmission_Library.mdl" />
+            </Component>
+            <Component Id="cmp34FF8E54E326CF4536BEC36A8F94A6A9" Directory="Include" Guid="*">
+                <File Id="filCED49B082AA0FFF94F92652F8FBED70E" KeyPath="yes" Source="$(var.Include)\Transmission_Specification.xlsx" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

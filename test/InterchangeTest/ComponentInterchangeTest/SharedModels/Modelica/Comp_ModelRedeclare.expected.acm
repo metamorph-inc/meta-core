@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="id22034" Name="Comp_ModelRedeclare" Version="1.2" xmlns="avm">
+  <DomainModel xmlns:q1="modelica" xsi:type="q1:ModelicaModel" Author="user" Notes="A Note" XPosition="301" YPosition="63" Name="ModelicaModel" Class="Class.Path" xmlns="">
+    <Redeclare Notes="" XPosition="91" YPosition="56" Type="Package" Locator="redec1">
+      <Value>
+        <ValueExpression xmlns:q2="avm" xsi:type="q2:FixedValue">
+          <Value>thisValue</Value>
+        </ValueExpression>
+      </Value>
+    </Redeclare>
+  </DomainModel>
+  <Classifications xmlns="">Some_Class</Classifications>
+</Component>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <assemblyIdentity type="win32" name="CyPhyInterpreterChain" version="1.0.0.0" processorArchitecture="msil" publicKeyToken="dbb1a80e1f5b4222"/>
+
+  <clrClass
+      clsid="{F37FE55B-CB14-4566-A02F-B8D11A3E007C}"
+      progid="MGA.Interpreter.CyPhyInterpreterChain"
+      threadingModel="Both"
+      name="CyPhyInterpreterChain.CyPhyInterpreterChainInterpreter"
+      runtimeVersion="v4.0.30319">
+  </clrClass>
+
+  <file name="CyPhyInterpreterChain.dll"/>
+
+</asmv1:assembly>

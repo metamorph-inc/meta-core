@@ -1,0 +1,11 @@
+The material in this project should be made available as a NuGet package.
+In the meantime you can clone the git repository.
+From the czmq directory...
+$ cd czmq
+
+$ git init
+$ git remote add origin git@github.com:phreed/czmq.git
+$ git fetch origin
+$ git reset --hard origin/master
+
+

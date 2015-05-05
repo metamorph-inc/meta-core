@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<part uuid="8c246069-12ba-4fc1-a751-a119fd692e32">
+  <name>GOLD_MASS</name>
+  <length unit="mm">50.0000002</length>
+  <width unit="mm">12.000000199999999</width>
+  <height unit="mm">50.0000002</height>
+  <volume unit="mm3">25000.0</volume>
+  <weight unit="kg">0.19624999999999998</weight>
+  <file type="STEP">GOLD_MASS.stp</file>
+  <manufacturingDetails>
+    <purchased>
+      <notes></notes>
+      <NSN></NSN>
+      <supplier>
+        <CAGEIdentifier>
+          <CAGECode>
+            <code>N/A</code>
+          </CAGECode>
+        </CAGEIdentifier>
+        <catalogNumber>N/A</catalogNumber>
+        <componentInfo></componentInfo>
+        <leadTime>14.0</leadTime>
+        <leadTimeBasis></leadTimeBasis>
+        <leadTimeUncertainty>3.0</leadTimeUncertainty>
+        <partDescription></partDescription>
+        <paymentTerms></paymentTerms>
+        <price>1200.0</price>
+        <quantity>1</quantity>
+        <shipmentDimensions>{0.05,0.05,0.05}</shipmentDimensions>
+        <shippingMass>0.0</shippingMass>
+        <shippingPointAddress></shippingPointAddress>
+        <transportationNeeds/>
+        <unitOfIssue></unitOfIssue>
+      </supplier>
+    </purchased>
+  </manufacturingDetails>
+  <instances>
+    <instance uuid="5e87d8db-b073-4118-8aea-28467e6d3ca1">
+      <transformation m11="1.0" m12="0.0" m13="0.0" m14="0.0" m21="0.0" m22="1.0" m23="0.0" m24="0.0" m31="0.0" m32="0.0" m33="1.0" m34="0.0"/>
+      <color r="1.0" g="1.0" b="0.0"/>
+    </instance>
+  </instances>
+</part>

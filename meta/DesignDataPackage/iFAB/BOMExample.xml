@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<iFAB:parts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iFAB="iFAB" xsi:schemaLocation="iFAB BOM.xsd">
+  <part uuid="806bb26e-9fd9-4db1-89d5-6808789fd7f5">
+    <name>85400_2</name>
+    <length unit="mm">150.7085654591551</length>
+    <width unit="mm">84.66548419365596</width>
+    <height unit="mm">43.47445491944752</height>
+    <volume unit="mm3">53024.409435245754</volume>
+    <weight unit="kg">0.41624161406667914</weight>
+    <file type="STEP">85400_2.stp</file>
+    <file type="AUGMENTATION">85400_2_prt.xml</file>
+    <iFAB:manufacturingDetails>
+      <machined>
+        <notes></notes>
+        <material>
+          <carbonSteel>
+            <hotRolled>1045</hotRolled>
+          </carbonSteel>
+        </material>
+        <planarFaces>
+          <generalTolerance unit="mm">0.127</generalTolerance>
+          <surfaceRoughness unit="mm">0.0015875</surfaceRoughness>
+        </planarFaces>
+        <curvedSurfaces>
+          <generalTolerance unit="mm">0.127</generalTolerance>
+          <surfaceRoughness unit="mm">0.0015875</surfaceRoughness>
+        </curvedSurfaces>
+        <curvedWalls>
+          <generalTolerance unit="mm">0.127</generalTolerance>
+          <surfaceRoughness unit="mm">0.0015875</surfaceRoughness>
+        </curvedWalls>
+        <simpleHoles>
+          <diametricalTolerance unit="mm">0.0254</diametricalTolerance>
+          <positionalTolerance unit="mm">0.0254</positionalTolerance>
+          <surfaceRoughness unit="mm">0.0015875</surfaceRoughness>
+          <threaded>true</threaded>
+        </simpleHoles>
+        <inorganicCoatings/>
+        <organicCoatings>
+          <organicCoating>CARC</organicCoating>
+        </organicCoatings>
+      </machined>
+    </iFAB:manufacturingDetails>
+    <instances>
+      <instance uuid="8fa5e684-9811-4729-a0fe-4eaf06c7fe11">
+        <transformation m11="1.0" m12="0.0" m13="0.0" m14="0.0" m21="0.0" m22="1.0" m23="0.0" m24="39.2508" m31="0.0" m32="0.0" m33="1.0" m34="0.0"/>
+        <color r="1.0" g="1.0" b="0.0"/>
+      </instance>
+    </instances>
+  </part>
+  <part uuid="bf242329-93f6-4392-9285-6057d59bac31">
+    <name>85422_6</name>
+    <length unit="mm">16.23588320438591</length>
+    <width unit="mm">16.23588320438591</width>
+    <height unit="mm">12.000000200000004</height>
+    <volume unit="mm3">906.4024001967224</volume>
+    <weight unit="kg">0.00711525884154427</weight>
+    <file type="STEP">85422_6.stp</file>
+    <file type="AUGMENTATION">85422_6_prt.xml</file>
+    <iFAB:manufacturingDetails>
+      <machined>
+        <notes></notes>
+        <material>
+          <carbonSteel>
+            <hotRolled>1045</hotRolled>
+          </carbonSteel>
+        </material>
+        <planarFaces>
+          <generalTolerance unit="mm">0.127</generalTolerance>
+          <surfaceRoughness unit="mm">0.0015875</surfaceRoughness>
+        </planarFaces>
+        <curvedSurfaces>
+          <generalTolerance unit="mm">0.127</generalTolerance>
+          <surfaceRoughness unit="mm">0.0015875</surfaceRoughness>
+        </curvedSurfaces>
+        <curvedWalls>
+          <generalTolerance unit="mm">0.127</generalTolerance>
+          <surfaceRoughness unit="mm">0.0015875</surfaceRoughness>
+        </curvedWalls>
+        <simpleHoles>
+          <diametricalTolerance unit="mm">0.0254</diametricalTolerance>
+          <positionalTolerance unit="mm">0.0254</positionalTolerance>
+          <surfaceRoughness unit="mm">0.0015875</surfaceRoughness>
+          <threaded>true</threaded>
+        </simpleHoles>
+        <inorganicCoatings/>
+        <organicCoatings>
+          <organicCoating>CARC</organicCoating>
+        </organicCoatings>
+      </machined>
+    </iFAB:manufacturingDetails>
+    <instances>
+      <instance uuid="e74f31f9-e98f-46dc-88a2-e610739e6886">
+        <transformation m11="1.0" m12="-1.23193E-5" m13="0.0" m14="106.533" m21="0.0" m22="0.0" m23="-1.0" m24="53.9246" m31="1.23193E-5" m32="1.0" m33="0.0" m34="-27.0317"/>
+        <color r="1.0" g="1.0" b="0.0"/>
+      </instance>
+    </instances>
+  </part>
+  <part uuid="97c1bb2c-bbfe-4af1-93ac-3588e7adb344">
+    <name>86417</name>
+    <length unit="mm">10.098725279286183</length>
+    <width unit="mm">10.123101499286008</width>
+    <height unit="mm">12.123245073164576</height>
+    <volume unit="mm3">457.71715113563926</volume>
+    <weight unit="kg">0.003593079636414768</weight>
+    <file type="STEP">86417.stp</file>
+    <file type="AUGMENTATION">86417_prt.xml</file>
+    <iFAB:manufacturingDetails>
+      <purchased>
+        <notes></notes>
+        <supplier>
+          <CAGEIdentifier>
+            <CAGECode>
+              <code>Supplier2</code>
+            </CAGECode>
+          </CAGEIdentifier>
+          <catalogNumber>catalogNumber1</catalogNumber>
+          <componentInfo>http://uri1</componentInfo>
+          <FOB>Origin</FOB>
+          <leadTime>7.0</leadTime>
+          <leadTimeBasis>leadTimeBasis1</leadTimeBasis>
+          <leadTimeUncertainty>1.0</leadTimeUncertainty>
+          <packaging>Pallet</packaging>
+          <partDescription>partDescription1</partDescription>
+          <paymentTerms>paymentTerms1</paymentTerms>
+          <price>159.99</price>
+          <quantity>1</quantity>
+          <shipmentDimensions>{4.0,8.0,12.0}</shipmentDimensions>
+          <shippingMass>550.0</shippingMass>
+          <shippingPointAddress>street city state zip</shippingPointAddress>
+          <transportationNeeds>
+            <TransportationNeed>TemperatureControl</TransportationNeed>
+            <TransportationNeed>HazardousMaterial</TransportationNeed>
+          </transportationNeeds>
+          <unitOfIssue>1</unitOfIssue>
+        </supplier>
+      </purchased>
+    </iFAB:manufacturingDetails>
+    <instances>
+      <instance uuid="e6936e32-0190-4166-bc9c-4545f97ae481">
+        <transformation m11="1.0" m12="0.0" m13="0.0" m14="106.533" m21="0.0" m22="0.0" m23="1.0" m24="35.9246" m31="0.0" m32="-1.0" m33="0.0" m34="-27.0317"/>
+        <color r="1.0" g="1.0" b="0.0"/>
+      </instance>
+    </instances>
+  </part>
+  <part uuid="3daf8622-1dbd-46fb-b5d8-d514032aa98a">
+    <name>86405</name>
+    <length unit="mm">8.33949511350626</length>
+    <width unit="mm">10.165173042308924</width>
+    <height unit="mm">8.33949511350626</height>
+    <volume unit="mm3">200.28199566910513</volume>
+    <weight unit="kg">0.0015722136660024752</weight>
+    <file type="STEP">86405.stp</file>
+    <file type="AUGMENTATION">86405_prt.xml</file>
+    <iFAB:manufacturingDetails>
+      <purchased>
+        <notes></notes>
+        <supplier>
+          <CAGEIdentifier>
+            <CAGECode>
+              <code>Supplier1</code>
+            </CAGECode>
+          </CAGEIdentifier>
+          <catalogNumber>catalogNumber1</catalogNumber>
+          <componentInfo>http://uri1</componentInfo>
+          <FOB>Origin</FOB>
+          <leadTime>4.0</leadTime>
+          <leadTimeBasis>leadTimeBasis1</leadTimeBasis>
+          <leadTimeUncertainty>1.0</leadTimeUncertainty>
+          <packaging>Pallet</packaging>
+          <partDescription>partDescription1</partDescription>
+          <paymentTerms>paymentTerms1</paymentTerms>
+          <price>299.99</price>
+          <quantity>1</quantity>
+          <shipmentDimensions>{4.0,8.0,12.0}</shipmentDimensions>
+          <shippingMass>550.0</shippingMass>
+          <shippingPointAddress>street city state zip</shippingPointAddress>
+          <transportationNeeds>
+            <TransportationNeed>TemperatureControl</TransportationNeed>
+            <TransportationNeed>HazardousMaterial</TransportationNeed>
+          </transportationNeeds>
+          <unitOfIssue>1</unitOfIssue>
+        </supplier>
+      </purchased>
+    </iFAB:manufacturingDetails>
+    <instances>
+      <instance uuid="031caad7-4d26-4f0d-9444-bb8aa68c0e00">
+        <transformation m11="1.0" m12="0.0" m13="0.0" m14="55.0" m21="0.0" m22="1.0" m23="0.0" m24="55.0508" m31="0.0" m32="0.0" m33="1.0" m34="0.0"/>
+        <color r="1.0" g="1.0" b="0.0"/>
+      </instance>
+    </instances>
+  </part>
+  <part uuid="9ef9d810-59f9-4532-a1af-f9876fc2a219">
+    <name>Z216</name>
+    <length unit="mm">25.00000020000007</length>
+    <width unit="mm">6.254764686714897</width>
+    <height unit="mm">6.23165441173391</height>
+    <volume unit="mm3">241.81114233334534</volume>
+    <weight unit="kg">0.0018982174673167608</weight>
+    <file type="STEP">Z216.stp</file>
+    <file type="AUGMENTATION">z216_prt.xml</file>
+    <iFAB:manufacturingDetails>
+      <purchased>
+        <notes></notes>
+        <supplier>
+          <CAGEIdentifier>
+            <CAGECode>
+              <code>Supplier3</code>
+            </CAGECode>
+          </CAGEIdentifier>
+          <catalogNumber>catalogNumber1</catalogNumber>
+          <componentInfo>http://uri1</componentInfo>
+          <FOB>Origin</FOB>
+          <leadTime>7.0</leadTime>
+          <leadTimeBasis>leadTimeBasis1</leadTimeBasis>
+          <leadTimeUncertainty>1.0</leadTimeUncertainty>
+          <packaging>Pallet</packaging>
+          <partDescription>partDescription1</partDescription>
+          <paymentTerms>paymentTerms1</paymentTerms>
+          <price>59.99</price>
+          <quantity>1</quantity>
+          <shipmentDimensions>{4.0,8.0,12.0}</shipmentDimensions>
+          <shippingMass>550.0</shippingMass>
+          <shippingPointAddress>street city state zip</shippingPointAddress>
+          <transportationNeeds>
+            <TransportationNeed>TemperatureControl</TransportationNeed>
+            <TransportationNeed>HazardousMaterial</TransportationNeed>
+          </transportationNeeds>
+          <unitOfIssue>1</unitOfIssue>
+        </supplier>
+      </purchased>
+    </iFAB:manufacturingDetails>
+    <instances>
+      <instance uuid="82dea78f-75dc-41c7-a9e4-52bb9f763615">
+        <transformation m11="0.0" m12="1.0" m13="0.0" m14="55.0" m21="-1.0" m22="0.0" m23="0.0" m24="71.7508" m31="0.0" m32="0.0" m33="1.0" m34="0.0"/>
+        <color r="1.0" g="1.0" b="0.0"/>
+      </instance>
+    </instances>
+  </part>
+  <specialDetails/>
+  <assembly>
+    <name></name>
+    <unusedParts>
+      <part iFAB:id="3daf8622-1dbd-46fb-b5d8-d514032aa98a">86405</part>
+      <part iFAB:id="9ef9d810-59f9-4532-a1af-f9876fc2a219">Z216</part>
+    </unusedParts>
+    <assemblyDetails>
+      <assemblyDetail iFAB:id="8e1b9bc1-91d5-4046-bb06-9dd1b32db6cb">
+        <part1 iFAB:id="3eb6e5ee-f4c3-4cfe-b735-de874e55d494">86417</part1>
+        <part2 iFAB:id="433bcefa-476b-4c33-8739-06dee8db7286">85400_2</part2>
+        <mechanical>
+          <fasteningMethod>Bolted</fasteningMethod>
+          <fasteningQuantity>1</fasteningQuantity>
+          <torque unit="N m">62.5</torque>
+        </mechanical>
+      </assemblyDetail>
+      <assemblyDetail iFAB:id="9f4dc488-39b7-4670-9859-e5df7a571bdf">
+        <part1 iFAB:id="3eb6e5ee-f4c3-4cfe-b735-de874e55d494">85422_6</part1>
+        <part2 iFAB:id="433bcefa-476b-4c33-8739-06dee8db7286">85400_2</part2>
+        <mechanical>
+          <fasteningMethod>Bolted</fasteningMethod>
+          <fasteningQuantity>1</fasteningQuantity>
+          <torque unit="N m">62.5</torque>
+        </mechanical>
+      </assemblyDetail>
+    </assemblyDetails>
+    <specialDetails/>
+    <groups/>
+  </assembly>
+</iFAB:parts>

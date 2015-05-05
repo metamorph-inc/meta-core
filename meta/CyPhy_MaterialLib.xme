@@ -1,0 +1,959 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{8C0B3747-FE85-4716-AD86-495796BC46DB}" cdate="Wed Sep 18 13:47:42 2013" mdate="Wed Sep 18 13:47:42 2013" version="" metaguid="{1FADA426-E3DD-4E5E-A525-65C44B6073A2}" metaversion="12.1.$Rev: 18410 $" metaname="CyPhyML">
+	<name>RootFolder</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0xd" kind="RootFolder" guid="{5057546a-d298-4963-b477-b9ccbdb4da76}">
+		<name>RootFolder</name>
+		<folder id="id-006a-00000014" relid="0xd" childrelidcntr="0x69" kind="MaterialsDefinition" guid="{69120e36-14bd-4459-82d3-6c96375e77e6}">
+			<name>MaterialDefinitions</name>
+			<atom id="id-0066-0000008f" kind="Material" guid="{f5357e98-f21a-4636-ada9-259fcf7a1cc1}" relid="0x1">
+				<name>aluminum_filler_weld_5654</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_filler_weld_5654</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000090" kind="Material" guid="{14e139ea-a979-4862-8bb5-19e779fcfffb}" relid="0x2">
+				<name>titanium_alloy_ti6al4v_anneal</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>titanium_alloy_ti6al4v_anneal</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000091" kind="Material" guid="{b9b59cb4-0e93-414e-9f34-36dc7fd733a2}" relid="0x3">
+				<name>steel_stainless_321</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_321</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000092" kind="Material" guid="{9ec914a1-797f-4884-9754-5d1be1110a01}" relid="0x4">
+				<name>steel_low_alloy_a515_gr70</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_alloy_a515_gr70</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000093" kind="Material" guid="{124b4e11-7577-4d40-be02-9c971c9ce9e2}" relid="0x5">
+				<name>steel_tool_s7_tempered</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_tool_s7_tempered</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000094" kind="Material" guid="{7b693382-7520-444c-ba95-e1f84f128e8b}" relid="0x6">
+				<name>steel_med_carbon_1141_hot_roll</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_med_carbon_1141_hot_roll</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000095" kind="Material" guid="{afb06922-ed54-40b3-8108-9e7e0fe24e5d}" relid="0x7">
+				<name>aluminum_alloy_1100_h16</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_alloy_1100_h16</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000096" kind="Material" guid="{78e6f0c7-7fcf-482f-99c6-ee460ffb1271}" relid="0x8">
+				<name>steel_bolt_metric_class_9p8</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_bolt_metric_class_9p8</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000097" kind="Material" guid="{1f750350-216b-4ced-8c02-4075b79ca2be}" relid="0x9">
+				<name>aluminum_alloy_5083_h32</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_alloy_5083_h32</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000098" kind="Material" guid="{cd5c4cd1-a1ba-46a6-9b3a-f23d582aed42}" relid="0xa">
+				<name>polymer_rubber_hnbr</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>polymer_rubber_hnbr</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000099" kind="Material" guid="{c40465a3-6d13-4e2b-9c37-231a4e7fb3e7}" relid="0xb">
+				<name>steel_filler_weld_070ksi</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_filler_weld_070ksi</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-0000009a" kind="Material" guid="{7898a0a6-4aeb-49af-9e52-ce20acb709f0}" relid="0xc">
+				<name>steel_low_carbon_1008_hot_roll</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_carbon_1008_hot_roll</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-0000009b" kind="Material" guid="{c953d212-a7da-4696-9a44-43feedc0f9b2}" relid="0xd">
+				<name>steel_filler_weld_090ksi</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_filler_weld_090ksi</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-0000009c" kind="Material" guid="{870c0bd1-cef9-44b5-8735-715ff844a9d5}" relid="0xe">
+				<name>steel_tool_s7_annealed</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_tool_s7_annealed</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-0000009d" kind="Material" guid="{33d479a9-d4c2-4c4a-acba-451864d048b8}" relid="0xf">
+				<name>steel_stainless_316_l</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_316_l</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-0000009e" kind="Material" guid="{fc228fa1-078e-42e2-994f-092752775af8}" relid="0x10">
+				<name>steel_stainless_filler_weld_309</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_filler_weld_309</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-0000009f" kind="Material" guid="{18af7f7c-7995-4619-a099-dbf31f41caab}" relid="0x11">
+				<name>steel_stainless_filler_weld_308</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_filler_weld_308</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000a0" kind="Material" guid="{37de6d45-9259-471f-9508-fbe35d7461c7}" relid="0x12">
+				<name>steel_low_alloy_a572_gr50</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_alloy_a572_gr50</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000a1" kind="Material" guid="{64286b62-0f7f-467b-86cc-fe74410b6368}" relid="0x13">
+				<name>steel_low_carbon_1018_cold_draw</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_carbon_1018_cold_draw</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000a2" kind="Material" guid="{da0c2520-3381-4f33-8daa-9c57ce407ea1}" relid="0x14">
+				<name>steel_stainless_filler_weld_307</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_filler_weld_307</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000a3" kind="Material" guid="{15aa3475-3746-4b68-8a04-3f49b240b038}" relid="0x15">
+				<name>steel_armor_rha_mil_dtl_46177</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_armor_rha_mil_dtl_46177</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000a4" kind="Material" guid="{0901e087-ce61-4b04-a12d-55d6f4d596bf}" relid="0x16">
+				<name>steel_low_carbon_1015_cold_draw</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_carbon_1015_cold_draw</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000a5" kind="Material" guid="{d2ae27a4-a4ea-4ef6-a9c5-9404714f3177}" relid="0x17">
+				<name>steel_low_alloy_4140_normalized</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_alloy_4140_normalized</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000a6" kind="Material" guid="{fc1c8833-d2b3-462a-b644-96e996ddddd1}" relid="0x18">
+				<name>steel_low_carbon_1018_hot_roll</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_carbon_1018_hot_roll</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000a7" kind="Material" guid="{e0b6e5a3-e41e-4494-bbea-e5ccf81c759c}" relid="0x19">
+				<name>steel_armor_rha_mildtl_12560cl2</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_armor_rha_mildtl_12560cl2</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000a8" kind="Material" guid="{a83c74cb-b638-48b1-91d1-c33f118c272a}" relid="0x1a">
+				<name>steel_armor_rha_mildtl_12560cl1</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_armor_rha_mildtl_12560cl1</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000a9" kind="Material" guid="{602dfd27-4bd7-4a8d-a1d6-f1e2fa51e9f1}" relid="0x1b">
+				<name>aluminum_alloy_2219_h31</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_alloy_2219_h31</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000aa" kind="Material" guid="{7986f605-e604-4fb6-8c8f-5c59bc60e10b}" relid="0x1c">
+				<name>ceramic_transp_armor_sapphire</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>ceramic_transp_armor_sapphire</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000ab" kind="Material" guid="{9a9da1e9-038e-4eaf-9b99-0a2e1c06e417}" relid="0x1d">
+				<name>titanium_filler_weld_erti5</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>titanium_filler_weld_erti5</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000ac" kind="Material" guid="{acf714b6-00d9-4840-944a-6633e88a0aff}" relid="0x1e">
+				<name>titanium_filler_weld_erti2</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>titanium_filler_weld_erti2</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000ad" kind="Material" guid="{bcdd73a1-483d-4268-bba9-e00d4d7d6e10}" relid="0x1f">
+				<name>titanium_filler_weld_erti3</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>titanium_filler_weld_erti3</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000ae" kind="Material" guid="{6ffb7457-06d7-48ac-9919-b01c9bce5c85}" relid="0x20">
+				<name>ceramic_transp_armor_glass</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>ceramic_transp_armor_glass</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000af" kind="Material" guid="{c5160455-35e5-4832-9c0c-12dc7cab51d3}" relid="0x21">
+				<name>titanium_filler_weld_erti1</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>titanium_filler_weld_erti1</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000b0" kind="Material" guid="{8c467f17-04c8-4df4-90d9-00cf0e726ed9}" relid="0x22">
+				<name>aluminum_filler_weld_4643</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_filler_weld_4643</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000b1" kind="Material" guid="{46d18030-9449-49a0-8bbd-65cd6efad557}" relid="0x23">
+				<name>titanium_filler_weld_erti9</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>titanium_filler_weld_erti9</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000b2" kind="Material" guid="{9329f08f-1415-495b-a000-dce2ebc6e855}" relid="0x24">
+				<name>steel_stainless_filler_weld_316</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_filler_weld_316</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000b3" kind="Material" guid="{3a416b6c-29fb-49e9-811d-977696d9faa4}" relid="0x25">
+				<name>steel_stainless_filler_weld_317</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_filler_weld_317</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000b4" kind="Material" guid="{8ffa48c0-d2e8-4052-8520-543340b684f6}" relid="0x26">
+				<name>steel_bolt_metric_class_10p9</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_bolt_metric_class_10p9</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000b5" kind="Material" guid="{e35f8a20-1541-4360-bd68-4e60e863ee9c}" relid="0x27">
+				<name>aluminum_alloy_6063_t6</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_alloy_6063_t6</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000b6" kind="Material" guid="{0c68370e-b1f6-4d8c-8799-4be769bc9459}" relid="0x28">
+				<name>steel_stainless_321_annealed</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_321_annealed</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000b7" kind="Material" guid="{120c223c-9776-4d42-bae1-3141aecefaac}" relid="0x29">
+				<name>composite_fiber_dyneema_sk60</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>composite_fiber_dyneema_sk60</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000b8" kind="Material" guid="{063a7ce2-2f88-4cdb-994d-3e06eb35d1ac}" relid="0x2a">
+				<name>titanium_alloy_ti6al4v</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>titanium_alloy_ti6al4v</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000b9" kind="Material" guid="{7a025409-8c11-4e6a-a96a-b8b5c2696a37}" relid="0x2b">
+				<name>steel_low_carbon_1006_hot_roll</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_carbon_1006_hot_roll</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000ba" kind="Material" guid="{f0537b56-a061-4f5c-bc08-8c1c5960858f}" relid="0x2c">
+				<name>steel_filler_weld_120ksi</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_filler_weld_120ksi</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000bb" kind="Material" guid="{0ba5bb30-e0fa-4583-9dda-355b11af8825}" relid="0x2d">
+				<name>steel_stainless_316_annealed</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_316_annealed</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000bc" kind="Material" guid="{e171272a-d907-4d94-9398-d0d87acb858c}" relid="0x2e">
+				<name>composite_fiber_kevlar_km2</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>composite_fiber_kevlar_km2</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000bd" kind="Material" guid="{4c674ce7-2960-4aa5-85b2-5b96a571759c}" relid="0x2f">
+				<name>steel_low_carbon_1006_cold_draw</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_carbon_1006_cold_draw</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000be" kind="Material" guid="{1c5efe33-4849-4c68-84b9-9cb3f8503912}" relid="0x30">
+				<name>aluminum_filler_weld_5183</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_filler_weld_5183</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000bf" kind="Material" guid="{deefc07b-fb95-4695-ac7f-a43a6037556a}" relid="0x31">
+				<name>steel_stainless_filler_weld_347</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_filler_weld_347</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000c0" kind="Material" guid="{3356c39e-e0a8-4e56-be17-a274fe8d316f}" relid="0x32">
+				<name>steel_med_carbon_1141_cold_draw</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_med_carbon_1141_cold_draw</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000c1" kind="Material" guid="{3b3dbdf1-4870-4191-9cbb-5f6f2dee61b4}" relid="0x33">
+				<name>steel_low_carbon_1015_hot_roll</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_carbon_1015_hot_roll</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000c2" kind="Material" guid="{23664494-b631-4bda-8c23-bd2ba5ade04c}" relid="0x34">
+				<name>titanium_filler_weld_erti23</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>titanium_filler_weld_erti23</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000c3" kind="Material" guid="{809bf6a8-a5a3-4c5a-bed3-2aba8667e2d4}" relid="0x35">
+				<name>steel_armor_atralloy_v2</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_armor_atralloy_v2</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000c4" kind="Material" guid="{1df135f3-9159-4b3e-92dc-26c2dc0c4ee2}" relid="0x36">
+				<name>steel_stainless_304_half_hard</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_304_half_hard</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000c5" kind="Material" guid="{ea4416e2-a400-4894-a41e-a0eda1154ec9}" relid="0x37">
+				<name>aluminum_filler_weld_5356</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_filler_weld_5356</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000c6" kind="Material" guid="{f8acb610-068a-462d-a122-7affa35da64c}" relid="0x38">
+				<name>aluminum_filler_weld_1188</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_filler_weld_1188</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000c7" kind="Material" guid="{2cb44040-c5aa-47cc-a855-f52d70223394}" relid="0x39">
+				<name>aluminum_alloy_7075_t6</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_alloy_7075_t6</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000c8" kind="Material" guid="{d5d3051a-a50a-4762-8dd5-9813f7b8292a}" relid="0x3a">
+				<name>steel_low_alloy_c250</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_alloy_c250</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000c9" kind="Material" guid="{90c061bf-cb9c-40d8-a1fb-915bb73fc12e}" relid="0x3b">
+				<name>steel_bolt_metric_class_8p8</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_bolt_metric_class_8p8</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000ca" kind="Material" guid="{fb385db1-8f53-4b4b-8c70-c77ecaa1a87a}" relid="0x3c">
+				<name>steel_armor_cast_mil_a_11356cl1</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_armor_cast_mil_a_11356cl1</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000cb" kind="Material" guid="{048b3f2c-0bf6-4d8d-9983-540082183df2}" relid="0x3d">
+				<name>steel_armor_cast_mil_a_11356cl2</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_armor_cast_mil_a_11356cl2</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000cc" kind="Material" guid="{40ac31ba-4e47-4441-88e5-b269fcff0967}" relid="0x3e">
+				<name>aluminum_filler_weld_1100</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_filler_weld_1100</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000cd" kind="Material" guid="{93963b43-6aa4-40b7-9a38-52b5751d6f32}" relid="0x3f">
+				<name>aluminum_armor_5456_h131</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_armor_5456_h131</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000ce" kind="Material" guid="{9627e077-a321-4cc7-8e0b-0ff99389fc33}" relid="0x40">
+				<name>titanium_pure_cp_gr4</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>titanium_pure_cp_gr4</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000cf" kind="Material" guid="{39099f40-c268-46ed-bd22-bfdc56df09d9}" relid="0x41">
+				<name>steel_high_alloy_hy100</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_high_alloy_hy100</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000d0" kind="Material" guid="{402a1d05-3ef4-42f1-8ffe-accf95632366}" relid="0x42">
+				<name>titanium_pure_cp_gr1</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>titanium_pure_cp_gr1</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000d1" kind="Material" guid="{47e522de-5f21-4a30-85f1-b77e19727666}" relid="0x43">
+				<name>titanium_pure_cp_gr2</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>titanium_pure_cp_gr2</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000d2" kind="Material" guid="{e4be687e-c168-4afd-9904-d4f817ecd3e3}" relid="0x44">
+				<name>titanium_pure_cp_gr3</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>titanium_pure_cp_gr3</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000d3" kind="Material" guid="{f8c7551a-1617-4578-acf6-c499ff52d6c3}" relid="0x45">
+				<name>aluminum_alloy_2024</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_alloy_2024</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000d4" kind="Material" guid="{7ed7a032-0ac0-424a-996c-51f7438b3a8e}" relid="0x46">
+				<name>steel_low_alloy_a36</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_alloy_a36</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000d5" kind="Material" guid="{918c507b-10cf-46ae-9c4a-86630cc16e06}" relid="0x47">
+				<name>composite_fiber_kevlar_129</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>composite_fiber_kevlar_129</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000d6" kind="Material" guid="{12f0ede3-dc62-49f9-a21d-c29707d95344}" relid="0x48">
+				<name>steel_filler_weld_100ksi</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_filler_weld_100ksi</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000d7" kind="Material" guid="{1fc2cdba-82a6-4db1-a1b7-1dc4d8ccdffd}" relid="0x49">
+				<name>aluminum_alloy_7075_t651</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_alloy_7075_t651</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000d8" kind="Material" guid="{ce8dd7b8-1912-4197-9b31-65292be49a9f}" relid="0x4a">
+				<name>aluminum_filler_weld_2319</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_filler_weld_2319</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000d9" kind="Material" guid="{0aae00bb-20d4-4df6-8761-feb427c2f4df}" relid="0x4b">
+				<name>steel_armor_armox_500</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_armor_armox_500</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000da" kind="Material" guid="{51897b0f-7196-4957-86fd-02e09dceb407}" relid="0x4c">
+				<name>steel_stainless_321_h</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_321_h</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000db" kind="Material" guid="{b0872358-1575-40bb-a3fc-63f431f1b83a}" relid="0x4d">
+				<name>steel_filler_weld_110ksi</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_filler_weld_110ksi</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000dc" kind="Material" guid="{8ede19a8-7180-4225-9b73-e85ee58e7705}" relid="0x4e">
+				<name>steel_stainless_304_l</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_304_l</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000dd" kind="Material" guid="{c58a0987-6a8b-4be5-93a3-3fe25f8ec00f}" relid="0x4f">
+				<name>aluminum_armor_mil_dtl_46027cl1</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_armor_mil_dtl_46027cl1</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000de" kind="Material" guid="{5d27e3b0-d7fe-4399-851c-e15bd63a70dd}" relid="0x50">
+				<name>aluminum_alloy_6061_t4</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_alloy_6061_t4</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000df" kind="Material" guid="{dbfb0226-b3d9-42e9-9112-7dfcca2e28c1}" relid="0x51">
+				<name>aluminum_alloy_6061_t6</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_alloy_6061_t6</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000e0" kind="Material" guid="{1bbb11bf-6cfe-4d63-9374-7698760c3fc6}" relid="0x52">
+				<name>steel_bolt_metric_class_4p6</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_bolt_metric_class_4p6</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000e1" kind="Material" guid="{81a8d14c-13be-4193-bb05-a246c593e39f}" relid="0x53">
+				<name>steel_low_carbon_1117_cold_draw</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_carbon_1117_cold_draw</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000e2" kind="Material" guid="{673f5171-bebd-4613-a0ca-52a29dea786e}" relid="0x54">
+				<name>steel_stainless_201_annealed</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_201_annealed</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000e3" kind="Material" guid="{b4b5eaa4-869f-4896-b6e3-3f993d639757}" relid="0x55">
+				<name>steel_high_alloy_hy130</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_high_alloy_hy130</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000e4" kind="Material" guid="{a21dcb77-0122-44c1-86d9-63c62ff97557}" relid="0x56">
+				<name>steel_bolt_metric_class_4p8</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_bolt_metric_class_4p8</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000e5" kind="Material" guid="{ca755580-bbe0-44fc-b222-e7271c70910b}" relid="0x57">
+				<name>steel_bolt_metric_class_5p8</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_bolt_metric_class_5p8</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000e6" kind="Material" guid="{0eecad55-0d33-4b3a-ba61-ee5ab45c6760}" relid="0x58">
+				<name>steel_low_carbon_1008_cold_draw</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_carbon_1008_cold_draw</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000e7" kind="Material" guid="{081611c2-01be-49f1-b238-61f3b9500b03}" relid="0x59">
+				<name>aluminum_filler_weld_4043</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_filler_weld_4043</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000e8" kind="Material" guid="{587bb619-916a-4a27-abb6-1de527b139d8}" relid="0x5a">
+				<name>aluminum_filler_weld_4047</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_filler_weld_4047</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000e9" kind="Material" guid="{8fd0dd1b-7f48-478d-a490-3277d83eda24}" relid="0x5b">
+				<name>ceramic_transp_armor_spinel</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>ceramic_transp_armor_spinel</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000ea" kind="Material" guid="{3f9c3879-4b72-4dbe-ada0-a5a4343cd119}" relid="0x5c">
+				<name>steel_low_carbon_1117_hot_roll</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_low_carbon_1117_hot_roll</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000eb" kind="Material" guid="{dfd9edc9-6ed6-4d79-886d-1687e90b5bb6}" relid="0x5d">
+				<name>steel_filler_weld_080ksi</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_filler_weld_080ksi</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000ec" kind="Material" guid="{6225a917-f1b3-44f8-a66a-26cdc0752975}" relid="0x5e">
+				<name>composite_fiber_kevlar_29</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>composite_fiber_kevlar_29</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000ed" kind="Material" guid="{ed8675fa-b57e-4874-a4f7-8b94b3d08e14}" relid="0x5f">
+				<name>steel_high_alloy_hy80</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_high_alloy_hy80</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000ee" kind="Material" guid="{ac7a508e-4b91-4b46-a710-d31a20ff7b53}" relid="0x60">
+				<name>steel_med_carbon_1144_hot_roll</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_med_carbon_1144_hot_roll</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000ef" kind="Material" guid="{ef7d365e-4751-4c68-844a-c76240baa408}" relid="0x61">
+				<name>aluminum_alloy_2024_t361</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_alloy_2024_t361</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000f0" kind="Material" guid="{8967ac05-355a-4739-b8d7-259292acacc3}" relid="0x62">
+				<name>aluminum_filler_weld_5554</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_filler_weld_5554</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000f1" kind="Material" guid="{26713ab6-cdd1-4578-94e0-5302dcd9eafd}" relid="0x63">
+				<name>aluminum_filler_weld_5556</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_filler_weld_5556</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000f2" kind="Material" guid="{5a1e284a-0c6f-48fa-bfec-c50478a85730}" relid="0x64">
+				<name>polymer_rubber_fkm_mil_r_83248</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>polymer_rubber_fkm_mil_r_83248</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000f3" kind="Material" guid="{11f9b6f7-d143-4237-9223-09bc320df379}" relid="0x65">
+				<name>aluminum_alloy_1100_annealed</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>aluminum_alloy_1100_annealed</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000f4" kind="Material" guid="{ffafe5b4-e4b3-410d-b5d0-bac0467cf735}" relid="0x66">
+				<name>steel_armor_mars_300</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_armor_mars_300</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000f5" kind="Material" guid="{cb7fbcc6-14f5-480f-9324-ad0237fdccec}" relid="0x67">
+				<name>steel_stainless_304_annealed</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_stainless_304_annealed</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000f6" kind="Material" guid="{c1e5df1c-1a2c-4fee-8458-06e086cf8e54}" relid="0x68">
+				<name>steel_bolt_metric_class_12p9</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_bolt_metric_class_12p9</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-000000f7" kind="Material" guid="{206a0a36-520e-44d1-8486-c121506a863c}" relid="0x69">
+				<name>steel_armor_hha_mil_dtl_46100</name>
+				<attribute kind="MaterialID" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>steel_armor_hha_mil_dtl_46100</value>
+				</attribute>
+			</atom>
+		</folder>
+	</folder>
+</project>

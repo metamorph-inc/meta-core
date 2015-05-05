@@ -1,0 +1,270 @@
+Layers that can't be torn down
+==============================
+
+A layer can have a tearDown method that raises NotImplementedError.
+If this is the case and there are no remaining tests to run, the test
+runner will just note that the tear down couldn't be done:
+
+    >>> import os.path, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> from zope import testrunner
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+
+    >>> sys.argv = 'test -ssample2 --tests-pattern sampletests_ntd$'.split()
+    >>> testrunner.run_internal(defaults)
+    Running sample2.sampletests_ntd.Layer tests:
+      Set up sample2.sampletests_ntd.Layer in 0.000 seconds.
+      Ran 1 tests with 0 failures and 0 errors in 0.000 seconds.
+    Tearing down left over layers:
+      Tear down sample2.sampletests_ntd.Layer ... not supported
+    False
+
+If the tearDown method raises NotImplementedError and there are remaining
+layers to run, the test runner will restart itself as a new process,
+resuming tests where it left off:
+
+    >>> sys.argv = [testrunner_script, '--tests-pattern', 'sampletests_ntd$']
+    >>> testrunner.run_internal(defaults)
+    Running sample1.sampletests_ntd.Layer tests:
+      Set up sample1.sampletests_ntd.Layer in N.NNN seconds.
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running sample2.sampletests_ntd.Layer tests:
+      Tear down sample1.sampletests_ntd.Layer ... not supported
+      Running in a subprocess.
+      Set up sample2.sampletests_ntd.Layer in N.NNN seconds.
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+      Tear down sample2.sampletests_ntd.Layer ... not supported
+    Running sample3.sampletests_ntd.Layer tests:
+      Running in a subprocess.
+      Set up sample3.sampletests_ntd.Layer in N.NNN seconds.
+    <BLANKLINE>
+    <BLANKLINE>
+    Error in test test_error1 (sample3.sampletests_ntd.TestSomething)
+    Traceback (most recent call last):
+     testrunner-ex/sample3/sampletests_ntd.py", Line NNN, in test_error1
+        raise TypeError("Can we see errors")
+    TypeError: Can we see errors
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Error in test test_error2 (sample3.sampletests_ntd.TestSomething)
+    Traceback (most recent call last):
+     testrunner-ex/sample3/sampletests_ntd.py", Line NNN, in test_error2
+        raise TypeError("I hope so")
+    TypeError: I hope so
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Failure in test test_fail1 (sample3.sampletests_ntd.TestSomething)
+    Traceback (most recent call last):
+     testrunner-ex/sample3/sampletests_ntd.py", Line NNN, in test_fail1
+        self.assertEqual(1, 2)
+    AssertionError: 1 != 2
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Failure in test test_fail2 (sample3.sampletests_ntd.TestSomething)
+    Traceback (most recent call last):
+     testrunner-ex/sample3/sampletests_ntd.py", Line NNN, in test_fail2
+        self.assertEqual(1, 3)
+    AssertionError: 1 != 3
+    <BLANKLINE>
+      Ran 6 tests with 2 failures and 2 errors in N.NNN seconds.
+      Tear down sample3.sampletests_ntd.Layer ... not supported
+    Total: 8 tests, 2 failures, 2 errors in N.NNN seconds.
+    True
+
+in the example above, some of the tests run as a subprocess had errors
+and failures. They were displayed as usual and the failure and error
+statistice were updated as usual.
+
+Note that debugging doesn't work when running tests in a subprocess:
+
+    >>> sys.argv = [testrunner_script, '--tests-pattern', 'sampletests_ntd$',
+    ...             '-D', ]
+    >>> testrunner.run_internal(defaults)
+    Running sample1.sampletests_ntd.Layer tests:
+      Set up sample1.sampletests_ntd.Layer in N.NNN seconds.
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running sample2.sampletests_ntd.Layer tests:
+      Tear down sample1.sampletests_ntd.Layer ... not supported
+      Running in a subprocess.
+      Set up sample2.sampletests_ntd.Layer in N.NNN seconds.
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+      Tear down sample2.sampletests_ntd.Layer ... not supported
+    Running sample3.sampletests_ntd.Layer tests:
+      Running in a subprocess.
+      Set up sample3.sampletests_ntd.Layer in N.NNN seconds.
+    <BLANKLINE>
+    <BLANKLINE>
+    Error in test test_error1 (sample3.sampletests_ntd.TestSomething)
+    Traceback (most recent call last):
+     testrunner-ex/sample3/sampletests_ntd.py", Line NNN, in test_error1
+        raise TypeError("Can we see errors")
+    TypeError: Can we see errors
+    <BLANKLINE>
+    <BLANKLINE>
+    **********************************************************************
+    Can't post-mortem debug when running a layer as a subprocess!
+    **********************************************************************
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Error in test test_error2 (sample3.sampletests_ntd.TestSomething)
+    Traceback (most recent call last):
+     testrunner-ex/sample3/sampletests_ntd.py", Line NNN, in test_error2
+        raise TypeError("I hope so")
+    TypeError: I hope so
+    <BLANKLINE>
+    <BLANKLINE>
+    **********************************************************************
+    Can't post-mortem debug when running a layer as a subprocess!
+    **********************************************************************
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Error in test test_fail1 (sample3.sampletests_ntd.TestSomething)
+    Traceback (most recent call last):
+     testrunner-ex/sample3/sampletests_ntd.py", Line NNN, in test_fail1
+        self.assertEqual(1, 2)
+    AssertionError: 1 != 2
+    <BLANKLINE>
+    <BLANKLINE>
+    **********************************************************************
+    Can't post-mortem debug when running a layer as a subprocess!
+    **********************************************************************
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Error in test test_fail2 (sample3.sampletests_ntd.TestSomething)
+    Traceback (most recent call last):
+     testrunner-ex/sample3/sampletests_ntd.py", Line NNN, in test_fail2
+        self.assertEqual(1, 3)
+    AssertionError: 1 != 3
+    <BLANKLINE>
+    <BLANKLINE>
+    **********************************************************************
+    Can't post-mortem debug when running a layer as a subprocess!
+    **********************************************************************
+    <BLANKLINE>
+      Ran 6 tests with 0 failures and 4 errors in N.NNN seconds.
+      Tear down sample3.sampletests_ntd.Layer ... not supported
+    Total: 8 tests, 0 failures, 4 errors in N.NNN seconds.
+    True
+
+Similarly, pdb.set_trace doesn't work when running tests in a layer
+that is run as a subprocess:
+
+    >>> sys.argv = [testrunner_script, '--tests-pattern', 'sampletests_ntds']
+    >>> testrunner.run_internal(defaults)
+    Running sample1.sampletests_ntds.Layer tests:
+      Set up sample1.sampletests_ntds.Layer in 0.000 seconds.
+      Ran 1 tests with 0 failures and 0 errors in 0.000 seconds.
+    Running sample2.sampletests_ntds.Layer tests:
+      Tear down sample1.sampletests_ntds.Layer ... not supported
+      Running in a subprocess.
+      Set up sample2.sampletests_ntds.Layer in 0.000 seconds.
+    --Return--
+    > testrunner-ex/sample2/sampletests_ntds.py(37)test_something()->None
+    -> import pdb; pdb.set_trace()
+    (Pdb) c
+    <BLANKLINE>
+    **********************************************************************
+    Can't use pdb.set_trace when running a layer as a subprocess!
+    **********************************************************************
+    <BLANKLINE>
+    --Return--
+    > testrunner-ex/sample2/sampletests_ntds.py(40)test_something2()->None
+    -> import pdb; pdb.set_trace()
+    (Pdb) c
+    <BLANKLINE>
+    **********************************************************************
+    Can't use pdb.set_trace when running a layer as a subprocess!
+    **********************************************************************
+    <BLANKLINE>
+    --Return--
+    > testrunner-ex/sample2/sampletests_ntds.py(43)test_something3()->None
+    -> import pdb; pdb.set_trace()
+    (Pdb) c
+    <BLANKLINE>
+    **********************************************************************
+    Can't use pdb.set_trace when running a layer as a subprocess!
+    **********************************************************************
+    <BLANKLINE>
+    --Return--
+    > testrunner-ex/sample2/sampletests_ntds.py(46)test_something4()->None
+    -> import pdb; pdb.set_trace()
+    (Pdb) c
+    <BLANKLINE>
+    **********************************************************************
+    Can't use pdb.set_trace when running a layer as a subprocess!
+    **********************************************************************
+    <BLANKLINE>
+    --Return--
+    > testrunner-ex/sample2/sampletests_ntds.py(52)f()->None
+    -> import pdb; pdb.set_trace()
+    (Pdb) c
+    <BLANKLINE>
+    **********************************************************************
+    Can't use pdb.set_trace when running a layer as a subprocess!
+    **********************************************************************
+    <BLANKLINE>
+    --Return--
+    > doctest.py(351)set_trace()->None
+    -> Pdb().set_trace()
+    (Pdb) c
+    <BLANKLINE>
+    **********************************************************************
+    Can't use pdb.set_trace when running a layer as a subprocess!
+    **********************************************************************
+    <BLANKLINE>
+    --Return--
+    > doctest.py(351)set_trace()->None
+    -> Pdb().set_trace()
+    (Pdb) c
+    <BLANKLINE>
+    **********************************************************************
+    Can't use pdb.set_trace when running a layer as a subprocess!
+    **********************************************************************
+    <BLANKLINE>
+      Ran 7 tests with 0 failures and 0 errors in 0.008 seconds.
+      Tear down sample2.sampletests_ntds.Layer ... not supported
+    Total: 8 tests, 0 failures, 0 errors in N.NNN seconds.
+    False
+
+If you want to use pdb from a test in a layer that is run as a
+subprocess, then rerun the test runner selecting *just* that layer so
+that it's not run as a subprocess.
+
+
+If a test is run in a subprocess and it generates output on stderr (as
+stderrtest does), the output is ignored (but it doesn't cause a SubprocessError
+like it once did).
+
+    >>> from cStringIO import StringIO
+    >>> real_stderr = sys.stderr
+    >>> sys.stderr = StringIO()
+
+    >>> sys.argv = [testrunner_script, '-s', 'sample2', '--tests-pattern',
+    ...     '(sampletests_ntd$|stderrtest)']
+    >>> testrunner.run_internal(defaults)
+    Running sample2.sampletests_ntd.Layer tests:
+      Set up sample2.sampletests_ntd.Layer in 0.000 seconds.
+      Ran 1 tests with 0 failures and 0 errors in 0.000 seconds.
+    Running sample2.stderrtest.Layer tests:
+      Tear down sample2.sampletests_ntd.Layer ... not supported
+      Running in a subprocess.
+      Set up sample2.stderrtest.Layer in 0.000 seconds.
+      Ran 1 tests with 0 failures and 0 errors in 0.002 seconds.
+      Tear down sample2.stderrtest.Layer in 0.000 seconds.
+    Total: 2 tests, 0 failures, 0 errors in 0.197 seconds.
+    False
+
+    >>> print(sys.stderr.getvalue())
+    A message on stderr.  Please ignore (expected in test output).
+
+    >>> sys.stderr = real_stderr
+

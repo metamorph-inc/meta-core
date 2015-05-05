@@ -1,0 +1,531 @@
+
+\chapter{Component Model Comformance Suite}
+A "conformance suite" is also provided for checking the validity of AVM Component Models. In addition to checking ACM files against the XML schema, the structures within are checked for semantic consistency and well-formedness.
+
+\section{Schema}
+An XML Validator included in the libxml package of Python is used to validate the submitted ACM (xml) file against AVM Component Model schema.  
+See \textit{\autoref{ACMSchema}: \nameref{ACMSchema}}.
+
+\section{Python Validator Script}
+The Python validator script (drop\_test.py) parses the AVM Component spec model and performs the following semantic checks on the component model.
+
+\begin{itemize}
+\item Check Resources
+\item Check Properties and Values
+\item Check Connectors
+\item Check Domain Models
+\subitem Check CAD Domain Models
+\subsubitem Check Datums
+\subsubitem Check Parameters
+\subitem Check Modelica Domain Models
+\subsubitem Check Connector Definitions
+\subsubitem Check Medium Specifications
+\subsubitem Check Parameters
+\subitem Check Manufacturing Domain Models
+\subsubitem Check Parameters
+\end{itemize}
+
+The listing of the Python Validator Script is provided below:
+
+\begin{MyVerbatim}
+from os import listdir
+from os.path import isfile, join
+from optparse import OptionParser
+from fnmatch import fnmatch
+from glob import glob
+from lxml import etree
+import sys
+import tablib
+
+XSI = "{http://www.w3.org/2001/XMLSchema-instance}"
+
+# Stats dictionary structure
+# comp_name, file_name, schema_valid, has_cad, has_modelica, 
+      has_manufacturing, valid_resources,
+#              num_connectors, num_properties
+
+# Category component counts
+catCounts = dict()
+
+def list_cxmls(mypath):  # return a list of xml files in the given directory
+    """Return a list containing component xml files in a given directory."""
+    xmls = [join(mypath,f) for f in listdir(mypath) if 
+        isfile(join(mypath,f)) and fnmatch(f, '*.acm')]
+    return xmls
+
+
+def schema_validate(xml, xsd):  # validates provided xml files against schema
+    """Return true or false based on whether provided XML is valid against 
+       schema"""
+    xmlschema_doc = etree.parse(xsd)
+    xmlschema = etree.XMLSchema(xmlschema_doc)
+    doc = etree.parse(xml)
+    if xmlschema.validate(doc):
+        return doc
+    else:
+        return None
+
+
+def check_classification(xmldoc, statsData):  # checks that the component 
+                                                has a valid classification tag
+    root = xmldoc.getroot()
+    classif = root.findall('Classifications')
+    hasClassif = True
+    classifs = ''
+    if classif is None or len(classif) == 0:
+        hasClassif = False
+    else:
+        classifs = classif[0].text
+    statsData.append(classifs)
+    if classifs in catCounts:
+        catCounts[classifs] += 1
+    else:
+        catCounts[classifs] = 1
+    return hasClassif
+
+
+def check_resources(xmldoc, mypath, statsData):  # checks that the resource 
+                                                   link in the XML file are valid
+    """Return true or false based on whether the resource objects in the 
+       XMl point to valid files"""
+    root = xmldoc.getroot()
+    resources = root.findall("ResourceDependency")
+    validResources = True
+    for child in resources:
+        res = child.get("Path")
+        res_w = join(mypath, res) + '*'
+        if len([n for n in glob(res_w) if isfile(n)]) == 0:
+            validResources = False
+    statsData.append(validResources)
+    return True
+
+def check_domain_resources(domain, root):
+    uses = domain.get("UsesResource")
+    resources = root.findall("ResourceDependency")
+    hasValidResource = False
+    for res in resources:
+        rid = res.get("ID")
+        if uses in rid:
+            hasValidResource = True
+            break
+    if not hasValidResource:
+        print ' '
+
+
+    return True
+
+
+def check_cad_model(cadroot, root):
+    datums = cadroot.findall("Datum")
+    hasCoordinateSystem = False
+    hasPlanesAxis = False
+    for d in datums:
+        dtype = d.get(XSI + "type")
+        if "CoordinateSystem" in dtype:
+            hasCoordinateSystem = True
+        elif "Point" in dtype or "Axis" in dtype or "Plane" in dtype:
+            hasPlanesAxis = True
+
+    if not hasPlanesAxis:
+        print ' '
+
+    return True
+
+
+def check_modelica_model(moroot, root):
+    return True
+
+
+def check_manufacturing_model(maroot, root):
+    return True
+
+
+def check_domain_models(xmldoc, statsData):  # checks that the resource link in the XML file are valid
+    """Return true or false based on whether the resource objects in the 
+       XMl point to valid files
+    :param xmldoc: the XML element tree
+    """
+    root = xmldoc.getroot()
+    domains = root.findall("DomainModel")
+    hasCAD = False
+    hasModelica = False
+    hasManufacturing = False
+
+    for child in domains:
+        res = child.get(XSI + "type")
+        check_domain_resources(child, root)
+        if "CADModel" in res:
+            hasCAD = check_cad_model(child, root)
+        elif "ModelicaModel" in res:
+            hasModelica = check_modelica_model(child, root)
+        elif "ManufacturingModel" in res:
+            hasManufacturing =  check_manufacturing_model(child, root)
+
+    if not hasManufacturing:
+        print 'ERROR: Component[{0}]: No Manufacturing Model'.format(root.get('Name'))
+    statsData.extend([hasCAD, hasModelica, hasManufacturing])
+
+    return True
+
+
+def is_number(s):
+    if s is not None:
+        try:
+            float(s)
+            return True
+        except ValueError:
+            return False
+    else: return False
+
+
+def is_list(myinput):
+    par=myinput.replace('[','')
+    par=par.replace(']','')
+    mat=par.split(',')
+    p = True 
+    for x in mat:
+        if not is_number(x):p=False
+    if p: return True
+    else: return False
+
+
+def check_property(prop, proptype, root, propval, propnames2, errorcheck, 
+       warningcheck, fileoutput, concheck):  # checks a specific property
+    if "CompoundProperty" in proptype:
+        # check if compound is non empty and has unique children
+        pprops = prop.findall("PrimitiveProperty")
+        cprops = prop.findall("CompoundProperty")
+        props = pprops + cprops
+        if props is None or len(props) == 0:
+            errorcheck += 1
+            fileoutput.write('WARNING: Component[{0}]: Compound 
+              Property[{1}]: has no child property\n'.\
+                format(root.get('Name'), prop.get('Name')))
+        propnames = [p.get('Name') for p in props]
+        if len(propnames) != len(set(propnames)):
+            errorcheck += 1
+            fileoutput.write('ERROR: Component[{0}]: Compound 
+              Property[{1}]: duplicate child properties\n'.\
+                format(root.get('Name'), prop.get('Name')))
+        for p in cprops:
+            notes = check_property(p, 'CompoundProperty', root, propval, 
+              propnames2, errorcheck, warningcheck, fileoutput, concheck)
+            warningcheck = notes[0];
+            errorcheck = notes[1];
+            propval = notes[2];
+            propnames2 = notes[3];
+            concheck = notes[4];
+        for p in pprops:
+            notes = check_property(p, 'PrimitiveProperty', root, propval, 
+              propnames2, errorcheck, warningcheck, fileoutput, concheck)
+            warningcheck = notes[0];
+            errorcheck = notes[1];
+            propval = notes[2];
+            propnames2 = notes[3];
+            concheck = notes[4];
+    elif "PrimitiveProperty" in proptype:
+        # check if primitive has a unique value
+        vals = prop.findall('Value')
+        if vals is None or len(vals) != 1:
+            errorcheck += 1
+            fileoutput.write('ERROR: Component[{0}]: Primitive 
+             Property[{1}]: has illegal value\n'.\
+                format(root.get('Name'), prop.get('Name')))
+
+            ## print prop.get('Name')
+        else:
+            ##if len(propnames2) < 16:
+                ValEx=vals[0].findall('ValueExpression')
+                basicAtt1=vals[0].attrib.get('DataType')
+                basicAtt2=vals[0].attrib.get('Dimensions')
+                basicAtt3=vals[0].attrib.get('Unit')
+                basicAtt4=ValEx[0].attrib.get('ValueSource')
+                
+##                print ValEx
+                if (basicAtt4 != None):
+##                    print basicAtt4
+                    if ('CAD' in basicAtt4 or 'cad' in basicAtt4):
+                        concheck += 1;
+##                        print concheck
+##                    root = basicAtt4.getroot()
+##                    print root
+                    
+                if ValEx != []:
+                    aa=ValEx[0].findall('Value')
+                    if aa != []:
+                        myVal=aa[0].text
+                        if myVal == [] or myVal == None:                        # check if value is empty
+                            propval += 1;
+                            errorcheck += 1;
+                            fileoutput.write('ERROR: Component[{0}]: 
+                             Primitive Property[{1}]: has missing value\n'.\
+                                format(root.get('Name'), prop.get('Name')))
+                        elif basicAtt1=='Real':
+                            if basicAtt3 == [] or basicAtt3 == None:
+                                warningcheck += 1;
+                                fileoutput.write('WARNING: Component[{0}]: 
+                                 Primitive Property[{1}]: No Units\n'.\
+                                    format(root.get('Name'), prop.get('Name')))
+                            if basicAtt2 ==  
+                             '1':                                # check if 
+                                             scalars are numbers
+                                if not is_number(myVal):
+                                    propval += 1;
+                                    errorcheck += 1;
+                                    fileoutput.write('ERROR: 
+                                     Component[{0}]: Primitive 
+                                      Property[{1}]: has incorrect data 
+                                       type\n'.\
+                                        format(root.get('Name'), prop.get('Name')))
+                            else:
+                                if is_number(basicAtt2):
+                                    myLength = int(basicAtt2)
+                                else:
+                                    myDim=basicAtt2.split('x')
+                                    myLength = int(myDim[0]) * int(myDim[1])
+                                if not 
+                                 is_list(myVal):                          # 
+                                  check if matrix/vector is all numbers
+                                    propval += 1;
+                                    errorcheck += 1;
+                                    fileoutput.write('ERROR: 
+                                     Component[{0}]: Primitive 
+                                      Property[{1}]: has incorrect data 
+                                       type\n'.\
+                                        format(root.get('Name'), prop.get('Name')))
+                                if not myVal.count(',') + 1 == 
+                                 myLength:        # check if matrix/vector 
+                                  has right number of entries
+                                    propval += 1;
+                                    errorcheck += 1;
+                                    fileoutput.write('ERROR: 
+                                     Component[{0}]: Primitive 
+                                      Property[{1}]: has dimension 
+                                       error\n'.\
+                                        format(root.get('Name'), 
+                                         prop.get('Name')))
+                        elif is_number(myVal) and basicAtt1=='String':
+                            propval += 1;
+                            warningcheck += 1;
+                            fileoutput.write('WARNING: Component[{0}]: 
+                             Primitive Property[{1}]: has real data and 
+                              listed as string'.\
+                                format(root.get('Name'), prop.get('Name')))
+                                         
+        propnames2.append(prop.get('Name'))
+    return [warningcheck,errorcheck,propval,propnames2, concheck] ##propval
+
+
+
+
+def check_properties(xmldoc, statsData, fileoutput):  # checks that the 
+     resource link in the XML file are valid
+    """Return true or false based on whether the resource objects in the 
+       XMl point to valid files"""
+    root = xmldoc.getroot()
+    
+
+    props = root.findall("Property")
+    propnames = [p.get('Name') for p in props]
+    if len(propnames) != len(set(propnames)):
+        warningcheck += 1;
+        print 'ERROR: Component[{0}]: duplicate property 
+         names'.format(root.get('Name'))
+
+    propval = 0;
+    warningcheck = 0;
+    errorcheck = 0;
+    concheck = 0;
+    
+    propnames2 = list()
+
+    for child in props:
+        notes = check_property(child, child.get(XSI + 'type'), root, 
+         propval, propnames2, errorcheck, warningcheck, fileoutput, 
+          concheck)
+        propval = notes[2];
+        errorcheck = notes[1];
+        warningcheck = notes[0];
+        propnames2 = notes[3];
+        concheck = notes[4];
+
+
+    statsData.append(len(props))                                    ## 
+     number of property errors in file
+    print 'number of property errors =', propval
+    statsData.append(propval)
+    ##print True
+
+    propval2 = len(propnames2) - len(set(propnames2))
+    statsData.append(propval2)
+    statsData.append(errorcheck)
+    statsData.append(warningcheck)
+    statsData.append(concheck)
+
+    return True
+
+
+def check_connectors(xmldoc, statsData):  # checks that the resource link 
+ in the XML file are valid
+    """Return true or false based on whether the resource objects in the 
+       XMl point to valid files"""
+    root = xmldoc.getroot()
+    conns = root.findall("Connector")
+    count = 0
+
+    if (conns is None) or (len(conns) == 0):
+        print 'WARNING: Component[{0}: No 
+         connectors'.format(root.get('Name'))
+    else:
+        names = [c.get('Name') for c in conns]
+        if len(names) != len(set(names)):
+            print 'ERROR: Component[{0}]: duplicate connector names'.\
+                format(root.get('Name'))
+
+        for child in conns:
+            roles = child.findall('Role')
+            if (roles is None) or (len(roles) == 0):
+                print 'WARNING: Component[{0}]: Connector[{1}] has no 
+                 content'.format(root.get('Name'), child.get('Name'))
+            for r in roles:
+                source = r.attrib.get('PortMap')
+                if 'cad' in source:
+                    count += 1
+            
+    statsData.append(len(conns))
+    statsData.append(count)
+    return True
+
+
+def parse_args():    # parses the command line arguments
+    """Returns a list of program arguments"""
+    parser = OptionParser()
+    parser.add_option("-p", "--path", dest="path",
+                  help="path to directory containing component XML's", 
+                   metavar="PATH")
+    parser.add_option("-x", "--schema", dest="xsd",
+                  help="path to the component XML schema", metavar="SCHEMA")
+    parser.add_option("-q", "--quiet",
+                  action="store_false", dest="verbose", default=True,
+                  help="don't print status messages to stdout")
+
+    (options, args) = parser.parse_args()
+    if options.path is None:
+        parser.error("missing required path argument")
+        return None
+    if options.xsd is None:
+        parser.error("missing required schema argument")
+        return None
+
+    print 'XML Path: {0}'.format(options.path)
+    print 'Schema File: {0}'.format(options.xsd)
+    
+    return options
+
+
+    
+
+def main(argv=sys.argv):
+    options = parse_args()
+    compxmls = list_cxmls(options.path)
+    stats = list()
+    filecount=0;
+    fileoutput = open('Python_Log.txt','w')
+
+    for x in compxmls:
+        # parse the XML and validate
+        statsData = list()
+        xmldoc = schema_validate(x, options.xsd)
+        if xmldoc is None:
+            print 'ERROR: Component XML[{0}]: failed schema 
+             validation'.format(x)
+            statsData.extend([x, '<a href="' + x + '">XML File</a>', False, 
+             None, False, False, False, False, 0, 0])  # Schema invalid
+        else:
+            xmldoc = etree.parse(x)
+            statsData.extend([xmldoc.getroot().get('Name'), '<a href="' + x 
+             + '">XML File</a>', True])  # Schema valid
+            check_classification(xmldoc, statsData)
+            check_resources(xmldoc, options.path, statsData)
+            check_domain_models(xmldoc, statsData)
+            check_properties(xmldoc, statsData, fileoutput)
+            ##check_parameters(xmldoc, statsData)
+            check_connectors(xmldoc, statsData)
+            #print len(statsData)
+        stats.append(statsData)
+
+    
+    fileoutput.close()
+
+    headers = ['Component', 'XML', 'Schema Valid', 'Classification', 
+     'Resources Valid', 'Has CAD',
+               'Has Modelica', 'Has Manufacturing', 'Num Properties', 
+                'Empty Properties','Duplicate Names' ,'Property 
+                 Errors','Property Warnings','CAD Derived Properties','Num 
+                  Connectors','CAD References in Connectors']
+    tld = tablib.Dataset(*stats, headers=headers)
+    tld2 = tablib.Dataset(headers=["Category", "Instances"])
+    for k,v in catCounts.iteritems():
+        tld2.append([k,v])
+
+    stats_file = open("stats.html", "w")
+    stats_file.write("<html>")
+    stats_file.write('<!-- DataTables CSS --> \
+<link rel="stylesheet" type="text/css" 
+ href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dat
+  aTables.css"> \
+ \
+<!-- jQuery --> \
+<script type="text/javascript" charset="utf8" 
+ src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script> \
+ \
+<!-- DataTables --> \
+<script type="text/javascript" charset="utf8" 
+ src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTabl
+  es.min.js"></script> \
+\
+<script type="text/javascript"> \
+$(document).ready(function() { \
+    $("table").dataTable(); \
+} ); \
+</script> \
+')
+
+    stats_file.write("<body>")
+    stats_file.write('<p style="font-weight: bold;">Component Instance 
+     Report</p>')
+    stats_file.write('<div id="component_table">')
+    stats_file.write(tld.html)
+    stats_file.write('</div>')
+    stats_file.write('<div class="clear"/><br><br>')
+    stats_file.write('<p style="font-weight: bold;">Category Count 
+     Report</p>')
+    stats_file.write('<div id="category_table">')
+    stats_file.write(tld2.html)
+    stats_file.write('</div>')
+    stats_file.write('<div class="clear"/>')
+    stats_file.write("</body>")
+    stats_file.write("</html>")
+    stats_file.close()
+
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())    
+\end{MyVerbatim}
+
+\section{Component Class-based Unit Tests}
+An automated unit testing framework performs in-class conformance check on components. As depicted in figure \ref{Unit_test_framework} the unit-test framework automatically instantiates a component in a testbench model constructed apriori in META tools. The framework executes CyPhy model composer tools, and executes the generated artifacts (Modelica simulation,  CAD Constraint engine, etc.). The results of the tests are post processed to determine if the component satisfies class-specific conformance requirements specified through the unit tests. 
+
+\begin{figure}
+\includegraphics*[width=\textwidth]{Unit_test_framework}
+\caption{Unit Testing Framework}
+\label{Unit_test_framework}
+\end{figure}
+
+% add a unit test example and explain what its testing
+
+\chapter{Reference Model}
+\section{Component Descriptor}
+\section{Package Contents}
+

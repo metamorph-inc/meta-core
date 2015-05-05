@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" SchemaVersion="2.5" ID="id-f3ffff78-2721-4997-a5f8-1a431a1a9c40" Name="DiscreteWrapperSFSaturation" xmlns="avm">
+  <DomainModel xmlns:q1="cyber" xsi:type="q1:CyberModel" UsesResource="cyber.path" Notes="" Name="DiscreteWrapperSFSaturation" Locator="RootFolder.Components.DiscreteWrapperSFSaturation" Class="Simulink.DiscreteWrapperSFSaturation_type" Type="Simulink" xmlns="">
+    <Connector ID="id-435e2311-b637-4a79-8fce-d0f584ce7ef3" PortMap="" Name="u1" Locator="u1" Class="Modelica.Blocks.Interfaces.RealInput" />
+    <Connector ID="id-97ec3d45-9b09-49d0-b0b4-9529c32d6f52" PortMap="" Name="u" Locator="u" Class="Modelica.Blocks.Interfaces.RealInput" />
+    <Connector ID="id-9e3874dd-5853-4c46-b973-65bb591d9cee" PortMap="" Name="y1" Locator="y1" Class="Modelica.Blocks.Interfaces.RealOutput" />
+    <Parameter Locator="samplePeriod">
+      <Value ID="id-3f4eef51-797e-4633-af32-a48a21e7a561">
+        <ValueExpression xmlns:q2="avm" xsi:type="q2:DerivedValue" ValueSource="ID0" />
+      </Value>
+    </Parameter>
+  </DomainModel>
+  <Property xmlns:q3="avm" xsi:type="q3:PrimitiveProperty" Name="samplePeriod" ID="property.ID0" xmlns="">
+    <Value ID="ID0">
+      <ValueExpression xsi:type="q3:ParametricValue" />
+    </Value>
+  </Property>
+  <ResourceDependency Name="CyberModel" Path="Cyber\SingleTankPIDWithSFController.mga" ID="cyber.path" xmlns="" />
+  <ResourceDependency Name="CyberXML" Path="Cyber\SingleTankPIDWithSFController.xml" ID="cyberxml.path" xmlns="" />
+  <Connector ConnectorComposition="" ID="id-435e2311-b637-4a79-8fce-d0f584ce7ef3" ApplyJoinData="" Name="u1" xmlns="">
+    <Role xmlns:q4="modelica" xsi:type="q4:Connector" ID="id-4a944bdc-0f25-423d-bdab-1ec94b4491b0" PortMap="id-435e2311-b637-4a79-8fce-d0f584ce7ef3" Name="u1" Locator="u1" Class="Modelica.Blocks.Interfaces.RealInput" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="id-97ec3d45-9b09-49d0-b0b4-9529c32d6f52" ApplyJoinData="" Name="u" xmlns="">
+    <Role xmlns:q5="modelica" xsi:type="q5:Connector" ID="id-f750f1e0-048b-45f2-b45f-727513a976d0" PortMap="id-97ec3d45-9b09-49d0-b0b4-9529c32d6f52" Name="u" Locator="u" Class="Modelica.Blocks.Interfaces.RealInput" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="id-9e3874dd-5853-4c46-b973-65bb591d9cee" ApplyJoinData="" Name="y1" xmlns="">
+    <Role xmlns:q6="modelica" xsi:type="q6:Connector" ID="id-011ac2de-2703-4849-a3b9-53c06da8b097" PortMap="id-9e3874dd-5853-4c46-b973-65bb591d9cee" Name="y1" Locator="y1" Class="Modelica.Blocks.Interfaces.RealOutput" />
+  </Connector>
+</Component>

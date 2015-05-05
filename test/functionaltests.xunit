@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xunit>
+  <assemblies>
+    <assembly filename="MasterInterpreterTest\bin\Release\MasterInterpreterTest.exe" shadow-copy="true" />
+    <assembly filename="DynamicsTeamTest\bin\Release\DynamicsTeamTest.exe" shadow-copy="true" />
+    <assembly filename="ElaboratorTest\bin\Release\ElaboratorTest.exe" shadow-copy="true" />
+    <assembly filename="CyPhyMLPropagateTest\bin\Release\CyPhyPropagateTest.exe" shadow-copy="true" />
+    <assembly filename="PythonTest\bin\Release\PythonTest.exe" shadow-copy="true" />
+  </assemblies>
+</xunit>

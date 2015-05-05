@@ -1,0 +1,160 @@
+\section{Dynamics Domain Model Specification}
+
+
+\subsection{Overview}
+
+Dynamics Domain Models represent the physical behavior of components, and are implemented as Modelica models.
+Modelica is a non-proprietary, object-oriented, equation-based language to conveniently model complex physical systems, e.g., mechanical, electrical, electronic, hydraulic, thermal, control, or process-oriented subcomponents. https://modelica.org
+
+\subsection{Modelica Language Specification}
+Follow the Modelica Language Specification 3.2 and make sure your models comply with it. AVM Components support only a subset of the Modelica language. This subset encompasses only those features which are essential for composition of the individual models/components, and excludes some
+of the more nuanced and advanced aspects of the Modelica language.
+
+\subsection{File Format}
+Modelica models and packages are stored as files with a '.mo' extension. These are textual files and they can be edited using text editors (e.g., Notepad or Notepad++) or with Modelica-specific tools, such as OMEdit or Dymola. Modelica packages and subpackages can be saved as one single file or as a directory structure one directory per package and one file per model. 
+
+\subsection{Modelica Standard Library and User Defined Libraries}
+% MSL 3.2.1
+% source model
+% package handling and support
+
+Modelica.org provides a non-proprietary Modelica Standard Library (MSL) and each Modelica tool includes at least one version of the MSL.
+Users can develop their own custom libraries, which often extend and/or use MSL models. When creating a new package for use in conjunction 
+with OpenMETA, use at least MSL version 3.2 or newer.  While a library is under development, it is best to save each model as a separate 
+file, which makes the task of maintaining and updating the models much easier. When the package is finalized and prepared for use as a 
+reference in AVM Component Models, it is better to save the entire package, i.e. Modelica Library, as one 'package.mo' file within a directory named with the library name and its version, like \textbf{UserDefinedLibrary 1.2.45}, where \textbf{UserDefinedLibrary} is the name of the 
+library, \textbf{1} is the major version number, \textbf{2} is the minor version number, \textbf{45} is a revision number (like Subversion 
+revision number).
+
+\subsubsection{Referencing a Modelica model}
+The AVM Component model defines a Class attribute, which is the fully qualified unique path of the Modelica model. For instance: Modelica.Electrical.Analog.Basic.Resistor is the Class for the MSL ideal resistor.
+
+%\section{Extends}
+% TODO: extends
+
+\subsection{Modelica Tools}
+% tool support
+There are both open-source (OpenModelica, JModelica, etc.) and commercial tools (Dymola, SimulationX, MapleSim, SystemModeler, etc.) 
+which are available to build/edit/simulate Modelica models. No matter which tool is utilized to develop user-defined Libraries, 
+users must check if their library can be loaded with OpenModelica 1.9.0 RC1+ in order to ensure compatibility with the OpenMETA toolset.
+For example, the Component Authoring Tool uses the Open Modelica Compiler (OMC) to extract interface information from the Modelica model 
+for use in the corresponding AVM Component.
+
+\subsection{Naming restrictions}
+% naming restrictions
+% object names in the component cannot have the names of top level packages
+Follow all Modelica naming conventions and restrictions based on the Modelica Language Specification. If you use a Modelica tool to edit the 
+models, the tool will ensure that models conform to the rules. When a system model is being built using the OpenMETA tools, similar naming restrictions apply:
+
+-do \textit{not} use top-level Modelica library names: Modelica, OpenModelica, UserDefinedLibraryName
+
+-do \textit{not} use Modelica keywords: input, final, protected, extends, etc.
+
+%\section{Keyword modifiers}
+%\subsection{inner/outer}
+%  inner/outer - environments
+
+\subsection{Parameter}
+% CyPhy parameters - Real only
+% supported types
+% vectors, tables
+% models/blocks/functions/packages
+% tables/enumerations - no drop-down or type checking.
+% booleans/integers
+
+Public parameters are externally visible parameters of the model. If the parameters are required to be changed for different instances or by the user they should be marked as public. If the parameters are fixed for the component class they should be marked as protected, and will not be visible inside the AVM Component Model.
+
+\subsubsection{Real}
+Real-valued parameters are supported as AVM Component Parameters/Properties. They are also supported at the Modelica model wrapper level without any type-checking feature.
+
+\subsubsection{Boolean and Integer}
+Boolean- and Integer-valued parameters are \textbf{not} supported as AVM Component Parameters/Properties. However, they \textbf{are} supported at the Modelica model wrapper level without any type-checking feature.
+
+\subsubsection{Units}
+% JK I changed some wording in this section, let me know if this is still true to the original meaning.
+Units are currently \textbf{not} supported. If the Property/Parameter has a unit specified it will not cause any problems, but the unit type will be overwritten when the model is instantiated.
+
+\subsubsection{Tables and Vectors}
+% JK We might need to elaborate on this topic... maybe an example of how to parametrize
+Tables and Vectors are \textbf{not} supported as AVM Component Parameters/Properties. They \textbf{are} supported at the Modelica model wrapper level without any type-checking feature. If a table needs to be parametrized from the AVM Component Parameters/Properties, use a Real parameter value to archive that.
+
+\subsubsection{Enumeration}
+Enumeration parameters are \textbf{not} supported as AVM Component Parameters/Properties. They \textbf{are} supported at the Modelica model wrapper level without any type-checking feature.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % modelica parameters
+% 	% parameter modifiers each, final etc.
+% % parameter reference resolutions 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsubsection{Replaceable}
+% modelica redeclare 
+Replaceable models, packages, functions, records and blocks are \textbf{not} supported as AVM Component Parameters/Properties. They \textbf{are} supported at the Modelica model wrapper level and inside ModelicaConnectors, called ModelicaRedeclare, without any type-checking feature.
+
+
+\subsection{Connector}
+% modelica connectors
+	% connectors with parameter
+	% connectors with redeclares
+	% intermediate modelica connectors
+	% vector ports
+	% 'floating' connectors in test benches
+
+% fix non parametric interfaces
+Connectors in Modelica represent interfaces between models. The composition between Modelica models is done through connectors using connect statements. Connectors can represent physical and logical (signal) connections. Physical connectors transport power and energy between models and signal connectors share variables and signals among models.
+
+\subsubsection{Connectors with parameters}
+Connectors can have parameters such as the FlangeWithBearing connector from the MSL MultiBody library. Some connectors can be parametrized, but it is better to keep the parameters fixed inside the connector and not refer to model-level parameters or other elements inside the model. If there is an unavoidable need to parametrize connectors, there are two options to accomplish this task:
+
+Option 1: use fixed port parameters - preferred way, limited possibility of problems
+
+Option 2: through environments -could cause problems %- TODO: restrictions!
+
+Option 3: through model parameters - could cause problems %- TODO: restrictions!
+
+\subsubsection{Connectors with replaceable elements}
+There are connectors which have replaceable elements, like the fluid connectors. A good way to handle these cases is to create your own connectors, each with a fixed fluid type, and instantiate that type of connector. This will ensure that the user will connect only compatible ports together even in native Modelica tools. The various approaches to this situation are described below:
+
+Option 1: utilize user-defined connectors (fluid type cannot be changed) - preferred way
+
+Option 2: create your own fluid types like Oil1, Oil2, Oil3 and restrict your connector to the base class Oil. - elevated potential for problems %- TODO: restrictions!
+
+Option 3: use the fluid ports from the MSL - most likely will cause probleam. %- TODO: restrictions!
+
+\subsubsection{Floating connectors}
+When a Modelica model is set up for simulation and it uses multiple Modelica models, i.e. a test for the models, it a good practice to avoid connectors at the top level which do not belong to any subsystem. Some Modelica Tools will initialize the variables/unknowns in the Modelica connectors if they are not specifically defined. It is better to create a model which has such a connector as an output and define the initial values of the variables inside that model.
+
+
+\subsubsection{Bus connectors and breakouts}
+% TODO
+
+
+\subsection{Multi-fidelity}
+% multifidelity / restrictions
+Each AVM Component can have multiple Dynamics Domain Model representations. This concept is used to link a single component to 
+different models with different levels of abstraction, i.e. low fidelity, medium fidelity, and high fidelity models, which can
+provide increasing levels of simulation accuracy at the cost of longer simulation times. The connector interfaces must be 
+exactly the same across all representations. The number of parameters can vary, but all parameters must be derived from a common 
+set of parameters.
+
+% TODO example 
+
+\subsection{Simple and Custom Formula}
+% restrictions on simple/custom formula consequences
+Simple and Custom Formula can be used to capture relationships between AVM Component-level parameters. Simple Formula elements 
+are translated into Modelica code, but Custom Formula elements are not; in the Custom Formula case, sometimes the parameter propagation 
+relationship is lost in the translated model. If you would like to preserve the Custom Formula elements, they need to be implemented 
+directly in the Modelica model.
+
+\subsection{Composition}
+% composition
+Composition of Modelica models is done through connectors and parameters, which are interfaces of the AVM Component model. Composition between connectors represents interaction between components, whereas parameter connections ensure correct parametrization of components like engine and engine control unit (ECU). In this example, the ECU parameters depend on engine's parameters.
+
+\subsection{Equations and algorithms}
+% equations
+Equations, initial equations, and algorithms can be defined inside the Modelica model, but that content has no representation in the AVM Component model.
+
+
+

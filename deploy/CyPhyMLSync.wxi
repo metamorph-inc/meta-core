@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyMLSync">
+  <Component Id="CyPhyMetaLink.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhyMetaLink.dll" Name="CyPhyMetaLink.dll" KeyPath="yes" Source="..\src\CyPhyMetaLink\bin\Release\CyPhyMetaLink.dll" />
+    <Class Id="{E9416E5D-3DBB-48E7-B07C-8EBFBBE15676}" Context="InprocServer32" Description="MGA.Interpreter.CyPhyMetaLink" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Interpreter.CyPhyMetaLink" Description="MGA.Interpreter.CyPhyMetaLink" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{E9416E5D-3DBB-48E7-B07C-8EBFBBE15676}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{E9416E5D-3DBB-48E7-B07C-8EBFBBE15676}\InprocServer32" Name="Class" Value="CyPhyMetaLink.CyPhyMetalinkInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{E9416E5D-3DBB-48E7-B07C-8EBFBBE15676}\InprocServer32" Name="Assembly" Value="CyPhyMetaLink, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{E9416E5D-3DBB-48E7-B07C-8EBFBBE15676}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{E9416E5D-3DBB-48E7-B07C-8EBFBBE15676}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyMetaLink.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyPhyMetaLink'>
+      <RegistryValue Name='Description' Type='string' Value='Meta-Link'/>
+      <RegistryValue Name='Icon' Type='string' Value='[#CyPhyMLSync.ico]'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='Meta-Link'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+    <Class Id="{4E6BDD25-67AE-4A03-9FB8-B5A097B29B09}" Context="InprocServer32" Description="MGA.Addon.CyPhyMLPropagate" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Addon.CyPhyMLPropagate" Description="MGA.Addon.CyPhyMLPropagate" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{4E6BDD25-67AE-4A03-9FB8-B5A097B29B09}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{4E6BDD25-67AE-4A03-9FB8-B5A097B29B09}\InprocServer32" Name="Class" Value="CyPhyMetaLink.CyPhyMetaLinkAddon" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{4E6BDD25-67AE-4A03-9FB8-B5A097B29B09}\InprocServer32" Name="Assembly" Value="CyPhyMetaLink, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{4E6BDD25-67AE-4A03-9FB8-B5A097B29B09}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{4E6BDD25-67AE-4A03-9FB8-B5A097B29B09}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyMetaLink.dll]" Type="string" Action="write" />
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Addon.CyPhyMLPropagate'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhyMLPropagate'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <RegistryValue Name='Type' Type='integer' Value='2'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+  <Component Directory="INSTALLDIR_BIN">
+    <File Source="..\src\CyPhyMetaLink\CyPhyMLSync.ico" />
+  </Component>
+  <Component Directory="INSTALLDIR_BIN">
+    <File Source="..\src\CyPhyMetaLink\bin\Release\CyPhyMetaLinkBridgeClient.dll"/>
+  </Component>
+  <Component Directory="INSTALLDIR_BIN" Id="protobuf_net.dll">
+    <File Source="..\3rdParty\protobuf_net_r640\protobuf-net.dll"/>
+  </Component>
+  <Component Directory="INSTALLDIR_BIN" Id="metalink.jar">
+    <File Source="..\src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.0.0.jar"/>
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

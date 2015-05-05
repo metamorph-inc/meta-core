@@ -1,0 +1,113 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ output extension=".py" #>
+ 
+# ---------------------------------------------------------
+# Auto generated from jmodelica_simulate_py.tt
+# Execute this script using system Python (with JModelica)
+# ---------------------------------------------------------
+
+import os
+import sys
+import json
+import logging
+try:
+    from pyfmi import load_fmu
+except:
+    print "load_fmu module was not found. Call this script using system Python and with JModelica installed."
+
+from optparse import OptionParser
+
+parser = OptionParser()
+parser.add_option("-f", "--fmu", dest="fmu_path", help="Path to Modelica model within its package")
+
+logging.basicConfig(filename="j_simulate.log",
+                    level=logging.DEBUG,
+                    format="%(asctime)s %(levelname)s: %(message)s",
+                    datefmt="%Y-%m-%d %H:%M:%S")
+
+def simulate_fmu(fmu_path):
+    log = logging.getLogger()
+    # Load the fmu and update parameters given in json from update_parameters.
+    executable_fmu = load_fmu(fmu_path)
+    if os.path.isfile('j_parameters.json'):
+        vars = []
+        values = []
+        with open('j_parameters.json', 'r') as f_in:
+            params = json.load(f_in)
+            for key, value in params.iteritems():
+                vars.append(key)
+                values.append(value)
+        log.info('variables : {0}'.format(vars))
+        log.info('values : {0}'.format(values))
+        executable_fmu.set(vars, values)
+    else:
+        log.info('No j_parameters.json found assumes updating of parameters not needed..')
+    # Setup the simulation options (start and stoptime read from model)
+    with open('model_config.json', 'r') as f_in:
+        experiment = json.load(f_in)['experiment']
+
+    opts = executable_fmu.simulate_options()
+    opts['solver'] = experiment['Algorithm']['JModelica']
+    log.info('Using solver for JModelica : {0}'.format(opts['solver']))
+    if experiment['IntervalMethod'] == 'NumberOfIntervals':
+        opts['ncp'] = int(experiment['NumberOfIntervals'])
+    else:
+        log.warning('Number of intervals not a parameter of JModelica, trying to calculate ncp from start- and stoptime.')
+        try:
+            opts['ncp'] = int((float(experiment['StopTime']) - float(experiment['StartTime']))//float(experiment['Interval']))
+            log.info('Calculated ncp : {0}'.format(opts['ncp']))
+        except:
+            # Fall back on default, i.e. internal steps.
+            log.warning('Failed to calculate ncp from interval, falling back on JModelica default...')
+    # Run the simulation and save the result object
+    sim_result = executable_fmu.simulate(options=opts)
+    log.info('FMU was simulated: {0}'.format(fmu_path))
+
+def main():
+    log = logging.getLogger()
+    working_dir = os.getcwd()  # should be CyPhy
+    this_script_path = os.path.abspath(__file__)
+
+    log.info('Running {0} from {1}'.format(this_script_path, working_dir))
+
+    (options, args) = parser.parse_args() 
+    fmu_path = options.fmu_path
+
+    if not fmu_path:
+        # Try to find any .fmu in this directory
+        log.info('fmu_path not provided, looking for it in working_dir')
+        for file in os.listdir(working_dir):
+            if file.endswith('.fmu'):
+                fmu_path = os.path.abspath(file)
+                log.info('Found {0}!'.format(fmu_path))
+                break
+    if not fmu_path:
+        raise IOError('Could not find a .fmu file inside {0}'.format(working_dir))
+    log.info('fmu_path : {0}'.format(fmu_path))
+    simulate_fmu(fmu_path)
+
+
+if __name__ == '__main__':
+    root_dir = os.getcwd()
+    log = logging.getLogger()
+    try:
+        main()
+    except:
+        import traceback
+        trace = traceback.format_exc()
+        # Generate this file on failed executions, https://github.com/scipy/scipy/issues/1840
+        with open(os.path.join(root_dir, '_j_simulate_FAILED.txt'), 'wb') as f_out:
+            f_out.write(trace)
+        log.error('See {0} for details.'.format(os.path.join(root_dir, '_j_simulate_FAILED.txt')))
+        sys.exit(2)
+<#+ public string ToolName ="";
+	public string DymolaHome = "";
+    public string ResultMatFile = "";#>

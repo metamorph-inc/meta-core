@@ -1,0 +1,171 @@
+Stack-based test setUp and tearDown
+===================================
+
+Writing doctest setUp and tearDown functions can be a bit tedious,
+especially when setUp/tearDown functions are combined.
+
+the zope.testing.setupstack module provides a small framework for
+automating test tear down.  It provides a generic setUp function that
+sets up a stack. Normal test setUp functions call this function to set
+up the stack and then use the register function to register tear-down
+functions.
+
+To see how this works we'll create a faux test:
+
+    >>> class Test:
+    ...     def __init__(self):
+    ...         self.globs = {}
+    >>> test = Test()
+
+We'll register some tearDown functions that just print something:
+
+    >>> import sys
+    >>> import zope.testing.setupstack
+    >>> zope.testing.setupstack.register(
+    ...     test, lambda : sys.stdout.write('td 1\n'))
+    >>> zope.testing.setupstack.register(
+    ...     test, lambda : sys.stdout.write('td 2\n'))
+
+Now, when we call the tearDown function:
+
+    >>> zope.testing.setupstack.tearDown(test)
+    td 2
+    td 1
+
+The registered tearDown functions are run. Note that they are run in
+the reverse order that they were registered.
+
+
+Extra positional arguments can be passed to register:
+
+    >>> zope.testing.setupstack.register(
+    ...    test, lambda x, y, z: sys.stdout.write('%s %s %s\n' % (x, y, z)),
+    ...    1, 2, z=9)
+    >>> zope.testing.setupstack.tearDown(test)
+    1 2 9
+
+
+Temporary Test Directory
+------------------------
+
+Often, tests create files as they demonstrate functionality.  They
+need to arrange for the removeal of these files when the test is
+cleaned up.
+
+The setUpDirectory function automates this.  We'll get the current
+directory first:
+
+    >>> import os
+    >>> here = os.getcwd()
+
+We'll also create a new test:
+
+    >>> test = Test()
+
+Now we'll call the setUpDirectory function:
+
+    >>> zope.testing.setupstack.setUpDirectory(test)
+
+We don't have to call zope.testing.setupstack.setUp, because
+setUpDirectory calls it for us.
+
+Now the current working directory has changed:
+
+    >>> here == os.getcwd()
+    False
+    >>> setupstack_cwd = os.getcwd()
+
+We can create files to out heart's content:
+
+    >>> foo = open('Data.fs', 'w').write('xxx')
+    >>> os.path.exists(os.path.join(setupstack_cwd, 'Data.fs'))
+    True
+
+We'll make the file read-only. This can cause problems on Windows, but
+setupstack takes care of that by making files writable before trying
+to remove them.
+
+    >>> import stat
+    >>> os.chmod('Data.fs', stat.S_IREAD)
+
+On Unix systems, broken symlinks can cause problems because the chmod
+attempt by the teardown hook will fail; let's set up a broken symlink as
+well, and verify the teardown doesn't break because of that:
+
+    >>> if hasattr(os, 'symlink'):
+    ...     os.symlink('NotThere', 'BrokenLink')
+
+When tearDown is called:
+
+    >>> zope.testing.setupstack.tearDown(test)
+
+We'll be back where we started:
+
+    >>> here == os.getcwd()
+    True
+
+and the files we created will be gone (along with the temporary
+directory that was created:
+
+    >>> os.path.exists(os.path.join(setupstack_cwd, 'Data.fs'))
+    False
+
+Context-manager support
+-----------------------
+
+You can leverage context managers using the ``contextmanager`` method.
+The result of calling the content manager's __enter__ method will be
+returned. The context-manager's __exit__ method will be called as part
+of test tear down:
+
+    >>> class Manager(object):
+    ...     def __enter__(self):
+    ...         print_('enter')
+    ...         return 42
+    ...     def __exit__(self, *args):
+    ...         print_('exit', args)
+
+    >>> manager = Manager()
+    >>> test = Test()
+
+    >>> zope.testing.setupstack.context_manager(test, manager)
+    enter
+    42
+
+    >>> zope.testing.setupstack.tearDown(test)
+    exit (None, None, None)
+
+globs
+-----
+
+Doctests have ``globs`` attributes used to hold test globals.
+``setupstack`` was originally designed to work with doctests, but can
+now work with either doctests, or other test objects, as long as the
+test objects have either a ``globs`` attribute or a ``__dict__``
+attribute.  The ``zope.testing.setupstack.globs`` function is used to
+get the globals for a test object:
+
+    >>> zope.testing.setupstack.globs(test) is test.globs
+    True
+
+Here, because the test object had a ``globs`` attribute, it was
+returned. Because we used the test object above, it has a setupstack:
+
+    >>> '__zope.testing.setupstack' in test.globs
+    True
+
+If we remove the ``globs`` attribute, the object's instance dictionary
+will be used:
+
+    >>> del test.globs
+    >>> zope.testing.setupstack.globs(test) is test.__dict__
+    True
+    >>> zope.testing.setupstack.context_manager(test, manager)
+    enter
+    42
+
+    >>> '__zope.testing.setupstack' in test.__dict__
+    True
+
+The ``globs`` function is used internally, but can also be used by
+setup code to support either doctests or other test objects.

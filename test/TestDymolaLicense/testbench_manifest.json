@@ -1,0 +1,44 @@
+{
+    "Status": "FAILED", 
+    "Parameters": [
+        {
+            "Description": "Spring constant in N/mm.", 
+            "DisplayedName": null, 
+            "GMEID": "id-0067-000008b4", 
+            "Value": "5", 
+            "Range": "", 
+            "ID": "77f0a1b4-8564-4e63-80d9-3bdad7384fc1", 
+            "Unit": "", 
+            "Name": "f_const"
+        }, 
+        {
+            "Description": "Spring constant in N/mm.", 
+            "DisplayedName": null, 
+            "GMEID": "id-0067-000008b5", 
+            "Value": "10", 
+            "Range": "", 
+            "ID": "b9d72cc6-4fbf-4b1e-a79d-7c0026e355ce", 
+            "Unit": "", 
+            "Name": "mass_start_acc"
+        }
+    ], 
+    "TierLevel": 0, 
+    "Artifacts": [], 
+    "ErrorMessage": "Dymola installation not found! : ", 
+    "DesignName": "MassSpringDamper_cfg9", 
+    "Metrics": [
+        {
+            "Description": "", 
+            "DisplayedName": null, 
+            "GMEID": "id-0067-000008b3", 
+            "Value": "", 
+            "ID": "5c5d7b92-e4cf-4195-847b-e707219b9d5d", 
+            "Unit": "", 
+            "Name": "MaximumSpeed"
+        }
+    ], 
+    "DesignID": "{c3a4ca4c-37e9-46a6-9ab4-365370da97da}", 
+    "Steps": [], 
+    "TestBench": "MSD_dymola_DS", 
+    "Created": "2013-11-23T21:35:12.9449946Z"
+}

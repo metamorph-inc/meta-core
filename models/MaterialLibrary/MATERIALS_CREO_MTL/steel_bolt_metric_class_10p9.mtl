@@ -1,0 +1,24 @@
+ND_RelParSet_K01 = {
+
+Name = steel_bolt_metric_class_10p9
+
+PARAMETERS =
+{
+  Name = PTC_MASS_DENSITY
+  Type = Real
+  Default = 7.85e-06 kg/mm^3
+  Access = Full
+},
+{
+  Name = WRITE_DATE
+  Type = String
+  Default = '2014_02_13_17_58'
+  Access = Full
+},
+{
+  Name = C2M2L_VER
+  Type = String
+  Default = '1.11'
+  Access = Full
+}
+}

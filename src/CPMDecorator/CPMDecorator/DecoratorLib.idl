@@ -1,0 +1,50 @@
+ 
+import "oaidl.idl";
+import "ocidl.idl";
+
+#include "DecoratorConfig.h"
+#include "GMEVersion.h"
+
+#if GME_VERSION_MAJOR >= 11
+import "Gme.idl";
+import "Core.idl";
+#else
+#include <InterfaceColl.h>
+#include <meta.idl>
+#include <mga.idl>
+#include <gme.idl>
+#include <MgaDecorator.idl>
+#include <MgaUtil.idl>
+#include <Parser.idl>
+#endif
+
+[
+	uuid(TYPELIB_UUID),
+	version(1.0),
+	helpstring("TYPELIB_NAME")
+]
+library DecoratorLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	importlib("core.dll");
+	importlib("meta.dll");
+	importlib("mga.dll");
+	importlib("gme.exe");
+
+	[
+		uuid(COCLASS_UUID),
+		helpstring(COCLASS_NAME)
+	]
+	coclass Decorator
+	{
+		[default] interface IMgaElementDecorator;
+#if GME_VERSION_MAJOR >= 11
+		interface IGMEVersionInfo;
+#else
+		interface IMgaVersionInfo;
+#endif
+	};
+
+};

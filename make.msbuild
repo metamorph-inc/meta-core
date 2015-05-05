@@ -1,0 +1,73 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="All" ToolsVersion="4.0">
+
+  <PropertyGroup>
+    <MATLAB_PATH Condition="'$(MATLAB_PATH)'==''">C:\Program Files\MATLAB\R2011b</MATLAB_PATH>
+  </PropertyGroup>
+
+  <Import Project="externals\common-scripts\common.msbuild"/>
+  <Import Project="META.props"/>
+
+  <Target Name="CheckEnv" DependsOnTargets="CheckEnvGme;CheckEnvUdm">
+    <Error Text="DESERT_PATH='$(DESERT_PATH)' doesn't exist" Condition="!Exists('$(DESERT_PATH)')"/>
+    <Error Text="META_PATH='$(META_PATH)' doesn't exist" Condition="!Exists('$(META_PATH)')"/>
+    <Error Text="THIRDPARTY_PATH='$(THIRDPARTY_PATH)' doesn't exist" Condition="!Exists('$(THIRDPARTY_PATH)')"/>
+  </Target>
+
+  <Target Name="Desert" DependsOnTargets="CheckEnv">
+    <PropertyGroup>
+      <DesertPlatform Condition="'$(Platform)'=='x64'">x64</DesertPlatform>
+    </PropertyGroup>
+    <PropertyGroup>
+      <DesertPlatform Condition="'$(Platform)'!='x64'">Win32</DesertPlatform>
+    </PropertyGroup>
+    <MSBuild Projects="externals/desert/desertVS2010.sln" Properties="Configuration=$(Configuration);Platform=$(DesertPlatform);THIRDPARTY_PATH=$(THIRDPARTY_PATH)" Targets="Build"/>
+  </Target>
+
+  <Target Name="CyPhyML" DependsOnTargets="CheckEnv;Desert">
+    <ItemGroup>
+      <CyPhyMLIcons Include="$(MSBuildThisFileDirectory)meta\CyPhyML\icons\*"/>
+    </ItemGroup>
+    <Copy SourceFiles="@(CyPhyMLIcons)" DestinationFolder="$(MSBuildThisFileDirectory)generated\CyPhyML\models\icons" SkipUnchangedFiles="true" UseHardlinksIfPossible="true"/>
+    <PropertyGroup>
+      <CyPhyMLPlatform Condition="'$(Platform)'=='x64'">x64</CyPhyMLPlatform>
+    </PropertyGroup>
+    <PropertyGroup>
+      <CyPhyMLPlatform Condition="'$(Platform)'!='x64'">Mixed Platforms</CyPhyMLPlatform>
+    </PropertyGroup>
+    <MSBuild Projects="src/CyPhyML.sln" Properties="Configuration=$(Configuration);Platform=$(CyPhyMLPlatform);DESERT_PATH=$(DESERT_PATH);META_PATH=$(META_PATH);CreateHardLinksForCopyLocalIfPossible=true" Targets="Build"/>
+  </Target>
+
+  <Target Name="CyPhyMLQudt" DependsOnTargets="CyPhyML">
+    <Exec Command="../../3rdParty/ant/bin/ant.bat" WorkingDirectory="src/java"/>
+  </Target>
+
+  <Target Name="MetaLink">
+    <Error Text="JAVA_HOME='$(JAVA_HOME)' doesn't exist" Condition="!Exists('$(JAVA_HOME)')"/>
+    <Exec Command="set PATH=%PATH%;$(MSBuildThisFileDirectory)\3rdParty\apache-maven-3.0.5\bin;$(MSBuildThisFileDirectory)\3rdParty\protoc-2.5.0-win32
+    mvn install
+    " WorkingDirectory="$(MSBuildThisFileDirectory)\src\MetaLink" 
+    CustomErrorRegularExpression="\[ERROR\]"/>
+  </Target>
+  
+  <Target Name="Install_PythonLibs" DependsOnTargets="">
+    <!-- make sure pip works -->
+    <Exec Command="bin\Python27\Scripts\python.exe -m pip freeze >NUL" IgnoreExitCode="true" WorkingDirectory="$(MSBuildThisFileDirectory)"/>
+  </Target>
+  
+  <Target Name="DownloadNuGetPackages">
+    <Exec Command="..\bin\Python27\Scripts\python.exe -c &quot;import build_msi; build_msi.get_nuget_packages()&quot;" IgnoreExitCode="true" WorkingDirectory="$(MSBuildThisFileDirectory)\deploy"/>
+  </Target>
+  
+  <Target Name="All" DependsOnTargets="Install_PythonLibs;MetaLink;CyPhyML;DownloadNuGetPackages">
+    <MSBuild Projects="src/Run_PRISMATIC_toolchain/Run_Prismatic_toolchain.sln" Properties="Platform=Any CPU;Configuration=$(Configuration);META_PATH=$(META_PATH)" Targets="Build"/>
+  </Target>
+  
+  <Target Name="source_code_analysis">
+    <Exec Command="..\bin\Python27\Scripts\python.exe source_code_analysis.py" WorkingDirectory="source_code_analysis" Condition="'$(Platform)' != 'x64'"/>
+  </Target>
+  
+  <Target Name="Installer" DependsOnTargets="All">
+    <Exec Command="..\bin\Python27\Scripts\python.exe build_msi.py META_x64.wxs" WorkingDirectory="deploy" Condition="'$(Platform)' != 'x64'"/>
+  </Target>
+
+</Project>

@@ -1,0 +1,29 @@
+SimpleThermo4: CONTEXT = 
+BEGIN
+
+control: MODULE =
+BEGIN
+LOCAL state:BOOLEAN
+LOCAL x:REAL
+LOCAL xdot:REAL
+INITIALIZATION
+  x = 75; state = TRUE 
+TRANSITION
+[
+state = TRUE AND x >= 80  --> 
+state'=FALSE  
+[]
+state = FALSE AND x <= 70  --> 
+state'=TRUE  
+[]
+state = TRUE AND x < 80 AND x' < 80  --> 
+x'IN{z:REAL|z > x}  
+[]
+state = TRUE AND x > 70 AND x' > 70  --> 
+x'IN{z:REAL|z < x}  
+]
+END;
+
+correct : THEOREM
+control |- G(70 <= x AND x <= 80);
+END

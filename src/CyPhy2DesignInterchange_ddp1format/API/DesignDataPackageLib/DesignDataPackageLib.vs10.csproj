@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BE2D3712-F436-4DE0-B5BC-A931E6697B3B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>DesignDataPackageLib_ddp1</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>AVM</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Assembly.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\3rdParty\Json.NET\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constructors.cs" />
+    <Compile Include="DesignModel.cs" />
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="GeneratedCode\AVM\AlignmentEnum.cs" />
+    <Compile Include="GeneratedCode\AVM\Associable.cs" />
+    <Compile Include="GeneratedCode\AVM\Association.cs" />
+    <Compile Include="GeneratedCode\AVM\Base.cs" />
+    <Compile Include="GeneratedCode\AVM\CausalityEnum.cs" />
+    <Compile Include="GeneratedCode\AVM\Component.cs" />
+    <Compile Include="GeneratedCode\AVM\DataTypeEnum.cs" />
+    <Compile Include="GeneratedCode\AVM\DatumTypeEnum.cs" />
+    <Compile Include="GeneratedCode\AVM\DistributionTypeEnum.cs" />
+    <Compile Include="GeneratedCode\AVM\ExternalPort.cs" />
+    <Compile Include="GeneratedCode\AVM\Feature.cs" />
+    <Compile Include="GeneratedCode\AVM\File.cs" />
+    <Compile Include="GeneratedCode\AVM\iFAB\Join.cs" />
+    <Compile Include="GeneratedCode\AVM\iFAB\JoinOverrideSemantics.cs" />
+    <Compile Include="GeneratedCode\AVM\iFAB\ManufacturingModel.cs" />
+    <Compile Include="GeneratedCode\AVM\iFAB\ManufacturingModelParameter.cs" />
+    <Compile Include="GeneratedCode\AVM\META\AggregateInterface.cs" />
+    <Compile Include="GeneratedCode\AVM\META\AggregatePort.cs" />
+    <Compile Include="GeneratedCode\AVM\META\AllocationPort.cs" />
+    <Compile Include="GeneratedCode\AVM\META\AllocationPortTypeEnum.cs" />
+    <Compile Include="GeneratedCode\AVM\META\ArchitectureModel.cs" />
+    <Compile Include="GeneratedCode\AVM\META\BehaviorModel.cs" />
+    <Compile Include="GeneratedCode\AVM\META\BehaviorModelPowerPortTypeEnum.cs" />
+    <Compile Include="GeneratedCode\AVM\META\BehaviorModelSignalPortTimingSemanticsEnum.cs" />
+    <Compile Include="GeneratedCode\AVM\META\BehaviorModelSignalPortTypeEnum.cs" />
+    <Compile Include="GeneratedCode\AVM\META\BehaviorParameter.cs" />
+    <Compile Include="GeneratedCode\AVM\META\BusPort.cs" />
+    <Compile Include="GeneratedCode\AVM\META\BusPortInterface.cs" />
+    <Compile Include="GeneratedCode\AVM\META\BusSignal.cs" />
+    <Compile Include="GeneratedCode\AVM\META\CADAnalysisPoint.cs" />
+    <Compile Include="GeneratedCode\AVM\META\CADModel.cs" />
+    <Compile Include="GeneratedCode\AVM\META\CADModelType.cs" />
+    <Compile Include="GeneratedCode\AVM\META\CADParameter.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Calculation.cs" />
+    <Compile Include="GeneratedCode\AVM\META\CalculationInput.cs" />
+    <Compile Include="GeneratedCode\AVM\META\CommunicationPort.cs" />
+    <Compile Include="GeneratedCode\AVM\META\DataPort.cs" />
+    <Compile Include="GeneratedCode\AVM\META\DataType.cs" />
+    <Compile Include="GeneratedCode\AVM\META\DataTypeField.cs" />
+    <Compile Include="GeneratedCode\AVM\META\DataTypeFieldTypeEnum.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Datum.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\AbstractPort.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\AbstractStructuralInterface.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\Alternative.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\ComponentInstance.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\ComponentNamedValueInstance.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\Compound.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\Connector.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\Constraint.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\ConstraintBase.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\Container.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\ContainerCalculation.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\ContainerNamedValue.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\ContainerPort.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\ContainerStructuralInterface.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\ContainerValue.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\DecisionGroup.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\DesignModel.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\DesignSpaceContainer.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\ImpliesConstraint.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\MappableValueInstance.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\Optional.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\PortConnector.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\PortInstance.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\PropertyConstraint.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\StructuralInterfaceConnector.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\StructuralInterfaceInstance.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBenchInstance.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBenchMapping.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\DynamicsSimulation.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\Environment.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\ExecutionType.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\Metric.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\PostProcessing.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\TestBenchModel.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\TestBenchPort.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\TestBenchValuePort.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\ValuePortDirectionality.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\ValueConnector.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Design\ValueType.cs" />
+    <Compile Include="GeneratedCode\AVM\META\DirectionEnum.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Electrical.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Electromagnetic.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Fluid.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Heat.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Interface.cs" />
+    <Compile Include="GeneratedCode\AVM\META\LimitCheck.cs" />
+    <Compile Include="GeneratedCode\AVM\META\LimitType.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Magnetic.cs" />
+    <Compile Include="GeneratedCode\AVM\META\MaterialSpec.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Metric.cs" />
+    <Compile Include="GeneratedCode\AVM\META\MultiBody.cs" />
+    <Compile Include="GeneratedCode\AVM\META\NamedValue.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Phenomenon.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Pneumatic.cs" />
+    <Compile Include="GeneratedCode\AVM\META\PowerPort.cs" />
+    <Compile Include="GeneratedCode\AVM\META\PowerPortInterface.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Property.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Rotational.cs" />
+    <Compile Include="GeneratedCode\AVM\META\SignalPort.cs" />
+    <Compile Include="GeneratedCode\AVM\META\SignalPortBase.cs" />
+    <Compile Include="GeneratedCode\AVM\META\SignalPortInterface.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Translational.cs" />
+    <Compile Include="GeneratedCode\AVM\META\Value.cs" />
+    <Compile Include="GeneratedCode\AVM\Model.cs" />
+    <Compile Include="GeneratedCode\AVM\OrientationEnum.cs" />
+    <Compile Include="GeneratedCode\AVM\StructuralInterface.cs" />
+    <Compile Include="GeneratedCode\AVM\StructuralInterfaceDatum.cs" />
+    <Compile Include="GeneratedCode\AVM\StructuralInterfaceStyle.cs" />
+    <Compile Include="GeneratedCode\AVM\Supercede.cs" />
+    <Compile Include="GeneratedCode\AVM\UsesLibrary.cs" />
+    <Compile Include="GeneratedCode\AVM\VehicleForge\DistributionRestriction.cs" />
+    <Compile Include="GeneratedCode\AVM\VehicleForge\ITARRestrictionLevelEnum.cs" />
+    <Compile Include="GeneratedCode\AVM\VehicleForge\ITAR_Restriction.cs" />
+    <Compile Include="GeneratedCode\AVM\VehicleForge\Proprietary.cs" />
+    <Compile Include="GeneratedCode\AVM\VehicleForge\SecurityClassification.cs" />
+    <Compile Include="PrimitiveTypes.cs" />
+    <Compile Include="ProcessJSON.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assembly.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ResolveAliases.py" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>$(MSBuildThisFileDirectory)..\..\..\..\bin\Python27\scripts\python.exe ..\..\ResolveAliases.py</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

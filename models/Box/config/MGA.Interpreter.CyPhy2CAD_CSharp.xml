@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<CyPhy2CADSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <OutputDirectory />
+  <AuxiliaryDirectory>C:\Users\adam\Desktop\SwRI\TBox\Box\CAD</AuxiliaryDirectory>
+  <UseProjectManifest>true</UseProjectManifest>
+  <StepFormats>
+    <string>AP203_E2_Single_File</string>
+    <string>AP203_E2_Separate_Part_Files</string>
+  </StepFormats>
+  <STLFormat>
+    <Ascii>false</Ascii>
+    <Binary>false</Binary>
+  </STLFormat>
+  <PrepIFab>false</PrepIFab>
+  <LiveLink>false</LiveLink>
+</CyPhy2CADSettings>

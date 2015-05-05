@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)..\CSharpDSMLGenerator.dll" TaskName="CSharpDSMLGenerator.GenerateCSharpDSML" />
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName
+      Include="CSharpDsml">
+      <Targets>CSharpDsml</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask
+    TaskName="CSharpDsml"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="CSharpDsml"
+    BeforeTargets="$(CSharpDsml_RuleBeforeTargets)"
+    AfterTargets="$(CSharpDsml_RuleAfterTargets)"
+    Condition="'@(CSharpDsml)' != ''"
+    DependsOnTargets="$(CSharpDsml_RuleDependsOn)"
+    Outputs="%(CSharpDsml.OutDir)\ISIS.GME.Dsml.%(CSharpDsml.ParadigmName).Interfaces.cs"
+    Inputs="%(CSharpDsml.Identity);$(MSBuildThisFileDirectory)\..\CSharpDSMLGenerator.dll;%(CSharpDsml.AdditionalDependencies)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <CSharpDsml
+        Remove="@(CSharpDsml)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(CSharpDsml.ExecutionDescription)" />
+    <GenerateCSharpDSML InputFile="%(CSharpDsml.Identity)" OutputDir="%(CSharpDsml.OutDir)" CompileDll="%(CSharpDsml.CompileDll)"/>
+  </Target>
+</Project>

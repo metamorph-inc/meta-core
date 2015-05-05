@@ -1,0 +1,179 @@
+[
+	{
+		"name":"table",
+		"description":"Leader Board Ranking table",
+		"widgetClass":"inc/vf-widgets/vf-table.js",
+		"className":"vf_table",
+		"help":"",
+		"tag":"vf-table"
+	},
+	{
+		"name":"Pareto Plot",
+		"description":"Pareto Plot for visulizing major factors",
+		"widgetClass":"inc/vf-widgets/vf-pareto.js",
+		"className":"vf_pareto",
+		"help":"",
+		"tag":"vf-pareto"
+	},
+	{
+		"name":"Parallel Axis Plot",
+		"description":"Parallel Axis Plot for design space analysis",
+		"widgetClass":"inc/vf-widgets/vf-pplot.js",
+		"className":"vf_pplot",
+		"help":"",
+		"tag":"vf-pplot"
+	},
+	{
+		"name":"mvplot",
+		"description":"Multivariate Plot for design space analysis",
+		"widgetClass":"inc/vf-widgets/vf-mvplot.js",
+		"className":"vf_mvplot",
+		"help":"",
+		"tag":"vf-mvplot"
+	},
+	{
+		"name":"Multi-axis bar chart",
+		"description":"Multi-axis bar chart",
+		"widgetClass":"inc/vf-widgets/vf-mbar.js",
+		"className":"vf_mbar",
+		"help":"",
+		"tag":"vf-mbar"
+	},
+	{
+		"name":"Multi-axis bar chart",
+		"description":"Multi-axis bar chart used on leader board",
+		"widgetClass":"inc/vf-widgets/vf-mbar2.js",
+		"className":"vf_mbar2",
+		"help":"",
+		"tag":"vf-mbar2"
+	},
+	{
+		"name":"Scatter Plot",
+		"description":"Scatter Plot",
+		"widgetClass":"inc/vf-widgets/vf-splot.js",
+		"className":"vf_splot",
+		"help":"",
+		"tag":"vf-splot"
+	},
+	{	
+		"name":"Stop Light Diagram",
+		"description":"Stop Light Diagram",
+		"widgetClass":"inc/vf-widgets/vf-stoplight.js",
+		"className":"vf_stoplight",
+		"help":"",
+		"tag":"vf-stoplight"
+	},
+	{
+		"name":"datatable",
+		"description":"datatable",
+		"widgetClass":"inc/vf-widgets/vf-datatable.js",
+		"className":"vf_datatable",
+		"help":"",
+		"tag":"vf-datatable"
+	},
+	{
+		"name":"ConstraintPlot",
+		"description":"ConstraintPlot",
+		"widgetClass":"inc/vf-widgets/vf-constraintplot.js",
+		"className":"vf_constraintplot",
+		"help":"",
+		"tag":"vf-constraintplot"
+	},
+	{
+		"name":"Distribution",
+		"description":"Distribution",
+		"widgetClass":"inc/vf-widgets/vf-dist.js",
+		"className":"vf_dist",
+		"help":"",
+		"tag":"vf-dist"
+	},
+	{
+		"name":"Prediction Profiler",
+		"description":"Prediction Profiler",
+		"widgetClass":"inc/vf-widgets/vf-profiler.js",
+		"className":"vf_profiler",
+		"help":"",
+		"tag":"vf-profiler"
+	},
+	{
+		"name":"ConstraintPlot",
+		"description":"ConstraintPlot",
+		"widgetClass":"inc/vf-widgets/vf-constraintplot.js",
+		"className":"vf_constraintplot",
+		"help":"",
+		"tag":"vf-constraintplot"
+	},
+	{
+
+		"name":"Bubbles",
+		"description":"Bubbles",
+		"widgetClass":"inc/vf-widgets/vf-bubbles.js",
+		"className":"vf_bubbles",
+		"help":"",
+		"tag":"vf-bubbles"
+	},
+	{
+		"name":"HeatMap",
+		"description":"HeatMap widget",
+		"widgetClass":"inc/vf-widgets/vf-heatmap.js",
+		"className":"vf_heatmap",
+		"help":"",
+		"tag":"vf-heatmap"
+	},
+	{
+		"name":"Datatable2",
+		"description":"datatable2",
+		"widgetClass":"inc/vf-widgets/vf-datatable2.js",
+		"className":"vf_datatable2",
+		"help":"",
+		"tag":"vf-datatable2"
+	},
+	{
+		"name":"histogram",
+		"description":"histogram",
+		"widgetClass":"inc/vf-widgets/vf-hist.js",
+		"className":"vf_hist",
+		"help":"",
+		"tag":"vf-hist"
+	},
+	{
+		"name":"Scappter Plot2",
+		"description":"A much simpler scatter plot",
+		"widgetClass":"inc/vf-widgets/vf-splot2.js",
+		"className":"vf_splot2",
+		"help":"",
+		"tag":"vf-splot2"
+	},
+	{
+		"name":"QualitativeHeatMap",
+		"description":"Qualitative HeatMap widget",
+		"widgetClass":"inc/vf-widgets/vf-heatmap-qualitative.js",
+		"className":"vf_heatmap_qualitative",
+		"help":"",
+		"tag":"vf-heatmap-qualitative"
+	},
+	{
+		"name":"CompareList",
+		"description":"CompareList widget",
+		"widgetClass":"inc/vf-widgets/vf-comparelist.js",
+		"className":"vf_comparelist",
+		"help":"",
+		"tag":"vf-comparelist"
+	},
+	{
+		"name":"ArtifactsViewer",
+		"description":"View STL in 3D",
+		"widgetClass":"inc/vf-widgets/vf-artifactsviewer.js",
+		"className":"vf_artifactsviewer",
+		"help":"",
+		"tag":"vf-artifactsviewer"
+	},
+	{
+		"name":"Inverse PCC",
+		"description":"Inverse PCC",
+		"widgetClass":"inc/vf-widgets/vf-invPCC.js",
+		"className":"vf_invPCC",
+		"help":"",
+		"tag":"vf-invPCC"
+	}
+]

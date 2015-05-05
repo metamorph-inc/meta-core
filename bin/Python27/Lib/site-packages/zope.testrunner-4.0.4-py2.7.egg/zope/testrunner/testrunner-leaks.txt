@@ -1,0 +1,222 @@
+Debugging Memory Leaks
+======================
+
+The --report-refcounts (-r) option can be used with the --repeat (-N)
+option to detect and diagnose memory leaks.  To use this option, you
+must configure Python with the --with-pydebug option. (On Unix, pass
+this option to configure and then build Python.)
+
+    >>> import os.path, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+
+    >>> from zope import testrunner
+    
+    >>> sys.argv = 'test --layer Layer11$ --layer Layer12$ -N4 -r'.split()
+    >>> _ = testrunner.run_internal(defaults)
+    Running samplelayers.Layer11 tests:
+      Set up samplelayers.Layer1 in 0.000 seconds.
+      Set up samplelayers.Layer11 in 0.000 seconds.
+    Iteration 1
+      Ran 26 tests with 0 failures and 0 errors in 0.013 seconds.
+    Iteration 2
+      Ran 26 tests with 0 failures and 0 errors in 0.012 seconds.
+      sys refcount=100401   change=0     
+    Iteration 3
+      Ran 26 tests with 0 failures and 0 errors in 0.012 seconds.
+      sys refcount=100401   change=0     
+    Iteration 4
+      Ran 26 tests with 0 failures and 0 errors in 0.013 seconds.
+      sys refcount=100401   change=0     
+    Running samplelayers.Layer12 tests:
+      Tear down samplelayers.Layer11 in 0.000 seconds.
+      Set up samplelayers.Layer12 in 0.000 seconds.
+    Iteration 1
+      Ran 26 tests with 0 failures and 0 errors in 0.013 seconds.
+    Iteration 2
+      Ran 26 tests with 0 failures and 0 errors in 0.012 seconds.
+      sys refcount=100411   change=0     
+    Iteration 3
+      Ran 26 tests with 0 failures and 0 errors in 0.012 seconds.
+      sys refcount=100411   change=0     
+    Iteration 4
+      Ran 26 tests with 0 failures and 0 errors in 0.012 seconds.
+      sys refcount=100411   change=0     
+    Tearing down left over layers:
+      Tear down samplelayers.Layer12 in 0.000 seconds.
+      Tear down samplelayers.Layer1 in 0.000 seconds.
+    Total: 68 tests, 0 failures, 0 errors in N.NNN seconds.
+
+Each layer is repeated the requested number of times.  For each
+iteration after the first, the system refcount and change in system
+refcount is shown. The system refcount is the total of all refcount in
+the system.  When a refcount on any object is changed, the system
+refcount is changed by the same amount.  Tests that don't leak show
+zero changes in systen refcount.
+
+Let's look at an example test that leaks:
+
+    >>> sys.argv = 'test --tests-pattern leak -N4 -r'.split()
+    >>> _ = testrunner.run_internal(defaults)
+    Running zope.testrunner.layer.UnitTests tests:...
+    Iteration 1
+      Ran 1 tests with 0 failures and 0 errors in 0.000 seconds.
+    Iteration 2
+      Ran 1 tests with 0 failures and 0 errors in 0.000 seconds.
+      sys refcount=92506    change=12
+    Iteration 3
+      Ran 1 tests with 0 failures and 0 errors in 0.000 seconds.
+      sys refcount=92513    change=12
+    Iteration 4
+      Ran 1 tests with 0 failures and 0 errors in 0.000 seconds.
+      sys refcount=92520    change=12
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+
+Here we see that the system refcount is increating.  If we specify a
+verbosity greater than one, we can get details broken out by object
+type (or class):
+
+    >>> sys.argv = 'test --tests-pattern leak -N5 -r -v'.split()
+    >>> _ = testrunner.run_internal(defaults)
+    Running tests at level 1
+    Running zope.testrunner.layer.UnitTests tests:...
+    Iteration 1
+      Running:
+        .
+      Ran 1 tests with 0 failures and 0 errors in 0.000 seconds.
+    Iteration 2
+      Running:
+        .
+      Ran 1 tests with 0 failures and 0 errors in 0.000 seconds.
+      sum detail refcount=95832    sys refcount=105668   change=16    
+        Leak details, changes in instances and refcounts by type/class:
+        type/class                                               insts   refs
+        -------------------------------------------------------  -----   ----
+        classobj                                                     0      1
+        dict                                                         2      2
+        float                                                        1      1
+        int                                                          2      2
+        leak.ClassicLeakable                                         1      1
+        leak.Leakable                                                1      1
+        str                                                          0      4
+        tuple                                                        1      1
+        type                                                         0      3
+        -------------------------------------------------------  -----   ----
+        total                                                        8     16
+    Iteration 3
+      Running:
+        .
+      Ran 1 tests with 0 failures and 0 errors in 0.000 seconds.
+      sum detail refcount=95844    sys refcount=105680   change=12    
+        Leak details, changes in instances and refcounts by type/class:
+        type/class                                               insts   refs
+        -------------------------------------------------------  -----   ----
+        classobj                                                     0      1
+        dict                                                         2      2
+        float                                                        1      1
+        int                                                         -1      0
+        leak.ClassicLeakable                                         1      1
+        leak.Leakable                                                1      1
+        str                                                          0      4
+        tuple                                                        1      1
+        type                                                         0      1
+        -------------------------------------------------------  -----   ----
+        total                                                        5     12
+    Iteration 4
+      Running:
+        .
+      Ran 1 tests with 0 failures and 0 errors in 0.000 seconds.
+      sum detail refcount=95856    sys refcount=105692   change=12    
+        Leak details, changes in instances and refcounts by type/class:
+        type/class                                               insts   refs
+        -------------------------------------------------------  -----   ----
+        classobj                                                     0      1
+        dict                                                         2      2
+        float                                                        1      1
+        leak.ClassicLeakable                                         1      1
+        leak.Leakable                                                1      1
+        str                                                          0      4
+        tuple                                                        1      1
+        type                                                         0      1
+        -------------------------------------------------------  -----   ----
+        total                                                        6     12
+    Iteration 5
+      Running:
+        .
+      Ran 1 tests with 0 failures and 0 errors in 0.000 seconds.
+      sum detail refcount=95868    sys refcount=105704   change=12    
+        Leak details, changes in instances and refcounts by type/class:
+        type/class                                               insts   refs
+        -------------------------------------------------------  -----   ----
+        classobj                                                     0      1
+        dict                                                         2      2
+        float                                                        1      1
+        leak.ClassicLeakable                                         1      1
+        leak.Leakable                                                1      1
+        str                                                          0      4
+        tuple                                                        1      1
+        type                                                         0      1
+        -------------------------------------------------------  -----   ----
+        total                                                        6     12
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+
+It is instructive to analyze the results in some detail.  The test
+being run was designed to intentionally leak:
+
+    class ClassicLeakable:
+        def __init__(self):
+            self.x = 'x'
+
+    class Leakable(object):
+        def __init__(self):
+            self.x = 'x'
+
+    leaked = []
+
+    class TestSomething(unittest.TestCase):
+
+        def testleak(self):
+            leaked.append((ClassicLeakable(), Leakable(), time.time()))
+
+Let's go through this by type.
+
+float, leak.ClassicLeakable, leak.Leakable, and tuple
+    We leak one of these every time.  This is to be expected because
+    we are adding one of these to the list every time.
+
+str
+    We don't leak any instances, but we leak 4 references. These are
+    due to the instance attributes avd values.
+
+dict
+    We leak 2 of these, one for each ClassicLeakable and Leakable
+    instance. 
+
+classobj
+    We increase the number of classobj instance references by one each
+    time because each ClassicLeakable instance has a reference to its
+    class.  This instances increases the references in it's class,
+    which increases the total number of references to classic classes
+    (clasobj instances).
+
+type
+    For most interations, we increase the number of type references by
+    one for the same reason we increase the number of clasobj
+    references by one.  The increase of the number of type references
+    by 3 in the second iteration is puzzling, but illustrates that
+    this sort of data is often puzzling.
+
+int
+    The change in the number of int instances and references in this
+    example is a side effect of the statistics being gathered.  Lots
+    of integers are created to keep the memory statistics used here.
+
+The summary statistics include the sum of the detail refcounts.  (Note
+that this sum is less than the system refcount.  This is because the
+detailed analysis doesn't inspect every object. Not all objects in the
+system are returned by sys.getobjects.)

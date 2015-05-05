@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="fakeavmid" Name="Damper_Test" Version="2" xmlns="avm">
+  <DomainModel xmlns:q4="cad" xsi:type="q4:CADModel" UsesResource="cad.path" Notes="" xmlns="">
+    <Datum xsi:type="q4:Plane" ID="cad.RIGHT" PortMap="" DatumName="RIGHT" SurfaceReverseMap="" />
+    <Datum xsi:type="q4:Plane" ID="cad.TOP" PortMap="" DatumName="TOP" SurfaceReverseMap="" />
+    <Datum xsi:type="q4:Plane" ID="cad.FRONT" PortMap="" DatumName="FRONT" SurfaceReverseMap="" />
+    <Datum xsi:type="q4:CoordinateSystem" ID="cad.PRT_CSYS_DEF" PortMap="" DatumName="PRT_CSYS_DEF" />
+    <Datum xsi:type="q4:Axis" ID="cad.COMMON_AXIS" PortMap="" DatumName="COMMON_AXIS" />
+    <Datum xsi:type="q4:Plane" ID="cad.COMMON_PLANE_1_TOP" PortMap="" DatumName="COMMON_PLANE_1_TOP" SurfaceReverseMap="" />
+    <Datum xsi:type="q4:Plane" ID="cad.COMMON_PLANE_1_BOTTOM" PortMap="" DatumName="COMMON_PLANE_1_BOTTOM" SurfaceReverseMap="" />
+    <Datum xsi:type="q4:Plane" ID="cad.COMMON_PLANE_2" PortMap="" DatumName="COMMON_PLANE_2" SurfaceReverseMap="" />
+    <Datum xsi:type="q4:Plane" ID="cad.COMMON_PLANE_3" PortMap="" DatumName="COMMON_PLANE_3" SurfaceReverseMap="" />
+    <Parameter Name="DESCRIPTION">
+      <Value DataType="String" Unit="" ID="cad.DESCRIPTION">
+        <ValueExpression xmlns:q5="avm" xsi:type="q5:FixedValue">
+          <Value />
+        </ValueExpression>
+      </Value>
+    </Parameter>
+    <Parameter Name="MODELED_BY">
+      <Value DataType="String" Unit="" ID="cad.MODELED_BY">
+        <ValueExpression xmlns:q6="avm" xsi:type="q6:FixedValue">
+          <Value />
+        </ValueExpression>
+      </Value>
+    </Parameter>
+    <Parameter Name="DAMPER_D">
+      <Value DataType="Real" Unit="" ID="cad.DAMPER_D">
+        <ValueExpression xmlns:q7="avm" xsi:type="q7:FixedValue">
+          <Value>3.55869</Value>
+        </ValueExpression>
+      </Value>
+    </Parameter>
+    <Parameter Name="PTC_MATERIAL_NAME">
+      <Value DataType="String" Unit="" ID="cad.PTC_MATERIAL_NAME">
+        <ValueExpression xmlns:q8="avm" xsi:type="q8:FixedValue">
+          <Value>PVC</Value>
+        </ValueExpression>
+      </Value>
+    </Parameter>
+  </DomainModel>
+  <Property xmlns:q9="avm" xsi:type="q9:PrimitiveProperty" Name="Damping_constant" ID="property.ID0" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="Real" ID="ID0">
+      <ValueExpression xsi:type="q9:FixedValue">
+        <Value>2</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q10="avm" xsi:type="q10:PrimitiveProperty" Name="Damping_gain" ID="property.ID2" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="Real" ID="ID2">
+      <ValueExpression xsi:type="q10:FixedValue">
+        <Value>0.2511</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q11="avm" xsi:type="q11:PrimitiveProperty" Name="Damping_offset" ID="property.ID1" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="Real" ID="ID1">
+      <ValueExpression xsi:type="q11:FixedValue">
+        <Value>-2.18</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q12="avm" xsi:type="q12:PrimitiveProperty" Name="Damper_diameter" ID="param.ID3" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="Real" ID="ID3">
+      <ValueExpression xsi:type="q12:ParametricValue">
+        <Default xsi:type="q12:FixedValue">
+          <Value>4.08004</Value>
+        </Default>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <ResourceDependency Name="Resource" Path="CAD\DAMPER" Hash="" ID="cad.path" Notes="" xmlns="" />
+  <Connector ConnectorComposition="" ID="id-eb590e91-5e46-4764-80af-bf612bbb6036" ApplyJoinData="" Notes="" Name="Threaded_Pin" Definition="COMMON_INTERFACE" xmlns="">
+    <Role xmlns:q13="cad" xsi:type="q13:Plane" ID="id-f80e7ab4-d780-44a5-a528-786fb13c576d" PortMap="" Name="Rotational Constraint Plane" Notes="" Definition="" SurfaceReverseMap="" />
+    <Role xmlns:q14="cad" xsi:type="q14:Plane" ID="id-ed475614-96d7-4b3a-8bd7-6e8755b06db3" PortMap="" Name="Flange" Notes="" Definition="" SurfaceReverseMap="" />
+    <Role xmlns:q15="cad" xsi:type="q15:Axis" ID="id-84e103fd-e7ac-4a2b-a41e-d6868078c76f" PortMap="" Name="Connector Axis" Notes="" Definition="" />
+    <Role xmlns:q16="modelica" xsi:type="q16:Connector" ID="id-b2d65fd5-496e-4b02-a33b-346daecf32ca" PortMap="id-9a613a7b-6ee9-422c-ba52-3bc9a509595f" Name="TranslationalFlange" Notes="" Definition="" Locator="" Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="id-01b33754-e4c4-4f13-8023-c0f6ed4fda31" ApplyJoinData="" Notes="" Name="Threaded_Hole" Definition="COMMON_INTERFACE" xmlns="">
+    <Role xmlns:q17="cad" xsi:type="q17:Plane" ID="id-f7eb21f7-6ce3-4f56-872c-31692e86f6f6" PortMap="" Name="Rotational Constraint Plane" Notes="" Definition="" SurfaceReverseMap="" />
+    <Role xmlns:q18="cad" xsi:type="q18:Plane" ID="id-3ee8b6e6-1f17-4b6e-a522-8a9ed38b8d59" PortMap="" Name="Flange" Notes="" Definition="" SurfaceReverseMap="" />
+    <Role xmlns:q19="cad" xsi:type="q19:Axis" ID="id-3c8eaed8-cc3c-4e85-b58f-23f385059f54" PortMap="" Name="Connector Axis" Notes="" Definition="" />
+    <Role xmlns:q20="modelica" xsi:type="q20:Connector" ID="id-e74655bc-3569-463b-9ceb-a8eba564f525" PortMap="id-5447173c-d26f-4d4c-8090-5354386a4a6a" Name="TranslationalFlange" Notes="" Definition="" Locator="" Class="Modelica.Mechanics.Translational.Interfaces.Flange_a" />
+  </Connector>
+  <Port xmlns:q21="cad" xsi:type="q21:Point" ID="id-6fe40e92-abdc-46e6-a16b-a9ca84e29c44" PortMap="" Name="Point" Notes="" Definition="" xmlns="" />
+</Component>

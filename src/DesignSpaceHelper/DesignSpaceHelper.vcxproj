@@ -1,0 +1,488 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B0AFED40-0F65-4331-AED4-9928BC2F266B}</ProjectGuid>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\externals\common-scripts\build_customization\udm.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\UdmDll.props" />
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\UdmDll.props" />
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\UdmDll.props" />
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\UdmDll.props" />
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\$(Platform)\bin\</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\$(Platform)\bin\</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)d</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CustomBuildStep />
+    <Midl>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\bin;$(GME_ROOT)\GME\Release;$(GME_ROOT)\Interfaces;$(GME_ROOT)\Gme\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\SDK\BON\Common;$(DESERT_PATH)\DesertDll;$(GME_ROOT)\Gme\Interfaces;$(GME_ROOT)\Gme\Gme;$(GME_ROOT)\Interfaces;..\CyPhy2Desert;..\Desert2CyPhy;..\Util;..\CyPhyToolBox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;_USRDLL;GME_INTERPRETER_USED;IFACE_FILE_FORMAT_XML;UML_CLASS_DIAGRAM;UDM_DYNAMIC_LINKING;BOOST_THREAD_USE_DLL;DOUBLE_DESERT;DOUBLE_MTBDD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <ProgramDataBaseFileName>Debug\Component\I386/</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>StdAfx.h</ForcedIncludeFiles>
+      <AdditionalOptions>/Zm150 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\SDK\BON\Common;$(UDM_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/DEF:Component.def %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>desertD.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\$(Platform)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)Componentd.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <ImportLibrary>$(IntDir)\$(TargetName).lib</ImportLibrary>
+      <RegisterOutput>true</RegisterOutput>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <CustomBuildStep />
+    <Midl>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\bin;$(GME_ROOT)\GME\Release;$(GME_ROOT)\Interfaces;$(GME_ROOT)\Gme\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\SDK\BON\Common;$(DESERT_PATH)\DesertDll;$(GME_ROOT)\Gme\Interfaces;$(GME_ROOT)\Gme\Gme;$(GME_ROOT)\Interfaces;..\CyPhy2Desert;..\Desert2CyPhy;..\Util;..\CyPhyToolBox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;_USRDLL;GME_INTERPRETER_USED;UML_CLASS_DIAGRAM;UDM_DYNAMIC_LINKING;BOOST_THREAD_USE_DLL;DOUBLE_DESERT;DOUBLE_MTBDD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <ProgramDataBaseFileName>Debug\Component\I386/</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>StdAfx.h</ForcedIncludeFiles>
+      <AdditionalOptions>/Zm150 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\SDK\BON\Common;$(UDM_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/DEF:Component.def %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>desert_x64D.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\$(Platform)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)Componentd.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>$(IntDir)\$(TargetName).lib</ImportLibrary>
+      <RegisterOutput>true</RegisterOutput>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuildStep />
+    <Midl>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\bin;$(GME_ROOT)\GME\Release;$(GME_ROOT)\Interfaces;$(GME_ROOT)\Gme\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\SDK\BON\Common;$(DESERT_PATH)\DesertDll;$(GME_ROOT)\Gme\Interfaces;$(GME_ROOT)\Gme\Gme;$(GME_ROOT)\Interfaces;..\CyPhy2Desert;..\Desert2CyPhy;..\Util;..\CyPhyToolBox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;_USRDLL;GME_INTERPRETER_USED;_CRT_SECURE_NO_WARNINGS;UML_CLASS_DIAGRAM;UDM_DYNAMIC_LINKING;BOOST_THREAD_USE_DLL;DOUBLE_DESERT;DOUBLE_MTBDD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>StdAfx.h</ForcedIncludeFiles>
+      <AdditionalOptions>/Zm150 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\SDK\BON\Common;$(UDM_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/DEF:Component.def %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>desert.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\$(Platform)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <ImportLibrary>$(IntDir)\$(TargetName).lib</ImportLibrary>
+      <RegisterOutput>true</RegisterOutput>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CustomBuildStep />
+    <Midl>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\bin;$(GME_ROOT)\GME\Release;$(GME_ROOT)\Interfaces;$(GME_ROOT)\Gme\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\SDK\BON\Common;$(DESERT_PATH)\DesertDll;$(GME_ROOT)\Gme\Interfaces;$(GME_ROOT)\Gme\Gme;$(GME_ROOT)\Interfaces;..\CyPhy2Desert;..\Desert2CyPhy;..\Util;..\CyPhyToolBox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;_USRDLL;GME_INTERPRETER_USED;UML_CLASS_DIAGRAM;UDM_DYNAMIC_LINKING;BOOST_THREAD_USE_DLL;DOUBLE_DESERT;DOUBLE_MTBDD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>StdAfx.h</ForcedIncludeFiles>
+      <AdditionalOptions>/Zm150 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\SDK\BON\Common;$(UDM_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/DEF:Component.def %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>desert_x64.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\$(Platform)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ImportLibrary>$(IntDir)\$(TargetName).lib</ImportLibrary>
+      <RegisterOutput>true</RegisterOutput>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.cpp" />
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp" />
+    <ClCompile Include="ComponentObj.cpp" />
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Console.cpp" />
+    <ClCompile Include="..\CyPhy2Desert\CyPhy2Desert.cpp" />
+    <ClCompile Include="..\CyPhyToolbox\DesertFormulaUtil.cpp" />
+    <ClCompile Include="..\Desert2CyPhy\Desert2CyPhy.cpp" />
+    <ClCompile Include="..\Util\CyPhyUtil.cpp" />
+    <ClCompile Include="CyPhy2MorphMatrixFileDlg.cpp" />
+    <ClCompile Include="DSESelectorDialog.cpp" />
+    <ClCompile Include="MophyMatrixFileDlg.cpp" />
+    <ClCompile Include="CheckHeadCtrl.cpp" />
+    <ClCompile Include="ConstraintAddDialog.cpp" />
+    <ClCompile Include="ConstraintEditDialog.cpp" />
+    <ClCompile Include="ConstraintMainDialog.cpp" />
+    <ClCompile Include="DesBackMap.cpp" />
+    <ClCompile Include="DesertConfigDialog.cpp" />
+    <ClCompile Include="DesertHelper.cpp" />
+    <ClCompile Include="DesertIface.cpp">
+    </ClCompile>
+    <ClCompile Include="DesertIfaceBack.cpp" />
+    <ClCompile Include="DesertStatusDlg.cpp" />
+    <ClCompile Include="DesertThread.cpp" />
+    <ClCompile Include="DesMap.cpp" />
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp" />
+    <ClCompile Include="DSERootSelDialog.cpp" />
+    <ClCompile Include="RawComponent.cpp" />
+    <ClCompile Include="SortHeaderCtrl.cpp" />
+    <ClCompile Include="SortListCtrl.cpp" />
+    <ClCompile Include="Splash.cpp" />
+    <ClCompile Include="StatusDialog.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UdmApp.cpp" />
+    <ClCompile Include="WndResizer.cpp" />
+    <ClCompile Include="XLAutomation.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="$(DESERT_PATH)\bin\DesertTool.exe">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <Message>Copying %(Filename)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)%(Filename)%(Extension);%(Outputs)</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <CustomBuild Include="$(DESERT_PATH)\bin\DesertToolD.exe">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <Message>Copying %(Filename)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <CustomBuild Include="$(DESERT_PATH)\bin\desert.dll">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <Message>Copying desert.dll</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)%(Filename).dll;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)%(Filename).dll;%(Outputs)</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <CustomBuild Include="$(DESERT_PATH)\bin\desertD.dll">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <Message>Copying desertd.dll</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)\%(Filename).dll;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)\%(Filename).dll;%(Outputs)</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <CustomBuild Include="$(DESERT_PATH)\bin\desert_x64D.dll">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)\%(Filename).dll</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="$(DESERT_PATH)\bin\desert_x64.dll">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)\%(Filename).dll</Outputs>
+    </CustomBuild>
+    <None Include="checkboxes.bmp" />
+    <None Include="Component.def" />
+    <None Include="CompIcon.ico" />
+    <udm Include="..\..\externals\desert\iface\DesertIface.xml">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"  -d "%UDM_PATH%\etc"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"  -d "%UDM_PATH%\etc"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">DesertIface.h;DesertIface.cpp;DesertIface.xsd;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">DesertIface.h;DesertIface.cpp;DesertIface.xsd;%(Outputs)</Outputs>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">DesertIface</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">DesertIface</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">DesertIface</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">DesertIface</MetaName>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.</OutDir>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.</OutDir>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.</OutDir>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.</OutDir>
+    </udm>
+    <udm Include="..\..\externals\desert\iface\DesertIfaceBack.xml">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"  -d "%UDM_PATH%\etc"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"  -d "%UDM_PATH%\etc"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">DesertIfaceBack.h;DesertIfaceBack.cpp;DesertIfaceBack.xsd;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">DesertIfaceBack.h;DesertIfaceBack.cpp;DesertIfaceBack.xsd;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"  -d "%UDM_PATH%\etc"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"  -d "%UDM_PATH%\etc"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">DesertIfaceBack.h;DesertIfaceBack.cpp;DesertIfaceBack.xsd;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">DesertIfaceBack.h;DesertIfaceBack.cpp;DesertIfaceBack.xsd;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"  -d "%UDM_PATH%\etc"</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"  -d "%UDM_PATH%\etc"</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"  -d "%UDM_PATH%\etc"</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)"  -d "%UDM_PATH%\etc"</Message>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">DesertIfaceBack</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">DesertIfaceBack</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">DesertIfaceBack</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">DesertIfaceBack</MetaName>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.</OutDir>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.</OutDir>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.</OutDir>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.</OutDir>
+    </udm>
+    <None Include="packages.config" />
+    <None Include="splash.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Component.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Util\CyPhyUtil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ComponentConfig.h" />
+    <ClInclude Include="ComponentObj.h" />
+    <ClInclude Include="CyPhy2MorphMatrixFileDlg.h" />
+    <ClInclude Include="ConstraintAddDialog.h" />
+    <ClInclude Include="ConstraintEditDialog.h" />
+    <ClInclude Include="ConstraintMainDialog.h" />
+    <ClInclude Include="DesBackMap.h" />
+    <ClInclude Include="DesertConfigDialog.h" />
+    <ClInclude Include="DesertHelper.h" />
+    <ClInclude Include="DesertIface.h" />
+    <ClInclude Include="DesertIfaceBack.h" />
+    <ClInclude Include="DesertStatusDlg.h" />
+    <ClInclude Include="DesertThread.h" />
+    <ClInclude Include="DesMap.h" />
+    <ClInclude Include="DSERootSelDialog.h" />
+    <ClInclude Include="RawComponent.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="SortHeaderCtrl.h" />
+    <ClInclude Include="SortListCtrl.h" />
+    <ClInclude Include="Splash.h" />
+    <ClInclude Include="StatusDialog.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="UdmApp.h" />
+    <ClInclude Include="UdmConfig.h" />
+    <ClInclude Include="UdmConsole.h" />
+    <ClInclude Include="WndResizer.h" />
+    <ClInclude Include="XLAutomation.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="$(GME_ROOT)\SDK\Bon\Common\ComponentLib.idl">
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\meta\CyPhyML\CyPhyML.vcxproj">
+      <Project>{a6b875ef-43cf-4430-b0cd-be36fb41e8d2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyMLAPI\CyPhyMLAPI.vcxproj">
+      <Project>{73b8126a-1a5e-48f5-9b4c-108fda1ab118}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\externals\common-scripts\build_customization\udm.targets" />
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="..\nuget\boost.1.55.0.10\build\native\boost.targets" Condition="Exists('..\nuget\boost.1.55.0.10\build\native\boost.targets')" />
+    <Import Project="..\nuget\boost_thread-vc100.1.55.0.15\build\native\boost_thread-vc100.targets" Condition="Exists('..\nuget\boost_thread-vc100.1.55.0.15\build\native\boost_thread-vc100.targets')" />
+    <Import Project="..\nuget\boost_date_time-vc100.1.55.0.15\build\native\boost_date_time-vc100.targets" Condition="Exists('..\nuget\boost_date_time-vc100.1.55.0.15\build\native\boost_date_time-vc100.targets')" />
+    <Import Project="..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets" Condition="Exists('..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets')" />
+    <Import Project="..\nuget\boost_chrono-vc100.1.55.0.15\build\native\boost_chrono-vc100.targets" Condition="Exists('..\nuget\boost_chrono-vc100.1.55.0.15\build\native\boost_chrono-vc100.targets')" />
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="Component.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

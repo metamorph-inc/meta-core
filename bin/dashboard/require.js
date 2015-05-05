@@ -1,0 +1,17 @@
+require([
+	"./inc/jquery.min",
+	"./inc/FileSaver.min",
+	"./inc/jquery-ui.min",
+	"./inc/bootstrap/js/bootstrap",
+	"./inc/d3.v2.min",
+	"./inc/d3.layout",
+	"./inc/naba_utils",
+	"./inc/knockout-2.1.0",
+	"./inc/vf-dataprovider",
+	"./inc/vf-widgets",
+	"./inc/vf-events",
+	"./inc/jquery.dataTables.min",
+	"./inc/sha256",
+	"./js/colorpicker",
+	"./js/main"
+]);

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:avm="avm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:manufacturing="manufacturing" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="manufacturing" ecore:package="avm.manufacturing" targetNamespace="manufacturing">
+  <xsd:import namespace="avm" schemaLocation="avm.xsd"/>
+  <xsd:element ecore:ignore="true" name="ManufacturingModel" type="manufacturing:ManufacturingModel"/>
+  <xsd:element ecore:ignore="true" name="Parameter" type="manufacturing:Parameter"/>
+  <xsd:element ecore:ignore="true" name="Metric" type="manufacturing:Metric"/>
+  <xsd:complexType name="ManufacturingModel">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModel">
+        <xsd:sequence>
+          <xsd:element ecore:name="Parameter" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Parameter" type="manufacturing:Parameter"/>
+          <xsd:element ecore:name="Metric" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Metric" type="manufacturing:Metric"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Parameter">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModelParameter">
+        <xsd:sequence>
+          <xsd:element ecore:name="Value" ecore:resolveProxies="true" minOccurs="0" name="Value" type="avm:Value"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="Locator" name="Locator" type="xsd:string"/>
+        <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Metric">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModelMetric">
+        <xsd:attribute ecore:name="Name" name="Name" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

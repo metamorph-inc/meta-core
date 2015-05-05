@@ -1,0 +1,5 @@
+1. fix the property dependence stuff
+2. fix the prune function
+3. compute size :: how to?
+5. fix the dynconstraintset constructor & destructor - so that we can create dynconstraintset on stack
+       without screwing anything up

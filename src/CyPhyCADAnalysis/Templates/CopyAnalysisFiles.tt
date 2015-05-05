@@ -1,0 +1,16 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".bat" #>
+
+Set results_dir="<#=results_dir#>"
+Set project_dir="<#=project_dir#>"
+Set tool_path="<#=tool_path#>"
+
+robocopy %tool_path% %results_dir% /E
+
+
+
+<#+
+    public string results_dir {get;set;}
+	public string project_dir {get;set;}
+	public string tool_path {get;set;}
+#>

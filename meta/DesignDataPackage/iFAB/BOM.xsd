@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iFAB="iFAB" targetNamespace="iFAB">
+
+  <xs:annotation>
+    <xs:appinfo>iFAB Foundry BOM XML Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This schema defines an XML file for representing the bill of materials (BOM).</xs:documentation>
+  </xs:annotation>
+
+  <xs:include schemaLocation="common.xsd" />
+  <xs:include schemaLocation="manufacturingDetails.xsd" />
+  <xs:include schemaLocation="specialDetails.xsd" />
+  <xs:include schemaLocation="assemblyDetails.xsd" />
+
+  <xs:element name="parts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="part" type="iFAB:part" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="specialDetails" type="iFAB:specialDetails" minOccurs="0" />
+        <xs:element name="assembly" type="iFAB:assembly" minOccurs="0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="part">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="length" type="iFAB:length" minOccurs="0" />
+      <xs:element name="width" type="iFAB:length" minOccurs="0" />
+      <xs:element name="height" type="iFAB:length" minOccurs="0" />
+      <xs:element name="volume" type="iFAB:volume" minOccurs="0" />
+      <xs:element name="weight" type="iFAB:weight" minOccurs="0" />
+      <xs:element name="file" type="iFAB:file" maxOccurs="unbounded" />
+      <xs:element ref="iFAB:manufacturingDetails" />
+      <xs:element name="instances" type="iFAB:instances" />
+    </xs:sequence>
+    <xs:attribute name="uuid" type="iFAB:guid" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="instances">
+    <xs:sequence maxOccurs="unbounded">
+      <xs:element name="instance" type="iFAB:instance" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="instance">
+    <xs:sequence>
+      <xs:element name="transformation" type="iFAB:transformation" minOccurs="0" />
+      <xs:element name="color" type="iFAB:color" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="uuid" type="iFAB:guid" use="required" />
+    <xs:attribute ref="iFAB:transform" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="transformation">
+    <xs:attribute name="m11" type="xs:double" use="required" />
+    <xs:attribute name="m12" type="xs:double" use="required" />
+    <xs:attribute name="m13" type="xs:double" use="required" />
+    <xs:attribute name="m14" type="xs:double" use="required" />
+    <xs:attribute name="m21" type="xs:double" use="required" />
+    <xs:attribute name="m22" type="xs:double" use="required" />
+    <xs:attribute name="m23" type="xs:double" use="required" />
+    <xs:attribute name="m24" type="xs:double" use="required" />
+    <xs:attribute name="m31" type="xs:double" use="required" />
+    <xs:attribute name="m32" type="xs:double" use="required" />
+    <xs:attribute name="m33" type="xs:double" use="required" />
+    <xs:attribute name="m34" type="xs:double" use="required" />
+    <xs:attribute name="unit" type="iFAB:lengthUnit" default="mm" />
+  </xs:complexType>
+
+  <xs:complexType name="color">
+    <xs:attribute name="r" type="xs:decimal" use="required" />
+    <xs:attribute name="g" type="xs:decimal" use="required" />
+    <xs:attribute name="b" type="xs:decimal" use="required" />
+  </xs:complexType>
+
+  <xs:attribute name="transform">
+    <xs:simpleType>
+      <xs:restriction base="xs:normalizedString">
+        <!-- [-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)? matches a floating-point number with optional exponent -->
+        <xs:pattern value="^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*(,\s*[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*){15}$" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+
+  <xs:complexType name="file">
+    <xs:simpleContent>
+      <xs:extension base="xs:anyURI">
+        <xs:attribute name="type" use="required" type="iFAB:fileType" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:simpleType name="fileType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="STEP" />
+      <xs:enumeration value="IGES" />
+      <xs:enumeration value="STL" />
+      <xs:enumeration value="BREP" />
+      <xs:enumeration value="AUGMENTATION" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="specialDetails">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="specialDetail" type="iFAB:specialDetail" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="assembly">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0" />
+      <xs:element name="unusedParts" type="iFAB:unusedParts" minOccurs="0" />
+      <xs:element name="assemblyDetails" type="iFAB:assemblyDetails" minOccurs="0" />
+      <xs:element name="specialDetails" type="iFAB:specialDetails" minOccurs="0" />
+      <xs:element name="groups" type="iFAB:groups" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="unusedParts">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="part" type="iFAB:partReference" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="groups">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="group" type="iFAB:group" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="group">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="objects" type="iFAB:objects" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="objects">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="part" type="xs:string" />
+      <xs:element name="assemblyDetail" type="xs:string" />
+      <xs:element name="specialDetail" type="xs:string" />
+    </xs:choice>
+  </xs:complexType>
+
+</xs:schema>

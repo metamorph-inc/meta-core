@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhy2Modelica_v2">
+  <Component Id="CyPhy2Modelica_v2.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhy2Modelica_v2.dll" Name="CyPhy2Modelica_v2.dll" KeyPath="yes" Source="..\src\CyPhy2Modelica_v2\bin\Release\CyPhy2Modelica_v2.dll" />
+    <Class Id="{FEFB8B19-A5F1-4322-AD20-6DD731F0BE95}" Context="InprocServer32" Description="MGA.Interpreter.CyPhy2Modelica_v2" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Interpreter.CyPhy2Modelica_v2" Description="MGA.Interpreter.CyPhy2Modelica_v2" />
+      <ProgId Id="MGA.Interpreter.CyPhy2Modelica" Description="MGA.Interpreter.CyPhy2Modelica" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{FEFB8B19-A5F1-4322-AD20-6DD731F0BE95}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{FEFB8B19-A5F1-4322-AD20-6DD731F0BE95}\InprocServer32" Name="Class" Value="CyPhy2Modelica_v2.CyPhy2Modelica_v2Interpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{FEFB8B19-A5F1-4322-AD20-6DD731F0BE95}\InprocServer32" Name="Assembly" Value="CyPhy2Modelica_v2, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{FEFB8B19-A5F1-4322-AD20-6DD731F0BE95}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{FEFB8B19-A5F1-4322-AD20-6DD731F0BE95}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhy2Modelica_v2.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyPhy2Modelica_v2'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhy2Modelica_v2'/>
+      <RegistryValue Name='Icon' Type='string' Value='[#CyPhy2Modelica_v2.ico]'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <!-- RegistryValue Name='Tooltip' Type='string' Value='TOOLTIP_TEXT'/ -->
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+    <Class Id="{4B678D98-3921-4969-85B8-C9DE47D15835}" Context="InprocServer32" Description="ISIS.META.CyPhy2Modelica_v2Settings" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="ISIS.META.CyPhy2Modelica_v2Settings" Description="ISIS.META.CyPhy2Modelica_v2Settings" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{4B678D98-3921-4969-85B8-C9DE47D15835}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{4B678D98-3921-4969-85B8-C9DE47D15835}\InprocServer32" Name="Class" Value="CyPhy2Modelica_v2.CyPhy2Modelica_v2Settings" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{4B678D98-3921-4969-85B8-C9DE47D15835}\InprocServer32" Name="Assembly" Value="CyPhy2Modelica_v2, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{4B678D98-3921-4969-85B8-C9DE47D15835}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{4B678D98-3921-4969-85B8-C9DE47D15835}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhy2Modelica_v2.dll]" Type="string" Action="write" />
+
+  </Component>
+  <Component Directory="INSTALLDIR_BIN">
+    <File Source="..\src\CyPhy2Modelica_v2/CyPhy2Modelica_v2.ico" />
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

@@ -1,0 +1,26 @@
+DieselEngine	602	Alternative	C9_Diesel	1003	C7_Diesel	1005	C18_Diesel	1007	C15_Diesel	1009	C13_Diesel	1011	D6V8	1013
+Transmission_and_Driveline	610	Alternative	TracksArchitecture	876	TireArchitecture	880
+TracksArchitecture	654	Compound	TrackPack	877	Transmission	878
+TrackPack	662	Alternative	M113_Track_Pkg	956	Bradley_Track_Pkg	958	Puma_Track_Pkg	960
+TrackedTransmission	656	Alternative	LSG_2000	1030	X300_12	1032	HMPT_800HP	1034	HMPT_1500HP	1036	HMPT_1000HP	1038
+TireArchitecture	611	Compound	Transmission	881	FrontEndDifferential	882	RearEndDifferential	883	FrontSecondAxle	884	RearSecondAxle	890	FrontTire1	896	FrontTire2	897	RearTire1	898	RearTire2	899	484	1046
+WheeledTransmission	626	Alternative	CX31	1040	CX28	1042	CX31_PTO	1044
+FrontEndDifferential	857	Alternative	BK	967
+RearEndDifferential	858	Alternative	BK	970
+FrontSecondAxle	859	Alternative	NoFrontSecondAxle	885	FrontSecondAxle	886
+NoFrontSecondAxle	860	Compound
+FrontSecondAxle	861	Compound	ThroughDifferential	887	FrontSecondAxleTire1	888	FrontSecondAxleTire2	889
+ThroughDifferential	862	Alternative	BK-DUA	974
+FrontSecondAxleTire1	863	Alternative	G20__14_00R20	980
+FrontSecondAxleTire2	864	Alternative	G20__14_00R20	983
+RearSecondAxle	865	Alternative	NoRearSecondAxle	891	RearSecondAxle	892
+NoRearSecondAxle	866	Compound
+RearSecondAxle	867	Compound	RearSecondDifferential	893	RearSecondAxleTire1	894	RearSecondAxleTire2	895
+RearSecondDifferential	868	Alternative	BK-DUA	977
+RearSecondAxleTire1	869	Alternative	G20__14_00R20	986
+RearSecondAxleTire2	870	Alternative	G20__14_00R20	989
+FrontTire1	871	Alternative	G20__14_00R20	992
+FrontTire2	872	Alternative	G20__14_00R20	995
+RearTire1	873	Alternative	G20__14_00R20	998
+RearTire2	874	Alternative	G20__14_00R20	1001
+Powertrain_noISG	599	Compound	Powertrain_noISG	599	Transmission_and_Driveline	875	DieselEngine	901

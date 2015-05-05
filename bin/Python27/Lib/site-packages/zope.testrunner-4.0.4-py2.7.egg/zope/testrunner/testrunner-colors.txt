@@ -1,0 +1,423 @@
+Colorful output
+===============
+
+If you're on a Unix-like system, you can ask for colorized output.  The test
+runner emits terminal control sequences to highlight important pieces of
+information (such as the names of failing tests) in different colors.
+
+    >>> import os.path, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+
+    >>> from zope import testrunner
+
+Since it wouldn't be a good idea to have terminal control characters in a
+test file, let's wrap sys.stdout in a simple terminal interpreter
+
+    >>> import re
+    >>> class Terminal(object):
+    ...     _color_regexp = re.compile('\033[[]([0-9;]*)m')
+    ...     _colors = {'0': 'normal', '1': 'bold', '30': 'black', '31': 'red',
+    ...                '32': 'green', '33': 'yellow', '34': 'blue',
+    ...                '35': 'magenta', '36': 'cyan', '37': 'grey'}
+    ...     def __init__(self, stream):
+    ...         self._stream = stream
+    ...     def __getattr__(self, attr):
+    ...         return getattr(self._stream, attr)
+    ...     def isatty(self):
+    ...         return True
+    ...     def write(self, text):
+    ...         if '\033[' in text:
+    ...             text = self._color_regexp.sub(self._color, text)
+    ...         self._stream.write(text)
+    ...     def writelines(self, lines):
+    ...         for line in lines:
+    ...             self.write(line)
+    ...     def _color(self, match):
+    ...         colorstring = '{'
+    ...         for number in match.group(1).split(';'):
+    ...             colorstring += self._colors.get(number, '?')
+    ...         return colorstring + '}'
+
+    >>> real_stdout = sys.stdout
+    >>> sys.stdout = Terminal(sys.stdout)
+
+
+Successful test
+---------------
+
+A successful test run soothes the developer with warm green colors:
+
+    >>> sys.argv = 'test --layer 122 -c'.split()
+    >>> testrunner.run_internal(defaults)
+    {normal}Running samplelayers.Layer122 tests:{normal}
+      Set up samplelayers.Layer1 in {green}0.000{normal} seconds.
+      Set up samplelayers.Layer12 in {green}0.000{normal} seconds.
+      Set up samplelayers.Layer122 in {green}0.000{normal} seconds.
+    {normal}  Ran {green}26{normal} tests with {green}0{normal} failures and {green}0{normal} errors in {green}0.007{normal} seconds.{normal}
+    {normal}Tearing down left over layers:{normal}
+      Tear down samplelayers.Layer122 in {green}0.000{normal} seconds.
+      Tear down samplelayers.Layer12 in {green}0.000{normal} seconds.
+      Tear down samplelayers.Layer1 in {green}0.000{normal} seconds.
+    False
+
+
+Failed test
+-----------
+
+A failed test run highlights the failures in red:
+
+    >>> sys.argv = 'test -c --tests-pattern ^sampletests(f|_e|_f)?$ '.split()
+    >>> testrunner.run_internal(defaults)
+    {normal}Running samplelayers.Layer1 tests:{normal}
+      Set up samplelayers.Layer1 in {green}0.000{normal} seconds.
+    {normal}  Ran {green}9{normal} tests with {green}0{normal} failures and {green}0{normal} errors in {green}0.001{normal} seconds.{normal}
+    {normal}Running samplelayers.Layer11 tests:{normal}
+      Set up samplelayers.Layer11 in {green}0.000{normal} seconds.
+    {normal}  Ran {green}26{normal} tests with {green}0{normal} failures and {green}0{normal} errors in {green}0.007{normal} seconds.{normal}
+    {normal}Running samplelayers.Layer111 tests:{normal}
+      Set up samplelayers.Layerx in {green}0.000{normal} seconds.
+      Set up samplelayers.Layer111 in {green}0.000{normal} seconds.
+    {normal}  Ran {green}26{normal} tests with {green}0{normal} failures and {green}0{normal} errors in {green}0.008{normal} seconds.{normal}
+    {normal}Running samplelayers.Layer112 tests:{normal}
+      Tear down samplelayers.Layer111 in {green}0.000{normal} seconds.
+      Set up samplelayers.Layer112 in {green}0.000{normal} seconds.
+    {normal}  Ran {green}26{normal} tests with {green}0{normal} failures and {green}0{normal} errors in {green}0.008{normal} seconds.{normal}
+    {normal}Running samplelayers.Layer12 tests:{normal}
+      Tear down samplelayers.Layer112 in {green}0.000{normal} seconds.
+      Tear down samplelayers.Layerx in {green}0.000{normal} seconds.
+      Tear down samplelayers.Layer11 in {green}0.000{normal} seconds.
+      Set up samplelayers.Layer12 in {green}0.000{normal} seconds.
+    {normal}  Ran {green}26{normal} tests with {green}0{normal} failures and {green}0{normal} errors in {green}0.007{normal} seconds.{normal}
+    {normal}Running samplelayers.Layer121 tests:{normal}
+      Set up samplelayers.Layer121 in {green}0.000{normal} seconds.
+    {normal}  Ran {green}26{normal} tests with {green}0{normal} failures and {green}0{normal} errors in {green}0.007{normal} seconds.{normal}
+    {normal}Running samplelayers.Layer122 tests:{normal}
+      Tear down samplelayers.Layer121 in {green}0.000{normal} seconds.
+      Set up samplelayers.Layer122 in {green}0.000{normal} seconds.
+    {normal}  Ran {green}26{normal} tests with {green}0{normal} failures and {green}0{normal} errors in {green}0.008{normal} seconds.{normal}
+    {normal}Running zope.testrunner.layer.UnitTests tests:{normal}
+      Tear down samplelayers.Layer122 in {green}0.000{normal} seconds.
+      Tear down samplelayers.Layer12 in {green}0.000{normal} seconds.
+      Tear down samplelayers.Layer1 in {green}0.000{normal} seconds.
+      Set up zope.testrunner.layer.UnitTests in {green}N.NNN{normal} seconds.
+    <BLANKLINE>
+    <BLANKLINE>
+    {boldred}Failure in test eek (sample2.sampletests_e){normal}
+    Failed doctest test for sample2.sampletests_e.eek
+      File "testrunner-ex/sample2/sampletests_e.py", line 28, in eek
+    <BLANKLINE>
+    ----------------------------------------------------------------------
+    {normal}File "{boldblue}testrunner-ex/sample2/sampletests_e.py{normal}", line {boldred}30{normal}, in {boldcyan}sample2.sampletests_e.eek{normal}
+    Failed example:
+    {cyan}    f(){normal}
+    Exception raised:
+    {red}    Traceback (most recent call last):{normal}
+    {red}      File ".../doctest.py", line 1356, in __run{normal}
+    {red}        compileflags, 1)...{normal}
+    {red}      File "<doctest sample2.sampletests_e.eek[0]>", line 1, in ?{normal}
+    {red}        f(){normal}
+    {red}      File "testrunner-ex/sample2/sampletests_e.py", line 19, in f{normal}
+    {red}        g(){normal}
+    {red}      File "testrunner-ex/sample2/sampletests_e.py", line 24, in g{normal}
+    {red}        x = y + 1{normal}
+    {red}       - __traceback_info__: I don't know what Y should be.{normal}
+    {red}    NameError: global name 'y' is not defined{normal}
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    {boldred}Error in test test3 (sample2.sampletests_e.Test){normal}
+    Traceback (most recent call last):
+    {normal}  File "{boldblue}unittest.py{normal}", line {boldred}260{normal}, in {boldcyan}run{normal}
+    {cyan}    testMethod(){normal}
+    {normal}  File "{boldblue}testrunner-ex/sample2/sampletests_e.py{normal}", line {boldred}43{normal}, in {boldcyan}test3{normal}
+    {cyan}    f(){normal}
+    {normal}  File "{boldblue}testrunner-ex/sample2/sampletests_e.py{normal}", line {boldred}19{normal}, in {boldcyan}f{normal}
+    {cyan}    g(){normal}
+    {normal}  File "{boldblue}testrunner-ex/sample2/sampletests_e.py{normal}", line {boldred}24{normal}, in {boldcyan}g{normal}
+    {cyan}    x = y + 1{normal}
+    {red}   - __traceback_info__: I don't know what Y should be.{normal}
+    {red}NameError: global name 'y' is not defined{normal}
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    {boldred}Failure in test testrunner-ex/sample2/e.txt{normal}
+    Failed doctest test for e.txt
+      File "testrunner-ex/sample2/e.txt", line 0
+    <BLANKLINE>
+    ----------------------------------------------------------------------
+    {normal}File "{boldblue}testrunner-ex/sample2/e.txt{normal}", line {boldred}4{normal}, in {boldcyan}e.txt{normal}
+    Failed example:
+    {cyan}    f(){normal}
+    Exception raised:
+    {red}    Traceback (most recent call last):{normal}
+    {red}      File ".../doctest.py", line 1356, in __run{normal}
+    {red}        compileflags, 1)...{normal}
+    {red}      File "<doctest e.txt[1]>", line 1, in ?{normal}
+    {red}        f(){normal}
+    {red}      File "<doctest e.txt[0]>", line 2, in f{normal}
+    {red}        return x{normal}
+    {red}    NameError: global name 'x' is not defined{normal}
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    {boldred}Failure in test test (sample2.sampletests_f.Test){normal}
+    Traceback (most recent call last):
+    {normal}  File "{boldblue}unittest.py{normal}", line {boldred}260{normal}, in {boldcyan}run{normal}
+    {cyan}    testMethod(){normal}
+    {normal}  File "{boldblue}testrunner-ex/sample2/sampletests_f.py{normal}", line {boldred}21{normal}, in {boldcyan}test{normal}
+    {cyan}    self.assertEqual(1,0){normal}
+    {normal}  File "{boldblue}unittest.py{normal}", line {boldred}333{normal}, in {boldcyan}failUnlessEqual{normal}
+    {cyan}    raise self.failureException, \{normal}
+    {red}AssertionError: 1 != 0{normal}
+    <BLANKLINE>
+    {normal}  Ran {green}164{normal} tests with {boldred}3{normal} failures and {boldred}1{normal} errors in {green}0.045{normal} seconds.{normal}
+    {normal}Tearing down left over layers:{normal}
+      Tear down zope.testrunner.layer.UnitTests in {green}N.NNN{normal} seconds.
+    {normal}Total: {green}329{normal} tests, {boldred}3{normal} failures, {boldred}1{normal} errors in {green}0.023{normal} seconds.{normal}
+    True
+
+
+Doctest failures
+----------------
+
+The expected and actual outputs of failed doctests are shown in different
+colors:
+
+    >>> sys.argv = 'test --tests-pattern ^pledge$ -c'.split()
+    >>> _ = testrunner.run_internal(defaults)
+    {normal}Running zope.testrunner.layer.UnitTests tests:{normal}
+      Set up zope.testrunner.layer.UnitTests in {green}N.NNN{normal} seconds.
+    <BLANKLINE>
+    <BLANKLINE>
+    {boldred}Failure in test pledge (pledge){normal}
+    Failed doctest test for pledge.pledge
+      File "testrunner-ex/pledge.py", line 24, in pledge
+    <BLANKLINE>
+    ----------------------------------------------------------------------
+    {normal}File testrunner-ex/pledge.py{normal}", line {boldred}26{normal}, in {boldcyan}pledge.pledge{normal}
+    Failed example:
+    {cyan}    print_pledge(){normal}
+    Expected:
+    {green}    I give my pledge, as an earthling,{normal}
+    {green}    to save, and faithfully, to defend from waste,{normal}
+    {green}    the natural resources of my planet.{normal}
+    {green}    It's soils, minerals, forests, waters, and wildlife.{normal}
+    {green}    <BLANKLINE>{normal}
+    Got:
+    {red}    I give my pledge, as and earthling,{normal}
+    {red}    to save, and faithfully, to defend from waste,{normal}
+    {red}    the natural resources of my planet.{normal}
+    {red}    It's soils, minerals, forests, waters, and wildlife.{normal}
+    {red}    <BLANKLINE>{normal}
+    <BLANKLINE>
+    {normal}  Ran {green}1{normal} tests with {boldred}1{normal} failures and {green}0{normal} errors in {green}0.002{normal} seconds.{normal}
+    {normal}Tearing down left over layers:{normal}
+      Tear down zope.testrunner.layer.UnitTests in {green}N.NNN{normal} seconds.
+
+Diffs are highlighted so you can easily tell the context and the mismatches
+apart:
+
+    >>> sys.argv = 'test --tests-pattern ^pledge$ --ndiff -c'.split()
+    >>> _ = testrunner.run_internal(defaults)
+    {normal}Running zope.testrunner.layer.UnitTests tests:{normal}
+      Set up zope.testrunner.layer.UnitTests in {green}N.NNN{normal} seconds.
+    <BLANKLINE>
+    <BLANKLINE>
+    {boldred}Failure in test pledge (pledge){normal}
+    Failed doctest test for pledge.pledge
+      File "testrunner-ex/pledge.py", line 24, in pledge
+    <BLANKLINE>
+    ----------------------------------------------------------------------
+    {normal}File testrunner-ex/pledge.py{normal}", line {boldred}26{normal}, in {boldcyan}pledge.pledge{normal}
+    Failed example:
+    {cyan}    print_pledge(){normal}
+    Differences (ndiff with -expected +actual):
+    {green}    - I give my pledge, as an earthling,{normal}
+    {red}    + I give my pledge, as and earthling,{normal}
+    {magenta}    ?                        +{normal}
+    {normal}      to save, and faithfully, to defend from waste,{normal}
+    {normal}      the natural resources of my planet.{normal}
+    {normal}      It's soils, minerals, forests, waters, and wildlife.{normal}
+    {normal}      <BLANKLINE>{normal}
+    <BLANKLINE>
+    {normal}  Ran {green}1{normal} tests with {boldred}1{normal} failures and {green}0{normal} errors in {green}0.003{normal} seconds.{normal}
+    {normal}Tearing down left over layers:{normal}
+      Tear down zope.testrunner.layer.UnitTests in {green}N.NNN{normal} seconds.
+
+Even test failures that have actual blank lines (as opposed to <BLANKLINE>) in
+them are highlighted correctly.
+
+    >>> import zope.testrunner.formatter
+    >>> formatter = zope.testrunner.formatter.ColorfulOutputFormatter(None)
+    >>> formatter.print_doctest_failure("""\
+    ...     File "sometest.txt", line 221, in sometest.txt
+    ... Failed example:
+    ...     foo()
+    ... Expected:
+    ...     Output that contains
+    ...
+    ...     blank lines.
+    ... Got:
+    ...     Output that still contains
+    ...
+    ...     blank lines.""")
+    {normal}    File "sometest.txt", line 221, in sometest.txt{normal}
+    Failed example:
+    {cyan}    foo(){normal}
+    Expected:
+    {green}    Output that contains{normal}
+    <BLANKLINE>
+    {green}    blank lines.{normal}
+    Got:
+    {red}    Output that still contains{normal}
+    <BLANKLINE>
+    {red}    blank lines.{normal}
+    <BLANKLINE>
+
+
+Timing individual tests
+-----------------------
+
+At very high verbosity levels you can see the time taken by each test
+
+    >>> sys.argv = 'test -u -t test_one.TestNotMuch -c -vvv'.split()
+    >>> testrunner.run_internal(defaults)
+    {normal}Running tests at level 1{normal}
+    {normal}Running zope.testrunner.layer.UnitTests tests:{normal}
+      Set up zope.testrunner.layer.UnitTests in {green}N.NNN{normal} seconds.
+    {normal}  Running:{normal}
+     test_1 (sample1.sampletests.test_one.TestNotMuch) ({green}N.NNN s{normal})
+     test_2 (sample1.sampletests.test_one.TestNotMuch) ({green}N.NNN s{normal})
+     test_3 (sample1.sampletests.test_one.TestNotMuch) ({green}N.NNN s{normal})
+     test_1 (sampletests.test_one.TestNotMuch) ({green}N.NNN s{normal})
+     test_2 (sampletests.test_one.TestNotMuch) ({green}N.NNN s{normal})
+     test_3 (sampletests.test_one.TestNotMuch) ({green}N.NNN s{normal})
+    {normal}  Ran {green}6{normal} tests with {green}0{normal} failures and {green}0{normal} errors in {green}N.NNN{normal} seconds.{normal}
+    {normal}Tearing down left over layers:{normal}
+      Tear down zope.testrunner.layer.UnitTests in {green}N.NNN{normal} seconds.
+    False
+
+
+If we had very slow tests we would see their times highlighted in a different color.
+Instead of creating a test that waits 10 seconds, let's lower the slow test threshold
+in the test runner to 0 seconds to make all of the tests seem slow.
+
+    >>> sys.argv = 'test -u -t test_one.TestNotMuch -c -vvv --slow-test 0'.split()
+    >>> testrunner.run_internal(defaults)
+    {normal}Running tests at level 1{normal}
+    {normal}Running zope.testrunner.layer.UnitTests tests:{normal}
+      Set up zope.testrunner.layer.UnitTests in {green}N.NNN{normal} seconds.
+    {normal}  Running:{normal}
+     test_1 (sample1.sampletests.test_one.TestNotMuch) ({boldmagenta}N.NNN s{normal})
+     test_2 (sample1.sampletests.test_one.TestNotMuch) ({boldmagenta}N.NNN s{normal})
+     test_3 (sample1.sampletests.test_one.TestNotMuch) ({boldmagenta}N.NNN s{normal})
+     test_1 (sampletests.test_one.TestNotMuch) ({boldmagenta}N.NNN s{normal})
+     test_2 (sampletests.test_one.TestNotMuch) ({boldmagenta}N.NNN s{normal})
+     test_3 (sampletests.test_one.TestNotMuch) ({boldmagenta}N.NNN s{normal})
+    {normal}  Ran {green}6{normal} tests with {green}0{normal} failures and {green}0{normal} errors in {green}N.NNN{normal} seconds.{normal}
+    {normal}Tearing down left over layers:{normal}
+      Tear down zope.testrunner.layer.UnitTests in {green}N.NNN{normal} seconds.
+    False
+
+
+
+Disabling colors
+----------------
+
+If -c or --color have been previously provided on the command line (perhaps by
+a test runner wrapper script), but no colorized output is desired, the -C or
+--no-color options will disable colorized output:
+
+    >>> sys.argv = 'test --layer 122 -c -C'.split()
+    >>> testrunner.run_internal(defaults)
+    Running samplelayers.Layer122 tests:
+      Set up samplelayers.Layer1 in 0.000 seconds.
+      Set up samplelayers.Layer12 in 0.000 seconds.
+      Set up samplelayers.Layer122 in 0.000 seconds.
+      Ran 26 tests with 0 failures and 0 errors in 0.007 seconds.
+    Tearing down left over layers:
+      Tear down samplelayers.Layer122 in 0.000 seconds.
+      Tear down samplelayers.Layer12 in 0.000 seconds.
+      Tear down samplelayers.Layer1 in 0.000 seconds.
+    False
+
+    >>> sys.argv = 'test --layer 122 -c --no-color'.split()
+    >>> testrunner.run_internal(defaults)
+    Running samplelayers.Layer122 tests:
+      Set up samplelayers.Layer1 in 0.000 seconds.
+      Set up samplelayers.Layer12 in 0.000 seconds.
+      Set up samplelayers.Layer122 in 0.000 seconds.
+      Ran 26 tests with 0 failures and 0 errors in 0.007 seconds.
+    Tearing down left over layers:
+      Tear down samplelayers.Layer122 in 0.000 seconds.
+      Tear down samplelayers.Layer12 in 0.000 seconds.
+      Tear down samplelayers.Layer1 in 0.000 seconds.
+    False
+
+
+Autodetecting colors
+--------------------
+
+The --auto-color option will determine if stdout is a terminal that supports
+colors, and only enable colorized output if so.  Our ``Terminal`` wrapper
+pretends it is a terminal, but the curses module will realize it isn't:
+
+    >>> sys.argv = 'test --layer 122 --auto-color'.split()
+    >>> testrunner.run_internal(defaults)
+    Running samplelayers.Layer122 tests:
+      Set up samplelayers.Layer1 in 0.000 seconds.
+      Set up samplelayers.Layer12 in 0.000 seconds.
+      Set up samplelayers.Layer122 in 0.000 seconds.
+      Ran 26 tests with 0 failures and 0 errors in 0.007 seconds.
+    Tearing down left over layers:
+      Tear down samplelayers.Layer122 in 0.000 seconds.
+      Tear down samplelayers.Layer12 in 0.000 seconds.
+      Tear down samplelayers.Layer1 in 0.000 seconds.
+    False
+
+We can fake it
+
+    >>> class FakeCurses(object):
+    ...     class error(Exception):
+    ...         pass
+    ...     def setupterm(self):
+    ...         pass
+    ...     def tigetnum(self, attr):
+    ...         return dict(colors=8).get(attr, -2)
+    >>> sys.modules['curses'] = FakeCurses()
+
+    >>> sys.argv = 'test --layer 122 --auto-color'.split()
+    >>> testrunner.run_internal(defaults)
+    {normal}Running samplelayers.Layer122 tests:{normal}
+      Set up samplelayers.Layer1 in {green}0.000{normal} seconds.
+      Set up samplelayers.Layer12 in {green}0.000{normal} seconds.
+      Set up samplelayers.Layer122 in {green}0.000{normal} seconds.
+    {normal}  Ran {green}26{normal} tests with {green}0{normal} failures and {green}0{normal} errors in {green}0.007{normal} seconds.{normal}
+    {normal}Tearing down left over layers:{normal}
+      Tear down samplelayers.Layer122 in {green}0.000{normal} seconds.
+      Tear down samplelayers.Layer12 in {green}0.000{normal} seconds.
+      Tear down samplelayers.Layer1 in {green}0.000{normal} seconds.
+    False
+
+    >>> del sys.modules['curses']
+
+The real stdout is not a terminal in a doctest:
+
+    >>> sys.stdout = real_stdout
+
+    >>> sys.argv = 'test --layer 122 --auto-color'.split()
+    >>> testrunner.run_internal(defaults)
+    Running samplelayers.Layer122 tests:
+      Set up samplelayers.Layer1 in 0.000 seconds.
+      Set up samplelayers.Layer12 in 0.000 seconds.
+      Set up samplelayers.Layer122 in 0.000 seconds.
+      Ran 26 tests with 0 failures and 0 errors in 0.007 seconds.
+    Tearing down left over layers:
+      Tear down samplelayers.Layer122 in 0.000 seconds.
+      Tear down samplelayers.Layer12 in 0.000 seconds.
+      Tear down samplelayers.Layer1 in 0.000 seconds.
+    False

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?udm interface="CADMetrics" version="1.00"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ elementFormDefault="qualified" 
+>
+<!-- generated on Fri Sep 02 17:05:12 2011 -->
+
+
+	<xsd:complexType name="TranslationType">
+		<xsd:attribute name="Y" type="xsd:double" use="required"/>
+		<xsd:attribute name="X" type="xsd:double" use="required"/>
+		<xsd:attribute name="Z" type="xsd:double" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="CGType">
+		<xsd:attribute name="Y" type="xsd:double" use="required"/>
+		<xsd:attribute name="X" type="xsd:double" use="required"/>
+		<xsd:attribute name="Z" type="xsd:double" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="RotationMatrixType">
+		<xsd:sequence>
+			<xsd:element name="Rows" type="RowsType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PrincipleMomentsOfInertiaType">
+		<xsd:sequence>
+			<xsd:element name="RotationMatrix" type="RotationMatrixType"/>
+			<xsd:element name="Rows" type="RowsType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="InertiaTensorType">
+		<xsd:sequence>
+			<xsd:element name="Rows" type="RowsType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="MetricComponentType">
+		<xsd:sequence>
+			<xsd:element name="CG" type="CGType"/>
+			<xsd:element name="Children" type="ChildrenType" minOccurs="0"/>
+			<xsd:element name="InertiaTensor" type="InertiaTensorType"/>
+			<xsd:element name="Material" type="MaterialType" minOccurs="0"/>
+			<xsd:element name="PrincipleMomentsOfInertia" type="PrincipleMomentsOfInertiaType"/>
+			<xsd:element name="Scalars" type="ScalarsType"/>
+			<xsd:element name="Units" type="UnitsType"/>
+		</xsd:sequence>
+		<xsd:attribute name="Type" type="xsd:string" use="required"/>
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="CoordinateSystem" type="xsd:string" use="required"/>
+		<xsd:attribute name="SpecialInstruction" type="xsd:string" use="required"/>
+		<xsd:attribute name="MetricID" type="xsd:long" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ChildMetricType">
+		<xsd:sequence>
+			<xsd:element name="RotationMatrix" type="RotationMatrixType"/>
+			<xsd:element name="Translation" type="TranslationType"/>
+		</xsd:sequence>
+		<xsd:attribute name="MetricID" type="xsd:long" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="RowsType">
+		<xsd:sequence>
+			<xsd:element name="Row" type="RowType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="RowType">
+		<xsd:sequence>
+			<xsd:element name="Column" type="ColumnType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ColumnType">
+		<xsd:attribute name="Value" type="xsd:double" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="MaterialType">
+		<xsd:attribute name="Type" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="UnitsType">
+		<xsd:attribute name="Mass" type="xsd:string" use="required"/>
+		<xsd:attribute name="Distance" type="xsd:string" use="required"/>
+		<xsd:attribute name="Force" type="xsd:string" use="required"/>
+		<xsd:attribute name="Time" type="xsd:string" use="required"/>
+		<xsd:attribute name="Temperature" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ScalarsType">
+		<xsd:sequence>
+			<xsd:element name="Scalar" type="ScalarType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ChildrenType">
+		<xsd:sequence>
+			<xsd:element name="ChildMetric" type="ChildMetricType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ScalarType">
+		<xsd:attribute name="Value" type="xsd:double" use="required"/>
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="Unit" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="CADComponentType">
+		<xsd:sequence>
+			<xsd:element name="CADComponent" type="CADComponentType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="MetricID" type="xsd:long" use="required"/>
+		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="AssemblyType">
+		<xsd:sequence>
+			<xsd:element name="CADComponent" type="CADComponentType"/>
+		</xsd:sequence>
+		<xsd:attribute name="ConfigurationID" type="xsd:long" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="MetricComponentsType">
+		<xsd:sequence>
+			<xsd:element name="MetricComponent" type="MetricComponentType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="AssembliesType">
+		<xsd:sequence>
+			<xsd:element name="Assembly" type="AssemblyType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CADMetricRootType">
+		<xsd:sequence>
+			<xsd:element name="Assemblies" type="AssembliesType"/>
+			<xsd:element name="MetricComponents" type="MetricComponentsType"/>
+		</xsd:sequence>
+		<xsd:attribute name="VersionInfo" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+ <xsd:element name="CADMetricRoot" type="CADMetricRootType"/>
+
+</xsd:schema>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<iFAB:manufacturingDetails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iFAB="iFAB" xsi:schemaLocation="iFAB manufacturingDetails.xsd">
+  <plate>
+    <material>
+      <aluminum>6061</aluminum>
+    </material>
+    <planarFaces>
+      <generalTolerance unit="mm">0.127</generalTolerance>
+      <surfaceRoughness unit="um">1.5875</surfaceRoughness>
+    </planarFaces>
+    <bends>
+      <bendAngleTolerance unit="degrees">0.05</bendAngleTolerance>
+    </bends>
+    <simpleHoles>
+      <diametricalTolerance unit="mm">0.0254</diametricalTolerance>
+      <positionalTolerance unit="mm">0.0254</positionalTolerance>
+      <surfaceRoughness unit="um">1.5875</surfaceRoughness>
+      <threaded>true</threaded>
+    </simpleHoles>
+    <complexHoles>
+      <generalTolerance unit="mm">0.0254</generalTolerance>
+      <surfaceRoughness unit="um">1.5875</surfaceRoughness>
+    </complexHoles>
+    <organicCoatings>
+      <organicCoating>CARC</organicCoating>
+    </organicCoatings>
+  </plate>
+</iFAB:manufacturingDetails>

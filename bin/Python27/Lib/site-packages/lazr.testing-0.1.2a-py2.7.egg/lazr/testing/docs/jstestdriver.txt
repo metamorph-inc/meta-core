@@ -1,0 +1,97 @@
+Javascript tests with JsTestDriver
+==================================
+
+``lazr.testing`` includes support for running Javascript tests with
+the help of JsTestDriver_, and failures and errors are reported back
+to your unittest-based test runner as if they were failures and errors
+of a unittest TestCase.
+
+To actually run the tests, a browser must be started (if not running)
+and captured by the JsTestDriver server. Since we generally want to do
+this only once, the JsTestDriver server is started and stopped as a
+subprocess using ``zope.testing`` support for layers.
+
+JsTestDriver supports outputing test results in an XML-based format,
+which we parse and feed into a ``TestResult`` instance from unittest.
+
+.. _JsTestDriver: http://code.google.com/p/js-test-driver/
+
+Writing tests
+-------------
+
+Please refer to the `JsTestDriver TestCase`_ documentation on how to
+write tests that are supported by JsTestDriver.
+
+Additionally, the ``lazr-js`` project has some examples of running
+``YUI Test``-based tests under JsTestDriver.
+
+.. _JsTestDriver TestCase: http://code.google.com/p/js-test-driver/wiki/TestCase
+
+Getting your Javascript tests to be run as part of your test suite is
+somewhat trivial, provided that you are already using ``zope.testing``
+as your test runner (see also `Future Plans`_). All you have to do is
+to define a ``JsTestDriverTestCase`` subclass with a
+``config_filename`` attribute that points to a ``JsTestDriver``
+configuration file. For example::
+
+  from lazr.testing.jstestdriver import JsTestDriverTestCase
+
+  class JsTestDriverSelfTest(JsTestDriverTestCase):
+      config_filename = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                     "js", "tests.conf"))
+
+Running tests
+-------------
+
+In order to actually run the tests you need to specify the location
+where JsTestDriver can be found. This can be done by exporting an
+environment variable::
+
+  JSTESTDRIVER="java -jar /path/to/JsTestDriver.jar" ./bin/test
+
+By default, as said above, the test layer will fire up a JsTestDriver
+server and connect your default browser to it. Then the actual test
+run will execute the JsTestDriver as a client connecting back to that
+server to drive the Javascript tests. This variable **must** always be
+present, regardless of the other variables described below.
+
+You can control the port used by the server with another environment
+variable. The default is to start the server on port 4224::
+
+  JSTESTDRIVER_PORT="10001"
+
+It is also possible (and very handy!) to have a long-running
+JsTestDriver server and connect one or more browser to it manually. If
+you want to do that, you have to export another variable telling where
+your JsTestDriver server is running (hint: this could even be a remote
+server)::
+
+  JSTESTDRIVER_SERVER="http://localhost:10001"
+
+Controlling the browser that will be started can also be done by
+setting the ``BROWSER`` environment variable to the full path of your
+browser's executable.
+
+If your default browser is Firefox, it can be annoying that every time
+you run the tests in the background a new tab opens and Firefox
+switches to it automatically, disrupting your browsing. You can
+disable that by Preferences -> Tabs and disabling the option named
+"When I open a link in a new tab, switch to it immediately". It might
+be also interesting to enable the option "Open new windows in a new
+tab instead" if it's not enabled yet.
+
+Finally, if you're just too annoyed that every test run opens new
+tabs, you have the option of having a long-running JsTestDriver server
+as described above and manually connect to it. That way, only a single
+tab of your browser will be used and every test run will re-use that
+tab.
+
+Future Plans
+------------
+
+In the future, the test layer might be replaced by
+testresources_ and the custom XML parsing might be replaced by
+using a subunit_ stream filter.
+
+.. _testresources: https://launchpad.net/testresources
+.. _subunit: https://launchpad.net/subunit

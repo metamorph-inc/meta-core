@@ -1,0 +1,51 @@
+<ns1:Component xmlns:ns1="avm" xmlns:ns2="manufacturing" xmlns:ns3="cad" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="113fe1cd4a" Name="testcomp" SchemaVersion="1.0" Version="09_10_2013_13_36">
+  <Property Definition="CML_Physical_Quantity\cml_zodb.cml_basic_physicals.Length" ID="primitive.boot_right_x" Name="boot_right_x" xsi:type="ns1:PrimitiveProperty">
+    <Value ID="nv.boot_right_x" Unit="m">
+      <ValueExpression xsi:type="ns1:ParametricValue">
+        <Default xsi:type="ns1:FixedValue">
+          <Value>0.625</Value>
+        </Default>
+        <Maximum xsi:type="ns1:FixedValue">
+          <Value>0.9</Value>
+        </Maximum>
+        <Minimum xsi:type="ns1:FixedValue">
+          <Value>0.5</Value>
+        </Minimum>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property Definition="" ID="element2" Name="NoMaximum" xsi:type="ns1:PrimitiveProperty">
+    <Value ID="idnomax" Unit="m">
+      <ValueExpression xsi:type="ns1:ParametricValue">
+        <Default xsi:type="ns1:FixedValue">
+          <Value>0.625</Value>
+        </Default>
+        <Minimum xsi:type="ns1:FixedValue">
+          <Value>0.5</Value>
+        </Minimum>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property Definition="" ID="element3" Name="NoMinimum" xsi:type="ns1:PrimitiveProperty">
+    <Value ID="idnomin" Unit="m">
+      <ValueExpression xsi:type="ns1:ParametricValue">
+        <Default xsi:type="ns1:FixedValue">
+          <Value>0.625</Value>
+        </Default>
+        <Maximum xsi:type="ns1:FixedValue">
+          <Value>0.9</Value>
+        </Maximum>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property Definition="" ID="element4" Name="OnlyDefault" xsi:type="ns1:PrimitiveProperty">
+    <Value ID="idonlydefault" Unit="m">
+      <ValueExpression xsi:type="ns1:ParametricValue">
+        <Default xsi:type="ns1:FixedValue">
+          <Value>0.625</Value>
+        </Default>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Classifications>Manikin</Classifications>
+</ns1:Component>

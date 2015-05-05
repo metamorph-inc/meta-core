@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyCAExporter">
+  <Component Id="CyPhyCAExporter.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhyCAExporter.dll" Name="CyPhyCAExporter.dll" KeyPath="yes" Source="$(var.InterpreterBin)\CyPhyCAExporter.dll">
+      <TypeLib Id="c79d06f6-52f9-4dfa-9f92-45687c75e18e" Description="MGA Interpreter TypeLibrary CyPhyCAExporter)" Language="0" MajorVersion="1" MinorVersion="0">
+        <Class Id="{E418A48B-8B38-4815-A46D-BDBD62E80DDF}" Context="InprocServer32" Description="MGA.Interpreter.CyPhyCAExporter">
+          <ProgId Id="MGA.Interpreter.CyPhyCAExporter" Description="MGA.Interpreter.CyPhyCAExporter" />
+        </Class>
+      </TypeLib>
+    </File>
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyPhyCAExporter'>
+      <RegistryValue Name='Description' Type='string' Value='DESERT Configuration to Component Assembly'/>
+      <RegistryValue Name='Icon' Type='string' Value=',IDI_COMPICON'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='DESERT Configuration to Component Assembly'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

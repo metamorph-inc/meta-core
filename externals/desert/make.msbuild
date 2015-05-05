@@ -1,0 +1,22 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+
+  <PropertyGroup Condition="'$(THIRDPARTY_PATH)'==''">
+    <THIRDPARTY_PATH>$(MSBuildThisFileDirectory)..\..\3rdParty\</THIRDPARTY_PATH>
+  </PropertyGroup>
+
+  <Import Project="..\..\common-scripts\common.msbuild"/>
+
+  <Target Name="CheckEnv" DependsOnTargets="CheckEnvUdm"/>
+
+  <ItemGroup>
+    <ProjectToBuild Include="$(THIRDPARTY_PATH)\muParser\build\msvc2010\muparser.sln"/>
+    <ProjectToBuild Include="desertVS2010.sln"/>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <ISS>InnoSetup\Desert_InnoSetup_vs2010.iss</ISS>
+  </PropertyGroup>
+  <Target Name="Installer" DependsOnTargets="BuildDebug;BuildRelease">
+    <CallTarget Targets="ISCC"/>
+  </Target>
+</Project>

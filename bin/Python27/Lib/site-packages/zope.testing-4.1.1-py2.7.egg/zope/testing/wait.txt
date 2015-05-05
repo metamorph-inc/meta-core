@@ -1,0 +1,169 @@
+Wait until a condition holds (or until a time out)
+==================================================
+
+Often, in tests, you need to wait until some condition holds.  This
+may be because you're testing interaction with an external system or
+testing threaded (threads, processes, greenlet's, etc.) interactions.
+
+You can add sleeps to your tests, but it's often hard to know how
+long to sleep.
+
+``zope.testing.wait`` provides a convenient way to wait until
+some condition holds.  It will test a condition and, when true,
+return.  It will sleep a short time between tests.
+
+Here's a silly example, that illustrates it's use:
+
+    >>> from zope.testing.wait import wait
+    >>> wait(lambda : True)
+
+Since the condition we passed is always True, it returned
+immediately.  If the condition doesn't hold, then we'll get a timeout:
+
+    >>> wait((lambda : False), timeout=.01)
+    Traceback (most recent call last):
+    ...
+    TimeOutWaitingFor: <lambda>
+
+``wait`` has some keyword options:
+
+timeout
+   How long, in seconds, to wait for the condition to hold
+
+   Defaults to 9 seconds.
+
+wait
+   How long to wait between calls.
+
+   Defaults to .01 seconds.
+
+message
+   A message (or other data) to pass to the timeout exception.
+
+   This defaults to ``None``.  If this is false, then the callable's
+   doc string or ``__name__`` is used.
+
+``wait`` can be used as a decorator:
+
+    >>> @wait
+    ... def ok():
+    ...     return True
+
+    >>> @wait(timeout=.01)
+    ... def no_way():
+    ...     pass
+    Traceback (most recent call last):
+    ...
+    TimeOutWaitingFor: no_way
+
+    >>> @wait(timeout=.01)
+    ... def no_way():
+    ...     "never true"
+    Traceback (most recent call last):
+    ...
+    TimeOutWaitingFor: never true
+
+.. more tests
+
+    >>> import time
+    >>> now = time.time()
+    >>> @wait(timeout=.01, message='dang')
+    ... def no_way():
+    ...     "never true"
+    Traceback (most recent call last):
+    ...
+    TimeOutWaitingFor: dang
+
+    >>> .01 < (time.time() - now) < .03
+    True
+
+
+Customization
+-------------
+
+``wait`` is an instance of ``Wait``.  With ``Wait``,
+you can create you're own custom ``wait`` utilities.  For
+example, if you're testing something that uses getevent, you'd want to
+use gevent's sleep function:
+
+    >>> import zope.testing.wait
+    >>> wait = zope.testing.wait.Wait(getsleep=lambda : gevent.sleep)
+
+Wait takes a number of customization parameters:
+
+exception
+  Timeout exception class
+
+getnow
+  Function used to get a function for getting the current time.
+
+  Default: lambda : time.time
+
+getsleep
+  Function used to get a sleep function.
+
+  Default: lambda : time.sleep
+
+timeout
+  Default timeout
+
+  Default: 9
+
+wait
+  Default time to wait between attempts
+
+  Default: .01
+
+
+.. more tests
+
+    >>> def mysleep(t):
+    ...     print_('mysleep', t)
+    ...     time.sleep(t)
+
+    >>> def mynow():
+    ...     print_('mynow')
+    ...     return time.time()
+
+    >>> wait = zope.testing.wait.Wait(
+    ...    getnow=(lambda : mynow), getsleep=(lambda : mysleep),
+    ...    exception=ValueError, timeout=.1, wait=.02)
+
+    >>> @wait
+    ... def _(state=[]):
+    ...     if len(state) > 1:
+    ...        return True
+    ...     state.append(0)
+    mynow
+    mysleep 0.02
+    mynow
+    mysleep 0.02
+
+    >>> @wait(wait=.002)
+    ... def _(state=[]):
+    ...     if len(state) > 1:
+    ...        return True
+    ...     state.append(0)
+    mynow
+    mysleep 0.002
+    mynow
+    mysleep 0.002
+
+    >>> @wait(timeout=0)
+    ... def _(state=[]):
+    ...     if len(state) > 1:
+    ...        return True
+    ...     state.append(0)
+    Traceback (most recent call last):
+    ...
+    ValueError: _
+
+    >>> wait = zope.testing.wait.Wait(timeout=0)
+    >>> @wait(timeout=0)
+    ... def _(state=[]):
+    ...     if len(state) > 1:
+    ...        return True
+    ...     state.append(0)
+    Traceback (most recent call last):
+    ...
+    TimeOutWaitingFor: _

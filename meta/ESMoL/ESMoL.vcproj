@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="ESMoL"
+	ProjectGUID="{35EFA7D1-A834-4297-A597-6C76CC4FD399}"
+	RootNamespace="ESMoL"
+	TargetFrameworkVersion="131072"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="10"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="10"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Generated Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+			<Filter
+				Name="models"
+				>
+				<File
+					RelativePath="$(VCP_PATH)\generated\esmol\models\ESMoL.mga"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="ESMoL.mga -&gt; ESMoL_uml.mga"
+							CommandLine="&quot;$(GREAT_PATH)\bin\MetaGME2UML.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\ESMoL_uml.mga&quot;&#x0D;&#x0A;&quot;$(VCP_PATH)\common-scripts\gmepy.exe&quot; mga2xmp &quot;$(InputPath)&quot;&#x0D;&#x0A;&quot;$(VCP_PATH)\common-scripts\gmepy.exe&quot; mga2xme &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+							Outputs="$(InputDir)\ESMoL_uml.mga"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="ESMoL.mga -&gt; ESMoL_uml.mga"
+							CommandLine="&quot;$(GREAT_PATH)\bin\MetaGME2UML.exe&quot; &quot;$(InputPath)&quot; &quot;$(InputDir)\ESMoL_uml.mga&quot;&#x0D;&#x0A;&quot;$(VCP_PATH)\common-scripts\gmepy.exe&quot; mga2xmp &quot;$(InputPath)&quot;&#x0D;&#x0A;&quot;$(VCP_PATH)\common-scripts\gmepy.exe&quot; mga2xme &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+							Outputs="$(InputDir)\ESMoL_uml.mga"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="$(VCP_PATH)\generated\esmol\models\ESMoL_udm.xml"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="ESMoL_udm.xml -&gt; source"
+							CommandLine="if exist &quot;$(VCP_PATH)\bin\ESMoLAssociationsD.exe&quot; &quot;$(VCP_PATH)\bin\ESMoLAssociationsD.exe&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;mkdir &quot;$(InputDir)\..\generated&quot;&#x0D;&#x0A;cd &quot;$(InputDir)\..\generated&quot;&#x0D;&#x0A;&quot;$(UDM_PATH)\bin\Udm.exe&quot; -g -v &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+							Outputs="$(InputDir)\..\generated\ESMoL.cpp;$(InputDir)\..\generated\ESMoL.h;$(InputDir)\..\generated\ESMoL.xsd;$(InputDir)\..\generated\ESMoL_xsd.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="ESMoL_udm.xml -&gt; source"
+							CommandLine="if exist &quot;$(VCP_PATH)\bin\ESMoLAssociations.exe&quot; &quot;$(VCP_PATH)\bin\ESMoLAssociations.exe&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;mkdir &quot;$(InputDir)\..\generated&quot;&#x0D;&#x0A;cd &quot;$(InputDir)\..\generated&quot;&#x0D;&#x0A;&quot;$(UDM_PATH)\bin\Udm.exe&quot; -g -v &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+							Outputs="$(InputDir)\..\generated\ESMoL.cpp;$(InputDir)\..\generated\ESMoL.h;$(InputDir)\..\generated\ESMoL.xsd;$(InputDir)\..\generated\ESMoL_xsd.h"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="$(VCP_PATH)\generated\esmol\models\ESMoL_uml.mga"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="ESMoL_uml.mga -&gt; ESMoL_udm.xml"
+							CommandLine="cd $(InputDir)&#x0D;&#x0A;&quot;$(UDM_PATH)\etc\CreateUdmXml.vbs&quot; $(InputFileName)&#x0D;&#x0A;"
+							Outputs="$(InputDir)\ESMoL_udm.xml"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="ESMoL_uml.mga -&gt; ESMoL_udm.xml"
+							CommandLine="cd $(InputDir)&#x0D;&#x0A;&quot;$(UDM_PATH)\etc\CreateUdmXml.vbs&quot; $(InputFileName)&#x0D;&#x0A;"
+							Outputs="$(InputDir)\ESMoL_udm.xml"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="generated"
+				>
+				<File
+					RelativePath="$(VCP_PATH)\generated\esmol\generated\ESMoL.cpp"
+					>
+				</File>
+				<File
+					RelativePath="$(VCP_PATH)\generated\esmol\generated\ESMoL.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Copying $(InputFileName) to solution include directory"
+							CommandLine="copy &quot;$(InputPath)&quot; ..\..\..\include&#x0D;&#x0A;"
+							Outputs="..\..\..\include\ESMoL.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Copying $(InputFileName) to solution include directory"
+							CommandLine="mkdir $(VCP_PATH)\include&#x0D;&#x0A;copy &quot;$(InputPath)&quot; $(VCP_PATH)\include&#x0D;&#x0A;"
+							Outputs="$(VCP_PATH)\include\ESMoL.h"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="$(VCP_PATH)\generated\esmol\generated\ESMoL.xsd"
+					>
+				</File>
+				<File
+					RelativePath="$(VCP_PATH)\generated\esmol\generated\ESMoL_xsd.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<File
+			RelativePath=".\ESMoL.xme"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="ESMoL.xme -&gt; ESMoL.mga"
+					CommandLine="&quot;$(UDM_PATH)\etc\CreateMGA.vbs&quot; &quot;$(InputPath)&quot; &quot;$(VCP_PATH)\generated\ESMoL\models\ESMoL.mga&quot; MetaGME&#x0D;&#x0A;mkdir &quot;$(VCP_PATH)\generated\ESMoL\models\icons&quot;&#x0D;&#x0A;copy &quot;$(InputDir)\icons\*&quot; &quot;$(VCP_PATH)\generated\ESMoL\models\icons\&quot;&#x0D;&#x0A;"
+					Outputs="$(VCP_PATH)\generated\ESMoL\models\ESMoL.mga"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="ESMoL.xme -&gt; ESMoL.mga"
+					CommandLine="&quot;$(UDM_PATH)\etc\CreateMGA.vbs&quot; &quot;$(InputPath)&quot; &quot;$(VCP_PATH)\generated\ESMoL\models\ESMoL.mga&quot; MetaGME&#x0D;&#x0A;mkdir &quot;$(VCP_PATH)\generated\ESMoL\models\icons&quot;&#x0D;&#x0A;copy &quot;$(InputDir)\icons\*&quot; &quot;$(VCP_PATH)\generated\ESMoL\models\icons\&quot;&#x0D;&#x0A;"
+					Outputs="$(VCP_PATH)\generated\ESMoL\models\ESMoL.mga"
+				/>
+			</FileConfiguration>
+		</File>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

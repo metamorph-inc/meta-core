@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{63213915-83D9-4CB3-B3C1-4B9BDE7861D4}</ProjectGuid>
+    <RootNamespace>DesertManager</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)d</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\include;$(UDM_PATH)\include;$(UDM_3RDPARTY_PATH)\xerces-c_2_8_0\include;../3rdParty/boost/boost_1_44;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;UDM_DYNAMIC_LINKING;DOUBLE_MTBDD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\include;$(UDM_PATH)\include;$(UDM_3RDPARTY_PATH)\xerces-c_2_8_0\include;../3rdParty/boost/boost_1_44;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;UDM_DYNAMIC_LINKING;DOUBLE_MTBDD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\include;$(UDM_PATH)\include;$(UDM_3RDPARTY_PATH)\xerces-c_2_8_0\include;../3rdParty/boost/boost_1_44;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;UDM_DYNAMIC_LINKING;DOUBLE_MTBDD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\include;$(UDM_PATH)\include;$(UDM_3RDPARTY_PATH)\xerces-c_2_8_0\include;../3rdParty/boost/boost_1_44;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;UDM_DYNAMIC_LINKING;DOUBLE_MTBDD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="DesBackMap.cpp" />
+    <ClCompile Include="DesertIface.cpp" />
+    <ClCompile Include="DesertIfaceBack.cpp" />
+    <ClCompile Include="DesertManager.cpp" />
+    <ClCompile Include="DesMap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DesBackMap.h" />
+    <ClInclude Include="DesertIface.h" />
+    <ClInclude Include="DesertIface_xsd.h" />
+    <ClInclude Include="DesertIfaceBack.h" />
+    <ClInclude Include="DesertIfaceBack_xsd.h" />
+    <ClInclude Include="..\include\DesertManager.h" />
+    <ClInclude Include="DesMap.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\iface\DesertIface.xml">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">udm.exe Desertiface.xml -g</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">udm.exe Desertiface.xml -g</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)" -g
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)" -g
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">DesertIface.h; DesertIface.cpp; DesertIface.xsd;DesertIface_xsd.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">DesertIface.h; DesertIface.cpp; DesertIface.xsd;DesertIface_xsd.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">udm.exe Desertiface.xml -g</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">udm.exe Desertiface.xml -g</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)" -g
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)" -g
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">DesertIface.h; DesertIface.cpp; DesertIface.xsd;DesertIface_xsd.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">DesertIface.h; DesertIface.cpp; DesertIface.xsd;DesertIface_xsd.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\iface\DesertIfaceBack.xml">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">udm.exe DesertIfaceBack.xml -g</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">udm.exe DesertIfaceBack.xml -g</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)" -g
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)" -g
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">DesertIfaceBack.h; DesertIfaceBack.cpp; DesertIfaceBack.xsd;DesertIfaceBack_xsd.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">DesertIfaceBack.h; DesertIfaceBack.cpp; DesertIfaceBack.xsd;DesertIfaceBack_xsd.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">udm.exe DesertIfaceBack.xml -g</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">udm.exe DesertIfaceBack.xml -g</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)" -g
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"%UDM_PATH%\bin\Udm.exe" "%(FullPath)" -g
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">DesertIfaceBack.h; DesertIfaceBack.cpp; DesertIfaceBack.xsd;DesertIfaceBack_xsd.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">DesertIfaceBack.h; DesertIfaceBack.cpp; DesertIfaceBack.xsd;DesertIfaceBack_xsd.h;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CreateSelfSrc\CreateSelfSrc.vcxproj">
+      <Project>{fe06ca3d-de71-4561-99c5-f88c44ef11c5}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\DesertDll\desert.vcxproj">
+      <Project>{c09795e3-c768-46b7-8891-8bff65b33b01}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

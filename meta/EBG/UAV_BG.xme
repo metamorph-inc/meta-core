@@ -1,0 +1,3300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{6E0ADA18-4641-4832-A790-3D3B65195E50}" cdate="Fri Nov 19 14:05:33 2010" mdate="Fri Nov 19 14:05:33 2010" version="" metaguid="{912CA97C-22CB-4C58-BC4D-920FDDDC4D22}" metaversion="" metaname="EBG">
+	<name>UAV_BG</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x1" kind="RootFolder" guid="{e55d288a-85a2-4e84-a5d2-5b49671728ba}">
+		<name>UAV_BG</name>
+		<model id="id-0065-00000001" kind="System" guid="{7261bf55-942e-436a-90a9-b84cf19b63f3}" relid="0x1" childrelidcntr="0x1">
+			<name>NewSystem</name>
+			<model id="id-0065-00000002" kind="Component" role="Component" guid="{0862ef9c-a29b-4045-aece-4cfc9daaca53}" relid="0x1" childrelidcntr="0x6c">
+				<name>Flat_Model</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="BGElectrical" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>217,77</value>
+						</regnode>
+					</regnode>
+					<regnode name="BGHydraulic" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>217,77</value>
+						</regnode>
+					</regnode>
+					<regnode name="BGMechanicalD" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>217,77</value>
+						</regnode>
+					</regnode>
+					<regnode name="BGMechanicalR" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>217,77</value>
+						</regnode>
+					</regnode>
+					<regnode name="BGThermal" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>217,77</value>
+						</regnode>
+					</regnode>
+					<regnode name="FunSketcher" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>271,190</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<regnode name="portLabelLength" isopaque="yes">
+					<value>0</value>
+				</regnode>
+				<attribute kind="DataPlate" status="meta">
+					<value></value>
+				</attribute>
+				<atom id="id-0066-00000001" kind="MSf" role="MSf" guid="{7be36ac1-c13a-4529-8bf6-ccbc14f05793}" relid="0x1">
+					<name>Fuel_Energy</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>350,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>77,105</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>77,105</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>77,105</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>77,105</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>77,105</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>77,105</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialValue_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="InitialValue_mean" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="InitialValue_min" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="ParameterValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000002" kind="ISignal" role="ISignal" guid="{1f67d378-9aee-4249-bfaf-de1ec0323ab2}" relid="0x2">
+					<name>RPM_IN</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>105,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,112</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>6</value>
+					</regnode>
+					<attribute kind="STolerance" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SamplingRate" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="TimeBehaviour" status="meta">
+						<value>continuous</value>
+					</attribute>
+					<attribute kind="Validity" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ValueRange" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VectorSize" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000003" kind="ControlFunction" role="ControlFunction" guid="{735c8de7-08ee-40bf-994c-f4b2ff054209}" relid="0x3">
+					<name>fRPM_IN</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>172,74</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>102,74</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Code" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000004" kind="LocalSignal" role="LocalSignal" guid="{ed5a7ba6-aa42-4227-9cdc-a62437c64e39}" relid="0x4">
+					<name>RPM_sig</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>266,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>161,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>161,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>161,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>161,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>161,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>161,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>161,77</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="STolerance" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SamplingRate" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="TimeBehaviour" status="meta">
+						<value>continuous</value>
+					</attribute>
+					<attribute kind="Validity" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ValueRange" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VectorSize" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000005" kind="TF" role="TF" guid="{5b1b00be-2283-4863-a759-635e8e1cf062}" relid="0x9">
+					<name>FuelEnergy2MechanicalRot</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>532,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>434,98</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>434,98</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>434,98</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>434,98</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>434,98</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>434,98</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ParameterValue">
+						<value>2</value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000006" kind="OneJunction" role="OneJunction" guid="{0763c864-da53-4faf-a680-c0c9c4df9673}" relid="0xa">
+					<name>OJ2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>644,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>595,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>595,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>595,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>595,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>595,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>595,70</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>0</value>
+					</regnode>
+					<attribute kind="InitialState" status="meta">
+						<value>ON</value>
+					</attribute>
+					<attribute kind="OffCondition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="OnCondition" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000007" kind="TF" role="TF" guid="{51518480-39dc-40d0-b17d-ad7ef11d045d}" relid="0xb">
+					<name>MRot2Prop</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>728,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>707,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>707,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>707,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>707,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>707,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>707,70</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ParameterValue">
+						<value>4</value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000008" kind="OneJunction" role="OneJunction" guid="{ff5f2f5d-c085-470e-9b03-1db2cf27697a}" relid="0x10">
+					<name>OJ3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>819,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>700,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>700,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>700,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>700,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>700,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>700,70</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialState" status="meta">
+						<value>ON</value>
+					</attribute>
+					<attribute kind="OffCondition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="OnCondition" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000009" kind="R" role="R" guid="{3baa6371-3975-449f-a972-71b700b98de0}" relid="0x11">
+					<name>R_Prop</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>903,28</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,28</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,28</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,28</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,28</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,28</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,28</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>0</value>
+					</regnode>
+					<attribute kind="ParameterValue">
+						<value>1</value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000000a" kind="I" role="I" guid="{0cf16adc-6b5e-49b2-8f45-0b8a608205f1}" relid="0x12">
+					<name>I_Prop_mass</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>903,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,98</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,98</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,98</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,98</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,98</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,98</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialValue" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="ParameterValue">
+						<value>5</value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000000b" kind="TF" role="TF" guid="{6fb59bb8-4979-4c7e-8ac0-15b7aed9ceb6}" relid="0x13">
+					<name>MechRot2Electrical</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>644,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,154</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>2</value>
+					</regnode>
+					<attribute kind="ParameterValue">
+						<value>2</value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000000c" kind="OneJunction" role="OneJunction" guid="{a5e583e1-b153-4767-9be9-c09eb0bdaab4}" relid="0x18">
+					<name>OJ4</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>644,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,217</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>2</value>
+					</regnode>
+					<attribute kind="InitialState" status="meta">
+						<value>ON</value>
+					</attribute>
+					<attribute kind="OffCondition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="OnCondition" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000000d" kind="R" role="R" guid="{2d02fe24-37ff-4010-8eea-498fbb97e990}" relid="0x1a">
+					<name>R_gen</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>586,208</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,217</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ParameterValue">
+						<value>1</value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000000e" kind="ZeroJunction" role="ZeroJunction" guid="{61929b47-7e96-4570-84e2-53a35d29de10}" relid="0x1c">
+					<name>GenVoltage</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>644,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>525,280</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>1</value>
+					</regnode>
+					<attribute kind="InitialState" status="meta">
+						<value>ON</value>
+					</attribute>
+					<attribute kind="OffCondition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="OnCondition" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000000f" kind="R" role="R" guid="{7325e654-1dbc-4921-b796-f4510fc8d045}" relid="0x1e">
+					<name>R_GPS</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,385</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>315,385</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>315,385</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>315,385</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>315,385</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>315,385</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>315,385</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ParameterValue">
+						<value>2</value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000010" kind="R" role="R" guid="{8da6c538-37f4-44be-9c96-0665be06adf6}" relid="0x1f">
+					<name>R_CPU</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>868,385</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,385</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,385</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,385</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,385</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,385</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,385</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ParameterValue">
+						<value>4</value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000011" kind="OneJunction" role="OneJunction" guid="{4d264fd5-d5e8-491d-b687-dfbba88590e7}" relid="0x20">
+					<name>OJ01</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>784,329</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>315,329</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>315,329</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>315,329</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>315,329</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>315,329</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>315,329</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>6</value>
+					</regnode>
+					<attribute kind="InitialState" status="meta">
+						<value>ON</value>
+					</attribute>
+					<attribute kind="OffCondition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="OnCondition" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000012" kind="OneJunction" role="OneJunction" guid="{bdf803e1-79b9-4471-b2df-f6faa39a8d0d}" relid="0x21">
+					<name>OJ02</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>868,329</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,329</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,329</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,329</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,329</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,329</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,329</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>6</value>
+					</regnode>
+					<attribute kind="InitialState" status="meta">
+						<value>ON</value>
+					</attribute>
+					<attribute kind="OffCondition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="OnCondition" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000013" kind="MGY" role="MGY" guid="{c9a325a0-f8ac-4c15-8821-b293fabfc41a}" relid="0x26">
+					<name>Electrical2MechRot</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>511,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,273</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,273</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,273</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,273</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,273</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,273</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialValue_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="InitialValue_mean" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="InitialValue_min" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="ParameterValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000014" kind="ControlFunction" role="ControlFunction" guid="{c9808d8c-511d-4050-b8f9-3f86ba6bf576}" relid="0x2b">
+					<name>fSurface</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>165,186</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>298,207</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>0</value>
+					</regnode>
+					<attribute kind="Code" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000015" kind="ISignal" role="ISignal" guid="{27db2425-f082-457f-b9eb-15f93c1244c7}" relid="0x2c">
+					<name>Surface_Position</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>105,189</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,210</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>6</value>
+					</regnode>
+					<attribute kind="STolerance" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SamplingRate" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="TimeBehaviour" status="meta">
+						<value>continuous</value>
+					</attribute>
+					<attribute kind="Validity" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ValueRange" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VectorSize" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000016" kind="LocalSignal" role="LocalSignal" guid="{1c326355-de7a-41a7-b596-41a222ac6be6}" relid="0x2d">
+					<name>cSurface_sig</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>518,189</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,210</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>0</value>
+					</regnode>
+					<attribute kind="STolerance" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SamplingRate" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="TimeBehaviour" status="meta">
+						<value>continuous</value>
+					</attribute>
+					<attribute kind="Validity" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ValueRange" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VectorSize" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000017" kind="OneJunction" role="OneJunction" guid="{191f8c17-ae65-443f-84f9-5783136fdf4e}" relid="0x31">
+					<name>OJ5</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>287,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>287,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>287,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>287,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>287,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>287,280</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialState" status="meta">
+						<value>ON</value>
+					</attribute>
+					<attribute kind="OffCondition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="OnCondition" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000018" kind="TF" role="TF" guid="{4a1d4cdb-6173-44e7-a31d-5a03cde9e484}" relid="0x33">
+					<name>Rot2Disp</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>362,271</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>238,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>238,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>238,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>238,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>238,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>238,280</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ParameterValue">
+						<value>2</value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000019" kind="TF" role="TF" guid="{03b8b44d-a721-40f7-bc4f-7a9765ab6fbf}" relid="0x35">
+					<name>Disp2RotMass</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>231,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>112,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>112,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>112,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>112,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>112,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>112,280</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ParameterValue">
+						<value>1/2</value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001a" kind="OneJunction" role="OneJunction" guid="{a6ea842d-ec53-4600-a62b-8b79c44aaef1}" relid="0x36">
+					<name>OJ6</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>308,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>168,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>168,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>168,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>168,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>168,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>168,280</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialState" status="meta">
+						<value>ON</value>
+					</attribute>
+					<attribute kind="OffCondition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="OnCondition" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001b" kind="OneJunction" role="OneJunction" guid="{6dac57f3-c7fa-4b9d-a1bb-04133eaba3a3}" relid="0x39">
+					<name>OJ7</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>168,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,280</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialState" status="meta">
+						<value>ON</value>
+					</attribute>
+					<attribute kind="OffCondition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="OnCondition" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001c" kind="I" role="I" guid="{eab3c73c-3c2a-4f57-902d-1775c38cdf56}" relid="0x3a">
+					<name>I_Surface_Mass</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>98,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,280</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,280</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialValue" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="ParameterValue">
+						<value>1</value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001d" kind="OneJunction" role="OneJunction" guid="{ca1adc38-00ef-4200-96b1-1cbe1815e055}" relid="0x3f">
+					<name>OJ8</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>168,364</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,357</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,357</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,357</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,357</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,357</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,357</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialState" status="meta">
+						<value>ON</value>
+					</attribute>
+					<attribute kind="OffCondition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="OnCondition" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001e" kind="MSe" role="MSe" guid="{f5fa0aa7-a06f-46ac-91ec-84605b4e1ca4}" relid="0x41">
+					<name>Lift_Force</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>98,364</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,364</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,364</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,364</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,364</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,364</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>28,364</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialValue_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="InitialValue_mean" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="InitialValue_min" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="ParameterValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001f" kind="ControlFunction" role="ControlFunction" guid="{37516ade-fd45-427f-b890-e9bc08b642b2}" relid="0x43">
+					<name>fSForce</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>32,424</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>32,242</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>2</value>
+					</regnode>
+					<attribute kind="Code" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000020" kind="LocalSignal" role="LocalSignal" guid="{8e9b6543-f64e-4ef3-8064-e604bf9ff9a6}" relid="0x44">
+					<name>cSForce_sig</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>40,362</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,371</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,371</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,371</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,371</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,371</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,371</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,371</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>0</value>
+					</regnode>
+					<attribute kind="STolerance" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SamplingRate" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="TimeBehaviour" status="meta">
+						<value>continuous</value>
+					</attribute>
+					<attribute kind="Validity" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ValueRange" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VectorSize" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000021" kind="ISignal" role="ISignal" guid="{74c50a7a-42ce-470e-9e0a-5070c0405dbd}" relid="0x45">
+					<name>Surface_Force</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,476</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="STolerance" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SamplingRate" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="TimeBehaviour" status="meta">
+						<value>continuous</value>
+					</attribute>
+					<attribute kind="Validity" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ValueRange" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VectorSize" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000022" kind="MTF" role="MTF" guid="{5b7f4d74-4123-46b5-9f80-454fed1f8545}" relid="0x49">
+					<name>Rot2DispLift</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>252,364</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>252,364</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>252,364</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>252,364</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>252,364</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>252,364</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>252,364</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>0</value>
+					</regnode>
+					<attribute kind="InitialValue_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="InitialValue_mean" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="InitialValue_min" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="ParameterValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000023" kind="ISignal" role="ISignal" guid="{d71c7376-9163-4d5b-a9e3-abce33238d46}" relid="0x4c">
+					<name>Force_Position</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>259,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>196,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>196,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>196,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>196,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>196,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>196,476</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>196,476</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="STolerance" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SamplingRate" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="TimeBehaviour" status="meta">
+						<value>continuous</value>
+					</attribute>
+					<attribute kind="Validity" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ValueRange" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VectorSize" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000024" kind="ControlFunction" role="ControlFunction" guid="{f16fd1b8-0005-4ba2-b125-a457678951c3}" relid="0x4d">
+					<name>fPForce</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>222,418</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>242,438</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>2</value>
+					</regnode>
+					<attribute kind="Code" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000025" kind="LocalSignal" role="LocalSignal" guid="{ba04ca25-1a6f-410a-9c8d-a02cfde3ac7d}" relid="0x4e">
+					<name>CPForce_sig</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>278,418</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>259,406</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>259,406</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>259,406</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>259,406</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>259,406</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>259,406</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>259,406</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>2</value>
+					</regnode>
+					<attribute kind="STolerance" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SamplingRate" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="TimeBehaviour" status="meta">
+						<value>continuous</value>
+					</attribute>
+					<attribute kind="Validity" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ValueRange" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VectorSize" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000026" kind="Df" role="Df" guid="{4f203c8d-1212-44f6-84a1-e704aded65a2}" relid="0x52">
+					<name>Surface_cpos</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>252,224</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>231,224</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>231,224</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>231,224</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>231,224</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>231,224</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>231,224</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>231,224</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+				<atom id="id-0066-00000027" kind="OSignal" role="OSignal" guid="{8c0a6db8-410b-40cb-b60b-51369c13813b}" relid="0x54">
+					<name>cPos_OUT</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>47,173</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>147,231</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>147,231</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>147,231</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>147,231</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>147,231</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>147,231</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>147,231</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>6</value>
+					</regnode>
+					<attribute kind="STolerance" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SamplingRate" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="TimeBehaviour" status="meta">
+						<value>continuous</value>
+					</attribute>
+					<attribute kind="Validity" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ValueRange" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VectorSize" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000028" kind="LocalSignal" role="LocalSignal" guid="{17234491-7849-411c-b908-3ac33b02179f}" relid="0x55">
+					<name>cPos_sig</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>243,166</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>182,231</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>182,231</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>182,231</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>182,231</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>182,231</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>182,231</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>182,231</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="STolerance" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SamplingRate" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="TimeBehaviour" status="meta">
+						<value>continuous</value>
+					</attribute>
+					<attribute kind="Validity" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ValueRange" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VectorSize" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000029" kind="Df" role="Df" guid="{7b70017c-cdbe-4fb9-8f4d-ccb90d5e4534}" relid="0x5c">
+					<name>Prop_omega</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>966,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>966,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>966,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>966,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>966,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>966,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>966,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>966,70</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+				<atom id="id-0066-0000002a" kind="LocalSignal" role="LocalSignal" guid="{1f989566-b247-470b-9e1e-32dcae799ead}" relid="0x5e">
+					<name>cRPM</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1057,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1036,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1036,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1036,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1036,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1036,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1036,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1036,77</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="STolerance" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SamplingRate" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="TimeBehaviour" status="meta">
+						<value>continuous</value>
+					</attribute>
+					<attribute kind="Validity" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ValueRange" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VectorSize" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000002b" kind="OSignal" role="OSignal" guid="{682d22b8-0c8a-415a-ad38-75f58071a112}" relid="0x61">
+					<name>RPM_OUT</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1127,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1127,84</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1127,84</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1127,84</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1127,84</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1127,84</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1127,84</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1127,84</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>2</value>
+					</regnode>
+					<attribute kind="STolerance" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SamplingRate" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="TimeBehaviour" status="meta">
+						<value>continuous</value>
+					</attribute>
+					<attribute kind="Validity" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ValueRange" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VectorSize" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000002c" kind="ZeroJunction" role="ZeroJunction" guid="{f619495b-c4bb-4976-89e2-2e6747f3c875}" relid="0x65">
+					<name>ZJ0</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,70</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,70</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialState" status="meta">
+						<value>ON</value>
+					</attribute>
+					<attribute kind="OffCondition" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="OnCondition" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000002d" kind="R" role="R" guid="{dde74636-5525-409f-bbfc-d983ed85c13c}" relid="0x68">
+					<name>R</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,14</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,14</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,14</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,14</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,14</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,14</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,14</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>2</value>
+					</regnode>
+					<attribute kind="ParameterValue">
+						<value>1</value>
+					</attribute>
+					<attribute kind="Tolerance_max" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tolerance_min" status="meta">
+						<value>0</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000002e" kind="ISignal" role="ISignal" guid="{95661a45-e376-4426-8e9e-02b515ecacf5}" relid="0x6a">
+					<name>Prop_sig_IN</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1111,19</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGElectrical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,168</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGHydraulic" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,168</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalD" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,168</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGMechanicalR" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,168</value>
+							</regnode>
+						</regnode>
+						<regnode name="BGThermal" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,168</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraph" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,168</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>693,168</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>2</value>
+					</regnode>
+					<attribute kind="STolerance" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SamplingRate" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="TimeBehaviour" status="meta">
+						<value>continuous</value>
+					</attribute>
+					<attribute kind="Validity" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ValueRange" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VectorSize" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000002f" kind="ControlFunction" role="ControlFunction" guid="{6e209007-27b5-4023-864f-d48ee22ff6e1}" relid="0x6b">
+					<name>fProp</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>978,12</value>
+							</regnode>
+						</regnode>
+						<regnode name="Logical" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>963,32</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Code" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<connection id="id-0068-00000001" kind="ControlFunction2Signal" role="ControlFunction2Signal" guid="{2e2b7d14-f719-4c61-aad2-8f0a0b332dfe}" relid="0x5">
+					<name>ControlFunction2Signal</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000002"/>
+					<connpoint role="dst" target="id-0066-00000003"/>
+				</connection>
+				<connection id="id-0068-00000002" kind="Signal2ControlFunction" role="Signal2ControlFunction" guid="{391601d2-9e98-4e8d-a6f6-d4e80a322201}" relid="0x6">
+					<name>Signal2ControlFunction</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000003"/>
+					<connpoint role="dst" target="id-0066-00000004"/>
+				</connection>
+				<connection id="id-0068-00000003" kind="Signal2MBGSource" role="Signal2MBGSource" guid="{f34e8730-c55b-4542-8d69-2479979d1bc3}" relid="0x7">
+					<name>Signal2MBGSource</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-00000001"/>
+					<connpoint role="src" target="id-0066-00000004"/>
+				</connection>
+				<connection id="id-0068-00000004" kind="BondE2J" role="BondE2J" guid="{db6a927a-e069-4b50-8889-f864352bf5d1}" relid="0xe">
+					<name>BondE2J</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000005"/>
+					<connpoint role="dst" target="id-0066-00000006"/>
+				</connection>
+				<connection id="id-0068-00000005" kind="BondJ2E" role="BondJ2E" guid="{ea57a20d-a92a-4533-a9b8-38a0560fc41a}" relid="0xf">
+					<name>BondJ2E</name>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000006"/>
+					<connpoint role="dst" target="id-0066-00000007"/>
+				</connection>
+				<connection id="id-0068-00000006" kind="BondE2J" role="BondE2J" guid="{df536971-36c6-46a2-b00f-870f88b9d062}" relid="0x14">
+					<name>BondE2J</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000007"/>
+					<connpoint role="dst" target="id-0066-00000008"/>
+				</connection>
+				<connection id="id-0068-00000007" kind="BondJ2E" role="BondJ2E" guid="{7ea414de-d49f-4566-aeed-980d5dbb0f6a}" relid="0x15">
+					<name>BondJ2E</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000008"/>
+					<connpoint role="dst" target="id-0066-00000009"/>
+				</connection>
+				<connection id="id-0068-00000008" kind="BondJ2E" role="BondJ2E" guid="{4d071523-4d7e-4640-a632-21bed7ccd07f}" relid="0x16">
+					<name>BondJ2E</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000008"/>
+					<connpoint role="dst" target="id-0066-0000000a"/>
+				</connection>
+				<connection id="id-0068-00000009" kind="BondJ2E" role="BondJ2E" guid="{b249a575-0bb0-495b-9535-2d3d8f0e10de}" relid="0x17">
+					<name>BondJ2E</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000006"/>
+					<connpoint role="dst" target="id-0066-0000000b"/>
+				</connection>
+				<connection id="id-0068-0000000a" kind="BondE2J" role="BondE2J" guid="{c62e15de-fce4-4a6e-b952-8f35d0e4b3b5}" relid="0x19">
+					<name>BondE2J</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>S</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-0000000b"/>
+					<connpoint role="dst" target="id-0066-0000000c"/>
+				</connection>
+				<connection id="id-0068-0000000b" kind="BondJ2E" role="BondJ2E" guid="{2da5afd4-6e30-49a2-94bc-63ca7db2c463}" relid="0x1b">
+					<name>BondJ2E</name>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-0000000c"/>
+					<connpoint role="dst" target="id-0066-0000000d"/>
+				</connection>
+				<connection id="id-0068-0000000c" kind="BondJ2J" role="BondJ2J" guid="{fe980fd4-3da2-4733-af79-4c9118af0560}" relid="0x1d">
+					<name>BondJ2J</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-0000000c"/>
+					<connpoint role="dst" target="id-0066-0000000e"/>
+				</connection>
+				<connection id="id-0068-0000000d" kind="BondJ2E" role="BondJ2E" guid="{9a7c92ab-0dc5-4a2b-82b6-58d639cbaf17}" relid="0x24">
+					<name>BondJ2E</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>S</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-00000010"/>
+					<connpoint role="src" target="id-0066-00000012"/>
+				</connection>
+				<connection id="id-0068-0000000e" kind="BondJ2E" role="BondJ2E" guid="{2215fc6d-c2b7-42f9-b9e0-f39e41d00ea3}" relid="0x25">
+					<name>BondJ2E</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>S</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-0000000f"/>
+					<connpoint role="src" target="id-0066-00000011"/>
+				</connection>
+				<connection id="id-0068-0000000f" kind="BondJ2J" role="BondJ2J" guid="{f9384fd0-f203-4cc2-9e6c-e05ff8025640}" relid="0x28">
+					<name>BondJ2J</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>n</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-0000000e"/>
+					<connpoint role="dst" target="id-0066-00000012"/>
+				</connection>
+				<connection id="id-0068-00000010" kind="BondJ2J" role="BondJ2J" guid="{a66a5e1d-82ce-499b-a504-e710387fccc3}" relid="0x29">
+					<name>BondJ2J</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>n</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-0000000e"/>
+					<connpoint role="dst" target="id-0066-00000011"/>
+				</connection>
+				<connection id="id-0068-00000011" kind="BondJ2E" role="BondJ2E" guid="{d9564eff-2fc7-478e-9e10-9f7cfeb0ad2d}" relid="0x2a">
+					<name>BondJ2E</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>We</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-0000000e"/>
+					<connpoint role="dst" target="id-0066-00000013"/>
+				</connection>
+				<connection id="id-0068-00000012" kind="ControlFunction2Signal" role="ControlFunction2Signal" guid="{e22376e2-5a36-4e63-ba88-79871bd471ae}" relid="0x2e">
+					<name>ControlFunction2Signal</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-00000014"/>
+					<connpoint role="src" target="id-0066-00000015"/>
+				</connection>
+				<connection id="id-0068-00000013" kind="Signal2ControlFunction" role="Signal2ControlFunction" guid="{3e3dc119-47a6-4a8f-8caf-bea99454cfdd}" relid="0x2f">
+					<name>Signal2ControlFunction</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000014"/>
+					<connpoint role="dst" target="id-0066-00000016"/>
+				</connection>
+				<connection id="id-0068-00000014" kind="Signal2MTwoPort" role="Signal2MTwoPort" guid="{23dc230e-31ea-4ca0-b1b4-49ea301737d0}" relid="0x30">
+					<name>Signal2MTwoPort</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>n</value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-00000013"/>
+					<connpoint role="src" target="id-0066-00000016"/>
+				</connection>
+				<connection id="id-0068-00000015" kind="BondE2J" role="BondE2J" guid="{dda4acd2-fdc6-4d68-b777-3cfcfd3ba45b}" relid="0x32">
+					<name>BondE2J</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>W</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000013"/>
+					<connpoint role="dst" target="id-0066-00000017"/>
+				</connection>
+				<connection id="id-0068-00000016" kind="BondJ2E" role="BondJ2E" guid="{84830d37-3e4d-4b6d-b8c7-62f9b4124658}" relid="0x34">
+					<name>BondJ2E</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>e</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000017"/>
+					<connpoint role="dst" target="id-0066-00000018"/>
+				</connection>
+				<connection id="id-0068-00000017" kind="BondE2J" role="BondE2J" guid="{20bdfd5f-b183-49d5-af13-7620d4d0a5dc}" relid="0x37">
+					<name>BondE2J</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>W</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000018"/>
+					<connpoint role="dst" target="id-0066-0000001a"/>
+				</connection>
+				<connection id="id-0068-00000018" kind="BondJ2E" role="BondJ2E" guid="{be74ae93-f32b-4712-90a8-a57dff44f61f}" relid="0x38">
+					<name>BondJ2E</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>We</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-00000019"/>
+					<connpoint role="src" target="id-0066-0000001a"/>
+				</connection>
+				<connection id="id-0068-00000019" kind="BondE2J" role="BondE2J" guid="{8554e06f-615e-45ca-865f-fbe10bbf5de0}" relid="0x3b">
+					<name>BondE2J</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>W</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000019"/>
+					<connpoint role="dst" target="id-0066-0000001b"/>
+				</connection>
+				<connection id="id-0068-0000001a" kind="BondJ2E" role="BondJ2E" guid="{5d2a5fc7-d971-466d-b164-e30bc1ff783e}" relid="0x3c">
+					<name>BondJ2E</name>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-0000001b"/>
+					<connpoint role="dst" target="id-0066-0000001c"/>
+				</connection>
+				<connection id="id-0068-0000001b" kind="BondE2J" role="BondE2J" guid="{e5d8172a-6585-4494-ab32-bcbfc44c30d2}" relid="0x42">
+					<name>BondE2J</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-0000001d"/>
+					<connpoint role="src" target="id-0066-0000001e"/>
+				</connection>
+				<connection id="id-0068-0000001c" kind="ControlFunction2Signal" role="ControlFunction2Signal" guid="{8f22850c-2ae8-4555-af4e-fff7d25ffbe0}" relid="0x46">
+					<name>ControlFunction2Signal</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-0000001f"/>
+					<connpoint role="src" target="id-0066-00000021"/>
+				</connection>
+				<connection id="id-0068-0000001d" kind="Signal2ControlFunction" role="Signal2ControlFunction" guid="{7c0e5334-5ad1-49c6-beaf-c5ca1120195b}" relid="0x47">
+					<name>Signal2ControlFunction</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-0000001f"/>
+					<connpoint role="dst" target="id-0066-00000020"/>
+				</connection>
+				<connection id="id-0068-0000001e" kind="Signal2MBGSource" role="Signal2MBGSource" guid="{71a5f963-fa10-4f8d-9b01-21f1f2c34abd}" relid="0x48">
+					<name>Signal2MBGSource</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-0000001e"/>
+					<connpoint role="src" target="id-0066-00000020"/>
+				</connection>
+				<connection id="id-0068-0000001f" kind="BondJ2E" role="BondJ2E" guid="{1b0678ba-546c-4b7b-a11c-a6934d841046}" relid="0x4a">
+					<name>BondJ2E</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-0000001d"/>
+					<connpoint role="dst" target="id-0066-00000022"/>
+				</connection>
+				<connection id="id-0068-00000020" kind="BondE2J" role="BondE2J" guid="{32596de7-fdee-4f92-95a6-c0a6904e8ff5}" relid="0x4b">
+					<name>BondE2J</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ee</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-0000001a"/>
+					<connpoint role="src" target="id-0066-00000022"/>
+				</connection>
+				<connection id="id-0068-00000021" kind="ControlFunction2Signal" role="ControlFunction2Signal" guid="{5d0183c3-982e-4bac-8ba9-4411aa4bdc61}" relid="0x4f">
+					<name>ControlFunction2Signal</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000023"/>
+					<connpoint role="dst" target="id-0066-00000024"/>
+				</connection>
+				<connection id="id-0068-00000022" kind="Signal2ControlFunction" role="Signal2ControlFunction" guid="{b536dbb4-b4dd-4eed-b604-5f18c7d59d81}" relid="0x50">
+					<name>Signal2ControlFunction</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>N</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000024"/>
+					<connpoint role="dst" target="id-0066-00000025"/>
+				</connection>
+				<connection id="id-0068-00000023" kind="Signal2MTwoPort" role="Signal2MTwoPort" guid="{c02f4419-ca8b-466b-8661-5c34a1a57af5}" relid="0x51">
+					<name>Signal2MTwoPort</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>s</value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-00000022"/>
+					<connpoint role="src" target="id-0066-00000025"/>
+				</connection>
+				<connection id="id-0068-00000024" kind="DfConn" role="DfConn" guid="{5757fc01-137e-4134-bc15-ebe2b9e42aae}" relid="0x53">
+					<name>DfConn</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ne</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-0000001a"/>
+					<connpoint role="dst" target="id-0066-00000026"/>
+				</connection>
+				<connection id="id-0068-00000025" kind="Sensing2Signal" role="Sensing2Signal" guid="{9c89176f-d8a6-405a-92dd-e0647c435ef3}" relid="0x56">
+					<name>Sensing2Signal</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>We</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000026"/>
+					<connpoint role="dst" target="id-0066-00000028"/>
+				</connection>
+				<connection id="id-0068-00000026" kind="SignalConnection" role="SignalConnection" guid="{e10bca5f-e789-40f2-832b-dbc68df1b4e4}" relid="0x57">
+					<name>SignalConnection</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>We</value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-00000027"/>
+					<connpoint role="src" target="id-0066-00000028"/>
+				</connection>
+				<connection id="id-0068-00000027" kind="ControlFunction2Signal" role="ControlFunction2Signal" guid="{1c366ccd-1ffb-4de5-bc76-0cb1de12c500}" relid="0x58">
+					<name>ControlFunction2Signal</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-00000014"/>
+					<connpoint role="src" target="id-0066-00000028"/>
+				</connection>
+				<connection id="id-0068-00000028" kind="DfConn" role="DfConn" guid="{03c83676-991a-4204-be7b-53de836aeb62}" relid="0x5d">
+					<name>DfConn</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000008"/>
+					<connpoint role="dst" target="id-0066-00000029"/>
+				</connection>
+				<connection id="id-0068-00000029" kind="Sensing2Signal" role="Sensing2Signal" guid="{439bb8ab-b89e-41d5-917d-ff2927b2bf06}" relid="0x5f">
+					<name>Sensing2Signal</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000029"/>
+					<connpoint role="dst" target="id-0066-0000002a"/>
+				</connection>
+				<connection id="id-0068-0000002a" kind="ControlFunction2Signal" role="ControlFunction2Signal" guid="{9e152ce2-c2d7-458e-9761-65f438e645fd}" relid="0x60">
+					<name>ControlFunction2Signal</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Nn</value>
+					</regnode>
+					<regnode name="customConnectionData" isopaque="yes">
+						<value>0,0,1,3,1,1,0,8,0,0</value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-00000003"/>
+					<connpoint role="src" target="id-0066-0000002a"/>
+				</connection>
+				<connection id="id-0068-0000002b" kind="SignalConnection" role="SignalConnection" guid="{ef2e3134-56ab-4703-b284-f70b324de786}" relid="0x62">
+					<name>SignalConnection</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-0000002a"/>
+					<connpoint role="dst" target="id-0066-0000002b"/>
+				</connection>
+				<connection id="id-0068-0000002c" kind="BondE2J" role="BondE2J" guid="{71b6b7b1-5f2e-4641-8a32-f4566a8cedc8}" relid="0x66">
+					<name>BondE2J</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000001"/>
+					<connpoint role="dst" target="id-0066-0000002c"/>
+				</connection>
+				<connection id="id-0068-0000002d" kind="BondJ2E" role="BondJ2E" guid="{3bf8927d-9db8-45b0-8103-712568be796c}" relid="0x67">
+					<name>BondJ2E</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-00000005"/>
+					<connpoint role="src" target="id-0066-0000002c"/>
+				</connection>
+				<connection id="id-0068-0000002e" kind="BondJ2E" role="BondJ2E" guid="{0f3bf6b9-8b4f-4cdb-bdc6-08112b4f0b6c}" relid="0x69">
+					<name>BondJ2E</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<attribute kind="dimension" status="meta">
+						<value>1</value>
+					</attribute>
+					<connpoint role="src" target="id-0066-0000002c"/>
+					<connpoint role="dst" target="id-0066-0000002d"/>
+				</connection>
+				<connection id="id-0068-0000002f" kind="ControlFunction2Signal" role="ControlFunction2Signal" guid="{45a64f0c-1b4d-4df5-9192-80cf5019c049}" relid="0x6c">
+					<name>ControlFunction2Signal</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>e</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-0000002e"/>
+					<connpoint role="dst" target="id-0066-0000002f"/>
+				</connection>
+			</model>
+		</model>
+	</folder>
+</project>

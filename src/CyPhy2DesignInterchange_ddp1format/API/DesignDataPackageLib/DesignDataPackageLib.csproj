@@ -1,0 +1,414 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BA82EA3D-7C65-44D4-893F-529D94A72BD2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AVM</RootNamespace>
+    <AssemblyName>DesignDataPackageLib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.0.5.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\JSON.NET\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Component.cs" />
+    <Compile Include="Constructors.cs" />
+    <Compile Include="DesignModel.cs" />
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="GeneratedCode\AVM\AlignmentEnum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/AlignmentEnum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fe4325f7a-c1b3-456d-a440-91639ceef368</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\Associable.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Associable/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f4ab1ab16-d1ba-4d11-999d-570b931203f3</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\Association.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Association/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fdf76397a-2403-4790-b2ff-ebe7d6d9f247</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\Base.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Base/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f62d9db7b-d647-4611-b673-d862ab826f24</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\CausalityEnum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/CausalityEnum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f85a1f8f2-ca1e-4c36-ba25-f1ce0989bf76</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\Component.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Component/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fa7123dc3-c81a-4dc9-92e9-d719c6a02e59</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\DataTypeEnum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/DataTypeEnum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f5593834f-f528-4848-9f66-43929beeef7d</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\DatumTypeEnum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/DatumTypeEnum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fdd2adc18-a57c-4d10-8885-cc1a9a9a54ce</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\DistributionTypeEnum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/DistributionTypeEnum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f86162e36-87f2-485e-91ed-38fab47c23e6</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\ExternalPort.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ExternalPort/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fdac19daa-3db2-4c22-a866-7bf85f0c1d4b</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\Feature.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Feature/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f251838a2-c2d5-4911-bbc8-8e9775e62c00</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\File.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/File/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fd8280e92-52a9-416a-8222-89283392a6f5</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\iFAB\Join.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Join/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f70665d5d-d40c-4df6-b4f1-062aaf162f6b</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\iFAB\JoinOverrideSemantics.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/JoinOverrideSemantics/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fb7d53c9e-dad2-4cbe-b992-41a0dbfe47f2</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\iFAB\ManufacturingModel.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ManufacturingModel/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fd07e4563-13ae-407f-b3e6-fb639486554e</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\iFAB\ManufacturingModelParameter.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ManufacturingModelParameter/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fc3f02766-90f6-414e-a54d-63653d44ec19</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\AggregateInterface.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/AggregateInterface/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fa681c73d-a6f1-4932-b2c3-9adf7c87dc32</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\AggregatePort.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/AggregatePort/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f607e69de-7565-40e9-a2de-6c4fdbc14a86</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\AllocationPort.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/AllocationPort/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f3f576db9-dd7b-4f51-8629-28b707974a80</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\AllocationPortTypeEnum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/AllocationPortTypeEnum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fa067aa77-8b79-4700-9d5a-ef8f10aca31f</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\ArchitectureModel.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ArchitectureModel/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fc7d5f152-19ae-447b-b1f4-f26de0072510</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\BehaviorModel.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/BehaviorModel/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fc9d5db4b-248e-4349-93b8-d0e7aba1faa9</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\BehaviorModelPowerPortTypeEnum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/BehaviorModelPowerPortTypeEnum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f0c9139a0-fca2-45d2-b3c0-1c8aa12d3231</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\BehaviorModelSignalPortTimingSemanticsEnum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/BehaviorModelSignalPortTimingSemanticsEnum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f65e1986b-d360-443e-826a-2c438950f64a</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\BehaviorModelSignalPortTypeEnum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/BehaviorModelSignalPortTypeEnum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fd4b9cc5d-0ce4-43ff-9ece-21bd2501a716</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\BehaviorParameter.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/BehaviorParameter/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fe10ecb15-2b10-46cc-90fd-cd27332abef5</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\BusPort.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/BusPort/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fa3eeaac8-87ea-4e23-af20-ba7a8a62c2c9</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\BusPortInterface.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/BusPortInterface/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f8bdc4b64-b1a5-497d-9bb2-5e6c844ebca0</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\BusSignal.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/BusSignal/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f9424b4c5-8835-4e14-8cec-5b3d9982813a</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\CADAnalysisPoint.cs" />
+    <Compile Include="GeneratedCode\AVM\META\CADModel.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/CADModel/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f35ba68d4-fd42-4e6e-a796-207f747c27ee</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\CADModelType.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/CADModelType/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fec4260ae-3e75-499f-b3e1-7a234c948e30</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\CADParameter.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/CADParameter/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fd84e416c-65f0-4862-90b1-90595527a8b1</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Calculation.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Calculation/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f01b2a93e-41e6-4439-b896-e646ad874091</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\CalculationInput.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/CalculationInput/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f5cb4bc19-f103-4760-92e5-88522fbe9ef2</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\CommunicationPort.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/CommunicationPort/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fe8e014f9-a527-4c29-a1d3-2ae4f2445bdd</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\DataPort.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/DataPort/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252ffb89405d-1096-4ac8-a131-57c2c49b5f3c</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\DataType.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/DataType/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f7f0d2546-c556-444e-a9e4-a028e5d07ee2</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\DataTypeField.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/DataTypeField/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f00c9c489-6c65-4c12-a880-c3765c045f5f</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\DataTypeFieldTypeEnum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/DataTypeFieldTypeEnum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f218e2408-fcec-4b29-9e93-a18581e5033c</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Datum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Datum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f86d873ad-c384-46e8-b742-3cca6de3c7b2</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\AbstractPort.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/AbstractPort/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f4e5e0e95-5b35-43f9-9b6c-0c331a44d3af</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\AbstractStructuralInterface.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/AbstractStructuralInterface/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f61040c3e-bb8d-4cb2-9d31-eebc3a5194d8</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\Alternative.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Alternative/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fd58b2106-600a-4cf0-967d-ac4bcb008683</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\ComponentInstance.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ComponentInstance/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f7116faef-65c1-49e0-91e8-e27d85b59e65</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\ComponentNamedValueInstance.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ComponentNamedValueInstance/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f026f81ad-177c-472b-ab3a-769723a8f9ac</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\Compound.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Compound/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f6a7dfbb7-15f6-4dbc-becb-cb11ccd59651</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\Connector.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Connector/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f2d9003de-04f7-443d-b4f7-ede406241b17</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\Constraint.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Constraint/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f4524f5da-b72e-441f-88d9-00b5564a30ec</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\ConstraintBase.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ConstraintBase/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f61337eb7-1b20-4d7a-8135-55e2f4cca444</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\Container.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Container/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f7059c4f2-76db-4a87-b7e9-da45021eaaa7</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\ContainerCalculation.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ContainerCalculation/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f59b7c636-0ff1-4c63-8757-2f4619bf3995</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\ContainerNamedValue.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ContainerNamedValue/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252ff955f541-ddca-4824-922c-da27e2f3f98b</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\ContainerPort.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ContainerPort/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fc012c147-d9d4-49f4-9c83-843edfe7c2d4</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\ContainerStructuralInterface.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ContainerStructuralInterface/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fa1232840-0811-487b-ab96-98d5192ed2df</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\ContainerValue.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ContainerValue/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f42caa42c-4268-4de6-8f4b-41425231dc58</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\DecisionGroup.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/DecisionGroup/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f67241e0f-316c-4255-9815-fdb0f710fbda</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\DesignModel.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/DesignModel/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f877af09f-6587-4f08-947b-8ae0540dee40</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\DesignSpaceContainer.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/DesignSpaceContainer/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f93659919-46ba-4786-a833-8985e2f9cea4</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\ImpliesConstraint.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ImpliesConstraint/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f32733056-c98e-44f6-a838-0ffbd663d6c8</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\MappableValueInstance.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/MappableValueInstance/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fa8b9df54-a55c-4cb0-907c-d4156e075573</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\Optional.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Optional/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f18a70ff8-ef90-43b7-b352-7c368468846d</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\PortConnector.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/PortConnector/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f09b33e6a-c7b4-42bf-abef-1eaea6e64cd4</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\PortInstance.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/PortInstance/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f56eaa930-2c2e-4e48-bd6f-c6862e8afbb7</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\PropertyConstraint.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/PropertyConstraint/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252feb4685d3-3077-4fc7-965c-51d24bfaa528</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\StructuralInterfaceConnector.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/StructuralInterfaceConnector/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f3147514b-b187-4fc5-b84d-ccdd3e60d2e9</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\StructuralInterfaceInstance.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/StructuralInterfaceInstance/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fe5ef62ae-769b-4a54-befb-f202fee80eaa</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBenchInstance.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/TestBenchInstance/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252ffaad15ab-6a99-459e-8094-ac9a4c11cb71</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBenchMapping.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/TestBenchMapping/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f2098133a-674f-43a7-bcc0-6b803c529b0f</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\DynamicsSimulation.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/DynamicsSimulation/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252ff2e9ed78-ba94-44bc-9e69-024a70943400</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\Environment.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Environment/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f7284e4a7-4e29-4f52-a474-53ca352ad701</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\ExecutionType.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ExecutionType/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f902b9255-453f-4e1e-ad85-b3b424fc9130</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\Metric.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Metric/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f7d183bb2-0774-4c79-abef-f2c8b9ba6152</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\PostProcessing.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/PostProcessing/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f66ff0b63-dabe-4cd7-b202-d2214fa156db</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\TestBenchModel.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/TestBenchModel/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fb2443944-efc6-4c43-aefa-7ba9354fde28</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\TestBenchPort.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/TestBenchPort/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252ff6c4bbc8-0fbd-421f-a006-be556b6901f9</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\TestBenchValuePort.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/TestBenchValuePort/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f4b42e1c0-14dc-485d-9f1a-331852492f73</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\TestBench\ValuePortDirectionality.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ValuePortDirectionality/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252ff687e445-9e1e-47fb-80c5-a3e741d75a68</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\ValueConnector.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ValueConnector/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f45be1d19-c831-42d1-8919-48946fec942f</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Design\ValueType.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ValueType/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fec41a0d8-58d2-4ca5-a52b-d4bed7c6bc6a</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\DirectionEnum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/DirectionEnum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fa2347139-b11c-4444-95e8-078c722c2dd6</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Electrical.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Electrical/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fb56a924a-bfc3-4c60-8544-31e8c63f3d46</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Electromagnetic.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Electromagnetic/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f3fe46919-4e39-448e-baab-6ea91aa483f7</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Fluid.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Fluid/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f96ef7699-a392-4b28-b4f6-03635613b067</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Heat.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Heat/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fbb22c425-50e3-441c-b464-15da5227119c</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Interface.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Interface/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f25cb2a12-cf8a-4e53-887b-b2ab070f159d</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\LimitCheck.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/LimitCheck/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f5235d14a-df37-4f32-9cd9-3a8300bc6a55</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\LimitType.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/LimitType/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f7aed20e4-e19a-4dfb-9474-05a23f106a5d</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Magnetic.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Magnetic/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f399174a4-d2f2-4952-844e-82d22d793742</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\MaterialSpec.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/MaterialSpec/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f90f6afb4-b8f5-4d6a-b339-a2c7f7421781</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Metric.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Metric/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252ff55bbacc-78ea-4c98-92c7-955e5369d3d1</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\MultiBody.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/MultiBody/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252ff9707806-db1f-4377-80d5-7fb82f8b0009</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\NamedValue.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/NamedValue/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252ff42d5374-9565-45ca-9df5-19157b2265b4</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Phenomenon.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Phenomenon/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f33928f3d-ade6-4977-bd91-f17052abb7d6</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Pneumatic.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Pneumatic/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fe9ec5473-f0d9-4198-8846-70781ae0701b</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\PowerPort.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/PowerPort/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f3a45ee0a-a1bc-4c23-8512-987b943d9e5d</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\PowerPortInterface.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/PowerPortInterface/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f864e8c60-62f0-45b1-83ad-5035474fd8f3</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Property.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Property/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f45eb293d-e68d-496f-a38c-0a47ae8c285b</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Rotational.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Rotational/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fc38aed3c-e8e2-450e-9052-abd3523801c3</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\SignalPort.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/SignalPort/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f819356b8-f2ca-44f6-abd7-dc24d826dbef</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\SignalPortBase.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/SignalPortBase/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f37c7a424-297b-48c5-b7a2-4c227d62efad</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\SignalPortInterface.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/SignalPortInterface/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fd0d8eab8-2879-470c-a7e5-1ea100099be0</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Translational.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Translational/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f1b9f3c59-f0c7-44ac-b0b5-75ba3465010a</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\META\Value.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Value/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fd012dfcc-3a53-4340-833b-499d17227103</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\Model.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Model/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fc34b8ca4-da11-4c0a-a26c-0a0854d8bca7</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\OrientationEnum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/OrientationEnum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fd44aca5d-9d2d-48cd-8b9a-034413ac0896</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\StructuralInterface.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/StructuralInterface/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fabcaff80-ebe8-4e73-ac1f-b53df113c8ff</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\StructuralInterfaceDatum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/StructuralInterfaceDatum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f36285852-b4ed-4fbc-b3b2-5235ca767b49</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\StructuralInterfaceStyle.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/StructuralInterfaceStyle/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f948f828a-6a85-4f7e-8fea-cc53cfd9df5b</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\Supercede.cs" />
+    <Compile Include="GeneratedCode\AVM\UsesLibrary.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/UsesLibrary/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f6884d5db-76ae-45db-9af3-ed505f1a02f7</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\VehicleForge\DistributionRestriction.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/DistributionRestriction/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252faf40e9ea-fc0c-4e06-8daf-61a3638fbe75</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\VehicleForge\ITARRestrictionLevelEnum.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ITARRestrictionLevelEnum/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f911387a1-94bc-411c-8ff8-9895a0025a94</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\VehicleForge\ITAR_Restriction.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/ITAR_Restriction/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252fca0327a3-eaed-4c81-bb7d-802b19a0e928</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\VehicleForge\Proprietary.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/Proprietary/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f09279786-8ebb-48e8-a751-de6a5a8736c1</SourceModelReference>
+    </Compile>
+    <Compile Include="GeneratedCode\AVM\VehicleForge\SecurityClassification.cs">
+      <SourceModelReference>modelbus://ModelStoreAdapter.1.0/Model/SecurityClassification/C:\Users\adam\svn\meta\trunk\meta\DesignDataPackage\API\Model\Model.modelproj%252f9e813920-1e4a-4cd8-9f52-1ece4fcfddbc</SourceModelReference>
+    </Compile>
+    <Compile Include="ProcessJSON.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ResolveAliases.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>python ..\..\ResolveAliases.py</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

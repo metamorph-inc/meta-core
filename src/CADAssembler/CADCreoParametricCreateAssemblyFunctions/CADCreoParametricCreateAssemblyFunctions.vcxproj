@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{081F0B37-FDA9-4921-A171-8B3FEAA0FDD3}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\CADCreoParametricCreateAssembly\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CADAssembler.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CADAssembler.props" />
+    <Import Project="..\..\UdmDlld.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CADAssembler.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CADAssembler.props" />
+    <Import Project="..\..\UdmDll.props" />
+    <Import Project="..\..\..\creo_2_0.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\generated\CAD\generated\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <Optimization>MaxSpeed</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\generated\CAD\generated\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\generated\CAD\generated\CreoMetaData.cpp" />
+    <ClCompile Include="ApplyModelConstraints.cpp" />
+    <ClCompile Include="AssembleComponents.cpp" />
+    <ClCompile Include="AssembleUtils.cpp" />
+    <ClCompile Include="..\..\..\generated\CAD\generated\AssemblyInterface.cpp" />
+    <ClCompile Include="AssemblyOptions.cpp" />
+    <ClCompile Include="BuildAssembly.cpp" />
+    <ClCompile Include="CADEnvironmentSettings.cpp" />
+    <ClCompile Include="CommonStructures.cpp" />
+    <ClCompile Include="CADFactoryCreo.cpp" />
+    <ClCompile Include="DatumRefResolver.cpp" />
+    <ClCompile Include="DiagnosticUtilities.cpp" />
+    <ClCompile Include="ISISConstants.cpp" />
+    <ClCompile Include="MaterialProperties.cpp" />
+    <ClCompile Include="CreoModelMetaData.cpp" />
+    <ClCompile Include="ProEStructuresUtils.cpp" />
+    <ClCompile Include="SetCADModelParameters.cpp" />
+    <ClCompile Include="ToolKitPassThroughFunctions.cpp" />
+    <ClCompile Include="XMLToProEStructures.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\generated\CAD\generated\CreoMetaData.h" />
+    <ClInclude Include="ApplyModelConstraints.h" />
+    <ClInclude Include="AssembleComponents.h" />
+    <ClInclude Include="AssembleUtils.h" />
+    <ClInclude Include="..\..\..\generated\CAD\generated\AssemblyInterface.h" />
+    <ClInclude Include="..\..\..\generated\CAD\generated\AssemblyInterface_xsd.h" />
+    <ClInclude Include="AssemblyOptions.h" />
+    <ClInclude Include="BuildAssembly.h" />
+    <ClInclude Include="CADEnvironmentSettings.h" />
+    <ClInclude Include="CommonStructures.h" />
+    <ClInclude Include="CADFactoryCreo.h" />
+    <ClInclude Include="DatumRefResolver.h" />
+    <ClInclude Include="DiagnosticUtilities.h" />
+    <ClInclude Include="ISISConstants.h" />
+    <ClInclude Include="MaterialProperties.h" />
+    <ClInclude Include="CreoModelMetaData.h" />
+    <ClInclude Include="ProEStructuresUtils.h" />
+    <ClInclude Include="SetCADModelParameters.h" />
+    <ClInclude Include="ToolKitPassThroughFunctions.h" />
+    <ClInclude Include="XMLToProEStructures.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\meta\CAD\CAD.vcxproj">
+      <Project>{062cb7d2-7c7d-45ca-97c4-33dd720cd9b1}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="..\..\nuget\log4cpp.redist.1.1.0.2\build\native\log4cpp.redist.targets" Condition="Exists('..\..\nuget\log4cpp.redist.1.1.0.2\build\native\log4cpp.redist.targets')" />
+    <Import Project="..\..\nuget\log4cpp.1.1.0.2\build\native\log4cpp.targets" Condition="Exists('..\..\nuget\log4cpp.1.1.0.2\build\native\log4cpp.targets')" />
+    <Import Project="..\..\nuget\boost.1.55.0.10\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.10\build\native\boost.targets')" />
+    <Import Project="..\..\nuget\log4cpp.1.1.0.3\build\native\log4cpp.targets" Condition="Exists('..\..\nuget\log4cpp.1.1.0.3\build\native\log4cpp.targets')" />
+  </ImportGroup>
+</Project>

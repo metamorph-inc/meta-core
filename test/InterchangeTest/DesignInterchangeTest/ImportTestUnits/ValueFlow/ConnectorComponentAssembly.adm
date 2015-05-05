@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="ConnectorComponentAssembly" DesignID="{5b3aa54e-b307-404b-bb56-19ed9db75880}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="ConnectorComponentAssembly" xmlns="">
+    <Container xsi:type="q1:Compound" YPosition="224" XPosition="462" Name="SubComponentAssembly">
+      <ComponentInstance XPosition="483" YPosition="224" ComponentID="a817632e-97c8-4626-b2aa-806afbcfb49a" ID="{5c2039d4-76b2-4373-bf6c-8ad7c18688a2}" Name="ComponentWithConnector">
+        <ConnectorInstance ConnectorComposition="ff88d815-546a-4c09-9444-543c16d30942" ID="{5c2039d4-76b2-4373-bf6c-8ad7c18688a2}-id-c998a019-bdb6-4876-95ad-d6cf797d0d56" ApplyJoinData="" IDinComponentModel="id-c998a019-bdb6-4876-95ad-d6cf797d0d56" />
+      </ComponentInstance>
+      <Connector ConnectorComposition="{5c2039d4-76b2-4373-bf6c-8ad7c18688a2}-id-c998a019-bdb6-4876-95ad-d6cf797d0d56 c30114c0-bdcf-4411-a2ba-eef3cafae574" ID="ff88d815-546a-4c09-9444-543c16d30942" ApplyJoinData="" XPosition="35" YPosition="224" Definition="" Name="Connector" />
+    </Container>
+    <Connector ConnectorComposition="ff88d815-546a-4c09-9444-543c16d30942" ID="c30114c0-bdcf-4411-a2ba-eef3cafae574" ApplyJoinData="" XPosition="70" YPosition="210" Definition="" Name="Connector" />
+  </RootContainer>
+</Design>

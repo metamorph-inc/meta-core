@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup
+    Condition="'$(meta2uml_RuleBeforeTargets)' == '' and '$(meta2uml_RuleAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <meta2uml_RuleBeforeTargets>CustomBuild</meta2uml_RuleBeforeTargets>
+    <meta2uml_RuleAfterTargets></meta2uml_RuleAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <meta2uml_RuleDependsOn
+      Condition="'$(ConfigurationType)' != 'Makefile'">_SelectedFiles;$(meta2uml_RuleDependsOn)</meta2uml_RuleDependsOn>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <meta2uml>
+      <OutFile>%(RelativeDir)%(FileName)_uml.mga</OutFile>
+      <CommandLineTemplate>&quot;$(MSBuildThisFileDirectory)..\gmepy.exe&quot; meta2uml &quot;%(Identity)&quot; %(meta2uml.OutFile)</CommandLineTemplate>
+      <ExecutionDescription>meta2uml &quot;%(Identity)&quot;</ExecutionDescription>
+      <ShowOnlyRuleProperties>false</ShowOnlyRuleProperties>
+    </meta2uml>
+  </ItemDefinitionGroup>
+</Project>

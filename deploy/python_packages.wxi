@@ -1,0 +1,27 @@
+ <!-- to add a package: add a gen_dir_wxi.main call in build_msi.py, add 2x below -->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="dir_bin_Python27_Lib_site_packages" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir_bin_Python27_Lib_site_packages">
+            <Directory Id="isis_meta" Name="isis_meta" />
+            <Directory Id="MaterialLibraryInterface" Name="MaterialLibraryInterface" />
+            <Directory Id="meta_nrmm" Name="meta_nrmm" />
+            <Directory Id="PCC" Name="PCC" />
+            <Directory Id="py_modelica" Name="py_modelica" />
+            <Directory Id="py_modelica_exporter" Name="py_modelica_exporter" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="python_packages">
+            <ComponentGroupRef Id="isis_meta" />
+            <ComponentGroupRef Id="MaterialLibraryInterface" />
+            <ComponentGroupRef Id="meta_nrmm" />
+            <ComponentGroupRef Id="PCC" />
+            <ComponentGroupRef Id="py_modelica" />
+            <ComponentGroupRef Id="py_modelica_exporter" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>

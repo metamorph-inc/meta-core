@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<DesertBackSystem SystemName="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="DesertIfaceBack.xsd">
+
+  <Configuration id="1" name="Conf. no: 1">
+    <AlternativeAssignment _id="idBD" alternative_end_="idBC" alternative_of_end_="idBe" externalID="-1" id="-1" name="alternative assignment"/>
+    <AlternativeAssignment _id="idC0" alternative_end_="idBF" alternative_of_end_="idC1" externalID="-1" id="-1" name="alternative assignment"/>
+    <PropertyAssignment _id="idA8" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA1"/>
+    <PropertyAssignment _id="idAA" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA2"/>
+    <PropertyAssignment _id="idAB" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA3"/>
+    <PropertyAssignment _id="idAC" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA4"/>
+    <PropertyAssignment _id="idAD" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA5"/>
+    <PropertyAssignment _id="idAe" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA6"/>
+    <PropertyAssignment _id="idAF" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA7"/>
+    <PropertyAssignment _id="idB1" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idB0"/>
+    <PropertyAssignment _id="idB3" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idB2"/>
+    <PropertyAssignment _id="idB5" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idB4"/>
+    <PropertyAssignment _id="idB7" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idB6"/>
+    <PropertyAssignment _id="idB9" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idB8"/>
+    <PropertyAssignment _id="idBB" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idBA"/>
+  </Configuration>
+
+  <Configuration id="2" name="Conf. no: 2">
+    <AlternativeAssignment _id="idD5" alternative_end_="idBC" alternative_of_end_="idBe" externalID="-1" id="-1" name="alternative assignment"/>
+    <AlternativeAssignment _id="idD7" alternative_end_="idD6" alternative_of_end_="idC1" externalID="-1" id="-1" name="alternative assignment"/>
+    <PropertyAssignment _id="idC2" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA1"/>
+    <PropertyAssignment _id="idC3" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA2"/>
+    <PropertyAssignment _id="idC4" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA3"/>
+    <PropertyAssignment _id="idC5" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA4"/>
+    <PropertyAssignment _id="idC6" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA5"/>
+    <PropertyAssignment _id="idC7" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA6"/>
+    <PropertyAssignment _id="idC8" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idA7"/>
+    <PropertyAssignment _id="idCA" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idC9"/>
+    <PropertyAssignment _id="idCC" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idCB"/>
+    <PropertyAssignment _id="idCe" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idCD"/>
+    <PropertyAssignment _id="idD0" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idCF"/>
+    <PropertyAssignment _id="idD2" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idD1"/>
+    <PropertyAssignment _id="idD4" externalID="2000" id="2000" name="" value_end_="idA9" value_of_end_="idD3"/>
+  </Configuration>
+
+  <Element _id="idBC" alternative_of="idBD idD5" externalID="19" id="19" name="Tire_w5">
+    <VariableProperty _id="idA1" name="Cost" value="idA8 idC2"/>
+    <VariableProperty _id="idA2" name="Volume" value="idAA idC3"/>
+    <VariableProperty _id="idA3" name="Depth" value="idAB idC4"/>
+    <VariableProperty _id="idA4" name="BoxVolume" value="idAC idC5"/>
+    <VariableProperty _id="idA5" name="Width" value="idAD idC6"/>
+    <VariableProperty _id="idA6" name="Height" value="idAe idC7"/>
+    <VariableProperty _id="idA7" name="ContactPatch" value="idAF idC8"/>
+  </Element>
+
+  <Element _id="idBF" alternative_of="idC0" externalID="8" id="8" name="Differential_w13">
+    <VariableProperty _id="idB0" name="Cost" value="idB1"/>
+    <VariableProperty _id="idB2" name="Width" value="idB3"/>
+    <VariableProperty _id="idB4" name="BoxVolume" value="idB5"/>
+    <VariableProperty _id="idB6" name="Volume" value="idB7"/>
+    <VariableProperty _id="idB8" name="Height" value="idB9"/>
+    <VariableProperty _id="idBA" name="Depth" value="idBB"/>
+  </Element>
+
+  <Element _id="idBe" alternative="idBD idD5" externalID="2" id="2" name="Tire"/>
+
+  <Element _id="idC1" alternative="idC0 idD7" externalID="3" id="3" name="Differential"/>
+
+  <Element _id="idD6" alternative_of="idD7" externalID="20" id="20" name="Differential_w15">
+    <VariableProperty _id="idC9" name="Cost" value="idCA"/>
+    <VariableProperty _id="idCB" name="Width" value="idCC"/>
+    <VariableProperty _id="idCD" name="BoxVolume" value="idCe"/>
+    <VariableProperty _id="idCF" name="Volume" value="idD0"/>
+    <VariableProperty _id="idD1" name="Height" value="idD2"/>
+    <VariableProperty _id="idD3" name="Depth" value="idD4"/>
+  </Element>
+
+  <NaturalMember _id="idA9" value="0" value_of="idA8 idAA idAB idAC idAD idAe idAF idB1 idB3 idB5 idB7 idB9 idBB idC2 idC3 idC4 idC5 idC6 idC7 idC8 idCA idCC idCe idD0 idD2 idD4"/>
+
+</DesertBackSystem>

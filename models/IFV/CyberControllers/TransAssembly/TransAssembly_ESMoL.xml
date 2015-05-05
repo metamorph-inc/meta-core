@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Semantics.xsd">
+
+  <Deployment id="0">
+    <Acquisition _id="id1e" acquiredMsg="id12" acquiringChannel="id5" acquiringTasks="id1A" id="0"/>
+    <Actuation _id="id1F" actuatingChannel="id7" actuatingMsg="id13" actuatingTask="id19" id="0"/>
+    <Component _id="id9" ccode="" cfiles="AutoTransController_sl.c" consumes="idB" generates="idC idD" hfiles="AutoTransController_sl.h" id="300000003" invokedBy="id19" msubsystem="AutoTransController" name="AutoTransComp_2"/>
+    <Component _id="ide" ccode="" cfiles="PassThrough_sl.c" consumes="idF" generates="id10" hfiles="PassThrough_sl.h" id="300000007" invokedBy="id1A" msubsystem="PassThrough" name="DieselEngineVelSensor_DataHandler"/>
+    <DummyDependency _id="id1C" dummyDepNode="id4" dummyMsg="id1B" id="0" sendingTask="id19"/>
+    <ExecInfo _id="id14" executor="id19" name="AutoTransComp_2_100000011">
+      <MaxDuration exectimesecs="0.001"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.05" ticksched="50"/>
+    </ExecInfo>
+    <ExecInfo _id="id15" executor="id7 id8 id13" name="GearRatioMsg_AutoTransComp_2_100000012">
+      <MaxDuration exectimesecs="0.001"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.075" ticksched="75"/>
+    </ExecInfo>
+    <ExecInfo _id="id16" executor="id1A" name="DieselEngineVelSensor_DataHandler_100000013">
+      <MaxDuration exectimesecs="0.001"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.025" ticksched="25"/>
+    </ExecInfo>
+    <ExecInfo _id="id17" executor="id5 id6 id12" name="RPMMsg_In_DieselEngineVelSensor_DataHandler_100000014">
+      <MaxDuration exectimesecs="0.001"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.012" ticksched="12"/>
+    </ExecInfo>
+    <ExecInfo _id="id18" executor="id11" name="RPMMsg_Out_DieselEngineVelSensor_DataHandler_100000015">
+      <MaxDuration exectimesecs="0.001"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <IChan _id="id5" channelAcquisition="id1e" config="" ichanDevice="id6" id="200000003" info="id17" name="DieselEngineVelSensor"/>
+    <InputDevice _id="id6" config="" devicetype="" id="0" info="id17" inputChannels="id5" integratedBy="id4" name="DieselEngineVelSensor"/>
+    <LocalDependency _id="id1D" depMsg="id11" id="0" localDepNode="id4" localDepReceivingTasks="id19" localDepSendingTask="id1A"/>
+    <Msg _id="id11" carries="idB id10" id="0" info="id18" messagetype="Local" msgDep="id1D" name="DieselEngineVelSensor_DataHandler.RPMMsg_Out" sizebytes="1"/>
+    <Msg _id="id12" carries="idF" id="0" info="id17" messagetype="Local" msgAcquisitions="id1e" name="DieselEngineVelSensor_DataHandler.RPMMsg_In" sizebytes="1"/>
+    <Msg _id="id13" carries="idD" id="0" info="id15" messagetype="Local" msgActuation="id1F" name="AutoTransComp_2.GearRatioMsg" sizebytes="1"/>
+    <Msg _id="id1B" carries="idC" dummyMsgDeps="id1C" dummyMsgNode="id4" id="0" messagetype="Dummy" name="TCU.DummyMsg" sizebytes="0"/>
+    <Node _id="id4" analog_inp_num="1" analog_outp_num="1" clockspeedhz="0" ctxtswitchsecs="0" executes="id19 id1A" hyperperiodsecs="0.1" hyperperiodticks="100" id="100000008" integrates="id6 id8" name="TCU" nodeDummyDeps="id1C" nodeDummyMsg="id1B" nodeLocalDeps="id1D" platformtype="i686-pc-linux" pp_directives="" processormodel="" rcvohdsecs="0" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <OChan _id="id7" channelActuations="id1F" config="" id="200000004" info="id15" name="GearRatioTransducer" ochanDevice="id8"/>
+    <OutputDevice _id="id8" config="" devicetype="" id="0" info="id15" integratedBy="id4" name="GearRatioTransducer" outputChannels="id7"/>
+    <Signal _id="idB" callIndex="1" carriedBy="id11" consumedBy="id9" id="100000149" isOfType="idA" msgIndex="1" name="DieselEngineVelSensor_DataHandler_Out"/>
+    <Signal _id="idC" callIndex="2" carriedBy="id1B" generatedBy="id9" id="100000147" isOfType="idA" msgIndex="0" name="AutoTransComp_2_gear_num"/>
+    <Signal _id="idD" callIndex="1" carriedBy="id13" generatedBy="id9" id="100000148" isOfType="idA" msgIndex="1" name="AutoTransComp_2_gear_ratio"/>
+    <Signal _id="idF" callIndex="1" carriedBy="id12" consumedBy="ide" id="100000208" isOfType="idA" msgIndex="1" name="DieselEngineVelSensor_DataHandler_In"/>
+    <Signal _id="id10" callIndex="1" carriedBy="id11" generatedBy="ide" id="100000209" isOfType="idA" msgIndex="1" name="DieselEngineVelSensor_DataHandler_Out"/>
+    <SignalType _id="idA" columns="" ctypestr="" id="0" isStruct="false" mtypestr="float" name="float" rows="" signalsOfType="idB idC idD idF id10"/>
+    <Task _id="id19" dummyDeps="id1C" executedBy="id4" id="0" info="id14" invokes="id9" localReceivingTaskDeps="id1D" name="AutoTransComp_2" taskActuations="id1F"/>
+    <Task _id="id1A" executedBy="id4" id="0" info="id16" invokes="ide" localSendingTaskDeps="id1D" name="DieselEngineVelSensor_DataHandler" taskAcquisitions="id1e"/>
+  </Deployment>
+
+</RootFolder>

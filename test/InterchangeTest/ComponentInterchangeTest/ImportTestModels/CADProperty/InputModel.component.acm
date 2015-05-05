@@ -1,0 +1,19 @@
+<ns1:Component xmlns:ns1="avm" xmlns:ns2="manufacturing" xmlns:ns3="cad" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="bolt_hex__generic__m14x2p0x60_10p9_blo" SchemaVersion="1.0" Version="30July13" ID="0249ca2a-aa17-4c06-a312-67b83c4e0317">
+    <DomainModel UsesResource="cad.path" xsi:type="ns3:CADModel">
+    <Parameter Name="WIDTH_ACROSS_FLATS">
+      <Value DataType="Real" DimensionType="Scalar" Dimensions="1" ID="cad.WIDTH_ACROSS_FLATS" Unit="m">
+        <ValueExpression xsi:type="ns1:FixedValue">
+          <Value>0.021</Value>
+        </ValueExpression>
+      </Value>
+    </Parameter>
+    <Parameter Name="PTC_MATERIAL_NAME">
+      <Value DataType="String" DimensionType="Scalar" Dimensions="1" ID="cad.PTC_MATERIAL_NAME">
+        <ValueExpression xsi:type="ns1:FixedValue">
+          <Value>STEEL_BOLT_METRIC_CLASS_10P9</Value>
+        </ValueExpression>
+      </Value>
+    </Parameter>
+  </DomainModel>
+  <Classifications>Bolt_Hex</Classifications>
+</ns1:Component>

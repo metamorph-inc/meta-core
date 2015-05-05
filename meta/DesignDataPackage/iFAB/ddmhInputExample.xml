@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Input Example -->
+<iFAB:ddmhInput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iFAB="iFAB" xsi:schemaLocation="iFAB ddmhInput.xsd">
+	<!-- A simple, unoptimized query -->
+	<!-- The presence of the newData element implies this is "New Data" -->
+	<!-- Down the road if we'd like to automate "Refine" and "Check" -->
+	<!-- we can use XSD substitution or a similar mechanism -->
+	<ddmhQuery UUID="10000000-0000-0000-0000-000000000000">
+		<machineUUID>00000000-0000-0000-0000-000000000000</machineUUID>
+		<toolStackUpUUID>00000000-0000-0000-0000-000000000000</toolStackUpUUID>
+		<materialUUID>00000000-0000-0000-0000-000000000000</materialUUID>
+		<newData>
+			<productivity>Maximum</productivity>
+		</newData>
+	</ddmhQuery>
+	
+	<!-- An optimized "New Data" Query -->
+	<!-- The presence of the optimizationParameters element implies -->
+	<!-- that we choose to optimize -->
+	<ddmhQuery UUID="20000000-0000-0000-0000-000000000000">
+		<machineUUID>00000000-0000-0000-0000-000000000000</machineUUID>
+		<toolStackUpUUID>00000000-0000-0000-0000-000000000000</toolStackUpUUID>
+		<materialUUID>00000000-0000-0000-0000-000000000000</materialUUID>
+		<newData>
+			<productivity>Conservative</productivity>
+			<optimizationParameters>
+				<feature>Pocket</feature>
+				<cutType>Roughing</cutType>
+				<radialDepthOfCut>0.25</radialDepthOfCut>
+				<maxFeatureDepth unit="in">50</maxFeatureDepth>
+			</optimizationParameters>
+		</newData>
+	</ddmhQuery>
+	
+	<!-- A query with an invalid material UUID -->
+	<ddmhQuery UUID="30000000-0000-0000-0000-000000000000">
+		<machineUUID>00000000-0000-0000-0000-000000000000</machineUUID>
+		<toolStackUpUUID>00000000-0000-0000-0000-000000000000</toolStackUpUUID>
+		<materialUUID>10000000-0000-0000-0000-000000000000</materialUUID>
+		<newData>
+			<productivity>Maximum</productivity>
+		</newData>
+	</ddmhQuery>
+</iFAB:ddmhInput>

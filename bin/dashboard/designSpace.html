@@ -1,0 +1,80 @@
+<link rel="stylesheet" href="./css/designSpace.css"></link>
+
+<style>
+</style>
+
+<!-- Custom scripts -->
+<script type="text/javascript" src="./js/designSpace.js"></script>
+<span class="ruler"></span>
+
+<div class = "row-fluid" data-bind="visible: componets().length > 0">
+	<div class="span12">
+			<h1>Visualization</h1>	
+	</div>
+	<div class = "span12">
+		<form class="form-inline">
+			<table class="vistable">
+				<tr>
+					<td>
+						<label width="200px">Design Grouping:</label>
+					</td>
+					<td>
+						<select class="testing1" data-bind="options: designspaceOptions(), optionsText: 'headers', optionsValue: 'data', value: dsVisSelected">
+						<option selected="selected" value="0">All Designs</option>	
+					</td>
+				   <td rowspan="2" width="10"></td>
+				   <td class="colorlegend" rowspan="2"></p></td>
+				</tr>
+				<tr>
+					<td>
+						<label>Design Coloring:</label>
+					</td>
+					<td>
+						<select class="testing2" data-bind="options: designspaceOptions(), optionsText: 'headers', optionsValue: 'data', value: dsVisColor">
+						<option selected="selected" value="0">All Designs</option>		
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>	
+
+<div class="row-fluid" data-bind="visible: componets().length > 0">
+	<div class = "span12">
+			<vf-bubbles id="Bubbles" data="vm.dataproviders.cfgVis()" pag = "true" height= "" ratio = "1.2"></vf-bubbles>
+	</div>
+</div>
+
+<div class="row-fluid widget" data-bind="visible: componets().length > 0">
+	<div class="span12">
+		<h1>Configuration Table</h1>
+		<form class="form-inline">
+			<button class="btn btn-inverse csv" type="button" style="margin-left: 20px; display: inline;margin-top: 15px;" data="vm.dataproviders.cfgTable()" table="cfgTable" style="display: inline"><i class="icon-th-list icon-white"></i> Export</button>
+		</form>	
+	</div>
+	<div>
+		<vf-datatable id="cfgTable" data="vm.dataproviders.cfgTable()" pag = "true" height="" ratio = "1.2" ></vf-datatable>
+	</div>
+</div>
+
+<div class="row-fluid" data-bind="visible: componets().length < 1">
+	<div class="span3"></div>
+	<div class="span6 well">
+		<h1>Your dataset is missing information</h1>
+		<div>
+			This tab will show the component combinations between the designs (configurations) within the dataset if the data is available
+		</div>
+	</div>
+</div>
+<!--
+<div class="row-fluid widget">
+	<div class="span12">
+		<h1>Design Info Box</h1>
+		<form class="form-inline">
+			<label>Configuration: </label><select data-bind="options: listOfConfigurations(), value: selectedConfiguration"></select>
+			<button class="btn btn-inverse" type="button" style="margin-left: 20px;" id="addDesignbtn" onclick="vm.selectDesignForCompare()"><i class="icon-th-list icon-white"></i> Add to Compare</button><button class="btn btn-inverse csv" type="button" style="margin-left: 20px; display: inline" data="vm.dataproviders.designInfoBox()" table="DesignInfoBox" style="display: inline"><i class="icon-th-list icon-white"></i> Export</button>
+		</form>
+		<vf-datatable id="designBox" data="vm.dataproviders.designInfoBox()"  pag = "true" height="400" ratio = ".5" ></vf-datatable> 
+	</div>	
+</div>
+-->

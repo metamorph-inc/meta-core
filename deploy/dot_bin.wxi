@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<?define dot_bin=..\3rdParty\dot_bin?>
+<!-- generated with C:\Users\ksmyth\Documents\META\deploy\gen_dir_wxi.py ..\3rdParty\dot_bin -->
+    <Fragment>
+        <DirectoryRef Id="dot_bin" />
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="dot_bin">
+            <Component Id="cmp6649FD7CB500D5B6FD0A682406033B7B" Directory="dot_bin" Guid="{72BCB4E6-F366-45C0-8C05-5839F771A124}">
+                <File Id="filE6A3AC2BF9A011F35380CDCC2523916D" KeyPath="yes" Source="$(var.dot_bin)\cdt.dll" />
+            </Component>
+            <Component Id="cmpE1AFF9665C3E40621723DA83B8B68824" Directory="dot_bin" Guid="{81C72B15-8EDE-4202-8B86-0C6370356282}">
+                <File Id="fil836BCB7B78E1B4C0515A7C994EA9DC9E" KeyPath="yes" Source="$(var.dot_bin)\config6" />
+            </Component>
+            <Component Id="cmp45CDEC5F98EB0F3801986D7DC25BFE2F" Directory="dot_bin" Guid="{C08BA8F5-634C-402C-A85B-65EE6948A934}">
+                <File Id="fil95316F3D05BC7B593690B9C4FF0D1EB7" KeyPath="yes" Source="$(var.dot_bin)\dot.exe" />
+              <RegistryKey Root='HKLM' Key='Software\META'>
+                <RegistryValue Name='META_DOT_PATH' Type='string' Value='[$cmp45CDEC5F98EB0F3801986D7DC25BFE2F]'/>
+              </RegistryKey>
+            </Component>
+            <Component Id="cmp392A84D2F541FF3DDD321CE80F545161" Directory="dot_bin" Guid="{A9154727-0067-4CA2-AFD4-2FC5EC37EEB2}">
+                <File Id="fil85287C64CCFE2A454C299AE610BC1815" KeyPath="yes" Source="$(var.dot_bin)\freetype6.dll" />
+            </Component>
+            <Component Id="cmpC48DE732BB7FFF698D8A72B9B14F6F34" Directory="dot_bin" Guid="{CF21474E-5175-4A34-87A8-D7E79BE4F25E}">
+                <File Id="fil231DDB65E5BB8004AC152782AD24C01C" KeyPath="yes" Source="$(var.dot_bin)\graph.dll" />
+            </Component>
+            <Component Id="cmp196EF5BB83C1ACFA87E7985ACD50B3E5" Directory="dot_bin" Guid="{8153781A-E57C-49D0-BA42-6678935BA01A}">
+                <File Id="filEAAF32411C385D07FBC3E7140214A58B" KeyPath="yes" Source="$(var.dot_bin)\gvc.dll" />
+            </Component>
+            <Component Id="cmpB97F69F91DAC350F4B01C54CD7FF3110" Directory="dot_bin" Guid="{B634469D-E24B-4723-903E-388B694693D3}">
+                <File Id="filDDD0F2CAAC02050FB645A971DE62BAB4" KeyPath="yes" Source="$(var.dot_bin)\gvplugin_dot_layout.dll" />
+            </Component>
+            <Component Id="cmp946B0F41F697C34EC31238016195C17B" Directory="dot_bin" Guid="{85740080-BCD2-4D62-94D1-4FD48A4A84A5}">
+                <File Id="fil783313A32D0DF53DB68ECB6FBE3D44DF" KeyPath="yes" Source="$(var.dot_bin)\gvplugin_pango.dll" />
+            </Component>
+            <Component Id="cmp9E106F2B45DA68D84D7D629F41DDE4E2" Directory="dot_bin" Guid="{9C2291A3-AE68-41E7-96BE-59F747BE3D74}">
+                <File Id="fil9CD0699DF07399D38511CA1CA875CAFE" KeyPath="yes" Source="$(var.dot_bin)\intl.dll" />
+            </Component>
+            <Component Id="cmp23DC107D912EB06F4189861773BBB72C" Directory="dot_bin" Guid="{B7E04F86-191F-450D-AE5C-694F12E621D9}">
+                <File Id="filC404AAB197573B18A668B2655394A587" KeyPath="yes" Source="$(var.dot_bin)\libcairo-2.dll" />
+            </Component>
+            <Component Id="cmp99E9E18CC2910BE54EAA9A01DAEE4CE5" Directory="dot_bin" Guid="{32E6D13B-08E7-4F7C-B5BB-F4213DAFFE85}">
+                <File Id="filA63D9377522B4BAC67FDBD8384015013" KeyPath="yes" Source="$(var.dot_bin)\libexpat-1.dll" />
+            </Component>
+            <Component Id="cmp80E0BCDA3EDD924333A74FD7860B5A68" Directory="dot_bin" Guid="{5F6C95CD-804C-44A5-9125-FE2905375EE6}">
+                <File Id="fil36C68B9D362950730275C8AA25A4B699" KeyPath="yes" Source="$(var.dot_bin)\libexpat.dll" />
+            </Component>
+            <Component Id="cmp4972BC55554C8F42D804571BE9067839" Directory="dot_bin" Guid="{7FE75CD9-A8C4-4F05-8AB4-9524296C4DA1}">
+                <File Id="fil4EFCDA5612EA2E28B04639233849F0DB" KeyPath="yes" Source="$(var.dot_bin)\libfontconfig-1.dll" />
+            </Component>
+            <Component Id="cmp88A4BD4C15ACE09E3CF8BEFEF0C4818A" Directory="dot_bin" Guid="{060982CA-52DE-442D-80A1-A4662F0D3DAA}">
+                <File Id="fil47C86E96EDC3FC84964BF31358782999" KeyPath="yes" Source="$(var.dot_bin)\libglib-2.0-0.dll" />
+            </Component>
+            <Component Id="cmp4EE502A85A1A7F4A836308B69076D1A1" Directory="dot_bin" Guid="{3B23116C-537C-483C-A8B2-74B08C042FD2}">
+                <File Id="filB67FFA3EB63382629C40239CFE2E2A62" KeyPath="yes" Source="$(var.dot_bin)\libgmodule-2.0-0.dll" />
+            </Component>
+            <Component Id="cmpE67953B9C66EDA8219003C56BC01D585" Directory="dot_bin" Guid="{0819C234-8981-4100-8123-976C97786A36}">
+                <File Id="fil3DC87830010E17B50E214D236FD5006C" KeyPath="yes" Source="$(var.dot_bin)\libgobject-2.0-0.dll" />
+            </Component>
+            <Component Id="cmpD755369353637BC408A0DB6A2B4E65E3" Directory="dot_bin" Guid="{A9D1BADD-C79B-449B-8662-56EBC8F83BD2}">
+                <File Id="fil135523FAAF09FD4572F18C5CA46B2505" KeyPath="yes" Source="$(var.dot_bin)\libgthread-2.0-0.dll" />
+            </Component>
+            <Component Id="cmp15140A5A6FD2E8FA1BF345D0254BD268" Directory="dot_bin" Guid="{561EFEFF-ADEB-42F0-A5B0-351E7C178808}">
+                <File Id="filF8C2580E84419EB6AA020EAF998AA33E" KeyPath="yes" Source="$(var.dot_bin)\libpango-1.0-0.dll" />
+            </Component>
+            <Component Id="cmpF29632DB20BD0C42CF1E415F634C49FC" Directory="dot_bin" Guid="{64EED522-B1ED-4568-A6F5-BC4F4E158992}">
+                <File Id="filAD0D6450AAC216F0A5AC98A84843E325" KeyPath="yes" Source="$(var.dot_bin)\libpangocairo-1.0-0.dll" />
+            </Component>
+            <Component Id="cmpE92F1414896C1046EA9A463D88047212" Directory="dot_bin" Guid="{E04FDB0E-2483-4B5F-9A27-2CEAC8D53B8F}">
+                <File Id="fil381A30206A4327BD26D8C79A6157A91F" KeyPath="yes" Source="$(var.dot_bin)\libpangoft2-1.0-0.dll" />
+            </Component>
+            <Component Id="cmp515B997CB0F7E6B2330AB741979F50C0" Directory="dot_bin" Guid="{2E73D1BD-8EE2-4DF6-BDAB-2FEBA672850C}">
+                <File Id="fil8CF790C408606EF85989F7DB6AB82B4B" KeyPath="yes" Source="$(var.dot_bin)\libpangowin32-1.0-0.dll" />
+            </Component>
+            <Component Id="cmp5E1FD12908EBAF9B42B76EE6D8C79B33" Directory="dot_bin" Guid="{E467C501-D7E1-4224-8AF8-D9FDDFF6C3CA}">
+                <File Id="filBF2A021515E26407CB0F83D39574613D" KeyPath="yes" Source="$(var.dot_bin)\libpng14-14.dll" />
+            </Component>
+            <Component Id="cmp1AEE36391FC412FB6B040F6130F030CE" Directory="dot_bin" Guid="{1D18CA8E-492F-443C-A6B4-D8E33C2EF6F0}">
+                <File Id="fil013431D867A1A7C1322179CE50A7BC9F" KeyPath="yes" Source="$(var.dot_bin)\LICENSE_epl-v10.html" />
+            </Component>
+            <Component Id="cmpE736538668A5654C8EE36685664A903B" Directory="dot_bin" Guid="{F2C898EB-E548-4E22-B04A-CBAF828DDABB}">
+                <File Id="fil66F0790C1DFF61BED8BF8A7185186779" KeyPath="yes" Source="$(var.dot_bin)\ltdl.dll" />
+            </Component>
+            <Component Id="cmpF20F9E610435D581D195C2F53E818F5C" Directory="dot_bin" Guid="{A495F927-A6B3-4F43-955B-52331323C430}">
+                <File Id="filCDFDD19BA10E4C4B61CDF6194513BCC4" KeyPath="yes" Source="$(var.dot_bin)\Pathplan.dll" />
+            </Component>
+            <Component Id="cmp554E64113E27C55F3FAEB2761DD011D1" Directory="dot_bin" Guid="{C606DB98-4D4B-47CA-9EAE-47E592BC8FE4}">
+                <File Id="fil8D734BFB72B6CDFC74F29D4AF6CA53F7" KeyPath="yes" Source="$(var.dot_bin)\zlib1.dll" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

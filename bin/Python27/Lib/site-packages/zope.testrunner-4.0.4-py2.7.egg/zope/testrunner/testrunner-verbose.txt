@@ -1,0 +1,154 @@
+Verbose Output
+==============
+
+Normally, we just get a summary.  We can use the -v option to get
+increasingly more information.
+
+If we use a single --verbose (-v) option, we get a dot printed for each
+test:
+
+    >>> import os.path, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+    >>> sys.argv = 'test --layer 122 -v'.split()
+    >>> from zope import testrunner
+    >>> testrunner.run_internal(defaults)
+    Running tests at level 1
+    Running samplelayers.Layer122 tests:
+      Set up samplelayers.Layer1 in 0.000 seconds.
+      Set up samplelayers.Layer12 in 0.000 seconds.
+      Set up samplelayers.Layer122 in 0.000 seconds.
+      Running:
+        ..................................
+      Ran 26 tests with 0 failures and 0 errors in 0.007 seconds.
+    Tearing down left over layers:
+      Tear down samplelayers.Layer122 in 0.000 seconds.
+      Tear down samplelayers.Layer12 in 0.000 seconds.
+      Tear down samplelayers.Layer1 in 0.000 seconds.
+    False
+
+If there are more than 50 tests, the dots are printed in groups of
+50:
+
+    >>> sys.argv = 'test -uv'.split()
+    >>> testrunner.run_internal(defaults)
+    Running tests at level 1
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+      Running:
+    ................................................................................................................................................................................................
+      Ran 156 tests with 0 failures and 0 errors in 0.035 seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    False
+
+If the --verbose (-v) option is used twice, then the name and location of
+each test is printed as it is run:
+
+    >>> sys.argv = 'test --layer 122 -vv'.split()
+    >>> testrunner.run_internal(defaults)
+    Running tests at level 1
+    Running samplelayers.Layer122 tests:
+      Set up samplelayers.Layer1 in 0.000 seconds.
+      Set up samplelayers.Layer12 in 0.000 seconds.
+      Set up samplelayers.Layer122 in 0.000 seconds.
+      Running:
+        test_x1 (sample1.sampletests.test122.TestA)
+        test_y0 (sample1.sampletests.test122.TestA)
+        test_z0 (sample1.sampletests.test122.TestA)
+        test_x0 (sample1.sampletests.test122.TestB)
+        test_y1 (sample1.sampletests.test122.TestB)
+        test_z0 (sample1.sampletests.test122.TestB)
+        test_1 (sample1.sampletests.test122.TestNotMuch)
+        test_2 (sample1.sampletests.test122.TestNotMuch)
+        test_3 (sample1.sampletests.test122.TestNotMuch)
+        test_x0 (sample1.sampletests.test122)
+        test_y0 (sample1.sampletests.test122)
+        test_z1 (sample1.sampletests.test122)
+        testrunner-ex/sample1/sampletests/../../sampletestsl.txt
+        test_x1 (sampletests.test122.TestA)
+        test_y0 (sampletests.test122.TestA)
+        test_z0 (sampletests.test122.TestA)
+        test_x0 (sampletests.test122.TestB)
+        test_y1 (sampletests.test122.TestB)
+        test_z0 (sampletests.test122.TestB)
+        test_1 (sampletests.test122.TestNotMuch)
+        test_2 (sampletests.test122.TestNotMuch)
+        test_3 (sampletests.test122.TestNotMuch)
+        test_x0 (sampletests.test122)
+        test_y0 (sampletests.test122)
+        test_z1 (sampletests.test122)
+        testrunner-ex/sampletests/../sampletestsl.txt
+      Ran 26 tests with 0 failures and 0 errors in 0.009 seconds.
+    Tearing down left over layers:
+      Tear down samplelayers.Layer122 in 0.000 seconds.
+      Tear down samplelayers.Layer12 in 0.000 seconds.
+      Tear down samplelayers.Layer1 in 0.000 seconds.
+    False
+
+if the --verbose (-v) option is used three times, then individual
+test-execution times are printed:
+
+    >>> sys.argv = 'test --layer 122 -vvv'.split()
+    >>> testrunner.run_internal(defaults)
+    Running tests at level 1
+    Running samplelayers.Layer122 tests:
+      Set up samplelayers.Layer1 in 0.000 seconds.
+      Set up samplelayers.Layer12 in 0.000 seconds.
+      Set up samplelayers.Layer122 in 0.000 seconds.
+      Running:
+        test_x1 (sample1.sampletests.test122.TestA) (0.000 s)
+        test_y0 (sample1.sampletests.test122.TestA) (0.000 s)
+        test_z0 (sample1.sampletests.test122.TestA) (0.000 s)
+        test_x0 (sample1.sampletests.test122.TestB) (0.000 s)
+        test_y1 (sample1.sampletests.test122.TestB) (0.000 s)
+        test_z0 (sample1.sampletests.test122.TestB) (0.000 s)
+        test_1 (sample1.sampletests.test122.TestNotMuch) (0.000 s)
+        test_2 (sample1.sampletests.test122.TestNotMuch) (0.000 s)
+        test_3 (sample1.sampletests.test122.TestNotMuch) (0.000 s)
+        test_x0 (sample1.sampletests.test122) (0.001 s)
+        test_y0 (sample1.sampletests.test122) (0.001 s)
+        test_z1 (sample1.sampletests.test122) (0.001 s)
+        testrunner-ex/sample1/sampletests/../../sampletestsl.txt (0.001 s)
+        test_x1 (sampletests.test122.TestA) (0.000 s)
+        test_y0 (sampletests.test122.TestA) (0.000 s)
+        test_z0 (sampletests.test122.TestA) (0.000 s)
+        test_x0 (sampletests.test122.TestB) (0.000 s)
+        test_y1 (sampletests.test122.TestB) (0.000 s)
+        test_z0 (sampletests.test122.TestB) (0.000 s)
+        test_1 (sampletests.test122.TestNotMuch) (0.000 s)
+        test_2 (sampletests.test122.TestNotMuch) (0.000 s)
+        test_3 (sampletests.test122.TestNotMuch) (0.000 s)
+        test_x0 (sampletests.test122) (0.001 s)
+        test_y0 (sampletests.test122) (0.001 s)
+        test_z1 (sampletests.test122) (0.001 s)
+        testrunner-ex/sampletests/../sampletestsl.txt (0.001 s)
+      Ran 26 tests with 0 failures and 0 errors in 0.009 seconds.
+    Tearing down left over layers:
+      Tear down samplelayers.Layer122 in 0.000 seconds.
+      Tear down samplelayers.Layer12 in 0.000 seconds.
+      Tear down samplelayers.Layer1 in 0.000 seconds.
+    False
+
+Quiet output
+------------
+
+The --quiet (-q) option cancels all verbose options.  It's useful when
+the default verbosity is non-zero:
+
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     '-v'
+    ...     ]
+    >>> sys.argv = 'test -q -u'.split()
+    >>> testrunner.run_internal(defaults)
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+      Ran 156 tests with 0 failures and 0 errors in 0.034 seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    False

@@ -1,0 +1,388 @@
+
+<!-- Custom scripts -->
+
+<script type="text/javascript" src="./js/designPointAnalysis.js"></script>
+<script type="text/javascript" src="./inc/vf-constraintplot-contour.js"></script><!-- required by vf-constraintplot.js -->
+<script type="text/javascript" src="./inc/clipper.js"></script><!-- required by vf-constraintplot.js -->
+
+<style type="text/css">
+			@import url("./css/designPointAnalysis.css");
+			@import url("./css/colorpicker.css");
+			@import url("./css/layout.css");
+</style>
+
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div id="settingsResp" class="span2 navbar" data-bind="visible: dsaTab">
+			<h2 align="center">Responses</h2>
+			<h4 align="center">(Choose at least one)</h4>
+			<div class="btn-group" style="width: 100%; padding: 5% 5% 5% 5%;">
+				<button class="btn" data-bind="click: function(event,data){setAllPETResponses()}" style="width: 45%">Show All</button>
+				<button class="btn" data-bind="click: function(event,data){clearAllPETResponses()}" style="width: 45%; padding: 4px 2.5px 4px 2.5px" >Show None</button>
+			</div>
+			<div class="btn-group" id="respSettingsBtns" style="width: 100%; padding: 5% 5% 5% 5%;">
+				<button class="btn" style="width: 45%" data-bind="click : function(event,data){setAllThresholds()}">All Thresholds</button>
+				<button class="btn" style="width: 45%; padding: 4px 2.5px 4px 2.5px" data-bind="click : function(event,data){setAllObjectives()}">All  Objectives</button>
+			</div>
+			<table id="responsesTable" style="table-layout:fixed; width: 100%">
+				<tbody data-bind="foreach: listOfPETResponses">  
+					<tr>
+						<td>
+							<table style="table-layout:fixed; width: 100%">
+								<tbody>
+									<tr>
+										<td data-bind="attr:{rid: rid, index: $index}" type="resp" style="padding-top: 10px;">
+											<input type="checkbox" data-bind="checked: display" style="margin: 0 0 0 8px;"></input>  
+											<div data-bind="html: name" style="text-align: center; display: inline;"></div>
+											<div class="colorSelector" data-bind="attr: {index: $index, color: color}" style="display: inline-block;">
+												<div data-bind="style: {backgroundColor: color}"></div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="btn-group" style="float: left; margin: 0 5px 0 0;">
+												<button class="btn" data-bind="css: {active: greaterThan() == 'true'}, click: function(data,event){greaterThan('true');}">≥</button>
+												<button class="btn" data-bind="css: {active: greaterThan() == 'false'}, click: function(data,event){greaterThan('false');}">≤</button>
+											</div>
+											<div class="btn-group" style="float: right; margin: 0 5px 0 0;">
+												<button class="btn" data-bind="visible: threshold, click : function(data, event) {value(threshold)}">T</button>
+												<button class="btn" data-bind="visible: objective, click : function(data, event) {value(objective)}">O</button>
+											</div>
+											<div style="margin: 8px auto; text-align: center" data-bind="html: value"></div> 
+										</td>
+									</tr>
+									<tr>
+										<td style="text-align: center;">
+											<input type="range" data-bind="attr: {min: min, max: max, step: step}, value: value" style="margin: -10px 0 10px 0">
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+		   </table>
+		</div>
+		<div class="span8">
+			<div class="row-fluid">
+				<div class="span12" style="text-align: center">
+					<h2 style="display: inline">Test Bench: </h2><select data-bind="options: listOfBenchesWithPET, value: selectedBenchWithPET"></select>
+				</div>
+				<div class="span12" data-bind="visible: showPetWidgets">
+					<div>
+						<div class="span12">
+							<h1>Constraint Plot</h1>
+							<p style="color: #666;">Double Click on a response label to view the contraint surface</p>
+						</div>
+						<div style="text-align: center">
+							<h3 style="display: none">Fidelity Level: </h3><select style="display: none" data-bind="options: listOfFidelities, value: selectedFidelity"></select>
+						</div>
+						<div>
+							<vf-constraintplot id="co_plot" data=vm.dataproviders.constraintplot() ></vf-constraintplot>
+							<div class="modal hide fade" id="plot3d">
+								<div class="modal-header" id="plot3dh">
+									<button class="close" data-dismiss="modal">x</button>
+								</div>
+								<div class="modal-body">
+									<div id="plot3dif"></div>
+								</div>
+								<div class="modal-footer">
+									<a href="#" class="btn" data-bind="click: mada_ok" data-dismiss="modal">OK</a>
+								</div>
+							</div>	
+							<div class="modal hide fade" id="ccpdetail">
+								<div class="modal-header" id="ccpdetailh">
+									<button class="close" data-dismiss="modal">x</button>
+									<h3>Constraint Plot Point Information</h3>
+								</div>
+								<div class="modal-body">
+									<br>
+									<div style="width:100%">
+										<div class = "row-fluid">
+											<div class="span12" >
+												<h3 style="text-align: center">Variables</h3>
+												<div id="ccpdetailb1" ></div>
+											</div>
+										</div>
+										<br><br><br>
+										<div class = "row-fluid">
+											<div class="span12" >
+												<h3 style="text-align: center">Responses</h3>
+												<div id="ccpdetailb2" ></div>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+								<div class="modal-footer">
+									<a href="#" class="btn" data-bind="click: mada_ok" data-dismiss="modal">OK</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="span12">
+							<h1>Prediction Profiler</h1>	
+						</div>
+						<div>
+							<vf-profiler id="predProfiler" data=vm.dataproviders.profiler() ></vf-profiler>
+						</div>
+					</div>
+					<!-- 
+					<div>
+						</br></br></br></br>
+						<div class="span12">
+							<h1>Inverse PCC</h1>	
+						</div>
+						<div>
+							<vf-invPCC id="inversePCC" data=vm.dataproviders.invPCC() ></vf-invPCC>
+						</div>
+					</div>
+					-->
+				</div>
+				<div class="span12" data-bind="visible: !showPetWidgets()">
+					<div class="span3"></div>
+					<div class="span6 well">
+						<h1>Please select at least one response and one variable</h1>
+						<div>
+							Either no responses or variables are currently selected for this analysis or the data set does not contain parametric exploration tool data. Please click on the settings button to select at least one response and one variable.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="settingsVars"  class="span2 navbar" data-bind="visible: dsaTab">
+			<h2 align="center">Variables</h2>
+			<h4 align="center">(Choose at least two)</h4>	   
+			<div class="btn-group" style="width: 100%; padding: 5% 5% 5% 5%;">
+				<button class="btn" data-bind="click: function(event,data){setAllPETVariables()}" style="width: 45%">Show All</button>
+				<button class="btn" data-bind="click: function(event,data){vm.clearAllPETVariables()}" style="width: 45%; padding: 4px 2.5px 4px 2.5px" >Show None</button>
+			</div>
+			<table id="variablesTable" style="table-layout: fixed; width: 100%">
+				<tbody data-bind="foreach: listOfPETVariables">  
+					<tr>
+						<td>
+							<table style="table-layout:fixed; width: 100%">
+								<tbody>
+									<tr>
+										<td data-bind="attr:{index: $index}" type="var" style="padding-top: 10px;">
+											<input type="checkbox" data-bind="checked: display" style="margin: 0 0 0 8px;"></input>  
+											<div data-bind="html: name" style="text-align: center; display: inline;"></div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div style="margin: 8px auto; text-align: center;" data-bind="html: value"></div> 
+										</td>
+									</tr>
+									<tr>
+										<td style="text-align: center;">
+											<input type="range" data-bind="attr: {min: min, max: max, step: step}, value: value" style="margin: -10px 0 10px 0">
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="modal hide fade" id="help">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Parametric Design Analysis Help</h3>
+	</div>
+	<div class="modal-body">
+		<div class = "container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<h1>Overview:</h1>
+					<p>
+					Parametric Design Analysis tab contains the prediction profiler, which allows exploration 
+					of complex, multi-variable relations between input parameters and output metrics.
+					</p>
+					<p>
+					<div class="well">
+
+					The prediction profiler is a series of interactive plots, each showing the response of a 
+					specific metric to changes in a specific parameter. The value of each parameter can be 
+					changed, often modifying other response curves in some manner.
+
+					</div>
+					</p>
+					<h1>Instructions:</h1>
+					<p>
+					Operation of the prediction profiler is simple: drag one of the parameter lines, and all 
+					plots and values on the page which are dependant on that parameter value will update automatically. 
+					Lines are highlighted in yellow and a bidirectional arrow appears when hovered over with the mouse.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-bind="click: mada_ok" data-dismiss="modal">OK</a>
+	</div>
+</div>	
+
+<div class="modal hide fade settings" id="settings">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Settings</h3>
+	</div>
+	<div class="modal-body">
+		<div class="row-fluid">
+			<div class="span10">
+				<div>Testbench:
+					<select data-bind="options: listOfBenchesWithPET, value: selectedBenchWithPET">
+					</select>
+				</div>
+			</div>
+			<div class="span2">
+				<div>Mini View:
+					<input type="checkbox" onclick="miniView(this)" data-bind="checked: petMiniView"></input>
+				</div>
+			</div>
+			<div class ="span2" >
+				<div>Fidelity:
+					<select data-bind="options: listOfFidelities, value: selectedFidelity" id="fidelity_select">
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class = "container-fluid">
+			<div class="row-fluid" data-bind="visible: dsaTab">
+				<div class="span6">
+					<h1>Responses (Choose at least one)</h1>
+					<br />
+					<div class="btn-group">
+						<button class="btn" data-bind="click: function(event,data){setAllPETResponses()}">Display All</button>
+						<button class="btn" data-bind="click: function(event,data){clearAllPETResponses()}">Display None</button>
+					</div>
+					<br />
+					<table class="table table-bordered" style="table-layout: fixed; overflow: hidden;" id="responsesTable2">
+						<thead>
+							<th><center>Display</center></th>
+							<th><center>Name</center></th>									
+							<th><center>Inequality</center></th>									
+							<th><center>Target Values</center></th>									
+						</thead>
+						<tbody data-bind="foreach: listOfPETResponses">  
+							<tr>
+								<td>
+									<input type="checkbox" data-bind="checked: display"></input>
+								</td>
+								<td data-bind="html: name"></td>
+								<td>
+									<form>
+										<div align="center"><br>
+										<input type="radio" value="true" data-bind="checked: greaterThan, attr:{name : name}"> ≥<br>
+										<input type="radio" value="false" data-bind="checked: greaterThan, attr:{name : name}"> ≤<br>
+										</div>
+									</form>
+								</td>
+								<td>						
+									<div style="margin: 0;" data-bind="html: value"></div>
+									<input type="range" data-bind="attr: {min: min, max: max, step: step}, value: value">	
+								</td>
+							</tr>
+						</tbody>
+				   </table>
+				</div>
+				<div class="span6">
+					<h1>Variables (Choose at least one)</h1>
+					<br />
+					<div class="btn-group">
+						<button class="btn" data-bind="click: function(event,data){setAllPETVariables()}">Display All</button>
+						<button class="btn" data-bind="click: function(event,data){vm.clearAllPETVariables()}">Display None</button>
+					</div>
+					<br />
+					<table class="table table-bordered" style="table-layout: fixed; overflow: hidden;" id="variablesTable">
+						<thead>
+							<th><center>Display</center></th>
+							<th><center>Name</center></th>									
+							<th><center>Default Values</center></th>									
+						</thead>
+						<tbody data-bind="foreach: listOfPETVariables">  
+							<tr>
+								<td>
+									<input type="checkbox" data-bind="checked: display"></input>
+								</td>
+								<td data-bind="html: name"></td>
+								<td>						
+									<div style="margin: 0;" data-bind="html: value"></div>
+									<input type="range" data-bind="attr: {min: min, max: max, step: step}, value: value">	
+								</td>
+							</tr>
+						</tbody>
+				   </table>
+				</div>					
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-bind="click: dsa_ok" data-dismiss="modal">OK</a>
+	</div>
+</div>
+
+<div class="modal hide fade settings2 miniView" id="settings2" data-backdrop="false">
+	<img src="./staticPics/closebutton3-th.png" style="width: 20px;top: -7px;position: relative;left: 546px;" data-dismiss="modal" onmouseover="this.src='./staticPics/closebutton7-th.png'" onmouseout="this.src='./staticPics/closebutton3-th.png'">
+	<div class="modal-body">
+		<div class="row-fluid">
+			<div class="span10">
+				<h2>Responses</h2>
+			</div>
+			<div class="span2">
+				<div>Mini View:
+					<input type="checkbox" onclick="miniView(this)" data-bind="checked: petMiniView"></input>
+				</div>
+			</div>
+		</div>
+	</div>
+		<div class = "container-fluid">
+			<div class="row-fluid" data-bind="visible: dsaTab">
+				<div class="span12">
+					<table class="table table-bordered" style="table-layout: fixed; overflow: hidden;" id="responsesTable2">
+						<thead>
+							<th><center>Name</center></th>									
+							<th><center>Target Values</center></th>									
+						</thead>
+						<tbody data-bind="foreach: listOfPETResponses">  
+							<tr>
+								<td data-bind="html: name"></td>
+								<td>						
+									<div style="margin: 0;" data-bind="html: value"></div>
+									<input type="range" data-bind="attr: {min: min, max: max, step: step}, value: value">	
+								</td>
+							</tr>
+						</tbody>
+				   </table>
+				</div>
+			</div>
+			<div class="row-fluid" data-bind="visible: dsaTab">
+				<div class="span12">
+					<h2>Variables</h2>
+					<table class="table table-bordered" style="table-layout: fixed; overflow: hidden;" id="variablesTable2">
+						<thead>
+							<th><center>Name</center></th>									
+							<th><center>Default Values</center></th>									
+						</thead>
+						<tbody data-bind="foreach: listOfPETVariables">  
+							<tr>
+								<td data-bind="html: name"></td>
+								<td>						
+									<div style="margin: 0;" data-bind="html: value"></div>
+									<input type="range" data-bind="attr: {min: min, max: max, step: step}, value: value">	
+								</td>
+							</tr>
+						</tbody>
+				   </table>
+				</div>					
+			</div>
+		</div>
+	</div>
+</div>

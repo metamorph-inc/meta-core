@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iFAB="iFAB" targetNamespace="iFAB">
+
+  <xs:annotation>
+    <xs:appinfo>iFAB Foundry Assembly Details XML Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This schema defines an XML file for representing assembly details.</xs:documentation>
+  </xs:annotation>
+
+  <xs:include schemaLocation="common.xsd" />
+
+  <xs:element name="assemblyDetails" type="iFAB:assemblyDetails" />
+
+  <xs:complexType name="assemblyDetails">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="assemblyDetail" type="iFAB:assemblyDetail" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="assemblyDetail">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0" />
+      <xs:element name="part1" type="iFAB:partReference" />
+      <xs:element name="part2" type="iFAB:partReference" />
+      <xs:element name="description" type="xs:string" minOccurs="0" />
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="incidentalContact" type="iFAB:incidentalContact" />
+        <xs:element name="mechanical" type="iFAB:mechanical" />
+        <xs:element name="welded" type="iFAB:welded" />
+        <xs:element name="soldered" type="iFAB:soldered" />
+        <xs:element name="brazed" type="iFAB:brazed" />
+        <xs:element name="glued" type="iFAB:glued" />
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute ref="iFAB:id" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="incidentalContact">
+    <xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="mechanical">
+    <xs:sequence>
+      <xs:element name="linkingPart" type="iFAB:partReference" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="notes" type="xs:string" minOccurs="0" />
+      <xs:element name="fasteningMethod" type="iFAB:fasteningMethod" />
+      <xs:element name="fasteningQuantity" type="xs:positiveInteger" minOccurs="0" default="1" />
+      <xs:element name="torque" type="iFAB:torque" minOccurs="0" />
+      <xs:element name="force" type="iFAB:force" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="welded">
+    <xs:sequence>
+      <xs:element name="linkingPart" type="iFAB:partReference" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="notes" type="xs:string" minOccurs="0" />
+      <xs:element name="length" type="iFAB:length" />
+      <xs:element name="jointType" type="iFAB:jointType" />
+      <xs:element name="weldType" type="iFAB:weldType" />
+      <xs:element name="weldPenetration" type="iFAB:weldPenetration" />
+      <xs:element name="twoSided" type="xs:boolean" />
+      <xs:element name="inspectionRequirement" type="iFAB:inspectionRequirement" />
+      <xs:element name="part1Thickness" type="iFAB:length" />
+      <xs:element name="part1Material" type="iFAB:baseMaterial" />
+      <xs:element name="part2Thickness" type="iFAB:length" />
+      <xs:element name="part2Material" type="iFAB:baseMaterial" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="soldered">
+    <xs:sequence>
+      <xs:element name="linkingPart" type="iFAB:partReference" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="notes" type="xs:string" minOccurs="0" />
+      <xs:element name="length" type="iFAB:length" />
+      <xs:element name="fillerMaterial" type="iFAB:fillerMaterial" />
+      <xs:element name="fluxMaterial" type="iFAB:fluxMaterial" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="brazed">
+    <xs:sequence>
+      <xs:element name="linkingPart" type="iFAB:partReference" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="notes" type="xs:string" minOccurs="0" />
+      <xs:element name="length" type="iFAB:length" />
+      <xs:element name="fillerMaterial" type="iFAB:fillerMaterial" />
+      <xs:element name="fluxMaterial" type="iFAB:fluxMaterial" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="glued">
+    <xs:sequence>
+      <xs:element name="linkingPart" type="iFAB:partReference" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="notes" type="xs:string" minOccurs="0" />
+      <xs:element name="length" type="iFAB:length" />
+      <xs:element name="volume" type="iFAB:volume" />
+      <xs:element name="material" type="iFAB:glue" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="baseMaterial">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Al" />
+      <xs:enumeration value="Plain Carbon Steel" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="fillerMaterial">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <xs:simpleType name="fluxMaterial">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <xs:simpleType name="glue">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <xs:simpleType name="fasteningMethod">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Bolted" />
+      <xs:enumeration value="Bolted (blind)" />
+      <xs:enumeration value="Machined Screw" />
+      <xs:enumeration value="Press Fit" />
+      <xs:enumeration value="Snap Fit" />
+      <xs:enumeration value="Crimp/Clamp Fit" />
+    </xs:restriction>
+  </xs:simpleType>
+              
+  <xs:simpleType name="jointType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Butt" />
+      <xs:enumeration value="Corner" />
+      <xs:enumeration value="Edge" />
+      <xs:enumeration value="Lap" />
+      <xs:enumeration value="Tee" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="weldType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Seam" />
+      <xs:enumeration value="Stitch" />
+      <xs:enumeration value="Spot" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="weldPenetration">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Full" />
+      <xs:enumeration value="Partial" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="inspectionRequirement">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Visual" />
+      <xs:enumeration value="X-Ray" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="partReference">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute ref="iFAB:id" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+</xs:schema>

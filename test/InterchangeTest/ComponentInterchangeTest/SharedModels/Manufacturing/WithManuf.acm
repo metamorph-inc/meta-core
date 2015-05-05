@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="bbf9036b-5052-4bc8-97f0-ae63f320ae85" Name="WithManuf" Version="" xmlns="avm">
+  <DomainModel xmlns:q1="manufacturing" xsi:type="q1:ManufacturingModel" Author="" Notes="" xmlns="">
+    <Parameter Name="Param2">
+      <Value>
+        <ValueExpression xmlns:q2="avm" xsi:type="q2:DerivedValue" ValueSource="id-a308edbe-c2e9-49ff-99d9-4568747993e8" />
+      </Value>
+    </Parameter>
+    <Parameter Name="Param1">
+      <Value>
+        <ValueExpression xmlns:q3="avm" xsi:type="q3:DerivedValue" ValueSource="id-f7bcbb6f-254b-412d-b2b0-489a40504233" />
+      </Value>
+    </Parameter>
+  </DomainModel>
+  <Property xmlns:q4="avm" xsi:type="q4:PrimitiveProperty" Name="Meter" ID="property.id-f7bcbb6f-254b-412d-b2b0-489a40504233" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" Unit="m" ID="id-f7bcbb6f-254b-412d-b2b0-489a40504233">
+      <ValueExpression xsi:type="q4:FixedValue">
+        <Value>2093</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q5="avm" xsi:type="q5:PrimitiveProperty" Name="Mega Hertz per Tesla" ID="param.id-a308edbe-c2e9-49ff-99d9-4568747993e8" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" Unit="MHz T^-1" ID="id-a308edbe-c2e9-49ff-99d9-4568747993e8">
+      <ValueExpression xsi:type="q5:ParametricValue">
+        <Default xsi:type="q5:FixedValue">
+          <Value>1042</Value>
+        </Default>
+        <Maximum xsi:type="q5:FixedValue">
+          <Value />
+        </Maximum>
+        <Minimum xsi:type="q5:FixedValue">
+          <Value />
+        </Minimum>
+        <AssignedValue xsi:type="q5:FixedValue">
+          <Value>1042</Value>
+        </AssignedValue>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Classifications xmlns="" />
+</Component>

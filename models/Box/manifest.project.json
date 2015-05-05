@@ -1,0 +1,57 @@
+{
+  "Project": {
+    "Components": [
+      {
+        "revision": null,
+        "modelpath": "components/Plate100x100/4367fe9e-1a2c-41af-8285-a18d9aaa4c5c/ComponentData.xml",
+        "avmid": "1367fe9e-1a2c-41af-8285-a18d9aaa4c5c",
+        "version": "",
+        "name": "Plate100x100"
+      },
+      {
+        "revision": null,
+        "modelpath": "components/Plate100x100_simple/ComponentData.xml",
+        "avmid": "4367fe9e-1a2c-41af-8285-a18d9aaa4c5c",
+        "version": "",
+        "name": "Plate100x100_simple"
+      },
+      {
+        "revision": null,
+        "modelpath": "components/BottomPlate120x100/ComponentData.xml",
+        "avmid": "c4367fe9e-1a2c-41af-8285-a18d9aaa4c5c",
+        "version": "",
+        "name": "BottomPlate120x100"
+      }
+    ],
+    "DesignSpaceModels": [
+      "./design-space/BoxitDS.metadesign.xml",
+      "./design-space/BoxitDS.metadesign.json"
+    ],
+    "Configurations": [
+      "./designs/Boxit.metadesign.xml",
+      "./designs/Boxit.metadesign.json",
+      "./designs/BoxBottom.metadesign.xml",
+      "./designs/BoxBottom.metadesign.json",
+      "./designs/BoxitDS_cfg1.metadesign.xml",
+      "./designs/BoxitDS_cfg1.metadesign.json",
+      "./designs/Box_RB.adm",
+      "./designs/Box_RB.metadesign.json"
+    ],
+    "TestBenches": [],
+    "Results": {
+      "UrlHints": [
+        "./results/results.metaresults.json"
+      ]
+    },
+    "Requirements": {
+      "UrlHints": [
+        "./requirements/requirements.json"
+      ],
+      "id": "",
+      "vfLink": "",
+      "text": ""
+    },
+    "CyPhyProjectFileName": "boxRBUpdated.mga",
+    "LastModified": "2013-10-28 15-19-56"
+  }
+}

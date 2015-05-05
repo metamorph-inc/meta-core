@@ -1,0 +1,16 @@
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?define Ionic.Zip=..\3rdParty\Ionic.Zip?><!--generated with gen_dir_wxi.py ..\3rdParty\Ionic.Zip
+--><Fragment>
+        <DirectoryRef Id="Ionic.Zip" />
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="Ionic.Zip">
+            <Component Directory="Ionic.Zip" Guid="*" Id="cmp2DEA1A919A87A54F77F802135D1D80D8">
+                <File Id="fil38FDC04CA4DA731DCEDDDE68DDF1C157" KeyPath="yes" Source="$(var.Ionic.Zip)\Ionic.Zip.dll" />
+            </Component>
+            <Component Directory="Ionic.Zip" Guid="*" Id="cmp521FB5B514E5FEF8D61A81D1BD1F92E2">
+                <File Id="filB72CCF129AC72527143DB0924C9AA856" KeyPath="yes" Source="$(var.Ionic.Zip)\Ionic.Zip.LICENSE" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

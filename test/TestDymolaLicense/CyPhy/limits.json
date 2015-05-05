@@ -1,0 +1,16 @@
+{
+  "PathToMatFile": "MassSpringDamper_cfg9",
+  "LimitChecks": [
+    {
+      "ParentKind": "ModelicaModel",
+      "VariableFullPath": "MassSpringDamper.Spring_1__Spring_1.flange_a.f",
+      "VariableName": "flange_a.f",
+      "LimitFullPath": "MSD/TestBenches/DS/MSD_dymola_DS TemporaryFolder/MassSpringDamper_cfg9/MassSpringDamper/Spring_1__Spring_1/Spring/SpringForce",
+      "LimitName": "SpringForce",
+      "LimitExceeded": null,
+      "Attributes": {},
+      "Type": "max__absolute_value_",
+      "Value": 12.0
+    }
+  ]
+}

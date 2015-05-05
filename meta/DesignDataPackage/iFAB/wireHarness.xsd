@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iFAB="iFAB" targetNamespace="iFAB">
+
+  <xs:annotation>
+    <xs:appinfo>iFAB Foundry Wire Harness XML Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This schema defines an XML file for representing wire harnesses.</xs:documentation>
+  </xs:annotation>
+
+  <xs:include schemaLocation="common.xsd" />
+
+  <xs:complexType name="wireHarness">
+    <xs:sequence>
+      <xs:element name="productionQuantity" type="xs:nonNegativeInteger" minOccurs="0" />
+      <xs:element name="bomLineItemQuantity" type="xs:nonNegativeInteger" />
+      <xs:element name="wires" type="iFAB:wires" minOccurs="0" />
+      <xs:element name="connectors" type="iFAB:connectors" minOccurs="0" />
+      <xs:element name="ringForkTerminals" type="iFAB:ringForkTerminals" minOccurs="0" />
+      <xs:element name="splices" type="iFAB:splices" minOccurs="0" />
+      <xs:element name="otherTerminals" type="iFAB:otherTerminals" minOccurs="0" />
+      <xs:element name="harnessLayouts" type="iFAB:harnessLayouts" minOccurs="0" />
+      <xs:element name="wireCoverings" type="iFAB:wireCoverings" minOccurs="0" />
+      <xs:element name="idLabels" type="iFAB:idLabels" minOccurs="0" />
+      <xs:element name="bakes" type="iFAB:bakes" minOccurs="0" />
+      <xs:element name="inspectionAndTests" type="iFAB:inspectionAndTests" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="wires">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="stranded" type="iFAB:strandedWire" />
+      <xs:element name="solidInsulated" type="iFAB:solidInsulatedWire" />
+      <xs:element name="multiConductor" type="iFAB:multiConductorWire" />
+      <xs:element name="coax" type="iFAB:coaxWire" />
+      <xs:element name="triax" type="iFAB:triaxWire" />
+      <xs:element name="ribbon" type="iFAB:ribbonWire" />
+      <xs:element name="solidBuss" type="iFAB:solidBussWire" />
+      <xs:element name="fiberOptic" type="iFAB:fiberOpticWire" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="wire" abstract="true">
+    <xs:sequence>
+      <xs:element name="partNumberQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="totalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="strandedWire">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wire">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+          <xs:group ref="iFAB:wireGaugeQuantities" />
+          <xs:element name="markedQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="heavyOrVeryHeavyMarked" type="xs:boolean" default="false" minOccurs="0" />
+          <xs:element name="teflonInsulatedMarked" type="xs:boolean" default="false" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="solidInsulatedWire">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wire">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+          <xs:group ref="iFAB:wireGaugeQuantities" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="multiConductorWire">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wire">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+          <xs:element name="thinQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="thickQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="conductorQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="markedQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="coaxWire">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wire">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="triaxWire">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wire">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ribbonWire">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wire">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+          <xs:element name="conductorQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="solidBussWire">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wire">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="fiberOpticWire">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wire">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:group name="wireLengthQuantities">
+    <xs:sequence>
+      <xs:element name="shortQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="mediumQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="longQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="extraLongQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+    </xs:sequence>
+  </xs:group>
+
+  <xs:group name="wireGaugeQuantities">
+    <xs:sequence>
+      <xs:element name="shortQuantityGauge" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="mediumQuantityGauge" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="heavyQuantityGauge" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="veryHeavyQuantityGauge" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="ultraHeavyQuantityGauge" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+    </xs:sequence>
+  </xs:group>
+
+  <xs:complexType name="connectors">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="unloaded" type="iFAB:unloadedConnector" />
+      <xs:element name="loaded" type="iFAB:loadedConnector" />
+      <xs:element name="insulationDisplacement" type="iFAB:insulationDisplacementConnector" />
+      <xs:element name="ribbon" type="iFAB:ribbonConnector" />
+      <xs:element name="coax" type="iFAB:coaxConnector" />
+      <xs:element name="triax" type="iFAB:triaxConnector" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="connector" abstract="true">
+    <xs:sequence>
+      <xs:element name="totalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="unloadedConnector">
+    <xs:complexContent>
+      <xs:extension base="iFAB:connector">
+        <xs:sequence>
+          <xs:element name="crimpedContactPartNumberQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="crimpedContactTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="solderedContactQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="emptyContactQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="wireSealQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="sealPlugQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="backshellQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="strainReliefQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="wedgelockQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="emiBraidingQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="drainWireQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="mountingHardwareQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="dustCapQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="shrinkBoostQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="pottingQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="overmoldingQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="loadedConnector">
+    <xs:complexContent>
+      <xs:extension base="iFAB:connector">
+        <xs:sequence>
+          <xs:element name="solderedContactQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="heatShrinkQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="backshellQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="strainReliefQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="emiBraidingQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="drainWireQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="mountingHardwareQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="dustCapQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="shrinkBoostQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="pottingQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="overmoldingQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="coaxConnector">
+    <xs:complexContent>
+      <xs:extension base="iFAB:connector">
+        <xs:sequence>
+          <xs:element name="solderedContactQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="ferruleQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="insulationDisplacementConnector">
+    <xs:complexContent>
+      <xs:extension base="iFAB:connector">
+        <xs:sequence>
+          <xs:element name="overmoldingQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ribbonConnector">
+    <xs:complexContent>
+      <xs:extension base="iFAB:connector">
+        <xs:sequence>
+          <xs:element name="overmoldingQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="triaxConnector">
+    <xs:complexContent>
+      <xs:extension base="iFAB:connector">
+        <xs:sequence>
+          <xs:element name="solderedContactQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+          <xs:element name="ferruleQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ringForkTerminals">
+    <xs:sequence>
+      <xs:element name="partNumberQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="totalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="crimpedQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="solderedQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="tinnedQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="pottedQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="heatShrinkQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="splices">
+    <xs:sequence>
+      <xs:element name="buttSpliceTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="ultrasonicWeldSmallQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="ultrasonicWeldLargeQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="ultrasonicWeldHeatShrinkQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="otherTerminals">
+    <xs:sequence>
+      <xs:element name="tinnedWireTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="shieldTerminatorTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="harnessLayouts">
+    <xs:sequence>
+      <xs:element name="twisting" type="xs:boolean" default="false" minOccurs="0" />
+      <xs:element name="twistedPairTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="branchTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="transitionTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="transitionShrinkBootQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="transitionSealTapeQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="transitionBraidQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="cableTieTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="lacing" type="xs:boolean" default="false" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="wireCoverings">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="heatShrink" type="iFAB:heatShrinkCovering" />
+      <xs:element name="singleBraid" type="iFAB:singleBraidCovering" />
+      <xs:element name="doubleBraid" type="iFAB:doubleBraidCovering" />
+      <xs:element name="expandoBraid" type="iFAB:expandoBraidCovering" />
+      <xs:element name="splitLoom" type="iFAB:splitLoomCovering" />
+      <xs:element name="plainConduit" type="iFAB:plainConduitCovering" />
+      <xs:element name="liquidTightConduit" type="iFAB:liquidTightConduitCovering" />
+      <xs:element name="spiralWrap" type="iFAB:spiralWrapCovering" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="wireCovering" abstract="true">
+    <xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="heatShrinkCovering">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wireCovering">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="singleBraidCovering">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wireCovering">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="doubleBraidCovering">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wireCovering">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="expandoBraidCovering">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wireCovering">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="splitLoomCovering">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wireCovering">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="plainConduitCovering">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wireCovering">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+          <xs:element name="fittingsQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="liquidTightConduitCovering">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wireCovering">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+          <xs:element name="fittingsQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="spiralWrapCovering">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wireCovering">
+        <xs:sequence>
+          <xs:group ref="iFAB:wireLengthQuantities" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="idLabels">
+    <xs:sequence>
+      <xs:element name="heatShrinkPartNumberQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="heatShrinkTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="heatShrinkClearCoverQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="wrapAroundPartNumberQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="wrapAroundTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="wrapAroundClearCoverQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="bakes">
+    <xs:sequence>
+      <xs:element name="bake" type="xs:boolean" />
+      <xs:element name="bakeTime" type="xs:nonNegativeInteger" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="inspectionAndTests">
+    <xs:sequence>
+      <xs:element name="ipc620ProductClass" type="iFAB:ipc620ProductClass" />
+      <xs:element name="hipotTest" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="ipc620ProductClass">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="1" />
+      <xs:enumeration value="2" />
+      <xs:enumeration value="3" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

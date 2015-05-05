@@ -1,0 +1,183 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "1 TYPELIB ""ComponentLib.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "FileDescription", "Interpreter Module"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "Interpreter"
+            VALUE "LegalCopyright", "Copyright 2000"
+            VALUE "OriginalFilename", "Interpreter.DLL"
+            VALUE "ProductName", "Interpreter Module"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_COMPICON            ICON                    "compicon.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_GRIDDLG DIALOGEX 0, 0, 434, 345
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "GME Table Editor"
+MENU IDR_GRIDDLG_MENU
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,14,324,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,69,324,50,14
+    CONTROL         "Custom1",IDC_GRID,"MFCGridCtrl",WS_TABSTOP,7,7,420,265
+    CONTROL         "Display All Types",IDC_CHKALLTYPES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,64,295,69,10
+    CONTROL         "Models",IDC_CHKMODEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,308,39,10
+    CONTROL         "Atoms",IDC_CHKATOM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,60,308,35,10
+    CONTROL         "References",IDC_CHKREF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,96,308,49,10
+    CONTROL         "Sets",IDC_CHKSET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,308,27,10
+    CONTROL         "Connections",IDC_CHKCON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,182,308,59,10
+    LTEXT           "Kind Filters:",IDC_STATIC_KIND,274,280,37,8
+    LISTBOX         IDC_LISTKIND,243,291,171,35,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Display All Kinds",IDC_CHECKALLKINDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,327,278,67,10
+    LTEXT           "Use Ctrl and/or Shift to select multiple Kinds",IDC_STATICHELP,249,330,138,8
+    PUSHBUTTON      "Update Display",IDC_BTNDISP,136,289,79,15
+    LTEXT           "Type Filters:",IDC_STATIC_TYPE,13,295,46,10
+    LTEXT           "Invoking the table editor with selected objects will display only those objects",IDC_STATIC_SELECTION,7,276,257,8
+    LTEXT           "Filters:",IDC_STATIC_FILTERS,12,286,54,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_GRIDDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 427
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 338
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_GRIDDLG_MENU MENU
+BEGIN
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Recursively Show Items",     ID_VIEW_RECURSIVELYSHOWITEMS
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_PROJNAME            "Component"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "ComponentLib.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

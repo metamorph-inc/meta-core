@@ -1,0 +1,139 @@
+# Microsoft Developer Studio Generated Dependency File, included by bdd.mak
+
+.\bdd.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddapply.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddassoc.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddblk.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddcache.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddcmp.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddcomp.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bdddump.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddhash.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddmisc.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddprint.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddprprofile.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddqnt.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddreduce.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddrelprod.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddreorder.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddsat.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddsize.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddsupport.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddswap.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddunique.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\bddwarn.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	
+
+.\mtbdd.c : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddint.h"\
+	

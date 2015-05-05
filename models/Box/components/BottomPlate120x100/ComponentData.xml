@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c4367fe9e-1a2c-41af-8285-a18d9aaa4c5c" Name="BottomPlate120x100" Version="" xmlns="avm">
+  <DomainModel xmlns:q1="manufacturing" xsi:type="q1:ManufacturingModel" UsesResource="id90" Author="" Notes="" xmlns="" />
+  <DomainModel xmlns:q2="cad" xsi:type="q2:CADModel" UsesResource="cad.path" Notes="" xmlns="">
+    <Datum xsi:type="q2:Plane" ID="cad.DTM1" PortMap="" DatumName="DTM1" SurfaceReverseMap="" />
+    <Datum xsi:type="q2:Plane" ID="cad.DTM2" PortMap="" DatumName="DTM2" SurfaceReverseMap="" />
+    <Datum xsi:type="q2:Plane" ID="cad.DTM3" PortMap="" DatumName="DTM3" SurfaceReverseMap="" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.CS0" PortMap="" DatumName="CS0" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.CS1" PortMap="" DatumName="CS1" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.CS2" PortMap="" DatumName="CS2" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.CS3" PortMap="" DatumName="CS3" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.CS4" PortMap="" DatumName="CS4" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.CS7" PortMap="" DatumName="CS7" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.CS5" PortMap="" DatumName="CS5" />
+    <Datum xsi:type="q2:CoordinateSystem" ID="cad.CS6" PortMap="" DatumName="CS6" />
+    <Parameter Name="AVM_COMPONENT_ID">
+      <Value DataType="String" Unit="" ID="cad.AVM_COMPONENT_ID">
+        <ValueExpression xmlns:q3="avm" xsi:type="q3:FixedValue">
+          <Value>c4367fe9e-1a2c-41af-8285-a18d9aaa4c5c</Value>
+        </ValueExpression>
+      </Value>
+    </Parameter>
+    <Parameter Name="PTC_MATERIAL_NAME">
+      <Value DataType="String" Unit="" ID="cad.PTC_MATERIAL_NAME">
+        <ValueExpression xmlns:q4="avm" xsi:type="q4:FixedValue">
+          <Value>STEEL</Value>
+        </ValueExpression>
+      </Value>
+    </Parameter>
+  </DomainModel>
+  <ResourceDependency Name="Resource" Path="CAD/bottompart.prt.11" Hash="" ID="cad.path" Notes="" xmlns="" />
+  <ResourceDependency Name="Resource" Path="generic_cots_mfg.xml" Hash="" ID="id90" Notes="" xmlns="" />
+  <Connector ConnectorComposition="" ID="id901" ApplyJoinData="" Notes="" Name="Side1" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q5="cad" xsi:type="q5:CoordinateSystem" ID="ID7" PortMap="Side1" Name="Side1" Notes="" Definition="" />
+    <DefaultJoin xmlns:q6="iFAB" xsi:type="q6:welded" q6:id="jdbfb42e93-44c9-40e8-afb9-0983227f6e03">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id902" ApplyJoinData="" Notes="" Name="Side2" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q7="cad" xsi:type="q7:CoordinateSystem" ID="ID6" PortMap="Side2" Name="Side2" Notes="" Definition="" />
+    <DefaultJoin xmlns:q8="iFAB" xsi:type="q8:welded" q8:id="jd3ce493f2-d63c-44c3-88a3-0410f5d88d7a">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id906" ApplyJoinData="" Notes="" Name="TopSide2" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q9="cad" xsi:type="q9:CoordinateSystem" ID="ID5" PortMap="TopSide2" Name="TopSide2" Notes="" Definition="" />
+    <DefaultJoin xmlns:q10="iFAB" xsi:type="q10:welded" q10:id="jdd00ecb9f-faca-4f4d-8cfa-c35d76ea9a1a">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id908" ApplyJoinData="" Notes="" Name="TopSide4" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q11="cad" xsi:type="q11:CoordinateSystem" ID="ID4" PortMap="TopSide4" Name="TopSide4" Notes="" Definition="" />
+    <DefaultJoin xmlns:q12="iFAB" xsi:type="q12:welded" q12:id="jd1df2ea2e-3827-40f8-8a42-a7bccdd940f7">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id907" ApplyJoinData="" Notes="" Name="TopSide3" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q13="cad" xsi:type="q13:CoordinateSystem" ID="ID3" PortMap="TopSide3" Name="TopSide3" Notes="" Definition="" />
+    <DefaultJoin xmlns:q14="iFAB" xsi:type="q14:welded" q14:id="jdbf8740a7-b486-4c08-8096-92a45e9a06de">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id904" ApplyJoinData="" Notes="" Name="Side4" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q15="cad" xsi:type="q15:CoordinateSystem" ID="ID2" PortMap="Side4" Name="Side4" Notes="" Definition="" />
+    <DefaultJoin xmlns:q16="iFAB" xsi:type="q16:welded" q16:id="jd39d5e2c5-dcfc-44ce-ac78-72733e9d8d0b">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id903" ApplyJoinData="" Notes="" Name="Side3" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q17="cad" xsi:type="q17:CoordinateSystem" ID="ID1" PortMap="Side3" Name="Side3" Notes="" Definition="" />
+    <DefaultJoin xmlns:q18="iFAB" xsi:type="q18:welded" q18:id="jd0f3bc169-e755-46ae-9cea-9b9582795603">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Connector ConnectorComposition="" ID="id905" ApplyJoinData="" Notes="" Name="TopSide1" Definition="ConnectorType1" xmlns="">
+    <Role xmlns:q19="cad" xsi:type="q19:CoordinateSystem" ID="ID0" PortMap="TopSide1" Name="TopSide1" Notes="" Definition="" />
+    <DefaultJoin xmlns:q20="iFAB" xsi:type="q20:welded" q20:id="jd8dd37ac9-5092-4bff-874b-636c636f6775">
+      <part1 />
+      <part2 />
+      <description />
+      <length>100</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Full</weldPenetration>
+      <twoSided>true</twoSided>
+      <inspectionRequirement>Visual</inspectionRequirement>
+      <part1Thickness>0</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness>0</part2Thickness>
+      <part2Material>Al</part2Material>
+    </DefaultJoin>
+  </Connector>
+  <Classifications xmlns="" />
+</Component>

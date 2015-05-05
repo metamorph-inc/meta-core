@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7091078C-61AB-434B-B46D-7E2291289426}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CADAssembler.props" />
+    <Import Project="..\CADCreoParametricCommonFunctions.props" />
+    <Import Project="..\..\UdmDll.props" />
+    <Import Project="..\MetaLink_Protobuf.props" />
+    <Import Project="..\..\..\META.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CADAssembler.props" />
+    <Import Project="..\CADCreoParametricCommonFunctions.props" />
+    <Import Project="..\..\UdmDll.props" />
+    <Import Project="..\MetaLink_Protobuf.props" />
+    <Import Project="..\..\..\META.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CADAssembler.props" />
+    <Import Project="..\CADCreoParametricCommonFunctions.props" />
+    <Import Project="..\..\UdmDll.props" />
+    <Import Project="..\MetaLink_Protobuf.props" />
+    <Import Project="..\..\..\META.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CADAssembler.props" />
+    <Import Project="..\CADCreoParametricCommonFunctions.props" />
+    <Import Project="..\..\UdmDll.props" />
+    <Import Project="..\MetaLink_Protobuf.props" />
+    <Import Project="..\..\..\META.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C\Creo 2.0\Common Files\M030\protoolkit\includes;C\Creo 2.0\Common Files\M030\protoolkit\includes</IncludePath>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>PRO_MACHINE=36;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>Psapi.lib;Netapi32.lib;Mpr.lib;prodevmd.lib;protkmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>PRO_MACHINE=36;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>Psapi.lib;Netapi32.lib;Mpr.lib;prodevmd.lib;protkmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>PRO_MACHINE=36;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\prodevelop\x86e_win64\obj;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\x86e_win64\obj;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Psapi.lib;Netapi32.lib;Mpr.lib;prodevmd.lib;protkmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>PRO_MACHINE=36;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\generated\CAD\generated;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>MaxSpeed</Optimization>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalOptions>-Zm114 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\prodevelop\x86e_win64\obj;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\x86e_win64\obj;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Psapi.lib;Netapi32.lib;Mpr.lib;prodevmd.lib;protkmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y/D/F/C "$(TargetPath)" "$(META_PATH)\deploy\CAD_Installs\Proe ISIS Extensions\bin"\
+</Command>
+      <Message>Copy $(TargetName) to deploy\...\bin</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyEditingViaLink.cpp" />
+    <ClCompile Include="CreoMetaDataExporter.cpp" />
+    <ClCompile Include="CreoPlugins\CreoExport.cpp" />
+    <ClCompile Include="CreoPlugins\CreoExportComponent.cpp" />
+    <ClCompile Include="CreoPlugins\CreoSelectComponent.cpp" />
+    <ClCompile Include="EventLoopMonitor.cpp" />
+    <ClCompile Include="GlobalModelData.cpp" />
+    <ClCompile Include="InputArgumentsParser.cpp" />
+    <ClCompile Include="MetaLinkHandler.cpp" />
+    <ClCompile Include="CADCreoParametricMetaLink.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Test_MetaLink.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\CADCreoParametricCommonFunctions\EventLoopMonitor.h" />
+    <ClInclude Include="AssemblyEditingViaLink.h" />
+    <ClInclude Include="CreoMetaDataExporter.h" />
+    <ClInclude Include="CreoPlugins\CreoExport.h" />
+    <ClInclude Include="CreoPlugins\CreoPlugins.h" />
+    <ClInclude Include="DatumInfo.h" />
+    <ClInclude Include="GlobalModelData.h" />
+    <ClInclude Include="InputArgumentsParser.h" />
+    <ClInclude Include="MetaLinkHandler.h" />
+    <ClInclude Include="ISISVersionNumber.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Test_MetaLink.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CADCreoParametricMetaLink.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\meta\CAD\CAD.vcxproj">
+      <Project>{062cb7d2-7c7d-45ca-97c4-33dd720cd9b1}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MetaLink\meta-link-creo\premake4\MetaLinkLib.vcxproj">
+      <Project>{96a137a1-1f30-664c-8035-4074ebf1b266}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\CADCommonFunctions\CADCommonFunctions.vcxproj">
+      <Project>{9438fde8-a6e2-41e7-8523-250484cb4981}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\CADCreoParametricCommonFunctions\CADCreoParametricCommonFunctions.vcxproj">
+      <Project>{49c0c132-dfd9-47e4-a860-01fd6e34ac3a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\CADCreoParametricCreateAssemblyFunctions\CADCreoParametricCreateAssemblyFunctions.vcxproj">
+      <Project>{081f0b37-fda9-4921-a171-8b3feaa0fdd3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\CADCreoParametricToolkitFunctions\CADCreoParametricToolkitFunctions.vcxproj">
+      <Project>{7cfd6932-09b9-4c2d-9483-c70a460e6996}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="..\..\nuget\log4cpp.redist.1.1.0.2\build\native\log4cpp.redist.targets" Condition="Exists('..\..\nuget\log4cpp.redist.1.1.0.2\build\native\log4cpp.redist.targets')" />
+    <Import Project="..\..\nuget\log4cpp.1.1.0.2\build\native\log4cpp.targets" Condition="Exists('..\..\nuget\log4cpp.1.1.0.2\build\native\log4cpp.targets')" />
+    <Import Project="..\..\nuget\boost.1.55.0.10\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.10\build\native\boost.targets')" />
+    <Import Project="..\..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets" Condition="Exists('..\..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets" Condition="Exists('..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets" Condition="Exists('..\..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_thread-vc100.1.55.0.15\build\native\boost_thread-vc100.targets" Condition="Exists('..\..\nuget\boost_thread-vc100.1.55.0.15\build\native\boost_thread-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_date_time-vc100.1.55.0.15\build\native\boost_date_time-vc100.targets" Condition="Exists('..\..\nuget\boost_date_time-vc100.1.55.0.15\build\native\boost_date_time-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_chrono-vc100.1.55.0.15\build\native\boost_chrono-vc100.targets" Condition="Exists('..\..\nuget\boost_chrono-vc100.1.55.0.15\build\native\boost_chrono-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets" Condition="Exists('..\..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_atomic-vc100.1.55.0.15\build\native\boost_atomic-vc100.targets" Condition="Exists('..\..\nuget\boost_atomic-vc100.1.55.0.15\build\native\boost_atomic-vc100.targets')" />
+    <Import Project="..\..\nuget\protobuf.2.5.0.0\build\native\protobuf.targets" Condition="Exists('..\..\nuget\protobuf.2.5.0.0\build\native\protobuf.targets')" />
+    <Import Project="..\..\nuget\protobuf-vc100.2.5.0.0\build\native\protobuf-vc100.targets" Condition="Exists('..\..\nuget\protobuf-vc100.2.5.0.0\build\native\protobuf-vc100.targets')" />
+    <Import Project="..\..\nuget\log4cpp.1.1.0.3\build\native\log4cpp.targets" Condition="Exists('..\..\nuget\log4cpp.1.1.0.3\build\native\log4cpp.targets')" />
+    <Import Project="..\..\nuget\log4cpp-vc100.redist.1.1.0.3\build\native\log4cpp-vc100.redist.targets" Condition="Exists('..\..\nuget\log4cpp-vc100.redist.1.1.0.3\build\native\log4cpp-vc100.redist.targets')" />
+    <Import Project="..\..\nuget\log4cpp-vc100.1.1.0.3\build\native\log4cpp-vc100.targets" Condition="Exists('..\..\nuget\log4cpp-vc100.1.1.0.3\build\native\log4cpp-vc100.targets')" />
+  </ImportGroup>
+</Project>

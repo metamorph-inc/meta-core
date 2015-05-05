@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iFAB="iFAB" targetNamespace="iFAB">
+
+  <xs:annotation>
+    <xs:appinfo>iFAB Foundry Control Box XML Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This schema defines an XML file for representing control/electrical boxes.</xs:documentation>
+  </xs:annotation>
+
+  <xs:include schemaLocation="common.xsd" />
+  <xs:include schemaLocation="wireHarness.xsd" />
+
+  <xs:complexType name="controlBox">
+    <xs:complexContent>
+      <xs:extension base="iFAB:wireHarness">
+        <xs:sequence>
+          <xs:element name="enclosure" type="iFAB:enclosure" />
+          <xs:element name="enclosureHardwareComponents" type="iFAB:enclosureHardwareComponents" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="enclosure">
+    <xs:sequence>
+      <xs:element name="source" type="xs:string" />
+      <xs:element name="holeRoundSmallQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="holeRoundMediumQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="holeRoundLargeQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="holeSquareSmallQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="holeSquareMediumQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="holeSquareLargeQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="enclosureHardwareComponents">
+    <xs:sequence>
+      <xs:element name="backpanelTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="doorTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="dinRailTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="dinRailEndBlockTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="wireDuctTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="installedConnectorTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="installedConduitFittingTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="snapInComponentTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="fastenedComponentTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="fastenerTorquedQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="wireScrewTerminalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="wireQuickConnectQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="wireSolderedQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+      <xs:element name="labelTotalQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

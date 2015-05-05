@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyPhySignalBlocksAddOn", "CyPhySignalBlocksAddOn.csproj", "{FD77B394-97AB-4775-92A8-D98F967089D6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CyPhyMLCSharp", "..\CyPhyMLCSharp\CyPhyMLCSharp.vcxproj", "{BD445433-1D7E-48FC-83B0-3AF37B6A66C5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CyPhyMLRegister", "..\CyPhyMLRegister\CyPhyMLRegister.vcxproj", "{D004018A-8DFE-4397-8DB0-295EFCFA05CE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CyPhyML", "..\..\meta\CyPhyML\CyPhyML.vcxproj", "{A6B875EF-43CF-4430-B0CD-BE36FB41E8D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceSwitcher", "..\ReferenceSwitcher\ReferenceSwitcher.csproj", "{145ED698-BC88-451D-A0E8-478F05E13981}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD77B394-97AB-4775-92A8-D98F967089D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD77B394-97AB-4775-92A8-D98F967089D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD77B394-97AB-4775-92A8-D98F967089D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD77B394-97AB-4775-92A8-D98F967089D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD445433-1D7E-48FC-83B0-3AF37B6A66C5}.Debug|Any CPU.ActiveCfg = Release|Win32
+		{BD445433-1D7E-48FC-83B0-3AF37B6A66C5}.Debug|Any CPU.Build.0 = Release|Win32
+		{BD445433-1D7E-48FC-83B0-3AF37B6A66C5}.Release|Any CPU.ActiveCfg = Release|Win32
+		{BD445433-1D7E-48FC-83B0-3AF37B6A66C5}.Release|Any CPU.Build.0 = Release|Win32
+		{D004018A-8DFE-4397-8DB0-295EFCFA05CE}.Debug|Any CPU.ActiveCfg = Release|Win32
+		{D004018A-8DFE-4397-8DB0-295EFCFA05CE}.Debug|Any CPU.Build.0 = Release|Win32
+		{D004018A-8DFE-4397-8DB0-295EFCFA05CE}.Release|Any CPU.ActiveCfg = Release|Win32
+		{D004018A-8DFE-4397-8DB0-295EFCFA05CE}.Release|Any CPU.Build.0 = Release|Win32
+		{A6B875EF-43CF-4430-B0CD-BE36FB41E8D2}.Debug|Any CPU.ActiveCfg = Release|Win32
+		{A6B875EF-43CF-4430-B0CD-BE36FB41E8D2}.Debug|Any CPU.Build.0 = Release|Win32
+		{A6B875EF-43CF-4430-B0CD-BE36FB41E8D2}.Release|Any CPU.ActiveCfg = Release|Win32
+		{A6B875EF-43CF-4430-B0CD-BE36FB41E8D2}.Release|Any CPU.Build.0 = Release|Win32
+		{145ED698-BC88-451D-A0E8-478F05E13981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{145ED698-BC88-451D-A0E8-478F05E13981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{145ED698-BC88-451D-A0E8-478F05E13981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{145ED698-BC88-451D-A0E8-478F05E13981}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

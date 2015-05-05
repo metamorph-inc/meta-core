@@ -1,0 +1,47 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".cmd" #>
+
+
+REM ****************************
+REM Ballistic Shotline Viewer
+REM ****************************
+@echo off
+
+set BALLISTIC_RESULT_FILE="BallisticConfig_sl_geo_res.json"
+set BALLISTIC_EXE_FILE_NAME=shotline-viewer.exe
+set BALLISTIC_VIEWER_EXE="%SWRI_BALLISTIC_EXTENSIONS%\ShotlineViewer\%BALLISTIC_EXE_FILE_NAME%"
+
+if not exist %BALLISTIC_RESULT_FILE% (
+set ERROR_CODE=2
+set ERROR_MSG="Error: Could not find BallisticConfig_sl_geo_res.json"
+goto :ERROR_SECTION
+)
+
+if exist %BALLISTIC_VIEWER_EXE% (
+goto  :BALLISTIC_EXE_FOUND
+) else (
+echo Your system is not properly configured to run %BALLISTIC_EXE_FILE_NAME%.
+set ERROR_CODE=2
+set ERROR_MSG="Error: Could not find shotline-viewer."
+)
+
+goto :ERROR_SECTION
+:BALLISTIC_EXE_FOUND
+echo Startings ShotlineViewer ...
+%BALLISTIC_VIEWER_EXE% -i %BALLISTIC_RESULT_FILE%
+
+if not ERRORLEVEL 0 (
+set ERROR_CODE=%ERRORLEVEL%
+goto :ERROR_SECTION
+)
+
+
+goto :EOF
+
+@echo on
+:ERROR_SECTION
+echo ""
+echo %ERROR_MSG%
+echo ""
+timeout /T 8 >nul
+exit /b %ERROR_CODE%

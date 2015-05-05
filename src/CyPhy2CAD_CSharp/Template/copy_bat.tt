@@ -1,0 +1,20 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".bat" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+
+REM Pass %1 in if not running from the directory containing this bat file
+REM Example invocation from the directory containing this bat file:
+REM 	Copy_Parts.bat
+REM Example invocation from a directory other than the directory containing this bat file:
+
+cd %1
+echo ON
+
+<# foreach (var folder in CadFolders){ #>
+FOR /f "delims=" %%a IN ('DIR "<#=folder#>\*.stl" /s /b') DO xcopy "%%a" STL\ /Y /I
+<#  } #>
+
+<#+  
+public List<string> CadFolders {get;set;}
+#>

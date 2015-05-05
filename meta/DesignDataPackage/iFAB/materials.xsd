@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iFAB="iFAB" targetNamespace="iFAB">
+
+  <xs:annotation>
+    <xs:appinfo>iFAB Foundry Materials Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This schema defines the supported materials.</xs:documentation>
+  </xs:annotation>
+
+  <xs:complexType name="machinedMaterials">
+    <xs:choice>
+      <xs:element name="aluminum" type="iFAB:machinedAluminum" />
+      <xs:element name="alloySteel" type="iFAB:machinedAlloySteel" />
+      <xs:element name="carbonSteel" type="iFAB:machinedCarbonSteel" />
+      <xs:element name="stainlessSteel" type="iFAB:machinedStainlessSteel" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="machinedAluminum">
+    <xs:choice>
+      <xs:element name="extruded" type="iFAB:machinedAluminumExtruded" />
+      <xs:element name="coldFinished" type="iFAB:machinedAluminumColdFinished" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:simpleType name="machinedAluminumExtruded">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="6061" />
+      <xs:enumeration value="6063" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="machinedAluminumColdFinished">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="2011" />
+      <xs:enumeration value="2017" />
+      <xs:enumeration value="2024" />
+      <xs:enumeration value="6061" />
+      <xs:enumeration value="7075" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="machinedAlloySteel">
+    <xs:choice>
+      <xs:element name="hotRolled" type="iFAB:machinedAlloySteelHotRolled" />
+      <xs:element name="coldFinished" type="iFAB:machinedAlloySteelColdFinished" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:simpleType name="machinedAlloySteelHotRolled">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="52100" />
+      <xs:enumeration value="4130" />
+      <xs:enumeration value="4140" />
+      <xs:enumeration value="4150" />
+      <xs:enumeration value="4340" />
+      <xs:enumeration value="6150" />
+      <xs:enumeration value="8620" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="machinedAlloySteelColdFinished">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="ETD 150" />
+      <xs:enumeration value="4140" />
+      <xs:enumeration value="8620" />
+      <xs:enumeration value="6150" />
+      <xs:enumeration value="41L40" />
+      <xs:enumeration value="86L20" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="machinedCarbonSteel">
+    <xs:choice>
+      <xs:element name="hotRolled" type="iFAB:machinedCarbonSteelHotRolled" />
+      <xs:element name="coldFinished" type="iFAB:machinedCarbonSteelColdFinished" />
+    </xs:choice>
+  </xs:complexType>
+
+
+  <xs:simpleType name="machinedCarbonSteelHotRolled">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="A-36 / Standard" />
+      <xs:enumeration value="1018" />
+      <xs:enumeration value="1044" />
+      <xs:enumeration value="1045" />
+      <xs:enumeration value="1117" />
+      <xs:enumeration value="1141" />
+      <xs:enumeration value="1144" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="machinedCarbonSteelColdFinished">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="1018" />
+      <xs:enumeration value="1046" />
+      <xs:enumeration value="1117" />
+      <xs:enumeration value="1141" />
+      <xs:enumeration value="1144" />
+      <xs:enumeration value="11L17" />
+      <xs:enumeration value="12L14" />
+      <xs:enumeration value="1215" />
+      <xs:enumeration value="A-311" />
+      <xs:enumeration value="Fatigue Proof" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="machinedStainlessSteel">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="304" />
+      <xs:enumeration value="316" />
+      <xs:enumeration value="416" />
+      <xs:enumeration value="440C" />
+      <xs:enumeration value="17-4" />
+      <xs:enumeration value="303" />
+      <xs:enumeration value="420" />
+      <xs:enumeration value="15-5" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="plateSheetMaterials">
+    <xs:choice>
+      <xs:element name="aluminum" type="iFAB:plateSheetAluminum" />
+      <xs:element name="carbonSteel" type="iFAB:plateSheetCarbonSteel" />
+      <xs:element name="stainlessSteel" type="iFAB:plateSheetStainlessSteel" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:simpleType name="plateSheetAluminum">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="2024" />
+      <xs:enumeration value="3003" />
+      <xs:enumeration value="5052" />
+      <xs:enumeration value="5086" />
+      <xs:enumeration value="6061" />
+      <xs:enumeration value="QC7" />
+      <xs:enumeration value="3003" />
+      <xs:enumeration value="5083" />
+      <xs:enumeration value="7075" />
+      <xs:enumeration value="Cast" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="plateSheetCarbonSteel">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Hot Rolled" />
+      <xs:enumeration value="Cold Rolled" />
+      <xs:enumeration value="Coated (Galv/Galv Ann/Almzd)" />
+      <xs:enumeration value="A-36" />
+      <xs:enumeration value="AR 235" />
+      <xs:enumeration value="AR 400" />
+      <xs:enumeration value="AR 500" />
+      <xs:enumeration value="A-514" />
+      <xs:enumeration value="A-572" />
+      <xs:enumeration value="A-656 80" />
+      <xs:enumeration value="A-588" />
+      <xs:enumeration value="Clean-Cut 20" />
+      <xs:enumeration value="CQ/Floor" />
+      <xs:enumeration value="Manganese" />
+      <xs:enumeration value="PVQ" />
+      <xs:enumeration value="1020" />
+      <xs:enumeration value="1045" />
+      <xs:enumeration value="1060" />
+      <xs:enumeration value="1119" />
+      <xs:enumeration value="1144" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="plateSheetStainlessSteel">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="201" />
+      <xs:enumeration value="304" />
+      <xs:enumeration value="316" />
+      <xs:enumeration value="430" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="pipeBarTubeMaterials">
+    <xs:choice>
+      <xs:element name="aluminum" type="iFAB:pipeBarTubeAluminum" />
+      <xs:element name="carbonSteel" type="iFAB:pipeBarTubeCarbonSteel" />
+      <xs:element name="stainlessSteel" type="iFAB:pipeBarTubeStainlessSteel" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="pipeBarTubeAluminum">
+    <xs:choice>
+      <xs:element name="structural" type="iFAB:pipeBarTubeAluminumStructural" />
+      <xs:element name="tubeOrPipe" type="iFAB:pipeBarTubeAluminumTubeOrPipe" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:simpleType name="pipeBarTubeAluminumStructural">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="6061" />
+      <xs:enumeration value="6063" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="pipeBarTubeAluminumTubeOrPipe">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="6061" />
+      <xs:enumeration value="6063" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="pipeBarTubeCarbonSteel">
+    <xs:choice>
+      <xs:element name="structural" type="iFAB:pipeBarTubeCarbonSteelStructural" />
+      <xs:element name="tubeOrPipe" type="iFAB:pipeBarTubeCarbonSteelTubeOrPipe" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:simpleType name="pipeBarTubeCarbonSteelStructural">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="A-36 / Standard" />
+      <xs:enumeration value="Wide Flange (A-992)" />
+      <xs:enumeration value="1045" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="pipeBarTubeCarbonSteelTubeOrPipe">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="A-53 Tested" />
+      <xs:enumeration value="CD SMLS" />
+      <xs:enumeration value="DOM" />
+      <xs:enumeration value="HF SMLS" />
+      <xs:enumeration value="HREW" />
+      <xs:enumeration value="Structural/Mechanical" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="pipeBarTubeStainlessSteel">
+    <xs:choice>
+      <xs:element name="structural" type="iFAB:pipeBarTubeStainlessSteelStructural" />
+      <xs:element name="tubeOrPipe" type="iFAB:pipeBarTubeStainlessSteelTubeOrPipe" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:simpleType name="pipeBarTubeStainlessSteelStructural">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="304" />
+      <xs:enumeration value="316" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="pipeBarTubeStainlessSteelTubeOrPipe">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="304" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="castingMaterials">
+    <xs:choice>
+      <xs:element name="aluminum" type="iFAB:castingAluminum" />
+      <xs:element name="carbonSteel" type="iFAB:castingSteel" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:simpleType name="castingAluminum">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="319-F" />
+      <xs:enumeration value="319-T6" />
+      <xs:enumeration value="355-T6" />
+      <xs:enumeration value="356-T6" />
+      <xs:enumeration value="512-F" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="castingSteel">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="1020 - 65/35" />
+      <xs:enumeration value="1020 - 70/36" />
+      <xs:enumeration value="1025 - 65/35" />
+      <xs:enumeration value="1025 - 70/36" />
+      <xs:enumeration value="1030 - 65/35" />
+      <xs:enumeration value="1030 - 70/36" />
+      <xs:enumeration value="1030 - 80/40" />
+      <xs:enumeration value="1040 - 65/35" />
+      <xs:enumeration value="1040 - 70/36" />
+      <xs:enumeration value="1040 - 80/40" />
+      <xs:enumeration value="1040 - 80/50" />
+      <xs:enumeration value="1045 - 80/40" />
+      <xs:enumeration value="1045 - 80/50" />
+      <xs:enumeration value="1045 - 90/60" />
+      <xs:enumeration value="1045 - 105/85" />
+      <xs:enumeration value="4130 - 80/40" />
+      <xs:enumeration value="4130 - 80/50" />
+      <xs:enumeration value="4130 - 90/60" />
+      <xs:enumeration value="4130 - 105/85" />
+      <xs:enumeration value="4130 - 115/95" />
+      <xs:enumeration value="4130 - 130/115" />
+      <xs:enumeration value="4130 - 135/125" />
+      <xs:enumeration value="4140 - 80/50" />
+      <xs:enumeration value="4140 - 90/60" />
+      <xs:enumeration value="4140 - 105/85" />
+      <xs:enumeration value="4140 - 115/95" />
+      <xs:enumeration value="4140 - 130/115" />
+      <xs:enumeration value="4140 - 135/125" />
+      <xs:enumeration value="4140 - 150/135" />
+      <xs:enumeration value="4330 - 80/50" />
+      <xs:enumeration value="4330 - 90/60" />
+      <xs:enumeration value="4330 - 105/85" />
+      <xs:enumeration value="4330 - 115/95" />
+      <xs:enumeration value="4330 - 130/115" />
+      <xs:enumeration value="4330 - 135/125" />
+      <xs:enumeration value="4330 - 150/135" />
+      <xs:enumeration value="4330 - 160/145" />
+      <xs:enumeration value="4340 - 90/60" />
+      <xs:enumeration value="4340 - 105/85" />
+      <xs:enumeration value="4340 - 115/95" />
+      <xs:enumeration value="4340 - 130/115" />
+      <xs:enumeration value="4340 - 135/125" />
+      <xs:enumeration value="4340 - 150/135" />
+      <xs:enumeration value="8620 - 65/35" />
+      <xs:enumeration value="8620 - 70/36" />
+      <xs:enumeration value="8620 - 80/40" />
+      <xs:enumeration value="8620 - 80/50" />
+      <xs:enumeration value="8620 - 90/60" />
+      <xs:enumeration value="8620 - 105/85" />
+      <xs:enumeration value="8625 - 70/36" />
+      <xs:enumeration value="8625 - 80/40" />
+      <xs:enumeration value="8625 - 80/50" />
+      <xs:enumeration value="8625 - 90/60" />
+      <xs:enumeration value="8625 - 105/85" />
+      <xs:enumeration value="8625 - 115/95" />
+      <xs:enumeration value="8625 - 130/115" />
+      <xs:enumeration value="8630 - 70/36" />
+      <xs:enumeration value="8630 - 80/40" />
+      <xs:enumeration value="8630 - 80/50" />
+      <xs:enumeration value="8630 - 90/60" />
+      <xs:enumeration value="8630 - 105/85" />
+      <xs:enumeration value="8630 - 115/95" />
+      <xs:enumeration value="8630 - 130/115" />
+      <xs:enumeration value="8630 - 135/125" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

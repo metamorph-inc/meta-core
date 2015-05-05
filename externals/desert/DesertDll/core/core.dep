@@ -1,0 +1,139 @@
+# Microsoft Developer Studio Generated Dependency File, included by core.mak
+
+.\bddmain.cpp : \
+	"..\include\bdduser.h"\
+	"..\include\memuser.h"\
+	".\bddmain.h"\
+	".\coredefs.h"\
+	".\utils.h"\
+	"c:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	
+
+.\clmain.cpp : \
+	"..\common\config.h"\
+	"..\include\bdduser.h"\
+	"..\include\cldef.h"\
+	"..\include\defs.h"\
+	"..\include\memuser.h"\
+	".\bddmain.h"\
+	".\clmain.h"\
+	".\coredefs.h"\
+	".\cosmic.h"\
+	".\dynamic.h"\
+	".\manager.h"\
+	".\static.h"\
+	".\templ.h"\
+	".\utils.h"\
+	"c:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	
+
+.\cosmic.cpp : \
+	"..\include\bdduser.h"\
+	"..\include\cldef.h"\
+	"..\include\defs.h"\
+	"..\include\memuser.h"\
+	".\bddmain.h"\
+	".\clmain.h"\
+	".\coredefs.h"\
+	".\cosmic.h"\
+	".\manager.h"\
+	".\templ.h"\
+	"c:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	
+
+.\digraph.cpp : \
+	"..\common\config.h"\
+	"..\include\bdduser.h"\
+	"..\include\cldef.h"\
+	"..\include\defs.h"\
+	"..\include\memuser.h"\
+	".\bddmain.h"\
+	".\clmain.h"\
+	".\coredefs.h"\
+	".\cosmic.h"\
+	".\digraph.h"\
+	".\dynamic.h"\
+	".\manager.h"\
+	".\static.h"\
+	".\templ.h"\
+	".\utils.h"\
+	"c:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	
+
+.\dynamic.cpp : \
+	"..\common\config.h"\
+	"..\include\bdduser.h"\
+	"..\include\cldef.h"\
+	"..\include\defs.h"\
+	"..\include\memuser.h"\
+	".\bddmain.h"\
+	".\clmain.h"\
+	".\coredefs.h"\
+	".\cosmic.h"\
+	".\digraph.h"\
+	".\dynamic.h"\
+	".\manager.h"\
+	".\static.h"\
+	".\templ.h"\
+	".\utils.h"\
+	"c:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	
+
+.\manager.cpp : \
+	"..\common\config.h"\
+	"..\include\bdduser.h"\
+	"..\include\cldef.h"\
+	"..\include\defs.h"\
+	"..\include\memuser.h"\
+	".\bddmain.h"\
+	".\clmain.h"\
+	".\coredefs.h"\
+	".\cosmic.h"\
+	".\dynamic.h"\
+	".\manager.h"\
+	".\static.h"\
+	".\templ.h"\
+	".\utils.h"\
+	"c:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	
+
+.\static.cpp : \
+	"..\include\bdduser.h"\
+	"..\include\cldef.h"\
+	"..\include\defs.h"\
+	"..\include\memuser.h"\
+	".\bddmain.h"\
+	".\clmain.h"\
+	".\coredefs.h"\
+	".\cosmic.h"\
+	".\manager.h"\
+	".\static.h"\
+	".\templ.h"\
+	".\utils.h"\
+	"c:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	
+
+.\templ.cpp : \
+	"..\common\config.h"\
+	"..\include\bdduser.h"\
+	"..\include\cldef.h"\
+	"..\include\defs.h"\
+	"..\include\memuser.h"\
+	".\bddmain.h"\
+	".\clmain.h"\
+	".\coredefs.h"\
+	".\cosmic.h"\
+	".\digraph.h"\
+	".\dynamic.h"\
+	".\manager.h"\
+	".\static.h"\
+	".\templ.h"\
+	".\utils.h"\
+	"c:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	
+
+.\utils.cpp : \
+	".\coredefs.h"\
+	".\utils.h"\
+	"c:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	

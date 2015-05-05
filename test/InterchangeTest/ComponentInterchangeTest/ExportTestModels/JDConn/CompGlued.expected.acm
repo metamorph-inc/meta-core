@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="a6e5bd3e-53b9-49e4-84da-0facd844efad" Name="CompGlued" Version="" xmlns="avm">
+  <Connector ConnectorComposition="" ID="id-12eb7a1b-93f6-4f0c-b6ac-01e3fc7de10a" ApplyJoinData="" Notes="" Name="GluedConnector" Definition="" xmlns="">
+    <DefaultJoin d3p1:id="jda5d5b749-5447-4934-970e-419563e4d502" xmlns:d3p1="iFAB">
+      <name>GluedJoinDefaultJoinData</name>
+      <part1 />
+      <part2 />
+      <description />
+      <glued>
+        <length>3</length>
+        <volume>9</volume>
+        <material>abc</material>
+      </glued>
+    </DefaultJoin>
+  </Connector>
+  <Classifications xmlns="" />
+</Component>

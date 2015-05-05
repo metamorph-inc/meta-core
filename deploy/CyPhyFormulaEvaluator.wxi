@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyFormulaEvaluator">
+  <Component Id="CyPhyFormulaEvaluator.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhyFormulaEvaluator.dll" Name="CyPhyFormulaEvaluator.dll" KeyPath="yes" Source="$(var.InterpreterBin)\CyPhyFormulaEvaluator.dll">
+      <TypeLib Id="2ACA78CF-EC8E-4E0C-9840-A251E5807055" Description="MGA Interpreter TypeLibrary (CyPhyFormulaEvaluator)" Language="0" MajorVersion="1" MinorVersion="0">
+        <Class Id="{7D316640-9593-4324-88CE-72988CA252E7}" Context="InprocServer32" ThreadingModel="apartment" Description="MGA.Interpreter.CyPhyFormulaEvaluator">
+          <ProgId Id="MGA.Interpreter.CyPhyFormulaEvaluator" Description="MGA.Interpreter.CyPhyFormulaEvaluator" />
+        </Class>
+      </TypeLib>
+    </File>
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyPhyFormulaEvaluator'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhyFormulaEvaluator'/>
+      <RegistryValue Name='Icon' Type='string' Value=',IDI_COMPICON'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='CyPhyFormulaEvaluator Interpreter'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

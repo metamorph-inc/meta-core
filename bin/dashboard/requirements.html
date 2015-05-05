@@ -1,0 +1,198 @@
+<link rel="stylesheet" href="./css/requirements.css"></link>
+
+<!-- Custom scripts -->
+<script type="text/javascript" src="./js/requirements.js"></script>
+
+
+
+<div class="row-fluid" data-bind="visible: !showRequirementTab()">
+		<div class="span3"></div>
+		<div class="span6 well">
+			<h1>Unable to load requirements data</h1>
+			<p>
+				If the project analyzer was executed from the vehicle forge server then it will try to retrieve the requirements data from the server's database. 
+				If the project analyzer was executed locally (i.e. from the CyPhy tools), then it will look for the requirements data from the local repository.
+			</p>
+			<p>
+			How-to setup the offline requirements analysis:
+			</p>
+			<p>
+				<ol>
+					<li>Download a valid requirements file from: <a href="https://fang.vehicleforge.org/fang/home/standings/goals" target="_blank">https://fang.vehicleforge.org/fang/home/standings/goals</a></li>
+					<li>Replace the "requirements.json" file with the downloaded file in "/&lt;your_project_folder&gt;/requirements/"</li>
+					<li>Make sure the updated file is called "requirements.json"</li>
+				</ol>
+			</p>
+		</div>
+</div>
+
+<div class="row-fluid" data-bind="visible: showRequirementTab">
+				
+		<div class="span12 widget">
+			<div><h1 style="display: inline;">Requirements List</h1></div>
+			<form class="form-inline"  data-bind="visible: vfMode">
+				<label>Requirements: </label><select data-bind="options: allRequirementsIds(), value: currentRequirementsId"></select>
+			</form>
+			<form class="form-inline">
+				<label>Configuration: </label><select data-bind="options: listOfConfigurations(), value: selectedConfiguration"></select><button class="btn btn-inverse" type="button" style="margin-left: 20px;" id="addDesignbtn" onclick="vm.selectDesignForCompare()"><i class="icon-th-list icon-white"></i> Add to Compare</button><button class="btn btn-inverse csv" type="button" style="margin-left: 20px; display: inline" data="vm.dataproviders.requirementsList()" table="ReqList" style="display: inline"><i class="icon-th-list icon-white"></i> Export</button>
+				<button class="btn btn-inverse" type="button" style="margin-left: 20px; display: inline"  onclick="$('#designDetailsModal').modal('show');" table="ReqList" style="display: inline"><i class="icon-th-list icon-white"></i> Details</button>
+			</form>
+			<vf-datatable id="reqlist" data="vm.dataproviders.requirementsList()"  pag = "true" height="400" ratio = ".5" ></vf-datatable> 
+		</div>
+		
+	
+</div>
+
+<div class="widget">
+<div class="row-fluid" style="margin-top: 22px;" data-bind="visible: showRequirementTab">
+		<div class="span12">
+			<h1>Requirements Analysis</h1>
+			<form class="form-inline"  data-bind="visible: vfMode">
+				<label>Requirements: </label><select data-bind="options: allRequirementsIds(), value: currentRequirementsId"></select>
+			</form>
+			<form class="form-inline">
+				<label>Configuration: </label><select onfocus="vm.colorCodeDropDownBox2()" data-bind="options: listOfConfigurations(), value: selectedConfiguration" class="colorCode"></select><button class="btn btn-inverse" type="button" style="margin-left: 20px;" id="addDesignbtn" onclick="vm.selectDesignForCompare()"><i class="icon-th-list icon-white"></i> Add to Compare</button>
+			</form>
+		</div>
+</div>
+
+<div class="row-fluid" style="margin-top: 22px;" data-bind="visible: showRequirementTab">
+	<div class="span1"><h2 style="text-align: right; padding-top: 6px;">Key:</h2></div>
+	<div class="span2 key" style="background-color: #65A0DF;"><center>Exceeds Objective</center></div>
+	<div class="span2 key" style="background-color: #83BE6C;"><center>Exceeds Threshold</center></div>
+	<div class="span2 key" style="background-color: #BB1F1F;"><center>Does Not Meet Threshold</center></div>
+	<div class="span2 key" style="background-color: #aaa;"><center>Data Unavailable</center></div>
+</div>
+
+<div class="row-fluid" style="margin-top: 22px;" data-bind="visible: showRequirementTab">
+		<div class="span12">
+			<vf-stoplight id="stoplight" data="vm.dataproviders.requirementsAnalysis()"></vf-stoplight>
+		</div>
+</div>
+</div>
+<div class="modal hide fade" id="rankingSettings">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Ranking View Settings</h3>
+	</div>
+	<div class="modal-body">
+		<p>Soon you will be able to change viewing and widget settings here ...</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
+		<a href="#" class="btn btn-primary">Open</a>
+	</div>
+</div>	
+
+ <style type="text/css">
+
+#req .chart {
+  display: block;
+  margin: auto;
+  margin-top: 60px;
+  font-size: 11px;
+}
+
+#req rect {
+  stroke: #eee;
+  fill: #aaa;
+  fill-opacity: .8;
+}
+
+#req rect.parent {
+  cursor: pointer;
+  fill: steelblue;
+}
+
+#req rect.PlotRect{
+   fill: black;
+}
+
+#req text {
+  pointer-events: none;
+}
+
+.key
+{
+padding-top: 15px;
+padding-bottom: 15px;
+border-color: whiteSmoke;
+border-width: 1px;
+border-style: solid;
+}
+
+    </style>
+
+  
+ <div class="modal hide fade" id="help">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Requirements Analysis Help</h3>
+	</div>
+	<div class="modal-body">
+		<div class = "container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<h1>Overview:</h1>
+					<p>
+					The Requirements Analysis tab allows rapid analysis of a configuration in order to 
+					analyze which design metrics do and do not meet required values. 
+					The results are presented in two tables and a stoplight diagram. 
+					</p>
+					<p>
+					<div class="well">
+
+					The tables shown are the <b>design info box</b> and the <b>requirements list</b>, 
+					which provide, respectively, all of the data about the design from the test benches 
+					and all of the data from the requirements definition. The <b>stoplight diagram</b> 
+					shows the requirements tree graphically, and is color coded to demonstrate where a 
+					design does and does not meet the requirements. Specifically, grey indicates a 
+					requirement for which there is no data provided to compare the design, red indicates 
+					a requirement in which the threshold is not met, dark green represents a design in which 
+					the threshold is met, but the objective is not, and light green represents a design in 
+					which the objective is met. Higer level colorings are indicative of their weakest child.
+
+					</div>
+					</p>
+					<h1>Instructions:</h1>
+					<p>
+					The top two panels are the design info box and the requirements list. These 
+					two tables are both controlled in the same manner. First, the configuration 
+					whose information should be displayed is selected via
+					the drop down menu labeled "configuration". Changing the configuration field 
+					will change all configuration fields in the tab. The number of entries in the 
+					table can be controlled via the second drop down menu, 
+					labeled "show X entries", in which X is the number of entries selected to be
+					shown. If not all entries in a given category are displayed, the list of entries 
+					can be browsed by clicking the right and left arrows located at the bottom right 
+					corner of the table. The tables can be sorted in either ascending or descending 
+					order by clicking the up and down arrows at the right hand side of each column header. 
+					A bidirectional arrow indicates no sorting preference, an upward arrow indicates an ascending
+					sort, in which low numbers are shown above high numbers for numeric fields, and early letters 
+					are shown before later letters in alphabetic fields. A downward arrow indicates a descending 
+					sort. Finally, typing search terms in the search box, separated by spaces, will filter results 
+					to show only rows that contain <b>all</b> of the listed search terms.
+					</p>
+					<p>
+					There are three methods of controlling the stoplight diagram: configuration selection, zooming, 
+					and checkbox usage. Configuration selection is done in the same manner as it is in the 
+					tables. Zooming is one of the primary functions of the stoplight diagram, and allows analysis 
+					of the components of a specific design category. It is done by clicking on the category of 
+					choice, which then zooms the viewable area to show only that category and the children of that 
+					category, allowing increased detail to be shown, including data on the requirements and the 
+					utility curves for each metric. The stoplight diagram can be zoomed one level up by clicking 
+					on the left edge of the diagram, and fully zoomed out by clicking the double arrow button in 
+					the lower left-hand corner of the diagram. Checkbox usage is straight forward: click on a box 
+					to select that option. A large 'X' will appear in an active box. Selecting a different box will 
+					deselect the current box. Clicking on a selected box will also deselect it, and will change the 
+					metric completeness to 'undefined'.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-bind="click: mada_ok" data-dismiss="modal">OK</a>
+	</div>
+</div>	
+

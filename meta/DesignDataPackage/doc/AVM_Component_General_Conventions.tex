@@ -1,0 +1,33 @@
+\section{General Modeling Conventions}
+\subsection{Domain Models at Multiple Levels of Fidelity}
+An AVM Component Model may come with multiple models within a given domain (CAD, Modelica, etc), each capturing component behavior or characteristics at differering levels of fidelity.
+
+For details on how these "alternatives" are captured in the AVM Component Model, refer to the \textit{Domain Model Alternatives} section of \textit{\autoref{Domain_Model_Alternatives}: \nameref{Domain_Model_Alternatives}}.
+
+\subsection{CAD}
+AVM Components may represent objects at varying levels of complexity. An AVM Component may represent a single part, such as a metal plate. It could represent a collection of objects that we could think of as an assembly in the real world, such as a diesel engine, but be captured by a single CAD part file. It could also represent the same assembly, but captured by a CAD assembly model with subordinate part files.
+
+Depending on how the Component is modeled, certain conventions are required to ensure that all of the artifacts associated with a Component Model carry consistent identities. This is especially the case when analysis tools need to cross-reference elements in different domains, such as establishing references between CAD geometry models and detailed manufacturing models.
+
+\subsection{Component Represented by a Single Part Model}
+CAD representations of the component must capture it's geometry as a single part file. If multiple CAD models are provided, they are assumed to be of alternate levels of detail, or specialized for different purposes.
+
+\subsection{Component Represented by an Assembly of Parts}
+For some components, like brackets, the geometric representation may be provided as a CAD Assembly with a number of subordinate parts. Naming conventions are used to establish the unique identity of each instance of each part.
+
+\subsubsection{CAD}
+Each instance of each part in the assembly must have a unique part file. Even if two part instances are identical, they must be represented as unique part files with unique names.
+
+Using an example of a bracket, featuring two identical plates welded together, we expect to see 3 CAD files: one for the assembly, and one for each plate.
+
+\subsubsection{Manufacturing}
+Each instance of each part must have a unique Manufacturing model. Each should be named to match the corresponding CAD part file. Any references to individual parts within these Manufacturing models must use this name also.
+
+Using the same example of a bracket, featuring two identical plates welded together, we expect to see at least 3 Manufacturing models: one for each plate (identified by their respective unique names), and one representing the weld between them (referring to part1 and part2 using those unique part names).
+
+\subsubsection{Important Note}
+Since identities are established by file naming conventions, this means that only ONE of each component of this type may be included in a design. Using the bracket example, only one instance of that bracket may be instantiated. Otherwise, there will be name and identity conflicts.
+
+This is a known limitation of this approach (VU META and iFAB are aware of this). The future plan is to find a reliable way to modify the part identities to include a notion of the component instance. This will probably take the form of an intelligent script that knows how to find the key identities and consistently prepend a "component instance" string to them.
+
+

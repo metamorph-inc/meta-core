@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SimpleFormula_OpTypes" DesignID="{063242cb-6081-4e9c-8c87-a5788df841bc}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="SimpleFormula_OpTypes" xmlns="">
+    <Formula xsi:type="q1:SimpleFormula" ID="80f90814-1269-4115-b9d7-9fdb721cdc4d" Name="Minimum" XPosition="322" YPosition="49" Operation="Minimum" Operand="" />
+    <Formula xsi:type="q1:SimpleFormula" ID="4999b70d-1c28-496a-99c2-ea89ca8d39aa" Name="GeometricMean" XPosition="217" YPosition="126" Operation="GeometricMean" Operand="" />
+    <Formula xsi:type="q1:SimpleFormula" ID="eedd098a-5e7c-48f3-b876-4559f57a3067" Name="Multiplication" XPosition="427" YPosition="49" Operation="Multiplication" Operand="" />
+    <Formula xsi:type="q1:SimpleFormula" ID="425e5bf1-01bc-4153-8595-c85f6085f5d8" Name="Maximum" XPosition="322" YPosition="126" Operation="Maximum" Operand="" />
+    <Formula xsi:type="q1:SimpleFormula" ID="01259305-35fe-473d-af0f-e86d277f3c65" Name="ArithmeticMean" XPosition="427" YPosition="126" Operation="ArithmeticMean" Operand="" />
+    <Formula xsi:type="q1:SimpleFormula" ID="181a74f6-bba8-4375-b81d-1179c3b9bab7" Name="Addition" XPosition="217" YPosition="49" Operation="Addition" Operand="" />
+  </RootContainer>
+</Design>

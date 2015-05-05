@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="3aa0a9d2-1dc1-4aee-890d-e4c2491613e3" Name="drawbar_bolted__bp__orthogonal_27216kg" Version="" xmlns="avm">
+  <DomainModel xmlns:q1="cad" xsi:type="q1:CADModel" UsesResource="cad.path" FilePathWithinResource="e247_db_bolt_bp_o_27216kgz3z" Author="" Notes="" xmlns="">
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.INT_BOLT_04" PortMap="" Name="INT_BOLT_04" Notes="" Definition="" DatumName="INT_BOLT_04" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.INT_BOLT_07" PortMap="" Name="INT_BOLT_07" Notes="" Definition="" DatumName="INT_BOLT_07" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.INT_BOLT_06" PortMap="" Name="INT_BOLT_06" Notes="" Definition="" DatumName="INT_BOLT_06" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.INT_BOLT_05" PortMap="" Name="INT_BOLT_05" Notes="" Definition="" DatumName="INT_BOLT_05" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.INT_BOLT_08" PortMap="" Name="INT_BOLT_08" Notes="" Definition="" DatumName="INT_BOLT_08" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.CG_CSYS" PortMap="" Name="CG_CSYS" Notes="" Definition="" DatumName="CG_CSYS" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.BDB1385_ASM" PortMap="" Name="BDB1385_ASM" Notes="" Definition="" DatumName="BDB1385_ASM" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.EXT_MOUNT_1" PortMap="" Name="EXT_MOUNT_1" Notes="" Definition="" DatumName="EXT_MOUNT_1" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.INT_BOLT_03" PortMap="" Name="INT_BOLT_03" Notes="" Definition="" DatumName="INT_BOLT_03" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.INT_LOAD_LOCATION" PortMap="" Name="INT_LOAD_LOCATION" Notes="" Definition="" DatumName="INT_LOAD_LOCATION" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.INT_BOLT_01" PortMap="" Name="INT_BOLT_01" Notes="" Definition="" DatumName="INT_BOLT_01" />
+    <Datum xsi:type="q1:CoordinateSystem" ID="cad.INT_BOLT_02" PortMap="" Name="INT_BOLT_02" Notes="" Definition="" DatumName="INT_BOLT_02" />
+    <Datum xsi:type="q1:Plane" ID="cad.DTM4" PortMap="" Name="DTM4" Notes="" Definition="" DatumName="DTM4" />
+    <Datum xsi:type="q1:Plane" ID="cad.DTM2" PortMap="" Name="DTM2" Notes="" Definition="" DatumName="DTM2" />
+    <Datum xsi:type="q1:Axis" ID="cad.A_9" PortMap="" Name="A_9" Notes="" Definition="" DatumName="A_9" />
+    <Parameter Name="TestParam">
+      <Value DataType="Real" Unit="mm">
+        <ValueExpression xmlns:q2="avm" xsi:type="q2:FixedValue">
+          <Value>123456</Value>
+        </ValueExpression>
+      </Value>
+    </Parameter>
+    <Parameter Name="TOTAL_MASS">
+      <Value DataType="Real" Unit="kg" ID="cad.TOTAL_MASS">
+        <ValueExpression xmlns:q3="avm" xsi:type="q3:FixedValue">
+          <Value>8.437</Value>
+        </ValueExpression>
+      </Value>
+    </Parameter>
+    <ModelMetric ID="ID4" Name="moment_of_inertia">
+      <Value>
+        <ValueExpression xmlns:q4="avm" xsi:type="q4:FixedValue">
+          <Value>[[0.0285702605965938,0,0],[0,0.0372253947417373,5.64682725439304e-007],[0,5.64682725439304e-007,0.0232466676899066]]</Value>
+        </ValueExpression>
+      </Value>
+    </ModelMetric>
+  </DomainModel>
+  <Property xmlns:q5="avm" xsi:type="q5:PrimitiveProperty" Name="unit_of_measure_other" ID="property.nv.procurement.supplier_specific_part_info.part_info.orderable_unit.unit_of_measure_other" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.supplier_specific_part_info.part_info.orderable_unit.unit_of_measure_other">
+      <ValueExpression xsi:type="q5:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q6="avm" xsi:type="q6:PrimitiveProperty" Name="width" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.shipment_dimensions.width" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.shipment_dimensions.width">
+      <ValueExpression xsi:type="q6:FixedValue">
+        <Value>0.192375</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q7="avm" xsi:type="q7:PrimitiveProperty" Name="unit_of_measure_area" ID="property.nv.procurement.supplier_specific_part_info.part_info.orderable_unit.unit_of_measure_area" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.supplier_specific_part_info.part_info.orderable_unit.unit_of_measure_area">
+      <ValueExpression xsi:type="q7:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q8="avm" xsi:type="q8:PrimitiveProperty" Name="supplier_part_number" ID="property.nv.procurement.supplier_specific_part_info.supplier_part_number" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.supplier_specific_part_info.supplier_part_number">
+      <ValueExpression xsi:type="q8:FixedValue">
+        <Value>BDB1394</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q9="avm" xsi:type="q9:PrimitiveProperty" Name="supplier_part_description" ID="property.nv.procurement.supplier_specific_part_info.supplier_part_description" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.supplier_specific_part_info.supplier_part_description">
+      <ValueExpression xsi:type="q9:FixedValue">
+        <Value>Heavy-Duty Forged 4-Bolt Mount Drawbar</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q10="avm" xsi:type="q10:PrimitiveProperty" Name="shipping_cost" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.shipping_cost" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.shipping_cost">
+      <ValueExpression xsi:type="q10:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q11="avm" xsi:type="q11:PrimitiveProperty" Name="country_name" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.default_ship_from_address.country_name" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.default_ship_from_address.country_name">
+      <ValueExpression xsi:type="q11:FixedValue">
+        <Value>USA</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q12="avm" xsi:type="q12:PrimitiveProperty" Name="state_region_name" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.default_ship_from_address.state_region_name" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.default_ship_from_address.state_region_name">
+      <ValueExpression xsi:type="q12:FixedValue">
+        <Value>OH</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q13="avm" xsi:type="q13:PrimitiveProperty" Name="height" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.shipment_dimensions.height" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.shipment_dimensions.height">
+      <ValueExpression xsi:type="q13:FixedValue">
+        <Value>0.210375</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q14="avm" xsi:type="q14:PrimitiveProperty" Name="town_city_name" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.default_ship_from_address.town_city_name" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.default_ship_from_address.town_city_name">
+      <ValueExpression xsi:type="q14:FixedValue">
+        <Value>Mentor</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q15="avm" xsi:type="q15:PrimitiveProperty" Name="unit_of_measure_length" ID="property.nv.procurement.supplier_specific_part_info.part_info.orderable_unit.unit_of_measure_length" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.supplier_specific_part_info.part_info.orderable_unit.unit_of_measure_length">
+      <ValueExpression xsi:type="q15:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q16="avm" xsi:type="q16:PrimitiveProperty" Name="cots_or_parametric" ID="property.nv.procurement.cots_or_parametric" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.cots_or_parametric">
+      <ValueExpression xsi:type="q16:FixedValue">
+        <Value>COTS</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q17="avm" xsi:type="q17:PrimitiveProperty" Name="nsn" ID="property.nv.procurement.nsn" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.nsn">
+      <ValueExpression xsi:type="q17:FixedValue">
+        <Value>none</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q18="avm" xsi:type="q18:PrimitiveProperty" Name="make_or_buy" ID="property.nv.procurement.make_or_buy" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.make_or_buy">
+      <ValueExpression xsi:type="q18:FixedValue">
+        <Value>Buy</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q19="avm" xsi:type="q19:PrimitiveProperty" Name="street_name" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.default_ship_from_address.street_name" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.default_ship_from_address.street_name">
+      <ValueExpression xsi:type="q19:FixedValue">
+        <Value>Tyler Blvd</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q20="avm" xsi:type="q20:PrimitiveProperty" Name="zip_postal_code" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.default_ship_from_address.zip_postal_code" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Integer" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.default_ship_from_address.zip_postal_code">
+      <ValueExpression xsi:type="q20:FixedValue">
+        <Value>44060</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q21="avm" xsi:type="q21:PrimitiveProperty" Name="msds" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.msds" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.msds">
+      <ValueExpression xsi:type="q21:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q22="avm" xsi:type="q22:PrimitiveProperty" Name="dunnage" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.dunnage" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.dunnage">
+      <ValueExpression xsi:type="q22:FixedValue">
+        <Value>Recycle</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q23="avm" xsi:type="q23:PrimitiveProperty" Name="mass_shipping_wet" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.mass_shipping_wet" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.mass_shipping_wet">
+      <ValueExpression xsi:type="q23:FixedValue">
+        <Value>10.54625</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q24="avm" xsi:type="q24:PrimitiveProperty" Name="mass_shipping_dry" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.mass_shipping_dry" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.mass_shipping_dry">
+      <ValueExpression xsi:type="q24:FixedValue">
+        <Value>10.54625</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q25="avm" xsi:type="q25:PrimitiveProperty" Name="length" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.shipment_dimensions.length" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.shipment_dimensions.length">
+      <ValueExpression xsi:type="q25:FixedValue">
+        <Value>0.218125</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q26="avm" xsi:type="q26:PrimitiveProperty" Name="street_number" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.default_ship_from_address.street_number" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Integer" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.default_ship_from_address.street_number">
+      <ValueExpression xsi:type="q26:FixedValue">
+        <Value>9049</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q27="avm" xsi:type="q27:PrimitiveProperty" Name="fob" ID="property.nv.procurement.supplier_specific_part_info.part_info.shipping_info.fob" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.supplier_specific_part_info.part_info.shipping_info.fob">
+      <ValueExpression xsi:type="q27:FixedValue">
+        <Value>Origin</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q28="avm" xsi:type="q28:PrimitiveProperty" Name="unit_of_measure_volume" ID="property.nv.procurement.supplier_specific_part_info.part_info.orderable_unit.unit_of_measure_volume" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.supplier_specific_part_info.part_info.orderable_unit.unit_of_measure_volume">
+      <ValueExpression xsi:type="q28:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q29="avm" xsi:type="q29:PrimitiveProperty" Name="part_leadtime" ID="property.nv.procurement.supplier_specific_part_info.part_info.cost_leadtime_prototype.part_leadtime" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.procurement.supplier_specific_part_info.part_info.cost_leadtime_prototype.part_leadtime">
+      <ValueExpression xsi:type="q29:FixedValue">
+        <Value>0.0</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q30="avm" xsi:type="q30:PrimitiveProperty" Name="dependants.acceleration" ID="property.nv.procurement.qualification_info.vibration_qualification.breakpoint_graph.dependants.acceleration" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.vibration_qualification.breakpoint_graph.dependants.acceleration">
+      <ValueExpression xsi:type="q30:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q31="avm" xsi:type="q31:PrimitiveProperty" Name="shape" ID="property.nv.procurement.qualification_info.shock_qualification.shape" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.shock_qualification.shape">
+      <ValueExpression xsi:type="q31:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q32="avm" xsi:type="q32:PrimitiveProperty" Name="duration" ID="property.nv.procurement.qualification_info.shock_qualification.duration" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.shock_qualification.duration">
+      <ValueExpression xsi:type="q32:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q33="avm" xsi:type="q33:PrimitiveProperty" Name="frequency_range" ID="property.nv.procurement.qualification_info.vibration_qualification.frequency_range" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.vibration_qualification.frequency_range">
+      <ValueExpression xsi:type="q33:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q34="avm" xsi:type="q34:PrimitiveProperty" Name="currency" ID="property.nv.procurement.supplier_specific_part_info.part_info.cost_leadtime_prototype.part_cost_tooling.currency" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.supplier_specific_part_info.part_info.cost_leadtime_prototype.part_cost_tooling.currency">
+      <ValueExpression xsi:type="q34:FixedValue">
+        <Value>usd</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q35="avm" xsi:type="q35:PrimitiveProperty" Name="independant.frequency" ID="property.nv.procurement.qualification_info.vibration_qualification.breakpoint_graph.independant.frequency" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.vibration_qualification.breakpoint_graph.independant.frequency">
+      <ValueExpression xsi:type="q35:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q36="avm" xsi:type="q36:PrimitiveProperty" Name="vibration_qualification_type" ID="property.nv.procurement.qualification_info.vibration_qualification.vibration_qualification_type" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.vibration_qualification.vibration_qualification_type">
+      <ValueExpression xsi:type="q36:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q37="avm" xsi:type="q37:PrimitiveProperty" Name="quantity_parts_per_unit" ID="property.nv.procurement.supplier_specific_part_info.part_info.orderable_unit.quantity_parts_per_unit" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.procurement.supplier_specific_part_info.part_info.orderable_unit.quantity_parts_per_unit">
+      <ValueExpression xsi:type="q37:FixedValue">
+        <Value>1.0</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q38="avm" xsi:type="q38:PrimitiveProperty" Name="storage_temperature_low" ID="property.nv.procurement.qualification_info.temperature_qualification.storage_temperature_low" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.temperature_qualification.storage_temperature_low">
+      <ValueExpression xsi:type="q38:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q39="avm" xsi:type="q39:PrimitiveProperty" Name="volume_basis_part_cost" ID="property.nv.procurement.supplier_specific_part_info.part_info.cost_leadtime_prototype.volume_basis_part_cost" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Integer" ID="nv.procurement.supplier_specific_part_info.part_info.cost_leadtime_prototype.volume_basis_part_cost">
+      <ValueExpression xsi:type="q39:FixedValue">
+        <Value>1</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q40="avm" xsi:type="q40:PrimitiveProperty" Name="max_amplitude_rms" ID="property.nv.procurement.qualification_info.vibration_qualification.max_amplitude_rms" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.vibration_qualification.max_amplitude_rms">
+      <ValueExpression xsi:type="q40:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q41="avm" xsi:type="q41:PrimitiveProperty" Name="storage_temperature_high" ID="property.nv.procurement.qualification_info.temperature_qualification.storage_temperature_high" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.temperature_qualification.storage_temperature_high">
+      <ValueExpression xsi:type="q41:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q42="avm" xsi:type="q42:PrimitiveProperty" Name="max_amplitude_zero_to_peak" ID="property.nv.procurement.qualification_info.vibration_qualification.max_amplitude_zero_to_peak" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.vibration_qualification.max_amplitude_zero_to_peak">
+      <ValueExpression xsi:type="q42:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q43="avm" xsi:type="q43:PrimitiveProperty" Name="operating_temperature_low" ID="property.nv.procurement.qualification_info.temperature_qualification.operating_temperature_low" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.temperature_qualification.operating_temperature_low">
+      <ValueExpression xsi:type="q43:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q44="avm" xsi:type="q44:PrimitiveProperty" Name="operating_temperature_high" ID="property.nv.procurement.qualification_info.temperature_qualification.operating_temperature_high" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.temperature_qualification.operating_temperature_high">
+      <ValueExpression xsi:type="q44:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q45="avm" xsi:type="q45:PrimitiveProperty" Name="shock_qualification_type" ID="property.nv.procurement.qualification_info.shock_qualification.shock_qualification_type" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.shock_qualification.shock_qualification_type">
+      <ValueExpression xsi:type="q45:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q46="avm" xsi:type="q46:PrimitiveProperty" Name="rrs_shape" ID="property.nv.procurement.qualification_info.shock_qualification.rrs_shape" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.shock_qualification.rrs_shape">
+      <ValueExpression xsi:type="q46:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q47="avm" xsi:type="q47:PrimitiveProperty" Name="value" ID="property.nv.procurement.supplier_specific_part_info.part_info.cost_leadtime_prototype.part_cost_tooling.value" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.procurement.supplier_specific_part_info.part_info.cost_leadtime_prototype.part_cost_tooling.value">
+      <ValueExpression xsi:type="q47:FixedValue">
+        <Value>0.0</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q48="avm" xsi:type="q48:PrimitiveProperty" Name="manufacturer_part_number" ID="property.nv.procurement.manufacturer_part_info.manufacturer_part_number" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.manufacturer_part_info.manufacturer_part_number">
+      <ValueExpression xsi:type="q48:FixedValue">
+        <Value>BDB1394</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q49="avm" xsi:type="q49:PrimitiveProperty" Name="x" ID="property.nv.load_rating.x" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.load_rating.x">
+      <ValueExpression xsi:type="q49:FixedValue">
+        <Value>84516.0</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q50="avm" xsi:type="q50:PrimitiveProperty" Name="manufacturer_part_description" ID="property.nv.procurement.manufacturer_part_info.manufacturer_part_description" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.procurement.manufacturer_part_info.manufacturer_part_description">
+      <ValueExpression xsi:type="q50:FixedValue">
+        <Value>Heavy-Duty Forged 4-Bolt Mount Drawbar</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q51="avm" xsi:type="q51:PrimitiveProperty" Name="load" ID="property.nv.load" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.load">
+      <ValueExpression xsi:type="q51:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q52="avm" xsi:type="q52:PrimitiveProperty" Name="surface_area" ID="property.nv.common_info.surface_area" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.surface_area">
+      <ValueExpression xsi:type="q52:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q53="avm" xsi:type="q53:PrimitiveProperty" Name="origin_description" ID="property.nv.common_info.origin_description" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.common_info.origin_description">
+      <ValueExpression xsi:type="q53:FixedValue">
+        <Value>along vertical centerline of eye, in the center of eye thickness, below the bottom of the opening</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q54="avm" xsi:type="q54:PrimitiveProperty" Name="damping_ratio" ID="property.nv.procurement.qualification_info.shock_qualification.damping_ratio" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.shock_qualification.damping_ratio">
+      <ValueExpression xsi:type="q54:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q55="avm" xsi:type="q55:PrimitiveProperty" Name="z" ID="property.nv.load_rating.z" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.load_rating.z">
+      <ValueExpression xsi:type="q55:FixedValue">
+        <Value>400340.0</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q56="avm" xsi:type="q56:PrimitiveProperty" Name="operating_condition_description" ID="property.nv.common_info.operating_condition_description" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.common_info.operating_condition_description">
+      <ValueExpression xsi:type="q56:FixedValue">
+        <Value>can operate in all mounting directions</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q57="avm" xsi:type="q57:PrimitiveProperty" Name="I_zz" ID="property.nv.common_info.moment_of_inertia.I_zz" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.common_info.moment_of_inertia.I_zz">
+      <ValueExpression xsi:type="q57:FixedValue">
+        <Value>0.02325</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q58="avm" xsi:type="q58:PrimitiveProperty" Name="I_xx" ID="property.nv.common_info.moment_of_inertia.I_xx" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.common_info.moment_of_inertia.I_xx">
+      <ValueExpression xsi:type="q58:FixedValue">
+        <Value>0.02857</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q59="avm" xsi:type="q59:PrimitiveProperty" Name="orientation_description" ID="property.nv.common_info.orientation_description" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="String" ID="nv.common_info.orientation_description">
+      <ValueExpression xsi:type="q59:FixedValue">
+        <Value>positive x-axis is parallel with the bolt hole centerlines, z-axis is parallel with eye centerline</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q60="avm" xsi:type="q60:PrimitiveProperty" Name="I_zy" ID="property.nv.common_info.moment_of_inertia.I_zy" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.common_info.moment_of_inertia.I_zy">
+      <ValueExpression xsi:type="q60:FixedValue">
+        <Value>0.0</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q61="avm" xsi:type="q61:PrimitiveProperty" Name="instance_description" ID="property.nv.instance_description" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.instance_description">
+      <ValueExpression xsi:type="q61:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q62="avm" xsi:type="q62:PrimitiveProperty" Name="mass" ID="property.nv.common_info.mass" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.mass">
+      <ValueExpression xsi:type="q62:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q63="avm" xsi:type="q63:PrimitiveProperty" Name="I_zx" ID="property.nv.common_info.moment_of_inertia.I_zx" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.common_info.moment_of_inertia.I_zx">
+      <ValueExpression xsi:type="q63:FixedValue">
+        <Value>0.0</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q64="avm" xsi:type="q64:PrimitiveProperty" Name="y" ID="property.nv.load_rating.y" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.load_rating.y">
+      <ValueExpression xsi:type="q64:FixedValue">
+        <Value>84516.0</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q65="avm" xsi:type="q65:PrimitiveProperty" Name="I_yy" ID="property.nv.common_info.moment_of_inertia.I_yy" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.common_info.moment_of_inertia.I_yy">
+      <ValueExpression xsi:type="q65:FixedValue">
+        <Value>0.03723</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q66="avm" xsi:type="q66:PrimitiveProperty" Name="I_yx" ID="property.nv.common_info.moment_of_inertia.I_yx" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="1" DataType="Real" ID="nv.common_info.moment_of_inertia.I_yx">
+      <ValueExpression xsi:type="q66:FixedValue">
+        <Value>0.0</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q67="avm" xsi:type="q67:PrimitiveProperty" Name="independant.time" ID="property.nv.procurement.qualification_info.shock_qualification.time_graph.independant.time" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.procurement.qualification_info.shock_qualification.time_graph.independant.time">
+      <ValueExpression xsi:type="q67:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q68="avm" xsi:type="q68:PrimitiveProperty" Name="volume" ID="property.nv.common_info.volume" xmlns="">
+    <Value DimensionType="Scalar" Dimensions="" DataType="String" ID="nv.common_info.volume">
+      <ValueExpression xsi:type="q68:FixedValue">
+        <Value />
+      </ValueExpression>
+    </Value>
+  </Property>
+  <ResourceDependency Name="supplier_domain.Buyers_Products.xml" Path="SUPPLIERS_VAND\" Hash="" ID="manufacturer.path" Notes="" xmlns="" />
+  <ResourceDependency Name="e247_db_bolt_bp_o_27216kg.prt" Path="CAD Library\E_Hull_Frame_Body_Cab\e247_db_bolt_bp_o_27216kg.prt" Hash="" ID="cad.path" Notes="" xmlns="" />
+  <Connector ConnectorComposition="" ID="conn.hook_to_hull" ApplyJoinData="" Notes="" Name="hook_to_hull" Definition="cml_zodb.cml_connectors_mechanical.CML_Connector_Mechanical" xmlns="">
+    <Role xmlns:q69="cad" xsi:type="q69:Plane" ID="ID0" PortMap="" Name="3" Notes="" Definition="" />
+    <Role xmlns:q70="cad" xsi:type="q70:Plane" ID="ID1" PortMap="" Name="2" Notes="" Definition="" />
+    <Role xmlns:q71="cad" xsi:type="q71:Axis" ID="ID2" PortMap="" Name="1" Notes="" Definition="" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="conn.load_location" ApplyJoinData="" Notes="" Name="load_location" Definition="cml_zodb.cml_connectors_mechanical.CML_Connector_Mechanical_Hook_Eye" xmlns="">
+    <Role xmlns:q72="cad" xsi:type="q72:CoordinateSystem" ID="ID3" PortMap="cad.INT_LOAD_LOCATION" Name="" Notes="" Definition="" />
+  </Connector>
+  <DistributionRestriction xmlns:q73="avm" xsi:type="q73:ITAR" Notes="" Level="NotITAR" xmlns="" />
+  <Classifications xmlns="">cml_zodb.usr_classes.components_hull_frame_body_cab.Drawbar_Bolted</Classifications>
+</Component>

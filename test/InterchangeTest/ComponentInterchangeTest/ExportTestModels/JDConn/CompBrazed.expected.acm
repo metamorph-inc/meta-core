@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="eb31d017-e1f5-46a7-8711-19e86b1d83f8" Name="CompBrazed" Version="" xmlns="avm">
+  <Connector ConnectorComposition="" ID="id-d286c719-f9e0-4dec-b2bc-005b158d32ef" ApplyJoinData="" Notes="" Name="BrazedConnector" Definition="" xmlns="">
+    <DefaultJoin d3p1:id="jdfcec09ab-ada8-4330-afb5-52378d3793b9" xmlns:d3p1="iFAB">
+      <name>BrazedJoinDefaultJoinData</name>
+      <part1 />
+      <part2 />
+      <description />
+      <brazed>
+        <length>3</length>
+        <fillerMaterial>abc</fillerMaterial>
+        <fluxMaterial>def</fluxMaterial>
+      </brazed>
+    </DefaultJoin>
+  </Connector>
+  <Classifications xmlns="" />
+</Component>

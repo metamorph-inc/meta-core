@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard User</title>
+    <script type="text/javascript" src="../inc/jquery.min.js"></script>
+    <script type="text/javascript" src="../inc/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet"
+          type="text/css"
+          href="embedder/vf_visualizer_embedder.css"
+	>
+
+		<script type="text/javascript">
+        $(document).ready(function () {
+
+            visualizerContainerE = $('#visualizerContainer');
+            lessHeight = $('#visualizerToolbar').outerHeight()+$('#visualizerFooter').outerHeight()+2;
+
+            visualizerContainerE.height($(window).height() - lessHeight);
+
+            $(window).resize(function() {
+                visualizerContainerE.height($(window).height() - lessHeight);
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+<div class="visualizerToolbar" id="visualizerToolbar">
+    <a href="http://www.vehicle-forge.net" target="_blank" id="vfLink" title="Vehicle Forge"></a>
+</div>
+<iframe src="../index.html?resource_url=TestProject.avmproject&local=true" class="visualizerContainer" id="visualizerContainer"></iframe>
+<div class="visualizerFooter" id="visualizerFooter">
+    <div class="srepLocation">Source: [%%Location of the resource%%]</div>
+</div>
+</body>
+</html>

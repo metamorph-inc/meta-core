@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<part uuid="448de5cc-d9d4-42a5-8481-0005da612c3a">
+  <name>STEEL_MASS</name>
+  <length unit="mm">50.0000002</length>
+  <width unit="mm">12.000000199999999</width>
+  <height unit="mm">50.0000002</height>
+  <volume unit="mm3">25000.0</volume>
+  <weight unit="kg">0.19624999999999998</weight>
+  <file type="STEP">STEEL_MASS.stp</file>
+  <manufacturingDetails>
+    <machined>
+      <notes></notes>
+      <material>
+        <alloySteel>
+          <hotRolled>4130</hotRolled>
+        </alloySteel>
+      </material>
+      <planarFaces>
+        <generalTolerance unit="mm">0.254</generalTolerance>
+        <surfaceRoughness unit="mm">0.0015880000000000002</surfaceRoughness>
+      </planarFaces>
+      <curvedSurfaces>
+        <generalTolerance unit="mm">0.254</generalTolerance>
+        <surfaceRoughness unit="mm">0.0015880000000000002</surfaceRoughness>
+      </curvedSurfaces>
+      <curvedWalls>
+        <generalTolerance unit="mm">0.254</generalTolerance>
+        <surfaceRoughness unit="mm">0.0015880000000000002</surfaceRoughness>
+      </curvedWalls>
+      <simpleHoles>
+        <diametricalTolerance unit="mm">0.127</diametricalTolerance>
+        <positionalTolerance unit="mm">0.127</positionalTolerance>
+        <surfaceRoughness unit="mm">0.0015880000000000002</surfaceRoughness>
+        <threaded>false</threaded>
+      </simpleHoles>
+      <inorganicCoatings/>
+      <organicCoatings/>
+    </machined>
+  </manufacturingDetails>
+  <instances>
+    <instance uuid="679910ee-1ce2-4af4-9946-e794a07ffbdf">
+      <transformation m11="1.0" m12="0.0" m13="0.0" m14="0.0" m21="0.0" m22="1.0" m23="0.0" m24="0.0" m31="0.0" m32="0.0" m33="1.0" m34="0.0"/>
+      <color r="1.0" g="1.0" b="0.0"/>
+    </instance>
+  </instances>
+</part>

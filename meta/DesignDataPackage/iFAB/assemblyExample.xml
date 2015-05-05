@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<iFAB:assemblyDetails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iFAB="iFAB" xsi:schemaLocation="iFAB assemblyDetails.xsd">
+  <assemblyDetail iFAB:id="8a4ef431-f389-ab12-c188-837abf730112">
+    <part1 iFAB:id="9024f261-3e8b-4949-bbae-8befab573b07">PLATE, UPPER HARDSTOP, ELEVATOR</part1>
+    <part2 iFAB:id="1ac869a4-a144-4908-bc99-e7f7bb329255">BRACKET 1, ELVATOR HARDSTOP</part2>
+    <mechanical>
+      <linkingPart iFAB:id="b3c87fc1-370b-4337-b2bb-637b5f34e763">Hex Bolt (3 x 3/80)</linkingPart>
+      <linkingPart iFAB:id="11a5c226-2deb-40f2-9120-ff3623ce4c41">Nut (3/8 x 1/4)</linkingPart>
+      <linkingPart iFAB:id="2a2ab244-f48a-4326-b894-7822b08e036b">Washer, Flat (3/8)</linkingPart>
+      <notes>Bolt Bracket 1 to Plate</notes>
+      <fasteningMethod>Bolted</fasteningMethod>
+      <fasteningQuantity>3</fasteningQuantity>
+      <torque unit="N m">62.5</torque>
+    </mechanical>
+  </assemblyDetail>
+  <assemblyDetail iFAB:id="82bd115c-f112-a19d-dd11-839001cc1adf">
+    <part1 iFAB:id="9024f261-3e8b-4949-bbae-8befab573b07">PLATE, UPPER HARDSTOP, ELEVATOR</part1>
+    <part2 iFAB:id="d2e519a6-47d8-4908-9bba-a34b3e56a3a0">PLATE, PIN MOUNT, ELEVATOR</part2>
+    <welded>
+      <length unit="in">10.75</length>
+      <jointType>Edge</jointType>
+      <weldType>Seam</weldType>
+      <weldPenetration>Partial</weldPenetration>
+      <twoSided>false</twoSided>
+      <inspectionRequirement>X-Ray</inspectionRequirement>
+      <part1Thickness unit="in">0.5</part1Thickness>
+      <part1Material>Al</part1Material>
+      <part2Thickness unit="in">0.25</part2Thickness>
+      <part2Material>Al</part2Material>
+    </welded>
+  </assemblyDetail>
+  <assemblyDetail iFAB:id="8e1b9bc1-91d5-4046-bb06-9dd1b32db6ca">
+    <part1 iFAB:id="92ea91e6-a42a-4fe6-9f80-236d83d0eafd" />
+    <part2 iFAB:id="24e00e11-8d59-497e-83c1-397cf2d0a97d" />
+    <soldered>
+      <length unit="cm">0.75</length>
+      <fillerMaterial>60/40</fillerMaterial>
+      <fluxMaterial>Rosin</fluxMaterial>
+    </soldered>
+  </assemblyDetail>
+  <assemblyDetail iFAB:id="9f4dc488-39b7-4670-9859-e5df7a571bde">
+    <part1 iFAB:id="0789f65d-41d1-4024-92d8-c707f9e91ac0" />
+    <part2 iFAB:id="ebb96825-51ec-41b4-bcd0-0ebf1570f0d8" />
+    <brazed>
+      <length unit="in">2.75</length>
+      <fillerMaterial>Aluminum-silicon</fillerMaterial>
+      <fluxMaterial>Borax</fluxMaterial>
+    </brazed>
+  </assemblyDetail>
+  <assemblyDetail iFAB:id="321c5d09-7fe9-447f-bb3f-b1c3bcbae8bb">
+    <part1 iFAB:id="059867d4-4556-44f2-991a-6953e40e8dd0" />
+    <part2 iFAB:id="851ba6db-5da9-43f7-bf25-57032c9114ec" />
+    <glued>
+      <length unit="in">6.125</length>
+      <volume unit="in3">0.75</volume>
+      <material>Loctite 243</material>
+    </glued>
+  </assemblyDetail>
+</iFAB:assemblyDetails>

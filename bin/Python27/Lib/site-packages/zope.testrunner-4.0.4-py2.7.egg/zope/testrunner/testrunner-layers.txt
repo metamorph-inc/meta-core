@@ -1,0 +1,196 @@
+Layer Selection
+===============
+
+We can select which layers to run using the --layer option:
+
+    >>> import os.path, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+
+    >>> sys.argv = 'test --layer 112 --layer Unit'.split()
+    >>> from zope import testrunner
+    >>> testrunner.run_internal(defaults)
+    Running samplelayers.Layer112 tests:
+      Set up samplelayers.Layerx in N.NNN seconds.
+      Set up samplelayers.Layer1 in N.NNN seconds.
+      Set up samplelayers.Layer11 in N.NNN seconds.
+      Set up samplelayers.Layer112 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running zope.testrunner.layer.UnitTests tests:
+      Tear down samplelayers.Layer112 in N.NNN seconds.
+      Tear down samplelayers.Layerx in N.NNN seconds.
+      Tear down samplelayers.Layer11 in N.NNN seconds.
+      Tear down samplelayers.Layer1 in N.NNN seconds.
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+      Ran 156 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    Total: 182 tests, 0 failures, 0 errors in N.NNN seconds.
+    False
+
+
+We can also specify that we want to run only the unit tests:
+
+    >>> sys.argv = 'test -u'.split()
+    >>> testrunner.run_internal(defaults)
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+      Ran 156 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    False
+
+
+Or that we want to run all of the tests except for the unit tests:
+
+    >>> sys.argv = 'test -f'.split()
+    >>> testrunner.run_internal(defaults)
+    Running samplelayers.Layer1 tests:
+      Set up samplelayers.Layer1 in N.NNN seconds.
+      Ran 9 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running samplelayers.Layer11 tests:
+      Set up samplelayers.Layer11 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running samplelayers.Layer111 tests:
+      Set up samplelayers.Layerx in N.NNN seconds.
+      Set up samplelayers.Layer111 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running samplelayers.Layer112 tests:
+      Tear down samplelayers.Layer111 in N.NNN seconds.
+      Set up samplelayers.Layer112 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running samplelayers.Layer12 tests:
+      Tear down samplelayers.Layer112 in N.NNN seconds.
+      Tear down samplelayers.Layerx in N.NNN seconds.
+      Tear down samplelayers.Layer11 in N.NNN seconds.
+      Set up samplelayers.Layer12 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running samplelayers.Layer121 tests:
+      Set up samplelayers.Layer121 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running samplelayers.Layer122 tests:
+      Tear down samplelayers.Layer121 in N.NNN seconds.
+      Set up samplelayers.Layer122 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down samplelayers.Layer122 in N.NNN seconds.
+      Tear down samplelayers.Layer12 in N.NNN seconds.
+      Tear down samplelayers.Layer1 in N.NNN seconds.
+    Total: 165 tests, 0 failures, 0 errors in N.NNN seconds.
+    False
+
+Or we can explicitly say that we want both unit and non-unit tests.
+
+    >>> sys.argv = 'test -uf'.split()
+    >>> testrunner.run_internal(defaults)
+    Running samplelayers.Layer1 tests:
+      Set up samplelayers.Layer1 in N.NNN seconds.
+      Ran 9 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running samplelayers.Layer11 tests:
+      Set up samplelayers.Layer11 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running samplelayers.Layer111 tests:
+      Set up samplelayers.Layerx in N.NNN seconds.
+      Set up samplelayers.Layer111 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running samplelayers.Layer112 tests:
+      Tear down samplelayers.Layer111 in N.NNN seconds.
+      Set up samplelayers.Layer112 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running samplelayers.Layer12 tests:
+      Tear down samplelayers.Layer112 in N.NNN seconds.
+      Tear down samplelayers.Layerx in N.NNN seconds.
+      Tear down samplelayers.Layer11 in N.NNN seconds.
+      Set up samplelayers.Layer12 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running samplelayers.Layer121 tests:
+      Set up samplelayers.Layer121 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running samplelayers.Layer122 tests:
+      Tear down samplelayers.Layer121 in N.NNN seconds.
+      Set up samplelayers.Layer122 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running zope.testrunner.layer.UnitTests tests:
+      Tear down samplelayers.Layer122 in N.NNN seconds.
+      Tear down samplelayers.Layer12 in N.NNN seconds.
+      Tear down samplelayers.Layer1 in N.NNN seconds.
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+      Ran 156 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    Total: 321 tests, 0 failures, 0 errors in N.NNN seconds.
+    False
+
+It is possible to force the layers to run in subprocesses and parallelize them.
+
+    >>> sys.argv = [testrunner_script, '-j2']
+    >>> testrunner.run_internal(defaults)
+    Running samplelayers.Layer1 tests:
+      Set up samplelayers.Layer1 in N.NNN seconds.
+      Ran 9 tests with 0 failures and 0 errors in N.NNN seconds.
+    Running samplelayers.Layer11 tests:
+      Running in a subprocess.
+      Set up samplelayers.Layer1 in N.NNN seconds.
+      Set up samplelayers.Layer11 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+      Tear down samplelayers.Layer11 in N.NNN seconds.
+      Tear down samplelayers.Layer1 in N.NNN seconds.
+    Running samplelayers.Layer111 tests:
+      Running in a subprocess.
+      Set up samplelayers.Layerx in N.NNN seconds.
+      Set up samplelayers.Layer1 in N.NNN seconds.
+      Set up samplelayers.Layer11 in N.NNN seconds.
+      Set up samplelayers.Layer111 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+      Tear down samplelayers.Layer111 in N.NNN seconds.
+      Tear down samplelayers.Layerx in N.NNN seconds.
+      Tear down samplelayers.Layer11 in N.NNN seconds.
+      Tear down samplelayers.Layer1 in N.NNN seconds.
+    Running samplelayers.Layer112 tests:
+      Running in a subprocess.
+      Set up samplelayers.Layerx in N.NNN seconds.
+      Set up samplelayers.Layer1 in N.NNN seconds.
+      Set up samplelayers.Layer11 in N.NNN seconds.
+      Set up samplelayers.Layer112 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+      Tear down samplelayers.Layer112 in N.NNN seconds.
+      Tear down samplelayers.Layerx in N.NNN seconds.
+      Tear down samplelayers.Layer11 in N.NNN seconds.
+      Tear down samplelayers.Layer1 in N.NNN seconds.
+    Running samplelayers.Layer12 tests:
+      Running in a subprocess.
+      Set up samplelayers.Layer1 in N.NNN seconds.
+      Set up samplelayers.Layer12 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+      Tear down samplelayers.Layer12 in N.NNN seconds.
+      Tear down samplelayers.Layer1 in N.NNN seconds.
+    Running samplelayers.Layer121 tests:
+      Running in a subprocess.
+      Set up samplelayers.Layer1 in N.NNN seconds.
+      Set up samplelayers.Layer12 in N.NNN seconds.
+      Set up samplelayers.Layer121 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+      Tear down samplelayers.Layer121 in N.NNN seconds.
+      Tear down samplelayers.Layer12 in N.NNN seconds.
+      Tear down samplelayers.Layer1 in N.NNN seconds.
+    Running samplelayers.Layer122 tests:
+      Running in a subprocess.
+      Set up samplelayers.Layer1 in N.NNN seconds.
+      Set up samplelayers.Layer12 in N.NNN seconds.
+      Set up samplelayers.Layer122 in N.NNN seconds.
+      Ran 26 tests with 0 failures and 0 errors in N.NNN seconds.
+      Tear down samplelayers.Layer122 in N.NNN seconds.
+      Tear down samplelayers.Layer12 in N.NNN seconds.
+      Tear down samplelayers.Layer1 in N.NNN seconds.
+    Running zope.testrunner.layer.UnitTests tests:
+      Running in a subprocess.
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+      Ran 156 tests with 0 failures and 0 errors in N.NNN seconds.
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down samplelayers.Layer1 in N.NNN seconds.
+    Total: 321 tests, 0 failures, 0 errors in N.NNN seconds.
+    False

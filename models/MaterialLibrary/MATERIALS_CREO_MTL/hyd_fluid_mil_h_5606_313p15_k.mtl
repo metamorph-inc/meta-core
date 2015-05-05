@@ -1,0 +1,24 @@
+ND_RelParSet_K01 = {
+
+Name = hyd_fluid_mil_h_5606_313p15_k
+
+PARAMETERS =
+{
+  Name = PTC_MASS_DENSITY
+  Type = Real
+  Default = 8.0092e-07 kg/mm^3
+  Access = Full
+},
+{
+  Name = WRITE_DATE
+  Type = String
+  Default = '2014_02_13_17_58'
+  Access = Full
+},
+{
+  Name = C2M2L_VER
+  Type = String
+  Default = '1.11'
+  Access = Full
+}
+}

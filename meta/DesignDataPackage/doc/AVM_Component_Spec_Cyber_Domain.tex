@@ -1,0 +1,36 @@
+\section{Cyber Domain Model Specification}
+
+\subsection{Overview}
+
+Cyber designs represent the details of controller logic and the (in the future) software and hardware used to 
+implement those details.  Cyber controller design models are usually created using Simulink, and then imported 
+into the CyberComposition modeling language.  Controller designs are simulated as part of Modelica dynamics models.
+In CyPhyML the controller interface is adapted to be able to execute the generated controller code within the
+Modelica dynamics simulation.  This chapter describes the important details regarding the integration and simulation of controller components in the AVM modeling framework.
+
+
+\subsection{Cyber Model Files}
+
+The basic process flow for controllers designed in Simulink is as follows:  A control designer imports particular discrete-time subsystems from an existing Simulink/Stateflow model to create new components in the CyberComposition language.  The port data types, rates, and execution priorities are determined by Simulink and recorded in the CyberComposition model during the import process.  The user then defines the interface mapping required to compose the controller with the rest of the Modelica model. Generated C code is created using function block templates, and then integrated into the overall Modelica simulation by compiling the controller code into a shared library which will be called by the Modelica external function interface during simulation.
+
+\subsubsection{Simulink}
+
+Simulink models may be specified in the MDL model format, but the new compressed XML model file format (.slx) has
+not been tested.  We have used our tools with Matlab versions R2012A and R2013A.  Any Simulink model can be 
+imported, possibly including Stateflow charts.  However, our code generation tools are limited to a specific set
+of Simulink blocks.  The Stateflow and Embedded Matlab conversions also have limitations.   These limitations only
+affect our ability to generate code.
+
+\subsubsection{CyberComposition}
+
+The GME cyber composition language captures the controller details, and defines the interface between the Simulink model and Modelica.  Interface ports and parameters are typed in both Simulink and Modelica, and must be compatible.
+CyberComposition also contains another simple controller specification language called SignalFlow, which is more
+suited to manual model creation in the AVM tools environment.
+
+\subsubsection{Modelica}
+
+The Modelica interface to the cyber models is as defined in the Modelica Specification (v. 3.2) as described in
+the section on Dynamics.  Each CyberComposition controller gets a wrapper that defines the required calls and
+data types for the Modelica External Function Interface (EFI).  
+
+

@@ -1,0 +1,114 @@
+Garbage Collection Control
+==========================
+
+When having problems that seem to be caused my memory-management
+errors, it can be helpful to adjust Python's cyclic garbage collector
+or to get garbage colection statistics.  The --gc option can be used
+for this purpose.
+
+If you think you are getting a test failure due to a garbage
+collection problem, you can try disabling garbage collection by
+using the --gc option with a value of zero.
+
+    >>> import os.path, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> defaults = ['--path', directory_with_tests]
+
+    >>> from zope import testrunner
+
+    >>> sys.argv = 'test --tests-pattern ^gc0$ --gc 0 -vv'.split()
+    >>> _ = testrunner.run_internal(defaults)
+    Cyclic garbage collection is disabled.
+    Running tests at level 1
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+      Running:
+     make_sure_gc_is_disabled (gc0)
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+
+
+Alternatively, if you think you are having a garbage collection
+related problem, you can cause garbage collection to happen more often
+by providing a low threshold:
+    
+    >>> sys.argv = 'test --tests-pattern ^gc1$ --gc 1 -vv'.split()
+    >>> _ = testrunner.run_internal(defaults)
+    Cyclic garbage collection threshold set to: (1,)
+    Running tests at level 1
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+      Running:
+     make_sure_gc_threshold_is_one (gc1)
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+
+You can specify up to 3 --gc options to set each of the 3 gc threshold
+values:
+
+    
+    >>> sys.argv = ('test --tests-pattern ^gcset$ --gc 701 --gc 11 --gc 9 -vv'
+    ...             .split())
+    >>> _ = testrunner.run_internal(defaults)
+    Cyclic garbage collection threshold set to: (701, 11, 9)
+    Running tests at level 1
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+      Running:
+     make_sure_gc_threshold_is_701_11_9 (gcset)
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+
+Specifying more than 3 --gc options is not allowed:
+
+
+    >>> from StringIO import StringIO
+    >>> out = StringIO()
+    >>> stdout = sys.stdout
+    >>> sys.stdout = out
+
+    >>> sys.argv = ('test --tests-pattern ^gcset$ --gc 701 --gc 42 --gc 11 --gc 9 -vv'
+    ...             .split())
+    >>> _ = testrunner.run_internal(defaults)
+    Traceback (most recent call last):
+    ...
+    SystemExit: 1
+
+    >>> sys.stdout = stdout
+
+    >>> print out.getvalue()
+    Too many --gc options
+
+Garbage Collection Statistics
+-----------------------------
+
+You can enable gc debugging statistics using the --gc-options (-G)
+option.  You should provide names of one or more of the flags
+described in the library documentation for the gc module.
+
+The output statistics are written to standard error.  
+
+    >>> from StringIO import StringIO
+    >>> err = StringIO()
+    >>> stderr = sys.stderr
+    >>> sys.stderr = err
+    >>> sys.argv = ('test --tests-pattern ^gcstats$ -G DEBUG_STATS'
+    ...             ' -G DEBUG_COLLECTABLE -vv'
+    ...             .split())
+    >>> _ = testrunner.run_internal(defaults)
+    Running tests at level 1
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+      Running:
+     generate_some_gc_statistics (gcstats)
+      Ran 1 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+
+    >>> sys.stderr = stderr
+
+    >>> print err.getvalue()        # doctest: +ELLIPSIS
+    gc: collecting generation ...

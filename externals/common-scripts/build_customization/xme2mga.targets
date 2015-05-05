@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName
+      Include="xme2mga">
+      <Targets>xme2mga</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask
+    TaskName="xme2mga"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="xme2mga"
+    BeforeTargets="$(xme2mga_RuleBeforeTargets)"
+    AfterTargets="$(xme2mga_RuleAfterTargets)"
+    Condition="'@(xme2mga)' != ''"
+    DependsOnTargets="$(xme2mga_RuleDependsOn)"
+    Outputs="%(xme2mga.OutFile)"
+    Inputs="%(xme2mga.Identity);%(xme2mga.AdditionalDependencies)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <xme2mga
+        Remove="@(xme2mga)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(xme2mga.ExecutionDescription)" />
+    <xme2mga
+      Condition="'@(xme2mga)' != '' and '%(xme2mga.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(xme2mga.CommandLineTemplate)"
+      StandardErrorImportance="High"
+      OutFile="%(xme2mga.OutFile)"
+      />
+  </Target>
+</Project>

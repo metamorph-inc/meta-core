@@ -1,0 +1,15 @@
+Resolution 1ms
+
+Proc TCU 0Hz 0s 0s
+Comp AutoTransComp_2 =10Hz 1ms
+Comp DieselEngineVelSensor_DataHandler =10Hz 1ms
+Comp DieselEngineVelSensor =10Hz 1ms
+Comp GearRatioTransducer =10Hz 1ms
+Msg DieselEngineVelSensor_DataHandler.RPMMsg_In 1B TCU/DieselEngineVelSensor TCU/DieselEngineVelSensor_DataHandler 
+Msg AutoTransComp_2.GearRatioMsg 1B TCU/AutoTransComp_2 TCU/GearRatioTransducer
+Msg DieselEngineVelSensor_DataHandler.RPMMsg_Out 1B TCU/DieselEngineVelSensor_DataHandler TCU/AutoTransComp_2 
+
+
+
+
+

@@ -1,0 +1,16 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="All">
+
+  <Import Project="externals\common-scripts\common.msbuild"/>
+  <Import Project="META.props"/>
+
+  <Target Name="CheckEnv" DependsOnTargets="CheckEnvGme;CheckEnvUdm">
+    <Error Text="META_PATH='$(META_PATH)' doesn't exist" Condition="!Exists('$(META_PATH)')"/>
+  </Target>
+
+  <Target Name="CyPhyML-Models" DependsOnTargets="CheckEnv">
+    <MSBuild Projects="src/CyPhyML-Models.sln" Properties="Configuration=$(Configuration);META_PATH=$(META_PATH)" Targets="Build"/>
+  </Target>
+
+  <Target Name="All" DependsOnTargets="CyPhyML-Models"/>
+
+</Project>

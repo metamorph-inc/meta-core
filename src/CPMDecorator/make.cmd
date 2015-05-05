@@ -1,0 +1,1 @@
+msbuild CPMDecorator.sln /t:ReBuild /p:Configuration=Release

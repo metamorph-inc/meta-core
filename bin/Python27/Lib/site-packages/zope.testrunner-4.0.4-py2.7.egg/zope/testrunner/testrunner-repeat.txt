@@ -1,0 +1,47 @@
+Repeating Tests
+===============
+
+The --repeat option can be used to repeat tests some number of times.
+Repeating tests is useful to help make sure that tests clean up after
+themselves.
+
+    >>> import os.path, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+
+    >>> sys.argv = 'test --layer 112 --layer UnitTests --repeat 3'.split()
+    >>> from zope import testrunner
+    >>> testrunner.run_internal(defaults)
+    Running samplelayers.Layer112 tests:
+      Set up samplelayers.Layerx in 0.000 seconds.
+      Set up samplelayers.Layer1 in 0.000 seconds.
+      Set up samplelayers.Layer11 in 0.000 seconds.
+      Set up samplelayers.Layer112 in 0.000 seconds.
+    Iteration 1
+      Ran 26 tests with 0 failures and 0 errors in 0.010 seconds.
+    Iteration 2
+      Ran 26 tests with 0 failures and 0 errors in 0.010 seconds.
+    Iteration 3
+      Ran 26 tests with 0 failures and 0 errors in 0.010 seconds.
+    Running zope.testrunner.layer.UnitTests tests:
+      Tear down samplelayers.Layer112 in N.NNN seconds.
+      Tear down samplelayers.Layerx in N.NNN seconds.
+      Tear down samplelayers.Layer11 in N.NNN seconds.
+      Tear down samplelayers.Layer1 in N.NNN seconds.
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+    Iteration 1
+      Ran 156 tests with 0 failures and 0 errors in N.NNN seconds.
+    Iteration 2
+      Ran 156 tests with 0 failures and 0 errors in N.NNN seconds.
+    Iteration 3
+      Ran 156 tests with 0 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    Total: 182 tests, 0 failures, 0 errors in N.NNN seconds.
+    False
+
+The tests are repeated by layer.  Layers are set up and torn down only
+once.

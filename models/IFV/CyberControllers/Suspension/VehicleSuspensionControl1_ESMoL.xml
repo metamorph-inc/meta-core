@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Semantics.xsd">
+
+  <Deployment id="0">
+    <Acquisition _id="idBB" acquiredMsg="id66" acquiringChannel="ide" acquiringTasks="idA7" id="0"/>
+    <Acquisition _id="idBC" acquiredMsg="id67" acquiringChannel="id2A" acquiringTasks="idAB" id="0"/>
+    <Acquisition _id="idBe" acquiredMsg="id69" acquiringChannel="id23" acquiringTasks="idAA" id="0"/>
+    <Acquisition _id="idC0" acquiredMsg="id6B" acquiringChannel="id31" acquiringTasks="idAC" id="0"/>
+    <Acquisition _id="idC2" acquiredMsg="id6D" acquiringChannel="id1C" acquiringTasks="idA9" id="0"/>
+    <Acquisition _id="idC4" acquiredMsg="id6F" acquiringChannel="id15" acquiringTasks="idA8" id="0"/>
+    <Acquisition _id="idC8" acquiredMsg="id73" acquiringChannel="id7" acquiringTasks="idA6" id="0"/>
+    <Acquisition _id="idC9" acquiredMsg="id74" acquiringChannel="id38" acquiringTasks="idAD" id="0"/>
+    <Actuation _id="idBD" actuatingChannel="id2C" actuatingMsg="id68" actuatingTask="idA3" id="0"/>
+    <Actuation _id="idBF" actuatingChannel="id25" actuatingMsg="id6A" actuatingTask="idA2" id="0"/>
+    <Actuation _id="idC1" actuatingChannel="id33" actuatingMsg="id6C" actuatingTask="idA4" id="0"/>
+    <Actuation _id="idC3" actuatingChannel="id1e" actuatingMsg="id6e" actuatingTask="idA1" id="0"/>
+    <Actuation _id="idC5" actuatingChannel="id17" actuatingMsg="id70" actuatingTask="idA0" id="0"/>
+    <Actuation _id="idC6" actuatingChannel="id10" actuatingMsg="id71" actuatingTask="id9F" id="0"/>
+    <Actuation _id="idC7" actuatingChannel="id9" actuatingMsg="id72" actuatingTask="id9e" id="0"/>
+    <Actuation _id="idCA" actuatingChannel="id3A" actuatingMsg="id75" actuatingTask="idA5" id="0"/>
+    <BChan _id="id5" chanInterface="id6" config="" id="200000009" name="CANBus_chan"/>
+    <BChan _id="idC" chanInterface="idD" config="" id="200000010" name="CANBus_chan"/>
+    <BChan _id="id13" chanInterface="id14" config="" id="200000011" name="CANBus_chan"/>
+    <BChan _id="id1A" chanInterface="id1B" config="" id="200000012" name="CANBus_chan"/>
+    <BChan _id="id21" chanInterface="id22" config="" id="200000013" name="CANBus_chan"/>
+    <BChan _id="id28" chanInterface="id29" config="" id="200000014" name="CANBus_chan"/>
+    <BChan _id="id2F" chanInterface="id30" config="" id="200000015" name="CANBus_chan"/>
+    <BChan _id="id36" chanInterface="id37" config="" id="200000016" name="CANBus_chan"/>
+    <CommInterface _id="id6" commChannels="id5" config="" devicetype="none" id="200000009" integratedBy="id4" name="CANBus_dev"/>
+    <CommInterface _id="idD" commChannels="idC" config="" devicetype="none" id="200000010" integratedBy="idB" name="CANBus_dev"/>
+    <CommInterface _id="id14" commChannels="id13" config="" devicetype="none" id="200000011" integratedBy="id12" name="CANBus_dev"/>
+    <CommInterface _id="id1B" commChannels="id1A" config="" devicetype="none" id="200000012" integratedBy="id19" name="CANBus_dev"/>
+    <CommInterface _id="id22" commChannels="id21" config="" devicetype="none" id="200000013" integratedBy="id20" name="CANBus_dev"/>
+    <CommInterface _id="id29" commChannels="id28" config="" devicetype="none" id="200000014" integratedBy="id27" name="CANBus_dev"/>
+    <CommInterface _id="id30" commChannels="id2F" config="" devicetype="none" id="200000015" integratedBy="id2e" name="CANBus_dev"/>
+    <CommInterface _id="id37" commChannels="id36" config="" devicetype="none" id="200000016" integratedBy="id35" name="CANBus_dev"/>
+    <Component _id="id3C" ccode="" cfiles="LinearController1_sl.c" consumes="id3e" generates="id40" hfiles="LinearController1_sl.h" id="300000003" invokedBy="id9e" msubsystem="LinearController1" name="SuspControllerR4"/>
+    <Component _id="id41" ccode="" cfiles="LinearController1_sl.c" consumes="id42" generates="id43" hfiles="LinearController1_sl.h" id="300000004" invokedBy="id9F" msubsystem="LinearController1" name="SuspControllerR3"/>
+    <Component _id="id44" ccode="" cfiles="LinearController1_sl.c" consumes="id45" generates="id46" hfiles="LinearController1_sl.h" id="300000005" invokedBy="idA0" msubsystem="LinearController1" name="SuspControllerR2"/>
+    <Component _id="id47" ccode="" cfiles="LinearController1_sl.c" consumes="id48" generates="id49" hfiles="LinearController1_sl.h" id="300000006" invokedBy="idA1" msubsystem="LinearController1" name="SuspControllerR1"/>
+    <Component _id="id4A" ccode="" cfiles="LinearController1_sl.c" consumes="id4B" generates="id4C" hfiles="LinearController1_sl.h" id="300000007" invokedBy="idA2" msubsystem="LinearController1" name="SuspControllerL4"/>
+    <Component _id="id4D" ccode="" cfiles="LinearController1_sl.c" consumes="id4e" generates="id4F" hfiles="LinearController1_sl.h" id="300000008" invokedBy="idA3" msubsystem="LinearController1" name="SuspControllerL3"/>
+    <Component _id="id50" ccode="" cfiles="LinearController1_sl.c" consumes="id51" generates="id52" hfiles="LinearController1_sl.h" id="300000009" invokedBy="idA4" msubsystem="LinearController1" name="SuspControllerL2"/>
+    <Component _id="id53" ccode="" cfiles="LinearController1_sl.c" consumes="id54" generates="id55" hfiles="LinearController1_sl.h" id="300000010" invokedBy="idA5" msubsystem="LinearController1" name="SuspControllerL1"/>
+    <Component _id="id56" ccode="" cfiles="" hfiles="" id="300000035" invokedBy="idA6" msubsystem="" name="SuspSensor_DataHandlerR4"/>
+    <Component _id="id57" ccode="" cfiles="" hfiles="" id="300000036" invokedBy="idA7" msubsystem="" name="SuspSensor_DataHandlerR3"/>
+    <Component _id="id58" ccode="" cfiles="" hfiles="" id="300000037" invokedBy="idA8" msubsystem="" name="SuspSensor_DataHandlerR2"/>
+    <Component _id="id59" ccode="" cfiles="" hfiles="" id="300000038" invokedBy="idA9" msubsystem="" name="SuspSensor_DataHandlerL4"/>
+    <Component _id="id5A" ccode="" cfiles="" hfiles="" id="300000039" invokedBy="idAA" msubsystem="" name="SuspSensor_DataHandlerL3"/>
+    <Component _id="id5B" ccode="" cfiles="" hfiles="" id="300000040" invokedBy="idAB" msubsystem="" name="SuspSensor_DataHandlerL2"/>
+    <Component _id="id5C" ccode="" cfiles="" hfiles="" id="300000041" invokedBy="idAC" msubsystem="" name="SuspSensor_DataHandlerL1"/>
+    <Component _id="id5D" ccode="" cfiles="" hfiles="" id="300000042" invokedBy="idAD" msubsystem="" name="SuspSensor_DataHandlerR1"/>
+    <ExecInfo _id="id76" executor="id9e" name="SuspController_100000040">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.05" ticksched="50"/>
+    </ExecInfo>
+    <ExecInfo _id="id77" executor="id9 idA id72" name="SuspControlMsg_SuspController_100000041">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.075" ticksched="75"/>
+    </ExecInfo>
+    <ExecInfo _id="id78" executor="id9F" name="SuspController_100000042">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.05" ticksched="50"/>
+    </ExecInfo>
+    <ExecInfo _id="id79" executor="id10 id11 id71" name="SuspControlMsg_SuspController_100000043">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.075" ticksched="75"/>
+    </ExecInfo>
+    <ExecInfo _id="id7A" executor="idA0" name="SuspController_100000044">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.05" ticksched="50"/>
+    </ExecInfo>
+    <ExecInfo _id="id7B" executor="id17 id18 id70" name="SuspControlMsg_SuspController_100000045">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.075" ticksched="75"/>
+    </ExecInfo>
+    <ExecInfo _id="id7C" executor="idA1" name="SuspController_100000046">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.04" ticksched="40"/>
+    </ExecInfo>
+    <ExecInfo _id="id7D" executor="id2A id2B id67" name="SuspControlMsg_SuspController_100000047">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.015" ticksched="15"/>
+    </ExecInfo>
+    <ExecInfo _id="id7e" executor="idA2" name="SuspController_100000048">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.04" ticksched="40"/>
+    </ExecInfo>
+    <ExecInfo _id="id7F" executor="id25 id26 id6A" name="SuspControlMsg_SuspController_100000049">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.079" ticksched="79"/>
+    </ExecInfo>
+    <ExecInfo _id="id80" executor="idA3" name="SuspController_100000050">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.04" ticksched="40"/>
+    </ExecInfo>
+    <ExecInfo _id="id81" executor="id2C id2D id68" name="SuspControlMsg_SuspController_100000051">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.079" ticksched="79"/>
+    </ExecInfo>
+    <ExecInfo _id="id82" executor="idA4" name="SuspController_100000052">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.04" ticksched="40"/>
+    </ExecInfo>
+    <ExecInfo _id="id83" executor="id33 id34 id6C" name="SuspControlMsg_SuspController_100000053">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.079" ticksched="79"/>
+    </ExecInfo>
+    <ExecInfo _id="id84" executor="idA5" name="SuspController_100000054">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.04" ticksched="40"/>
+    </ExecInfo>
+    <ExecInfo _id="id85" executor="id3A id3B id75" name="SuspControlMsg_SuspController_100000055">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.079" ticksched="79"/>
+    </ExecInfo>
+    <ExecInfo _id="id86" executor="idA6" name="SuspSensor_DataHandler_100000056">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.025" ticksched="25"/>
+    </ExecInfo>
+    <ExecInfo _id="id87" executor="id38 id39 id74" name="SuspDataMsg_SuspSensor_DataHandler_100000057">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.015" ticksched="15"/>
+    </ExecInfo>
+    <ExecInfo _id="id88" executor="id63" name="SuspDataMsg_SuspSensor_DataHandler_100000058">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id89" executor="idA7" name="SuspSensor_DataHandler_100000059">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.025" ticksched="25"/>
+    </ExecInfo>
+    <ExecInfo _id="id8A" executor="ide idF id66" name="SuspDataMsg_SuspSensor_DataHandler_100000060">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.007" ticksched="7"/>
+    </ExecInfo>
+    <ExecInfo _id="id8B" executor="id64" name="SuspDataMsg_SuspSensor_DataHandler_100000061">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id8C" executor="idA8" name="SuspSensor_DataHandler_100000062">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.025" ticksched="25"/>
+    </ExecInfo>
+    <ExecInfo _id="id8D" executor="id65" name="SuspDataMsg_SuspSensor_DataHandler_100000063">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id8e" executor="id7 id8 id73" name="SuspDataMsg_SuspSensor_DataHandler_100000064">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.007" ticksched="7"/>
+    </ExecInfo>
+    <ExecInfo _id="id8F" executor="idA9" name="SuspSensor_DataHandler_100000065">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.059" ticksched="59"/>
+    </ExecInfo>
+    <ExecInfo _id="id90" executor="id15 id16 id6F" name="SuspDataMsg_SuspSensor_DataHandler_100000066">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="0.007" ticksched="7"/>
+    </ExecInfo>
+    <ExecInfo _id="id91" executor="id61" name="SuspDataMsg_SuspSensor_DataHandler_100000067">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id92" executor="idAA" name="SuspSensor_DataHandler_100000068">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id93" executor="id5F" name="SuspDataMsg_SuspSensor_DataHandler_100000069">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id94" executor="id60" name="SuspDataMsg_SuspSensor_DataHandler_100000070">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id95" executor="idAB" name="SuspSensor_DataHandler_100000071">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id96" executor="id1C id1D id6D" name="SuspDataMsg_SuspSensor_DataHandler_100000072">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id97" executor="id5e" name="SuspDataMsg_SuspSensor_DataHandler_100000073">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id98" executor="idAC" name="SuspSensor_DataHandler_100000074">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id99" executor="id31 id32 id6B" name="SuspDataMsg_SuspSensor_DataHandler_100000075">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id9A" executor="id23 id24 id69" name="SuspDataMsg_SuspSensor_DataHandler_100000076">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id9B" executor="idAD" name="SuspSensor_DataHandler_100000077">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id9C" executor="id1e id1F id6e" name="SuspDataMsg_SuspSensor_DataHandler_100000078">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id9D" executor="id62" name="SuspDataMsg_SuspSensor_DataHandler_100000079">
+      <MaxDuration exectimesecs="0.01"/>
+      <SamplePeriod periodsecs="0.1"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <IChan _id="id7" channelAcquisition="idC8" config="" ichanDevice="id8" id="200000018" info="id8e" name="SuspSensor"/>
+    <IChan _id="ide" channelAcquisition="idBB" config="" ichanDevice="idF" id="200000020" info="id8A" name="SuspSensor"/>
+    <IChan _id="id15" channelAcquisition="idC4" config="" ichanDevice="id16" id="200000022" info="id90" name="SuspSensor"/>
+    <IChan _id="id1C" channelAcquisition="idC2" config="" ichanDevice="id1D" id="200000024" info="id96" name="SuspSensor"/>
+    <IChan _id="id23" channelAcquisition="idBe" config="" ichanDevice="id24" id="200000026" info="id9A" name="SuspSensor"/>
+    <IChan _id="id2A" channelAcquisition="idBC" config="" ichanDevice="id2B" id="200000028" info="id7D" name="SuspSensor"/>
+    <IChan _id="id31" channelAcquisition="idC0" config="" ichanDevice="id32" id="200000030" info="id99" name="SuspSensor"/>
+    <IChan _id="id38" channelAcquisition="idC9" config="" ichanDevice="id39" id="200000032" info="id87" name="SuspSensor"/>
+    <InputDevice _id="id8" config="" devicetype="" id="0" info="id8e" inputChannels="id7" integratedBy="id4" name="SuspSensor_L2"/>
+    <InputDevice _id="idF" config="" devicetype="" id="0" info="id8A" inputChannels="ide" integratedBy="idB" name="SuspSensor_R3"/>
+    <InputDevice _id="id16" config="" devicetype="" id="0" info="id90" inputChannels="id15" integratedBy="id12" name="SuspSensor_R4"/>
+    <InputDevice _id="id1D" config="" devicetype="" id="0" info="id96" inputChannels="id1C" integratedBy="id19" name="SuspSensor_L4"/>
+    <InputDevice _id="id24" config="" devicetype="" id="0" info="id9A" inputChannels="id23" integratedBy="id20" name="SuspSensor_R2"/>
+    <InputDevice _id="id2B" config="" devicetype="" id="0" info="id7D" inputChannels="id2A" integratedBy="id27" name="SuspSensor_L3"/>
+    <InputDevice _id="id32" config="" devicetype="" id="0" info="id99" inputChannels="id31" integratedBy="id2e" name="SuspSensor_R1"/>
+    <InputDevice _id="id39" config="" devicetype="" id="0" info="id87" inputChannels="id38" integratedBy="id35" name="SuspSensor_L1"/>
+    <LocalDependency _id="idAe" depMsg="id65" id="0" localDepNode="id4" localDepReceivingTasks="id9e" localDepSendingTask="idA6"/>
+    <LocalDependency _id="idAF" depMsg="id64" id="0" localDepNode="idB" localDepReceivingTasks="id9F" localDepSendingTask="idA7"/>
+    <LocalDependency _id="idB0" depMsg="id63" id="0" localDepNode="id12" localDepReceivingTasks="idA0" localDepSendingTask="idA8"/>
+    <Msg _id="id5e" carries="id54" id="0" info="id97" messagetype="Local" msgListeners="idB2" msgTransmitter="idB1" name="SuspSensor_DataHandlerL1.SuspDataMsgOut" sizebytes="1"/>
+    <Msg _id="id5F" carries="id51" id="0" info="id93" messagetype="Local" msgListeners="idB4" msgTransmitter="idB3" name="SuspSensor_DataHandlerL2.SuspDataMsgOut" sizebytes="1"/>
+    <Msg _id="id60" carries="id4e" id="0" info="id94" messagetype="Local" msgListeners="idB6" msgTransmitter="idB5" name="SuspSensor_DataHandlerL3.SuspDataMsgOut" sizebytes="1"/>
+    <Msg _id="id61" carries="id4B" id="0" info="id91" messagetype="Local" msgListeners="idB8" msgTransmitter="idB7" name="SuspSensor_DataHandlerL4.SuspDataMsgOut" sizebytes="1"/>
+    <Msg _id="id62" carries="id48" id="0" info="id9D" messagetype="Local" msgListeners="idBA" msgTransmitter="idB9" name="SuspSensor_DataHandlerR1.SuspDataMsgOut" sizebytes="1"/>
+    <Msg _id="id63" carries="id45" id="0" info="id88" messagetype="Local" msgDep="idB0" name="SuspSensor_DataHandlerR2.SuspDataMsgOut" sizebytes="1"/>
+    <Msg _id="id64" carries="id42" id="0" info="id8B" messagetype="Local" msgDep="idAF" name="SuspSensor_DataHandlerR3.SuspDataMsgOut" sizebytes="1"/>
+    <Msg _id="id65" carries="id3e" id="0" info="id8D" messagetype="Local" msgDep="idAe" name="SuspSensor_DataHandlerR4.SuspDataMsgOut" sizebytes="1"/>
+    <Msg _id="id66" id="0" info="id8A" messagetype="Local" msgAcquisitions="idBB" name="SuspSensor_DataHandlerR3.SuspDataMsgIn" sizebytes="1"/>
+    <Msg _id="id67" id="0" info="id7D" messagetype="Local" msgAcquisitions="idBC" name="SuspSensor_DataHandlerL2.SuspDataMsgIn" sizebytes="1"/>
+    <Msg _id="id68" carries="id4F" id="0" info="id81" messagetype="Local" msgActuation="idBD" name="SuspControllerL3.SuspControlMsg" sizebytes="1"/>
+    <Msg _id="id69" id="0" info="id9A" messagetype="Local" msgAcquisitions="idBe" name="SuspSensor_DataHandlerL3.SuspDataMsgIn" sizebytes="1"/>
+    <Msg _id="id6A" carries="id4C" id="0" info="id7F" messagetype="Local" msgActuation="idBF" name="SuspControllerL4.SuspControlMsg" sizebytes="1"/>
+    <Msg _id="id6B" id="0" info="id99" messagetype="Local" msgAcquisitions="idC0" name="SuspSensor_DataHandlerL1.SuspDataMsgIn" sizebytes="1"/>
+    <Msg _id="id6C" carries="id52" id="0" info="id83" messagetype="Local" msgActuation="idC1" name="SuspControllerL2.SuspControlMsg" sizebytes="1"/>
+    <Msg _id="id6D" id="0" info="id96" messagetype="Local" msgAcquisitions="idC2" name="SuspSensor_DataHandlerL4.SuspDataMsgIn" sizebytes="1"/>
+    <Msg _id="id6e" carries="id49" id="0" info="id9C" messagetype="Local" msgActuation="idC3" name="SuspControllerR1.SuspControlMsg" sizebytes="1"/>
+    <Msg _id="id6F" id="0" info="id90" messagetype="Local" msgAcquisitions="idC4" name="SuspSensor_DataHandlerR2.SuspDataMsgIn" sizebytes="1"/>
+    <Msg _id="id70" carries="id46" id="0" info="id7B" messagetype="Local" msgActuation="idC5" name="SuspControllerR2.SuspControlMsg" sizebytes="1"/>
+    <Msg _id="id71" carries="id43" id="0" info="id79" messagetype="Local" msgActuation="idC6" name="SuspControllerR3.SuspControlMsg" sizebytes="1"/>
+    <Msg _id="id72" carries="id40" id="0" info="id77" messagetype="Local" msgActuation="idC7" name="SuspControllerR4.SuspControlMsg" sizebytes="1"/>
+    <Msg _id="id73" id="0" info="id8e" messagetype="Local" msgAcquisitions="idC8" name="SuspSensor_DataHandlerR4.SuspDataMsgIn" sizebytes="1"/>
+    <Msg _id="id74" id="0" info="id87" messagetype="Local" msgAcquisitions="idC9" name="SuspSensor_DataHandlerR1.SuspDataMsgIn" sizebytes="1"/>
+    <Msg _id="id75" carries="id55" id="0" info="id85" messagetype="Local" msgActuation="idCA" name="SuspControllerL1.SuspControlMsg" sizebytes="1"/>
+    <Node _id="id4" analog_inp_num="1" analog_outp_num="1" clockspeedhz="0" ctxtswitchsecs="0" executes="id9e idA6" hyperperiodsecs="0.1" hyperperiodticks="100" id="100000008" integrates="id6 id8 idA" name="SCU_L2" nodeLocalDeps="idAe" platformtype="i686-pc-linux" pp_directives="" processormodel="" rcvohdsecs="0" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <Node _id="idB" analog_inp_num="1" analog_outp_num="1" clockspeedhz="0" ctxtswitchsecs="0" executes="id9F idA7" hyperperiodsecs="0.1" hyperperiodticks="100" id="100000011" integrates="idD idF id11" name="SCU_R3" nodeLocalDeps="idAF" platformtype="i686-pc-linux" pp_directives="" processormodel="" rcvohdsecs="0" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <Node _id="id12" analog_inp_num="1" analog_outp_num="1" clockspeedhz="0" ctxtswitchsecs="0" executes="idA0 idA8" hyperperiodsecs="0.1" hyperperiodticks="100" id="100000014" integrates="id14 id16 id18" name="SCU_R4" nodeLocalDeps="idB0" platformtype="i686-pc-linux" pp_directives="" processormodel="" rcvohdsecs="0" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <Node _id="id19" analog_inp_num="1" analog_outp_num="1" clockspeedhz="0" ctxtswitchsecs="0" executes="idA1 idA9" hyperperiodsecs="0.1" hyperperiodticks="100" id="100000017" integrates="id1B id1D id1F" name="SCU_L4" platformtype="i686-pc-linux" pp_directives="" processormodel="" rcvohdsecs="0" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <Node _id="id20" analog_inp_num="1" analog_outp_num="1" clockspeedhz="0" ctxtswitchsecs="0" executes="idA2 idAA" hyperperiodsecs="0.1" hyperperiodticks="100" id="100000020" integrates="id22 id24 id26" name="SCU_R2" platformtype="i686-pc-linux" pp_directives="" processormodel="" rcvohdsecs="0" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <Node _id="id27" analog_inp_num="1" analog_outp_num="1" clockspeedhz="0" ctxtswitchsecs="0" executes="idA3 idAB" hyperperiodsecs="0.1" hyperperiodticks="100" id="100000023" integrates="id29 id2B id2D" name="SCU_L3" platformtype="i686-pc-linux" pp_directives="" processormodel="" rcvohdsecs="0" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <Node _id="id2e" analog_inp_num="1" analog_outp_num="1" clockspeedhz="0" ctxtswitchsecs="0" executes="idA4 idAC" hyperperiodsecs="0.1" hyperperiodticks="100" id="100000026" integrates="id30 id32 id34" name="SCU_R1" platformtype="i686-pc-linux" pp_directives="" processormodel="" rcvohdsecs="0" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <Node _id="id35" analog_inp_num="1" analog_outp_num="1" clockspeedhz="0" ctxtswitchsecs="0" executes="idA5 idAD" hyperperiodsecs="0.1" hyperperiodticks="100" id="100000029" integrates="id37 id39 id3B" name="SCU_L1" platformtype="i686-pc-linux" pp_directives="" processormodel="" rcvohdsecs="0" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <OChan _id="id9" channelActuations="idC7" config="" id="200000033" info="id77" name="SuspActuator" ochanDevice="idA"/>
+    <OChan _id="id10" channelActuations="idC6" config="" id="200000035" info="id79" name="SuspActuator" ochanDevice="id11"/>
+    <OChan _id="id17" channelActuations="idC5" config="" id="200000037" info="id7B" name="SuspActuator" ochanDevice="id18"/>
+    <OChan _id="id1e" channelActuations="idC3" config="" id="200000039" info="id9C" name="SuspActuator" ochanDevice="id1F"/>
+    <OChan _id="id25" channelActuations="idBF" config="" id="200000041" info="id7F" name="SuspActuator" ochanDevice="id26"/>
+    <OChan _id="id2C" channelActuations="idBD" config="" id="200000043" info="id81" name="SuspActuator" ochanDevice="id2D"/>
+    <OChan _id="id33" channelActuations="idC1" config="" id="200000045" info="id83" name="SuspActuator" ochanDevice="id34"/>
+    <OChan _id="id3A" channelActuations="idCA" config="" id="200000047" info="id85" name="SuspActuator" ochanDevice="id3B"/>
+    <OutputDevice _id="idA" config="" devicetype="" id="0" info="id77" integratedBy="id4" name="SuspActuator_L2" outputChannels="id9"/>
+    <OutputDevice _id="id11" config="" devicetype="" id="0" info="id79" integratedBy="idB" name="SuspActuator_R3" outputChannels="id10"/>
+    <OutputDevice _id="id18" config="" devicetype="" id="0" info="id7B" integratedBy="id12" name="SuspActuator_R4" outputChannels="id17"/>
+    <OutputDevice _id="id1F" config="" devicetype="" id="0" info="id9C" integratedBy="id19" name="SuspActuator_L4" outputChannels="id1e"/>
+    <OutputDevice _id="id26" config="" devicetype="" id="0" info="id7F" integratedBy="id20" name="SuspActuator_R2" outputChannels="id25"/>
+    <OutputDevice _id="id2D" config="" devicetype="" id="0" info="id81" integratedBy="id27" name="SuspActuator_L3" outputChannels="id2C"/>
+    <OutputDevice _id="id34" config="" devicetype="" id="0" info="id83" integratedBy="id2e" name="SuspActuator_R1" outputChannels="id33"/>
+    <OutputDevice _id="id3B" config="" devicetype="" id="0" info="id85" integratedBy="id35" name="SuspActuator_L1" outputChannels="id3A"/>
+    <Receives _id="idB2" id="0" receivedMsg="id5e"/>
+    <Receives _id="idB4" id="0" receivedMsg="id5F"/>
+    <Receives _id="idB6" id="0" receivedMsg="id60"/>
+    <Receives _id="idB8" id="0" receivedMsg="id61"/>
+    <Receives _id="idBA" id="0" receivedMsg="id62"/>
+    <Signal _id="id3e" callIndex="1" carriedBy="id65" consumedBy="id3C" id="100001117" isOfType="id3D" msgIndex="1" name="SuspControllerR4_yt"/>
+    <Signal _id="id40" callIndex="1" carriedBy="id72" generatedBy="id3C" id="100001118" isOfType="id3F" msgIndex="1" name="SuspControllerR4_ut"/>
+    <Signal _id="id42" callIndex="1" carriedBy="id64" consumedBy="id41" id="100001117" isOfType="id3D" msgIndex="1" name="SuspControllerR3_yt"/>
+    <Signal _id="id43" callIndex="1" carriedBy="id71" generatedBy="id41" id="100001118" isOfType="id3F" msgIndex="1" name="SuspControllerR3_ut"/>
+    <Signal _id="id45" callIndex="1" carriedBy="id63" consumedBy="id44" id="100001117" isOfType="id3D" msgIndex="1" name="SuspControllerR2_yt"/>
+    <Signal _id="id46" callIndex="1" carriedBy="id70" generatedBy="id44" id="100001118" isOfType="id3F" msgIndex="1" name="SuspControllerR2_ut"/>
+    <Signal _id="id48" callIndex="1" carriedBy="id62" consumedBy="id47" id="100001117" isOfType="id3D" msgIndex="1" name="SuspControllerR1_yt"/>
+    <Signal _id="id49" callIndex="1" carriedBy="id6e" generatedBy="id47" id="100001118" isOfType="id3F" msgIndex="1" name="SuspControllerR1_ut"/>
+    <Signal _id="id4B" callIndex="1" carriedBy="id61" consumedBy="id4A" id="100001117" isOfType="id3D" msgIndex="1" name="SuspControllerL4_yt"/>
+    <Signal _id="id4C" callIndex="1" carriedBy="id6A" generatedBy="id4A" id="100001118" isOfType="id3F" msgIndex="1" name="SuspControllerL4_ut"/>
+    <Signal _id="id4e" callIndex="1" carriedBy="id60" consumedBy="id4D" id="100001117" isOfType="id3D" msgIndex="1" name="SuspControllerL3_yt"/>
+    <Signal _id="id4F" callIndex="1" carriedBy="id68" generatedBy="id4D" id="100001118" isOfType="id3F" msgIndex="1" name="SuspControllerL3_ut"/>
+    <Signal _id="id51" callIndex="1" carriedBy="id5F" consumedBy="id50" id="100001117" isOfType="id3D" msgIndex="1" name="SuspControllerL2_yt"/>
+    <Signal _id="id52" callIndex="1" carriedBy="id6C" generatedBy="id50" id="100001118" isOfType="id3F" msgIndex="1" name="SuspControllerL2_ut"/>
+    <Signal _id="id54" callIndex="1" carriedBy="id5e" consumedBy="id53" id="100001117" isOfType="id3D" msgIndex="1" name="SuspControllerL1_yt"/>
+    <Signal _id="id55" callIndex="1" carriedBy="id75" generatedBy="id53" id="100001118" isOfType="id3F" msgIndex="1" name="SuspControllerL1_ut"/>
+    <SignalType _id="id3D" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A6floatA" name="A6floatA" rows="" signalsOfType="id3e id42 id45 id48 id4B id4e id51 id54"/>
+    <SignalType _id="id3F" columns="" ctypestr="" id="0" isStruct="false" mtypestr="float" name="float" rows="" signalsOfType="id40 id43 id46 id49 id4C id4F id52 id55"/>
+    <Task _id="id9e" executedBy="id4" id="0" info="id76" invokes="id3C" localReceivingTaskDeps="idAe" name="SuspControllerR4" taskActuations="idC7"/>
+    <Task _id="id9F" executedBy="idB" id="0" info="id78" invokes="id41" localReceivingTaskDeps="idAF" name="SuspControllerR3" taskActuations="idC6"/>
+    <Task _id="idA0" executedBy="id12" id="0" info="id7A" invokes="id44" localReceivingTaskDeps="idB0" name="SuspControllerR2" taskActuations="idC5"/>
+    <Task _id="idA1" executedBy="id19" id="0" info="id7C" invokes="id47" name="SuspControllerR1" taskActuations="idC3"/>
+    <Task _id="idA2" executedBy="id20" id="0" info="id7e" invokes="id4A" name="SuspControllerL4" taskActuations="idBF"/>
+    <Task _id="idA3" executedBy="id27" id="0" info="id80" invokes="id4D" name="SuspControllerL3" taskActuations="idBD"/>
+    <Task _id="idA4" executedBy="id2e" id="0" info="id82" invokes="id50" name="SuspControllerL2" taskActuations="idC1"/>
+    <Task _id="idA5" executedBy="id35" id="0" info="id84" invokes="id53" name="SuspControllerL1" taskActuations="idCA"/>
+    <Task _id="idA6" executedBy="id4" id="0" info="id86" invokes="id56" localSendingTaskDeps="idAe" name="SuspSensor_DataHandlerR4" taskAcquisitions="idC8"/>
+    <Task _id="idA7" executedBy="idB" id="0" info="id89" invokes="id57" localSendingTaskDeps="idAF" name="SuspSensor_DataHandlerR3" taskAcquisitions="idBB"/>
+    <Task _id="idA8" executedBy="id12" id="0" info="id8C" invokes="id58" localSendingTaskDeps="idB0" name="SuspSensor_DataHandlerR2" taskAcquisitions="idC4"/>
+    <Task _id="idA9" executedBy="id19" id="0" info="id8F" invokes="id59" name="SuspSensor_DataHandlerL4" taskAcquisitions="idC2"/>
+    <Task _id="idAA" executedBy="id20" id="0" info="id92" invokes="id5A" name="SuspSensor_DataHandlerL3" taskAcquisitions="idBe"/>
+    <Task _id="idAB" executedBy="id27" id="0" info="id95" invokes="id5B" name="SuspSensor_DataHandlerL2" taskAcquisitions="idBC"/>
+    <Task _id="idAC" executedBy="id2e" id="0" info="id98" invokes="id5C" name="SuspSensor_DataHandlerL1" taskAcquisitions="idC0"/>
+    <Task _id="idAD" executedBy="id35" id="0" info="id9B" invokes="id5D" name="SuspSensor_DataHandlerR1" taskAcquisitions="idC9"/>
+    <Transmits _id="idB1" id="0" transmittedMsg="id5e"/>
+    <Transmits _id="idB3" id="0" transmittedMsg="id5F"/>
+    <Transmits _id="idB5" id="0" transmittedMsg="id60"/>
+    <Transmits _id="idB7" id="0" transmittedMsg="id61"/>
+    <Transmits _id="idB9" id="0" transmittedMsg="id62"/>
+  </Deployment>
+
+</RootFolder>

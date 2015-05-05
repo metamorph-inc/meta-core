@@ -1,0 +1,50 @@
+# --find-links http://openmdao.org/dists/
+# Windows setup:
+# Note: easy-install.pth is renamed to stock-easy-install.pth. (During the build, setup.py install is run on ..\..\src\Python27Packages\*, so the rename is to prevent svn-modified files all the time)
+#  http://openmdao.org/releases/0.8.1/go-openmdao.py
+#  virtualenv.py from https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.9.1.tar.gz
+#  scipy, numpy: http://www.lfd.uci.edu/~gohlke/pythonlibs/
+#  lxml: http://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml
+#  \\zsolt-ws\share\Software\Python\virtualenv.py scipynumpy
+#  scipynumpy\Scripts\python -m easy_install \\zsolt-ws\share\Software\Python\numpy-MKL-1.9.0b2.win32-py2.7.exe
+#  scipynumpy\Scripts\python -m easy_install \\zsolt-ws\share\Software\Python\scipy-0.14.0.win32-py2.7.exe
+#  set PYTHONHOME=%CD%\scipynumpy
+#  c:\Users\kevin\Downloads\go-openmdao.py
+#  set PYTHONHOME=
+#  .\openmdao-0.8.1\Scripts\activate.bat
+#  python -m easy_install \\zsolt-ws\share\Software\Python\numpy-MKL-1.9.0b2.win32-py2.7.exe
+#  python -m easy_install \\zsolt-ws\share\Software\Python\scipy-0.14.0.win32-py2.7.exe
+#  python -m easy_install \\zsolt-ws\share\Software\Python\pywin32-218.win32-py2.7.exe
+#  python -m easy_install \\zsolt-ws\share\Software\Python\lxml-3.2.3.win32-py2.7.exe # Ricardo and py_modelica_exporter
+#  python -m easy_install \\zsolt-ws\share\Software\Python\matplotlib-1.3.0.win32-py2.7.exe # Ricardo tool
+#  python -m easy_install \\zsolt-ws\share\Software\Python\pyparsing-2.0.1.tar.gz # simviz tool
+#  OPTION for simviz if the one above does not work: python -m easy_install http://cheeseshop.python.org/packages/source/p/pyparsing/pyparsing-2.0.1.tar.gz
+#  python -m pip install --egg -r Python27\requirements
+#  remove old Python27, move openmdao-0.8.1 in its place
+#  svn revert Python27\Lib\site-packages\pywin32-218-py2.7-win32.egg\pythoncomloader27.dll
+#  svn revert ubuntu_create_venv.sh ubuntu_create_venv_w_META_packages.sh Lib\no-global-site-packages.txt Lib\site-packages\cobyla-1.0.1-py2.7-win32.egg\cobyla\libgcc_s_dw2-1.dll Lib\site-packages\cobyla-1.0.1-py2.7-win32.egg\cobyla\libquadmath-0.dll Lib\site-packages\cobyla-1.0.1-py2.7-win32.egg\cobyla\libgfortran-3.dll
+#  bash: cd Python27/Lib/site-packages &&  mv easy-install.pth  stock-easy-install.pth; svn status -N | grep ^! | sed 's/^..//' | xargs svn rm
+#        svn status -N | grep ^\\? | sed 's/^..//' | xargs svn add
+#        cd ../../Scripts/ && svn status -N | grep ^! | grep -E '(\.pyd|dll)' | sed 's/^..//' | xargs svn revert Python27.zip activate.bat
+#  make.msbuild will modify easy-install.pth
+openmdao.lib==0.8.1
+openmdao.main==0.8.1
+openmdao.units==0.8.1
+openmdao.util==0.8.1
+decorator==3.4.0 # simviz
+elementtree==1.2.7-20070827-preview
+mpmath==0.17 # PCC
+pywin32==218
+numpy==1.9.0b2
+scipy==0.14.0
+Cheetah==2.4.4
+pylint==1.0.0
+# Interchange format library support
+pyxb==1.2.3
+# For Ricardo tools (META-1745)
+python-dateutil==2.1
+# For Ricardo tools (META-1745) and META-1783
+matplotlib==1.3.0
+# For py_modelica_exporter to get Modelica icons
+svgwrite==1.1.3
+solidpython==0.1.1

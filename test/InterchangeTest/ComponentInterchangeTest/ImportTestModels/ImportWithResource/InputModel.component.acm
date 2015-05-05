@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<avm:Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:avm="avm" xmlns:component="component" xmlns:modelica="modelica" Name="Cross_Drive_without_TC" Version="">
+  <DomainModel xsi:type="modelica:ModelicaModel" Author="" FilePathWithinResource="" Notes="" UsesResource="id920" Class="C2M2L_Ext.C2M2L_Delivered_Component_Implementations.Drive_Line.Cross_Drive_Transmission.Cross_Drive_without_TC">
+    <Parameter Locator="HX_external_area">
+      <Value DataType="Real" Dimensions="" DimensionType="Scalar">
+        <ValueExpression xsi:type="avm:FixedValue">
+          <Value>1</Value>
+        </ValueExpression>
+      </Value>
+    </Parameter>
+    <Parameter Locator="HX_internal_HTC">
+      <Value DataType="Real" Dimensions="" DimensionType="Scalar">
+        <ValueExpression xsi:type="avm:FixedValue">
+          <Value>2000</Value>
+        </ValueExpression>
+      </Value>
+    </Parameter>
+    <Parameter Locator="HX_internal_area">
+      <Value DataType="Real" Dimensions="" DimensionType="Scalar">
+        <ValueExpression xsi:type="avm:FixedValue">
+          <Value>1</Value>
+        </ValueExpression>
+      </Value>
+    </Parameter>
+    <Parameter Locator="mass">
+      <Value DataType="Real" DimensionType="Scalar" Unit="kilogram">
+        <ValueExpression xsi:type="avm:DerivedValue" ValueSource="ID13"/>
+      </Value>
+    </Parameter>
+    <Connector Definition="" ID="id5" Name="fluid_in" Notes="" Class="Modelica.Fluid.Interfaces.FluidPort_a" Locator="fluid_in"/>
+    <Connector Definition="" ID="id6" Name="fluid_out" Notes="" Class="Modelica.Fluid.Interfaces.FluidPort_a" Locator="fluid_out"/>
+    <Connector ID="id7" Name="brg_01" Notes="" Class="Modelica.Mechanics.MultiBody.Interfaces.FlangeWithBearing" Locator="brg_01"/>
+    <Connector ID="id8" Name="mount_01" Notes="" Class="Modelica.Mechanics.MultiBody.Interfaces.Frame" Locator="mount_01"/>
+  </DomainModel>
+  <Property xsi:type="avm:PrimitiveProperty" Name="Height">
+    <Value DataType="Real" DimensionType="Scalar" ID="ID10" Unit="meter">
+      <ValueExpression xsi:type="avm:FixedValue">
+        <Value>0.1</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xsi:type="avm:PrimitiveProperty" Name="Length">
+    <Value DataType="Real" DimensionType="Scalar" ID="ID11" Unit="meter">
+      <ValueExpression xsi:type="avm:FixedValue">
+        <Value>0.1</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xsi:type="avm:PrimitiveProperty" Name="Width">
+    <Value DataType="Real" DimensionType="Scalar" ID="ID12" Unit="meter">
+      <ValueExpression xsi:type="avm:FixedValue">
+        <Value>0.1</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xsi:type="avm:PrimitiveProperty" Definition="" Name="Mass">
+    <Value DataType="Real" DimensionType="Scalar" ID="ID13" Unit="kilogram">
+      <ValueExpression xsi:type="avm:FixedValue">
+        <Value>1</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <ResourceDependency ID="id920" Name="ModelicaLibrary" Notes="Fake link to a fake library" Path="InputModel.xme"/>
+  <ResourceDependency ID="id921" Name="ReaganPhoto" Notes="Picture of Ronald Reagan" Path="gipper.jpg"/>
+  <Port xsi:type="modelica:Connector" Definition="" ID="id1" Name="Fluid Input" Notes="" PortMap="id5" Class="Modelica.Fluid.Interfaces.FluidPort_a" Locator="fluid_in"/>
+  <Port xsi:type="modelica:Connector" Definition="" ID="id2" Name="Fluid Output" Notes="" PortMap="id6" Class="Modelica.Fluid.Interfaces.FluidPort_a" Locator="fluid_out"/>
+  <Port xsi:type="modelica:Connector" ID="id3" Name="Main Bearing" Notes="" PortMap="id7" Class="Modelica.Mechanics.MultiBody.Interfaces.FlangeWithBearing" Locator="brg_01"/>
+  <Port xsi:type="modelica:Connector" ID="id4" Name="Mount 1" Notes="" PortMap="id8" Class="Modelica.Mechanics.MultiBody.Interfaces.Frame" Locator="mount_01"/>
+</avm:Component>

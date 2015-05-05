@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<Design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="DC_FlowToComponentInstance" DesignID="{e916c577-d0a8-43fa-8cd1-e51b41142f8c}" xmlns="avm">
+  <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="DC_FlowToComponentInstance" xmlns="">
+    <Property xsi:type="q1:PrimitiveProperty" Name="InProp" ID="property.cd4cb425-6d2a-4821-b5b3-20e83c72233d" XPosition="35" YPosition="203">
+      <Value ID="cd4cb425-6d2a-4821-b5b3-20e83c72233d" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:FixedValue">
+          <Value />
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="OutProp" ID="property.94e7f737-b3fa-4350-b31e-82fd4ed88575" XPosition="749" YPosition="147">
+      <Value ID="94e7f737-b3fa-4350-b31e-82fd4ed88575" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:DerivedValue" ValueSource="ee0e7c73-48d1-44eb-9f1a-1f5c7187c632" />
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="OutParam" ID="param.9b821a48-bcb2-41c6-8ff8-feac1f544e6c" XPosition="749" YPosition="203">
+      <Value ID="9b821a48-bcb2-41c6-8ff8-feac1f544e6c" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <Maximum xsi:type="q1:FixedValue">
+            <Value>inf</Value>
+          </Maximum>
+          <Minimum xsi:type="q1:FixedValue">
+            <Value>-inf</Value>
+          </Minimum>
+          <AssignedValue xsi:type="q1:DerivedValue" ValueSource="fa881256-b37a-44a2-9a25-01aaecf5cf07" />
+        </ValueExpression>
+      </Value>
+    </Property>
+    <Property xsi:type="q1:PrimitiveProperty" Name="InParam" ID="param.39e08ebf-f2c7-446e-abe8-09bec7262f44" XPosition="154" YPosition="259">
+      <Value ID="39e08ebf-f2c7-446e-abe8-09bec7262f44" DimensionType="Scalar" Dimensions="" DataType="String">
+        <ValueExpression xsi:type="q1:ParametricValue">
+          <Maximum xsi:type="q1:FixedValue">
+            <Value>inf</Value>
+          </Maximum>
+          <Minimum xsi:type="q1:FixedValue">
+            <Value>-inf</Value>
+          </Minimum>
+          <AssignedValue xsi:type="q1:FixedValue">
+            <Value />
+          </AssignedValue>
+        </ValueExpression>
+      </Value>
+    </Property>
+    <ComponentInstance XPosition="315" YPosition="119" ComponentID="5bd58a83-f918-42ca-b818-68e2914a83b0" ID="{14ec482e-5f8e-449b-8ad7-ed4140f85339}" Name="Component">
+      <PrimitivePropertyInstance IDinComponentModel="out_prop">
+        <Value ID="ee0e7c73-48d1-44eb-9f1a-1f5c7187c632" DimensionType="Scalar" Dimensions="" DataType="String" />
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="in_prop_sf">
+        <Value ID="1b47b3ef-3583-448c-84c4-40acad2d9847" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="e5bcb4cb-4211-48de-a8f6-10865656d58b" />
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="in_prop_prop">
+        <Value ID="c699069c-a2d0-4260-9e19-9a4df117dab1" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="cd4cb425-6d2a-4821-b5b3-20e83c72233d" />
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="in_prop_param">
+        <Value ID="6b0f81c8-debf-4683-a5c7-e07ffa872959" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="39e08ebf-f2c7-446e-abe8-09bec7262f44" />
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="in_prop_cf">
+        <Value ID="fff3026c-8a9b-49c9-8217-1cb8f52f29a7" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="82e43ef0-2974-4a28-888c-cbe0775bdd07" />
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="in_param_sf">
+        <Value ID="41295e98-51aa-49de-b1a6-d5762b142bc1" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="e5bcb4cb-4211-48de-a8f6-10865656d58b" />
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="in_param_prop">
+        <Value ID="e7e233e1-e61b-407c-acd5-1428cc7b8254" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="cd4cb425-6d2a-4821-b5b3-20e83c72233d" />
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="in_param_cf">
+        <Value ID="eaabdc3b-9162-4c72-be74-47281453ab21" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="82e43ef0-2974-4a28-888c-cbe0775bdd07" />
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="in_param_param">
+        <Value ID="d3c0a38d-e8e2-4f70-bf84-e341b0ede4b0" DimensionType="Scalar" Dimensions="" DataType="String">
+          <ValueExpression xsi:type="q1:DerivedValue" ValueSource="39e08ebf-f2c7-446e-abe8-09bec7262f44" />
+        </Value>
+      </PrimitivePropertyInstance>
+      <PrimitivePropertyInstance IDinComponentModel="out_param">
+        <Value ID="fa881256-b37a-44a2-9a25-01aaecf5cf07" DimensionType="Scalar" Dimensions="" DataType="String" />
+      </PrimitivePropertyInstance>
+    </ComponentInstance>
+    <Formula xsi:type="q1:SimpleFormula" ID="e5bcb4cb-4211-48de-a8f6-10865656d58b" Name="InSF" XPosition="105" YPosition="77" Operation="Addition" Operand="" />
+    <Formula xsi:type="q1:SimpleFormula" ID="f9c65da1-3b25-4d89-a698-24373f80809b" Name="OutSF" XPosition="749" YPosition="259" Operation="Addition" Operand="fa881256-b37a-44a2-9a25-01aaecf5cf07 ee0e7c73-48d1-44eb-9f1a-1f5c7187c632" />
+    <Formula xsi:type="q1:ComplexFormula" ID="d568d789-3607-4465-85b5-c42f60220620" Name="OutCF" XPosition="749" YPosition="98" Expression="">
+      <Operand Symbol="param_alias" ValueSource="fa881256-b37a-44a2-9a25-01aaecf5cf07" />
+      <Operand Symbol="out_param" ValueSource="fa881256-b37a-44a2-9a25-01aaecf5cf07" />
+      <Operand Symbol="prop_alias" ValueSource="ee0e7c73-48d1-44eb-9f1a-1f5c7187c632" />
+      <Operand Symbol="out_prop" ValueSource="ee0e7c73-48d1-44eb-9f1a-1f5c7187c632" />
+    </Formula>
+    <Formula xsi:type="q1:ComplexFormula" ID="82e43ef0-2974-4a28-888c-cbe0775bdd07" Name="InCF" XPosition="182" YPosition="147" Expression="" />
+  </RootContainer>
+</Design>

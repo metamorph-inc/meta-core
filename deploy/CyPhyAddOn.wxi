@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyAddOn">
+  <Component Id="CyPhyAddOn.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhyAddOn.dll" Name="CyPhyAddOn.dll" KeyPath="yes" Source="$(var.InterpreterBin)\CyPhyAddOn.dll">
+      <TypeLib Id="98025EA9-BBDA-4457-8AE8-9D16A259A4EC" Description="MGA AddOn TypeLibrary (CyPhyAddOn)" Language="0" MajorVersion="1" MinorVersion="0">
+        <Class Id="{C8051EB3-7355-4D96-83A2-37EBDC567DC0}" Context="InprocServer32" Description="MGA.AddOn.CyPhyAddOn">
+          <ProgId Id="MGA.AddOn.CyPhyAddOn" Description="MGA.AddOn.CyPhyAddOn" />
+        </Class>
+      </TypeLib>
+    </File>
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.AddOn.CyPhyAddOn'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhyAddOn'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='CyPhy AddOn'/>
+      <RegistryValue Name='Type' Type='integer' Value='2'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

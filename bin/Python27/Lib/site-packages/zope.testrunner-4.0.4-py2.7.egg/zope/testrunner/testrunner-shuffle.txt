@@ -1,0 +1,134 @@
+Shuffling tests
+===============
+
+By default, every time you launch the testrunner it will run the tests in a
+specific order.  However, if you want to ensure that your tests are well
+isolated then running them in a varying order can be helpful. (Proper
+isolation meaning your tests don't depend on each others outcomes or side
+effects and thus the setup and tear down methods are written properly.)
+
+The ``--shuffle`` option tells the test runner to shuffle the list of tests
+before running them:
+
+    >>> import os.path, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex')
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+
+    >>> from zope import testrunner
+    >>> default_argv = 'test -u -m sample1 -t test_y0 --list-tests '
+
+Running shuffled tests
+----------------------
+
+When specifying the ``--shuffle`` option tests are ordered differently each
+time you run the tests:
+
+    >>> argv = (default_argv + '--shuffle').split()
+    >>> testrunner.run_internal(defaults, argv)
+    Tests were shuffled using seed number ...
+    Listing zope.testrunner.layer.UnitTests tests:
+    ...
+    False
+
+Note: The runner prints out a new piece of information which is the seed number used
+to generate the shuffled list of tests. This seed number can later be used to
+re-run the tests in exactly the same order to support debugging.
+
+Specifying a seed number to control tests shuffling
+---------------------------------------------------
+
+Along with the ``--shuffle`` option comes the ``--shuffle-seed`` option which
+takes a seed number as an argument. If you want to reproduce test failures
+that happened during a randomly shuffled test run then simply write down the
+seed number that was printed out and run it again using the ``--shuffle-seed``
+option. The order is guaranteed to be the same.
+
+For example, using the seed number 0 will give us the following, stable, list of
+tests:
+
+    >>> argv = (default_argv + '--shuffle --shuffle-seed 0').split()
+    >>> testrunner.run_internal(defaults, argv)
+    Tests were shuffled using seed number 0.
+    Listing zope.testrunner.layer.UnitTests tests:
+      test_y0 (sample1.sample13.sampletests.TestA)
+      test_y0 (sample1.sampletestsf.TestA)
+      test_y0 (sample1.sampletestsf)
+      test_y0 (sample1.sampletests.test_one.TestA)
+      test_y0 (sample1.sampletests.test_one)
+      test_y0 (sample1.sampletests.test1)
+      test_y0 (sample1.sample11.sampletests.TestA)
+      test_y0 (sample1.sampletests.test1.TestA)
+      test_y0 (sample1.sample11.sampletests)
+      test_y0 (sample1.sample13.sampletests)
+    False
+    >>> testrunner.run_internal(defaults, argv)
+    Tests were shuffled using seed number 0.
+    Listing zope.testrunner.layer.UnitTests tests:
+      test_y0 (sample1.sample13.sampletests.TestA)
+      test_y0 (sample1.sampletestsf.TestA)
+      test_y0 (sample1.sampletestsf)
+      test_y0 (sample1.sampletests.test_one.TestA)
+      test_y0 (sample1.sampletests.test_one)
+      test_y0 (sample1.sampletests.test1)
+      test_y0 (sample1.sample11.sampletests.TestA)
+      test_y0 (sample1.sampletests.test1.TestA)
+      test_y0 (sample1.sample11.sampletests)
+      test_y0 (sample1.sample13.sampletests)
+    False
+
+Whereas using the seed number 42 will give us the following, different but
+stable, list of tests:
+
+    >>> argv = (default_argv + '--shuffle --shuffle-seed 42').split()
+    >>> testrunner.run_internal(defaults, argv)
+    Tests were shuffled using seed number 42.
+    Listing zope.testrunner.layer.UnitTests tests:
+      test_y0 (sample1.sample13.sampletests)
+      test_y0 (sample1.sample11.sampletests)
+      test_y0 (sample1.sampletestsf)
+      test_y0 (sample1.sample13.sampletests.TestA)
+      test_y0 (sample1.sampletests.test_one.TestA)
+      test_y0 (sample1.sample11.sampletests.TestA)
+      test_y0 (sample1.sampletestsf.TestA)
+      test_y0 (sample1.sampletests.test_one)
+      test_y0 (sample1.sampletests.test1.TestA)
+      test_y0 (sample1.sampletests.test1)
+    False
+    >>> testrunner.run_internal(defaults, argv)
+    Tests were shuffled using seed number 42.
+    Listing zope.testrunner.layer.UnitTests tests:
+      test_y0 (sample1.sample13.sampletests)
+      test_y0 (sample1.sample11.sampletests)
+      test_y0 (sample1.sampletestsf)
+      test_y0 (sample1.sample13.sampletests.TestA)
+      test_y0 (sample1.sampletests.test_one.TestA)
+      test_y0 (sample1.sample11.sampletests.TestA)
+      test_y0 (sample1.sampletestsf.TestA)
+      test_y0 (sample1.sampletests.test_one)
+      test_y0 (sample1.sampletests.test1.TestA)
+      test_y0 (sample1.sampletests.test1)
+    False
+
+Selecting a seed number without ``--shuffle``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Note that the ``--shuffle-seed`` option must be used along with ``--shuffle``
+option or tests will not be re-ordered:
+
+    >>> argv = (default_argv + '--shuffle-seed 42').split()
+    >>> testrunner.run_internal(defaults, argv)
+    Listing zope.testrunner.layer.UnitTests tests:
+      test_y0 (sample1.sampletestsf.TestA)
+      test_y0 (sample1.sampletestsf)
+      test_y0 (sample1.sample11.sampletests.TestA)
+      test_y0 (sample1.sample11.sampletests)
+      test_y0 (sample1.sample13.sampletests.TestA)
+      test_y0 (sample1.sample13.sampletests)
+      test_y0 (sample1.sampletests.test1.TestA)
+      test_y0 (sample1.sampletests.test1)
+      test_y0 (sample1.sampletests.test_one.TestA)
+      test_y0 (sample1.sampletests.test_one)
+    False

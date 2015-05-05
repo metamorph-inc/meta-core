@@ -1,0 +1,35 @@
+% Generated automatically by daexml2hsal
+MassSpringDamperTest_MassSpringDamperTestModel: CONTEXT =
+BEGIN
+
+ control: MODULE = 
+ BEGIN
+  INPUT  MassSpringDamper_Damper_Damper_mo_v_rel: REAL
+  INPUT  MassSpringDamper_Mass_Steel_ModelicaModel_s: REAL
+  TRANSITION
+  [
+  TRUE -->
+  ]
+ END;
+
+ plant: MODULE = 
+ BEGIN
+  OUTPUT  MassSpringDamper_Damper_Damper_mo_v_rel: REAL
+  OUTPUT  MassSpringDamper_Mass_Steel_ModelicaModel_s: REAL
+  INITIALIZATION
+	 MassSpringDamper_Damper_Damper_mo_v_rel = 0.0;
+	 MassSpringDamper_Mass_Steel_ModelicaModel_s = 0.0
+  TRANSITION
+  [
+  TRUE AND TRUE -->
+	 MassSpringDamper_Mass_Steel_ModelicaModel_sdot' = MassSpringDamper_Damper_Damper_mo_v_rel;
+	 MassSpringDamper_Damper_Damper_mo_v_reldot' = (((-20.0)*(MassSpringDamper_Damper_Damper_mo_v_rel))+((-100.0)*(MassSpringDamper_Mass_Steel_ModelicaModel_s)))+(50.0)
+  ]
+ END;
+
+
+ system: MODULE = control || plant ;
+ p1: THEOREM
+   system |- G((TRUE => ((MassSpringDamper_Mass_Steel_ModelicaModel_s >= 1) => (MassSpringDamper_Damper_Damper_mo_v_rel <= -4)))) ;
+
+END

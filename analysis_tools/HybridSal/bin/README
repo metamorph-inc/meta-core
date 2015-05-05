@@ -1,0 +1,36 @@
+
+Prerequisites:
+--------------
+This is a precompiled version of HybridSal analysis tool
+for Windows platform.  It was built on win32, but hopefully
+it should work on other win platforms too.
+
+Installation
+-------------
+Run "python install.py"
+
+Running the above installation script should tell you what
+is missing.  Most likely, SAL would be missing.
+
+HybridSAL uses SAL model checkers. To install, follow these steps:
+(1) Install cygwin: install the basic/default variety
+    (Doesn't take too long, but need fast internet connection)
+    (google on cygwin: www.cygwin.com)
+(2) Download sal-3.2 tgz file for Windows/cygwin (sal.csl.sri.com)
+(3) Move sal-3.2.tgz to a place inside cygwin, such as,
+    c:\cygwin\home\<username>(4) Open a cygwin shell, Unpack sal and run install.sh script there
+(5) Update PATH variable with path to sal (mentioned by install.sh)
+
+Now, do "python install.py" for installing HybridSal (as above).
+
+
+
+Running HybridSal:
+------------------
+Run
+ ./hsalRA.exe <ModelicalXML-file> <Property-file>
+
+For example, run:
+
+./hsalRA.exe examples/MassSpringDamperTest.MassSpringDamperTest.xml examples/MassSpringDamperTest.property.json
+

@@ -1,0 +1,17 @@
+== EDIT DELIMITER : "9290EECE-9B5A-4310-8F5B-14C248B996A4" ==
+timestamp: 1373409995631
+== BEGIN ==
+editMode: POST
+guid: "6f13d9e9-0f54-4cf1-a067-ba37d430731b"
+topic: "ISIS.METALINK.CADASSEMBLY"
+topic: "28d488e7-fd65-4813-bbd2-62e098427511"
+origin: "wizard of id"
+sequence: 42 
+actions {
+  actionMode: INSERT
+  alien {
+    encodingMode: XML
+    encoded: '<?xml version="1.0" encoding="utf-16"?> <Assemblies xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"         xmlns:xsd="http...."> </"Assemblies>'
+  }
+}
+

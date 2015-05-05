@@ -1,0 +1,11 @@
+# Microsoft Developer Studio Generated Dependency File, included by mem.mak
+
+.\memblock.c : \
+	"..\include\memuser.h"\
+	".\memint.h"\
+	
+
+.\memrec.c : \
+	"..\include\memuser.h"\
+	".\memint.h"\
+	

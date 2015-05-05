@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:avm="avm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:iFAB="iFAB" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="avm" ecore:package="avm" targetNamespace="avm">
+  <xsd:import namespace="iFAB" schemaLocation="AssemblyDetails.xsd"/>
+  <xsd:element ecore:ignore="true" name="Component" type="avm:Component"/>
+  <xsd:element ecore:ignore="true" name="DomainModel" type="avm:DomainModel"/>
+  <xsd:element ecore:ignore="true" name="Property" type="avm:Property"/>
+  <xsd:element ecore:ignore="true" name="Value" type="avm:Value"/>
+  <xsd:element ecore:ignore="true" name="FixedValue" type="avm:FixedValue"/>
+  <xsd:element ecore:ignore="true" name="CalculatedValue" type="avm:CalculatedValue"/>
+  <xsd:element ecore:ignore="true" name="DerivedValue" type="avm:DerivedValue"/>
+  <xsd:element ecore:ignore="true" name="Resource" type="avm:Resource"/>
+  <xsd:element ecore:ignore="true" name="Connector" type="avm:Connector"/>
+  <xsd:element ecore:ignore="true" name="Port" type="avm:Port"/>
+  <xsd:element ecore:ignore="true" name="DomainModelPort" type="avm:DomainModelPort"/>
+  <xsd:element ecore:ignore="true" name="DomainModelParameter" type="avm:DomainModelParameter"/>
+  <xsd:element ecore:ignore="true" name="ParametricValue" type="avm:ParametricValue"/>
+  <xsd:element ecore:ignore="true" name="ValueExpressionType" type="avm:ValueExpressionType"/>
+  <xsd:element ecore:ignore="true" name="ProbabilisticValue" type="avm:ProbabilisticValue"/>
+  <xsd:element ecore:ignore="true" name="NormalDistribution" type="avm:NormalDistribution"/>
+  <xsd:element ecore:ignore="true" name="DistributionRestriction" type="avm:DistributionRestriction"/>
+  <xsd:element ecore:ignore="true" name="SecurityClassification" type="avm:SecurityClassification"/>
+  <xsd:element ecore:ignore="true" name="Proprietary" type="avm:Proprietary"/>
+  <xsd:element ecore:ignore="true" name="ITAR" type="avm:ITAR"/>
+  <xsd:element ecore:ignore="true" name="DomainModelMetric" type="avm:DomainModelMetric"/>
+  <xsd:element ecore:ignore="true" name="UniformDistribution" type="avm:UniformDistribution"/>
+  <xsd:element ecore:ignore="true" name="PrimitiveProperty" type="avm:PrimitiveProperty"/>
+  <xsd:element ecore:ignore="true" name="CompoundProperty" type="avm:CompoundProperty"/>
+  <xsd:element ecore:ignore="true" name="ParametricEnumeratedValue" type="avm:ParametricEnumeratedValue"/>
+  <xsd:element ecore:ignore="true" name="AbstractPort" type="avm:AbstractPort"/>
+  <xsd:element ecore:ignore="true" name="AnalysisConstruct" type="avm:AnalysisConstruct"/>
+  <xsd:element ecore:ignore="true" name="DataSource" type="avm:DataSource"/>
+  <xsd:element ecore:ignore="true" name="Design" type="avm:Design"/>
+  <xsd:element ecore:ignore="true" name="Container" type="avm:Container"/>
+  <xsd:element ecore:ignore="true" name="Compound" type="avm:Compound"/>
+  <xsd:element ecore:ignore="true" name="Optional" type="avm:Optional"/>
+  <xsd:element ecore:ignore="true" name="Alternative" type="avm:Alternative"/>
+  <xsd:element ecore:ignore="true" name="ComponentInstance" type="avm:ComponentInstance"/>
+  <xsd:element ecore:ignore="true" name="ComponentPortInstance" type="avm:ComponentPortInstance"/>
+  <xsd:element ecore:ignore="true" name="ComponentPrimitivePropertyInstance" type="avm:ComponentPrimitivePropertyInstance"/>
+  <xsd:element ecore:ignore="true" name="DesignSpaceContainer" type="avm:DesignSpaceContainer"/>
+  <xsd:element ecore:ignore="true" name="PortMapTarget" type="avm:PortMapTarget"/>
+  <xsd:element ecore:ignore="true" name="ComponentConnectorInstance" type="avm:ComponentConnectorInstance"/>
+  <xsd:element ecore:ignore="true" name="ConnectorCompositionTarget" type="avm:ConnectorCompositionTarget"/>
+  <xsd:element ecore:ignore="true" name="Formula" type="avm:Formula"/>
+  <xsd:element ecore:ignore="true" name="SimpleFormula" type="avm:SimpleFormula"/>
+  <xsd:element ecore:ignore="true" name="ValueNode" type="avm:ValueNode"/>
+  <xsd:element ecore:ignore="true" name="ComplexFormula" type="avm:ComplexFormula"/>
+  <xsd:element ecore:ignore="true" name="Operand" type="avm:Operand"/>
+  <xsd:element ecore:ignore="true" name="DoDDistributionStatement" type="avm:DoDDistributionStatement"/>
+  <xsd:element ecore:ignore="true" name="ConnectorFeature" type="avm:ConnectorFeature"/>
+  <xsd:complexType name="Component">
+    <xsd:annotation>
+      <xsd:documentation>Test documentation for Component type. Yep.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element ecore:name="DomainModel" ecore:ordered="false" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="DomainModel" type="avm:DomainModel"/>
+      <xsd:element ecore:name="Property" ecore:ordered="false" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Property" type="avm:Property"/>
+      <xsd:element ecore:name="ResourceDependency" ecore:ordered="false" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="ResourceDependency" type="avm:Resource"/>
+      <xsd:element ecore:name="Connector" ecore:ordered="false" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Connector" type="avm:Connector"/>
+      <xsd:element ecore:name="DistributionRestriction" ecore:ordered="false" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="DistributionRestriction" type="avm:DistributionRestriction"/>
+      <xsd:element ecore:name="Port" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Port" type="avm:Port"/>
+      <xsd:element ecore:name="Classifications" ecore:unique="true" maxOccurs="unbounded" minOccurs="0" name="Classifications" nillable="true" type="xsd:anyURI"/>
+      <xsd:element ecore:name="AnalysisConstruct" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="AnalysisConstruct" type="avm:AnalysisConstruct"/>
+      <xsd:element ecore:name="Supercedes" ecore:unique="true" maxOccurs="unbounded" minOccurs="0" name="Supercedes" nillable="true" type="xsd:string"/>
+      <xsd:element ecore:name="Formula" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Formula" type="avm:Formula"/>
+    </xsd:sequence>
+    <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+    <xsd:attribute ecore:name="Version" name="Version" type="xsd:string"/>
+    <xsd:attribute ecore:name="SchemaVersion" name="SchemaVersion" type="xsd:string"/>
+    <xsd:attribute ecore:name="ID" name="ID" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="DomainModel">
+    <xsd:attribute ecore:keys="ID" ecore:name="UsesResource" ecore:ordered="false" ecore:reference="avm:Resource" name="UsesResource" type="xsd:IDREFS"/>
+    <xsd:attribute ecore:name="Author" name="Author" type="xsd:string"/>
+    <xsd:attribute ecore:name="Notes" name="Notes" type="xsd:string"/>
+    <xsd:attribute ecore:name="XPosition" name="XPosition" type="xsd:unsignedInt"/>
+    <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
+    <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="Property">
+    <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+    <xsd:attribute ecore:name="OnDataSheet" ecore:unsettable="false" name="OnDataSheet" type="xsd:boolean"/>
+    <xsd:attribute ecore:name="Notes" name="Notes" type="xsd:string"/>
+    <xsd:attribute ecore:name="Definition" name="Definition" type="xsd:anyURI"/>
+    <xsd:attribute ecore:name="ID" name="ID" type="xsd:ID"/>
+    <xsd:attribute ecore:name="XPosition" name="XPosition" type="xsd:unsignedInt"/>
+    <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
+  </xsd:complexType>
+  <xsd:complexType name="Value">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ValueNode">
+        <xsd:sequence>
+          <xsd:element ecore:name="ValueExpression" ecore:resolveProxies="true" minOccurs="0" name="ValueExpression" type="avm:ValueExpressionType"/>
+          <xsd:element ecore:name="DataSource" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="DataSource" type="avm:DataSource"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="Unit" name="Unit" type="xsd:string"/>
+        <xsd:attribute ecore:name="DataType" ecore:unsettable="false" name="DataType" type="avm:DataTypeEnum"/>
+        <xsd:attribute ecore:name="DimensionType" ecore:unsettable="false" name="DimensionType" type="avm:DimensionTypeEnum"/>
+        <xsd:attribute ecore:name="Dimensions" name="Dimensions" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="FixedValue">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ValueExpressionType">
+        <xsd:sequence>
+          <xsd:element ecore:name="Value" name="Value" type="xsd:string"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="Uncertainty" ecore:unsettable="false" name="Uncertainty" type="xsd:float"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CalculatedValue">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ValueExpressionType">
+        <xsd:sequence>
+          <xsd:element ecore:name="Expression" name="Expression" type="xsd:string"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="Type" ecore:unsettable="false" name="Type" type="avm:CalculationTypeEnum" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DerivedValue">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ValueExpressionType">
+        <xsd:attribute ecore:keys="ID" ecore:name="ValueSource" ecore:reference="avm:ValueNode" name="ValueSource" type="xsd:IDREF" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Resource">
+    <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+    <xsd:attribute ecore:name="Path" name="Path" type="xsd:anyURI"/>
+    <xsd:attribute ecore:name="Hash" name="Hash" type="xsd:string"/>
+    <xsd:attribute ecore:name="ID" name="ID" type="xsd:ID"/>
+    <xsd:attribute ecore:name="Notes" name="Notes" type="xsd:string"/>
+    <xsd:attribute ecore:name="XPosition" name="XPosition" type="xsd:unsignedInt"/>
+    <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
+  </xsd:complexType>
+  <xsd:complexType name="Connector">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ConnectorCompositionTarget">
+        <xsd:sequence>
+          <xsd:element ecore:name="Role" ecore:ordered="false" maxOccurs="unbounded" minOccurs="0" name="Role" type="avm:Port"/>
+          <xsd:element ecore:name="Property" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Property" type="avm:Property"/>
+          <xsd:element ecore:name="DefaultJoin" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="DefaultJoin" type="iFAB:assemblyDetail"/>
+          <xsd:element ecore:name="Connector" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Connector" type="avm:Connector"/>
+          <xsd:element ecore:name="ConnectorFeature" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="ConnectorFeature" type="avm:ConnectorFeature"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="Definition" name="Definition" type="xsd:anyURI"/>
+        <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+        <xsd:attribute ecore:name="Notes" name="Notes" type="xsd:string"/>
+        <xsd:attribute ecore:name="XPosition" name="XPosition" type="xsd:unsignedInt"/>
+        <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="Port">
+    <xsd:complexContent>
+      <xsd:extension base="avm:PortMapTarget">
+        <xsd:attribute ecore:name="Notes" name="Notes" type="xsd:string"/>
+        <xsd:attribute ecore:name="XPosition" name="XPosition" type="xsd:unsignedInt"/>
+        <xsd:attribute ecore:name="Definition" name="Definition" type="xsd:anyURI"/>
+        <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
+        <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="DomainModelPort">
+    <xsd:complexContent>
+      <xsd:extension base="avm:Port"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="DomainModelParameter">
+    <xsd:attribute ecore:name="Notes" name="Notes" type="xsd:string"/>
+    <xsd:attribute ecore:name="XPosition" name="XPosition" type="xsd:unsignedInt"/>
+    <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
+  </xsd:complexType>
+  <xsd:complexType name="ParametricValue">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ValueExpressionType">
+        <xsd:sequence>
+          <xsd:element ecore:name="Default" ecore:resolveProxies="true" name="Default" type="avm:ValueExpressionType"/>
+          <xsd:element ecore:name="Maximum" ecore:resolveProxies="true" minOccurs="0" name="Maximum" type="avm:ValueExpressionType"/>
+          <xsd:element ecore:name="Minimum" ecore:resolveProxies="true" minOccurs="0" name="Minimum" type="avm:ValueExpressionType"/>
+          <xsd:element ecore:name="AssignedValue" ecore:resolveProxies="true" minOccurs="0" name="AssignedValue" type="avm:ValueExpressionType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="ValueExpressionType"/>
+  <xsd:complexType abstract="true" name="ProbabilisticValue">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ValueExpressionType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="NormalDistribution">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ProbabilisticValue">
+        <xsd:sequence>
+          <xsd:element ecore:name="Mean" ecore:resolveProxies="true" name="Mean" type="avm:ValueExpressionType"/>
+          <xsd:element ecore:name="StandardDeviation" ecore:resolveProxies="true" name="StandardDeviation" type="avm:ValueExpressionType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CalculationTypeEnum">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Declarative"/>
+      <xsd:enumeration value="Python"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DataTypeEnum">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="String"/>
+      <xsd:enumeration value="Boolean"/>
+      <xsd:enumeration value="Integer"/>
+      <xsd:enumeration value="Real"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DimensionTypeEnum">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Matrix"/>
+      <xsd:enumeration value="Vector"/>
+      <xsd:enumeration value="Scalar"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType abstract="true" name="DistributionRestriction">
+    <xsd:attribute ecore:name="Notes" name="Notes" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:complexType name="SecurityClassification">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DistributionRestriction">
+        <xsd:attribute ecore:name="Level" name="Level" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Proprietary">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DistributionRestriction">
+        <xsd:attribute ecore:name="Organization" name="Organization" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ITAR">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DistributionRestriction"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="DomainModelMetric">
+    <xsd:sequence>
+      <xsd:element ecore:name="Value" ecore:resolveProxies="true" minOccurs="0" name="Value" type="avm:Value"/>
+    </xsd:sequence>
+    <xsd:attribute ecore:name="ID" name="ID" type="xsd:ID" use="required"/>
+    <xsd:attribute ecore:name="Notes" name="Notes" type="xsd:string"/>
+    <xsd:attribute ecore:name="XPosition" name="XPosition" type="xsd:unsignedInt"/>
+    <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
+  </xsd:complexType>
+  <xsd:complexType name="UniformDistribution">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ProbabilisticValue"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PrimitiveProperty">
+    <xsd:complexContent>
+      <xsd:extension base="avm:Property">
+        <xsd:sequence>
+          <xsd:element ecore:name="Value" ecore:resolveProxies="true" minOccurs="0" name="Value" type="avm:Value"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CompoundProperty">
+    <xsd:complexContent>
+      <xsd:extension base="avm:Property">
+        <xsd:sequence>
+          <xsd:element ecore:name="CompoundProperty" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="CompoundProperty" type="avm:CompoundProperty"/>
+          <xsd:element ecore:name="PrimitiveProperty" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="PrimitiveProperty" type="avm:PrimitiveProperty"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ParametricEnumeratedValue">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ValueExpressionType">
+        <xsd:sequence>
+          <xsd:element ecore:name="AssignedValue" ecore:resolveProxies="true" minOccurs="0" name="AssignedValue" type="avm:FixedValue"/>
+          <xsd:element ecore:name="Enum" ecore:resolveProxies="true" maxOccurs="unbounded" name="Enum" type="avm:ValueExpressionType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AbstractPort">
+    <xsd:complexContent>
+      <xsd:extension base="avm:Port"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="AnalysisConstruct"/>
+  <xsd:complexType name="DataSource">
+    <xsd:attribute ecore:name="Notes" name="Notes" type="xsd:string"/>
+    <xsd:attribute ecore:keys="ID" ecore:name="FromResource" ecore:reference="avm:Resource" name="FromResource">
+      <xsd:simpleType>
+        <xsd:list itemType="xsd:anyURI"/>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:complexType name="Design">
+    <xsd:sequence>
+      <xsd:element ecore:name="RootContainer" ecore:resolveProxies="true" minOccurs="0" name="RootContainer" type="avm:Container"/>
+    </xsd:sequence>
+    <xsd:attribute ecore:name="SchemaVersion" name="SchemaVersion" type="xsd:string"/>
+    <xsd:attribute ecore:id="true" ecore:name="DesignID" name="DesignID" type="xsd:string"/>
+    <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+    <xsd:attribute ecore:name="DesignSpaceSrcID" name="DesignSpaceSrcID" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="Container">
+    <xsd:sequence>
+      <xsd:element ecore:name="Container" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Container" type="avm:Container"/>
+      <xsd:element ecore:name="Property" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Property" type="avm:Property"/>
+      <xsd:element ecore:name="ComponentInstance" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="ComponentInstance" type="avm:ComponentInstance"/>
+      <xsd:element ecore:name="Port" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Port" type="avm:Port"/>
+      <xsd:element ecore:name="Connector" ecore:ordered="false" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Connector" type="avm:Connector"/>
+      <xsd:element ecore:name="JoinData" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="JoinData" type="iFAB:assemblyDetail"/>
+      <xsd:element ecore:name="Formula" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Formula" type="avm:Formula"/>
+    </xsd:sequence>
+    <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+    <xsd:attribute ecore:name="XPosition" name="XPosition" type="xsd:unsignedInt"/>
+    <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
+  </xsd:complexType>
+  <xsd:complexType name="Compound">
+    <xsd:complexContent>
+      <xsd:extension base="avm:Container"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Optional">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DesignSpaceContainer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Alternative">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DesignSpaceContainer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ComponentInstance">
+    <xsd:sequence>
+      <xsd:element ecore:name="PortInstance" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="PortInstance" type="avm:ComponentPortInstance"/>
+      <xsd:element ecore:name="PrimitivePropertyInstance" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="PrimitivePropertyInstance" type="avm:ComponentPrimitivePropertyInstance"/>
+      <xsd:element ecore:name="ConnectorInstance" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="ConnectorInstance" type="avm:ComponentConnectorInstance"/>
+    </xsd:sequence>
+    <xsd:attribute ecore:name="ComponentID" name="ComponentID" type="xsd:string"/>
+    <xsd:attribute ecore:name="ID" name="ID" type="xsd:ID"/>
+    <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+    <xsd:attribute ecore:name="DesignSpaceSrcComponentID" name="DesignSpaceSrcComponentID" type="xsd:string"/>
+    <xsd:attribute ecore:name="XPosition" name="XPosition" type="xsd:unsignedInt"/>
+    <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
+  </xsd:complexType>
+  <xsd:complexType name="ComponentPortInstance">
+    <xsd:complexContent>
+      <xsd:extension base="avm:PortMapTarget">
+        <xsd:attribute ecore:name="IDinComponentModel" name="IDinComponentModel" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ComponentPrimitivePropertyInstance">
+    <xsd:sequence>
+      <xsd:element ecore:name="Value" ecore:resolveProxies="true" minOccurs="0" name="Value" type="avm:Value"/>
+    </xsd:sequence>
+    <xsd:attribute ecore:name="IDinComponentModel" name="IDinComponentModel" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="DesignSpaceContainer">
+    <xsd:complexContent>
+      <xsd:extension base="avm:Container"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PortMapTarget">
+    <xsd:attribute ecore:name="ID" name="ID" type="xsd:ID"/>
+    <xsd:attribute ecore:keys="ID" ecore:name="PortMap" ecore:ordered="false" ecore:reference="avm:PortMapTarget" name="PortMap">
+      <xsd:simpleType>
+        <xsd:list itemType="xsd:anyURI"/>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:complexType name="ComponentConnectorInstance">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ConnectorCompositionTarget">
+        <xsd:attribute ecore:name="IDinComponentModel" name="IDinComponentModel" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ConnectorCompositionTarget">
+    <xsd:attribute ecore:keys="ID" ecore:name="ConnectorComposition" ecore:ordered="false" ecore:reference="avm:ConnectorCompositionTarget" name="ConnectorComposition">
+      <xsd:simpleType>
+        <xsd:list itemType="xsd:anyURI"/>
+      </xsd:simpleType>
+    </xsd:attribute>
+    <xsd:attribute ecore:id="true" ecore:name="ID" name="ID" type="xsd:string"/>
+    <xsd:attribute ecore:name="ApplyJoinData" ecore:reference="iFAB:assemblyDetail" name="ApplyJoinData">
+      <xsd:simpleType>
+        <xsd:list itemType="xsd:anyURI"/>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="Formula">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ValueNode">
+        <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+        <xsd:attribute ecore:name="XPosition" name="XPosition" type="xsd:unsignedInt"/>
+        <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SimpleFormula">
+    <xsd:complexContent>
+      <xsd:extension base="avm:Formula">
+        <xsd:attribute ecore:name="Operation" ecore:unsettable="false" name="Operation" type="avm:SimpleFormulaOperation"/>
+        <xsd:attribute ecore:keys="ID" ecore:name="Operand" ecore:reference="avm:ValueNode" name="Operand" use="required">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="SimpleFormulaOperation">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Addition"/>
+      <xsd:enumeration value="Multiplication"/>
+      <xsd:enumeration value="ArithmeticMean"/>
+      <xsd:enumeration value="GeometricMean"/>
+      <xsd:enumeration value="Maximum"/>
+      <xsd:enumeration value="Minimum"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType abstract="true" name="ValueNode">
+    <xsd:attribute ecore:name="ID" name="ID" type="xsd:ID"/>
+  </xsd:complexType>
+  <xsd:complexType name="ComplexFormula">
+    <xsd:complexContent>
+      <xsd:extension base="avm:Formula">
+        <xsd:sequence>
+          <xsd:element ecore:name="Operand" ecore:resolveProxies="true" maxOccurs="unbounded" name="Operand" type="avm:Operand"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="Expression" name="Expression" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Operand">
+    <xsd:attribute ecore:name="Symbol" name="Symbol" type="xsd:string" use="required"/>
+    <xsd:attribute ecore:keys="ID" ecore:name="ValueSource" ecore:reference="avm:ValueNode" name="ValueSource" type="xsd:anyURI" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType name="DoDDistributionStatement">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DistributionRestriction">
+        <xsd:attribute ecore:name="Type" ecore:unsettable="false" name="Type" type="avm:DoDDistributionStatementEnum" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="DoDDistributionStatementEnum">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="StatementA"/>
+      <xsd:enumeration value="StatementB"/>
+      <xsd:enumeration value="StatementC"/>
+      <xsd:enumeration value="StatementD"/>
+      <xsd:enumeration value="StatementE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType abstract="true" name="ConnectorFeature"/>
+</xsd:schema>

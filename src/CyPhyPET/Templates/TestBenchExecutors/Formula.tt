@@ -1,0 +1,144 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ assembly name="$(SolutionDir)\..\..\..\trunk\externals\common-scripts\ISIS.GME.Common.dll" #>
+<#@ assembly name="$(SolutionDir)\..\..\..\trunk\generated\CyPhyML\models\ISIS.GME.Dsml.CyPhyML.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="ISIS.GME.Dsml.CyPhyML.Classes" #>
+<#@ output extension=".py" #>
+# ===========================================================================
+# Auto generated from SimpleCalculation.tt
+# ===========================================================================
+# OpenMDAO Component
+#   Type: Block
+from openmdao.main.api import Component
+from openmdao.lib.datatypes.api import Float
+from math import *
+import os
+
+class TestBench(Component):
+    """ Documentation comment for this Assembly. """
+
+    ## set up interface to the framework
+    # input (parameters) definitions
+<#    foreach (var item in testBench.Children.ParameterCollection)
+        {
+            string value = item.Attributes.Value == "" ? "0.0" : item.Attributes.Value;
+            //string unit = item.Referred.ParamPropTarget != null ? ", units='" + item.Referred.ParamPropTarget.Name + "'" : "";
+			string unit = "";
+            #>
+    <#= item.Name #> = Float(<#= value #>, iotype='in', desc='<#= item.Name #>'<#= unit #>)
+<#        } #>
+
+    # output (parameters) definitions
+<#     foreach (var item in testBench.Children.MetricCollection)
+        {
+            string value = item.Attributes.Value == "" ? "0.0" : item.Attributes.Value;
+            string unit = item.Referred.ParamPropTarget != null ? ", units='" + item.Referred.ParamPropTarget.Name + "'" : "";
+            #>
+    <#= item.Name #> = Float(<#= value #>, iotype='out', desc='<#= item.Name #>'<#= unit #>)
+<#        } #>
+
+    def __init__(self):
+        # $Static
+        super(TestBench, self).__init__()
+        # $GENERIC - all formulas
+        # $set the strings based on what was put in for muparser
+<#    foreach (var item in testBench.Children.CustomFormulaCollection)
+        {
+            string expr = item.Attributes.Expression.Replace('\n',' ');#>
+        self.__mustring_<#= item.Name #> = '<#= expr #>'
+<#        } #>
+<#    foreach (var item in testBench.Children.CustomFormulaCollection)
+        { #>
+        self.<#= item.Name #> = 0
+<#        } #>
+
+    # End __init__
+    def testComputation(self):
+        print "--- Input Defaults ---"
+<#    foreach (var item in testBench.Children.ParameterCollection)
+        { #>
+        print "<#= item.Name #>:" + str(self.<#= item.Name #>)
+<#        } #>
+
+        print "--- Collecting default Output Values ---"
+
+        # $Generic - all outputs (metrics)
+<#     foreach (var item in testBench.Children.MetricCollection)
+        { #>
+        local_<#= item.Name #> = self.<#= item.Name #>
+<#        } #>
+
+        # $Static
+        print "--- Evaluating ---"
+        self.execute()
+        # $Generic - all outputs (metrics)
+        outputList = [
+<#     foreach (var item in testBench.Children.MetricCollection)
+        { #>
+         ("<#= item.Name #>", local_<#= item.Name #>, self.<#= item.Name #>),
+<#        } #>
+        ]
+        # $Static
+        absRelError = 0
+        print "--- Metric, Output, relative error ---"
+        for name, expected, computed in outputList:
+            relError = abs(expected-computed)/(abs(computed)+1e-8)
+            print name + ", \t" + str(computed) + ", \t" + str(relError)
+            absRelError = max(absRelError, relError)
+        # End for
+        print "Max Relative Error: "
+        print str(absRelError)
+    # End testComputation
+    def execute(self):
+        # $GENERIC - all formulas and outputs (metrics) in order of dependency
+        #  TODO: Dependency is not captured yet!
+<#    foreach (var item in testBench.Children.CustomFormulaCollection)
+        { #>
+        self.<#= item.Name #> = self.muParse(self.__mustring_<#= item.Name #>)
+<#        } #>
+
+<#    foreach (var item in testBench.Children.ValueFlowCollection)
+        {
+            if (item.DstEnd is ISIS.GME.Dsml.CyPhyML.Interfaces.Metric)
+            { #>
+        self.<#= item.DstEnd.Name #> = self.<#= item.SrcEnd.Name #>
+<#          }
+        } #>
+    # End execute
+    def muParse(self, s):
+        # $GENERIC - all inputs (parameters) formulas and outputs(metrics)
+<#    foreach (var item in testBench.Children.ParameterCollection)
+        { #>
+        <#= item.Name #> = self.<#= item.Name #>
+<#        } #>
+
+<#    foreach (var item in testBench.Children.CustomFormulaCollection)
+        { #>
+        <#= item.Name #> = self.<#= item.Name #>
+<#        } #>
+
+<#     foreach (var item in testBench.Children.MetricCollection)
+        { #>
+        <#= item.Name #> = self.<#= item.Name #>
+<#        } #>
+        return eval(s.replace('^', '**'))
+    # End muParse
+# End TestBench class
+if __name__ == '__main__':
+    print "Instantiating TestBench component"
+    singleComponent = TestBench()
+    singleComponent.testComputation()
+
+<#+
+    public ISIS.GME.Dsml.CyPhyML.Interfaces.TestBench testBench { get; set; }
+#>

@@ -1,0 +1,25 @@
+<ns1:Component xmlns:ns1="avm" xmlns:ns2="cad" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="bolt_hex__generic__m4x0p7x6_8p8_zin" SchemaVersion="1.0" Version="19July13" ID="10c290d3-97d8-4254-bd26-7eb4e72a8d03">
+  <Connector ConnectorComposition="" ID="" Notes="" Name="Connector" Definition="" xmlns="">
+    <Property Definition="CML_Mapping\cml_zodb.cml_component.CML_Common_Info" Name="common_info" xsi:type="ns1:CompoundProperty">
+    <CompoundProperty Definition="CML_Mapping\cml_zodb.cml_extended_physicals.Bounding_Box" Name="overall_dimensions">
+      <PrimitiveProperty Definition="CML_Physical_Quantity\cml_zodb.cml_basic_physicals.Length" Name="height">
+        <Value ID="nv.common_info.overall_dimensions.height"/>
+      </PrimitiveProperty>
+      <PrimitiveProperty Definition="CML_Physical_Quantity\cml_zodb.cml_basic_physicals.Length" Name="length">
+        <Value ID="nv.common_info.overall_dimensions.length"/>
+      </PrimitiveProperty>
+      <PrimitiveProperty Definition="CML_Physical_Quantity\cml_zodb.cml_basic_physicals.Length" Name="width">
+        <Value ID="nv.common_info.overall_dimensions.width"/>
+      </PrimitiveProperty>
+    </CompoundProperty>
+    <PrimitiveProperty Definition="CML_Mapping\cml_zodb.cml_extended_physicals.XYZ_Position_Vector" Name="cg_location">
+      <Value DataType="Real" DimensionType="Vector" Dimensions="3" ID="nv.common_info.cg_location">
+        <ValueExpression xsi:type="ns1:FixedValue">
+          <Value>[0.0,0.0,-0.000296809799319]</Value>
+        </ValueExpression>
+      </Value>
+    </PrimitiveProperty>
+  </Property>
+  </Connector>
+  <Classifications>Bolt_Hex</Classifications>
+</ns1:Component>

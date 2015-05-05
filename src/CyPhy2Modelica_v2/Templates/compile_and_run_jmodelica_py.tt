@@ -1,0 +1,136 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ output extension=".py" #>
+
+# -----------------------------------------------------
+# Auto generated from compile_and_run_jmodelica_py.tt
+# -----------------------------------------------------
+
+import os
+import sys
+import json
+
+import matplotlib.pyplot as plt
+
+try:
+    from pymodelica import compile_fmu # JModelica.org's 'pymodelica', NOT ISIS' 'py_modelica'
+    from pyfmi import load_fmu
+except:
+    print "JModelica 'pymodelica' or 'pyfmi' module was not found. Make sure to call this script using the system Python."
+    
+#  Helper function to read in the simulation config file
+def load_model_config(model_config_file_path):
+
+    with open(model_config_file_path) as f_in:
+        model_config = json.load(f_in)
+        
+    return model_config
+
+    
+def run_jmodelica_simulation(generated_result_dir):
+
+    external_libraries_dir = os.path.join(generated_result_dir, "Libraries")
+    model_config_file = os.path.join(generated_result_dir, "CyPhy\\model_config.json")
+    fmu_output_dir = os.path.join(generated_result_dir, os.path.join("CyPhy", "jmodelica_results"))
+    
+    if not os.path.isdir(fmu_output_dir):
+        os.makedirs(fmu_output_dir)
+
+    # Read the model_config.json and get relevant info
+    model_config = load_model_config(model_config_file)
+    testbench_class = model_config["model_name"]
+    start_time = model_config["experiment"]['StartTime']
+    stop_time = model_config["experiment"]['StopTime']
+    
+    compile_fmu_options = dict()
+    modelica_library_dirs = list()
+
+    # Add the generated CyPhy package, which contains 'Components', 'ComponentAssemblies', 'TestBenches', 'TestComponents'
+    modelica_library_dirs.append(generated_result_dir)
+    # Add any external packages, e.g., C2M2L_Ext, C2M2L_OM, C2M2L_Decl, ModifiedMass in '%result_dir&\\Libraries'
+    modelica_library_dirs.append(external_libraries_dir)
+
+    compile_fmu_options.update({"extra_lib_dirs": modelica_library_dirs})
+    
+    # Move inside the new output directory in preparation to run simulation
+    os.chdir(fmu_output_dir)
+
+    # Create the compiled fmu binary file from the 'Testbench' Modelica model
+    #compiled_testbench_fmu = compile_fmu(testbench_class, compile_to=fmu_output_dir, compiler_options=compile_fmu_options)
+    compiled_testbench_fmu = compile_fmu(testbench_class, compiler_options=compile_fmu_options)
+    
+    # Load the new fmu as an object for simulation
+    executable_testbench = load_fmu(compiled_testbench_fmu)
+    
+    # Run the simulation and save the result object
+    sim_result = executable_testbench.simulate(float(start_time), float(stop_time))
+    
+    # Move back to the result_directory
+    os.chdir(generated_result_dir)
+    
+    return sim_result
+    
+def plot_results(list_of_var_names, results, plot_title):
+
+    plt.figure(1)
+
+    time = results['time']
+
+    for var_name in list_of_var_names:
+        data_series = results[var_name]
+        plt.plot(time, data_series, label = var_name)
+        
+    plt.legend(loc=8)
+    plt.title(plot_title)
+    plt.xlabel('Time (s)')
+    
+    plot_file = plot_title + '.svg'
+    if not os.path.isdir('plots'):
+        os.mkdir('plots')
+    plot_rel_path = os.path.join('plots', plot_file)
+    plt.savefig(plot_rel_path)
+    
+    #plt.show()
+    
+    
+def main():
+
+    this_script_path = os.path.abspath(__file__)
+    scripts_dir = os.path.dirname(this_script_path)
+    result_dir = os.path.abspath(os.path.join(scripts_dir, '..'))
+    
+    os.chdir(result_dir)
+
+    simulation_results = run_jmodelica_simulation(result_dir)
+    
+    results_to_plot = list()
+    #results_to_plot.append('SpeedSensor.v')  # this is hard-coded for MSD... we need to solve this issue somehow.
+    
+    if len(results_to_plot) > 0:
+        plot_results(results_to_plot, simulation_results, os.path.basename(result_dir))
+
+
+if __name__ == '__main__':
+    
+    root_dir = os.getcwd()
+
+    try:
+        main()
+    except:
+        import traceback
+        trace = traceback.format_exc()
+        # Generate this file on failed executions, https://github.com/scipy/scipy/issues/1840
+        with open(os.path.join(root_dir, '_jmodelica_FAILED.txt'), 'wb') as f_out:
+            f_out.write(trace)
+        sys.exit(1)
+
+<#+ public string ToolName ="";
+	public string DymolaHome = "";
+    public string ResultMatFile = "";#>

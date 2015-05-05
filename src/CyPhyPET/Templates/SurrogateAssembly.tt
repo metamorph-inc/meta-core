@@ -1,0 +1,90 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="ISIS.GME.Dsml.CyPhyML.Classes" #>
+<#@ output extension=".py" #>
+# ===========================================================================
+# Auto generated from SurrogateAssembly.tt
+# ===========================================================================
+# OpenMDAO Assembly Component (SurrogateAssembly)
+from openmdao.lib.datatypes.api import Float
+from openmdao.main.api import Assembly
+
+from test_bench import TestBench
+
+class SurrogateAssembly(Assembly):
+    """ Documentation comment for this Assembly. """
+    
+    # inputs
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.DesignVariableCollection)
+    {
+        foreach (var conn in item.DstConnections.VariableSweepCollection)
+        {
+            string name = conn.GenericDstEnd.Name;
+        #>
+    <#= name #> = Float(0.0, iotype='in')
+<#         }
+    } #>
+    
+    # outputs
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+			string name = conn.GenericSrcEnd.Name;
+        #>
+    <#= name #> = Float(iotype='out')
+<#        }
+    } #>
+    
+    def configure(self):
+        """ Configures a new Assembly object. """
+        
+        # Create component instances
+        self.add('TestBench', TestBench())
+        
+        # Define workflow
+        self.driver.workflow.add(['TestBench'])
+        
+        # Connect inputs
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.DesignVariableCollection)
+    {
+        string low = "0.0";
+        string high = "0.0";
+        string range = item.Attributes.Range;
+		low = range.Split(',').FirstOrDefault().Trim();
+		high = range.Split(',').LastOrDefault().Trim();
+        foreach (var conn in item.DstConnections.VariableSweepCollection)
+        {
+			string name = conn.GenericDstEnd.Name;
+	    #>
+        self.connect('<#= name #>', 'TestBench.<#= name #>')
+<#         }
+    } #>
+        
+        # Connect outputs
+<# foreach (var item in pet.Children.ParameterStudyCollection.FirstOrDefault().Children.ObjectiveCollection)
+    {
+        foreach (var conn in item.SrcConnections.ObjectiveMappingCollection)
+        {
+			string name = conn.GenericSrcEnd.Name;
+        #>
+        self.connect('TestBench.<#= name #>', '<#= name #>')
+<#        }
+    } #>
+      
+    # End configure
+# End class
+
+<#+
+    public ISIS.GME.Dsml.CyPhyML.Interfaces.ParametricExploration pet { get; set; }    
+#>

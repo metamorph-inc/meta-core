@@ -1,0 +1,61 @@
+== EDIT DELIMITER : "9290EECE-9B5A-4310-8F5B-14C248B996A4" ==
+timestamp: 1373409995631
+== BEGIN ==
+editMode: POST
+topic: "edu.vanderbilt.isis.metalink.assembly"
+topic: "tutorial"
+guid: "guid-1.1"
+actions {
+  actionMode: INSERT
+  payload {
+    components {
+      ParametricParameters {
+        CADParameter {
+          Units {
+            Value: "inch"
+          }
+          Name: "size"
+          Type: "length"
+          Value: "12"
+        }
+        CADParameter {
+          Units {
+            Value: "kg"
+          }
+          Name: "material"
+          Type: "bulk"
+          Value: "0.1"
+        }
+      }
+      ComponentID: "fd411d60-e58d-460d-b862-6b7d5aa722cf"
+      Name: "mass"
+    }
+  }
+}
+actions {
+  actionMode: INSERT
+  payload {
+    components {
+      ComponentID: "fb7ad538-e513-4c3e-b72e-66d99010562c"
+      Name: "spring"
+    }
+  }
+}
+
+== EDIT DELIMITER : "9290EECE-9B5A-4310-8F5B-14C248B996A4" ==
+timestamp: 1373410005772
+== BEGIN ==
+editMode: POST
+topic: "edu.vanderbilt.isis.metalink.assembly"
+topic: "tutorial"
+guid: "guid-1.2"
+actions {
+  actionMode: INSERT
+  payload {
+    components {
+      ComponentID: "d3c983ce-8e78-4a3e-bba5-2702dadad4d8"
+      Name: "damper"
+    }
+  }
+}
+

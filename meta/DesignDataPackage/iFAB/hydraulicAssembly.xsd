@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iFAB="iFAB" targetNamespace="iFAB">
+
+  <xs:annotation>
+    <xs:appinfo>iFAB Foundry Hydraulic XML Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This schema defines an XML file for representing hydraulic assemblies.</xs:documentation>
+  </xs:annotation>
+
+  <xs:include schemaLocation="common.xsd" />
+
+  <xs:complexType name="hydraulicAssembly">
+    <xs:sequence>
+      <xs:element name="bomLineItemQuantity" type="xs:nonNegativeInteger" default="0" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

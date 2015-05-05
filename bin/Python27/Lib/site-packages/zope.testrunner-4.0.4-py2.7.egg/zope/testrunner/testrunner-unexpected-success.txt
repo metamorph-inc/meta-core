@@ -1,0 +1,45 @@
+testrunner handling of unexpected success
+=========================================
+
+Python 2.7 introduced the concept of expectedFailures to unittest.
+See http://www.voidspace.org.uk/python/articles/unittest2.shtml#more-skipping
+
+Although testrunner is currently not able to hande unexpected successes
+correctly at least it does not report them as successes.
+
+
+This document has some edge-case examples to test various aspects of
+the test runner.
+
+Separating Python path and test directories
+-------------------------------------------
+
+The --path option defines a directory to be searched for tests *and* a
+directory to be added to Python's search path.  The --test-path option
+can be used when you want to set a test search path without also
+affecting the Python path:
+
+    >>> import os, sys
+    >>> directory_with_tests = os.path.join(this_directory, 'testrunner-ex-719369')
+
+    >>> from zope import testrunner
+
+    >>> defaults = [
+    ...     '--path', directory_with_tests,
+    ...     '--tests-pattern', '^sampletestsf?$',
+    ...     ]
+    >>> sys.argv = ['test']
+    >>> testrunner.run_internal(defaults)
+    ... # doctest: +ELLIPSIS
+    Running zope.testrunner.layer.UnitTests tests:
+      Set up zope.testrunner.layer.UnitTests in N.NNN seconds.
+    <BLANKLINE>
+    <BLANKLINE>
+    Error in test test_ef (sampletestsf.TestUnexpectedSuccess)
+    Traceback (most recent call last):
+    ..._UnexpectedSuccess
+    <BLANKLINE>
+      Ran 1 tests with 1 failures and 0 errors in N.NNN seconds.
+    Tearing down left over layers:
+      Tear down zope.testrunner.layer.UnitTests in N.NNN seconds.
+    True

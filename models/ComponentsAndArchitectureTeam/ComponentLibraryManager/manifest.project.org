@@ -1,0 +1,53 @@
+{
+  "Project": {
+    "Components": [
+        {
+            "revision": null,
+            "modelpath": "components\\z672jsd8\\ComponentData.xml",
+            "avmid": "100",
+            "version": "",
+            "name": "HasFilePath_InManifestOnly"
+        },
+        {
+            "revision": null,
+            "modelpath": "components\\a786d5f1\\",
+            "avmid": "101",
+            "version": "",
+            "name": "HasDirPath_InManifestOnly"
+        },
+    ],
+    "DesignSpaceModels": [
+      "./design-space/BoxitDS.metadesign.xml",
+      "./design-space/BoxitDS.metadesign.json"
+    ],
+    "Configurations": [
+      "./designs/Boxit.metadesign.xml",
+      "./designs/Boxit.metadesign.json",
+      "./designs/BoxBottom.metadesign.xml",
+      "./designs/BoxBottom.metadesign.json",
+      "./designs/BoxitDS_cfg1.metadesign.xml",
+      "./designs/BoxitDS_cfg1.metadesign.json",
+      "./designs/Box_RB.adm",
+      "./designs/Box_RB.metadesign.json",
+      "./designs/Box_simple.adm"
+    ],
+    "TestBenches": [
+      "./test-benches/CAD.testbench.json"
+    ],
+    "Results": {
+      "UrlHints": [
+        "./results/results.metaresults.json"
+      ]
+    },
+    "Requirements": {
+      "UrlHints": [
+        "./requirements/requirements.json"
+      ],
+      "id": "",
+      "vfLink": "",
+      "text": ""
+    },
+    "CyPhyProjectFileName": "box_migrated.mga",
+    "LastModified": "2013-12-07 18-45-50"
+  }
+}

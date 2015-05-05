@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="UDM-dll"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(UDM_PATH)\include&quot;;&quot;$(UDM_3RDPARTY_PATH)\xerces-c_2_8_0\include&quot;"
+		PreprocessorDefinitions="UDM_DYNAMIC_LINKING"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalLibraryDirectories="&quot;$(UDM_PATH)\lib&quot;"
+	/>
+</VisualStudioPropertySheet>

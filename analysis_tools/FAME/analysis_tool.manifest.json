@@ -1,0 +1,14 @@
+{
+    "FAME" : {
+        "version": "14.03",
+        "outputDirectory": "output",
+        "runCommand": "run_FAME.cmd",
+        "requiredInterpreter": "MGA.Interpreter.CyPhyReliabilityAnalysis"
+    },
+    "FAMEBracketFatigue" : {
+        "version": "14.03",
+        "outputDirectory": "output",
+        "runCommand": "run_FAMEBracketFatigue.cmd",
+        "requiredInterpreter": "MGA.Interpreter.CyPhyReliabilityAnalysis"
+    }
+}

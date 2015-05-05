@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="113fe1cd4a" Name="testcomp" Version="09_10_2013_13_36" xmlns="avm">
+  <Property xmlns:q1="avm" xsi:type="q1:PrimitiveProperty" Name="NoMinimum" ID="param.idnomin" XPosition="581" YPosition="21" xmlns="">
+    <Value ID="idnomin" DimensionType="Scalar" Dimensions="" Unit="m" DataType="String">
+      <ValueExpression xsi:type="q1:ParametricValue">
+        <Default xsi:type="q1:FixedValue">
+          <Value>0.625</Value>
+        </Default>
+        <Maximum xsi:type="q1:FixedValue">
+          <Value>0.9</Value>
+        </Maximum>
+        <AssignedValue xsi:type="q1:FixedValue">
+          <Value>0.625</Value>
+        </AssignedValue>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q2="avm" xsi:type="q2:PrimitiveProperty" Name="NoMaximum" ID="param.idnomax" XPosition="301" YPosition="21" xmlns="">
+    <Value ID="idnomax" DimensionType="Scalar" Dimensions="" Unit="m" DataType="String">
+      <ValueExpression xsi:type="q2:ParametricValue">
+        <Default xsi:type="q2:FixedValue">
+          <Value>0.625</Value>
+        </Default>
+        <Minimum xsi:type="q2:FixedValue">
+          <Value>0.5</Value>
+        </Minimum>
+        <AssignedValue xsi:type="q2:FixedValue">
+          <Value>0.625</Value>
+        </AssignedValue>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q3="avm" xsi:type="q3:PrimitiveProperty" Name="boot_right_x" ID="param.nv.boot_right_x" XPosition="21" YPosition="21" xmlns="">
+    <Value ID="nv.boot_right_x" DimensionType="Scalar" Dimensions="" Unit="m" DataType="String">
+      <ValueExpression xsi:type="q3:ParametricValue">
+        <Default xsi:type="q3:FixedValue">
+          <Value>0.625</Value>
+        </Default>
+        <Maximum xsi:type="q3:FixedValue">
+          <Value>0.9</Value>
+        </Maximum>
+        <Minimum xsi:type="q3:FixedValue">
+          <Value>0.5</Value>
+        </Minimum>
+        <AssignedValue xsi:type="q3:FixedValue">
+          <Value>0.625</Value>
+        </AssignedValue>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q4="avm" xsi:type="q4:PrimitiveProperty" Name="OnlyDefault" ID="param.idonlydefault" XPosition="861" YPosition="21" xmlns="">
+    <Value ID="idonlydefault" DimensionType="Scalar" Dimensions="" Unit="m" DataType="String">
+      <ValueExpression xsi:type="q4:ParametricValue">
+        <Default xsi:type="q4:FixedValue">
+          <Value>0.625</Value>
+        </Default>
+        <AssignedValue xsi:type="q4:FixedValue">
+          <Value>0.625</Value>
+        </AssignedValue>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <DistributionRestriction xmlns:q5="avm" xsi:type="q5:ITAR" Notes="" Level="NotITAR" xmlns="" />
+  <Classifications xmlns="">Manikin</Classifications>
+</Component>

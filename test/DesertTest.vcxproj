@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DDF439B3-4856-46F7-A6A7-BCA282EF74A5}</ProjectGuid>
+    <RootNamespace>DesertTest</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\META.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\META.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\META.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\META.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ExecutablePath>$(META_PATH)\bin;$(META_PATH)\PAMS-desert\trunk\src\desert\bin;$(DESERT_PATH)\bin;C:\cygwin\bin;$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ExecutablePath>$(META_PATH)\bin;$(META_PATH)\PAMS-desert\trunk\src\desert\bin;$(DESERT_PATH)\bin;C:\cygwin\bin;$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>$(META_PATH)\lib;$(DESERT_PATH)\lib;$(META_PATH)\PAMS-desert\trunk\src\desert\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LibraryPath>$(META_PATH)\lib;$(DESERT_PATH)\lib;$(META_PATH)\PAMS-desert\trunk\src\desert\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ExecutablePath>$(META_PATH)\bin;$(META_PATH)\PAMS-desert\trunk\src\desert\bin;$(DESERT_PATH)\bin;C:\cygwin\bin;$(ExecutablePath)</ExecutablePath>
+    <LibraryPath>$(META_PATH)\lib;$(DESERT_PATH)\lib;$(META_PATH)\PAMS-desert\trunk\src\desert\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ExecutablePath>$(META_PATH)\bin;$(META_PATH)\PAMS-desert\trunk\src\desert\bin;$(DESERT_PATH)\bin;C:\cygwin\bin;$(ExecutablePath)</ExecutablePath>
+    <LibraryPath>$(META_PATH)\lib;$(DESERT_PATH)\lib;$(META_PATH)\PAMS-desert\trunk\src\desert\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="CPv1_2_9\models\CPv1_2_9.xme">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">echo %(Filename) XME -^&gt; MGA
+if not exist $(META_PATH)\generated\test\CPv1_2_9 mkdir $(META_PATH)\generated\test\CPv1_2_9
+$(META_PATH)\externals\common-scripts\gmepy.exe xme2mga "%(FullPath)" "$(META_PATH)\generated\test\CPv1_2_9\%(Filename).mga"
+echo ERRORLEVEL = %ERRORLEVEL%</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename) XME -^&gt; MGA
+if not exist $(META_PATH)\generated\test\CPv1_2_9 mkdir $(META_PATH)\generated\test\CPv1_2_9
+$(META_PATH)\externals\common-scripts\gmepy.exe xme2mga "%(FullPath)" "$(META_PATH)\generated\test\CPv1_2_9\%(Filename).mga"
+echo ERRORLEVEL = %ERRORLEVEL%</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename) XME -&gt; MGA</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename) XME -&gt; MGA</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(META_PATH)\generated\test\CPv1_2_9\%(Filename).mga</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(META_PATH)\generated\test\CPv1_2_9\%(Filename).mga</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">echo %(Filename) XME -^&gt; MGA
+if not exist "$(META_PATH)\generated\test\CPv1_2_9" mkdir "$(META_PATH)\generated\test\CPv1_2_9"
+"$(META_PATH)\externals\common-scripts\gmepy.exe" xme2mga "%(FullPath)" "$(META_PATH)\generated\test\CPv1_2_9\%(Filename).mga"
+echo ERRORLEVEL = %ERRORLEVEL%</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename) XME -^&gt; MGA
+if not exist "$(META_PATH)\generated\test\CPv1_2_9" mkdir "$(META_PATH)\generated\test\CPv1_2_9"
+"$(META_PATH)\externals\common-scripts\gmepy.exe" xme2mga "%(FullPath)" "$(META_PATH)\generated\test\CPv1_2_9\%(Filename).mga"
+echo ERRORLEVEL = %ERRORLEVEL%</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename) XME -&gt; MGA</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename) XME -&gt; MGA</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated\test\CPv1_2_9\%(Filename).mga</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(META_PATH)\generated\test\CPv1_2_9\%(Filename).mga</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(META_PATH)\generated\CyPhyML\models\CyPhyML.xmp</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(META_PATH)\generated\CyPhyML\models\CyPhyML.xmp</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated\CyPhyML\models\CyPhyML.xmp</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(META_PATH)\generated\CyPhyML\models\CyPhyML.xmp</AdditionalInputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\generated\test\CPv1_2_9\CPv1_2_9.mga">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">echo %(Filename).mga -^&gt; %(Filename)_Desert.xml
+"$(META_PATH)\bin\CyPhy2Desert.exe" "%(FullPath)" "%(RootDir)%(Directory)/%(Filename)_Desert.xml"
+echo ERRORLEVEL = %ERRORLEVEL%
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename).mga -^&gt; %(Filename)_Desert.xml
+"$(META_PATH)\bin\CyPhy2Desert.exe" "%(FullPath)" "%(RootDir)%(Directory)/%(Filename)_Desert.xml"
+echo ERRORLEVEL = %ERRORLEVEL%
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).mga -&gt; %(Filename)_Desert.xml</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).mga -&gt; %(Filename)_Desert.xml</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">echo %(Filename).mga -^&gt; %(Filename)_Desert.xml
+"$(META_PATH)\bin\CyPhy2Desert.exe" "%(FullPath)" "%(RootDir)%(Directory)/%(Filename)_Desert.xml"
+echo ERRORLEVEL = %ERRORLEVEL%
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename).mga -^&gt; %(Filename)_Desert.xml
+"$(META_PATH)\bin\CyPhy2Desert.exe" "%(FullPath)" "%(RootDir)%(Directory)/%(Filename)_Desert.xml"
+echo ERRORLEVEL = %ERRORLEVEL%
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).mga -&gt; %(Filename)_Desert.xml</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).mga -&gt; %(Filename)_Desert.xml</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)/%(Filename)_Desert.xml</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)/%(Filename)_Desert.xml</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)/%(Filename)_Desert.xml</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)/%(Filename)_Desert.xml</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\generated\test\CPv1_2_9\CPv1_2_9_Desert.xml">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">DesertTool.exe /c "applyAll" "%(FullPath)"
+echo ERRORLEVEL = %ERRORLEVEL%</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">DesertTool.exe /c "applyAll" "%(FullPath)"
+echo ERRORLEVEL = %ERRORLEVEL%</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Running DesertTool on %(Filename)</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Running DesertTool on %(Filename)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\%(Filename)_back.xml</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\%(Filename)_back.xml</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">DesertTool.exe /c "applyAll" "%(FullPath)"
+echo ERRORLEVEL = %ERRORLEVEL%</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">DesertTool.exe /c "applyAll" "%(FullPath)"
+echo ERRORLEVEL = %ERRORLEVEL%</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Running DesertTool on %(Filename)</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Running DesertTool on %(Filename)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\%(Filename)_back.xml</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\%(Filename)_back.xml</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\generated\test\CPv1_2_9\CPv1_2_9_Desert_back.xml">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">touch "%(RootDir)%(Directory)\test_flag"
+DesertBackCompare "$(META_PATH)/test/CPv1_2_9/Exemplar/%(Filename).xml" "%(FullPath)"
+echo ERRORLEVEL = %ERRORLEVEL%</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">touch "%(RootDir)%(Directory)\test_flag"
+DesertBackCompare "$(META_PATH)/test/CPv1_2_9/Exemplar/%(Filename).xml" "%(FullPath)"
+echo ERRORLEVEL = %ERRORLEVEL%</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Comparing %(Filename) to exemplar</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Comparing %(Filename) to exemplar</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">touch "%(RootDir)%(Directory)\test_flag"
+DesertBackCompare "$(META_PATH)/test/CPv1_2_9/Exemplar/%(Filename).xml" "%(FullPath)"
+echo ERRORLEVEL = %ERRORLEVEL%</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">touch "%(RootDir)%(Directory)\test_flag"
+DesertBackCompare "$(META_PATH)/test/CPv1_2_9/Exemplar/%(Filename).xml" "%(FullPath)"
+echo ERRORLEVEL = %ERRORLEVEL%</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Comparing %(Filename) to exemplar</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Comparing %(Filename) to exemplar</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\test_flag</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\test_flag</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\test_flag</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\test_flag</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\CyPhyMLRegister\CyPhyMLRegister.vcxproj">
+      <Project>{d004018a-8dfe-4397-8db0-295efcfa05ce}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

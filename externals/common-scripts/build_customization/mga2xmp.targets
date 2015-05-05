@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName
+      Include="mga2xmp">
+      <Targets>mga2xmp</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask
+    TaskName="mga2xmp"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="mga2xmp"
+    BeforeTargets="$(mga2xmp_RuleBeforeTargets)"
+    AfterTargets="$(mga2xmp_RuleAfterTargets)"
+    Condition="'@(mga2xmp)' != ''"
+    DependsOnTargets="$(mga2xmp_RuleDependsOn)"
+    Outputs="%(mga2xmp.OutFile)"
+    Inputs="%(mga2xmp.Identity);%(mga2xmp.AdditionalDependencies)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <mga2xmp
+        Remove="@(mga2xmp)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(mga2xmp.ExecutionDescription)" />
+    <mga2xmp
+      Condition="'@(mga2xmp)' != '' and '%(mga2xmp.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(mga2xmp.CommandLineTemplate)"
+      StandardErrorImportance="High"
+      />
+  </Target>
+</Project>

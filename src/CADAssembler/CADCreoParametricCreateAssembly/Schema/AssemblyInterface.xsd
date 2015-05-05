@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?udm interface="AssemblyInterface" version="1.00"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ elementFormDefault="qualified" 
+>
+<!-- generated on Fri Jun 24 15:16:57 2011 -->
+
+
+	<xsd:complexType name="ConstraintFeatureType">
+		<xsd:attribute name="FeatureName" type="xsd:string" use="required"/>
+		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureOrientationType" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="PairType">
+		<xsd:sequence>
+			<xsd:element name="ConstraintFeature" type="ConstraintFeatureType" minOccurs="2" maxOccurs="2"/>
+			<xsd:element name="ConstraintOffset" type="ConstraintOffsetType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="FeatureGeometryType" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureInterfaceType" type="xsd:string" use="required"/>
+		<xsd:attribute name="FeatureAlignmentType" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ConstraintOffsetType">
+		<xsd:sequence>
+			<xsd:element name="Units" type="UnitsType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="OffsetAlignmentType" type="xsd:string" use="required"/>
+		<xsd:attribute name="Value" type="xsd:double" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="CADParameterType">
+		<xsd:sequence>
+			<xsd:element name="Units" type="UnitsType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="Type" type="xsd:string" use="required"/>
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="Value" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ParametricParametersType">
+		<xsd:sequence>
+			<xsd:element name="CADParameter" type="CADParameterType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="UnitsType">
+		<xsd:attribute name="Value" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="PropertiesType">
+		<xsd:sequence>
+			<xsd:element name="Units" type="UnitsType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CADComponentType">
+		<xsd:sequence>
+			<xsd:element name="CADComponent" type="CADComponentType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Constraint" type="ConstraintType" minOccurs="0"  maxOccurs="unbounded"/>
+			<xsd:element name="ParametricParameters" type="ParametricParametersType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="Type" type="xsd:string" use="required"/>
+    <xsd:attribute name="SpecialInstruction" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="AssemblyType">
+		<xsd:sequence>
+			<xsd:element name="CADComponent" type="CADComponentType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Properties" type="PropertiesType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ConstraintType">
+		<xsd:sequence>
+			<xsd:element name="Pair" type="PairType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+ <xsd:element name="Assembly" type="AssemblyType"/>
+
+</xsd:schema>

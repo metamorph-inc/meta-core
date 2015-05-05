@@ -1,0 +1,177 @@
+﻿<#@ template language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ assembly name="$(SolutionDir)\..\..\..\trunk\externals\common-scripts\ISIS.GME.Common.dll" #>
+<#@ assembly name="$(SolutionDir)\..\..\..\trunk\generated\CyPhyML\models\ISIS.GME.Dsml.CyPhyML.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="ISIS.GME.Dsml.CyPhyML.Classes" #> 
+<#@ output extension=".py" #>
+# ===========================================================================
+# Auto generated from Modelica.tt
+# ===========================================================================
+# OpenMDAO Component
+#   Type: Modelica
+import sys
+import json
+import os
+sys.path.insert(0, os.path.join(os.getcwd(), 'TestBench', 'scripts'))
+from simulate import init_and_compile_test_bench, execute_test_bench
+from openmdao.main.api import Component
+from openmdao.lib.datatypes.api import Float
+import py_modelica.report_functions as pym_report
+
+import logging
+import shutil
+import numpy as np
+
+class TestBench(Component):
+    """ Documentation comment for this Assembly. """
+    ## set up interface to the framework
+    tool = None                          # simulation tool class, Dymola or OpenModelica
+    root_dir = ''                        # root_directory
+    tb_dir = ''                          # test bench directory
+    rp_file = ''                         # testbench_manifest.json in tb-dir
+    def_parameters = {}                  # parameters after default simulation
+    def_metrics = {}                     # metrics after default simulation
+    tool_stat = {}
+    initialized = False
+
+    # input (parameters) definitions
+<#    foreach (var item in this.Parameters)
+        {
+            string value = item.Attributes.Value == "" ? "0.0" : item.Attributes.Value;
+            //string unit = item.Referred.ParamPropTarget != null ? ", units='" + item.Referred.ParamPropTarget.Name + "'" : "";
+			string unit = "";
+            #>
+    <#= item.Name #> = Float(<#= value #>, iotype='in', desc='<#= item.Name #>'<#= unit #>)
+<#        } #>
+
+    # Inputs properties defined inside components
+<# foreach (var kvp in this.PCCPropertyInputs)
+       {//TODO : is value = 0.0 ok? Or must the mean be extracted?
+   #>
+    <#= kvp.Key #> = Float(0.0, iotype='in', desc='<#= kvp.Value #>')
+<#}#>
+
+    # output (parameters) definitions
+<#     foreach (var item in this.Metrics)
+        { 
+            string value = item.Attributes.Value == "" ? "0.0" : item.Attributes.Value;
+            //string unit = item.Referred.ParamPropTarget != null ? ", units='" + item.Referred.ParamPropTarget.Name + "'" : "";
+			string unit = "";
+            #>
+    <#= item.Name #> = Float(<#= value #>, iotype='out', desc='<#= item.Name #>'<#= unit #>)
+<#        } #>
+
+    def __init__(self):
+        super(TestBench, self).__init__()
+        self._logger.level = logging.DEBUG
+
+    def initialize(self):
+        self._logger.info('Initializing model...')
+        with open('<#=DynamicConfigFile#>', 'r') as f_in:
+            tool_name = json.load(f_in)['tool_name']
+        self.root_dir = os.getcwd()
+        self.tb_dir = os.path.join(self.root_dir,'TestBench', 'CyPhy')
+        os.chdir(self.tb_dir)
+        self.rp_file = os.path.abspath(os.path.join(self.tb_dir, '..', 'testbench_manifest.json'))
+        shutil.copy(self.rp_file, os.path.join(self.root_dir, 'testbench_manifest.json'))
+        # Run the simulation once
+        self.tool = init_and_compile_test_bench(tool_name)
+        t_mat, t_post = execute_test_bench(self.tool, self.rp_file)
+        shutil.copy(self.rp_file, os.path.join(self.root_dir, 'testbench_manifest.json'))
+        self.def_metrics, self.def_parameters = pym_report.copy_metrics_and_parameters(self.rp_file)
+        self.initialized = True
+        os.chdir(self.root_dir)
+        # Statistics
+        self.tool_stat["tool_name"] = self.tool.tool_name
+        self.tool_stat["version"] = self.tool.tool_version   
+        self.tool_stat["version_number"] = self.tool.tool_version_nbr
+        exec_times = {}
+        exec_times["compilation_time"] = self.tool.compilation_time
+        exec_times["translation_time"] = self.tool.translation_time
+        exec_times["make_time"] = self.tool.make_time
+        exec_times["simulation_time"] = self.tool.simulation_time
+        exec_times["total_time"] = self.tool.total_time
+        exec_times["load_mat_time"] = t_mat
+        exec_times["post_scripts_time"] = t_post
+        self.tool_stat["exec_times"] = exec_times
+        pcc_times = {}
+        pcc_times["simulation_times"] = []
+        pcc_times["load_mat_times"] = []
+        pcc_times["post_script_times"] = []
+        self.tool_stat["PCC_times"] = pcc_times
+
+    def execute(self):
+        if not self.initialized:
+            self.initialize()
+        self._logger.info(" --- ==== **** New Iteration Started **** ==== ---")
+        self._logger.info('  ---------- >>> ======= Parameters ======= <<< ----------  ')
+
+        # Update testbench_manifest.json['Parameters']
+        params = {
+<#     foreach (var item in this.Parameters)
+        { #>
+            '<#= item.Name #>': self.<#= item.Name #>,
+<#        } #>
+        }
+        os.chdir(self.tb_dir)
+        pym_report.update_parameters_in_report_json(params, self.rp_file)
+
+<# if (this.PCCPropertyInputs.Any()){ #>
+        # Update inputs properties defined inside components
+        properties = {
+<# foreach (var kvp in this.PCCPropertyInputs)
+       {#>
+           '<#= kvp.Value #>': self.<#= kvp.Key #>,
+<#}#>
+        }
+<# foreach (var kvp in this.PCCPropertyInputs)
+       {#>
+        self._logger.info('{0} : {1}'.format('<#= kvp.Value #>', self.<#= kvp.Key #>))
+<#}#>
+        self.tool.change_parameter(properties)
+<# } #>
+        # Run simulation, will update report_file['Metrics']
+        t_mat, t_post = execute_test_bench(self.tool, self.rp_file)
+        self.tool_stat["PCC_times"]["simulation_times"].append(self.tool.simulation_time)
+        self.tool_stat["PCC_times"]["load_mat_times"].append(t_mat)
+        self.tool_stat["PCC_times"]["post_script_times"].append(t_post)
+        # Read result from testbench_manifest.json['Metrics'] and update metrics
+        metrics = pym_report.get_metrics_from_report_json(report_file=self.rp_file)
+        # Move over default values (temporary solution)
+        pym_report.update_metrics_and_parameters(self.def_metrics, self.def_parameters, self.rp_file)
+        os.chdir(self.root_dir)
+        with open('tool_stat.json', 'wb') as json_out:
+            json.dump(self.tool_stat, json_out)
+<#	    foreach (var item in this.Metrics)
+		{ #>
+        self.<#= item.Name #> = float(metrics['<#= item.Name #>'])
+<#      } #>
+        
+        # print out the metrics
+        print '  ---------- <<< ======= Metrics ======= >>> ----------  '
+<#	    foreach (var item in this.Metrics)
+        { #>
+        print '{0:20} : {1}'.format('<#= item.Name #>', self.<#= item.Name #>)
+<#        } #>
+        print '\n'
+        self._logger.info('Metrics : {0}'.format(str(metrics)))
+        self._logger.info('Execution ended.')
+    # End execute
+# End TestBench class
+
+<#+
+	public List<ISIS.GME.Dsml.CyPhyML.Interfaces.Parameter> Parameters {get;set;}
+	public List<ISIS.GME.Dsml.CyPhyML.Interfaces.Metric> Metrics {get;set;}
+	public string DynamicConfigFile { get; set;}
+	public Dictionary<string, string> PCCPropertyInputs = new Dictionary<string,string>();
+#>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<iFAB:specialDetail xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iFAB="iFAB" xsi:schemaLocation="iFAB specialDetails.xsd">
+  <name>Wire Harness Example</name>
+  <attributes>
+    <wireHarness>
+      <bomLineItemQuantity>0</bomLineItemQuantity>
+      <wires>
+        <stranded>
+          <partNumberQuantity>1</partNumberQuantity>
+          <shortQuantity>1</shortQuantity>
+          <shortQuantityGauge>1</shortQuantityGauge>
+        </stranded>
+      </wires>
+      <ringForkTerminals>
+        <solderedQuantity>1</solderedQuantity>
+      </ringForkTerminals>
+      <otherTerminals>
+        <shieldTerminatorTotalQuantity>1</shieldTerminatorTotalQuantity>
+      </otherTerminals>
+      <inspectionAndTests>
+        <ipc620ProductClass>1</ipc620ProductClass>
+        <hipotTest>false</hipotTest>
+      </inspectionAndTests>
+    </wireHarness>
+  </attributes>
+  <bom>
+    <lineItem>
+      <name>15 Gauge Wire</name>
+      <fabricated>false</fabricated>
+      <manufacturer>ABC Corporation</manufacturer>
+      <partNumber>0000-0000001</partNumber>
+      <description>15 Gauge Wire</description>
+      <quantity>1</quantity>
+      <unitOfMeasure>ft</unitOfMeasure>
+      <unitCost>2.99</unitCost>
+      <leadTime>5</leadTime>
+    </lineItem>
+  </bom>
+</iFAB:specialDetail>

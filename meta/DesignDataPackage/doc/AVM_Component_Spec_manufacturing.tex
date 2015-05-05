@@ -1,0 +1,809 @@
+\section{Manufacturing Domain Model Specification}
+The iFAB Foundry Data Specification is a collection of XML schemas that describe the information required to analyze, procure, and manufacture a design.  The information can be divided into two groups, component information and assembly information.  Textual descriptions of the information are provided in the sections below and the xsd schemas are provided as appendices.
+\subsection{Overview}
+\subsubsection{Manufacturing Related Component Information}
+In general, there are 3 types of components: Commercial Off the Shelf (COTS), Make to Order (MTO), and custom manufactured.  Each of these component types require specific information that is used to analyze, source, procure, and manufacture.   Each component type will be defined and a schema that can be used to fully define the component is provided in the following sections.
+
+\subsection{Core Concepts}
+\subsubsection{Commercial Off the Shelf}
+Commercial Off the Shelf (COTS) components refer to components that can be purchased from a vendor, or a set of vendors, as a fully defined component with published/quoted purchasing, cost, lead time, and qualification information.  An example of a COTS component would be an engine in a catalogue with known contact information for the manufacturer or supplier.
+
+Included in the COTS component type are components that are already owned by the designer/government that are labeled as Government Off the Shelf (GOTS).  Also known as Government Furnished Equipment (GFE), these components are similar to COTS components in that all of the purchasing information is known and can be readily provided to analyze, procure, and manufacture the component.
+
+\subsubsection{Make to Order}
+Make to order components are defined as components with an established manufacturing/vendor base that produce parameterized components.  For example drive shafts with specified lengths and diameters.  Where the drive shaft material and available lengths and diameters are given in a catalogue and can be purchased from the vendor or manufacturer.
+
+Both COTS and MTO components are considered purchased components and follow the purchased component schema.  There are several data elements required for purchased components.
+Commercial Off the Shelf  and Make to Order Required Information
+\begin{itemize}
+\item Cost - for a specified order quantity
+\item Lead time - for a specified order quantity
+\item Packaging – Pallet, box, crate, pieces
+\item Transportation Needs – temperature controlled, hazardous material, or both
+\item Vendor/Manufacturer contact information – CAGE code, catalogue number part description, shipping dimensions, shipping mass, shipped from address
+\end{itemize}
+
+\subsection{Custom manufactured Components}
+Custom manufactured components are the components that are to be made in the iFAB Foundry distributed manufacturing environment and include things like brackets, sheet metal boxes, hoses, plate metal, etc.  In order to properly analyze and construct a custom manufactured part, this type has been further subdivided into several classes.  These part classes include machined, casting, forging, plate, pipe bar and tube, additive, polymer, and plastic.
+
+Common Custom Manufactured Component Required Information
+\begin{itemize}
+\item Material – Aluminum, alloy steel, carbon steel, stainless steel (Specific alloys are further specified)
+\item Inorganic Coating – Black chrome, sulfuric acid anodized, hard coat anodized, manganese phosphate, black oxide, nickel, 		zinc phosphate
+\item Organic Coating (Painted) – CARC, non-CARC
+\item General tolerance information
+\subitem Curved Surface Tolerances – General (mm), Surface Roughness (um).
+\subitem Curved Wall Tolerances – General (mm), Surface Roughness (um).
+\subitem Simple Hole Tolerances – Diametrical (mm), Positional (mm), Surface Roughness (um)
+\item Holes threaded (yes/no)
+\end{itemize}
+
+Machined Part Class Required Information
+\begin{itemize}
+\item Covered by the common information
+\end{itemize}
+
+Plate/Sheet Part
+\begin{itemize}
+\item Common information
+\subitem Material, Coatings, Simple Hole Tolerances
+\item Tolerance information
+\subitem Planar Face Tolerances – General (mm), Surface Roughness (um).
+\subitem Complex Hole Tolerances – General (mm), Surface Roughness (um).
+\subitem Bend Angle Tolerance
+\end{itemize}
+
+Pipe/Bar/Tube Components
+\begin{itemize}
+\item Common information
+\subitem Material, Coatings, Simple Hole Tolerances
+\item Tolerance information
+\subitem Ends Tolerances – General (mm), Surface Roughness (um).
+\subitem Complex Hole Tolerances – General (mm), Surface Roughness (um).
+\subitem Bend Angle Tolerance
+\end{itemize}
+
+\subsection{Manufacturing Related Assembly Information}
+
+Manufacturing assembly information describes how any two or more components are joined together in the context of an assembly.  This information is used to analyze and manufacture a given design using the iFAB Foundry manufacturing capabilities.
+
+Two components can be joined together in several different ways.  This specification document describes a subset of the total number of joining mechanisms, which represent the most common mechanisms for military ground vehicle manufacturing.  This subset also encompasses the joining mechanisms that can be automatically assessed using the iFAB Foundry tools.
+
+The assembly joining operations include, mechanical, welded, and bonded/epoxy.
+
+Mechanical Joins refer to connections that are fastened by bolts, fasteners, or compression fits.
+
+Mechanical Join Required Information
+\begin{itemize}
+\item Fastening Method
+\subitem Bolted
+\item Fastener Quantity (integer)
+\item Required Torque (NM; real)
+\subitem Bolted Blind
+\item Fastener Quantity (integer)
+\item Required Torque (NM; real)
+\subitem Machined Screw
+\item Fastener Quantity (integer)
+\item Required Torque (NM; real)
+\subitem Press Fit
+\item Required Force (NM; real)
+\subitem Snap Fit
+\subitem Crimp/Clamp Fit
+\item Required Force (NM; real)
+\end{itemize}
+
+Welded Joins refer to connections between components/piece parts that are welded in place.
+
+Welded Join Required Information
+\begin{itemize}
+\item Weld Type
+\subitem Seam
+\subitem Stitch
+\subitem Spot
+\item Weld Penetration
+\subitem Full
+\subitem Partial
+\item Weld Length (mm; real)
+\item Two-Sided Weld (enumeration; yes/no)
+\item Inspection Requirement (enumeration)
+\subitem Visual
+\subitem X-Ray
+\subitem Ultrasonic
+\item Joint Type (enumeration)
+\subitem Butt
+\subitem Corner
+\subitem Edge
+\subitem Lap
+\subitem Tree
+\item Part 1 Name (String)
+\item Part 1 Thickness (Real)
+\item Part 1 Material (String)
+\item Part 2 Name (String)
+\item Part 2 Thickness (Real)
+\item Part 2 Material (String)
+\item …
+\end{itemize}
+
+Bonded/Epoxy Joins refer to connections between two or more components/piece parts that are joined by glue or epoxy.
+
+Bonded/Epoxy Join Required Information
+\begin{itemize}
+\item Material (String)
+\item Volume (mm3; real)
+\end{itemize}
+
+\subsection{XML Schemas}
+\subsubsection{Manufacturing Details Component XML Schema}
+\lstset{language=XML}
+\begin{lstlisting}
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:appinfo>iFAB Foundry BOM Part Manufacturing Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This schema defines an XML file for representing the manufacturing details for parts.</xs:documentation>
+  </xs:annotation>
+
+  <xs:include schemaLocation="common.xsd" />
+  <xs:include schemaLocation="materials.xsd" />
+  <xs:include schemaLocation="procurementDetails.xsd" />
+
+  <xs:element name="manufacturingDetails">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="purchased" type="purchased" />
+        <xs:element name="machined" type="machined" />
+        <xs:element name="casting" type="casting" />
+        <!-- <xs:element name="forging" type="forging" /> -->
+        <xs:element name="plate" type="plate" />
+        <xs:element name="pipeBarTube" type="pipeBarTube" />
+        <!-- <xs:element name="additive" type="additive" /> -->
+        <!-- <xs:element name="polymer" type="polymer" /> -->
+        <!-- <xs:element name="plastic" type="plastic" /> -->
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="baseClass" abstract="true">
+    <xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="purchased">
+    <xs:complexContent>
+      <xs:extension base="baseClass">
+        <xs:sequence>
+          <xs:element name="NSN" type="xs:string" minOccurs="0" />
+          <!-- for backwards compatibility, too be removed -->
+          <xs:choice minOccurs="1">
+            <xs:element name="supplier" type="supplier" />
+            <xs:element name="fabricationSupplier" type="fabricationSupplier" />
+            <xs:element name="manufacturer" type="manufacturer" />
+
+            <xs:element name="historicalSupplier" type="historicalSupplier" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="machined">
+    <xs:complexContent>
+      <xs:extension base="baseClass">
+        <xs:all>
+          <xs:element name="material" type="machinedMaterials" />
+          <xs:element name="planarFaces" type="generalTolerance" />
+          <xs:element name="curvedSurfaces" type="generalTolerance" />
+          <xs:element name="curvedWalls" type="generalTolerance" />
+          <xs:element name="simpleHoles" type="simpleHoles" />
+          <xs:element name="inorganicCoatings" type="inorganicCoatings" minOccurs="0" />
+          <xs:element name="organicCoatings" type="organicCoatings" minOccurs="0" />
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="casting">
+    <xs:complexContent>
+      <xs:extension base="baseClass">
+        <xs:all>
+          <xs:element name="material" type="castingMaterials" />
+          <xs:element name="planarFaces" type="castingGeneralTolerance" />
+          <xs:element name="curvedSurfaces" type="castingGeneralTolerance" />
+          <xs:element name="curvedWalls" type="castingGeneralTolerance" />
+          <xs:element name="simpleHoles" type="castingSimpleHoles" />
+          <!-- <xs:element ref="heatTreatment" minOccurs="0" /> -->
+          <xs:element name="inorganicCoatings" type="inorganicCoatings" minOccurs="0" />
+          <xs:element name="organicCoatings" type="organicCoatings" minOccurs="0" />
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+
+
+  <!--
+  <xs:complexType name="forging">
+    <xs:complexContent>
+      <xs:extension base="baseClass">
+        <xs:all>
+          <xs:element ref="baseMaterial" />
+          <xs:element ref="material" />
+          <xs:element ref="planarFaces" />
+          <xs:element ref="curvedSurfaces" />
+          <xs:element ref="curvedWalls" />
+          <xs:element ref="simpleHoles" />
+          <xs:element ref="heatTreatment" minOccurs="0" />
+          <xs:element ref="inorganicCoatings" minOccurs="0" />
+          <xs:element ref="organicCoatings" minOccurs="0" />
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  -->
+
+  <xs:complexType name="plate">
+    <xs:complexContent>
+      <xs:extension base="baseClass">
+        <xs:all>
+          <xs:element name="material" type="plateSheetMaterials" />
+          <xs:element name="planarFaces" type="generalTolerance" />
+          <xs:element name="bends" type="bends" />
+          <xs:element name="simpleHoles" type="simpleHoles" />
+          <xs:element name="complexHoles" type="generalTolerance" />
+          <xs:element name="inorganicCoatings" type="inorganicCoatings" minOccurs="0" />
+          <xs:element name="organicCoatings" type="organicCoatings" minOccurs="0" />
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="pipeBarTube">
+    <xs:complexContent>
+      <xs:extension base="baseClass">
+        <xs:all>
+          <xs:element name="material" type="pipeBarTubeMaterials" />
+          <xs:element name="ends" type="ends" />
+          <xs:element name="bends" type="bends" />
+          <xs:element name="simpleHoles" type="simpleHoles" />
+
+          <xs:element name="complexHoles" type="generalTolerance" />
+          <xs:element name="inorganicCoatings" type="inorganicCoatings" minOccurs="0" />
+          <xs:element name="organicCoatings" type="organicCoatings" minOccurs="0" />
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!--
+  <xs:complexType name="additive">
+    <xs:complexContent>
+      <xs:extension base="baseClass">
+        <xs:all>
+          <xs:element ref="baseMaterial" />
+          <xs:element ref="material" />
+          <xs:element ref="planarFaces" />
+          <xs:element ref="curvedSurfaces" />
+          <xs:element ref="curvedWalls" />
+          <xs:element ref="simpleHoles" />
+          <xs:element ref="heatTreatment" minOccurs="0" />
+          <xs:element ref="inorganicCoatings" minOccurs="0" />
+          <xs:element ref="organicCoatings" minOccurs="0" />
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="polymer">
+    <xs:complexContent>
+      <xs:extension base="baseClass">
+        <xs:all>
+          <xs:element ref="baseMaterial" />
+          <xs:element ref="material" />
+          <xs:element ref="planarFaces" />
+          <xs:element ref="curvedSurfaces" />
+          <xs:element ref="curvedWalls" />
+          <xs:element ref="simpleHoles" />
+          <xs:element ref="organicCoatings" minOccurs="0" />
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+
+  <xs:complexType name="plastic">
+    <xs:complexContent>
+      <xs:extension base="baseClass">
+        <xs:all>
+          <xs:element ref="baseMaterial" />
+          <xs:element ref="material" />
+          <xs:element ref="process" />
+          <xs:element ref="planarFaces" />
+          <xs:element ref="curvedSurfaces" />
+          <xs:element ref="curvedWalls" />
+          <xs:element ref="simpleHoles" />
+          <xs:element ref="organicCoatings" minOccurs="0" /> 
+       </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  -->
+
+  <!-- <xs:element name="heatTreatment" type="heatTreatment" /> -->
+  <!-- <xs:element name="surfaceTreatment" type="surfaceTreatmentType" default="None" /> -->
+
+  <xs:complexType name="bends">
+    <xs:all>
+      <xs:element name="bendAngleTolerance" type="angle" default="0.1" />
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="castingGeneralTolerance">
+    <xs:all>
+      <xs:element name="generalTolerance" type="length" default="0.254" />
+      <xs:element name="surfaceRoughness" type="length" default="0.006352" />
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="castingSimpleHoles">
+    <xs:all>
+      <xs:element name="diametricalTolerance" type="length" default="0.254" />
+      <xs:element name="positionalTolerance" type="length" default="0.254" />
+      <xs:element name="surfaceRoughness" type="length" default="0.006352" />
+      <xs:element name="threaded" type="xs:boolean" default="false" />
+    </xs:all>
+  </xs:complexType>
+
+
+  <xs:complexType name="ends">
+    <xs:all>
+      <xs:element name="generalTolerance" type="length" default="0.254" />
+      <xs:element name="surfaceRoughness" type="length" default="0.003176" />
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="generalTolerance">
+    <xs:all>
+      <xs:element name="generalTolerance" type="length" default="0.127" />
+      <xs:element name="surfaceRoughness" type="length" default="0.001588" />
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="simpleHoles">
+    <xs:all>
+      <xs:element name="diametricalTolerance" type="length" default="0.127" />
+      <xs:element name="positionalTolerance" type="length" default="0.127" />
+      <xs:element name="surfaceRoughness" type="length" default="0.001588" />
+      <xs:element name="threaded" type="xs:boolean" default="false" />
+    </xs:all>
+  </xs:complexType>
+
+  <!-- heat treatment option is currently disabled
+
+  <xs:complexType name="heatTreatment">
+    <xs:all>
+      <xs:element name="type" type="heatTreatmentType" />
+      <xs:element name="hardness" type="hardness" />
+    </xs:all>
+  </xs:complexType>
+
+-->
+
+  <xs:complexType name="inorganicCoatings">
+    <xs:sequence>
+      <xs:element name="inorganicCoating" type="inorganicCoatingType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="organicCoatings">
+    <xs:sequence>
+      <xs:element name="organicCoating" type="organicCoatingType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- the heat treatment option is currently disabled (derived from properties)
+
+  <xs:simpleType name="heatTreatmentType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Annealing" />
+      <xs:enumeration value="Hardening" />
+      <xs:enumeration value="Tempering" />
+      <xs:enumeration value="Surface Carburizing" />
+      <xs:enumeration value="Carbon Restoration" />
+      <xs:enumeration value="Induction Hardening" />
+    </xs:restriction>
+  </xs:simpleType>
+-->
+
+  <!-- the surface treatment option is currently disabled
+  <xs:simpleType name="surfaceTreatmentType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Shot Peening" />
+      <xs:enumeration value="Blasting" />
+    </xs:restriction>
+  </xs:simpleType>
+
+-->
+
+  <xs:simpleType name="inorganicCoatingType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Black Chrome" />
+      <xs:enumeration value="Cadmium" />
+      <xs:enumeration value="Sulfuric Acid Annodize" />
+      <xs:enumeration value="Hard Coat Annodize" />
+      <xs:enumeration value="Manganese Phosphate" />
+      <xs:enumeration value="Black Oxide" />
+      <xs:enumeration value="Nickel" />
+      <xs:enumeration value="Zinc Phosphate" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="organicCoatingType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="CARC" />
+      <xs:enumeration value="non-CARC" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="processType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Injection Molding" />
+      <xs:enumeration value="Blow Molding" />
+      <xs:enumeration value="Roto Molding" />
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <!-- Purchased part elements defined below -->
+
+  <xs:complexType name="CAGECode">
+    <xs:sequence>
+      <xs:element name="code" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CAGEInformation">
+    <xs:complexContent>
+      <xs:extension base="contactInfo">
+        <xs:sequence>
+          <xs:element name="companyName" type="xs:string" minOccurs="0" />
+          <xs:element name="faxNumber" type="phoneNumber" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CAGE">
+    <xs:sequence>
+      <xs:element name="CAGEIdentifier">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+              <xs:element name="CAGECode" type="CAGECode" />
+              <xs:element name="CAGEInformation" type="CAGEInformation" />
+            </xs:choice>
+            <xs:element name="componentInfo" type="xs:anyURI" minOccurs="0" />
+            <xs:element name="sourcingAndProcurement" minOccurs="0">
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                  <xs:element name="COTS" type="COTS" />
+                  <xs:element name="GFE" type="GFE" />
+                  <xs:element name="MTO" type="MTO" />
+                  <xs:element name="curation" type="curation" />
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="packaging">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Pallet" />
+      <xs:enumeration value="Box" />
+      <xs:enumeration value="Crate" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="transportationNeeds">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="transportationNeed" type="transportationNeed" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="transportationNeed">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="TemperatureControl" />
+      <xs:enumeration value="HazardousMaterial" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="shipmentOptions">
+    <xs:sequence minOccurs="1" maxOccurs="unbounded">
+      <xs:element name="shipmentOption" type="shipmentOption" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="shipmentOption">
+    <xs:sequence>
+      <xs:element name="minimumQuantity" type="xs:nonNegativeInteger" minOccurs="0" default="0" />
+      <xs:element name="maximumQuantity" type="xs:nonNegativeInteger" minOccurs="0" default="1000000000" />
+      <xs:element name="leadTime" type="duration" />
+      <xs:element name="leadTimeUncertainty" type="xs:double" minOccurs="0" default="0.0" />
+      <xs:element name="deliveryRate" type="duration" minOccurs="0" />
+      <xs:element name="price" type="price" />
+      <xs:element name="shipmentLength" type="length" minOccurs="0" />
+      <xs:element name="shipmentWidth" type="length" minOccurs="0" />
+      <xs:element name="shipmentHeight" type="length" minOccurs="0" />
+      <xs:element name="shipmentWeight" type="weight" minOccurs="0" />
+      <xs:element name="packaging" type="packaging" minOccurs="0" default="Pallet" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="supplier">
+    <xs:complexContent>
+      <xs:extension base="CAGE">
+        <xs:sequence>
+          <xs:element name="catalogNumber" type="xs:string" minOccurs="0" />
+          <xs:element name="partDescription" type="xs:string" minOccurs="0" />
+          <xs:element name="FOB" type="FOB" minOccurs="0" default="destination" />
+          <xs:element name="paymentTerms" type="xs:string" minOccurs="0" />
+          <xs:element name="shipmentOptions" type="shipmentOptions" />
+          <xs:element name="shippingAddress" type="companyInfo" />
+          <xs:element name="transportationNeeds" type="transportationNeeds" minOccurs="0" />
+          <xs:element name="unitOfIssue" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="fabricationSupplier">
+    <xs:complexContent>
+      <xs:extension base="CAGE">
+        <xs:sequence>
+          <xs:element name="catalogNumber" type="xs:string" minOccurs="0" />
+          <xs:element name="partDescription" type="xs:string" minOccurs="0" />
+          <xs:element name="FOB" type="FOB" minOccurs="0" default="destination" />
+          <xs:element name="paymentTerms" type="xs:string" minOccurs="0" />
+          <xs:element name="shipmentOptions" type="shipmentOptions" />
+          <xs:element name="shippingAddress" type="companyInfo" />
+          <xs:element name="transportationNeeds" type="transportationNeeds" minOccurs="0" />
+          <xs:element name="unitOfIssue" type="xs:string" minOccurs="0" />
+          <xs:element name="productionPartCost" type="price" />
+          <xs:element name="productionPartCostUncertainty" type="xs:double" minOccurs="0" default="0.0" />
+          <xs:element name="productionPartNRECost" type="price" />
+          <xs:element name="productionPartToolingCost" type="price" />
+          <xs:element name="productionQuantity" type="xs:nonNegativeInteger" minOccurs="0" default="50" />
+          <xs:element name="prototypePartCost" type="price" />
+          <xs:element name="prototypeCostUncertainty" type="xs:double" minOccurs="0" default="0.0" />
+          <xs:element name="prototypeNRECost" type="price" />
+          <xs:element name="prototypePartToolingCost" type="price" />
+          <xs:element name="prototypeQuantity" type="xs:nonNegativeInteger" minOccurs="0" default="1" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- this should be avoided since no information is provided for automated analysis -->
+  <xs:complexType name="manufacturer">
+    <xs:complexContent>
+      <xs:extension base="CAGE">
+        <xs:sequence>
+          <xs:element name="partDescription" type="xs:string" />
+          <xs:element name="partNumber" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- this should be avoided since information is missing for automated analysis -->
+  <xs:complexType name="historicalSupplier">
+    <xs:complexContent>
+      <xs:extension base="CAGE">
+        <xs:sequence>
+          <xs:element name="lastPurchased" type="xs:date" minOccurs="0" />
+          <xs:element name="price" type="price" />
+          <xs:element name="priceRangeMinimum" type="price" minOccurs="0" />
+          <xs:element name="priceRangeMaximum" type="price" minOccurs="0" />
+          <xs:element name="quantity" type="xs:nonNegativeInteger" minOccurs="0" default="1" />
+          <xs:element name="unitOfIssue" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>
+\end{lstlisting}
+
+\subsubsection{Assembly XML Schema}
+\begin{lstlisting}
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:annotation>
+    <xs:appinfo>iFAB Foundry Assembly Details XML Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This schema defines an XML file for representing assembly details.</xs:documentation>
+  </xs:annotation>
+
+  <xs:include schemaLocation="common.xsd" />
+
+  <xs:element name="assemblyDetails">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="mechanical" type="mechanical" />
+        <xs:element name="welded" type="welded" />
+        <xs:element name="soldered" type="soldered" />
+        <xs:element name="brazed" type="brazed" />
+        <xs:element name="glued" type="glued" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="baseSeam" abstract="true">
+    <xs:sequence>
+      <xs:element name="part1" type="part" />
+      <xs:element name="part2" type="part" />
+      <xs:element name="description" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute ref="id" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="mechanical">
+    <xs:complexContent>
+      <xs:extension base="baseSeam">
+        <xs:sequence>
+          <xs:element name="fasteningMethod" type="fasteningMethod" />
+          <xs:element name="fasteningQuantity" type="xs:positiveInteger" minOccurs="0" default="1" />
+          <xs:element name="torque" type="torque" minOccurs="0" />
+          <xs:element name="force" type="force" minOccurs="0" />
+          <xs:element name="components" type="components" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="welded">
+    <xs:complexContent>
+      <xs:extension base="baseSeam">
+        <xs:sequence>
+          <xs:element name="length" type="length" />
+          <xs:element name="jointType" type="jointType" />
+          <xs:element name="weldType" type="weldType" />
+          <xs:element name="weldPenetration" type="weldPenetration" />
+          <xs:element name="twoSided" type="xs:boolean" />
+          <xs:element name="inspectionRequirement" type="inspectionRequirement" />
+
+          <xs:element name="part1Thickness" type="length" />
+          <xs:element name="part1Material" type="baseMaterial" />
+          <xs:element name="part2Thickness" type="length" />
+          <xs:element name="part2Material" type="baseMaterial" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="soldered">
+    <xs:complexContent>
+      <xs:extension base="baseSeam">
+        <xs:sequence>
+          <xs:element name="length" type="length" />
+          <xs:element name="fillerMaterial" type="fillerMaterial" />
+          <xs:element name="fluxMaterial" type="fluxMaterial" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="brazed">
+    <xs:complexContent>
+      <xs:extension base="baseSeam">
+        <xs:sequence>
+          <xs:element name="length" type="length" />
+          <xs:element name="fillerMaterial" type="fillerMaterial" />
+          <xs:element name="fluxMaterial" type="fluxMaterial" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="glued">
+    <xs:complexContent>
+      <xs:extension base="baseSeam">
+        <xs:sequence>
+          <xs:element name="length" type="length" />
+          <xs:element name="volume" type="volume" />
+          <xs:element name="material" type="glue" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="baseMaterial">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Al" />
+      <xs:enumeration value="Plain Carbon Steel" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="fillerMaterial">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <xs:simpleType name="fluxMaterial">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <xs:simpleType name="glue">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <xs:complexType name="components">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="component" type="component" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="component">
+    <xs:attribute ref="id" use="required" />
+    <xs:attribute name="number" type="xs:string" use="optional" />
+    <xs:attribute name="description" type="xs:string" use="optional" />
+    <xs:attribute name="quantity" type="xs:positiveInteger" use="required" />
+  </xs:complexType>
+
+  <xs:simpleType name="fasteningMethod">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Bolted" />
+      <xs:enumeration value="Bolted (blind)" />
+      <xs:enumeration value="Machined Screw" />
+      <xs:enumeration value="Press Fit" />
+      <xs:enumeration value="Snap Fit" />
+      <xs:enumeration value="Crimp/Clamp Fit" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="jointType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Butt" />
+      <xs:enumeration value="Corner" />
+      <xs:enumeration value="Edge" />
+      <xs:enumeration value="Lap" />
+      <xs:enumeration value="Tee" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="weldType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Seam" />
+      <xs:enumeration value="Stitch" />
+      <xs:enumeration value="Spot" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="weldPenetration">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Full" />
+      <xs:enumeration value="Partial" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="inspectionRequirement">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Visual" />
+      <xs:enumeration value="X-Ray" />
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <xs:complexType name="part">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute ref="id" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+</xs:schema>
+\end{lstlisting}
