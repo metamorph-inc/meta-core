@@ -1,0 +1,14 @@
+*.sdf
+*.suo
+*.opensdf
+# *.mga
+*.vcxproj.user
+*.csproj.user
+Thumbs.db
+# see "also How to manage projects under Version Control Systems" https://intellij-support.jetbrains.com/entries/23393067
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+*.ncrunchproject
+*.ncrunchsolution
+tonka/tonka.ncrunchsolution.user
+UpgradeLog.htm
