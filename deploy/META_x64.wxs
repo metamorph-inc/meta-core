@@ -12,7 +12,7 @@
         Manufacturer='Vanderbilt University, ISIS'
         InstallerVersion='300' Languages='1033' Compressed='yes' SummaryCodepage='1252'
         InstallPrivileges='elevated' InstallScope='perMachine' Platform='x64'
-		Comments='Created from SVN r$(var.SVNVERSION)'/>
+		Comments='Created from $(var.SVNVERSION) ($(var.GITVERSION))'/>
 
     <Upgrade Id="$(var.UpgradeCode)">
       <UpgradeVersion Minimum="$(var.VERSIONSTR)" OnlyDetect="yes" Property="NEWERFOUND"/>
@@ -351,7 +351,6 @@
       <ComponentGroupRef Id="CyPhySignalBlocksAddOn_x64"/>
       <ComponentGroupRef Id="CyPhyPython"/>
       <ComponentGroupRef Id="python_packages"/>
-      <ComponentGroupRef Id='CADPython'/>
 	  
       <ComponentGroupRef Id='CyPhyMasterInterpreter'/>
 	  <ComponentGroupRef Id='CyPhyPrepareIFab'/>

@@ -84,18 +84,18 @@ def gen_dir_from_vc(src, output_filename=None, id=None, diskId=None):
         return dir_
 
     import subprocess
-    # n.b. instead of `svn ls`, `svn status` is used to include files that are to be added (aka status=='A', Schedule: add)
-    svn_status = subprocess.Popen('svn status -v --no-ignore -q --depth infinity'.split() + [src], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    # git ls-files should show files to-be-added too
+    svn_status = subprocess.Popen('git ls-files'.split() + [src], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = svn_status.communicate()
     exit_code = svn_status.poll()
     if exit_code != 0:
         raise Exception('svn status failed: ' + err)
-    for filename in (line[41:] for line in out.splitlines()):
+    for filename in (line.replace("/", "\\") for line in out.splitlines()):
         #print filename
         if filename == src: continue
         if os.path.isdir(filename): continue
         dir_ = get_dir(os.path.dirname(filename))
-            
+
         component = SubElement(component_group, 'Component')
         component.set('Directory', dir_.attrib['Id'])
         component.set('Id', 'cmp_' + hashlib.md5(filename).hexdigest())
@@ -108,7 +108,7 @@ def gen_dir_from_vc(src, output_filename=None, id=None, diskId=None):
 
     _indent(wix)
     ElementTree.ElementTree(wix).write(output_filename, xml_declaration=True, encoding='utf-8')
-    
+
 
 def main(src, output_filename=None, id=None, diskId=None):
     add_wix_to_path()
@@ -136,7 +136,7 @@ def main(src, output_filename=None, id=None, diskId=None):
     parent_map = dict((c, p) for p in tree.getiterator() for c in p)
     for file in tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}Component/{http://schemas.microsoft.com/wix/2006/wi}File"):
         file_Source = file.get('Source', '')
-        if file_Source.find('.svn') != -1 or os.path.basename(file_Source) in ('Thumbs.db', 'desktop.ini', '.DS_Store'):
+        if file_Source.find('.svn') != -1 or os.path.basename(file_Source) in ('Thumbs.db', 'desktop.ini', '.DS_Store') or file_Source.endswith('.pyc'):
             comp = parent_map[file]
             parent_map[comp].remove(comp)
     for dir in tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}Directory"):

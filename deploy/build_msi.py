@@ -14,6 +14,7 @@ import xml.etree.ElementTree as ET
 
 prefs = { 'verbose': True }
 this_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(this_dir)
 
 os.environ['PATH'] = os.environ['PATH'].replace('"', '')
 
@@ -34,7 +35,8 @@ def system(args, dirname=None):
 
 def get_nuget_packages():
     import svn_info
-    branch = svn_info.get_branch_name()
+    #branch = svn_info.get_branch_name()
+    branch = 'trunk'
     packages = None
     from xml.etree import ElementTree
     cad_packages = ElementTree.parse(r'CAD_Installs\packages.config')
@@ -47,19 +49,14 @@ def get_nuget_packages():
         if os.path.isfile(filename):
             os.unlink(filename)
     for package in cad_packages.findall('package'):
-        svnversion = { "META.CadCreoParametricCreateAssembly": svn_info.last_cad_rev,
-            "META.ExtractACM-XMLfromCreoModels": svn_info.last_cad_rev,
-            "META.CADCreoParametricMetaLink": svn_info.last_cad_rev, }[package.get('id')]()
         version = package.get('version')
-        version = svn_info.update_version(version, svnversion)
-
         print "NuGet install " + package.get('id') + " " + version
         system([r'..\src\.nuget\nuget.exe', 'install', '-ConfigFile', r'..\NuGet.config', '-PreRelease', '-Version', version, package.get('id')], os.path.join(this_dir, 'CAD_Installs'))
         package_dir = r'CAD_Installs\%s.%s' % (package.get('id'), version)
         for filename in glob.glob(package_dir + '/*'):
-            if os.path.basename(filename) == 'svnversion':
-                with open(os.path.join(this_dir, filename), 'rb') as svnversion:
-                    print filename + ': ' + svnversion.read()
+            #if os.path.basename(filename) == 'svnversion':
+            #    with open(os.path.join(this_dir, filename), 'rb') as svnversion:
+            #        print filename + ': ' + svnversion.read()
             destination_file = [fn for fn in destination_files if os.path.basename(fn) == os.path.basename(filename)]
             if not destination_file:
                 continue
@@ -107,17 +104,28 @@ def build_msi():
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
 
     def get_svnversion():
-        import subprocess
-        p = subprocess.Popen(['svnversion', '-n', adjacent_file('..')], stdout=subprocess.PIPE)
+        p = subprocess.Popen("git rev-list HEAD --count".split(), stdout=subprocess.PIPE)
         out, err = p.communicate()
-        if p.returncode:
-            raise subprocess.CalledProcessError(p.returncode, 'svnversion')
-        return out
+        return out.strip() or '5'
+        #import subprocess
+        #p = subprocess.Popen(['svnversion', '-n', adjacent_file('..')], stdout=subprocess.PIPE)
+        #out, err = p.communicate()
+        #if p.returncode:
+        #    raise subprocess.CalledProcessError(p.returncode, 'svnversion')
+        #return out
     svnversion = get_svnversion()
-
+    
     print "SVN version: " + str(get_svnversion())
     sourcedir = adjacent_file('')
+
+    def get_gitversion():
+        p = subprocess.Popen("git rev-parse --short HEAD".split(), stdout=subprocess.PIPE)
+        out, err = p.communicate()
+        #if p.returncode:
+        #    raise subprocess.CalledProcessError(p.returncode, 'svnversion')
+        return out.strip() or 'unknown'
     
+    gitversion = get_gitversion()
     
     import glob
     if len(sys.argv[1:]) > 0:
@@ -128,7 +136,10 @@ def build_msi():
     sources = []
     include_wxis = []
 
+    # For each each ComponentGroupRef in "source_wxs" and "analysis_tools.wxi",
+    # add its corresponding file to "include_wxis"
     for wxs in glob.glob(sourcedir + source_wxs) + glob.glob(sourcedir + 'analysis_tools.wxi'):
+        print 'Processing WXS: ' + wxs
         tree = ET.parse(wxs)
         root = tree.getroot()
         #print root
@@ -164,7 +175,7 @@ def build_msi():
             if node.tag == '{http://schemas.microsoft.com/wix/2006/wi}ComponentRef':
                 include_wxis.append(node.attrib['Id'].rsplit( ".", 1 )[ 0 ] + '.wxi')
                 include_wxis.append(node.attrib['Id'].rsplit( ".", 1 )[ 0 ] + '_x64.wxi')
-                
+
     sources = [source for source in sources_all if (os.path.basename(source) in include_wxis)]
     sources.append(source_wxs)
 
@@ -189,11 +200,6 @@ def build_msi():
     
     version = '14.09.'
     if 'M' in svnversion:
-        if 'JENKINS_URL' in os.environ:
-            try:
-                system('svn status -q'.split(), os.path.join(this_dir, '..'))
-            finally:
-                raise Exception('Versioned files have modifications. The build must not modify versioned files.')
         version = version + '1'
     else:
         # this will crash for switched or sparse checkouts
@@ -201,6 +207,7 @@ def build_msi():
     print 'Installer version: ' + version
     defines.append(('VERSIONSTR', version))
     defines.append(('SVNVERSION', svnversion))
+    defines.append(('GITVERSION', gitversion))
 
     from multiprocessing.pool import ThreadPool
     pool = ThreadPool()
