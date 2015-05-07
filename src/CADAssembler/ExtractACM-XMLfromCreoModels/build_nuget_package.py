@@ -9,7 +9,7 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 nuget = os.path.join(THIS_DIR, "../../.nuget/NuGet.exe")
 
 sys.path.append(os.path.join(THIS_DIR, '../../../deploy'))
-import svn_info
+import vc_info
 
 def system(args, dirname=THIS_DIR):
     subprocess.check_call(args, shell=True, cwd=dirname)
@@ -22,12 +22,12 @@ def _get_version_number(filename):
 
 def _get_version():
     version = ".".join(map(str, _get_version_number(os.path.join(THIS_DIR, r"..\x64\Release\ExtractACM-XMLfromCreoModels.exe"))))
-    return svn_info.update_version(version, svn_info.last_cad_rev())
+    return vc_info.update_version(version, vc_info.last_cad_rev())
   
 def pack_nuget():
-    with open(os.path.join(THIS_DIR, 'svnversion'), 'wb') as svnversion:
-        svnversion.write(svn_info.svnversion())
-    int(svn_info.svnversion()) # fail if there are local modifications (or partly switched, or mixed versions)
+    with open(os.path.join(THIS_DIR, 'vcinfo'), 'wb') as vcinfo:
+        vcinfo.write(vc_info.repo_rev())
+    vc_info.throw_if_modified()
     system([nuget, "pack", os.path.join(THIS_DIR, "ExtractACM-XMLfromCreoModels.nuspec"),
         "-Verbosity", "detailed",
         "-Version", _get_version(),

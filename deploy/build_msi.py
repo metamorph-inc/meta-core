@@ -34,9 +34,7 @@ def system(args, dirname=None):
         subprocess.check_call(args, stdout=(sys.stdout if prefs['verbose'] else nulfp), stderr=subprocess.STDOUT, shell=False, cwd=dirname)
 
 def get_nuget_packages():
-    import svn_info
-    #branch = svn_info.get_branch_name()
-    branch = 'trunk'
+    import vc_info
     packages = None
     from xml.etree import ElementTree
     cad_packages = ElementTree.parse(r'CAD_Installs\packages.config')
@@ -50,7 +48,12 @@ def get_nuget_packages():
         if os.path.isfile(filename):
             os.unlink(filename)
     for package in cad_packages.findall('package'):
+        svnversion = { "META.CadCreoParametricCreateAssembly": vc_info.last_cad_rev,
+            "META.ExtractACM-XMLfromCreoModels": vc_info.last_cad_rev,
+            "META.MDL2MGACyber": vc_info.last_mdl2mga_rev,
+            "META.CADCreoParametricMetaLink": vc_info.last_cad_rev, }[package.get('id')]()
         version = package.get('version')
+        version = vc_info.update_version(version, svnversion)
         print "NuGet install " + package.get('id') + " " + version
         system([r'..\src\.nuget\nuget.exe', 'install', '-ConfigFile', r'..\NuGet.config', '-PreRelease', '-Version', version, package.get('id')], os.path.join(this_dir, 'CAD_Installs'))
         package_dir = r'CAD_Installs\%s.%s' % (package.get('id'), version)
