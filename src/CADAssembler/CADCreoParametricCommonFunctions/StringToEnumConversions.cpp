@@ -1898,7 +1898,7 @@ namespace isis
 					   std::endl << "COMPUTATION_PLANE, COMPUTATION_COEFFICIENT_OF_DRAG, COMPUTATION_STRESS_MISES, COMPUTATION_STRESS_SHEAR, "  <<
 					   std::endl << "COMPUTATION_STRESS_BEARING, COMPUTATION_FACTOR_OF_SAFETY, COMPUTATION_TOTAL_INTERSECTIONS, COMPUTATION_TOTAL_KILLS, " <<
 					   std::endl <<  "MAX_VERTICAL_JUMP, MAX_VERTICAL_VELOCITY, MAX_HORIZONAL_VELOCITY, MINIMUM_TEMPERATURE, and MAXIMUM_TEMPERATURE.";
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 
 	  }
 	}
@@ -2683,8 +2683,10 @@ namespace isis
   {
 	  std::string Thermal_LoadConstraint_string = ConvertToUpperCase(in_Thermal_LoadConstraint_string);
 
-	  if      ( Thermal_LoadConstraint_string.compare("CONVECTIONHEAT") == 0 )			
-												return THERMAL_CONVECTION_HEAT;
+	  if      ( Thermal_LoadConstraint_string.compare("CONVECTIONHEAT") == 0 )	// CONVECTIONHEAT is deprecated, use CONVECTION		
+												return THERMAL_CONVECTION;
+	  else if ( Thermal_LoadConstraint_string.compare("CONVECTION") == 0 )  
+												return THERMAL_CONVECTION;
 	  else if ( Thermal_LoadConstraint_string.compare("HEATFLUX") == 0 )		
 												return THERMAL_HEAT_FLUX;
 	  else if ( Thermal_LoadConstraint_string.compare("HEATGENERATION") == 0 )		
@@ -2696,8 +2698,6 @@ namespace isis
 	  else if ( Thermal_LoadConstraint_string.compare("AMBIENTTEMPERATURE") == 0 )		
 												return THERMAL_AMBIENT_TEMPERATURE;
 
-
- 
 	  std::string temp_string = "Function Thermal_LoadConstraint_enum was passed '" + Thermal_LoadConstraint_string + "' which is an erroneous type. Allowed types are: ConvectionHeat, HeatFlux, HeatGeneration, InitialTemperature, and SpecifiedTemperature.";
 	  throw isis::application_exception(temp_string.c_str());
   }
@@ -2707,8 +2707,11 @@ namespace isis
 	{
 		switch (in_Thermal_LoadConstraint_enum )
 		{
-			case THERMAL_CONVECTION_HEAT:
-				return "ConvectionHeat";
+			case THERMAL_CONVECTION_HEAT:  // THERMAL_CONVECTION_HEAT is deprecated, use THERMAL_CONVECTION
+				return "Convection";
+				break;
+			case THERMAL_CONVECTION:
+				return "Convection";
 				break;
 			case THERMAL_HEAT_FLUX:
 				return "HeatFlux";
@@ -2729,7 +2732,7 @@ namespace isis
 				char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
 				string temp_string = "Function Thermal_LoadConstraint_string was passed " + 
 					std::string(itoa(in_Thermal_LoadConstraint_enum, temp_char_array, 10)) + 
-					" which is an erroneous type.  Allowed enum values are THERMAL_CONVECTION_HEAT, THERMAL_HEAT_FLUX, THERMAL_HEAT_GENERATION, THERMAL_INITIAL_TEMPERATURE, HERMAL_SPECIFIED_TEMPERATURE, and THERMAL_AMBIENT_TEMPERATURE.";
+					" which is an erroneous type.  Allowed enum values are THERMAL_CONVECTION, THERMAL_HEAT_FLUX, THERMAL_HEAT_GENERATION, THERMAL_INITIAL_TEMPERATURE, HERMAL_SPECIFIED_TEMPERATURE, and THERMAL_AMBIENT_TEMPERATURE.";
 				throw isis::application_exception(temp_string.c_str());
 	  }
 	}

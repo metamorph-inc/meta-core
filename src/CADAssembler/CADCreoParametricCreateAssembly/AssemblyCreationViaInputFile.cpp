@@ -110,7 +110,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 						 << std::endl << in_XMLInputFile_PathAndFileName 
 						 << ", did not define any assemblies nor did it define unassembled parts/sub-assemblies.  "
 						 << std::endl << "The input xml file must specify assemblies and/or unassembled parts/sub-assemblies."; 
-						throw isis::application_exception(errorString.str().c_str());
+						throw isis::application_exception(errorString.str());
 			}
 			logcat_fileonly.infoStream() << "************************** End Assembly Creation *****************************";
 		}
@@ -203,7 +203,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 				std::stringstream errorString;
 				errorString << "One and only one assembly allowed per analysis run (FEA, Ballistic, Blast, or  CFD).  The XML file defines " <<
 				out_CADComponentAssemblies.topLevelAssemblies.size() << std::string(" assemblies.");
-					throw isis::application_exception(errorString.str().c_str());
+					throw isis::application_exception(errorString.str());
 			}
 
 			if ( out_CADComponentAssemblies.unassembledComponents.size() != 0 )
@@ -211,7 +211,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 				std::stringstream errorString;
 				errorString << "Unassembled components were found.  Cannot perform analysis (FEA, Ballistic, Blast, or  CFD) on partial assemblies.  Number of unassembled components: " <<
 				out_CADComponentAssemblies.unassembledComponents.size();
-					throw isis::application_exception(errorString.str().c_str());
+					throw isis::application_exception(errorString.str());
 			}
 		}
 
@@ -1169,7 +1169,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 				errorString <<
 						"At least one assembly would not regenerate.  See the log file to locate the assembly/part that would not regenerate."
 						<< std::endl << "Log File: " <<  in_LogFile_PathAndFileName;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 

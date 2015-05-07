@@ -1389,6 +1389,98 @@ namespace AVM2CyPhyML {
             {
                 JoinDataTransform.TransformJoinData(assemblyDetail, cyPhyMLConnector);
             }
+
+            foreach (var kinematic in avmConnector.ConnectorFeature.OfType<avm.cad.RevoluteJointSpec>())
+            {
+                processRevoluteJoint(avmConnector, cyPhyMLConnector, kinematic);
+            }
+            foreach (var kinematic in avmConnector.ConnectorFeature.OfType<avm.cad.TranslationalJointSpec>())
+            {
+                processTranslationalJoint(avmConnector, cyPhyMLConnector, kinematic);
+            }
+        }
+
+        private void processTranslationalJoint(Connector avmConnector, CyPhyML.Connector cyPhyMLConnector, avm.cad.TranslationalJointSpec kinematic)
+        {
+            CyPhyML.KinematicTranslationalJoint joint = CyPhyMLClasses.KinematicTranslationalJoint.Create(cyPhyMLConnector);
+            joint.Name = "TranslationalJoint";
+            PortMapTarget avmDatum;
+            object cyphyDatum;
+            if (_avmPortIDMap.TryGetValue(kinematic.AlignmentPlane, out avmDatum) && _avmCyPhyMLObjectMap.TryGetValue(avmDatum, out cyphyDatum))
+            {
+                CyPhyMLClasses.KinematicJointDefinition.Connect(joint, (CyPhyML.CADDatum)cyphyDatum);
+            }
+            if (_avmPortIDMap.TryGetValue(kinematic.AlignmentAxis, out avmDatum) && _avmCyPhyMLObjectMap.TryGetValue(avmDatum, out cyphyDatum))
+            {
+                CyPhyMLClasses.KinematicJointDefinition.Connect(joint, (CyPhyML.CADDatum)cyphyDatum);
+            }
+            if (kinematic.TranslationLimitReference != null && _avmPortIDMap.TryGetValue(kinematic.TranslationLimitReference, out avmDatum) && _avmCyPhyMLObjectMap.TryGetValue(avmDatum, out cyphyDatum))
+            {
+                CyPhyMLClasses.KinematicTranslationalLimitReference.Connect(joint, (CyPhyML.Surface)cyphyDatum);
+            }
+            CreateKinematicTranslationLimit(avmConnector, joint, CyPhyMLClasses.KinematicTranslationallLimit.AttributesClass.LimitType_enum.Default, kinematic.DefaultTranslation);
+            CreateKinematicTranslationLimit(avmConnector, joint, CyPhyMLClasses.KinematicTranslationallLimit.AttributesClass.LimitType_enum.Max, kinematic.MaximumTranslation);
+            CreateKinematicTranslationLimit(avmConnector, joint, CyPhyMLClasses.KinematicTranslationallLimit.AttributesClass.LimitType_enum.Min, kinematic.MinimumTranslation);
+        }
+
+        private void processRevoluteJoint(Connector avmConnector, CyPhyML.Connector cyPhyMLConnector, avm.cad.RevoluteJointSpec kinematic)
+        {
+            CyPhyML.KinematicRevoluteJoint joint = CyPhyMLClasses.KinematicRevoluteJoint.Create(cyPhyMLConnector);
+            joint.Name = "RevoluteJoint";
+            PortMapTarget avmDatum;
+            object cyphyDatum;
+            if (_avmPortIDMap.TryGetValue(kinematic.AlignmentPlane, out avmDatum) && _avmCyPhyMLObjectMap.TryGetValue(avmDatum, out cyphyDatum))
+            {
+                CyPhyMLClasses.KinematicJointDefinition.Connect(joint, (CyPhyML.CADDatum)cyphyDatum);
+            }
+            if (_avmPortIDMap.TryGetValue(kinematic.AlignmentAxis, out avmDatum) && _avmCyPhyMLObjectMap.TryGetValue(avmDatum, out cyphyDatum))
+            {
+                CyPhyMLClasses.KinematicJointDefinition.Connect(joint, (CyPhyML.CADDatum)cyphyDatum);
+            }
+            if (kinematic.RotationLimitReference != null && _avmPortIDMap.TryGetValue(kinematic.RotationLimitReference, out avmDatum) && _avmCyPhyMLObjectMap.TryGetValue(avmDatum, out cyphyDatum))
+            {
+                CyPhyMLClasses.KinematicRotationalLimitReference.Connect(joint, (CyPhyML.Surface)cyphyDatum);
+            }
+            CreateKinematicRotationalLimit(avmConnector, joint, CyPhyMLClasses.KinematicRotationalLimit.AttributesClass.LimitType_enum.Default, kinematic.DefaultRotation);
+            CreateKinematicRotationalLimit(avmConnector, joint, CyPhyMLClasses.KinematicRotationalLimit.AttributesClass.LimitType_enum.Max, kinematic.MaximumRotation);
+            CreateKinematicRotationalLimit(avmConnector, joint, CyPhyMLClasses.KinematicRotationalLimit.AttributesClass.LimitType_enum.Min, kinematic.MinimumRotation);
+        }
+
+        private void CreateKinematicRotationalLimit(Connector avmConnector, CyPhyML.KinematicRevoluteJoint joint, CyPhyMLClasses.KinematicRotationalLimit.AttributesClass.LimitType_enum limitType, Value value)
+        {
+            CreateKinematicLimit(avmConnector, joint, cyphyParam =>
+            {
+                var limit = CyPhyMLClasses.KinematicRotationalLimit.Connect((CyPhyML.Parameter)cyphyParam, joint);
+                limit.Attributes.LimitType = limitType;
+            }, value);
+        }
+
+        private void CreateKinematicTranslationLimit(Connector avmConnector, CyPhyML.KinematicTranslationalJoint joint, CyPhyMLClasses.KinematicTranslationallLimit.AttributesClass.LimitType_enum limitType, Value value)
+        {
+            CreateKinematicLimit(avmConnector, joint, cyphyParam =>
+            {
+                var limit = CyPhyMLClasses.KinematicTranslationallLimit.Connect(joint, (CyPhyML.Parameter)cyphyParam);
+                limit.Attributes.LimitType = limitType;
+            }, value);
+        }
+
+        private void CreateKinematicLimit(Connector avmConnector, CyPhyML.KinematicJoint joint, Action<CyPhyML.Parameter> act, Value value)
+        {
+            if (value != null && value.ValueExpression is avm.DerivedValue)
+            {
+                var valueSource = (value.ValueExpression as avm.DerivedValue).ValueSource;
+                KeyValuePair<ValueNode, object> avmValueSource;
+                if (!_avmValueNodeIDMap.TryGetValue(valueSource, out avmValueSource))
+                {
+                    throw new ApplicationException(String.Format("Value source '{0}' is not defined for Kinematic joint in Connector '{1}'",
+                        valueSource, avmConnector.Name));
+                }
+                object cyphyParam;
+                if (_avmCyPhyMLObjectMap.TryGetValue(avmValueSource.Value, out cyphyParam))
+                {
+                    act((CyPhyML.Parameter)cyphyParam);
+                }
+            }
         }
 
         protected void processPorts()

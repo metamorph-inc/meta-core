@@ -244,7 +244,8 @@ def decideAnchoredPart(anchorID, anchorPointID, instRef, myModel):
         anchorX = float(refPntLocSplit[0])
         anchorY = float(refPntLocSplit[1])
         anchorZ = float(refPntLocSplit[2])
-
+        
+        # Iterate over each entry in the instance ref dictionary to determine which is the anchored part.
         for key in instRef:
             if anchorID == instRef[key]['ComponentID']:
                 anchoredPart = key
@@ -303,20 +304,23 @@ def EliminateOverlaps(instRef, rigidParts, myAsm, myModel):
     noOverlap = True
     logger.info("**********************************************************************************\n")
     logger.info("Checking for overlapping (buy) parts")
-    for rigid in rigidParts:
-        for (key, entry) in instRef.iteritems():
+    for rigid in rigidParts:  # Loop through all rigidly-defined parts.
+        for (key, entry) in instRef.iteritems():  # Iterate over each item in the instRef.
             if not rigid == key:
                 try:
                     newName = 'temp_' + str(count)
                     obsName = 'obs_' + str(count)
                     myAsm.InstanceFromBooleanCut(name=newName, instanceToBeCut=myAsm.instances[rigid],
                                                  cuttingInstances=(myAsm.instances[key],), originalInstances=DELETE)
+                    # Change part names within Abaqus
                     myModel.parts.changeKey(fromName=rigid, toName=obsName)
                     myModel.parts.changeKey(fromName=newName, toName=rigid)
                     p = myModel.parts[key]
-                    myAsm.Instance(name=key, part=p, dependent=OFF)
+                    myAsm.Instance(name=key, part=p, dependent=OFF)  # Set assembly instance to be independent of Abaqus part.
                     for newi in myAsm.instances.keys():
                         if newi.startswith(newName):
+                            # If the assembly instance name starts with the searched for name, change the isntance's name
+                            # to the rigid name. 
                             myAsm.features.changeKey(fromName=newi, toName=rigid)
                             myAsm.makeIndependent(instances=(myAsm.instances[rigid], ))
                     logger.info("Eliminating overlap between " + str(rigid) + ' and ' + str(key) + '\n')
@@ -382,6 +386,34 @@ def defineRigidBodyConstraints(instRef, Jan24_deactivate_rigidity,
         cad_library.exitwitherror('Error during defining rigid body constraints.', -1, 'AbaqusCAE.py')
 
 
+def createReferencePoint(myAsm, surface):
+    """ Create reference point given instance and desired instance surface. """
+    refPoint = myAsm.ReferencePoint(surface.pointOn[0])
+    return refPoint
+
+
+def createCouplingConstraint(myModel, instance, refPoint, coupleType):
+    """ Create coupling object between a reference point and type of coupling. """
+    abqType = {'kinematic': KINEMATIC, 'distributing': DISTRIBUTING}
+    if coupleType not in abqType:
+        cad_library.exitwitherror('Invalid Coupling type constraint. Valid options ' +
+                                  'are KINEMATIC or DISTRIBUTING.', -1)
+    refPnt = (refPoint.xValue, refPoint.yValue, refPoint.zValue)
+    regionMask = myMask(instance.faces.findAt(refPnt).index)
+    maskRegion = instance.faces.getSequenceFromMask(mask=(regionMask,),)
+    surfaceRegion = myModel.rootAssembly.Surface(side1Faces=maskRegion, name=instance.name+'_RefPntRegion')
+    rp = myModel.rootAssembly.referencePoints[refPoint.id]
+    refPointRegion = regionToolset.Region(referencePoints=(rp,))
+    myModel.Coupling(name='Coupling_'+instance.name, surface=surfaceRegion, controlPoint=refPointRegion,
+                     influenceRadius=WHOLE_SURFACE, couplingType=abqType[coupleType])
+
+
+def applyMoment(myModel, moment, instanceName, nodeSet, step, amp):
+    """ Apply moment to reference point associated with given instance. """
+    myModel.Moment(name='Moment_'+instanceName, createStepName=step, region=nodeSet,
+                   cm1=moment[0], cm2=moment[1], cm3=moment[2], amplitude=amp)
+
+
 def apply_flat_face_load(myModel, myAsm, myStep, partDatums, instIndex, args, amp,
                          instAssemblyIndex, entry, uniqueName, datumPointDict, faceCount):    
     """
@@ -414,7 +446,7 @@ def apply_flat_face_load(myModel, myAsm, myStep, partDatums, instIndex, args, am
                              region=region, magnitude=entry['Pressure'], amplitude=amp)    # create pressure load
     elif entry['Treatment'] == 'ForceMoment':                   # if distributed translation load:
         if not args.modal:
-            vectorF = array(entry['Force'])                             # TODO: moment is not supported yet
+            vectorF = array(entry['Force'])                             
             unitN = myInst.faces[entry['FaceIDs'][0]].getNormal()       # normal vector of face
             pointA = array(partDatums[entry['Points'][0]])              # first point on perimeter
             pointB = array(partDatums[entry['Points'][1]])              # second point on perimeter
@@ -442,6 +474,16 @@ def apply_flat_face_load(myModel, myAsm, myStep, partDatums, instIndex, args, am
                                         region=region, magnitude=tractionMag,
                                         directionVector=(tupleA, tupleC), distributionType=UNIFORM,
                                         traction=GENERAL, follower=OFF, resultant=ON, amplitude=amp)
+            if LA.norm(array(entry['Moment'])) > 0:
+                refPoint = createReferencePoint(myAsm, myInst.faces[entry['FaceIDs'][0]])
+                # Create kinematic coupling between desired face and reference point
+                createCouplingConstraint(myModel, myInst, refPoint, 'kinematic')
+                refPointSetName = 'RPS'+str(entry['FaceIDs'][0])+'_'+myInst.name
+                # Grab ReferencePoint object from Feature objects
+                rp = myModel.rootAssembly.referencePoints[refPoint.id]
+                myAsm.Set(name=refPointSetName, referencePoints=(rp,))
+                applyMoment(myModel, array(entry['Moment']), myInst.name,
+                            myAsm.sets[refPointSetName], myStep.name, amp)
 
     logger.info("Creating load/BC " + instName + ' with geometry type ' +
                 str(entry['GeometryType']) + ' and treatment ' + str(entry['Treatment']) + '\n')
@@ -701,7 +743,7 @@ def apply_face(myModel, myAsm, myStep, partDatums, instIndex, args, amp,
                     tractionName = regionName + '-Planar'                       # name for planar component force
                     pressureMag = float(-(dot(vectorF, unitN))/faceArea)         # magnitude of normal component force
                     tractionMag = float(LA.norm(tractionForce)/faceArea)        # magnitude of planar component force
-                    
+
                     if pressureMag != 0:                                        # if normal component is nonzero:
                         myModel.Pressure(name=pressureName, createStepName=myStep.name,
                                          region=region, magnitude=pressureMag, amplitude=amp)  # apply pressure load
@@ -726,10 +768,22 @@ def apply_face(myModel, myAsm, myStep, partDatums, instIndex, args, amp,
                                             directionVector=((0.0, 0.0, 0.0), tuple(vectorF)),
                                             distributionType=UNIFORM, traction=GENERAL,
                                             follower=OFF, resultant=ON, amplitude=amp)
-                        
-        elif entry['Treatment'] in ['SpecifiedTemperature', 'ConvectionHeat', 'HeatFlux']:
+
+                if LA.norm(array(entry['Moment'])) > 0:
+                    refPoint = createReferencePoint(myAsm, myInst.faces[entry['FaceIDs'][0]])
+                    # Create kinematic coupling between desired face and reference point
+                    createCouplingConstraint(myModel, myInst, refPoint, 'kinematic')
+                    refPointSetName = 'RPS'+str(entry['FaceIDs'][0])+'_'+myInst.name
+                    # Grab ReferencePoint object from Feature objects
+                    rp = myModel.rootAssembly.referencePoints[refPoint.id]
+                    myAsm.Set(name=refPointSetName, referencePoints=(rp,))
+                    applyMoment(myModel, array(entry['Moment']), myInst.name,
+                                myAsm.sets[refPointSetName], myStep.name, amp)
+
+
+        elif entry['Treatment'] in ['SpecifiedTemperature', 'Convection', 'HeatFlux']:
             createThermalConstraint(myModel, myAsm, entry, myStep, amp, instName, regionName)
-        
+
         logger.info("Creating load/BC " + instName + ' with geometry type ' +
                     str(entry['GeometryType']) + ' and treatment ' + str(entry['Treatment']) + '\n')
     except:

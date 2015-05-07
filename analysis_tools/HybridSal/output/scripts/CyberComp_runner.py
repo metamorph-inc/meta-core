@@ -6,7 +6,6 @@ import json
 import shutil
 import glob
 import re
-import xml.dom.minidom
 import SAL_CE_parser
 
 
@@ -42,13 +41,6 @@ def getCCExe():
     return None
 
 
-def getMATLABExe():
-    if sys.platform.startswith('win'):  # windows
-        import _winreg
-
-    return None
-
-
 def printStdOutErr(name, stdout, stderr):
     # write to new log files:
     if not os.path.isdir('log'):
@@ -68,19 +60,23 @@ def run(xml_file1="", xml_file2="", matlab_path=""):
     cyphy_dir = os.path.normpath("CyPhy")
     log = logging.getLogger() # use global logger
 
-    if not os.path.isfile(xml_file1) or not os.path.isfile(xml_file2):
-        error("Cannot find XML files")
+    if not os.path.isfile(xml_file1):
+        error("Cannot find XML file")
     xml_file1 = os.path.abspath(xml_file1)  # convert to absolute path
-    xml_file2 = os.path.abspath(xml_file2)  # convert to absolute path
+    if os.path.isfile(xml_file2):
+        xml_file2 = os.path.abspath(xml_file2)  # convert to absolute path
 
     # -------------------------------------------------
     print
-    log.info(" ** Run Cyber Composition Verification on xml files...")
-    log.info("    Using XML files at {} and {}".format(xml_file1, xml_file2))
+    log.info(" ** Run Cyber Composition Verification on xml file(s)...")
+    if xml_file2:
+        log.info("    Using XML files at {} and {}".format(xml_file1, xml_file2))
+    else:
+        log.info("    Using XML file at {}".format(xml_file1))
     returncode = 0
     stdout = ""
 
-    if sys.platform.startswith('win'): # and False: # TODO: enable again!
+    if sys.platform.startswith('win'):
         cc_exe = getCCExe()
         if not os.path.isfile(cc_exe):
             error('Couldn\'t find Cyber Composition Verification executable at\n  {}'.format(cc_exe))
@@ -105,34 +101,52 @@ def run(xml_file1="", xml_file2="", matlab_path=""):
     if returncode:
         # Check for missing LTL formula error:
         if "No LTL properties were provided" in stdout:
-            log.warning("    No LTL properties found in controller file {}!".format(xml_file1))
+            log.warning("    No LTL properties found in file {}!".format(xml_file1))
             # add warning information to JSON result:
             result = [{"Source": "SRI",
                        "Result": "UNKNOWN",
                        "ReqName": "-unknown-",
                        "Details": [{
-                           "GroupBody": ["For verifying the model, add a property in the Matlab model and redo the analysis."],
-                           "GroupTitle": "WARNING: No LTL properties were provided in controller file {}!".format(xml_file1)}]}]
+                           "GroupBody": ["For verifying the model, add a property in the model and redo the analysis."],
+                           "GroupTitle": "WARNING: No LTL properties were provided in file {}!".format(xml_file1)}]}]
             returncode = 0  # don't signal ERROR
-    elif os.path.isfile(xml_file1) and os.path.isfile(xml_file2):
+
+    elif os.path.isfile(xml_file1):
         fileName1, _ = os.path.splitext(xml_file1)
-        fileName2, _ = os.path.splitext(os.path.basename(xml_file2))
+
+        # check if MATLAB output shall _not_ be generated:
+        # 1) matlab_path = "" AND
+        # 2) .mdl file(s) not present in CyPhy/Cyber/ OR
+        # 3) 'where matlab.exe' (Win) 'which matlab' (UNIX) returns non-zero exit code
+        output = os.path.join(os.path.dirname(xml_file1),'')  # default: perform MATLAB
+        if matlab_path == "":  # only turn MATLAB off if path not explicitly given
+            if len(glob.glob(os.path.join(output,'*.mdl'))) > 0:  # whether there are any MDL files in results
+                cmd = ["where","matlab.exe"] if sys.platform.startswith('win') else ["which","matlab"]
+                if subprocess.call(cmd):
+                    output = None  # there is at least 1 MDL file but no executable found
+            else:
+                output = None  # no MDL files in results found
+        if output == None:
+            log.info("    Skipping MATLAB input file generation in case of counter example due to missing files!")
+
         # extracting input variables:
         input_vars = None
-        hsal_file = os.path.abspath("{}.hsal".format(os.path.splitext(xml_file1)[0]))
-        if os.path.isfile(hsal_file):
-            log.info("    Looking at HSAL file for input variables: {}".format(hsal_file))
-            input_dict = {}
-            for i, line in enumerate(open(hsal_file)):
-                for match in re.finditer(INPUT_PATTERN, line):
-                    if match.group(1) not in input_dict: # only capture first occurrence
-                        input_dict[match.group(1)] = match.group(2)
-            log.info("    Found {} input variables with type information".format(len(input_dict)))
-            # turn dict into list of tuples; TODO: if more than 2 types, need to do something fancier!
-            input_vars = [tuple([n,'int32' if t == 'INTEGER' else 'double']) for n,t in input_dict.iteritems()]
-            log.info("    Input variables and types are {}".format(input_vars))
-        else:
-            log.warning("    Couldn't find HSAL file to parse for input vars: {}".format(hsal_file))
+        if output:
+            hsal_file = os.path.abspath("{}.hsal".format(os.path.splitext(xml_file1)[0]))
+            if os.path.isfile(hsal_file):
+                log.info("    Looking at HSAL file for input variables: {}".format(hsal_file))
+                input_dict = {}
+                for i, line in enumerate(open(hsal_file)):
+                    for match in re.finditer(INPUT_PATTERN, line):
+                        if match.group(1) not in input_dict: # only capture first occurrence
+                            input_dict[match.group(1)] = match.group(2)
+                log.info("    Found {} input variables with type information".format(len(input_dict)))
+                # turn dict into list of tuples; TODO: if more than 2 types, need to do something fancier!
+                input_vars = [tuple([n,'int32' if t == 'INTEGER' else 'double']) for n,t in input_dict.iteritems()]
+                log.info("    Input variables and types are {}".format(input_vars))
+            else:
+                log.warning("    Couldn't find HSAL file to parse for input vars: {}".format(hsal_file))
+
         # parsing counter example(s):
         result_files = glob.glob("{}*Result.txt".format(fileName1))
         if len(result_files):
@@ -147,7 +161,7 @@ def run(xml_file1="", xml_file2="", matlab_path=""):
                         result = SAL_CE_parser.parse_multiple(data,
                                                               lineNo=1, # add line numbers to output for dashboard
                                                               title="Counterexample generated by Cyber Composition Slicer and Verification",
-                                                              output=os.path.join(os.path.dirname(xml_file1),''),
+                                                              output=output,
                                                               input_vars=input_vars,
                                                               matlab_path=matlab_path)
                 except IOError as _:
@@ -164,8 +178,8 @@ def run(xml_file1="", xml_file2="", matlab_path=""):
         # read manifest
         summary_file = os.path.join(os.path.dirname(cyphy_dir),'testbench_manifest.json')
         with open(summary_file,'r') as f:
+            log.info("    Reading summary results from file {}".format(summary_file))
             summary_results = json.load(f)
-            log.debug("    Read summary results from file {}".format(summary_file))
 
         # update status
         if returncode: # CC created a non-zero return code
@@ -184,14 +198,22 @@ def run(xml_file1="", xml_file2="", matlab_path=""):
         log.info("    Summary results file written as {}".format(summary_file))
 
     else:
-        log.warning("    Cannot find CyPhy dir, so printing result on screen (if log level is DEBUG:)")
-        log.debug('    (if log level is DEBUG):\n{}'.format(json.dumps(result,sort_keys=False,indent=2)))
+        log.warning("    Cannot find CyPhy dir, so printing result on screen (if log level is DEBUG)")
+        log.debug('\n{}'.format(json.dumps(result,sort_keys=False,indent=2)))
 
     return returncode
 
 
+def finish(returncode):
+    log = logging.getLogger() # use global logger
+    print("\n[PROGRESS] 100%\n")
+    log.info("* Returning Cyber Composition Verification exit code {}...".format(returncode))
+    sys.exit(returncode)
+
+
 def main(xml_file1="", xml_file2="", matlab_path=""):
     cyphy_dir = os.path.normpath("CyPhy")
+    print("\n[PROGRESS] 0%\n")
 
     # -------------------------------------------------
     # set up logging: to file only if CyPhy and the console
@@ -227,7 +249,6 @@ def main(xml_file1="", xml_file2="", matlab_path=""):
             error('Couldn\'t find map file {}'.format(mapfile))
 
         # create plant XML file in CyPhy/Cyber:
-        print
         log.info("* Creating plant xml file using OpenModelica...")
         # read model config data
         model_config = os.path.normpath(os.path.join(cyphy_dir,"model_config.json"))
@@ -266,7 +287,7 @@ def main(xml_file1="", xml_file2="", matlab_path=""):
 
         # write .mos file from data
         model_name = data["verification_model_name"]
-        result_prefix = model_name.split('.')[2]
+        result_prefix = model_name.split('.')[len(model_name.split('.')) - 1]  # use only last one
         om_script_path = os.path.join(cyphy_dir,OM_SCRIPT)
         with open(om_script_path,'w') as f:
             print >> f, '''
@@ -304,6 +325,7 @@ print(getErrorString());'''.format(data["model_file_name"],model_name,result_pre
                 log.warning("  Skipping Open Modelica compilation as DAE XML file already present: {}".format(xml_file2))
         else:
             log.warning("  Skipping omc.exe because not in Windows!")
+        print("\n[PROGRESS] 50%")
         if not os.path.isfile(xml_file2):
             error('Plant XML file {} did not get generated!'.format(xml_file2))
 
@@ -311,41 +333,48 @@ print(getErrorString());'''.format(data["model_file_name"],model_name,result_pre
         print
         log.info("* Identifying component(s) for verification...")
         returncode = 200  # initialize with non-zero in case no matching XML files found!
-        for name in os.listdir(cyphy_dir):
-            if name.endswith(".cyber.json"):
-                print
-                log.info(" ** Found: {}".format(name))
-                # open file for reading:
-                with open(os.path.join(cyphy_dir, name), 'r') as f:
-                    cyber_results = json.load(f)
-                xml_file1 = ''
-                if not "cyberxml.path" in cyber_results:
-                    #error('Couldn\'t load "cyberxml.path" from JSON file {}'.format(name))
-                    # TODO: work-around while Joe is out: go through all values and find first ".xml"
-                    for v in cyber_results.itervalues():
-                        if v.endswith('.xml'):
-                            xml_file1 = os.path.join(cyphy_dir, v)
-                else:
-                    xml_file1 = os.path.join(cyphy_dir, cyber_results["cyberxml.path"] if sys.platform.startswith('win')
-                        else cyber_results["cyberxml.path"].replace('\\', '/'))
-                if not os.path.isfile(xml_file1):
-                    error('Couldn\'t load XML file name from JSON file {}'.format(name))
-                log.info("    XML path: {}".format(xml_file1))
-                # copy map file if not already present:
-                if not os.path.basename(mapfile) in os.listdir(os.path.dirname(xml_file1)):
-                    shutil.copy(mapfile, os.path.dirname(xml_file1))
-                    log.info("    Copied map file from {}".format(mapfile))
-                returncode = run(xml_file1, xml_file2, matlab_path)
-                if returncode:  # stop and show warning
-                    log.error("    Run with component in file {} did NOT succeed -- stopping!".format(xml_file1))
-                    break
+        json_files = glob.glob(os.path.join(cyphy_dir,'*.cyber.json'))
+        if not len(json_files):
+            log.warning("  Could not find any components (files ending with .cyber.json) -- falling back to single argument!")
+            returncode = run(xml_file2, '', matlab_path)  # this invokes the legacy functionality
+            finish(returncode)  # this method does not return!
+        progress_increment = 50/len(json_files)  # how much to increment each time
+        progress = 50  # keep track of progress
+        for name in json_files:
+            print
+            log.info(" ** Found: {}".format(name))
+            # open file for reading:
+            with open(name, 'r') as f:
+                cyber_results = json.load(f)
+            xml_file1 = ''
+            if not "cyberxml.path" in cyber_results:
+                #error('Couldn\'t load "cyberxml.path" from JSON file {}'.format(name))
+                # TODO: work-around while Joe is out: go through all values and find first ".xml"
+                for v in cyber_results.itervalues():
+                    if v.endswith('.xml'):
+                        xml_file1 = os.path.join(cyphy_dir, v)
+            else:
+                xml_file1 = os.path.join(cyphy_dir, cyber_results["cyberxml.path"] if sys.platform.startswith('win')
+                    else cyber_results["cyberxml.path"].replace('\\', '/'))
+            if not os.path.isfile(xml_file1):
+                error('Couldn\'t load XML file name from JSON file {}'.format(name))
+            log.info("    XML path: {}".format(xml_file1))
+            # copy map file if not already present:
+            if not os.path.basename(mapfile) in os.listdir(os.path.dirname(xml_file1)):
+                shutil.copy(mapfile, os.path.dirname(xml_file1))
+                log.info("    Copied map file from {}".format(mapfile))
+            returncode = run(xml_file1, xml_file2, matlab_path)
+            progress = progress + progress_increment
+            print("\n[PROGRESS] {0:d}%".format(progress))
+            if returncode:  # stop and show warning
+                log.error("    Run with component in file {} did NOT succeed -- stopping!".format(xml_file1))
+                break
     else:
+        print("\n[PROGRESS] 50%")
         returncode = run(xml_file1, xml_file2, matlab_path)
 
-    # -------------------------------------------------
-    print
-    log.info("* Returning Cyber Composition Verification exit code {}...".format(returncode))
-    sys.exit(returncode)
+    finish(returncode)
+
 
 if __name__ == "__main__":
     xml_file1 = ""

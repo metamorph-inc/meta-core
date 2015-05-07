@@ -303,7 +303,7 @@ void ParseInputArguments(  int                        in_argc,
 			errorString << "Input Arguments: " << std::endl;
 			for ( int i = 0; i < in_argc; ++i) errorString << in_argv[i] << std::string(" ");
 			errorString << std::endl << "Input arguments error, if -s  present then -g must also be present." ;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 
 		}
 		if ( in_ProgramInputArguments.synchronizeWithCyPhy && in_ProgramInputArguments.designID.size() == 0 )
@@ -313,7 +313,7 @@ void ParseInputArguments(  int                        in_argc,
 			errorString << "Input Arguments: " << std::endl;
 			for ( int i = 0; i < in_argc; ++i) errorString << in_argv[i] << std::string(" ");
 			errorString << std::endl << "Input arguments error, if -s  present then -d must also be present." ;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 	}
 

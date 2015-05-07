@@ -93,11 +93,13 @@ def check_for_adams(runAdams, reportFile, kinComValFile, computedValuesXML, cadM
         adamsPath = adamsData[0]["Directory"]
         runAdams = True
     except IndexError:
+        # Thrown if adamsData is an empty string.
         logger.info('No ADAMS analysis load file found, executing standard analysis! \n')
+    # If Adams dependency detected, copy ADAMS load files and ComputedValues.XML.
     if runAdams:
         os.chdir(adamsPath)
-        for hgx in glob.glob("*.lod"):
-            shutil.copy(hgx, abqDir)
+        for hgx in glob.glob("*.lod"):  # For each file with extension 'lod'
+            shutil.copy(hgx, abqDir)  # Copy lod file to Abaqus simulation directory
         for hgx in glob.glob("*.xml"):
             if hgx == computedValuesXML:
                 shutil.copy(hgx, kinComValPath)
@@ -112,12 +114,16 @@ def check_for_adams(runAdams, reportFile, kinComValFile, computedValuesXML, cadM
 
 def recurseTree(node, asminfo, uniqueSuffix, asmIdentifier):
     """ Recursively search assembly tree as represented by CAD metrics file. """
-    for n in node:
+    for n in node:  # Iterate through each node in the meta data XML file
         name = n.attrib.get('Name')
+        # Find (in CADAssembly_metrics.xml) the section that corresponds to the part whose
+        # name matches the one for the node in the meta data XML file.
         model = [child for child in asminfo.componentsdict.values() if child.cadmodelname == name][0]
         if n.attrib.get('Type') == 'PART':
+            # Set the unique FEAElementID to the part's name plus associated order number in the metrics file.
             n.set('FEAElementID', str(name + uniqueSuffix + str(model.steporder + 1)))
         else:
+            # If the node's associated type is an assembly:
             n.set('FEAElementID', str(name + asmIdentifier + uniqueSuffix + str(model.steporder + 1)))
             recurseTree(n, asminfo, uniqueSuffix, asmIdentifier)
     return
@@ -135,9 +141,13 @@ def modifyMetaDataFile(xmlname, asminfo, uniqueSuffix, asmIdentifier):
 
     assemblyNode = rootNode.find('Assemblies/Assembly')
     componentNodes = assemblyNode.findall('./Component/Component')
+    # Recurse through the meta data file to update each component with it's unique Abaqus name.
     recurseTree(componentNodes, asminfo, uniqueSuffix, asmIdentifier)
+    # Format the updated meta data file string to look 'pretty' in the standard format
+    #   Avoids the entire file being written on one line.
     pretty = minidom.parseString(ET.tostring(rootNode, encoding='utf-8')).toprettyxml(indent='    ')
     with open(xmlname, 'w') as data:
+        # Open the meta data file for writing and dump the XML formatted modified contents to it.
         data.write(pretty)
 
 
@@ -159,12 +169,12 @@ def initializeConstants():
     stepDir = os.path.join(resultsDir, 'AP203_E2_SINGLE_FILE')
 
     # Abaqus Constants
-    myModel = mdb.models['Model-1']
-    myAsm = myModel.rootAssembly
-    uniqueSuffix = '__Z'
-    asmIdentifier = '_ASM'
-    structuralOutputs = ('S', 'MISESMAX', 'PE', 'PEEQ', 'PEMAG', 'LE', 'U', 'RF')
-    thermalOutputs = ('TEMP',)
+    myModel = mdb.models['Model-1']  # Model object within Abaqus. Contains all information related to model.
+    myAsm = myModel.rootAssembly  # Assembly object within Abaqus. Contains all information related to assembly.
+    uniqueSuffix = '__Z'  # Added to each component for unique identifying purposes (__Z#)
+    asmIdentifier = '_ASM'  # Designates between a part and assembly within Abaqus.
+    structuralOutputs = ('S', 'MISESMAX', 'PE', 'PEEQ', 'PEMAG', 'LE', 'U', 'RF')  # Possible metric ID codes
+    thermalOutputs = ('TEMP',)  # Possible metric ID codes
 
     return (cadAssemblyXML, cadMetricsXML, requestedMetricsXML, computedValuesXML, kinComputedValuesXML,
             analysisMetaDataXML, testbench_manifest, postprocessingScript, resultsDir, solverDir,
@@ -219,17 +229,19 @@ def main():
         (args, testBenchArg) = parser.parse_args(sys.argv[8:])
     else:
         (args, testBenchArg) = parser.parse_args(sys.argv[6:])
-
+    
+    # Initialize constants to be used throughout the analysis.
     (cadAssemblyXML, cadMetricsXML, requestedMetricsXML, computedValuesXML, kinComputedValuesXML,
      analysisMetaDataXML, testbench_manifest, postprocessingScript, resultsDir, solverDir,
      stepDir, myModel, myAsm, uniqueSuffix, asmIdentifier, structuralOutputs, thermalOutputs) \
         = initializeConstants()
 
     # Determine if ADAMS analysis preceeded this FEA run
+    # Looks for dependency notifications in the testbench_manifest.json file.
     runAdams = check_for_adams(False, testbench_manifest, kinComputedValuesXML,
                                computedValuesXML, cadMetricsXML, resultsDir, solverDir)
 
-    # Parse necessary information from the XML files  
+    # Parse necessary information from the XML files
     (feaXML, cadAssemblyXMLTree, maxNumberIter, analysisConstraintSetXML, thermalSetXML) \
         = parseCADAssemblyXML(cadAssemblyXML, resultsDir, args)
 
@@ -264,19 +276,26 @@ def main():
 
     # Calculate scale factor (with respect to meters)
     (unitScale, unitShort) = unit_utils.calcGeoScaleFac(unitLength)
+    # Create dictionary of all possibly used units throughout the analysis along with their conversion factors.
     conv = unit_utils.generateConvDict(unitScale)
 
     # Generate necessary general dictionaries
+    # These contain information parsed from the various input XML files.
+    # InstRef creates a dictionary entry for each component.
     (instRef, instIndex, instAssemblyRef, instAssemblyIndex,
      rigidPartMasses, rigidPartVolumes, rigidPartDensities,
      rigidParts, rigidPartPresent, Jan24_deactivate_rigidity) = \
         generateInstRef(asminfo, cadAssemblyXML, uniqueSuffix, asmIdentifier, runAdams, args)
-
+    
+    # Generate a dictionary containing material properties for each component in the assembly.
     mtrlRef = generateMtrlRef(asminfo, thermalSetXML, rigidParts, rigidPartDensities, conv)
 
     if not runAdams:
+        # If no Adams dependency is found, generate dictionary of loads and boundary conditions placed on each part.
         (loadBCLib, accel) = generateLoadBCLib(analysisConstraintSetXML, feaXML, thermalSetXML, conv, asminfo)
     else:
+        # If Adams dependency exists, loads are defined in the LOD files output from Adams. Boundary conditions
+        # are applied at a later point.
         (loadBCLib, accel) = ([], [])
 
     # Process the data obtained from the step file
@@ -288,7 +307,8 @@ def main():
     logger.info("Creating a new dictionary with points translated into the global coordinate system" + '\n')
     datumPointDict = coordTransform(localTMs, localTVs, topLevelAsm, subAsms, asmParts, localCoords)
     logger.info("**********************************************************************************" + '\n')
-
+    
+    # Directory where analysis output files and post-processing files will be written to.
     if not os.path.exists(solverDir):
         os.mkdir(solverDir)
     os.chdir(solverDir)
@@ -297,7 +317,7 @@ def main():
     createParts(myModel, step, CGs)
     deleteInvalidParts(myModel)
 
-    # Define step - standard default
+    # Define step - standard 'static' default
     if thermalSetXML:
         if args.dynamicExplicit:
             (myStep, amp, analysisStepName) = \
@@ -312,7 +332,8 @@ def main():
             (myStep, amp, analysisStepName) = defineModalStep(myModel)
         else:
             (myStep, amp, analysisStepName) = defineStaticStep(myModel, structuralOutputs)
-
+    
+    # Assign materials to each component.
     defineMaterials(myModel, mtrlRef)
 
     if not runAdams:
@@ -323,12 +344,11 @@ def main():
                                    instIndex, myAsm, myModel)
         EliminateOverlaps(instRef, rigidParts, myAsm, myModel)
 
+        apply_loads_and_bcs(myModel, myAsm, myStep, instRef, loadBCLib, instIndex, instAssemblyIndex,
+                            datumPointDict, accel, amp, args, Jan24_deactivate_rigidity, thermalSetXML)
+
         meshInstances(asminfo, 40.0, unitShort, instRef,
                       instAssemblyRef, myAsm, feaXML,  args)
-
-        if not args.meshOnly:
-            apply_loads_and_bcs(myModel, myAsm, myStep, instRef, loadBCLib, instIndex, instAssemblyIndex,
-                                datumPointDict, accel, amp, args, Jan24_deactivate_rigidity, thermalSetXML)
 
     if runAdams:
         EliminateOverlaps(instRef, rigidParts, myAsm, myModel)
@@ -381,21 +401,26 @@ def main():
                         check = 1
                         jobName = AdaptiveJobName
                     except:
+                        # Error thrown because file does not exist. If lastIter > 1, this means the analysis
+                        # completed before the max number allowed. Decrease lastIter and try opening again.
                         logger.info('ERROR: Error in reading results of %s.\n' % AdaptiveJobName)
                         lastIter -= 1
 
             os.chdir(solverDir)
             # Invoke post processing
+            # Spawn new Python process by calling the post-processing script along with necessary arguments.
             os.system("abaqus cae noGUI=" + os.path.join(cad_library.META_PATH, "bin", "CAD", postprocessingScript) +
                       " -- " + "-o " + jobName + ".odb " + "-p " + "..\\" + analysisMetaDataXML + " -m " +
                       "..\\..\\" + requestedMetricsXML + " -j " + "..\\..\\" + testbench_manifest)
         elif args.modal:
+            # Modal analyses use a different, older post-processing method as the output ODB is analyzed different.
             ABQ_CompletePostProcess.afterJobModal(jobName, analysisStepName)
 
 
 if __name__ == "__main__":
-    logger = cad_library.setuplogger('AbaqusCmd')
-    #try:
-    main()
-    #except:
-    #    cad_library.exitwitherror('An unknown exception occurred.', -1, 'AbaqusMain.py')
+    logger = cad_library.setuplogger('AbaqusCmd')  # Initialize logger
+    try:
+        main()
+    except:
+        # Overarching try, catch. Used to handle any unexpected errors.
+        cad_library.exitwitherror('An unknown exception occurred.', -1, 'AbaqusMain.py')

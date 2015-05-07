@@ -832,9 +832,24 @@ namespace isis_CADCommon
 	double Determinant_3_x_3( double in_Matrix[3][3] );
 	bool Positive_Definite_3_x_3( double in_Matrix[3][3] );
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	double Determinant_4_x_4 ( double in_Matrix[4][4] );
+
+	//	Description: 
+	//		Compute the volume of a tetrahedron based on the four corner points.
+	//	Pre-Conditions:
+	//		The four corner points must be four unique points.  In other words if one or more points are
+	//		coincident, then the behavior of this function is undefined. 
+	//	Post-Conditions
+	//		If (in_TetrahedronFourPoints.size() != 4 ) 
+	//			throw isis::application_exception
+	//		If no exceptions
+	//			return the volume.
+	//		Note - the volume will always be a positive number.
+	double VolumeOfTetrahedron( const std::vector<Point_3D> &in_TetrahedronFourPoints ) throw (isis::application_exception);
 
 }  // namespace isis_CADCommon
-
 
 
 #endif

@@ -3889,6 +3889,641 @@ namespace avm.cad {
         #endregion
     }
     
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TranslationalJointSpec))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RevoluteJointSpec))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="cad")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="cad", IsNullable=false)]
+    public abstract partial class KinematicJointSpec : ConnectorFeature {
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(KinematicJointSpec));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current KinematicJointSpec object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an KinematicJointSpec object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output KinematicJointSpec object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out KinematicJointSpec obj, out System.Exception exception) {
+            exception = null;
+            obj = default(KinematicJointSpec);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out KinematicJointSpec obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static KinematicJointSpec Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((KinematicJointSpec)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current KinematicJointSpec object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an KinematicJointSpec object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output KinematicJointSpec object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out KinematicJointSpec obj, out System.Exception exception) {
+            exception = null;
+            obj = default(KinematicJointSpec);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out KinematicJointSpec obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static KinematicJointSpec LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="cad")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="cad", IsNullable=false)]
+    public partial class TranslationalJointSpec : KinematicJointSpec {
+        
+        private Value minimumTranslationField;
+        
+        private Value defaultTranslationField;
+        
+        private Value maximumTranslationField;
+        
+        private string alignmentPlaneField;
+        
+        private string alignmentAxisField;
+        
+        private string translationLimitReferenceField;
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public Value MinimumTranslation {
+            get {
+                return this.minimumTranslationField;
+            }
+            set {
+                this.minimumTranslationField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public Value DefaultTranslation {
+            get {
+                return this.defaultTranslationField;
+            }
+            set {
+                this.defaultTranslationField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public Value MaximumTranslation {
+            get {
+                return this.maximumTranslationField;
+            }
+            set {
+                this.maximumTranslationField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string AlignmentPlane {
+            get {
+                return this.alignmentPlaneField;
+            }
+            set {
+                this.alignmentPlaneField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string AlignmentAxis {
+            get {
+                return this.alignmentAxisField;
+            }
+            set {
+                this.alignmentAxisField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string TranslationLimitReference {
+            get {
+                return this.translationLimitReferenceField;
+            }
+            set {
+                this.translationLimitReferenceField = value;
+            }
+        }
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(TranslationalJointSpec));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current TranslationalJointSpec object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an TranslationalJointSpec object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output TranslationalJointSpec object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out TranslationalJointSpec obj, out System.Exception exception) {
+            exception = null;
+            obj = default(TranslationalJointSpec);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out TranslationalJointSpec obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static TranslationalJointSpec Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((TranslationalJointSpec)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current TranslationalJointSpec object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an TranslationalJointSpec object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output TranslationalJointSpec object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out TranslationalJointSpec obj, out System.Exception exception) {
+            exception = null;
+            obj = default(TranslationalJointSpec);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out TranslationalJointSpec obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static TranslationalJointSpec LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="cad")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="cad", IsNullable=false)]
+    public partial class RevoluteJointSpec : KinematicJointSpec {
+        
+        private Value minimumRotationField;
+        
+        private Value defaultRotationField;
+        
+        private Value maximumRotationField;
+        
+        private string alignmentPlaneField;
+        
+        private string alignmentAxisField;
+        
+        private string rotationLimitReferenceField;
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public Value MinimumRotation {
+            get {
+                return this.minimumRotationField;
+            }
+            set {
+                this.minimumRotationField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public Value DefaultRotation {
+            get {
+                return this.defaultRotationField;
+            }
+            set {
+                this.defaultRotationField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public Value MaximumRotation {
+            get {
+                return this.maximumRotationField;
+            }
+            set {
+                this.maximumRotationField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string AlignmentPlane {
+            get {
+                return this.alignmentPlaneField;
+            }
+            set {
+                this.alignmentPlaneField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string AlignmentAxis {
+            get {
+                return this.alignmentAxisField;
+            }
+            set {
+                this.alignmentAxisField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string RotationLimitReference {
+            get {
+                return this.rotationLimitReferenceField;
+            }
+            set {
+                this.rotationLimitReferenceField = value;
+            }
+        }
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(RevoluteJointSpec));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current RevoluteJointSpec object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an RevoluteJointSpec object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output RevoluteJointSpec object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out RevoluteJointSpec obj, out System.Exception exception) {
+            exception = null;
+            obj = default(RevoluteJointSpec);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out RevoluteJointSpec obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static RevoluteJointSpec Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((RevoluteJointSpec)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current RevoluteJointSpec object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an RevoluteJointSpec object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output RevoluteJointSpec object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out RevoluteJointSpec obj, out System.Exception exception) {
+            exception = null;
+            obj = default(RevoluteJointSpec);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out RevoluteJointSpec obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static RevoluteJointSpec LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]

@@ -129,7 +129,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 					errorString <<
 					"Error: (Function - CreateXMLFile_ComputationsParameters), received ComputationType that is not currently supported." << std::endl <<
 					"ComputationType: " << ComputationType_string( j->computationType);
-					throw isis::application_exception(errorString.str().c_str());
+					throw isis::application_exception(errorString.str());
 				}
 
 			
@@ -406,7 +406,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 							errorString <<
 							"Function - CreateXMLFile_ComputationsParameters, received ComputationSubType that is not currently supported." << std::endl <<
 							"ComputationSubType: " << ComputationSubType_string( j.computationSubType);
-							throw isis::application_exception(errorString.str().c_str());
+							throw isis::application_exception(errorString.str());
 						}
 						break;
 					default:
@@ -414,7 +414,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 						errorString <<
 						"Function - CreateXMLFile_ComputationsParameters, received ComputationType that is not currently supported." << std::endl <<
 						"ComputationType: " << ComputationType_string( j.computationType);
-						throw isis::application_exception(errorString.str().c_str());
+						throw isis::application_exception(errorString.str());
 				} // End switch ( j.computationType)
 			
 
@@ -450,7 +450,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 							errorString <<
 							"Function - CreateXMLFile_ComputationsParameters, received computationSubType that is not currently supported." << std::endl <<
 							"ComputationSubType: " << ComputationSubType_string( j.computationSubType);
-							throw isis::application_exception(errorString.str().c_str());
+							throw isis::application_exception(errorString.str());
 					}
 				}
 				else // Simple metric
@@ -498,7 +498,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 										errorString <<
 										"Function - CreateXMLFile_ComputationsParameters, received computationDimension that is not currently supported." << std::endl <<
 										"ComputationType: " << ComputationDimension_string( j.computationDimension);
-										throw isis::application_exception(errorString.str().c_str());
+										throw isis::application_exception(errorString.str());
 							}
 							values.push_back(temp_value);
 							metricRoot.ArrayValue() = values;
@@ -509,7 +509,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 							errorString <<
 							"Function - CreateXMLFile_ComputationsParameters, received computationDimension that is not currently supported." << std::endl <<
 							"ComputationType: " << ComputationDimension_string( j.computationDimension);
-							throw isis::application_exception(errorString.str().c_str());
+							throw isis::application_exception(errorString.str());
 					}  // END switch ( j.computationDimension )
 				} // END  if ( complexMetric ) else
 			
@@ -760,7 +760,7 @@ void CreateXMLFile_RequestedMetrics(
 				std::stringstream errorString;
 				errorString <<
 						"Function CreateXMLFile_ComputedValues_Metrics, was invoked but in_CADAssemblies does not contain any computations.  MetricsType " << in_MetricsType;
-						throw isis::application_exception(errorString.str().c_str());
+						throw isis::application_exception(errorString.str());
 			}
 
 			///////////////////////////
@@ -776,28 +776,28 @@ void CreateXMLFile_RequestedMetrics(
 			if ( dn_CFDParameters.isOpen()) dn_CFDParameters.CloseNoUpdate();
 			std::stringstream errorString;
 			errorString <<  "Function CreateXMLFile_ComputedValues_Metrics threw a udm_exception.  " << ex.what();
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 		catch ( isis::application_exception& ex )
 		{
 			if ( dn_CFDParameters.isOpen()) dn_CFDParameters.CloseNoUpdate();
 			std::stringstream errorString;
 			errorString <<  "Function CreateXMLFile_ComputedValues_Metrics threw an application_exception.  " << ex.what();
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 		catch ( std::exception& ex )
 		{
 			if ( dn_CFDParameters.isOpen()) dn_CFDParameters.CloseNoUpdate();
 			std::stringstream errorString;
 			errorString <<  "Function CreateXMLFile_ComputedValues_Metrics threw an exception.  " << ex.what();
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 		catch ( ... )
 		{
 			if ( dn_CFDParameters.isOpen()) dn_CFDParameters.CloseNoUpdate();
 			std::stringstream errorString;
 			errorString <<  "Function CreateXMLFile_ComputedValues_Metrics, threw an unknown excpetion";
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 
 		}
 		

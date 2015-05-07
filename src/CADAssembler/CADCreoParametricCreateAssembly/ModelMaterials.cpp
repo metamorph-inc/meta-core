@@ -461,7 +461,7 @@ void RetrieveMaterial(	const std::string &in_ModelName,
 						for each ( std::string j in in_ListOfComponentInstanceIDs ) 
 										errorString << "ComponentInstanceID: " << i << "ComponentName: " << in_CADComponentData_map[i].name;
 
-						throw isis::application_exception(errorString.str().c_str());	
+						throw isis::application_exception(errorString.str());	
 					}
 					out_ComponentID_to_MaterialName_map[i] = materialName;
 

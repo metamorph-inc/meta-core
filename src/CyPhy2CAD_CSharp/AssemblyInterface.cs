@@ -643,7 +643,6 @@ namespace CAD {
             }
         }
     }
-
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.1")]
@@ -1300,6 +1299,8 @@ namespace CAD {
         
         private ManufacturingParameterType[] manufacturingParameterField;
         
+        private MetaDataType[] metaDataField;
+        
         private ParametricParametersType parametricParametersField;
         
         private string componentIDField;
@@ -1383,6 +1384,17 @@ namespace CAD {
             }
             set {
                 this.manufacturingParameterField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("MetaData")]
+        public MetaDataType[] MetaData {
+            get {
+                return this.metaDataField;
+            }
+            set {
+                this.metaDataField = value;
             }
         }
         
@@ -5411,6 +5423,157 @@ namespace CAD {
             }
             set {
                 this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="ID")]
+        public string _id {
+            get {
+                return this._idField;
+            }
+            set {
+                this._idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="IDREF")]
+        public string _archetype {
+            get {
+                return this._archetypeField;
+            }
+            set {
+                this._archetypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="IDREFS")]
+        public string _derived {
+            get {
+                return this._derivedField;
+            }
+            set {
+                this._derivedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="IDREFS")]
+        public string _instances {
+            get {
+                return this._instancesField;
+            }
+            set {
+                this._instancesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string _desynched_atts {
+            get {
+                return this._desynched_attsField;
+            }
+            set {
+                this._desynched_attsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public bool _real_archetype {
+            get {
+                return this._real_archetypeField;
+            }
+            set {
+                this._real_archetypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool _real_archetypeSpecified {
+            get {
+                return this._real_archetypeFieldSpecified;
+            }
+            set {
+                this._real_archetypeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public bool _subtype {
+            get {
+                return this._subtypeField;
+            }
+            set {
+                this._subtypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool _subtypeSpecified {
+            get {
+                return this._subtypeFieldSpecified;
+            }
+            set {
+                this._subtypeFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.1")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class MetaDataType {
+        
+        private string keyField;
+        
+        private string valueField;
+        
+        private string _idField;
+        
+        private string _archetypeField;
+        
+        private string _derivedField;
+        
+        private string _instancesField;
+        
+        private string _desynched_attsField;
+        
+        private bool _real_archetypeField;
+        
+        private bool _real_archetypeFieldSpecified;
+        
+        private bool _subtypeField;
+        
+        private bool _subtypeFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Key {
+            get {
+                return this.keyField;
+            }
+            set {
+                this.keyField = value;
             }
         }
         

@@ -87,7 +87,8 @@ def run_post_scripts(result_mat, log):
     if os.path.exists(pp_dir):
         t_1 = time.time()
         for pp_file in os.listdir(pp_dir):
-            if pp_file.endswith(".py"):
+            # META-3580
+            if pp_file.endswith(".py") and not pp_file == '__init__.py':
                 post_script_cmd = '"{0}" "{1}" "{2}"'\
                     .format(python_exec, os.path.join(os.path.basename(pp_dir), pp_file), result_mat)
                 log.info("Running post process script.. {0}".format(pp_file))

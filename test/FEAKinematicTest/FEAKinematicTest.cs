@@ -189,7 +189,7 @@ namespace FEAKinematicTest
             string TestbenchPath = "/@Testing|kind=Testing|relpos=0/@FEA|kind=Testing|relpos=0/@FourBar|kind=Testing|relpos=0/@DeckBased|kind=Testing|relpos=0/@FEA_Fourbar_Deck|kind=CADTestBench|relpos=0";
             string OutputDir = SetupTestAndRunCAD(XmePath, TestbenchPath, "FEA_Fourbar_StaticDeck", "fea_fourbar_deck_1.asm.2");
             string AnalysisDir = Path.Combine(OutputDir, "Analysis", "Abaqus");
-            string id = Guid.NewGuid().ToString().Substring(0,6);
+            string id = Guid.NewGuid().ToString().Substring(0, 6);
             Assert.True(RunProcess(fixture.AbaqusBat, "fromnastran job=" + "\"" + id + "\"" + " input=" + "\"..\\Nastran_mod.nas", AnalysisDir, out exitcode, 1200000));
             Assert.True(exitcode == 0);
             Assert.True(RunProcess(fixture.AbaqusBat, "analysis interactive job=" + id, AnalysisDir, out exitcode, 1200000));
@@ -216,6 +216,24 @@ namespace FEAKinematicTest
             Assert.True(RunProcess(fixture.AbaqusBat, "cae noGUI=" + "\"" + fixture.FeaScript + "\" -- -o", OutputDir, out exitcode, 1200000));
             Assert.True(exitcode == 0);
             Assert.True(File.Exists(Path.Combine(OutputDir, "Analysis", "Abaqus", "MeshQuality.csv")));
+
+            // Check for mesh numerical accuracy
+            ProcessStartInfo pythoncall = new ProcessStartInfo();
+            pythoncall.FileName = fixture.PythonBat;
+            string module = "..\\..\\CheckFiles.py";
+            string input = "\"" + Path.Combine(OutputDir, "Analysis", "Abaqus", "MeshQuality.csv") + "\"";
+            string check = "..\\..\\ReferenceFiles\\MeshQuality_FB.csv";
+            pythoncall.Arguments = string.Format("{0} {1} {2} {3} {4}", module, "-i", input, "-c", check);
+            pythoncall.UseShellExecute = false;
+            pythoncall.RedirectStandardOutput = true;
+            using (Process process = Process.Start(pythoncall))
+            {
+                using (StreamReader checker = process.StandardOutput)
+                {
+                    string result = checker.ReadToEnd();
+                    Assert.True(result.Equals("0\r\n"));
+                }
+            }
         }
 
         [Fact]
@@ -229,7 +247,7 @@ namespace FEAKinematicTest
             Assert.True(RunProcess(fixture.AbaqusBat, "cae noGUI=" + "\"" + fixture.FeaScript + "\" -- -b", OutputDir, out exitcode, 1200000));
             Assert.True(exitcode == 0);
             Assert.True(File.Exists(Path.Combine(AnalysisDir, "MeshQuality.csv")));
-            Assert.True(Directory.EnumerateFileSystemEntries(Path.Combine(AnalysisDir,"Contour_and_BC_plots")).Any());
+            Assert.True(Directory.EnumerateFileSystemEntries(Path.Combine(AnalysisDir, "Contour_and_BC_plots")).Any());
             Assert.True(File.Exists(Path.Combine(AnalysisDir, "AbaqusMeshAndAssembly.cae")));
         }
 
@@ -267,6 +285,24 @@ namespace FEAKinematicTest
             Assert.True(Directory.EnumerateFileSystemEntries(Path.Combine(AnalysisDir, "Contour_and_BC_plots")).Any());
             Assert.True(Directory.EnumerateFileSystemEntries(Path.Combine(AnalysisDir, "Adaptivity-1-iter3", "Stress_Contours")).Any());
             Assert.True(File.Exists(Path.Combine(AnalysisDir, "AbaqusMeshAndAssembly.cae")));
+
+            // Check for mesh numerical accuracy
+            ProcessStartInfo pythoncall = new ProcessStartInfo();
+            pythoncall.FileName = fixture.PythonBat;
+            string module = "..\\..\\CheckFiles.py";
+            string input = "\"" + Path.Combine(AnalysisDir, "Adaptivity-1-iter3", "MeshQuality.csv") + "\"";
+            string check = "..\\..\\ReferenceFiles\\MeshQuality_PWH.csv";
+            pythoncall.Arguments = string.Format("{0} {1} {2} {3} {4}", module, "-i", input, "-c", check);
+            pythoncall.UseShellExecute = false;
+            pythoncall.RedirectStandardOutput = true;
+            using (Process process = Process.Start(pythoncall))
+            {
+                using (StreamReader checker = process.StandardOutput)
+                {
+                    string result = checker.ReadToEnd();
+                    Assert.True(result.Equals("0\r\n"));
+                }
+            }
         }
 
         [Fact]
@@ -388,11 +424,11 @@ namespace FEAKinematicTest
             string AnalysisDir = Path.Combine(OutputDir, "Analysis", "Abaqus");
             Assert.True(RunProcess(fixture.AbaqusBat, "cae noGUI=" + "\"" + fixture.FeaScript + "\" -- -s", OutputDir, out exitcode, 1200000));
             Assert.True(exitcode == 0);
-            Assert.True(File.Exists(Path.Combine(AnalysisDir, "staticFEAAnalysis", "MeshQuality.csv")));
-            Assert.True(File.Exists(Path.Combine(AnalysisDir, "staticFEAAnalysis", "OutMetrics.csv")));
-            Assert.True(File.Exists(Path.Combine(AnalysisDir, "staticFEAAnalysis", "OutMetrics.xml")));
+            Assert.True(File.Exists(Path.Combine(AnalysisDir, "Adaptivity-1-iter3", "MeshQuality.csv")));
+            Assert.True(File.Exists(Path.Combine(AnalysisDir, "Adaptivity-1-iter3", "OutMetrics.csv")));
+            Assert.True(File.Exists(Path.Combine(AnalysisDir, "Adaptivity-1-iter3", "OutMetrics.xml")));
             Assert.True(Directory.EnumerateFileSystemEntries(Path.Combine(AnalysisDir, "Contour_and_BC_plots")).Any());
-            Assert.True(Directory.EnumerateFileSystemEntries(Path.Combine(AnalysisDir, "staticFEAAnalysis", "Thermal_Contours")).Any());
+            Assert.True(Directory.EnumerateFileSystemEntries(Path.Combine(AnalysisDir, "Adaptivity-1-iter3", "Thermal_Contours")).Any());
             Assert.True(File.Exists(Path.Combine(AnalysisDir, "AbaqusMeshAndAssembly.cae")));
         }
 
@@ -435,6 +471,7 @@ namespace FEAKinematicTest
             Assert.True(Directory.EnumerateFileSystemEntries(Path.Combine(AnalysisDir, "dynamicFEAAnalysis", "Thermal_Contours")).Any());
             Assert.True(File.Exists(Path.Combine(AnalysisDir, "AbaqusMeshAndAssembly.cae")));
         }
+
         #endregion
 
         #region ADAMS to ABAQUS tests
@@ -462,12 +499,19 @@ namespace FEAKinematicTest
             string[] comps = Directory.GetDirectories(AnalysisDir);
             foreach (string comp in comps)
             {
-                string compDir = Path.Combine(AnalysisDir, comp);
-                string[] mesh = System.IO.Directory.GetFiles(compDir, "MeshQuality_*.csv");
-                Assert.True(mesh.Length > 0);
-                Assert.True(File.Exists(Path.Combine(comp, "OutMetrics.csv")));
-                Assert.True(File.Exists(Path.Combine(comp, "OutMetrics.xml")));
-                Assert.True(Directory.EnumerateFileSystemEntries(Path.Combine(comp, "Stress_Contours")).Any());
+                if (Path.Combine(AnalysisDir, "log").Equals(Path.Combine(AnalysisDir, comp)))
+                {
+                    continue;
+                }
+                else
+                {
+                    string compDir = Path.Combine(AnalysisDir, comp);
+                    string[] mesh = System.IO.Directory.GetFiles(comp, "Mesh*.csv");
+                    Assert.True(mesh.Length > 0);
+                    Assert.True(File.Exists(Path.Combine(comp, "OutMetrics.csv")));
+                    Assert.True(File.Exists(Path.Combine(comp, "OutMetrics.xml")));
+                    Assert.True(Directory.EnumerateFileSystemEntries(Path.Combine(comp, "Stress_Contours")).Any());
+                }
             }
         }
 
@@ -487,7 +531,7 @@ namespace FEAKinematicTest
             AVM.DDP.MetaTBManifest manifest = AVM.DDP.MetaTBManifest.OpenForUpdate(OutputDir);
             manifest.AddDependency(kinDependency);
             manifest.Serialize(OutputDir);
-            
+
             Assert.True(RunProcess(fixture.AbaqusBat, "cae noGUI=" + "\"" + fixture.FeaScript + "\" -- -o", OutputDir, out exitcode, 1200000));
             Assert.True(exitcode == 0);
 
@@ -516,18 +560,20 @@ namespace FEAKinematicTest
             Assert.True(exitcode == 0);
 
             string[] comps = Directory.GetDirectories(AnalysisDir);
-            Assert.True(comps.Length == 4);
             foreach (string comp in comps)
             {
-                if (comp.StartsWith("log"))
+                if (Path.Combine(AnalysisDir, "log").Equals(Path.Combine(AnalysisDir, comp)))
                 {
                     continue;
                 }
-                string compDir = Path.Combine(AnalysisDir, comp);
-                string[] mesh = System.IO.Directory.GetFiles(compDir, "MeshQuality_*.csv");
-                Assert.True(mesh.Length > 0);
-                string[] metrics = System.IO.Directory.GetFiles(compDir, "OutMetrics.csv");
-                Assert.True(metrics.Length > 0);
+                else
+                {
+                    string compDir = Path.Combine(AnalysisDir, comp);
+                    string[] mesh = System.IO.Directory.GetFiles(compDir, "MeshQuality_*.csv");
+                    Assert.True(mesh.Length > 0);
+                    string[] metrics = System.IO.Directory.GetFiles(compDir, "OutMetrics.csv");
+                    Assert.True(metrics.Length > 0);
+                }
             }
         }
 
@@ -556,12 +602,21 @@ namespace FEAKinematicTest
             Assert.True(comps.Length == 4);
             foreach (string comp in comps)
             {
-                string[] files = System.IO.Directory.GetFiles(Path.Combine(comp, "MeshQuality_*.csv"));
-                Assert.True(files.Length > 0);
-                string[] metrics = System.IO.Directory.GetFiles(Path.Combine(comp, "OutMetrics.csv"));
-                Assert.True(metrics.Length > 0);
+                if (Path.Combine(AnalysisDir, "log").Equals(Path.Combine(AnalysisDir, comp)))
+                {
+                    continue;
+                }
+                else
+                {
+                    string compDir = Path.Combine(AnalysisDir, comp);
+                    string[] mesh = System.IO.Directory.GetFiles(compDir, "MeshQuality_*.csv");
+                    Assert.True(mesh.Length > 0);
+                    string[] metrics = System.IO.Directory.GetFiles(compDir, "OutMetrics.csv");
+                    Assert.True(metrics.Length > 0);
+                }
             }
         }
+
         #endregion
 
         #region FailureTests
@@ -724,7 +779,6 @@ namespace FEAKinematicTest
             Assert.True(exitcode == 0);
             Assert.True(File.Exists(Path.Combine(OutputDir, "_FAILED.txt")));
         }
-
 
         #endregion
 

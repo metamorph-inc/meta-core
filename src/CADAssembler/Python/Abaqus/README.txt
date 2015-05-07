@@ -69,3 +69,8 @@ AbaqusMain.py README
                 
 2.4.2   - META-3570: Add initialize() for declaring string constants. Readability changes based
                 on DARPA code review feedback. Add units to contour plots.
+                
+2.4.3   - META-3578: Load type changed from ConvectionHeat to Convection.
+
+2.5.0   - META-3565: Add ability to apply moment for Circle and Face constructs.
+

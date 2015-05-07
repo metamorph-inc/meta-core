@@ -63,7 +63,7 @@ namespace isis_CADCommon
 			{
 				std::stringstream errorString;
 				errorString << "Input file not found: " << in_ManifestJson_PathAndFileName;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 			}
 		}
 		catch(const boost::property_tree::ptree_error &exc)
@@ -71,7 +71,7 @@ namespace isis_CADCommon
 			std::stringstream errorString;
 			errorString << "Input file processing error: " << in_ManifestJson_PathAndFileName 
 						<< "  Error: " << exc.what();
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,11 +103,11 @@ namespace isis_CADCommon
 			boost::filesystem::path p(in_HydrostaticsFile_PathAndFileName);
 			if (! boost::filesystem::exists(p)) {
 				errorString << "Input file not found: " << in_HydrostaticsFile_PathAndFileName;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 			}
 			if (! boost::filesystem::is_regular_file(p)) {
 				errorString << "Input file not regular found: " << in_HydrostaticsFile_PathAndFileName;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 			}
 			std::string canonical_path = p.make_preferred().string();
 			log_cf.infoStream() << "writing hydrostatics.json : " << canonical_path;
@@ -154,7 +154,7 @@ namespace isis_CADCommon
 		{		
 			errorString << "Input file processing error: " << in_HydrostaticsFile_PathAndFileName 
 						<< "  Error: " << exc.what();
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}	
 
 	}

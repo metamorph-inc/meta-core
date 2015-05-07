@@ -169,7 +169,7 @@ def ParseReqMetricsFile(xmlname, componentList=None):
     reqMetrics = []
     rootNode = tree.getroot()  # Metrics
 
-    for metric in rootNode.findall('./Metric'):
+    for metric in rootNode.iter('Metric'):
         metricID = metric.attrib.get('MetricID')
         if componentList is not None:
             if metric.attrib.get('ComponentInstanceID') not in componentList:

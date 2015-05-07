@@ -881,6 +881,7 @@ namespace isis
 	enum e_Thermal_LoadConstraint
 	{
 		THERMAL_CONVECTION_HEAT,		// CONSTRAINT, Convection Coefficient with Ambient Temp 
+		THERMAL_CONVECTION,				// Same as THERMAL_CONVECTION_HEAT, THERMAL_CONVECTION_HEAT is being deprecated
 		THERMAL_HEAT_FLUX,				// LOAD
 		THERMAL_HEAT_GENERATION,		// LOAD Not supported by deck-based
 		THERMAL_INITIAL_TEMPERATURE,    // LOAD

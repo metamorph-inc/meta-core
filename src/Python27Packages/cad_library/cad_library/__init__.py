@@ -9,7 +9,7 @@ __author__ = __authors__[0]
 
 __credits__ = __authors__
 
-__version__ = "14.10"  # Versioning: http://www.python.org/dev/peps/pep-0386/
+__version__ = "14.12"  # Versioning: http://www.python.org/dev/peps/pep-0386/
 
 __maintainer__ = __author__
 __contact__ = __author__
@@ -31,6 +31,7 @@ with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0,
 from cad_library.__main__ import exitwitherror
 from cad_library.__main__ import setuplogger
 from cad_library.cadapi import AssemblyInfo
+from cad_library.cadapi import CalculixResults
 from cad_library.cadapi import Vec3
 from cad_library.cadapi import Mat4x4
 from cad_library.cadapi import ComponentData

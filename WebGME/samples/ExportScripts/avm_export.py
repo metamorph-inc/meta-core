@@ -2,6 +2,7 @@ import os
 import sys
 import shutil
 import zipfile
+import uuid
 import logging
 import subprocess
 import win32com.client
@@ -68,7 +69,7 @@ def parse_xme_and_save_to_mga(file_name='empty.xme'):
     logger.debug('Xme info :')
     logger.debug('  paradigm     : {0}'.format(paradigm))
     logger.debug('  paradigm_v   : {0}'.format(paradigm_v))
-    logger.debug('  paradigm_guid: {0}'.format(paradigm_guid))
+    logger.debug('  paradigm_guid: {0}'.format(str(uuid.UUID(bytes_le=paradigm_guid))))
     logger.debug('  basename     : {0}'.format(basename))
     logger.debug('  version      : {0}'.format(version))
     if paradigm != 'CyPhyML':

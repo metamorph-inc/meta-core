@@ -410,7 +410,8 @@ namespace CyPhyML2AVM {
             return avmPrimitiveProperty;
         }
 
-        public void createAVMParameter( CyPhyML.Parameter cyPhyMLParameter ) {
+        public avm.PrimitiveProperty createAVMParameter(CyPhyML.Parameter cyPhyMLParameter)
+        {
             avm.PrimitiveProperty avmPrimitiveProperty = convertParameter(cyPhyMLParameter, ensureIDAttribute(cyPhyMLParameter));
 
             var incomingVF = cyPhyMLParameter.SrcConnections.ValueFlowCollection.Where(c => c.IsRefportConnection() == false).FirstOrDefault();
@@ -424,7 +425,7 @@ namespace CyPhyML2AVM {
             }
 
             _cyPhyMLAVMObjectMap.Add(cyPhyMLParameter, avmPrimitiveProperty);
-            _avmComponent.Property.Add(avmPrimitiveProperty);
+            return avmPrimitiveProperty;
         }        
 
         public void createAVMPort(List<avm.Port> avmPortList, CyPhyML.DomainModelPort cyPhyMLDomainModelPort, List<avm.ConnectorFeature> connectorFeatures = null) {
@@ -589,15 +590,178 @@ namespace CyPhyML2AVM {
             {
                 createAVMProperty(cyPhyMLProperty, avmConnector);
             }
-            /*
             foreach (CyPhyML.Parameter cyPhyMLParameter in cyPhyMLConnector.Children.ParameterCollection)
             {
-                createAVMParameter(cyPhyMLParameter);
-            }*/
+                var avmPrimitiveProperty = createAVMParameter(cyPhyMLParameter);
+                avmConnector.Property.Add(avmPrimitiveProperty);
+            }
             foreach (CyPhyML.JoinData jd in cyPhyMLConnector.Children.JoinDataCollection)
             {
                 var ad = JoinDataTransform.TransformJoinData(jd);
                 avmConnector.DefaultJoin.Add(ad);
+            }
+
+            foreach (CyPhyML.KinematicRevoluteJoint rj in cyPhyMLConnector.Children.KinematicRevoluteJointCollection)
+            {
+                createKinematicRotationalJoint(avmConnector, rj);
+            }
+            foreach (CyPhyML.KinematicTranslationalJoint tj in cyPhyMLConnector.Children.KinematicTranslationalJointCollection)
+            {
+                CreateKinematicTraslationalJoint(avmConnector, tj);
+            }
+        }
+
+        private void CreateKinematicTraslationalJoint(avm.Connector avmConnector, CyPhyML.KinematicTranslationalJoint tj)
+        {
+            var avmTj = new avm.cad.TranslationalJointSpec();
+            avmConnector.ConnectorFeature.Add(avmTj);
+            _cyPhyMLAVMObjectMap.Add(tj, avmTj);
+            foreach (var limit in tj.DstConnections.KinematicTranslationallLimitCollection)
+            {
+                var parameter = limit.DstEnds.Parameter;
+                object avmParameter;
+                if (_cyPhyMLAVMObjectMap.TryGetValue(parameter, out avmParameter))
+                {
+                    avm.Value sourceValue = null;
+                    if (avmParameter is avm.TestBenchValueBase)
+                    {
+                        sourceValue = ((avm.TestBenchValueBase)avmParameter).Value;
+                    }
+                    else if (avmParameter is avm.PrimitiveProperty)
+                    {
+                        sourceValue = ((avm.PrimitiveProperty)avmParameter).Value;
+                    }
+
+                    if (sourceValue != null)
+                    {
+                        avm.Value v2 = new Value()
+                        {
+                            ID = "id-" + Guid.NewGuid().ToString("D"),
+                            ValueExpression = new DerivedValue()
+                            {
+                                ValueSource = sourceValue.ID
+                            }
+                        };
+                        switch (limit.Attributes.LimitType)
+                        {
+                            case CyPhyMLClasses.KinematicTranslationallLimit.AttributesClass.LimitType_enum.Default:
+                                avmTj.DefaultTranslation = v2;
+                                break;
+                            case CyPhyMLClasses.KinematicTranslationallLimit.AttributesClass.LimitType_enum.Min:
+                                avmTj.MinimumTranslation = v2;
+                                break;
+                            case CyPhyMLClasses.KinematicTranslationallLimit.AttributesClass.LimitType_enum.Max:
+                                avmTj.MaximumTranslation = v2;
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    // TODO: parameter is missing from map
+                }
+            }
+            foreach (var cf in tj.DstConnections.KinematicJointDefinitionCollection)
+            {
+                CyPhyML.CADDatum datum = (CyPhyML.CADDatum)cf.DstEnd;
+                object avmDatum;
+                if (_cyPhyMLAVMObjectMap.TryGetValue(datum, out avmDatum))
+                {
+                    if (datum is CyPhyML.Axis)
+                    {
+                        avmTj.AlignmentAxis = ((avm.cad.Axis)avmDatum).ID;
+                    }
+                    else if (datum is CyPhyML.Surface)
+                    {
+                        avmTj.AlignmentPlane = ((avm.cad.Plane)avmDatum).ID;
+                    }
+                } // TODO: else: datum is missing from map
+            }
+            var limitReference = tj.DstConnections.KinematicTranslationalLimitReferenceCollection.FirstOrDefault();
+            if (limitReference != null)
+            {
+                object avmDatum;
+                if (_cyPhyMLAVMObjectMap.TryGetValue(limitReference.DstEnds.Surface, out avmDatum))
+                {
+                    avmTj.TranslationLimitReference = ((avm.cad.Datum)avmDatum).ID;
+                }
+            }
+        }
+
+        private void createKinematicRotationalJoint(avm.Connector avmConnector, CyPhyML.KinematicRevoluteJoint rj)
+        {
+            var avmRj = new avm.cad.RevoluteJointSpec();
+            avmConnector.ConnectorFeature.Add(avmRj);
+            _cyPhyMLAVMObjectMap.Add(rj, avmRj);
+            foreach (var limit in rj.SrcConnections.KinematicRotationalLimitCollection)
+            {
+                var parameter = limit.SrcEnds.Parameter;
+                object avmParameter;
+                if (_cyPhyMLAVMObjectMap.TryGetValue(parameter, out avmParameter))
+                {
+                    avm.Value sourceValue = null;
+                    if (avmParameter is avm.TestBenchValueBase)
+                    {
+                        sourceValue = ((avm.TestBenchValueBase)avmParameter).Value;
+                    }
+                    else if (avmParameter is avm.PrimitiveProperty)
+                    {
+                        sourceValue = ((avm.PrimitiveProperty)avmParameter).Value;
+                    }
+
+                    if (sourceValue != null)
+                    {
+                        avm.Value v2 = new Value()
+                        {
+                            ID = "id-" + Guid.NewGuid().ToString("D"),
+                            ValueExpression = new DerivedValue()
+                            {
+                                ValueSource = sourceValue.ID
+                            }
+                        };
+                        switch (limit.Attributes.LimitType)
+                        {
+                            case CyPhyMLClasses.KinematicRotationalLimit.AttributesClass.LimitType_enum.Default:
+                                avmRj.DefaultRotation = v2;
+                                break;
+                            case CyPhyMLClasses.KinematicRotationalLimit.AttributesClass.LimitType_enum.Min:
+                                avmRj.MinimumRotation = v2;
+                                break;
+                            case CyPhyMLClasses.KinematicRotationalLimit.AttributesClass.LimitType_enum.Max:
+                                avmRj.MaximumRotation = v2;
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    // TODO: parameter is missing from map
+                }
+            }
+            foreach (var cf in rj.DstConnections.KinematicJointDefinitionCollection)
+            {
+                CyPhyML.CADDatum datum = (CyPhyML.CADDatum)cf.DstEnd;
+                object avmDatum;
+                if (_cyPhyMLAVMObjectMap.TryGetValue(datum, out avmDatum))
+                {
+                    if (datum is CyPhyML.Axis)
+                    {
+                        avmRj.AlignmentAxis = ((avm.cad.Axis)avmDatum).ID;
+                    }
+                    else if (datum is CyPhyML.Surface)
+                    {
+                        avmRj.AlignmentPlane = ((avm.cad.Plane)avmDatum).ID;
+                    }
+                } // TODO: else: datum is missing from map
+            }
+            var limitReference = rj.DstConnections.KinematicRotationalLimitReferenceCollection.FirstOrDefault();
+            if (limitReference != null)
+            {
+                object avmDatum;
+                if (_cyPhyMLAVMObjectMap.TryGetValue(limitReference.DstEnds.Surface, out avmDatum))
+                {
+                    avmRj.RotationLimitReference = ((avm.cad.Datum)avmDatum).ID;
+                }
             }
         }
 
@@ -1071,7 +1235,7 @@ namespace CyPhyML2AVM {
             }
 
             foreach( CyPhyML.Parameter cyPhyMLParameter in cyPhyMLComponent.Children.ParameterCollection ) {
-                createAVMParameter( cyPhyMLParameter );
+                _avmComponent.Property.Add(createAVMParameter(cyPhyMLParameter));
             }
 
             foreach (CyPhyML.DomainModelPort cyPhyMLDomainModelPort in cyPhyMLComponent.Children.DomainModelPortCollection) {

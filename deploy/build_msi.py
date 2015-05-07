@@ -200,7 +200,7 @@ def build_msi():
     defines.append(('VERSIONSTRCYPHYML', cyphy_versions[1]))
     
     
-    version = '14.11.'
+    version = '14.12.'
     if 'M' in svnversion:
         version = version + '1'
     else:

@@ -9,7 +9,6 @@
   <Target Name="CheckEnv" DependsOnTargets="CheckEnvUdm"/>
 
   <ItemGroup>
-    <ProjectToBuild Include="$(THIRDPARTY_PATH)\muParser\build\msvc2010\muparser.sln"/>
     <ProjectToBuild Include="desertVS2010.sln"/>
   </ItemGroup>
 

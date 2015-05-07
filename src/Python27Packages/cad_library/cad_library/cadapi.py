@@ -144,6 +144,185 @@ class Mat4x4(object):
                 return Vec3(orientation)
 
 
+class CalculixResults(object):
+    """Represents information about the Calculix results data."""
+    def __init__(self):
+        self.job = {}
+        self.nodes = {}
+        self.elements = {}
+        self.results = {}
+    
+    def enum(self, **enums):
+        return type('Enum', (), enums)
+    
+    def parse_frd(self, filename):
+        block_code = self.enum(JOB='1C', NODE='2C', ELEM='3C', STEP='1PSTEP',
+                               METRIC='100CL', SECEND='-3', FRDEND='9999')
+        prev_el = ''
+        update_vars = True
+        with open(filename) as f:
+            for line in f:
+                # If entering new block, update codes
+                if update_vars or any([block_code.NODE==line.split()[0], \
+                                       block_code.METRIC==line.split()[0]]):
+                    # Reason for 'or': There is no end code between 1C and 2C.                 
+                    curr_code = line.split()[0]
+                    if curr_code != block_code.JOB:
+                        try:
+                            total = line.split()[1]
+                        except IndexError:
+                            if line.split()[0] == block_code.FRDEND:
+                                pass
+                            else:
+                                raise Exception('Issue grabbing section totals!')
+                        if curr_code == block_code.METRIC:
+                            metric = None
+                            submetrics = None
+                            timestep = float(line.split()[2])
+                    update_vars = False
+                    continue  # Skip to next line with new codes  
+
+                if block_code.SECEND == line.split()[0]:
+                    update_vars = True    
+                    continue
+                if curr_code == block_code.JOB:
+                    self._get_job_information(line)
+                elif curr_code == block_code.NODE:
+                    self._get_nodes(line, total)
+                elif curr_code == block_code.ELEM:
+                    prev_el = self._get_elements(line, prev_el, total)
+                elif curr_code == block_code.METRIC:
+                    metric, submetrics, total = self._get_results(line, metric, submetrics, timestep, total)
+                else:
+                    raise Exception("Block code discrepancy: " + curr_code)
+             
+    def _get_job_information(self, line):
+        info = line.split()
+        try:
+            self.job[info[0][2:].lower()] = info[1]
+        except IndexError:
+            self.job[info[0][2:].lower()] = ''
+        finally:
+            if '' in self.job.keys():
+                del self.job['']
+          
+          
+    def _get_nodes(self, line, total):
+        # info: New/Continuing line, Element, X-pos, Y-Pos, Z-pos
+        # info[0] = -1, New information. 
+        # info[0] = -2, continuation of previous line.
+        info = self._split_line(line.split())
+        expect_break = False
+        if info[0] == -1:
+            self.nodes[float(info[1])] = {'x': info[2], 'y': info[3], 'z': info[4]}
+        else:
+            print "Failing line: " + line
+            raise Exception('Unexpected node description.')
+        if float(info[1]) == float(total):
+            expect_break = True
+        return expect_break
+        
+    
+    def _get_elements(self, line, prev_el, total):
+        # info: New/Continuing line, Element, ElType, Material Number, nodes
+        # info[0] = -1, New information. 
+        # info[0] = -2, continuation of previous line.
+        info = line.split()
+        expect_break = False
+        if info[0] == '-1':
+            prev_el = float(info[1])
+            self.elements[prev_el] = {'type': info[2], 'material': info[3], 'nodes': []}
+        elif info[0] == '-2':
+            self.elements[prev_el]['nodes'].append([n for n in info[1:]])
+            if self.elements[prev_el]['type'] == 6 and len(self.elements[prev_el]['nodes']) != 10:
+                raise Exception('Element not fully defined!')
+            prev_el = ''
+        else:
+            print "Failing line: " + line
+            raise Exception('Unexpected element description.')        
+        return prev_el
+        
+    def _get_results(self, line, metric, submetrics, timestep, total):
+        """ Populate results dictionary given current line.
+            Results dictionary form:
+                { metric1:  {  
+                    timestep1:  {
+                        sub-metric1:  {
+                            Element: Value }
+                        sub-metric2: {
+                            Element: Value } } }
+                  metric2:  {
+                    timestep1:  {
+                        sub-metric1:  {
+                            Element: Value } } } 
+                }
+            - Metrics can be defined on different timesteps
+                (Timestep1 could be 0-1, Timstep2 could be 1-2)
+        """
+        info = line.split()
+        expect_break = False
+        if info[0] == '-4':
+            # Metric definition
+            metric = info[1]
+            total = float(info[2])
+            if metric not in self.results:
+                self.results[metric] = {}
+            self.results[metric][timestep] = {}
+        elif info[0] == '-5':
+            # Sub-metric definition
+            if submetrics:
+                submetrics.append(info[1])
+            else:
+                submetrics = [info[1]]
+            self.results[metric][timestep][info[1]] = {}
+        elif info[0] == '-1':
+            # All sub-metric results for given element
+            if len(submetrics) != total:
+                raise Exception('Unexpected number of sub-metrics.')
+            if len(info) < total + 2:
+                # First two indices: "-1" and element number
+                # If less than total, negative sign is combining two values, split again
+                info = self._split_line(info)
+            for i in range(len(submetrics)):
+                sub = submetrics[i]
+                try:
+                    self.results[metric][timestep][sub][float(info[1])] = float(info[2+i])
+                except IndexError:
+                    # ALL is magnitude of components, not directly given.
+                    if sub == 'ALL':
+                        self.results[metric][timestep][sub][float(info[1])] = \
+                                math.sqrt(sum([float(info[s])**2 for s in range(2,len(info))]))
+                    else:
+                        raise Exception('Unknown metric: ' + metric)
+        else:
+            raise Exception('Unknown line code: ' + info[0])
+        return metric, submetrics, total
+                
+    def _split_line(self, info):
+        """ Split line with negative sign as delimiter.
+            Example: "193 8.02941E-01-2.25000E+02 0.00000E+00"
+        """
+        d = '-'  # delimiter
+        newline = [info[0]]
+        for i in range(1,len(info)):
+            temp = [e for e in info[i].split(d) if e != '']
+            for j in range(0,len(temp)):
+                try:
+                    # Occurs if value is E-##. Need to concatenate exponent to value.
+                    neg_E = temp[j].endswith('E')
+                except IndexError:
+                    # By deleting previous entries, length has shortened and
+                    # last element's index has decreased by one. Not a failure.
+                    break
+                if neg_E:
+                    temp[j] = d + temp[j] + d + temp[j+1]
+                    del temp[j+1]  # Delete E-## index, as has now been concatenated.
+                else:
+                    if j > 0:
+                        temp[j] = d + temp[j]  # Make value negative.
+            newline.extend(temp)
+        return map(float, newline)
+                
 class AssemblyInfo(object):
     """Represents information about the assembly and analysis data."""
     def __init__(self):

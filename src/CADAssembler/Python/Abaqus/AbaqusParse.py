@@ -31,6 +31,7 @@ def parseCADAssemblyXML(xmlName, resultsDir, args):
         tree = ET.parse(xmlPath)
         xmlRoot = tree.getroot()
     except IOError:
+        # Input/Output Error occurs if file does not exist or the XML is malformed.
         cad_library.exitwitherror('Cannot parse ' + xmlName + '.', -1, 'AbaqusParse.py')
     
     assemblyXML = xmlRoot.find('Assembly')

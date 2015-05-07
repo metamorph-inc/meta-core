@@ -220,6 +220,21 @@ namespace isis_CADCommon
 		QBDY3() : name("QBDY3"), SID(0), EID1(0), EID2(0), EID3(0), EID4(0), EID5(0), EID6(0), EID7(0), EID8(0) {};
 	};
 
+	struct QVOL  // Volume Heat Addition
+	{
+		// Defines a rate of volumetric heat addition in a conduction element.
+		std::string name;
+		int				SID;		//	Load set identification. (Integer > 0)
+		std::string		QVOL_Value;	//	Power input per unit volume produced by a heat conduction element. (Real)
+		std::string		CNTRLND;	//	Control point used for controlling heat generation. (Integer > 0; Default = 0)
+		int				EID1;		//  Heat conduction elements. (Integer > 0
+		int				EID2;				
+		int				EID3;	
+		int				EID4;	
+		int				EID5;		
+
+		QVOL() : name("QVOL"), EID1(0), EID2(0), EID3(0), EID4(0), EID5(0) {};
+	};
 
 	enum NastranCardType
 	{
@@ -268,6 +283,24 @@ namespace isis_CADCommon
 		int EID;
 		int PID;
 		std::vector<int> GID;
+
+		//	Description:
+		//		Compute the volume of CTetra (4 or 10 node) elements.  Other elements 
+		//		( e.g. CHexa, CPenta) are not supported at this time.  When needed, 
+		//		this function should be modified to support those elements.
+		//	Pre-Conditions:
+		//		The grid points in SolidElement must not be congruent.  If one or more grid points are
+		//		congruent, then the behaviour of this function is unknown.
+		//	Post-Conditions
+		//		If SolidElement.Type != CTETRA
+		//			throw sis::application_exception
+		//		If SolidElement.GID.size() < 4
+		//			throw sis::application_exception
+		//		If a GID is not in in_GridPointData
+		//			throw sis::application_exception
+		//		If no exceptions
+		//			return volume
+		double getVolume( const std::map<int, GridPoint> &in_GridPointData ) const throw (isis::application_exception);
 
 		friend std::ostream& operator<<(std::ostream& stream, SolidElement &myElement);
 	};
@@ -420,15 +453,16 @@ namespace isis_CADCommon
 			std::string endBulkData;
 
 			//Data copied from the CommonNastranDS object
-			std::map<int, MAT1>		materialData_MAT1; // MAT1 and MAT4 materials, others not supported right now
-			std::map<int, MAT4>		materialData_MAT4; 
+			std::map<int, MAT1>			materialData_MAT1; // MAT1 and MAT4 materials, others not supported right now
+			std::map<int, MAT4>			materialData_MAT4; 
 			std::multimap<int, TEMP>	temperature_TEMP; 
 			std::multimap<int, TEMPD>	temperature_TEMPD; 
-			std::map<int, SPOINT>	point_SPOINT; 
-			std::map<int, PCONV>	convection_PCONV; 
-			std::map<int, CONV>		convection_CONV; 
-			std::map<int, CHBDYG>	surfaceElement_CHBDYG; 
+			std::map<int, SPOINT>		point_SPOINT; 
+			std::map<int, PCONV>		convection_PCONV; 
+			std::map<int, CONV>			convection_CONV; 
+			std::map<int, CHBDYG>		surfaceElement_CHBDYG; 
 			std::multimap<int, QBDY3>	heatFlux_QBDY3; 
+			std::multimap<int, QVOL>	heatVolume_QVOL; 
 
 			std::map<int, GridPoint> gridPointData;	// grid points
 			int	 gridPointIDCurrentMax;
@@ -450,7 +484,6 @@ namespace isis_CADCommon
 			std::multimap<int, int> displaceCord_Elements; // <dispCord_ID, Grid_ID>
 			std::set<int> displaceCord_Elements_KEYS;
 
-
 			int tetraCount;
 			int pentaCount;
 			int hexaCount;
@@ -466,8 +499,7 @@ namespace isis_CADCommon
 			bool CONVECTION_CONV_set;
 			bool SURFACE_ELEMENT_CHBDYG_set;
 			bool SURFACE_ELEMENT_QBDY3_set;
-
-
+			bool VOLUME_ELEMENT_QVOL_set;
 
 		public:
 			NastranDeck();
@@ -514,6 +546,9 @@ namespace isis_CADCommon
 			const std::multimap<int, QBDY3>& getHeatFlux_QBDY3() const; 
 			void  AddHeatFlux_QBDY3(const QBDY3 &in_QBDY3);
 
+			const std::multimap<int, QVOL>& getHeatVolume_QVOL() const; 
+			void  AddHeatVolume_QVOL(const QVOL &in_QVOL);
+
 			std::map<int, GridPoint>& getGridPointData();
 			int	getNextGridPointID();
 
@@ -539,7 +574,6 @@ namespace isis_CADCommon
 			//////////////////////////////
 
 			void ReadNastranDeck( const std::string &in_InputFileName ) throw (isis::application_exception);
-
 			
 			
 			// void GetMetaHeaderComments( 
@@ -663,6 +697,9 @@ namespace isis_CADCommon
 					std::map<std::string, double>					&in_ComponentID_PoissonsRatio_map,
 					std::map<std::string, std::string>              &out_MaterialID_to_CompnentID_map );
 
+
+			void NastranDeck::CommentOutMat1Cards();
+
 			enum e_CoordinateSystemType
 			{
 				// RECTANGULAR_COORDINATE_SYSTEM,  Don't allow this 
@@ -726,7 +763,24 @@ namespace isis_CADCommon
 			// Post-conditions: An exception is thrown if any PSolid ID is invalid
 			//  Otherwise, the corresponding vector of SolidElement objects is
 			//   returned by parameter
-			void FindElementsFromPSolids(std::vector<int> &in_PSolidIDs, std::vector<int> &out_elementIDs);
+			void FindElementsFromPSolids(const std::vector<int> &in_PSolidIDs, std::vector<int> &out_elementIDs);
+
+			//	Description:
+			//		Compute the total volume of all the in_PSolidIDs elements. 
+			//		This function calls SolidElement:getVolume for each element identified by in_PSolidIDs.
+			//	Pre-Conditions:
+			//		The pre-conditions for SolidElement:getVolume apply to this function
+			//	Post-Conditions
+			//		The exceptions for SolidElement:getVolume apply to this function.
+			//		if (in_PSolidIDs.empty())
+			//			throw isis::application_exception
+			//		if ( in_PSolidIDs contains an invalide PSolidID )
+			//			throw isis::application_exception
+			//		if no elements found for one or more in_PSolidIDs
+			//			throw isis::application_exception
+			//		if no exceptions
+			//			return the total volume of all the in_PSolidIDs
+			double VolumeOfPSolids(const std::vector<int> &in_PSolidIDs);
 
 			// Description: Given a vector of SolidElements, we return a vector of gridPoints
 			//  that belong to those SolidElement objects.
@@ -951,6 +1005,13 @@ namespace isis_CADCommon
 		SurfaceConvection() : convID(0), pconvID(0), mat4ID(0), spointID(0), elementIDThatContainsSurface(0),  convectionCoefficient(0.0), ambientTemperature(0.0) {};
 	};
 
+	struct VolumetricHeatGeneration
+	{
+		// J/(sec * mm^3)
+		double powerInputPerVolume;
+		std::vector<int> elementIDs;
+	};
+
 	class NastranDeckHelper
 	{
 		// This class assumes that all the loads/constraints defined in nastranDeck apply.  In other words, there is
@@ -1024,7 +1085,7 @@ namespace isis_CADCommon
 
 			// Description:
 			//		This function returns the free convection boundary condition for heat transfer analysis through connection to
-			//		a surface element.  See CONV card desciption in the Nastran documentation.
+			//		a surface element.  See CONV card description in the Nastran documentation.
 			// Pre-Conditions:
 			//		This function only works with Tetra elements.
 			// Post-Conditions:
@@ -1049,6 +1110,17 @@ namespace isis_CADCommon
 			void getSurfaceElementsContainingGridPoints ( const std::set<int> &in_GridPointIDs, 
 														  std::multimap< int, std::vector<int>> &out_ElementID_to_SurfacePoints_map )
 														  throw (isis::application_exception);
+
+			// Description:
+			//		This function returns the volumetric-heat-generation value information in the structure  VolumetricHeatGeneration.
+			//		This structure contains the value for powerInputPerVolume and elementIDs.
+			//		See QVOL card description in the Nastran documentation.
+			// Pre-Conditions:
+			//		This function only works with Tetra elements.
+			// Post-Conditions:
+			//		if there are no volumetric-heat-generation data defined in the deck, then out_VolumetricHeatGenerations.size() == 0
+			//		Otherwise, return a populated out_VolumetricHeatGenerations
+			void getVolumetricHeatGenerations( std::vector<VolumetricHeatGeneration> &out_VolumetricHeatGenerations );
 
 		private:
 			const NastranDeck &nastranDeck;

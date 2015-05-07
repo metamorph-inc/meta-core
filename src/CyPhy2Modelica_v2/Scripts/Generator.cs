@@ -265,6 +265,7 @@ namespace CyPhy2Modelica_v2.Scripts
         private void CopyOverPostProcessingScripts(string outputDirectory, CyPhy.TestBench testBench)
         {
             string outputPostProcDir = Path.Combine(outputDirectory, "PostProcessing");
+            List<string> postProcFileNames = new List<string>();
 
             foreach (var postProc in testBench.Children.PostProcessingCollection)
             {
@@ -288,6 +289,8 @@ namespace CyPhy2Modelica_v2.Scripts
                     FileInfo postScript = new FileInfo(scriptFilePath);
                     string destFile = Path.Combine(outputPostProcDir, postScript.Name);
                     File.Copy(postScript.FullName, destFile, true);
+                    // META-3580
+                    postProcFileNames.Add(Path.GetFileNameWithoutExtension(postScript.Name));
 
                     // If common folder exist copy entire folder.
                     DirectoryInfo commonSrc = new DirectoryInfo(Path.Combine(postScript.DirectoryName, "common"));
@@ -299,6 +302,34 @@ namespace CyPhy2Modelica_v2.Scripts
                     }
                 }
             }
+
+            // META-3580
+            if (postProcFileNames.Any())
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendLine("# Generated file using the META tools");
+                sb.AppendLine("# Exposes all get_metrics functions for external usage");
+                sb.AppendLine();
+
+                // import all post processing files
+                foreach (var postScriptFileName in postProcFileNames)
+                {
+                    sb.AppendFormat("import {0}", postScriptFileName);
+                    sb.AppendLine();
+                }
+
+                sb.AppendLine();
+
+                // expose get_metrics functions
+                sb.AppendFormat("post_processing_modules = [{0}]", string.Join(", ", postProcFileNames));
+                sb.AppendLine();
+
+                sb.AppendLine();
+
+                File.WriteAllText(Path.Combine(outputPostProcDir, "__init__.py"), sb.ToString(), Encoding.UTF8);
+            }
+
         }
 
         /// <summary>

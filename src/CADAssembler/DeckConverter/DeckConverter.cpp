@@ -286,7 +286,7 @@ namespace isis
 				}
 			}
 
-			// Heat Flux: support DFLUX only
+			// Surface Heat Flux: support DFLUX only
 			std::vector<isis_CADCommon::HeatFluxLoad> heatFluxLoads;
 			deckHelper.getHeatFluxLoadsForBoundarySurfaces(heatFluxLoads);
 			if (heatFluxLoads.size() > 0)
@@ -309,6 +309,22 @@ namespace isis
 					}
 					DetermineElementFace(faceNodes, face);
 					calculix << hfi->elementIDThatContainsSurface << ", " << "S" << face << ", " << hfi->Q0 << "\n";
+				}
+			}
+
+			// Heat Generation (Body Heat Flux)
+			std::vector<isis_CADCommon::VolumetricHeatGeneration> heatGenLoads;
+			deckHelper.getVolumetricHeatGenerations(heatGenLoads);
+			if (heatGenLoads.size() > 0)
+			{
+				calculix << "**\n";
+				calculix << "*DFLUX\n";
+				for (std::vector<isis_CADCommon::VolumetricHeatGeneration>::const_iterator bhfi = heatGenLoads.begin(); bhfi != heatGenLoads.end(); bhfi++)
+				{
+					for (std::vector<int>::size_type hgi = 0; hgi != bhfi->elementIDs.size(); hgi++)
+					{
+						calculix << bhfi->elementIDs[hgi] << ", " << "BF, " << bhfi->powerInputPerVolume << "\n";
+					}
 				}
 			}
 

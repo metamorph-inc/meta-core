@@ -3,7 +3,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
  elementFormDefault="qualified" 
 >
-<!-- generated on Thu Sep 25 13:49:16 2014 -->
+<!-- generated on Tue Oct 14 10:42:40 2014 -->
 
 
 	<xsd:complexType name="LimitReferenceType">
@@ -923,6 +923,18 @@
 		<xsd:attribute name="_subtype" type="xsd:boolean"/>
 	</xsd:complexType>
 
+	<xsd:complexType name="MetaDataType">
+		<xsd:attribute name="Key" type="xsd:string" use="required"/>
+		<xsd:attribute name="Value" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
 	<xsd:complexType name="ProcessingInstructionType">
 		<xsd:attribute name="Primary" type="xsd:string" use="required"/>
 		<xsd:attribute name="Secondary" type="xsd:string" use="required"/>
@@ -1222,6 +1234,7 @@
 			<xsd:element name="Constraint" type="ConstraintType" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element name="KinematicConnections" type="KinematicConnectionsType" minOccurs="0"/>
 			<xsd:element name="ManufacturingParameter" type="ManufacturingParameterType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="MetaData" type="MetaDataType" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element name="ParametricParameters" type="ParametricParametersType" minOccurs="0"/>
 		</xsd:sequence>
 		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>

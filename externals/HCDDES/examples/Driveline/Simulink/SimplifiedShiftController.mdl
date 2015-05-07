@@ -1,0 +1,2054 @@
+Model {
+  Name			  "SimplifiedShiftController5"
+  Version		  8.2
+  MdlSubVersion		  0
+  SavedCharacterEncoding  "UTF-8"
+  GraphicalInterface {
+    NumRootInports	    5
+    Inport {
+      BusObject		      ""
+      Name		      "prndl"
+    }
+    Inport {
+      BusObject		      ""
+      Name		      "input_speed_torque_converter"
+    }
+    Inport {
+      BusObject		      ""
+      Name		      "output_speed_torque_converter"
+    }
+    Inport {
+      BusObject		      ""
+      Name		      "shift_request_state"
+    }
+    Inport {
+      BusObject		      ""
+      Name		      "driver_gear_select"
+    }
+    NumRootOutports	    1
+    Outport {
+      BusObject		      ""
+      BusOutputAsStruct	      "off"
+      Name		      "gear_selected"
+    }
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.19"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SaveDefaultBlockParams  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  DataTypeOverrideAppliesTo "AllNumericTypes"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  FPTRunName		  "Run 1"
+  MaxMDLFileLineLength	  120
+  Object {
+    $PropName		    "BdWindowsInfo"
+    $ObjectID		    1
+    $ClassName		    "Simulink.BDWindowsInfo"
+    Object {
+      $PropName		      "WindowsInfo"
+      $ObjectID		      2
+      $ClassName	      "Simulink.WindowInfo"
+      IsActive		      [1]
+      Location		      [58.0, 24.0, 1954.0, 1086.0]
+      Object {
+	$PropName		"ModelBrowserInfo"
+	$ObjectID		3
+	$ClassName		"Simulink.ModelBrowserInfo"
+	Visible			[1]
+	DockPosition		"Left"
+	Width			[50]
+	Height			[50]
+	Filter			[9]
+      }
+      Object {
+	$PropName		"ExplorerBarInfo"
+	$ObjectID		4
+	$ClassName		"Simulink.ExplorerBarInfo"
+	Visible			[1]
+      }
+      Object {
+	$PropName		"EditorsInfo"
+	$ObjectID		5
+	$ClassName		"Simulink.EditorInfo"
+	IsActive		[1]
+	ViewObjType		"StateflowChart"
+	LoadSaveID		"20"
+	Extents			[1707.0, 903.0]
+	ZoomFactor		[1.000250062515629]
+	Offset			[101.754, 166.84600000000006]
+      }
+    }
+  }
+  Created		  "Thu Oct 10 11:14:51 2013"
+  Creator		  "root"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "tiwari"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu May 15 16:55:33 2014"
+  RTWModifiedTimeStamp	  322073722
+  ModelVersionFormat	  "1.%<AutoIncrement:19>"
+  ConfigurationManager	  "none"
+  SampleTimeColors	  off
+  SampleTimeAnnotations	  off
+  LibraryLinkDisplay	  "disabled"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowDesignRanges	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowSignalResolutionIcons on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  SimulationMode	  "normal"
+  PauseTimes		  "5"
+  NumberOfSteps		  1
+  SnapshotBufferSize	  10
+  SnapshotInterval	  10
+  NumberOfLastSnapshots	  0
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  Object {
+    $PropName		    "DataLoggingOverride"
+    $ObjectID		    6
+    $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
+    model_		    "SimplifiedShiftController5"
+    overrideMode_	    [0.0]
+    Array {
+      Type		      "Cell"
+      Dimension		      1
+      Cell		      "SimplifiedShiftController5"
+      PropName		      "logAsSpecifiedByModels_"
+    }
+    Array {
+      Type		      "Cell"
+      Dimension		      1
+      Cell		      []
+      PropName		      "logAsSpecifiedByModelsSSIDs_"
+    }
+  }
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  CovForceBlockReductionOff on
+  CovEnableCumulative	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  CovModelRefEnable	  "Off"
+  CovExternalEMLEnable	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      7
+      Version		      "1.13.1"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  8
+	  Version		  "1.13.1"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ZcThreshold		  "auto"
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  EnableConcurrentExecution off
+	  ConcurrentTasks	  off
+	  Solver		  "ode45"
+	  SolverName		  "ode45"
+	  SolverJacobianMethodControl "auto"
+	  ShapePreserveControl	  "DisableAll"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  ZeroCrossAlgorithm	  "Nonadaptive"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  InsertRTBMode		  "Whenever possible"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  9
+	  Version		  "1.13.1"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveCompleteFinalSimState off
+	  SaveFormat		  "Array"
+	  SignalLoggingSaveFormat "Dataset"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SignalLogging		  on
+	  DSMLogging		  on
+	  InspectSignalLogs	  off
+	  SaveTime		  on
+	  ReturnWorkspaceOutputs  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  DSMLoggingName	  "dsmout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  ReturnWorkspaceOutputsName "out"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  10
+	  Version		  "1.13.1"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    8
+	    Cell		    "BooleansAsBitfields"
+	    Cell		    "PassReuseOutputArgsAs"
+	    Cell		    "PassReuseOutputArgsThreshold"
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    Cell		    "UseSpecifiedMinMax"
+	    PropName		    "DisabledProps"
+	  }
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  UseIntDivNetSlope	  off
+	  UseFloatMulNetSlope	  off
+	  DefaultUnderspecifiedDataType	"double"
+	  UseSpecifiedMinMax	  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnhancedBackFolding	  off
+	  StrengthReduction	  off
+	  ExpressionFolding	  on
+	  BooleansAsBitfields	  off
+	  BitfieldContainerType	  "uint_T"
+	  EnableMemcpy		  on
+	  MemcpyThreshold	  64
+	  PassReuseOutputArgsAs	  "Structure reference"
+	  ExpressionDepthLimit	  128
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  ActiveStateOutputEnumStorageType "Native Integer"
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  off
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  EfficientMapNaN2IntZero on
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	  MaxStackSize		  "Inherit from target"
+	  BufferReusableBoundary  on
+	  SimCompilerOptimization "Off"
+	  AccelVerboseBuild	  off
+	  ParallelExecutionInRapidAccelerator on
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  11
+	  Version		  "1.13.1"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  SignalRangeChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  SaveWithDisabledLinksMsg "warning"
+	  SaveWithParameterizedLinksMsg	"warning"
+	  CheckSSInitialOutputMsg on
+	  UnderspecifiedInitializationDetection	"Classic"
+	  MergeDetectMultiDrivingBlocksExec "none"
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "UseLocalSettings"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  MaskedZcDiagnostic	  "warning"
+	  IgnoredZcDiagnostic	  "warning"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "error"
+	  MultiTaskCondExecSysMsg "error"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  ParameterTunabilityLossMsg "warning"
+	  FixptConstUnderflowMsg  "none"
+	  FixptConstOverflowMsg	  "none"
+	  FixptConstPrecisionLossMsg "none"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "EnableAllAsError"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  FrameProcessingCompatibilityMsg "warning"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceMultiInstanceNormalModeStructChecksumCheck "error"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StateNameClashWarn	  "warning"
+	  SimStateInterfaceChecksumMismatchMsg "warning"
+	  SimStateOlderReleaseMsg "error"
+	  InitInArrayFormatMsg	  "warning"
+	  StrictBusMsg		  "ErrorLevel1"
+	  BusNameAdapt		  "WarnAndRepair"
+	  NonBusSignalsTreatedAsBus "none"
+	  LoggingUnavailableSignals "error"
+	  BlockIODiagnostic	  "none"
+	  SFUnusedDataAndEventsDiag "warning"
+	  SFUnexpectedBacktrackingDiag "warning"
+	  SFInvalidInputDataAccessInChartInitDiag "warning"
+	  SFNoUnconditionalDefaultTransitionDiag "warning"
+	  SFTransitionOutsideNaturalParentDiag "warning"
+	  SFUnconditionalTransitionShadowingDiag "warning"
+	  SFUndirectedBroadcastEventsDiag "warning"
+	  SFTransitionActionBeforeConditionDiag	"warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  12
+	  Version		  "1.13.1"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdBitPerLongLong	  64
+	  ProdBitPerFloat	  32
+	  ProdBitPerDouble	  64
+	  ProdBitPerPointer	  32
+	  ProdLargestAtomicInteger "Char"
+	  ProdLargestAtomicFloat  "None"
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdLongLongMode	  off
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetBitPerLongLong	  64
+	  TargetBitPerFloat	  32
+	  TargetBitPerDouble	  64
+	  TargetBitPerPointer	  32
+	  TargetLargestAtomicInteger "Char"
+	  TargetLargestAtomicFloat "None"
+	  TargetShiftRightIntArith on
+	  TargetLongLongMode	  off
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  13
+	  Version		  "1.13.1"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  EnableParallelModelReferenceBuilds off
+	  ParallelModelReferenceErrorOnInvalidPool on
+	  ParallelModelReferenceMATLABWorkerInit "None"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  PropagateVarSize	  "Infer from blocks in model"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	  PropagateSignalLabelsOutOfModel off
+	  SupportModelReferenceSimTargetCustomCode off
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  14
+	  Version		  "1.13.1"
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SimBlas		  on
+	  SimCtrlC		  on
+	  SimExtrinsic		  on
+	  SimIntegrity		  on
+	  SimUseLocalCustomCode	  off
+	  SimParseCustomCode	  on
+	  SimBuildMode		  "sf_incremental_build"
+	  SimGenImportedTypeDefs  off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  15
+	  Version		  "1.13.1"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    15
+	    Cell		    "IncludeHyperlinkInReport"
+	    Cell		    "GenerateTraceInfo"
+	    Cell		    "GenerateTraceReport"
+	    Cell		    "GenerateTraceReportSl"
+	    Cell		    "GenerateTraceReportSf"
+	    Cell		    "GenerateTraceReportEml"
+	    Cell		    "PortableWordSizes"
+	    Cell		    "GenerateWebview"
+	    Cell		    "GenerateCodeMetricsReport"
+	    Cell		    "GenerateCodeReplacementReport"
+	    Cell		    "GenerateErtSFunction"
+	    Cell		    "CreateSILPILBlock"
+	    Cell		    "CodeExecutionProfiling"
+	    Cell		    "CodeProfilingSaveOptions"
+	    Cell		    "CodeProfilingInstrumentation"
+	    PropName		    "DisabledProps"
+	  }
+	  SystemTargetFile	  "grt.tlc"
+	  TLCOptions		  ""
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  PackageGeneratedCodeAndArtifacts off
+	  PackageName		  ""
+	  TemplateMakefile	  "grt_default_tmf"
+	  PostCodeGenCommand	  ""
+	  Description		  ""
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ProcessScript		  ""
+	  ConfigurationScript	  ""
+	  ConfigAtBuild		  off
+	  RTWUseLocalCustomCode	  off
+	  RTWUseSimCustomCode	  off
+	  CustomSourceCode	  ""
+	  CustomHeaderCode	  ""
+	  CustomInclude		  ""
+	  CustomSource		  ""
+	  CustomLibrary		  ""
+	  CustomInitializer	  ""
+	  CustomTerminator	  ""
+	  Toolchain		  "Automatically locate an installed toolchain"
+	  BuildConfiguration	  "Faster Builds"
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  PortableWordSizes	  off
+	  GenerateErtSFunction	  off
+	  CreateSILPILBlock	  "None"
+	  CodeExecutionProfiling  off
+	  CodeExecutionProfileVariable "executionProfile"
+	  CodeProfilingSaveOptions "SummaryOnly"
+	  CodeProfilingInstrumentation off
+	  SILDebugging		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  IncludeERTFirstTime	  off
+	  GenerateTraceInfo	  off
+	  GenerateTraceReport	  off
+	  GenerateTraceReportSl	  off
+	  GenerateTraceReportSf	  off
+	  GenerateTraceReportEml  off
+	  GenerateCodeInfo	  off
+	  GenerateWebview	  off
+	  GenerateCodeMetricsReport off
+	  GenerateCodeReplacementReport	off
+	  RTWCompilerOptimization "Off"
+	  RTWCustomCompilerOptimizations ""
+	  CheckMdlBeforeBuild	  "Off"
+	  CustomRebuildMode	  "OnUpdate"
+	  DataInitializer	  ""
+	  SharedConstantsCachingThreshold 1024
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      16
+	      Version		      "1.13.1"
+	      Array {
+		Type			"Cell"
+		Dimension		22
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"IgnoreTestpoints"
+		Cell			"InsertBlockDesc"
+		Cell			"InsertPolySpaceComments"
+		Cell			"SFDataObjDesc"
+		Cell			"MATLABFcnDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InternalIdentifier"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		Cell			"CustomSymbolStrGlobalVar"
+		Cell			"CustomSymbolStrType"
+		Cell			"CustomSymbolStrField"
+		Cell			"CustomSymbolStrFcn"
+		Cell			"CustomSymbolStrFcnArg"
+		Cell			"CustomSymbolStrBlkIO"
+		Cell			"CustomSymbolStrTmpVar"
+		Cell			"CustomSymbolStrMacro"
+		Cell			"ReqsInCode"
+		PropName		"DisabledProps"
+	      }
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IgnoreTestpoints	      off
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      OperatorAnnotations     off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      MATLABFcnDesc	      off
+	      IncDataTypeInIds	      off
+	      MangleLength	      1
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M_T"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrFcnArg   "rt$I$N$M"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      CustomSymbolStrUtil     "$N$C"
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      InsertPolySpaceComments off
+	      SimulinkBlockComments   on
+	      MATLABSourceComments    off
+	      EnableCustomComments    off
+	      InternalIdentifier      "Shortened"
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	      UseSimReservedNames     off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      17
+	      Version		      "1.13.1"
+	      Array {
+		Type			"Cell"
+		Dimension		15
+		Cell			"GeneratePreprocessorConditionals"
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"GenerateTestInterfaces"
+		Cell			"ModelStepFunctionPrototypeControlCompliant"
+		Cell			"CPPClassGenCompliant"
+		Cell			"GenerateAllocFcn"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		PropName		"DisabledProps"
+	      }
+	      TargetFcnLib	      "ansi_tfl_table_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      CodeReplacementLibrary  "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      ERTMultiwordTypeDef     "System defined"
+	      ERTMultiwordLength      256
+	      MultiwordLength	      2048
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      ParMdlRefBuildCompliant on
+	      CompOptLevelCompliant   on
+	      ConcurrentExecutionCompliant on
+	      IncludeMdlTerminateFcn  on
+	      GeneratePreprocessorConditionals "Disable all"
+	      CombineOutputUpdateFcns on
+	      CombineSignalStateStructs	off
+	      SuppressErrorStatus     off
+	      ERTFirstTimeCompliant   off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      SupportVariableSizeSignals off
+	      EnableShiftOperators    on
+	      ParenthesesLevel	      "Nominal"
+	      MATLABClassNameForMDSCustomization "Simulink.SoftwareTarget.GRTCustomization"
+	      ModelStepFunctionPrototypeControlCompliant off
+	      CPPClassGenCompliant    off
+	      AutosarCompliant	      off
+	      GRTInterface	      off
+	      GenerateAllocFcn	      off
+	      UseMalloc		      off
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      ExtModeIntrfLevel	      "Level1"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      RTWCAPIRootIO	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      CurrentDlgPage	      "Solver"
+      ConfigPrmDlgPosition     [ 110, 45, 1170, 675 ] 
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    7
+  }
+  Object {
+    $PropName		    "DataTransfer"
+    $ObjectID		    18
+    $ClassName		    "Simulink.GlobalDataTransfer"
+    DefaultTransitionBetweenSyncTasks "Ensure deterministic transfer (maximum delay)"
+    DefaultTransitionBetweenAsyncTasks "Ensure data integrity only"
+    DefaultTransitionBetweenContTasks "Ensure deterministic transfer (minimum delay)"
+    DefaultExtrapolationMethodBetweenContTasks "None"
+    AutoInsertRateTranBlk   [0]
+  }
+  ExplicitPartitioning	  off
+  BlockDefaults {
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+    BlockRotation	    0
+    BlockMirror		    off
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    UseDisplayTextAsClickCallback off
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  MaskDefaults {
+    SelfModifiable	    "off"
+    IconFrame		    "on"
+    IconOpaque		    "on"
+    RunInitForIconRedraw    "off"
+    IconRotate		    "none"
+    PortRotate		    "default"
+    IconUnits		    "autoscale"
+  }
+  MaskParameterDefaults {
+    Evaluate		    "on"
+    Tunable		    "on"
+    NeverSave		    "off"
+    Internal		    "off"
+    ReadOnly		    "off"
+    Enabled		    "on"
+    Visible		    "on"
+    ToolTip		    "on"
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      OutputFunctionCall      off
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchInputForFeedbackSignals off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      SourceOfInitialOutputValue "Dialog"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      S-Function
+      FunctionName	      "system"
+      SFunctionModules	      "''"
+      PortCounts	      "[]"
+      SFunctionDeploymentMode off
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      "FromPortIcon"
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      CheckFcnCallInpInsideContextMsg off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      FunctionInterfaceSpec   "void_void"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      DataTypeOverrideAppliesTo	"AllNumericTypes"
+      MinMaxOverflowLogging   "UseLocalSettings"
+      SFBlockType	      "NONE"
+      Variant		      off
+      GeneratePreprocessorConditionals off
+      ContentPreviewEnabled   off
+    }
+    Block {
+      BlockType		      Terminator
+    }
+  }
+  System {
+    Name		    "SimplifiedShiftController5"
+    Location		    [58, 24, 2012, 1110]
+    Open		    off
+    ModelBrowserVisibility  on
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    SIDHighWatermark	    "48"
+    Block {
+      BlockType		      Inport
+      Name		      "prndl"
+      SID		      "30"
+      Position		      [70, 173, 100, 187]
+      ZOrder		      29
+      IconDisplay	      "Port number"
+    }
+    Block {
+      BlockType		      Inport
+      Name		      "input_speed_torque_converter"
+      SID		      "32"
+      Position		      [70, 228, 100, 242]
+      ZOrder		      31
+      Port		      "2"
+      IconDisplay	      "Port number"
+    }
+    Block {
+      BlockType		      Inport
+      Name		      "output_speed_torque_converter"
+      SID		      "33"
+      Position		      [70, 268, 100, 282]
+      ZOrder		      32
+      Port		      "3"
+      IconDisplay	      "Port number"
+    }
+    Block {
+      BlockType		      Inport
+      Name		      "shift_request_state"
+      SID		      "34"
+      Position		      [70, 313, 100, 327]
+      ZOrder		      33
+      Port		      "4"
+      IconDisplay	      "Port number"
+    }
+    Block {
+      BlockType		      Inport
+      Name		      "driver_gear_select"
+      SID		      "37"
+      Position		      [70, 358, 100, 372]
+      ZOrder		      36
+      Port		      "5"
+      IconDisplay	      "Port number"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Shift_Controller"
+      SID		      "1"
+      Ports		      [5, 1]
+      Position		      [260, 158, 530, 382]
+      ZOrder		      28
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"Shift_Controller"
+	Location		[58, 24, 2012, 1110]
+	Open			off
+	ModelBrowserVisibility	on
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "prndl"
+	  SID			  "43"
+	  Position		  [115, 118, 145, 132]
+	  ZOrder		  42
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "input_speed_torque_converter"
+	  SID			  "44"
+	  Position		  [115, 198, 145, 212]
+	  ZOrder		  43
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "output_speed_torque_converter"
+	  SID			  "45"
+	  Position		  [115, 238, 145, 252]
+	  ZOrder		  44
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "shift_request_state"
+	  SID			  "46"
+	  Position		  [115, 283, 145, 297]
+	  ZOrder		  45
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "driver_gear_select"
+	  SID			  "47"
+	  Position		  [115, 328, 145, 342]
+	  ZOrder		  46
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "ShiftController"
+	  SID			  "20"
+	  Ports			  [4, 1]
+	  Position		  [270, 162, 525, 343]
+	  ZOrder		  14
+	  LibraryVersion	  "1.262"
+	  ErrorFcn		  "Stateflow.Translate.translate"
+	  PermitHierarchicalResolution "ExplicitOnly"
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  SFBlockType		  "Chart"
+	  System {
+	    Name		    "ShiftController"
+	    Location		    [58, 24, 2012, 1110]
+	    Open		    on
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    SIDHighWatermark	    "56"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "input_speed_TC"
+	      SID		      "20::50"
+	      Position		      [20, 101, 40, 119]
+	      ZOrder		      30
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "output_speed_TC"
+	      SID		      "20::51"
+	      Position		      [20, 136, 40, 154]
+	      ZOrder		      31
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "shift_request_state"
+	      SID		      "20::45"
+	      Position		      [20, 171, 40, 189]
+	      ZOrder		      25
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "driver_gear_select"
+	      SID		      "20::52"
+	      Position		      [20, 206, 40, 224]
+	      ZOrder		      32
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      " Demux "
+	      SID		      "20::55"
+	      Ports		      [1, 1]
+	      Position		      [270, 230, 320, 270]
+	      ZOrder		      35
+	      Outputs		      "1"
+	    }
+	    Block {
+	      BlockType		      S-Function
+	      Name		      " SFunction "
+	      SID		      "20::54"
+	      Tag		      "Stateflow S-Function SimplifiedShiftController5 1"
+	      Ports		      [4, 2]
+	      Position		      [180, 102, 230, 203]
+	      ZOrder		      34
+	      FunctionName	      "sf_sfun"
+	      PortCounts	      "[4 2]"
+	      EnableBusSupport	      off
+	      Port {
+		PortNumber		2
+		Name			"gear_selected"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      " Terminator "
+	      SID		      "20::56"
+	      Position		      [460, 241, 480, 259]
+	      ZOrder		      36
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "gear_selected"
+	      SID		      "20::53"
+	      Position		      [460, 101, 480, 119]
+	      ZOrder		      33
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      ZOrder		      8
+	      SrcBlock		      "input_speed_TC"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      1
+	    }
+	    Line {
+	      ZOrder		      9
+	      SrcBlock		      "output_speed_TC"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      2
+	    }
+	    Line {
+	      ZOrder		      10
+	      SrcBlock		      "shift_request_state"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      3
+	    }
+	    Line {
+	      ZOrder		      11
+	      SrcBlock		      "driver_gear_select"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      4
+	    }
+	    Line {
+	      Name		      "gear_selected"
+	      ZOrder		      12
+	      Labels		      [0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      2
+	      DstBlock		      "gear_selected"
+	      DstPort		      1
+	    }
+	    Line {
+	      ZOrder		      13
+	      SrcBlock		      " Demux "
+	      SrcPort		      1
+	      DstBlock		      " Terminator "
+	      DstPort		      1
+	    }
+	    Line {
+	      ZOrder		      14
+	      SrcBlock		      " SFunction "
+	      SrcPort		      1
+	      DstBlock		      " Demux "
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator"
+	  SID			  "48"
+	  Position		  [215, 115, 235, 135]
+	  ZOrder		  47
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "gear_selected"
+	  SID			  "29"
+	  Position		  [605, 248, 635, 262]
+	  ZOrder		  23
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  ZOrder		  1
+	  SrcBlock		  "ShiftController"
+	  SrcPort		  1
+	  DstBlock		  "gear_selected"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  2
+	  SrcBlock		  "prndl"
+	  SrcPort		  1
+	  DstBlock		  "Terminator"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  3
+	  SrcBlock		  "input_speed_torque_converter"
+	  SrcPort		  1
+	  Points		  [57, 0; 0, -20]
+	  DstBlock		  "ShiftController"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  4
+	  SrcBlock		  "output_speed_torque_converter"
+	  SrcPort		  1
+	  Points		  [57, 0; 0, -15]
+	  DstBlock		  "ShiftController"
+	  DstPort		  2
+	}
+	Line {
+	  ZOrder		  5
+	  SrcBlock		  "shift_request_state"
+	  SrcPort		  1
+	  Points		  [57, 0; 0, -15]
+	  DstBlock		  "ShiftController"
+	  DstPort		  3
+	}
+	Line {
+	  ZOrder		  6
+	  SrcBlock		  "driver_gear_select"
+	  SrcPort		  1
+	  Points		  [57, 0; 0, -15]
+	  DstBlock		  "ShiftController"
+	  DstPort		  4
+	}
+      }
+    }
+    Block {
+      BlockType		      Outport
+      Name		      "gear_selected"
+      SID		      "31"
+      Position		      [605, 258, 635, 272]
+      ZOrder		      30
+      IconDisplay	      "Port number"
+    }
+    Line {
+      ZOrder		      1
+      SrcBlock		      "prndl"
+      SrcPort		      1
+      DstBlock		      "Shift_Controller"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      2
+      SrcBlock		      "shift_request_state"
+      SrcPort		      1
+      Points		      [140, 0]
+      DstBlock		      "Shift_Controller"
+      DstPort		      4
+    }
+    Line {
+      ZOrder		      3
+      SrcBlock		      "driver_gear_select"
+      SrcPort		      1
+      Points		      [140, 0]
+      DstBlock		      "Shift_Controller"
+      DstPort		      5
+    }
+    Line {
+      ZOrder		      4
+      SrcBlock		      "output_speed_torque_converter"
+      SrcPort		      1
+      Points		      [140, 0]
+      DstBlock		      "Shift_Controller"
+      DstPort		      3
+    }
+    Line {
+      ZOrder		      5
+      SrcBlock		      "input_speed_torque_converter"
+      SrcPort		      1
+      Points		      [140, 0]
+      DstBlock		      "Shift_Controller"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      6
+      SrcBlock		      "Shift_Controller"
+      SrcPort		      1
+      Points		      [32, 0; 0, -5]
+      DstBlock		      "gear_selected"
+      DstPort		      1
+    }
+  }
+}
+# Finite State Machines
+#
+#    Stateflow Version 7.6 (R2013a) dated Aug  8 2013, 22:08:32
+#
+#
+
+Stateflow {
+  machine {
+    id			    1
+    name		    "SimplifiedShiftController5"
+    created		    "10-Oct-2013 11:14:53"
+    isLibrary		    0
+    firstTarget		    40
+    sfVersion		    76014001.0016
+  }
+  chart {
+    id			    2
+    name		    "Shift_Controller/ShiftController"
+    description		    "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ltlProperties>\n   <ltlProperty expr=\"&lt;&gt;((dr"
+    "iver_gear_select==6 || driver_gear_select==7)) -&gt; (!((gear_selected /= 0)) U((driver_gear_select==6 || driver_g"
+    "ear_select==7)))\" name=\"AbsenceProperty\" type=\"Absence\"/>\n   <ltlProperty expr=\"[]((driver_gear_select==6) "
+    "-&gt; &lt;&gt;(gear_selected &gt;= 1))\" name=\"ResponseProperty\" type=\"Response\"/>\n   <ltlProperty expr=\"[]("
+    "((shift_request_state==3 &amp;&amp; driver_gear_select==7)) -&gt; &lt;&gt;(gear_selected == 4))\" name=\"ResponseP"
+    "roperty2\" type=\"Response\"/>\n   <ltlProperty expr=\"[]((G(shift_request_state==3 &amp;&amp; driver_gear_select="
+    "=7)) -&gt; &lt;&gt;((gear_selected == 4)))\" name=\"ResponseProperty3\" type=\"Response\"/>\n   <ltlProperty expr="
+    "\"[]((G(driver_gear_select == 1)) -&gt; &lt;&gt;((gear_selected &lt;= 1)))\" name=\"ResponseProperty4\" type=\"Res"
+    "ponse\"/>\n   <ltlProperty expr=\"[]((G(driver_gear_select==1)) -&gt; &lt;&gt;((gear_selected &lt;= 2)))\" name=\""
+    "ResponseProperty5\" type=\"Response\"/>\n</ltlProperties>"
+    windowPosition	    [210.917 15.517 606 608.276]
+    viewLimits		    [101.754 1808.327 166.846 1139.603]
+    zoomFactor		    1.25
+    stateColor		    [0.3803921568627451 0.2745098039215687 0.1803921568627451]
+    stateLabelColor	    [0.4588235294117647 0.2980392156862745 0.1411764705882353]
+    transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
+    transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
+    junctionColor	    [0.7764705882352941 0.4980392156862745 0]
+    chartColor		    [1 0.9882352941176471 0.9254901960784314]
+    screen		    [1 1 1920 1080 1.611111111111111]
+    treeNode		    [0 13 0 0]
+    firstTransition	    23
+    viewObj		    2
+    visible		    1
+    machine		    1
+    subviewS {
+    }
+    ssIdHighWaterMark	    44
+    decomposition	    CLUSTER_CHART
+    firstData		    14
+    chartFileNumber	    1
+    saturateOnIntegerOverflow 1
+    userSpecifiedStateTransitionExecutionOrder 1
+    disableImplicitCasting  1
+  }
+  state {
+    id			    3
+    labelString		    "gear1\nen:gear_selected=1;"
+    position		    [575 194 226 112]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 13 4]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    12
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    4
+    labelString		    "lockoutU2\nen: current_time = 0;\ndu: current_time += SamplePeriod;"
+    position		    [239 220 224 73]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 3 6]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    14
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    5
+    labelString		    "gear2\nen: gear_selected = 2;"
+    position		    [559 450 145 72]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 6 7]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    19
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    6
+    labelString		    "lockoutD1\nen: current_time = 0;\ndu: current_time += SamplePeriod;"
+    position		    [796 352 219.9675 73.9965]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 4 5]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    20
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    7
+    labelString		    "lockoutD2\nen: current_time = 0;\ndu: current_time += SamplePeriod;"
+    position		    [786 547 241.962 80.9948]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 5 9]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    21
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    8
+    labelString		    "lockoutD3\nen: current_time = 0;\ndu: current_time += SamplePeriod;"
+    position		    [806.9992 738.9968 206.9707 80.9948]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 11 10]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    22
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    9
+    labelString		    "lockoutU3\nen: current_time = 0;\ndu: current_time += SamplePeriod;"
+    position		    [302 559 224 73]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 7 11]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    23
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    10
+    labelString		    "lockoutU4\nen: current_time = 0;\ndu:current_time += SamplePeriod; "
+    position		    [268 835 224 73]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 8 12]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    24
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    11
+    labelString		    "gear3\nen: gear_selected = 3;"
+    position		    [553 683 141 94]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 9 8]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    25
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    12
+    labelString		    "gear4\nen: gear_selected = 4;"
+    position		    [564 885 164 92]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 10 0]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    26
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    13
+    labelString		    "gear0\nen:gear_selected=0;"
+    position		    [830.5605 70.8675 154.9837 69.9975]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 0 3]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    42
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  data {
+    id			    14
+    ssIdNumber		    8
+    name		    "input_speed_TC"
+    linkNode		    [2 0 15]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      type {
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+    }
+    dataType		    "double"
+  }
+  data {
+    id			    15
+    ssIdNumber		    9
+    name		    "output_speed_TC"
+    linkNode		    [2 14 16]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      type {
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+    }
+    dataType		    "double"
+  }
+  data {
+    id			    16
+    ssIdNumber		    1
+    name		    "shift_request_state"
+    linkNode		    [2 15 17]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      type {
+	primitive		SF_INT32_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+    }
+    dataType		    "int32"
+  }
+  data {
+    id			    17
+    ssIdNumber		    10
+    name		    "driver_gear_select"
+    linkNode		    [2 16 18]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      type {
+	primitive		SF_INT32_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+    }
+    dataType		    "int32"
+  }
+  data {
+    id			    18
+    ssIdNumber		    11
+    name		    "gear_selected"
+    linkNode		    [2 17 19]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      type {
+	primitive		SF_INT32_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "int32"
+  }
+  data {
+    id			    19
+    ssIdNumber		    17
+    name		    "lockout_time"
+    linkNode		    [2 18 20]
+    scope		    LOCAL_DATA
+    machine		    1
+    props {
+      type {
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+    }
+    dataType		    "double"
+  }
+  data {
+    id			    20
+    ssIdNumber		    18
+    name		    "current_time"
+    linkNode		    [2 19 21]
+    scope		    LOCAL_DATA
+    machine		    1
+    props {
+      type {
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+    }
+    dataType		    "double"
+  }
+  data {
+    id			    21
+    ssIdNumber		    40
+    name		    "SamplePeriod"
+    linkNode		    [2 20 22]
+    scope		    LOCAL_DATA
+    machine		    1
+    props {
+      initialValue	      "0.01"
+      type {
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+    }
+    dataType		    "double"
+  }
+  data {
+    id			    22
+    ssIdNumber		    41
+    name		    "dummy"
+    linkNode		    [2 21 0]
+    scope		    LOCAL_DATA
+    machine		    1
+    props {
+      type {
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+    }
+    dataType		    "double"
+  }
+  transition {
+    id			    23
+    labelString		    ""
+    labelPosition	    [906.553 55.868 0 0]
+    fontSize		    12
+    src {
+      intersection	      [0 -0 1 0 906.5527 40.8675 0 0]
+    }
+    dst {
+      id		      13
+      intersection	      [1 0 -1 0.4903 906.5527 70.8675 0 0]
+    }
+    midPoint		    [906.5527 55.8675]
+    chart		    2
+    linkNode		    [2 0 24]
+    dataLimits		    [904.153 908.953 40.867 70.868]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    44
+  }
+  transition {
+    id			    24
+    labelString		    "[(driver_gear_select==6)||(driver_gear_select==7)]\n"
+    labelPosition	    [537.338 95.639 270.5 32]
+    fontSize		    12
+    src {
+      id		      13
+      intersection	      [4 -1 0 0.4857 830.5605 106.866 0 0]
+    }
+    dst {
+      id		      3
+      intersection	      [1 0 -1 0.8433 765.588 194 0 0]
+    }
+    midPoint		    [785.2756 133.6343]
+    chart		    2
+    linkNode		    [2 23 25]
+    dataLimits		    [763.188 830.561 106.866 194]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    43
+  }
+  transition {
+    id			    25
+    labelString		    "[current_time >= lockout_time]"
+    labelPosition	    [854.119 253.634 163 17]
+    fontSize		    12
+    src {
+      id		      6
+      intersection	      [1 0 -1 0.2182 844 352 0 0]
+    }
+    dst {
+      id		      3
+      intersection	      [2 1 0 0.4286 801 242 0 0]
+    }
+    midPoint		    [840.9292 282.5708]
+    chart		    2
+    linkNode		    [2 24 26]
+    dataLimits		    [801 844.898 239.6 352]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    38
+  }
+  transition {
+    id			    26
+    labelString		    "[(shift_request_state == 3) && (driver_gear_select != 6) && (driver_gear_select != 1)]"
+    labelPosition	    [261.261 179 452.25 17]
+    fontSize		    12
+    src {
+      id		      3
+      intersection	      [4 -1 0 0.4911 575 251 0 0]
+    }
+    dst {
+      id		      4
+      intersection	      [2 1 -0 0.4247 463 251 0 0]
+    }
+    midPoint		    [523 251]
+    chart		    2
+    linkNode		    [2 25 27]
+    dataLimits		    [463 575 248.6 253.4]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    16
+  }
+  transition {
+    id			    27
+    labelString		    "[current_time >= lockout_time]"
+    labelPosition	    [241.138 402.127 163 17]
+    fontSize		    12
+    src {
+      id		      4
+      intersection	      [3 0 1 0.4911 353 293 0 0]
+    }
+    dst {
+      id		      5
+      intersection	      [4 -1 0 0.7361 559 469 0 0]
+    }
+    midPoint		    [418.8856 414.1144]
+    chart		    2
+    linkNode		    [2 26 28]
+    dataLimits		    [353 559 293 471.4]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    27
+  }
+  transition {
+    id			    28
+    labelString		    "[(driver_gear_select == 6) || (driver_gear_select == 1)]"
+    labelPosition	    [496.767 611.35 290 17]
+    fontSize		    12
+    src {
+      id		      11
+      intersection	      [1 0 -1 0.7021 652 683 0 0]
+    }
+    dst {
+      id		      6
+      intersection	      [4 -1 0 0.3379 796 400.9965 0 0]
+    }
+    midPoint		    [739.1104 595.665]
+    chart		    2
+    linkNode		    [2 27 29]
+    dataLimits		    [652 796 398.597 683]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    3
+    ssIdNumber		    36
+  }
+  transition {
+    id			    29
+    labelString		    "[(driver_gear_select == 6) || (driver_gear_select == 1)]"
+    labelPosition	    [738.666 831.289 290 17]
+    fontSize		    12
+    src {
+      id		      12
+      intersection	      [1 0 -1 0.7378 685 885 0 0]
+    }
+    dst {
+      id		      6
+      intersection	      [4 -1 0 0.1757 796 412.9965 0 0]
+    }
+    midPoint		    [755.682 632.5605]
+    chart		    2
+    linkNode		    [2 28 30]
+    dataLimits		    [685 796 410.597 885]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    2
+    ssIdNumber		    35
+  }
+  transition {
+    id			    30
+    labelString		    "[((shift_request_state == 1) && (driver_gear_select != 6) && (driver_gear_select != 1) && (input"
+    "_speed_TC > output_speed_TC)) || (driver_gear_select==6) || (driver_gear_select==1)]"
+    labelPosition	    [811.331 460.947 967.062 18]
+    fontSize		    12
+    src {
+      id		      5
+      intersection	      [2 1 0 0.5139 704 487 0 0]
+    }
+    dst {
+      id		      6
+      intersection	      [3 0 1 0.7954 841 425.9965 0 0]
+    }
+    midPoint		    [790.862 478.8602]
+    chart		    2
+    linkNode		    [2 29 31]
+    dataLimits		    [704 843.4 425.997 487.204]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    2
+    ssIdNumber		    37
+  }
+  transition {
+    id			    31
+    labelString		    "[current_time >= lockout_time]"
+    labelPosition	    [815.153 488.903 163 17]
+    fontSize		    12
+    src {
+      id		      7
+      intersection	      [1 0 -1 0.1952 833.225 547 0 0]
+    }
+    dst {
+      id		      5
+      intersection	      [2 1 0 0.5556 704 490 0 0]
+    }
+    midPoint		    [789.3571 501.7554]
+    chart		    2
+    linkNode		    [2 30 32]
+    dataLimits		    [704 833.225 487.6 547]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    39
+  }
+  transition {
+    id			    32
+    labelString		    "[(shift_request_state == 3) && (driver_gear_select != 6) && (driver_gear_select != 1)]"
+    labelPosition	    [42.169 477.37 452.25 17]
+    fontSize		    12
+    src {
+      id		      5
+      intersection	      [4 -1 0 0.2778 559 502 0 0]
+    }
+    dst {
+      id		      9
+      intersection	      [1 0 -1 0.4152 395 559 0 0]
+    }
+    midPoint		    [455.6045 505.1045]
+    chart		    2
+    linkNode		    [2 31 33]
+    dataLimits		    [392.6 559 499.919 559]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    28
+  }
+  transition {
+    id			    33
+    labelString		    "[(shift_request_state == 1) && (driver_gear_select != 6) && (driver_gear_select != 1) && (input_"
+    "speed_TC > output_speed_TC)]"
+    labelPosition	    [791.513 690.591 680.25 17]
+    fontSize		    12
+    src {
+      id		      11
+      intersection	      [2 1 0 0.234 694 705 0 0]
+    }
+    dst {
+      id		      7
+      intersection	      [3 0 1 0.8016 834 627.9948 0 0]
+    }
+    midPoint		    [820.3846 668.8406]
+    chart		    2
+    linkNode		    [2 32 34]
+    dataLimits		    [694 836.4 627.995 705]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    2
+    ssIdNumber		    34
+  }
+  transition {
+    id			    34
+    labelString		    "[current_time >= lockout_time]"
+    labelPosition	    [224.14 660.603 163 17]
+    fontSize		    12
+    src {
+      id		      9
+      intersection	      [3 0 1 0.5045 413 632 0 0]
+    }
+    dst {
+      id		      11
+      intersection	      [4 -1 0 0.7979 553 702 0 0]
+    }
+    midPoint		    [460.3235 685.6765]
+    chart		    2
+    linkNode		    [2 33 35]
+    dataLimits		    [413 553 632 704.4]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    29
+  }
+  transition {
+    id			    35
+    labelString		    "[current_time >= lockout_time]"
+    labelPosition	    [829.626 711.666 163 17]
+    fontSize		    12
+    src {
+      id		      8
+      intersection	      [1 0 -1 0.2271 853.9992 738.9968 0 0]
+    }
+    dst {
+      id		      11
+      intersection	      [2 1 0 0.3829 694 718.9968 0 0]
+    }
+    midPoint		    [797.1633 709.8331]
+    chart		    2
+    linkNode		    [2 34 36]
+    dataLimits		    [694 853.999 709.094 738.997]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    33
+  }
+  transition {
+    id			    36
+    labelString		    "[(shift_request_state == 3) && (driver_gear_select != 6) && (driver_gear_select != 1)]"
+    labelPosition	    [31.225 734 452.25 17]
+    fontSize		    12
+    src {
+      id		      11
+      intersection	      [4 -1 0 0.1383 553 764 0 0]
+    }
+    dst {
+      id		      10
+      intersection	      [1 0 -1 0.3661 350 835 0 0]
+    }
+    midPoint		    [424.9311 768.9311]
+    chart		    2
+    linkNode		    [2 35 37]
+    dataLimits		    [347.6 553 761.754 835]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    30
+  }
+  transition {
+    id			    37
+    labelString		    "[(shift_request_state == 1) && (driver_gear_select != 6) && (driver_gear_select != 1) && (input_"
+    "speed_TC > output_speed_TC)]"
+    labelPosition	    [844.904 913.043 680.25 17]
+    fontSize		    12
+    src {
+      id		      12
+      intersection	      [2 1 0 0.3804 728 920 0 0]
+    }
+    dst {
+      id		      8
+      intersection	      [3 0 1 0.6956 869.9992 819.9915 0 0]
+    }
+    midPoint		    [820.1499 895.146]
+    chart		    2
+    linkNode		    [2 36 38]
+    dataLimits		    [728 872.399 819.991 920]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    32
+  }
+  transition {
+    id			    38
+    labelString		    "[current_time >= lockout_time]"
+    labelPosition	    [273.225 977 163 17]
+    fontSize		    12
+    src {
+      id		      10
+      intersection	      [3 0 1 0.5804 362 908 0 0]
+    }
+    dst {
+      id		      12
+      intersection	      [4 -1 0 0.2611 564 952.98 0 0]
+    }
+    midPoint		    [434.1067 955.3833]
+    chart		    2
+    linkNode		    [2 37 0]
+    dataLimits		    [362 564 908 959.431]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    31
+  }
+  instance {
+    id			    39
+    name		    "Shift_Controller/ShiftController"
+    machine		    1
+    chart		    2
+  }
+  target {
+    id			    40
+    name		    "sfun"
+    description		    "Default Simulink S-Function Target."
+    machine		    1
+    linkNode		    [1 0 0]
+  }
+}

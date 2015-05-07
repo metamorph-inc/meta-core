@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathTrigLib", "MathTrigLib.vcxproj", "{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}.Debug|Win32.Build.0 = Debug|Win32
+		{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}.Release|Win32.ActiveCfg = Release|Win32
+		{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

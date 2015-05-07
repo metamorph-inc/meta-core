@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{F7FE9515-F047-4161-A9B8-D18A224CAD9F}" cdate="Thu Sep 25 10:56:19 2014" mdate="Thu Sep 25 10:56:19 2014" version="1.2.0.11" metaguid="{1913C77F-2986-4DA3-BD61-02F6C19FD44E}" metaversion="" metaname="UML">
+<project guid="{09DA740A-0F79-48CD-A167-A791E260DE9F}" cdate="Tue Oct 14 10:40:30 2014" mdate="Tue Oct 14 10:40:30 2014" version="1.2.0.11" metaguid="{1913C77F-2986-4DA3-BD61-02F6C19FD44E}" metaversion="" metaname="UML">
 	<name>AssemblyInterface</name>
 	<comment>v.1.2.0.11 Added MaxElementSize attribute to FEA.
 
@@ -33,7 +33,7 @@ v1.2.0.1 - Removed Metric object from Boundingbox/CG/PointCoordinates.
 			<attribute kind="version">
 				<value>1.2.0.0</value>
 			</attribute>
-			<model id="id-0065-00000002" kind="ClassDiagram" role="ClassDiagram" guid="{d8e786ce-e035-4e24-9b99-0c6d61a70cb6}" relid="0x1" childrelidcntr="0x7a">
+			<model id="id-0065-00000002" kind="ClassDiagram" role="ClassDiagram" guid="{d8e786ce-e035-4e24-9b99-0c6d61a70cb6}" relid="0x1" childrelidcntr="0x7c">
 				<name>AssemblySpecification</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -861,6 +861,36 @@ Secondary: String</value>
 						<value></value>
 					</attribute>
 				</atom>
+				<atom id="id-0066-00000066" kind="Class" role="Class" guid="{eac4ff57-1917-4f20-98e3-9ee99827d5ed}" relid="0x7b">
+					<name>MetaData</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Constraints" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>154,266</value>
+							</regnode>
+						</regnode>
+						<regnode name="UML" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>77,252</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Attributes">
+						<value>Key: String
+Value: String
+
+</value>
+					</attribute>
+					<attribute kind="IsAbstract" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Stereotype" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
 				<reference id="id-0067-00000001" kind="ClassCopy" role="ClassCopy" guid="{0dc1b3c8-1fb7-429c-b1fa-06030d87e647}" relid="0x37" referred="id-0066-0000001b">
 					<name>AnalysisInput</name>
 					<regnode name="PartRegs" status="undefined">
@@ -1521,6 +1551,23 @@ Secondary: String</value>
 					</attribute>
 					<connpoint role="dst" target="id-0066-00000005"/>
 					<connpoint role="src" target="id-0067-00000005"/>
+				</connection>
+				<connection id="id-0068-00000070" kind="Composition" role="Composition" guid="{d38bf462-a8a4-46b5-914b-1ccfa6e7b188}" relid="0x7c">
+					<name>Composition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<attribute kind="Cardinality" status="meta">
+						<value>0..*</value>
+					</attribute>
+					<attribute kind="ChildRole" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ParentRole" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-00000004"/>
+					<connpoint role="src" target="id-0066-00000066"/>
 				</connection>
 			</model>
 			<model id="id-0065-00000003" kind="ClassDiagram" role="ClassDiagram" guid="{44c68ea9-f0f4-4361-a539-14b4514f38cc}" relid="0x3" childrelidcntr="0x77">

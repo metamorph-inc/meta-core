@@ -94,7 +94,8 @@ void ValidateAnalysisGeometry(  const std::string &in_ConfigurationIDSentence,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CADAnalyses &in_AnalysesCAD ) 
+void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CADAnalyses &in_AnalysesCAD,
+								const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map) 
 																	throw (isis::application_exception)	
 {
 	//char tempBuffer[64];
@@ -147,8 +148,26 @@ void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CAD
 				throw isis::application_exception(TempError.c_str());	
 			}
 			
-			ValidateAnalysisGeometry(TempError, "AnalysisConstraint", j->geometry, i->analysisSolvers );
+			// If convectionBoundaryDefined  then ambientTemperature must be defined
+			if ( j->convectionBoundaryDefined ) 
+			{ 
+				bool foundAmbientTemp = false;
+				for each ( const AnalysisLoad &aload  in i->analysisLoads)
+				{
+					if ( aload.ambientTemperatureDefined)
+					{
+						foundAmbientTemp = true;
+						break;
+					}
+				}		
+				if ( !foundAmbientTemp )
+				{
+					TempError += "Thermal convection defined but an ambient temperature was not defined.";
+					throw isis::application_exception(TempError.c_str());	
+				}
+			}
 
+			ValidateAnalysisGeometry(TempError, "AnalysisConstraint", j->geometry, i->analysisSolvers );
 		}
 
 		//////////////////////////////
@@ -161,6 +180,7 @@ void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CAD
 			throw isis::application_exception(TempError.c_str());	
 		}
 
+		int ambientTemperature_count = 0;
 		for ( std::list<AnalysisLoad>::const_iterator j(i->analysisLoads.begin());
 			  j != i->analysisLoads.end();
 			  ++j )
@@ -173,20 +193,43 @@ void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CAD
 			if ( j->gridPointTemperatureDefined ) ++count;
 			if ( j->heatFluxDefined ) ++count;
 			if ( j->heatGenerationDefined ) ++count;
+			if ( j->ambientTemperatureDefined )
+			{
+				++count;
+				++ambientTemperature_count;
+			}
 
 			if ( count != 1 )
 			{
-				TempError += "For each Load, there must be one and only one of ForceMoment, Pressure, Acceleration, gridPointInitialTemperature, PointTemperature, HeatFlux, or HeatGeneration.";
+				TempError += "For each Load, there must be one and only one of ForceMoment, Pressure, Acceleration, gridPointInitialTemperature, PointTemperature, HeatFlux, HeatGeneration, or AmbientTemperature.";
 				throw isis::application_exception(TempError.c_str());	
 			}
 			
+
+			if ( ambientTemperature_count > 1 )
+			{
+				TempError += "More than one AmbientTemperature defined.  Only one AmbientTemperature allowed.";
+				throw isis::application_exception(TempError.c_str());	
+			}
+
 			if ( j->heatGenerationDefined  )
 			{
-				for each ( const AnalysisSolver &i_solv in i->analysisSolvers)
+				if ( j->geometry.features.size() > 0 )
 				{
-					if ( i_solv.analysisSolutionType == ANALYSIS_DECK_BASED )
+					TempError += "HeatGeneration defined with geometry features. HeatGeneration applies only to parts and not part features.";
+					throw isis::application_exception(TempError.c_str());	
+				}
+				if ( j->geometry.GeometryPerEntireComponent_ComponentInstanceIDs.size() == 0 )
+				{
+					TempError += "HeatGeneration defined without a component (i.e. part) defined. HeatGeneration applies to a part and thus must have a component defined.";
+					throw isis::application_exception(TempError.c_str());	
+				}
+				for each ( const std::string &compID in j->geometry.GeometryPerEntireComponent_ComponentInstanceIDs )
+				{
+					std::map<std::string, isis::CADComponentData>::const_iterator  comp_itr = in_CADComponentData_map.find(compID);
+					if ( comp_itr == in_CADComponentData_map.end() || comp_itr->second.modelType != PRO_MDL_PART )
 					{
-						TempError += "HeatGeneration load is not supported by deck-based FEA.";
+						TempError += "HeatGeneration was applied to a component that is not a part. HeatGeneration applies to a part and thus must not have an assembly component reference.";
 						throw isis::application_exception(TempError.c_str());	
 					}
 				}
@@ -199,9 +242,7 @@ void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CAD
 			if ( j->gridPointInitialTemperatureDefined && j->geometry.features.size() == 0 ) continue;  
 				
 			ValidateAnalysisGeometry(TempError, "Load", j->geometry, i->analysisSolvers );
-
 		}
-
 
 		//////////////////////////////
 		// Solvers
@@ -591,7 +632,7 @@ void GetGridPointsWithinAnalysisGeometry(
 				"Function - GetGridPointsWithinAnalysisGeometry, received geometryType that is not currently supported." << std::endl <<
 				//"Geometry Type: " << CADGeometryType_string(in_AnalysisGeometry.geometryType);
 				"Geometry Type: " << CADGeometryType_string(in_AnalysisGeometry.features.begin()->geometryType);
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		if ( i->primaryGeometryQualifier != CAD_INTERIOR_ONLY && 
@@ -621,7 +662,7 @@ void GetGridPointsWithinAnalysisGeometry(
 		std::stringstream errorString;
 		errorString <<  "Function - GetGridPointsWithinAnalysisGeometry, Failed to find FEA grid points within the geometry defined by:" << std::endl <<
 						NoGridPointsWithInMesh_ErrorSstring(  in_AnalysisGeometry.features.begin()->features ); 
-		throw isis::application_exception(errorString.str().c_str());		
+		throw isis::application_exception(errorString.str());		
 	}
 	// Remove duplicates, if any
 	set<int> tempSet( gridPointIds_WithinGeometry.begin(), gridPointIds_WithinGeometry.end() );
@@ -711,7 +752,10 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 		std::string MeshModified_PathAndFileName =   in_WorkingDir + "\\" + in_ModifiedMeshFileName;
 
 		isis::MeshModel ( in_CADComponentData_map[in_AssemblyComponentID].modelHandle,
-						  ProFemAnalysisType(i->type),
+						  // Use PRO_FEM_ANALYSIS_STRUCTURAL even if thermal analysis.  This is needed so that a 
+						  // Mat1 card would be created for each part so that poission's ratio could be mapped to componentInstanceIDs
+						  PRO_FEM_ANALYSIS_STRUCTURAL, 
+						  // Old ProFemAnalysisType(i->type) , should use this when mapping poisons ratio to component ID is no longer needed
 						  PRO_FEM_FEAS_NASTRAN,
 						  (*i->analysisSolvers.begin()).meshType,
 						  (*i->analysisSolvers.begin()).shellElementType,
@@ -752,12 +796,16 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 														componentVistorMaterialTokens.componentID_PoissonsRatio_map,
 														out_NastranMaterialID_to_CompnentID_map );
 
+
+		std::map<std::string, std::string> compnentID_to_NastranMaterialID_map;
+
 		for ( std::map<std::string, std::string>::const_iterator j(out_NastranMaterialID_to_CompnentID_map.begin());
 			  j != out_NastranMaterialID_to_CompnentID_map.end();
 			  ++j )
 		{
 			std::string tempString = "MaterialID: " + j->first + "  ComponentID: " + j->second + "  ComponentName: " + (const std::string&)in_CADComponentData_map[j->second].name;
 			nastranDeck.AppendHeaderComment(NASTRAN_META_COMMENT_TAG + tempString);
+			compnentID_to_NastranMaterialID_map.insert(std::pair<std::string,std::string>(j->second, j->first));
 		}
 
 		nastranDeck.AppendHeaderComment(NASTRAN_COMMENT_TAG );  // Add space
@@ -765,6 +813,10 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 		// By default, the type is ANALYSIS_STRUCTURAL, which would be SOL SESTATIC (i.e. 101).  This solution would have been set by the Creo mesher
 		if ( i->type ==  ANALYSIS_THERMAL)
 		{
+			// Need to comment out the MAT1 cards because they would have a density retrieved from the Creo model.
+			// The MAT4 cards have a density retrieved from the materials library.  Don't want the MAT1 and MAT4 cards
+			// density to disagree.  For thermal runs, a MAT1 card is not needed.
+			nastranDeck.CommentOutMat1Cards();
 			nastranDeck.ReplaceExecutiveControlWithThermalStatements();
 			
 			nastranDeck.ReplaceCaseControlWithThermalStatements(	in_CADComponentData_map[in_AssemblyComponentID].name,
@@ -779,27 +831,16 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 			// We want to use Mat4 cards based on the material library entries.
 			if ( nastranDeck.getMaterialData_MAT4().size() > 0 ) nastranDeck.deleteAllMaterialData_MAT4();
 	
-			// The poissons ratios are defined as follows:
-			// 
-			// MAT1,1,1.99948E8,,-0.11111,7.82708E-6,1.17E-5,,,
-			// MAT1,2,1.99948E8,,-0.11112,7.82708E-6,1.17E-5,,,
-			// MAT1,3,1.99948E8,,-0.11113,7.82708E-6,1.17E-5,,,
-			// MAT1,4,1.99948E8,,-0.11114,7.82708E-6,1.17E-5,,,
-			// MAT1,5,1.99948E8,,-0.11115,7.82708E-6,1.17E-5,,,
-			// MAT1,6,1.99948E8,,-0.11116,7.82708E-6,1.17E-5,,,
-			// MAT1,7,1.99948E8,,-0.11117,7.82708E-6,1.17E-5,,,
-			// MAT1,8,1.99948E8,,-0.11118,7.82708E-6,1.17E-5,,,
-			// MAT1,9,1.99948E8,,-0.11119,7.82708E-6,1.17E-5,,,
-			// MAT1,10,1.99948E8,,-0.1112,7.82708E-6,1.17E-5,,,
-			// MAT1,11,1.99948E8,,-0.11121,7.82708E-6,1.17E-5,
-			// We want the first MAT4 card to be associated with -0.11111, the second with -0.11112
-
 			int Mat4Card_counter = 0;
-			std::map< std::string, std::string>::reverse_iterator ir_p_to_c;
-			for ( ir_p_to_c = componentVistorMaterialTokens.materialKey_ComponentID_map.rbegin(); ir_p_to_c != componentVistorMaterialTokens.materialKey_ComponentID_map.rend(); ++ir_p_to_c)
+			for ( std::map<std::string, std::string>::const_iterator ir_p_to_c =  out_NastranMaterialID_to_CompnentID_map.begin();
+				  ir_p_to_c != out_NastranMaterialID_to_CompnentID_map.end(); 
+				  ++ir_p_to_c)
 			{
+				std::cout << std::endl << " Material Key: " << ir_p_to_c->first << "  ComponentID: " << ir_p_to_c->second;
 
 				std::string materialName = in_CADComponentData_map[ir_p_to_c->second].materialID_FromCreoPart;
+
+				std::cout << std::endl << " Material Name: " <<  materialName;
 
 				++Mat4Card_counter;
 				// Create the MAT4 card
@@ -862,18 +903,8 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 				//mat4_temp.p =   boost::lexical_cast<string>(mat_itr->second.analysisMaterialProperties.density);
 				nastranDeck.AddMaterialData_MAT4(mat4_temp);
 
-			}
+			} // for ( ir_p_to_c = componentVistorMa
 
-			// Temporarily  add a hard coded Mat4 card if one does not exist
-			//if ( nastranDeck.getMaterialData_MAT4().size() == 0 )
-			//{
-			//	isis_CADCommon::MAT4 mat4_temp;
-			//	mat4_temp.MID = 1;
-			//	mat4_temp.K = "43000.5";
-			//	mat4_temp.CP = "4.73300E8";
-			//	mat4_temp.p = "7.82300E-6";
-			//	nastranDeck.AddMaterialData_MAT4(mat4_temp);
-			//}
 		}
 		else
 		{
@@ -968,7 +999,7 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 							"Function - CreateFEADeck, when defining a Pin constrait, the geometry type must be " << CADGeometryType_string(CAD_GEOMETRY_CYLINDER)  << std::endl <<
 						//	"Geometry Type: " << CADGeometryType_string(k->geometry.geometryType);
 							"Geometry Type: " << CADGeometryType_string(k->geometry.features.begin()->geometryType);
-						throw isis::application_exception(errorString.str().c_str());	
+						throw isis::application_exception(errorString.str());	
 					}
 
 						std::vector< isis_CADCommon::Point_3D >  geometry3DPoints;
@@ -1005,7 +1036,7 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 							//"Component Instance ID: " << k->geometry.componentID;
 							// qqqqq
 							NoGridPointsWithInMesh_ErrorSstring(k->geometry.features.begin()->features);
-							throw isis::application_exception(errorString.str().c_str());	
+							throw isis::application_exception(errorString.str());	
 
 						}
 
@@ -1043,7 +1074,7 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 							"Function - CreateFEADeck, when defining a Ball constrait, the geometry type must be " << CADGeometryType_string(CAD_GEOMETRY_SPHERE)  << std::endl <<
 							// "Geometry Type: " << CADGeometryType_string(k->geometry.geometryType);
 						    "Geometry Type: " << CADGeometryType_string(k->geometry.features.begin()->geometryType);
-						throw isis::application_exception(errorString.str().c_str());	
+						throw isis::application_exception(errorString.str());	
 					}
 
 						std::vector< isis_CADCommon::Point_3D >  geometry3DPoints;
@@ -1078,7 +1109,7 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 							//"Geometry Type: " << CADGeometryType_string(k->geometry.geometryType) << std::endl <<
 							//"Component Instance ID: " << k->geometry.componentID;
 							NoGridPointsWithInMesh_ErrorSstring(k->geometry.features.begin()->features);
-							throw isis::application_exception(errorString.str().c_str());	
+							throw isis::application_exception(errorString.str());	
 						}
 
 						int addedCoordinateSystemID;
@@ -1126,6 +1157,9 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 			// Add Loads
 			//////////////////////////
 
+			double ambientTemperature_temp = 0.0;
+			bool   ambientTemperature_temp_defined = false;
+
 			//std::cout << std::endl << "Before  for ( std::list<AnalysisLoad>::const_iterator , count: " << j->analysisLoads.size();
 			for ( std::list<AnalysisLoad>::const_iterator k(j->analysisLoads.begin());
 				  k != j->analysisLoads.end();
@@ -1163,7 +1197,7 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 						std::stringstream errorString;
 						errorString <<  "Function - CreateFEADeck, Failed to find FEA grid points within the geometry defined by:" << std::endl <<
 										NoGridPointsWithInMesh_ErrorSstring(  k->geometry.features.begin()->features ); 
-						throw isis::application_exception(errorString.str().c_str());					
+						throw isis::application_exception(errorString.str());					
 					}
 				}
 
@@ -1194,7 +1228,8 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 																		k->acceleration.direction.z);
 				}
 
-				
+			
+
 				if ( k->gridPointInitialTemperatureDefined )
 				{
 					if ( gridPointIds_WithinGeometry.size() == 0 )
@@ -1266,7 +1301,6 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 							errorString <<
 							"Function - " << __FUNCTION__ << ", for HeatFlux specification, no surface elements found.  Surface elements not found for the grid points defined by the features. "	<<
 							NoGridPointsWithInMesh_ErrorSstring(  k->geometry.features.begin()->features); 
-
 							throw isis::application_exception(errorString.str());	
 					}
 
@@ -1309,10 +1343,107 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 
 				} // if ( k->heatFluxDefined )
 
-				
+				if ( k->ambientTemperatureDefined )
+				{
+					// This might be used in the constraint section for convection
+					ambientTemperature_temp = k->ambientTemperature.value;
+					ambientTemperature_temp_defined = true;
 
+				}
+
+				if (k->heatGenerationDefined )
+				{
+					// For heatGeneration, no features would be defined and thus no grid points would have been queried.
+					// The heat generation applies to a part.  Applying to an assembly is not allowed.
+					// The steps follow:
+					//		1. Find all elements for the PSolids, the MatId represents a PSolid
+					//		2. Compute the volume of all the elments
+					//		3. temp_QVOL.QVOL_Value =  k->heatGeneration.value / volume-all-elements
+					//		4. Create the QVOL objects
+					//		5. Add the QVOL objects to the Nastran Deck
+					isis_CADCommon::QVOL temp_QVOL;
+					temp_QVOL.SID = loadSetID;
+
+					std::vector<int> pSolidIDs;
+					std::vector<int> elementIDs;
+					
+					for each ( const std::string  &i_CompId in k->geometry.GeometryPerEntireComponent_ComponentInstanceIDs )
+					{
+						std::map<std::string, std::string>::const_iterator compToMatID_iter = compnentID_to_NastranMaterialID_map.find(i_CompId);
+						if ( compToMatID_iter == compnentID_to_NastranMaterialID_map.end() )
+						{
+							std::stringstream errorString;
+							errorString <<
+							"Function - " << __FUNCTION__ << ", for HeatGeneration could not find the PSolid for ComponentInstanceID:  "	<< i_CompId;
+							throw isis::application_exception(errorString.str());	
+						}
+						pSolidIDs.push_back(atoi(compToMatID_iter->second.c_str()));
+					}	
+
+					nastranDeck.FindElementsFromPSolids(pSolidIDs, elementIDs);
+
+					if ( elementIDs.size() == 0 )
+					{
+							std::stringstream errorString;
+							errorString <<
+							"Function - " << __FUNCTION__ << ", for HeatGeneration no elements found for PSolids:";
+							for each ( const int &i_psolid in pSolidIDs ) errorString << " " <<  i_psolid;
+							throw isis::application_exception(errorString.str());
+					}
+
+					double totalVolume = nastranDeck.VolumeOfPSolids(pSolidIDs);
+
+					if ( totalVolume == 0.0 )
+					{
+							std::stringstream errorString;
+							errorString <<
+							"Function - " << __FUNCTION__ << ", for HeatGeneration volume of PSolids == 0.0, the PSolids must have a volume, PSolids:";
+							for each ( const int &i_psolid in pSolidIDs ) errorString << " " <<  i_psolid;
+							throw isis::application_exception(errorString.str());
+					}
+
+					stringstream volume_temp;
+					volume_temp <<  k->heatGeneration.value / totalVolume;;
+					temp_QVOL.QVOL_Value = volume_temp.str();
+
+					// Add QVOL cards
+					// Five element IDs per QVOL card
+					int elementCountPerCard = 1;
+					char buffer_temp[32];
+					for each ( const int &i_elemID in elementIDs )
+					{
+						switch ( elementCountPerCard )
+						{
+							case 1: temp_QVOL.EID1 = i_elemID; break;
+							case 2: temp_QVOL.EID2 = i_elemID; break;
+							case 3: temp_QVOL.EID3 = i_elemID; break;
+							case 4: temp_QVOL.EID4 = i_elemID; break;
+							case 5: temp_QVOL.EID5 = i_elemID; break;
+							default:
+								std::stringstream errorString;
+								errorString <<
+								"Function - " << __FUNCTION__ << ", for HeatGeneration elementCountPerCard received invalid value, value:" << elementCountPerCard;
+								throw isis::application_exception(errorString.str());
+						}
+
+						if (elementCountPerCard == 5 )
+						{
+							nastranDeck.AddHeatVolume_QVOL(temp_QVOL);
+							temp_QVOL.EID1 = 0;
+							temp_QVOL.EID2 = 0;
+							temp_QVOL.EID3 = 0;
+							temp_QVOL.EID4 = 0;
+							temp_QVOL.EID5 = 0;
+							elementCountPerCard = 1;
+						}
+						else
+						{
+							++elementCountPerCard;
+						}
+					}
+					if ( elementCountPerCard != 1 ) nastranDeck.AddHeatVolume_QVOL(temp_QVOL);
+				} // END if (k->heatGenerationDefined )
 			} // END for ( std::list<AnalysisConstraint>::const_iterator k(j->analysisConstraints.begin());
-
 
 			///////////////////////////////
 			// Add the thermal constraints
@@ -1349,27 +1480,16 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 					throw isis::application_exception(TempError.c_str());					
 				}
 
-								if( k->convectionBoundaryDefined )
+				if( k->convectionBoundaryDefined )
 				{
 
-
-					double amientTemperature;
-					if ( k->convectionBoundary.ambientTemperatureDefined )
+					if ( !ambientTemperature_temp_defined )
 					{
-						amientTemperature = k->convectionBoundary.ambientTemperature;
-					}
-					else
-					{
-						// This approach is temporary workaround.  The CADAssembly.xml should list the ambient temperature with the ConvectionHeat xml.
-						if (nastranDeck.getTemperature_TEMPD().size() == 0 )
-						{
-							std::stringstream errorString;
-							errorString <<
-							"Function - " << __FUNCTION__ << ", for ConvectionBoundary specification, No ambient temperature set.  Should be a  \"<ThermalElement LoadType=\"InitialTemperature\"\" setting.";
-							throw isis::application_exception(errorString.str());
-						}
-						std::string amientTemperature_string = nastranDeck.getTemperature_TEMPD().begin()->second.T;
-						amientTemperature = atof(amientTemperature_string.c_str());
+						std::stringstream errorString;
+						errorString <<
+						"Function - " << __FUNCTION__ << ", No ambient temperature set. Convection setting requires an ambient temperature.";
+						throw isis::application_exception(errorString.str());
+						
 					}
 
 					int gridPointID = nastranDeck.getNextGridPointID();
@@ -1384,7 +1504,7 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 														true,
 														false,
 														false,
-														amientTemperature,
+														ambientTemperature_temp,
 														0.0,
 														0.0);
 					// MAT4,1001,,,,100.
@@ -1872,7 +1992,7 @@ void Create_FEADecks_BatFiles(
 	// The ValidateFEAAnalysisInputs line will throw an execption if the input xml for the FEA analysis contains errors.
 	// Note - This fucntion inforces that only one FEA analysis per assembly is currently supported.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	ValidateFEAAnalysisInputs (in_TopLevelAssemblyData.configurationID, in_TopLevelAssemblyData.analysesCAD );
+	ValidateFEAAnalysisInputs (in_TopLevelAssemblyData.configurationID, in_TopLevelAssemblyData.analysesCAD, in_CADComponentData_map );
 
 	////////////////////////////
 	// Write Abaqus bat file

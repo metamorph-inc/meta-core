@@ -215,7 +215,15 @@ namespace CyPhyComponentImporter
         {
             Boolean b_CLMAddOnStatus = META.ComponentLibraryManagerAddOn.GetEnabled(project);
             META.ComponentLibraryManagerAddOn.Enable(false, project);
-
+            var addons = project.AddOnComponents.Cast<IMgaComponentEx>();
+            foreach (var addon in addons)
+            {
+                if (addon.ComponentName.ToLowerInvariant() == "CyPhyAddOn".ToLowerInvariant())
+                {
+                    addon.ComponentParameter["DontAssignGuidsOnNextTransaction".ToLowerInvariant()] = true;
+                }
+            }
+			
             IMgaFCOs importedComponents = (IMgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
 
             try

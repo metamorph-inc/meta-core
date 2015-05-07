@@ -210,7 +210,7 @@ void RetrieveUnits( ProMdl			in_Model,
 							"   ComponentInstanceID: " << in_ComponentInstanceID <<  std::endl <<
 							"   ModelName:           " << in_ModelName <<  std::endl <<
 							"   Error:               " << exc.what();
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 	}

@@ -81,7 +81,7 @@ namespace isis
 				if ( dn_CFDParameters.isOpen()) dn_CFDParameters.CloseNoUpdate();
 				std::stringstream errorString;
 				errorString <<	"Function CreateXMLFile_ComputedValues_CFD, was invoked but in_CADAssemblies does not contain any CFD computations.";
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 				//logcat.infoStream() << "Point 11-4";
 			}
 
@@ -98,28 +98,28 @@ namespace isis
 			if ( dn_CFDParameters.isOpen()) dn_CFDParameters.CloseNoUpdate();
 			std::stringstream errorString;
 			errorString <<  "Function CreateXMLFile_ComputedValues_CFD threw a udm_exception.  " << ex.what();
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 		catch ( isis::application_exception& ex )
 		{
 			if ( dn_CFDParameters.isOpen()) dn_CFDParameters.CloseNoUpdate();
 			std::stringstream errorString;
 			errorString <<  "Function CreateXMLFile_ComputedValues_CFD threw an application_exception.  " << ex.what();
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 		catch ( std::exception& ex )
 		{
 			if ( dn_CFDParameters.isOpen()) dn_CFDParameters.CloseNoUpdate();
 			std::stringstream errorString;
 			errorString <<  "Function CreateXMLFile_ComputedValues_CFD threw an exception.  " << ex.what();
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 		catch ( ... )
 		{
 			if ( dn_CFDParameters.isOpen()) dn_CFDParameters.CloseNoUpdate();
 			std::stringstream errorString;
 			errorString <<  "Function CreateXMLFile_ComputedValues_CFD, threw an unknown excpetion";
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 
 		}
 			
@@ -198,7 +198,7 @@ namespace isis
 			errorString <<  "Function CFD_Driver, could not find "
 				<< "file  " << m_hydrostaticsFile_PathAndFileName << ".  "
 				<< "For CFD analysis, this file must exist.";
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 		
 		m_logcat_consoleandfile.infoStream() << "";
@@ -303,7 +303,7 @@ namespace isis
 					"   in_BoundingBox_Length_xAxis: "	<<   boundingBox_Length_xAxis << std::endl <<
 					"   in_Assembly_Mass: "				<<   m_Assembly_Mass << std::endl <<
 					"   in_Fluid_Density: "				<<   m_Fluid_Density; 
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		double boundingBoxVolume = boundingBox_Height_zAxis * boundingBox_Width_yAxis * boundingBox_Length_xAxis;
@@ -439,7 +439,7 @@ namespace isis
 		if (! ::boost::filesystem::exists(m_ProeIsisExtensionsDir) ) {
 			errorString <<  "directory not found "
 				<< "[" << m_ProeIsisExtensionsDir << "]";
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 	}
 
@@ -469,7 +469,7 @@ namespace isis
 			errorString 
 				<< " could not copy hydrostatic templace, "
 				<< "cause = " << ec.message();
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		//////////////////////////////////////////////
@@ -480,7 +480,7 @@ namespace isis
 			errorString <<  "Function CFD_Driver, for a CFD analysis, "
 				<< "there must be one and only one CFD analysis defined.  "
 				<< "There are " << m_TopLevelAssemblyData.analysesCAD.analysesCFD.size() << " defined.";
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		///////////////////////////////////////////////////////////////
@@ -526,7 +526,7 @@ namespace isis
 			errorString <<  "Function CFD_Driver retrieved zero mass for "
 				<< "ComponentInstanceID: " << m_TopLevelAssemblyData.assemblyComponentID << ". "
 				<< "Model name: " << m_CADComponentData_map[m_TopLevelAssemblyData.assemblyComponentID].name;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 		m_Assembly_Mass = mass_prop.mass;
 

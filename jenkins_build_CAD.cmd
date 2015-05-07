@@ -7,6 +7,8 @@ where UdmDll_3_2_VS10.dll
 c:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild make_CAD.msbuild /t:All;Push_All_NuGet /fl /flp:diag;PerformanceSummary /m /nodeReuse:false
 IF %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
 
+run_cadunittests
+
 set DBGTOOLS=%ProgramFiles%\Debugging Tools for Windows (x86)
 IF "%PROCESSOR_ARCHITECTURE%" == "AMD64" set DBGTOOLS=%ProgramFiles%\Debugging Tools for Windows (x64)
 IF "%PROCESSOR_ARCHITEW6432%" == "AMD64" set DBGTOOLS=%ProgramW6432%\Debugging Tools for Windows (x64)

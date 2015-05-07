@@ -42,7 +42,7 @@ def main():
 
     print 'Registering analysis tools from {0}'.format(analysis_tools_dir)
 
-    directories = [os.path.join(analysis_tools_dir, name) for name in os.listdir(analysis_tools_dir) if os.path.isdir(os.path.join(analysis_tools_dir, name)) and not name == '.svn']
+    directories = [os.path.join(analysis_tools_dir, name) for name in os.listdir(analysis_tools_dir) if os.path.isdir(os.path.join(analysis_tools_dir, name)) and not name in ['.svn', 'images']]
     tools = []
     for tool_dir in directories:
         tools += get_tool(tool_dir)

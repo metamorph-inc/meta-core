@@ -29,7 +29,7 @@ namespace isis_CADCommon
 				std::stringstream errorString;
 				errorString <<
 					"Function - GetCurrentDirectoryA, returned a zero error code, which indicates that the function failed.";
-				throw isis::application_exception(errorString.str().c_str());			
+				throw isis::application_exception(errorString.str());			
 		}
 		
 		return std::string(buffer);
@@ -56,7 +56,7 @@ namespace isis_CADCommon
 			std::stringstream errorString;
 			errorString <<
 				"Function - GetPublicDocuments, did not find the public document folder.";
-			throw isis::application_exception(errorString.str().c_str());		
+			throw isis::application_exception(errorString.str());		
 		}
 	}
 

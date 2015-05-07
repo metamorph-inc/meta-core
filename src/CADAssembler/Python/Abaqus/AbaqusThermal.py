@@ -89,14 +89,14 @@ def generateSpecifiedTemperatureDict(thermal, loadBCLib):
     logger.info("Specified Temperature Magnitude = " + str(tMag) + '\n')
 
     
-def generateConvectionHeatDict(thermal, loadBCLib, thermalSetXML):
+def generateConvectionDict(thermal, loadBCLib, thermalSetXML):
     """ Generate convection entry in load dictionary. """
     logger = logging.getLogger()
     logger.info("Defining heat convection BC" + '\n')
-    loadBCLib[-1].update([['Treatment', 'ConvectionHeat']])
+    loadBCLib[-1].update([['Treatment', 'Convection']])
     # No conversion needed for convection: [J/(s.(m^2 K))] ==[W/(m^2K)]
     tMag = float(thermal.get('Value'))                        # magnitude of temperature
-    loadBCLib[-1].update([['ConvectionHeat', tMag]])           # store temperature value
+    loadBCLib[-1].update([['Convection', tMag]])           # store temperature value
 
     # Look for ambient temperature load - REQUIRED for convection
     ambient = False
@@ -168,8 +168,8 @@ def generateThermalConstructs(thermalSetXML, loadBCLib, asminfo):
         else:
             check_for_conflicting_loads(loadBCLib, thermal)
             try:
-                if thermalLoadType == 'ConvectionHeat':
-                    generateConvectionHeatDict(thermal, loadBCLib, thermalSetXML)
+                if thermalLoadType == 'Convection':
+                    generateConvectionDict(thermal, loadBCLib, thermalSetXML)
                 else:
                     globals()[str('generate' + thermalLoadType + 'Dict')](thermal, loadBCLib)
             except KeyError:
@@ -225,7 +225,7 @@ def createSpecifiedTemperatureConstraint(myModel, myAsm, entry, myStep, amp, ins
         cad_library.exitwitherror('Error creating specified temperature constraint.', -1, 'AbaqusThermal.py')
         
         
-def createConvectionHeatConstraint(myModel, myAsm, entry, myStep, amp, instName, regionName):
+def createConvectionConstraint(myModel, myAsm, entry, myStep, amp, instName, regionName):
     """ Apply convection interaction in Abaqus model. """
     logger = logging.getLogger()
     try:
@@ -239,7 +239,7 @@ def createConvectionHeatConstraint(myModel, myAsm, entry, myStep, amp, instName,
         region = myAsm.Surface(side1Faces=maskRegion, name=regionName)
         convecName = regionName + '-ConvecHeat'
         myModel.FilmCondition(name=convecName, createStepName=myStep.name,
-                              surface=region, definition=EMBEDDED_COEFF, filmCoeff=entry['ConvectionHeat'],
+                              surface=region, definition=EMBEDDED_COEFF, filmCoeff=entry['Convection'],
                               filmCoeffAmplitude=amp, sinkTemperature=entry['AmbientTemperature'],
                               sinkAmplitude=amp)
     except:
@@ -270,17 +270,17 @@ def createHeatGenerationConstraint(myModel, myAsm, entry, myStep, amp, instName,
     """ Apply heat generation load in Abaqus model. """
     logger = logging.getLogger()
     try:
-        MPdict = myAsm.getMassProperties(regions=(myAsm.instances[instName],),)
-        vol = MPdict['volume']
-        if vol is None:
-            cad_library.exitwitherror('Error getting volume from part instance ' + instName, -1, 'AbaqusThermal.py')
-        else:
-            vol_heat_rate = float(entry['HeatGeneration']) / float(vol)
+        #MPdict = myAsm.getMassProperties(regions=(myAsm.instances[instName],),)
+        #vol = MPdict['volume']
+        #if vol is None:
+         #   cad_library.exitwitherror('Error getting volume from part instance ' + instName, -1, 'AbaqusThermal.py')
+        #else:
+            #vol_heat_rate = float(entry['HeatGeneration']) / float(vol)
         logger.info('Creating load/BC on entirety of ' + instName + ' with treatment Heat Generation. \n')
         region = (myAsm.instances[instName].cells, )
         HeatGenName = regionName + '-HeatGen'
         myModel.BodyHeatFlux(name=HeatGenName, createStepName=myStep.name, region=region,
-                             magnitude=vol_heat_rate, distributionType=UNIFORM, amplitude=amp)
+                             magnitude=float(entry['HeatGeneration']), distributionType=UNIFORM, amplitude=amp)
     except:
         cad_library.exitwitherror('Error creating the Heat Generation constraint.', -1, 'AbaqusThermal.py')
         

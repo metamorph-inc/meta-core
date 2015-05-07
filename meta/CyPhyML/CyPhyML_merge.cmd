@@ -1,8 +1,8 @@
 Setlocal EnableDelayedExpansion
 
 set XME=CyPhyML.xme
-set LEFT_R=r27825
-set RIGHT_R=r27878
+set LEFT_R=r28719
+set RIGHT_R=r28828
 
 if not exist %GME_ROOT%\GME\Parser\xme_id2guid.py (echo Need SVN GME & exit /b 1)
 

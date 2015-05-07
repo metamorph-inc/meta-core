@@ -38,12 +38,21 @@ except ImportError:
 
 
 class ParsingException(Exception):
+    """
+    Special exception to be used/handled in this module only
+    """
     def __init__(self):
-        self.what_is_this = False
+        """
+        Create an instance of ParsingException
+        """
+        self.dummy_variable = False
 
 
 class ComponentExporter(object):
-
+    """
+    Class ComponentExporter is an interface with the OpenModelicaCompiler to facilitate extracting class information
+    in a single 'Component' format
+    """
     def __init__(self, external_packages=None, export_icons=False, msl_version='3.2'):
         """
         Creates a new instance of ComponentExporter. Opens up a OMCSession and loads
@@ -61,23 +70,29 @@ class ComponentExporter(object):
         self.omc = OMCSession()
 
         # load all packages
-        self.loadPackages(self.external_package_paths)
+        self.load_packages(self.external_package_paths)
 
         self.export_icons = export_icons
 
         if self.export_icons:
             icon_dir_name = 'Icons'
-            if os.path.isdir(icon_dir_name) == False:
+            if not os.path.isdir(icon_dir_name):
                 os.mkdir(icon_dir_name)
             self.icon_exporter = IconExporter(self.omc, icon_dir_name)
 
-    def loadPackages(self, external_package_paths):
+    def load_packages(self, external_package_paths):
+        """
+        load all external packages into the OpenModelicaCompiler so individual classes may be explored
+
+        @param external_package_paths:
+        @return:
+        """
 
         self.omc.loadModel('Modelica')
 
         for package_path in external_package_paths:
-            if os.path.isfile(package_path) == True:                        # make sure the file exists
-                if self.omc.loadFile(package_path) == True:         # try to load the package file
+            if os.path.isfile(package_path):                        # make sure the file exists
+                if self.omc.loadFile(package_path):         # try to load the package file
                     self.logger.info('Library loaded from : {0}'.format(package_path))
                 else:
                     self.logger.warning('Failed to load: {0}'.format(package_path))
@@ -110,7 +125,9 @@ class ComponentExporter(object):
         return json_result
 
     def get_icon_only(self, modelica_uri):
-
+        """
+        Extracts the icon from the Modelica class
+        """
         if self.export_icons and os.path.isdir('Icons'):
             self.icon_exporter.export_icon(modelica_uri)
 
@@ -118,7 +135,7 @@ class ComponentExporter(object):
         """
         Extracts component and returns a xml tree
         """
-        components =[]
+        components = []
         self.extract_component_content(modelica_uri, components)
 
         xml_result = etree.Element("Root")
@@ -155,19 +172,22 @@ class ComponentExporter(object):
                 package.value = extends_package['value']
                 component.packages.append(package)
 
-        except ValueError as ex:
-            if ex.args[0] == 'Could not parse OMC response.':
-                self.logger.warning('Could not parse OMC response for getReplaceables({0}) or getPackagesFromExtends()'.format(modelica_uri))
+        except ValueError as value_error_exception:
+            if value_error_exception.args[0] == 'Could not parse OMC response.':
+                e_msg = 'Could not parse OMC response for getReplaceables({0}) or getPackagesFromExtends()'.format(
+                    modelica_uri)
+                self.logger.warning(e_msg)
                 raise ParsingException
 
         try:
             mo_components = self.omc.getComponents(modelica_uri)
-        except ValueError as ex:
-            if ex.args[0] == 'Could not parse OMC response.':
+        except ValueError as value_error_exception:
+            if value_error_exception.args[0] == 'Could not parse OMC response.':
                 self.logger.warning('Could not parse OMC response for getComponents({0})'.format(modelica_uri))
                 raise ParsingException
 
-        for (mo_type, mo_name, mo_annotation, mo_modification, v1, v2, v3, isReplaceable, component_type, v5, v6, v7) in mo_components:
+        for (mo_type, mo_name, mo_annotation, mo_modification, v_1, v_2, v_3, isReplaceable, component_type, v_5, v_6,
+             v_7) in mo_components:
 
             if self.omc.isConnector(mo_type):
                 connector = Connector()
@@ -179,18 +199,19 @@ class ComponentExporter(object):
                 modifiers = dict()
                 modifiers['modifications'] = mo_modification
                 for modifier_name in modifier_names:
-                    modifier_value = self.omc.getComponentModifierValue(modelica_uri, '{0}.{1}'.format(mo_name, modifier_name))
+                    modifier_value = self.omc.getComponentModifierValue(modelica_uri,
+                                                                        '{0}.{1}'.format(mo_name, modifier_name))
                     modifiers[modifier_name] = modifier_value
                     connector.modifiers = modifiers
 
                 if (len(component.packages) != 0) and ('Modelica.Fluid.Interfaces.FluidPort_' in mo_type):
-                    portRedeclare = self.omc.getPortRedeclares(modelica_uri, mo_type, mo_name)
-                    if portRedeclare:
+                    port_redeclare = self.omc.getPortRedeclares(modelica_uri, mo_type, mo_name)
+                    if port_redeclare:
                         for package in component.packages:
-                            if portRedeclare[1] == package.name:
+                            if port_redeclare[1] == package.name:
                                 redeclare_parameter = RedeclareParameter()
-                                redeclare_parameter.name = portRedeclare[0]
-                                redeclare_parameter.value = portRedeclare[1]
+                                redeclare_parameter.name = port_redeclare[0]
+                                redeclare_parameter.value = port_redeclare[1]
                                 #redeclare_parameter.value = package.value
 
                                 connector.redeclare_parameters.append(redeclare_parameter)
@@ -226,7 +247,8 @@ class ComponentExporter(object):
                             parameter.dimension = len(comma_split)
 
                 for modifier_name in self.omc.getComponentModifierNames(modelica_uri, mo_name):
-                    modifier_value = self.omc.getComponentModifierValue(modelica_uri, '{0}.{1}'.format(mo_name, modifier_name))
+                    modifier_value = self.omc.getComponentModifierValue(modelica_uri,
+                                                                        '{0}.{1}'.format(mo_name, modifier_name))
                     parameter.modifiers.update({modifier_name: modifier_value})
 
                 if self.omc.isType(mo_type):
@@ -235,7 +257,7 @@ class ComponentExporter(object):
                 component.parameters.append(parameter)
 
             else:
-                pass # the object is not a connector or a parameter
+                pass  # the object is not a connector or a parameter
 
         mo_inheritance_count = self.omc.getInheritanceCount(modelica_uri)
 
@@ -254,15 +276,18 @@ class ComponentExporter(object):
 
             extend.modifiers = {}
 
-            for mo_extend_class_modifier in mo_extend_class_modifiers:
-                if '.' in mo_extend_class_modifier:
+            for extend_class_modifier in mo_extend_class_modifiers:
+                if '.' in extend_class_modifier:
                     # this is a modifier
-                    extend.modifiers[mo_extend_class_modifier] = self.omc.getExtendsModifierValue(modelica_uri, mo_extend_class_name, mo_extend_class_modifier)
+                    extend.modifiers[extend_class_modifier] = self.omc.getExtendsModifierValue(modelica_uri,
+                                                                                               mo_extend_class_name,
+                                                                                               extend_class_modifier)
                 else:
                     # this is a parameter
                     extend_parameter = Parameter()
-                    extend_parameter.name = mo_extend_class_modifier
-                    extend_parameter.value = self.omc.getExtendsModifierValue(modelica_uri, mo_extend_class_name, mo_extend_class_modifier)
+                    extend_parameter.name = extend_class_modifier
+                    extend_parameter.value = self.omc.getExtendsModifierValue(modelica_uri, mo_extend_class_name,
+                                                                              extend_class_modifier)
                     extend.parameters.append(extend_parameter)
 
             extend.full_name = mo_extend_class_name
@@ -271,7 +296,6 @@ class ComponentExporter(object):
 
             self.extract_component_content(mo_extend_class_name, components)
 
-        # TODO: Shouldn't this be done for all components?
         mo_import_count = self.omc.getImportCount(modelica_uri)
         for i in range(1, mo_import_count + 1):
             import_item = Import()
@@ -286,47 +310,61 @@ class ComponentExporter(object):
 
 
 class TreeExporter(object):
+    """
+    Class TreeExporter is an interface with the OpenModelicaCompiler to facilitate extraction of all contained classes
+    """
 
-    def __init__(self, className):
-        self.classNames = list()
-        self.classNames.append(className)
-        self.classDetails = list()
+    def __init__(self, class_name):
+        """
+        creates an instance of TreeExporter
+        """
+        self.class_names = list()
+        self.class_names.append(class_name)
+        self.class_details = list()
 
         self.logger = logging.getLogger('py_modelica_exporter.TreeExporter')
         self.logger.setLevel(logging.NOTSET)
 
-        self.logger.info('Initializing TreeExporter({0})'.format(className))
+        self.logger.info('Initializing TreeExporter({0})'.format(class_name))
 
         self.omc = OMCSession()
 
         # load all packages
         success = self.omc.loadModel('Modelica')
-        # TODO: load all external packages
 
-        self.parse_tree(className)
+        self.parse_tree(class_name)
 
-    def parse_tree(self, className):
+    def parse_tree(self, class_name):
+        """
+        gets all classes from within 'class_name'
+        """
 
-        classNames = self.omc.getClassNames(className, recursive=True, sort=True)
+        class_names = self.omc.getClassNames(class_name, recursive=True, sort=True)
 
         # filter and export only blocks and models
-        for c_name in classNames:
-            if (self.omc.isModel(c_name)) or (self.omc.isBlock(c_name)):
-                class_details = dict()
-                class_details['ComponentName'] = c_name
-                class_details['Description'] = self.omc.getClassComment(c_name)
-                self.classDetails.append(class_details)
+        for c_name in class_names:
+            # if (self.omc.isModel(c_name)) or (self.omc.isBlock(c_name)):
+            class_details = dict()
+            class_details['ComponentName'] = c_name
+            class_details['Description'] = "None available"  # self.omc.getClassComment(c_name)
+            self.class_details.append(class_details)
 
     def json(self):
+        """
+        Creates a dictionary from of all the classes contained in the Tree
+        """
         json_result = dict()
-        json_result['topLevelPackages'] = self.classNames
-        json_result['classDetails'] = self.classDetails
+        json_result['topLevelPackages'] = self.class_names
+        json_result['classDetails'] = self.class_details
         return json_result
 
     def xml(self):
         raise NotImplementedError
 
     def export_to_json(self, filename):
+        """
+        Write out a json representation of the Tree
+        """
         json_result = self.json()
 
         with open(filename, 'w') as f_p:
@@ -339,76 +377,87 @@ class TreeExporter(object):
 
 
 class PackageExporter(object):
+    """
+    Class PackageExporter is an interface with the OpenModelicaCompiler to facilitate extraction of all classes
+    contained within 'external_packages' (and the MSL)
+    """
 
-    def __init__(self, external_packages, load_MSL=True):
-
-        self.externalPackagePaths = make_paths_safe_for_omc(external_packages)
-        self.packageNames = list()
-        self.failedLoadPackageNames = list()
-        self.classDetails = list()
+    def __init__(self, external_packages, load_msl=True):
+        """
+        Create an instance of the PackageExporter
+        """
+        self.external_package_paths = make_paths_safe_for_omc(external_packages)
+        self.package_names = list()
+        self.failed_load_package_names = list()
+        self.class_details = list()
 
         self.logger = logging.getLogger('py_modelica_exporter.PackageExporter')
         self.logger.setLevel(logging.NOTSET)
-        self.logger.info('Initializing PackageExporter({0})'.format(self.externalPackagePaths))
+        self.logger.info('Initializing PackageExporter({0})'.format(self.external_package_paths))
 
         self.omc = OMCSession()
-        self.loadPackages(self.externalPackagePaths, load_MSL=load_MSL)
-        self.getClassDetails(self.packageNames)
+        self.load_packages(self.external_package_paths, load_msl=load_msl)
+        self.get_class_details(self.package_names)
 
-    def parseArgument(self, externalPackages):
-        # this will update self.externalPackagePaths and self.externalPackageNames
+    def parse_argument(self, external_packages):
+        """
+        This will update self.external_package_paths and self.package_names
+        """
+        for potential_path in external_packages:
+            if os.path.exists(potential_path):
+                self.external_package_paths.append(potential_path)
 
-        for potentialPath in externalPackages:
-            if os.path.exists(potentialPath):
-                self.externalPackagePaths.append(potentialPath)
-
-                if os.path.basename(potentialPath) == 'package.mo':     # check if the file name is 'package.mo'
-                    packageDir = os.path.dirname(potentialPath)         # get the path to the last directory
-                    packageName = os.path.basename(packageDir)          # get the name of the last directory
-                    self.packageNames.append(packageName)       # store that name
+                if os.path.basename(potential_path) == 'package.mo':     # check if the file name is 'package.mo'
+                    package_dir = os.path.dirname(potential_path)         # get the path to the last directory
+                    package_name = os.path.basename(package_dir)          # get the name of the last directory
+                    self.package_names.append(package_name)       # store that name
                 else:
-                    file_path, file_extension = os.path.splitext(potentialPath)
+                    file_path, file_extension = os.path.splitext(potential_path)
                     if file_extension == '.mo':                         # make sure it is a '.mo' file
-                        packageName = os.path.basename(file_path)       # get the name of the file
-                        self.packageNames.append(packageName)   # store that name
-            else:
-                pass  # should log that this package path is invalid?
+                        package_name = os.path.basename(file_path)       # get the name of the file
+                        self.package_names.append(package_name)   # store that name
+            # else:
+            #     pass  # should log that this package path is invalid?
 
-    def loadPackages(self, external_package_paths, load_MSL=True):
+    def load_packages(self, external_package_paths, load_msl=True):
+        """
+        load all the external packages using OpenModelicaCompiler
+        """
 
-        if load_MSL:
-            if self.omc.loadModel('Modelica') == True:
+        if load_msl:
+            if self.omc.loadModel('Modelica'):
                 comment = self.omc.getClassComment('Modelica')
 
                 import re
+
                 modelica_version_pattern = '.*Version ([\d\.]*)'
                 regex_modelica_version = re.findall(modelica_version_pattern, comment)
 
                 if regex_modelica_version[0]:
-                    self.packageNames.append('Modelica ' + regex_modelica_version[0])
+                    self.package_names.append('Modelica ' + regex_modelica_version[0])
                 else:
-                    self.packageNames.append('Modelica')
+                    self.package_names.append('Modelica')
 
         for package_path in external_package_paths:
-            if os.path.isfile(package_path) == True:                # make sure the file exists
+            if os.path.isfile(package_path):                # make sure the file exists
                 if os.path.basename(package_path) == 'package.mo':  # check if the file name is 'package.mo'
                     package_dir = os.path.dirname(package_path)     # get the path to the last directory
                     package_name = os.path.basename(package_dir)    # get the name of the last directory (package_name)
-                    if self.omc.loadFile(package_path) == True:     # try to load the package file
-                        self.packageNames.append(package_name)  # log successful load
+                    if self.omc.loadFile(package_path):     # try to load the package file
+                        self.package_names.append(package_name)  # log successful load
                         self.logger.info('Library loaded from : {0}'.format(package_path))
                     else:
-                        self.failedLoadPackageNames.append("FAILED_" + package_name)    # log failure
+                        self.failed_load_package_names.append("FAILED_" + package_name)    # log failure
                         self.logger.warning('Failed to load: {0}'.format(package_path))
                 else:
                     file_path, file_extension = os.path.splitext(package_path)
                     if file_extension == '.mo':                             # make sure it is a '.mo' file
                         package_name = os.path.basename(file_path)          # get the name of the file
-                        if self.omc.loadFile(package_path) == True:         # try to load the package file
-                            self.packageNames.append(package_name)  # log successful load
+                        if self.omc.loadFile(package_path):         # try to load the package file
+                            self.package_names.append(package_name)  # log successful load
                             self.logger.info('Library loaded from : {0}'.format(package_path))
                         else:
-                            self.failedLoadPackageNames.append("FAILED_" + package_name)    # log failure
+                            self.failed_load_package_names.append("FAILED_" + package_name)    # log failure
                             self.logger.warning('Failed to load: {0}'.format(package_path))
             else:
                 file_path, file_extension = os.path.splitext(package_path)
@@ -417,31 +466,79 @@ class PackageExporter(object):
                     if package_name == 'package':
                         package_name = os.path.basename(os.path.dirname(file_path))
 
-                    self.failedLoadPackageNames.append(package_name)
+                    self.failed_load_package_names.append(package_name)
                     self.logger.warning('Failed to load: {0}'.format(package_path))
 
-    def getClassDetails(self, packageNames):
+    def get_class_details(self, package_names):
+        """
+        Get the class details and write out a json file
+        """
 
-        for packageName in packageNames:
-            if 'Modelica' in packageName:
-                classNames = self.omc.getClassNames('Modelica', recursive=True, sort=True)
+        for package_name in package_names:
+            get_comments = False  # self.omc.getClassNames randomly (?) takes a long time to execute
+
+            if 'Modelica' in package_name:
+                class_names = self.omc.getClassNames('Modelica', recursive=True, sort=True)
+                # get_comments = True
+
+                # blacklist = ['.Utilities.',
+                #              '.UsersGuide.',
+                #              '.Examples.',
+                #              '.UnitConversions.',
+                #              '.Media.']
+
+                # for c_name in class_names:
+                #     # skip_it = False
+                #     # for bad_name in blacklist:
+                #     #     if bad_name in c_name:
+                #     #         skip_it = True
+                #     #         self.logger.info(c_name + " is black-listed (not a model or block)")
+                #     #         break
+                #     # if skip_it:
+                #     #     continue
+                #
+                #     class_details = dict()
+                #     class_details['ComponentName'] = c_name
+                #     class_details['Description'] = ""  # self.omc.getClassComment(c_name)
+                #     self.class_details.append(class_details)
+
             else:
-                classNames = self.omc.getClassNames(packageName, recursive=True, sort=True)
+                class_names = self.omc.getClassNames(package_name, recursive=True, sort=True)
+                # get_comments = True
 
-            for c_name in classNames:
-                if (self.omc.isModel(c_name)) or (self.omc.isBlock(c_name)): # only blocks and models are exported
-                    class_details = dict()
-                    class_details['ComponentName'] = c_name
+            for c_name in class_names:
+
+                class_details = dict()
+                class_details['ComponentName'] = c_name
+                if get_comments:
                     class_details['Description'] = self.omc.getClassComment(c_name)
-                    self.classDetails.append(class_details)
+                else:
+                    class_details['Description'] = "None available"
+
+                self.class_details.append(class_details)
+
+                # model_type = self.omc.getClassRestriction(c_name)
+                # if model_type in ['model', 'block']:
+                # # if (self.omc.isModel(c_name)) or (self.omc.isBlock(c_name)):  # only blocks and models are exported
+                #     class_details = dict()
+                #     class_details['ComponentName'] = c_name
+                #     class_details['Description'] = self.omc.getClassComment(c_name)
+                #     self.class_details.append(class_details)
+
 
     def json(self):
+        """
+        Generate a dictionary from the Packages
+        """
         json_result = dict()
-        json_result['topLevelPackages'] = self.packageNames + self.failedLoadPackageNames
-        json_result['classDetails'] = self.classDetails
+        json_result['topLevelPackages'] = self.package_names + self.failed_load_package_names
+        json_result['classDetails'] = self.class_details
         return json_result
 
-    def exportToJson(self, filename):
+    def export_to_json(self, filename):
+        """
+        Write a json file of the Packages
+        """
         json_result = self.json()
 
         with open(filename, 'w') as f_p:
@@ -451,8 +548,15 @@ class PackageExporter(object):
 
 
 class ComponentAssemblyExporter(object):
+    """
+    Class ComponentAssemblyExporter is an interface with the OpenModelicaCompiler to facilitate
+    extracting class information in a 'ComponentAssembly' format
+    """
 
     def __init__(self, external_packages=None, msl_version='3.2'):
+        """
+        Create an instance of the ComponentAssemblyExporter
+        """
         self.logger = logging.getLogger('py_modelica_exporter::ComponentExporter')
         self.logger.setLevel(logging.DEBUG)
         # create console handler with a higher log level
@@ -481,6 +585,9 @@ class ComponentAssemblyExporter(object):
         self.logger.debug('ComponentAssemblyExporter __init__ finished.')
 
     def load_external_packages(self, external_packages):
+        """
+        Load all the external packages
+        """
 
         for package_path in (os.path.abspath(p.strip()).replace("\\", "/") for p in external_packages):
             file_name = os.path.basename(package_path)
@@ -496,17 +603,20 @@ class ComponentAssemblyExporter(object):
                 self.logger.error('Failed loading {0} from {1}!'.format(package_name, package_path))
 
     def get_component_assembly_json(self, modelica_uri):
-
+        """
+        create a dictionary description of the Modelica class, enumerating all the contained classes
+        """
         ca = ComponentAssembly()
         ca.name = modelica_uri.split('.')[-1]
         ca.full_name = modelica_uri
         try:
             mo_components = self.omc.getComponents(modelica_uri)
-        except ValueError as ex:
-            if ex.args[0] == 'Could not parse OMC response.':
+        except ValueError as value_error_exception:
+            if value_error_exception.args[0] == 'Could not parse OMC response.':
                 raise ParsingException
 
-        for (mo_type, mo_name, mo_annotation, mo_modification, v5, v6, v7, isReplaceable, component_type, v10, v11, v12) in mo_components:
+        for (mo_type, mo_name, mo_annotation, mo_modification, v5, v6, v7, isReplaceable, component_type, v10, v11,
+             v12) in mo_components:
 
             if self.omc.isModel(mo_type) or self.omc.isBlock(mo_type):
                 if v10 in ['inner', 'outer']:
@@ -554,6 +664,9 @@ class ComponentAssemblyExporter(object):
         return ca.json()
 
     def _get_connector_and_parent(self, connected):
+        """
+        Get the connection details
+        """
         pieces = connected.split('.')
         parent = ""
         if len(pieces) == 2:
@@ -566,7 +679,11 @@ class ComponentAssemblyExporter(object):
 
 
 def get_parameter_base_type_and_modifiers(omc, class_type, modifiers):
-    # Assumption Types can only inherit from one class (at a time)
+    """
+    Gets all pertinent information from super ('extends') classes
+
+    """
+    # Assumption: Types can only inherit from one class (at a time)
     base_type = class_type
     # Extract inherited modifiers
     for i in range(1, omc.getInheritanceCount(class_type) + 1):
@@ -575,14 +692,19 @@ def get_parameter_base_type_and_modifiers(omc, class_type, modifiers):
             if mod_name not in modifiers:
                 value = omc.getExtendsModifierValue(class_type, base_type, mod_name)
                 modifiers.update({mod_name: value})
-        # recursion
+                # recursion
         if omc.isType(base_type):
             base_type = get_parameter_base_type_and_modifiers(omc, base_type, modifiers)
 
     return base_type
 
-def make_paths_safe_for_omc(path_list):
 
+def make_paths_safe_for_omc(path_list):
+    """
+    this method takes paths defined by the caller and ensures that they are compatible with the OpenModelicaCompiler
+
+
+    """
     python_version_major = sys.version_info[0]
 
     safe_paths = list()

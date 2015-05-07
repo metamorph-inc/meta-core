@@ -42,6 +42,10 @@ namespace CyPhy2CAD_CSharp
                 {
                     result.Labels = JobManager.Job.DefaultLabels + "&&SwRI_Blast";
                 }
+                if (result != null && curObjMetaBase == "KinematicTestBench")
+                {
+                    result.Labels = JobManager.Job.DefaultLabels + "&&Adams";
+                }
 
                 var catlsut = tb.Children.ComponentAssemblyCollection.FirstOrDefault();     // should be an instance b/c elaborate was called earlier
                 if (catlsut == null)

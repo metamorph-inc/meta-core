@@ -93,7 +93,7 @@ void SetParametricParameter(
 					"Erroneous CADParameter Value, Parameter: " <<  CADParameterType_string(in_ParameterType) <<
 					"  Value: " << in_ParameterValue << ", Value must be " << MAX_STRING_PARAMETER_LENGTH << 
 					" characters or less.";
-					throw isis::application_exception(errorString.str().c_str());
+					throw isis::application_exception(errorString.str());
 				}
 				ProParamvalue_struct.type = PRO_PARAM_STRING;
 				ProStringToWstring(ProParamvalue_struct.value.s_val,(char*)in_ParameterValue.c_str());

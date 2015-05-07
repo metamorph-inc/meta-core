@@ -25,6 +25,7 @@ def reformatPossibleFault(jsonFilename,outfilename,num_fault_tested):
 
     if num_fault_tested == 0:
         num_fault_tested = len(formattedData)
+        #random.shuffle(formattedData)
     else:
         random.shuffle(formattedData)
         

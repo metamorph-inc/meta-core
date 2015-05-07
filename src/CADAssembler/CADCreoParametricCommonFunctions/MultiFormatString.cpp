@@ -95,7 +95,7 @@ namespace isis
 			std::stringstream errorString;
 			errorString << "MultiFormatStringType::setNarrowString, did not find a narrowString, narrowCharArray, or wideCharArray defined.  " 
 						<< "This condition would be caused by a bug in MultiFormatStringType class.";
-			  throw isis::application_exception(errorString.str().c_str());
+			  throw isis::application_exception(errorString.str());
 		}
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,7 +123,7 @@ namespace isis
 			std::stringstream errorString;
 			errorString << "Error: MultiFormatStringType::setNarrowCharArray, did not find a narrowString, narrowCharArray, or wideCharArray defined.  " 
 						<< "This condition would be caused by a bug in MultiFormatStringType class.";
-			  throw isis::application_exception(errorString.str().c_str());
+			  throw isis::application_exception(errorString.str());
 		}
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +152,7 @@ namespace isis
 			std::stringstream errorString;
 			errorString << "Error: MultiFormatStringType::setWideCharArray, did not find a wideString, wideCharArray, or wideCharArray defined.  " 
 						<< "This condition would be caused by a bug in MultiFormatStringType class.";
-			  throw isis::application_exception(errorString.str().c_str());
+			  throw isis::application_exception(errorString.str());
 		}
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////

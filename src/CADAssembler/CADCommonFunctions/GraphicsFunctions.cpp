@@ -173,7 +173,7 @@ namespace isis_CADCommon
 				"Function - DotProduct_2D, received a vector that does not have two and only two elements." <<
 				"  in_Vector_1: " << in_Vector_1 << 
 				"  in_Vector_2: " << in_Vector_2;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 		std::vector<double> outVector(2);
 
@@ -191,7 +191,7 @@ namespace isis_CADCommon
 				"Function - DotProduct_3D, received a vector that does not have three and only three elements." <<
 				"  in_Vector_1: " << in_Vector_1 << 
 				"  in_Vector_2: " << in_Vector_2;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 		std::vector<double> outVector(3);
 
@@ -209,7 +209,7 @@ namespace isis_CADCommon
 				"Function - CrossProduct_3D, received a vector that does not have three and only three elements." <<
 				"  in_Vector_1: " << in_Vector_1 << 
 				"  in_Vector_2: " << in_Vector_2;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		std::vector<double> outVector(3);
@@ -229,7 +229,7 @@ namespace isis_CADCommon
 			errorString <<
 				"Function - Magnitude_3D, received a vector that does not have three and only three elements." <<
 				"  in_Vector: " << in_Vector; 
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		std::vector<double> outVector(3);
@@ -245,7 +245,7 @@ namespace isis_CADCommon
 			errorString <<
 				"Function - Magnitude_2D, received a vector that does not have two and only two elements." <<
 				"  in_Vector: " << in_Vector; 
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		std::vector<double> outVector(3);
@@ -262,7 +262,7 @@ namespace isis_CADCommon
 			errorString <<
 				"Function - UnitVector_3D, received a vector that does not have three and only three elements." <<
 				"  in_Vector: " << in_Vector; 
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		std::vector<double> outVector(3);
@@ -275,7 +275,7 @@ namespace isis_CADCommon
 			errorString <<
 				"Function - UnitVector_3D, received a vector that has a magnitude of zero." <<
 				"  in_Vector: " << in_Vector; 
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 		else
 		{
@@ -298,7 +298,7 @@ namespace isis_CADCommon
 				"Function - AngleBetweenVectors_3D, received a vector that does not have three and only three elements." <<
 				"  in_Vector_A: " << in_A << 
 				"  in_Vector_B: " << in_B;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		//angle = cos-1( ( A . B )/ ( |A| |B| )
@@ -313,7 +313,7 @@ namespace isis_CADCommon
 				"Function - AngleBetweenVectors_3D, received a vector that has a magnitude of zero." <<
 				"  in_Vector_A: " << in_A << 
 				"  in_Vector_B: " << in_B;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 		else
 			return std::acos( DotProduct_3D( in_A, in_B ) / ( magnitude_a * magnitude_b ) );
@@ -330,7 +330,7 @@ namespace isis_CADCommon
 				"Function - VectorsEqual_3D, received a vector that does not have three and only three elements." <<
 				"  in_Vector_1: " << in_Vector_1 << 
 				"  in_Vector_2: " << in_Vector_2;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		//if ( std::abs( in_Vector_1[0] - in_Vector_2[0] ) < in_Tolerance   &&
@@ -650,7 +650,7 @@ namespace isis_CADCommon
 				"Was serching for: " << in_out_CurrentTargetPoint << " as and endpoint in the following lines: " <<
 				in_PolygonLines << std::endl << "The indexes of the following lines were already selected: " << std::endl <<
 				in_AlreadySorted;
-		throw isis::application_exception(errorString.str().c_str());
+		throw isis::application_exception(errorString.str());
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -663,7 +663,7 @@ namespace isis_CADCommon
 			errorString <<
 				"Function - SortPolygonLines, received a vector that does not have at least three elements." <<
 				"  in_PolygonLines: " << in_PolygonLines;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		std::vector<int> sortedOrder;
@@ -700,7 +700,7 @@ namespace isis_CADCommon
 			std::stringstream errorString;
 			errorString <<
 				"Function - SortPolygonLines, Polygon lines do not form a closed loop. The lines follow: " << in_PolygonLines;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		return outPolygonLines;
@@ -719,7 +719,7 @@ namespace isis_CADCommon
 			errorString <<
 				"Function - VectorsFormingIntersection_of_FirstAndLastLine_2D, received a vector that does not have at least two elements." <<
 				"  in_SortedPolygonLines: " << in_SortedPolygonLines;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		Line_2D  firstLine = in_SortedPolygonLines.front();
@@ -777,7 +777,7 @@ namespace isis_CADCommon
 					"  in_Vector_XYPlane: " << in_Vector_XYPlane << std::endl <<
 					"  UnitVector_3D(in_Vector_XDirection): " << UnitVector_3D(in_Vector_XDirection) << 
 					"  UnitVector_3D(in_Vector_XYPlane): " << UnitVector_3D(in_Vector_XYPlane);
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 			}
 
 			// Set the new coordinate system offset from reference coodinate system
@@ -974,7 +974,7 @@ namespace isis_CADCommon
 				std::stringstream errorString;
 				errorString <<
 					"Function - ShortestDistanceBetweenPointAndLine, received in_Line vector, which does not have any elements.";
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 		if ( in_Line.size() != 2 )
@@ -982,7 +982,7 @@ namespace isis_CADCommon
 				std::stringstream errorString;
 				errorString <<
 					"Function - ShortestDistanceBetweenPointAndLine, received in_Line vector, which does contain two points (i.e. start and end points of the line).";
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 
@@ -991,7 +991,7 @@ namespace isis_CADCommon
 				std::stringstream errorString;
 				errorString <<
 					"Function - ShortestDistanceBetweenPointAndLine, received in_Line vector, which contains two identical points.  The start and end points must be different.";
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 		if ( PointsAreEqual_3D( in_Line[0],in_Point, in_Precision ) ||
@@ -1060,7 +1060,7 @@ namespace isis_CADCommon
 				errorString << errorSourceString << 
 					"Function - Polygon_3D::Polygon_3D, received in_Polygon_Points vector, which does not have at least three elements." <<
 					"  in_Polygon: " << in_Polygon_Points;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 		std::list< Point_3D> points_temp(in_Polygon_Points.begin(), in_Polygon_Points.end());
@@ -1073,7 +1073,7 @@ namespace isis_CADCommon
 				errorString << errorSourceString << 
 					"Function - Polygon_3D::Polygon_3D, received two identical points defining the polygon." << std::endl <<
 					"in_Polygon_Points: " << in_Polygon_Points;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 		// Need two vectors forming the X -axis and plane of y - axis
@@ -1115,7 +1115,7 @@ namespace isis_CADCommon
 				errorString << errorSourceString << 
 					"Function - Polygon_3D::Polygon_3D, received points defining the polygon where the points were not coplanar." <<
 					"  in_Polygon_Points: " << in_Polygon_Points;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 			}
 		} 
 
@@ -1226,7 +1226,7 @@ namespace isis_CADCommon
 					"in_Center_Point: " << in_Center_Point << std::endl <<
 					"in_Circumference_Point: " << in_Circumference_Point << std::endl <<
 					"xyPlane_Point: " << xyPlane_Point;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 		// Need two vectors forming the X -axis and plane of y - axis
@@ -1261,7 +1261,7 @@ namespace isis_CADCommon
 				"in_Circumference_Point: " << in_Circumference_Point << std::endl <<
 				"xyPlane_Point: " << xyPlane_Point << std::endl <<
 				 "setTransformationMatrix: " << ex.what();
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 		// Set Radius
@@ -1344,7 +1344,7 @@ namespace isis_CADCommon
 				"Function - ConcentricCircles_3D::ConcentricCircles_3D, The inner circle has a radius larger than or equal to the outer radius. " << std::endl <<
 				"Inner Circle: " << innerCircle << std::endl <<
 				"Outer Circle: " << outerCircle << std::endl;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 	}
@@ -1404,7 +1404,7 @@ namespace isis_CADCommon
 					"  in_startCenterline_Point: " << in_startCenterline_Point << std::endl <<
 					"  in_endCenterline_Point: "   << in_endCenterline_Point << std::endl <<
 					"  in_defineRadius_Point: "    << in_defineRadius_Point;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 		// Need two vectors forming the X -axis and plane of y - axis
@@ -1443,7 +1443,7 @@ namespace isis_CADCommon
 				"  in_endCenterline_Point: "   << in_endCenterline_Point << std::endl <<
 				"  in_defineRadius_Point: "    << in_defineRadius_Point <<				
 				ex.what();
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 		std::vector<Point_3D> line;
@@ -1616,7 +1616,7 @@ namespace isis_CADCommon
 					"The first point defines the center of the Sphere and the second point defines a point on the surface of the sphere." << std::endl <<
 					"  in_center_Point: " << in_center_Point << std::endl <<
 					"  in_surface_Point: "   << in_surface_Point;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 
@@ -1644,7 +1644,7 @@ namespace isis_CADCommon
 					"  in_center_Point: " << in_center_Point << std::endl <<
 					"  in_surface_Point: "   << in_surface_Point;			
 				ex.what();
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 		std::vector<double> radius_vector;
@@ -1782,7 +1782,7 @@ namespace isis_CADCommon
 					"in_PlanarRectangleCorner_Pt_3: "   << in_PlanarRectangleCorner_Pt_3 << std::endl <<
 					"in_PlanarRectangleCorner_Pt_4: "   << in_PlanarRectangleCorner_Pt_4 << std::endl <<
 					"in_OffsetFromPlanarRectangle_Pt: " << in_OffsetFromPlanarRectangle_Pt;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 		// Need two vectors forming the X -axis and plane of y - axis
@@ -1826,7 +1826,7 @@ namespace isis_CADCommon
 					"in_PlanarRectangleCorner_Pt_3: "   << in_PlanarRectangleCorner_Pt_3 << std::endl <<
 					"in_PlanarRectangleCorner_Pt_4: "   << in_PlanarRectangleCorner_Pt_4 << std::endl <<
 					"in_OffsetFromPlanarRectangle_Pt: " << in_OffsetFromPlanarRectangle_Pt;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 		// Would also need to verify that the box had 90 degree angles
@@ -1948,7 +1948,7 @@ namespace isis_CADCommon
 				std::stringstream errorString;
 				errorString <<
 					"Function - GetGridPointsWithinGeometry, received in_GridPoints vector, which does not have any elements.";
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 		bool IncludePointsOnBoundary;
@@ -2051,7 +2051,128 @@ namespace isis_CADCommon
 		return true;
 	}
 
+		// matrix numbering starts a 0 (e.g. first row is 0, second row is 1)
+	void Extract_3_3_Matrix(  double in_Matrix[4][4], int in_SkipRow, int in_SkipColumn, double out_Matrix[3][3] )
+	{
+		int currentRow =  0;
 
+		for ( int i = 0; i < 4; ++i ) 
+		{
+			if ( i != in_SkipRow )
+			{
+				int currentColumn =  0;
+				for ( int j = 0; j < 4; ++j )  
+				{
+					if ( j != in_SkipColumn )
+					{
+						out_Matrix[currentRow][currentColumn]  = in_Matrix[i][j];
+						++currentColumn;
+					}
+				}
+				++currentRow;
+			}
+		}
+		//std::cout << std::endl << std::endl;
+		//for ( int i = 0; i < 3; ++i )
+		//{
+		//	std::cout << std::endl;
+		//	for ( int j = 0; j < 3; ++j ) std::cout << out_Matrix[i][j] << "  ";
+		//}
+	}
+
+	double Determinant_4_x_4 ( double in_Matrix[4][4] )
+	{
+		//  a    b    c   d
+		//  e    f    g   h
+		//  i    j    k	  l
+		//  m    n    o   p
+
+		double determinant_0;
+		double determinant_1;
+		double determinant_2;
+		double determinant_3;
+
+		double temp_3_x_3[3][3];
+
+		// Get determinant of 
+		//  f    g   h
+		//  j    k	 l
+		//  n    o   p
+
+		Extract_3_3_Matrix( in_Matrix, 0, 0, temp_3_x_3);
+		determinant_0 = Determinant_3_x_3(temp_3_x_3);
+
+		// Get determinant of 
+		//  e    g   h
+		//  i    k	 l
+		//  m    o   p
+		Extract_3_3_Matrix( in_Matrix, 0, 1, temp_3_x_3);
+		determinant_1 = Determinant_3_x_3(temp_3_x_3);
+
+		// Get determinant of 
+		//  e    f    h
+		//  i    j    l
+		//  m    n    p
+
+		Extract_3_3_Matrix( in_Matrix, 0, 2, temp_3_x_3);
+		determinant_2 = Determinant_3_x_3(temp_3_x_3);
+
+		// Get determinant of 
+		//  e    f    g 
+		//  i    j    k	
+		//  m    n    o 
+		Extract_3_3_Matrix( in_Matrix, 0, 3, temp_3_x_3);
+		determinant_3 = Determinant_3_x_3(temp_3_x_3);
+
+		return		in_Matrix[0][0] * determinant_0  
+				-   in_Matrix[0][1] * determinant_1 
+				+   in_Matrix[0][2] * determinant_2
+				-   in_Matrix[0][3] * determinant_3; 
+
+	}
+
+
+
+	double VolumeOfTetrahedron( const std::vector<Point_3D> &in_TetrahedronFourPoints ) throw (isis::application_exception)
+	{
+		if ( in_TetrahedronFourPoints.size() != 4 )
+		{
+				std::stringstream errorString;
+				errorString <<
+					"Function - " + std::string(__FUNCTION__) +
+					" received in_TetrahedronFourPoints vector, which does not have four elements.";
+				throw isis::application_exception(errorString.str().c_str());
+		}
+
+		//std::cout << std::endl << "Points:" << std::endl;
+		//for each ( const Point_3D &i in in_TetrahedronFourPoints ) std::cout << i;
+	
+		//	X0 Y0 Z0 1
+		//	X1 Y1 Z1 1
+		//	X2 Y2 Z2 1
+		//	X3 Y3 Z3 1
+
+		double pointMatrix[4][4];
+		pointMatrix[0][3] = 1.0;
+		pointMatrix[1][3] = 1.0;
+		pointMatrix[2][3] = 1.0;
+		pointMatrix[3][3] = 1.0;
+
+		for ( int i = 0; i < 4; ++i )
+		{
+			pointMatrix[i][0] = in_TetrahedronFourPoints[i].x;
+			pointMatrix[i][1] = in_TetrahedronFourPoints[i].y;
+			pointMatrix[i][2] = in_TetrahedronFourPoints[i].z;
+		}
+
+		//for ( int i = 0; i < 4; ++i )
+		//{
+		//	std::cout << std::endl;
+		//	for ( int j = 0; j < 4; ++j ) std::cout << pointMatrix[i][j] << "  ";
+		//}
+
+		return 1.0/6.0 * abs( Determinant_4_x_4( pointMatrix ));
+	}
 
 
 }  // namespace isis

@@ -26,6 +26,7 @@ def find_java():
             JAVA_EXE = os.path.join(os.environ.get("JAVA_HOME"), "bin", "java")
         else:
             JAVA_EXE = find_executable("java")
+    print JAVA_EXE
     return '"' + JAVA_EXE + '"'
 
 def fault_enable_library (library_root, other_libraries, output_directory=None, fame_cyphy_package=None):
@@ -63,7 +64,7 @@ def fault_enable_library (library_root, other_libraries, output_directory=None, 
 
     # run the fault-enabler
     try:
-        cmd = ' '.join([find_java()] + ['-Xmx1200m',
+        cmd = ' '.join([find_java()] + ['-Xmx4g',
                '-cp', os.pathsep.join(classpath), 'com.parc.C2M2L.FF5',
                '-faults=' + os.path.join(directory, "knownfaults.csv"),
                '-modelicapath=' + additional_libraries,
@@ -89,7 +90,7 @@ def list_potential_faults_for_model (model_name, libraries_list, fame_cyphy_pack
     directory = os.path.abspath(os.path.dirname(__file__))
 
     #output_directory = tempfile.mkdtemp(dir=directory)
-    output_directory = os.path.join(script_dir,'AugLibrariesForFaultCount')
+    output_directory = os.path.join(script_dir,'AugmentedLibraries')
     if not os.path.exists(output_directory):
         os.mkdir(output_directory)
     output_file = tempfile.mkstemp(dir=output_directory)
@@ -122,7 +123,7 @@ def list_potential_faults_for_model (model_name, libraries_list, fame_cyphy_pack
 
     # run the fault-lister
     try:
-        cmd = ' '.join([find_java()] + ['-Xmx1200m',
+        cmd = ' '.join([find_java()] + ['-Xmx4g',
                '-cp', os.pathsep.join(classpath), 'com.parc.C2M2L.FaultsForModel',
                '-dedup', model_name]
                + fault_enabled_output_directories
@@ -154,7 +155,12 @@ def list_potential_faults_for_model (model_name, libraries_list, fame_cyphy_pack
     finally:
         os.close(output_file[0])
         os.remove(output_file[1])
-        #shutil.rmtree(output_directory)
+        shutil.rmtree(os.path.join(output_directory,"CyPhy"))
+        shutil.move(os.path.join(script_dir,"FAME"),os.path.join(output_directory,"FAME"))
+        #target_directory = os.path.abspath(os.path.abspath(os.path.join(script_dir,'../AugmentedLibraries')))
+        #print target_directory
+        #shutil.move(output_directory,target_directory)
+        
 
 def fault_analyze_testbench (testbench_model_name, libraries_list, fame_cyphy_package=None):
     try:

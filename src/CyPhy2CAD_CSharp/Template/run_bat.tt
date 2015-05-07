@@ -13,6 +13,9 @@ set ERROR_MSG=""
 
 FOR /F "skip=2 tokens=2,*" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO set MetaPath=%%B
 
+set CADPython=%MetaPath%\bin\CAD
+if exist "%MetaPath%\src\CADAssembler\Python" set CADPython=%MetaPath%\src\CADAssembler\Python
+
 if exist TestBench_PreProcess.cmd (
 cmd /c TestBench_PreProcess.cmd
 )
@@ -42,7 +45,7 @@ Rem ****************************
 
 set RESULT_XML_FILE=<#=ComputedMetricsPath#>
 set PY_SCRIPT_NAME=UpdateReportJson_CAD.py
-set PY_SCRIPT="%MetaPath%bin\CAD\%PY_SCRIPT_NAME%"
+set PY_SCRIPT="%CADPython%\%PY_SCRIPT_NAME%"
 set PYTHONPATH=%PYTHONPATH%;%MetaPath%
 
 if exist %PY_SCRIPT% goto  :PY_FOUND

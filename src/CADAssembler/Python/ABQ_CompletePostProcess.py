@@ -565,6 +565,6 @@ if __name__ == '__main__':
     UpdateReportJson_CAD.update_manifest(resultsJsonPath, computedValuesXml)
     
     if adams:
-        utility_functions.CopyOrDeleteResults(odbName, True)
+        utility_functions.CopyOrDeleteResults(odbName, resultsJsonPath, True)
     else:
-        utility_functions.CopyOrDeleteResults(odbName)
+        utility_functions.CopyOrDeleteResults(odbName, resultsJsonPath)

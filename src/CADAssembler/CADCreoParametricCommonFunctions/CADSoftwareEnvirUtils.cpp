@@ -370,7 +370,7 @@ namespace isis
 							"Could not find an installation of Creo 2.0 or Creo 1.0, "
 							<< std::endl << ex_Creo_2.what() 
 							<< std::endl << ex_Creo_1.what(); 
-							throw isis::application_exception(errorString.str().c_str());
+							throw isis::application_exception(errorString.str());
 				}
 			}	
 

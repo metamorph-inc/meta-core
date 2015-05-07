@@ -37,7 +37,7 @@ namespace isis
 			std::stringstream errorString;
 			errorString <<
 			"exception: Function CombineCreoModelNameAndSuffix was passed a null string for in_ModelName.";
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		std::string tempString;
@@ -53,7 +53,7 @@ namespace isis
 				std::stringstream errorString;
 				errorString <<
 				"exception: Function CombineCreoModelNameAndSuffix was passed in_ModelType that was not PRO_PART or PRO_ASSEMBLY, in_ModelType: " << in_ModelType;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		
 		}
 		return tempString;

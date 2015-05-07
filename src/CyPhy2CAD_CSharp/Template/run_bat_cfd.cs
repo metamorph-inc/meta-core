@@ -15,7 +15,7 @@ namespace CyPhy2CAD_CSharp.Template
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+    #line 1 "C:\Users\meta\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "11.0.0.0")]
     public partial class run_bat_cfd : run_bat_cfdBase
     {
@@ -40,6 +40,8 @@ set ERROR_MSG=""""
 
 FOR /F ""skip=2 tokens=2,*"" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query ""HKLM\software\META"" /v ""META_PATH""') DO set MetaPath=%%B
 
+set CADPython=%MetaPath%\bin\CAD
+if exist ""%MetaPath%\src\CADAssembler\Python"" set CADPython=%MetaPath%\src\CADAssembler\Python
 
 Rem ****************************
 REM Create Creo Assembly
@@ -65,14 +67,14 @@ goto :ERROR_SECTION
 
 %EXE% -w %WORKING_DIR%  -i %ASSEMBLY_XML_FILE% -l %LOG_FILE% ");
             
-            #line 41 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+            #line 43 "C:\Users\meta\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
  if (!Automation) { 
             
             #line default
             #line hidden
             this.Write("-p");
             
-            #line 41 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+            #line 43 "C:\Users\meta\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
  } 
             
             #line default
@@ -109,7 +111,7 @@ goto :ERROR_SECTION
 
 ");
             
-            #line 72 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+            #line 74 "C:\Users\meta\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
  if (Automation) { 
             
             #line default
@@ -123,7 +125,7 @@ Rem ****************************
 
 set RESULT_XML_FILE=""ComputedValues.xml""
 set PY_SCRIPT_NAME=UpdateReportJson_CAD.py
-set PY_SCRIPT=""%MetaPath%\bin\CAD\%PY_SCRIPT_NAME%""
+set PY_SCRIPT=""%CADPython%\%PY_SCRIPT_NAME%""
 set PYTHONPATH=%PYTHONPATH%;%MetaPath%
 
 if exist %PY_SCRIPT% goto  :PY_FOUND
@@ -156,7 +158,7 @@ goto :ERROR_SECTION
 )
 ");
             
-            #line 113 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+            #line 115 "C:\Users\meta\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
  } 
             
             #line default
@@ -166,7 +168,7 @@ goto :ERROR_SECTION
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 125 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+        #line 127 "C:\Users\meta\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
   
 public bool Automation {get;set;}
 

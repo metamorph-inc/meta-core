@@ -295,6 +295,28 @@ namespace isis_CADCommon
 	}
 
 
+	std::ostream& operator<<(std::ostream& stream, const QVOL &in_QVOL)
+	{
+		std::stringstream temp;
+
+		temp << "QVOL," << 
+		IDToString_0Null(in_QVOL.SID)	<< "," <<
+		in_QVOL.QVOL_Value		<< "," <<
+		in_QVOL.CNTRLND		<< "," <<
+		IDToString_0Null(in_QVOL.EID1)		<< "," <<
+		IDToString_0Null(in_QVOL.EID2)		<< "," <<
+		IDToString_0Null(in_QVOL.EID3)		<< "," <<
+		IDToString_0Null(in_QVOL.EID4)		<< "," <<
+		IDToString_0Null(in_QVOL.EID5);
+
+		// Delete trailing commas
+		std::string s = temp.str();
+		s.erase(s.find_last_not_of(",") + 1);
+
+		stream << s;
+		return stream;
+	}
+
 	std::ostream& operator<<(std::ostream& stream, const Force &myForce)
 	{
 		stream << "FORCE," << myForce.SID << "," << myForce.GID << ","
@@ -317,9 +339,56 @@ namespace isis_CADCommon
 			<< "," << DoubleToString(myCoord.C.z);
 		return stream;
 	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Only volume of CTETRA currently supported
+	double SolidElement::getVolume( const std::map<int, GridPoint> &in_GridPointData ) const throw (isis::application_exception)
+	{
+		// Note - this function should be expanded to support the other (e.g. CHEXA, and CPENTA) element types.
+		std::stringstream errorString;
+		std::vector<Point_3D> cornerPoints;
 
+		double volume = 0.0;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		switch ( Type )
+		{
+			case CHEXA:
+				errorString <<  "Error, Function: " << __FUNCTION__ ", volume computation is currently not supported for CHEXA elements. ";
+				throw isis::application_exception(errorString.str()); 		
+				break;
+			case CPENTA:
+				errorString <<  "Error, Function: " << __FUNCTION__ ", volume computation is currently not supported for CPENTA elements. ";
+				throw isis::application_exception(errorString.str()); 		
+				break;
+			case CTETRA:
+				if ( GID.size() < 4 )
+				{
+					errorString <<  "Error, Function: " << __FUNCTION__ ", Insufficient points for computing the volume.  There must be at least four points.  " << std::endl <<
+						"Number of points: " << GID.size();
+					throw isis::application_exception(errorString.str()); 	
+				}
+
+				for ( int i = 0; i < 4; ++i )
+				{
+					std::map<int, GridPoint>::const_iterator grid_itr = in_GridPointData.find(GID[i] );
+
+					if ( grid_itr == in_GridPointData.end() )
+					{
+						errorString <<  "Error, Function: " << __FUNCTION__ ", grid point for tetra element not found. Grid point ID: " << GID[0];
+						throw isis::application_exception(errorString.str()); 	
+					}
+					cornerPoints.push_back(grid_itr->second.point);
+				}
+				volume =  VolumeOfTetrahedron( cornerPoints );
+				//std::cout << std::endl << "volume =  VolumeOfTetrahedron( cornerPoints ): " << volume;
+				break;
+			default:
+				errorString <<  "Error, Function: " << __FUNCTION__ ", received a type other than CTETRA. Volume computation is currently only supported for CTETRA elements. " << std::endl <<
+						    "Volume computations for elements such as CHEXA, and CPENTA are not supported.";
+				throw isis::application_exception(errorString.str()); 
+		}
+		return volume;
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void ReplaceCommasWithSpace( std::string &in_out_String )
 	{
 		size_t commaPosition;
@@ -375,7 +444,7 @@ namespace isis_CADCommon
 						    "Deck Line:    " << in_Card					<< std::endl <<
 							"Field Number: " << in_FieldNum + 1			<< std::endl <<
 							"Error:		   " << "The field (designated by Field Number) must contain an integer.";
-			throw isis::application_exception(errorString.str().c_str()); 
+			throw isis::application_exception(errorString.str()); 
 		}
 
 
@@ -389,7 +458,7 @@ namespace isis_CADCommon
 							"Field Number:  " << in_FieldNum + 1		<< std::endl <<
 							"Integer Value: " << temp					<< std::endl <<
 							"Error:		   " << "The field (designated by Field Number) must contain an integer with a value greater than zero.";
-			throw isis::application_exception(errorString.str().c_str()); 
+			throw isis::application_exception(errorString.str()); 
 
 		}
 
@@ -412,6 +481,7 @@ namespace isis_CADCommon
 								CONVECTION_CONV_set(false),
 								SURFACE_ELEMENT_CHBDYG_set(false),
 								SURFACE_ELEMENT_QBDY3_set(false),
+								VOLUME_ELEMENT_QVOL_set(false),
 								createdElementCounter(100000),
 								gridPointIDCurrentMax(0){}
 
@@ -594,6 +664,25 @@ namespace isis_CADCommon
 		{
 			bulkString.push_back("SURFACE_ELEMENT_QBDY3");
 			SURFACE_ELEMENT_QBDY3_set = true;
+		}
+	}
+
+	const std::multimap<int, QVOL>& NastranDeck::getHeatVolume_QVOL() const
+	{
+		return heatVolume_QVOL;
+	} 
+
+	void  NastranDeck::AddHeatVolume_QVOL(const QVOL &in_QVOL)
+	{
+		//std::cout << std::endl << "-------------NastranDeck::AddHeatVolume_QVOL";
+		//std::cout << std::endl << in_QVOL;
+		//std::cout << std::endl << "SID" << in_QVOL.SID;
+		//std::cout << std::endl << "EID1" << in_QVOL.EID1;
+		heatVolume_QVOL.insert(std::pair<int, QVOL>(in_QVOL.SID, in_QVOL));
+		if ( !VOLUME_ELEMENT_QVOL_set )
+		{
+			bulkString.push_back("VOLUME_ELEMENT_QVOL");
+			VOLUME_ELEMENT_QVOL_set = true;
 		}
 	}
 
@@ -1074,6 +1163,13 @@ namespace isis_CADCommon
 		}
 	}
 
+	void NastranDeck::CommentOutMat1Cards()
+	{
+		for ( std::list<std::string>::iterator i(bulkString.begin()); i != bulkString.end(); ++i )
+		{	
+			if ( i->find("MAT1") == 0 ) *i = "$META " + *i;
+		}
+	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	void NastranDeck::ReplaceMaterialTokens_ReturnMaterialToComponentID( 
 					const std::string								&in_AssemblyComponentID,
@@ -1137,7 +1233,7 @@ namespace isis_CADCommon
 					"   Nastran deck Poisson's Ratio Key: " << NU_key;
 					for each ( std::pair<std::string, std::string> ik in in_MaterialKey_ComponentID_map )
 						errorString << std::endl << "   Component Instance ID: " << ik.second << "  Key: " << ik.first;
-					throw isis::application_exception(errorString.str().c_str());	
+					throw isis::application_exception(errorString.str());	
 				}
 
 				std::string ComponentID = in_MaterialKey_ComponentID_map[NU_key_matched];
@@ -1443,6 +1539,14 @@ namespace isis_CADCommon
 
 			}
 
+			else if(line == "VOLUME_ELEMENT_QVOL")
+			{
+				for each ( const std::pair<int,QVOL> &i in in_NastranDeck.heatVolume_QVOL )
+				{
+					output << i.second << std::endl;
+				}
+
+			}
 
 			else if(line == "PSOLIDS_PLACEMENT")
 			{
@@ -1997,6 +2101,38 @@ namespace isis_CADCommon
 
 				}
 
+				else if (card == "QVOL")
+				{
+					if(heatVolume_QVOL.empty())
+					{
+						bulkString.push_back("VOLUME_ELEMENT_QVOL");
+						VOLUME_ELEMENT_QVOL_set  = true;
+					}
+
+					QVOL elem;
+					stringTokenize(data.c_str(), tokens, ",");		//tokenize(data)
+					if (tokens.size() < 5)
+					{
+						std::cout << "QVOL: Not enough entries, need to be greater than four [" << data << "]" << std::endl;
+						continue;
+					}
+
+					if ( tokens.size() > 0 )   elem.name =			tokens[0];
+					if ( tokens.size() > 1 )  { elem.SID =			atoi_WithVerifyIDInt(data, 1, tokens[1]);
+					if ( tokens.size() > 2 )  { elem.QVOL_Value =	(tokens[2] == " " ? "": tokens[2]);
+					if ( tokens.size() > 3 )  { elem.CNTRLND =		(tokens[3] == " " ? "": tokens[3]);
+					if ( tokens.size() > 4 )  { elem.EID1 =			atoi_WithVerifyIDInt(data, 4, tokens[4]);
+					if ( tokens.size() > 5 )  { elem.EID2 =			atoi_WithVerifyIDInt(data, 5, tokens[5]);
+					if ( tokens.size() > 6 )  { elem.EID3 =			atoi_WithVerifyIDInt(data, 6, tokens[6]); 
+					if ( tokens.size() > 7 )  { elem.EID4 =			atoi_WithVerifyIDInt(data, 7, tokens[7]);
+					if ( tokens.size() > 8 )  { elem.EID5 =			atoi_WithVerifyIDInt(data, 8, tokens[8]);
+					}}}}}}}}
+					
+					heatVolume_QVOL.insert(std::pair<int,QVOL>(elem.SID, elem));
+
+				}
+
+
 				
 				else if (card == "LOAD")
 				{
@@ -2287,7 +2423,7 @@ namespace isis_CADCommon
 	}
 
 
-	void NastranDeck::FindElementsFromPSolids(std::vector<int> &in_PSolidIDs, std::vector<int> &out_elementIDs)
+	void NastranDeck::FindElementsFromPSolids(const std::vector<int> &in_PSolidIDs, std::vector<int> &out_elementIDs)
 	{
 		if(in_PSolidIDs.empty())
 			throw isis::application_exception("NastranDeck::FindELementsFromPSolids,"
@@ -2320,6 +2456,52 @@ namespace isis_CADCommon
 
 		} //end for
 		//the output vector has been appropriately populated
+	}
+
+	double NastranDeck::VolumeOfPSolids(const std::vector<int> &in_PSolidIDs)
+	{
+		if(in_PSolidIDs.empty())
+			throw isis::application_exception( std::string(__FUNCTION__) + ", input vector of PSolid IDs is empty");
+		
+		//first ensure that our PSolids are in range
+		//throw exception if any ID not in range
+		for(size_t i = 0; i < in_PSolidIDs.size(); ++i)
+		{
+			if(in_PSolidIDs[i] > psolidData.size() || in_PSolidIDs[i] < 1)
+			{
+				throw isis::application_exception(std::string(__FUNCTION__) + ", invalid PSolid ID in input vector (at least one ID is out of range)");
+			}
+		}	
+
+		std::vector<int> elementIDs;
+
+		FindElementsFromPSolids(in_PSolidIDs, elementIDs);
+
+		if ( elementIDs.size() == 0 )
+		{
+			throw isis::application_exception(std::string(__FUNCTION__) + ", no elements found.  Volume could not be computed.");
+		}
+
+		double volume = 0.0;
+
+		for each ( const int &i in elementIDs )
+		{
+			std::map<int, SolidElement>::const_iterator elem_itr = elementData.find(i);
+
+			if ( elem_itr == elementData.end() )
+			{	
+				std::stringstream errorString;
+				errorString <<
+					"Function - " + std::string(__FUNCTION__) +
+					" element not found in \"std::map<int, SolidElement> elementData\".  Elemenet ID: " << i;
+				throw isis::application_exception(errorString.str().c_str());
+			}
+
+			volume += elem_itr->second.getVolume(gridPointData);	
+			//std::cout << std::endl << "Element: " << elem_itr->first << "  " << elem_itr->second;
+			//std::cout << std::endl << "Volume: " << volume;
+		}
+		return volume;
 	}
 
 	void NastranDeck::FindGridPointsFromElements(std::vector<int> &in_ElementIDs, std::vector<int> &out_gridPoints)
@@ -2630,7 +2812,7 @@ namespace isis_CADCommon
 		{
 			std::stringstream errorString;
 			errorString << "NastranDeck::DistanceBetweenPoints_3D, two input points are too close";
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		return std::sqrt((in_Point_1.x - in_Point_2.x) * (in_Point_1.x - in_Point_2.x)
@@ -3469,5 +3651,32 @@ namespace isis_CADCommon
 
 		} // for each ( const std::pair<std::vector<int>, int> &i
 	} // NastranDeckHelper::getSurfaceElementsContainingGridPoints
+
+	void NastranDeckHelper::getVolumetricHeatGenerations( std::vector<VolumetricHeatGeneration> &out_VolumetricHeatGenerations )
+	{
+
+		const std::multimap<int, QVOL>  &heatVolume_QVOL_map = nastranDeck.getHeatVolume_QVOL();
+
+		std::map<double, VolumetricHeatGeneration> heatGenerationValue_to_volumetricHeatGeneration_map;	
+
+		for each ( const std::pair<int, QVOL> &i in heatVolume_QVOL_map)
+		{
+			double value = atof(i.second.QVOL_Value.c_str());
+			if ( i.second.EID1 != 0 ) heatGenerationValue_to_volumetricHeatGeneration_map[value].elementIDs.push_back(i.second.EID1);
+			if ( i.second.EID2 != 0 ) heatGenerationValue_to_volumetricHeatGeneration_map[value].elementIDs.push_back(i.second.EID2);
+			if ( i.second.EID3 != 0 ) heatGenerationValue_to_volumetricHeatGeneration_map[value].elementIDs.push_back(i.second.EID3);
+			if ( i.second.EID4 != 0 ) heatGenerationValue_to_volumetricHeatGeneration_map[value].elementIDs.push_back(i.second.EID4);
+			if ( i.second.EID5 != 0 ) heatGenerationValue_to_volumetricHeatGeneration_map[value].elementIDs.push_back(i.second.EID5);			
+		}
+
+		for each ( const std::pair<double, VolumetricHeatGeneration> &i in heatGenerationValue_to_volumetricHeatGeneration_map)
+		{
+			VolumetricHeatGeneration volumetricHeatGeneration_temp;
+			volumetricHeatGeneration_temp.powerInputPerVolume = i.first;
+			volumetricHeatGeneration_temp.elementIDs = i.second.elementIDs;
+			out_VolumetricHeatGenerations.push_back(volumetricHeatGeneration_temp);
+		}
+
+	}
 
 } // End namespace isis

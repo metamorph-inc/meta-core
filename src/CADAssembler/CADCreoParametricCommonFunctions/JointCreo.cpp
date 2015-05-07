@@ -452,7 +452,7 @@ Joint extract_marker( ProSelection& in_selection) {
 		std::stringstream errorString;
 		errorString 
 			<< "could not get the model item for the selection.";
-		throw isis::application_exception(errorString.str().c_str());
+		throw isis::application_exception(errorString.str());
 	}
 	switch( model_item.type ) {
 	case PRO_FEATURE:

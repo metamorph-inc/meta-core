@@ -11,6 +11,14 @@ import csv
 import _winreg
 
 
+def recurselist(component, componentList):
+    for comp in componentList.values():
+        if component.ComponentID in comp.Children and not comp.IsConfigurationID:
+            if len(comp.MetricsInfo.keys()) == 0:
+                recurselist(comp, componentList)
+            else:
+                component.MetricsInfo = comp.MetricsInfo
+
 def ParseOutFile(outfilename, gComponentList):
     ##Format##
     mtype = 0
@@ -101,9 +109,19 @@ ParseOutFile(filename + "_out.txt", gComponentList)
 
 reqMetrics = ComputedMetricsSummary.ParseReqMetricsFile(args.RequestedMetrics, gComponentList)
 
+for component in gComponentList.values():
+    recurselist(component, gComponentList)
 
 ################  Compute FOS  #######################
 for component in gComponentList.values():
+    for comp in gComponentList.values():
+        if component.ComponentID in comp.Children and not comp.IsConfigurationID:
+            # component is actually a child, so parent's metric data
+            # should be updated - provided that child metrics are larger
+            print vars(comp)
+            component.MetricsInfo['FactorOfSafety'] = comp.MetricsInfo['FactorOfSafety']
+            component.MetricsInfo['VonMisesStress'] = comp.MetricsInfo['VonMisesStress']
+            break
     if component.CadType == "PART":
         fos = float(component.Allowables.mechanical__strength_tensile) / component.FEAResults["VM"]
         #fos = float(component.MaterialProperty['Mises'])  / component.FEAResults["VM"]
@@ -124,7 +142,10 @@ with open(filename + '.csv', 'wb') as f:
 
 ################  Populate Assembly Results  #########
 for component in gComponentList.values():
-    if component.CadType == "ASSEMBLY":
+    print component.ComponentID
+    print vars(component)
+    print ''
+    if component.CadType == "ASSEMBLY" and not component.IsConfigurationID:
         FOS = []
         VM = []
         for part in component.Children:

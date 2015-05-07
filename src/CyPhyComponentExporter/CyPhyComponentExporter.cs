@@ -387,9 +387,13 @@ namespace CyPhyComponentExporter
                     ExportComponentPackage(c, OutputDir);                    
                     i_count++;
                 }
+                catch (ApplicationException ex)
+                {
+                    GMEConsole.Error.WriteLine(ex.Message);
+                }
                 catch (Exception ex)
                 {
-                    Console.Error.WriteLine("{0} encountered while exporting {1}: {2}", ex.GetType().Name, c.Name, ex.Message);
+                    GMEConsole.Error.WriteLine("{0} encountered while exporting {1}: {2}", ex.GetType().Name, c.Name, ex.Message);
                 }
             }
 
@@ -468,10 +472,11 @@ namespace CyPhyComponentExporter
                     if (match.Success)
                     {
                         Func<Resource, bool> sameFile = delegate (Resource x) {
-                            if (x.Path == match.Groups[1].Value + match.Groups[2].Value)
+                            if (x.Path.Equals(match.Groups[1].Value + match.Groups[2].Value, StringComparison.InvariantCultureIgnoreCase))
                                 return true;
                             Match m = cadResourceRegex.Match(x.Path);
-                            return m.Success && m.Groups[1].Value == match.Groups[1].Value && m.Groups[2].Value == match.Groups[2].Value;
+                            return m.Success && m.Groups[1].Value.Equals(match.Groups[1].Value, StringComparison.InvariantCultureIgnoreCase)
+                                && m.Groups[2].Value.Equals(match.Groups[2].Value, StringComparison.InvariantCultureIgnoreCase);
                         };
                         foreach (var resource in avmComponent.ResourceDependency.Where(sameFile))
                         {

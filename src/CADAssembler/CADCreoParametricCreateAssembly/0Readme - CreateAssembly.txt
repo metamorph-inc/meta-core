@@ -1,7 +1,7 @@
 Title: 	  CADCreoParametricCreateAssembly.exe (Creo Parametric)
 	  assemble_ptc.exe (Pro/E) no longer supported
 
-Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.4.57.0
+Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.4.58.0
 Pro/E 		 	assemble_ptc.exe Version: v1.0.008  // Not supported as of Jan. 2012
 
 Supported Creo Versions: Creo 2.x, no other versions currently supported
@@ -833,6 +833,10 @@ v1.4.57.0 10/14/2014	Added support for deck-based thermal.  This is sufficient f
 			from the material library.  They are currently be sourced from the Creo model. 2) the CyPhy model does 
 			not have ambient temperature for convection coefficient. and 3)heat generation is not supported.
 
+v1.4.58.0 10/30/2014    Added support for volumetric heat generation (QVOL Nastran Card).  For convection, changed the source
+			of the external temperature to the value in the following CADAssembly.xml entry:
+ 			<ThermalElement LoadType="AmbientTemperature" Value="243.99" Unit="C" _id="id112">.  R.O.
+			
 
 Known Defects
 -------------

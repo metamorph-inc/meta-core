@@ -12,16 +12,18 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 #script_dir = os.getcwd()
 output_dir = os.path.abspath(os.path.join(script_dir,"../"))
 library_dir = os.path.realpath(os.path.join(script_dir,"..\Libraries"))
-aug_library_dir = os.path.realpath(os.path.join(script_dir,"..\AugmentedLibraries"))
+aug_library_dir = os.path.realpath(os.path.join(script_dir,"AugmentedLibraries"))
 if not os.path.exists(aug_library_dir):
-    try:
-        fetch.fetch_and_unpack_zip_file("http://fame-deploy.parc.com/C2M2L_Decl/fault-enabled-libraries/AugmentedLibraries.zip", output_dir)
-    except:
-        outfile = open(os.join(output_dir,"_FAILED.txt"),"w")
-        outfile.write("Missing Augmented Library.\n")
-        outfile.write("Please download and put in ..\AugmentedLibraries folder \n")
-        outfile.close()
-        sys.exit()
+    aug_library_dir = os.path.realpath(os.path.join(script_dir,"..\AugmentedLibraries"))
+    if not os.path.exists(aug_library_dir):
+        try:
+            fetch.fetch_and_unpack_zip_file("http://fame-deploy.parc.com/C2M2L_Decl/fault-enabled-libraries/AugmentedLibraries.zip", output_dir)
+        except:
+            outfile = open(os.join(output_dir,"_FAILED.txt"),"w")
+            outfile.write("Missing Augmented Library.\n")
+            outfile.write("Please download and put in ..\AugmentedLibraries folder \n")
+            outfile.close()
+            sys.exit()
 
 cyphy_model_dir = os.path.realpath(os.path.join(script_dir,"..\CyPhy"))
 
@@ -32,6 +34,11 @@ os.makedirs(fault_sim_rslt_dir)
 # using CyPhy's Driveline postprocessing module.
 
 sys.path.insert(0,os.path.join(cyphy_model_dir,'PostProcessing'))
+
+for filename in os.listdir(os.path.join(cyphy_model_dir,'PostProcessing')):
+    if filename.endswith(".py") and not filename.startswith("__"):
+        Metrics = __import__(filename[:-3],globals())
+
 from common import PostProcess
 
 def createScript(component,fault,faultIndex,amount):
@@ -39,10 +46,17 @@ def createScript(component,fault,faultIndex,amount):
     script_name = 'fault_'+ str(faultIndex)+'.mos'
 
     file = open(os.path.join(fault_sim_rslt_dir,script_name),'w')
-    file.write('openModel("'+os.path.join(aug_library_dir,'Modelica\package.mo')+'");\n')
-    file.write('openModel("'+os.path.join(aug_library_dir,'FAME\package.mo')+'");\n')
-    file.write('openModel("'+os.path.join(aug_library_dir,'C2M2L_Decl\package.mo')+'");\n')
-    file.write('openModel("'+os.path.join(aug_library_dir,'C2M2L_CyPhy\package.mo')+'");\n')
+    folderlist = os.listdir(aug_library_dir)
+    if os.path.exists(os.path.join(aug_library_dir,"Modelica",'package.mo')):
+        file.write('openModel("'+os.path.join(aug_library_dir,"Modelica",'package.mo')+'");\n')
+        folderlist.remove("Modelica")
+    for foldername in folderlist:
+        if os.path.exists(os.path.join(aug_library_dir,foldername,'package.mo')):
+            file.write('openModel("'+os.path.join(aug_library_dir,foldername,'package.mo')+'");\n')
+    #file.write('openModel("'+os.path.join(aug_library_dir,'Modelica\package.mo')+'");\n')
+    #file.write('openModel("'+os.path.join(aug_library_dir,'FAME\package.mo')+'");\n')
+    #file.write('openModel("'+os.path.join(aug_library_dir,'C2M2L_Decl\package.mo')+'");\n')
+    #file.write('openModel("'+os.path.join(aug_library_dir,'C2M2L_CyPhy\package.mo')+'");\n')
     #file.write('openModel("'+os.path.join(library_dir,'Modelica_FAME\package.mo')+'");\n')
     #file.write('openModel("'+os.path.join(library_dir,'C2M2L_CyPhy_FAME\package.mo')+'");\n')
     #file.write('openModel("'+os.path.join(library_dir,'C2M2L_Decl_FAME\package.mo')+'");\n')
@@ -55,15 +69,25 @@ def createScript(component,fault,faultIndex,amount):
     file.write('Advanced.NewInitializationOfPre:= false;\n')
     file.write('experimentSetupOutput();\n')
 
+    
+    model_name = ''
+    # TODO: Error handling
+    with open(os.path.join(cyphy_model_dir,'model_config.json'), 'r') as f_p:
+        model_name = json.load(f_p)['model_name']
+    
+    if not model_name:
+        # TODO: log/indicate error
+        pass
+    
     if faultIndex == 0:
-        text = 'ok=simulateModel("CyPhy.TestBenches.SystemDesignTest()"'
+        text = 'ok=simulateModel("' + model_name + '()"'
         text = text + ',startTime=0,stopTime=100,numberOfIntervals=500,method="Radau IIa",tolerance = 1e-6'
         res = 'fault_'+ str(faultIndex)
         text = text + ',resultFile="'+res+'"'
         text = text + ');\n'
         file.write(text)
     else:
-        text = 'ok=simulateModel("CyPhy.TestBenches.SystemDesignTest('+component+'(mode='+fault+',amount='+amount+'))"'
+        text = 'ok=simulateModel("' + model_name + '('+component+'(mode='+fault+',amount='+amount+'))"'
         text = text + ',startTime=0,stopTime=100,numberOfIntervals=500,method="Radau IIa",tolerance = 1e-6'
         res = 'fault_'+ str(faultIndex)
         text = text + ',resultFile="'+res+'"'
@@ -102,7 +126,7 @@ def runDymolaScript(script_name, timeout):
         DYMOLA_EXE = "C:/Program Files (x86)/Dymola 2014/bin64/Dymola.exe"
     elif os.path.exists("C:/Program Files (x86)/Dymola 2013/bin64/Dymola.exe"):
         DYMOLA_EXE = "C:/Program Files (x86)/Dymola 2013/bin64/Dymola.exe"
-    elif os.paht.exists("C:/Program Files (x86)/Dymola 2014 FD01/bin64/Dymola.exe"):
+    elif os.path.exists("C:/Program Files (x86)/Dymola 2014 FD01/bin64/Dymola.exe"):
         DYMOLA_EXE = "C:/Program Files (x86)/Dymola 2014 FD01/bin64/Dymola.exe"
     else:
         msg = "DYMOLA NOT FOUND\n"
@@ -143,76 +167,73 @@ def killtree(pid, including_parent=True):
     #pgid = os.getpgid(pid)
     #os.killpg(pgid, signal.SIGKILL)
 
-def findcriticalFault(numFaults,outputFileName):
+def findCriticalFault(numFaults,outputFileName,component,fault,amount):
     FAMESimRsltDict = OrderedDict()
     # nominal design performance: 'fault_0.mat'
-    os.chdir(fault_sim_rslt_dir)
-    filter = [];
-    vehicle_speed = 'FTP_Driver.driver_bus.vehicle_speed'
-    #vehicle_speed = 'Road_Wheel_Load_Both_Sides.vehicleSpeed'
-    filter.append(vehicle_speed)
-    pp = PostProcess('fault_0.mat', filter)
-    max_speed_0 = pp.global_max(vehicle_speed) * 3.6
-    distance_0 = pp.integrate(vehicle_speed)
-    acc20kph_0 = pp.get_time_for_crossing(vehicle_speed, 20 / 3.6)
-    avgSpeed_0 = (distance_0 / pp.time[-1]) * 3.6
-    final_time_0 = pp.time[-1]
-
+    os.chdir(cyphy_model_dir)
+    result = Metrics.get_metrics(os.path.join(fault_sim_rslt_dir,'fault_0.mat'))
+    metricValues0 = {}
+    kpiList = []
+    criticality = 0
     FAMESimRsltDict[0] = OrderedDict()
-    FAMESimRsltDict[0]["MaxSpeed"] = max_speed_0
-    FAMESimRsltDict[0]["Distance"] = distance_0
-    FAMESimRsltDict[0]["Acc20kph"] = acc20kph_0
-    FAMESimRsltDict[0]["AvgSpeed"] = avgSpeed_0
+    FAMESimRsltDict[0]['fault_description'] = OrderedDict()
+    FAMESimRsltDict[0]['fault_description']['component'] = ''
+    FAMESimRsltDict[0]['fault_description']['fault'] = 'nominal'
+    FAMESimRsltDict[0]['fault_description']['amount'] = '0'
+    FAMESimRsltDict[0]['metrics'] = OrderedDict()
+    for kpi in sorted(result["metrics"], key=lambda key: result["metrics"][key]):
+        kpiList.append(kpi)
+        metricValues0[kpi] = result["metrics"][kpi]['value']
+        FAMESimRsltDict[0]['metrics'][kpi] = result["metrics"][kpi]['value']
+    metricValues0["final_time"] = result["end_time"]
+    FAMESimRsltDict[0]['criticality'] = criticality
 
     crashedSimulationCnt = 0
     criticalFault = []
     for i in range(numFaults):
         faultID = i+1
         matfilename = 'fault_' + str(faultID) + '.mat'
-        if os.path.exists(matfilename):
+        metricValues = {}
+        criticality = 0
+        
+        FAMESimRsltDict[faultID] = OrderedDict()
+        FAMESimRsltDict[faultID]['fault_description'] = OrderedDict()
+        FAMESimRsltDict[faultID]['fault_description']['component'] = component[i]
+        FAMESimRsltDict[faultID]['fault_description']['fault'] = fault[i]
+        FAMESimRsltDict[faultID]['fault_description']['amount'] = amount[i]
+        FAMESimRsltDict[faultID]['metrics'] = OrderedDict()
+        if os.path.exists(os.path.join(fault_sim_rslt_dir,matfilename)):
             try:
-                filter = [];
-                vehicle_speed = 'FTP_Driver.driver_bus.vehicle_speed'
-                filter.append(vehicle_speed)
-                pp = PostProcess(matfilename, filter)
-                max_speed = pp.global_max(vehicle_speed) * 3.6
-                distance = pp.integrate(vehicle_speed)
-                acc20kph = pp.get_time_for_crossing(vehicle_speed, 20 / 3.6)
-                avgSpeed = (distance / pp.time[-1]) * 3.6
-                final_time = pp.time[-1]
-                # check if simulation actually simulated to 
-                # at least 1/100 of normal simulation
-                if final_time/final_time_0 > 0.01:
+                #print os.path.join(fault_sim_rslt_dir,matfilename)
+                result = Metrics.get_metrics(os.path.join(fault_sim_rslt_dir,matfilename))
+                
+                for kpi in kpiList:
+                    metricValues[kpi] = result["metrics"][kpi]['value']
+                    FAMESimRsltDict[faultID]['metrics'][kpi] = result["metrics"][kpi]['value']
+                metricValues["final_time"] = result["end_time"]
+                if metricValues["final_time"]/metricValues0["final_time"] > 0.01:
                     # check if there is significant difference in output
-                    if float(max_speed_0 - max_speed)/max_speed_0 > 0.05:
-                        criticalFault.append(i)
-                    if float(acc20kph - acc20kph_0)/acc20kph_0 > 0.05:
-                        criticalFault.append(i)
-                    if float(avgSpeed_0  - avgSpeed)/avgSpeed_0 > 0.05:
-                        criticalFault.append(i)
-                    if float(distance_0 - distance)/distance_0 > 0.05:
-                        criticalFault.append(i)
-                FAMESimRsltDict[faultID] = OrderedDict()
-                FAMESimRsltDict[faultID]["MaxSpeed"] = max_speed
-                FAMESimRsltDict[faultID]["Distance"] = distance
-                FAMESimRsltDict[faultID]["Acc20kph"] = acc20kph
-                FAMESimRsltDict[faultID]["AvgSpeed"] = avgSpeed
+                    for kpi in kpiList:
+                        if abs(float(metricValues[kpi]  - metricValues0[kpi] )/
+                                metricValues0[kpi] ) > 0.05:
+
+                            criticalFault.append(i)
+                            criticality = 1
             except:
                 print "could not understand the result: ", matfilename
                 crashedSimulationCnt += 1
-                FAMESimRsltDict[faultID] = OrderedDict()
-                FAMESimRsltDict[faultID]["MaxSpeed"] = np.nan
-                FAMESimRsltDict[faultID]["Distance"] = np.nan
-                FAMESimRsltDict[faultID]["Acc20kph"] = np.nan
-                FAMESimRsltDict[faultID]["AvgSpeed"] = np.nan   
+                for kpi in kpiList:
+                    FAMESimRsltDict[faultID]['metrics'][kpi] = np.nan
         else:
             print "could not find the result: ", matfilename
             crashedSimulationCnt += 1
-            FAMESimRsltDict[faultID] = OrderedDict()
-            FAMESimRsltDict[faultID]["MaxSpeed"] = np.nan
-            FAMESimRsltDict[faultID]["Distance"] = np.nan
-            FAMESimRsltDict[faultID]["Acc20kph"] = np.nan
-            FAMESimRsltDict[faultID]["AvgSpeed"] = np.nan
+            for kpi in kpiList:
+                FAMESimRsltDict[faultID]['metrics'][kpi] = np.nan
+        FAMESimRsltDict[faultID]['criticality'] = criticality
+        FAMESimRsltDict[faultID]['simulation_file']  = OrderedDict()
+        FAMESimRsltDict[faultID]['simulation_file']['model']  = "scripts/fault_sim_rslt/fault_" + str(faultID) + '.mos'
+        if criticality == 1:
+            FAMESimRsltDict[faultID]['simulation_file']['output']  = "scripts/fault_sim_rslt/fault_" + str(faultID) + '.mat'
     with open(os.path.join(script_dir,outputFileName),'w') as outfile:
         json.dump(FAMESimRsltDict,outfile, indent=4,sort_keys=False)
 
@@ -226,14 +247,15 @@ def main():
     fault_info_file = "faults.txt"
     component,fault,amount = loadFaults(fault_info_file)
     numSampleFaults = len(component)
-    #numSampleFaults = 5
+    #numSampleFaults = 25
     dymolaScript = createScript("","",0,"0.0")
     runDymolaScript(dymolaScript, 120.0)
     for index in range(numSampleFaults):
         dymolaScript = createScript(component[index],fault[index],index+1,amount[index])
         runDymolaScript(dymolaScript, 120.0)
     outputFileName = "FaultSimulation.json"
-    numKeyFaults, crashedSimulationCnt  = findcriticalFault(numSampleFaults,outputFileName)
+    numKeyFaults, crashedSimulationCnt  = findCriticalFault(numSampleFaults,outputFileName,
+            component,fault,amount)
 
     if crashedSimulationCnt < numSampleFaults:
 
@@ -260,6 +282,12 @@ def main():
             if jsondata["Metrics"][i]["Name"] == "Number_Faults":
                 if not (jsondata["Metrics"][i]["Value"]).isdigit():
                     jsondata["Metrics"][i]["Value"] = str(numSampleFaults)
+        if numKeyFaults > 0:
+            newArtifact = OrderedDict()
+            newArtifact["Location"] = "FaultSimulation.json"
+            newArtifact["Tag"] = "Fault Analysis Results"
+            jsondata["Artifacts"].append(newArtifact)
+            os.rename(os.path.join(script_dir, outputFileName),os.path.join(output_dir, outputFileName))
         with open(keyfile,"w") as outfile:
             json.dump(jsondata,outfile, indent=4)
 

@@ -74,7 +74,7 @@ namespace ComponentInterchangeTest
         {
             var exportedACMRoot = Path.Combine(testPath, "Imported_Components");
             var acmFiles = Directory.GetFiles(exportedACMRoot, "*.acm", SearchOption.AllDirectories);
-            Assert.Equal(3, acmFiles.Length);
+            Assert.Equal(4, acmFiles.Length);
         }
         
         [Fact]

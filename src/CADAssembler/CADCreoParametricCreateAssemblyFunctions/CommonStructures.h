@@ -459,7 +459,13 @@ namespace isis
 
 	struct AnalysisGeometry
 	{	
-		std::list<AnalysisGeometryFeature>		features;				// actual datum names in the Creo model
+		std::list<AnalysisGeometryFeature>		features;	// actual datum names in the Creo model
+
+		// GeometryPerEntireComponent_componentInstanceIDs applies to thermal HeatGeneration 
+		// only. HeatGeneration QVOL type is applied to all elements (e.g. Tetra elements)
+		// within a componentInstanceID where the componentInstanceID is for a 
+		// part (not an assembly).  There can be more than one part per HeatGeneration value.  
+		std::vector<std::string> GeometryPerEntireComponent_ComponentInstanceIDs;
 
 		//e_CADPrimaryGeometryQualifier   primaryGeometryQualifier;
 		//e_CADSecondaryGeometryQualifier secondaryGeometryQualifier;
@@ -472,14 +478,14 @@ namespace isis
 
 	 struct ConvectionBoundary
 	 {
-		 double convectionCoefficient;
+		double convectionCoefficient;
+		std::string unit;
+		//bool	ambientTemperatureDefined;
+		//double ambientTemperature;
 
-		 bool	ambientTemperatureDefined;
-		 double ambientTemperature;
-
-		 ConvectionBoundary() : convectionCoefficient(0.0), ambientTemperature(0.0), ambientTemperatureDefined(false) {};
+		//ConvectionBoundary() : convectionCoefficient(0.0), ambientTemperature(0.0), ambientTemperatureDefined(false) {};
+		ConvectionBoundary() : convectionCoefficient(0.0) {};
 	 };
-
 
 
 //	struct AnalysisGeometry
@@ -508,8 +514,6 @@ namespace isis
 		ConvectionBoundary		convectionBoundary;           // CONV, Specifies a free convection boundary condition for heat transfer analysis.
 
 
-
-
 		AnalysisConstraint() :	analysisDisplacementDefined(false), 
 								analysisPinDefined(false), 
 								analysisBallDefined(false), 
@@ -526,19 +530,21 @@ namespace isis
 	struct HeatFlux
 	{
 		double		value;
+		std::string unit;
 		HeatFlux() : value(0.0){};
 	};
 
 	struct HeatGeneration
 	{
 		double		value;
+		std::string unit;
 		HeatGeneration() : value(0.0){};
 	};
 
 	struct Temperature
 	{
 		double value;
-
+		std::string unit;
 		Temperature() : value(0.0) {};
 	};
 
@@ -566,6 +572,8 @@ namespace isis
 		bool								gridPointTemperatureDefined;
 		Temperature							gridPointTemperature;				// TEMP,  Defines temperature at grid points for determination of thermal loading.
 
+		bool								ambientTemperatureDefined;
+		Temperature							ambientTemperature;
 
 		// If geometry.features.size == 0 and gridPointInitialTemperatureDefined, 
 		//		then 
@@ -582,7 +590,8 @@ namespace isis
 						 heatFluxDefined(false), 
 						 heatGenerationDefined(false),
 						 gridPointTemperatureDefined(false),
-						 gridPointInitialTemperatureDefined(false){};
+						 gridPointInitialTemperatureDefined(false),
+						 ambientTemperatureDefined(false){};
 	};
 
 

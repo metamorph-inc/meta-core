@@ -23,6 +23,9 @@
   <xsd:element ecore:ignore="true" name="PlaneReference" type="cad:PlaneReference"/>
   <xsd:element ecore:ignore="true" name="GuideDatum" type="cad:GuideDatum"/>
   <xsd:element ecore:ignore="true" name="AssemblyRoot" type="cad:AssemblyRoot"/>
+  <xsd:element ecore:ignore="true" name="KinematicJointSpec" type="cad:KinematicJointSpec"/>
+  <xsd:element ecore:ignore="true" name="RevoluteJointSpec" type="cad:RevoluteJointSpec"/>
+  <xsd:element ecore:ignore="true" name="TranslationalJointSpec" type="cad:TranslationalJointSpec"/>
   <xsd:complexType name="CADModel">
     <xsd:complexContent>
       <xsd:extension base="avm:DomainModel">
@@ -218,6 +221,39 @@
     <xsd:complexContent>
       <xsd:extension base="avm:DesignDomainFeature">
         <xsd:attribute ecore:keys="ID" ecore:name="AssemblyRootComponentInstance" ecore:reference="avm:ComponentInstance" name="AssemblyRootComponentInstance" type="xsd:anyURI" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="KinematicJointSpec">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ConnectorFeature"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="RevoluteJointSpec">
+    <xsd:complexContent>
+      <xsd:extension base="cad:KinematicJointSpec">
+        <xsd:sequence>
+          <xsd:element ecore:name="MinimumRotation" ecore:resolveProxies="true" minOccurs="0" name="MinimumRotation" type="avm:Value"/>
+          <xsd:element ecore:name="DefaultRotation" ecore:resolveProxies="true" minOccurs="0" name="DefaultRotation" type="avm:Value"/>
+          <xsd:element ecore:name="MaximumRotation" ecore:resolveProxies="true" minOccurs="0" name="MaximumRotation" type="avm:Value"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:keys="ID" ecore:name="AlignmentPlane" ecore:reference="cad:Plane" name="AlignmentPlane" type="xsd:anyURI" use="required"/>
+        <xsd:attribute ecore:keys="ID" ecore:name="AlignmentAxis" ecore:reference="cad:Axis" name="AlignmentAxis" type="xsd:anyURI" use="required"/>
+        <xsd:attribute ecore:keys="ID" ecore:name="RotationLimitReference" ecore:reference="cad:Plane" name="RotationLimitReference" type="xsd:anyURI"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TranslationalJointSpec">
+    <xsd:complexContent>
+      <xsd:extension base="cad:KinematicJointSpec">
+        <xsd:sequence>
+          <xsd:element ecore:name="MinimumTranslation" ecore:resolveProxies="true" minOccurs="0" name="MinimumTranslation" type="avm:Value"/>
+          <xsd:element ecore:name="DefaultTranslation" ecore:resolveProxies="true" minOccurs="0" name="DefaultTranslation" type="avm:Value"/>
+          <xsd:element ecore:name="MaximumTranslation" ecore:resolveProxies="true" minOccurs="0" name="MaximumTranslation" type="avm:Value"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="AlignmentPlane" ecore:reference="cad:Plane" name="AlignmentPlane" type="xsd:anyURI" use="required"/>
+        <xsd:attribute ecore:name="AlignmentAxis" ecore:reference="cad:Axis" name="AlignmentAxis" type="xsd:anyURI" use="required"/>
+        <xsd:attribute ecore:name="TranslationLimitReference" ecore:reference="cad:Plane" name="TranslationLimitReference" type="xsd:anyURI"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>

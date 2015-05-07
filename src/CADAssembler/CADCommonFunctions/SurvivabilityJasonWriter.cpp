@@ -296,7 +296,7 @@ namespace isis_CADCommon
 			{
 				std::stringstream errorString;
 				errorString << "Could not find survivability analysis file: " << in_BallisticConfig_PathAndFileName;  
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 			}
 		}
 		catch ( json_spirit::Error_position &ex )
@@ -304,14 +304,14 @@ namespace isis_CADCommon
 			std::stringstream errorString;
 			errorString << "Error parsing file: " << in_BallisticConfig_PathAndFileName << "  Line: "<< ex.line_  << " Column: " << ex.column_ 
 				<< " Error: " << ex.reason_;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 
 		}
 		catch(const std::exception &ex)
 		{
 			std::stringstream errorString;
 			errorString << "Error parsing file: " << in_BallisticConfig_PathAndFileName << "  Error: " << ex.what() << std::endl;
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 	}
 

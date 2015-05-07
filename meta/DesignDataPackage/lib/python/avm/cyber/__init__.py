@@ -1,7 +1,7 @@
 # .\_cyber.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:9017347a610d1436c1aaf52764e6578e8fc1a083
-# Generated 2014-09-24 11:04:32.151000 by PyXB version 1.2.3
+# Generated 2014-10-29 10:43:04.550000 by PyXB version 1.2.3
 # Namespace cyber [xmlns:cyber]
 
 import pyxb
@@ -13,7 +13,7 @@ import pyxb.utils.domutils
 import sys
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:785a9dc0-4404-11e4-b91c-20c9d0878c2e')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:455827f0-5f82-11e4-94dc-20c9d0878c2e')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.3'
@@ -22,8 +22,8 @@ if pyxb.__version__ != _PyXBVersion:
     raise pyxb.PyXBVersionError(_PyXBVersion)
 
 # Import bindings for namespaces imported into schema
-import pyxb.binding.datatypes
 import avm as _ImportedBinding__avm
+import pyxb.binding.datatypes
 import avm.modelica as _ImportedBinding__modelica
 
 # NOTE: All namespace declarations are reserved within the binding

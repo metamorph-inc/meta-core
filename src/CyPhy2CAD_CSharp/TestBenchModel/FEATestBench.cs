@@ -161,21 +161,6 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             SolverType = testBench.Attributes.SolverType.ToString(); 
             MeshType = "SOLID";
             MaxAdaptiveIterations = testBench.Attributes.MaxAdaptiveIterations;
-            /*
-            ElementType = testBench.Attributes.ElementShapeType.ToString();
-            ShellType = (testBench.Attributes.ShellElementType == CyPhyClasses.CADTestBench.AttributesClass.ShellElementType_enum.N_A) ? 
-                        testBench.Attributes.ShellElementType.ToString().Replace("_", "/") :
-                        testBench.Attributes.ShellElementType.ToString();
-            SolverType = testBench.Attributes.SolverType.ToString();
-
-            if (testBench.Attributes.SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.ANSYS)
-                throw new NotImplementedException();
-
-            MeshType = testBench.Attributes.MeshType.ToString();         
-            MeshType = testBench.Attributes.MeshType.ToString(); 
-            */            
-            //testBench.Attributes.InfiniteCycle;
-            //testBench.Attributes.NumerOfCycles.ToString();
 
             FEAAnalysisType = "STRUCTURAL";
             if (testBench.Children.ThermalLoadCollection.Any() || testBench.Children.ThermalEnvironmentCollection.Any())
@@ -247,6 +232,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 }
             }
 
+            // Thermal Metrics
             foreach (var item in testBench.Children.TIP2ThermalMetricCollection)
             {
                 if (item.SrcEnds.TestInjectionPoint != null)
@@ -300,6 +286,9 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 }
             }
 
+            bool convectionPresent = false;
+            bool ambientTempPresent = false;
+
             // thermal elements
             foreach(var item in testBench.Children.ThermalFEAElementsCollection)
             {
@@ -325,6 +314,10 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                     foreach (var component in testComponents)
                     {
                         FEAThermalElement[] element = FEAThermalElement.Extract(item, component.Attributes.InstanceGUID, null);
+                        if (element.Where(e => e.Type == "Convection").Any())
+                        {
+                            convectionPresent = true;
+                        }
                         ThermalElements.AddRange(element);
                     }
                 }
@@ -356,11 +349,17 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                     {
                         foreach (var param in testBench.Children.ThermalEnvironmentCollection.First().Children.ParameterCollection)
                         {
-                            var elem = new FEAThermalElement(param) { Unit = "C", ComponentID = cadDataContainer.assemblies.First().Key };
+                            var elem = new FEAThermalElement(param) { Unit = "K", ComponentID = cadDataContainer.assemblies.First().Key };
                             ThermalElements.Add(elem);
+                            ambientTempPresent = true;
                         }
                     }
                 }
+            }
+
+            if (convectionPresent && !ambientTempPresent)
+            {
+                Logger.Instance.AddLogMessage("Convection is present but no Ambient Temperature has been specified. Please specify Ambient Temperature.", Severity.Error);
             }
 
             // Constraints
@@ -691,52 +690,6 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
 
         }
-
-        /*
-        private void AddGeometry2Constraint(FEAConstraintBase constraintRep, 
-                                            MgaFCO geometryFCO,
-                                            string tipContextPath)
-        {
-            GeometryTraversal traverser = new GeometryTraversal();
-            traverser.TraverseGeometry(geometryFCO);
-
-            foreach (var geometryFound in traverser.geometryFound)
-            {
-                CyPhy.GeometryTypes geometryCyPhy = CyPhyClasses.GeometryTypes.Cast(geometryFound);
-                if (Path.GetDirectoryName(geometryCyPhy.Path).Contains(tipContextPath))            // within context of TIP
-                {
-                    FEAGeometry geomRep = CreateGeometry(geometryCyPhy);
-                    if (geomRep != null)
-                    {
-                        constraintRep.AddGeometry(geomRep);
-                        this.Constraints.Add(constraintRep);
-                    }
-                }
-            }
-        }
-
-        private void AddGeometry2Load(FEALoadBase loadRep,
-                                      MgaFCO geometryFCO,
-                                      string tipContextPath)
-        {
-            GeometryTraversal traverser = new GeometryTraversal();
-            traverser.TraverseGeometry(geometryFCO);
-
-            foreach (var geometryFound in traverser.geometryFound)
-            {
-                CyPhy.GeometryTypes geometryCyPhy = CyPhyClasses.GeometryTypes.Cast(geometryFound);
-                if (Path.GetDirectoryName(geometryCyPhy.Path).Contains(tipContextPath))            // within context of TIP
-                {
-                    FEAGeometry geomRep = CreateGeometry(geometryCyPhy);
-                    if (geomRep != null)
-                    {
-                        loadRep.AddGeometry(geomRep);
-                        this.Loads.Add(loadRep);
-                    }
-                }
-            }
-        }
-        */
 
         private void AddGeometry2Constraint(FEAConstraintBase constraintRep,
                                     MgaFCO geometryFCO,

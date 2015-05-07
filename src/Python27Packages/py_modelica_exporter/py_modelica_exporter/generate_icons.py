@@ -56,22 +56,28 @@ regex_type_value = re.compile("(\w+.\w+)*")
 
 # Compile regular expressions ONLY once!
 # example: {-100.0,-100.0,100.0,100.0,true,0.16,2.0,2.0, {...
-regex_coordSys = re.compile('([+-]?\d+(?:.\d+)?),([+-]?\d+(?:.\d+)?),([+-]?\d+(?:.\d+)?),([+-]?\d+(?:.\d+)?),(\w+),([+-]?\d+(?:.\d+)?),([+-]?\d+(?:.\d+)?),([+-]?\d+(?:.\d+)?),')
+regex_coordSys = re.compile(
+    '([+-]?\d+(?:.\d+)?),([+-]?\d+(?:.\d+)?),([+-]?\d+(?:.\d+)?),([+-]?\d+(?:.\d+)?),(\w+),([+-]?\d+(?:.\d+)?),([+-]?\d+(?:.\d+)?),([+-]?\d+(?:.\d+)?),')
 
 # example: Rectangle(true, {35.0, 10.0}, 0, {0, 0, 0}, {255, 255, 255}, LinePattern.Solid, FillPattern.Solid, 0.25, BorderPattern.None, {{-15.0, -4.0}, {15.0, 4.0}}, 0
-regex_rectangle = re.compile('Rectangle\((\w+), {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, ([+-]?\d+(?:.\d+)?), {(\d+), (\d+), (\d+)}, {(\d+), (\d+), (\d+)}, (\w+.\w+), (\w+.\w+), ([+-]?\d+(?:.\d+)?), (\w+.\w+), {{([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}}, ([+-]?\d+(?:.\d+)?)')
+regex_rectangle = re.compile(
+    'Rectangle\((\w+), {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, ([+-]?\d+(?:.\d+)?), {(\d+), (\d+), (\d+)}, {(\d+), (\d+), (\d+)}, (\w+.\w+), (\w+.\w+), ([+-]?\d+(?:.\d+)?), (\w+.\w+), {{([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}}, ([+-]?\d+(?:.\d+)?)')
 
 # example: Line(true, {0.0, 0.0}, 0, {{-30, -120}, {-10, -100}}, {0, 0, 0}, LinePattern.Solid, 0.25, {Arrow.None, Arrow.None}, 3, Smooth.None
-regex_line = re.compile('Line\((\w+), {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, ([+-]?\d+(?:.\d+)?), ({{[+-]?\d+(?:.\d+)?, [+-]?\d+(?:.\d+)?}(?:, {[+-]?\d+(?:.\d+)?, [+-]?\d+(?:.\d+)?})*}), {(\d+), (\d+), (\d+)}, (\w+.\w+), ([+-]?\d+(?:.\d+)?), {(\w+.\w+), (\w+.\w+)}, ([+-]?\d+(?:.\d+)?), (\w+.\w+)')
+regex_line = re.compile(
+    'Line\((\w+), {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, ([+-]?\d+(?:.\d+)?), ({{[+-]?\d+(?:.\d+)?, [+-]?\d+(?:.\d+)?}(?:, {[+-]?\d+(?:.\d+)?, [+-]?\d+(?:.\d+)?})*}), {(\d+), (\d+), (\d+)}, (\w+.\w+), ([+-]?\d+(?:.\d+)?), {(\w+.\w+), (\w+.\w+)}, ([+-]?\d+(?:.\d+)?), (\w+.\w+)')
 
 # example: Ellipse(true, {0.0, 0.0}, 0, {0, 0, 0}, {95, 95, 95}, LinePattern.Solid, FillPattern.Solid, 0.25, {{-100, 100}, {100, -100}}, 0, 360)}}
-regex_ellipse = re.compile('Ellipse\((\w+), {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, ([+-]?\d+(?:.\d+)?), {(\d+), (\d+), (\d+)}, {(\d+), (\d+), (\d+)}, (\w+.\w+), (\w+.\w+), ([+-]?\d+(?:.\d+)?), {{([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}}, ([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)')
+regex_ellipse = re.compile(
+    'Ellipse\((\w+), {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, ([+-]?\d+(?:.\d+)?), {(\d+), (\d+), (\d+)}, {(\d+), (\d+), (\d+)}, (\w+.\w+), (\w+.\w+), ([+-]?\d+(?:.\d+)?), {{([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}}, ([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)')
 
 # example: Text(true, {0.0, 0.0}, 0, {0, 0, 255}, {0, 0, 0}, LinePattern.Solid, FillPattern.None, 0.25, {{-150, 110}, {150, 70}}, "%name", 0, TextAlignment.Center
-regex_text = re.compile('Text\((\w+), {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, ([+-]?\d+(?:.\d+)?), {(\d+), (\d+), (\d+)}, {(\d+), (\d+), (\d+)}, (\w+.\w+), (\w+.\w+), ([+-]?\d+(?:.\d+)?), {{([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}}, ("[^"]*"), ([+-]?\d+(?:.\d+)?)(?:, ("[^"]*"))?(?:, {([^}]*)})?, (\w+.\w+)')
+regex_text = re.compile(
+    'Text\((\w+), {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, ([+-]?\d+(?:.\d+)?), {(\d+), (\d+), (\d+)}, {(\d+), (\d+), (\d+)}, (\w+.\w+), (\w+.\w+), ([+-]?\d+(?:.\d+)?), {{([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}}, ("[^"]*"), ([+-]?\d+(?:.\d+)?)(?:, ("[^"]*"))?(?:, {([^}]*)})?, (\w+.\w+)')
 
 # example: Polygon(true, {0.0, 0.0}, 0, {0, 127, 255}, {0, 127, 255}, LinePattern.Solid, FillPattern.Solid, 0.25, {{-24, -34}, {-82, 40}, {-72, 46}, {-14, -26}, {-24, -34}}, Smooth.None
-regex_polygon = re.compile('Polygon\((\w+), {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, ([+-]?\d+(?:.\d+)?), {(\d+), (\d+), (\d+)}, {(\d+), (\d+), (\d+)}, (\w+.\w+), (\w+.\w+), ([+-]?\d+(?:.\d+)?), ({{[+-]?\d+(?:.\d+)?, [+-]?\d+(?:.\d+)?}(?:, {[+-]?\d+(?:.\d+)?, [+-]?\d+(?:.\d+)?})*}), (\w+.\w+)')
+regex_polygon = re.compile(
+    'Polygon\((\w+), {([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}, ([+-]?\d+(?:.\d+)?), {(\d+), (\d+), (\d+)}, {(\d+), (\d+), (\d+)}, (\w+.\w+), (\w+.\w+), ([+-]?\d+(?:.\d+)?), ({{[+-]?\d+(?:.\d+)?, [+-]?\d+(?:.\d+)?}(?:, {[+-]?\d+(?:.\d+)?, [+-]?\d+(?:.\d+)?})*}), (\w+.\w+)')
 
 # example: {{-100.0, -100.0}, {-100.0, -30.0}, {0.0, -30.0}, {0.0, 0.0}}
 regex_points = re.compile('{([+-]?\d+(?:.\d+)?), ([+-]?\d+(?:.\d+)?)}')
@@ -110,7 +116,6 @@ graphics_cache = {}
 
 
 class IconExporter(object):
-
     def __init__(self, omc_session, icon_dir_name):
         """
         Creates a new instance of IconExporter and passes in an OMCSession
@@ -151,139 +156,140 @@ class IconExporter(object):
             result['coordinateSystem']['initialScale'] = float(g[5])
             result['coordinateSystem']['grid'] = [float(g[6]), float(g[7])]
 
-            withOutCoordSys = icon_annotation[icon_annotation.find(',{'):]
+            without_coord_sys = icon_annotation[icon_annotation.find(',{'):]
         else:
             # logger.warning('Coordinate system was skipped')
             # logger.warning(answer2)
-            withOutCoordSys = icon_annotation
+            without_coord_sys = icon_annotation
 
-        for icon_line in withOutCoordSys.split('),'):
+        for icon_line in without_coord_sys.split('),'):
 
             # default values
-            graphicsObj = {}
+            graphics_obj = {}
 
             r = regex_line.search(icon_line)
             if r:
-                graphicsObj['type'] = 'Line'
+                graphics_obj['type'] = 'Line'
                 g = r.groups()
-                graphicsObj['visible'] = g[0]
-                graphicsObj['origin'] = [float(g[1]), float(g[2])]
-                graphicsObj['rotation'] = float(g[3])
+                graphics_obj['visible'] = g[0]
+                graphics_obj['origin'] = [float(g[1]), float(g[2])]
+                graphics_obj['rotation'] = float(g[3])
 
                 points = []
                 gg = re.findall(regex_points, g[4])
                 for i in range(0, len(gg)):
                     points.append([float(gg[i][0]), float(gg[i][1])])
-                graphicsObj['points'] = points
+                graphics_obj['points'] = points
 
-                graphicsObj['color'] = [int(g[5]), int(g[6]), int(g[7])]
-                graphicsObj['pattern'] = g[8]
-                graphicsObj['thickness'] = float(g[9])
-                graphicsObj['arrow'] = [g[10], g[11]]
-                graphicsObj['arrowSize'] = float(g[12])
-                graphicsObj['smooth'] = g[13]
+                graphics_obj['color'] = [int(g[5]), int(g[6]), int(g[7])]
+                graphics_obj['pattern'] = g[8]
+                graphics_obj['thickness'] = float(g[9])
+                graphics_obj['arrow'] = [g[10], g[11]]
+                graphics_obj['arrowSize'] = float(g[12])
+                graphics_obj['smooth'] = g[13]
 
             r = regex_rectangle.search(icon_line)
             if r:
-                graphicsObj['type'] = 'Rectangle'
+                graphics_obj['type'] = 'Rectangle'
                 g = r.groups()
-                graphicsObj['visible'] = g[0]
-                graphicsObj['origin'] = [float(g[1]), float(g[2])]
-                graphicsObj['rotation'] = float(g[3])
-                graphicsObj['lineColor'] = [int(g[4]), int(g[5]), int(g[6])]
-                graphicsObj['fillColor'] = [int(g[7]), int(g[8]), int(g[9])]
-                graphicsObj['linePattern'] = g[10]
-                graphicsObj['fillPattern'] = g[11]
-                graphicsObj['lineThickness'] = float(g[12])
-                graphicsObj['borderPattern'] = g[13]
-                graphicsObj['extent'] = [[float(g[14]), float(g[15])], [float(g[16]), float(g[17])]]
-                graphicsObj['radius'] = float(g[18])
+                graphics_obj['visible'] = g[0]
+                graphics_obj['origin'] = [float(g[1]), float(g[2])]
+                graphics_obj['rotation'] = float(g[3])
+                graphics_obj['lineColor'] = [int(g[4]), int(g[5]), int(g[6])]
+                graphics_obj['fillColor'] = [int(g[7]), int(g[8]), int(g[9])]
+                graphics_obj['linePattern'] = g[10]
+                graphics_obj['fillPattern'] = g[11]
+                graphics_obj['lineThickness'] = float(g[12])
+                graphics_obj['borderPattern'] = g[13]
+                graphics_obj['extent'] = [[float(g[14]), float(g[15])], [float(g[16]), float(g[17])]]
+                graphics_obj['radius'] = float(g[18])
 
             r = regex_polygon.search(icon_line)
             if r:
-                graphicsObj['icon_line'] = icon_line
-                graphicsObj['type'] = 'Polygon'
+                graphics_obj['icon_line'] = icon_line
+                graphics_obj['type'] = 'Polygon'
                 g = r.groups()
-                graphicsObj['visible'] = g[0]
-                graphicsObj['origin'] = [float(g[1]), float(g[2])]
-                graphicsObj['rotation'] = float(g[3])
-                graphicsObj['lineColor'] = [int(g[4]), int(g[5]), int(g[6])]
-                graphicsObj['fillColor'] = [int(g[7]), int(g[8]), int(g[9])]
-                graphicsObj['linePattern'] = g[10]
-                graphicsObj['fillPattern'] = g[11]
-                graphicsObj['lineThickness'] = float(g[12])
+                graphics_obj['visible'] = g[0]
+                graphics_obj['origin'] = [float(g[1]), float(g[2])]
+                graphics_obj['rotation'] = float(g[3])
+                graphics_obj['lineColor'] = [int(g[4]), int(g[5]), int(g[6])]
+                graphics_obj['fillColor'] = [int(g[7]), int(g[8]), int(g[9])]
+                graphics_obj['linePattern'] = g[10]
+                graphics_obj['fillPattern'] = g[11]
+                graphics_obj['lineThickness'] = float(g[12])
 
                 points = []
                 gg = re.findall(regex_points, g[13])
                 for i in range(0, len(gg)):
                     points.append([float(gg[i][0]), float(gg[i][1])])
-                graphicsObj['points'] = points
+                graphics_obj['points'] = points
 
-                minX = 100
-                minY = 100
-                maxX = -100
-                maxY = -100
+                min_x = 100
+                min_y = 100
+                max_x = -100
+                max_y = -100
 
-                for point in graphicsObj['points']:
-                    if minX > point[0]:
-                        minX = point[0]
-                    if maxX < point[0]:
-                        maxX = point[0]
-                    if minY > point[1]:
-                        minY = point[1]
-                    if maxY < point[1]:
-                        maxY = point[1]
+                for point in graphics_obj['points']:
+                    if min_x > point[0]:
+                        min_x = point[0]
+                    if max_x < point[0]:
+                        max_x = point[0]
+                    if min_y > point[1]:
+                        min_y = point[1]
+                    if max_y < point[1]:
+                        max_y = point[1]
 
-                graphicsObj['extent'] = [[minX, minY], [maxX, maxY]]
+                graphics_obj['extent'] = [[min_x, min_y], [max_x, max_y]]
 
-                graphicsObj['smooth'] = g[14]
+                graphics_obj['smooth'] = g[14]
 
             r = regex_text.search(icon_line)
             if r:
-                graphicsObj['type'] = 'Text'
+                graphics_obj['type'] = 'Text'
                 g = r.groups()
-                graphicsObj['visible'] = g[0]
-                graphicsObj['origin'] = [float(g[1]), float(g[2])]
-                graphicsObj['rotation'] = float(g[3])
-                graphicsObj['lineColor'] = [int(g[4]), int(g[5]), int(g[6])]
-                graphicsObj['fillColor'] = [int(g[7]), int(g[8]), int(g[9])]
-                graphicsObj['linePattern'] = g[10]
-                graphicsObj['fillPattern'] = g[11]
-                graphicsObj['lineThickness'] = float(g[12])
-                graphicsObj['extent'] = [[float(g[13]), float(g[14])], [float(g[15]), float(g[16])]]
-                graphicsObj['textString'] = g[17].strip('"')
-                graphicsObj['fontSize'] = float(g[18])
-                graphicsObj['fontName'] = g[19]
-                if graphicsObj['fontName']:
-                    graphicsObj['fontName'] = graphicsObj['fontName'].strip('"')
+                graphics_obj['visible'] = g[0]
+                graphics_obj['origin'] = [float(g[1]), float(g[2])]
+                graphics_obj['rotation'] = float(g[3])
+                graphics_obj['lineColor'] = [int(g[4]), int(g[5]), int(g[6])]
+                graphics_obj['fillColor'] = [int(g[7]), int(g[8]), int(g[9])]
+                graphics_obj['linePattern'] = g[10]
+                graphics_obj['fillPattern'] = g[11]
+                graphics_obj['lineThickness'] = float(g[12])
+                graphics_obj['extent'] = [[float(g[13]), float(g[14])], [float(g[15]), float(g[16])]]
+                graphics_obj['textString'] = g[17].strip('"')
+                graphics_obj['fontSize'] = float(g[18])
+                graphics_obj['fontName'] = g[19]
+                if graphics_obj['fontName']:
+                    graphics_obj['fontName'] = graphics_obj['fontName'].strip('"')
 
-                graphicsObj['textStyle'] = []
+                graphics_obj['textStyle'] = []
                 if g[20]:
-                    graphicsObj['textStyle'] = regex_type_value.findall(g[20])  # text Style can have different number of styles
+                    # text Style can have different number of styles
+                    graphics_obj['textStyle'] = regex_type_value.findall(g[20])
 
-                graphicsObj['horizontalAlignment'] = g[21]
+                graphics_obj['horizontalAlignment'] = g[21]
 
             r = regex_ellipse.search(icon_line)
             if r:
                 g = r.groups()
-                graphicsObj['type'] = 'Ellipse'
-                graphicsObj['visible'] = g[0]
-                graphicsObj['origin'] = [float(g[1]), float(g[2])]
-                graphicsObj['rotation'] = float(g[3])
-                graphicsObj['lineColor'] = [int(g[4]), int(g[5]), int(g[6])]
-                graphicsObj['fillColor'] = [int(g[7]), int(g[8]), int(g[9])]
-                graphicsObj['linePattern'] = g[10]
-                graphicsObj['fillPattern'] = g[11]
-                graphicsObj['lineThickness'] = float(g[12])
-                graphicsObj['extent'] = [[float(g[13]), float(g[14])], [float(g[15]), float(g[16])]]
-                graphicsObj['startAngle'] = float(g[17])
-                graphicsObj['endAngle'] = float(g[18])
+                graphics_obj['type'] = 'Ellipse'
+                graphics_obj['visible'] = g[0]
+                graphics_obj['origin'] = [float(g[1]), float(g[2])]
+                graphics_obj['rotation'] = float(g[3])
+                graphics_obj['lineColor'] = [int(g[4]), int(g[5]), int(g[6])]
+                graphics_obj['fillColor'] = [int(g[7]), int(g[8]), int(g[9])]
+                graphics_obj['linePattern'] = g[10]
+                graphics_obj['fillPattern'] = g[11]
+                graphics_obj['lineThickness'] = float(g[12])
+                graphics_obj['extent'] = [[float(g[13]), float(g[14])], [float(g[15]), float(g[16])]]
+                graphics_obj['startAngle'] = float(g[17])
+                graphics_obj['endAngle'] = float(g[18])
 
-            if not 'type' in graphicsObj:
-                graphicsObj['type'] = 'Unknown'
+            if not 'type' in graphics_obj:
+                graphics_obj['type'] = 'Unknown'
                 # logger.error('Unknown graphicsObj: {0}'.format(icon_line))
 
-            result['graphics'].append(graphicsObj)
+            result['graphics'].append(graphics_obj)
 
         graphics_cache[modelica_class] = result
 
@@ -307,9 +313,11 @@ class IconExporter(object):
             if self.omc.isConnector(class_name):
                 try:
                     comp_annotation = self.omc.getNthComponentAnnotation(modelica_class, comp_id)
-                    # comp_annotation = ask_omc('getNthComponentAnnotation', modelicaClass + ', ' + str(comp_id))['SET2']['Set1']
+                    # comp_annotation = ask_omc(
+                    #     'getNthComponentAnnotation', modelicaClass + ', ' + str(comp_id))['SET2']['Set1']
                 except KeyError as ex:
-                    self.logger.error('KeyError: {0} componentName: {1} {2}'.format(modelica_class, component_name, ex.message))
+                    self.logger.error(
+                        'KeyError: {0} componentName: {1} {2}'.format(modelica_class, component_name, ex.message))
                     continue
 
                 # base class graphics for ports
@@ -335,7 +343,7 @@ class IconExporter(object):
                 g['id'] = component_name
                 g['className'] = class_name
 
-                desc = self.omc.getComponentComment(modelica_class + ', ' + component_name )
+                desc = self.omc.getComponentComment(modelica_class + ', ' + component_name)
                 # desc = ask_omc('getComponentComment', modelicaClass + ', ' + component_name)
 
                 if type(desc) is dict:
@@ -346,10 +354,10 @@ class IconExporter(object):
                 g['classDesc'] = self.omc.getClassComment(class_name).strip().strip('"')
                 # g['classDesc'] = ask_omc('getClassComment', class_name).strip().strip('"')
 
-                minX = g['coordinateSystem']['extent'][0][0]
-                minY = g['coordinateSystem']['extent'][0][1]
-                maxX = g['coordinateSystem']['extent'][1][0]
-                maxY = g['coordinateSystem']['extent'][1][1]
+                min_x = g['coordinateSystem']['extent'][0][0]
+                min_y = g['coordinateSystem']['extent'][0][1]
+                max_x = g['coordinateSystem']['extent'][1][0]
+                max_y = g['coordinateSystem']['extent'][1][1]
 
                 for gs in g['graphics']:
                     # use default values if it is not there
@@ -359,24 +367,24 @@ class IconExporter(object):
                     if not 'origin' in gs:
                         gs['origin'] = [0, 0]
 
-                    if minX > gs['extent'][0][0] + gs['origin'][0]:
-                        minX = gs['extent'][0][0] + gs['origin'][0]
-                    if minX > gs['extent'][1][0] + gs['origin'][0]:
-                        minX = gs['extent'][1][0] + gs['origin'][0]
-                    if minY > gs['extent'][0][1] + gs['origin'][1]:
-                        minY = gs['extent'][0][1] + gs['origin'][1]
-                    if minY > gs['extent'][1][1] + gs['origin'][1]:
-                        minY = gs['extent'][1][1] + gs['origin'][1]
-                    if maxX < gs['extent'][1][0] + gs['origin'][0]:
-                        maxX = gs['extent'][1][0] + gs['origin'][0]
-                    if maxX < gs['extent'][0][0] + gs['origin'][0]:
-                        maxX = gs['extent'][0][0] + gs['origin'][0]
-                    if maxY < gs['extent'][1][1] + gs['origin'][1]:
-                        maxY = gs['extent'][1][1] + gs['origin'][1]
-                    if maxY < gs['extent'][0][1] + gs['origin'][1]:
-                        maxY = gs['extent'][0][1] + gs['origin'][1]
+                    if min_x > gs['extent'][0][0] + gs['origin'][0]:
+                        min_x = gs['extent'][0][0] + gs['origin'][0]
+                    if min_x > gs['extent'][1][0] + gs['origin'][0]:
+                        min_x = gs['extent'][1][0] + gs['origin'][0]
+                    if min_y > gs['extent'][0][1] + gs['origin'][1]:
+                        min_y = gs['extent'][0][1] + gs['origin'][1]
+                    if min_y > gs['extent'][1][1] + gs['origin'][1]:
+                        min_y = gs['extent'][1][1] + gs['origin'][1]
+                    if max_x < gs['extent'][1][0] + gs['origin'][0]:
+                        max_x = gs['extent'][1][0] + gs['origin'][0]
+                    if max_x < gs['extent'][0][0] + gs['origin'][0]:
+                        max_x = gs['extent'][0][0] + gs['origin'][0]
+                    if max_y < gs['extent'][1][1] + gs['origin'][1]:
+                        max_y = gs['extent'][1][1] + gs['origin'][1]
+                    if max_y < gs['extent'][0][1] + gs['origin'][1]:
+                        max_y = gs['extent'][0][1] + gs['origin'][1]
 
-                g['coordinateSystem']['extent'] = [[minX, minY], [maxX, maxY]]
+                g['coordinateSystem']['extent'] = [[min_x, min_y], [max_x, max_y]]
 
                 #print comp_annotation
                 index_delta = 7
@@ -405,24 +413,24 @@ class IconExporter(object):
     def get_gradient_colors(self, start_color, stop_color, mid_points):
         result = []
 
-        startRed = int(start_color[0])
-        startGreen = int(start_color[1])
-        startBlue = int(start_color[2])
+        start_red = int(start_color[0])
+        start_green = int(start_color[1])
+        start_blue = int(start_color[2])
 
-        stopRed = int(stop_color[0])
-        stopGreen = int(stop_color[1])
-        stopBlue = int(stop_color[2])
+        stop_red = int(stop_color[0])
+        stop_green = int(stop_color[1])
+        stop_blue = int(stop_color[2])
 
-        r_delta = (stopRed - startRed) / (mid_points + 1)
-        g_delta = (stopGreen - startGreen) / (mid_points + 1)
-        b_delta = (stopBlue - startBlue) / (mid_points + 1)
+        r_delta = (stop_red - start_red) / (mid_points + 1)
+        g_delta = (stop_green - start_green) / (mid_points + 1)
+        b_delta = (stop_blue - start_blue) / (mid_points + 1)
 
-        result.append((startRed, startGreen, startBlue))
+        result.append((start_red, start_green, start_blue))
 
         for i in range(1, mid_points + 1):
-            result.append((startRed + i * r_delta, startGreen + i * g_delta, startBlue + i * b_delta))
+            result.append((start_red + i * r_delta, start_green + i * g_delta, start_blue + i * b_delta))
 
-        result.append((stopRed, stopGreen, stopBlue))
+        result.append((stop_red, stop_green, stop_blue))
 
         return result
 
@@ -446,22 +454,30 @@ class IconExporter(object):
 
         if transformation and coordinate_system:
             try:
-                t_width = abs(max(transformation['extent'][1][0], transformation['extent'][0][0]) - min(transformation['extent'][1][0], transformation['extent'][0][0]))
-                t_height = abs(max(transformation['extent'][1][1], transformation['extent'][0][1]) - min(transformation['extent'][1][1], transformation['extent'][0][1]))
-                o_width = abs(max(coordinate_system['extent'][1][0], coordinate_system['extent'][0][0]) - min(coordinate_system['extent'][1][1], coordinate_system['extent'][0][1]))
-                o_height = abs(max(coordinate_system['extent'][1][1], coordinate_system['extent'][0][1]) - min(coordinate_system['extent'][1][1], coordinate_system['extent'][0][1]))
+                t_width = abs(max(transformation['extent'][1][0], transformation['extent'][0][0]) - min(
+                    transformation['extent'][1][0], transformation['extent'][0][0]))
+                t_height = abs(max(transformation['extent'][1][1], transformation['extent'][0][1]) - min(
+                    transformation['extent'][1][1], transformation['extent'][0][1]))
+                o_width = abs(max(coordinate_system['extent'][1][0], coordinate_system['extent'][0][0]) - min(
+                    coordinate_system['extent'][1][1], coordinate_system['extent'][0][1]))
+                o_height = abs(max(coordinate_system['extent'][1][1], coordinate_system['extent'][0][1]) - min(
+                    coordinate_system['extent'][1][1], coordinate_system['extent'][0][1]))
 
                 if 'extent' in transformation and transformation['extent'][1][0] < transformation['extent'][0][0]:
                     # horizontal flip
-                    x = (-xy[0] + graphics['origin'][0]) / o_width * t_width + transformation['origin'][0] + transformation['extent'][1][0] + t_width / 2
+                    x = (-xy[0] + graphics['origin'][0]) / o_width * t_width + transformation['origin'][0] + \
+                        transformation['extent'][1][0] + t_width / 2
                 else:
-                    x = (xy[0] + graphics['origin'][0]) / o_width * t_width + transformation['origin'][0] + transformation['extent'][0][0] + t_width / 2
+                    x = (xy[0] + graphics['origin'][0]) / o_width * t_width + transformation['origin'][0] + \
+                        transformation['extent'][0][0] + t_width / 2
 
                 if 'extent' in transformation and transformation['extent'][1][1] < transformation['extent'][0][1]:
                     # vertical flip
-                    y = (-xy[1] + graphics['origin'][1]) / o_height * t_height + transformation['origin'][1] + min(transformation['extent'][1][1], transformation['extent'][0][1]) + t_height / 2
+                    y = (-xy[1] + graphics['origin'][1]) / o_height * t_height + transformation['origin'][1] + min(
+                        transformation['extent'][1][1], transformation['extent'][0][1]) + t_height / 2
                 else:
-                    y = (xy[1] + graphics['origin'][1]) / o_height * t_height + transformation['origin'][1] + min(transformation['extent'][0][1], transformation['extent'][0][1]) + t_height / 2
+                    y = (xy[1] + graphics['origin'][1]) / o_height * t_height + transformation['origin'][1] + min(
+                        transformation['extent'][0][1], transformation['extent'][0][1]) + t_height / 2
 
                 s = math.sin(transformation['rotation'] / 180 * 3.1415)
                 c = math.cos(transformation['rotation'] / 180 * 3.1415)
@@ -496,43 +512,55 @@ class IconExporter(object):
         origin = graphics['origin']
 
         if graphics['type'] == 'Rectangle' or graphics['type'] == 'Ellipse' or graphics['type'] == 'Text':
-            (x0, y0) = self.get_coordinates(graphics['extent'][0], graphics, min_x, max_y, transformation, coordinate_system)
-            (x1, y1) = self.get_coordinates(graphics['extent'][1], graphics, min_x, max_y, transformation, coordinate_system)
+            (x0, y0) = self.get_coordinates(graphics['extent'][0], graphics, min_x, max_y, transformation,
+                                            coordinate_system)
+            (x1, y1) = self.get_coordinates(graphics['extent'][1], graphics, min_x, max_y, transformation,
+                                            coordinate_system)
+
+            if graphics['type'] == 'Rectangle':
+                shape = dwg.rect((min(x0, x1), min(y0, y1)), (abs(x1 - x0), abs(y1 - y0)), graphics['radius'],
+                                 graphics['radius'])
 
         if graphics['type'] == 'Rectangle' or graphics['type'] == 'Ellipse' or graphics['type'] == 'Polygon':
             if not 'fillPattern' in graphics:
                 graphics['fillPattern'] = 'FillPattern.None'
-
-        if graphics['type'] == 'Rectangle':
-            shape = dwg.rect((min(x0, x1), min(y0, y1)), (abs(x1 - x0), abs(y1 - y0)), graphics['radius'], graphics['radius'])
 
         elif graphics['type'] == 'Line':
             if 'points' in graphics:
                 if graphics['smooth'] == 'Smooth.Bezier' and len(graphics['points']) > 2:
                     # TODO: Optimize this part!!!
                     shape = svgwrite.path.Path()
-                    x_0, y_0 = self.get_coordinates([graphics['points'][0][0], graphics['points'][0][1]], graphics, min_x, max_y, transformation, coordinate_system)
+                    x_0, y_0 = self.get_coordinates([graphics['points'][0][0], graphics['points'][0][1]], graphics,
+                                                    min_x, max_y, transformation, coordinate_system)
                     shape.push('M', x_0, y_0, 'C')
 
                     for i in range(1, len(graphics['points']) - 1):
-                        x_0, y_0 = self.get_coordinates([graphics['points'][i-1][0], graphics['points'][i-1][1]], graphics, min_x, max_y, transformation, coordinate_system)
-                        x_1, y_1 = self.get_coordinates([graphics['points'][i][0], graphics['points'][i][1]], graphics, min_x, max_y, transformation, coordinate_system)
-                        x_2, y_2 = self.get_coordinates([graphics['points'][i+1][0], graphics['points'][i+1][1]], graphics, min_x, max_y, transformation, coordinate_system)
+                        x_0, y_0 = self.get_coordinates([graphics['points'][i - 1][0], graphics['points'][i - 1][1]],
+                                                        graphics, min_x, max_y, transformation, coordinate_system)
+                        x_1, y_1 = self.get_coordinates([graphics['points'][i][0], graphics['points'][i][1]], graphics,
+                                                        min_x, max_y, transformation, coordinate_system)
+                        x_2, y_2 = self.get_coordinates([graphics['points'][i + 1][0], graphics['points'][i + 1][1]],
+                                                        graphics, min_x, max_y, transformation, coordinate_system)
                         x_01 = (x_1 + x_0) / 2
                         y_01 = (y_1 + y_0) / 2
                         x_12 = (x_2 + x_1) / 2
                         y_12 = (y_2 + y_1) / 2
                         shape.push(x_01, y_01, x_1, y_1, x_12, y_12)
-                    x_n, y_n = self.get_coordinates([graphics['points'][len(graphics['points']) - 1][0], graphics['points'][len(graphics['points']) - 1][1]], graphics, min_x, max_y, transformation, coordinate_system)
+                    x_n, y_n = self.get_coordinates([graphics['points'][len(graphics['points']) - 1][0],
+                                                     graphics['points'][len(graphics['points']) - 1][1]], graphics,
+                                                    min_x, max_y, transformation, coordinate_system)
                     shape.push(x_12, y_12, x_n, y_n, x_n, y_n)
                 else:
-                    shape = dwg.polyline([self.get_coordinates([x, y], graphics, min_x, max_y, transformation, coordinate_system) for (x, y) in graphics['points']])
+                    shape = dwg.polyline(
+                        [self.get_coordinates([x, y], graphics, min_x, max_y, transformation, coordinate_system) for
+                         (x, y) in graphics['points']])
                 shape.fill('none', opacity=0)
 
                 # markers
                 if graphics['arrow'][0] != 'Arrow.None':
                     url_id_start = graphics['arrow'][0] + '_start' + str(uuid.uuid4())
-                    marker = svgwrite.container.Marker(insert=(10, 5), size=(4, 3), orient='auto', id=url_id_start, viewBox="0 0 10 10")
+                    marker = svgwrite.container.Marker(insert=(10, 5), size=(4, 3), orient='auto', id=url_id_start,
+                                                       viewBox="0 0 10 10")
                     p = svgwrite.path.Path(d="M 10 0 L 0 5 L 10 10 z")
                     p.fill("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")")
                     marker.add(p)
@@ -541,7 +569,8 @@ class IconExporter(object):
 
                 if graphics['arrow'][1] != 'Arrow.None':
                     url_id_end = graphics['arrow'][1] + '_end' + str(uuid.uuid4())
-                    marker = svgwrite.container.Marker(insert=(0, 5), size=(4, 3), orient='auto', id=url_id_end, viewBox="0 0 10 10")
+                    marker = svgwrite.container.Marker(insert=(0, 5), size=(4, 3), orient='auto', id=url_id_end,
+                                                       viewBox="0 0 10 10")
                     p = svgwrite.path.Path(d="M 0 0 L 10 5 L 0 10 z")
                     p.fill("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")")
                     marker.add(p)
@@ -557,22 +586,30 @@ class IconExporter(object):
                 if graphics['smooth'] == 'Smooth.Bezier' and len(graphics['points']) > 2:
                     # TODO: Optimize this part!!!
                     shape = svgwrite.path.Path()
-                    x_0, y_0 = self.get_coordinates([graphics['points'][0][0], graphics['points'][0][1]], graphics, min_x, max_y, transformation, coordinate_system)
+                    x_0, y_0 = self.get_coordinates([graphics['points'][0][0], graphics['points'][0][1]], graphics,
+                                                    min_x, max_y, transformation, coordinate_system)
                     shape.push('M', x_0, y_0, 'C')
 
                     for i in range(1, len(graphics['points']) - 1):
-                        x_0, y_0 = self.get_coordinates([graphics['points'][i-1][0], graphics['points'][i-1][1]], graphics, min_x, max_y, transformation, coordinate_system)
-                        x_1, y_1 = self.get_coordinates([graphics['points'][i][0], graphics['points'][i][1]], graphics, min_x, max_y, transformation, coordinate_system)
-                        x_2, y_2 = self.get_coordinates([graphics['points'][i+1][0], graphics['points'][i+1][1]], graphics, min_x, max_y, transformation, coordinate_system)
+                        x_0, y_0 = self.get_coordinates([graphics['points'][i - 1][0], graphics['points'][i - 1][1]],
+                                                        graphics, min_x, max_y, transformation, coordinate_system)
+                        x_1, y_1 = self.get_coordinates([graphics['points'][i][0], graphics['points'][i][1]], graphics,
+                                                        min_x, max_y, transformation, coordinate_system)
+                        x_2, y_2 = self.get_coordinates([graphics['points'][i + 1][0], graphics['points'][i + 1][1]],
+                                                        graphics, min_x, max_y, transformation, coordinate_system)
                         x_01 = (x_1 + x_0) / 2
                         y_01 = (y_1 + y_0) / 2
                         x_12 = (x_2 + x_1) / 2
                         y_12 = (y_2 + y_1) / 2
                         shape.push(x_01, y_01, x_1, y_1, x_12, y_12)
-                    x_n, y_n = self.get_coordinates([graphics['points'][len(graphics['points']) - 1][0], graphics['points'][len(graphics['points']) - 1][1]], graphics, min_x, max_y, transformation, coordinate_system)
+                    x_n, y_n = self.get_coordinates([graphics['points'][len(graphics['points']) - 1][0],
+                                                     graphics['points'][len(graphics['points']) - 1][1]], graphics,
+                                                    min_x, max_y, transformation, coordinate_system)
                     shape.push(x_12, y_12, x_n, y_n, x_n, y_n)
                 else:
-                    shape = dwg.polygon([self.get_coordinates([x, y], graphics, min_x, max_y, transformation, coordinate_system) for (x, y) in graphics['points']])
+                    shape = dwg.polygon(
+                        [self.get_coordinates([x, y], graphics, min_x, max_y, transformation, coordinate_system) for
+                         (x, y) in graphics['points']])
                 shape.fill('none', opacity=0)
             else:
                 self.logger.error('Not handled: {0}'.format(graphics))
@@ -627,7 +664,6 @@ class IconExporter(object):
                 else:
                     y = y0
 
-
             shape = dwg.text(graphics['textString'].replace('%', ''), None, [x], [y], **extra)
 
             if graphics['textString'].find('%') != -1:
@@ -663,18 +699,23 @@ class IconExporter(object):
             if graphics['linePattern'] == 'LinePattern.None' or graphics['type'] == 'Text':
                 pass
             elif graphics['linePattern'] == 'LinePattern.Solid':
-                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['lineColor']]) + ")", width='{0}mm'.format(graphics['lineThickness']))
+                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['lineColor']]) + ")",
+                             width='{0}mm'.format(graphics['lineThickness']))
             elif graphics['linePattern'] == 'LinePattern.Dash':
-                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['lineColor']]) + ")", width='{0}mm'.format(graphics['lineThickness']))
+                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['lineColor']]) + ")",
+                             width='{0}mm'.format(graphics['lineThickness']))
                 shape.dasharray([dash_size, space_size])
             elif graphics['linePattern'] == 'LinePattern.Dot':
-                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['lineColor']]) + ")", width='{0}mm'.format(graphics['lineThickness']))
+                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['lineColor']]) + ")",
+                             width='{0}mm'.format(graphics['lineThickness']))
                 shape.dasharray([dot_size, space_size])
             elif graphics['linePattern'] == 'LinePattern.DashDot':
-                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['lineColor']]) + ")", width='{0}mm'.format(graphics['lineThickness']))
+                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['lineColor']]) + ")",
+                             width='{0}mm'.format(graphics['lineThickness']))
                 shape.dasharray([dash_size, space_size, dot_size, space_size])
             elif graphics['linePattern'] == 'LinePattern.DashDotDot':
-                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['lineColor']]) + ")", width='{0}mm'.format(graphics['lineThickness']))
+                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['lineColor']]) + ")",
+                             width='{0}mm'.format(graphics['lineThickness']))
                 shape.dasharray([dash_size, space_size, dot_size, space_size, dot_size, space_size])
 
             if graphics['type'] == 'Rectangle':
@@ -684,14 +725,17 @@ class IconExporter(object):
                     url_id = graphics['borderPattern'] + '_' + str(uuid.uuid4())
                     shape['filter'] = 'url(#' + url_id + ')'
 
-                    filter = svgwrite.filters.Filter(id=url_id, filterUnits="objectBoundingBox", x="-0.1", y="-0.1", width="1.2", height="1.2")
-                    filter.feGaussianBlur("SourceAlpha", stdDeviation="5", result="alpha_blur")
-                    feSL = filter.feSpecularLighting("alpha_blur", surfaceScale="5", specularConstant="1", specularExponent="20", lighting_color="#FFFFFF", result="spec_light")
+                    svg_filter = svgwrite.filters.Filter(id=url_id, filterUnits="objectBoundingBox", x="-0.1", y="-0.1",
+                                                         width="1.2", height="1.2")
+                    svg_filter.feGaussianBlur("SourceAlpha", stdDeviation="5", result="alpha_blur")
+                    feSL = svg_filter.feSpecularLighting("alpha_blur", surfaceScale="5", specularConstant="1",
+                                                         specularExponent="20", lighting_color="#FFFFFF",
+                                                         result="spec_light")
                     feSL.fePointLight((-5000, -10000, 10000))
-                    filter.feComposite("spec_light", in2="SourceAlpha", operator="in", result="spec_light")
-                    filter.feComposite("SourceGraphic", in2="spec_light", operator="out", result="spec_light_fill")
+                    svg_filter.feComposite("spec_light", in2="SourceAlpha", operator="in", result="spec_light")
+                    svg_filter.feComposite("SourceGraphic", in2="spec_light", operator="out", result="spec_light_fill")
 
-                    definitions.add(filter)
+                    definitions.add(svg_filter)
                 elif graphics['borderPattern'] == 'BorderPattern.Sunken':
                     self.logger.warning('Not supported: {0}'.format(graphics['borderPattern']))
                 elif graphics['borderPattern'] == 'BorderPattern.Engraved':
@@ -699,7 +743,8 @@ class IconExporter(object):
 
         if 'color' in graphics:
             try:
-                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")", width='{0}mm'.format(graphics['thickness']))
+                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")",
+                             width='{0}mm'.format(graphics['thickness']))
             except TypeError as ex:
                 self.logger.error('{0} {1}'.format(graphics['color'], ex.message))
 
@@ -711,18 +756,23 @@ class IconExporter(object):
             if graphics['pattern'] == 'LinePattern.None' or graphics['type'] == 'Text':
                 pass
             elif graphics['pattern'] == 'LinePattern.Solid':
-                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")", width='{0}mm'.format(graphics['thickness']))
+                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")",
+                             width='{0}mm'.format(graphics['thickness']))
             elif graphics['pattern'] == 'LinePattern.Dash':
-                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")", width='{0}mm'.format(graphics['thickness']))
+                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")",
+                             width='{0}mm'.format(graphics['thickness']))
                 shape.dasharray([dash_size, space_size])
             elif graphics['pattern'] == 'LinePattern.Dot':
-                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")", width='{0}mm'.format(graphics['thickness']))
+                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")",
+                             width='{0}mm'.format(graphics['thickness']))
                 shape.dasharray([dot_size, space_size])
             elif graphics['pattern'] == 'LinePattern.DashDot':
-                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")", width='{0}mm'.format(graphics['thickness']))
+                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")",
+                             width='{0}mm'.format(graphics['thickness']))
                 shape.dasharray([dash_size, space_size, dot_size, space_size])
             elif graphics['pattern'] == 'LinePattern.DashDotDot':
-                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")", width='{0}mm'.format(graphics['thickness']))
+                shape.stroke("rgb(" + ','.join([str(v) for v in graphics['color']]) + ")",
+                             width='{0}mm'.format(graphics['thickness']))
                 shape.dasharray([dash_size, space_size, dot_size, space_size, dot_size, space_size])
 
         if 'fillPattern' in graphics:
@@ -859,27 +909,29 @@ class IconExporter(object):
                 url_id = str(uuid.uuid4())
                 shape.fill('url(#' + url_id + ')')
 
-                lineColor = graphics['lineColor']
-                fillColor = graphics['fillColor']
+                line_color = graphics['lineColor']
+                fill_color = graphics['fillColor']
 
-                if not lineColor:
-                    lineColor = 'black'
-                if not fillColor:
-                    fillColor = 'white'
+                if not line_color:
+                    line_color = 'black'
+                if not fill_color:
+                    fill_color = 'white'
 
                 gradient = svgwrite.gradients.LinearGradient(id=url_id, x1="0%", y1="0%", x2="0%", y2="100%")
 
-                colors = self.get_gradient_colors(lineColor, fillColor, 0)
+                colors = self.get_gradient_colors(line_color, fill_color, 0)
 
-                stopValues = [
+                stop_values = [
                     (0, 0),
                     (0.3, 1),
                     (0.7, 1),
                     (1, 0)
                 ]
 
-                for (stopValue, idx) in stopValues:
-                    gradient.add_stop_color(offset=stopValue, color='rgb({0}, {1}, {2})'.format(colors[idx][0], colors[idx][1], colors[idx][2]), opacity=1)
+                for (stop_value, idx) in stop_values:
+                    gradient.add_stop_color(offset=stop_value,
+                                            color='rgb({0}, {1}, {2})'.format(colors[idx][0], colors[idx][1],
+                                                                              colors[idx][2]), opacity=1)
 
                 definitions.add(gradient)
 
@@ -887,27 +939,29 @@ class IconExporter(object):
                 url_id = str(uuid.uuid4())
                 shape.fill('url(#' + url_id + ')')
 
-                lineColor = graphics['lineColor']
-                fillColor = graphics['fillColor']
+                line_color = graphics['lineColor']
+                fill_color = graphics['fillColor']
 
-                if not lineColor:
-                    lineColor = 'black'
-                if not fillColor:
-                    fillColor = 'white'
+                if not line_color:
+                    line_color = 'black'
+                if not fill_color:
+                    fill_color = 'white'
 
                 gradient = svgwrite.gradients.LinearGradient(id=url_id, x1="0%", y1="0%", x2="100%", y2="0%")
 
-                colors = self.get_gradient_colors(lineColor, fillColor, 0)
+                colors = self.get_gradient_colors(line_color, fill_color, 0)
 
-                stopValues = [
+                stop_values = [
                     (0, 0),
                     (0.3, 1),
                     (0.7, 1),
                     (1, 0)
                 ]
 
-                for (stopValue, idx) in stopValues:
-                    gradient.add_stop_color(offset=stopValue, color='rgb({0}, {1}, {2})'.format(colors[idx][0], colors[idx][1], colors[idx][2]), opacity=1)
+                for (stop_value, idx) in stop_values:
+                    gradient.add_stop_color(offset=stop_value,
+                                            color='rgb({0}, {1}, {2})'.format(colors[idx][0], colors[idx][1],
+                                                                              colors[idx][2]), opacity=1)
 
                 definitions.add(gradient)
             elif graphics['fillPattern'] == 'FillPattern.Sphere':
@@ -916,26 +970,29 @@ class IconExporter(object):
 
                     shape.fill('url(#' + url_id + ')')
 
-                    lineColor = graphics['lineColor']
-                    fillColor = graphics['fillColor']
+                    line_color = graphics['lineColor']
+                    fill_color = graphics['fillColor']
 
-                    if not lineColor:
-                        lineColor = 'black'
-                    if not fillColor:
-                        fillColor = 'white'
+                    if not line_color:
+                        line_color = 'black'
+                    if not fill_color:
+                        fill_color = 'white'
 
-                    gradient = svgwrite.gradients.RadialGradient(id=url_id, cx="50%", cy="50%", r="55%", fx="50%", fy="50%")
-                    colors = self.get_gradient_colors(lineColor, fillColor, 9)
+                    gradient = svgwrite.gradients.RadialGradient(id=url_id, cx="50%", cy="50%", r="55%", fx="50%",
+                                                                 fy="50%")
+                    colors = self.get_gradient_colors(line_color, fill_color, 9)
 
-                    stopValues = [
+                    stop_values = [
                         (0, 10),
                         (0.45, 8),
                         (0.7, 6),
                         (1, 0)
                     ]
 
-                    for (stopValue, idx) in stopValues:
-                        gradient.add_stop_color(offset=stopValue, color='rgb({0}, {1}, {2})'.format(colors[idx][0], colors[idx][1], colors[idx][2]), opacity=1)
+                    for (stop_value, idx) in stop_values:
+                        gradient.add_stop_color(offset=stop_value,
+                                                color='rgb({0}, {1}, {2})'.format(colors[idx][0], colors[idx][1],
+                                                                                  colors[idx][2]), opacity=1)
 
                     definitions.add(gradient)
                 elif graphics['type'] == 'Rectangle':
@@ -943,25 +1000,28 @@ class IconExporter(object):
 
                     shape.fill('url(#' + url_id + ')')
 
-                    lineColor = graphics['lineColor']
-                    fillColor = graphics['fillColor']
+                    line_color = graphics['lineColor']
+                    fill_color = graphics['fillColor']
 
-                    if not lineColor:
-                        lineColor = 'black'
-                    if not fillColor:
-                        fillColor = 'white'
+                    if not line_color:
+                        line_color = 'black'
+                    if not fill_color:
+                        fill_color = 'white'
 
-                    gradient = svgwrite.gradients.RadialGradient(id=url_id, cx="50%", cy="50%", r="0.9", fx="50%", fy="50%")
+                    gradient = svgwrite.gradients.RadialGradient(id=url_id, cx="50%", cy="50%", r="0.9", fx="50%",
+                                                                 fy="50%")
 
-                    colors = self.get_gradient_colors(lineColor, fillColor, 0)
+                    colors = self.get_gradient_colors(line_color, fill_color, 0)
 
-                    stopValues = [
+                    stop_values = [
                         (0, 1),
                         (1, 0)
                     ]
 
-                    for (stopValue, idx) in stopValues:
-                        gradient.add_stop_color(offset=stopValue, color='rgb({0}, {1}, {2})'.format(colors[idx][0], colors[idx][1], colors[idx][2]), opacity=1)
+                    for (stop_value, idx) in stop_values:
+                        gradient.add_stop_color(offset=stop_value,
+                                                color='rgb({0}, {1}, {2})'.format(colors[idx][0], colors[idx][1],
+                                                                                  colors[idx][2]), opacity=1)
 
                     definitions.add(gradient)
         else:
@@ -975,13 +1035,13 @@ class IconExporter(object):
         width = 100
         height = 100
 
-        minX = 0
-        minY = 0
-        maxX = 100
-        maxY = 100
+        min_x = 0
+        min_y = 0
+        max_x = 100
+        max_y = 100
 
-        for iconGraphic in icon_graphics:
-            for graphics in iconGraphic['graphics']:
+        for icon_graphic in icon_graphics:
+            for graphics in icon_graphic['graphics']:
                 if not 'origin' in graphics:
                     graphics['origin'] = (0, 0)
 
@@ -989,67 +1049,67 @@ class IconExporter(object):
                     graphics['extent'] = [[-100, -100], [100, 100]]
 
                 if 'extent' in graphics:
-                    if minX > graphics['extent'][0][0] + graphics['origin'][0]:
-                        minX = graphics['extent'][0][0] + graphics['origin'][0]
-                    if minX > graphics['extent'][1][0] + graphics['origin'][0]:
-                        minX = graphics['extent'][1][0] + graphics['origin'][0]
-                    if minY > graphics['extent'][0][1] + graphics['origin'][1]:
-                        minY = graphics['extent'][0][1] + graphics['origin'][1]
-                    if minY > graphics['extent'][1][1] + graphics['origin'][1]:
-                        minY = graphics['extent'][1][1] + graphics['origin'][1]
-                    if maxX < graphics['extent'][1][0] + graphics['origin'][0]:
-                        maxX = graphics['extent'][1][0] + graphics['origin'][0]
-                    if maxX < graphics['extent'][0][0] + graphics['origin'][0]:
-                        maxX = graphics['extent'][0][0] + graphics['origin'][0]
-                    if maxY < graphics['extent'][1][1] + graphics['origin'][1]:
-                        maxY = graphics['extent'][1][1] + graphics['origin'][1]
-                    if maxY < graphics['extent'][0][1] + graphics['origin'][1]:
-                        maxY = graphics['extent'][0][1] + graphics['origin'][1]
+                    if min_x > graphics['extent'][0][0] + graphics['origin'][0]:
+                        min_x = graphics['extent'][0][0] + graphics['origin'][0]
+                    if min_x > graphics['extent'][1][0] + graphics['origin'][0]:
+                        min_x = graphics['extent'][1][0] + graphics['origin'][0]
+                    if min_y > graphics['extent'][0][1] + graphics['origin'][1]:
+                        min_y = graphics['extent'][0][1] + graphics['origin'][1]
+                    if min_y > graphics['extent'][1][1] + graphics['origin'][1]:
+                        min_y = graphics['extent'][1][1] + graphics['origin'][1]
+                    if max_x < graphics['extent'][1][0] + graphics['origin'][0]:
+                        max_x = graphics['extent'][1][0] + graphics['origin'][0]
+                    if max_x < graphics['extent'][0][0] + graphics['origin'][0]:
+                        max_x = graphics['extent'][0][0] + graphics['origin'][0]
+                    if max_y < graphics['extent'][1][1] + graphics['origin'][1]:
+                        max_y = graphics['extent'][1][1] + graphics['origin'][1]
+                    if max_y < graphics['extent'][0][1] + graphics['origin'][1]:
+                        max_y = graphics['extent'][0][1] + graphics['origin'][1]
 
                 if 'points' in graphics:
                     for point in graphics['points']:
-                        if minX > point[0] + graphics['origin'][0]:
-                            minX = point[0] + graphics['origin'][0]
-                        if minY > point[1] + graphics['origin'][1]:
-                            minY = point[1] + graphics['origin'][1]
-                        if maxX < point[0] + graphics['origin'][0]:
-                            maxX = point[0] + graphics['origin'][0]
-                        if maxY < point[1] + graphics['origin'][1]:
-                            maxY = point[1] + graphics['origin'][1]
+                        if min_x > point[0] + graphics['origin'][0]:
+                            min_x = point[0] + graphics['origin'][0]
+                        if min_y > point[1] + graphics['origin'][1]:
+                            min_y = point[1] + graphics['origin'][1]
+                        if max_x < point[0] + graphics['origin'][0]:
+                            max_x = point[0] + graphics['origin'][0]
+                        if max_y < point[1] + graphics['origin'][1]:
+                            max_y = point[1] + graphics['origin'][1]
 
-                for port in iconGraphic['ports']:
-                    if minX > port['transformation']['extent'][0][0] + port['transformation']['origin'][0]:
-                        minX = port['transformation']['extent'][0][0] + port['transformation']['origin'][0]
-                    if minX > port['transformation']['extent'][1][0] + port['transformation']['origin'][0]:
-                        minX = port['transformation']['extent'][1][0] + port['transformation']['origin'][0]
-                    if minY > port['transformation']['extent'][0][1] + port['transformation']['origin'][1]:
-                        minY = port['transformation']['extent'][0][1] + port['transformation']['origin'][1]
-                    if minY > port['transformation']['extent'][1][1] + port['transformation']['origin'][1]:
-                        minY = port['transformation']['extent'][1][1] + port['transformation']['origin'][1]
-                    if maxX < port['transformation']['extent'][1][0] + port['transformation']['origin'][0]:
-                        maxX = port['transformation']['extent'][1][0] + port['transformation']['origin'][0]
-                    if maxX < port['transformation']['extent'][0][0] + port['transformation']['origin'][0]:
-                        maxX = port['transformation']['extent'][0][0] + port['transformation']['origin'][0]
-                    if maxY < port['transformation']['extent'][1][1] + port['transformation']['origin'][1]:
-                        maxY = port['transformation']['extent'][1][1] + port['transformation']['origin'][1]
-                    if maxY < port['transformation']['extent'][0][1] + port['transformation']['origin'][1]:
-                        maxY = port['transformation']['extent'][0][1] + port['transformation']['origin'][1]
+                for port in icon_graphic['ports']:
+                    if min_x > port['transformation']['extent'][0][0] + port['transformation']['origin'][0]:
+                        min_x = port['transformation']['extent'][0][0] + port['transformation']['origin'][0]
+                    if min_x > port['transformation']['extent'][1][0] + port['transformation']['origin'][0]:
+                        min_x = port['transformation']['extent'][1][0] + port['transformation']['origin'][0]
+                    if min_y > port['transformation']['extent'][0][1] + port['transformation']['origin'][1]:
+                        min_y = port['transformation']['extent'][0][1] + port['transformation']['origin'][1]
+                    if min_y > port['transformation']['extent'][1][1] + port['transformation']['origin'][1]:
+                        min_y = port['transformation']['extent'][1][1] + port['transformation']['origin'][1]
+                    if max_x < port['transformation']['extent'][1][0] + port['transformation']['origin'][0]:
+                        max_x = port['transformation']['extent'][1][0] + port['transformation']['origin'][0]
+                    if max_x < port['transformation']['extent'][0][0] + port['transformation']['origin'][0]:
+                        max_x = port['transformation']['extent'][0][0] + port['transformation']['origin'][0]
+                    if max_y < port['transformation']['extent'][1][1] + port['transformation']['origin'][1]:
+                        max_y = port['transformation']['extent'][1][1] + port['transformation']['origin'][1]
+                    if max_y < port['transformation']['extent'][0][1] + port['transformation']['origin'][1]:
+                        max_y = port['transformation']['extent'][0][1] + port['transformation']['origin'][1]
 
         # ports can have borders
-        minX -= 5
-        maxX += 5
-        minY -= 5
-        maxY += 5
+        min_x -= 5
+        max_x += 5
+        min_y -= 5
+        max_y += 5
 
-        width = maxX - minX
-        height = maxY - minY
+        width = max_x - min_x
+        height = max_y - min_y
 
         dwg = svgwrite.Drawing(filename, size=(width, height), viewBox="0 0 " + str(width) + " " + str(height))
         dwg.add(svgwrite.base.Desc(icon_graphics[-1]['className']))
 
-        for iconGraphic in icon_graphics:
-            for graphics in iconGraphic['graphics']:
-                shape_definitions = self.get_svg_from_graphics(dwg, graphics, minX, maxY)
+        for icon_graphic in icon_graphics:
+            for graphics in icon_graphic['graphics']:
+                shape_definitions = self.get_svg_from_graphics(dwg, graphics, min_x, max_y)
                 if shape_definitions:
                     shape, definitions = shape_definitions
                     if isinstance(shape, svgwrite.text.Text) and shape.text == 'name':
@@ -1057,14 +1117,15 @@ class IconExporter(object):
                     dwg.add(shape)
                     dwg.add(definitions)
 
-        for iconGraphic in icon_graphics:
-            for port in iconGraphic['ports']:
+        for icon_graphic in icon_graphics:
+            for port in icon_graphic['ports']:
                 group = dwg.g(id=port['id'])
                 for graphics in port['graphics']:
-                    svgShape = self.get_svg_from_graphics(dwg, graphics, minX, maxY, port['transformation'], port['coordinateSystem'])
-                    if svgShape:
-                        group.add(svgShape[0])
-                        group.add(svgShape[1])
+                    svg_shape = self.get_svg_from_graphics(dwg, graphics, min_x, max_y, port['transformation'],
+                                                           port['coordinateSystem'])
+                    if svg_shape:
+                        group.add(svg_shape[0])
+                        group.add(svg_shape[1])
 
                 port_info = dwg.g(id='info', display='none')
                 port_info.add(svgwrite.text.Text(port['id'], id='name'))
@@ -1082,27 +1143,27 @@ class IconExporter(object):
 
     def export_icon(self, modelica_class, dir_name=None):
 
-        if dir_name == None:
+        if dir_name is None:
             dir_name = self.icon_dir_name
 
         try:
             # get all icons
-            iconGraphics = []
+            icon_graphics = []
             base_classes = []
             self.get_base_classes(modelica_class, base_classes)
 
             for base_class in base_classes:
                 graphics = self.get_graphics_with_ports_for_class(base_class)
-                iconGraphics.append(graphics)
+                icon_graphics.append(graphics)
             graphics = self.get_graphics_with_ports_for_class(modelica_class)
-            iconGraphics.append(graphics)
+            icon_graphics.append(graphics)
 
             # with open(os.path.join(output_dir, self.class_to_filename(modelica_class) + '.json'), 'w') as f_p:
             #     json.dump(iconGraphics, f_p)
 
             # export svgs
             svg_file_path = os.path.join(dir_name, self.class_to_filename(modelica_class) + ".svg")
-            dwg = self.generate_svg(svg_file_path, iconGraphics)
+            dwg = self.generate_svg(svg_file_path, icon_graphics)
 
             return svg_file_path
         except:
@@ -1121,11 +1182,11 @@ class IconExporter(object):
                 self.get_base_classes(base_class, base_classes)
 
     def class_to_filename(self, cl):
-      """
+        """
       The file-system dislikes directory separators, and scripts dislike tokens that expand to other names.
       This function uses the same replacement rules as the OpenModelica documentation-generating script.
       """
-      return cl.replace("/","Division").replace("*","Multiplication")
+        return cl.replace("/", "Division").replace("*", "Multiplication")
 
 
 # def main():

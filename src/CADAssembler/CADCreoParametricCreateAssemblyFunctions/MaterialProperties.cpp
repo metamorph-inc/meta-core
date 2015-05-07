@@ -566,7 +566,7 @@ void PopulateAnalysisMaterialStruct( const Material				 &in_Material,
 										"Material Unit:	    " <<  unit  << endl <<
 										"Required Unit:     " << in_MaterialLibRequiredUnit << std::endl <<
 										"The units in the material library are incompatible with the required units.";
-					throw isis::application_exception(errorString.str().c_str());
+					throw isis::application_exception(errorString.str());
 				}
 			}
 
@@ -588,7 +588,7 @@ void PopulateAnalysisMaterialStruct( const Material				 &in_Material,
 					"Material Unit:	    " <<  unit  << endl <<
 					"Value:             " << value_string << std::endl <<
 					"A zero value is not allowed.";
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 			}
 			log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
 
@@ -652,7 +652,7 @@ void PopulateAnalysisMaterialStruct( const Material				 &in_Material,
 						//				"Material Library: "  << in_MaterialLibrary_PathAndFileName << endl <<
 						//				"Number of \"Material library\" tags: " << pt.size() << endl <<
 						//				"The material library must contain one and only one \"Material library\" tag.";
-						//		throw isis::application_exception(errorString.str().c_str());
+						//		throw isis::application_exception(errorString.str());
 						//}
 
 						//std::clog << std::endl << materialLib_pt.first.data();
@@ -852,7 +852,7 @@ void PopulateAnalysisMaterialStruct( const Material				 &in_Material,
 			{
 				std::stringstream errorString;
 				errorString << "Material library input file not found: " << in_MaterialLibrary_PathAndFileName;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 			}
 
 			if ( notFound_MaterialNames_set.size() != 0 )
@@ -861,7 +861,7 @@ void PopulateAnalysisMaterialStruct( const Material				 &in_Material,
 				errorString << "Material(s) not found in the material library: " << in_MaterialLibrary_PathAndFileName << std::endl <<
 								"Material(s):" << std::endl;
 				for each (std::string i in notFound_MaterialNames_set) errorString << i << std::endl;
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 
 			}
 
@@ -873,7 +873,7 @@ void PopulateAnalysisMaterialStruct( const Material				 &in_Material,
 							"   Material Name:     " << currentMaterialName <<  std::endl <<
 							"   Material Property: " << currentMaterialProperty <<  std::endl <<
 							"   Error: " << exc.what();
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		catch(const isis::application_exception &exc)
@@ -883,7 +883,7 @@ void PopulateAnalysisMaterialStruct( const Material				 &in_Material,
 							"   Material Name:     " << currentMaterialName <<  std::endl <<
 							"   Material Property: " << currentMaterialProperty <<  std::endl <<
 							"   Error: " << exc.what();
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 	} // END ReadMaterialsLibrary

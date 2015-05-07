@@ -602,6 +602,36 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="AssemblyRootComponentInstance"
           lowerBound="1" eType="#//ComponentInstance" eKeys="#//ComponentInstance/ID"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="KinematicJointSpec" abstract="true"
+        eSuperTypes="#//ConnectorFeature"/>
+    <eClassifiers xsi:type="ecore:EClass" name="RevoluteJointSpec" eSuperTypes="#//cad/KinematicJointSpec">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="AlignmentPlane" lowerBound="1"
+          eType="#//cad/Plane" eKeys="#//PortMapTarget/ID"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="AlignmentAxis" lowerBound="1"
+          eType="#//cad/Axis" eKeys="#//PortMapTarget/ID"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="RotationLimitReference"
+          eType="#//cad/Plane" eKeys="#//PortMapTarget/ID"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="MinimumRotation" eType="#//Value"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="DefaultRotation" eType="#//Value"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="MaximumRotation" eType="#//Value"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TranslationalJointSpec" eSuperTypes="#//cad/KinematicJointSpec">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="AlignmentPlane" lowerBound="1"
+          eType="#//cad/Plane"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="AlignmentAxis" lowerBound="1"
+          eType="#//cad/Axis"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="MinimumTranslation" eType="#//Value"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="DefaultTranslation" eType="#//Value"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="MaximumTranslation" eType="#//Value"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="TranslationLimitReference"
+          eType="#//cad/Plane"/>
+    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="manufacturing" nsURI="manufacturing" nsPrefix="manufacturing">
     <eClassifiers xsi:type="ecore:EClass" name="ManufacturingModel" eSuperTypes="#//DomainModel">

@@ -59,6 +59,7 @@ namespace CyPhy2CAD_CSharp.DataRep
         public string HyperLink { get; set; } // For debug messages
         public string SpecialInstructions { get; set; }
         public List<Datum> SpecialDatums = new List<Datum>();
+        public Dictionary<string, string> MetaData = new Dictionary<string, string>();
 
         public static readonly string MakeOrBuyParamStr = "procurement__make_or_buy";
         public static readonly string SpecialInstrParamStr = "SPECIALINSTRUCTIONS";
@@ -102,6 +103,14 @@ namespace CyPhy2CAD_CSharp.DataRep
                     {
                         SpecialDatums.Add(new Datum(datum, "", false));
                     }
+                }
+            }
+
+            foreach (var prop in cyphycomp.Children.PropertyCollection)
+            {
+                if (prop.Name.StartsWith("METADATA."))
+                {
+                    MetaData.Add(prop.Name.Substring(9), prop.Attributes.Value);
                 }
             }
         }
@@ -441,6 +450,22 @@ namespace CyPhy2CAD_CSharp.DataRep
                         Value = param.Value
                     };
                 }
+            }
+
+            if (MetaData != null && MetaData.Count != 0)
+            {
+                cadoutput.MetaData = new CAD.MetaDataType[MetaData.Count];
+
+                int i = 0;
+                foreach (var param in MetaData)
+                {
+                    cadoutput.MetaData[i++] = new CAD.MetaDataType()
+                    {
+                        Key = param.Key,
+                        Value = param.Value
+                    };
+                }
+
             }
 
             cadoutput.Representation = representation;

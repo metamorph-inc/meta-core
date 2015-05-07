@@ -56,6 +56,10 @@ namespace ElaboratorTest
             {
                 var terr = project.BeginTransactionInNewTerr();
                 var testObj = project.ObjectByPath[absPath] as MgaFCO;
+                if (testObj == null)
+                {
+                    throw new ApplicationException(absPath + " not found in " + project.ProjectConnStr);
+                }
                 project.AbortTransaction();
 
                 MgaFCOs fcos = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));

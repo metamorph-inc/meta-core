@@ -5,8 +5,6 @@
     <META_PATH>$(MSBuildThisFileDirectory)</META_PATH>
     <VCP_PATH>$(MSBuildThisFileDirectory)externals\</VCP_PATH>
     <DESERT_PATH>$(MSBuildThisFileDirectory)externals\desert\</DESERT_PATH>
-    <UdmCliGen>$(MSBuildThisFileDirectory)externals\common-scripts\UdmCliGen\UdmCliGen.exe</UdmCliGen>
-    <THIRDPARTY_PATH>$(MSBuildThisFileDirectory)3rdParty\</THIRDPARTY_PATH>
   </PropertyGroup>
   <PropertyGroup>
     <OutDir>$(SolutionDir)bin\</OutDir>
@@ -31,14 +29,6 @@
     </BuildMacro>
     <BuildMacro Include="DESERT_PATH">
       <Value>$(DESERT_PATH)</Value>
-      <EnvironmentVariable>true</EnvironmentVariable>
-    </BuildMacro>
-    <BuildMacro Include="UdmCliGen">
-      <Value>$(UdmCliGen)</Value>
-      <EnvironmentVariable>true</EnvironmentVariable>
-    </BuildMacro>
-    <BuildMacro Include="THIRDPARTY_PATH">
-      <Value>$(THIRDPARTY_PATH)</Value>
       <EnvironmentVariable>true</EnvironmentVariable>
     </BuildMacro>
   </ItemGroup>

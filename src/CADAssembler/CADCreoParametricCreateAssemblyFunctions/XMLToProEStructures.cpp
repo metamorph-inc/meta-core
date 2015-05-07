@@ -213,7 +213,7 @@ void SetCADComponentLevelAttributes( const AssemblyInterface::CADComponent	 &in_
 		<< std::endl << "   Component Name:          " << (string)in_XML_CADComponent.Name()
 		<< std::endl << "   Component ID:            " << out_CADComponentData_map[ID].componentID
 		<< std::endl << "   To locate the error, search for the Component ID in the input xml file.";
-		throw isis::application_exception(errorString.str().c_str());
+		throw isis::application_exception(errorString.str());
 	}
 	out_CADComponentData_map[ID].name			= compname;
 	out_CADComponentData_map[ID].displayName	= in_XML_CADComponent.DisplayName();
@@ -281,7 +281,7 @@ void SetConstraintAttributes( const AssemblyInterface::CADComponent	 &in_XML_CAD
 				} else {
 					std::stringstream errorString;
 					errorString << "When parsing the input xml file, encountered a Joint limit definition which has an invalid Role: " << (std::string)it->Role();
-						throw isis::application_exception(errorString.str().c_str());
+						throw isis::application_exception(errorString.str());
 				}
 			}
 			// Limit references
@@ -290,7 +290,7 @@ void SetConstraintAttributes( const AssemblyInterface::CADComponent	 &in_XML_CAD
 			{
 				std::stringstream errorString;
 				errorString << "When parsing the input xml file, encountered a Joint limit definition which contains more than 2 (or 1) limit references. This is not supported at this point, there should be exactly 2 limit references specified, one on each component. (" << limitRefVector.size() << " references)";
-					throw isis::application_exception(errorString.str().c_str());
+					throw isis::application_exception(errorString.str());
 
 			} else {
 				for (vector<AssemblyInterface::LimitReference>::const_iterator it = limitRefVector.begin(); it != limitRefVector.end(); ++it)
@@ -329,7 +329,7 @@ void SetConstraintAttributes( const AssemblyInterface::CADComponent	 &in_XML_CAD
 					{
 						std::stringstream errorString;
 						errorString << "When parsing the input xml file, encountered a Joint limit reference which has an invalid Role: " << (std::string)it->Role();
-							throw isis::application_exception(errorString.str().c_str());
+							throw isis::application_exception(errorString.str());
 					}
 				}
 			}
@@ -339,7 +339,7 @@ void SetConstraintAttributes( const AssemblyInterface::CADComponent	 &in_XML_CAD
 			std::stringstream errorString;
 			errorString <<
 				"When parsing the input xml file, encountered a Constraint definition which contains more than one joint definition.";
-				throw isis::application_exception(errorString.str().c_str());
+				throw isis::application_exception(errorString.str());
 		}
 
 		vector<AssemblyInterface::Pair> pairVector = ci->Pair_kind_children();
@@ -366,7 +366,7 @@ void SetConstraintAttributes( const AssemblyInterface::CADComponent	 &in_XML_CAD
 					std::stringstream errorString;
 					errorString <<
 						"When parsing the input xml file, encountered a constraint which contains more than 2 features." ;
-						throw isis::application_exception(errorString.str().c_str());
+						throw isis::application_exception(errorString.str());
 			}
 			for (vector<AssemblyInterface::ConstraintFeature>::const_iterator cl = featureVector.begin();  cl != featureVector.end(); cl++)
 			{
@@ -383,7 +383,7 @@ void SetConstraintAttributes( const AssemblyInterface::CADComponent	 &in_XML_CAD
 						<< std::endl << "Feature Name:          " << Cst_Feature.featureName
 						<< std::endl << "Component ID:          " << Cst_Feature.componentInstanceID
 						<< std::endl << "To locate the error, search for ComponentID=\"\" in the input xml file.";
-						throw isis::application_exception(errorString.str().c_str());
+						throw isis::application_exception(errorString.str());
 				}
 
 				if ( Cst_Feature.featureName.size() == 0  )
@@ -394,7 +394,7 @@ void SetConstraintAttributes( const AssemblyInterface::CADComponent	 &in_XML_CAD
 						<< std::endl << "Feature Name:          " << Cst_Feature.featureName
 						<< std::endl << "Component ID:          " << Cst_Feature.componentInstanceID
 						<< std::endl << "To locate the error, search for the FeatureName=\"\" in the input xml file.";
-						throw isis::application_exception(errorString.str().c_str());
+						throw isis::application_exception(errorString.str());
 				}
 
 				if ( Cst_Feature.featureName.size() > ISIS_CREO_MAX_NAME_SIZE )
@@ -406,7 +406,7 @@ void SetConstraintAttributes( const AssemblyInterface::CADComponent	 &in_XML_CAD
 						<< std::endl << "Feature Name:          " << Cst_Feature.featureName
 						<< std::endl << "Component ID:          " << Cst_Feature.componentInstanceID
 						<< std::endl << "To locate the error, search for the Component ID in the input xml file.";
-						throw isis::application_exception(errorString.str().c_str());
+						throw isis::application_exception(errorString.str());
 				}
 
 				Cst_Feature.featureOrientationType = ProDatumside_enum(cl->FeatureOrientationType());
@@ -444,7 +444,7 @@ void PopulateCADComponentStructure (
 			"When parsing the input xml file, encountered a Component ID that was null (i.e. empty string)."  
 			<< std::endl << "Component ID: \"" << ID << "\","
 			<< std::endl << "To locate the error, search for ComponentID=\"\" in the input xml file.";
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 	}
 
 	if ( out_CADComponentData_map.find(ID) != out_CADComponentData_map.end() )
@@ -455,7 +455,7 @@ void PopulateCADComponentStructure (
 			<< std::endl << "Component ID: \"" << ID << "\","
 			<< std::endl << "To locate the error, search for the Component ID in the input xml file.  Find the"
 			<< std::endl << "locations where the Component ID was used more than once.";
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 	}
 
 	//std::clog << std::endl << "PopulateCADComponentStructure, Adding: " << ID;
@@ -757,7 +757,7 @@ void PopulateAnalyses (	 const AssemblyInterface::Analyses &in_Analyses_FromXML,
 			"Function PopulateAnalyses recieved from the input xml " <<  hydrostaticsSolverSettings.size() << 
 			"  HydrostaticsSolverSettings XML tags/structures.  There must zero or one hydrostaticsSolverSettings XML tag/structure.";
 
-			throw isis::application_exception(errorString.str().c_str());
+			throw isis::application_exception(errorString.str());
 		}
 
 		// At this point there can be 0 or 1 hydrostaticsSolverSettings;
@@ -1218,42 +1218,64 @@ void PopulateAnalyses (	 const AssemblyInterface::Analyses &in_Analyses_FromXML,
 				isis::AnalysisLoad			analysisLoad;
 
 				vector<AssemblyInterface::Geometry> geometryVector = therm_i->Geometry_kind_children();
+				vector<AssemblyInterface::Component> componentVector = therm_i->Component_kind_children();
 
 				switch ( thermalLoadConstraint )
 				{
-					case THERMAL_CONVECTION_HEAT:		// Constraint
+					case THERMAL_CONVECTION:			// Constraint in Nastran terms
 						analysisConstraint.convectionBoundary.convectionCoefficient = therm_i->Value();
+						analysisConstraint.convectionBoundary.unit = therm_i->Unit();
 						analysisConstraint.convectionBoundaryDefined = true;
 						PopulateGeometry( geometryVector, analysisConstraint.geometry );	
 						analysisFEA.analysisConstraints.push_back(analysisConstraint);
 						break;
 					case THERMAL_HEAT_FLUX:				// Load
 						analysisLoad.heatFlux.value = therm_i->Value();
+						analysisLoad.heatFlux.unit = therm_i->Unit();
 						analysisLoad.heatFluxDefined = true;
 						PopulateGeometry( geometryVector, analysisLoad.geometry );
 						analysisFEA.analysisLoads.push_back(analysisLoad);
 						break;
 					case THERMAL_HEAT_GENERATION:		// Load
 						analysisLoad.heatGeneration.value = therm_i->Value();
+						analysisLoad.heatGeneration.unit = therm_i->Unit();
 						analysisLoad.heatGenerationDefined = true;
+						// There should be no geometry for heat generation.  Heat generation of an entire
+						// part is supported, but not heat generation on features of a part.
+						// Leave the call to PopulateGeometry and later in ValidateFEAAnalysisInputs throw
+						// and exception if any geometry was actually populated.
 						PopulateGeometry( geometryVector, analysisLoad.geometry );
+						// Add the component instance IDs
+						for each ( const AssemblyInterface::Component &i_comp in componentVector ) 
+							analysisLoad.geometry.GeometryPerEntireComponent_ComponentInstanceIDs.push_back(i_comp.ComponentID());
 						analysisFEA.analysisLoads.push_back(analysisLoad);
 						break;
 					case THERMAL_INITIAL_TEMPERATURE:	// Load
+						// Thermal-initial-temperature is currently not supported.
+						// Will read the values and throw an exception via  ValidateFEAAnalysisInputs
+						// if thermal-initial-temperature is present in CADAssmebly.xml
 						analysisLoad.gridPointInitialTemperature.value = therm_i->Value();
 						analysisLoad.gridPointInitialTemperatureDefined = true;
+						analysisLoad.gridPointInitialTemperature.unit = therm_i->Unit(); 
 						PopulateGeometry( geometryVector, analysisLoad.geometry );
 						analysisFEA.analysisLoads.push_back(analysisLoad);
 						break;
 					case THERMAL_SPECIFIED_TEMPERATURE:	// Load
 						analysisLoad.gridPointTemperature.value = therm_i->Value();
+						analysisLoad.gridPointTemperature.unit = therm_i->Unit(); 
 						analysisLoad.gridPointTemperatureDefined = true;
 						PopulateGeometry( geometryVector, analysisLoad.geometry );
 						analysisFEA.analysisLoads.push_back(analysisLoad);
 						break;
 					case THERMAL_AMBIENT_TEMPERATURE:
-						// Not supported by deck-based FEA.  Skip for now.
-						break;
+						// Note - an AmbientTemperature in CADAssembly.xml has a "<Component ComponentID="f5..."; however,
+						// the Component is just the test injection point component.  It really has nothing to do
+						// with the ambient temperatrue.  Therefore, the <Component structure will not be read here.
+						analysisLoad.ambientTemperature.value = therm_i->Value();
+						analysisLoad.ambientTemperature.unit = therm_i->Unit();
+						analysisLoad.ambientTemperatureDefined = true;
+						analysisFEA.analysisLoads.push_back(analysisLoad);
+						break;  
 					default:
 						std::string TempError = "Function PopulateAnalyses, unknown thermal analysis type: " + 
 												Thermal_LoadConstraint_string(thermalLoadConstraint);

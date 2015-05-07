@@ -1,7 +1,7 @@
 # .\_avm.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:8c3bce54577a879cd94d42789711c9f5d444aa71
-# Generated 2014-09-24 11:04:32.150000 by PyXB version 1.2.3
+# Generated 2014-10-29 10:43:04.550000 by PyXB version 1.2.3
 # Namespace avm [xmlns:avm]
 
 import pyxb
@@ -13,7 +13,7 @@ import pyxb.utils.domutils
 import sys
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:785a9dc0-4404-11e4-b91c-20c9d0878c2e')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:455827f0-5f82-11e4-94dc-20c9d0878c2e')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.3'

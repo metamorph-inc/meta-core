@@ -1,13 +1,13 @@
-import math, re, sys, json, os
+import sys, os
 import argparse
-import _winreg
 import subprocess
 import random
 import string
 import cad_library
+import shutil
+import Queue
 
 outputcmds = True
-
 
 def runCreoAssembler():
     isisext = os.environ['PROE_ISIS_EXTENSIONS']
@@ -32,6 +32,15 @@ def callsubprocess(cmd, failonexit = True):
     if result != 0 and failonexit:
         cad_library.exitwitherror('The command ' + cmd + ' exited with value: ' + result, -1)
 
+def copyfailedandexit(code):
+    for (root, dirs, files) in os.walk(os.getcwd(), topdown=False):
+        for file in files:
+            print os.path.join(root, file)
+            if cmp(file,'_FAILED.txt')==0:
+                #print 'copy ' + os.path.join(root, file) +' '+ os.getcwd()
+                os.system('copy ' + os.path.join(root, file) +' '+ os.getcwd())
+
+    exit(code)
 
 def runAbaqusModelBased(meshonly, modelcheck, mode=None):
     feascript = cad_library.META_PATH + 'bin\\CAD\\Abaqus\\AbaqusMain.py'
@@ -51,9 +60,6 @@ def runAbaqusModelBased(meshonly, modelcheck, mode=None):
             param = '-e'
 
     callsubprocess('c:\\SIMULIA\\Abaqus\\Commands\\abaqus.bat cae noGUI="' + feascript + '" -- ' + param)
-    exit(0)
-    pass
-
 
 def runAbaqusDeckBased():
     id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
@@ -78,14 +84,18 @@ def runNastran():
 
 def runCalculix():
     isisext = os.environ['PROE_ISIS_EXTENSIONS']
+    os.chdir(os.getcwd() + "\\Analysis\\Calculix")
     if isisext is None:
         cad_library.exitwitherror ('PROE_ISIS_EXTENSIONS env. variable is not set. Do you have the META toolchain installed properly?', -1)
     deckconvexe = os.path.join(isisext,'bin','DeckConverter.exe')
-    callsubprocess(deckconvexe + ' -i Analysis\\Nastran_mod.nas')
+    callsubprocess(deckconvexe + ' -i ..\\Nastran_mod.nas')
     with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\CMS\CalculiX', 0,
                      _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
         bconvergedpath = _winreg.QueryValueEx(key, 'InstallLocation')[0]
-    callsubprocess(bconvergedpath+'\\CalculiX\\bin\\ccx.bat -i Analysis\\Nastran_mod')
+    callsubprocess(bconvergedpath+'\\CalculiX\\bin\\ccx.bat -i ..\\Nastran_mod')
+    metapython = os.path.join(cad_library.META_PATH, 'bin', 'Python27', 'Scripts', 'python.exe')
+    calculix_pp = os.path.join(cad_library.META_PATH, 'bin', 'CAD', 'ProcessCalculix.py')
+    callsubprocess(metapython + " " + calculix_pp + " -o ..\\Nastran_mod.frd -p ..\\AnalysisMetaData.xml -m ..\\..\\RequestedMetrics.xml -j ..\\..\\testbench_manifest.json -e PSolid_Element_Map.csv")
 
 
 def main():
@@ -144,7 +154,7 @@ def main():
         pass
     elif mesher == 'NONE':
         # Not meshing, skip analysis
-        exit(0)
+        copyfailedandexit(0)
     else:
         cad_library.exitwitherror('CADJobDriver.py: Mesher ' + mesher + ' is not supported.', -1)
 
@@ -162,6 +172,8 @@ def main():
         runNastran()
     elif analyzer == 'CALCULIX':
         runCalculix();
+
+    copyfailedandexit(0)
 
 if __name__ == '__main__':
     main()

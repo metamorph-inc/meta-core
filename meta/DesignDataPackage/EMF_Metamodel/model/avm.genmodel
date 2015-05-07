@@ -516,6 +516,29 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference AVM.ecore#//cad/AssemblyRoot/AssemblyRootComponentInstance"/>
       </genClasses>
+      <genClasses image="false" ecoreClass="AVM.ecore#//cad/KinematicJointSpec"/>
+      <genClasses ecoreClass="AVM.ecore#//cad/RevoluteJointSpec">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AVM.ecore#//cad/RevoluteJointSpec/AlignmentPlane"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AVM.ecore#//cad/RevoluteJointSpec/AlignmentAxis"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AVM.ecore#//cad/RevoluteJointSpec/RotationLimitReference"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/RevoluteJointSpec/MinimumRotation"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/RevoluteJointSpec/DefaultRotation"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/RevoluteJointSpec/MaximumRotation"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/TranslationalJointSpec">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AVM.ecore#//cad/TranslationalJointSpec/AlignmentPlane"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AVM.ecore#//cad/TranslationalJointSpec/AlignmentAxis"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/TranslationalJointSpec/MinimumTranslation"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/TranslationalJointSpec/DefaultTranslation"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//cad/TranslationalJointSpec/MaximumTranslation"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AVM.ecore#//cad/TranslationalJointSpec/TranslationLimitReference"/>
+      </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Manufacturing" basePackage="avm" resource="XML" disposableProviderFactory="true"
         ecorePackage="AVM.ecore#//manufacturing">

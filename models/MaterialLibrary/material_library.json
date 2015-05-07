@@ -1359,9 +1359,9 @@
             "density": {
                 "unit": "kg/m^3", 
                 "value_type": "NormalDistribution", 
-                "standarddeviation": 0.08, 
-                "value": 7.95, 
-                "mean": 7.95
+                "standarddeviation": 80.0, 
+                "value": 7950.0, 
+                "mean": 7950.0
             }, 
             "electrical__resistivity_electrical": {
                 "value_type": "FixedValue", 

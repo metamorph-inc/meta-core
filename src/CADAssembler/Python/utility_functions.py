@@ -18,10 +18,11 @@ def right_trim(input,suffix):
     return fileName
     
    
-def CopyOrDeleteResults(fileName, runAdams=False):
+def CopyOrDeleteResults(fileName, reportPath, runAdams=False):
     logger = logging.getLogger()
-    reportFile = 'testbench_manifest.json'
-    reportPath = os.path.join(os.getcwd(),'..','..', reportFile)
+    #reportFile = 'testbench_manifest.json'
+    #reportPath = os.path.join(os.getcwd(),'..','..', reportFile)
+
 
     mainDir = os.path.join(os.getcwd(),fileName)
 
@@ -109,7 +110,3 @@ def CopyOrDeleteResults(fileName, runAdams=False):
             logger.info('Moving file ' + str(hgx) + '\n')
         if os.path.exists(os.path.join(os.getcwd(),'OutMetrics.xml')):
             shutil.move(os.path.join(os.getcwd(),'OutMetrics.xml'),mainDir)
-     
-    
-
-    

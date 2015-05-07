@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <direct.h>
 #include <vector>
@@ -73,6 +74,25 @@ int main(int argc, char* argv[])
 
 			//isis::ElmerConverter converter;
 			converter.ConvertNastranDeck(nasDeck, abaqusFile);
+
+			// Create csv file mapping PSolids to associated elements for use in post-processing.
+			std::ofstream psolid_element_map;
+			psolid_element_map.open("PSolid_Element_Map.csv");
+			for (std::map<int, isis_CADCommon::PSolid>::const_iterator pi = nasDeck.getPsolidData().begin(); pi != nasDeck.getPsolidData().end(); pi++)
+			{
+				std::vector<int> psolid;
+				std::vector<int> elements;
+				psolid.push_back(pi->first);
+				nasDeck.FindElementsFromPSolids(psolid, elements);
+				psolid_element_map << psolid[0] << ", ";
+				for (int e=0; e != elements.size(); e++)
+				{
+					psolid_element_map << elements[e] << ", ";
+				}
+				psolid_element_map << '\n';
+			}
+			psolid_element_map.close();
+			
 		}
 	}
 	catch(isis::application_exception& e)

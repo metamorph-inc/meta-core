@@ -488,6 +488,10 @@ namespace ReferenceSwitcher
                     IMgaReference refe = references.Dequeue();
 
                     foreach( IMgaConnPoint connPoint in oldReference.UsedByConns ) {
+                        if (connPoint.References[1] != refe)
+                        {
+                            continue;
+                        }
                         IMgaFCO fco2Port;
                         if( newRefeChildren.TryGetValue( connPoint.Target.Name, out fco2Port ) ) {
                             if( fco2Port == null ) {

@@ -143,10 +143,12 @@ class OpenModelicaElementTree():
                     if var_elem is None:
                         raise ValueError('Did not find Real, Integer\
                                          or Boolean')
+                    try:
+                        current_val = change_type(var_elem.attrib['start'])
+                    except KeyError:
+                        current_val = None
 
-                    current_val = change_type(var_elem.attrib['start'])
-
-                    if current_val == change_val:
+                    if current_val and current_val == change_val:
                         log.info('parameter {0} is already equal to {1}'.format(var_name, current_val))
                     else:
                         # Print the change details and do it

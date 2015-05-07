@@ -26,7 +26,22 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCreoUtils", "CADCreoUtil
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCreateAssemblyFunctions", "CADCreateAssemblyFunctions\CADCreateAssemblyFunctions.vcxproj", "{F23B1B7B-3223-4310-B3E2-0281CBB655EA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathTrigLib", "CADCommonTest\MathTrigLib.vcxproj", "{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9438FDE8-A6E2-41E7-8523-250484CB4981} = {9438FDE8-A6E2-41E7-8523-250484CB4981}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6447C03-87D3-4C0E-970C-8E0E04B30479}"
+	ProjectSection(SolutionItems) = preProject
+		CADCreoParametricCreateAssembly.vsmdi = CADCreoParametricCreateAssembly.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = CADCreoParametricCreateAssembly.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
@@ -96,6 +111,13 @@ Global
 		{F23B1B7B-3223-4310-B3E2-0281CBB655EA}.Release|Win32.Build.0 = Release|Win32
 		{F23B1B7B-3223-4310-B3E2-0281CBB655EA}.Release|x64.ActiveCfg = Release|x64
 		{F23B1B7B-3223-4310-B3E2-0281CBB655EA}.Release|x64.Build.0 = Release|x64
+		{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}.Debug|Win32.Build.0 = Debug|Win32
+		{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}.Debug|x64.ActiveCfg = Debug|Win32
+		{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}.Release|Win32.ActiveCfg = Release|Win32
+		{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}.Release|Win32.Build.0 = Release|Win32
+		{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}.Release|x64.ActiveCfg = Release|x64
+		{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
