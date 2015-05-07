@@ -48,6 +48,7 @@
   <xsd:element ecore:ignore="true" name="Operand" type="avm:Operand"/>
   <xsd:element ecore:ignore="true" name="DoDDistributionStatement" type="avm:DoDDistributionStatement"/>
   <xsd:element ecore:ignore="true" name="ConnectorFeature" type="avm:ConnectorFeature"/>
+  <xsd:element ecore:ignore="true" name="ValueFlowMux" type="avm:ValueFlowMux"/>
   <xsd:complexType name="Component">
     <xsd:annotation>
       <xsd:documentation>Test documentation for Component type. Yep.</xsd:documentation>
@@ -338,7 +339,11 @@
   </xsd:complexType>
   <xsd:complexType name="Alternative">
     <xsd:complexContent>
-      <xsd:extension base="avm:DesignSpaceContainer"/>
+      <xsd:extension base="avm:DesignSpaceContainer">
+        <xsd:sequence>
+          <xsd:element ecore:name="ValueFlowMux" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="ValueFlowMux" type="avm:ValueFlowMux"/>
+        </xsd:sequence>
+      </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
   <xsd:complexType name="ComponentInstance">
@@ -465,4 +470,15 @@
     </xsd:restriction>
   </xsd:simpleType>
   <xsd:complexType abstract="true" name="ConnectorFeature"/>
+  <xsd:complexType name="ValueFlowMux">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ValueNode">
+        <xsd:attribute ecore:name="Source" ecore:reference="avm:ValueNode" name="Source">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
 </xsd:schema>

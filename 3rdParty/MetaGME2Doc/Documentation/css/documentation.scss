@@ -1,0 +1,43 @@
+.documentation {
+  .language-name {
+    font-weight: bold;
+    position: fixed;
+    background-color: rgb(221, 221, 221);
+    padding: 1ex;
+    right: 0;
+    top: 0;
+
+    z-index: 2;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0 0 0 0ex;
+    margin: 0;
+  }
+
+  .language-element-list {
+//    position: fixed;
+//    left: 0;
+//    top: 0;
+  }
+
+  .language-element {
+
+    .header-color {
+      border-left-width: 0.5ex;
+      border-right-color: white;
+      border-bottom-color: white;
+      border-top-color: white;
+      border-style: solid;
+      display: initial;
+    }
+    .category {
+      padding-bottom: 2ex;
+    }
+  }
+
+  textarea {
+    width: 100%;
+  }
+}

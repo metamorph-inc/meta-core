@@ -43,25 +43,24 @@ namespace CyPhy2Modelica_v2
             if (string.IsNullOrEmpty(DymolaExe))
             {
                 chbCheckWithDymola.Enabled = false;
+                chbCheckWithDymola.Checked = false;
             }
             else
             {
                 chbCheckWithDymola.Enabled = true;
+                chbCheckWithDymola.Checked = this.ModelicaSettings.CheckWithDymola;
             }
-
-            chbCheckWithDymola.Checked = this.ModelicaSettings.CheckWithDymola;
 
             if (string.IsNullOrEmpty(OMCExe))
             {
                 chbCheckWithOM.Enabled = false;
+                chbCheckWithOM.Checked = false;
             }
             else
             {
                 chbCheckWithOM.Enabled = true;
+                chbCheckWithOM.Checked = this.ModelicaSettings.CheckWithOpenModelica;
             }
-
-            chbCheckWithOM.Checked = this.ModelicaSettings.CheckWithOpenModelica;
-
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -80,8 +79,8 @@ namespace CyPhy2Modelica_v2
         private void SaveSettings()
         {
             ModelicaLibrary.UpdateSettingsFromModelicaLibraries(this.ModelicaSettings, libData.Cast<ModelicaLibrary>().ToList());
-            this.ModelicaSettings.CheckWithDymola = chbCheckWithDymola.Checked;
-            this.ModelicaSettings.CheckWithOpenModelica = chbCheckWithOM.Checked;
+            this.ModelicaSettings.CheckWithDymola = chbCheckWithDymola.Checked && chbCheckWithDymola.Enabled;
+            this.ModelicaSettings.CheckWithOpenModelica = chbCheckWithOM.Checked && chbCheckWithOM.Enabled;
         }
 
         private void btnBrowseIncludeDir_Click(object sender, EventArgs e)

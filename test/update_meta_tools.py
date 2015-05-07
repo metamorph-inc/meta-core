@@ -52,13 +52,13 @@ def query_META_install():
 def main():
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--installer", default="http://build.isis.vanderbilt.edu/view/META_ReleaseCandidate/job/META_ReleaseCandidate_14.09",
-                        help="Specify the jenkins job name from where the installer needs to be downloaded. e.g. http://build.isis.vanderbilt.edu/view/META_ReleaseCandidate/job/META_ReleaseCandidate_14.09")
+    parser.add_argument("-i", "--installer", default="http://build.isis.vanderbilt.edu/view/META_ReleaseCandidate/job/META_ReleaseCandidate_14.10",
+                        help="Specify the jenkins job name from where the installer needs to be downloaded. e.g. http://build.isis.vanderbilt.edu/view/META_ReleaseCandidate/job/META_ReleaseCandidate_14.10")
                         
     parser.add_argument("-b", "--build", default="lastSuccessfulBuild",
                         help="Specify the jenkins job name from where the installer needs to be downloaded.") 
  
-    parser.add_argument("-r", "--release", default="14.09",
+    parser.add_argument("-r", "--release", default="14.10",
                         help="Release number like 14.01") 
  
     args = parser.parse_args()

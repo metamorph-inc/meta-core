@@ -6,6 +6,7 @@ using Xunit;
 using System.IO;
 using GME.CSharp;
 using System.Text.RegularExpressions;
+using GME.MGA;
 
 namespace ComponentImporterUnitTests
 {
@@ -98,5 +99,36 @@ namespace ComponentImporterUnitTests
                 });
             });
         }
+
+        [Fact]
+        public void ImportCADZIP_Spring_Tungsten()
+        {
+            var zipPath = Path.Combine(testPath, "Spring_Tungsten.zip");
+
+            // Import the ZIP file.
+            // Check that we run without exception, have a manifest file,
+            // have a folder for the component, and have 2 files in there.
+
+            // Delete manifest and any subfolders
+            File.Delete(manifestFilePath);
+            if (Directory.Exists(Path.Combine(testPath, "components")))
+                Directory.Delete(Path.Combine(testPath, "components"), true);
+
+            var mgaProject = Common.GetProject(mgaPath);
+            Assert.True(mgaProject != null, "Could not load MGA project.");
+
+            var mgaGateway = new MgaGateway(mgaProject);
+            mgaProject.CreateTerritoryWithoutSink(out mgaGateway.territory);
+            mgaGateway.PerformInTransaction(delegate
+            {
+                var importer = new CyPhyComponentImporter.CyPhyComponentImporterInterpreter();
+                importer.Initialize(mgaProject);
+
+                var result = importer.ImportFile(mgaProject, testPath, zipPath);
+                var tungsten = result.ChildObjects.Cast<IMgaFCO>().Where(x => x.Meta.Name == "Resource" && x.Name == "TUNGSTEN_SPRING.PRT").FirstOrDefault();
+                Assert.Equal("CAD\\TUNGSTEN_SPRING.PRT", tungsten.StrAttrByName["Path"]);
+            });
+        }
+
     }
 }

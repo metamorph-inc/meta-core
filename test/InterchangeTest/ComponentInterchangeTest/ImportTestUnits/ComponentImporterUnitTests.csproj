@@ -121,6 +121,7 @@
     <Compile Include="ModelicaStructures.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SetUnit.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -141,6 +142,10 @@
     <ProjectReference Include="..\..\..\..\src\CyPhyGUIs\CyPhyGUIs.csproj">
       <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
       <Name>CyPhyGUIs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\CyPhyMLCS\CyPhyMLCS.csproj">
+      <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>
+      <Name>CyPhyMLCS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

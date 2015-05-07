@@ -237,7 +237,10 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Compound" eSuperTypes="#//Container"/>
   <eClassifiers xsi:type="ecore:EClass" name="Optional" eSuperTypes="#//DesignSpaceContainer"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Alternative" eSuperTypes="#//DesignSpaceContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Alternative" eSuperTypes="#//DesignSpaceContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ValueFlowMux" upperBound="-1"
+        eType="#//ValueFlowMux" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ComponentInstance">
     <eStructuralFeatures xsi:type="ecore:EReference" name="PortInstance" upperBound="-1"
         eType="#//ComponentPortInstance" containment="true"/>
@@ -329,6 +332,10 @@
     <eLiterals name="StatementE" value="4"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ConnectorFeature" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueFlowMux" eSuperTypes="#//ValueNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Source" upperBound="-1"
+        eType="#//ValueNode" eKeys="#//ValueNode/ID"/>
+  </eClassifiers>
   <eSubpackages name="modelica" nsURI="modelica" nsPrefix="modelica">
     <eClassifiers xsi:type="ecore:EClass" name="ModelicaModel" eSuperTypes="#//DomainModel">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="Class" lowerBound="1"

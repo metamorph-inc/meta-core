@@ -34,14 +34,6 @@ CPMInternalTextPart::CPMInternalTextPart(PartBase* pPart, CComPtr<IMgaCommonDeco
 	TextPart(pPart, eventSink),
 	m_spActualFCO(pFCO)
 {
-	textStringVariableName		= "";	// disable
-	textFontVariableName		= DecoratorSDK::PREF_LABELFONT;
-	textMaxLengthVariableName	= DecoratorSDK::PREF_LABELLENGTH;
-	textColorVariableName		= DecoratorSDK::PREF_LABELCOLOR;
-	textLocationVariableName	= DecoratorSDK::PREF_LABELLOCATION;
-	textStatusVariableName		= DecoratorSDK::PREF_LABELENABLED;
-	textWrapStatusVariableName	= DecoratorSDK::PREF_LABELWRAP;
-
 	m_strText = strText;
 	m_strText.Replace("\r", NULL);
 	m_strText.Replace("\n", "\r\n");

@@ -10,7 +10,8 @@ namespace XSD2CSharp
     {
         private static Type[] getAVMClasses()
         {
-            return System.Reflection.Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass).Where(t => t.Namespace.StartsWith("avm") && t.FullName != "avm.simulink.Port").ToArray();
+            // return System.Reflection.Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass).Where(t => t.Namespace.StartsWith("avm") && t.FullName != "avm.simulink.Port").ToArray();
+            return typeof(AvmXmlSerializer).Assembly.GetTypes().Where(t => t.IsClass).Where(t => t.Namespace.StartsWith("avm") && t.FullName != "avm.simulink.Port").ToArray();
         }
 
         public static void SaveToFile(string fileName, object avmObject)
@@ -20,13 +21,11 @@ namespace XSD2CSharp
 
         public static string Serialize(object avmObject)
         {
-            var serializer = new System.Xml.Serialization.XmlSerializer(avmObject.GetType(), getAVMClasses());
-
             System.IO.StreamReader streamReader = null;
             System.IO.MemoryStream memoryStream = null;
             using (memoryStream = new System.IO.MemoryStream())
             {
-                serializer.Serialize(memoryStream, avmObject);
+                Serialize(avmObject, memoryStream);
                 memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
                 using (streamReader = new System.IO.StreamReader(memoryStream))
                 {
@@ -35,10 +34,21 @@ namespace XSD2CSharp
             }
         }
 
+        public static void Serialize(object avmObject, Stream stream)
+        {
+            var serializer = new System.Xml.Serialization.XmlSerializer(avmObject.GetType(), getAVMClasses());
+            serializer.Serialize(stream, avmObject);
+        }
+
         public static T Deserialize<T>(String xml)
         {
             var sr = new StringReader(xml);
 
+            return Deserialize<T>(sr);
+        }
+
+        public static T Deserialize<T>(TextReader sr)
+        {
             System.Xml.XmlReaderSettings xmlReaderSettings = new System.Xml.XmlReaderSettings();
             xmlReaderSettings.IgnoreWhitespace = true;
 

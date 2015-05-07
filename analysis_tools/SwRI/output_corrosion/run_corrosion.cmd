@@ -3,7 +3,7 @@ echo off
 FOR /F "skip=2 tokens=2,*" %%A IN ('C:\Windows\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO set META_PATH=%%B
 set META_PYTHON_PATH="%META_PATH%\bin\Python27\Scripts\Python.exe"
 %META_PYTHON_PATH% rename_config.py || goto :ERROR_SECTION
-cmd /c runCreateCADAssembly.bat
+cmd /c runCADJob.bat
 cmd /c %SWRI_BALLISTIC_EXTENSIONS%\blast.exe CorrosionConfig.json --only-corrosion || goto :ERROR_SECTION
 
 exit 0

@@ -97,10 +97,10 @@ def build_msi():
     gen_dir_wxi.gen_dir_from_vc(r"..\bin", diskId='3')
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\PCC\PCC",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\isis_meta\isis_meta",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\material_library\MaterialLibraryInterface",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\meta_nrmm\meta_nrmm",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica\py_modelica",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica_exporter\py_modelica_exporter",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\CADAssembler\Python", id="CADPython")
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
 
     def get_svnversion():
@@ -198,7 +198,7 @@ def build_msi():
     defines.append(('VERSIONSTRCYPHYML', cyphy_versions[1]))
     
     
-    version = '14.09.'
+    version = '14.10.'
     if 'M' in svnversion:
         version = version + '1'
     else:

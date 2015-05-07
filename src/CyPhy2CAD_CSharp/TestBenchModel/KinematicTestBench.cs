@@ -47,7 +47,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
             base.TraverseTestBench(testBenchBase);
 
-            STLDataExchangeFormats.Add("Parasolid");
+            //STLDataExchangeFormats.Add("Parasolid");
 
             Name = testBench.Name;
             SimulationStep = testBench.Attributes.SimulationResolution;
@@ -283,15 +283,15 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         {
             CAD.AssembliesType assembliesoutroot = cadDataContainer.ToCADXMLOutput(this, MetaLink);
             CAD.ProcessingInstructionsType instr = new CAD.ProcessingInstructionsType();
-            CAD.ProcessingInstructionType[] instructions = new CAD.ProcessingInstructionType[3];
+            CAD.ProcessingInstructionType[] instructions = new CAD.ProcessingInstructionType[2];
             instructions[0] = new CAD.ProcessingInstructionType();
             instructions[1] = new CAD.ProcessingInstructionType();
-            instructions[2] = new CAD.ProcessingInstructionType();
+            //instructions[2] = new CAD.ProcessingInstructionType();
             instructions[0].Primary = "COMPLETE_THE_HIERARCHY_FOR_LEAF_ASSEMBLIES";
-            instructions[1].Primary = "UNIQUELY_NAME_ALL_CAD_MODEL_INSTANCES";
-            instructions[2].Primary = "OUTPUT_JOINT_INFORMATION";
+            //instructions[1].Primary = "UNIQUELY_NAME_ALL_CAD_MODEL_INSTANCES";
+            instructions[1].Primary = "OUTPUT_JOINT_INFORMATION";
             instructions[0].Secondary = instructions[1].Secondary = "";
-            instructions[2].Secondary = "VALIDATE_JOINT_INFORMATION";
+            instructions[1].Secondary = "VALIDATE_JOINT_INFORMATION";
             instr.ProcessingInstruction = instructions;
             assembliesoutroot.ProcessingInstructions = instr;
             AddDataExchangeFormatToXMLOutput(assembliesoutroot);
@@ -357,7 +357,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             {
                 scriptparams += "-terrain " + TerrainFileName + " -firstpass 1";
             }
-            sbuilder.AppendLine("set ADAMS_SCRIPT=\"%PROE_ISIS_EXTENSIONS%\\bin\\Adams\\CreateAdamsModel.py\"\n");
+            sbuilder.AppendLine("set ADAMS_SCRIPT=\"%MetaPath%bin\\CAD\\Adams\\CreateAdamsModel.py\"\n");
 
             sbuilder.AppendLine("if exist %ADAMS_SCRIPT% goto  :ADAMS_SCRIPT_FOUND");
             sbuilder.AppendLine("@echo off");
@@ -368,14 +368,14 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
             sbuilder.AppendLine(":ADAMS_SCRIPT_FOUND");
             sbuilder.AppendLine("del adams.log\n");
-            sbuilder.AppendLine("FOR /F \"skip=2 tokens=2,*\" %%A IN ('%SystemRoot%\\SysWoW64\\REG.exe query \"HKLM\\software\\META\" /v \"META_PATH\"') DO \"%%B\\bin\\Python27\\Scripts\\Python.exe\" %ADAMS_SCRIPT% " + scriptparams + " >> adams.log\n");
+            sbuilder.AppendLine("\"%MetaPath%bin\\Python27\\Scripts\\Python.exe\" %ADAMS_SCRIPT% " + scriptparams + " >> adams.log\n");
 
             if (!String.IsNullOrEmpty(TerrainFileName))
             {
                 sbuilder.AppendLine("call %ADAMS_PATH%\\bin\\adams2013_2_x64.bat aview ru-st b adams_output.cmd\n");
                 sbuilder.AppendLine("set PYTHONHOME=");
                 scriptparams = "-terrain " + TerrainFileName;
-                sbuilder.AppendLine("FOR /F \"skip=2 tokens=2,*\" %%A IN ('%SystemRoot%\\SysWoW64\\REG.exe query \"HKLM\\software\\META\" /v \"META_PATH\"') DO \"%%B\\bin\\Python27\\Scripts\\Python.exe\" %ADAMS_SCRIPT% " + scriptparams + " >> adams.log\n");
+                sbuilder.AppendLine("%MetaPath%bin\\Python27\\Scripts\\Python.exe\" %ADAMS_SCRIPT% " + scriptparams + " >> adams.log\n");
             }
 
             sbuilder.AppendLine("if %ERRORLEVEL% NEQ 0 (\n");
@@ -421,9 +421,12 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 XMLFileName = "CADAssembly",
                 ComputedMetricsPath = "\"Analysis\\Abaqus\\ComputedValues.xml\"",
                 AdditionalOptions = CADOptions??"",
+                Assembler = "CREO",
+                Mesher = "NONE",
+                Analyzer = "NONE",
                 CallDomainTool = sbuilder.ToString()
             };
-            using (StreamWriter writer = new StreamWriter(Path.Combine(OutputDirectory, "runCreateCADAssembly.bat")))
+            using (StreamWriter writer = new StreamWriter(Path.Combine(OutputDirectory, "runCADJob.bat")))
             {
                 writer.WriteLine(searchmeta.TransformText());
             }

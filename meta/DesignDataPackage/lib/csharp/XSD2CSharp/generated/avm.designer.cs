@@ -6281,6 +6281,7 @@ namespace avm {
         Scalar,
     }
     
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ValueFlowMux))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Formula))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ComplexFormula))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(SimpleFormula))]
@@ -6438,6 +6439,185 @@ namespace avm {
         }
         
         public static ValueNode LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
+    public partial class ValueFlowMux : ValueNode {
+        
+        private List<string> sourceField;
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        public ValueFlowMux() {
+            this.sourceField = new List<string>();
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public List<string> Source {
+            get {
+                return this.sourceField;
+            }
+            set {
+                this.sourceField = value;
+            }
+        }
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(ValueFlowMux));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current ValueFlowMux object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an ValueFlowMux object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output ValueFlowMux object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out ValueFlowMux obj, out System.Exception exception) {
+            exception = null;
+            obj = default(ValueFlowMux);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out ValueFlowMux obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static ValueFlowMux Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((ValueFlowMux)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current ValueFlowMux object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an ValueFlowMux object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output ValueFlowMux object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out ValueFlowMux obj, out System.Exception exception) {
+            exception = null;
+            obj = default(ValueFlowMux);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out ValueFlowMux obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static ValueFlowMux LoadFromFile(string fileName) {
             System.IO.FileStream file = null;
             System.IO.StreamReader sr = null;
             try {
@@ -9243,7 +9423,23 @@ namespace avm {
     [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
     public partial class Alternative : DesignSpaceContainer {
         
+        private List<ValueFlowMux> valueFlowMuxField;
+        
         private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        public Alternative() {
+            this.valueFlowMuxField = new List<ValueFlowMux>();
+        }
+        
+        [System.Xml.Serialization.XmlElementAttribute("ValueFlowMux", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public List<ValueFlowMux> ValueFlowMux {
+            get {
+                return this.valueFlowMuxField;
+            }
+            set {
+                this.valueFlowMuxField = value;
+            }
+        }
         
         private static System.Xml.Serialization.XmlSerializer Serializer {
             get {

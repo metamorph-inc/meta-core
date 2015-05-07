@@ -260,13 +260,6 @@ void CDesertStatusDlg::SetRange(int range)
 };
 
 
-void CDesertStatusDlg::OnPaint()
-{
-	CPaintDC dc(this); // device context for painting
-	// TODO: Add your message handler code here
-	// Do not call CDialog::OnPaint() for painting messages
-}
-
 void CDesertStatusDlg::OnFinished()
 {
 	m_prgBar.SetRange( 0, m_maxPrg);

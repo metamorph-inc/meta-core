@@ -21,14 +21,6 @@ ClassLabelPart::ClassLabelPart(PartBase* pPart, CComPtr<IMgaCommonDecoratorEvent
 	TextPart(pPart, eventSink),
 	m_bIsAbstract(bIsAbstract)
 {
-	// TODO
-	textStringVariableName		= "";	// disable
-	textFontVariableName		= PREF_LABELFONT;
-	textMaxLengthVariableName	= PREF_LABELLENGTH;
-	textColorVariableName		= PREF_LABELCOLOR;
-	textLocationVariableName	= PREF_LABELLOCATION;
-	textStatusVariableName		= PREF_LABELENABLED;
-	textWrapStatusVariableName	= PREF_LABELWRAP;
 }
 
 ClassLabelPart::~ClassLabelPart()

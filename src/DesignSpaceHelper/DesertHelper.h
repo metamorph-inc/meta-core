@@ -65,7 +65,7 @@ public:
 	bool isOptionalElement(const DesertIface::Element &elem);
 	void writeLog();
 
-	void executeAll();  //automatically excute all tools with all constraints applied
+	void executeAll(bool applyConstraints);  //automatically excute all tools with all constraints applied
 	void removeCfgsIfEmpty();
 
 	bool isLastDesertFinit_2_fail();

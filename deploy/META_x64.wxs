@@ -71,6 +71,7 @@
         <Directory Id='INSTALLDIR' Name='META'>
           <Directory Id='analysis_tools' Name='analysis_tools'/>
           <Directory Id='INSTALLDIR_BIN' Name='bin'>
+			<Directory Id='CADPython' Name='CAD'/>
             <Directory Id='bin'/>
             <Directory Id='Json.NET'/>
             <Directory Id='Ionic.Zip' />
@@ -351,6 +352,7 @@
       <ComponentGroupRef Id="CyPhySignalBlocksAddOn_x64"/>
       <ComponentGroupRef Id="CyPhyPython"/>
       <ComponentGroupRef Id="python_packages"/>
+      <ComponentGroupRef Id='CADPython'/>
 	  
       <ComponentGroupRef Id='CyPhyMasterInterpreter'/>
 	  <ComponentGroupRef Id='CyPhyPrepareIFab'/>

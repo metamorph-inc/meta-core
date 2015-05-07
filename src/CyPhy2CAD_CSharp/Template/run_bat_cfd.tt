@@ -13,6 +13,7 @@ set ERROR_CODE=0
 
 set ERROR_MSG=""
 
+FOR /F "skip=2 tokens=2,*" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO set MetaPath=%%B
 
 
 Rem ****************************
@@ -33,7 +34,7 @@ echo		Your system is not properly configured to run %EXE_FILE_NAME%.
 echo		Please see For instructions on how to configure your system, please see "0Readme - CreateAssembly.txt"
 echo		which is typically located at "C:\Program Files\META\Proe ISIS Extensions"
 set ERROR_CODE=2
-set ERROR_MSG="Error from runCreateCADAssembly.bat: Could not find CADCreoParametricCreateAssembly.exe."
+set ERROR_MSG="Error from runCADJob.bat: Could not find CADCreoParametricCreateAssembly.exe."
 goto :ERROR_SECTION
 :EXE_FOUND
 
@@ -41,7 +42,7 @@ goto :ERROR_SECTION
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
-set ERROR_MSG="Error from runCreateCADAssembly.bat: %EXE_FILE_NAME% encountered error during execution, error level is %ERROR_CODE%"
+set ERROR_MSG="Error from runCADJob.bat: %EXE_FILE_NAME% encountered error during execution, error level is %ERROR_CODE%"
 goto :ERROR_SECTION
 )
 
@@ -53,7 +54,7 @@ FOR /F "skip=2 tokens=2,*" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query "HKLM\so
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
-set ERROR_MSG="Error from runCreateCADAssembly.bat: Encountered error during Inventor conversion to STL, error level is %ERROR_CODE%"
+set ERROR_MSG="Error from runCADJob: Encountered error during Inventor conversion to STL, error level is %ERROR_CODE%"
 goto :ERROR_SECTION
 )
 
@@ -64,7 +65,7 @@ cmd /c TestBench_PreProcess.cmd
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
-set ERROR_MSG="Error from runCreateCADAssembly.bat: Encountered error during execution of TestBench_PreProcess.cmd, error level is %ERROR_CODE%"
+set ERROR_MSG="Error from runCADJob.bat: Encountered error during execution of TestBench_PreProcess.cmd, error level is %ERROR_CODE%"
 goto :ERROR_SECTION
 )
 
@@ -78,8 +79,8 @@ Rem ****************************
 
 set RESULT_XML_FILE="ComputedValues.xml"
 set PY_SCRIPT_NAME=UpdateReportJson_CAD.py
-set PY_SCRIPT="%PROE_ISIS_EXTENSIONS%\bin\%PY_SCRIPT_NAME%"
-set PYTHONPATH=%PYTHONPATH%;%PROE_ISIS_EXTENSIONS%
+set PY_SCRIPT="%MetaPath%\bin\CAD\%PY_SCRIPT_NAME%"
+set PYTHONPATH=%PYTHONPATH%;%MetaPath%
 
 if exist %PY_SCRIPT% goto  :PY_FOUND
 @echo off
@@ -88,15 +89,15 @@ echo		Your system is not properly configured to run %PY_SCRIPT_NAME%.
 echo		Please see For instructions on how to configure your system, please see "0Readme - CreateAssembly.txt"
 echo		which is typically located at "C:\Program Files\META\Proe ISIS Extensions"
 set ERROR_CODE=2
-set ERROR_MSG="Error from runCreateCADAssembly.bat: Could not find UpdateReportJson_CAD.py."
+set ERROR_MSG="Error from runCADJob.bat: Could not find UpdateReportJson_CAD.py."
 goto :ERROR_SECTION
 
 :PY_FOUND
-FOR /F "skip=2 tokens=2,*" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO "%%B\bin\Python27\Scripts\Python.exe" %PY_SCRIPT% -m %RESULT_XML_FILE%
+"%MetaPath%\bin\Python27\Scripts\Python.exe" %PY_SCRIPT% -m %RESULT_XML_FILE%
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
-set ERROR_MSG="Error from runCreateCADAssembly.bat: %PY_SCRIPT_NAME% encountered error during execution, error level is %ERROR_CODE%"
+set ERROR_MSG="Error from runCADJob.bat: %PY_SCRIPT_NAME% encountered error during execution, error level is %ERROR_CODE%"
 goto :ERROR_SECTION
 )
 
@@ -106,7 +107,7 @@ cmd /c TestBench_PostProcess.cmd
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
-set ERROR_MSG="Error from runCreateCADAssembly.bat: Encountered error during execution of TestBench_PostProcess.cmd, error level is %ERROR_CODE%"
+set ERROR_MSG="Error from runCADJob.bat: Encountered error during execution of TestBench_PostProcess.cmd, error level is %ERROR_CODE%"
 goto :ERROR_SECTION
 )
 <# } #>

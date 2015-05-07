@@ -276,7 +276,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.cpp" />
-    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp" />
+    <ClCompile Include="ComponentDll.cpp" />
     <ClCompile Include="ComponentObj.cpp" />
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Console.cpp" />
     <ClCompile Include="..\CyPhy2Desert\CyPhy2Desert.cpp" />
@@ -459,7 +459,7 @@
     <ClInclude Include="XLAutomation.h" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="$(GME_ROOT)\SDK\Bon\Common\ComponentLib.idl">
+    <Midl Include="ComponentLib.idl">
     </Midl>
   </ItemGroup>
   <ItemGroup>

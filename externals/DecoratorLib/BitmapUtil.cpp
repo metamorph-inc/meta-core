@@ -570,10 +570,10 @@ DWORD BitmapMasked::Read(CFile& file, BOOL bFromResource)
 	
 	if (file.Read( m_pBits, dwLength - dwReadBytes ) != (dwLength - dwReadBytes))
 	{
-		delete m_pBMI;
+		delete[] m_pBMI;
 		m_pBMI = NULL;
 		
-		delete m_pBits;
+		delete[] m_pBits;
 		m_pBits = NULL;
 		
 		return 0;
@@ -691,7 +691,7 @@ BOOL  BitmapMasked::CreatePalette()
 		
 		m_pPalette = new CPalette;
 		bResult = m_pPalette->CreatePalette( pLogPal );
-		delete pLogPal;
+		delete[] pLogPal;
 	}
 	
 	return bResult;

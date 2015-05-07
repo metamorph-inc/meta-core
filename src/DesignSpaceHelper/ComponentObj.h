@@ -20,58 +20,11 @@
 #endif // BUILDER_OBJECT_NETWORK_V2
 #endif // BUILDER_OBJECT_NETWORK
 
+#include "ComponentLib.h"
+
 #pragma once
 
 class CComponentObj;
-
-#ifdef GME_ADDON
-
-#ifndef RAWCOMPONENT_H
-// BY PAKA BEGIN
-#ifndef BON2Component_h
-#error GME AddOn-s must be built with the RAW Component interface or BON2 Component Interface
-#endif // BON2Component_h
-// BY PAKA END
-#endif // RAWCOMPONENT_H
-
-class CEventSink : public CCmdTarget {
-	DECLARE_DYNCREATE(CEventSink)
-	CEventSink();           // protected constructor used by dynamic creation
-public:
-	CComponentObj *comp;
-
-	IMgaEventSink* GetInterface() { return &m_xComponent; }
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CEventSink)
-	public:
-	virtual void OnFinalRelease();
-	//}}AFX_VIRTUAL
-
-// Implementation
-
-public:
-	virtual ~CEventSink();
-
-	DECLARE_MESSAGE_MAP()
-	DECLARE_OLECREATE(CEventSink)
-
-	// Generated OLE dispatch map functions
-	//{{AFX_DISPATCH(CEventSink)
-		// NOTE - the ClassWizard will add and remove member functions here.
-	//}}AFX_DISPATCH
-	DECLARE_DISPATCH_MAP()
-
-	DECLARE_INTERFACE_MAP()
-public:
-	BEGIN_INTERFACE_PART(Component, IMgaEventSink)
-		STDMETHODIMP GlobalEvent(globalevent_enum event);
-		STDMETHODIMP ObjectEvent(IMgaObject * obj, unsigned long eventmask, VARIANT v);
-	END_INTERFACE_PART(Component)
-};
-
-#endif // GME_ADDON
 
 	struct __declspec(uuid("270b4f86-b17c-11d3-9ad1-00aa00b6fe26")) /* LIBID */ ___MGALib;
 
@@ -80,7 +33,8 @@ public:
 		// wchar_t typelibPath[MAX_PATH];
 		// GetModuleFileNameW(HINST_THISCOMPONENT, thisModuleFileName, sizeof(thisModuleFileName) / sizeof(thisModuleFileName[0]));
 		_bstr_t typelibPath;
-		HRESULT hr = QueryPathOfRegTypeLib(__uuidof(___MGALib), 1, 0, 0, typelibPath.GetAddress());
+		//HRESULT hr = QueryPathOfRegTypeLib(__uuidof(___MGALib), 1, 0, 0, typelibPath.GetAddress());
+		HRESULT hr = QueryPathOfRegTypeLib(LIBID_MgaComponentLib, 1, 1, 0, typelibPath.GetAddress());
 		if (FAILED(hr))
 			return hr;
 
@@ -90,7 +44,7 @@ public:
 			return hr;
 
 		ITypeInfoPtr typeInfo;
-		hr = typeLib->GetTypeInfoOfGuid(__uuidof(IMgaComponentEx), &typeInfo);
+		hr = typeLib->GetTypeInfoOfGuid(__uuidof(IDesignSpaceHelper), &typeInfo);
 		if (FAILED(hr))
 			return hr;
 
@@ -120,7 +74,7 @@ public:
 
 // Operations
 public:
-	IMgaComponentEx* GetInterface() { return &m_xComponent; }
+	IDesignSpaceHelper* GetInterface() { return &m_xComponent; }
 
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -171,7 +125,7 @@ protected:
 	DECLARE_DISPATCH_MAP()
 
 	DECLARE_INTERFACE_MAP()
-	BEGIN_INTERFACE_PART(Component, IMgaComponentEx)
+	BEGIN_INTERFACE_PART(Component, IDesignSpaceHelper)
 		STDMETHODIMP InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,  IMgaFCOs *selectedobjs, long param);
 		STDMETHODIMP ObjectsInvokeEx( IMgaProject *project,  IMgaObject *currentobj,  IMgaObjects *selectedobjs,  long param);
 		STDMETHODIMP Invoke(IMgaProject* gme, IMgaFCOs *models, long param);
@@ -201,6 +155,8 @@ protected:
 #endif // PARADIGM_INDEPENDENT
 			return S_OK;
 		};
+
+		STDMETHODIMP ApplyConstraintsAndGenerateCWCs(IMgaProject *project, IMgaFCO *currentobj, VARIANT_BOOL applyConstraints);
 	END_INTERFACE_PART(Component)
 
 	BEGIN_INTERFACE_PART(VersionInfo, IGMEVersionInfo)
@@ -220,29 +176,7 @@ protected:
 public:
 	bool interactive;
 
-#ifdef BUILDER_OBJECT_NETWORK
-	typedef CMap<CString, LPCTSTR, CString, LPCTSTR> CStringMap;
-	CStringMap parmap;
-#endif
-
-#ifdef RAWCOMPONENT_H
 	RawComponent rawcomp;
-
-#ifdef GME_ADDON
-	CComPtr<IMgaEventSink> e_sink;
-#endif // GME_ADDON
-
-#endif // RAWCOMPONENT_H
-
-#ifdef BUILDER_OBJECT_NETWORK_V2
-	BON::Component 				bon2Comp;
-
-#ifdef GME_ADDON
-	CComPtr<IMgaAddOn> 		addon;
-	CComPtr<IMgaEventSink> 	e_sink;
-#endif // GME_ADDON
-
-#endif // BUILDER_OBJECT_NETWORK_V2
 
 	void HandleError( Util::Exception* pEx );
 }; // CComponentObj

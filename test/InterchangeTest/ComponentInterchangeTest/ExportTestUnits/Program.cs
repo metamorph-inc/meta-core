@@ -6,6 +6,7 @@ using System.Reflection;
 using Xunit;
 using System.Collections.Generic;
 using XSD2CSharp;
+using GME.MGA;
 
 namespace ComponentExporterUnitTests
 {
@@ -26,11 +27,12 @@ namespace ComponentExporterUnitTests
             unpackXme(Path.Combine(_exportModelDirectory, testName, "InputModel.xme"));
         }
 
-        private void unpackXme(string xmeFilename)
+        private string unpackXme(string xmeFilename)
         {
-            if (!File.Exists(xmeFilename)) return;
+            if (!File.Exists(xmeFilename)) return null;
             string mgaFilename = Path.ChangeExtension(xmeFilename, "mga");
             GME.MGA.MgaUtils.ImportXME(xmeFilename, mgaFilename);
+            return mgaFilename;
         }
 
         private int runCyPhyComponentExporterCL(string testName)
@@ -208,8 +210,9 @@ namespace ComponentExporterUnitTests
             //process.StartInfo.Arguments += String.Format(" -e {0} -d {1}", @"Models\PropertiesWithinConnectors\InputModel.mga", @"Models\PropertiesWithinConnectors\expected.component.acm");
             process.StartInfo.Arguments += @"InputModel.mga components";
 
-            var result = Common.processCommon(process);
-            if (result != 0) return result;
+            string output;
+            var result = Common.runProcessAndGetOutput(process, out output);
+            Assert.True(result == 0, output);
 
             //return 0;
             process = new Process
@@ -223,7 +226,9 @@ namespace ComponentExporterUnitTests
 
             process.StartInfo.Arguments += String.Format("-d \"{0}\" -e \"{1}\" -m Component", @"expected.component.acm", @"components\Imported_Components\bolt_hex__generic__m4x0p7x6_8p8_zin\bolt_hex__generic__m4x0p7x6_8p8_zin.component.acm");
 
-            return Common.processCommon(process, redirect: true);
+            var comparatorResult = Common.runProcessAndGetOutput(process, out output);
+            Assert.True(comparatorResult == 0, output);
+            return comparatorResult;
         }
 
 
@@ -262,7 +267,35 @@ namespace ComponentExporterUnitTests
             unpackXme(xmePath);
             Assert.Equal(0, RunPropertiesWithinConnectorsTest());
         }
-        
+
+        [Fact]
+        public void FormulaTest()
+        {
+            var xmePath = Path.Combine(_exportModelDirectory, "FormulaTest", "InputModel.xme");
+            string mgaFilename = unpackXme(xmePath);
+            IMgaProject project = (MgaProject) Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaProject"));
+            project.OpenEx("MGA=" + mgaFilename, "CyPhyML", null);
+            try
+            {
+                project.BeginTransactionInNewTerr();
+                try
+                {
+                    MgaFCO fco = (MgaFCO) project.RootFolder.ObjectByPath["/@Imported_Components/@FormulaComp"];
+                    Exception e = Assert.Throws(typeof(ApplicationException),
+                        () => CyPhyComponentExporter.CyPhyComponentExporterInterpreter.ExportComponentPackage(ISIS.GME.Dsml.CyPhyML.Classes.Component.Cast(fco)));
+                    Assert.True(e.Message.Contains("Value assignments for Component Parameters must come from outside the Component itself."));
+                }
+                finally
+                {
+                    project.AbortTransaction();
+                }
+            }
+            finally
+            {
+                project.Close(true);
+            }
+        }
+
         [Fact]
         public void ParametricProperty()
         {

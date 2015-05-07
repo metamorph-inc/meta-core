@@ -19,7 +19,7 @@ namespace CyPhyPET.Templates.TestBenchExecutors
     using ISIS.GME.Dsml.CyPhyML.Classes;
     
     
-    #line 1 "C:\META\meta_trunk\src\CyPhyPET\Templates\TestBenchExecutors\CAD.tt"
+    #line 1 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhyPET\Templates\TestBenchExecutors\CAD.tt"
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "10.0.0.0")]
     public partial class CAD : CADBase
     {
@@ -45,7 +45,7 @@ from driver_runner import TestBenchExecutionError
 ## Maximum time in seconds to wait for each execution.
 MAX_WAIT_TIME = 3600 * ");
             
-            #line 33 "C:\META\meta_trunk\src\CyPhyPET\Templates\TestBenchExecutors\CAD.tt"
+            #line 33 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhyPET\Templates\TestBenchExecutors\CAD.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.MaxIterationExecutionTime));
             
             #line default
@@ -113,22 +113,22 @@ MAX_WAIT_TIME = 3600 * ");
                     "e the metrics in the testbench_manifest.json.\r\n    :rtype: dict or None\r\n    :re" +
                     "turn: Dictionary with metrics names and values if testbench_manifest.json is not" +
                     " updated, else None.\r\n    \"\"\"\r\n    log = logging.getLogger()\r\n    cad_bat = \'run" +
-                    "CreateCADAssembly.bat\'\r\n    out_put_file = \'PET_run.txt\'\r\n\r\n    if os.path.isfil" +
-                    "e(out_put_file):\r\n        os.remove(out_put_file)\r\n\r\n    log.info(\'About to call" +
-                    " :: {}\'.format(os.path.abspath(cad_bat)))\r\n    was_killed = False\r\n    with open" +
-                    "(out_put_file, \'w\') as f_out:\r\n        timer = 0\r\n        sim_process = subproce" +
-                    "ss.Popen(cad_bat, stdout=f_out, stderr=f_out)\r\n        while sim_process.poll() " +
-                    "is None:\r\n            time.sleep(0.1)\r\n            timer += 0.1\r\n        if time" +
-                    "r > MAX_WAIT_TIME:\r\n            sim_process.kill()\r\n            f_out.write(\'run" +
-                    "CreateCADAssembly.bat exceeded MAX_WAIT_TIME = {0} (seconds).\'.format(MAX_WAIT_T" +
-                    "IME))\r\n            was_killed = True\r\n\r\n    with open(out_put_file, \'r\') as f_in" +
-                    ":\r\n        out_put = \'\'.join(f_in.readlines())\r\n    if was_killed:\r\n        rais" +
-                    "e TestBenchExecutionError(out_put)\r\n    else:\r\n        log.debug(out_put)\r\n     " +
-                    "   log.info(\'Successful {} run!\'.format(cad_bat))\r\n\r\n    return None\r\n\r\n");
+                    "CADJob.bat\'\r\n    out_put_file = \'PET_run.txt\'\r\n\r\n    if os.path.isfile(out_put_f" +
+                    "ile):\r\n        os.remove(out_put_file)\r\n\r\n    log.info(\'About to call :: {}\'.for" +
+                    "mat(os.path.abspath(cad_bat)))\r\n    was_killed = False\r\n    with open(out_put_fi" +
+                    "le, \'w\') as f_out:\r\n        timer = 0\r\n        sim_process = subprocess.Popen(ca" +
+                    "d_bat, stdout=f_out, stderr=f_out)\r\n        while sim_process.poll() is None:\r\n " +
+                    "           time.sleep(0.1)\r\n            timer += 0.1\r\n        if timer > MAX_WAI" +
+                    "T_TIME:\r\n            sim_process.kill()\r\n            f_out.write(\'runCADJob.bat " +
+                    "exceeded MAX_WAIT_TIME = {0} (seconds).\'.format(MAX_WAIT_TIME))\r\n            was" +
+                    "_killed = True\r\n\r\n    with open(out_put_file, \'r\') as f_in:\r\n        out_put = \'" +
+                    "\'.join(f_in.readlines())\r\n    if was_killed:\r\n        raise TestBenchExecutionEr" +
+                    "ror(out_put)\r\n    else:\r\n        log.debug(out_put)\r\n        log.info(\'Successfu" +
+                    "l {} run!\'.format(cad_bat))\r\n\r\n    return None\r\n\r\n");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 185 "C:\META\meta_trunk\src\CyPhyPET\Templates\TestBenchExecutors\CAD.tt"
+        #line 185 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhyPET\Templates\TestBenchExecutors\CAD.tt"
  
 public int MaxIterationExecutionTime {get;set;}
  

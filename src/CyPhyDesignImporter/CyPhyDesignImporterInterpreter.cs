@@ -77,6 +77,11 @@ namespace CyPhyDesignImporter
                 ofd.DefaultExt = "design.adm";
                 ofd.Multiselect = true;
                 ofd.Filter = "AVM design files (*.adm)|*.adm|All files (*.*)|*.*";
+                ofd.RestoreDirectory = true;
+                if (project.ProjectConnStr.StartsWith("MGA=", true, System.Globalization.CultureInfo.InvariantCulture))
+                {
+                    ofd.InitialDirectory = Path.GetDirectoryName(project.ProjectConnStr.Substring("MGA=".Length));
+                }
 
                 dr = ofd.ShowDialog();
                 if (dr == DialogResult.OK)
@@ -109,14 +114,7 @@ namespace CyPhyDesignImporter
 
         public static avm.Design DeserializeAvmDesignXml(TextReader reader)
         {
-            System.Xml.XmlReaderSettings xmlReaderSettings = new System.Xml.XmlReaderSettings();
-            xmlReaderSettings.IgnoreWhitespace = true;
-
-            System.Xml.XmlReader xmlReader = System.Xml.XmlReader.Create(reader, xmlReaderSettings);
-
-            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(avm.Design), CyPhyComponentImporterInterpreter.getAVMClasses());
-            avm.Design ad_import = (avm.Design)serializer.Deserialize(xmlReader);
-            return ad_import;
+            return XSD2CSharp.AvmXmlSerializer.Deserialize<avm.Design>(reader);
         }
 
         public IMgaFCO ImportDesign(IMgaProject project, string filename)

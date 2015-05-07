@@ -13,6 +13,8 @@ using GME.CSharp;
 using Xunit;
 using Microsoft.Win32.SafeHandles;
 using Microsoft.Win32;
+using System.Net.Sockets;
+using System.Net;
 
 namespace CyPhyPropagateTest
 {
@@ -75,7 +77,8 @@ namespace CyPhyPropagateTest
             }
             catch
             {
-                metalinkLogStream.Dispose();
+                lock (metalinkLogStream)
+                    metalinkLogStream.Dispose();
                 throw;
             }
         }
@@ -158,6 +161,7 @@ namespace CyPhyPropagateTest
                         project.OpenEx("MGA=" + mgaFullPath, "", true);
                         try
                         {
+                            Assert.Contains("MGA.Addon.CyPhyMLPropagate", project.AddOnComponents.Cast<IMgaComponentEx>().Select(x => x.ComponentProgID));
                             CyPhyMetaLink.CyPhyMetaLinkAddon propagate = (CyPhyMetaLink.CyPhyMetaLinkAddon)project.AddOnComponents.Cast<IMgaComponent>().Where(comp => comp is CyPhyMetaLink.CyPhyMetaLinkAddon).FirstOrDefault();
                             CyPhyMetaLink.CyPhyMetalinkInterpreter interpreter = new CyPhyMetaLink.CyPhyMetalinkInterpreter();
                             interpreter.GMEConsole = GME.CSharp.GMEConsole.CreateFromProject(project);
@@ -203,7 +207,8 @@ namespace CyPhyPropagateTest
             finally
             {
                 KillMetaLink();
-                metalinkLogStream.Dispose();
+                lock (metalinkLogStream)
+                    metalinkLogStream.Dispose();
             }
         }
 
@@ -252,11 +257,19 @@ namespace CyPhyPropagateTest
             {
                 metaLinkPath = Path.Combine(META.VersionInfo.MetaPath, @"bin\metalink-java-server-1.0.0.jar"); // installed machine
             }
+            // use a random port
+            var listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 0);
+            listener.Start();
+            SocketQueue.port = ((IPEndPoint)listener.LocalEndpoint).Port;
+            listener.Stop();
+            
+
             ProcessStartInfo info = new ProcessStartInfo()
             {
                 // java -jar C:\Users\meta\Documents\META\src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.0.0.jar -p C:\Users\meta\Documents\META_MetaLink_HullandHook\partial-component.mlp -r C:\Users\meta\Documents\META_MetaLink_HullandHook\CyPhyPropagateTest_recorded_messages.mlp
                 FileName = java_exe,
                 Arguments = "-jar \"" + metaLinkPath + "\"" +
+                    " -P " + SocketQueue.port +
                     //" -p " + HullAndHookDir + @"\CyPhyPropagateTest_partial-component.mlp" +
                     //" -r " + HullAndHookDir + @"\CyPhyPropagateTest_recorded_messages.mlp"
                     "",
@@ -285,7 +298,13 @@ namespace CyPhyPropagateTest
                     if (dataArgs.Data == null)
                         return;
                     Console.Out.WriteLine(dataArgs.Data);
-                    metalinkLogStream.WriteLine(dataArgs.Data);
+                    lock (metalinkLogStream)
+                    {
+                        if (metalinkLogStream.BaseStream != null) // i.e. if not closed
+                        {
+                            metalinkLogStream.WriteLine(dataArgs.Data);
+                        }
+                    }
                     if (dataArgs.Data.Contains("AssemblyDesignBridgeServer started and listening on"))
                     {
                         metalinkReady.Set();
@@ -297,7 +316,8 @@ namespace CyPhyPropagateTest
             }
             catch
             {
-                metalinkLogStream.Close();
+                lock (metalinkLogStream)
+                    metalinkLogStream.Close();
                 throw;
             }
         }

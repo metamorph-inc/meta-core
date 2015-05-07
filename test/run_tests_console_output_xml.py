@@ -1,4 +1,5 @@
 import os
+import sys
 import errno
 import os.path
 import glob
@@ -104,7 +105,6 @@ def run_tests(xunit_file, cwd=None, result_dir=None):
     return run_tests(xunit_file, cwd, result_dir)
 
 if __name__ == '__main__':
-    import sys
     xunit_files = sys.argv[1:] if len(sys.argv) >= 2 else ['tests.xunit']
     test_xmls = []
     clean_result_dir(os.path.join(_this_dir, 'results'))

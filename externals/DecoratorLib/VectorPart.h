@@ -192,28 +192,25 @@ protected:
 	CString						gradientColorVariableName;
 	CString						shadowColorVariableName;
 
-	std::vector<VectorCommand>	m_Commands;
 	COLORREF					m_crPen;
 	COLORREF					m_crBrush;
-	bool						m_bCastShadow;
 	COLORREF					m_crShadow;
+	bool						m_bCastShadow;
+	bool						m_bGradientFill;
 	long						m_iShadowThickness;
 	long						m_iShadowDirection;
-	bool						m_bGradientFill;
 	COLORREF					m_crGradient;
 	long						m_iGradientDirection;
 
-	bool						m_bOriginalPenSaved;
-	CPen*						m_originalPen;
-	bool						m_bOriginalBrushSaved;
-	CBrush*						m_originalBrush;
+	std::vector<VectorCommand>	m_Commands;
+
 	Gdiplus::GraphicsPath*		m_mainPath;
 	Gdiplus::GraphicsPath*		m_shadowPath;
 	bool						m_bInMainPathDefinition;
 	bool						m_bInShadowPathDefinition;
+	bool						m_bShadowCasted;
 	Gdiplus::Brush*				m_CurrentBrush;
 	Gdiplus::Pen*				m_CurrentPen;
-	bool						m_bShadowCasted;
 
 	long						m_iDefaultWidth;
 	long						m_iDefaultHeight;

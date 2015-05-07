@@ -138,7 +138,6 @@ public:
 	void SetProgress(const CString &status);
 	void OnFinished();
 	void SetRange(int range);
-	afx_msg void OnPaint();
 //	afx_msg void OnBnClickedCcancel();
 	bool m_cancel;
 	bool m_fatal;

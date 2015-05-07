@@ -105,6 +105,7 @@ namespace ComponentExporterUnitTests
             Assert.True(File.Exists(path_ZipGenerated),
                         String.Format("{0} couldn't be found; Export may have failed.", path_ZipGenerated));
 
+            avm.Component component = null;
             // Check that ZIP matches expected.
             // Assemble a list of files that didn't match.
             List<String> missing = new List<String>();
@@ -114,11 +115,20 @@ namespace ComponentExporterUnitTests
                 {
                     foreach (var entry in zip_Expected)
                     {
+                        var generatedFile = zip_Generated.Where(e => e.FileName == entry.FileName);
                         // If no entry with matching FileName, add it to the mising list.
-                        if (false == zip_Generated.Where(e => e.FileName == entry.FileName)
-                                                  .Any())
+                        if (false == generatedFile.Any())
                         {
                             missing.Add(entry.FileName);
+                        }
+                        else
+                        {
+                            if (generatedFile.FirstOrDefault().FileName == "Spring_Tungsten.acm")
+                            {
+                                MemoryStream stream = new MemoryStream();
+                                generatedFile.FirstOrDefault().Extract(stream);
+                                component = XSD2CSharp.AvmXmlSerializer.Deserialize<avm.Component>(Encoding.UTF8.GetString(stream.ToArray()));
+                            }
                         }
                     }
                 }
@@ -131,6 +141,10 @@ namespace ComponentExporterUnitTests
                     msg += filename + "  ";
                 Assert.True(false, msg);
             }
+
+            Assert.NotNull(component);
+            var path = component.ResourceDependency.Where(x => x.Name == "TUNGSTEN_SPRING.PRT").FirstOrDefault().Path;
+            Assert.Equal("CAD\\TUNGSTEN_SPRING.PRT.3", path);
         }
     }
 }

@@ -83,6 +83,7 @@ namespace CyPhyComponentAuthoring.Modules
             }
             #endregion
 
+            // FIXME: this could throw an exception (but this code is currently unreachable)
             var pkgPath = Exp.CyPhyComponentExporterInterpreter.ExportComponentPackage(component, s_outPath);
             this.Logger.WriteInfo("Component package created: {0}", pkgPath);
             cleanup(true);

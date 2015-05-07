@@ -1,7 +1,7 @@
 # .\_manufacturing.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:001f63800ae37c355961a3d233bb19365b0ea8cb
-# Generated 2014-07-23 12:06:13.264000 by PyXB version 1.2.3
+# Generated 2014-09-14 19:11:16.121000 by PyXB version 1.2.3
 # Namespace manufacturing [xmlns:manufacturing]
 
 import pyxb
@@ -13,7 +13,7 @@ import pyxb.utils.domutils
 import sys
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:a6621f40-128b-11e4-a34d-f4f951f120a3')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:cf212d2e-3c6c-11e4-af2a-20c9d0878c2e')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.3'
@@ -22,8 +22,8 @@ if pyxb.__version__ != _PyXBVersion:
     raise pyxb.PyXBVersionError(_PyXBVersion)
 
 # Import bindings for namespaces imported into schema
-import pyxb.binding.datatypes
 import avm as _ImportedBinding__avm
+import pyxb.binding.datatypes
 
 # NOTE: All namespace declarations are reserved within the binding
 Namespace = pyxb.namespace.NamespaceForURI(u'manufacturing', create_if_missing=True)
@@ -294,12 +294,12 @@ def _BuildAutomaton_2 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.xsd', 251, 6))
+    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.xsd', 252, 6))
     counters.add(cc_0)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(Metric_._UseForTag(pyxb.namespace.ExpandedName(None, u'Value')), pyxb.utils.utility.Location(u'avm.xsd', 251, 6))
+    symbol = pyxb.binding.content.ElementUse(Metric_._UseForTag(pyxb.namespace.ExpandedName(None, u'Value')), pyxb.utils.utility.Location(u'avm.xsd', 252, 6))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     transitions = []

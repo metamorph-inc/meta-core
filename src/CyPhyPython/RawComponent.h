@@ -21,7 +21,7 @@ public:
 		componentParameters[L"do_config"] = L"true";
 		componentParameters[L"automation"] = L"true";
 		componentParameters[L"output_dir"] = L"";
-		componentParameters[L"script_file"] = L"";
+		// componentParameters[L"script_file"] = L"";
 		componentParameters[L"name"] = L"CyPhyPython";
 	}
 private:

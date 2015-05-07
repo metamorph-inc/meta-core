@@ -20,13 +20,6 @@ namespace DecoratorSDK {
 LabelPart::LabelPart(PartBase* pPart, CComPtr<IMgaCommonDecoratorEvents>& eventSink):
 	TextPart(pPart, eventSink)
 {
-	textStringVariableName		= PREF_LABEL;
-	textFontVariableName		= PREF_LABELFONT;
-	textMaxLengthVariableName	= PREF_LABELLENGTH;
-	textColorVariableName		= PREF_LABELCOLOR;
-	textLocationVariableName	= PREF_LABELLOCATION;
-	textStatusVariableName		= PREF_LABELENABLED;
-	textWrapStatusVariableName	= PREF_LABELWRAP;
 }
 
 LabelPart::~LabelPart()
@@ -134,6 +127,30 @@ void LabelPart::ExecuteOperation(const CString& newString)
 	CopyTo(newString, bstr);
 	COMTHROW(m_spFCO->put_Name(bstr));
 	// transaction operation end
+}
+
+void LabelPart::InitializeEx(CComPtr<IMgaProject>& pProject, CComPtr<IMgaMetaPart>& pPart, CComPtr<IMgaFCO>& pFCO,
+							HWND parentWnd, PreferenceMap& preferences)
+{
+	TextPart::InitializeEx(pProject, pPart, pFCO, parentWnd, preferences);
+	PreferenceMap::iterator it = preferences.find(PREF_LABEL);
+	if (it != preferences.end())
+		m_strText = *it->second.uValue.pstrValue;
+
+	m_vecText = getFacilities().wrapString(m_strText, m_iTextWrapCount, m_iMaxTextLength);
+}
+
+long LabelPart::GetLongest(void) const
+{
+	long maxv = 0;
+	for (unsigned int i = 0; i < m_vecText.size(); i++) {
+		long ilen = m_vecText[i].GetLength();
+		if (m_iMaxTextLength > 0)
+			ilen = min(ilen, m_iMaxTextLength);
+		if (maxv < ilen)
+			maxv = ilen;
+	}
+	return maxv;
 }
 
 }; // namespace DecoratorSDK

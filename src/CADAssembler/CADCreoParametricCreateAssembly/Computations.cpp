@@ -645,7 +645,7 @@ void CreateXMLFile_RequestedMetrics(
 			metricRoot.ConfigurationID() = i.configurationID;
 			metricRoot.TopAssemblyComponentInstanceID() = i.topAssemblyComponentInstanceID;
 			metricRoot.MetricType() = ComputationType_string(i.cADComputation.computationType);
-			metricRoot.ComponenInstancetID() = i.cADComputation.componentID;
+			metricRoot.ComponentInstanceID() = i.cADComputation.componentID;
 			metricRoot.ComponentName() = in_CADComponentData_map[i.cADComputation.componentID].name;
 			// Model Type
 			if ( in_CADComponentData_map[i.cADComputation.componentID].modelType == PRO_MDL_PART )

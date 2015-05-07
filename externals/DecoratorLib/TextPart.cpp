@@ -74,6 +74,13 @@ CRect TextPart::GetLabelLocation(void) const
 void TextPart::InitializeEx(CComPtr<IMgaProject>& pProject, CComPtr<IMgaMetaPart>& pPart, CComPtr<IMgaFCO>& pFCO,
 							HWND parentWnd, PreferenceMap& preferences)
 {
+	VARIANT_BOOL libObject = VARIANT_FALSE;
+	if (pFCO) {
+		pFCO->get_IsLibObject(&libObject);
+	}
+	if (libObject != VARIANT_FALSE) {
+		m_bTextEditable = false;
+	}
 	// Check if editability is disabled/enabled
 	PreferenceMap::iterator it = preferences.find(PREF_ITEMEDITABLE);
 	if (it != preferences.end())
@@ -90,11 +97,6 @@ void TextPart::InitializeEx(CComPtr<IMgaProject>& pProject, CComPtr<IMgaMetaPart
 	// Get Text
 	it = preferences.find(DecoratorSDK::PREF_TEXTOVERRIDE);
 	if (it == preferences.end()) {
-		it = preferences.find(textStringVariableName);
-		bool bTextDefined = (it != preferences.end());
-		if (bTextDefined)
-			m_strText = *it->second.uValue.pstrValue;
-
 		CComBSTR bstrText;
 		CComPtr<IMgaMetaFCO> spMetaFCO;
 		if (!m_spFCO) {
@@ -103,68 +105,57 @@ void TextPart::InitializeEx(CComPtr<IMgaProject>& pProject, CComPtr<IMgaMetaPart
 				COMTHROW(m_spPart->get_Role(&spRole));
 				COMTHROW(spRole->get_Kind(&spMetaFCO));
 
-				if (!bTextDefined) {
-					CComBSTR bstrKindName;
-					COMTHROW(spMetaFCO->get_Name(&bstrKindName));
-					CComBSTR bstrRoleName;
-					COMTHROW(spRole->get_Name(&bstrRoleName));
-					if (bstrKindName == bstrRoleName) {
-						COMTHROW(spMetaFCO->get_DisplayedName(&bstrText));
-					}
-					else {
-						bstrText = bstrRoleName;
-					}
+				CComBSTR bstrKindName;
+				COMTHROW(spMetaFCO->get_Name(&bstrKindName));
+				CComBSTR bstrRoleName;
+				COMTHROW(spRole->get_Name(&bstrRoleName));
+				if (bstrKindName == bstrRoleName) {
+					COMTHROW(spMetaFCO->get_DisplayedName(&bstrText));
+				}
+				else {
+					bstrText = bstrRoleName;
 				}
 			}
 		} else {
-			if (!bTextDefined)
-				COMTHROW(m_spFCO->get_Name(&bstrText));
+			COMTHROW(m_spFCO->get_Name(&bstrText));
 		}
-		if (!bTextDefined)
-			m_strText = bstrText;
-		if (m_strText == "Condition") {
-			m_strText = "Condition";
-		}
+		m_strText = bstrText;
 	}
 
 	// Text's Font
 	m_iFontKey = FONT_LABEL;
-	it = preferences.find(textFontVariableName);
+	it = preferences.find(PREF_LABELFONT);
 	if (it != preferences.end())
 		m_iFontKey = it->second.uValue.lValue;
-
-	// Text's Max Length
-	m_iMaxTextLength = MAX_LABEL_LENGTH;
-	it = preferences.find(textMaxLengthVariableName);
-	if (it != preferences.end())
-		m_iMaxTextLength = it->second.uValue.lValue;
 
 	// Text's Color
 	it = preferences.find(DecoratorSDK::PREF_TEXTCOLOROVERRIDE);
 	if (it == preferences.end()) {
 		m_crText = COLOR_BLACK;
-		it = preferences.find(textColorVariableName);
+		it = preferences.find(PREF_LABELCOLOR);
 		if (it != preferences.end()) {
 			m_crText = it->second.uValue.crValue;
 		} else {
 			if (m_spFCO)
-				getFacilities().getPreference(m_spFCO, textColorVariableName, m_crText);
+				getFacilities().getPreference(m_spFCO, PREF_LABELCOLOR, m_crText);
 		}
 	}
 
+	m_iMaxTextLength = MAX_LABEL_LENGTH;
+
 	// Text's Location
 	m_eTextLocation = L_SOUTH;
-	it = preferences.find(textLocationVariableName);
+	it = preferences.find(PREF_LABELLOCATION);
 	if (it != preferences.end()) {
 		m_eTextLocation = it->second.uValue.eLocation;
 	} else {
 		if (m_spFCO)
-			getFacilities().getPreference(m_spFCO, textLocationVariableName, m_eTextLocation);
+			getFacilities().getPreference(m_spFCO, PREF_LABELLOCATION, m_eTextLocation);
 	}
 
 	// Text's Enabled
 	if (m_spFCO) {
-		if (!getFacilities().getPreference(m_spFCO, textStatusVariableName, m_bTextEnabled))
+		if (!getFacilities().getPreference(m_spFCO, PREF_LABELENABLED, m_bTextEnabled))
 			m_bTextEnabled = true;
 	} else {
 		m_bTextEnabled = true;
@@ -172,7 +163,7 @@ void TextPart::InitializeEx(CComPtr<IMgaProject>& pProject, CComPtr<IMgaMetaPart
 
 	// Text's Wrap
 	if (m_spFCO) {
-		if (getFacilities().getPreference(m_spFCO, textWrapStatusVariableName, m_iTextWrapCount)) {
+		if (getFacilities().getPreference(m_spFCO, PREF_LABELWRAP, m_iTextWrapCount)) {
 			m_iTextWrapCount = max(m_iTextWrapCount, 0L);
 		} else {
 			m_iTextWrapCount = 0;
@@ -180,8 +171,6 @@ void TextPart::InitializeEx(CComPtr<IMgaProject>& pProject, CComPtr<IMgaMetaPart
 	} else {
 		m_iTextWrapCount = 0;
 	}
-
-	m_vecText = getFacilities().wrapString(m_strText, m_iTextWrapCount, m_iMaxTextLength);
 }
 
 bool TextPart::MouseMoved(UINT nFlags, const CPoint& point, HDC transformHDC)
@@ -259,15 +248,7 @@ bool TextPart::OperationCanceledByGME(void)
 
 long TextPart::GetLongest(void) const
 {
-	long maxv = 0;
-	for (unsigned int i = 0; i < m_vecText.size(); i++) {
-		long ilen = m_vecText[i].GetLength();
-		if (m_iMaxTextLength > 0)
-			ilen = min(ilen, m_iMaxTextLength);
-		if (maxv < ilen)
-			maxv = ilen;
-	}
-	return maxv;
+	return m_strText.GetLength();
 }
 
 CRect TextPart::GetTextLocation(void) const

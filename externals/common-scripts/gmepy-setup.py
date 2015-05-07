@@ -5,6 +5,32 @@
 # mt -manifest CSharpDSMLGenerator.manifest -outputresource:CSharpDSMLGenerator.dll;2
 # sn -R CSharpDSMLGenerator.dll %GME_ROOT%\SDK\DotNet\DsmlGenerator\CSharpDsmlGenerator\AssemblySignature.snk
 
+# mt -manifest ISIS.MetaGME2Uml.manifest -outputresource:MetaGME2Uml.dll;2
+
+# http://www.py2exe.org/index.cgi/win32com.shell
+# ModuleFinder can't handle runtime changes to __path__, but win32com uses them
+try:
+    # py2exe 0.6.4 introduced a replacement modulefinder.
+    # This means we have to add package paths there, not to the built-in
+    # one.  If this new modulefinder gets integrated into Python, then
+    # we might be able to revert this some day.
+    # if this doesn't work, try import modulefinder
+    try:
+        import py2exe.mf as modulefinder
+    except ImportError:
+        import modulefinder
+    import win32com, sys
+    for p in win32com.__path__[1:]:
+        modulefinder.AddPackagePath("win32com", p)
+    for extra in ["win32com.shell"]: #,"win32com.mapi"
+        __import__(extra)
+        m = sys.modules[extra]
+        for p in m.__path__[1:]:
+            modulefinder.AddPackagePath(extra, p)
+except ImportError:
+    # no build path setup, no worries.
+    pass
+
 import sys
 from distutils.core import setup
 import py2exe
@@ -34,7 +60,7 @@ manifest = """
 <assemblyIdentity type="win32" name="gmepy" version="%(version)s" />
 <dependency>
   <dependentAssembly>
-    <assemblyIdentity type="win32" name="ISIS.MetaGME2UML" version="1.7.4.5" />
+    <assemblyIdentity type="win32" name="ISIS.MetaGME2UML" version="1.7.7.10" />
   </dependentAssembly>
 </dependency>
 <dependency>
@@ -56,6 +82,15 @@ setup(console=[Target(script = "gme.py", other_resources = [(24, 1, manifest)] )
 options={"py2exe":{
                         "dll_excludes": ['w9xpopen.exe','API-MS-Win-Core-LocalRegistry-L1-1-0.dll', 'MPR.dll'],
                         "bundle_files": 1,
+                        "includes": [
+                                "win32com.shell.shell",
+                                "win32com.shell",
+                                "win32process",
+                                "win32event",
+                                "winxpgui",
+                                "win32api",
+                                "win32con"]
+
                 }
         },
 )

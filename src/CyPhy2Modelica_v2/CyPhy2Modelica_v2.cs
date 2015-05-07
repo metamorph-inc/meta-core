@@ -322,26 +322,89 @@ namespace CyPhy2Modelica_v2
             return result;
         }
 
+        // From StackOverflow: http://stackoverflow.com/questions/1406808/wait-for-file-to-be-freed-by-process 
+        private static bool IsFileReady(String sFilename)
+        {
+            // If the file can be opened for exclusive access it means that the file
+            // is no longer locked by another process.
+            try
+            {
+                using (FileStream inputStream = File.Open(sFilename, FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    if (inputStream.Length > 0)
+                    {
+                        inputStream.Close();
+                        return true;
+                    }
+                    else
+                    {
+                        inputStream.Close();
+                        return false;
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         private bool CallCyberInterpreter(CyPhy.CyberModel cyberModel)
         {
             bool success = true;
 
-            string cyberModelPath = string.Empty;
+            string cyberModelPath = string.Empty; 
 
-            // checks
-            if (string.IsNullOrWhiteSpace(cyberModel.Attributes.FileRef))
+            // get the path to the cyber model file
+            // first, the right way (using resources)
+            CyPhy.UsesResource uses_conn = null;
+            CyPhy.Resource res = null;
+
+            CyPhy.Component parent_comp = cyberModel.ParentContainer as CyPhy.Component;
+
+            if (cyberModel.SrcConnections.UsesResourceCollection != null
+                && cyberModel.SrcConnections.UsesResourceCollection.Count() != 0)
             {
-                this.Logger.WriteError("[Cyber] Model filename attribute is empty: {0}", cyberModel.ToHyperLink());
-                return false;
+                uses_conn = cyberModel.SrcConnections.UsesResourceCollection.First();
+                res = uses_conn.SrcEnd as CyPhy.Resource;
+            }
+            else if (cyberModel.DstConnections.UsesResourceCollection != null
+                      && cyberModel.DstConnections.UsesResourceCollection.Count() != 0)
+            {
+                uses_conn = cyberModel.DstConnections.UsesResourceCollection.First();
+                res = uses_conn.DstEnd as CyPhy.Resource;
             }
 
-            if (Path.IsPathRooted(cyberModel.Attributes.FileRef))
+            if (res != null)
             {
-                cyberModelPath = cyberModel.Attributes.FileRef;
+                cyberModelPath = Path.Combine(parent_comp.Attributes.Path, res.Attributes.Path);
             }
             else
             {
-                cyberModelPath = Path.Combine(this.mainParameters.ProjectDirectory, cyberModel.Attributes.FileRef);
+                uses_conn = null;
+            }
+            
+            if (uses_conn == null)
+            {
+
+                // failing that, do it the wrong way by getting the fileref attribute value
+
+                // checks
+                if (string.IsNullOrWhiteSpace(cyberModel.Attributes.FileRef))
+                {
+                    this.Logger.WriteError("[Cyber] Model filename attribute is empty: {0}", cyberModel.ToHyperLink());
+                    return false;
+                }
+
+                if (Path.IsPathRooted(cyberModel.Attributes.FileRef))
+                {
+                    cyberModelPath = cyberModel.Attributes.FileRef;
+                }
+                else
+                {
+                    cyberModelPath = Path.Combine(this.mainParameters.ProjectDirectory, cyberModel.Attributes.FileRef);
+                }
             }
 
             string cyberModelMgaPath = string.Empty;
@@ -382,7 +445,7 @@ namespace CyPhy2Modelica_v2
 
             if (requiresImport)
             {
-                // FIXME: this will throw an exception if xme is referenced mga exists and it is being used.
+                // FIXME: this will throw an exception if xme-referenced mga exists and it is being used.
                 MgaUtils.ImportXME(cyberModelXmePath, cyberModelMgaPath);
             }
 
@@ -432,17 +495,69 @@ namespace CyPhy2Modelica_v2
                 IMgaComponentEx cyberCodeGenerator = Activator.CreateInstance(tCyber) as IMgaComponentEx;
 
                 cyberCodeGenerator.Initialize(cyberProject);
-                var cyberOutputDir = Path.Combine(this.mainParameters.OutputDirectory, Modelica.CodeGenerator.MainPackage);
+                string cyberOutputDir = Path.Combine(this.mainParameters.OutputDirectory, Modelica.CodeGenerator.MainPackage);
                 Directory.CreateDirectory(cyberOutputDir);
                 cyberCodeGenerator.ComponentParameter["output_dir"] = cyberOutputDir;
                 cyberCodeGenerator.ComponentParameter["automation"] = "true";
                 cyberCodeGenerator.ComponentParameter["console_messages"] = "off";
-                this.Logger.WriteInfo("Generating code for Cyber [{0}] elements...", cyberModel.Attributes.ModelType);
+                this.Logger.WriteInfo("Generating code for Cyber [{0}] elements... to directory {1}", cyberModel.Attributes.ModelType, cyberOutputDir);
                 System.Windows.Forms.Application.DoEvents();
                 MgaFCOs selectedobjs = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
                 cyberCodeGenerator.InvokeEx(cyberProject, currentObj, selectedobjs, 128);
                 this.Logger.WriteInfo("Cyber [{0}] code generation is done.", cyberModel.Attributes.ModelType);
                 System.Windows.Forms.Application.DoEvents();
+
+                // Copy files referred by resource objects
+                string cyber_manifest_filename = parent_comp.Name + ".cyber.json";
+                Dictionary<string, string> comp_resources = new Dictionary<string, string>();
+                foreach (CyPhy.Resource resource in parent_comp.Children.ResourceCollection)
+                {
+                    FileInfo resource_path = new FileInfo(Path.Combine(parent_comp.Attributes.Path, resource.Attributes.Path));
+                    string final_path;
+
+                    if (resource_path.DirectoryName == null || resource_path.DirectoryName == string.Empty)
+                    {
+                        final_path = "Cyber";
+                    }
+                    else
+                    {
+                        final_path = resource_path.DirectoryName.Split(Path.DirectorySeparatorChar).Last();
+                    }
+                    //DirectoryInfo resource_directory = resource_path.Directory;
+
+                    //string res_path = Path.Combine(cyberModel.Path, resource.Attributes.Path);
+                    //string[] path_parts = res_path.Split('\\');
+                    //string[] path_only = path_parts.Take(path_parts.Length - 1).ToArray();
+                    
+                    string new_path = Path.Combine( cyberOutputDir, final_path );
+                    Logger.WriteInfo("[Cyber] resource_path.DirectoryName == string.Empty, new_path is {0}", new_path);
+                    
+                    System.IO.Directory.CreateDirectory(new_path);
+                    string dest_filename = Path.Combine(new_path, resource_path.Name);
+                    Logger.WriteInfo("[Cyber] dest_filename is {0}", dest_filename);
+                    // TODO: Little bit hacky hard-coding the wait time
+                    //int counter = 0;
+                    //while ((IsFileReady(resource_path.FullName) != true)) && (counter < 10))
+                    //{
+                    //    System.Threading.Thread.Sleep(2000);
+                    //    counter++;
+                    //}
+
+                    if (IsFileReady(resource_path.FullName) == true)
+                    {
+                        Logger.WriteInfo("[Cyber] copying file {0} to file {1}", resource_path.FullName, dest_filename);
+                        System.IO.File.Copy(resource_path.FullName, dest_filename, true);
+                        comp_resources[resource.Attributes.ID] = Path.Combine(final_path, resource_path.Name );
+                    }
+                    else
+                    {
+                        Logger.WriteError("[Cyber] Cannot access file for copying: {0}", dest_filename);
+                    }
+                    
+                }
+
+                string json_resources = Newtonsoft.Json.JsonConvert.SerializeObject(comp_resources);
+                System.IO.File.WriteAllText(Path.Combine(cyberOutputDir, cyber_manifest_filename), json_resources);
             }
             catch (Exception ex)
             {
@@ -757,9 +872,9 @@ namespace CyPhy2Modelica_v2
             if (File.Exists(dymolaExe) == false)
             {
                 //GMEConsole.Warning.WriteLine("Dymola install was not found.");
-                this.Logger.WriteError("Dymola install was not found.");
-                this.Logger.WriteError("The generate code cannot be checked through Dymola.");
-                return result;
+                this.Logger.WriteWarning("Dymola install was not found.");
+                this.Logger.WriteWarning("The generate code cannot be checked with Dymola.");
+                return true;
             }
             else
             {
@@ -867,8 +982,9 @@ namespace CyPhy2Modelica_v2
             var result = false;
             if (File.Exists(omcExe) == false)
             {
-                this.Logger.WriteError("OpenModelica compiler was not found.");
-                return result;
+                this.Logger.WriteWarning("OpenModelica installation was not found.");
+                this.Logger.WriteWarning("The generate code cannot be checked with OpenModelica.");
+                return true;
             }
             else
             {

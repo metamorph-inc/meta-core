@@ -842,6 +842,9 @@
             foreach (var environment in testBench.Children.EnvironmentCollection)
             {
                 this.AddEnvironment(environment);
+                this.instanceURIMap.Add(
+                string.Format("{0}.TestBenches.{1}.{2}", MainPackage, testBench.Name, environment.Name),
+                    new ComponentInfo(environment.Impl as GME.MGA.IMgaFCO, "Environment", this.traceability));
             }
         }
 

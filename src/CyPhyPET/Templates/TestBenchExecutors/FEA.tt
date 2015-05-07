@@ -77,7 +77,7 @@ def execute():
     :return: Dictionary with metrics names and values if testbench_manifest.json is not updated, else None.
     """
     log = logging.getLogger()
-    cad_bat = 'runCreateCADAssembly.bat'
+    cad_bat = 'runCADJob.bat'
     out_put_file = 'PET_run.txt'
 
     if os.path.isfile(out_put_file):
@@ -93,7 +93,7 @@ def execute():
             timer += 0.1
         if timer > MAX_WAIT_TIME:
             sim_process.kill()
-            f_out.write('runCreateCADAssembly.bat exceeded MAX_WAIT_TIME = {0} (seconds).'.format(MAX_WAIT_TIME))
+            f_out.write('runCADJob.bat exceeded MAX_WAIT_TIME = {0} (seconds).'.format(MAX_WAIT_TIME))
             was_killed = True
 
     with open(out_put_file, 'r') as f_in:

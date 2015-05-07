@@ -41,6 +41,7 @@ namespace CyPhyUtil
 				return true;
 			else if(port_ref_parent && !rhs.port_ref_parent)
 				return false;
+			return port.uniqueId() < rhs.port.uniqueId(); // should be unreachable
 		}
 
 		bool operator==(const ComponentPort& rhs) const

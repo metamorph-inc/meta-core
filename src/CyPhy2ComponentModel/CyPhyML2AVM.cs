@@ -140,6 +140,8 @@ namespace CyPhyML2AVM {
         }
 
         private Dictionary<object, object> _cyPhyMLAVMObjectMap = new Dictionary<object, object>();
+        public Dictionary<object, object> CyPhyMLToAVMObjectMap { get { return _cyPhyMLAVMObjectMap; } }
+
         private Dictionary<string, object> _idCyPhyMLObjectMap = new Dictionary<string, object>();
         private HashSet<CyPhyML.DomainModel> _cyPhyMLDomainModelSet = new HashSet<CyPhyML.DomainModel>();
 
@@ -279,6 +281,7 @@ namespace CyPhyML2AVM {
             avmPrimitiveProperty.Name = cyPhyMLProperty.Name;
             avmPrimitiveProperty.ID = "property." + ensureIDAttribute(cyPhyMLProperty);
             avmPrimitiveProperty.OnDataSheet = cyPhyMLProperty.Attributes.IsProminent;
+            avmPrimitiveProperty.OnDataSheetSpecified = true;
 
             avm.Value avmValue = new avm.Value();
             avmPrimitiveProperty.Value = avmValue;
@@ -375,26 +378,32 @@ namespace CyPhyML2AVM {
             var range = cyPhyMLParameter.Attributes.Range;
             if (!String.IsNullOrWhiteSpace(range) && (range.Contains(',') || range.Contains("..")))
             {
+                foreach (var d in new string[] { "[", "(", "]", ")", " " })
+                {
+                    range = range.Replace(d, "");
+                }
                 string[] split = null;
                 if (range.Contains(","))
                     split = range.Split(',');
                 else if (range.Contains(".."))
                     split = Regex.Split(range, @"\.\.");
 
-                string min = split[0].Replace(" ", "");
-                string max = split[1].Replace(" ", "");
+                string min = split[0];
+                string max = split[1];
 
-                if (min != "(-inf")
+                if (min != "-inf")
                 {
-                    var minFV = new avm.FixedValue();
-                    minFV.Value = min.Replace("[", "");
-                    avmParametricValue.Minimum = minFV;
+                    avmParametricValue.Minimum = new avm.FixedValue()
+                    {
+                        Value = min
+                    };
                 }
-                if (max != "inf)")
+                if (max != "inf")
                 {
-                    var maxFV = new avm.FixedValue();
-                    maxFV.Value = max.Replace("]", "");
-                    avmParametricValue.Maximum = maxFV;
+                    avmParametricValue.Maximum = new avm.FixedValue()
+                    {
+                        Value = max
+                    };
                 }
             }
 
@@ -403,6 +412,17 @@ namespace CyPhyML2AVM {
 
         public void createAVMParameter( CyPhyML.Parameter cyPhyMLParameter ) {
             avm.PrimitiveProperty avmPrimitiveProperty = convertParameter(cyPhyMLParameter, ensureIDAttribute(cyPhyMLParameter));
+
+            var incomingVF = cyPhyMLParameter.SrcConnections.ValueFlowCollection.Where(c => c.IsRefportConnection() == false).FirstOrDefault();
+            var incomingCADMetric = cyPhyMLParameter.SrcConnections.CADMetricPortMapCollection.Where(c => c.IsRefportConnection() == false).FirstOrDefault();
+            var valueExpression = avmPrimitiveProperty.Value.ValueExpression as avm.ParametricValue;
+            if (incomingVF != null || incomingCADMetric != null)
+            {
+                throw new ApplicationException("Error: component '" + this._avmComponent.Name + "' has Parameter '" + cyPhyMLParameter.Name +
+                        "' with incoming ValueFlow connections. Value assignments for Component Parameters must come from outside the Component itself. " +
+                        "Alternatively, a Property may have incoming ValueFlow connections");
+            }
+
             _cyPhyMLAVMObjectMap.Add(cyPhyMLParameter, avmPrimitiveProperty);
             _avmComponent.Property.Add(avmPrimitiveProperty);
         }        

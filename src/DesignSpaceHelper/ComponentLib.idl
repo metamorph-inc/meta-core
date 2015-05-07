@@ -1,0 +1,47 @@
+import "oaidl.idl";
+import "ocidl.idl";
+
+#include "ComponentConfig.h"
+#include "InterfaceColl.h"
+
+import "core.idl";
+import "mga.idl";
+
+[
+	object,
+	uuid(65AD716E-98D2-4A5E-BC4C-0D66D48EF92F),
+	oleautomation,
+	pointer_default(unique)
+]
+interface IDesignSpaceHelper : IMgaComponentEx
+{
+	HRESULT ApplyConstraintsAndGenerateCWCs([in] IMgaProject *project, [in] IMgaFCO *currentobj, [in] VARIANT_BOOL applyConstraints);
+}
+
+[
+	uuid(TYPELIB_UUID),
+	version(1.1),
+	helpstring(TYPELIB_NAME)
+]
+library MgaComponentLib
+{
+	importlib("stdole32.tlb");
+	importlib("core.dll");
+	importlib("meta.dll");
+	importlib("mga.dll");
+
+	[
+		uuid(COCLASS_UUID),
+		helpstring(COCLASS_NAME)
+	]
+	coclass MgaComponent
+	{
+		[default] interface IMgaComponentEx;
+		interface IMgaComponent;
+		interface IGMEVersionInfo;
+	};
+
+	interface IDesignSpaceHelper;
+};
+
+

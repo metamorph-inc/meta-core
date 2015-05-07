@@ -11,37 +11,7 @@ set ERROR_CODE=0
 
 set ERROR_MSG=""
 
-
-Rem ****************************
-REM Create Creo Assembly
-Rem ****************************
-
-set EXE_FILE_NAME=CADCreoParametricCreateAssembly.exe
-set EXE="%PROE_ISIS_EXTENSIONS%\bin\%EXE_FILE_NAME%"
-
-set ASSEMBLY_XML_FILE="<#=XMLFileName#>.xml"
-set LOG_FILE=%ASSEMBLY_XML_FILE%.log
-
-
-if exist %EXE% goto  :EXE_FOUND
-@echo off
-echo		Error: Could not find %EXE_FILE_NAME%.
-echo		Your system is not properly configured to run %EXE_FILE_NAME%.
-echo		Please see For instructions on how to configure your system, please see "0Readme - CreateAssembly.txt"
-echo		which is typically located at "C:\Program Files\META\Proe ISIS Extensions"
-set ERROR_CODE=2
-set ERROR_MSG="Error from runCreateCADAssembly.bat: Could not find CADCreoParametricCreateAssembly.exe."
-goto :ERROR_SECTION
-:EXE_FOUND
-
-%EXE% -w %WORKING_DIR%  -i %ASSEMBLY_XML_FILE% -l %LOG_FILE% <# if (!Automation) { #>-p<# } #> <# if (LiveLink){ #>-s 127.0.0.1:15150 -g<# } #> <#=AdditionalOptions#>
-
-
-set ERROR_CODE=%ERRORLEVEL%
-if %ERRORLEVEL% NEQ 0 (
-set ERROR_MSG="Error from runCreateCADAssembly.bat: %EXE_FILE_NAME% encountered error during execution, error level is %ERROR_CODE%"
-goto :ERROR_SECTION
-)
+FOR /F "skip=2 tokens=2,*" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO set MetaPath=%%B
 
 if exist TestBench_PreProcess.cmd (
 cmd /c TestBench_PreProcess.cmd
@@ -49,11 +19,17 @@ cmd /c TestBench_PreProcess.cmd
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
-set ERROR_MSG="Error from runCreateCADAssembly.bat: Encountered error during execution of TestBench_PreProcess.cmd, error level is %ERROR_CODE%"
+set ERROR_MSG="Error from runCADJob.bat: Encountered error during execution of TestBench_PreProcess.cmd, error level is %ERROR_CODE%"
 goto :ERROR_SECTION
 )
 
+"%MetaPath%\bin\Python27\Scripts\Python.exe" "%MetaPath%\bin\CAD\CADJobDriver.py" -assembler <#=Assembler#> -mesher <#=Mesher#> -analyzer <#=Analyzer#> <# if (Mode!=null) { #>-mode <#=Mode#> <#}#>
+
+<# if (CallDomainTool!=null) { #>
+
 <#=CallDomainTool#>
+
+<# } #>
 
 
 <# if (Automation) { #>
@@ -66,8 +42,8 @@ Rem ****************************
 
 set RESULT_XML_FILE=<#=ComputedMetricsPath#>
 set PY_SCRIPT_NAME=UpdateReportJson_CAD.py
-set PY_SCRIPT="%PROE_ISIS_EXTENSIONS%\bin\%PY_SCRIPT_NAME%"
-set PYTHONPATH=%PYTHONPATH%;%PROE_ISIS_EXTENSIONS%
+set PY_SCRIPT="%MetaPath%bin\CAD\%PY_SCRIPT_NAME%"
+set PYTHONPATH=%PYTHONPATH%;%MetaPath%
 
 if exist %PY_SCRIPT% goto  :PY_FOUND
 @echo off
@@ -76,15 +52,15 @@ echo		Your system is not properly configured to run %PY_SCRIPT_NAME%.
 echo		Please see For instructions on how to configure your system, please see "0Readme - CreateAssembly.txt"
 echo		which is typically located at "C:\Program Files\META\Proe ISIS Extensions"
 set ERROR_CODE=2
-set ERROR_MSG="Error from runCreateCADAssembly.bat: Could not find UpdateReportJson_CAD.py."
+set ERROR_MSG="Error from runCADJob.bat: Could not find UpdateReportJson_CAD.py."
 goto :ERROR_SECTION
 
 :PY_FOUND
-FOR /F "skip=2 tokens=2,*" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO "%%B\bin\Python27\Scripts\Python.exe" %PY_SCRIPT% -m %RESULT_XML_FILE%
+"%MetaPath%\bin\Python27\Scripts\Python.exe" %PY_SCRIPT% -m %RESULT_XML_FILE%
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
-set ERROR_MSG="Error from runCreateCADAssembly.bat: %PY_SCRIPT_NAME% encountered error during execution, error level is %ERROR_CODE%"
+set ERROR_MSG="Error from runCADJob.bat: %PY_SCRIPT_NAME% encountered error during execution, error level is %ERROR_CODE%"
 goto :ERROR_SECTION
 )
 
@@ -94,7 +70,7 @@ cmd /c TestBench_PostProcess.cmd
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
-set ERROR_MSG="Error from runCreateCADAssembly.bat: Encountered error during execution of TestBench_PostProcess.cmd, error level is %ERROR_CODE%"
+set ERROR_MSG="Error from runCADJob.bat: Encountered error during execution of TestBench_PostProcess.cmd, error level is %ERROR_CODE%"
 goto :ERROR_SECTION
 )
 <# } #>
@@ -112,7 +88,10 @@ exit /b %ERROR_CODE%
 public string XMLFileName {get;set;}
 public bool Automation {get;set;}
 public string ComputedMetricsPath = "ComputedValues.xml";
-public bool LiveLink {get; set;}
-public string CallDomainTool{get;set;}
 public string AdditionalOptions = "";
+public string Mesher { get; set; }
+public string Analyzer { get; set; }
+public string Assembler { get; set; }
+public string Mode { get; set; }
+public string CallDomainTool { get; set; }
 #>

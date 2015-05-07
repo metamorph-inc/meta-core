@@ -1,7 +1,7 @@
 # .\_cyber.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:9017347a610d1436c1aaf52764e6578e8fc1a083
-# Generated 2014-07-23 12:06:13.264000 by PyXB version 1.2.3
+# Generated 2014-09-14 19:11:16.121000 by PyXB version 1.2.3
 # Namespace cyber [xmlns:cyber]
 
 import pyxb
@@ -13,7 +13,7 @@ import pyxb.utils.domutils
 import sys
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:a6621f40-128b-11e4-a34d-f4f951f120a3')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:cf212d2e-3c6c-11e4-af2a-20c9d0878c2e')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.3'

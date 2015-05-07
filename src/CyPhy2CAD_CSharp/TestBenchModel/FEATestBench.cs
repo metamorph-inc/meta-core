@@ -924,91 +924,64 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         
         public override void GenerateRunBat()
         {
-            StringBuilder sbuilder = new StringBuilder();
-            sbuilder.AppendLine();
-            sbuilder.AppendLine("REM ****************************");
-            sbuilder.AppendFormat("REM {0} Tool\n",
-                                  SolverType);
-            sbuilder.AppendLine("REM ****************************");
-
-
-            if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.ABAQUS_Model_Based.ToString())
-            {
-                sbuilder.AppendLine("set FEA_SCRIPT=\"%PROE_ISIS_EXTENSIONS%\\bin%\\Abaqus\\AbaqusMain.py\"\n");
-            }
-            else if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.ABAQUS_Deck_Based.ToString())
-            {
-                sbuilder.AppendLine("set OLDDIR=%cd%");
-                sbuilder.AppendLine("cd Analysis\\Abaqus");
-                sbuilder.AppendLine("set FEA_SCRIPT=\"runAnalysis.bat\"\n");
-            }
-            else if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.NASTRAN.ToString())
-            {
-                sbuilder.AppendLine("set FEA_SCRIPT=\"Analysis\\Nastran\\runAnalysis.bat\"\n");
-            }
-
-            sbuilder.AppendLine("if exist %FEA_SCRIPT% goto  :FEA_FOUND");
-            sbuilder.AppendLine("@echo off");
-            sbuilder.AppendLine("echo		Error: Could not find %FEA_SCRIPT%.");
-            sbuilder.AppendLine("echo		Your system is not properly configured to run %FEA_SCRIPT%.");
-            sbuilder.AppendLine("set ERROR_CODE=2");
-            sbuilder.AppendLine("set ERROR_MSG=\"Error: Could not find %FEA_SCRIPT%.\"");
-            sbuilder.AppendLine("goto :ERROR_SECTION\n");
-
-            sbuilder.AppendLine(":FEA_FOUND");
-            if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.ABAQUS_Model_Based.ToString())
-            {
-                switch (CyphyTestBenchRef.Attributes.FEAMode)
-                {
-                    case CyPhyClasses.CADTestBench.AttributesClass.FEAMode_enum.Meshing_Only:
-                        sbuilder.AppendLine("call abaqus cae noGUI=%FEA_SCRIPT% -- -o\n");
-                        break;
-                    case CyPhyClasses.CADTestBench.AttributesClass.FEAMode_enum.Meshing_and_Boundary_Conditions:
-                        sbuilder.AppendLine("call abaqus cae noGUI=%FEA_SCRIPT% -- -b\n");
-                        break;
-                    case CyPhyClasses.CADTestBench.AttributesClass.FEAMode_enum.Modal:
-                        sbuilder.AppendLine("call abaqus cae noGUI=%FEA_SCRIPT% -- -m\n");
-                        break;
-                    case CyPhyClasses.CADTestBench.AttributesClass.FEAMode_enum.Dynamic__Explicit_:
-                        sbuilder.AppendLine("call abaqus cae noGUI=%FEA_SCRIPT% -- -e\n");
-                        break;
-                    case CyPhyClasses.CADTestBench.AttributesClass.FEAMode_enum.Dynamic__Implicit_:
-                        sbuilder.AppendLine("call abaqus cae noGUI=%FEA_SCRIPT% -- -i\n");
-                        break;
-                    case CyPhyClasses.CADTestBench.AttributesClass.FEAMode_enum.Static__Standard_:
-                        sbuilder.AppendLine("call abaqus cae noGUI=%FEA_SCRIPT% -- -s\n");
-                        break;
-                }
-            }
-            else if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.ABAQUS_Deck_Based.ToString())
-            {
-                sbuilder.AppendLine("cmd /c %FEA_SCRIPT%\n");
-                sbuilder.AppendLine("cd %OLDDIR%");
-            }
-            else if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.NASTRAN.ToString())
-            {
-                sbuilder.AppendLine("cmd /c %FEA_SCRIPT%\n");
-            }
-
-            sbuilder.AppendLine("set ERROR_CODE=%ERRORLEVEL%");
-            sbuilder.AppendLine("if %ERRORLEVEL% NEQ 0 (");
-
-            if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.ABAQUS_Model_Based.ToString())
-                sbuilder.AppendLine("set ERROR_MSG=\"Script Error: error level is %ERROR_CODE%, see log/CyPhy2AbaqusCmd.log for details.\"");
-            else
-                sbuilder.AppendLine("set ERROR_MSG=\"%FEA_SCRIPT% encountered error during execution, error level is %ERROR_CODE%\"");
-            sbuilder.AppendLine("goto :ERROR_SECTION");
-            sbuilder.AppendLine(")");
-
             Template.run_bat searchmeta = new Template.run_bat()
             {
                 Automation = IsAutomated,
                 XMLFileName = "CADAssembly",
                 ComputedMetricsPath = "\"Analysis\\Abaqus\\ComputedValues.xml\"",
-                AdditionalOptions = CADOptions??"",
-                CallDomainTool = sbuilder.ToString()
+                AdditionalOptions = CADOptions ?? "",
             };
-            using (StreamWriter writer = new StreamWriter(Path.Combine(OutputDirectory, "runCreateCADAssembly.bat")))
+
+            searchmeta.Assembler = "CREO";
+            if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.ABAQUS_Model_Based.ToString())
+            {
+                searchmeta.Mesher = "ABAQUS";
+                searchmeta.Analyzer = "ABAQUSMODEL";
+            }
+            else if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.ABAQUS_Deck_Based.ToString())
+            {
+                searchmeta.Mesher = "CREO";
+                searchmeta.Analyzer = "ABAQUSDECK";
+            }
+            else if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.NASTRAN.ToString())
+            {
+                searchmeta.Mesher = "CREO";
+                searchmeta.Analyzer = "NASTRAN";
+            }
+
+            if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.ABAQUS_Model_Based.ToString())
+            {
+                switch (CyphyTestBenchRef.Attributes.FEAMode)
+                {
+                    case CyPhyClasses.CADTestBench.AttributesClass.FEAMode_enum.Meshing_Only:
+                        searchmeta.Analyzer = "NONE";
+                        break;
+                    case CyPhyClasses.CADTestBench.AttributesClass.FEAMode_enum.Meshing_and_Boundary_Conditions:
+                        searchmeta.Analyzer = "NONE";
+                        searchmeta.Mesher = "ABAQUSMDLCHECK";
+                        break;
+                    case CyPhyClasses.CADTestBench.AttributesClass.FEAMode_enum.Modal:
+                        searchmeta.Mode = "MODAL";
+                        break;
+                    case CyPhyClasses.CADTestBench.AttributesClass.FEAMode_enum.Dynamic__Explicit_:
+                        searchmeta.Mode = "DYNEXPL";
+                        break;
+                    case CyPhyClasses.CADTestBench.AttributesClass.FEAMode_enum.Dynamic__Implicit_:
+                        searchmeta.Mode = "DYNIMPL";
+                        break;
+                    case CyPhyClasses.CADTestBench.AttributesClass.FEAMode_enum.Static__Standard_:
+                        searchmeta.Mode = "STATIC";
+                        break;
+                }
+            }
+            /*if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.ABAQUS_Model_Based.ToString())
+                sbuilder.AppendLine("set ERROR_MSG=\"Script Error: error level is %ERROR_CODE%, see log/CyPhy2AbaqusCmd.log for details.\"");
+            else
+                sbuilder.AppendLine("set ERROR_MSG=\"%FEA_SCRIPT% encountered error during execution, error level is %ERROR_CODE%\"");
+            sbuilder.AppendLine("goto :ERROR_SECTION");
+            sbuilder.AppendLine(")");*/
+            
+            using (StreamWriter writer = new StreamWriter(Path.Combine(OutputDirectory, "runCADJob.bat")))
             {
                 writer.WriteLine(searchmeta.TransformText());
             }

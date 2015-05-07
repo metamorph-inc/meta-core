@@ -32,20 +32,6 @@ using namespace CyPhyML;
 
 CString CUdmApp::mgaPath = "";
 
-/*********************************************************************************/
-/* Initialization function. The framework calls it before preparing the backend. */
-/* Initialize here the settings in the config global object.					  */
-/* Return 0 if successful.														  */
-/*********************************************************************************/
-int CUdmApp::Initialize()
-{
-
-	// TODO: Your initialization code comes here...
-	return 0;
-}
-
-
-
 /* 
 Remarks to CUdmApp::UdmMain(...):
 0.	The p_backend points to an already open backend, and the framework 
@@ -78,8 +64,8 @@ Remarks to CUdmApp::UdmMain(...):
 void CUdmApp::UdmMain(
 					 Udm::DataNetwork* p_backend,		// Backend pointer(already open!)
 					 Udm::Object focusObject,			// Focus object
-					 set<Udm::Object> selectedObjects,	// Selected objects
-					 long param)						// Parameters
+					 long param,
+					bool applyConstraintsInNoninteractiveMode)						// Parameters
 {	
 	DesertHelper dhelper((LPCTSTR)mgaPath, *p_backend, focusObject);
 	if(focusObject!=Udm::null && (Uml::IsDerivedFrom(focusObject.type(), CyPhyML::DesignContainer::meta)))
@@ -127,7 +113,7 @@ void CUdmApp::UdmMain(
 		else
 		{//for silent mode, like CyPhyCriticalityMeter
 			dhelper.showGui = false;
-			dhelper.executeAll();
+			dhelper.executeAll(applyConstraintsInNoninteractiveMode);
 		}
 
 		dhelper.writeLog();

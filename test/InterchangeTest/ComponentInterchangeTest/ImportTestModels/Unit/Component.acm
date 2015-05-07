@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" SchemaVersion="2.5" ID="b8ef0710-71e8-47f9-81c4-d2d96861da25" Name="Component" Version="" xmlns="avm">
+  <Property xmlns:q1="avm" xsi:type="q1:PrimitiveProperty" Name="Henry" ID="property.id-9fba31cb-ded0-495a-bf50-5d1469bc8492" XPosition="210" YPosition="231" xmlns="">
+    <Value ID="id-9fba31cb-ded0-495a-bf50-5d1469bc8492" DimensionType="Scalar" Dimensions="SomeDimension" Unit="H" DataType="String">
+      <ValueExpression xsi:type="q1:FixedValue">
+        <Value>sdfs</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q2="avm" xsi:type="q2:PrimitiveProperty" Name="mm" ID="property.id-d175150a-188c-4373-935c-39077b57479b" XPosition="210" YPosition="294" xmlns="">
+    <Value ID="id-d175150a-188c-4373-935c-39077b57479b" DimensionType="Scalar" Dimensions="SomeDimension" Unit="mm" DataType="String">
+      <ValueExpression xsi:type="q2:FixedValue">
+        <Value>sdfs</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Property xmlns:q3="avm" xsi:type="q3:PrimitiveProperty" Name="acre" ID="property.id-949c8348-dcba-4f7e-b547-19941c7e0201" XPosition="210" YPosition="364" xmlns="">
+    <Value ID="id-949c8348-dcba-4f7e-b547-19941c7e0201" DimensionType="Scalar" Dimensions="SomeDimension" Unit="ac" DataType="String">
+      <ValueExpression xsi:type="q3:FixedValue">
+        <Value>sdfs</Value>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <Classifications xmlns="" />
+</Component>

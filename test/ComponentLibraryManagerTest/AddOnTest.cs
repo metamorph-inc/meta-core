@@ -23,10 +23,11 @@ namespace ComponentLibraryManagerTest
                 Directory.Delete(AddOnTest.path_Test, true);
 
             Utils.DirectoryCopy(AddOnTest.path_OriginalFiles, AddOnTest.path_Test);
+            File.WriteAllText(Path.Combine(AddOnTest.path_Test, "_THIS_DIR_IS_A_COPY"), "");
 
             // Delete any MGA and import from scratch
             File.Delete(AddOnTest.path_MGA);
-            GME.MGA.MgaUtils.ImportXME(AddOnTest.path_XME, AddOnTest.path_MGA);
+            GME.MGA.MgaUtils.ImportXME(AddOnTest.path_XME, AddOnTest.path_MGA, enableAutoAddons: true);
             Assert.True(File.Exists(AddOnTest.path_MGA));
 
             File.Copy(AddOnTest.path_Manifest_Original, AddOnTest.path_Manifest, true);
@@ -68,7 +69,6 @@ namespace ComponentLibraryManagerTest
             return project.AllFCOs(filter)
                           .Cast<MgaFCO>()
                           .Select(x => CyPhyClasses.Component.Cast(x))
-                          .Cast<CyPhy.Component>()
                           .Where(c => c.ParentContainer.Kind == "Components");
 
         }
@@ -699,6 +699,50 @@ namespace ComponentLibraryManagerTest
             });
 
             project.Save();
+        }
+
+        [Fact]
+        public void CopyAsm()
+        {
+            var name_AsmCopy = "Asm_copy";
+            var project = fixture.GetProject();
+            project.EnableAutoAddOns(true);
+
+            project.PerformInTransaction(delegate
+            {
+                var asm_ToCopy = (MgaFCO)project.RootFolder.get_ObjectByPath("/@Asm/@Asm");
+                Assert.True(null != asm_ToCopy, "Couldn't find component to copy.");
+
+                var parentFolder = asm_ToCopy.ParentFolder;
+                var asm_Copy = parentFolder.CopyFCODisp(asm_ToCopy);
+                asm_Copy.Name = name_AsmCopy;
+            });
+
+            project.PerformInTransaction(delegate
+            {
+                var asm_Original = CyPhyClasses.ComponentAssembly.Cast((MgaFCO)project.RootFolder.get_ObjectByPath("/@Asm/@Asm"));
+
+                var asm_CopyFCO = (MgaFCO)((MgaFCO)asm_Original.Impl).ParentFolder.get_ObjectByPath("/@" + name_AsmCopy);
+                Assert.True(null != asm_CopyFCO, "Couldn't find copied ComponentAssembly.");
+                var asm_Copy = CyPhyClasses.ComponentAssembly.Cast(asm_CopyFCO);
+
+                Assert.False(String.IsNullOrWhiteSpace(asm_Copy.Attributes.Path), "Copied assembly wasn't assigned a new Path.");
+                Assert.NotEqual(asm_Copy.Attributes.Path, asm_Original.Attributes.Path);
+                Assert.True(File.Exists(Path.Combine(AddOnTest.path_Test, asm_Copy.Attributes.Path + "\\asm_resource.txt")));
+            });
+            project.Save();
+        }
+
+        [Fact]
+        public void AsmWithBlankPath()
+        {
+            var project = fixture.GetProject();
+
+            project.PerformInTransaction(delegate
+            {
+                var asmWithBlankPath = (MgaFCO)project.RootFolder.get_ObjectByPath("/@Asm/@AsmWIthBlankPath");
+                Assert.True(asmWithBlankPath.GetStrAttrByNameDisp("Path") != "", "AddOn should have set AsmWithBlankPath.Path on XME import");
+            });
         }
     }
 }

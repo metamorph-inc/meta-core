@@ -27,10 +27,6 @@ namespace CyPhyComponentImporterCL {
 
     public class CyPhyComponentImporterCL {
 
-        private static Type[] getAVMClasses() {
-            return System.Reflection.Assembly.Load("XSD2CSharp").GetTypes().Where(t => t.IsClass).Where(t => t.Namespace.StartsWith("avm") && t.FullName != "avm.simulink.Port").ToArray();
-        }
-
         private static void WriteLine(Func<string, string, string> f, IMgaFCO a, IMgaFCO b) {
             //if (GMEConsole != null)
             //{

@@ -16,6 +16,9 @@ class RawComponent {
 // Insert your application specific member and method definitions here
 public:
 	RawComponent() { ; }
+
+	HRESULT RawComponent::Main(IMgaProject *project,  IMgaFCO *currentobj, bool applyConstraintsInNoninteractive);
+
 private:
 	
 	

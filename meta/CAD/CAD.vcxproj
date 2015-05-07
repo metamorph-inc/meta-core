@@ -60,6 +60,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <xme2mga Include="AssemblyData_Creo.xme" />
+    <xme2mga Include="CADAnalysisMetaData_Uml.xme" />
     <xme2mga Include="CADMetrics_Uml.xme">
       <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated\CAD\models\%(FileName).mga</OutFile>
     </xme2mga>
@@ -121,6 +122,19 @@
   <ItemGroup>
     <udm Include="..\..\generated\CAD\models\CreoMetaData_udm.xml">
       <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CreoMetaData</MetaName>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RelativeDir)\..\generated</OutDir>
+      <IntegrateXSD Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IntegrateXSD>
+    </udm>
+  </ItemGroup>
+  <ItemGroup>
+    <mga2udmxml Include="..\..\generated\CAD\models\CADAnalysisMetaData_Uml.mga">
+      <FileType>Document</FileType>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CADAnalysisMetaData</MetaName>
+    </mga2udmxml>
+  </ItemGroup>
+  <ItemGroup>
+    <udm Include="..\..\generated\CAD\models\CADAnalysisMetaData_udm.xml">
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CADAnalysisMetaData</MetaName>
       <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RelativeDir)\..\generated</OutDir>
       <IntegrateXSD Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IntegrateXSD>
     </udm>

@@ -99,24 +99,21 @@ namespace GME.CSharp
         public static GMEConsole CreateFromProject(GME.MGA.MgaProject project)
         {
             GMEConsole console = new GMEConsole();
-            try
+            /* if (System.IO.Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName).Contains("xunit")
+                || System.IO.Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName).Contains(".vshost"))
             {
-                /* if (System.IO.Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName).Contains("xunit")
-                    || System.IO.Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName).Contains(".vshost"))
-                {
-                    console.normal = new CyPhyGUIs.ConsoleTextWriter();
-                    return console;
-                } */
-                // Initializing console               
-                console.gme = (IGMEOLEApp)project.GetClientByName("GME.Application").OLEServer;
+                console.normal = new CyPhyGUIs.ConsoleTextWriter();
+                return console;
+            } */
+            // Initializing console
+            var gme = project.Clients.Cast<MGA.MgaClient>().Where(c => c.Name == "GME.Application").FirstOrDefault();
+            if (gme != null)
+            {
+                console.gme = (IGMEOLEApp)gme.OLEServer;
             }
-            catch (System.Runtime.InteropServices.COMException ex)
+            else
             {
                 // if GME is not present, the interpreter is called from standalone test application
-                if (ex.ErrorCode != -2023423888) // HResult 0x87650070: "Search by name failed"
-                {
-                    throw;
-                }
                 console.gme = null;
 
                 console.normal = new CyPhyGUIs.ConsoleTextWriter();

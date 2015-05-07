@@ -63,22 +63,17 @@ STDMETHODIMP RawComponent::Invoke(IMgaProject* gme, IMgaFCOs *models, long param
 			void dummy(void) {; } // Dummy function for UDM meta initialization
 #endif
 
-// This is the main component method for interpereters and plugins.
-// May als be used in case of invokeable addons
-STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
-									IMgaFCOs *selectedobjs,  long param)
+STDMETHODIMP RawComponent::InvokeEx(IMgaProject *project,  IMgaFCO *currentobj,
+							IMgaFCOs *selectedobjs,  long param)
 {
-
-	// Calling the user's initialization function
-	if(CUdmApp::Initialize())
-	{
-		return S_FALSE;
-	}
-
-	if (param == GME_SILENT_MODE || !interactive) {
+	if (param == GME_SILENT_MODE) {
 		interactive = false;
-		param = GME_SILENT_MODE;
 	}
+	return Main(project, currentobj, true);
+}
+
+HRESULT RawComponent::Main(IMgaProject *project,  IMgaFCO *currentobj, bool applyConstraintsInNoninteractive)
+{
 
 	CComPtr<IMgaProject>ccpProject(project);
 	long prefmask;
@@ -116,9 +111,6 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 	try
 	{
 		// Setting up the console
-		  if(!interactive)
-			  param = 128;
-		
 		  GMEConsole::Console::setupConsole(ccpProject);
 		  GMEConsole::Console::clear();
 		  char currdate[128];
@@ -165,52 +157,11 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		}
 
 		// Setting up Udm
-#ifdef _DYNAMIC_META
-	#ifdef _DYNAMIC_META_DOM
-			// Loading the meta for the project
-			UdmDom::DomDataNetwork  ddnMeta(Uml::diagram);
-			Uml::Diagram theUmlDiagram;
-
-			// Opening the XML meta of the project
-			ddnMeta.OpenExisting(config.metaPath,"uml.dtd", Udm::CHANGES_LOST_DEFAULT);
-
-			// Casting the DataNetwork to diagram
-			theUmlDiagram = Uml::Diagram::Cast(ddnMeta.GetRootObject());
-
-			// Creating the UDM diagram
-			Udm::UdmDiagram udmDataDiagram;
-			udmDataDiagram.dgr = &theUmlDiagram;
-			udmDataDiagram.init = dummy;
-
-	#elif defined _DYNAMIC_META_STATIC
-			// Loading the meta for the project
-			UdmStatic::StaticDataNetwork  dnsMeta(Uml::diagram);
-			Uml::Diagram theUmlDiagram;
-
-			// Opening the static meta of the project
-			dnsMeta.OpenExisting(config.metaPath, "", Udm::CHANGES_LOST_DEFAULT);
-
-			// Casting the DataNetwork to diagram
-			theUmlDiagram = Uml::Diagram::Cast(dnsMeta.GetRootObject());
-
-			// Creating the UDM diagram
-			Udm::UdmDiagram udmDataDiagram;
-			udmDataDiagram.dgr = &theUmlDiagram;
-			udmDataDiagram.init = dummy;
-
-	#else
-			ASSERT((0,"Nor _DYNAMIC_META_DOM either _DYNAMIC_META_STATIC defined for dynamic loading"));
-	#endif
-			// Loading the project
-			UdmGme::GmeDataNetwork dngBackend(udmDataDiagram);
-
-#else
 		using namespace META_NAMESPACE;
 
 		// Loading the project
 		UdmGme::GmeDataNetwork dngBackend(META_NAMESPACE::diagram);
 
-#endif
 		try
 		{
 			CComPtr<IMgaTerritory> terr;
@@ -226,95 +177,8 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 				currentObject=dngBackend.Gme2Udm(ccpFocus);
 			}
 
-			std::set<Udm::Object> selectedObjects;
-
-			if (selectedobjs)
-			{
-				CComPtr<IMgaFCOs> ccpSelObject(selectedobjs);
-
-				MGACOLL_ITERATE(IMgaFCO,ccpSelObject){
-					Udm::Object currObj;
-					if(MGACOLL_ITER)
-					{
-						currObj=dngBackend.Gme2Udm(MGACOLL_ITER);
-					}
-				 selectedObjects.insert(currObj);
-				}MGACOLL_ITERATE_END;
-			}
-
-#ifdef _ACCESS_MEMORY
-			// Creating Cache
-	#ifdef _DYNAMIC_META
-			UdmStatic::StaticDataNetwork dnsCacheBackend(udmDataDiagram);
-	#else
-			UdmStatic::StaticDataNetwork dnsCacheBackend(META_NAMESPACE::diagram);
-	#endif
-
-			const Uml::Class & safeType = Uml::SafeTypeContainer::GetSafeType(dngBackend.GetRootObject().type());
-
-			dnsCacheBackend.CreateNew("","",safeType, Udm::CHANGES_LOST_DEFAULT);
-
-			Udm::Object nullObject(&Udm::__null);
-			UdmUtil::copy_assoc_map copyAssocMap;
-			copyAssocMap[currentObject]=nullObject; // currentObject may be null object
-
-			for(set<Udm::Object>::iterator p_CurrSelObject=selectedObjects.begin();
-				p_CurrSelObject!=selectedObjects.end();p_CurrSelObject++)
-			{
-					pair<Udm::Object const, Udm::Object> item(*p_CurrSelObject, nullObject);
-
-					pair<UdmUtil::copy_assoc_map::iterator, bool> insRes = copyAssocMap.insert(item);
-
-					if (!insRes.second)
-					{
-						ASSERT(NULL);
-					}
-
-			}
-
-			// Copying from GME to memory
-			UdmUtil::CopyObjectHierarchy(
-				dngBackend.GetRootObject().__impl(),
-				dnsCacheBackend.GetRootObject().__impl(),
-				&dnsCacheBackend,
-				copyAssocMap);
-
-			// Searching for focus object
-			Udm::Object currentObjectCache;
-			UdmUtil::copy_assoc_map::iterator currObject = copyAssocMap.find(currentObject);
-			if (currObject != copyAssocMap.end()) // It is in the map
-			{
-				currentObjectCache=currObject->second;
-			}
-
-
-			// Searching for selected objects
-			set<Udm::Object> selectedObjectsCache;
-
-			for( p_CurrSelObject=selectedObjects.begin();
-				p_CurrSelObject!=selectedObjects.end();p_CurrSelObject++)
-			{
-				Udm::Object object;
-				UdmUtil::copy_assoc_map::iterator currSelObjectIt = copyAssocMap.find(*p_CurrSelObject);
-				if (currSelObjectIt != copyAssocMap.end()) // It is in the map
-				{
-					object=currSelObjectIt->second;
-					selectedObjectsCache.insert(object);
-				}
-			}
-
-
-			// Closing GME backend
-			dngBackend.CloseNoUpdate();
-
 			// Calling the main entry point
-			CUdmApp::UdmMain(&dnsCacheBackend,currentObjectCache,selectedObjectsCache,param);
-			// Close cache backend
-			dnsCacheBackend.CloseNoUpdate();
-
-#else
-			// Calling the main entry point
-			CUdmApp::UdmMain(&dngBackend,currentObject,selectedObjects,param);
+			CUdmApp::UdmMain(&dngBackend,currentObject, interactive ? 0 : 128, applyConstraintsInNoninteractive);
 			// Closing backend
 			dngBackend.CloseWithUpdate();
 			//if(!CUdmApp::isvalid)
@@ -324,7 +188,6 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 			//}
 			//else
 			//	CUdmApp::gme->CheckAllConstraints();
-#endif
 
 	//	}
 

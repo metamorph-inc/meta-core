@@ -149,8 +149,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\generated\CAD\generated\CADAnalysisMetaData.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="AssemblyCreationViaInputFile.cpp" />
-    <ClCompile Include="CADAnalysisMetaData.cpp" />
     <ClCompile Include="CFDAnalysis.cpp" />
     <ClCompile Include="GlobalModelData.cpp" />
     <ClCompile Include="InputArgumentsParser.cpp" />
@@ -172,10 +174,10 @@
     <ClCompile Include="Metrics.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADAnalysisMetaData.h" />
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADAnalysisMetaData_xsd.h" />
     <ClInclude Include="..\CADCreoParametricCommonFunctions\EventLoopMonitor.h" />
     <ClInclude Include="AssemblyCreationViaInputFile.h" />
-    <ClInclude Include="CADAnalysisMetaData.h" />
-    <ClInclude Include="CADAnalysisMetaData_xsd.h" />
     <ClInclude Include="CFDAnalysis.h" />
     <ClInclude Include="GlobalModelData.h" />
     <ClInclude Include="InputArgumentsParser.h" />

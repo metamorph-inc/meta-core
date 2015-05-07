@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="10c290d3-97d8-4254-bd26-7eb4e72a8d03" Name="bolt_hex__generic__m4x0p7x6_8p8_zin" Version="" xmlns="avm">
-  <Property xmlns:q1="avm" xsi:type="q1:PrimitiveProperty" Name="Property" ID="property.id-5797f8ad-b985-4da3-9b69-adc196cee0dd" XPosition="21" YPosition="119" xmlns="">
+  <Property xmlns:q1="avm" xsi:type="q1:PrimitiveProperty" Name="Property" OnDataSheet="true" ID="property.id-5797f8ad-b985-4da3-9b69-adc196cee0dd" XPosition="21" YPosition="119" xmlns="">
     <Value ID="id-5797f8ad-b985-4da3-9b69-adc196cee0dd" DimensionType="Scalar" Dimensions="" DataType="String">
       <ValueExpression xsi:type="q1:FixedValue">
         <Value />
@@ -8,28 +8,28 @@
     </Value>
   </Property>
   <Connector ConnectorComposition="" ID="id-14ff872a-3458-4702-9437-39b59b3db27e" ApplyJoinData="" Notes="" Name="Connector" Definition="" YPosition="91" XPosition="595" xmlns="">
-    <Property xmlns:q2="avm" xsi:type="q2:PrimitiveProperty" Name="common_info__cg_location" ID="property.nv.common_info.cg_location">
+    <Property xmlns:q2="avm" xsi:type="q2:PrimitiveProperty" Name="common_info__cg_location" OnDataSheet="true" ID="property.nv.common_info.cg_location">
       <Value ID="nv.common_info.cg_location" DimensionType="Scalar" Dimensions="3" DataType="Real">
         <ValueExpression xsi:type="q2:FixedValue">
           <Value>[0.0,0.0,-0.000296809799319]</Value>
         </ValueExpression>
       </Value>
     </Property>
-    <Property xmlns:q3="avm" xsi:type="q3:PrimitiveProperty" Name="common_info__overall_dimensions__length" ID="property.nv.common_info.overall_dimensions.length" XPosition="77" YPosition="77">
+    <Property xmlns:q3="avm" xsi:type="q3:PrimitiveProperty" Name="common_info__overall_dimensions__length" OnDataSheet="true" ID="property.nv.common_info.overall_dimensions.length" XPosition="77" YPosition="77">
       <Value ID="nv.common_info.overall_dimensions.length" DimensionType="Scalar" Dimensions="" DataType="String">
         <ValueExpression xsi:type="q3:FixedValue">
           <Value />
         </ValueExpression>
       </Value>
     </Property>
-    <Property xmlns:q4="avm" xsi:type="q4:PrimitiveProperty" Name="common_info__overall_dimensions__width" ID="property.nv.common_info.overall_dimensions.width" XPosition="42" YPosition="42">
+    <Property xmlns:q4="avm" xsi:type="q4:PrimitiveProperty" Name="common_info__overall_dimensions__width" OnDataSheet="true" ID="property.nv.common_info.overall_dimensions.width" XPosition="42" YPosition="42">
       <Value ID="nv.common_info.overall_dimensions.width" DimensionType="Scalar" Dimensions="" DataType="String">
         <ValueExpression xsi:type="q4:FixedValue">
           <Value />
         </ValueExpression>
       </Value>
     </Property>
-    <Property xmlns:q5="avm" xsi:type="q5:PrimitiveProperty" Name="common_info__overall_dimensions__height" ID="property.nv.common_info.overall_dimensions.height" XPosition="112" YPosition="112">
+    <Property xmlns:q5="avm" xsi:type="q5:PrimitiveProperty" Name="common_info__overall_dimensions__height" OnDataSheet="true" ID="property.nv.common_info.overall_dimensions.height" XPosition="112" YPosition="112">
       <Value ID="nv.common_info.overall_dimensions.height" DimensionType="Scalar" Dimensions="" DataType="String">
         <ValueExpression xsi:type="q5:FixedValue">
           <Value />

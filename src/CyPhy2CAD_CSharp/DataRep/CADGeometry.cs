@@ -227,14 +227,24 @@ namespace CyPhy2CAD_CSharp.DataRep
                 return false;
             }
 
+
             CyPhy.Point centerPt = CyPhyClasses.Point.Cast(centerPts[0]);
+            CyPhy.Point edge1 = CyPhyClasses.Point.Cast(edgePts[0]);
+            CyPhy.Point edge2 = CyPhyClasses.Point.Cast(edgePts[1]);
+
+            // Should be checked
+            /*if (edge1.Guid.Equals(edge2.Guid))
+            {
+                Logger.Instance.AddLogMessage(String.Format("Circle is defined by equivalend edge points. These 2 points must be different to be able to identify a plane: {0}", circle.ToHyperLink()), Severity.Error);
+                return false;
+            }*/
+
             if (!CreateFeatureFromPoint(centerPt,
                                    featureList))
             {
                 Logger.Instance.AddLogMessage(String.Format("Circle geometry's CircleCenter point must connect to a Point datum inside a CADModel: {0}", circle.ToHyperLink()), Severity.Error);
                 return false;
             }
-            CyPhy.Point edge1 = CyPhyClasses.Point.Cast(edgePts[0]);
             if (!CreateFeatureFromPoint(edge1,
                                    featureList))
             {
@@ -242,7 +252,6 @@ namespace CyPhy2CAD_CSharp.DataRep
                 return false;
             }
 
-            CyPhy.Point edge2 = CyPhyClasses.Point.Cast(edgePts[1]);
             if (!CreateFeatureFromPoint(edge2,
                                    featureList))
             {

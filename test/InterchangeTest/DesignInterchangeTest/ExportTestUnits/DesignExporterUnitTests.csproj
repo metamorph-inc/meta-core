@@ -111,6 +111,7 @@
     <Compile Include="..\..\ComponentInterchangeTest\ImportTestUnits\MgaGateway.cs">
       <Link>MgaGateway.cs</Link>
     </Compile>
+    <Compile Include="DupComponentIDs.cs" />
     <Compile Include="Layout.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

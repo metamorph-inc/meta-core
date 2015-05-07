@@ -12,7 +12,7 @@ namespace CyPhy2CAD_CSharp.Template
     using System;
     
     
-    #line 1 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+    #line 1 "C:\Users\Robert\Repositories\META_trunk\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "10.0.0.0")]
     public partial class run_bat : run_batBase
     {
@@ -29,79 +29,7 @@ set ERROR_CODE=0
 
 set ERROR_MSG=""""
 
-
-Rem ****************************
-REM Create Creo Assembly
-Rem ****************************
-
-set EXE_FILE_NAME=CADCreoParametricCreateAssembly.exe
-set EXE=""%PROE_ISIS_EXTENSIONS%\bin\%EXE_FILE_NAME%""
-
-set ASSEMBLY_XML_FILE=""");
-            
-            #line 22 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(XMLFileName));
-            
-            #line default
-            #line hidden
-            this.Write(@".xml""
-set LOG_FILE=%ASSEMBLY_XML_FILE%.log
-
-
-if exist %EXE% goto  :EXE_FOUND
-@echo off
-echo		Error: Could not find %EXE_FILE_NAME%.
-echo		Your system is not properly configured to run %EXE_FILE_NAME%.
-echo		Please see For instructions on how to configure your system, please see ""0Readme - CreateAssembly.txt""
-echo		which is typically located at ""C:\Program Files\META\Proe ISIS Extensions""
-set ERROR_CODE=2
-set ERROR_MSG=""Error from runCreateCADAssembly.bat: Could not find CADCreoParametricCreateAssembly.exe.""
-goto :ERROR_SECTION
-:EXE_FOUND
-
-%EXE% -w %WORKING_DIR%  -i %ASSEMBLY_XML_FILE% -l %LOG_FILE% ");
-            
-            #line 37 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
- if (!Automation) { 
-            
-            #line default
-            #line hidden
-            this.Write("-p");
-            
-            #line 37 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
- } 
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 37 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
- if (LiveLink){ 
-            
-            #line default
-            #line hidden
-            this.Write("-s 127.0.0.1:15150 -g");
-            
-            #line 37 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
- } 
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 37 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(AdditionalOptions));
-            
-            #line default
-            #line hidden
-            this.Write(@"
-
-
-set ERROR_CODE=%ERRORLEVEL%
-if %ERRORLEVEL% NEQ 0 (
-set ERROR_MSG=""Error from runCreateCADAssembly.bat: %EXE_FILE_NAME% encountered error during execution, error level is %ERROR_CODE%""
-goto :ERROR_SECTION
-)
+FOR /F ""skip=2 tokens=2,*"" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query ""HKLM\software\META"" /v ""META_PATH""') DO set MetaPath=%%B
 
 if exist TestBench_PreProcess.cmd (
 cmd /c TestBench_PreProcess.cmd
@@ -109,20 +37,76 @@ cmd /c TestBench_PreProcess.cmd
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
-set ERROR_MSG=""Error from runCreateCADAssembly.bat: Encountered error during execution of TestBench_PreProcess.cmd, error level is %ERROR_CODE%""
+set ERROR_MSG=""Error from runCADJob.bat: Encountered error during execution of TestBench_PreProcess.cmd, error level is %ERROR_CODE%""
 goto :ERROR_SECTION
 )
 
-");
+""%MetaPath%\bin\Python27\Scripts\Python.exe"" ""%MetaPath%\bin\CAD\CADJobDriver.py"" -assembler ");
             
-            #line 56 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 26 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Assembler));
+            
+            #line default
+            #line hidden
+            this.Write(" -mesher ");
+            
+            #line 26 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Mesher));
+            
+            #line default
+            #line hidden
+            this.Write(" -analyzer ");
+            
+            #line 26 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Analyzer));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 26 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+ if (Mode!=null) { 
+            
+            #line default
+            #line hidden
+            this.Write("-mode ");
+            
+            #line 26 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Mode));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 26 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 28 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+ if (CallDomainTool!=null) { 
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 30 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(CallDomainTool));
             
             #line default
             #line hidden
-            this.Write("\r\n\r\n\r\n");
+            this.Write("\r\n\r\n");
             
-            #line 59 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 32 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\r\n");
+            
+            #line 35 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
  if (Automation) { 
             
             #line default
@@ -130,15 +114,15 @@ goto :ERROR_SECTION
             this.Write("@echo off\r\n\r\n\r\nRem ****************************\r\nREM Python Metric Update Script\r" +
                     "\nRem ****************************\r\n\r\nset RESULT_XML_FILE=");
             
-            #line 67 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 43 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ComputedMetricsPath));
             
             #line default
             #line hidden
             this.Write(@"
 set PY_SCRIPT_NAME=UpdateReportJson_CAD.py
-set PY_SCRIPT=""%PROE_ISIS_EXTENSIONS%\bin\%PY_SCRIPT_NAME%""
-set PYTHONPATH=%PYTHONPATH%;%PROE_ISIS_EXTENSIONS%
+set PY_SCRIPT=""%MetaPath%bin\CAD\%PY_SCRIPT_NAME%""
+set PYTHONPATH=%PYTHONPATH%;%MetaPath%
 
 if exist %PY_SCRIPT% goto  :PY_FOUND
 @echo off
@@ -147,15 +131,15 @@ echo		Your system is not properly configured to run %PY_SCRIPT_NAME%.
 echo		Please see For instructions on how to configure your system, please see ""0Readme - CreateAssembly.txt""
 echo		which is typically located at ""C:\Program Files\META\Proe ISIS Extensions""
 set ERROR_CODE=2
-set ERROR_MSG=""Error from runCreateCADAssembly.bat: Could not find UpdateReportJson_CAD.py.""
+set ERROR_MSG=""Error from runCADJob.bat: Could not find UpdateReportJson_CAD.py.""
 goto :ERROR_SECTION
 
 :PY_FOUND
-FOR /F ""skip=2 tokens=2,*"" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query ""HKLM\software\META"" /v ""META_PATH""') DO ""%%B\bin\Python27\Scripts\Python.exe"" %PY_SCRIPT% -m %RESULT_XML_FILE%
+""%MetaPath%\bin\Python27\Scripts\Python.exe"" %PY_SCRIPT% -m %RESULT_XML_FILE%
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
-set ERROR_MSG=""Error from runCreateCADAssembly.bat: %PY_SCRIPT_NAME% encountered error during execution, error level is %ERROR_CODE%""
+set ERROR_MSG=""Error from runCADJob.bat: %PY_SCRIPT_NAME% encountered error during execution, error level is %ERROR_CODE%""
 goto :ERROR_SECTION
 )
 
@@ -165,12 +149,12 @@ cmd /c TestBench_PostProcess.cmd
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
-set ERROR_MSG=""Error from runCreateCADAssembly.bat: Encountered error during execution of TestBench_PostProcess.cmd, error level is %ERROR_CODE%""
+set ERROR_MSG=""Error from runCADJob.bat: Encountered error during execution of TestBench_PostProcess.cmd, error level is %ERROR_CODE%""
 goto :ERROR_SECTION
 )
 ");
             
-            #line 100 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 76 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
  } 
             
             #line default
@@ -180,14 +164,17 @@ goto :ERROR_SECTION
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 111 "C:\Users\kevin\Documents\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+        #line 87 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
   
 public string XMLFileName {get;set;}
 public bool Automation {get;set;}
 public string ComputedMetricsPath = "ComputedValues.xml";
-public bool LiveLink {get; set;}
-public string CallDomainTool{get;set;}
 public string AdditionalOptions = "";
+public string Mesher { get; set; }
+public string Analyzer { get; set; }
+public string Assembler { get; set; }
+public string Mode { get; set; }
+public string CallDomainTool { get; set; }
 
         
         #line default

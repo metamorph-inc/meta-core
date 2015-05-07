@@ -14,7 +14,9 @@ using CyPhyMLClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 
 namespace AVM2CyPhyML {
 
-	using TypePair = KeyValuePair<Type, Type>;
+    using System.Diagnostics;
+    using System.Text.RegularExpressions;
+    using TypePair = KeyValuePair<Type, Type>;
 
 	public class TypePairCompare : IComparer<TypePair> {
 
@@ -52,7 +54,7 @@ namespace AVM2CyPhyML {
         protected Dictionary<String, CyPhyML.unit> _unitSymbolCyPhyMLUnitMap = new Dictionary<string, CyPhyML.unit>();
 
         protected CyPhyML.RootFolder _cyPhyMLRootFolder;
-        protected CyPhyML.Units _cyPhyMLUnits;
+        protected List<CyPhyML.Units> _cyPhyMLUnitsFolders;
         protected CyPhyML.Ports _cyPhyMLPorts;
 
         /// <summary>
@@ -68,6 +70,8 @@ namespace AVM2CyPhyML {
         protected Dictionary<string, KeyValuePair<avm.ValueNode, object>> _avmValueNodeIDMap = new Dictionary<string, KeyValuePair<ValueNode, object>>();
         protected HashSet<KeyValuePair<avm.ValueNode, object>> _avmValueNodeSet = new HashSet<KeyValuePair<ValueNode, object>>();
         private object _messageConsole = null;
+
+        protected readonly Regex cadResourceRegex = new Regex("^(.*)(\\.prt|\\.asm)\\.([0-9]*)$", RegexOptions.IgnoreCase);
 
         protected Dictionary<String, CreateMethodProxyBase> _cyPhyMLNameCreateMethodMap = new Dictionary<String, CreateMethodProxyBase>() {
             { typeof(avm.cad.Axis).ToString(),                         CreateMethodProxy<CyPhyMLClasses.Axis>.get_singleton() },
@@ -352,13 +356,14 @@ namespace AVM2CyPhyML {
             return _unitSymbolCyPhyMLUnitMap;
         }
 
-        private void getCyPhyMLUnits( CyPhyML.RootFolder rootFolder ) {
-            foreach( CyPhyML.TypeSpecifications typeSpecifications in rootFolder.Children.TypeSpecificationsCollection ) {
-                foreach( CyPhyML.Units units in typeSpecifications.Children.UnitsCollection ) {
-                    _cyPhyMLUnits = units;
-                    break;
+		private void getCyPhyMLUnits( CyPhyML.RootFolder rootFolder ) 
+        {
+			foreach( CyPhyML.TypeSpecifications typeSpecifications in rootFolder.Children.TypeSpecificationsCollection ) 
+            {
+				foreach( CyPhyML.Units units in typeSpecifications.Children.UnitsCollection ) 
+                {
+					_cyPhyMLUnitsFolders.Add(units);
                 }
-                if( _cyPhyMLUnits != null ) break;
             }
         }
 
@@ -385,18 +390,19 @@ namespace AVM2CyPhyML {
 
 
         protected void getCyPhyMLUnits() {
-            _cyPhyMLUnits = null;
+            _cyPhyMLUnitsFolders = new List<CyPhyML.Units>();
 
-            List< CyPhyML.RootFolder > cyPhyMLRootFolderList = _cyPhyMLRootFolder.LibraryCollection.ToList< CyPhyML.RootFolder >();
-            if( cyPhyMLRootFolderList.Count > 0 ) {
-                foreach( CyPhyML.RootFolder libraryRootFolder in _cyPhyMLRootFolder.LibraryCollection ) {
-                    getCyPhyMLUnits( libraryRootFolder );
-                    if( _cyPhyMLUnits != null ) break;
-                }
-            }
+            // Collect all of the Root Folders in the project.
+            // They will be sorted, with the QUDT lib in front, followed by all other libs, then the user's Root Folder.
+            var cyPhyMLRootFolderList = new List<CyPhyML.RootFolder>();
+            cyPhyMLRootFolderList.AddRange(_cyPhyMLRootFolder.LibraryCollection
+                                                             .OrderByDescending(lc => lc.Name.Equals("UnitLibrary QUDT")));                                                
+            cyPhyMLRootFolderList.Add(_cyPhyMLRootFolder);
 
-            if ( _cyPhyMLUnits == null ) {
-                getCyPhyMLUnits( _cyPhyMLRootFolder );
+            // Now, for each Root Folder that we gathered, go through and find all units, and add them to our master index.
+            if( cyPhyMLRootFolderList.Count > 0 )
+            {
+                cyPhyMLRootFolderList.ForEach(lrf => getCyPhyMLUnits( lrf ));
             }
         }
 
@@ -429,13 +435,13 @@ namespace AVM2CyPhyML {
         }
 
         protected void getCyPhyMLNamedUnits( bool resetUnitLibrary = false ) {
-            if( _cyPhyMLUnits == null ) return;
+            if( false == _cyPhyMLUnitsFolders.Any() ) return;
 			
             // If the caller has passed in this map already
             if (resetUnitLibrary) _unitSymbolCyPhyMLUnitMap.Clear();
             if (_unitSymbolCyPhyMLUnitMap.Count > 0) return;
 
-            foreach( CyPhyML.unit cyPhyMLUnit in _cyPhyMLUnits.Children.unitCollection ) {
+            foreach( CyPhyML.unit cyPhyMLUnit in _cyPhyMLUnitsFolders.SelectMany(uf => uf.Children.unitCollection) ) {
                 // Angle-type measures are an exception to this rule.
                 /*
 				if (cyPhyMLUnit.Attributes.Abbreviation != "rad" &&
@@ -589,7 +595,7 @@ namespace AVM2CyPhyML {
                     var min_FV = min as avm.FixedValue;
                     if (!String.IsNullOrWhiteSpace(min_FV.Value))
                     {
-                        sMin = /* "[" + */ min_FV.Value;
+                        sMin = min_FV.Value;
                         rangeSet = true;
                     }
                 }
@@ -598,13 +604,14 @@ namespace AVM2CyPhyML {
                     var max_FV = max as avm.FixedValue;
                     if (!String.IsNullOrWhiteSpace(max_FV.Value))
                     {
-                        sMax = max_FV.Value /* + "]" */;
+                        sMax = max_FV.Value;
                         rangeSet = true;
                     }
                 }
-                // TODO: breaks regression tests if (rangeSet)
+                //-inf..inf
+                if (rangeSet)
                 {
-                    cyPhyMLParameter.Attributes.Range = String.Format("{0},{1}", sMin, sMax);
+                    cyPhyMLParameter.Attributes.Range = String.Format("{0}..{1}", sMin, sMax);
                 }
 
                 // If no AssignedValue is provided, use the DefaultValue
@@ -882,6 +889,13 @@ namespace AVM2CyPhyML {
                             makeConnection(cyPhyMLSourceObject, cyPhyMLSimpleFormula, typeof(CyPhyML.ValueFlow).Name);
                         }
                     }
+                    else
+                    {
+                        if (Debugger.IsAttached)
+                        {
+                            Debugger.Break();
+                        }
+                    }
                 }
             }
 
@@ -925,6 +939,10 @@ namespace AVM2CyPhyML {
                                 valueFlow.Attributes.FormulaVariableName = operand.Symbol;
                             }
                         }
+                    }
+                    else if (Debugger.IsAttached)
+                    {
+                        Debugger.Break();
                     }
 					
                 }
@@ -1015,14 +1033,28 @@ namespace AVM2CyPhyML {
                             {
                                 object avmOtherValueOwner = avmOtherValueWithOwner.Value;
 
-                                object cyPhyMLObjectSrc = null;
-                                if (!_avmCyPhyMLObjectMap.TryGetValue(avmOtherValueOwner, out cyPhyMLObjectSrc))
-                                    continue;
+                                if (avmOtherValueOwner is avm.ValueFlowMux)
+                                {
+                                    object cyPhyMLObjectDst = null;
+                                    var hasValueParent = _avmCyPhyMLObjectMap.TryGetValue(avmValueOwner, out cyPhyMLObjectDst);
+                                    ConnectMuxSources((avm.ValueFlowMux)avmOtherValueOwner, (CyPhyML.ValueFlowTarget) cyPhyMLObjectDst);
+                                }
+                                else
+                                {
+                                    object cyPhyMLObjectSrc = null;
+                                    if (!_avmCyPhyMLObjectMap.TryGetValue(avmOtherValueOwner, out cyPhyMLObjectSrc))
+                                        continue;
 
-                                object cyPhyMLObjectDst = null;
-                                var hasValueParent = _avmCyPhyMLObjectMap.TryGetValue(avmValueOwner, out cyPhyMLObjectDst);
 
-                                makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ValueFlow).Name);
+                                    object cyPhyMLObjectDst = null;
+                                    var hasValueParent = _avmCyPhyMLObjectMap.TryGetValue(avmValueOwner, out cyPhyMLObjectDst);
+
+                                    makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ValueFlow).Name);
+                                }
+                            }
+                            else if (Debugger.IsAttached)
+                            {
+                                Debugger.Break();
                             }
                         }
                     }
@@ -1078,69 +1110,100 @@ namespace AVM2CyPhyML {
                         var avmOtherValueWithOwner = _avmValueNodeIDMap[otherValueID];
                         object avmOtherValueOwner = avmOtherValueWithOwner.Value;
 
-                        object cyPhyMLObjectSrc = null;
-                        if (!_avmCyPhyMLObjectMap.TryGetValue(avmOtherValueOwner, out cyPhyMLObjectSrc)) continue;
 
-                        if (cyPhyMLObjectDst is CyPhyML.ModelicaParameter)
+                        if (avmOtherValueOwner is avm.ValueFlowMux)
                         {
-                            // CyPhyML.ModelicaParameter.SrcConnections.ModelicaParameterPortMapCollection
-                            makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ModelicaParameterPortMap).Name);
-                        }
-                        else if (cyPhyMLObjectSrc is CyPhyML.CADMetric)
-                        {
-                            // CyPhyML.CADMetric.DstConnections.CADMetricPortMapCollection
-                            CyPhyML.CADMetric x;
-                            makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.CADMetricPortMap).Name);
-                        }
-                        else if (cyPhyMLObjectDst is CyPhyML.CADParameter)
-                        {
-                            // CyPhyML.CADParameter.SrcConnections.CADParameterPortMapCollection
-                            makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.CADParameterPortMap).Name);
-                        }
-                        // else if (cyPhyMLObjectSrc is CyPhyML.ManufacturingModelMetric) TODO???
-                        //{
-                        //    CyPhyML.ManufacturingModelMetric x; x.DstConnections.
-                        //}
-                        else if (cyPhyMLObjectDst is CyPhyML.ManufacturingModelParameter)
-                        {
-                            // CyPhyML.ManufacturingModelParameter x; x.SrcConnections.ManufacturingParameterPortMapCollection
-                            makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ManufacturingParameterPortMap).Name);
+                            ConnectMuxSources((avm.ValueFlowMux)avmOtherValueOwner, (CyPhyML.ValueFlowTarget)cyPhyMLObjectDst);
                         }
                         else
                         {
-                            makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ValueFlow).Name);
-                        }
+                            object cyPhyMLObjectSrc = null;
+                            if (!_avmCyPhyMLObjectMap.TryGetValue(avmOtherValueOwner, out cyPhyMLObjectSrc))
+                                continue;
 
-                        bool haveValue = false;
-                        object value = null;
-                        PropertyInfo cyPhyMLObjectSrcAttributesPropertyInfo = getPropertyInfo(getInterfaceType(cyPhyMLObjectSrc), "Attributes");
-                        if (cyPhyMLObjectSrcAttributesPropertyInfo != null)
-                        {
-                            PropertyInfo cyPhyMLObjectSrcValuePropertyInfo = getPropertyInfo(cyPhyMLObjectSrcAttributesPropertyInfo.PropertyType, "Value");
-                            if (cyPhyMLObjectSrcValuePropertyInfo != null)
+                            if (cyPhyMLObjectDst is CyPhyML.ModelicaParameter)
                             {
-                                haveValue = true;
-                                value = (string)cyPhyMLObjectSrcValuePropertyInfo.GetValue(cyPhyMLObjectSrcAttributesPropertyInfo.GetValue(cyPhyMLObjectSrc, null), null);
+                                // CyPhyML.ModelicaParameter.SrcConnections.ModelicaParameterPortMapCollection
+                                makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ModelicaParameterPortMap).Name);
                             }
-                        }
-
-                        if (haveValue)
-                        {
-                            PropertyInfo cyPhyMLObjectDstAttributesPropertyInfo = getPropertyInfo(getInterfaceType(cyPhyMLObjectDst), "Attributes");
-                            if (cyPhyMLObjectDstAttributesPropertyInfo != null)
+                            else if (cyPhyMLObjectSrc is CyPhyML.CADMetric)
                             {
-                                PropertyInfo cyPhyMLObjectDstValuePropertyInfo = getPropertyInfo(cyPhyMLObjectDstAttributesPropertyInfo.PropertyType, "Value");
-                                if (cyPhyMLObjectDstValuePropertyInfo != null)
+                                // CyPhyML.CADMetric.DstConnections.CADMetricPortMapCollection
+                                makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.CADMetricPortMap).Name);
+                            }
+                            else if (cyPhyMLObjectDst is CyPhyML.CADParameter)
+                            {
+                                // CyPhyML.CADParameter.SrcConnections.CADParameterPortMapCollection
+                                makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.CADParameterPortMap).Name);
+                            }
+                            // else if (cyPhyMLObjectSrc is CyPhyML.ManufacturingModelMetric) TODO???
+                            //{
+                            //    CyPhyML.ManufacturingModelMetric x; x.DstConnections.
+                            //}
+                            else if (cyPhyMLObjectDst is CyPhyML.ManufacturingModelParameter)
+                            {
+                                // CyPhyML.ManufacturingModelParameter x; x.SrcConnections.ManufacturingParameterPortMapCollection
+                                makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ManufacturingParameterPortMap).Name);
+                            }
+                            else
+                            {
+                                makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ValueFlow).Name);
+                            }
+
+                            bool haveValue = false;
+                            object value = null;
+                            PropertyInfo cyPhyMLObjectSrcAttributesPropertyInfo = getPropertyInfo(getInterfaceType(cyPhyMLObjectSrc), "Attributes");
+                            if (cyPhyMLObjectSrcAttributesPropertyInfo != null)
+                            {
+                                PropertyInfo cyPhyMLObjectSrcValuePropertyInfo = getPropertyInfo(cyPhyMLObjectSrcAttributesPropertyInfo.PropertyType, "Value");
+                                if (cyPhyMLObjectSrcValuePropertyInfo != null)
                                 {
-                                    cyPhyMLObjectDstValuePropertyInfo.SetValue(cyPhyMLObjectDstAttributesPropertyInfo.GetValue(cyPhyMLObjectDst, null), value, null);
+                                    haveValue = true;
+                                    value = (string)cyPhyMLObjectSrcValuePropertyInfo.GetValue(cyPhyMLObjectSrcAttributesPropertyInfo.GetValue(cyPhyMLObjectSrc, null), null);
+                                }
+                            }
+
+                            if (haveValue)
+                            {
+                                PropertyInfo cyPhyMLObjectDstAttributesPropertyInfo = getPropertyInfo(getInterfaceType(cyPhyMLObjectDst), "Attributes");
+                                if (cyPhyMLObjectDstAttributesPropertyInfo != null)
+                                {
+                                    PropertyInfo cyPhyMLObjectDstValuePropertyInfo = getPropertyInfo(cyPhyMLObjectDstAttributesPropertyInfo.PropertyType, "Value");
+                                    if (cyPhyMLObjectDstValuePropertyInfo != null)
+                                    {
+                                        cyPhyMLObjectDstValuePropertyInfo.SetValue(cyPhyMLObjectDstAttributesPropertyInfo.GetValue(cyPhyMLObjectDst, null), value, null);
+                                    }
                                 }
                             }
                         }
                     }
-                    continue;
                 }
             }
         }
+
+        private void ConnectMuxSources(avm.ValueFlowMux ad_mux, CyPhyML.ValueFlowTarget target)
+        {
+            var incomingCyPhys = ad_mux.Source.Select(x =>
+            {
+                var avmSourceValueNodeWithOwner = _avmValueNodeIDMap[x];
+                var avmValue = avmSourceValueNodeWithOwner.Key;
+                var avmSourceValueNodeOwner = avmSourceValueNodeWithOwner.Value;
+
+                // Find the CyPhy object corresponding with that AVM Value's Owner
+                object cyPhyMLSourceObject;
+                if (_avmCyPhyMLObjectMap.TryGetValue(avmSourceValueNodeOwner, out cyPhyMLSourceObject))
+                {
+                    return cyPhyMLSourceObject;
+                }
+                return null;
+            });
+
+            foreach (var source in incomingCyPhys)
+            {
+                makeConnection(source, target, "ValueFlow");
+            }
+        }
+
 
         protected void processComplexFormula(ComplexFormula avmComplexFormula, CyPhyML.CustomFormula cyphyCustomFormula)
         {
@@ -1481,6 +1544,13 @@ namespace AVM2CyPhyML {
 
 			cyPhyMLResource.Name = avmResource.Name;
 			cyPhyMLResource.Attributes.Path = avmResource.Path;
+            // META-3490 special-case CAD files: CyPhy resource should not contain .1
+            Match m = cadResourceRegex.Match(avmResource.Path);
+            if (m.Success)
+            {
+                cyPhyMLResource.Attributes.Path = m.Groups[1].Value + m.Groups[2].Value;
+            }
+
 			cyPhyMLResource.Attributes.Hash = avmResource.Hash;
 			cyPhyMLResource.Attributes.ID = avmResource.ID;
 			cyPhyMLResource.Attributes.Notes = avmResource.Notes;

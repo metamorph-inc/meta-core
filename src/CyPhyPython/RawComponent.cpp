@@ -257,6 +257,7 @@ STDMETHODIMP RawComponent::get_ComponentParameter(BSTR name, VARIANT *pVal) {
 		{
 			safe.Add(_bstr_t(it->first));
 		}
+		safe.Add(_bstr_t(L"script_file"));
 		CComVariant(safe).Detach(pVal);
 		return S_OK;
 	}

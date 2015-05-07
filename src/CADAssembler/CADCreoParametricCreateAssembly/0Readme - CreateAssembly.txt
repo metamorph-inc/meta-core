@@ -1,7 +1,7 @@
 Title: 	  CADCreoParametricCreateAssembly.exe (Creo Parametric)
 	  assemble_ptc.exe (Pro/E) no longer supported
 
-Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.4.55.0
+Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.4.56.0
 Pro/E 		 	assemble_ptc.exe Version: v1.0.008  // Not supported as of Jan. 2012
 
 Supported Creo Versions: Creo 2.x, no other versions currently supported
@@ -823,6 +823,10 @@ v1.4.55.0 08/12/2014	Ordered the metrics file such that the order/hierarchy of t
 			it does not compute the bound box and mass properties.  These computations are now done 
 			prior to calling OutputCADMetricsToXML and are persisted in CADComponentData_map. R.O.
 
+v1.4.56.0 09/18/2014	Stopped outputting the ProcessingParameters xml file.  Deck-based Abaqus was the only
+			consumer of the ProcessingParameters xml file, and it was modified to use 
+			AnalysisMetaData.xml.  Modified Nastran\runAnalysis.bat to be compatible with 
+			directory references that contain a parenthesis. R.O.
 
 
 Known Defects

@@ -149,40 +149,50 @@ namespace CyPhy2DesignInterchange
             return "";
         }
 
-        private Dictionary<string, CyPhy.CADDatum> _CADDatumIdMap = new Dictionary<string, CyPhy.CADDatum>();
-        private String GetOrSetID(CyPhy.CADDatum datum)
-        {
-            return GetOrSetID(datum, _CADDatumIdMap);
-        }
-
         private Dictionary<string, CyPhy.Port> _PortIdMap = new Dictionary<string, CyPhy.Port>();
-        private String GetOrSetID(CyPhy.Port p)
+        private String GetOrSetID(CyPhy.Port p, ComponentInstance component=null)
         {
-            return GetOrSetID(p, _PortIdMap);
+            return GetOrSetID(p, _PortIdMap, component);
         }
 
         private Dictionary<string, CyPhy.Connector> _ConnectorIdMap = new Dictionary<string,CyPhy.Connector>();
-        private String GetOrSetID(CyPhy.Connector c)
+        private String GetOrSetID(CyPhy.Connector c, ComponentInstance component=null)
         {
-            return GetOrSetID(c, _ConnectorIdMap);
+            return GetOrSetID(c, _ConnectorIdMap, component);
         }
 
-        public String GetOrSetID<T>(T target, Dictionary<string, T> idMap) where T : ISIS.GME.Common.Interfaces.Base
+        public String GetOrSetID<T>(T target, Dictionary<string, T> idMap, ComponentInstance component=null) where T : ISIS.GME.Common.Interfaces.Base
         {
             MgaFCO targetFCO = (MgaFCO)target.Impl;
             var attr = targetFCO.get_Attribute(getMgaIDAttribute(targetFCO.Meta));
             var id = attr.StringValue;
 
-            if (String.IsNullOrWhiteSpace(id) || attr.Status != (int)GME.MGA.attstatus_enum.ATTSTATUS_HERE)
+            if (component == null && (String.IsNullOrWhiteSpace(id) || attr.Status != (int)GME.MGA.attstatus_enum.ATTSTATUS_HERE))
             {
                 id = "id-" + target.Guid.ToString("D");
                 attr.StringValue = id;
+            }
+            if (component != null)
+            {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    throw new ApplicationException(String.Format("{0}/{1} has no ID. An exported design would not import correctly. " +
+                                                "To fix this, run the Component Exporter on the component.", target.ParentContainer.Name, target.Name));
+                }
+                id = component.ID + "-" + id;
             }
             T dup;
             if (idMap.TryGetValue(id, out dup))
             {
                 if (dup.ID != target.ID) // i.e. different objects (not ID attribute)
                 {
+                    if (component != null)
+                    {
+                        // TODO: get traceability for link
+                        //throw new ApplicationException(String.Format("<a href=\"mga:{0}\">{1}</a> has a duplicate ID. An exported design would not import correctly. " +
+                        throw new ApplicationException(String.Format("{0}/{1} has a duplicate ID. An exported design would not import correctly. " +
+                            "To fix this, run the Component Exporter on the component.", target.ParentContainer.Name, target.Name));
+                    }
                     // FIXME: often, this is done on an elaborated model, so these IDs are lost in the mga
                     id = target.Guid.ToString("D");
                     if (id == getIDAttribute(dup))
@@ -486,7 +496,7 @@ namespace CyPhy2DesignInterchange
             {
                 var compInst = kvp.Value;
                 CyPhy.Component comp;
-                ISIS.GME.Common.Interfaces.Reference reference;
+                CyPhy.ComponentRef reference;
                 if (kvp.Key is CyPhy.Component)
                 {
                     comp = kvp.Key as CyPhy.Component;
@@ -506,7 +516,7 @@ namespace CyPhy2DesignInterchange
                 {
                     var cpi = new ComponentPortInstance
                     {
-                        ID = compInst.ID + '-' + port.Attributes.ID,
+                        ID = GetOrSetID(port, compInst),
                         IDinComponentModel = port.Attributes.ID,
                     };
                     //portIds[port] = cpi.ID;
@@ -577,7 +587,7 @@ namespace CyPhy2DesignInterchange
                     var xConnector = new ComponentConnectorInstance
                     {
                         IDinComponentModel = connector.Attributes.ID,
-                        ID = compInst.ID + '-' + GetOrSetID(connector),
+                        ID = GetOrSetID(connector, compInst),
                     };
                     try
                     {
@@ -719,9 +729,18 @@ namespace CyPhy2DesignInterchange
                                                 }
                                 };
 
-                if (prop.SrcConnections.ValueFlowCollection.Any(c => c.IsRefportConnection() == false))
+                var incomingValueFlows = prop.SrcConnections.ValueFlowCollection.Where(c => c.IsRefportConnection() == false);
+                if (incomingValueFlows.Count() > 1)
                 {
-                    var vft = prop.SrcConnections.ValueFlowCollection.First(c => c.IsRefportConnection() == false).SrcEnds.ValueFlowTarget;
+                    var mux = CreateDSMux(componentValueflowTargetMapping, "mux" + idProp, incomingValueFlows);
+
+                    ((avm.Alternative)rootContainer).ValueFlowMux.Add(mux);
+                    vftIdCache[prop] = mux.ID;
+                    xProp.Value.ValueExpression = new DerivedValue { ValueSource = mux.ID };
+                }
+                else if (incomingValueFlows.Count() == 1)
+                {
+                    var vft = incomingValueFlows.First().SrcEnds.ValueFlowTarget;
 
                     String idVft = null;
                     ComponentPrimitivePropertyInstance cppi = null;
@@ -780,7 +799,16 @@ namespace CyPhy2DesignInterchange
                 var xProp = convertParameter(param);
                 var valueExpression = xProp.Value.ValueExpression as avm.ParametricValue;
 
-                if (param.SrcConnections.ValueFlowCollection.Any(c => c.IsRefportConnection() == false))
+                var incomingValueFlows = param.SrcConnections.ValueFlowCollection.Where(c => c.IsRefportConnection() == false);
+                if (incomingValueFlows.Count() > 1)
+                {
+                    var mux = CreateDSMux(componentValueflowTargetMapping, "mux-" + GetOrSetID(param),incomingValueFlows);
+
+                    ((avm.Alternative)rootContainer).ValueFlowMux.Add(mux);
+                    vftIdCache[param] = mux.ID;
+                    valueExpression.AssignedValue = new avm.DerivedValue() { ValueSource = mux.ID };
+                }
+                else if (incomingValueFlows.Count() == 1)
                 {
                     var vft = param.SrcConnections.ValueFlowCollection.First(c => c.IsRefportConnection() == false).SrcEnds.ValueFlowTarget;
 
@@ -1003,6 +1031,31 @@ namespace CyPhy2DesignInterchange
                 }
             }
             #endregion
+        }
+
+        private ValueFlowMux CreateDSMux(Dictionary<CyPhy.ValueFlowTarget, ComponentPrimitivePropertyInstance> componentValueflowTargetMapping, String idProp, IEnumerable<CyPhy.ValueFlow> incomingValueFlows)
+        {
+            var mux = new avm.ValueFlowMux()
+            {
+                ID = idProp,
+                // Name = TODO
+            };
+
+            foreach (var vft in incomingValueFlows.Select(x => x.SrcEnds.ValueFlowTarget))
+            {
+                String idVft = null;
+                ComponentPrimitivePropertyInstance cppi = null;
+                if (componentValueflowTargetMapping.TryGetValue(vft, out cppi))
+                {
+                    idVft = cppi.Value.ID;
+                }
+                else
+                {
+                    idVft = GetOrSetID(vft);
+                }
+                mux.Source.Add(idVft);
+            }
+            return mux;
         }
 
         private avm.DomainModelPort CreateAvmCADDatum(CyPhy.CADDatum cyPhyMLDomainModelPort)

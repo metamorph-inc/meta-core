@@ -62,7 +62,7 @@ namespace CyPhy2CAD_CSharp
             this.componentParameters[OptionNameOutputDir] = ".\\";
             this.componentParameters[OptionNameAutomation] = "false";
             this.componentParameters[OptionNameDoConfig] = "true";
-            this.componentParameters[OptionNameRunCmd] = "runCreateCADAssembly.bat";
+            this.componentParameters[OptionNameRunCmd] = "runCADJob.bat";
             this.componentParameters[OptionNameCadDir] = ".\\";
             this.componentParameters[OptionNameIFab] = "false";
             this.componentParameters[OptionNameProjectDir] = "";
@@ -524,7 +524,7 @@ namespace CyPhy2CAD_CSharp
         private InterpreterMainParameters mainParameters;
         public IInterpreterResult Main(IInterpreterMainParameters parameters)
         {
-            result.RunCommand = "runCreateCADAssembly.bat";
+            result.RunCommand = "runCADJob.bat";
             result.Labels = "Creo&&CADCreoParametricCreateAssembly.exev1.4&&" + JobManager.Job.DefaultLabels;
             var ProjectIsNotInTransaction = (parameters.Project.ProjectStatus & 8) == 0;
             if (ProjectIsNotInTransaction)
@@ -619,7 +619,10 @@ namespace CyPhy2CAD_CSharp
 
             if ((parameters.Project.ProjectStatus & 8) == 0)
             {
-                MgaGateway.PerformInTransaction(action);
+                MgaGateway.PerformInTransaction(
+                    d: action, 
+                    mode: transactiontype_enum.TRANSACTION_NON_NESTED, 
+                    abort: true);
             }
             else
             {

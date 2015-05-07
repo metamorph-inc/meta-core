@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="gecode_init">
+  <PropertyGroup Label="Default initializers for properties">
+    <Linkage-gecode Condition="'$(Linkage-gecode)' == ''">dynamic</Linkage-gecode>
+    <CallingConvention-gecode Condition="'$(CallingConvention-gecode)' == ''">cdecl</CallingConvention-gecode>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\default-propertiesui.xml" />
+  </ItemGroup>
+  <UsingTask TaskName="gecode_Contains" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" TaskFactory="CodeTaskFactory">
+    <ParameterGroup>
+      <Text Output="false" ParameterType="System.String" />
+      <Library Output="false" Required="true" ParameterType="System.String" />
+      <Value Output="false" Required="true" ParameterType="System.String" />
+      <Result Output="true" ParameterType="System.String" />
+    </ParameterGroup>
+    <Task>
+      <Code>Result = ((Text ?? "").Split(';').Contains(Library) ) ? Value : String.Empty;</Code>
+    </Task>
+  </UsingTask>
+  <Target Name="gecode_init">
+    <gecode_Contains Text="Linkage-dynamic" Library="gecode" Value="dynamic" Condition="'$(Linkage-gecode)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-gecode" />
+    </gecode_Contains>
+    <gecode_Contains Text="Linkage-static" Library="gecode" Value="static" Condition="'$(Linkage-gecode)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-gecode" />
+    </gecode_Contains>
+    <gecode_Contains Text="Linkage-ltcg" Library="gecode" Value="ltcg" Condition="'$(Linkage-gecode)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-gecode" />
+    </gecode_Contains>
+    <gecode_Contains Text="Linkage-sxs" Library="gecode" Value="sxs" Condition="'$(Linkage-gecode)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-gecode" />
+    </gecode_Contains>
+    <gecode_Contains Text="CallingConvention-cdecl" Library="gecode" Value="cdecl" Condition="'$(CallingConvention-gecode)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-gecode" />
+    </gecode_Contains>
+    <gecode_Contains Text="CallingConvention-stdcall" Library="gecode" Value="stdcall" Condition="'$(CallingConvention-gecode)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-gecode" />
+    </gecode_Contains>
+    <gecode_Contains Text="CallingConvention-fastcall" Library="gecode" Value="fastcall" Condition="'$(CallingConvention-gecode)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-gecode" />
+    </gecode_Contains>
+    <gecode_Contains Text="CallingConvention-thiscall" Library="gecode" Value="thiscall" Condition="'$(CallingConvention-gecode)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-gecode" />
+    </gecode_Contains>
+    <gecode_Contains Text="CallingConvention-clrcall" Library="gecode" Value="clrcall" Condition="'$(CallingConvention-gecode)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-gecode" />
+    </gecode_Contains>
+  </Target>
+</Project>

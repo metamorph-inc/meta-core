@@ -309,7 +309,7 @@ namespace CADTeamTest
             Directory.CreateDirectory(OutputDir);
 
             string ProjectConnStr;
-            MgaUtils.ImportXMEForTest(XmePath, OutputDir, out ProjectConnStr);
+            MgaUtils.ImportXMEForTest(XmePath, Path.Combine(OutputDir, Path.GetFileNameWithoutExtension(XmePath) + "_CADtest.mga"), out ProjectConnStr);
 
             MgaProject project = new MgaProject();
             bool ro_mode;

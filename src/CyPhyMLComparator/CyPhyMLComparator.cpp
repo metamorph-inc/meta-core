@@ -33,11 +33,18 @@ int main( int argc, char **argv ) {
 
 		exclusiveAttributeNameSet.clear();
 		exclusiveAttributeNameSet.insert( "InstanceGUID" );
+		exclusiveAttributeNameSet.insert("ID");
 		exclusiveClassNameAttributeNameSetMap.insert(  std::make_pair( "ComponentRef", exclusiveAttributeNameSet )  );
 		
 		exclusiveAttributeNameSet.clear();
-		exclusiveAttributeNameSet.insert( "Path" );
+		exclusiveAttributeNameSet.insert("Path");
+		exclusiveAttributeNameSet.insert("ID");
 		exclusiveClassNameAttributeNameSetMap.insert(  std::make_pair( "Component", exclusiveAttributeNameSet )  );
+
+		exclusiveAttributeNameSet.clear();
+		exclusiveAttributeNameSet.insert("Path");
+		exclusiveAttributeNameSet.insert("ID");
+		exclusiveClassNameAttributeNameSetMap.insert(std::make_pair("ComponentAssembly", exclusiveAttributeNameSet));
 
 		UdmComparator::ClassNameFilter classNameFilter;
 		classNameFilter.setExclusiveClassNameSet( exclusiveClassNameSet );

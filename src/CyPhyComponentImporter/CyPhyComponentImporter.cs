@@ -36,11 +36,6 @@ namespace CyPhyComponentImporter
         /// </summary>
         public readonly static string ImportedComponentsFolderName = "Imported_Components";
 
-        public static Type[] getAVMClasses()
-        {
-            return System.Reflection.Assembly.Load("XSD2CSharp").GetTypes().Where(t => t.IsClass).Where(t => t.Namespace.StartsWith("avm") && t.FullName != "avm.simulink.Port").ToArray();
-        }
-
         /// <summary>
         /// Contains information about the GUI event that initiated the invocation.
         /// </summary>
@@ -622,14 +617,7 @@ namespace CyPhyComponentImporter
 
         public static avm.Component DeserializeAvmComponentXml(TextReader reader)
         {
-            System.Xml.XmlReaderSettings xmlReaderSettings = new System.Xml.XmlReaderSettings();
-            xmlReaderSettings.IgnoreWhitespace = true;
-
-            System.Xml.XmlReader xmlReader = System.Xml.XmlReader.Create(reader, xmlReaderSettings);
-            
-            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(Component), getAVMClasses());
-            avm.Component ac_import = (avm.Component)serializer.Deserialize(xmlReader);
-            return ac_import;
+            return XSD2CSharp.AvmXmlSerializer.Deserialize<Component>(reader);
         }
 
         #region IMgaComponentEx Members

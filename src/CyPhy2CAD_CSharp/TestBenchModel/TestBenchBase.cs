@@ -390,9 +390,11 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 Automation = IsAutomated,
                 XMLFileName = "CADAssembly",
                 AdditionalOptions = CADOptions??"",
-                CallDomainTool = ""
+                Assembler = "CREO",
+                Analyzer = "NONE",
+                Mesher = "NONE"
             };
-            using (StreamWriter writer = new StreamWriter(Path.Combine(OutputDirectory, "runCreateCADAssembly.bat")))
+            using (StreamWriter writer = new StreamWriter(Path.Combine(OutputDirectory, "runCADJob.bat")))
             {
                 writer.WriteLine(searchmeta.TransformText());
             }

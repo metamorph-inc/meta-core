@@ -19,7 +19,7 @@ namespace CyPhyPET.Templates.TestBenchExecutors
     using ISIS.GME.Dsml.CyPhyML.Classes;
     
     
-    #line 1 "C:\META\meta_trunk\src\CyPhyPET\Templates\TestBenchExecutors\FEA.tt"
+    #line 1 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhyPET\Templates\TestBenchExecutors\FEA.tt"
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "10.0.0.0")]
     public partial class FEA : FEABase
     {
@@ -57,23 +57,22 @@ namespace CyPhyPET.Templates.TestBenchExecutors
                     "\n    Execute the test-bench. A call to this function should update the metrics i" +
                     "n the testbench_manifest.json.\r\n    :rtype: dict or None\r\n    :return: Dictionar" +
                     "y with metrics names and values if testbench_manifest.json is not updated, else " +
-                    "None.\r\n    \"\"\"\r\n    log = logging.getLogger()\r\n    cad_bat = \'runCreateCADAssemb" +
-                    "ly.bat\'\r\n    out_put_file = \'PET_run.txt\'\r\n\r\n    if os.path.isfile(out_put_file)" +
-                    ":\r\n        os.remove(out_put_file)\r\n\r\n    log.info(\'About to call :: {}\'.format(" +
-                    "os.path.abspath(cad_bat)))\r\n    was_killed = False\r\n    with open(out_put_file, " +
-                    "\'w\') as f_out:\r\n        timer = 0\r\n        sim_process = subprocess.Popen(cad_ba" +
-                    "t, stdout=f_out, stderr=f_out)\r\n        while sim_process.poll() is None:\r\n     " +
-                    "       time.sleep(0.1)\r\n            timer += 0.1\r\n        if timer > MAX_WAIT_TI" +
-                    "ME:\r\n            sim_process.kill()\r\n            f_out.write(\'runCreateCADAssemb" +
-                    "ly.bat exceeded MAX_WAIT_TIME = {0} (seconds).\'.format(MAX_WAIT_TIME))\r\n        " +
-                    "    was_killed = True\r\n\r\n    with open(out_put_file, \'r\') as f_in:\r\n        out_" +
-                    "put = \'\'.join(f_in.readlines())\r\n    if was_killed:\r\n        raise TestBenchExec" +
-                    "utionError(out_put)\r\n    else:\r\n        log.debug(out_put)\r\n        log.info(\'Su" +
-                    "ccessful {} run!\'.format(cad_bat))\r\n    return None\r\n\r\ndef _update_parameter(et," +
-                    " name, value):\r\n    \"\"\"\r\n    This needs to be more generic.\r\n    \"\"\"\r\n    root =" +
-                    " et.getroot()\r\n    cnt = 0\r\n    for p_elem in (elem for elem in root.iter(tag=\'F" +
-                    "orce\')):\r\n        p_elem.attrib[name] = str(value)\r\n        cnt += 1\r\n\r\n    retu" +
-                    "rn cnt");
+                    "None.\r\n    \"\"\"\r\n    log = logging.getLogger()\r\n    cad_bat = \'runCADJob.bat\'\r\n  " +
+                    "  out_put_file = \'PET_run.txt\'\r\n\r\n    if os.path.isfile(out_put_file):\r\n        " +
+                    "os.remove(out_put_file)\r\n\r\n    log.info(\'About to call :: {}\'.format(os.path.abs" +
+                    "path(cad_bat)))\r\n    was_killed = False\r\n    with open(out_put_file, \'w\') as f_o" +
+                    "ut:\r\n        timer = 0\r\n        sim_process = subprocess.Popen(cad_bat, stdout=f" +
+                    "_out, stderr=f_out)\r\n        while sim_process.poll() is None:\r\n            time" +
+                    ".sleep(0.1)\r\n            timer += 0.1\r\n        if timer > MAX_WAIT_TIME:\r\n      " +
+                    "      sim_process.kill()\r\n            f_out.write(\'runCADJob.bat exceeded MAX_WA" +
+                    "IT_TIME = {0} (seconds).\'.format(MAX_WAIT_TIME))\r\n            was_killed = True\r" +
+                    "\n\r\n    with open(out_put_file, \'r\') as f_in:\r\n        out_put = \'\'.join(f_in.rea" +
+                    "dlines())\r\n    if was_killed:\r\n        raise TestBenchExecutionError(out_put)\r\n " +
+                    "   else:\r\n        log.debug(out_put)\r\n        log.info(\'Successful {} run!\'.form" +
+                    "at(cad_bat))\r\n    return None\r\n\r\ndef _update_parameter(et, name, value):\r\n    \"\"" +
+                    "\"\r\n    This needs to be more generic.\r\n    \"\"\"\r\n    root = et.getroot()\r\n    cnt" +
+                    " = 0\r\n    for p_elem in (elem for elem in root.iter(tag=\'Force\')):\r\n        p_el" +
+                    "em.attrib[name] = str(value)\r\n        cnt += 1\r\n\r\n    return cnt");
             return this.GenerationEnvironment.ToString();
         }
     }

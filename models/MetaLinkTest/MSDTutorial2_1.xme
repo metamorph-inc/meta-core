@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{08338E1B-E078-4775-A28F-A5EC0AFD4D50}" cdate="Tue Aug 26 15:04:31 2014" mdate="Tue Aug 26 15:04:31 2014" version="" metaguid="{1E30CA00-4C94-493D-9F68-12F33E6DD7F1}" metaversion="$Rev: 27879 $" metaname="CyPhyML">
+<project guid="{3EF4FFE7-7E35-469A-931A-5A8625D84D47}" cdate="Wed Sep 10 14:38:40 2014" mdate="Wed Sep 10 14:38:40 2014" version="" metaguid="{7617F17E-8B7F-4368-8BE7-284607C1FCA0}" metaversion="$Rev: 28030 $" metaname="CyPhyML">
 	<name>MassSpringDamper</name>
 	<comment></comment>
 	<author></author>
-	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x64" kind="RootFolder" guid="{5d72afcb-5657-4880-a58f-278b569687fb}">
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x68" kind="RootFolder" guid="{5d72afcb-5657-4880-a58f-278b569687fb}">
 		<name>MassSpringDamper</name>
 		<folder id="id-006a-00000002" relid="0x17" childrelidcntr="0xc" kind="Components" guid="{32133dfa-e889-4101-bfec-e865a9c2c41b}">
 			<name>Imported_Components</name>
 			<folder id="id-006a-00000003" relid="0xc" childrelidcntr="0x2" kind="Components" guid="{de976d9e-6932-4ea6-bd20-a0dc78e90dcb}">
 				<name>Folder</name>
-				<model id="id-0065-00000001" kind="Component" guid="{96a974a6-16c7-4fb2-9d4b-a5dd30fb2a2a}" relid="0x1" childrelidcntr="0x3d">
+				<model id="id-0065-00000001" kind="Component" guid="{96a974a6-16c7-4fb2-9d4b-a5dd30fb2a2a}" relid="0x1" childrelidcntr="0x40">
 					<name>Mass_Gold</name>
 					<attribute kind="AVMID">
 						<value>AVM.Component:50ec5516a07d9b39ee4bb7fb</value>
@@ -104,8 +104,8 @@
 							<attribute kind="GeometricMarker" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-e65780ff-163c-4d5f-b5f1-c039f8963918</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -140,8 +140,8 @@
 							<attribute kind="GeometricMarker" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-a9b0f4a5-4a87-4e27-97cf-c6e7281a7c6c</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -176,8 +176,8 @@
 							<attribute kind="GeometricMarker" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-44af0ead-b298-4034-b3e6-b861b5613764</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -212,8 +212,8 @@
 							<attribute kind="GeometricMarker" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-fd8c6b66-369e-49ee-9f0f-40cdf0bb8aff</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -245,8 +245,8 @@
 							<attribute kind="GeometricMarker" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-1482acaf-5091-407f-a1c7-e796b996f4c7</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -273,7 +273,7 @@
 								<value>0</value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{a1fa96d0-7bec-43f2-859d-49cd8efacd18}</value>
+								<value>id-7905ddca-9239-402a-971e-4708b4ab07fc</value>
 							</attribute>
 							<attribute kind="ParameterName">
 								<value>HEIGHT</value>
@@ -344,8 +344,8 @@
 							<attribute kind="DefinitionNotes" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-91334068-8fd0-4729-9805-8fdf298f70b8</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -380,8 +380,8 @@
 							<attribute kind="DefinitionNotes" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-ceaad2a2-8946-492f-925e-6d7457ac312c</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -390,7 +390,7 @@
 								<value></value>
 							</attribute>
 						</model>
-						<reference id="id-0067-00000002" kind="ModelicaParameter" role="ModelicaParameter" guid="{6613a872-a3fa-413a-a296-31912dc9e1d1}" relid="0x3">
+						<reference id="id-0067-00000002" kind="ModelicaParameter" role="ModelicaParameter" guid="{6613a872-a3fa-413a-a296-31912dc9e1d1}" relid="0x3" referred="id-0065-0000044f">
 							<name>m</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -411,10 +411,10 @@
 								<value>1</value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{283b2256-ef41-4d1d-9885-c8eab013d40e}</value>
+								<value>id-6613a872-a3fa-413a-a296-31912dc9e1d1</value>
 							</attribute>
 							<attribute kind="Value">
-								<value>0.250</value>
+								<value>0.75</value>
 							</attribute>
 						</reference>
 					</model>
@@ -518,8 +518,8 @@
 							<attribute kind="DefinitionNotes" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-2722cb19-22f5-487f-9ec7-905ced29d3c0</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -561,7 +561,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{8c16c36e-4df5-4020-b965-074c6df2ccf8}</value>
+								<value>id-e1197b22-f593-49f0-955a-75a7dcbe810e</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -597,7 +597,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{bcdd5fcf-4bc3-44c3-b689-41db9d21a79e}</value>
+								<value>id-ab6c109c-0a72-46dc-b268-d6d763fdc9ab</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -636,7 +636,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{4deadab3-3b16-46ad-88a1-7b34a7b6ebee}</value>
+								<value>id-e24db7af-ee2c-4618-a438-53264c56c96a</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -731,8 +731,8 @@
 							<attribute kind="DefinitionNotes" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-1ee04143-4b00-4bb6-9fb4-c7d1a519b355</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -765,7 +765,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{d7032604-b964-48b5-8344-0dd3fec85e7c}</value>
+								<value>id-a5cab0a5-39a8-4c8e-86e1-3d9a6528cc09</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -807,7 +807,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{57a55627-edbc-4fde-b633-24caf27607b7}</value>
+								<value>id-2b29938f-d08f-4cf5-bd5d-859d74c21178</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -849,7 +849,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{a52014e7-5cf6-4b35-9998-bab60a977f80}</value>
+								<value>id-834cd5cc-27d9-42fe-8776-4e34b1f815ef</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -926,7 +926,7 @@
 </value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{72305915-ec5f-4c03-b5e4-2a1295d9598a}</value>
+							<value>id-6ddf5515-0ce4-4f4a-af11-4b2727bb1faf</value>
 						</attribute>
 					</atom>
 					<atom id="id-0066-0000000e" kind="File" role="File" guid="{2df3ea15-d910-40bd-94a6-b1704f55ba74}" relid="0x1d">
@@ -1007,7 +1007,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>5b6ffe43-c7f2-4709-b705-7a060013af23</value>
+							<value>id-5b6ffe43-c7f2-4709-b705-7a060013af23</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -1325,52 +1325,52 @@
 							<value>0.75</value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000230" kind="Parameter" role="Parameter" guid="{e0225182-7566-4fe3-8116-3409ef06dd0a}" relid="0x5" referred="id-0065-00000422">
+					<reference id="id-0067-0000070d" kind="Property" role="Property" guid="{e4da97c1-c248-4e9c-a676-0411a73be219}" relid="0x3e" referred="id-0065-00000422">
 						<name>Height</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
 							<regnode name="All" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>725,25</value>
+									<value>707,42</value>
 								</regnode>
 							</regnode>
 							<regnode name="BehaviorModelsAspect" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>725,25</value>
+									<value>924,105</value>
 								</regnode>
 							</regnode>
 							<regnode name="ManufacturingAspect" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>725,25</value>
+									<value>924,105</value>
 								</regnode>
 							</regnode>
 							<regnode name="SolidModeling" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>725,25</value>
+									<value>924,105</value>
 								</regnode>
 							</regnode>
 							<regnode name="ValueFlowAspect" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>725,25</value>
+									<value>924,105</value>
 								</regnode>
 							</regnode>
 						</regnode>
 						<attribute kind="ComputationType" status="meta">
 							<value>Addition</value>
 						</attribute>
-						<attribute kind="DataType">
-							<value>Float</value>
+						<attribute kind="DataType" status="meta">
+							<value>String</value>
 						</attribute>
 						<attribute kind="DefaultValue" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="Description">
-							<value>This is the height of the mass in mm. It will change in response to changes in mass.</value>
+						<attribute kind="Description" status="meta">
+							<value></value>
 						</attribute>
 						<attribute kind="Dimension" status="meta">
 							<value></value>
@@ -1379,13 +1379,16 @@
 							<value>false</value>
 						</attribute>
 						<attribute kind="ID">
-							<value>ID6</value>
+							<value>id-e4da97c1-c248-4e9c-a676-0411a73be219</value>
+						</attribute>
+						<attribute kind="IsProminent" status="meta">
+							<value>true</value>
 						</attribute>
 						<attribute kind="ManagedGUID" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="Range">
-							<value>0.020,0.050</value>
+						<attribute kind="Tolerance" status="meta">
+							<value></value>
 						</attribute>
 						<attribute kind="Type" status="meta">
 							<value></value>
@@ -1417,11 +1420,6 @@
 						</attribute>
 						<connpoint role="dst" target="id-0066-0000000d"/>
 						<connpoint role="src" target="id-0067-0000022e"/>
-					</connection>
-					<connection id="id-0068-00000004" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{aa099dc9-d9cb-40b8-b9ec-c76bc48fd7b6}" relid="0x13">
-						<name></name>
-						<connpoint role="dst" target="id-0067-00000001"/>
-						<connpoint role="src" target="id-0067-00000230"/>
 					</connection>
 					<connection id="id-0068-00000005" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{8fc4df23-bf69-4e47-bd38-9afa340b178d}" relid="0x1c">
 						<name></name>
@@ -1481,14 +1479,6 @@
 						<connpoint role="dst" target="id-0066-0000000d"/>
 						<connpoint role="src" target="id-0067-0000022f"/>
 					</connection>
-					<connection id="id-0068-00000010" kind="ValueFlow" role="ValueFlow" guid="{c4ef588c-35dc-4cbb-9396-41ba26fc813e}" relid="0x38">
-						<name>ValueFlow</name>
-						<attribute kind="FormulaVariableName" status="meta">
-							<value></value>
-						</attribute>
-						<connpoint role="src" target="id-0066-0000000d"/>
-						<connpoint role="dst" target="id-0067-00000230"/>
-					</connection>
 					<connection id="id-0068-00000011" kind="UsesResource" role="UsesResource" guid="{6407b99c-3ae8-4d9b-b6b3-5ddba49cc007}" relid="0x3c">
 						<name>UsesResource</name>
 						<connpoint role="src" target="id-0065-00000002"/>
@@ -1502,8 +1492,21 @@
 						<connpoint role="src" target="id-0065-0000000b"/>
 						<connpoint role="dst" target="id-0066-00000012"/>
 					</connection>
+					<connection id="id-0068-000001a0" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{d7df5ceb-a378-46df-9b11-2b406eec4af2}" relid="0x3f">
+						<name>CADParameterPortMap</name>
+						<connpoint role="dst" target="id-0067-00000001"/>
+						<connpoint role="src" target="id-0067-0000070d"/>
+					</connection>
+					<connection id="id-0068-000001a1" kind="ValueFlow" role="ValueFlow" guid="{4d9e93f6-a1cc-4843-b4db-ef1097c8eaaf}" relid="0x40">
+						<name>ValueFlow</name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0066-0000000d"/>
+						<connpoint role="dst" target="id-0067-0000070d"/>
+					</connection>
 				</model>
-				<model id="id-0065-0000000c" kind="Component" guid="{91791f5e-af43-4139-8a16-360f5626f68b}" relid="0x2" childrelidcntr="0x54">
+				<model id="id-0065-0000000c" kind="Component" guid="{91791f5e-af43-4139-8a16-360f5626f68b}" relid="0x2" childrelidcntr="0x57">
 					<name>Spring_Titanium</name>
 					<regnode name="icon" isopaque="yes">
 						<value>components\Spring_Titanium\AVM.Component-50eb60f66e6cc370ae16ae4ev1r3\images\SpringIcon.png</value>
@@ -1599,8 +1602,8 @@
 							<attribute kind="GeometricMarker" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-f1510dd8-2bcb-4bff-8dd4-0927813cd783</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -1635,8 +1638,8 @@
 							<attribute kind="GeometricMarker" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-2035c8c1-9b5f-48f1-815e-22c27254e6d5</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -1671,8 +1674,8 @@
 							<attribute kind="GeometricMarker" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-63fe87b6-0649-4373-9f1f-dda1b39df3c5</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -1707,8 +1710,8 @@
 							<attribute kind="GeometricMarker" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-46e481d7-cd54-4960-9f75-a3d245fcc9ac</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -1743,8 +1746,8 @@
 							<attribute kind="GeometricMarker" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-7c30bb7c-f81e-46d0-813e-8ace068bf159</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -1779,8 +1782,8 @@
 							<attribute kind="GeometricMarker" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-187fd2d1-ce2d-4309-bd73-5b225b37cc21</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -1807,7 +1810,7 @@
 								<value>0</value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{386a925a-30f2-4f1c-96a4-2228790310bf}</value>
+								<value>id-34dbab39-6812-4a66-b216-1b26891eacd8</value>
 							</attribute>
 							<attribute kind="ParameterName">
 								<value>SPRING_D</value>
@@ -1819,7 +1822,7 @@
 								<value>mm</value>
 							</attribute>
 							<attribute kind="Value">
-								<value>0.003</value>
+								<value>3</value>
 							</attribute>
 						</reference>
 					</model>
@@ -1878,8 +1881,8 @@
 							<attribute kind="DefinitionNotes" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-1834de1a-e717-49a6-8ef4-eaa5946035b7</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -1914,8 +1917,8 @@
 							<attribute kind="DefinitionNotes" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-298cf99d-9580-46ee-92a8-e99fef5eeb65</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -1924,7 +1927,7 @@
 								<value></value>
 							</attribute>
 						</model>
-						<reference id="id-0067-00000004" kind="ModelicaParameter" role="ModelicaParameter" guid="{9fbd6cdb-857d-452f-8c6b-fe6989cdb464}" relid="0x3">
+						<reference id="id-0067-00000004" kind="ModelicaParameter" role="ModelicaParameter" guid="{9fbd6cdb-857d-452f-8c6b-fe6989cdb464}" relid="0x3" referred="id-0065-0000038b">
 							<name>c</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1945,10 +1948,10 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{773100a3-4b48-422a-85d1-a3ba816116e3}</value>
+								<value>id-9fbd6cdb-857d-452f-8c6b-fe6989cdb464</value>
 							</attribute>
 							<attribute kind="Value">
-								<value>.17</value>
+								<value>13200</value>
 							</attribute>
 						</reference>
 					</model>
@@ -2043,8 +2046,8 @@
 							<attribute kind="DefinitionNotes" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-e2c69173-298a-4001-901d-0a2aee55683b</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2086,7 +2089,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{fe2e1a99-dcac-4e7e-9931-edeb72a6a716}</value>
+								<value>id-2b19725a-9959-4b7f-8d34-4713fd64464e</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2125,7 +2128,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{f1518361-3390-482a-bc30-56f215abdd6b}</value>
+								<value>id-98929b40-ccc7-4ef5-b3df-105bc7bfd0d5</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2167,7 +2170,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{8e186ea1-97f5-48e3-ae84-85f2b83acaf7}</value>
+								<value>id-f2fde5e7-e3d2-467c-ab50-97941b5eaf4c</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2253,8 +2256,8 @@
 							<attribute kind="DefinitionNotes" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-332a0873-e46f-40e2-98d3-6482f1ab7302</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2296,7 +2299,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{6583fdec-1f23-4b6d-992b-ab0cc820ca2c}</value>
+								<value>id-8160eee3-296f-47bf-a25e-b3c439d6fc21</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2335,7 +2338,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{a3dda711-6e85-48a7-875b-e3b3896e54a7}</value>
+								<value>id-eeb2f654-a9a6-44ca-ae04-0c9cc3e4138b</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2377,7 +2380,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{fedc831b-3279-4466-b08c-29cb5a2babea}</value>
+								<value>id-bfc888b9-7691-4536-9e3a-fb1d1d17314e</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2441,7 +2444,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>77a6f184-2794-4648-a6c2-1f5b182b659b</value>
+							<value>id-77a6f184-2794-4648-a6c2-1f5b182b659b</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -2463,8 +2466,8 @@
 							<attribute kind="DefinitionNotes" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-840f92ce-2393-4bd7-bd5a-79e2358c1290</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2506,7 +2509,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{eb8e071a-2a9c-48e8-a6c5-7824fe3ed966}</value>
+								<value>id-99b5818d-d07e-4113-8081-b308bc406fae</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2548,7 +2551,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{664a2e8b-d885-4e3c-90df-1d86c6796a84}</value>
+								<value>id-feb32745-a018-4d7e-962b-c862ecd0f2b7</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2587,7 +2590,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{6181ee22-a017-4bf0-8c14-a6bb82d532f5}</value>
+								<value>id-18d8aade-99c1-4dfa-8e36-bd84fed99e4a</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2682,8 +2685,8 @@
 							<attribute kind="DefinitionNotes" status="meta">
 								<value></value>
 							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
+							<attribute kind="ID">
+								<value>id-a946a94a-85d0-407a-b796-25b299d63cb0</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2725,7 +2728,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{feb5d13b-ddb9-48f0-8152-4142491e9a34}</value>
+								<value>id-a0e522af-5d32-410b-9242-23254dcce037</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2761,7 +2764,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{d525b80b-7df0-47c4-871d-063e3fe1fe41}</value>
+								<value>id-f52fd67a-3910-4d15-a643-b5fb953fdd72</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2800,7 +2803,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="ID">
-								<value>{51db1b12-e47e-4fb8-9ed1-cfbcf019bad1}</value>
+								<value>id-bba59252-aac5-42c0-b64c-062d7ab152a0</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="meta">
 								<value></value>
@@ -2876,7 +2879,7 @@
 							<value>sqrt(sqrt((8*Active_coils*spring_constant*(Mean_coil_diameter*Mean_coil_diameter*Mean_coil_diameter)/Shear_Modulus)))</value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{05e7bef8-1d99-4965-86b7-e184a62476db}</value>
+							<value>id-c1302c77-284a-4638-84c4-0737ca09f64e</value>
 						</attribute>
 					</atom>
 					<atom id="id-0066-00000027" kind="File" role="File" guid="{dbc13635-f230-4e4b-9b38-557e161d155e}" relid="0x36">
@@ -3236,52 +3239,52 @@
 							<value>13200</value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000234" kind="Parameter" role="Parameter" guid="{1f101d73-1c9f-477d-888c-4b3c6285e867}" relid="0xa" referred="id-0065-00000422">
+					<reference id="id-0067-0000070e" kind="Property" role="Property" guid="{7ac7ef33-230d-41ac-98e6-834fc7ffb53f}" relid="0x55" referred="id-0065-00000422">
 						<name>Wire_Diameter</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
 							<regnode name="All" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>7,7</value>
+									<value>28,35</value>
 								</regnode>
 							</regnode>
 							<regnode name="BehaviorModelsAspect" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>25,150</value>
+									<value>161,112</value>
 								</regnode>
 							</regnode>
 							<regnode name="ManufacturingAspect" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>25,150</value>
+									<value>161,112</value>
 								</regnode>
 							</regnode>
 							<regnode name="SolidModeling" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>25,150</value>
+									<value>161,112</value>
 								</regnode>
 							</regnode>
 							<regnode name="ValueFlowAspect" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>25,150</value>
+									<value>161,112</value>
 								</regnode>
 							</regnode>
 						</regnode>
 						<attribute kind="ComputationType" status="meta">
 							<value>Addition</value>
 						</attribute>
-						<attribute kind="DataType">
-							<value>Float</value>
+						<attribute kind="DataType" status="meta">
+							<value>String</value>
 						</attribute>
 						<attribute kind="DefaultValue" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="Description">
-							<value>This is the wire diameter of the spring in mm, not to be confused with the mean diameter of the coils.</value>
+						<attribute kind="Description" status="meta">
+							<value></value>
 						</attribute>
 						<attribute kind="Dimension" status="meta">
 							<value></value>
@@ -3290,13 +3293,16 @@
 							<value>false</value>
 						</attribute>
 						<attribute kind="ID">
-							<value>ID8</value>
+							<value>id-7ac7ef33-230d-41ac-98e6-834fc7ffb53f</value>
+						</attribute>
+						<attribute kind="IsProminent" status="meta">
+							<value>true</value>
 						</attribute>
 						<attribute kind="ManagedGUID" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="Range">
-							<value>0.001,0.003</value>
+						<attribute kind="Tolerance" status="meta">
+							<value></value>
 						</attribute>
 						<attribute kind="Type" status="meta">
 							<value></value>
@@ -3336,19 +3342,6 @@
 						</attribute>
 						<connpoint role="dst" target="id-0066-00000026"/>
 						<connpoint role="src" target="id-0067-00000233"/>
-					</connection>
-					<connection id="id-0068-00000017" kind="ValueFlow" role="ValueFlow" guid="{d0ceeebd-f4df-485f-9f21-9a1318f263ec}" relid="0x25">
-						<name></name>
-						<attribute kind="FormulaVariableName" status="meta">
-							<value></value>
-						</attribute>
-						<connpoint role="src" target="id-0066-00000026"/>
-						<connpoint role="dst" target="id-0067-00000234"/>
-					</connection>
-					<connection id="id-0068-00000018" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{2d243b13-1546-4efc-bf7d-5cea21241c06}" relid="0x26">
-						<name></name>
-						<connpoint role="dst" target="id-0067-00000003"/>
-						<connpoint role="src" target="id-0067-00000234"/>
 					</connection>
 					<connection id="id-0068-00000019" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{74df21f4-a92a-4503-beb0-2a26033ab962}" relid="0x35">
 						<name></name>
@@ -3448,9 +3441,22 @@
 						<connpoint role="src" target="id-0065-0000001a"/>
 						<connpoint role="dst" target="id-0066-0000002a"/>
 					</connection>
+					<connection id="id-0068-000001a2" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{96d95a59-e21b-4adf-814d-2a1c3343e782}" relid="0x56">
+						<name>CADParameterPortMap</name>
+						<connpoint role="dst" target="id-0067-00000003"/>
+						<connpoint role="src" target="id-0067-0000070e"/>
+					</connection>
+					<connection id="id-0068-000001a3" kind="ValueFlow" role="ValueFlow" guid="{5f1d24ed-3457-42b3-9727-cefa3dd62cb6}" relid="0x57">
+						<name>ValueFlow</name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0066-00000026"/>
+						<connpoint role="dst" target="id-0067-0000070e"/>
+					</connection>
 				</model>
 			</folder>
-			<model id="id-0065-0000001b" kind="Component" guid="{aaf367a5-2ab0-4f54-b9aa-259c8ea6a1e1}" relid="0x1" childrelidcntr="0x3f">
+			<model id="id-0065-0000001b" kind="Component" guid="{aaf367a5-2ab0-4f54-b9aa-259c8ea6a1e1}" relid="0x1" childrelidcntr="0x42">
 				<name>Damper_6</name>
 				<attribute kind="AVMID">
 					<value>AVM.Component:50ec54ce64344c388a731c49</value>
@@ -3561,8 +3567,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-74a7127f-9ca4-4eb4-942d-61ad00e49eb5</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -3597,8 +3603,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-cc91545e-a2c3-43ed-bf65-7141dec6b15a</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -3633,8 +3639,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-0fe8be51-2a3e-4665-a6ac-b5bf8cc242ef</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -3666,8 +3672,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-b883c76a-c982-4b27-a445-aac730712b22</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -3699,8 +3705,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-11cd4ccc-5fd9-4b4f-b805-6cef771b3804</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -3727,7 +3733,7 @@
 							<value>0</value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{b88261e9-0d40-4b71-9e47-ab0e7c9085a9}</value>
+							<value>id-00090cc7-7877-416f-bf6e-aae889812635</value>
 						</attribute>
 						<attribute kind="ParameterName">
 							<value>DAMPER_D</value>
@@ -3819,8 +3825,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-66a53591-1bde-43e0-8fab-15bfa0543147</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -3855,8 +3861,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-df4b8bad-13cf-47a6-bd4c-492245487815</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -3865,7 +3871,7 @@
 							<value></value>
 						</attribute>
 					</model>
-					<reference id="id-0067-00000007" kind="ModelicaParameter" role="ModelicaParameter" guid="{8b835f43-369d-40fb-8d53-4665831ef8bc}" relid="0x3">
+					<reference id="id-0067-00000007" kind="ModelicaParameter" role="ModelicaParameter" guid="{8b835f43-369d-40fb-8d53-4665831ef8bc}" relid="0x3" referred="id-0065-0000037f">
 						<name>d</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -3886,10 +3892,10 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{6a25c5b2-b43b-4d27-9a60-7d3c8d7fac5d}</value>
+							<value>id-8b835f43-369d-40fb-8d53-4665831ef8bc</value>
 						</attribute>
 						<attribute kind="Value">
-							<value>10</value>
+							<value>6</value>
 						</attribute>
 					</reference>
 				</model>
@@ -3969,8 +3975,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-ff11f823-6485-49f3-a096-ad6f95f7efa4</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -4009,7 +4015,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{0eaa016f-3ac3-4052-bd1e-6a65448559ca}</value>
+							<value>id-f99e4157-71f5-49d0-833b-36e8ad0a00b4</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -4051,7 +4057,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{14bf82ca-7be8-432f-b3c2-399228e8d71a}</value>
+							<value>id-7d73cc01-c3a3-4261-a9eb-c7c9442b05e4</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -4093,7 +4099,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{10fe320c-7f1d-4707-b573-fc9a960b1d60}</value>
+							<value>id-c5c2fc20-9df4-4fec-95c6-b7922185b458</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -4188,8 +4194,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-f69b16d3-9b4a-4659-a7ee-fbd52db5dff8</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -4228,7 +4234,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{80b37ded-ab1b-4320-9e60-6f0a9aef3468}</value>
+							<value>id-9e5dd2b9-9f8d-47c3-9340-4dd22f839194</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -4270,7 +4276,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{cb78d0c2-dd01-44de-a10f-e5199259c339}</value>
+							<value>id-37239795-8cd7-4617-a1e5-0881b45ce5ea</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -4312,7 +4318,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{f46462b6-b443-429c-a920-8965df34fb9c}</value>
+							<value>id-8270dc0d-b02f-4e28-9d3b-7833c6adaa65</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -4388,7 +4394,7 @@
 						<value>sqrt((Damping_constant - Damping_offset)/Damping_gain)</value>
 					</attribute>
 					<attribute kind="ID">
-						<value>{1772be69-ec4e-4dc8-8f9e-d8d2b96df91c}</value>
+						<value>id-14603a71-056a-4100-91e4-a5d1b1ee02da</value>
 					</attribute>
 				</atom>
 				<atom id="id-0066-00000038" kind="File" role="File" guid="{7dedaa55-99ab-4876-a20b-5022e92db5d6}" relid="0x1b">
@@ -4718,52 +4724,52 @@
 						<value>-2.18</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-00000237" kind="Parameter" role="Parameter" guid="{775095c2-9aa6-4fae-b9ae-9a05f5816d28}" relid="0x4" referred="id-0065-0000037e">
+				<reference id="id-0067-00000714" kind="Property" role="Property" guid="{c1734767-1daf-4e0e-a47a-6dceac066b76}" relid="0x40" referred="id-0065-0000037e">
 					<name>Damper_diameter</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="All" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>938,49</value>
 							</regnode>
 						</regnode>
 						<regnode name="BehaviorModelsAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 						<regnode name="ManufacturingAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 						<regnode name="SolidModeling" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 						<regnode name="ValueFlowAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 					</regnode>
 					<attribute kind="ComputationType" status="meta">
 						<value>Addition</value>
 					</attribute>
-					<attribute kind="DataType">
-						<value>Float</value>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
 					</attribute>
 					<attribute kind="DefaultValue" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Description">
-						<value>This is the diameter of the damper in mm. We assume that the damping constant will be proportional to the area of the damper.</value>
+					<attribute kind="Description" status="meta">
+						<value></value>
 					</attribute>
 					<attribute kind="Dimension" status="meta">
 						<value></value>
@@ -4772,13 +4778,16 @@
 						<value>false</value>
 					</attribute>
 					<attribute kind="ID">
-						<value>ID3</value>
+						<value>id-e4da97c1-c248-4e9c-a676-0411a73be219</value>
+					</attribute>
+					<attribute kind="IsProminent" status="meta">
+						<value>true</value>
 					</attribute>
 					<attribute kind="ManagedGUID" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Range">
-						<value>3,9</value>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
 					</attribute>
 					<attribute kind="Type" status="meta">
 						<value></value>
@@ -4810,14 +4819,6 @@
 					</attribute>
 					<connpoint role="dst" target="id-0066-00000037"/>
 					<connpoint role="src" target="id-0067-00000235"/>
-				</connection>
-				<connection id="id-0068-0000002f" kind="ValueFlow" role="ValueFlow" guid="{39ba7537-d247-4386-8cd9-92dcaa615377}" relid="0x10">
-					<name></name>
-					<attribute kind="FormulaVariableName" status="meta">
-						<value></value>
-					</attribute>
-					<connpoint role="src" target="id-0066-00000037"/>
-					<connpoint role="dst" target="id-0067-00000237"/>
 				</connection>
 				<connection id="id-0068-00000030" kind="PortComposition" role="PortComposition" guid="{e3bf5ce8-5f33-4790-9500-c91786531065}" relid="0x30">
 					<name>PortComposition</name>
@@ -4867,11 +4868,6 @@
 					<connpoint role="src" target="id-0065-00000020"/>
 					<connpoint role="dst" target="id-0065-00000024"/>
 				</connection>
-				<connection id="id-0068-00000039" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{f9853a51-8102-4caf-b190-4da5d34a62a0}" relid="0x39">
-					<name>CADParameterPortMap</name>
-					<connpoint role="dst" target="id-0067-00000006"/>
-					<connpoint role="src" target="id-0067-00000237"/>
-				</connection>
 				<connection id="id-0068-0000003a" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{36c58a0e-0511-420a-80f6-8ffbe5af96f1}" relid="0x3a">
 					<name>ModelicaParameterPortMap</name>
 					<connpoint role="dst" target="id-0067-00000007"/>
@@ -4887,8 +4883,21 @@
 					<connpoint role="src" target="id-0065-0000001d"/>
 					<connpoint role="dst" target="id-0066-0000003a"/>
 				</connection>
+				<connection id="id-0068-000001b0" kind="ValueFlow" role="ValueFlow" guid="{550b96ba-6e52-4a69-b336-90bb1f197e60}" relid="0x41">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000037"/>
+					<connpoint role="dst" target="id-0067-00000714"/>
+				</connection>
+				<connection id="id-0068-000001b1" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{c8cea725-8ff9-43d1-abea-b719b32330c5}" relid="0x42">
+					<name>CADParameterPortMap</name>
+					<connpoint role="dst" target="id-0067-00000006"/>
+					<connpoint role="src" target="id-0067-00000714"/>
+				</connection>
 			</model>
-			<model id="id-0065-00000026" kind="Component" guid="{4d564bfd-1afd-4ec9-8c9a-51d2e8ce9840}" relid="0x2" childrelidcntr="0x3f">
+			<model id="id-0065-00000026" kind="Component" guid="{4d564bfd-1afd-4ec9-8c9a-51d2e8ce9840}" relid="0x2" childrelidcntr="0x42">
 				<name>Damper_2</name>
 				<attribute kind="AVMID">
 					<value>AVM.Component:50ec54a86e6cc33768468c31</value>
@@ -4999,8 +5008,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-2275ea42-8617-45c2-8af8-f67b6c1cfd48</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5035,8 +5044,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-fa02565b-f33d-4d38-bf39-48064fadf7bd</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5071,8 +5080,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-68fbff6b-7473-4491-8679-0f6fdae8afcf</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5104,8 +5113,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-ad6333af-d22c-4104-88f9-b43893828c50</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5137,8 +5146,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-ede3c887-fb7f-458e-ae32-b7bd20ebabcd</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5165,7 +5174,7 @@
 							<value>0</value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{b88261e9-0d40-4b71-9e47-ab0e7c9085a9}</value>
+							<value>id-d252de34-3a0d-46f1-a460-4966605a2953</value>
 						</attribute>
 						<attribute kind="ParameterName">
 							<value>DAMPER_D</value>
@@ -5177,7 +5186,7 @@
 							<value>mm</value>
 						</attribute>
 						<attribute kind="Value">
-							<value>5</value>
+							<value>4.08004</value>
 						</attribute>
 					</reference>
 				</model>
@@ -5257,8 +5266,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-9a613a7b-6ee9-422c-ba52-3bc9a509595f</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5293,8 +5302,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-5447173c-d26f-4d4c-8090-5354386a4a6a</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5303,7 +5312,7 @@
 							<value></value>
 						</attribute>
 					</model>
-					<reference id="id-0067-0000000a" kind="ModelicaParameter" role="ModelicaParameter" guid="{8729d41d-de3c-4328-9f7e-5bdb33d513bc}" relid="0x3">
+					<reference id="id-0067-0000000a" kind="ModelicaParameter" role="ModelicaParameter" guid="{8729d41d-de3c-4328-9f7e-5bdb33d513bc}" relid="0x3" referred="id-0065-0000037f">
 						<name>d</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -5324,10 +5333,10 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{6a25c5b2-b43b-4d27-9a60-7d3c8d7fac5d}</value>
+							<value>id-8729d41d-de3c-4328-9f7e-5bdb33d513bc</value>
 						</attribute>
 						<attribute kind="Value">
-							<value>10</value>
+							<value>2</value>
 						</attribute>
 					</reference>
 				</model>
@@ -5407,8 +5416,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-b2d65fd5-496e-4b02-a33b-346daecf32ca</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5447,7 +5456,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{0eaa016f-3ac3-4052-bd1e-6a65448559ca}</value>
+							<value>id-84e103fd-e7ac-4a2b-a41e-d6868078c76f</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5489,7 +5498,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{14bf82ca-7be8-432f-b3c2-399228e8d71a}</value>
+							<value>id-f80e7ab4-d780-44a5-a528-786fb13c576d</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5531,7 +5540,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{10fe320c-7f1d-4707-b573-fc9a960b1d60}</value>
+							<value>id-ed475614-96d7-4b3a-8bd7-6e8755b06db3</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5595,7 +5604,7 @@
 						<value></value>
 					</attribute>
 					<attribute kind="ID">
-						<value>01b33754-e4c4-4f13-8023-c0f6ed4fda31</value>
+						<value>id-01b33754-e4c4-4f13-8023-c0f6ed4fda31</value>
 					</attribute>
 					<attribute kind="InstanceNotes" status="meta">
 						<value></value>
@@ -5626,8 +5635,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-e74655bc-3569-463b-9ceb-a8eba564f525</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5666,7 +5675,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{80b37ded-ab1b-4320-9e60-6f0a9aef3468}</value>
+							<value>id-3c8eaed8-cc3c-4e85-b58f-23f385059f54</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5708,7 +5717,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{cb78d0c2-dd01-44de-a10f-e5199259c339}</value>
+							<value>id-3ee8b6e6-1f17-4b6e-a522-8a9ed38b8d59</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5750,7 +5759,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{f46462b6-b443-429c-a920-8965df34fb9c}</value>
+							<value>id-f7eb21f7-6ce3-4f56-872c-31692e86f6f6</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -5826,7 +5835,7 @@
 						<value>sqrt((Damping_constant - Damping_offset)/Damping_gain)</value>
 					</attribute>
 					<attribute kind="ID">
-						<value>{5663db7c-677c-4328-88eb-7fe2c1c50da9}</value>
+						<value>id-8b668a6e-ea7c-4cd8-accc-953dc5e9308d</value>
 					</attribute>
 				</atom>
 				<atom id="id-0066-0000004a" kind="File" role="File" guid="{dffb6053-46b8-4d92-9e42-9bd33b758176}" relid="0x1b">
@@ -5907,7 +5916,7 @@
 						<value></value>
 					</attribute>
 					<attribute kind="ID">
-						<value>6fe40e92-abdc-46e6-a16b-a9ca84e29c44</value>
+						<value>id-6fe40e92-abdc-46e6-a16b-a9ca84e29c44</value>
 					</attribute>
 					<attribute kind="InstanceNotes" status="meta">
 						<value></value>
@@ -6156,52 +6165,52 @@
 						<value>2</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-0000023a" kind="Parameter" role="Parameter" guid="{7ae29e78-a840-4f1c-bb06-21d22fc463d3}" relid="0x4" referred="id-0065-0000037e">
+				<reference id="id-0067-00000715" kind="Property" role="Property" guid="{34308477-7164-46e6-a033-d533787c65c8}" relid="0x40" referred="id-0065-0000037e">
 					<name>Damper_diameter</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="All" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>868,35</value>
 							</regnode>
 						</regnode>
 						<regnode name="BehaviorModelsAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 						<regnode name="ManufacturingAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 						<regnode name="SolidModeling" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 						<regnode name="ValueFlowAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 					</regnode>
 					<attribute kind="ComputationType" status="meta">
 						<value>Addition</value>
 					</attribute>
-					<attribute kind="DataType">
-						<value>Float</value>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
 					</attribute>
 					<attribute kind="DefaultValue" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Description">
-						<value>This is the diameter of the damper in mm. We assume that the damping constant will be proportional to the area of the damper.</value>
+					<attribute kind="Description" status="meta">
+						<value></value>
 					</attribute>
 					<attribute kind="Dimension" status="meta">
 						<value></value>
@@ -6210,13 +6219,16 @@
 						<value>false</value>
 					</attribute>
 					<attribute kind="ID">
-						<value>ID3</value>
+						<value>id-e4da97c1-c248-4e9c-a676-0411a73be219</value>
+					</attribute>
+					<attribute kind="IsProminent" status="meta">
+						<value>true</value>
 					</attribute>
 					<attribute kind="ManagedGUID" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Range">
-						<value>3,9</value>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
 					</attribute>
 					<attribute kind="Type" status="meta">
 						<value></value>
@@ -6248,14 +6260,6 @@
 					</attribute>
 					<connpoint role="dst" target="id-0066-00000049"/>
 					<connpoint role="src" target="id-0067-00000239"/>
-				</connection>
-				<connection id="id-0068-00000040" kind="ValueFlow" role="ValueFlow" guid="{d57e04db-1282-45cf-9df7-33ba3821424b}" relid="0x10">
-					<name></name>
-					<attribute kind="FormulaVariableName" status="meta">
-						<value></value>
-					</attribute>
-					<connpoint role="src" target="id-0066-00000049"/>
-					<connpoint role="dst" target="id-0067-0000023a"/>
 				</connection>
 				<connection id="id-0068-00000041" kind="PortComposition" role="PortComposition" guid="{f66ef045-619e-4964-93fc-5b0adaa5d024}" relid="0x30">
 					<name>PortComposition</name>
@@ -6305,11 +6309,6 @@
 					<connpoint role="src" target="id-0065-0000002b"/>
 					<connpoint role="dst" target="id-0065-0000002f"/>
 				</connection>
-				<connection id="id-0068-0000004a" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{219dd681-38e6-445d-a3a9-27edda29fef4}" relid="0x39">
-					<name>CADParameterPortMap</name>
-					<connpoint role="dst" target="id-0067-00000009"/>
-					<connpoint role="src" target="id-0067-0000023a"/>
-				</connection>
 				<connection id="id-0068-0000004b" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{6741a0af-be79-40b8-8aa1-946ff22c6707}" relid="0x3a">
 					<name>ModelicaParameterPortMap</name>
 					<connpoint role="dst" target="id-0067-0000000a"/>
@@ -6325,8 +6324,21 @@
 					<connpoint role="src" target="id-0065-00000030"/>
 					<connpoint role="dst" target="id-0066-0000004e"/>
 				</connection>
+				<connection id="id-0068-000001ae" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{3be79428-0db8-464e-9296-a997dcae26c3}" relid="0x41">
+					<name>CADParameterPortMap</name>
+					<connpoint role="dst" target="id-0067-00000009"/>
+					<connpoint role="src" target="id-0067-00000715"/>
+				</connection>
+				<connection id="id-0068-000001af" kind="ValueFlow" role="ValueFlow" guid="{28750690-467a-4913-9f50-66259257f558}" relid="0x42">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000049"/>
+					<connpoint role="dst" target="id-0067-00000715"/>
+				</connection>
 			</model>
-			<model id="id-0065-00000031" kind="Component" guid="{3bda21c8-9501-45c7-9511-f4da121afb0d}" relid="0x3" childrelidcntr="0x3a">
+			<model id="id-0065-00000031" kind="Component" guid="{3bda21c8-9501-45c7-9511-f4da121afb0d}" relid="0x3" childrelidcntr="0x3d">
 				<name>Damper_10</name>
 				<attribute kind="AVMID">
 					<value>AVM.Component:50ec54726e6cc33768468c1e</value>
@@ -6422,8 +6434,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-3415ab88-8c6b-4a10-90c4-557e4150a512</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -6458,8 +6470,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-9336952e-5481-4820-98f1-47c32b0c71e3</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -6494,8 +6506,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-341ae13f-8fb6-4875-972c-8d1f46ef96bc</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -6527,8 +6539,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-b76f0858-f85a-484c-a2c7-5151df454ab2</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -6560,8 +6572,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-7fee18d2-36fe-4cf4-8e61-64c8e2f67695</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -6588,7 +6600,7 @@
 							<value>0</value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{b88261e9-0d40-4b71-9e47-ab0e7c9085a9}</value>
+							<value>id-eaf258c6-7701-4a0a-b497-a8e2e36fb85f</value>
 						</attribute>
 						<attribute kind="ParameterName">
 							<value>DAMPER_D</value>
@@ -6680,8 +6692,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-2a170376-f54c-498a-8a05-8375d74556a1</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -6716,8 +6728,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-4833ae73-3164-4092-97e4-36ce4ef30e4b</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -6726,7 +6738,7 @@
 							<value></value>
 						</attribute>
 					</model>
-					<reference id="id-0067-0000000d" kind="ModelicaParameter" role="ModelicaParameter" guid="{7657be85-50b9-44be-895f-0d3cd91cf304}" relid="0x3">
+					<reference id="id-0067-0000000d" kind="ModelicaParameter" role="ModelicaParameter" guid="{7657be85-50b9-44be-895f-0d3cd91cf304}" relid="0x3" referred="id-0065-0000037f">
 						<name>d</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -6747,7 +6759,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{6a25c5b2-b43b-4d27-9a60-7d3c8d7fac5d}</value>
+							<value>id-7657be85-50b9-44be-895f-0d3cd91cf304</value>
 						</attribute>
 						<attribute kind="Value">
 							<value>10</value>
@@ -6823,7 +6835,7 @@
 						<value></value>
 					</attribute>
 					<attribute kind="ID">
-						<value>7df3c56c-8c2e-4e2b-89e7-d1d799b852f0</value>
+						<value>id-7df3c56c-8c2e-4e2b-89e7-d1d799b852f0</value>
 					</attribute>
 					<attribute kind="InstanceNotes" status="meta">
 						<value></value>
@@ -6845,8 +6857,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-736aad8b-b5af-40aa-bb70-ab77efd4c698</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -6885,7 +6897,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{0eaa016f-3ac3-4052-bd1e-6a65448559ca}</value>
+							<value>id-0be1d666-f2e3-4a78-b6b3-6a8e7339d973</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -6927,7 +6939,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{14bf82ca-7be8-432f-b3c2-399228e8d71a}</value>
+							<value>id-cd826d99-770c-4d11-859b-06d978fa12c0</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -6969,7 +6981,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{10fe320c-7f1d-4707-b573-fc9a960b1d60}</value>
+							<value>id-019ead3b-a51f-42c6-8362-daa21b585304</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -7033,7 +7045,7 @@
 						<value></value>
 					</attribute>
 					<attribute kind="ID">
-						<value>5f5946f3-5262-4cdd-bdb2-3310efb29c9a</value>
+						<value>id-5f5946f3-5262-4cdd-bdb2-3310efb29c9a</value>
 					</attribute>
 					<attribute kind="InstanceNotes" status="meta">
 						<value></value>
@@ -7064,8 +7076,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-6b6d91ac-b4fa-4b58-9751-f1b75917e50b</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -7104,7 +7116,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{80b37ded-ab1b-4320-9e60-6f0a9aef3468}</value>
+							<value>id-dfce303f-a0e5-4757-b513-4743bedc00fb</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -7146,7 +7158,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{cb78d0c2-dd01-44de-a10f-e5199259c339}</value>
+							<value>id-ae49c751-e840-4a17-85e4-a8efc03609ec</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -7188,7 +7200,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{f46462b6-b443-429c-a920-8965df34fb9c}</value>
+							<value>id-ad968521-b402-4efb-bcd1-024fcbf4b6a1</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -7264,7 +7276,7 @@
 						<value>sqrt((Damping_constant - Damping_offset)/Damping_gain)</value>
 					</attribute>
 					<attribute kind="ID">
-						<value>{43d24731-6c4a-404c-a294-161a34d6f134}</value>
+						<value>id-7d4c5239-7f15-4db0-ba2a-61d1a3d030eb</value>
 					</attribute>
 				</atom>
 				<atom id="id-0066-0000005c" kind="File" role="File" guid="{6c486579-6c45-4c7d-8964-5006117c1b2d}" relid="0x1b">
@@ -7345,7 +7357,7 @@
 						<value></value>
 					</attribute>
 					<attribute kind="ID">
-						<value>8414576e-d639-409b-8a2a-4b80b8f963c1</value>
+						<value>id-8414576e-d639-409b-8a2a-4b80b8f963c1</value>
 					</attribute>
 					<attribute kind="InstanceNotes" status="meta">
 						<value></value>
@@ -7594,52 +7606,52 @@
 						<value>-2.18</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-0000023d" kind="Parameter" role="Parameter" guid="{876d87ad-cb17-409d-a694-f8d40866ca3b}" relid="0x4" referred="id-0065-0000037e">
+				<reference id="id-0067-00000713" kind="Property" role="Property" guid="{c2855cd1-ae85-4ada-85ab-9bb77f84e38f}" relid="0x3b" referred="id-0065-0000037e">
 					<name>Damper_diameter</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="All" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>910,49</value>
 							</regnode>
 						</regnode>
 						<regnode name="BehaviorModelsAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>721,21</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 						<regnode name="ManufacturingAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>721,21</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 						<regnode name="SolidModeling" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>721,21</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 						<regnode name="ValueFlowAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>721,21</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 					</regnode>
 					<attribute kind="ComputationType" status="meta">
 						<value>Addition</value>
 					</attribute>
-					<attribute kind="DataType">
-						<value>Float</value>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
 					</attribute>
 					<attribute kind="DefaultValue" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Description">
-						<value>This is the diameter of the damper in mm. We assume that the damping constant will be proportional to the area of the damper.</value>
+					<attribute kind="Description" status="meta">
+						<value></value>
 					</attribute>
 					<attribute kind="Dimension" status="meta">
 						<value></value>
@@ -7648,13 +7660,16 @@
 						<value>false</value>
 					</attribute>
 					<attribute kind="ID">
-						<value>ID3</value>
+						<value>id-e4da97c1-c248-4e9c-a676-0411a73be219</value>
+					</attribute>
+					<attribute kind="IsProminent" status="meta">
+						<value>true</value>
 					</attribute>
 					<attribute kind="ManagedGUID" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Range">
-						<value>3.0,9.0</value>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
 					</attribute>
 					<attribute kind="Type" status="meta">
 						<value></value>
@@ -7686,19 +7701,6 @@
 					</attribute>
 					<connpoint role="dst" target="id-0066-0000005b"/>
 					<connpoint role="src" target="id-0067-0000023c"/>
-				</connection>
-				<connection id="id-0068-00000051" kind="ValueFlow" role="ValueFlow" guid="{e1493ed6-80e3-4e09-b447-da59596c055f}" relid="0x10">
-					<name></name>
-					<attribute kind="FormulaVariableName" status="meta">
-						<value></value>
-					</attribute>
-					<connpoint role="src" target="id-0066-0000005b"/>
-					<connpoint role="dst" target="id-0067-0000023d"/>
-				</connection>
-				<connection id="id-0068-00000052" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{718f88dd-5ad9-47e4-bd80-0d5920bff1dd}" relid="0x11">
-					<name></name>
-					<connpoint role="dst" target="id-0067-0000000c"/>
-					<connpoint role="src" target="id-0067-0000023d"/>
 				</connection>
 				<connection id="id-0068-00000053" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{5d678275-a668-4d75-93ac-db3a166fcf37}" relid="0x1a">
 					<name></name>
@@ -7763,8 +7765,21 @@
 					<connpoint role="src" target="id-0065-0000003b"/>
 					<connpoint role="dst" target="id-0066-00000060"/>
 				</connection>
+				<connection id="id-0068-000001ac" kind="ValueFlow" role="ValueFlow" guid="{5e523ff4-8f4c-41ad-a5e0-35c8f72a9b1e}" relid="0x3c">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0066-0000005b"/>
+					<connpoint role="dst" target="id-0067-00000713"/>
+				</connection>
+				<connection id="id-0068-000001ad" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{e87b74a8-d248-4eea-af62-7728ca745d48}" relid="0x3d">
+					<name>CADParameterPortMap</name>
+					<connpoint role="dst" target="id-0067-0000000c"/>
+					<connpoint role="src" target="id-0067-00000713"/>
+				</connection>
 			</model>
-			<model id="id-0065-0000003c" kind="Component" guid="{05d023eb-a91d-48d6-81a5-7a53aa79477f}" relid="0x6" childrelidcntr="0x4f">
+			<model id="id-0065-0000003c" kind="Component" guid="{05d023eb-a91d-48d6-81a5-7a53aa79477f}" relid="0x6" childrelidcntr="0x52">
 				<name>Mass_Titanium</name>
 				<attribute kind="AVMID">
 					<value>AVM.Component:50ec5554a07d9b39ebfe5dc9</value>
@@ -7902,8 +7917,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-819ee99a-559a-4d8d-b06a-33eb9b7812f6</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -7945,7 +7960,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{a52014e7-5cf6-4b35-9998-bab60a977f80}</value>
+							<value>id-1371617f-ea4e-4020-9802-995dfca3fb16</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -7987,7 +8002,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{57a55627-edbc-4fde-b633-24caf27607b7}</value>
+							<value>id-0ce78973-d8bc-4e2b-a329-16d11d00d5f4</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -8020,7 +8035,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{d7032604-b964-48b5-8344-0dd3fec85e7c}</value>
+							<value>id-5c870893-f668-44b5-91b9-b02a8d1d2ef9</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -8084,7 +8099,7 @@
 						<value></value>
 					</attribute>
 					<attribute kind="ID">
-						<value>5cb466ed-09d9-46f3-befa-cb14532fbadb</value>
+						<value>id-5cb466ed-09d9-46f3-befa-cb14532fbadb</value>
 					</attribute>
 					<attribute kind="InstanceNotes" status="meta">
 						<value></value>
@@ -8115,8 +8130,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-fc556d5f-7e86-474d-a628-6eb75dcccb1b</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -8155,7 +8170,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{4deadab3-3b16-46ad-88a1-7b34a7b6ebee}</value>
+							<value>id-2caf8b3f-6b20-45e4-a845-cbff172e192f</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -8191,7 +8206,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{bcdd5fcf-4bc3-44c3-b689-41db9d21a79e}</value>
+							<value>id-e3b9651a-eb1b-4c03-b75e-ed9acf38e6ac</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -8233,7 +8248,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{8c16c36e-4df5-4020-b965-074c6df2ccf8}</value>
+							<value>id-8c3ad719-10ac-43d0-b609-b2fbfa5eba6b</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -8298,8 +8313,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-d1a249e1-f12d-4e3a-95d4-b7b6b8812a75</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -8334,8 +8349,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-3915538d-6f11-4ed9-99bf-3d6338589cb1</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -8344,7 +8359,7 @@
 							<value></value>
 						</attribute>
 					</model>
-					<reference id="id-0067-0000000f" kind="ModelicaParameter" role="ModelicaParameter" guid="{d162d758-df65-4113-82ca-0fd66f492ab3}" relid="0x3">
+					<reference id="id-0067-0000000f" kind="ModelicaParameter" role="ModelicaParameter" guid="{d162d758-df65-4113-82ca-0fd66f492ab3}" relid="0x3" referred="id-0065-0000044f">
 						<name>m</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -8365,10 +8380,10 @@
 							<value>1</value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{283b2256-ef41-4d1d-9885-c8eab013d40e}</value>
+							<value>id-d162d758-df65-4113-82ca-0fd66f492ab3</value>
 						</attribute>
 						<attribute kind="Value">
-							<value>0.250</value>
+							<value>0.75</value>
 						</attribute>
 					</reference>
 				</model>
@@ -8430,8 +8445,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-d84bfafd-dda4-428a-a561-c8a00efbe547</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -8466,8 +8481,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-bac9f6d7-7c30-4f69-af9c-7f32bd8074b2</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -8502,8 +8517,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-576be7b3-2acb-4b73-9cf1-eadbc66a5eef</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -8535,8 +8550,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-53b9ac5a-0cd9-413d-a9b0-36ece01dd7fb</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -8568,8 +8583,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-e453d5c9-fea2-4f2f-939f-d72e983e45f9</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -8596,7 +8611,7 @@
 							<value>0</value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{a1fa96d0-7bec-43f2-859d-49cd8efacd18}</value>
+							<value>id-9fb39719-2cfe-421d-ac0a-f5b7dc8e36b1</value>
 						</attribute>
 						<attribute kind="ParameterName">
 							<value>HEIGHT</value>
@@ -8726,7 +8741,7 @@
 						<value>mass/(Density*Length*Width)</value>
 					</attribute>
 					<attribute kind="ID">
-						<value>{72305915-ec5f-4c03-b5e4-2a1295d9598a}</value>
+						<value>id-8975a9ec-e083-4d05-b4e0-3643cff7ff1c</value>
 					</attribute>
 				</atom>
 				<atom id="id-0066-00000071" kind="Point" role="Point" guid="{0dcb4ddc-2d62-4b21-8e8d-32923b4611a4}" relid="0x45">
@@ -8759,7 +8774,7 @@
 						<value></value>
 					</attribute>
 					<attribute kind="ID">
-						<value>0dcb4ddc-2d62-4b21-8e8d-32923b4611a4</value>
+						<value>id-0dcb4ddc-2d62-4b21-8e8d-32923b4611a4</value>
 					</attribute>
 					<attribute kind="InstanceNotes" status="meta">
 						<value></value>
@@ -9077,52 +9092,52 @@
 						<value>0.75</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-00000242" kind="Parameter" role="Parameter" guid="{338909fd-41ea-459b-a46b-b4f98876d1f8}" relid="0x33" referred="id-0065-00000422">
+				<reference id="id-0067-00000712" kind="Property" role="Property" guid="{476889b8-0c8b-4725-b007-502419688e20}" relid="0x50" referred="id-0065-00000422">
 					<name>Height</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="All" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>756,91</value>
 							</regnode>
 						</regnode>
 						<regnode name="BehaviorModelsAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 						<regnode name="ManufacturingAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 						<regnode name="SolidModeling" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 						<regnode name="ValueFlowAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
+								<value>924,105</value>
 							</regnode>
 						</regnode>
 					</regnode>
 					<attribute kind="ComputationType" status="meta">
 						<value>Addition</value>
 					</attribute>
-					<attribute kind="DataType">
-						<value>Float</value>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
 					</attribute>
 					<attribute kind="DefaultValue" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Description">
-						<value>This is the height of the mass in mm. It will change in response to changes in mass.</value>
+					<attribute kind="Description" status="meta">
+						<value></value>
 					</attribute>
 					<attribute kind="Dimension" status="meta">
 						<value></value>
@@ -9131,13 +9146,16 @@
 						<value>false</value>
 					</attribute>
 					<attribute kind="ID">
-						<value>ID6</value>
+						<value>id-e4da97c1-c248-4e9c-a676-0411a73be219</value>
+					</attribute>
+					<attribute kind="IsProminent" status="meta">
+						<value>true</value>
 					</attribute>
 					<attribute kind="ManagedGUID" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Range">
-						<value>0.020,0.050</value>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
 					</attribute>
 					<attribute kind="Type" status="meta">
 						<value></value>
@@ -9191,11 +9209,6 @@
 					<connpoint role="dst" target="id-0067-0000000f"/>
 					<connpoint role="src" target="id-0067-00000241"/>
 				</connection>
-				<connection id="id-0068-00000068" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{a77f49ef-ed6f-47f3-a8b4-717a1b04c94e}" relid="0x3e">
-					<name></name>
-					<connpoint role="dst" target="id-0067-00000010"/>
-					<connpoint role="src" target="id-0067-00000242"/>
-				</connection>
 				<connection id="id-0068-00000069" kind="ValueFlow" role="ValueFlow" guid="{30085c58-a4fc-458b-9db9-3354f059159d}" relid="0x3f">
 					<name></name>
 					<attribute kind="FormulaVariableName">
@@ -9233,14 +9246,6 @@
 					<connpoint role="dst" target="id-0066-00000070"/>
 					<connpoint role="src" target="id-0067-00000241"/>
 				</connection>
-				<connection id="id-0068-0000006e" kind="ValueFlow" role="ValueFlow" guid="{1a27e11a-f051-47ef-aa43-42bab1a20c6f}" relid="0x4a">
-					<name>ValueFlow</name>
-					<attribute kind="FormulaVariableName" status="meta">
-						<value></value>
-					</attribute>
-					<connpoint role="src" target="id-0066-00000070"/>
-					<connpoint role="dst" target="id-0067-00000242"/>
-				</connection>
 				<connection id="id-0068-0000006f" kind="UsesResource" role="UsesResource" guid="{92b5abf8-a366-454f-8290-2311e4a4c4a9}" relid="0x4e">
 					<name>UsesResource</name>
 					<connpoint role="src" target="id-0065-00000045"/>
@@ -9251,8 +9256,21 @@
 					<connpoint role="src" target="id-0065-00000046"/>
 					<connpoint role="dst" target="id-0066-00000072"/>
 				</connection>
+				<connection id="id-0068-000001a8" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{8c78fcd5-387f-40db-bf70-e12f67146f07}" relid="0x51">
+					<name>CADParameterPortMap</name>
+					<connpoint role="dst" target="id-0067-00000010"/>
+					<connpoint role="src" target="id-0067-00000712"/>
+				</connection>
+				<connection id="id-0068-000001a9" kind="ValueFlow" role="ValueFlow" guid="{f6607b1f-a12c-437b-8e60-7f8e3e3e9249}" relid="0x52">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000070"/>
+					<connpoint role="dst" target="id-0067-00000712"/>
+				</connection>
 			</model>
-			<model id="id-0065-00000047" kind="Component" guid="{a786d8f8-acbe-46b7-958a-f9a3ca2f175d}" relid="0x8" childrelidcntr="0x73">
+			<model id="id-0065-00000047" kind="Component" guid="{a786d8f8-acbe-46b7-958a-f9a3ca2f175d}" relid="0x8" childrelidcntr="0x76">
 				<name>Spring_Tungsten</name>
 				<regnode name="icon" isopaque="yes">
 					<value>components\Spring_Silver\AVM.Component-50eb5f2364344c6fb0853062v2r2\images\SpringIcon.png</value>
@@ -9366,8 +9384,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-985a5a6c-c2ab-4d2a-8309-33a925b5f65a</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -9402,8 +9420,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-b68fd566-d969-49d6-8775-3966aed1501d</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -9438,8 +9456,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-8e87ab95-a925-4f7a-8103-66bd0ca88af7</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -9474,8 +9492,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-98b0e559-9005-415a-8f74-088acee8c737</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -9510,8 +9528,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-414802ed-fa8b-4b77-a533-e03a82653704</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -9543,8 +9561,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-cb39440f-1781-43a5-a2bf-52c8d4f98345</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -9571,7 +9589,7 @@
 							<value>0</value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{386a925a-30f2-4f1c-96a4-2228790310bf}</value>
+							<value>id-6639e60a-426f-42ea-9c68-e0d334abf595</value>
 						</attribute>
 						<attribute kind="ParameterName">
 							<value>SPRING_D</value>
@@ -9642,8 +9660,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-60591c5f-523b-4183-94cb-fd6b1f993f56</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -9678,8 +9696,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-6b456e18-c908-408e-814e-c663ede9cae8</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -9688,7 +9706,7 @@
 							<value></value>
 						</attribute>
 					</model>
-					<reference id="id-0067-00000012" kind="ModelicaParameter" role="ModelicaParameter" guid="{695ae348-ec9f-443c-93d7-df3272ec3463}" relid="0x3">
+					<reference id="id-0067-00000012" kind="ModelicaParameter" role="ModelicaParameter" guid="{695ae348-ec9f-443c-93d7-df3272ec3463}" relid="0x3" referred="id-0065-0000038b">
 						<name>c</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -9709,10 +9727,10 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{773100a3-4b48-422a-85d1-a3ba816116e3}</value>
+							<value>id-695ae348-ec9f-443c-93d7-df3272ec3463</value>
 						</attribute>
 						<attribute kind="Value">
-							<value>.17</value>
+							<value>600</value>
 						</attribute>
 					</reference>
 				</model>
@@ -9770,7 +9788,7 @@
 						<value></value>
 					</attribute>
 					<attribute kind="ID">
-						<value>354a560f-8dfd-4abb-a6ec-49027a49d932</value>
+						<value>id-354a560f-8dfd-4abb-a6ec-49027a49d932</value>
 					</attribute>
 					<attribute kind="InstanceNotes" status="meta">
 						<value></value>
@@ -9792,8 +9810,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-c7435c46-2ed6-4ac4-be5c-c7567b67b28b</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -9835,7 +9853,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{8e186ea1-97f5-48e3-ae84-85f2b83acaf7}</value>
+							<value>id-15dad1a1-5871-4ae1-b66a-aa3198262814</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -9874,7 +9892,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{f1518361-3390-482a-bc30-56f215abdd6b}</value>
+							<value>id-9c585eec-c963-424a-ad53-a198000f59d5</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -9916,7 +9934,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{fe2e1a99-dcac-4e7e-9931-edeb72a6a716}</value>
+							<value>id-ca49e8a2-9b99-45cc-b4a1-a8dc0fad6dbc</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -9980,7 +9998,7 @@
 						<value></value>
 					</attribute>
 					<attribute kind="ID">
-						<value>0b29000e-baba-4e64-8411-8d75d49dd054</value>
+						<value>id-0b29000e-baba-4e64-8411-8d75d49dd054</value>
 					</attribute>
 					<attribute kind="InstanceNotes" status="meta">
 						<value></value>
@@ -10002,8 +10020,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-94caa218-6472-46f9-991e-e7e6ff23dff9</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -10045,7 +10063,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{fedc831b-3279-4466-b08c-29cb5a2babea}</value>
+							<value>id-20796b54-e4f9-44bb-8498-068d097a88af</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -10084,7 +10102,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{a3dda711-6e85-48a7-875b-e3b3896e54a7}</value>
+							<value>id-2a410715-b0ba-43bc-b205-3c0c0bce4390</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -10126,7 +10144,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{6583fdec-1f23-4b6d-992b-ab0cc820ca2c}</value>
+							<value>id-0a6384cd-d82f-49d5-ac4e-c9326ac617f1</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -10190,7 +10208,7 @@
 						<value></value>
 					</attribute>
 					<attribute kind="ID">
-						<value>718916e4-cda6-431e-b4eb-502e74d37b6b</value>
+						<value>id-718916e4-cda6-431e-b4eb-502e74d37b6b</value>
 					</attribute>
 					<attribute kind="InstanceNotes" status="meta">
 						<value></value>
@@ -10212,8 +10230,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-1614d83e-785d-4393-95b1-f2349920c66e</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -10252,7 +10270,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{6181ee22-a017-4bf0-8c14-a6bb82d532f5}</value>
+							<value>id-3d86076e-7836-47ef-a634-f6724f3160de</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -10294,7 +10312,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{664a2e8b-d885-4e3c-90df-1d86c6796a84}</value>
+							<value>id-a36b8cf9-318d-4da0-a44b-bdb1a04b6dd6</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -10336,7 +10354,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{eb8e071a-2a9c-48e8-a6c5-7824fe3ed966}</value>
+							<value>id-d3289718-2e88-452c-b45b-7f8f46784c68</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -10400,7 +10418,7 @@
 						<value></value>
 					</attribute>
 					<attribute kind="ID">
-						<value>6484e02e-62f8-4f65-9d82-88b522000365</value>
+						<value>id-6484e02e-62f8-4f65-9d82-88b522000365</value>
 					</attribute>
 					<attribute kind="InstanceNotes" status="meta">
 						<value></value>
@@ -10431,8 +10449,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-f52ce981-4f7a-468b-9ea1-1fda6f59957b</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -10471,7 +10489,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{51db1b12-e47e-4fb8-9ed1-cfbcf019bad1}</value>
+							<value>id-71e0d53d-fb30-40c8-b733-ac628f26b32c</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -10507,7 +10525,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{d525b80b-7df0-47c4-871d-063e3fe1fe41}</value>
+							<value>id-8a94a1ec-0d00-4d35-bd6f-dc1db61e0c0a</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -10549,7 +10567,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{feb5d13b-ddb9-48f0-8152-4142491e9a34}</value>
+							<value>id-4e28b746-0bf4-479b-950e-fdf11e9e4042</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -10649,7 +10667,7 @@
 						<value>sqrt(sqrt((8*Active_coils*spring_constant*(Mean_coil_diameter*Mean_coil_diameter*Mean_coil_diameter)/Shear_Modulus)))</value>
 					</attribute>
 					<attribute kind="ID">
-						<value>{05e7bef8-1d99-4965-86b7-e184a62476db}</value>
+						<value>id-fc3deec4-bf5b-4ebf-817b-56a558617b0f</value>
 					</attribute>
 				</atom>
 				<atom id="id-0066-00000089" kind="Resource" role="Resource" guid="{e5e36a11-ab4f-45c6-a9c6-0c8aef7edef0}" relid="0x51">
@@ -10985,52 +11003,52 @@
 						<value>600</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-00000246" kind="Parameter" role="Parameter" guid="{e448d48c-fbbf-4a0c-bfa1-4415f6f76bc3}" relid="0x56" referred="id-0065-00000422">
+				<reference id="id-0067-0000070f" kind="Property" role="Property" guid="{cbd6dab8-5a88-4c9a-832f-b83ae72da2c7}" relid="0x74" referred="id-0065-00000422">
 					<name>Wire_Diameter</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="All" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>7,7</value>
+								<value>49,42</value>
 							</regnode>
 						</regnode>
 						<regnode name="BehaviorModelsAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>25,150</value>
+								<value>161,112</value>
 							</regnode>
 						</regnode>
 						<regnode name="ManufacturingAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>25,150</value>
+								<value>161,112</value>
 							</regnode>
 						</regnode>
 						<regnode name="SolidModeling" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>25,150</value>
+								<value>161,112</value>
 							</regnode>
 						</regnode>
 						<regnode name="ValueFlowAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>25,150</value>
+								<value>161,112</value>
 							</regnode>
 						</regnode>
 					</regnode>
 					<attribute kind="ComputationType" status="meta">
 						<value>Addition</value>
 					</attribute>
-					<attribute kind="DataType">
-						<value>Float</value>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
 					</attribute>
 					<attribute kind="DefaultValue" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Description">
-						<value>This is the wire diameter of the spring in mm, not to be confused with the mean diameter of the coils.</value>
+					<attribute kind="Description" status="meta">
+						<value></value>
 					</attribute>
 					<attribute kind="Dimension" status="meta">
 						<value></value>
@@ -11039,13 +11057,16 @@
 						<value>false</value>
 					</attribute>
 					<attribute kind="ID">
-						<value>ID8</value>
+						<value>id-cbd6dab8-5a88-4c9a-832f-b83ae72da2c7</value>
+					</attribute>
+					<attribute kind="IsProminent" status="meta">
+						<value>true</value>
 					</attribute>
 					<attribute kind="ManagedGUID" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Range">
-						<value>0.001,0.003</value>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
 					</attribute>
 					<attribute kind="Type" status="meta">
 						<value></value>
@@ -11139,19 +11160,6 @@
 					<connpoint role="dst" target="id-0067-00000012"/>
 					<connpoint role="src" target="id-0067-00000245"/>
 				</connection>
-				<connection id="id-0068-00000082" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{2d03f5cf-c3ec-408a-8112-ec8dc6eace04}" relid="0x69">
-					<name></name>
-					<connpoint role="dst" target="id-0067-00000011"/>
-					<connpoint role="src" target="id-0067-00000246"/>
-				</connection>
-				<connection id="id-0068-00000083" kind="ValueFlow" role="ValueFlow" guid="{16a3e34a-8e3f-4db2-9c3f-8c8d3b0e765b}" relid="0x6a">
-					<name></name>
-					<attribute kind="FormulaVariableName" status="meta">
-						<value></value>
-					</attribute>
-					<connpoint role="src" target="id-0066-00000088"/>
-					<connpoint role="dst" target="id-0067-00000246"/>
-				</connection>
 				<connection id="id-0068-00000084" kind="ValueFlow" role="ValueFlow" guid="{dc05d9bc-0e1d-4fbe-9e1f-d5397134729e}" relid="0x6b">
 					<name></name>
 					<attribute kind="FormulaVariableName">
@@ -11194,8 +11202,21 @@
 					<connpoint role="src" target="id-0065-00000055"/>
 					<connpoint role="dst" target="id-0066-0000008a"/>
 				</connection>
+				<connection id="id-0068-000001a4" kind="ValueFlow" role="ValueFlow" guid="{98853715-8a8e-451b-8f5c-98dd7307f4a0}" relid="0x75">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000088"/>
+					<connpoint role="dst" target="id-0067-0000070f"/>
+				</connection>
+				<connection id="id-0068-000001a5" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{1bc67730-497a-46ae-9906-63e5b6e37967}" relid="0x76">
+					<name>CADParameterPortMap</name>
+					<connpoint role="dst" target="id-0067-00000011"/>
+					<connpoint role="src" target="id-0067-0000070f"/>
+				</connection>
 			</model>
-			<model id="id-0065-00000056" kind="Component" guid="{408e01ec-01ca-48e8-b23e-fb6b798932c3}" relid="0x9" childrelidcntr="0x72">
+			<model id="id-0065-00000056" kind="Component" guid="{408e01ec-01ca-48e8-b23e-fb6b798932c3}" relid="0x9" childrelidcntr="0x75">
 				<name>Spring_Steel</name>
 				<regnode name="icon" isopaque="yes">
 					<value>components\Spring_Steel\AVM.Component-50eb5f72719e597025a4f54ev1r2\images\SpringIcon.png</value>
@@ -11309,8 +11330,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-17895187-97a6-4170-b539-aba0d31227b3</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -11345,8 +11366,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-d2f8b170-4c71-4475-aa60-9e77fd1b71d7</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -11381,8 +11402,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-33c496f3-ffa4-4eec-af9a-fea5556877f0</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -11417,8 +11438,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-27bc3107-47c9-452a-8ae4-2856c4abd26d</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -11453,8 +11474,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-7e41422b-9a85-4d69-8d82-80207e7aa0a1</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -11486,8 +11507,8 @@
 						<attribute kind="GeometricMarker" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-57f9f356-9a30-4e63-8c27-7f48a65803dd</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -11514,7 +11535,7 @@
 							<value>0</value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{386a925a-30f2-4f1c-96a4-2228790310bf}</value>
+							<value>id-a056a59c-6567-4c6b-9154-0bf00f0a95d4</value>
 						</attribute>
 						<attribute kind="ParameterName">
 							<value>SPRING_D</value>
@@ -11526,7 +11547,7 @@
 							<value>mm</value>
 						</attribute>
 						<attribute kind="Value">
-							<value>0.003</value>
+							<value>3</value>
 						</attribute>
 					</reference>
 				</model>
@@ -11585,8 +11606,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-dbf8eeea-5fc9-4a04-9ec8-fcc84957f167</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -11621,8 +11642,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-eaea4a8c-4ffb-46d6-8b0d-c6c9e3e0e1e5</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -11631,7 +11652,7 @@
 							<value></value>
 						</attribute>
 					</model>
-					<reference id="id-0067-00000015" kind="ModelicaParameter" role="ModelicaParameter" guid="{125fe3e5-567e-4dac-a5d1-e1c5fccaf0a4}" relid="0x3">
+					<reference id="id-0067-00000015" kind="ModelicaParameter" role="ModelicaParameter" guid="{125fe3e5-567e-4dac-a5d1-e1c5fccaf0a4}" relid="0x3" referred="id-0065-0000038b">
 						<name>c</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -11652,10 +11673,10 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{773100a3-4b48-422a-85d1-a3ba816116e3}</value>
+							<value>id-125fe3e5-567e-4dac-a5d1-e1c5fccaf0a4</value>
 						</attribute>
 						<attribute kind="Value">
-							<value>.17</value>
+							<value>22500</value>
 						</attribute>
 					</reference>
 				</model>
@@ -11735,8 +11756,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-f7c19bb2-52bd-42d8-8b9a-c7128f45e966</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -11778,7 +11799,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{8e186ea1-97f5-48e3-ae84-85f2b83acaf7}</value>
+							<value>id-39d9ca25-dff7-423a-8263-572557bc64b5</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -11817,7 +11838,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{f1518361-3390-482a-bc30-56f215abdd6b}</value>
+							<value>id-dc166714-3e43-4ecb-aa0e-024892b9357b</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -11859,7 +11880,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{fe2e1a99-dcac-4e7e-9931-edeb72a6a716}</value>
+							<value>id-a4249656-d46c-420d-8d1a-997528e3a23f</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -11945,8 +11966,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-55aa0110-51d7-416d-8c7e-1775dc8ef0c9</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -11988,7 +12009,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{fedc831b-3279-4466-b08c-29cb5a2babea}</value>
+							<value>id-52502b78-f823-4fcd-ad5d-7c0a0330f202</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -12027,7 +12048,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{a3dda711-6e85-48a7-875b-e3b3896e54a7}</value>
+							<value>id-22ff0842-3a9d-4540-8723-fddae4d514f4</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -12069,7 +12090,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{6583fdec-1f23-4b6d-992b-ab0cc820ca2c}</value>
+							<value>id-217b7f45-021c-40e8-ac37-3bc2cf7b4451</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -12133,7 +12154,7 @@
 						<value></value>
 					</attribute>
 					<attribute kind="ID">
-						<value>9b11c652-6426-4435-9623-10fbbb9f9801</value>
+						<value>id-9b11c652-6426-4435-9623-10fbbb9f9801</value>
 					</attribute>
 					<attribute kind="InstanceNotes" status="meta">
 						<value></value>
@@ -12155,8 +12176,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-ffb217da-9868-4355-9fdf-7153b0f77a7a</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -12195,7 +12216,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{6181ee22-a017-4bf0-8c14-a6bb82d532f5}</value>
+							<value>id-07237f28-d229-4b7d-8ddb-16e275b36c20</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -12237,7 +12258,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{664a2e8b-d885-4e3c-90df-1d86c6796a84}</value>
+							<value>id-e9e10e54-dc90-460e-8b72-5b1ada717eae</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -12279,7 +12300,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{eb8e071a-2a9c-48e8-a6c5-7824fe3ed966}</value>
+							<value>id-b96e34e7-b97b-4467-be7c-2db0c5e9bf8e</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -12374,8 +12395,8 @@
 						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="ID">
+							<value>id-af8ffb66-4b53-4c9b-9c6e-5e174e909f6f</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -12414,7 +12435,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{51db1b12-e47e-4fb8-9ed1-cfbcf019bad1}</value>
+							<value>id-2eb34fae-fbb1-4305-8ce9-956cb78a5d66</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -12450,7 +12471,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{d525b80b-7df0-47c4-871d-063e3fe1fe41}</value>
+							<value>id-75277993-e67e-4b53-ab82-6c3ddb38a606</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -12492,7 +12513,7 @@
 							<value></value>
 						</attribute>
 						<attribute kind="ID">
-							<value>{feb5d13b-ddb9-48f0-8152-4142491e9a34}</value>
+							<value>id-af784ba3-6be3-4f4f-84a9-a554da053a4c</value>
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
@@ -12592,7 +12613,7 @@
 						<value>sqrt(sqrt((8*Active_coils*spring_constant*(Mean_coil_diameter*Mean_coil_diameter*Mean_coil_diameter)/Shear_Modulus)))</value>
 					</attribute>
 					<attribute kind="ID">
-						<value>{05e7bef8-1d99-4965-86b7-e184a62476db}</value>
+						<value>id-c3eaad86-c962-46e2-acf5-f2f830971e69</value>
 					</attribute>
 				</atom>
 				<atom id="id-0066-000000a1" kind="Resource" role="Resource" guid="{fcfe752a-eb77-47e6-b728-eb6905312efd}" relid="0x50">
@@ -12928,52 +12949,52 @@
 						<value>22500</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-0000024a" kind="Parameter" role="Parameter" guid="{b584b22e-6bdc-4e39-96a6-68556b94dfd1}" relid="0x55" referred="id-0065-00000422">
+				<reference id="id-0067-00000710" kind="Property" role="Property" guid="{bffd7aaf-c9a5-4004-970e-9889a4f2623e}" relid="0x73" referred="id-0065-00000422">
 					<name>Wire_Diameter</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="All" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>7,7</value>
+								<value>42,21</value>
 							</regnode>
 						</regnode>
 						<regnode name="BehaviorModelsAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>25,150</value>
+								<value>161,112</value>
 							</regnode>
 						</regnode>
 						<regnode name="ManufacturingAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>25,150</value>
+								<value>161,112</value>
 							</regnode>
 						</regnode>
 						<regnode name="SolidModeling" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>25,150</value>
+								<value>161,112</value>
 							</regnode>
 						</regnode>
 						<regnode name="ValueFlowAspect" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>25,150</value>
+								<value>161,112</value>
 							</regnode>
 						</regnode>
 					</regnode>
 					<attribute kind="ComputationType" status="meta">
 						<value>Addition</value>
 					</attribute>
-					<attribute kind="DataType">
-						<value>Float</value>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
 					</attribute>
 					<attribute kind="DefaultValue" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Description">
-						<value>This is the wire diameter of the spring in mm, not to be confused with the mean diameter of the coils.</value>
+					<attribute kind="Description" status="meta">
+						<value></value>
 					</attribute>
 					<attribute kind="Dimension" status="meta">
 						<value></value>
@@ -12982,13 +13003,16 @@
 						<value>false</value>
 					</attribute>
 					<attribute kind="ID">
-						<value>ID8</value>
+						<value>id-bffd7aaf-c9a5-4004-970e-9889a4f2623e</value>
+					</attribute>
+					<attribute kind="IsProminent" status="meta">
+						<value>true</value>
 					</attribute>
 					<attribute kind="ManagedGUID" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Range">
-						<value>0.001,0.003</value>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
 					</attribute>
 					<attribute kind="Type" status="meta">
 						<value></value>
@@ -13082,19 +13106,6 @@
 					<connpoint role="dst" target="id-0067-00000015"/>
 					<connpoint role="src" target="id-0067-00000249"/>
 				</connection>
-				<connection id="id-0068-0000009b" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{ecf4e591-e58f-47e6-8c77-01f9f5e2b1cb}" relid="0x68">
-					<name></name>
-					<connpoint role="dst" target="id-0067-00000014"/>
-					<connpoint role="src" target="id-0067-0000024a"/>
-				</connection>
-				<connection id="id-0068-0000009c" kind="ValueFlow" role="ValueFlow" guid="{d2286bbc-bde7-4579-a7f8-826fed139baa}" relid="0x69">
-					<name></name>
-					<attribute kind="FormulaVariableName" status="meta">
-						<value></value>
-					</attribute>
-					<connpoint role="src" target="id-0066-000000a0"/>
-					<connpoint role="dst" target="id-0067-0000024a"/>
-				</connection>
 				<connection id="id-0068-0000009d" kind="ValueFlow" role="ValueFlow" guid="{99573752-d16d-499f-b7b7-ffc6e1a7f76e}" relid="0x6a">
 					<name></name>
 					<attribute kind="FormulaVariableName">
@@ -13137,8 +13148,21 @@
 					<connpoint role="src" target="id-0065-00000064"/>
 					<connpoint role="dst" target="id-0066-000000a2"/>
 				</connection>
+				<connection id="id-0068-000001a6" kind="ValueFlow" role="ValueFlow" guid="{0ee5c76a-9487-4c7b-9f40-bee5faa3f376}" relid="0x74">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0066-000000a0"/>
+					<connpoint role="dst" target="id-0067-00000710"/>
+				</connection>
+				<connection id="id-0068-000001a7" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{65089fb1-35fd-4337-9b93-3cf7f7519097}" relid="0x75">
+					<name>CADParameterPortMap</name>
+					<connpoint role="dst" target="id-0067-00000014"/>
+					<connpoint role="src" target="id-0067-00000710"/>
+				</connection>
 			</model>
-			<model id="id-0065-00000065" kind="Component" guid="{9a9a0842-e495-4a5d-9a7e-54876e646455}" relid="0xb" childrelidcntr="0x41">
+			<model id="id-0065-00000065" kind="Component" guid="{9a9a0842-e495-4a5d-9a7e-54876e646455}" relid="0xb" childrelidcntr="0x44">
 				<name>Mass_Steel</name>
 				<attribute kind="AVMID">
 					<value>AVM.Component:50ec5516a07d9b39ee4bb7fc</value>
@@ -13745,7 +13769,7 @@
 							<value></value>
 						</attribute>
 					</model>
-					<reference id="id-0067-00000017" kind="ModelicaParameter" role="ModelicaParameter" guid="{b1ffd36c-8f6b-415c-b945-4656b4d25e7b}" relid="0x3">
+					<reference id="id-0067-00000017" kind="ModelicaParameter" role="ModelicaParameter" guid="{b1ffd36c-8f6b-415c-b945-4656b4d25e7b}" relid="0x3" referred="id-0065-0000044f">
 						<name>m</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -13769,7 +13793,7 @@
 							<value>id-b1ffd36c-8f6b-415c-b945-4656b4d25e7b</value>
 						</attribute>
 						<attribute kind="Value">
-							<value>0.250</value>
+							<value>0.98125</value>
 						</attribute>
 					</reference>
 				</model>
@@ -14163,7 +14187,7 @@
 						<value>mass/(Density*Length*Width)</value>
 					</attribute>
 					<attribute kind="ID">
-						<value>{72305915-ec5f-4c03-b5e4-2a1295d9598a}</value>
+						<value>id-f2a00832-ee32-4605-ab9b-d026d31bb968</value>
 					</attribute>
 				</atom>
 				<reference id="id-0067-0000024b" kind="Property" role="Property" guid="{07b99b99-f5c2-4a94-99d3-07b0549018e4}" relid="0x1" referred="id-0065-0000056e">
@@ -14379,75 +14403,6 @@
 						<value>0.050</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-0000024e" kind="Parameter" role="Parameter" guid="{b3bf107f-c300-4e01-b7f4-8c35296aa375}" relid="0x5" referred="id-0065-00000422">
-					<name>Height</name>
-					<regnode name="PartRegs" status="undefined">
-						<value></value>
-						<regnode name="All" status="undefined">
-							<value></value>
-							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
-							</regnode>
-						</regnode>
-						<regnode name="BehaviorModelsAspect" status="undefined">
-							<value></value>
-							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
-							</regnode>
-						</regnode>
-						<regnode name="ManufacturingAspect" status="undefined">
-							<value></value>
-							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
-							</regnode>
-						</regnode>
-						<regnode name="SolidModeling" status="undefined">
-							<value></value>
-							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
-							</regnode>
-						</regnode>
-						<regnode name="ValueFlowAspect" status="undefined">
-							<value></value>
-							<regnode name="Position" isopaque="yes">
-								<value>725,25</value>
-							</regnode>
-						</regnode>
-					</regnode>
-					<attribute kind="ComputationType" status="meta">
-						<value>Addition</value>
-					</attribute>
-					<attribute kind="DataType">
-						<value>Float</value>
-					</attribute>
-					<attribute kind="DefaultValue" status="meta">
-						<value></value>
-					</attribute>
-					<attribute kind="Description">
-						<value>This is the height of the mass in mm. It will change in response to changes in mass.</value>
-					</attribute>
-					<attribute kind="Dimension" status="meta">
-						<value></value>
-					</attribute>
-					<attribute kind="Disable" status="meta">
-						<value>false</value>
-					</attribute>
-					<attribute kind="ID">
-						<value>ID6</value>
-					</attribute>
-					<attribute kind="ManagedGUID" status="meta">
-						<value></value>
-					</attribute>
-					<attribute kind="Range">
-						<value>0.020,0.050</value>
-					</attribute>
-					<attribute kind="Type" status="meta">
-						<value></value>
-					</attribute>
-					<attribute kind="Value">
-						<value>0.05</value>
-					</attribute>
-				</reference>
 				<reference id="id-0067-0000024f" kind="Property" role="Property" guid="{3b212893-a653-4d05-a8c9-a38b0645f1ff}" relid="0x2" referred="id-0065-00000422">
 					<name>Length</name>
 					<regnode name="PartRegs" status="undefined">
@@ -14520,6 +14475,78 @@
 						<value>0.050</value>
 					</attribute>
 				</reference>
+				<reference id="id-0067-00000711" kind="Property" role="Property" guid="{06d617be-fd17-4211-9834-4fe574937005}" relid="0x42" referred="id-0065-00000422">
+					<name>Height</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>763,112</value>
+							</regnode>
+						</regnode>
+						<regnode name="BehaviorModelsAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>924,105</value>
+							</regnode>
+						</regnode>
+						<regnode name="ManufacturingAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>924,105</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>924,105</value>
+							</regnode>
+						</regnode>
+						<regnode name="ValueFlowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>924,105</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Dimension" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ID">
+						<value>id-e4da97c1-c248-4e9c-a676-0411a73be219</value>
+					</attribute>
+					<attribute kind="IsProminent" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Type" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Value">
+						<value>0.05</value>
+					</attribute>
+				</reference>
 				<connection id="id-0068-000000a3" kind="PortComposition" role="PortComposition" guid="{39765c8f-aa40-4a1e-bf3f-f17d5509207a}" relid="0x30">
 					<name>PortComposition</name>
 					<connpoint role="src" target="id-0066-000000ae"/>
@@ -14570,11 +14597,6 @@
 					<connpoint role="dst" target="id-0067-00000017"/>
 					<connpoint role="src" target="id-0067-0000024c"/>
 				</connection>
-				<connection id="id-0068-000000ad" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{8f5bb556-19ff-4b1b-bec3-db88bb9f9761}" relid="0x13">
-					<name></name>
-					<connpoint role="dst" target="id-0067-00000018"/>
-					<connpoint role="src" target="id-0067-0000024e"/>
-				</connection>
 				<connection id="id-0068-000000ae" kind="ValueFlow" role="ValueFlow" guid="{117bc36e-ea57-49d1-be6c-f6bafd5ab357}" relid="0x11">
 					<name></name>
 					<attribute kind="FormulaVariableName">
@@ -14607,14 +14629,6 @@
 					<connpoint role="dst" target="id-0066-000000b4"/>
 					<connpoint role="src" target="id-0067-0000024c"/>
 				</connection>
-				<connection id="id-0068-000000b2" kind="ValueFlow" role="ValueFlow" guid="{2f71bc4c-bd85-403c-8d7e-0b958aa71153}" relid="0x3f">
-					<name>ValueFlow</name>
-					<attribute kind="FormulaVariableName" status="meta">
-						<value></value>
-					</attribute>
-					<connpoint role="src" target="id-0066-000000b4"/>
-					<connpoint role="dst" target="id-0067-0000024e"/>
-				</connection>
 				<connection id="id-0068-000000b3" kind="UsesResource" role="UsesResource" guid="{fa02d103-51d7-4996-80af-c66a7b02f732}" relid="0x40">
 					<name>UsesResource</name>
 					<connpoint role="src" target="id-0065-0000006f"/>
@@ -14624,6 +14638,19 @@
 					<name>UsesResource</name>
 					<connpoint role="src" target="id-0065-00000066"/>
 					<connpoint role="dst" target="id-0066-000000af"/>
+				</connection>
+				<connection id="id-0068-000001aa" kind="ValueFlow" role="ValueFlow" guid="{ae4ce536-4fa4-443d-8345-5a1559bce77a}" relid="0x43">
+					<name>ValueFlow</name>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0066-000000b4"/>
+					<connpoint role="dst" target="id-0067-00000711"/>
+				</connection>
+				<connection id="id-0068-000001ab" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{1e9c1aaf-07e5-4943-a0ba-f3cf06ce7658}" relid="0x44">
+					<name>CADParameterPortMap</name>
+					<connpoint role="dst" target="id-0067-00000018"/>
+					<connpoint role="src" target="id-0067-00000711"/>
 				</connection>
 			</model>
 		</folder>
@@ -16374,7 +16401,7 @@
 								<value></value>
 							</attribute>
 						</model>
-						<reference id="id-0067-0000001e" kind="ModelicaParameter" role="ModelicaParameter" guid="{94c00c0e-aead-4304-9db6-8d2fdc6095c4}" derivedfrom="id-0067-0000001a" isinstance="yes" isprimary="no" isbound="yes">
+						<reference id="id-0067-0000001d" kind="ModelicaParameter" role="ModelicaParameter" guid="{94c00c0e-aead-4304-9db6-8d2fdc6095c4}" derivedfrom="id-0067-0000001a" isinstance="yes" isprimary="no" isbound="yes">
 							<name>s0</name>
 							<attribute kind="DefaultValue" status="inherited">
 								<value>0</value>
@@ -16423,7 +16450,7 @@
 							</attribute>
 						</model>
 					</model>
-					<reference id="id-0067-0000001d" kind="Parameter" role="Parameter" guid="{9a56d91f-30ab-4201-abfa-9da7a30b56a7}" derivedfrom="id-0067-0000001b" isinstance="yes" isprimary="no" isbound="yes">
+					<reference id="id-0067-0000001e" kind="Parameter" role="Parameter" guid="{9a56d91f-30ab-4201-abfa-9da7a30b56a7}" derivedfrom="id-0067-0000001b" isinstance="yes" isprimary="no" isbound="yes">
 						<name>s0</name>
 						<attribute kind="ComputationType" status="meta">
 							<value>Addition</value>
@@ -16459,11 +16486,11 @@
 							<value>0</value>
 						</attribute>
 					</reference>
-					<connection isbound="yes" id="id-0068-000000bf" kind="PortComposition" role="PortComposition" guid="{615af634-9954-4d46-8ceb-39f50d1e95ad}" derivedfrom="id-0068-000000ba" isinstance="yes" isprimary="no">
-						<name>PortComposition</name>
-					</connection>
-					<connection isbound="yes" id="id-0068-000000c0" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{79298ed3-71fd-41dd-984b-c42cecf3e2a5}" derivedfrom="id-0068-000000b9" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-000000bf" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{79298ed3-71fd-41dd-984b-c42cecf3e2a5}" derivedfrom="id-0068-000000b9" isinstance="yes" isprimary="no">
 						<name>ModelicaParameterPortMap</name>
+					</connection>
+					<connection isbound="yes" id="id-0068-000000c0" kind="PortComposition" role="PortComposition" guid="{615af634-9954-4d46-8ceb-39f50d1e95ad}" derivedfrom="id-0068-000000ba" isinstance="yes" isprimary="no">
+						<name>PortComposition</name>
 					</connection>
 				</model>
 				<model id="id-0065-0000009c" kind="TestComponent" role="TestComponent" guid="{b1b4abf4-67e4-41b9-9cae-a35bae095f1f}" derivedfrom="id-0065-00000078" isinstance="yes" isprimary="yes" relid="0x1f" childrelidcntr="0x0">
@@ -16630,11 +16657,11 @@
 							<value>1000</value>
 						</attribute>
 					</reference>
-					<connection isbound="yes" id="id-0068-000000c1" kind="PortComposition" role="PortComposition" guid="{36503a9d-2d72-4b5d-8666-f698d4adc324}" derivedfrom="id-0068-000000b8" isinstance="yes" isprimary="no">
-						<name>PortComposition</name>
-					</connection>
-					<connection isbound="yes" id="id-0068-000000c2" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{84e9fd1b-8999-4c03-ad8e-6f6e1bc29f2c}" derivedfrom="id-0068-000000b7" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-000000c1" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{84e9fd1b-8999-4c03-ad8e-6f6e1bc29f2c}" derivedfrom="id-0068-000000b7" isinstance="yes" isprimary="no">
 						<name>ModelicaParameterPortMap</name>
+					</connection>
+					<connection isbound="yes" id="id-0068-000000c2" kind="PortComposition" role="PortComposition" guid="{36503a9d-2d72-4b5d-8666-f698d4adc324}" derivedfrom="id-0068-000000b8" isinstance="yes" isprimary="no">
+						<name>PortComposition</name>
 					</connection>
 				</model>
 				<model id="id-0065-000000a1" kind="TestComponent" role="TestComponent" guid="{dc410613-b9e3-475d-8d1c-284eee6f51ec}" derivedfrom="id-0065-00000082" isinstance="yes" isprimary="yes" relid="0x29" childrelidcntr="0x0">
@@ -16677,10 +16704,10 @@
 						<attribute kind="Notes" status="meta">
 							<value></value>
 						</attribute>
-						<model id="id-0065-000000a3" kind="ModelicaConnector" role="ModelicaConnector" guid="{61e54dd1-3177-4a41-a9e7-2802beec3e76}" derivedfrom="id-0065-00000085" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-							<name>a</name>
+						<model id="id-0065-000000a3" kind="ModelicaConnector" role="ModelicaConnector" guid="{2cae0843-686f-4aae-8302-cd0f6d65d27b}" derivedfrom="id-0065-00000084" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>flange</name>
 							<attribute kind="Class" status="inherited">
-								<value>Modelica.Blocks.Interfaces.RealOutput</value>
+								<value>Modelica.Mechanics.Translational.Interfaces.Flange_a</value>
 							</attribute>
 							<attribute kind="Definition" status="meta">
 								<value></value>
@@ -16698,10 +16725,10 @@
 								<value></value>
 							</attribute>
 						</model>
-						<model id="id-0065-000000a4" kind="ModelicaConnector" role="ModelicaConnector" guid="{2cae0843-686f-4aae-8302-cd0f6d65d27b}" derivedfrom="id-0065-00000084" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-							<name>flange</name>
+						<model id="id-0065-000000a4" kind="ModelicaConnector" role="ModelicaConnector" guid="{61e54dd1-3177-4a41-a9e7-2802beec3e76}" derivedfrom="id-0065-00000085" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>a</name>
 							<attribute kind="Class" status="inherited">
-								<value>Modelica.Mechanics.Translational.Interfaces.Flange_a</value>
+								<value>Modelica.Blocks.Interfaces.RealOutput</value>
 							</attribute>
 							<attribute kind="Definition" status="meta">
 								<value></value>
@@ -16792,10 +16819,10 @@
 							</attribute>
 						</model>
 					</model>
-					<connection isbound="yes" id="id-0068-000000c3" kind="PortComposition" role="PortComposition" guid="{8d6ffb9a-c983-43f7-a9cf-d3edffc07b9b}" derivedfrom="id-0068-000000bc" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-000000c3" kind="PortComposition" role="PortComposition" guid="{c469a175-d888-4ed3-a739-61dd77c5a881}" derivedfrom="id-0068-000000bb" isinstance="yes" isprimary="no">
 						<name>PortComposition</name>
 					</connection>
-					<connection isbound="yes" id="id-0068-000000c4" kind="PortComposition" role="PortComposition" guid="{c469a175-d888-4ed3-a739-61dd77c5a881}" derivedfrom="id-0068-000000bb" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-000000c4" kind="PortComposition" role="PortComposition" guid="{8d6ffb9a-c983-43f7-a9cf-d3edffc07b9b}" derivedfrom="id-0068-000000bc" isinstance="yes" isprimary="no">
 						<name>PortComposition</name>
 					</connection>
 				</model>
@@ -16825,43 +16852,7 @@
 					<attribute kind="NumAssociatedConfigs" status="meta">
 						<value></value>
 					</attribute>
-					<model id="id-0065-000000aa" kind="Connector" role="Connector" guid="{10382b0a-8b19-4ab8-992b-9f7facb2cc96}" derivedfrom="id-0065-00000076" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-						<name>velocity</name>
-						<attribute kind="Definition" status="meta">
-							<value></value>
-						</attribute>
-						<attribute kind="DefinitionNotes" status="meta">
-							<value></value>
-						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
-						</attribute>
-						<attribute kind="InstanceNotes" status="meta">
-							<value></value>
-						</attribute>
-						<model id="id-0065-000000ab" kind="ModelicaConnector" role="ModelicaConnector" guid="{b1d9c581-b51f-43dd-b5e1-90f5e172cddb}" derivedfrom="id-0065-00000077" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-							<name>RealOutput</name>
-							<attribute kind="Class" status="inherited">
-								<value>Modelica.Blocks.Interfaces.RealOutput</value>
-							</attribute>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Locator" status="meta">
-								<value></value>
-							</attribute>
-						</model>
-					</model>
-					<model id="id-0065-000000ac" kind="ModelicaModel" role="ModelicaModel" guid="{d9e7d229-a28a-43a3-9c07-49b3caea2d3d}" derivedfrom="id-0065-00000071" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+					<model id="id-0065-000000aa" kind="ModelicaModel" role="ModelicaModel" guid="{d9e7d229-a28a-43a3-9c07-49b3caea2d3d}" derivedfrom="id-0065-00000071" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 						<name>SpeedSensor</name>
 						<attribute kind="Author" status="meta">
 							<value></value>
@@ -16875,7 +16866,7 @@
 						<attribute kind="Notes" status="meta">
 							<value></value>
 						</attribute>
-						<model id="id-0065-000000ad" kind="ModelicaConnector" role="ModelicaConnector" guid="{f4cb7979-199f-41ce-945a-79538ee07363}" derivedfrom="id-0065-00000072" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<model id="id-0065-000000ab" kind="ModelicaConnector" role="ModelicaConnector" guid="{f4cb7979-199f-41ce-945a-79538ee07363}" derivedfrom="id-0065-00000072" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>flange</name>
 							<attribute kind="Class" status="inherited">
 								<value>Modelica.Mechanics.Translational.Interfaces.Flange_a</value>
@@ -16896,7 +16887,7 @@
 								<value></value>
 							</attribute>
 						</model>
-						<model id="id-0065-000000ae" kind="ModelicaConnector" role="ModelicaConnector" guid="{f93e8114-cc7f-4b54-bee2-38861fb80955}" derivedfrom="id-0065-00000073" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<model id="id-0065-000000ac" kind="ModelicaConnector" role="ModelicaConnector" guid="{f93e8114-cc7f-4b54-bee2-38861fb80955}" derivedfrom="id-0065-00000073" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>v</name>
 							<attribute kind="Class" status="inherited">
 								<value>Modelica.Blocks.Interfaces.RealOutput</value>
@@ -16918,7 +16909,7 @@
 							</attribute>
 						</model>
 					</model>
-					<model id="id-0065-000000af" kind="Connector" role="Connector" guid="{e3ef1fa4-fba3-4b0c-8a05-ba443f0dc382}" derivedfrom="id-0065-00000074" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+					<model id="id-0065-000000ad" kind="Connector" role="Connector" guid="{e3ef1fa4-fba3-4b0c-8a05-ba443f0dc382}" derivedfrom="id-0065-00000074" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 						<name>flange</name>
 						<attribute kind="Definition" status="meta">
 							<value></value>
@@ -16932,10 +16923,46 @@
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
 						</attribute>
-						<model id="id-0065-000000b0" kind="ModelicaConnector" role="ModelicaConnector" guid="{d92f1807-7b18-4521-bda2-6d4a113276d1}" derivedfrom="id-0065-00000075" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<model id="id-0065-000000ae" kind="ModelicaConnector" role="ModelicaConnector" guid="{d92f1807-7b18-4521-bda2-6d4a113276d1}" derivedfrom="id-0065-00000075" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>TranslationalFlange</name>
 							<attribute kind="Class" status="inherited">
 								<value>Modelica.Mechanics.Translational.Interfaces.Flange_a</value>
+							</attribute>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Locator" status="meta">
+								<value></value>
+							</attribute>
+						</model>
+					</model>
+					<model id="id-0065-000000af" kind="Connector" role="Connector" guid="{10382b0a-8b19-4ab8-992b-9f7facb2cc96}" derivedfrom="id-0065-00000076" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<name>velocity</name>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-000000b0" kind="ModelicaConnector" role="ModelicaConnector" guid="{b1d9c581-b51f-43dd-b5e1-90f5e172cddb}" derivedfrom="id-0065-00000077" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>RealOutput</name>
+							<attribute kind="Class" status="inherited">
+								<value>Modelica.Blocks.Interfaces.RealOutput</value>
 							</attribute>
 							<attribute kind="Definition" status="meta">
 								<value></value>
@@ -16987,21 +17014,42 @@
 					<attribute kind="NumAssociatedConfigs" status="meta">
 						<value></value>
 					</attribute>
-					<model id="id-0065-000000b2" kind="Connector" role="Connector" guid="{c5d3dbe2-ec52-4c57-ac62-41c0c81ad6fd}" derivedfrom="id-0065-0000008b" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-						<name>position</name>
-						<attribute kind="Definition" status="meta">
+					<model id="id-0065-000000b2" kind="ModelicaModel" role="ModelicaModel" guid="{d902d36d-93da-4e57-ae9d-049fe29379f0}" derivedfrom="id-0065-0000008f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<name>ModelicaModel</name>
+						<attribute kind="Author" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="DefinitionNotes" status="meta">
+						<attribute kind="Class" status="inherited">
+							<value>Modelica.Mechanics.Translational.Sensors.PositionSensor</value>
+						</attribute>
+						<attribute kind="FilePathWithinResource" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
+						<attribute kind="Notes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="InstanceNotes" status="meta">
-							<value></value>
-						</attribute>
-						<model id="id-0065-000000b3" kind="ModelicaConnector" role="ModelicaConnector" guid="{5e2d516e-3e19-4703-8247-5b7cba26fd8d}" derivedfrom="id-0065-0000008c" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<model id="id-0065-000000b3" kind="ModelicaConnector" role="ModelicaConnector" guid="{52156ad2-f11b-4e90-a476-0f69a85c98a0}" derivedfrom="id-0065-00000091" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>flange</name>
+							<attribute kind="Class" status="inherited">
+								<value>Modelica.Mechanics.Translational.Interfaces.Flange_a</value>
+							</attribute>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Locator" status="meta">
+								<value></value>
+							</attribute>
+						</model>
+						<model id="id-0065-000000b4" kind="ModelicaConnector" role="ModelicaConnector" guid="{99c0632e-dfc2-4d0f-9567-ab18d4855c10}" derivedfrom="id-0065-00000090" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>s</name>
 							<attribute kind="Class" status="inherited">
 								<value>Modelica.Blocks.Interfaces.RealOutput</value>
@@ -17023,42 +17071,21 @@
 							</attribute>
 						</model>
 					</model>
-					<model id="id-0065-000000b4" kind="ModelicaModel" role="ModelicaModel" guid="{d902d36d-93da-4e57-ae9d-049fe29379f0}" derivedfrom="id-0065-0000008f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-						<name>ModelicaModel</name>
-						<attribute kind="Author" status="meta">
+					<model id="id-0065-000000b5" kind="Connector" role="Connector" guid="{c5d3dbe2-ec52-4c57-ac62-41c0c81ad6fd}" derivedfrom="id-0065-0000008b" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<name>position</name>
+						<attribute kind="Definition" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="Class" status="inherited">
-							<value>Modelica.Mechanics.Translational.Sensors.PositionSensor</value>
-						</attribute>
-						<attribute kind="FilePathWithinResource" status="meta">
+						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="Notes" status="meta">
+						<attribute kind="ID" status="meta">
 							<value></value>
 						</attribute>
-						<model id="id-0065-000000b5" kind="ModelicaConnector" role="ModelicaConnector" guid="{52156ad2-f11b-4e90-a476-0f69a85c98a0}" derivedfrom="id-0065-00000091" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-							<name>flange</name>
-							<attribute kind="Class" status="inherited">
-								<value>Modelica.Mechanics.Translational.Interfaces.Flange_a</value>
-							</attribute>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Locator" status="meta">
-								<value></value>
-							</attribute>
-						</model>
-						<model id="id-0065-000000b6" kind="ModelicaConnector" role="ModelicaConnector" guid="{99c0632e-dfc2-4d0f-9567-ab18d4855c10}" derivedfrom="id-0065-00000090" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-000000b6" kind="ModelicaConnector" role="ModelicaConnector" guid="{5e2d516e-3e19-4703-8247-5b7cba26fd8d}" derivedfrom="id-0065-0000008c" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>s</name>
 							<attribute kind="Class" status="inherited">
 								<value>Modelica.Blocks.Interfaces.RealOutput</value>
@@ -17116,10 +17143,10 @@
 							</attribute>
 						</model>
 					</model>
-					<connection isbound="yes" id="id-0068-000000c7" kind="PortComposition" role="PortComposition" guid="{3e2ea66c-733c-4458-be68-8eeaf7031d2a}" derivedfrom="id-0068-000000be" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-000000c7" kind="PortComposition" role="PortComposition" guid="{ffa89124-09d9-4841-bc8c-625b09417268}" derivedfrom="id-0068-000000bd" isinstance="yes" isprimary="no">
 						<name>PortComposition</name>
 					</connection>
-					<connection isbound="yes" id="id-0068-000000c8" kind="PortComposition" role="PortComposition" guid="{ffa89124-09d9-4841-bc8c-625b09417268}" derivedfrom="id-0068-000000bd" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-000000c8" kind="PortComposition" role="PortComposition" guid="{3e2ea66c-733c-4458-be68-8eeaf7031d2a}" derivedfrom="id-0068-000000be" isinstance="yes" isprimary="no">
 						<name>PortComposition</name>
 					</connection>
 				</model>
@@ -17503,7 +17530,7 @@
 				</connection>
 				<connection id="id-0068-000000cc" kind="ConnectorComposition" role="ConnectorComposition" guid="{16c7dfb7-f759-4157-b4d4-aca8b7a92ce4}" relid="0x2c">
 					<name>ConnectorComposition</name>
-					<connpoint role="src" target="id-0065-000000af"/>
+					<connpoint role="src" target="id-0065-000000ad"/>
 					<connpoint role="dst" target="id-0065-000000df" refs="id-0067-00000254"/>
 				</connection>
 				<connection id="id-0068-000000cd" kind="ConnectorComposition" role="ConnectorComposition" guid="{6be30325-3dff-4552-a279-bb2e3953bee7}" relid="0x30">
@@ -17601,21 +17628,42 @@
 					<attribute kind="NumAssociatedConfigs" status="meta">
 						<value></value>
 					</attribute>
-					<model id="id-0065-000000bd" kind="Connector" role="Connector" guid="{855e9e9e-9afb-402e-b968-2e9a7ddde371}" derivedfrom="id-0065-0000008b" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-						<name>position</name>
-						<attribute kind="Definition" status="meta">
+					<model id="id-0065-000000bd" kind="ModelicaModel" role="ModelicaModel" guid="{ec6371c6-89d0-4b41-a472-f2e8acc21861}" derivedfrom="id-0065-0000008f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<name>ModelicaModel</name>
+						<attribute kind="Author" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="DefinitionNotes" status="meta">
+						<attribute kind="Class" status="inherited">
+							<value>Modelica.Mechanics.Translational.Sensors.PositionSensor</value>
+						</attribute>
+						<attribute kind="FilePathWithinResource" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="ID" status="meta">
+						<attribute kind="Notes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="InstanceNotes" status="meta">
-							<value></value>
-						</attribute>
-						<model id="id-0065-000000be" kind="ModelicaConnector" role="ModelicaConnector" guid="{79a0ad97-b034-4326-89f7-ffa52b9028d0}" derivedfrom="id-0065-0000008c" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<model id="id-0065-000000be" kind="ModelicaConnector" role="ModelicaConnector" guid="{de455dad-3b7a-471a-bfca-8aba32978d2a}" derivedfrom="id-0065-00000091" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>flange</name>
+							<attribute kind="Class" status="inherited">
+								<value>Modelica.Mechanics.Translational.Interfaces.Flange_a</value>
+							</attribute>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Locator" status="meta">
+								<value></value>
+							</attribute>
+						</model>
+						<model id="id-0065-000000bf" kind="ModelicaConnector" role="ModelicaConnector" guid="{7dada885-6a74-477a-bc8b-2f311a297445}" derivedfrom="id-0065-00000090" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>s</name>
 							<attribute kind="Class" status="inherited">
 								<value>Modelica.Blocks.Interfaces.RealOutput</value>
@@ -17637,42 +17685,21 @@
 							</attribute>
 						</model>
 					</model>
-					<model id="id-0065-000000bf" kind="ModelicaModel" role="ModelicaModel" guid="{ec6371c6-89d0-4b41-a472-f2e8acc21861}" derivedfrom="id-0065-0000008f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-						<name>ModelicaModel</name>
-						<attribute kind="Author" status="meta">
+					<model id="id-0065-000000c0" kind="Connector" role="Connector" guid="{855e9e9e-9afb-402e-b968-2e9a7ddde371}" derivedfrom="id-0065-0000008b" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<name>position</name>
+						<attribute kind="Definition" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="Class" status="inherited">
-							<value>Modelica.Mechanics.Translational.Sensors.PositionSensor</value>
-						</attribute>
-						<attribute kind="FilePathWithinResource" status="meta">
+						<attribute kind="DefinitionNotes" status="meta">
 							<value></value>
 						</attribute>
-						<attribute kind="Notes" status="meta">
+						<attribute kind="ID" status="meta">
 							<value></value>
 						</attribute>
-						<model id="id-0065-000000c0" kind="ModelicaConnector" role="ModelicaConnector" guid="{de455dad-3b7a-471a-bfca-8aba32978d2a}" derivedfrom="id-0065-00000091" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-							<name>flange</name>
-							<attribute kind="Class" status="inherited">
-								<value>Modelica.Mechanics.Translational.Interfaces.Flange_a</value>
-							</attribute>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Locator" status="meta">
-								<value></value>
-							</attribute>
-						</model>
-						<model id="id-0065-000000c1" kind="ModelicaConnector" role="ModelicaConnector" guid="{7dada885-6a74-477a-bc8b-2f311a297445}" derivedfrom="id-0065-00000090" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-000000c1" kind="ModelicaConnector" role="ModelicaConnector" guid="{79a0ad97-b034-4326-89f7-ffa52b9028d0}" derivedfrom="id-0065-0000008c" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>s</name>
 							<attribute kind="Class" status="inherited">
 								<value>Modelica.Blocks.Interfaces.RealOutput</value>
@@ -17730,10 +17757,10 @@
 							</attribute>
 						</model>
 					</model>
-					<connection isbound="yes" id="id-0068-000000d0" kind="PortComposition" role="PortComposition" guid="{530a843a-b778-4007-b02f-826c01a67189}" derivedfrom="id-0068-000000be" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-000000d0" kind="PortComposition" role="PortComposition" guid="{6e3c3575-eb18-4948-b8b7-aff72f381b42}" derivedfrom="id-0068-000000bd" isinstance="yes" isprimary="no">
 						<name>PortComposition</name>
 					</connection>
-					<connection isbound="yes" id="id-0068-000000d1" kind="PortComposition" role="PortComposition" guid="{6e3c3575-eb18-4948-b8b7-aff72f381b42}" derivedfrom="id-0068-000000bd" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-000000d1" kind="PortComposition" role="PortComposition" guid="{530a843a-b778-4007-b02f-826c01a67189}" derivedfrom="id-0068-000000be" isinstance="yes" isprimary="no">
 						<name>PortComposition</name>
 					</connection>
 				</model>
@@ -17763,43 +17790,7 @@
 					<attribute kind="NumAssociatedConfigs" status="meta">
 						<value></value>
 					</attribute>
-					<model id="id-0065-000000c5" kind="Connector" role="Connector" guid="{0a6f0eff-4211-4e08-9a85-dc2d17998f47}" derivedfrom="id-0065-00000076" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-						<name>velocity</name>
-						<attribute kind="Definition" status="meta">
-							<value></value>
-						</attribute>
-						<attribute kind="DefinitionNotes" status="meta">
-							<value></value>
-						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
-						</attribute>
-						<attribute kind="InstanceNotes" status="meta">
-							<value></value>
-						</attribute>
-						<model id="id-0065-000000c6" kind="ModelicaConnector" role="ModelicaConnector" guid="{e4b476d8-ebdc-432d-bd55-e5decc05b4b4}" derivedfrom="id-0065-00000077" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-							<name>RealOutput</name>
-							<attribute kind="Class" status="inherited">
-								<value>Modelica.Blocks.Interfaces.RealOutput</value>
-							</attribute>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Locator" status="meta">
-								<value></value>
-							</attribute>
-						</model>
-					</model>
-					<model id="id-0065-000000c7" kind="ModelicaModel" role="ModelicaModel" guid="{4c34c829-424e-4edc-8d1f-12f3f9b473ff}" derivedfrom="id-0065-00000071" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+					<model id="id-0065-000000c5" kind="ModelicaModel" role="ModelicaModel" guid="{4c34c829-424e-4edc-8d1f-12f3f9b473ff}" derivedfrom="id-0065-00000071" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 						<name>SpeedSensor</name>
 						<attribute kind="Author" status="meta">
 							<value></value>
@@ -17813,7 +17804,7 @@
 						<attribute kind="Notes" status="meta">
 							<value></value>
 						</attribute>
-						<model id="id-0065-000000c8" kind="ModelicaConnector" role="ModelicaConnector" guid="{7deab0a7-1468-435a-b07a-0d823c34b6db}" derivedfrom="id-0065-00000072" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<model id="id-0065-000000c6" kind="ModelicaConnector" role="ModelicaConnector" guid="{7deab0a7-1468-435a-b07a-0d823c34b6db}" derivedfrom="id-0065-00000072" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>flange</name>
 							<attribute kind="Class" status="inherited">
 								<value>Modelica.Mechanics.Translational.Interfaces.Flange_a</value>
@@ -17834,7 +17825,7 @@
 								<value></value>
 							</attribute>
 						</model>
-						<model id="id-0065-000000c9" kind="ModelicaConnector" role="ModelicaConnector" guid="{a55edd75-0804-4a92-b580-6baed92fe8ae}" derivedfrom="id-0065-00000073" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<model id="id-0065-000000c7" kind="ModelicaConnector" role="ModelicaConnector" guid="{a55edd75-0804-4a92-b580-6baed92fe8ae}" derivedfrom="id-0065-00000073" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>v</name>
 							<attribute kind="Class" status="inherited">
 								<value>Modelica.Blocks.Interfaces.RealOutput</value>
@@ -17856,7 +17847,7 @@
 							</attribute>
 						</model>
 					</model>
-					<model id="id-0065-000000ca" kind="Connector" role="Connector" guid="{66217fff-5c7d-4d38-90a2-9e9cb5957ebd}" derivedfrom="id-0065-00000074" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+					<model id="id-0065-000000c8" kind="Connector" role="Connector" guid="{66217fff-5c7d-4d38-90a2-9e9cb5957ebd}" derivedfrom="id-0065-00000074" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 						<name>flange</name>
 						<attribute kind="Definition" status="meta">
 							<value></value>
@@ -17870,10 +17861,46 @@
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
 						</attribute>
-						<model id="id-0065-000000cb" kind="ModelicaConnector" role="ModelicaConnector" guid="{19995e21-bee2-4951-87fa-c7fffa9d5926}" derivedfrom="id-0065-00000075" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<model id="id-0065-000000c9" kind="ModelicaConnector" role="ModelicaConnector" guid="{19995e21-bee2-4951-87fa-c7fffa9d5926}" derivedfrom="id-0065-00000075" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>TranslationalFlange</name>
 							<attribute kind="Class" status="inherited">
 								<value>Modelica.Mechanics.Translational.Interfaces.Flange_a</value>
+							</attribute>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Locator" status="meta">
+								<value></value>
+							</attribute>
+						</model>
+					</model>
+					<model id="id-0065-000000ca" kind="Connector" role="Connector" guid="{0a6f0eff-4211-4e08-9a85-dc2d17998f47}" derivedfrom="id-0065-00000076" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<name>velocity</name>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-000000cb" kind="ModelicaConnector" role="ModelicaConnector" guid="{e4b476d8-ebdc-432d-bd55-e5decc05b4b4}" derivedfrom="id-0065-00000077" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>RealOutput</name>
+							<attribute kind="Class" status="inherited">
+								<value>Modelica.Blocks.Interfaces.RealOutput</value>
 							</attribute>
 							<attribute kind="Definition" status="meta">
 								<value></value>
@@ -17939,10 +17966,10 @@
 						<attribute kind="Notes" status="meta">
 							<value></value>
 						</attribute>
-						<model id="id-0065-000000ce" kind="ModelicaConnector" role="ModelicaConnector" guid="{434a5297-5b12-41b7-ac4b-af1b59cca1c9}" derivedfrom="id-0065-00000085" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-							<name>a</name>
+						<model id="id-0065-000000ce" kind="ModelicaConnector" role="ModelicaConnector" guid="{0a3c7c48-ec08-4ade-934b-26c3594f1d68}" derivedfrom="id-0065-00000084" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>flange</name>
 							<attribute kind="Class" status="inherited">
-								<value>Modelica.Blocks.Interfaces.RealOutput</value>
+								<value>Modelica.Mechanics.Translational.Interfaces.Flange_a</value>
 							</attribute>
 							<attribute kind="Definition" status="meta">
 								<value></value>
@@ -17960,10 +17987,10 @@
 								<value></value>
 							</attribute>
 						</model>
-						<model id="id-0065-000000cf" kind="ModelicaConnector" role="ModelicaConnector" guid="{0a3c7c48-ec08-4ade-934b-26c3594f1d68}" derivedfrom="id-0065-00000084" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-							<name>flange</name>
+						<model id="id-0065-000000cf" kind="ModelicaConnector" role="ModelicaConnector" guid="{434a5297-5b12-41b7-ac4b-af1b59cca1c9}" derivedfrom="id-0065-00000085" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>a</name>
 							<attribute kind="Class" status="inherited">
-								<value>Modelica.Mechanics.Translational.Interfaces.Flange_a</value>
+								<value>Modelica.Blocks.Interfaces.RealOutput</value>
 							</attribute>
 							<attribute kind="Definition" status="meta">
 								<value></value>
@@ -18054,10 +18081,10 @@
 							</attribute>
 						</model>
 					</model>
-					<connection isbound="yes" id="id-0068-000000d4" kind="PortComposition" role="PortComposition" guid="{4a787cac-d673-49b6-94a4-c1894949451b}" derivedfrom="id-0068-000000bc" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-000000d4" kind="PortComposition" role="PortComposition" guid="{5f936586-1920-4062-a19e-88ed77814b0c}" derivedfrom="id-0068-000000bb" isinstance="yes" isprimary="no">
 						<name>PortComposition</name>
 					</connection>
-					<connection isbound="yes" id="id-0068-000000d5" kind="PortComposition" role="PortComposition" guid="{5f936586-1920-4062-a19e-88ed77814b0c}" derivedfrom="id-0068-000000bb" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-000000d5" kind="PortComposition" role="PortComposition" guid="{4a787cac-d673-49b6-94a4-c1894949451b}" derivedfrom="id-0068-000000bc" isinstance="yes" isprimary="no">
 						<name>PortComposition</name>
 					</connection>
 				</model>
@@ -18225,11 +18252,11 @@
 							<value>1000</value>
 						</attribute>
 					</reference>
-					<connection isbound="yes" id="id-0068-000000d6" kind="PortComposition" role="PortComposition" guid="{b97c40f1-65fe-4c38-a6ed-55ab1f47af03}" derivedfrom="id-0068-000000b8" isinstance="yes" isprimary="no">
-						<name>PortComposition</name>
-					</connection>
-					<connection isbound="yes" id="id-0068-000000d7" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{574f1b31-9d23-4eb5-bca3-5eab5c48ba02}" derivedfrom="id-0068-000000b7" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-000000d6" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{574f1b31-9d23-4eb5-bca3-5eab5c48ba02}" derivedfrom="id-0068-000000b7" isinstance="yes" isprimary="no">
 						<name>ModelicaParameterPortMap</name>
+					</connection>
+					<connection isbound="yes" id="id-0068-000000d7" kind="PortComposition" role="PortComposition" guid="{b97c40f1-65fe-4c38-a6ed-55ab1f47af03}" derivedfrom="id-0068-000000b8" isinstance="yes" isprimary="no">
+						<name>PortComposition</name>
 					</connection>
 				</model>
 				<model id="id-0065-000000d9" kind="TestComponent" role="TestComponent" guid="{a8c61f99-fef5-46f1-aeee-88788d6ae076}" derivedfrom="id-0065-0000007d" isinstance="yes" isprimary="yes" relid="0x1e" childrelidcntr="0x0">
@@ -18311,7 +18338,7 @@
 								<value></value>
 							</attribute>
 						</model>
-						<reference id="id-0067-00000024" kind="ModelicaParameter" role="ModelicaParameter" guid="{c04ce3a3-1ac6-4f76-98e3-237bb4dbec6e}" derivedfrom="id-0067-0000001a" isinstance="yes" isprimary="no" isbound="yes">
+						<reference id="id-0067-00000023" kind="ModelicaParameter" role="ModelicaParameter" guid="{c04ce3a3-1ac6-4f76-98e3-237bb4dbec6e}" derivedfrom="id-0067-0000001a" isinstance="yes" isprimary="no" isbound="yes">
 							<name>s0</name>
 							<attribute kind="DefaultValue" status="inherited">
 								<value>0</value>
@@ -18360,7 +18387,7 @@
 							</attribute>
 						</model>
 					</model>
-					<reference id="id-0067-00000023" kind="Parameter" role="Parameter" guid="{373b4593-3abf-44ff-8027-d307f60ea084}" derivedfrom="id-0067-0000001b" isinstance="yes" isprimary="no" isbound="yes">
+					<reference id="id-0067-00000024" kind="Parameter" role="Parameter" guid="{373b4593-3abf-44ff-8027-d307f60ea084}" derivedfrom="id-0067-0000001b" isinstance="yes" isprimary="no" isbound="yes">
 						<name>s0</name>
 						<attribute kind="ComputationType" status="meta">
 							<value>Addition</value>
@@ -18396,11 +18423,11 @@
 							<value>0</value>
 						</attribute>
 					</reference>
-					<connection isbound="yes" id="id-0068-000000d8" kind="PortComposition" role="PortComposition" guid="{358398c6-5a72-4a19-87c3-1bf44b78be8f}" derivedfrom="id-0068-000000ba" isinstance="yes" isprimary="no">
-						<name>PortComposition</name>
-					</connection>
-					<connection isbound="yes" id="id-0068-000000d9" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{07a3338c-248c-4b85-8001-c3a25406c90e}" derivedfrom="id-0068-000000b9" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-000000d8" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{07a3338c-248c-4b85-8001-c3a25406c90e}" derivedfrom="id-0068-000000b9" isinstance="yes" isprimary="no">
 						<name>ModelicaParameterPortMap</name>
+					</connection>
+					<connection isbound="yes" id="id-0068-000000d9" kind="PortComposition" role="PortComposition" guid="{358398c6-5a72-4a19-87c3-1bf44b78be8f}" derivedfrom="id-0068-000000ba" isinstance="yes" isprimary="no">
+						<name>PortComposition</name>
 					</connection>
 				</model>
 				<atom id="id-0066-000000b9" kind="SolverSettings" role="SolverSettings" guid="{e69d9722-bcab-468c-ad03-9cb9fa461f60}" relid="0x1a">
@@ -18752,7 +18779,7 @@
 				</connection>
 				<connection id="id-0068-000000db" kind="ConnectorComposition" role="ConnectorComposition" guid="{d932cbf8-8508-4771-be9a-9bc5a1231f3f}" relid="0x2c">
 					<name>ConnectorComposition</name>
-					<connpoint role="src" target="id-0065-000000ca"/>
+					<connpoint role="src" target="id-0065-000000c8"/>
 					<connpoint role="dst" target="id-0065-000000df" refs="id-0067-00000259"/>
 				</connection>
 				<connection id="id-0068-000000dc" kind="ConnectorComposition" role="ConnectorComposition" guid="{f6748d2e-c73c-45ab-adb3-fabf8c4f0b1f}" relid="0x2b">
@@ -24498,7 +24525,7 @@
 				</reference>
 			</model>
 		</folder>
-		<folder id="id-006a-00000017" relid="0x61" childrelidcntr="0x8" libref="CADResourceLibrary" kind="RootFolder" guid="{13b19e07-ff61-4a7f-82c6-58dea72fb96f}">
+		<folder id="id-006a-00000017" relid="0x65" childrelidcntr="0x8" libref="CADResourceLibrary" kind="RootFolder" guid="{13b19e07-ff61-4a7f-82c6-58dea72fb96f}">
 			<name>CADResourceLibrary</name>
 			<folder id="id-006a-00000018" relid="0x4" childrelidcntr="0xe" kind="GeometryFolder" guid="{7c595b3d-3b50-4594-a8ca-b78952921e4a}">
 				<name>GeometryDefinition</name>
@@ -26922,10 +26949,10 @@
 				</model>
 			</folder>
 			<regnode name="modtime" isopaque="yes">
-				<value>130535555328355259</value>
+				<value>130548480490096329</value>
 			</regnode>
 		</folder>
-		<folder id="id-006a-00000019" relid="0x62" childrelidcntr="0xd" libref="MaterialLibrary CyPhy_MaterialLib" kind="RootFolder" guid="{5057546a-d298-4963-b477-b9ccbdb4da76}">
+		<folder id="id-006a-00000019" relid="0x66" childrelidcntr="0xd" libref="MaterialLibrary CyPhy_MaterialLib" kind="RootFolder" guid="{5057546a-d298-4963-b477-b9ccbdb4da76}">
 			<name>MaterialLibrary CyPhy_MaterialLib</name>
 			<folder id="id-006a-0000001a" relid="0xd" childrelidcntr="0x69" kind="MaterialsDefinition" guid="{69120e36-14bd-4459-82d3-6c96375e77e6}">
 				<name>MaterialDefinitions</name>
@@ -27876,109 +27903,16 @@
 				</atom>
 			</folder>
 			<regnode name="modtime" isopaque="yes">
-				<value>130535555325915259</value>
+				<value>130548480486956138</value>
 			</regnode>
 		</folder>
-		<folder id="id-006a-0000001b" relid="0x63" childrelidcntr="0xc" libref="PortLibrary CyPhy_PortLib" kind="RootFolder" guid="{e30db627-2b68-46a7-ad9b-fff19a95efda}">
+		<folder id="id-006a-0000001b" relid="0x67" childrelidcntr="0xc" libref="PortLibrary CyPhy_PortLib" kind="RootFolder" guid="{e30db627-2b68-46a7-ad9b-fff19a95efda}">
 			<name>PortLibrary CyPhy_PortLib</name>
 			<folder id="id-006a-0000001c" relid="0x2" childrelidcntr="0x2" kind="Connectors" guid="{bded3721-5142-4910-9b2f-b137b12f08ea}">
 				<name>Interface and Port Definitions</name>
 				<folder id="id-006a-0000001d" relid="0x1" childrelidcntr="0x7" kind="Ports" guid="{cff68f7d-8940-4331-890e-3d4794150476}">
 					<name>Ports</name>
-					<folder id="id-006a-0000001e" relid="0x7" childrelidcntr="0x6" kind="Ports" guid="{13ba5590-7ffd-4507-88a8-e032f22a6214}">
-						<name>Abstract Ports</name>
-						<atom id="id-0066-0000024b" kind="AbstractPort" guid="{a8650e97-3904-46a5-8e6a-46dcfd53b07e}" relid="0x6">
-							<name>Bus</name>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-						</atom>
-						<atom id="id-0066-0000024c" kind="AbstractPort" guid="{0658454a-9591-40d6-8cf5-3a117bacdecc}" relid="0x5">
-							<name>InputSignal</name>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-						</atom>
-						<atom id="id-0066-0000024d" kind="AbstractPort" guid="{d783cbdd-9d17-4702-9951-f5f21a3728ee}" relid="0x4">
-							<name>OutputSignal</name>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-						</atom>
-						<atom id="id-0066-0000024e" kind="AbstractPort" guid="{a33f1164-05f3-4bc7-b863-1833ab2e8068}" relid="0x3">
-							<name>Signal</name>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-						</atom>
-						<atom id="id-0066-0000024f" kind="AbstractPort" guid="{21022279-949a-4dba-9b5d-c18bdf79c690}" relid="0x2">
-							<name>RotationalPower</name>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-						</atom>
-						<atom id="id-0066-00000250" kind="AbstractPort" guid="{0ebfb901-0ca1-4ed0-a0a9-0fc03ade6455}" relid="0x1">
-							<name>ElectricalPower</name>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-						</atom>
-					</folder>
-					<folder id="id-006a-0000001f" relid="0x2" childrelidcntr="0x1d" kind="Ports" guid="{2371312e-1a75-4e56-896a-9d5f9310c011}">
+					<folder id="id-006a-0000001e" relid="0x2" childrelidcntr="0x1d" kind="Ports" guid="{2371312e-1a75-4e56-896a-9d5f9310c011}">
 						<name>Modelica Ports</name>
 						<model id="id-0065-00000363" kind="ModelicaConnector" guid="{bccaad47-c177-41bd-95f7-9778485145b0}" relid="0x1d" childrelidcntr="0x1">
 							<name>FlowPort</name>
@@ -28339,7 +28273,7 @@
 							<attribute kind="Locator" status="meta">
 								<value></value>
 							</attribute>
-							<atom id="id-0066-00000251" kind="ModelicaRedeclare" role="ModelicaRedeclare" guid="{cfa8260c-ca75-4ce2-9baf-497956aafe6a}" relid="0x2">
+							<atom id="id-0066-0000024b" kind="ModelicaRedeclare" role="ModelicaRedeclare" guid="{cfa8260c-ca75-4ce2-9baf-497956aafe6a}" relid="0x2">
 								<name>Medium</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -28683,9 +28617,102 @@
 							</attribute>
 						</model>
 					</folder>
+					<folder id="id-006a-0000001f" relid="0x7" childrelidcntr="0x6" kind="Ports" guid="{13ba5590-7ffd-4507-88a8-e032f22a6214}">
+						<name>Abstract Ports</name>
+						<atom id="id-0066-0000024c" kind="AbstractPort" guid="{a8650e97-3904-46a5-8e6a-46dcfd53b07e}" relid="0x6">
+							<name>Bus</name>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000024d" kind="AbstractPort" guid="{0658454a-9591-40d6-8cf5-3a117bacdecc}" relid="0x5">
+							<name>InputSignal</name>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000024e" kind="AbstractPort" guid="{d783cbdd-9d17-4702-9951-f5f21a3728ee}" relid="0x4">
+							<name>OutputSignal</name>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000024f" kind="AbstractPort" guid="{a33f1164-05f3-4bc7-b863-1833ab2e8068}" relid="0x3">
+							<name>Signal</name>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000250" kind="AbstractPort" guid="{21022279-949a-4dba-9b5d-c18bdf79c690}" relid="0x2">
+							<name>RotationalPower</name>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000251" kind="AbstractPort" guid="{0ebfb901-0ca1-4ed0-a0a9-0fc03ade6455}" relid="0x1">
+							<name>ElectricalPower</name>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+						</atom>
+					</folder>
 					<model id="id-0065-00000362" kind="TaxonomySheet" guid="{35cf821a-d8ca-4df1-b681-be01422f55e3}" relid="0x6" childrelidcntr="0x15">
 						<name>Taxonomy</name>
-						<reference id="id-0067-00000417" kind="PortReference" role="PortReference" guid="{e340a072-8d95-4da0-8e0c-a2f20630d6aa}" relid="0x12" referred="id-0066-0000024e">
+						<reference id="id-0067-00000417" kind="PortReference" role="PortReference" guid="{e340a072-8d95-4da0-8e0c-a2f20630d6aa}" relid="0x12" referred="id-0066-0000024f">
 							<name>Signal</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -28736,7 +28763,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000041b" kind="PortReference" role="PortReference" guid="{a0f76c16-e98a-41b3-a900-2bd821fdb415}" relid="0xb" referred="id-0066-0000024d">
+						<reference id="id-0067-0000041b" kind="PortReference" role="PortReference" guid="{a0f76c16-e98a-41b3-a900-2bd821fdb415}" relid="0xb" referred="id-0066-0000024e">
 							<name>OutputSignal</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -28787,7 +28814,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000041f" kind="PortReference" role="PortReference" guid="{640fc63b-a59a-4e62-8dd6-46f237a7622d}" relid="0x4" referred="id-0066-0000024c">
+						<reference id="id-0067-0000041f" kind="PortReference" role="PortReference" guid="{640fc63b-a59a-4e62-8dd6-46f237a7622d}" relid="0x4" referred="id-0066-0000024d">
 							<name>InputSignal</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -28814,7 +28841,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000421" kind="PortReference" role="PortReference" guid="{27293166-6e07-4ad5-8fc4-025907ac30e8}" relid="0x1" referred="id-0066-00000250">
+						<reference id="id-0067-00000421" kind="PortReference" role="PortReference" guid="{27293166-6e07-4ad5-8fc4-025907ac30e8}" relid="0x1" referred="id-0066-00000251">
 							<name>ElectricalPower</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -28884,10 +28911,10 @@
 				</folder>
 			</folder>
 			<regnode name="modtime" isopaque="yes">
-				<value>130535555323545259</value>
+				<value>130548480484106400</value>
 			</regnode>
 		</folder>
-		<folder id="id-006a-00000020" relid="0x64" childrelidcntr="0x8" libref="UnitLibrary QUDT" kind="RootFolder" guid="{930ea234-c97f-40fd-aa87-a272824dfa19}">
+		<folder id="id-006a-00000020" relid="0x68" childrelidcntr="0x8" libref="UnitLibrary QUDT" kind="RootFolder" guid="{930ea234-c97f-40fd-aa87-a272824dfa19}">
 			<name>UnitLibrary QUDT</name>
 			<folder id="id-006a-00000021" relid="0x1" childrelidcntr="0x4" kind="TypeSpecifications" guid="{fd90cf10-6360-414e-8c3c-9d42897f41c7}">
 				<name>TypeSpecifications</name>
@@ -42996,7 +43023,7 @@
 				</folder>
 			</folder>
 			<regnode name="modtime" isopaque="yes">
-				<value>130535555321305259</value>
+				<value>130548480481235801</value>
 			</regnode>
 		</folder>
 		<regnode name="CAD_PART_DIR" isopaque="yes">

@@ -224,7 +224,9 @@
     </genClasses>
     <genClasses ecoreClass="AVM.ecore#//Compound"/>
     <genClasses ecoreClass="AVM.ecore#//Optional"/>
-    <genClasses ecoreClass="AVM.ecore#//Alternative"/>
+    <genClasses ecoreClass="AVM.ecore#//Alternative">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Alternative/ValueFlowMux"/>
+    </genClasses>
     <genClasses ecoreClass="AVM.ecore#//ComponentInstance">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//ComponentInstance/PortInstance"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//ComponentInstance/PrimitivePropertyInstance"/>
@@ -280,6 +282,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DoDDistributionStatement/Type"/>
     </genClasses>
     <genClasses image="false" ecoreClass="AVM.ecore#//ConnectorFeature"/>
+    <genClasses ecoreClass="AVM.ecore#//ValueFlowMux">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AVM.ecore#//ValueFlowMux/Source"/>
+    </genClasses>
     <nestedGenPackages prefix="Modelica" basePackage="avm" resource="XML" disposableProviderFactory="true"
         ecorePackage="AVM.ecore#//modelica">
       <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">

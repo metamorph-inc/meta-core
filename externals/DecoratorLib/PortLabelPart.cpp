@@ -45,6 +45,12 @@ void PortLabelPart::InitializeEx(CComPtr<IMgaProject>& pProject, CComPtr<IMgaMet
 	m_eAdjust = preferences[PREF_LABELLOCATION].uValue.eLocation;
 
 	LabelPart::InitializeEx(pProject, pPart, pFCO, parentWnd, preferences);
+
+	// Text's Max Length
+	m_iMaxTextLength = MAX_LABEL_LENGTH;
+	PreferenceMap::iterator it = preferences.find(PREF_LABELLENGTH);
+	if (it != preferences.end())
+		m_iMaxTextLength = it->second.uValue.lValue;
 }
 
 bool PortLabelPart::MouseLeftButtonDoubleClick(UINT nFlags, const CPoint& point, HDC transformHDC)

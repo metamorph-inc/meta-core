@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{819FC850-2033-4E27-8635-3005588B97AC}" cdate="Mon Dec 02 15:15:00 2013" mdate="Mon Dec 02 15:15:00 2013" version="v1.0.0.5" metaguid="{1913C77F-2986-4DA3-BD61-02F6C19FD44E}" metaversion="" metaname="UML">
+<project guid="{68BF70E2-034F-49D1-8B34-8FBA57E81AE7}" cdate="Wed Sep 17 14:15:06 2014" mdate="Wed Sep 17 14:15:06 2014" version="v1.0.0.5" metaguid="{1913C77F-2986-4DA3-BD61-02F6C19FD44E}" metaversion="" metaname="UML">
 	<name>CADAnalysisMetaData</name>
 	<comment>v1.0.0.5 - Changed Metric::Value to ArrayValue[0..*] to reflect vector.</comment>
 	<author></author>
@@ -368,7 +368,7 @@ FEAElementID:String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-0000000e" kind="Class" role="Class" guid="{d01354dc-9a83-492d-b134-bb1e8b97a8dc}" relid="0x29">
+				<atom id="id-0066-0000000c" kind="Class" role="Class" guid="{d01354dc-9a83-492d-b134-bb1e8b97a8dc}" relid="0x29">
 					<name>Assemblies</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -531,7 +531,7 @@ FEAElementID:String</value>
 					<connpoint role="dst" target="id-0066-00000008"/>
 					<connpoint role="src" target="id-0066-00000009"/>
 				</connection>
-				<connection id="id-0068-0000000a" kind="Composition" role="Composition" guid="{3227fa90-ac2b-487b-897b-2824ffeef39d}" relid="0x24">
+				<connection id="id-0068-00000009" kind="Composition" role="Composition" guid="{3227fa90-ac2b-487b-897b-2824ffeef39d}" relid="0x24">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>s</value>
@@ -548,7 +548,7 @@ FEAElementID:String</value>
 					<connpoint role="dst" target="id-0066-0000000a"/>
 					<connpoint role="src" target="id-0066-0000000b"/>
 				</connection>
-				<connection id="id-0068-0000000c" kind="Composition" role="Composition" guid="{0516b50e-6f97-4da1-909c-f511e7af9f23}" relid="0x2b">
+				<connection id="id-0068-0000000a" kind="Composition" role="Composition" guid="{0516b50e-6f97-4da1-909c-f511e7af9f23}" relid="0x2b">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>We</value>
@@ -563,9 +563,9 @@ FEAElementID:String</value>
 						<value></value>
 					</attribute>
 					<connpoint role="dst" target="id-0066-00000004"/>
-					<connpoint role="src" target="id-0066-0000000e"/>
+					<connpoint role="src" target="id-0066-0000000c"/>
 				</connection>
-				<connection id="id-0068-0000000d" kind="Composition" role="Composition" guid="{1fe804d6-8906-449c-86d4-c97e99fc6ae9}" relid="0x2c">
+				<connection id="id-0068-0000000b" kind="Composition" role="Composition" guid="{1fe804d6-8906-449c-86d4-c97e99fc6ae9}" relid="0x2c">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -580,9 +580,9 @@ FEAElementID:String</value>
 						<value></value>
 					</attribute>
 					<connpoint role="src" target="id-0066-0000000a"/>
-					<connpoint role="dst" target="id-0066-0000000e"/>
+					<connpoint role="dst" target="id-0066-0000000c"/>
 				</connection>
-				<connection id="id-0068-0000000e" kind="Composition" role="Composition" guid="{be37419f-29e1-499a-af0d-48efd30f2956}" relid="0x2d">
+				<connection id="id-0068-0000000c" kind="Composition" role="Composition" guid="{be37419f-29e1-499a-af0d-48efd30f2956}" relid="0x2d">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Se</value>
@@ -602,7 +602,16 @@ FEAElementID:String</value>
 			</model>
 			<model id="id-0065-00000003" kind="ClassDiagram" role="ClassDiagram" guid="{66d62563-962b-469c-a658-80d05b49bf37}" relid="0x2" childrelidcntr="0x3">
 				<name>CADMetrics</name>
-				<atom id="id-0066-0000000c" kind="Class" role="Class" guid="{65b52093-d1bd-41ad-90b9-319d6c00c0f0}" relid="0x2">
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="UML" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>28,91</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<atom id="id-0066-0000000d" kind="Class" role="Class" guid="{65b52093-d1bd-41ad-90b9-319d6c00c0f0}" relid="0x2">
 					<name>Metrics</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -629,7 +638,7 @@ FEAElementID:String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-0000000d" kind="Class" role="Class" guid="{5d3a3eaa-e6b1-441f-8b0e-901ed8c7968c}" relid="0x1">
+				<atom id="id-0066-0000000e" kind="Class" role="Class" guid="{5d3a3eaa-e6b1-441f-8b0e-901ed8c7968c}" relid="0x1">
 					<name>Metric</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -653,8 +662,7 @@ FEAElementID:String</value>
 						<value>ConfigurationID:String
 MetricType:String
 TopAssemblyComponentInstanceID:String
-
-ComponenInstancetID:String
+ComponentInstanceID:String
 ComponentName:String
 ComponentType:String
 RequestedValueType:String
@@ -668,7 +676,7 @@ Details:String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<connection id="id-0068-0000000b" kind="Composition" role="Composition" guid="{06953902-0f22-432c-80d3-e3125e116f28}" relid="0x3">
+				<connection id="id-0068-0000000d" kind="Composition" role="Composition" guid="{06953902-0f22-432c-80d3-e3125e116f28}" relid="0x3">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -682,8 +690,8 @@ Details:String</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-0000000c"/>
-					<connpoint role="src" target="id-0066-0000000d"/>
+					<connpoint role="dst" target="id-0066-0000000d"/>
+					<connpoint role="src" target="id-0066-0000000e"/>
 				</connection>
 			</model>
 		</model>

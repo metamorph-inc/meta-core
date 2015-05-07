@@ -204,6 +204,21 @@ namespace CyPhyDesignImporter
             if (cyphy_container is CyPhy.DesignContainer)
             {
                 ((CyPhy.DesignContainer)cyphy_container).Attributes.ContainerType = typeToAttribute[ad_container.GetType()];
+                if (ad_container is avm.Alternative)
+                {
+                    ((IMgaFCO)cyphy_container.Impl).SetRegistryValueDisp("icon", "alternative_ds.png");
+                }
+                if (ad_container is avm.Optional)
+                {
+                    ((IMgaFCO)cyphy_container.Impl).SetRegistryValueDisp("icon", "optional_ds");
+                }
+            }
+            if (ad_container is avm.Alternative)
+            {
+                foreach (var ad_mux in ((avm.Alternative)ad_container).ValueFlowMux)
+                {
+                    processMux((CyPhy.DesignContainer)cyphy_container, ad_mux);
+                }
             }
 
             foreach (avm.Port avmPort in ad_container.Port)
@@ -274,15 +289,23 @@ namespace CyPhyDesignImporter
                 var cyphy_customFormula = CyPhyClasses.CustomFormula.Cast(CreateChild((ISIS.GME.Common.Interfaces.Model)cyphy_container, typeof(CyPhyClasses.CustomFormula)));
                 processComplexFormula(complexFormula, cyphy_customFormula);
             }
+        }
 
+        private void processMux(CyPhyML.DesignContainer designContainer, avm.ValueFlowMux ad_mux)
+        {
+            _avmValueNodeIDMap.Add(ad_mux.ID, new KeyValuePair<avm.ValueNode, object>(null, ad_mux));
         }
 
         private void ImportComponentInstance(avm.ComponentInstance ad_componentinstance, CyPhy.ComponentRef cyphy_componentref)
         {
             AVM2CyPhyML.CyPhyMLComponentBuilder.SetLayoutData(ad_componentinstance, cyphy_componentref.Impl);
 
-            // TODO handle lookup failure
-            cyphy_componentref.Referred.Component = avmidComponentMap[ad_componentinstance.ComponentID];
+            ISIS.GME.Dsml.CyPhyML.Interfaces.Component component;
+            if (avmidComponentMap.TryGetValue(ad_componentinstance.ComponentID, out component) == false)
+            {
+                throw new ApplicationException(String.Format("Cannot find Component with ID {0}. Has it been imported?", ad_componentinstance.ComponentID));
+            }
+            cyphy_componentref.Referred.Component = component;
             cyphy_componentref.Name = ad_componentinstance.Name;
             //cyphy_componentref.Attributes.ID = ad_componentinstance.ID;
             cyphy_componentref.Attributes.InstanceGUID = ad_componentinstance.ID;

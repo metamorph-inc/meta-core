@@ -276,6 +276,7 @@ def register_component(file, warn_on_tlb_error=None):
 
 # UDM functions
 def meta2uml(mgafile, umlfile=None):
+    '''Run MetaGME2Uml on an MetaGME .mga file'''
     if not os.path.isfile(mgafile):
         raise Exception("'" + mgafile + "' not found")
     

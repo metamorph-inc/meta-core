@@ -124,7 +124,7 @@
     <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="GME.MGA.Parser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+    <Reference Include="GME.MGA.Parser, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
@@ -269,6 +269,7 @@
     <ProjectReference Include="..\JobManager\JobManagerLib\JobManagerLib.csproj">
       <Project>{8B9963D3-F23C-4923-84C9-CBD6872105A6}</Project>
       <Name>JobManagerLib</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CyPhyMLCS\CyPhyMLCS.csproj">
       <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>

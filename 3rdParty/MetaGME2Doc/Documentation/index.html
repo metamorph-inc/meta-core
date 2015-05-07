@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="documentationApp">
+<head>
+    <meta charset="utf-8">
+
+    <title></title>
+
+    <!-- Style sheets-->
+    <link rel="stylesheet" href="bootstrap-3.2.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/documentation.css">
+
+    <!-- Scripts -->
+    <script src="LanguageDocumentation.js"></script>
+
+    <script src="js/jquery/jquery-2.1.1.min.js"></script>
+    <script src="bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
+
+    <script src="js/angular-1.3.0-beta.19/angular.min.js"></script>
+    <script src="js/ui-bootstrap/ui-bootstrap-0.11.0.min.js"></script>
+
+    <script type="text/javascript">
+
+        var documentationApp = angular.module('documentationApp', ['ui.bootstrap']);
+
+        documentationApp.config( [
+            '$compileProvider',
+            function( $compileProvider )
+            {
+                $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|blob):/);
+                // Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
+            }
+        ])
+
+        documentationApp.controller('DocumentationAppCtrl', function ($scope) {
+            $scope.model = LANGUAGEDOC;
+            $scope.model.selected = null;
+
+            $scope.selectElement = function (name) {
+                $scope.model.selected = name;
+            };
+
+            $scope.generateURL = function () {
+                var json = JSON.stringify($scope.model);
+                var blob = new Blob([json], {type: "application/json"});
+                var url = URL.createObjectURL(blob);
+                $scope.url = url;
+                console.log('model changed');
+            }
+
+        });
+
+    </script>
+</head>
+
+<body>
+
+<div class="row documentation" data-ng-controller="DocumentationAppCtrl">
+    <div class="language-name">
+        {{ model.LanguageInfo.Name }}
+        <a href="{{ url }}" download="{{ model.LanguageInfo.Name }}.json">Download as JSON</a>
+    </div>
+
+    <!-- Language elements -->
+
+    <div class="col-md-3">
+        <section class="language-element-list">
+            <div class="sidebar-header">
+                <h4>Language Elements</h4>
+            </div>
+            <ul>
+                <li>
+                    <a href="#" data-ng-click="selectElement(null)">Show all</a>
+                </li>
+                <li data-ng-repeat="name in model.LanguageElementList">
+                    <a href="#" data-ng-click="selectElement(name)">{{ name }}</a>
+                </li>
+            </ul>
+        </section>
+    </div>
+
+    <div class="col-md-9">
+        <section class="language-element" data-ng-repeat="element in model.LanguageElements" data-ng-if="!model.selected || element.Name === model.selected">
+            <div class="page-header">
+                <h1 id="{{ element.Name }}">
+                    <div class="header-color" data-ng-if="element.Visualization.color" style="border-left-color: {{ element.Visualization.color }};"></div>
+                    {{ element.Name }} <small>({{ element.Type }})</small> <img src="{{ element.Visualization.Icon }}" data-ng-if="element.Visualization.Icon.length > 0">
+                </h1>
+            </div>
+            <div class="row">
+                
+                <div class="col-md-12 category description">
+                    <h3 class="name">Description</h3>
+                    <textarea type="text" size="{{ element.Description.length }}" rows="5" placeholder="Please provide a description of this element here ..." data-ng-model="element.Description" data-ng-change="generateURL()"></textarea>
+                </div>
+
+                <div class="col-md-12 category metadata">
+                    <h3 class="name">Metadata</h3>
+                    <ul>
+                        <li>GUID: {{ element.GUID }}</li>
+                        <li>Abstract: {{ element.IsAbstract }}</li>
+                        <li data-ng-if="element.Visualization.Icon != null">Icon Relative Path: {{ element.Visualization.Icon }}</li>
+                        <li data-ng-if="element.Visualization.LineType != null">Line Style: {{ element.Visualization.LineType }}</li>
+                        <li data-ng-if="element.Visualization.LineColor != null">Line Color: {{ element.Visualization.LineColor }}</li>
+                        <li data-ng-if="element.Visualization.LineStart != null">Line Start: {{ element.Visualization.LineStart }}</li>
+                        <li data-ng-if="element.Visualization.LineEnd != null">Line End: {{ element.Visualization.LineEnd }}</li>
+                        <li data-ng-if="element.Visualization.lineType != null">Line Type: {{ element.Visualization.lineType }}</li>
+                        <li data-ng-if="element.Visualization.lineStyle != null">Line Style: {{ element.Visualization.lineStyle }}</li>
+                        <li data-ng-if="element.Visualization.lineWidth != null">Line Width: {{ element.Visualization.lineWidth }}</li>
+                        <li data-ng-if="element.Visualization.color != null">Color: {{ element.Visualization.color }}</li>
+                        <li data-ng-if="element.Visualization.lineStartArrow != null">Line Start: {{ element.Visualization.lineStartArrow }}</li>
+                        <li data-ng-if="element.Visualization.lineEndArrow != null">Line End: {{ element.Visualization.lineEndArrow }}</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-12 category attributes" data-ng-if="element.Attributes.length > 0">
+                    <h3 class="name">Attributes</h3>
+                    <ul>
+                        <li data-ng-repeat="attr in element.Attributes | orderBy: 'Name'">
+                            <span><strong>{{ attr.Name }}</strong> ({{ attr.Type }})
+                                <ul>
+                                    <li><i>Description</i>: <input type="text" size="{{ attr.Description.length }}" placeholder="{{ attr.Description }}" data-ng-model="attr.Description" data-ng-change="generateURL()"></li>
+                                    <li><i>Default Value</i>: <input type="text" size="{{ attr.DefaultValue.length }}" placeholder="{{ attr.DefaultValue }}" data-ng-model="attr.DefaultValue" data-ng-change="generateURL()"></li>
+                                    <li data-ng-if="attr.EnumOptions">
+                                        <i>Enum Options</i>:
+                                        <ul class="list-inline">
+                                            <li data-ng-repeat="op in attr.EnumOptions | orderBy: 'Name'">
+                                                '{{ op }}'
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-12 category base-classes" data-ng-if="element.BaseClasses.length > 0">
+                    <h3 class="name">Base Classes</h3>
+                    <ul class="list-inline">
+                        <li data-ng-repeat="bc in element.BaseClasses | orderBy: 'Name'">
+                            <a href="#" data-ng-click="selectElement(bc.Name)">{{ bc.Name }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-12 category derived-classes" data-ng-if="element.DerivedClasses.length > 0">
+                    <h3 class="name">Derived Classes</h3>
+                    <ul class="list-inline">
+                        <li data-ng-repeat="dc in element.DerivedClasses | orderBy: 'Name'">
+                            <a href="#" data-ng-click="selectElement(dc.Name)">{{ dc.Name }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-12 category parent-classes" data-ng-if="element.ParentContainerClasses.length > 0">
+                    <h3 class="name">Parent Container Classes</h3>
+                    <ul class="list-inline">
+                        <li data-ng-repeat="pc in element.ParentContainerClasses | orderBy: 'Name'">
+                            <a href="#" data-ng-click="selectElement(pc.Name)">{{ pc.Name }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-12 category child-classes" data-ng-if="element.ChildClasses.length > 0">
+                    <h3 class="name">Child Classes</h3>
+                    <ul class="list-inline">
+                        <li data-ng-repeat="cc in element.ChildClasses | orderBy: 'Name'">
+                            <a href="#" data-ng-click="selectElement(cc.Name)">{{ cc.Name }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-12 category referred-classes" data-ng-if="element.ReferredClasses.length > 0">
+                    <h3 class="name">Referred Classes</h3>
+                    <ul class="list-inline">
+                        <li data-ng-repeat="rdc in element.ReferredClasses | orderBy: 'Name'">
+                            <a href="#" data-ng-click="selectElement(rdc.Name)">{{ rdc.Name }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-12 category referring-classes" data-ng-if="element.ReferringClasses.length > 0">
+                    <h3 class="name">Referring Classes</h3>
+                    <ul class="list-inline">
+                        <li data-ng-repeat="rgc in element.ReferringClasses | orderBy: 'Name'">
+                            <a href="#" data-ng-click="selectElement(rgc.Name)">{{ rgc.Name }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-12 category incoming-connection-classes" data-ng-if="element.IncomingConnectionClasses.length > 0">
+                    <h3 class="name">Incoming Connection Classes</h3>
+                    <ul class="list-inline">
+                        <li data-ng-repeat="icc in element.IncomingConnectionClasses | orderBy: 'Name'">
+                            <a href="#" data-ng-click="selectElement(icc.Name)">{{ icc.Name }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-12 category outgoing-connection-classes" data-ng-if="element.OutgoingConnectionClasses.length > 0">
+                    <h3 class="name">Outgoing Connection Classes</h3>
+                    <ul class="list-inline">
+                        <li data-ng-repeat="occ in element.OutgoingConnectionClasses | orderBy: 'Name'">
+                            <a href="#" data-ng-click="selectElement(occ.Name)">{{ occ.Name }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-12 category source-classes" data-ng-if="element.SourceClasses.length > 0">
+                    <h3 class="name">Source Classes</h3>
+                    <ul class="list-inline">
+                        <li data-ng-repeat="src in element.SourceClasses | orderBy: 'Name'">
+                            <a href="#" data-ng-click="selectElement(src.Name)">{{ src.Name }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-12 category destination-classes" data-ng-if="element.DestinationClasses.length > 0">
+                    <h3 class="name">Destination Classes</h3>
+                    <ul class="list-inline">
+                        <li data-ng-repeat="dst in element.DestinationClasses | orderBy: 'Name'">
+                            <a href="#" data-ng-click="selectElement(dst.Name)">{{ dst.Name }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+</body>
+</html>

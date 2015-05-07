@@ -21,7 +21,7 @@
     Condition="'@(udm)' != ''"
     DependsOnTargets="$(udm_RuleDependsOn)"
     Outputs="%(udm.OutDir)\%(udm.MetaName).cpp"
-    Inputs="%(udm.Identity);%(udm.AdditionalDependencies);$(MSBuildThisFileDirectory)$(MSBuildThisFile)">
+    Inputs="%(udm.Identity);%(udm.AdditionalDependencies);$(MSBuildThisFileDirectory)$(MSBuildThisFile);$(UDM_PATH)\include\UdmBase.h">
     <ItemGroup
       Condition="'@(SelectedFiles)' != ''">
       <udm

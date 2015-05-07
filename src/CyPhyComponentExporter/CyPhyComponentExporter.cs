@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using avm;
 using DesignConsistencyChecker.DesignRule;
@@ -26,11 +27,8 @@ namespace CyPhyComponentExporter
     [ComVisible(true)]
     public class CyPhyComponentExporterInterpreter : IMgaComponentEx, IGMEVersionInfo
     {
+        protected static readonly Regex cadResourceRegex = new Regex("^(.*)(\\.prt|\\.asm)\\.([0-9]*)$", RegexOptions.IgnoreCase);
 
-        private static Type[] getAVMClasses() {
-            return System.Reflection.Assembly.Load("XSD2CSharp").GetTypes().Where(t => t.IsClass).Where(t => t.Namespace.StartsWith("avm") && t.FullName != "avm.simulink.Port").ToArray();
-        }
-        
         /// <summary>
         /// Contains information about the GUI event that initiated the invocation.
         /// </summary>
@@ -46,6 +44,8 @@ namespace CyPhyComponentExporter
             GME_SILENT_MODE = 128 		// Not used by GME, available to testers not using GME
         }
 
+        public static string previousExportPath = null; // MOT-387
+        
         /// <summary>
         /// This function is called for each interpreter invocation before Main.
         /// Don't perform MGA operations here unless you open a tansaction.
@@ -102,13 +102,11 @@ namespace CyPhyComponentExporter
         {
             avmComponent.SchemaVersion = "2.5";
 
-            StreamWriter streamWriter = new StreamWriter(s_outFilePath);
-            using (streamWriter)
+            FileStream stream = new FileStream(s_outFilePath, FileMode.Create);
+            using (stream)
             {
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(Component), getAVMClasses());
-
-                serializer.Serialize(streamWriter, avmComponent);
-                streamWriter.Close();
+                XSD2CSharp.AvmXmlSerializer.Serialize(avmComponent, stream);
+                stream.Close();
             }
         }
 
@@ -329,9 +327,10 @@ namespace CyPhyComponentExporter
 
             string startupPath;
 
-            if (cyPhyComponentSet.Count == 1)
+            if (false == String.IsNullOrWhiteSpace(previousExportPath)
+                 && Directory.Exists(previousExportPath))
             {
-                startupPath = META.ComponentLibraryManager.GetComponentFolderPath(cyPhyComponentSet.First(), META.ComponentLibraryManager.PathConvention.ABSOLUTE);
+                 startupPath = previousExportPath;
             }
             else
             {
@@ -353,6 +352,7 @@ namespace CyPhyComponentExporter
                     if (dr == DialogResult.OK)
                     {
                         OutputDir = fbd.SelectedPath;
+                        previousExportPath = OutputDir;
                     }
                     else
                     {
@@ -417,8 +417,16 @@ namespace CyPhyComponentExporter
                 Directory.CreateDirectory(outputFolder);
             }
 
-            // Generate an ACM file
-            String acmFilePath = ExportToFile(component, outputFolder);
+            String acmFilePath = String.Format("{0}\\{1}.component.acm", outputFolder, System.IO.Path.GetRandomFileName());
+            if (acmFilePath == null)
+            {
+                return null;
+            }
+
+            avm.Component avmComponent;
+
+            var componentBuilder = new CyPhyML2AVM.AVMComponentBuilder();
+            avmComponent = componentBuilder.CyPhyML2AVMNonStatic(component);
 
             // Create a ZIP filename
             String filename = String.Format("{0}.zip", component.Name);
@@ -436,28 +444,48 @@ namespace CyPhyComponentExporter
                 CompressionLevel = Ionic.Zlib.CompressionLevel.BestCompression
             })
             {
-                // Add the ACM file.
-                zip.AddFile(acmFilePath, "").FileName = String.Format("{0}.acm", component.Name);
-
                 String compDirAbsPath = component.GetDirectoryPath(META.ComponentLibraryManager.PathConvention.ABSOLUTE);
                 foreach (var filePath in Directory
                                     .EnumerateFiles(compDirAbsPath,"*.*",SearchOption.AllDirectories)
                                     .Where(f => Path.GetExtension(f).ToLower() != ".acm"
                                              && Path.GetFileName(f).ToLower() != "componentdata.xml"))
                 {
-                    String fileRelPath;
+                    String fileRelDir;
                     if (compDirAbsPath.EndsWith("/"))
                     {
-                        fileRelPath = Path.GetDirectoryName(
+                        fileRelDir = Path.GetDirectoryName(
                                                 ComponentLibraryManager.MakeRelativePath(compDirAbsPath, filePath));
                     }
                     else
                     {
-                        fileRelPath = Path.GetDirectoryName(
+                        fileRelDir = Path.GetDirectoryName(
                                                 ComponentLibraryManager.MakeRelativePath(compDirAbsPath + "/", filePath));
                     }
-                    zip.AddFile(filePath, fileRelPath);
+
+
+                    zip.AddFile(filePath, fileRelDir);
+                    Match match = cadResourceRegex.Match(Path.Combine(fileRelDir, Path.GetFileName(filePath)));
+                    if (match.Success)
+                    {
+                        Func<Resource, bool> sameFile = delegate (Resource x) {
+                            if (x.Path == match.Groups[1].Value + match.Groups[2].Value)
+                                return true;
+                            Match m = cadResourceRegex.Match(x.Path);
+                            return m.Success && m.Groups[1].Value == match.Groups[1].Value && m.Groups[2].Value == match.Groups[2].Value;
+                        };
+                        foreach (var resource in avmComponent.ResourceDependency.Where(sameFile))
+                        {
+                            Match currentMatch = cadResourceRegex.Match(resource.Path);
+                            if (currentMatch.Success == false || (Int32.Parse(match.Groups[3].Value) > Int32.Parse(currentMatch.Groups[3].Value)))
+                            {
+                                resource.Path = Path.Combine(fileRelDir, Path.GetFileName(filePath));
+                            }
+                        }
+                    }
                 }
+                // Add the ACM file.
+                SerializeAvmComponent(avmComponent, acmFilePath);
+                zip.AddFile(acmFilePath, "").FileName = String.Format("{0}.acm", component.Name);
 
                 zip.Save();
             }

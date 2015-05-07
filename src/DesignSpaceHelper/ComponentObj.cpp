@@ -344,6 +344,7 @@ END_DISPATCH_MAP()
 BEGIN_INTERFACE_MAP(CComponentObj, CCmdTarget)
 #ifndef IMPLEMENT_OLD_INTERFACE_ONLY
 	INTERFACE_PART(CComponentObj, IID_IMgaComponentEx, Component)
+	INTERFACE_PART(CComponentObj, IID_IDesignSpaceHelper, Component)
 #endif
 	INTERFACE_PART(CComponentObj, IID_IMgaComponent, Component)
 	INTERFACE_PART(CComponentObj, IID_IGMEVersionInfo, VersionInfo)
@@ -915,6 +916,16 @@ STDMETHODIMP COMCLASS::InvokeEx( IMgaProject *gme,  IMgaFCO *currentobj,  IMgaFC
 
 	COMTRY {
 		return pThis->rawcomp.InvokeEx(gme, currentobj, selectedobjs, param);
+	} COMCATCH(;);
+}
+
+STDMETHODIMP COMCLASS::ApplyConstraintsAndGenerateCWCs(IMgaProject *project, IMgaFCO *currentobj, VARIANT_BOOL applyConstraints) {
+	COMPROLOGUE;
+	CPushRoutingFrame temp(NULL);		// hack!!
+
+	COMTRY {
+		pThis->rawcomp.interactive = false;
+		return pThis->rawcomp.Main(project, currentobj, applyConstraints != VARIANT_FALSE);
 	} COMCATCH(;);
 }
 

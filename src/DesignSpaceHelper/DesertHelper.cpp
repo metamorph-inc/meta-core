@@ -1471,13 +1471,16 @@ void DesertHelper::updateNumAssociatedConfigs(CyPhyML::DesignContainer &containe
 		cfgSizeInfoMap[ref.ID()] = size_str;
 	}
 }
-void DesertHelper::executeAll()
+void DesertHelper::executeAll(bool applyConstraints)
 {
 	int cfgs = 0;
 	if(allRootDCs.empty())
 	{
 		runCyPhy2Desert();
-		applyAllConstraints(true);
+		if (applyConstraints)
+			applyAllConstraints(true);
+		else
+			this->applyConstraints(std::set<int>(), true);
 		cfgs = runDesertFinit_2();
 		if (cfgs)
 		{
@@ -1498,7 +1501,8 @@ void DesertHelper::executeAll()
 		{
 			rootDC = *it;
 			runCyPhy2Desert();
-			applyAllConstraints(true);
+			if (applyConstraints)
+				applyAllConstraints(true);
 			cfgs = runDesertFinit_2();
 		}
 	}

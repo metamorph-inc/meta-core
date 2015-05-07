@@ -309,6 +309,7 @@ int main( int argc, char *argv[] )
 		{
 			if ( addLineFeed ) failedTxtFileStream << std::endl;
 			failedTxtFileStream <<  isis_CADCommon::GetDayMonthTimeYear() << ", CADCreoParametricCreateAssembly.exe error code: " << ExitCode << ". Error was: " << exceptionErrorStringStream.str();
+			failedTxtFileStream << std::endl;
 			failedTxtFileStream.close();
 		}
 

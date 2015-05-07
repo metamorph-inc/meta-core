@@ -71,9 +71,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\src\CyPhyMLCS\ISIS.GME.Common.dll</HintPath>
     </Reference>
-    <Reference Include="MgaMeta">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\GME\SDK\DotNet\CSharpDSMLGenerator\MgaMeta.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

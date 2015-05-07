@@ -42,7 +42,8 @@ public:
 	STDMETHODIMP ObjectEvent(IMgaObject * obj, unsigned long eventmask, VARIANT v);
 #endif
 private:
-	std::set<CString> fcoTypes;
+	std::set<_bstr_t> numericIdfcoKinds; ///< Kinds that we assign the int ID attribute
+	std::set<_bstr_t> guidIdfcoKinds; ///< Kinds that we assign the GUID ID attribute
 	std::set<int> ids;
 	std::vector<CComPtr<IMgaFCO>> fcolist;
 	int maxId;
@@ -51,7 +52,7 @@ private:
 	CString getFCOMetaName(IMgaFCO *fco);
 	CString getObjectMetaDisplayedName(IMgaObject *obj);
 	void traverseFolder(IMgaFolder *fdr);
-	void traverseFCO(IMgaFCO *fco, CString metaName);
+	void traverseFCO(IMgaFCO *fco, _bstr_t &metaName);
 	bool isDesignElement(IMgaFCO *fco);
 	void makeDirtyConfigurations_by_constraint(IMgaFCO *fco);
 	void makeDirtyConfigurations_by_component(IMgaFCO *fco);

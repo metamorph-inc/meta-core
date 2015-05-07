@@ -14,6 +14,9 @@
 #include "UdmGme.h"
 
 #include <sstream>
+#include <string.h>
+#include <iterator>
+#include <algorithm>
 
 using namespace CyPhyML;
 using namespace DesertIface;
@@ -203,7 +206,7 @@ void CyPhy2Desert::getConstraintMap(map<DesertIface::Constraint, CyPhyML::Constr
 _int64 string2int(const std::string &value)
 {
 	double num = atof(value.c_str());
-	return ceil(num);
+	return (_int64)ceil(num);
 }
 
 void CyPhy2Desert::init()
@@ -387,7 +390,7 @@ void CyPhy2Desert::initConnectorDefWildCardMap()
 	{
 		std::string si_wc = (*pos).first;
 		set<int> vals = (*pos).second;
-		int length = si_wc.size();
+		std::string::size_type length = si_wc.size();
 		for(auto pos1=connectorDefMap.begin(); pos1!=connectorDefMap.end(); ++pos1)
 		{
 			std::string this_si = (*pos1).first;
@@ -595,127 +598,60 @@ void CyPhy2Desert::processParameters(const set<CyPhyML::Parameter> &parameters, 
 
 std::string CyPhy2Desert::generateParameterConstraint(const CyPhyML::Parameter &parameter, const std::string &newParamName)
 {
-	std::string expr;
 	/*
-If integer range:
-1..5		means {1,2,3,4,5}
-0..INF		means {0,1,…,INF}
--INF..2		means {-INF,-INF+1,…,-1,0,1,2}
-
-If float range:
-[1.2,4.5)	means 1.2 – 4.5, 4.5 excluded, 1.2 included
-(-INF,0]	means -INF – 0, 0 included, -INF excluded
-
-If discrete numerical choices:
--3,1,2.5,5,6,7,20,45,90
--2.2,0,5.6,INF
+Syntax: 0..2
+or -inf..inf
+or -inf..2
+Ranges are inclusive
 */
 	std::string range = parameter.Range();
 	if(range.empty())
-		return expr;
+		return "";
 
 	size_t not_pos = range.find_first_not_of(" [(-0123456789infINF]).,");
 	if(not_pos!=std::string::npos)
 	{
 		invalidParameters.insert(parameter);
-		return expr;
+		return "";
 	}
-		
-	//if(range=="-inf..inf")
-	if(range.find("-inf..inf")!=std::string::npos)
-		return expr;
-
-	string s_tokens = "[(-0123456789iI";
-	string e_tokens = "])";
-
-	list< pair<string, string> > range_pairs;
-	pair<string, string> tmp_pair;
-	size_t s_pos = range.find_first_of(s_tokens);
-	size_t e_pos;
-	while (s_pos!=string::npos)
-	{
-		char token = range[s_pos];
-		std::string tmp_str;
-		if(token=='[' || token=='(')
-		{
-			e_pos = range.find_first_of(e_tokens);
-			if(e_pos!=std::string::npos)
-				tmp_str = range.substr(s_pos, e_pos-s_pos+1);
-			else
-				break;
-		}
-		else  //numbers;
-		{
-			range.erase(0, s_pos);
-			e_pos = range.find_first_of(',');
-			tmp_str = range;
-			if(e_pos!=std::string::npos)
-				tmp_str = range.substr(0, e_pos);
-			else
-				e_pos = range.length()-1;
-		}
-		tmp_pair.first = getFirstNumber(tmp_str);
-		tmp_pair.second = getFirstNumber(tmp_str);
-		range_pairs.push_back(tmp_pair);
-		range.erase(0, e_pos+1);
-		
-		s_pos = range.find_first_of(s_tokens);
-	}
-
-	list< pair<string, string> >::iterator it=range_pairs.begin();
-	while(it!=range_pairs.end())
-	{
-		string low = (*it).first;
-		string upper = (*it).second;
-
-		bool l_inf = (low.find("-i")!=std::string::npos || low.find("-I")!=std::string::npos);  //-inf, -INF
-		bool u_inf = (upper.find("i")!=std::string::npos || upper.find("I")!=std::string::npos); //inf, INF
-		
-		expr += "(";
-
-		string op = " >= ";
-		if(low[0]=='[')
-		{
-			low.erase(0,1);
-		}
-		else if(low[0]=='(')
-		{
-			op = " > ";
-			low.erase(0,1);
-		}
-		if(upper.empty())
-			op = "=";
-			
-		if(!l_inf)
-		{			
-			expr = expr + "(" + newParamName + "() "+op + low+")";
-			if(!upper.empty() && !u_inf)
-				expr += " and ";
-		}
-
-		if(!upper.empty() && !u_inf)
-		{
-			op = " <= ";
-			if(upper[upper.length()-1] == ']')
-				upper = upper.substr(0, upper.length()-1);
-			else if(upper[upper.length()-1] == ')')
-			{
-				op = " < ";
-				upper = upper.substr(0, upper.length()-1);
-			}
-			expr = expr + "(" + newParamName + "() "+ op + upper+")";
-		}
-
-		expr += ")";
 	
-		it++;
-		if(it!=range_pairs.end())
-		{
-			if(expr!="()")
-				expr = expr +"\nor\n";
-			else
-				expr.clear();
-		}
+	if(range.find("-inf..inf")!=std::string::npos)
+		return "";
+	if(range.find("-inf,inf")!=std::string::npos) // compatibility
+		return "";
+
+	std::string cleanRange;
+	std::copy_if(range.begin(), range.end(), std::back_inserter(cleanRange), [](std::string::value_type ch) { return strchr("[](),", ch) == NULL; }); // compatibility
+
+	size_t dots;
+	dots = cleanRange.find("..");
+	if (dots == std::string::npos)
+	{
+		invalidParameters.insert(parameter);
+		return "";
+	}
+	std::string lower;
+	if (dots > 0)
+		lower = cleanRange.substr(0, dots);
+	std::string upper;
+		upper = cleanRange.substr(dots + 2);
+
+	std::string expr;
+	expr = "(";
+	if (lower.empty() == false && lower != "-inf")
+	{			
+		expr = expr + "(" + newParamName + "() >= " + lower + ")";
+	}
+	if (upper.empty() == false && upper != "inf")
+	{
+		if (expr != "(")
+			expr += " and ";
+		expr = expr + "(" + newParamName + "() <= " + upper + ")";
+	}
+	expr += ")";
+	
+	if (expr == "()") {
+		expr.clear();
 	}
 
 	return expr;
@@ -868,9 +804,9 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 	com2elemMap[cyphy_elem] = element;
 	element.name() = cyphy_elem.name();
 	
-	originalIDs[cyphy_elem] = cyphy_elem.ID();  //reverse it back later
+	originalIDs[cyphy_elem] = (int)cyphy_elem.ID();  //reverse it back later
 	cyphy_elem.ID() = cyphy_elem.uniqueId();  //using uniqueID to avoid negative integer(maybe caused by overflow)
-	int elemID = cyphy_elem.ID(); 
+	int elemID = (int)cyphy_elem.ID(); 
 
 	element.id() = element.externalID() = elemID;
 	
@@ -1694,6 +1630,7 @@ std::string CyPhy2Desert::generateConstraint(const CyPhyML::ImpliesEnd &iend, co
 		return generateConstraint(CyPhyML::NullOptionRef::Cast(iend), container);
 	else if(Uml::IsDerivedFrom(iend.type(), CyPhyML::PropertyConstraintRef::meta))
 		return generateConstraint(CyPhyML::PropertyConstraintRef::Cast(iend), container);
+	return "";
 }
 
 std::string CyPhy2Desert::generateConstraint(const CyPhyML::And_Or &and_or, const Udm::Object &container)

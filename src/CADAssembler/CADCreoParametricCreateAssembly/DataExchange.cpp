@@ -542,7 +542,7 @@ void ExportDataExchangeFiles(
 	bool STEP_Files_Requested = false;
 	bool Stereolithography_Files_Requested = false;
 	bool Inventor_Files_Requested = false;
-	bool Parasolid_Files_Requested = true;
+	bool Parasolid_Files_Requested = false;
 
 	for each ( DataExchangeSpecification i in in_DataExchangeSpecifications )
 	{
@@ -662,7 +662,7 @@ void ExportDataExchangeFiles(
 	bool STEP_Files_Requested = false;
 	bool Stereolithography_Files_Requested = false;
 	bool Inventor_Files_Requested = false;
-	bool Parasolid_Files_Requested = true;
+	bool Parasolid_Files_Requested = false;
 
 	for each ( DataExchangeSpecification i in in_DataExchangeSpecifications )
 	{

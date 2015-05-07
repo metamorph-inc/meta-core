@@ -70,10 +70,10 @@
     <ClCompile Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CADAnalysisMetaData.cpp">
+    <ClCompile Include="StdAfx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp">
+    <ClCompile Include="..\..\..\generated\CAD\generated\CADAnalysisMetaData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -126,13 +126,13 @@
     <ClInclude Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters_xsd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CADAnalysisMetaData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CADAnalysisMetaData_xsd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADAnalysisMetaData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADAnalysisMetaData_xsd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

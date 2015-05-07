@@ -18,7 +18,7 @@ set CAS_AUG=%WORKING_DIR%CADAssembly_aug.xml
 
 set JAVA_PATH=%windir%\SysWOW64\java.exe
 if exist %JAVA_PATH% goto :JAVA_FOUND
-set JAVA_PATH=%windir%\System32\java.exe
+set JAVA_PATH=%windir\System32\java.exe
 if exist %JAVA_PATH% goto :JAVA_FOUND
 set JAVA_PATH=%windir%\Sysnative\java.exe
 if exist %JAVA_PATH% goto :JAVA_FOUND

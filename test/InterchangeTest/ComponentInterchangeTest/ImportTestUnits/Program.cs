@@ -128,13 +128,13 @@ namespace ComponentImporterUnitTests
 
             string p_InputModelXME = Path.Combine(p_TestFolder,"InputModel.xme");
             string p_InputModelMGA;
-            GME.MGA.MgaUtils.ImportXMEForTest(p_InputModelXME, out p_InputModelMGA);
+            GME.MGA.MgaUtils.ImportXMEForTest(p_InputModelXME, Path.GetFileNameWithoutExtension(p_InputModelXME) + "_importertest.mga", out p_InputModelMGA);
             p_InputModelMGA = p_InputModelMGA.Replace("MGA=", "");
             Assert.True(File.Exists(p_InputModelMGA), String.Format("{0} not found. Import may have failed.",Path.GetFileName(p_InputModelMGA)));
 
-            string p_DesiredResultXME = Path.Combine(p_TestFolder,"DesiredResult.xme");
+            string p_DesiredResultXME = Path.Combine(p_TestFolder, "DesiredResult.xme");
             string p_DesiredResultMGA;
-            GME.MGA.MgaUtils.ImportXMEForTest(p_DesiredResultXME, out p_DesiredResultMGA);
+            GME.MGA.MgaUtils.ImportXMEForTest(p_DesiredResultXME, Path.GetFileNameWithoutExtension(p_InputModelXME) + "_importertest.mga", out p_DesiredResultMGA);
             p_DesiredResultMGA = p_DesiredResultMGA.Replace("MGA=", "");
             Assert.True(File.Exists(p_DesiredResultMGA), "DesiredResult.mga not found. Import may have failed.");
 

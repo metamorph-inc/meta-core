@@ -296,7 +296,14 @@
                 string icon;
                 part.GetGmeAttrs(out icon, out x, out y);
 
-                copiedObj.Part[part.MetaAspect].SetGmeAttrs(icon, x, y);
+                try
+                {
+                    copiedObj.Part[part.MetaAspect].SetGmeAttrs(icon, x, y);
+                }
+                catch (System.Runtime.InteropServices.COMException)
+                {
+                    // It's okay. This means that Reference is visible in this aspect, but copiedObj isn't
+                }
             }
 
             // add / update to traceability

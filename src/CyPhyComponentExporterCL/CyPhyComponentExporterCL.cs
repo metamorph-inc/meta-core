@@ -22,10 +22,6 @@ namespace CyPhyComponentExporterCL {
 
     public class CyPhyComponentExporterCL {
 
-        private static Type[] getAVMClasses() {
-            return System.Reflection.Assembly.Load("XSD2CSharp").GetTypes().Where(t => t.IsClass).Where(t => t.Namespace.StartsWith("avm") && t.FullName != "avm.simulink.Port").ToArray();
-        }
-
         private static MgaProject GetProject( String filename ) {
             MgaProject result = null;
 
@@ -138,12 +134,11 @@ namespace CyPhyComponentExporterCL {
                                 }
 
                                 String s_outFilePath = String.Format("{0}/{1}.component.acm", componentPath, Safeify(cyPhyMLComponent.Name));
-                                StreamWriter streamWriter = new StreamWriter( s_outFilePath );
-
-                                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(Component), getAVMClasses());
-
-                                serializer.Serialize(streamWriter, avmComponent);
-                                streamWriter.Close();
+                                using (FileStream stream = new FileStream(s_outFilePath, FileMode.Create))
+                                {
+                                    XSD2CSharp.AvmXmlSerializer.Serialize(avmComponent, stream);
+                                    stream.Close();
+                                }
                                     
                                 Console.Out.WriteLine(string.Format("({0}/{1}) {2}", i_Counter++, cyPhyMLComponentSet.Count, Safeify(cyPhyMLComponent.Name)));
                                 //}

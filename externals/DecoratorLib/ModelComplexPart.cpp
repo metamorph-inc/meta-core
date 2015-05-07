@@ -1279,7 +1279,13 @@ struct PortLess
 {
 	bool operator()(PortPart* pPortA, PortPart* pPortB)
 	{
-		return pPortA->GetInnerPosition().y < pPortB->GetInnerPosition().y;
+		CPoint posA = pPortA->GetInnerPosition();
+		CPoint posB = pPortB->GetInnerPosition();
+
+		if (posA.y != posB.y)
+			return posA.y < posB.y;
+
+		return posA.x < posB.x;
 	}
 };
 

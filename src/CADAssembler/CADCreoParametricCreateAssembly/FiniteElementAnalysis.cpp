@@ -1437,13 +1437,13 @@ void Create_FEADecks_BatFiles(
 	std::string tempMeshFilePreFix = in_CADComponentData_map[in_TopLevelAssemblyData.assemblyComponentID].name;
 	if (tempMeshFilePreFix.size() > 23 ) tempMeshFilePreFix = tempMeshFilePreFix.substr(0, 23 );			
 
-	std::string originalMeshFileName = tempMeshFilePreFix + "_Nas_org.nas";	
-	std::string modifiedMeshFileName = tempMeshFilePreFix + "_Nas_mod.nas";	
-	std::string modifiedMeshFileNameWithoutSuffix = tempMeshFilePreFix + "_Nas_mod";	
+	std::string originalMeshFileName = "Nastran_orig.nas";	
+	std::string modifiedMeshFileNameWithoutSuffix = "Nastran_mod";	
+	std::string modifiedMeshFileName = modifiedMeshFileNameWithoutSuffix + ".nas";
 
 	// No length restriction on the length of the Calculix deck name
-	std::string meshFileName_Calculix = (const std::string&)in_CADComponentData_map[in_TopLevelAssemblyData.assemblyComponentID].name + "_CalculiX";	
-    std::string abaqusPostProcessingParametersXMLFileName = (const std::string&)in_CADComponentData_map[in_TopLevelAssemblyData.assemblyComponentID].name + "_Abaqus.xml";
+	std::string meshFileName_Calculix = "CalculiX";	
+    std::string abaqusPostProcessingParametersXMLFileName = "Abaqus.xml";
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// The ValidateFEAAnalysisInputs line will throw an execption if the input xml for the FEA analysis contains errors.
@@ -1464,7 +1464,7 @@ void Create_FEADecks_BatFiles(
 
 	abaqusAnalysisBatFile << "REM " + in_ProgramName_Version_TimeStamp << std::endl;
 	abaqusAnalysisBatFile << "REM The following system environment variable must be defined:" << std::endl;
-	abaqusAnalysisBatFile << "REM    PROE_ISIS_EXTENSIONS   // typically set to C:\\Program Files\\Proe ISIS Extensions" << std::endl;
+	abaqusAnalysisBatFile << "FOR /F \"skip=2 tokens=2,*\" %%A IN ('%SystemRoot%\\SysWoW64\\REG.exe query \"HKLM\\software\\META\" /v \"META_PATH\"') DO set MetaPath=%%B" << std::endl;
 	abaqusAnalysisBatFile	<< "echo off" << std::endl;
 	abaqusAnalysisBatFile << "REM Invoke Abaqus" << std::endl;
 	abaqusAnalysisBatFile	<< "echo." << std::endl;
@@ -1481,10 +1481,11 @@ void Create_FEADecks_BatFiles(
 	abaqusAnalysisBatFile << "REM Invoke Post Processing" << std::endl;
 	abaqusAnalysisBatFile	<< "echo Invoking Post Processing" << std::endl;
 	abaqusAnalysisBatFile	<< "REM The following line (set PYTHONPATH...) is needed so that other python scripts (e.g. ComputedMetricsSummary.py) can be located when invoking Abaqus post processing." << std::endl;
-	abaqusAnalysisBatFile	<< "set PYTHONPATH=%PROE_ISIS_EXTENSIONS%bin" << std::endl;
-	abaqusAnalysisBatFile	<< "call abaqus cae noGUI=\"%PROE_ISIS_EXTENSIONS%\"\\bin\\ABQ_CompletePostProcess.py";
+	abaqusAnalysisBatFile	<< "set PYTHONPATH=%MetaPath%\\bin\\CAD" << std::endl;
+	abaqusAnalysisBatFile	<< "call abaqus cae noGUI=\"%MetaPath%\"\\bin\\CAD\\ABQ_CompletePostProcess.py";
 	abaqusAnalysisBatFile	<< " -- -o " <<  in_CADComponentData_map[in_TopLevelAssemblyData.assemblyComponentID].name << ".odb" << 
-		  "  -p " <<  abaqusPostProcessingParametersXMLFileName << std::endl;	
+		  " -p " << "..\\AnalysisMetaData.xml" << " -m " << "..\\..\\RequestedMetrics.xml" << 
+		  " -j " << "..\\..\\testbench_manifest.json" << std::endl;	
 	abaqusAnalysisBatFile	<< std::endl;
 	abaqusAnalysisBatFile	<< "echo." << std::endl;
 	abaqusAnalysisBatFile	<< "echo Post processing completed" << std::endl;
@@ -1496,7 +1497,7 @@ void Create_FEADecks_BatFiles(
 	// Write "convert Nastran to CalculiX" bat file
 	////////////////////////////////////////////////////
 	std::ofstream  calculixBatFile_ConvertDeck; 
-	std::string calculixDeckBatFileName =  (const std::string&)in_CADComponentData_map[in_TopLevelAssemblyData.assemblyComponentID].name + "_CalculiX_Deck.bat" ;
+	std::string calculixDeckBatFileName =  "CalculiX_Deck.bat";
 	analysisDirectoryAndBatFileName = caculixWorkingDir + "\\" + calculixDeckBatFileName ;
 
 	calculixBatFile_ConvertDeck.open (analysisDirectoryAndBatFileName.c_str(),std::ios::out | std::ios::trunc  );
@@ -1521,7 +1522,7 @@ void Create_FEADecks_BatFiles(
 	// Write "invoke CalculiX" bat file
 	///////////////////////////////////////////////
 	std::ofstream  calculixBatFile_RunDeck; 
-	std::string calculixLinuxBatFileName =  (const std::string&)in_CADComponentData_map[in_TopLevelAssemblyData.assemblyComponentID].name + "_CalculiX_LinuxRun.bat" ;
+	std::string calculixLinuxBatFileName =  "CalculiX_LinuxRun.bat";
 	analysisDirectoryAndBatFileName = caculixWorkingDir + "\\" + calculixLinuxBatFileName ;
 				
 	calculixBatFile_RunDeck.open (analysisDirectoryAndBatFileName.c_str(),std::ios::out | std::ios::trunc  );
@@ -1544,33 +1545,34 @@ void Create_FEADecks_BatFiles(
 
 	nastranAnalysisBatFile << "REM Invoke Nastran Solver and Post Processing"  << std::endl;
 	nastranAnalysisBatFile <<  std::endl;
+	nastranAnalysisBatFile << "FOR /F \"skip=2 tokens=2,*\" %%A IN ('%SystemRoot%\\SysWoW64\\REG.exe query \"HKLM\\software\\META\" /v \"META_PATH\"') DO set MetaPath=%%B" << std::endl;
 	nastranAnalysisBatFile << "set DECK_NAME=" << modifiedMeshFileName << std::endl;
 	nastranAnalysisBatFile << "set MODEL_NAME=" << in_CADComponentData_map[in_TopLevelAssemblyData.assemblyComponentID].name << std::endl;
 	nastranAnalysisBatFile << "set RESULTS_DB_Name=" << modifiedMeshFileNameWithoutSuffix << ".xdb" << std::endl;
-	nastranAnalysisBatFile << "set NASTRAN_SOLVER_SCRIPT=\"%PROE_ISIS_EXTENSIONS%\\bin\\Nastran.py\"" << std::endl;
-	nastranAnalysisBatFile << "set NASTRAN_POST_PROCESSING_SCRIPT=\"%PROE_ISIS_EXTENSIONS%\\bin\\Patran_PP.py\"" << std::endl;
+	nastranAnalysisBatFile << "set NASTRAN_SOLVER_SCRIPT=\"%MetaPath%bin\\CAD\\Nastran.py\"" << std::endl;
+	nastranAnalysisBatFile << "set NASTRAN_POST_PROCESSING_SCRIPT=\"%MetaPath%bin\\CAD\\Patran_PP.py\"" << std::endl;
 	nastranAnalysisBatFile << "echo off" << std::endl;
 	nastranAnalysisBatFile << std::endl;
 	nastranAnalysisBatFile << "pushd %~dp0" << std::endl;
 	nastranAnalysisBatFile << std::endl;
 	nastranAnalysisBatFile << "REM Get location of META installed Python" << std::endl;
-	nastranAnalysisBatFile << "FOR /F \"skip=2 tokens=2,*\" %%A IN ('%SystemRoot%\\SysWoW64\\REG.exe query \"HKLM\\software\\META\" /v \"META_PATH\"') DO set PythonExe=%%B\\bin\\Python27\\Scripts\\Python.exe" << std::endl;
+	nastranAnalysisBatFile << "set PythonExe=%MetaPath%\\bin\\Python27\\Scripts\\Python.exe" << std::endl;
 	nastranAnalysisBatFile << std::endl;
 	nastranAnalysisBatFile << "\"%PythonExe%\"  %NASTRAN_SOLVER_SCRIPT%   ..\\%DECK_NAME%" << std::endl;
 	nastranAnalysisBatFile << std::endl;
 	nastranAnalysisBatFile << "set ERROR_CODE=%ERRORLEVEL%" << std::endl;
-	nastranAnalysisBatFile << "if %ERRORLEVEL% NEQ 0 (" << std::endl;
-	nastranAnalysisBatFile << "set ERROR_MSG=\"Encountered error during execution of %NASTRAN_SOLVER_SCRIPT%, error level is %ERROR_CODE%.\"" << std::endl;
-	nastranAnalysisBatFile << "goto :ERROR_SECTION" << std::endl;
-	nastranAnalysisBatFile << ")" << std::endl;
+	nastranAnalysisBatFile << "if %ERROR_CODE% EQU 0 GOTO CONTINUE_1" << std::endl;
+	nastranAnalysisBatFile << "   set ERROR_MSG=\"Encountered error during execution of %NASTRAN_SOLVER_SCRIPT%, error level is %ERROR_CODE%.\"" << std::endl;
+	nastranAnalysisBatFile << "   goto :ERROR_SECTION" << std::endl;
+	nastranAnalysisBatFile << ":CONTINUE_1" << std::endl;
 	nastranAnalysisBatFile << std::endl;
 	nastranAnalysisBatFile << "\"%PythonExe%\" %NASTRAN_POST_PROCESSING_SCRIPT% ..\\%DECK_NAME% %RESULTS_DB_Name% ..\\AnalysisMetaData.xml ..\\..\\RequestedMetrics.xml ..\\..\\testbench_manifest.json" << std::endl;
 	nastranAnalysisBatFile << std::endl;	
 	nastranAnalysisBatFile << "set ERROR_CODE=%ERRORLEVEL%" << std::endl;
-	nastranAnalysisBatFile << "if %ERRORLEVEL% NEQ 0 (" << std::endl;
-	nastranAnalysisBatFile << "set ERROR_MSG=\"Encountered error during execution of %NASTRAN_POST_PROCESSING_SCRIPT%, error level is %ERROR_CODE%.\"" << std::endl;
-	nastranAnalysisBatFile << "goto :ERROR_SECTION" << std::endl;
-	nastranAnalysisBatFile << ")" << std::endl;
+	nastranAnalysisBatFile << "if %ERROR_CODE% EQU 0  GOTO CONTINUE_2" << std::endl;
+	nastranAnalysisBatFile << "   set ERROR_MSG=\"Encountered error during execution of %NASTRAN_POST_PROCESSING_SCRIPT%, error level is %ERROR_CODE%.\"" << std::endl;
+	nastranAnalysisBatFile << "   goto :ERROR_SECTION" << std::endl;
+	nastranAnalysisBatFile << ":CONTINUE_2" << std::endl;
 	nastranAnalysisBatFile << std::endl;	
 	nastranAnalysisBatFile << "popd" << std::endl;
 	nastranAnalysisBatFile << "exit 0" << std::endl;
@@ -1606,6 +1608,7 @@ void Create_FEADecks_BatFiles(
 	///////////////////////////////////////////////////////////////////////////////////
 	// Create XML File containing Component IDs, Material Allowables, and Metric IDs
 	///////////////////////////////////////////////////////////////////////////////////
+	/* 9/18/2014 The post processing file was only used by deck-based Abaqus. Deck-based now uses AnalysisMetaData.xml.
 	std::string fEAPostProcessingParametersFile = abaqusWorkingDir + "\\" + abaqusPostProcessingParametersXMLFileName;
 	CreateXMLFile_FEAPostProcessingParameters(	fEAPostProcessingParametersFile,
 												in_TopLevelAssemblyData,
@@ -1613,6 +1616,7 @@ void Create_FEADecks_BatFiles(
 												NastranMaterialID_to_CompnentID_map,
 												in_CADComponentData_map );
 
+	*/
 	///////////////////////////////////////////////////////////
 	// AnalysisMetaData.xml
 	//////////////////////////////////////////////////////////
@@ -1637,16 +1641,18 @@ void Create_FEADecks_BatFiles(
 
 
 	// Modify fEAPostProcessingParametersFile to have Version and TimeStamp
+	/* 9/18/2014 The post processing file was only used by deck-based Abaqus. Deck-based now uses AnalysisMetaData.xml.
 	std::ofstream  postProcessingParametersFile; 
 	postProcessingParametersFile.open( fEAPostProcessingParametersFile, ios::app );
 	postProcessingParametersFile << std::endl;
 	postProcessingParametersFile << "<!--  " + in_ProgramName_Version_TimeStamp << " -->";
 	postProcessingParametersFile.close();
+	*/
 
 	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" << originalMeshFileName;
 	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" << modifiedMeshFileName ;
 	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + abaqusDirName + "\\" <<  abaqusAnalysisBatFileName ;
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + abaqusDirName + "\\" <<  abaqusPostProcessingParametersXMLFileName;
+	//logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + abaqusDirName + "\\" <<  abaqusPostProcessingParametersXMLFileName;
 	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + caculixDirName + "\\" <<  calculixDeckBatFileName;
 	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + caculixDirName + "\\" <<  calculixLinuxBatFileName;
 	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + nastranDirName + "\\" <<  nastranAnalysisBatFileName ;

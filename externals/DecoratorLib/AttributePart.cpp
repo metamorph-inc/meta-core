@@ -20,13 +20,6 @@ namespace DecoratorSDK {
 AttributePart::AttributePart(PartBase* pPart, CComPtr<IMgaCommonDecoratorEvents>& eventSink):
 	TextPart(pPart, eventSink)
 {
-	textStringVariableName		= "";	// disable
-	textFontVariableName		= PREF_LABELFONT;
-	textMaxLengthVariableName	= PREF_LABELLENGTH;
-	textColorVariableName		= PREF_LABELCOLOR;
-	textLocationVariableName	= PREF_LABELLOCATION;
-	textStatusVariableName		= PREF_LABELENABLED;
-	textWrapStatusVariableName	= PREF_LABELWRAP;
 }
 
 AttributePart::~AttributePart()

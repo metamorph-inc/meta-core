@@ -11,21 +11,11 @@ namespace GME.MGA
         {
             string mgaPath = Path.Combine(Path.GetDirectoryName(xmePath), Path.GetFileNameWithoutExtension(xmePath) + "_test.mga");
 
-            if (File.Exists(mgaPath))
-            {
-                // delete the file if exists.
-                // it could be a test to check if the importer has generated the mga file or not.
-                File.Delete(mgaPath);
-            }
-
-            connectionString = "MGA=" + mgaPath;
-            ImportXME(xmePath, mgaPath);
+            ImportXMEForTest(xmePath, mgaPath, out connectionString);
         }
 
-        public static void ImportXMEForTest(string xmePath, string mgapath, out string connectionString)
+        public static void ImportXMEForTest(string xmePath, string mgaPath, out string connectionString)
         {
-            string mgaPath = Path.Combine(mgapath, Path.GetFileNameWithoutExtension(xmePath) + "_test.mga");
-            
             if (File.Exists(mgaPath))
             {
                 // delete the file if exists.
@@ -37,7 +27,7 @@ namespace GME.MGA
             ImportXME(xmePath, mgaPath);
         }
 
-        public static void ImportXME(string xmePath, string mgaPath)
+        public static void ImportXME(string xmePath, string mgaPath, bool enableAutoAddons=false)
         {
             MgaParser parser = new MgaParser();
             string paradigm;
@@ -52,6 +42,10 @@ namespace GME.MGA
             dynamic dynParser = parser;
             dynParser.Resolver = resolver;
             project.Create("MGA=" + Path.GetFullPath(mgaPath), paradigm);
+            if (enableAutoAddons)
+            {
+                project.EnableAutoAddOns(true);
+            }
             try
             {
                 parser.ParseProject(project, xmePath);

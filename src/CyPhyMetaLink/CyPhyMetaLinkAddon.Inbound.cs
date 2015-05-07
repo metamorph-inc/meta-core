@@ -1106,6 +1106,9 @@ namespace CyPhyMetaLink
                 XmlNamespaceManager manager = new XmlNamespaceManager(doc.NameTable);
                 manager.AddNamespace("avm", "avm");
                 manager.AddNamespace("cad", "cad");
+                manager.AddNamespace("modelica", "modelica");
+                manager.AddNamespace("cyber", "cyber");
+                manager.AddNamespace("manufacturing", "manufacturing");
 
                 List<string> notcopied = new List<string>();
 
@@ -1120,6 +1123,7 @@ namespace CyPhyMetaLink
                 // find replace corresponding DomainModels in oldComponent, and find the corresponding CyPhy CADModels
                 Dictionary<avm.DomainModel, CyPhyML.CADModel> avmDomainModelToCyPhyCADModel = new Dictionary<avm.DomainModel, CyPhyML.CADModel>();
                 var cadmodel = cyPhyComponent.Children.CADModelCollection.Where(cadModel => cadModel.Attributes.FileFormat == CyPhyMLClasses.CADModel.AttributesClass.FileFormat_enum.Creo).First();
+                // FIXME possible out-of-bounds access
                 avmDomainModelToCyPhyCADModel.Add(component.DomainModel[0], cadmodel);
                 /*foreach (var cadModel in )
                 {

@@ -4,7 +4,7 @@
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp">
+    <ClCompile Include="ComponentDll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ComponentObj.cpp">
@@ -230,7 +230,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="$(GME_ROOT)\SDK\Bon\Common\ComponentLib.idl">
+    <Midl Include="ComponentLib.idl">
       <Filter>Source Files</Filter>
     </Midl>
   </ItemGroup>

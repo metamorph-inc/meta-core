@@ -1,6 +1,6 @@
 :: Calculate cost and lead time metrics using Python
 echo off
-cmd /c runCreateCADAssembly.bat
+cmd /c runCADJob.bat
 FOR /F "skip=2 tokens=2,*" %%A IN ('C:\Windows\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO set META_PATH=%%B
 set META_PYTHON_PATH="%META_PATH%\bin\Python27\Scripts\Python.exe"
 %META_PYTHON_PATH% scripts\StructuralCompleteness.py . || goto :ERROR_SECTION

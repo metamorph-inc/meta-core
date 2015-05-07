@@ -1,3 +1,4 @@
+// Compile 32bit to execute 32bit java.exe, 64bit for 64bit
 // cl exec_java_env.c
 // cl exec_java_env.c /link /out:exec_java_env_x64.exe
 // scp exec_java_env_x64.exe meta@metabuild4:
@@ -7,14 +8,53 @@
 #include <string.h>
 #include <stdio.h>
 #include <Userenv.h>
+#include <Lmcons.h>
 
 #pragma comment(lib, "Kernel32.lib")
 #pragma comment(lib, "Userenv.lib")
 #pragma comment(lib, "Advapi32.lib")
 
+/*
+import java.lang.System;
+import java.util.*;
+
+public class PrintEnv {
+    public static void main(String[] args) {
+        Map<String, String> env = System.getenv();
+        for (String envName : env.keySet()) {
+            System.out.format("%s=%s%n", envName, env.get(envName));
+        }
+    }
+}
+*/
+
+wchar_t* concat(wchar_t* szUsername, wchar_t* szzEnvBlock)
+{
+    wchar_t* ret;
+    wchar_t* envBlockEnd = szzEnvBlock;
+    wchar_t usernameEquals[] = L"USERNAME=";
+    while (wcslen(envBlockEnd))
+    {
+        envBlockEnd = envBlockEnd + wcslen(envBlockEnd) + 1;
+    }
+    envBlockEnd += 2;
+    ret = (wchar_t*)malloc(wcslen(usernameEquals) * sizeof(wchar_t)
+        + (wcslen(szUsername) + 1) * sizeof(wchar_t)
+        + (envBlockEnd - szzEnvBlock) * sizeof(wchar_t));
+    memcpy(ret, usernameEquals, wcslen(usernameEquals) * sizeof(wchar_t));
+    memcpy(ret + wcslen(usernameEquals), szUsername, (wcslen(szUsername) + 1) * sizeof(wchar_t));
+    memcpy(ret + wcslen(usernameEquals) + wcslen(szUsername) + 1, szzEnvBlock, (envBlockEnd - szzEnvBlock) * sizeof(wchar_t));
+    // printf("%S\n\n\n", ret);
+    // printf("%S\n\n\n", ret + wcslen(usernameEquals) + wcslen(szUsername) + 1);
+    return ret;
+}
+
 int main(int argc, char** argv) {
 	HANDLE hToken;
 	wchar_t *env;
+    wchar_t *env_with_username;
+    wchar_t username[UNLEN+1];
+    DWORD username_len = sizeof(username) / sizeof(username[0]);
 	wchar_t commandLine[1024*32], *cmd;
 	DWORD exitCode;
 	PROCESS_INFORMATION processInformation = {0};
@@ -25,6 +65,9 @@ int main(int argc, char** argv) {
 		return GetLastError();
 	if (CreateEnvironmentBlock((LPVOID*)&env, hToken, FALSE) == FALSE)
 		return GetLastError();
+    if (GetUserNameW(username, &username_len) == 0)
+        return GetLastError();
+    env_with_username = concat(username, env);
 	cmd = commandLine + 10;
 	wcscpy(cmd, GetCommandLineW());
 	if (*cmd != L'\"')
@@ -67,7 +110,7 @@ int main(int argc, char** argv) {
 		NULL, NULL,
 		TRUE,
 		CREATE_UNICODE_ENVIRONMENT,
-		env,
+		env_with_username,
 		NULL,
 		&startupInfo,
 		&processInformation) == 0)

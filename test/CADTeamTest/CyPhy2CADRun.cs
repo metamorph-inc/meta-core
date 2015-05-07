@@ -92,7 +92,7 @@ namespace CADTeamTest
             }
             Directory.CreateDirectory(outputdirname);
 
-            MgaUtils.ImportXMEForTest(xmePath, outputdirname, out ProjectConnStr);
+            MgaUtils.ImportXMEForTest(xmePath, Path.Combine(outputdirname, Path.GetFileNameWithoutExtension(xmePath) + "_CADtest.mga"), out ProjectConnStr);
 
             MgaProject project = new MgaProject();
             bool ro_mode;

@@ -54,7 +54,7 @@ namespace ComponentInterchangeTest
         {
             var exportedACMRoot = Path.Combine(testPath, "Imported_Components");
             var acmFiles = Directory.GetFiles(exportedACMRoot, "*.acm", SearchOption.AllDirectories);
-            Assert.Equal(4, acmFiles.Length);
+            Assert.Equal(5, acmFiles.Length);
         }
         
         [Fact]
@@ -68,7 +68,7 @@ namespace ComponentInterchangeTest
             int rtnCode = CommonFunctions.runCyPhyComponentImporterCLRecursively(importMgaPath, compFolderRoot);
             Assert.True(rtnCode == 0, String.Format("Importer failed on one or more components"));
 
-            Assert.True(0 == CommonFunctions.RunCyPhyMLComparator(mgaPath, importMgaPath), "Imported model doesn't match expected.");
+            Assert.True(0 == CommonFunctions.RunCyPhyMLComparator(mgaPath, importMgaPath), String.Format("Imported model {0} doesn't match expected {1}.", importMgaPath, mgaPath));
         }
     }
 }

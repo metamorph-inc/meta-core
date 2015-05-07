@@ -83,7 +83,7 @@
     <Reference Include="GME.MGA.Parser, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="GME.Util, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+    <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ISIS.GME.Common, Version=1.0.4.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
@@ -149,6 +149,7 @@
     <ProjectReference Include="..\..\src\JobManager\JobManagerLib\JobManagerLib.csproj">
       <Project>{8B9963D3-F23C-4923-84C9-CBD6872105A6}</Project>
       <Name>JobManagerLib</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\src\JobManager\JobManager\JobManager.csproj">
       <Project>{CBBCCF98-8B6D-412C-9EAA-E24EB2D78E58}</Project>

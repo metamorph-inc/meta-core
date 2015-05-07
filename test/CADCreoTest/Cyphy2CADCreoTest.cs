@@ -128,7 +128,7 @@ namespace CADCreoTest
             Assert.Equal(createAssembly.ExitCode, 0);
             Assert.True(VerifyCADAssemblerLog(Path.Combine(OutputDir, "log", "cad-assembler.log")));
             Assert.True(File.Exists(Path.Combine(OutputDir, "systemundertest_1.asm.2")));
-            Assert.True(File.Exists(Path.Combine(OutputDir, "PARASOLID","SystemUnderTest_1_asm.x_t")));
+            //Assert.True(File.Exists(Path.Combine(OutputDir, "PARASOLID","SystemUnderTest_1_asm.x_t")));
             Assert.True(File.Exists(Path.Combine(OutputDir, "ComputedValues.xml")));
             Assert.True(File.Exists(Path.Combine(OutputDir, "CADAssembly_metrics.xml")));
         }
@@ -175,7 +175,7 @@ namespace CADCreoTest
             Assert.Equal(createAssembly.ExitCode, 0);
             Assert.True(VerifyCADAssemblerLog(Path.Combine(OutputDir, "log", "cad-assembler.log")));
             Assert.True(File.Exists(Path.Combine(OutputDir, "systemundertest_1.asm.2")));
-            Assert.True(File.Exists(Path.Combine(OutputDir, "PARASOLID", "SystemUnderTest_1_asm.x_t")));
+            //Assert.True(File.Exists(Path.Combine(OutputDir, "PARASOLID", "SystemUnderTest_1_asm.x_t")));
             Assert.True(File.Exists(Path.Combine(OutputDir, "ComputedValues.xml")));
             Assert.True(File.Exists(Path.Combine(OutputDir, "CADAssembly_metrics.xml")));
         }

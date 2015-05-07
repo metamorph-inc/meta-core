@@ -30,6 +30,12 @@
 #include "RawComponent.h"
 #include <objbase.h>
 #include <climits>
+#include <algorithm>
+#include <iterator>
+
+#define UDM_DYNAMIC_LINKING
+#include "CyPhyML.h"
+#include "UmlExt.h"
 
 static void UpdateFCORegistry(IMgaFCO* fco, const wchar_t* path, const wchar_t* value)
 {
@@ -45,27 +51,37 @@ static void UpdateFCORegistry(IMgaFCO* fco, const wchar_t* path, const wchar_t* 
 
 void RawComponent::createStringSetForMeta_id()
 {
-	std::string types("DesignContainer;Component;ComponentAssembly;CyberComponent;VisualConstraint;Constraint;TestComponent;AlternativeRepresentationContainer;ComponentRef");
+	_bstr_t types[] = {
+		L"DesignContainer",
+		L"Component",
+		L"ComponentAssembly",
+		L"CyberComponent",
+		L"VisualConstraint",
+		L"Constraint",
+		L"TestComponent",
+		L"AlternativeRepresentationContainer",
+		L"ComponentRef" };
 
-	while(!types.empty())
-	{
-		size_t pos = types.find_first_of(";");
-		if(pos == std::string::npos)
-		{
-			fcoTypes.insert(types.c_str());
-			break;
-		}
-		std::string ctype = types.substr(0, pos);
-		fcoTypes.insert(ctype.c_str());
-		types = types.substr(pos+1, types.length()-1);
-	}
+	std::move(types, types + sizeof(types)/sizeof(types[0]), std::inserter(numericIdfcoKinds, numericIdfcoKinds.end()));
+
+	_bstr_t guidTypes[] = {
+		L"Resource",
+		L"Connector",
+	};
+	std::move(guidTypes, guidTypes + sizeof(guidTypes)/sizeof(guidTypes[0]), std::inserter(guidIdfcoKinds, guidIdfcoKinds.end()));
+	CyPhyML::Initialize(); // FIXME probably pretty inefficient
+	auto ports = Uml::DescendantClasses(CyPhyML::DomainModelPort::meta);
+	auto& guidIdfcoKinds = this->guidIdfcoKinds;
+	// n.b. this is wrong if there are namespaces
+	std::for_each(ports.begin(), ports.end(), [&guidIdfcoKinds](const Uml::Class& class_) { guidIdfcoKinds.insert(_bstr_t((static_cast<std::string>(class_.name())).c_str())); });
+	// std::for_each(guidIdfcoKinds.begin(), guidIdfcoKinds.end(), [](const _bstr_t& str) { OutputDebugStringW(str); OutputDebugStringW(L"\n"); });
 }
 
 CString RawComponent::generateDCEUUID()
 {
 	GUID guid;
 	CoCreateGuid(&guid); 
-	LPOLESTR szGUID = new WCHAR [39];
+	OLECHAR szGUID[39];
 	StringFromGUID2(guid, szGUID, 39);
 
 	std::string uid("");
@@ -135,15 +151,15 @@ void RawComponent::traverseFolder(IMgaFolder *fdr)
 	COMTHROW(fdr->get_ChildFCOs(&fcos));
 	MGACOLL_ITERATE(IMgaFCO,fcos) 
 	{	
-		CString metaName = getFCOMetaName(MGACOLL_ITER);
+		_bstr_t metaName = MGACOLL_ITER->Meta->Name;
 		traverseFCO(MGACOLL_ITER, metaName);
 	}
 	MGACOLL_ITERATE_END;
 }
 
-void RawComponent::traverseFCO(IMgaFCO *fco, CString metaName)
+void RawComponent::traverseFCO(IMgaFCO *fco, _bstr_t &metaName)
 {
-	if(fcoTypes.find(metaName)==fcoTypes.end()) return;
+	if(numericIdfcoKinds.find(metaName)==numericIdfcoKinds.end()) return;
 
 	long currid = 0;
 	COMTHROW(fco->get_IntAttrByName(CBstrIn("ID"), &currid));
@@ -157,18 +173,16 @@ void RawComponent::traverseFCO(IMgaFCO *fco, CString metaName)
 		fcolist.push_back(fco);
 	}
 
-	CBstr bstr;
-	fco->get_Name(bstr);
-	CComPtr<IMgaObjects> objs;
-	objtype_enum type;
-	COMTHROW(fco->get_ObjType(&type));
+	_bstr_t name = fco->Name;
+	objtype_enum type = fco->ObjType;
 	if(type != OBJTYPE_MODEL)
 		return;
+	CComPtr<IMgaObjects> objs;
 	COMTHROW(fco->get_ChildObjects(&objs));
 	MGACOLL_ITERATE(IMgaObject, objs)
 	{
 		CComQIPtr<IMgaFCO> child_fco(MGACOLL_ITER);
-		CString child_metaName = getFCOMetaName(child_fco);
+		_bstr_t child_metaName = child_fco->Meta->Name;
 		traverseFCO(child_fco, child_metaName);
 	}
 	MGACOLL_ITERATE_END;
@@ -322,7 +336,7 @@ STDMETHODIMP RawComponent::ObjectEvent(IMgaObject * obj, unsigned long eventmask
 	VARIANT_BOOL isLibObject;
 	COMTHROW(obj->get_IsLibObject(&isLibObject));
 	COMTRY {
-		if(eventmask & OBJEVENT_CREATED && isLibObject == VARIANT_FALSE)
+		if(eventmask & OBJEVENT_CREATED && !(eventmask & OBJEVENT_DESTROYED) && isLibObject == VARIANT_FALSE)
 		{
 			objtype_enum type;
 			COMTHROW(obj->get_ObjType(&type));
@@ -342,16 +356,16 @@ STDMETHODIMP RawComponent::ObjectEvent(IMgaObject * obj, unsigned long eventmask
 			if(type != OBJTYPE_FOLDER)	
 			{
 				CComQIPtr<IMgaFCO> fco(obj);
-				CString fcoType = getFCOMetaName(fco);
+				_bstr_t fcoKind = fco->Meta->Name;
 
-				if(fcoTypes.find(fcoType)!=fcoTypes.end())// && isDesignElement(fco)) || fcoType == "ComponentAssembly")
+				if(numericIdfcoKinds.find(fcoKind) != numericIdfcoKinds.end())// && isDesignElement(fco)) || fcoType == "ComponentAssembly")
 				{	
 					if(turnedon)
 					{
 						COMTHROW(fco->put_IntAttrByName(CBstrIn("ID"), ++maxId));
 
 						if ( dontAssignGUIDsOnNextTransaction == false &&
-							 ( fcoType == "Component" || fcoType == "ComponentRef" ) )
+							 (wcscmp(fcoKind, L"Component") == 0 || wcscmp(fcoKind, L"ComponentRef") == 0 ) )
 						{
 							// Populate InstanceGUID field with the object's GUID
 							BSTR newGUID;
@@ -360,7 +374,19 @@ STDMETHODIMP RawComponent::ObjectEvent(IMgaObject * obj, unsigned long eventmask
 						}
 					}
 				}
-				else if(fcoType == "And_operator" || fcoType == "Or_operator" || fcoType == "DesignEntityRef")
+				else if(guidIdfcoKinds.find(fcoKind) != guidIdfcoKinds.end())
+				{	
+					if(turnedon && dontAssignGUIDsOnNextTransaction == false)
+					{
+						_bstr_t fcoGuid;
+						COMTHROW(fco->GetGuidDisp(fcoGuid.GetAddress()));
+						std::wstring guidIdBraces = std::wstring(L"id-") + static_cast<const wchar_t*>(fcoGuid);
+						std::wstring guidId;
+						std::copy_if(guidIdBraces.begin(), guidIdBraces.end(), std::back_inserter(guidId), [](const std::wstring::value_type c) { return c != L'{' && c != L'}'; });
+						fco->StrAttrByName[_bstr_t(L"ID")] = guidId.c_str();
+					}
+				}
+				else if(wcscmp(fcoKind, L"And_operator") == 0 || wcscmp(fcoKind, L"Or_operator") == 0 || wcscmp(fcoKind, L"DesignEntityRef") == 0)
 				{
 					CComQIPtr<IMgaModel> vcon;
 					fco->get_ParentModel(&vcon);
@@ -441,16 +467,6 @@ STDMETHODIMP RawComponent::ObjectEvent(IMgaObject * obj, unsigned long eventmask
 							if(isDesignElement(parent))
 								makeDirtyConfigurations_by_component(parent);
 					}
-				}
-				else if(metaName == "StructuralInterface")
-				{
-					VARIANT_BOOL isIgnored;
-					if ( ! SUCCEEDED( fco->get_BoolAttrByName((CBstrIn)"IgnoreInterface", &isIgnored) ) ) // FIXME: this attribute doesn't exist in the meta anymore
-						return S_OK;
-					if(isIgnored)
-						fco->put_RegistryValue((CBstrIn)"icon", (CBstrIn)"struct_intf_role_ignored.png");
-					else
-						fco->put_RegistryValue((CBstrIn)"icon", (CBstrIn)"struct_intf_role.png");
 				}
 			}
 		}

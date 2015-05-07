@@ -88,7 +88,7 @@ namespace SubTreeMerge
                     SubTreeMerge subTreeMerge = new SubTreeMerge();
                     subTreeMerge.gmeConsole = gmeConsole;
                     subTreeMerge.merge(currentobj, FileNames[0]);
-                });
+                }, transactiontype_enum.TRANSACTION_NON_NESTED);
                 return;
             } else {
                 gmeConsole.Warning.WriteLine("Subtree Merge Utility cancelled");
@@ -356,7 +356,7 @@ namespace SubTreeMerge
 
         FlexConsole _gmeConsole = new FlexConsole(FlexConsole.ConsoleType.NONE);
 
-        public enum Errors { FileError = 0x02, PathError = 0x04, GMEError = 0x08, DuplicateChildNameError = 0x10, MissingChildError = 0x20 }
+        public enum Errors { NoError = 0, FileError = 0x02, PathError = 0x04, GMEError = 0x08, DuplicateChildNameError = 0x10, MissingChildError = 0x20 }
         private Errors _exitStatus = 0;
         public Errors exitStatus { get { return _exitStatus; } } 
 
@@ -365,7 +365,7 @@ namespace SubTreeMerge
             set { _gmeConsole = value; }
         }
 
-        private MgaProject GetProject(String filename) {
+        private MgaProject GetProject(String filename, String metaName) {
             MgaProject result = null;
 
             if (filename != null && filename != "") {
@@ -373,11 +373,10 @@ namespace SubTreeMerge
                     result = new MgaProject();
                     if (System.IO.File.Exists(filename)) {
                         gmeConsole.Out.Write("Opening {0} ... ", filename);
-                        bool ro_mode;
-                        result.Open("MGA=" + filename, out ro_mode);
+                        result.OpenEx("MGA=" + filename, metaName, null);
                     } else {
                         gmeConsole.Out.Write("Creating {0} ... ", filename);
-                        result.Create("MGA=" + filename, "CyPhyML");
+                        result.Create("MGA=" + filename, metaName);
                     }
                     gmeConsole.Out.WriteLine("Done.");
                 } else {
@@ -416,100 +415,129 @@ namespace SubTreeMerge
 
             _currentMgaProject = currentObject.Project;
 
-            MgaProject mgaProject = GetProject( filename );
+            MgaProject mgaProject = GetProject(filename, currentObject.Project.MetaName);
 
-            if ( mgaProject == null ) return;
+            if (mgaProject == null)
+                return;
+            try
+            {
 
-            _projectFilename = filename;
+                _projectFilename = filename;
 
-            MgaGateway mgaGateway = new MgaGateway(mgaProject);
+                MgaGateway mgaGateway = new MgaGateway(mgaProject);
 
-            mgaProject.CreateTerritoryWithoutSink(out mgaGateway.territory);
-            mgaGateway.PerformInTransaction(delegate {
+                mgaProject.CreateTerritoryWithoutSink(out mgaGateway.territory);
+                mgaGateway.PerformInTransaction(delegate
+                {
 
-                // "DO" LOOP IS ONLY TO ALLOW "break" TO TERMINATE THIS INTERPRETER
-                do {
+                    // "DO" LOOP IS ONLY TO ALLOW "break" TO TERMINATE THIS INTERPRETER
+                    do
+                    {
 
-                    int origPrefs = _currentMgaProject.Preferences;
-                    // Magic word allows us to remove ConnPoints
-                    _currentMgaProject.Preferences = origPrefs | (int)GME.MGA.preference_flags.MGAPREF_IGNORECONNCHECKS | (int)GME.MGA.preference_flags.MGAPREF_FREEINSTANCEREFS;
+                        int origPrefs = _currentMgaProject.Preferences;
+                        // Magic word allows us to remove ConnPoints
+                        _currentMgaProject.Preferences = origPrefs | (int)GME.MGA.preference_flags.MGAPREF_IGNORECONNCHECKS | (int)GME.MGA.preference_flags.MGAPREF_FREEINSTANCEREFS;
 
-                    try {
-                        // GET FCO TO BE MERGED FROM OTHER MGA FILE
-                        IMgaFCO otherCurrentObject = mgaProject.get_ObjectByPath(currentObject.AbsPath) as IMgaFCO;
-                        if (otherCurrentObject == null) {
-                            gmeConsole.Error.WriteLine("Could not perform merge:  could not find object of path \"" + currentObject.AbsPath + "\" in file \"" + filename + "\"");
-                            _exitStatus |= Errors.PathError;
-                            break;
-                        }
-
-                        recordConnections(otherCurrentObject);
-
-                        // GET PARENT (IN CURRENT MODEL) OF THE FCO TO BE MERGED INTO THE CURRENT MODEL
-                        MgaObject currentParentMGAObject = null;
-                        GME.MGA.Meta.objtype_enum currentParentObjTypeEnum;
-                        currentObject.GetParent(out currentParentMGAObject, out currentParentObjTypeEnum);
-
-
-                        // THE ROOT OF THE MERGED FCO
-                        IMgaFCO newCurrentObject = null;
-
-                        IMgaFCO otherArchetype = otherCurrentObject.ArcheType;
-                        if (otherArchetype != null) {
-
-                            MgaFCO newArchetype = mgaProject.get_ObjectByPath(otherArchetype.AbsPath) as MgaFCO;
-                            if (newArchetype == null) {
-                                gmeConsole.Error.WriteLine("Could not find object of path \"" + otherArchetype.AbsPath + "\" (archetype of \"" + otherCurrentObject.AbsPath + "\" in file \"" + filename + "\") in current model.");
+                        try
+                        {
+                            // GET FCO TO BE MERGED FROM OTHER MGA FILE
+                            IMgaFCO otherCurrentObject = mgaProject.get_ObjectByPath(currentObject.AbsPath) as IMgaFCO;
+                            if (otherCurrentObject == null)
+                            {
+                                gmeConsole.Error.WriteLine("Could not perform merge:  could not find object of path \"" + currentObject.AbsPath + "\" in file \"" + filename + "\"");
                                 _exitStatus |= Errors.PathError;
                                 break;
                             }
 
-                            if (currentParentObjTypeEnum == GME.MGA.Meta.objtype_enum.OBJTYPE_FOLDER) {
-                                newCurrentObject = (currentParentMGAObject as MgaFolder).DeriveRootObject(newArchetype, otherCurrentObject.IsInstance);
-                            } else if (currentParentObjTypeEnum == GME.MGA.Meta.objtype_enum.OBJTYPE_MODEL) {
-                                newCurrentObject = (currentParentMGAObject as MgaModel).DeriveChildObject(newArchetype, otherCurrentObject.MetaRole, otherCurrentObject.IsInstance);
-                            } else {
-                                gmeConsole.Error.WriteLine("Unable to merge \"" + otherCurrentObject.AbsPath + "\" of file \"" + filename + "\":  prospective parent neither a folder nor a model.");
-                                _exitStatus |= Errors.GMEError;
-                                break;
+                            recordConnections(otherCurrentObject);
+
+                            // GET PARENT (IN CURRENT MODEL) OF THE FCO TO BE MERGED INTO THE CURRENT MODEL
+                            MgaObject currentParentMGAObject = null;
+                            GME.MGA.Meta.objtype_enum currentParentObjTypeEnum;
+                            currentObject.GetParent(out currentParentMGAObject, out currentParentObjTypeEnum);
+
+
+                            // THE ROOT OF THE MERGED FCO
+                            IMgaFCO newCurrentObject = null;
+
+                            IMgaFCO otherArchetype = otherCurrentObject.ArcheType;
+                            if (otherArchetype != null)
+                            {
+
+                                MgaFCO newArchetype = mgaProject.get_ObjectByPath(otherArchetype.AbsPath) as MgaFCO;
+                                if (newArchetype == null)
+                                {
+                                    gmeConsole.Error.WriteLine("Could not find object of path \"" + otherArchetype.AbsPath + "\" (archetype of \"" + otherCurrentObject.AbsPath + "\" in file \"" + filename + "\") in current model.");
+                                    _exitStatus |= Errors.PathError;
+                                    break;
+                                }
+
+                                if (currentParentObjTypeEnum == GME.MGA.Meta.objtype_enum.OBJTYPE_FOLDER)
+                                {
+                                    newCurrentObject = (currentParentMGAObject as MgaFolder).DeriveRootObject(newArchetype, otherCurrentObject.IsInstance);
+                                }
+                                else if (currentParentObjTypeEnum == GME.MGA.Meta.objtype_enum.OBJTYPE_MODEL)
+                                {
+                                    newCurrentObject = (currentParentMGAObject as MgaModel).DeriveChildObject(newArchetype, otherCurrentObject.MetaRole, otherCurrentObject.IsInstance);
+                                }
+                                else
+                                {
+                                    gmeConsole.Error.WriteLine("Unable to merge \"" + otherCurrentObject.AbsPath + "\" of file \"" + filename + "\":  prospective parent neither a folder nor a model.");
+                                    _exitStatus |= Errors.GMEError;
+                                    break;
+                                }
+
+                                attributesAndRegistryCopy(newCurrentObject, otherCurrentObject);
+                                connectionCopy();
+
                             }
+                            else
+                            {
 
-                            attributesAndRegistryCopy(newCurrentObject, otherCurrentObject);
-                            connectionCopy();
+                                if (currentParentObjTypeEnum == GME.MGA.Meta.objtype_enum.OBJTYPE_FOLDER)
+                                {
+                                    newCurrentObject = (currentParentMGAObject as MgaFolder).CreateRootObject(currentObject.Meta);
+                                }
+                                else if (currentParentObjTypeEnum == GME.MGA.Meta.objtype_enum.OBJTYPE_MODEL)
+                                {
+                                    newCurrentObject = (currentParentMGAObject as MgaModel).CreateChildObject(currentObject.MetaRole);
+                                }
+                                else
+                                {
+                                    gmeConsole.Error.WriteLine("Unable to merge \"" + otherCurrentObject.AbsPath + "\" of file \"" + filename + "\":  prospective parent neither a folder nor a model.");
+                                    _exitStatus |= Errors.GMEError;
+                                    break;
+                                }
 
-                        } else {
-
-                            if (currentParentObjTypeEnum == GME.MGA.Meta.objtype_enum.OBJTYPE_FOLDER) {
-                                newCurrentObject = (currentParentMGAObject as MgaFolder).CreateRootObject(currentObject.Meta);
-                            } else if (currentParentObjTypeEnum == GME.MGA.Meta.objtype_enum.OBJTYPE_MODEL) {
-                                newCurrentObject = (currentParentMGAObject as MgaModel).CreateChildObject(currentObject.MetaRole);
-                            } else {
-                                gmeConsole.Error.WriteLine("Unable to merge \"" + otherCurrentObject.AbsPath + "\" of file \"" + filename + "\":  prospective parent neither a folder nor a model.");
-                                _exitStatus |= Errors.GMEError;
-                                break;
+                                subTreeCopy(newCurrentObject, otherCurrentObject);
+                                instanceCopy();
+                                attributesAndRegistryCopy(newCurrentObject, otherCurrentObject);
+                                referenceCopy();
+                                connectionCopy();
+                                //referenceConnectionCopy();
                             }
-
-                            subTreeCopy(newCurrentObject, otherCurrentObject);
-                            instanceCopy();
-                            attributesAndRegistryCopy(newCurrentObject, otherCurrentObject);
-                            referenceCopy();
-                            connectionCopy();
-                            referenceConnectionCopy();
                         }
-                    } finally {
-                        _currentMgaProject.Preferences = origPrefs;
-                    }
+                        finally
+                        {
+                            _currentMgaProject.Preferences = origPrefs;
+                        }
 
 
-                } while (false);
+                    } while (false);
 
-            });
+                }, transactiontype_enum.TRANSACTION_NON_NESTED);
 
-            if (mgaGateway.territory != null) {
-                mgaGateway.territory.Destroy();
+                if (mgaGateway.territory != null)
+                {
+                    mgaGateway.territory.Destroy();
+                }
+
+                currentObject.DestroyObject();
             }
-
-            currentObject.DestroyObject();
+            finally
+            {
+                mgaProject.Close(true);
+            }
         }
 
 
@@ -552,6 +580,14 @@ namespace SubTreeMerge
 
             if (otherCurrentObject.PartOfConns.Count != 0) {
                 _hasConnectionList.Add(otherCurrentObject);
+            }
+            if (otherCurrentObject is IMgaReference)
+            {
+                IMgaReference otherReference = (IMgaReference)otherCurrentObject;
+                if (otherReference.UsedByConns.Count > 0)
+                {
+                    _hasConnectionList.Add(otherReference);
+                }
             }
 
             if (otherCurrentObject.ObjType != GME.MGA.Meta.objtype_enum.OBJTYPE_MODEL) {
@@ -669,8 +705,16 @@ namespace SubTreeMerge
                         _exitStatus |= Errors.PathError;
                         continue;
                     }
+                    MgaObject newReferencedBy = newCurrentObject.Project.get_ObjectByPath(otherReferencedBy.AbsPath);
+                    if (newReferencedByParent == null)
+                    {
+                        gmeConsole.Error.WriteLine("Unable to redirect reference in \"" + otherReferencedByParent.AbsPath + "\" to \"" + otherCurrentObject.AbsPath + "\": reference not found");
+                        _exitStatus |= Errors.PathError;
+                        continue;
+                    }
                     GME.MGA.Meta.objtype_enum newReferencedByParentObjTypeEnum = newReferencedByParent.ObjType;
 
+                    /*
                     IMgaReference newReferencedBy = null;
                     if (newReferencedByParentObjTypeEnum == GME.MGA.Meta.objtype_enum.OBJTYPE_FOLDER) {
                         newReferencedBy = (newReferencedByParent as MgaFolder).CreateRootObject(otherReferencedBy.Meta) as IMgaReference;
@@ -683,9 +727,16 @@ namespace SubTreeMerge
                     }
 
                     newReferencedBy.Referred = newCurrentObject as MgaFCO;
+                    // KMS this will be destroyed at the end
                     otherReferencedBy.DestroyObject();
+                    */
 
-                    _fcoMap[otherReferencedBy] = newReferencedBy;
+
+                    ReferenceSwitcher.Switcher.MoveReferenceWithRefportConnections(newCurrentObject as MgaFCO, (MgaReference)newReferencedBy, (x, y, z) => {
+                        Console.WriteLine(x + " ; " + y + " ; " + z);
+                    });
+
+                    //_fcoMap[otherReferencedBy] = newReferencedBy;
                 }
             }
 
@@ -760,7 +811,12 @@ namespace SubTreeMerge
 
             foreach (IMgaFCO otherIMgaFCO in _hasConnectionList) {
 
-                IMgaConnPoints otherIMgaConnPoints = otherIMgaFCO.PartOfConns;
+                IEnumerable<IMgaConnPoint> otherIMgaConnPoints = otherIMgaFCO.PartOfConns.Cast<IMgaConnPoint>();
+                if (otherIMgaFCO is IMgaReference)
+                {
+                    otherIMgaConnPoints = otherIMgaConnPoints.Concat(((IMgaReference)otherIMgaFCO).UsedByConns
+                        .Cast<IMgaConnPoint>().Where(cp => cp.References[1] == otherIMgaFCO));
+                }
 
                 IMgaFCO newIMgaFCO = getCorrespondingIMgaFCO(otherIMgaFCO);
                 if (newIMgaFCO == null) {
@@ -772,6 +828,13 @@ namespace SubTreeMerge
                 // AT THIS POINT, NO CONNECTIONS SHOULD EXIST EXCEPT FOR CONNECTIONS THAT ARE INSTANCE/SUBTYPES
                 foreach (IMgaConnPoint otherIMgaConnPoint in otherIMgaConnPoints) {
 
+                    if (otherIMgaConnPoint.References.Count > 0)
+                    {
+                        if (!_fcoMap.ContainsKey(otherIMgaConnPoint.References[1]))
+                        {
+                            continue;
+                        }
+                    }
                     // GET ACTUAL CONNECTION
                     IMgaConnection otherIMgaConnection = otherIMgaConnPoint.Owner;
 

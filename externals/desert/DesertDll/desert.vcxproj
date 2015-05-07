@@ -117,7 +117,7 @@
     </Link>
     <PostBuildEvent>
       <Message>copying         Debug\desertD.lib         to         ..\lib</Message>
-      <Command>copy /Y Debug\\desertD.lib ..\lib\desertD.lib</Command>
+      <Command>xcopy /Y/D/F Debug\\desertD.lib ..\lib\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -199,7 +199,7 @@
     </Link>
     <PostBuildEvent>
       <Message>copying         Release\desert.lib         to         ..\lib</Message>
-      <Command>copy /Y Release\\desert.lib ..\lib\desert.lib</Command>
+      <Command>xcopy /Y/D/F Release\\desert.lib ..\lib\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

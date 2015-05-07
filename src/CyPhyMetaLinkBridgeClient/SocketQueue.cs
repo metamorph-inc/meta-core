@@ -15,6 +15,7 @@ namespace CyPhyMetaLinkBridgeClient
 {
     public class SocketQueue
     {
+        public static int port = 15150;
         private BlockingCollection<MetaLinkProtobuf.Edit> _messageQueue = new BlockingCollection<MetaLinkProtobuf.Edit>();
 
         private Socket _socket = null;
@@ -37,7 +38,7 @@ namespace CyPhyMetaLinkBridgeClient
             IPAddress ipAddress = new IPAddress(byteAddress);
             try
             {
-                socket.Connect(ipAddress, 15150);
+                socket.Connect(ipAddress, port);
             }
             catch (SocketException socketException)
             {

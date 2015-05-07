@@ -67,6 +67,7 @@ namespace CyPhySoT
             this.SelectedObjs = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
             this.UpstreamTestBenches = new List<TestBench>();
             this.DownstreamTestBenches = new List<TestBench>();
+            this.Dependencies = new List<AVM.DDP.MetaTBManifest.Dependency>();
         }
 
         public new TestBench MemberwiseClone()
@@ -76,22 +77,29 @@ namespace CyPhySoT
 
         public void Run()
         {
-            var terr = this.Project.BeginTransactionInNewTerr();
 
+            AVM.DDP.MetaAvmProject avmProj;
+            var terr = this.Project.BeginTransactionInNewTerr();
+            try
+            {
             this.CurrentObj = this.Project.GetFCOByID(this.m_CurrentObjId);
 
             // This can only be a testbench at this point
             ISIS.GME.Dsml.CyPhyML.Interfaces.TestBenchType tb = ISIS.GME.Dsml.CyPhyML.Classes.TestBenchType.Cast(this.CurrentObj as MgaObject);
             this.CallFormulaEvaluator(this.CurrentObj); // FIXME: KMS: For multijobrun, is this necessary?
-            AVM.DDP.MetaAvmProject avmProj = AVM.DDP.MetaAvmProject.Create(Path.GetDirectoryName(OriginalProjectFileName), Project);
+            avmProj = AVM.DDP.MetaAvmProject.Create(Path.GetDirectoryName(OriginalProjectFileName), Project);
             avmProj.SaveSummaryReportJson(this.OutputDirectory, this.CurrentObj);
             avmProj.SaveTestBenchManifest(this.OutputDirectory, tb, Dependencies);
             avmProj.UpdateResultsJson(this.CurrentObj, this.OutputDirectory);
             // TODO: test bench export??
+            }
+            finally
+            {
+                this.Project.AbortTransaction();
+            }
             var currentProjectDir = Path.GetDirectoryName(this.Project.ProjectConnStr.Substring("MGA=".Length));
-            this.Project.AbortTransaction();
-
             ComComponent interpreter = new ComComponent(ProgId);
+
 
             // Read the copied over configuration (the original one may be changed and/or opened).
             if (interpreter.InterpreterConfig != null)
@@ -121,17 +129,25 @@ namespace CyPhySoT
             this.ResultsZip = interpreter.result.ZippyServerSideHook;
 
             this.Project.BeginTransaction(terr);
-            // if some magic happens in the test bench and some interpreters would update the model
-            // and they are NOT updating the summary file accordingly we will do it here.
-            // RISK: if any interpreter wants to update the summary file like CyPython this could mess up the values.
-            this.CallFormulaEvaluator(this.CurrentObj);
-            avmProj.SaveSummaryReportJson(this.OutputDirectory, this.CurrentObj);
-            this.Project.AbortTransaction();
+            try
+            {
+                var manifest = AVM.DDP.MetaTBManifest.OpenForUpdate(this.OutputDirectory);
+                manifest.AddAllTasks(ISIS.GME.Dsml.CyPhyML.Classes.TestBenchType.Cast(this.CurrentObj), new ComComponent[] { interpreter });
+                manifest.Serialize(this.OutputDirectory);
+                // if some magic happens in the test bench and some interpreters would update the model
+                // and they are NOT updating the summary file accordingly we will do it here.
+                // RISK: if any interpreter wants to update the summary file like CyPython this could mess up the values.
+                this.CallFormulaEvaluator(this.CurrentObj);
+                avmProj.SaveSummaryReportJson(this.OutputDirectory, this.CurrentObj);
+            }
+            finally
+            {
+                this.Project.AbortTransaction();
+            }
         }
 
         public List<AVM.DDP.MetaTBManifest.Dependency> CollectDeps()
         {
-            Dependencies = new List<AVM.DDP.MetaTBManifest.Dependency>();
             foreach (TestBench tb in this.UpstreamTestBenches)
             {
                 Dependencies.Add(new AVM.DDP.MetaTBManifest.Dependency() { Directory = tb.OutputDirectory, Type = tb.CurrentObj.MetaBase.Name });

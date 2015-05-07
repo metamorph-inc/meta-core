@@ -39,7 +39,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 //#define GRIDCONTROL_NO_TITLETIPS   // Do not use titletips for cells with large data
-#define GRIDCONTROL_NO_DRAGDROP    // Do not use OLE drag and drop
+//#define GRIDCONTROL_NO_DRAGDROP    // Do not use OLE drag and drop
 //#define GRIDCONTROL_NO_CLIPBOARD   // Do not use clipboard routines
 
 #ifdef _WIN32_WCE
@@ -677,7 +677,7 @@ protected:
     CPoint      m_LeftClickDownPoint, m_LastMousePoint;
     CCellID     m_LeftClickDownCell, m_SelectionStartCell;
     CCellID     m_idCurrentCell, m_idTopLeftCell;
-    int         m_nTimerID;
+    UINT_PTR    m_nTimerID;
     int         m_nTimerInterval;
     int         m_nResizeCaptureRange;
     BOOL        m_bAllowRowResize, m_bAllowColumnResize;
@@ -736,7 +736,7 @@ protected:
     afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-    afx_msg void OnTimer(UINT nIDEvent);
+    afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg UINT OnGetDlgCode();
     afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);

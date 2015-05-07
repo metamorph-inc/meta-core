@@ -84,12 +84,10 @@
     <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="GME.MGA.Parser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="GME.MGA.Parser, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
-      <HintPath>..\..\..\..\..\Windows\assembly\GAC_MSIL\GME.MGA.Parser\1.1.0.0__f240a760fe751c2e\GME.MGA.Parser.dll</HintPath>
     </Reference>
-    <Reference Include="GME.Util, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+    <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -123,7 +121,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="AssemblySignature.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +135,10 @@
     <ProjectReference Include="..\CyPhyGUIs\CyPhyGUIs.csproj">
       <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
       <Name>CyPhyGUIs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReferenceSwitcher\ReferenceSwitcher.csproj">
+      <Project>{145ED698-BC88-451D-A0E8-478F05E13981}</Project>
+      <Name>ReferenceSwitcher</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

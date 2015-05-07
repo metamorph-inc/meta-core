@@ -69,12 +69,37 @@ namespace META
         }
 
         /// <summary>
+        /// Given a component assembly, ensures that the component assembly has a backend folder
+        /// for storing resources. Creates a folder if necessary.
+        /// </summary>
+        /// <param name="ProjectDirectory">Directory in which the /designs/ folder resides. Defaults to project directory of <paramref name="componentAssembly"/></param>
+        /// <returns>The path of the ComponentAssembly folder, relative to the project root</returns>
+        public static String EnsureComponentAssemblyFolder(CyPhy.ComponentAssembly componentAssembly, string ProjectDirectory = null)
+        {
+            var mp_MgaProject = componentAssembly.Impl.Project;
+            String p_ProjectRoot = ProjectDirectory ?? mp_MgaProject.GetRootDirectoryPath();
+
+            if (string.IsNullOrEmpty(componentAssembly.Attributes.Path))
+            {
+                componentAssembly.Attributes.Path = GetRandomComponentAssemblyDir();
+            }
+            Directory.CreateDirectory(Path.Combine(p_ProjectRoot, componentAssembly.Attributes.Path));
+
+            return componentAssembly.Attributes.Path;
+        }
+
+        public static string GetRandomComponentAssemblyDir()
+        {
+            return "designs\\" + Path.GetRandomFileName().Replace(".", "");
+        }
+
+        /// <summary>
         /// Given a component, ensures that the component has a backend folder
         /// for storing resources. Ensures that the Component has an AVMID unique
         /// to the project.  Creates a folder if necessary.
         /// </summary>
         /// <param name="component"></param>
-        /// <param name="ProjectDirectory">Directory in which component files reside. Defaults to project directory of <paramref name="component"/></param>
+        /// <param name="ProjectDirectory">Directory in which the /components/ folder resides. Defaults to project directory of <paramref name="component"/></param>
         /// <returns>The path of the Component folder, relative to the project root</returns>
         public static String EnsureComponentFolder(CyPhy.Component component, string ProjectDirectory = null)
         {
