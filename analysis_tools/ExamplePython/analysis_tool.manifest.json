@@ -1,0 +1,14 @@
+{
+	"ExamplePythonCountComponents" : {
+		"version": "00.01",
+		"outputDirectory": "output",
+		"runCommand": "run_count_components.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhyDesignExporter"
+		},
+	"ExamplePythonGenerateBillOfMaterials" : {
+		"version": "00.01",
+		"outputDirectory": "output",
+		"runCommand": "run_generate_bill_of_material.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhyDesignExporter"
+		}
+}

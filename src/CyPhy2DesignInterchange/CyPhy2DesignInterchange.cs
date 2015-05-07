@@ -279,18 +279,13 @@ namespace CyPhy2DesignInterchange
                     s_ID = de.Guid.ToString("B");
                     (de as CyPhy.ComponentAssembly).Attributes.ConfigurationUniqueID = s_ID;
                 }
-                if (s_ID.IndexOf("{") != 0)
-                {
-                    // Add curly braces
-                    s_ID = string.Concat("{", s_ID, "}");
-                }
                 dm.DesignID = s_ID;
 
                 rootContainerType = new Compound();
             }
             else if (de is CyPhy.DesignContainer)
             {
-                dm.DesignID = (de as CyPhy.DesignContainer).Impl.GetGuidDisp();
+                dm.DesignID = "id-" + (de as CyPhy.DesignContainer).Guid.ToString();
                 switch (((CyPhy.DesignContainer)de).Attributes.ContainerType)
                 {
                     case CyPhyClasses.DesignContainer.AttributesClass.ContainerType_enum.Compound:
@@ -320,13 +315,84 @@ namespace CyPhy2DesignInterchange
             var connectorMapping = new Dictionary<ConnectorRefport, avm.ConnectorCompositionTarget>();
             var componentValueflowTargetMapping = new Dictionary<CyPhy.ValueFlowTarget, ComponentPrimitivePropertyInstance>();
             var vftIdCache = new Dictionary<CyPhy.ValueFlowTarget, String>();
-            UpdateSubContainers(new DesignPrimitivesWrapper(de), dm.RootContainer, componentPortMapping, connectorMapping, containerMapping, componentValueflowTargetMapping, vftIdCache);
+            var wrapper = new DesignPrimitivesWrapper(de);
+            UpdateSubContainers(wrapper, dm.RootContainer, componentPortMapping, connectorMapping, containerMapping, componentValueflowTargetMapping, vftIdCache);
 
+            AddAssemblyRoot(dm, wrapper);
 
             ConvertJoinStructures(dm, connectorMapping, containerMapping);
 
 
             return dm;
+        }
+
+        private static void AddAssemblyRoot(Design dm, DesignPrimitivesWrapper wrapper)
+        {
+            HashSet<CyPhy.ReferenceCoordinateSystem> visitedRCS = new HashSet<CyPhy.ReferenceCoordinateSystem>();
+            Queue<CyPhy.ReferenceCoordinateSystem> todoRCS = new Queue<CyPhy.ReferenceCoordinateSystem>();
+            List<string> rcsComponentIds = new List<string>();
+            foreach (var rcs in wrapper.ReferenceCoordinateSystems)
+            {
+                todoRCS.Enqueue(rcs);
+            }
+            while (todoRCS.Count > 0)
+            {
+                var rcs = todoRCS.Dequeue();
+                visitedRCS.Add(rcs);
+                foreach (var rcsConnection in rcs.DstConnections.RefCoordSystem2RefCoordSystemCollection)
+                {
+                    if (visitedRCS.Contains(rcsConnection.DstEnd))
+                    {
+                        continue;
+                    }
+                    var ref_ = rcsConnection.DstRef();
+                    if (ref_ != null && ref_.Meta.Name == "ComponentRef" && ref_.Referred != null && ref_.Referred.Meta.Name == "Component")
+                    {
+                        rcsComponentIds.Add(GetOrSetID(CyPhyClasses.ComponentRef.Cast(ref_)));
+                    }
+                    if (ref_ == null)
+                    {
+                        if (rcsConnection.DstEnd.ParentContainer.Impl.MetaBase.Name == "Component")
+                        {
+                            rcsComponentIds.Add(CyPhyClasses.Component.Cast(rcsConnection.DstEnd.ParentContainer.Impl).Attributes.InstanceGUID);
+                        }
+                        else
+                        {
+                            todoRCS.Enqueue(rcsConnection.DstEnds.ReferenceCoordinateSystem);
+                        }
+                    }
+                }
+                foreach (var rcsConnection in rcs.SrcConnections.RefCoordSystem2RefCoordSystemCollection)
+                {
+                    if (visitedRCS.Contains(rcsConnection.SrcEnd))
+                    {
+                        continue;
+                    }
+                    var ref_ = rcsConnection.SrcRef();
+                    if (ref_ != null && ref_.Meta.Name == "ComponentRef" && ref_.Referred != null && ref_.Referred.Meta.Name == "Component")
+                    {
+                        rcsComponentIds.Add(GetOrSetID(CyPhyClasses.ComponentRef.Cast(ref_)));
+                    }
+                    if (ref_ == null)
+                    {
+                        if (rcsConnection.SrcEnd.ParentContainer.Impl.MetaBase.Name == "Component")
+                        {
+                            rcsComponentIds.Add(CyPhyClasses.Component.Cast(rcsConnection.SrcEnd.ParentContainer.Impl).Attributes.InstanceGUID);
+                        }
+                        else
+                        {
+                            todoRCS.Enqueue(rcsConnection.SrcEnds.ReferenceCoordinateSystem);
+                        }
+                    }
+                }
+            }
+            if (rcsComponentIds.Count == 1)
+            {
+                dm.DomainFeature.Add(new avm.cad.AssemblyRoot()
+                {
+                    AssemblyRootComponentInstance = rcsComponentIds[0]
+                });
+            }
         }
 
         public class RefportPair<T> where T : ISIS.GME.Common.Interfaces.FCO

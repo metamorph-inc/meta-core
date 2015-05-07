@@ -38,6 +38,7 @@ def main():
         files_to_delete = list()
         files_to_delete += glob.glob('*.pylint.*')
         files_to_delete += glob.glob('*.fxcop-result.*')
+        files_to_delete += glob.glob('*.cloc.*')
 
         logger.info('Deleting previous results ...')
         for file_to_delete in files_to_delete:

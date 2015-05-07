@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder name="RootFolder" xmlns:SignalFlow="http://www.isis.vanderbilt.edu/2004/schemas/SignalFlow" xmlns:Simulink="http://www.isis.vanderbilt.edu/2004/schemas/Simulink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CyberComposition.xsd" xsi:schemaLocation="http://www.isis.vanderbilt.edu/2004/schemas/SignalFlow CyberComposition_SignalFlow.xsd http://www.isis.vanderbilt.edu/2004/schemas/Simulink CyberComposition_Simulink.xsd">
+
+  <Components _id="id1AB" name="Components">
+    <SimulinkWrapper Class="" _id="id1AC" name="SimulinkWrapper" position="">
+      <InputSignalInterface Class="Modelica.Blocks.Interfaces.IntegerInput" _id="id27e" dstInputSignalInterfaceConnection="id279" name="driver_gear_select" position="(-1,-1)"/>
+      <InputSignalInterface Class="Modelica.Blocks.Interfaces.IntegerInput" _id="id27F" dstInputSignalInterfaceConnection="id27A" name="shift_request_state" position="(-1,-1)"/>
+      <InputSignalInterface Class="Modelica.Blocks.Interfaces.RealInput" _id="id280" dstInputSignalInterfaceConnection="id27B" name="output_speed_torque_converter" position="(-1,-1)"/>
+      <InputSignalInterface Class="Modelica.Blocks.Interfaces.RealInput" _id="id281" dstInputSignalInterfaceConnection="id27C" name="input_speed_torque_converter" position="(-1,-1)"/>
+      <InputSignalInterface Class="Modelica.Blocks.Interfaces.RealInput" _id="id282" dstInputSignalInterfaceConnection="id27D" name="prndl" position="(-1,-1)"/>
+      <InputSignalInterfaceConnection _id="id279" dstInputSignalInterfaceConnection_end_="id1B6" name="" position="(-1,-1)" srcInputSignalInterfaceConnection_end_="id27e"/>
+      <InputSignalInterfaceConnection _id="id27A" dstInputSignalInterfaceConnection_end_="id1B8" name="" position="(-1,-1)" srcInputSignalInterfaceConnection_end_="id27F"/>
+      <InputSignalInterfaceConnection _id="id27B" dstInputSignalInterfaceConnection_end_="id1BA" name="" position="(-1,-1)" srcInputSignalInterfaceConnection_end_="id280"/>
+      <InputSignalInterfaceConnection _id="id27C" dstInputSignalInterfaceConnection_end_="id1BC" name="" position="(-1,-1)" srcInputSignalInterfaceConnection_end_="id281"/>
+      <InputSignalInterfaceConnection _id="id27D" dstInputSignalInterfaceConnection_end_="id1Be" name="" position="(-1,-1)" srcInputSignalInterfaceConnection_end_="id282"/>
+      <OutputSignalInterface Class="Modelica.Blocks.Interfaces.IntegerOutput" _id="id277" name="gear_selected" position="(-1,-1)" srcOutputSignalInterfaceConnection="id278"/>
+      <OutputSignalInterfaceConnection _id="id278" dstOutputSignalInterfaceConnection_end_="id277" name="" position="(-1,-1)" srcOutputSignalInterfaceConnection_end_="id1B4"/>
+      <Simulink:Subsystem BlockType="Model" Description="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;\n&lt;ltlProperties&gt;\n   &lt;ltlProperty expr=&quot;&lt;&gt;((driver_gear_select==6 || driver_gear_select==7)) -&gt; (!((gear_selected /= 0)) U((driver_gear_select==6 || driver_gear_select==7)))&quot; name=&quot;AbsenceProperty&quot; type=&quot;Absence&quot;/&gt;\n   &lt;ltlProperty expr=&quot;[]((driver_gear_select==6) -&gt; &lt;&gt;(gear_selected &gt;= 1))&quot; name=&quot;ResponseProperty&quot; type=&quot;Response&quot;/&gt;\n   &lt;ltlProperty expr=&quot;[](((shift_request_state==3 &amp;&amp; driver_gear_select==7)) -&gt; &lt;&gt;(gear_selected == 4))&quot; name=&quot;ResponseProperty2&quot; type=&quot;Response&quot;/&gt;\n   &lt;ltlProperty expr=&quot;[]((G(shift_request_state==3 &amp;&amp; driver_gear_select==7)) -&gt; &lt;&gt;((gear_selected == 4)))&quot; name=&quot;ResponseProperty3&quot; type=&quot;Response&quot;/&gt;\n   &lt;ltlProperty expr=&quot;[]((G(driver_gear_select == 1)) -&gt; &lt;&gt;((gear_selected &lt;= 1)))&quot; name=&quot;ResponseProperty4&quot; type=&quot;Response&quot;/&gt;\n   &lt;ltlProperty expr=&quot;[]((G(driver_gear_select==1)) -&gt; &lt;&gt;((gear_selected &lt;= 2)))&quot; name=&quot;ResponseProperty5&quot; type=&quot;Response&quot;/&gt;\n&lt;/ltlProperties&gt;" Name="SimplifiedShiftController2" Priority="0" RefId="ID0" SampleTime="-2" Tag="" UserData="" _id="id1AD" name="SimplifiedShiftController2" position="(-1,-1)">
+        <Simulink:InputPort Number="5" RefId="ID5" _id="id1B6" dstLine="id1AF" name="driver_gear_select" position="(-1,-1)" srcInputSignalInterfaceConnection="id279">
+          <Simulink:TypeBaseRef MemberIndex="0" _id="id1B7" name="int32" position="(-1,-1)" ref="id285"/>
+        </Simulink:InputPort>
+        <Simulink:InputPort Number="4" RefId="ID4" _id="id1B8" dstLine="id1B0" name="shift_request_state" position="(-1,-1)" srcInputSignalInterfaceConnection="id27A">
+          <Simulink:TypeBaseRef MemberIndex="0" _id="id1B9" name="int32" position="(-1,-1)" ref="id285"/>
+        </Simulink:InputPort>
+        <Simulink:InputPort Number="3" RefId="ID3" _id="id1BA" dstLine="id1B1" name="output_speed_torque_converter" position="(-1,-1)" srcInputSignalInterfaceConnection="id27B">
+          <Simulink:TypeBaseRef MemberIndex="0" _id="id1BB" name="double" position="(-1,-1)" ref="id286"/>
+        </Simulink:InputPort>
+        <Simulink:InputPort Number="2" RefId="ID2" _id="id1BC" dstLine="id1B2" name="input_speed_torque_converter" position="(-1,-1)" srcInputSignalInterfaceConnection="id27C">
+          <Simulink:TypeBaseRef MemberIndex="0" _id="id1BD" name="double" position="(-1,-1)" ref="id286"/>
+        </Simulink:InputPort>
+        <Simulink:InputPort Number="1" RefId="ID1" _id="id1Be" dstLine="id1B3" name="prndl" position="(-1,-1)" srcInputSignalInterfaceConnection="id27D">
+          <Simulink:TypeBaseRef MemberIndex="0" _id="id1BF" name="double" position="(-1,-1)" ref="id286"/>
+        </Simulink:InputPort>
+        <Simulink:Line Name="" RefId="ID50" _id="id1Ae" dstLine_end_="id1B4" name="" position="(-1,-1)" srcLine_end_="id1e7"/>
+        <Simulink:Line Name="" RefId="ID49" _id="id1AF" dstLine_end_="id1e9" name="" position="(-1,-1)" srcLine_end_="id1B6"/>
+        <Simulink:Line Name="" RefId="ID48" _id="id1B0" dstLine_end_="id1eB" name="" position="(-1,-1)" srcLine_end_="id1B8"/>
+        <Simulink:Line Name="" RefId="ID47" _id="id1B1" dstLine_end_="id1eD" name="" position="(-1,-1)" srcLine_end_="id1BA"/>
+        <Simulink:Line Name="" RefId="ID46" _id="id1B2" dstLine_end_="id1eF" name="" position="(-1,-1)" srcLine_end_="id1BC"/>
+        <Simulink:Line Name="" RefId="ID45" _id="id1B3" dstLine_end_="id1F1" name="" position="(-1,-1)" srcLine_end_="id1Be"/>
+        <Simulink:OutputPort Number="1" RefId="ID6" _id="id1B4" dstOutputSignalInterfaceConnection="id278" name="gear_selected" position="(-1,-1)" srcLine="id1Ae">
+          <Simulink:TypeBaseRef MemberIndex="0" _id="id1B5" name="int32" position="(-1,-1)" ref="id285"/>
+        </Simulink:OutputPort>
+        <Simulink:Subsystem BlockType="SubSystem" Description="" Name="Shift_Controller" Priority="0" RefId="ID7" SampleTime="0" Tag="" UserData="" _id="id1C0" name="Shift_Controller" position="(-1,-1)">
+          <Simulink:InputPort Number="5" RefId="ID43" _id="id1e9" dstLine="id1e2" name="driver_gear_select" position="(-1,-1)" srcLine="id1AF">
+            <Simulink:TypeBaseRef MemberIndex="0" _id="id1eA" name="int32" position="(-1,-1)" ref="id285"/>
+          </Simulink:InputPort>
+          <Simulink:InputPort Number="4" RefId="ID42" _id="id1eB" dstLine="id1e3" name="shift_request_state" position="(-1,-1)" srcLine="id1B0">
+            <Simulink:TypeBaseRef MemberIndex="0" _id="id1eC" name="int32" position="(-1,-1)" ref="id285"/>
+          </Simulink:InputPort>
+          <Simulink:InputPort Number="3" RefId="ID41" _id="id1eD" dstLine="id1e4" name="output_speed_torque_converter" position="(-1,-1)" srcLine="id1B1">
+            <Simulink:TypeBaseRef MemberIndex="0" _id="id1ee" name="double" position="(-1,-1)" ref="id286"/>
+          </Simulink:InputPort>
+          <Simulink:InputPort Number="2" RefId="ID40" _id="id1eF" dstLine="id1e5" name="input_speed_torque_converter" position="(-1,-1)" srcLine="id1B2">
+            <Simulink:TypeBaseRef MemberIndex="0" _id="id1F0" name="double" position="(-1,-1)" ref="id286"/>
+          </Simulink:InputPort>
+          <Simulink:InputPort Number="1" RefId="ID39" _id="id1F1" dstLine="id1e6" name="prndl" position="(-1,-1)" srcLine="id1B3">
+            <Simulink:TypeBaseRef MemberIndex="0" _id="id1F2" name="double" position="(-1,-1)" ref="id286"/>
+          </Simulink:InputPort>
+          <Simulink:Line Name="" RefId="ID97" _id="id1e1" dstLine_end_="id1e7" name="" position="(-1,-1)" srcLine_end_="id220"/>
+          <Simulink:Line Name="" RefId="ID96" _id="id1e2" dstLine_end_="id222" name="" position="(-1,-1)" srcLine_end_="id1e9"/>
+          <Simulink:Line Name="" RefId="ID95" _id="id1e3" dstLine_end_="id224" name="" position="(-1,-1)" srcLine_end_="id1eB"/>
+          <Simulink:Line Name="" RefId="ID94" _id="id1e4" dstLine_end_="id226" name="" position="(-1,-1)" srcLine_end_="id1eD"/>
+          <Simulink:Line Name="" RefId="ID93" _id="id1e5" dstLine_end_="id228" name="" position="(-1,-1)" srcLine_end_="id1eF"/>
+          <Simulink:Line Name="" RefId="ID55" _id="id1e6" dstLine_end_="id1F5" name="" position="(-1,-1)" srcLine_end_="id1F1"/>
+          <Simulink:OutputPort Number="1" RefId="ID44" _id="id1e7" dstLine="id1Ae" name="gear_selected" position="(-1,-1)" srcLine="id1e1">
+            <Simulink:TypeBaseRef MemberIndex="0" _id="id1e8" name="int32" position="(-1,-1)" ref="id285"/>
+          </Simulink:OutputPort>
+          <Simulink:Primitive BlockType="Terminator" Description="" Name="Terminator" Priority="0" RefId="ID53" SampleTime="0" Tag="" UserData="" _id="id1F3" name="Terminator" position="(-1,-1)">
+            <Simulink:InputPort Number="1" RefId="ID54" _id="id1F5" name="In_1" position="(-1,-1)" srcLine="id1e6">
+              <Simulink:TypeBaseRef MemberIndex="0" _id="id1F6" name="double" position="(-1,-1)" ref="id286"/>
+            </Simulink:InputPort>
+            <Simulink:SF_Parameter RefId="ID56" Value="double" _id="id1F4" name="ParamDataTypeStr" position="(-1,-1)"/>
+          </Simulink:Primitive>
+          <Simulink:SF_Parameter RefId="ID51" Value="double" _id="id1C1" name="ParamDataTypeStr" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID38" Value="" _id="id1C2" name="VariantControl" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID37" Value="off" _id="id1C3" name="Variant" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID36" Value="off" _id="id1C4" name="TreatAsAtomicUnit" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID35" Value="" _id="id1C5" name="TemplateBlock" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID34" Value="-1" _id="id1C6" name="SystemSampleTime" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID33" Value="FromPortIcon" _id="id1C7" name="ShowPortLabels" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID32" Value="Auto" _id="id1C8" name="RTWSystemCode" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID31" Value="Inherit from model" _id="id1C9" name="RTWMemSecFuncInitTerm" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID30" Value="Inherit from model" _id="id1CA" name="RTWMemSecFuncExecute" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID29" Value="Inherit from model" _id="id1CB" name="RTWMemSecDataParameters" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID28" Value="Inherit from model" _id="id1CC" name="RTWMemSecDataInternal" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID27" Value="Inherit from model" _id="id1CD" name="RTWMemSecDataConstants" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID26" Value="Auto" _id="id1Ce" name="RTWFileNameOpts" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID25" Value="" _id="id1CF" name="RTWFileName" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID24" Value="Auto" _id="id1D0" name="RTWFcnNameOpts" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID23" Value="" _id="id1D1" name="RTWFcnName" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID22" Value="off" _id="id1D2" name="PropExecContextOutsideSubsystem" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID21" Value="All" _id="id1D3" name="PermitHierarchicalResolution" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID20" Value="ReadWrite" _id="id1D4" name="Permissions" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID19" Value="" _id="id1D5" name="OverrideUsingVariant" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID18" Value="off" _id="id1D6" name="MinAlgLoopOccurrences" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID17" Value="" _id="id1D7" name="MemberBlocks" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID16" Value="on" _id="id1D8" name="IsSubsystemVirtual" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID15" Value="off" _id="id1D9" name="GeneratePreprocessorConditionals" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID14" Value="off" _id="id1DA" name="FunctionWithSeparateData" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID13" Value="void_void" _id="id1DB" name="FunctionInterfaceSpec" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID12" Value="" _id="id1DC" name="ErrorFcn" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID11" Value="off" _id="id1DD" name="CheckFcnCallInpInsideContextMsg" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID10" Value="" _id="id1De" name="BlockChoice" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID9" Value="" _id="id1DF" name="ActiveVariantBlock" position="(-1,-1)"/>
+          <Simulink:SF_Parameter RefId="ID8" Value="" _id="id1e0" name="ActiveVariant" position="(-1,-1)"/>
+          <Simulink:Subsystem BlockType="SubSystem" Description="" Name="ShiftController" Priority="0" RefId="ID52" SampleTime="0" Tag="" UserData="" _id="id1F7" name="ShiftController" position="(-1,-1)">
+            <Simulink:InputPort Number="4" RefId="ID91" _id="id222" dstLine="id21B" name="driver_gear_select" position="(-1,-1)" srcLine="id1e2">
+              <Simulink:TypeBaseRef MemberIndex="0" _id="id223" name="int32" position="(-1,-1)" ref="id285"/>
+            </Simulink:InputPort>
+            <Simulink:InputPort Number="3" RefId="ID90" _id="id224" dstLine="id21C" name="shift_request_state" position="(-1,-1)" srcLine="id1e3">
+              <Simulink:TypeBaseRef MemberIndex="0" _id="id225" name="int32" position="(-1,-1)" ref="id285"/>
+            </Simulink:InputPort>
+            <Simulink:InputPort Number="2" RefId="ID89" _id="id226" dstLine="id21D" name="output_speed_TC" position="(-1,-1)" srcLine="id1e4">
+              <Simulink:TypeBaseRef MemberIndex="0" _id="id227" name="double" position="(-1,-1)" ref="id286"/>
+            </Simulink:InputPort>
+            <Simulink:InputPort Number="1" RefId="ID88" _id="id228" dstLine="id21e" name="input_speed_TC" position="(-1,-1)" srcLine="id1e5">
+              <Simulink:TypeBaseRef MemberIndex="0" _id="id229" name="double" position="(-1,-1)" ref="id286"/>
+            </Simulink:InputPort>
+            <Simulink:Line Name="" RefId="ID125" _id="id219" dstLine_end_="id220" name="" position="(-1,-1)" srcLine_end_="id233"/>
+            <Simulink:Line Name="" RefId="ID123" _id="id21A" dstLine_end_="id275" name="" position="(-1,-1)" srcLine_end_="id235"/>
+            <Simulink:Line Name="" RefId="ID121" _id="id21B" dstLine_end_="id237" name="" position="(-1,-1)" srcLine_end_="id222"/>
+            <Simulink:Line Name="" RefId="ID119" _id="id21C" dstLine_end_="id239" name="" position="(-1,-1)" srcLine_end_="id224"/>
+            <Simulink:Line Name="" RefId="ID117" _id="id21D" dstLine_end_="id23B" name="" position="(-1,-1)" srcLine_end_="id226"/>
+            <Simulink:Line Name="" RefId="ID115" _id="id21e" dstLine_end_="id23D" name="" position="(-1,-1)" srcLine_end_="id228"/>
+            <Simulink:Line Name="" RefId="ID109" _id="id21F" dstLine_end_="id22C" name="" position="(-1,-1)" srcLine_end_="id273"/>
+            <Simulink:OutputPort Number="1" RefId="ID92" _id="id220" dstLine="id1e1" name="gear_selected" position="(-1,-1)" srcLine="id219">
+              <Simulink:TypeBaseRef MemberIndex="0" _id="id221" name="int32" position="(-1,-1)" ref="id285"/>
+            </Simulink:OutputPort>
+            <Simulink:Primitive BlockType="Terminator" Description="" Name="Terminator" Priority="0" RefId="ID107" SampleTime="0" Tag="" UserData="" _id="id22A" name="Terminator" position="(-1,-1)">
+              <Simulink:InputPort Number="1" RefId="ID108" _id="id22C" name="In_1" position="(-1,-1)" srcLine="id21F">
+                <Simulink:TypeBaseRef MemberIndex="0" _id="id22D" name="float" position="(-1,-1)" ref="id284"/>
+              </Simulink:InputPort>
+              <Simulink:SF_Parameter RefId="ID110" Value="double" _id="id22B" name="ParamDataTypeStr" position="(-1,-1)"/>
+            </Simulink:Primitive>
+            <Simulink:Primitive BlockType="S-Function" Description="" Name="SFunction" Priority="0" RefId="ID106" SampleTime="0" Tag="Stateflow S-Function SimplifiedShiftController2Xmdl2mga 1" UserData="" _id="id22e" name="SFunction" position="(-1,-1)">
+              <Simulink:InputPort Number="4" RefId="ID120" _id="id237" name="In_4" position="(-1,-1)" srcLine="id21B">
+                <Simulink:TypeBaseRef MemberIndex="0" _id="id238" name="int32" position="(-1,-1)" ref="id285"/>
+              </Simulink:InputPort>
+              <Simulink:InputPort Number="3" RefId="ID118" _id="id239" name="In_3" position="(-1,-1)" srcLine="id21C">
+                <Simulink:TypeBaseRef MemberIndex="0" _id="id23A" name="int32" position="(-1,-1)" ref="id285"/>
+              </Simulink:InputPort>
+              <Simulink:InputPort Number="2" RefId="ID116" _id="id23B" name="In_2" position="(-1,-1)" srcLine="id21D">
+                <Simulink:TypeBaseRef MemberIndex="0" _id="id23C" name="double" position="(-1,-1)" ref="id286"/>
+              </Simulink:InputPort>
+              <Simulink:InputPort Number="1" RefId="ID114" _id="id23D" name="In_1" position="(-1,-1)" srcLine="id21e">
+                <Simulink:TypeBaseRef MemberIndex="0" _id="id23e" name="double" position="(-1,-1)" ref="id286"/>
+              </Simulink:InputPort>
+              <Simulink:OutputPort Number="2" RefId="ID124" _id="id233" dstLine="id219" name="Out_2" position="(-1,-1)">
+                <Simulink:TypeBaseRef MemberIndex="0" _id="id234" name="int32" position="(-1,-1)" ref="id285"/>
+              </Simulink:OutputPort>
+              <Simulink:OutputPort Number="1" RefId="ID122" _id="id235" dstLine="id21A" name="Out_1" position="(-1,-1)">
+                <Simulink:TypeBaseRef MemberIndex="0" _id="id236" name="double" position="(-1,-1)" ref="id286"/>
+              </Simulink:OutputPort>
+              <Simulink:SF_Parameter RefId="ID126" Value="double" _id="id22F" name="ParamDataTypeStr" position="(-1,-1)"/>
+              <Simulink:SF_Parameter RefId="ID113" Value="''" _id="id230" name="SFunctionModules" position="(-1,-1)"/>
+              <Simulink:SF_Parameter RefId="ID112" Value="" _id="id231" name="Parameters" position="(-1,-1)"/>
+              <Simulink:SF_Parameter RefId="ID111" Value="sf_sfun" _id="id232" name="FunctionName" position="(-1,-1)"/>
+              <Simulink:State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="" ExitAction="" Methods="" Name="ShiftController" Order="0" RefId="ID128" _id="id23F" name="ShiftController" position="(-1,-1)">
+                <Simulink:Data ArrayFirstIndex="" ArraySize="" DataType="" Description="" InitialValue="" Max="" Min="" Name="dummy" Port="-9" RefId="ID148" Scope="LOCAL_DATA" Units="" _id="id25C" name="dummy" position="(-1,-1)">
+                  <Simulink:TypeBaseRef MemberIndex="0" _id="id25D" name="double" position="(-1,-1)" ref="id286"/>
+                </Simulink:Data>
+                <Simulink:Data ArrayFirstIndex="" ArraySize="" DataType="" Description="" InitialValue="0.01" Max="" Min="" Name="SamplePeriod" Port="-8" RefId="ID147" Scope="LOCAL_DATA" Units="" _id="id25e" name="SamplePeriod" position="(-1,-1)">
+                  <Simulink:TypeBaseRef MemberIndex="0" _id="id25F" name="double" position="(-1,-1)" ref="id286"/>
+                </Simulink:Data>
+                <Simulink:Data ArrayFirstIndex="" ArraySize="" DataType="" Description="" InitialValue="" Max="" Min="" Name="current_time" Port="-7" RefId="ID146" Scope="LOCAL_DATA" Units="" _id="id260" name="current_time" position="(-1,-1)">
+                  <Simulink:TypeBaseRef MemberIndex="0" _id="id261" name="double" position="(-1,-1)" ref="id286"/>
+                </Simulink:Data>
+                <Simulink:Data ArrayFirstIndex="" ArraySize="" DataType="" Description="" InitialValue="" Max="" Min="" Name="lockout_time" Port="-6" RefId="ID145" Scope="LOCAL_DATA" Units="" _id="id262" name="lockout_time" position="(-1,-1)">
+                  <Simulink:TypeBaseRef MemberIndex="0" _id="id263" name="double" position="(-1,-1)" ref="id286"/>
+                </Simulink:Data>
+                <Simulink:Data ArrayFirstIndex="" ArraySize="" DataType="" Description="" InitialValue="" Max="" Min="" Name="gear_selected" Port="1" RefId="ID144" Scope="OUTPUT_DATA" Units="" _id="id264" name="gear_selected" position="(-1,-1)">
+                  <Simulink:TypeBaseRef MemberIndex="0" _id="id265" name="int32" position="(-1,-1)" ref="id285"/>
+                </Simulink:Data>
+                <Simulink:Data ArrayFirstIndex="" ArraySize="" DataType="" Description="" InitialValue="" Max="" Min="" Name="driver_gear_select" Port="4" RefId="ID143" Scope="INPUT_DATA" Units="" _id="id266" name="driver_gear_select" position="(-1,-1)">
+                  <Simulink:TypeBaseRef MemberIndex="0" _id="id267" name="int32" position="(-1,-1)" ref="id285"/>
+                </Simulink:Data>
+                <Simulink:Data ArrayFirstIndex="" ArraySize="" DataType="" Description="" InitialValue="" Max="" Min="" Name="shift_request_state" Port="3" RefId="ID142" Scope="INPUT_DATA" Units="" _id="id268" name="shift_request_state" position="(-1,-1)">
+                  <Simulink:TypeBaseRef MemberIndex="0" _id="id269" name="int32" position="(-1,-1)" ref="id285"/>
+                </Simulink:Data>
+                <Simulink:Data ArrayFirstIndex="" ArraySize="" DataType="" Description="" InitialValue="" Max="" Min="" Name="output_speed_TC" Port="2" RefId="ID141" Scope="INPUT_DATA" Units="" _id="id26A" name="output_speed_TC" position="(-1,-1)">
+                  <Simulink:TypeBaseRef MemberIndex="0" _id="id26B" name="double" position="(-1,-1)" ref="id286"/>
+                </Simulink:Data>
+                <Simulink:Data ArrayFirstIndex="" ArraySize="" DataType="" Description="" InitialValue="" Max="" Min="" Name="input_speed_TC" Port="1" RefId="ID140" Scope="INPUT_DATA" Units="" _id="id26C" name="input_speed_TC" position="(-1,-1)">
+                  <Simulink:TypeBaseRef MemberIndex="0" _id="id26D" name="double" position="(-1,-1)" ref="id286"/>
+                </Simulink:Data>
+                <Simulink:State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="gear_selected=0;" ExitAction="" Methods="" Name="gear0" Order="0" RefId="ID139" _id="id251" dstTransition="id24e" name="gear0" position="(-1,-1)" srcTransition="id24F"/>
+                <Simulink:State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="gear_selected = 4;" ExitAction="" Methods="" Name="gear4" Order="0" RefId="ID138" _id="id252" dstTransition="id241 id249" name="gear4" position="(-1,-1)" srcTransition="id240"/>
+                <Simulink:State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="gear_selected = 3;" ExitAction="" Methods="" Name="gear3" Order="0" RefId="ID137" _id="id253" dstTransition="id242 id245 id24A" name="gear3" position="(-1,-1)" srcTransition="id243 id244"/>
+                <Simulink:State Decomposition="OR_STATE" Description="" DuringAction="current_time += SamplePeriod;" EnterAction="current_time = 0;" ExitAction="" Methods="" Name="lockoutU4" Order="0" RefId="ID136" _id="id254" dstTransition="id240" name="lockoutU4" position="(-1,-1)" srcTransition="id242"/>
+                <Simulink:State Decomposition="OR_STATE" Description="" DuringAction="current_time += SamplePeriod;" EnterAction="current_time = 0;" ExitAction="" Methods="" Name="lockoutU3" Order="0" RefId="ID135" _id="id255" dstTransition="id244" name="lockoutU3" position="(-1,-1)" srcTransition="id246"/>
+                <Simulink:State Decomposition="OR_STATE" Description="" DuringAction="current_time += SamplePeriod;" EnterAction="current_time = 0;" ExitAction="" Methods="" Name="lockoutD3" Order="0" RefId="ID134" _id="id256" dstTransition="id243" name="lockoutD3" position="(-1,-1)" srcTransition="id241"/>
+                <Simulink:State Decomposition="OR_STATE" Description="" DuringAction="current_time += SamplePeriod;" EnterAction="current_time = 0;" ExitAction="" Methods="" Name="lockoutD2" Order="0" RefId="ID133" _id="id257" dstTransition="id247" name="lockoutD2" position="(-1,-1)" srcTransition="id245"/>
+                <Simulink:State Decomposition="OR_STATE" Description="" DuringAction="current_time += SamplePeriod;" EnterAction="current_time = 0;" ExitAction="" Methods="" Name="lockoutD1" Order="0" RefId="ID132" _id="id258" dstTransition="id24D" name="lockoutD1" position="(-1,-1)" srcTransition="id248 id249 id24A"/>
+                <Simulink:State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="gear_selected = 2;" ExitAction="" Methods="" Name="gear2" Order="0" RefId="ID131" _id="id259" dstTransition="id246 id248" name="gear2" position="(-1,-1)" srcTransition="id247 id24B"/>
+                <Simulink:State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="gear_selected=1;" ExitAction="" Methods="" Name="gear1" Order="0" RefId="ID130" _id="id25A" dstTransition="id24C" name="gear1" position="(-1,-1)" srcTransition="id24D id24e"/>
+                <Simulink:State Decomposition="OR_STATE" Description="" DuringAction="current_time += SamplePeriod;" EnterAction="current_time = 0;" ExitAction="" Methods="" Name="lockoutU2" Order="0" RefId="ID129" _id="id25B" dstTransition="id24B" name="lockoutU2" position="(-1,-1)" srcTransition="id24C"/>
+                <Simulink:TransStart RefId="" _id="id250" dstTransition="id24F" name="" position="(-1,-1)"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="current_time >= lockout_time" Order="1" RefId="ID164" Trigger="" _id="id240" dstTransition_end_="id252" name="" position="(-1,-1)" srcTransition_end_="id254"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="(shift_request_state == 1) &amp;&amp; (driver_gear_select != 6) &amp;&amp; (driver_gear_select != 1) &amp;&amp; (input_speed_TC > output_speed_TC)" Order="1" RefId="ID163" Trigger="" _id="id241" dstTransition_end_="id256" name="" position="(-1,-1)" srcTransition_end_="id252"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="(shift_request_state == 3) &amp;&amp; (driver_gear_select != 6) &amp;&amp; (driver_gear_select != 1)" Order="1" RefId="ID162" Trigger="" _id="id242" dstTransition_end_="id254" name="" position="(-1,-1)" srcTransition_end_="id253"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="current_time >= lockout_time" Order="1" RefId="ID161" Trigger="" _id="id243" dstTransition_end_="id253" name="" position="(-1,-1)" srcTransition_end_="id256"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="current_time >= lockout_time" Order="1" RefId="ID160" Trigger="" _id="id244" dstTransition_end_="id253" name="" position="(-1,-1)" srcTransition_end_="id255"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="(shift_request_state == 1) &amp;&amp; (driver_gear_select != 6) &amp;&amp; (driver_gear_select != 1) &amp;&amp; (input_speed_TC > output_speed_TC)" Order="2" RefId="ID159" Trigger="" _id="id245" dstTransition_end_="id257" name="" position="(-1,-1)" srcTransition_end_="id253"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="(shift_request_state == 3) &amp;&amp; (driver_gear_select != 6) &amp;&amp; (driver_gear_select != 1)" Order="1" RefId="ID158" Trigger="" _id="id246" dstTransition_end_="id255" name="" position="(-1,-1)" srcTransition_end_="id259"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="current_time >= lockout_time" Order="1" RefId="ID157" Trigger="" _id="id247" dstTransition_end_="id259" name="" position="(-1,-1)" srcTransition_end_="id257"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="(shift_request_state == 1) &amp;&amp; (driver_gear_select != 6) &amp;&amp; (driver_gear_select != 1) &amp;&amp; (input_speed_TC > output_speed_TC)" Order="2" RefId="ID156" Trigger="" _id="id248" dstTransition_end_="id258" name="" position="(-1,-1)" srcTransition_end_="id259"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="(driver_gear_select == 6) || (driver_gear_select == 1)" Order="2" RefId="ID155" Trigger="" _id="id249" dstTransition_end_="id258" name="" position="(-1,-1)" srcTransition_end_="id252"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="(driver_gear_select == 6) || (driver_gear_select == 1)" Order="3" RefId="ID154" Trigger="" _id="id24A" dstTransition_end_="id258" name="" position="(-1,-1)" srcTransition_end_="id253"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="current_time >= lockout_time" Order="1" RefId="ID153" Trigger="" _id="id24B" dstTransition_end_="id259" name="" position="(-1,-1)" srcTransition_end_="id25B"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="(shift_request_state == 3) &amp;&amp; (driver_gear_select != 6) &amp;&amp; (driver_gear_select != 1)" Order="1" RefId="ID152" Trigger="" _id="id24C" dstTransition_end_="id25B" name="" position="(-1,-1)" srcTransition_end_="id25A"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="current_time >= lockout_time" Order="1" RefId="ID151" Trigger="" _id="id24D" dstTransition_end_="id25A" name="" position="(-1,-1)" srcTransition_end_="id258"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="(driver_gear_select==6)||(driver_gear_select==7)" Order="1" RefId="ID150" Trigger="" _id="id24e" dstTransition_end_="id25A" name="" position="(-1,-1)" srcTransition_end_="id251"/>
+                <Simulink:Transition Action="" ConditionAction="" Guard="" Order="1" RefId="ID149" Trigger="" _id="id24F" dstTransition_end_="id251" name="" position="(-1,-1)" srcTransition_end_="id250"/>
+              </Simulink:State>
+            </Simulink:Primitive>
+            <Simulink:Primitive BlockType="Demux" Description="" Name="Demux" Priority="0" RefId="ID99" SampleTime="0" Tag="" UserData="" _id="id26e" name="Demux" position="(-1,-1)">
+              <Simulink:InputPort Number="1" RefId="ID103" _id="id275" name="In_1" position="(-1,-1)" srcLine="id21A">
+                <Simulink:TypeBaseRef MemberIndex="0" _id="id276" name="double" position="(-1,-1)" ref="id286"/>
+              </Simulink:InputPort>
+              <Simulink:OutputPort Number="1" RefId="ID104" _id="id273" dstLine="id21F" name="Out_1" position="(-1,-1)">
+                <Simulink:TypeBaseRef MemberIndex="0" _id="id274" name="float" position="(-1,-1)" ref="id284"/>
+              </Simulink:OutputPort>
+              <Simulink:SF_Parameter RefId="ID105" Value="double" _id="id26F" name="ParamDataTypeStr" position="(-1,-1)"/>
+              <Simulink:SF_Parameter RefId="ID102" Value="1" _id="id270" name="Outputs" position="(-1,-1)"/>
+              <Simulink:SF_Parameter RefId="ID101" Value="none" _id="id271" name="DisplayOption" position="(-1,-1)"/>
+              <Simulink:SF_Parameter RefId="ID100" Value="off" _id="id272" name="BusSelectionMode" position="(-1,-1)"/>
+            </Simulink:Primitive>
+            <Simulink:SF_Parameter RefId="ID127" Value="off" _id="id1F8" name="ExecuteAtInitialization" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID98" Value="double" _id="id1F9" name="ParamDataTypeStr" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID87" Value="" _id="id1FA" name="VariantControl" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID86" Value="off" _id="id1FB" name="Variant" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID85" Value="on" _id="id1FC" name="TreatAsAtomicUnit" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID84" Value="" _id="id1FD" name="TemplateBlock" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID83" Value="-1" _id="id1Fe" name="SystemSampleTime" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID82" Value="FromPortIcon" _id="id1FF" name="ShowPortLabels" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID81" Value="Auto" _id="id200" name="RTWSystemCode" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID80" Value="Inherit from model" _id="id201" name="RTWMemSecFuncInitTerm" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID79" Value="Inherit from model" _id="id202" name="RTWMemSecFuncExecute" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID78" Value="Inherit from model" _id="id203" name="RTWMemSecDataParameters" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID77" Value="Inherit from model" _id="id204" name="RTWMemSecDataInternal" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID76" Value="Inherit from model" _id="id205" name="RTWMemSecDataConstants" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID75" Value="Auto" _id="id206" name="RTWFileNameOpts" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID74" Value="" _id="id207" name="RTWFileName" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID73" Value="Auto" _id="id208" name="RTWFcnNameOpts" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID72" Value="" _id="id209" name="RTWFcnName" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID71" Value="off" _id="id20A" name="PropExecContextOutsideSubsystem" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID70" Value="ExplicitOnly" _id="id20B" name="PermitHierarchicalResolution" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID69" Value="ReadWrite" _id="id20C" name="Permissions" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID68" Value="" _id="id20D" name="OverrideUsingVariant" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID67" Value="off" _id="id20e" name="MinAlgLoopOccurrences" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID66" Value="" _id="id20F" name="MemberBlocks" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID65" Value="off" _id="id210" name="IsSubsystemVirtual" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID64" Value="off" _id="id211" name="GeneratePreprocessorConditionals" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID63" Value="off" _id="id212" name="FunctionWithSeparateData" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID62" Value="void_void" _id="id213" name="FunctionInterfaceSpec" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID61" Value="[]" _id="id214" name="ErrorFcn" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID60" Value="off" _id="id215" name="CheckFcnCallInpInsideContextMsg" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID59" Value="" _id="id216" name="BlockChoice" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID58" Value="" _id="id217" name="ActiveVariantBlock" position="(-1,-1)"/>
+            <Simulink:SF_Parameter RefId="ID57" Value="" _id="id218" name="ActiveVariant" position="(-1,-1)"/>
+          </Simulink:Subsystem>
+        </Simulink:Subsystem>
+      </Simulink:Subsystem>
+    </SimulinkWrapper>
+  </Components>
+
+  <Simulink:Types _id="id283" name="Types">
+    <Simulink:SF_Matrix Type="float" _id="id284" columns="1" name="float" position="" referedbyTypeStructRef="id22D id274" rows="1"/>
+    <Simulink:SF_Matrix Type="int32" _id="id285" columns="1" name="int32" position="" referedbyTypeStructRef="id1B5 id1B7 id1B9 id1eA id1e8 id1eC id221 id223 id225 id234 id238 id23A id265 id267 id269" rows="1"/>
+    <Simulink:SF_Matrix Type="double" _id="id286" columns="1" name="double" position="" referedbyTypeStructRef="id1BB id1BD id1BF id1ee id1F0 id1F2 id1F6 id227 id229 id236 id23C id23e id25D id25F id261 id263 id26B id26D id276" rows="1"/>
+  </Simulink:Types>
+
+</RootFolder>

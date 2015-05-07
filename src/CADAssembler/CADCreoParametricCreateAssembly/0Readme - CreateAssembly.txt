@@ -1,7 +1,7 @@
 Title: 	  CADCreoParametricCreateAssembly.exe (Creo Parametric)
 	  assemble_ptc.exe (Pro/E) no longer supported
 
-Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.4.56.0
+Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.4.57.0
 Pro/E 		 	assemble_ptc.exe Version: v1.0.008  // Not supported as of Jan. 2012
 
 Supported Creo Versions: Creo 2.x, no other versions currently supported
@@ -827,6 +827,11 @@ v1.4.56.0 09/18/2014	Stopped outputting the ProcessingParameters xml file.  Deck
 			consumer of the ProcessingParameters xml file, and it was modified to use 
 			AnalysisMetaData.xml.  Modified Nastran\runAnalysis.bat to be compatible with 
 			directory references that contain a parenthesis. R.O.
+
+v1.4.57.0 10/14/2014	Added support for deck-based thermal.  This is sufficient for an end-to-end test, but needs
+			more work to be ready for general use.  Issues are: 1) the thermal material properties should be read
+			from the material library.  They are currently be sourced from the Creo model. 2) the CyPhy model does 
+			not have ambient temperature for convection coefficient. and 3)heat generation is not supported.
 
 
 Known Defects

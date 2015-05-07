@@ -21,32 +21,29 @@ namespace CyPhy2CAD_CSharp.DataRep
             SURFACE
         }
 
+        public class GeometryFeature
+        {
+            public string ComponentID;
+            public string DatumName;
+            public string MetricID; // Only used if this has been requested as a metric as well
+        }
+
         public string FeatureID { get; set; }
         public string PrimaryQualifier { get; set; }
         public string SecondaryQualifier { get; set; }
         public string GeometryType { get; set; }
-        private List<KeyValuePair<string, string>> GeometryFeatures;
+        public List<GeometryFeature> GeometryFeatures;
         private FeatureTypeEnum featureType;
 
         public CADGeometry()
         {
-            GeometryFeatures = new List<KeyValuePair<string, string>>();
+            GeometryFeatures = new List<GeometryFeature>();
             FeatureID = "";
             PrimaryQualifier = "";
             SecondaryQualifier = "";
             GeometryType = "";
             featureType = FeatureTypeEnum.POINT;
         }
-
-        /*
-        public FEAGeometry(string type)
-        {
-            GeometryFeatures = new List<KeyValuePair<string, string>>();
-            FeatureID = "";
-            PrimaryQualifier = "";
-            SecondaryQualifier = "";
-            GeometryType = type;
-        }*/
 
         public void SetGeometryType(string type)
         {
@@ -69,14 +66,12 @@ namespace CyPhy2CAD_CSharp.DataRep
         public void CreateGeometryFeature(string featureName,
                                           string componentID)
         {
-            KeyValuePair<string, string> pair = new KeyValuePair<string, string>(featureName,
-                                                                                 componentID);
-            GeometryFeatures.Add(pair);
+            GeometryFeatures.Add(new GeometryFeature() { ComponentID = componentID, DatumName = featureName, MetricID = componentID+":"+featureName });
         }
 
         public void CreateGeometryFeature(List<KeyValuePair<string, string>> featureList)
         {
-            GeometryFeatures.AddRange(featureList);
+            featureList.ForEach(f => GeometryFeatures.Add(new GeometryFeature() { ComponentID = f.Value, DatumName = f.Key, MetricID = f.Value+":"+f.Key }));
         }
 
         private static List<MgaFCO> FindByRole(MgaModel mgaModel,
@@ -440,8 +435,9 @@ namespace CyPhy2CAD_CSharp.DataRep
                 CAD.FeatureType feature = new CAD.FeatureType
                 {
                     _id = UtilityHelpers.MakeUdmID(),
-                    ComponentID = item.Value,
-                    Name = item.Key
+                    ComponentID = item.ComponentID,
+                    Name = item.DatumName,
+                    MetricID = item.MetricID
                 };
                 featureList.Add(feature);
             }
@@ -451,5 +447,7 @@ namespace CyPhy2CAD_CSharp.DataRep
             geometryout.Features[0] = featuresout;
             return geometryout;
         }
+
+
     }
 }

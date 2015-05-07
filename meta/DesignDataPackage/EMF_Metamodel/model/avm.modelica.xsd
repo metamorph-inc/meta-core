@@ -7,6 +7,7 @@
   <xsd:element ecore:ignore="true" name="Metric" type="modelica:Metric"/>
   <xsd:element ecore:ignore="true" name="Limit" type="modelica:Limit"/>
   <xsd:element ecore:ignore="true" name="Redeclare" type="modelica:Redeclare"/>
+  <xsd:element ecore:ignore="true" name="SolverSettings" type="modelica:SolverSettings"/>
   <xsd:complexType name="ModelicaModel">
     <xsd:complexContent>
       <xsd:extension base="avm:DomainModel">
@@ -88,6 +89,36 @@
       <xsd:enumeration value="Block"/>
       <xsd:enumeration value="Connector"/>
       <xsd:enumeration value="Function"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="SolverSettings">
+    <xsd:complexContent>
+      <xsd:extension base="avm:Settings">
+        <xsd:attribute ecore:name="Solver" name="Solver" type="xsd:string"/>
+        <xsd:attribute ecore:name="JobManagerToolSelection" ecore:unsettable="false" name="JobManagerToolSelection" type="modelica:JobManagerToolSelection"/>
+        <xsd:attribute ecore:name="StartTime" name="StartTime" type="xsd:double"/>
+        <xsd:attribute ecore:name="StopTime" name="StopTime" type="xsd:double"/>
+        <xsd:attribute default="NumberOfIntervals" ecore:name="IntervalMethod" ecore:unsettable="false" name="IntervalMethod" type="modelica:IntervalMethod"/>
+        <xsd:attribute ecore:name="NumberOfIntervals" name="NumberOfIntervals" type="xsd:int"/>
+        <xsd:attribute ecore:name="IntervalLength" name="IntervalLength" type="xsd:double"/>
+        <xsd:attribute ecore:name="ToolSpecificAnnotations" name="ToolSpecificAnnotations" type="xsd:string"/>
+        <xsd:attribute ecore:name="Tolerance" name="Tolerance" type="xsd:double"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="IntervalMethod">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="NumberOfIntervals"/>
+      <xsd:enumeration value="IntervalLength"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="JobManagerToolSelection">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Dymola_latest"/>
+      <xsd:enumeration value="Dymola_2014"/>
+      <xsd:enumeration value="Dymola_2013"/>
+      <xsd:enumeration value="OpenModelica_latest"/>
+      <xsd:enumeration value="JModelica_1_12"/>
     </xsd:restriction>
   </xsd:simpleType>
 </xsd:schema>

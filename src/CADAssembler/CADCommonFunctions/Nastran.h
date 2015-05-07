@@ -12,7 +12,7 @@
 
 namespace isis_CADCommon
 {
-
+	
 	struct CoordSystem
 	{		
 	
@@ -32,7 +32,7 @@ namespace isis_CADCommon
 		friend std::ostream& operator<<(std::ostream& stream, const CoordSystem &myCoord);
 	};
 
-	struct Material
+	struct MAT1
 	{
 		int MID;
 		std::string name;
@@ -43,7 +43,183 @@ namespace isis_CADCommon
 		std::string Thermal;
 		std::string RefTemp;
 		std::string Damping;
+
+		MAT1() : name("MAT1"), MID(0){};
 	};
+
+	struct MAT4
+	{
+		// Defines the constant or temperature-dependent thermal material properties for conductivity,
+		// heat capacity, density, dynamic viscosity, heat generation, reference enthalpy, and latent heat
+		// associated with a single-phase change.
+		std::string name;
+		int MID;			// Material identification number. (Integer > 0)
+		std::string K;      // Thermal conductivity. (Blank or Real > 0.0)
+		std::string CP;     // Heat capacity per unit mass at constant pressure (specific heat). (Blank or
+							// Real > 0.0)
+		std::string p;		// Density. (Real > 0.0; Default = 1.0)
+		std::string H;		// Free convection heat transfer coefficient. (Real or blank)
+		std::string m;		// Dynamic viscosity. See Remark 2. (Real > 0.0 or blank)
+		std::string HGEN;   // Heat generation capability used with QVOL entries. (Real > 0.0; Default = 1.0)
+		std::string REFENTH;// Reference enthalpy. (Real or blank)
+		std::string TCH;    // Lower temperature limit at which phase change region is to occur. (Real or
+							// blank)
+		std::string TDELTA; // Total temperature change range within which a phase change is to occur.
+							// (Real > 0.0 or blank)
+		std::string QLAT;   // Latent heat of fusion per unit mass associated with the phase change. (Real > 0.0
+							// or blank)
+
+		MAT4(): name("MAT4"),MID(0) {};
+	};
+
+
+	struct TEMP
+	{
+		// Defines temperature at grid points for determination of thermal loading,
+		// temperature-dependent material properties, or stress recovery.
+
+		int SID;  // Temperature set identification number. (Integer > 0)
+		std::string name;
+		int			G1;  // Grid point identification number. (Integer > 0)
+		std::string T1;  // Temperature. (Real)
+		int			G2;  // Grid point identification number. (Integer > 0)
+		std::string T2;  // Temperature. (Real)
+		int			G3;  // Grid point identification number. (Integer > 0)
+		std::string T3;  // Temperature. (Real)
+
+		TEMP(): name("TEMP"), SID(0), G1(0), G2(0), G3(0) {};
+
+	};
+
+	struct TEMPD
+	{
+
+		// Defines a temperature value for all grid points of the structural model that have not been given
+		// a temperature on a TEMP entry.
+
+		// NOTES
+		//	1) If a card has more than one entry (i.e. SID/T pairs) the card will be broken up into multiple cards.
+		//  2) if there are more than one SIDs, the SIDs must not be the same.  For a SID, there can be one and
+		//	   only one default temperature.
+		//	3) If TEMPD card contains more than one SID, then that card will be broken up into separate TEMPD structures.
+
+		std::string name;
+		int			SID;	// Temperature set identification number. (Integer > 0)
+		std::string T;	// Default temperature value. (Real)
+		//int			SID2;	// Temperature set identification number. (Integer > 0)
+		//std::string T2;		// Default temperature value. (Real)
+		//int			SID3;	// Temperature set identification number. (Integer > 0)
+		//std::string T3;		// Default temperature value. (Real)
+		//int			SID4;	// Temperature set identification number. (Integer > 0)
+		//std::string T4;		// Default temperature value. (Real)
+
+		TEMPD() : name("TEMPD"), SID(0)  {};
+	};
+
+	struct SPOINT
+	{
+		// Note - If more than one ID exists on a card, this program will output those as separate
+		//		  SPOINT cards.
+		// Defines scalar points
+		std::string name;
+		int			ID;  // Scalar point identification number.
+
+		//std::string ID2;  
+		//std::string ID3;  
+		//std::string ID4;  
+		//std::string ID5;  
+		//std::string ID6;  
+		//std::string ID7;
+		//std::string ID8;
+
+		SPOINT() : name("SPOINT"), ID (0) {};
+	};
+
+	struct PCONV
+	{
+		// Specifies the free convection boundary condition properties of a boundary condition surface
+		// element used for heat transfer analysis.
+		std::string name;
+		int			PCONID; // Convection property identification number. (Integer > 0)
+		int			MID;	// Material property identification number. (Integer > 0)
+		std::string FORM;	// Type of formula used for free convection. (Integer 0, 1, 10, 11, 20, or 21; Default = 0)
+		std::string EXPF;   // Free convection exponent as implemented within the context of the particular form that is chosen.
+
+		PCONV() : name("PCONV"), PCONID(0), MID(0) {};
+	};
+
+	struct CONV
+	{
+		// Specifies the free convection boundary condition properties of a boundary condition surface
+		// element used for heat transfer analysis.
+		std::string name;
+		int			EID;     // CHBDYG, CHBDYE, or CHBDYP surface element identification number. (Integer > 0)
+		int			PCONID;  // Convection property identification number of a PCONV entry. (Integer > 0)
+		std::string FLMND;	 // Point for film convection fluid property temperature. (Integer > 0; Default = 0)
+		std::string CNTRLND; // Control point for free convection boundary condition. (Integer > 0; Default = 0)
+		int TA1;	 // Ambient points used for convection. (Integer > 0 for TA1 and Integer > 0 for TA2
+							 // through TA8; Default for TA2 through TA8 is TA1.)
+		int TA2;
+		int TA3;
+		int TA4;
+		int TA5;
+		int TA6;
+		int TA7;
+		int TA8;
+
+		CONV(): name("CONV"), EID(0), PCONID(0), TA1(0), TA2(0), TA3(0), TA4(0), TA5(0), TA6(0), TA7(0), TA8(0){};
+	};
+
+	struct CHBDYG
+	{
+		// Defines a boundary condition surface element without reference to a property entry.
+		std::string name;
+		int			 EID;	// Surface element identification number. (Unique (0 < Integer < 100,000,000) among
+							// all elemental entries.)
+		std::string TYPE;	// Surface type. TYPE specifies the kind of element surface; allowed types are: REV, AREA3, AREA4,
+							// AREA6, and AREA8.
+		std::string IVIEWF;	// A VIEW entry identification number for the front face. (Integer > 0). 
+							// See MSC Thermal Analysis User's Guide for details
+		std::string IVIEWB; // A VIEW entry identification number for the back face. (Integer > 0;).
+							// See MSC Thermal Analysis User's Guide for details
+		std::string RADMIDF;// RADM identification number for front face of surface element. (Integer > 0)
+							// See MSC Thermal Analysis User's Guide for details
+		std::string RADMIDB;// RADM identification number for back face of surface element. (Integer > 0) 
+							// See MSC Thermal Analysis User's Guide for details
+
+		int G1;		//  Grid point IDs of grids bounding the surface. (Integer > 0)
+		int G2;
+		int G3;
+		int G4;
+		int G5;
+		int G6;
+		int G7;
+		int G8;
+
+		CHBDYG(): name("CHBDYG"), EID(0), G1(0), G2(0), G3(0), G4(0), G5(0), G6(0), G7(0), G8(0) {};
+	};
+
+	struct QBDY3
+	{
+		// Defines a uniform heat flux into a set of grid points.
+
+		// Warning - This program does not suppor the THRU and BY constructs for EID.
+		std::string name;
+		int SID;			 // Load set identification number. (Integer > 0)
+		std::string Q0;		 // Thermal heat flux load, or load multiplier. Q0 is positive for heat flow into a surface. (Real)
+		std::string CNTRLND; // Control point for thermal flux load. (Integer > 0; Default = 0)	
+		int		EID1;		 // EIDrid point identification of connected EIDrid points. (InteEIDer > 0 or blank)
+		int		EID2;	
+		int		EID3;	
+		int		EID4;	
+		int		EID5;	
+		int		EID6;	
+		int		EID7;	
+		int		EID8;	
+
+		QBDY3() : name("QBDY3"), SID(0), EID1(0), EID2(0), EID3(0), EID4(0), EID5(0), EID6(0), EID7(0), EID8(0) {};
+	};
+
 
 	enum NastranCardType
 	{
@@ -244,15 +420,26 @@ namespace isis_CADCommon
 			std::string endBulkData;
 
 			//Data copied from the CommonNastranDS object
-			std::map<int, Material>	materialData; // MAT1 materials, others not supported right now
+			std::map<int, MAT1>		materialData_MAT1; // MAT1 and MAT4 materials, others not supported right now
+			std::map<int, MAT4>		materialData_MAT4; 
+			std::multimap<int, TEMP>	temperature_TEMP; 
+			std::multimap<int, TEMPD>	temperature_TEMPD; 
+			std::map<int, SPOINT>	point_SPOINT; 
+			std::map<int, PCONV>	convection_PCONV; 
+			std::map<int, CONV>		convection_CONV; 
+			std::map<int, CHBDYG>	surfaceElement_CHBDYG; 
+			std::multimap<int, QBDY3>	heatFlux_QBDY3; 
+
 			std::map<int, GridPoint> gridPointData;	// grid points
+			int	 gridPointIDCurrentMax;
 			std::map<int, PSolid> psolidData; // PSolids: <PID, psolid>
-			std::map<int, SolidElement> elementData; // elements: <PID, element> - used to be multimap, but we
+			std::map<int, SolidElement> elementData; // elements: <EID, element> - used to be multimap, but we
 			// need to index into it. Hopefully this doesn't hurt us later
 
 			std::map<int, CoordSystem> coordSystems;
 
-			std::multimap<int, SPC>	spcData; // SPC
+			std::multimap<int, SPC>	spcData_SIDKey; // SPC with SID ( constraint set) Key
+			std::multimap<int, SPC>	spcData_GridIDKey; // SPC with grid ID key
 			std::multimap<int, Force> forceLoadData; // Force
 
 			// Book-keeping Stuff
@@ -271,9 +458,20 @@ namespace isis_CADCommon
 
 			int	maxCoordinateID;
 
+			bool MATERIALS_PLACEMENT_MAT4_set;
+			bool TEMPERATURE_TEMP_set;
+			bool TEMPERATURE_TEMPD_set;
+			bool POINT_SPOINT_set;
+			bool CONVECTION_PCONV_set;
+			bool CONVECTION_CONV_set;
+			bool SURFACE_ELEMENT_CHBDYG_set;
+			bool SURFACE_ELEMENT_QBDY3_set;
+
+
 
 		public:
 			NastranDeck();
+			int createdElementCounter;
 			
 			//////////////////////////////
 			// Accessors
@@ -289,12 +487,41 @@ namespace isis_CADCommon
 			std::string& getBeginBulkData();
 			std::list<std::string>& getBulkString();
 			std::string& getEndBulkData();
-			std::map<int, Material>& getMaterialData(); 
-			std::map<int, GridPoint>& getGridPointData();	
+			const std::map<int, MAT1>& getMaterialData_MAT1() const; 
+			const std::map<int, MAT4>& getMaterialData_MAT4() const; 
+			void deleteAllMaterialData_MAT4();
+			void AddMaterialData_MAT4( const MAT4 &in_MAT4);
+
+			const std::multimap<int, TEMP>& getTemperature_TEMP() const; 
+			const std::multimap<int, TEMPD>& getTemperature_TEMPD() const;
+
+			void  AddTemperature_TEMPD(const TEMPD &in_TEMPD);
+			void  AddTemperature_TEMP(const TEMP &in_TEMP);
+
+			const std::map<int, SPOINT>& getPoint_SPOINT() const;
+			void	AddPoint_SPOINT(const SPOINT &in_SPOINT);
+
+			const std::map<int, PCONV>& getConvection_PCONV() const ; 
+			void AddConvection_PCONV( const PCONV &in_PCONV );
+
+			const std::map<int, CONV>& getConvection_CONV() const;
+			void AddConvection_CONV( const CONV &in_CONV );
+
+
+			const std::map<int, CHBDYG>& getSurfaceElement_CHBDYG() const ; 
+			void  AddSurfaceElement_CHBDYG(const CHBDYG &in_CHBDYG);
+
+			const std::multimap<int, QBDY3>& getHeatFlux_QBDY3() const; 
+			void  AddHeatFlux_QBDY3(const QBDY3 &in_QBDY3);
+
+			std::map<int, GridPoint>& getGridPointData();
+			int	getNextGridPointID();
+
 			std::map<int, PSolid>& getPsolidData(); 
-			std::map<int, SolidElement>& getElementData(); 
+			const std::map<int, SolidElement>& getElementData() const; 
 			std::map<int, CoordSystem>& getCoordSystems();
-			std::multimap<int, SPC>& getSpcData();
+			std::multimap<int, SPC>& getSpcData_SIDKey();
+			const std::multimap<int, SPC>& getSpcData_GridIDKey() const;
 			std::multimap<int, Force>& getForceLoadData(); 
 			int getGlobalCord_ID();
 			int getGridCord_ID();
@@ -310,6 +537,7 @@ namespace isis_CADCommon
 			//////////////////////////////
 			// Initialize/Load Deck
 			//////////////////////////////
+
 			void ReadNastranDeck( const std::string &in_InputFileName ) throw (isis::application_exception);
 
 			
@@ -347,7 +575,16 @@ namespace isis_CADCommon
 			//		S Overall scale factor. (Real)
 			//		Si Scale factor on Li. (Real)
 			//		Li Load set identification numbers defined on entry types listed above. (Integer > 0)
-			void AddSubCaseAndLoadStatement( int in_SubCaseID, int in_ConstraintSetID, int in_LoadStatementID, int in_LoadSetID );
+			void AddSubCaseAndLoadStatement( int in_SubCaseID, int in_ConstraintSetID, int in_LoadStatementID, int in_LoadSetID, 
+											 bool in_IncludeSubcaseStatement = true);
+
+			void AddCardToCaseControl( const std::string &in_Card);
+			void NastranDeck::ReplaceExecutiveControlWithThermalStatements();
+			void ReplaceCaseControlWithThermalStatements(	const	std::string &in_Title,	
+															//int		in_TemperatureInitialID, 
+															int		in_NLParmID );
+
+
 
 			// Constraint		SPC,259,6825,1,0.
 			// SPC SID G1 C1 D1 G2 C2 D2
@@ -686,6 +923,154 @@ namespace isis_CADCommon
 	std::ostream& operator<<(std::ostream &output, const std::map<int, GridPoint> &in_gridPoints_map );
 	std::string DoubleToString(double in_data, std::streamsize in_precision = 8);
 	std::string GridPointToString(const GridPoint &myGrid);
+
+
+	struct HeatFluxLoad
+	{
+		int	elementIDThatContainsSurface;  // Tetra element ID
+		std::vector<int> surfaceGridPointIDs; 
+		double Q0; // Heat flux load
+		int SID; // Load set identification number. (Integer > 0)
+		std::string name;
+
+		HeatFluxLoad() : Q0(0.0), elementIDThatContainsSurface(0) {};
+	};
+
+	struct SurfaceConvection
+	{
+		int	convID;  // Convection ID
+		int	pconvID;  // Convection property identification number of a PCONV entry. (Integer > 0) 
+		int mat4ID;
+		int spointID;
+		int	elementIDThatContainsSurface;     // Tetra element ID
+		std::vector<int> surfaceGridPointIDs; 
+		double				convectionCoefficient;
+		double				ambientTemperature;
+		//int CID; // Constraint set identification number. (Integer > 0)
+
+		SurfaceConvection() : convID(0), pconvID(0), mat4ID(0), spointID(0), elementIDThatContainsSurface(0),  convectionCoefficient(0.0), ambientTemperature(0.0) {};
+	};
+
+	class NastranDeckHelper
+	{
+		// This class assumes that all the loads/constraints defined in nastranDeck apply.  In other words, there is
+		// not support for a nastranDeck defining multiple runs based on load/constraint sets.  nastranDeck would have
+		// be created in such a manner as to support only one run and thus all loads/constraints would apply to the run.
+
+		public:
+			NastranDeckHelper( const NastranDeck &in_NastranDeck );
+
+			// Description:
+			//		The DefaultGridPointTemperature is the temperature of all grid points that do not have an explicit temperature
+			//		assignment.
+			//		This may/may-not be set.
+			//
+			// Pre-Conditions:
+			//		None
+			// Post-Conditions:
+			//		An exception would occur if nastranDeck had more than one DefaultGridPointTemperature setting.  This would
+			//		indicate erroneous data in the deck and would be due to a bug in the code that created nastranDeck.
+			//		An exception would also be thrown if the temperature-data string in nastranDeck did not represent a floating point number.
+			//		This would have been due to a coding error in the NastranDeck class.
+			//		If no exceptions:
+			//			return out_DefaultGridPointTemperature_set and out_DefaultGridPointTemperature wherein
+			//				out_DefaultGridPointTemperature_set would be false if nastranDeck did not have a DefaultGridPointTemperature
+			//				setting. 
+			//				if out_DefaultGridPointTemperature_set == true
+			//					then
+			//						out_DefaultGridPointTemperature would be set with the DefaultGridPointTemperature
+			void getDefaultGridPointTemperature( bool &out_DefaultGridPointTemperature_set, double &out_DefaultGridPointTemperature ) const
+																								throw (isis::application_exception);
+			// Description:
+			//		Defines temperature at grid points for determination of thermal loading.
+			// Pre-Conditions:
+			//		None
+			// Post-Conditions:
+			//		out_GridPointToTemperature_map will be cleared (erased) before reading the data from nastranDeck.
+			//		If no specified grid point temperatures were present in nastranDeck then out_GridPointToTemperature_map.size() == 0
+			//		If nastranDeck contained erroneous data (e.g. temperature not a float) then isis::application_exception would be thrown.
+			//		Otherwise, out_GridPointToTemperature_map would be returned appropriately populated.
+			void getSpecifiedGridPointTemperatures( std::map<int,double> &out_GridPointToTemperature_map ) const
+																								throw (isis::application_exception);
+
+			// Description:
+			//		This function searches for an element based on a key, which consists of three grid point IDs.
+			//		Only tetra elements are currently supported.
+			//		The key would be three grid point IDs representing a single triangular face of a tetra element 
+			//		The first element found that has the key is returned.  It is common that a triangular face is shared
+			//		between tetra elements and thus would be associated with possibly  two elements.
+			// Pre-Conditions:
+			//		This function only works with Tetra elements.
+			// Post-Conditions:
+			//		if "NastranDeck::elementData" contains element types other than Tetra, then isis::application_exception would be thrown
+			//		if in_SurfaceCornerGridIDs found
+			//			then
+			//				out_ElementFound set to true
+			//				out_ElementID set to the element ID containing the face
+			void findElementContainingSurface( const std::vector<int> &in_SurfaceCornerGridIDs, bool &out_ElementFound, int &out_ElementID )																										throw (isis::application_exception);
+
+			// Description:
+			//		This function return the heat flux load for boundary surfaces.  It currently does not test whether the surface
+			//      is actually a boundary surface.  That check will be added later.
+			//		See the QBDY3 card description in the Nastran documentation.
+			// Pre-Conditions:
+			//		This function only works with Tetra elements.
+			// Post-Conditions:
+			//		if the deck contains erroneous data pertinent to heat flux or locating the surfaces associated with a heat flux then
+			//			isis::application_exception would be thrown.
+			//		if there are no heat fluxes defined the deck, then out_HeatFluxLoads.size() == 0
+			//		Otherwise, return a populated out_HeatFluxLoads
+			void getHeatFluxLoadsForBoundarySurfaces( std::vector<HeatFluxLoad> &out_HeatFluxLoads ) throw (isis::application_exception);
+
+			// Description:
+			//		This function returns the free convection boundary condition for heat transfer analysis through connection to
+			//		a surface element.  See CONV card desciption in the Nastran documentation.
+			// Pre-Conditions:
+			//		This function only works with Tetra elements.
+			// Post-Conditions:
+			//		if the deck contains erroneous data pertinent to convection or locating the surfaces associated with the convection boundary then
+			//			isis::application_exception would be thrown.
+			//		if there are no convection data defined the deck, then out_SurfaceConvections.size() == 0
+			//		Otherwise, return a populated out_SurfaceConvections
+			void getSurfaceConvectionConstraints ( std::vector<SurfaceConvection> &out_SurfaceConvections ) throw (isis::application_exception);
+
+			// Description:
+			//		This function finds the surfaces that have corner grid points in in_GridPointIDs.
+			//		out_ElementID_to_SurfacePoints_map returns the element id along with the complete set of points defining the surface.
+			//		The complete set of points includes the corner points and the mid points.  The points are ordered per Nastran's
+			//		grid point element numbering.
+			// Pre-Conditions:
+			//		This function only works with Tetra elements.
+			// Post-Conditions:
+			//		if the deck contains erroneous data pertinent to locating the surfaces then
+			//			isis::application_exception would be thrown.
+			//		if there are no surfaces found,  then out_ElementID_to_SurfacePoints_map.size() == 0
+			//		Otherwise, return a populated out_ElementID_to_SurfacePoints_map
+			void getSurfaceElementsContainingGridPoints ( const std::set<int> &in_GridPointIDs, 
+														  std::multimap< int, std::vector<int>> &out_ElementID_to_SurfacePoints_map )
+														  throw (isis::application_exception);
+
+		private:
+			const NastranDeck &nastranDeck;
+			// Don't allow this class to be instantiated without specifying  the NastranDeck as an input.
+			NastranDeckHelper();
+
+			bool sufaceCornerGridIDs_to_SolidElementID_map_populated;  // Initially set to false by the constructor
+
+			// For sufaceIDs_to_SolidElement_map:
+			//	1) Only tetra elements are currently supported
+			//	2) The key (i.e. std::vector<int>) is the four corner points representing the four faces of a tetra element.
+			//	3) The keys for a tetra with the four corner points numbered 1, 2, ,3, 4 are
+			//	   Face 1, Keys: 1 2 3
+			//	   Face 2, Keys: 1 2 4
+			//	   Face 3, Keys: 1 3 4
+			//	   Face 4, Keys: 2 3 4
+			std::map<std::vector<int>, int> sufaceCornerGridIDs_to_SolidElementID_map;  // surfaceIDs represent a key to a solid element
+
+			void populate_sufaceCornerGridIDs_to_SolidElementID_map();
+	};
+
+	
 } // End namespace isis
 
 #endif 

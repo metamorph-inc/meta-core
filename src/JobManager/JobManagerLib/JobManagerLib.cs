@@ -85,7 +85,7 @@ namespace JobManager
         /// </summary>
         public string ResultsZip { get; set; }
 
-        public const string LabelVersion = "14.10";
+        public const string LabelVersion = "14.11";
         public const string DefaultLabels = "Windows" + LabelVersion;
         public const string DefaultBuildQuery = "";
     }

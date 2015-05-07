@@ -1,42 +1,46 @@
 from xml.etree.ElementTree import Element, SubElement, ElementTree, Comment, tostring
-import sys, os
+import sys
+import os
 import logging
 from time import gmtime, strftime
 from xml.dom import minidom
+import cad_library.allowable_stress_levels as allowable_stress_levels
+import cad_library.material_properties as material_properties
 
 gVersion = '1.0.0.2'
 gConfigurationID = ''
 gStructuralMetricTypes = ['FactorOfSafety', 'MaximumDisplacement', 'VonMisesStress', 'Bearing', 'Shear']
 gThermalMetricTypes = ['MaximumTemperature', 'MinimumTemperature']
-gQualityLookup = {1:'LOW', 2:'MEDIUM', 3:'HIGH'}
-gMetricSummary = dict()             #id, (value, unit)
+gQualityLookup = {1: 'LOW', 2: 'MEDIUM', 3: 'HIGH'}
+gMetricSummary = dict()             # id, (value, unit)
 
 module_logger = logging.getLogger('')
 
+
 class ComponentData:
     def __init__(self, componentID, elementID):
-        self.MetricsInfo = {}     	#type, id
-        self.MetricsOutput = {}	  	#id, value
-        self.UnitInfo = {}          #id, unit_string
-        self.MaterialProperty = {}	#type, value
-        self.ComponentID = componentID	#string
-        self.ElementID = elementID	#string  
-        self.QualityOutput = {}         #type, quality evaluation
-        self.RangeInfo = {}             #type, range evaluation
+        self.MetricsInfo = {}           # type, id
+        self.MetricsOutput = {}         # id, value
+        self.UnitInfo = {}              # id, unit_string
+        self.MaterialProperty = {}      # type, value
+        self.Allowables = None
+        self.ComponentID = componentID  # string
+        self.ElementID = elementID      # string
+        self.QualityOutput = {}         # type, quality evaluation
+        self.RangeInfo = {}             # type, range evaluation
         self.OutOfRangeDistorted = []
-        self.CadType = ''           # Patran_PP
-        self.FEAResults = {}        # Patran_PP
-        self.Children = []          # children cID's
+        self.CadType = ''               # Patran_PP
+        self.FEAResults = {}            # Patran_PP
+        self.Children = []              # children cID's
+        self.IsConfigurationID = False
 
-        
     def __str__(self):
-        stringRep = 'Component: ' + self.ComponentID + ' FEAElementID: '+ self.ElementID +'\n'
-        #stringRep += 'Material Bearing: {Bearing} Material Shear: {Shear} Material Mises: {Mises}'.format(**self.MaterialProperty)
+        stringRep = 'Component: ' + self.ComponentID + ' FEAElementID: ' + self.ElementID + '\n'
         for key, value in self.MaterialProperty.iteritems():
             stringRep += "".join(['Material %s:%s ' % (key, value)])
         stringRep += '\n'
         for key, value in self.MetricsInfo.iteritems():
-            stringRep += "".join(['Metrics %s:%s ' % (key, value) ]) 
+            stringRep += "".join(['Metrics %s:%s ' % (key, value)])
         return stringRep
 
         
@@ -56,16 +60,67 @@ def CreateMaterialDict(rootNode):
         
         for s in [bStress, sStress, tStress]:
             if any(v is None for v in s):
-                LogException('Material has no value/units: ' + s)
+                LogException('Material has no value/units: ' + str(s))
             if s[1] != 'MPa':
                 LogException('Material units should be MPa and not ' + key['Unit'])
                 
-        temp = { 'Bearing':bStress[0], 'Shear':sStress[0], 'Mises':tStress[0] }
+        temp = {'Bearing': bStress[0], 'Shear': sStress[0], 'Mises': tStress[0]}
         materialDict[material.attrib.get('MaterialID')] = temp
     
     return materialDict
     
-    
+
+def recurseTree(componentNodes, gComponentList, adams, odbName):
+    """ Recursively search assembly tree as represented by CAD metrics file. """
+    for node in componentNodes:
+        cID = node.attrib.get('ComponentInstanceID')
+        eID = node.attrib.get('FEAElementID').upper()
+        if eID == '':
+            # Name is used for unique name in model-based, not PSOLIDs
+            # This file is updated in model-based before PP to replace
+            # non-unique name with internal Abaqus unique name.
+            eID = node.attrib.get('Name').upper()
+        if adams and eID != odbName:
+            continue
+        aComponentData = ComponentData(cID, eID)        # create a new ComponentData
+        mtrl = {}
+        if node.attrib.get('Type') == 'PART':
+            aComponentData.CadType = 'PART'
+            componentMaterial = node.attrib.get('MaterialID')
+            if componentMaterial:
+                material_properties.get_props_from_material_library([componentMaterial.lower()], mtrl)
+                aComponentData.Allowables = \
+                    allowable_stress_levels.AnalysisMaterialPropertiesAllowables(componentMaterial)
+                allowable_stress_levels.compute_allowable_stress_levels(
+                    allowable_stress_levels.MECHANICAL_INFINITE_CYCLES_INDICATOR,
+                    mtrl[componentMaterial.lower()],
+                    aComponentData.Allowables)
+        else:
+            # Get direct descending children (in adams asm is treated as merged part)
+            if gConfigurationID == cID:
+                aComponentData.IsConfigurationID = True
+            children = []
+            for c in node.findall('./Component'):
+                children.append(c.attrib.get('ComponentInstanceID'))
+                componentMaterial = c.attrib.get('MaterialID')
+            if adams:
+                material_properties.get_props_from_material_library([componentMaterial.lower()], mtrl)
+                aComponentData.Allowables = \
+                    allowable_stress_levels.AnalysisMaterialPropertiesAllowables(componentMaterial)
+                allowable_stress_levels.compute_allowable_stress_levels(
+                    allowable_stress_levels.MECHANICAL_INFINITE_CYCLES_INDICATOR,
+                    mtrl[componentMaterial.lower()],
+                    aComponentData.Allowables)
+            else:
+                aComponentData.Children = children
+            aComponentData.CadType = 'ASSEMBLY'
+
+            recurseTree(node, gComponentList, adams, odbName)
+
+        gComponentList[aComponentData.ComponentID] = aComponentData
+    return
+
+
 def ParseMetaDataFile(xmlname, odbName, adams):
     logger = logging.getLogger()
     gComponentList = dict()
@@ -77,49 +132,22 @@ def ParseMetaDataFile(xmlname, odbName, adams):
     except Exception, inst:
         LogException('Unexpected error opening ' + xmlname + str(inst))
     
-    rootNode = tree.getroot() # CADAnalysisMetaData
+    rootNode = tree.getroot()  # CADAnalysisMetaData
     
     assemblyNode = rootNode.find('Assemblies/Assembly')
     gConfigurationID = assemblyNode.attrib.get('ConfigurationID')
     logger.info('ConfigID: ' + gConfigurationID)
 
-    materialDict = CreateMaterialDict(rootNode)
+    CreateMaterialDict(rootNode)
     
     logger.info('\n\nFUNCTION: ParseMetaDataFile()')
-    componentNodes = assemblyNode.findall('.//Component/Component')
-    for node in componentNodes:
-        cID = node.attrib.get('ComponentInstanceID')
-        eID = node.attrib.get('FEAElementID').upper()
-        if eID == '':
-            # Name is used for unique name in model-based, not PSOLIDs
-            # This file is updated in model-based before PP to replace
-            # non-unique name with internal Abaqus unique name.
-            eID = node.attrib.get('Name').upper()
-        if adams and eID != odbName:
-            continue        
-        aComponentData = ComponentData(cID, eID)        # create a new ComponentData
-        if node.attrib.get('Type') == 'PART':
-            aComponentData.CadType = 'PART'
-            componentMaterial = node.attrib.get('MaterialID')
-            if componentMaterial:
-                aComponentData.MaterialProperty = materialDict[componentMaterial]
-        else:
-            # Get direct descending children (in adams asm is treated as merged part)
-            children = []
-            for c in node.findall('./Component'):
-                children.append(c.attrib.get('ComponentInstanceID'))
-                componentMaterial = c.attrib.get('MaterialID')
-            #children = [c.attrib.get('ComponentInstanceID') for c in node.findall('./Component')]
-            if adams:
-                aComponentData.MaterialProperty = materialDict[componentMaterial]
-            else:
-                aComponentData.Children = children
-            aComponentData.CadType = 'ASSEMBLY'
-            
-        gComponentList[aComponentData.ComponentID] = aComponentData
+
+    componentNodes = assemblyNode.findall('.//Component')
+    recurseTree(componentNodes, gComponentList, adams, odbName)
+
     return gComponentList
-    
-    
+
+
 def ParseReqMetricsFile(xmlname, componentList=None):
     """ componentList exists when file is initially processed.
         When file is parsed again once ComputedValues.xml has
@@ -139,8 +167,7 @@ def ParseReqMetricsFile(xmlname, componentList=None):
         
     logger.info('FUNCTION: ParseMetricsFile()')
     reqMetrics = []
-    rootNode = tree.getroot() # Metrics
-    metricNodeList = rootNode.findall('./Metric')
+    rootNode = tree.getroot()  # Metrics
 
     for metric in rootNode.findall('./Metric'):
         metricID = metric.attrib.get('MetricID')
@@ -148,20 +175,16 @@ def ParseReqMetricsFile(xmlname, componentList=None):
             if metric.attrib.get('ComponentInstanceID') not in componentList:
                 continue
             if metric.attrib.get('TopAssemblyComponentInstanceID') != gConfigurationID:
-                LogException('Metric is associated with top level assembly ID ' + \
+                LogException('Metric is associated with top level assembly ID ' +
                              'not matching Configuration ID above!')
             metricType = metric.attrib.get('MetricType')
-            
+
             if metricType in gStructuralMetricTypes:
-                reqMetrics.extend(['S','U'])
-                valid = True
+                reqMetrics.extend(['S', 'U'])
             elif metricType in gThermalMetricTypes:
                 reqMetrics.append('TEMP')
-                valid = True
             else:
                 continue
-            #if not valid:  
-            #    LogException('Invalid Metric Type: ' + str(metricType))
 
             aComponentData = componentList[metric.attrib.get('ComponentInstanceID')]
             aComponentData.MetricsInfo[metricType] = metricID
@@ -172,10 +195,9 @@ def ParseReqMetricsFile(xmlname, componentList=None):
                 for c in aComponentData.Children:
                     componentList[c].MetricsInfo[metricType] = metricID
                     componentList[c].MetricsOutput[metricID] = metric.attrib.get('ArrayValue')
-        
+
         gMetricSummary[metricID] = (metric.attrib.get('Units'), metric.attrib.get('ArrayValue'))
-        
-    
+
     return set(reqMetrics)      
 
     
@@ -211,20 +233,19 @@ def WriteXMLFile(componentList):
                     metricUnits = 'MPa'
                 elif 'Temperature' in key:
                     metricUnits = 'K'
-                elif (key == 'FactorOfSafety'):
+                elif key == 'FactorOfSafety':
                     metricUnits = ''
                 else:
                     metricUnits = ''
-                metricNode = SubElement(root, 'Metric', {'ComponenInstancetID':str(component.ComponentID),
-                                                          'ArrayValue':str(component.MetricsOutput[value]),
-                                                          'MetricID':str(value),
-                                                          'Type':str(metricType),
-                                                          'Units':str(metricUnits),
-                                                          'DataFormat':'Scalar' 
-                                                          })
+                SubElement(root, 'Metric', {'ComponenInstancetID': str(component.ComponentID),
+                                            'ArrayValue': str(component.MetricsOutput[value]),
+                                            'MetricID': str(value),
+                                            'Type': str(metricType),
+                                            'Units': str(metricUnits),
+                                            'DataFormat': 'Scalar'})
 
-    pretty = minidom.parseString(tostring(root,encoding='utf-8')).toprettyxml()
-    with open('ComputedValues.xml','w') as cvals:
+    pretty = minidom.parseString(tostring(root, encoding='utf-8')).toprettyxml()
+    with open('ComputedValues.xml', 'w') as cvals:
         cvals.write(pretty)
 
     logger.info('\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
@@ -242,8 +263,8 @@ def WriteMetric2File(gComponentList):
 
     csvFile.write('ConfigurationID[' + gConfigurationID + ']\n\n')
     xmlFile.write('<RootObjectType>\n')
-    xmlFile.write('<Configurations>\n');
-    xmlFile.write('<Configuration ID=\"' + gConfigurationID + '\" Name=\"\">\n');
+    xmlFile.write('<Configurations>\n')
+    xmlFile.write('<Configuration ID=\"' + gConfigurationID + '\" Name=\"\">\n')
 
     for component in gComponentList.values():
         if component.ComponentID.startswith('NON_CYPHY_ID_'):
@@ -253,15 +274,15 @@ def WriteMetric2File(gComponentList):
         for key, value in component.MetricsInfo.items():
             if value in component.MetricsOutput:
                 csvFile.write(key + '(' + value + ')' + ',' + str(component.MetricsOutput[value]) + ',')
-                xmlFile.write('<ConfigMetric ComponentInstanceID=\"' + component.ComponentID + '\" DefID=\"' + value + '\" Value=\"' + str(component.MetricsOutput[value]) + '\"/>\n')
+                xmlFile.write('<ConfigMetric ComponentInstanceID=\"' + component.ComponentID +
+                              '\" DefID=\"' + value + '\" Value=\"' + str(component.MetricsOutput[value]) + '\"/>\n')
             if key in component.QualityOutput:
                 csvFile.write(',' + component.QualityOutput[key] + '\n')
         csvFile.write('\n')
-    xmlFile.write('</Configuration>\n');
-    xmlFile.write('</Configurations>\n');
+    xmlFile.write('</Configuration>\n')
+    xmlFile.write('</Configurations>\n')
     xmlFile.write('</RootObjectType>\n')
 
-    
     csvFile.close()
     xmlFile.close()
 
@@ -283,28 +304,28 @@ def PrintComponentList(componentList):
         logger.info('ElementID: ' + component.ElementID)
         
         logger.info('~~~ Material Properties ~~~')
-        for item in component.MaterialProperty:	#type, value
+        for item in component.MaterialProperty:  # type, value
             logger.info(item + ': ' + component.MaterialProperty[item])
             
         logger.info('~~~ Metrics Info ~~~')
-        for item in component.MetricsInfo:     	#type, id
+        for item in component.MetricsInfo:       # type, id
             logger.info(item + ': ' + component.MetricsInfo[item])
 
         logger.info('~~~ Metrics Output ~~~')
-        for item in component.MetricsOutput:    #type, id
+        for item in component.MetricsOutput:     # type, id
             logger.info(item + ': ' + str(component.MetricsOutput[item]))
 
         logger.info('~~~ Metrics Quality ~~~')
-        for item in component.QualityOutput:     	#type, id
+        for item in component.QualityOutput:     # type, id
             logger.info(item + ': ' + component.QualityOutput[item])
 
         logger.info('~~~ Range ~~~')
         for item in component.RangeInfo:
             logger.info(item + ': ' + component.RangeInfo[item])
 
-        logger.info('~~~ Distorted Out of Range IDs ~~~')
-        for item in component.OutOfRangeDistorted:
-            logger.info(str(item))
-            
-        
+        # Uncomment for debugging.
+        #logger.info('~~~ Distorted Out of Range IDs ~~~')
+        #for item in component.OutOfRangeDistorted:
+        #   logger.info(str(item))
+
     logger.info('\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n')

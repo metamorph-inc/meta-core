@@ -1,0 +1,14 @@
+{
+	"FAMEFaultCount" : {
+		"version": "00.01",
+		"outputDirectory": "output",
+		"runCommand": "run_possible_fault_count.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhy2Modelica_v2"
+		},
+	"FAMECriticalFaultCount" : {
+		"version": "00.01",
+		"outputDirectory": "output",
+		"runCommand": "run_critical_fault_count.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhy2Modelica_v2"
+		}
+}

@@ -76,6 +76,8 @@ namespace CyPhyDesignImporter
 
         public Model ImportDesign(avm.Design ad_import, DesignImportMode mode = DesignImportMode.CREATE_DS)
         {
+            TellCyPhyAddonDontAssignIds();
+
             // TODO: check ad_import.SchemaVersion
             CyPhy.DesignEntity cyphy_container;
 
@@ -112,7 +114,7 @@ namespace CyPhyDesignImporter
             }
             else
             {
-                throw new Exception("Unrecognized mode " + mode.ToString());
+                throw new ArgumentOutOfRangeException("Unrecognized mode " + mode.ToString());
             }
 
             var ad_container = ad_import.RootContainer;
@@ -141,9 +143,50 @@ namespace CyPhyDesignImporter
                 }
             }
 
+            AddReferenceCoordinateSystemForAssemblyRoot(ad_import, cyphy_container);
+
             DoLayout();
 
             return (Model)cyphy_container;
+        }
+
+        private void TellCyPhyAddonDontAssignIds()
+        {
+            var cyPhyAddon = project.AddOnComponents.Cast<IMgaComponentEx>().Where(x => x.ComponentName.ToLowerInvariant() == "CyPhyAddOn".ToLowerInvariant()).FirstOrDefault();
+            if (cyPhyAddon != null)
+            {
+                cyPhyAddon.ComponentParameter["DontAssignGuidsOnNextTransaction".ToLowerInvariant()] = true;
+            }
+        }
+
+        private void AddReferenceCoordinateSystemForAssemblyRoot(avm.Design ad_import, CyPhy.DesignEntity cyphy_container)
+        {
+            foreach (var root in ad_import.DomainFeature.OfType<avm.cad.AssemblyRoot>())
+            {
+                CyPhyML.ComponentRef componentRef;
+                if (idToComponentInstanceMap.TryGetValue(root.AssemblyRootComponentInstance, out componentRef))
+                {
+                    MgaFCO rcs = CreateChild((ISIS.GME.Common.Interfaces.Model)componentRef.ParentContainer, typeof(CyPhyML.ReferenceCoordinateSystem));
+                    rcs.Name = "AssemblyRoot";
+                    CyPhyML.ReferenceCoordinateSystem componentRcs = componentRef.Referred.Component.Children.ReferenceCoordinateSystemCollection.FirstOrDefault();
+                    if (componentRcs == null)
+                    {
+                        componentRcs = CyPhyClasses.ReferenceCoordinateSystem.Create(componentRef.Referred.Component);
+                    }
+
+                    ((MgaModel)componentRef.ParentContainer.Impl).CreateSimpleConnDisp(((MgaMetaModel)componentRef.ParentContainer.Impl.MetaBase).RoleByName[typeof(CyPhyML.RefCoordSystem2RefCoordSystem).Name],
+                        rcs, (MgaFCO)componentRcs.Impl, null, (MgaFCO)componentRef.Impl);
+
+                    while (rcs.ParentModel.ID != cyphy_container.ID)
+                    {
+                        var oldrcs = rcs;
+                        rcs = CreateChild(rcs.ParentModel.ParentModel, typeof(CyPhyML.ReferenceCoordinateSystem));
+                        rcs.Name = "AssemblyRoot";
+                        ((MgaModel)rcs.ParentModel).CreateSimplerConnDisp(((MgaMetaModel)rcs.ParentModel.Meta).RoleByName[typeof(CyPhyML.RefCoordSystem2RefCoordSystem).Name],
+                            rcs, oldrcs);
+                    }
+                }
+            }
         }
 
         private CyPhy.DesignContainer CreateDesignSpaceRoot(avm.Design ad_import)
@@ -296,6 +339,7 @@ namespace CyPhyDesignImporter
             _avmValueNodeIDMap.Add(ad_mux.ID, new KeyValuePair<avm.ValueNode, object>(null, ad_mux));
         }
 
+        Dictionary<string, CyPhy.ComponentRef> idToComponentInstanceMap = new Dictionary<string, CyPhy.ComponentRef>();
         private void ImportComponentInstance(avm.ComponentInstance ad_componentinstance, CyPhy.ComponentRef cyphy_componentref)
         {
             AVM2CyPhyML.CyPhyMLComponentBuilder.SetLayoutData(ad_componentinstance, cyphy_componentref.Impl);
@@ -309,6 +353,7 @@ namespace CyPhyDesignImporter
             cyphy_componentref.Name = ad_componentinstance.Name;
             //cyphy_componentref.Attributes.ID = ad_componentinstance.ID;
             cyphy_componentref.Attributes.InstanceGUID = ad_componentinstance.ID;
+            idToComponentInstanceMap[ad_componentinstance.ID] = cyphy_componentref;
 
             foreach (var ad_propinstance in ad_componentinstance.PrimitivePropertyInstance)
             {
@@ -352,10 +397,16 @@ namespace CyPhyDesignImporter
             }
         }
 
-        private IMgaObject CreateChild(ISIS.GME.Common.Interfaces.Model parent, Type type)
+        private MgaFCO CreateChild(ISIS.GME.Common.Interfaces.Model parent, Type type)
         {
             var role = ((MgaMetaModel)parent.Impl.MetaBase).RoleByName[type.Name];
-            return ((MgaModel)parent.Impl).CreateChildObject(role);
+            return (MgaFCO)((MgaModel)parent.Impl).CreateChildObject(role);
+        }
+
+        private MgaFCO CreateChild(MgaModel parent, Type type)
+        {
+            var role = ((MgaMetaModel)parent.MetaBase).RoleByName[type.Name];
+            return (MgaFCO)((MgaModel)parent).CreateChildObject(role);
         }
     }
 }

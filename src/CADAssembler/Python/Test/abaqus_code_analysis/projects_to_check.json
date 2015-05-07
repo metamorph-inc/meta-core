@@ -1,0 +1,54 @@
+{
+    "Python": {
+        "command": "..\\..\\..\\..\\..\\bin\\Python27\\Scripts\\python.exe ..\\..\\..\\..\\..\\bin\\Python27\\Scripts\\pylint-script.py --rcfile=pylint_cfg.txt -f html \"{srcDir}{name}\" > {name}.pylint.html",
+        "projects": [
+            {
+                "name": "source_code_analysis.py",
+                "srcDir": ""
+            },
+            {
+                "name": "AbaqusCAE.py",
+                "srcDir": "..\\..\\Abaqus\\"
+            },
+            {
+                "name": "AbaqusCAE_ADAMS.py",
+                "srcDir": "..\\..\\Abaqus\\"
+            },
+            {
+                "name": "AbaqusDataCheck.py",
+                "srcDir": "..\\..\\Abaqus\\"
+            },
+            {
+                "name": "AbaqusDict.py",
+                "srcDir": "..\\..\\Abaqus\\"
+            },
+            {
+                "name": "AbaqusGeometry.py",
+                "srcDir": "..\\..\\Abaqus\\"
+            },
+            {
+                "name": "AbaqusMain.py",
+                "srcDir": "..\\..\\Abaqus\\"
+            },
+            {
+                "name": "AbaqusParse.py",
+                "srcDir": "..\\..\\Abaqus\\"
+            },
+            {
+                "name": "AbaqusRun.py",
+                "srcDir": "..\\..\\Abaqus\\"
+            },
+            {
+                "name": "AbaqusSTEP.py",
+                "srcDir": "..\\..\\Abaqus\\"
+            },
+            {
+                "name": "AbaqusThermal.py",
+                "srcDir": "..\\..\\Abaqus\\"
+            }
+        ]
+    },
+    "Javascript": {
+        "projects": []
+    }
+}

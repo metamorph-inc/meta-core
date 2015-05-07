@@ -224,6 +224,37 @@ namespace isis
 											throw (isis::application_exception);
 
 	//////////////////////////////////////////////////////////////////////////////////////////
+	enum e_CADUnitsHeatCapacity
+    {
+		CAD_UNITS_J_PER_KG_K,
+    };
+
+	 e_CADUnitsHeatCapacity			CADUnitsHeatCapacity_enum( 
+		                         const string &in_CADUnitsHeatCapacity_string)
+								 throw (isis::application_exception);
+
+
+	std::string CADUnitsHeatCapacity_string(  e_CADUnitsHeatCapacity in_Units_enum)
+											throw (isis::application_exception);
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	enum e_CADUnitsThermalConductivity
+    {
+		CAD_UNITS_W_PER_MM_K,
+    };
+
+	 e_CADUnitsThermalConductivity			CADUnitsThermalConductivity_enum( 
+		                         const string &in_CADUnitsThermalConductivity_string)
+								 throw (isis::application_exception);
+
+
+	std::string CADUnitsThermalConductivity_string(  e_CADUnitsThermalConductivity in_Units_enum)
+											throw (isis::application_exception);
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+
 
 	enum e_CADUnitsAngle
     {
@@ -844,6 +875,33 @@ namespace isis
 		Metrics_JointsComponentInstanceData_Secondary_string(  e_Metrics_JointsComponentInstanceData_Secondary in_Metrics_JointsComponentInstanceData_Secondary_enum)
 											throw (isis::application_exception);
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	enum e_Thermal_LoadConstraint
+	{
+		THERMAL_CONVECTION_HEAT,		// CONSTRAINT, Convection Coefficient with Ambient Temp 
+		THERMAL_HEAT_FLUX,				// LOAD
+		THERMAL_HEAT_GENERATION,		// LOAD Not supported by deck-based
+		THERMAL_INITIAL_TEMPERATURE,    // LOAD
+		THERMAL_SPECIFIED_TEMPERATURE,
+		THERMAL_AMBIENT_TEMPERATURE// LOAD Specified temperature at grid points
+
+		/*
+		ConvectionHeat
+		HeatFlux
+		HeatGeneration
+		InitialTemperature
+		SpecifiedTemperature
+		*/
+	};
+	e_Thermal_LoadConstraint 
+		Thermal_LoadConstraint_enum(const std::string &in_Thermal_LoadConstraint_string)
+												throw (isis::application_exception);
+
+	std::string 
+		Thermal_LoadConstraint_string(  e_Thermal_LoadConstraint in_Thermal_LoadConstraint_enum)
+											throw (isis::application_exception);
 }  // end namespace isis
 
 #endif

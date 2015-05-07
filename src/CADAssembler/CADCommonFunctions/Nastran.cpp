@@ -9,6 +9,7 @@
 #include <iterator>
 #include <sstream>
 #include "MiscellaneousFunctions.h"
+#include <boost/algorithm/string.hpp>
 
 
 #pragma warning( disable : 4996 ) // Disable warining about not using the safe char* functions (e.g. sscanf_s, sprintf_s...
@@ -24,6 +25,20 @@ namespace isis_CADCommon
 		if(in_data == (int)in_data)
 			stream << ".";
 		return stream.str();
+	}
+
+	std::string IDToString_0Null( int in_Int)
+	{
+		if ( in_Int == 0 )
+		{
+			return "";
+		}
+		else
+		{
+			char tempBuffer[64];
+			itoa(in_Int, tempBuffer, 10 );
+			return std::string( tempBuffer);
+		}
 	}
 
 	std::ostream& operator<<(std::ostream& stream, const PSolid &myPSolid)
@@ -69,7 +84,217 @@ namespace isis_CADCommon
 			<< "," << myConstraint.C1 << "," << myConstraint.D1;
 		return stream;
 	}
+
+	std::ostream& operator<<(std::ostream& stream, const MAT4 &in_Material_MAT4)
+	{
+
+		std::stringstream temp;
+
+		temp << "MAT4," << IDToString_0Null(in_Material_MAT4.MID)		<< "," <<
+		in_Material_MAT4.K			<< "," <<
+		in_Material_MAT4.CP			<< "," <<
+		in_Material_MAT4.p			<< "," <<
+		in_Material_MAT4.H			<< "," <<
+		in_Material_MAT4.m			<< "," <<
+		in_Material_MAT4.HGEN		<< "," <<
+		in_Material_MAT4.REFENTH	<< "," <<
+		in_Material_MAT4.TCH		<< "," <<
+		in_Material_MAT4.TDELTA		<< "," <<
+		in_Material_MAT4.QLAT;
+
+		// Delete trailing commas
+		std::string s = temp.str();
+		s.erase(s.find_last_not_of(",") + 1);
+
+		stream << s;
+		return stream;
+	}
+
+
+	std::ostream& operator<<(std::ostream& stream, const TEMP &in_TEMP)
+	{
+		std::stringstream temp;
+
+		temp << "TEMP," << IDToString_0Null(in_TEMP.SID)	<< "," <<
+		IDToString_0Null(in_TEMP.G1)						<< "," <<
+		in_TEMP.T1											<< "," <<
+		IDToString_0Null(in_TEMP.G2)						<< "," <<
+		in_TEMP.T2											<< "," <<
+		IDToString_0Null(in_TEMP.G3)						<< "," <<
+		in_TEMP.T3;
+
+		// Delete trailing commas
+		std::string s = temp.str();
+		s.erase(s.find_last_not_of(",") + 1);
+
+		stream << s;
+		return stream;
+	}
+
+	std::ostream& operator<<(std::ostream& stream, const TEMPD &in_TEMPD)
+	{
+		std::stringstream temp;
+
+		temp << "TEMPD," << 
+		IDToString_0Null(in_TEMPD.SID)		<< "," <<
+		in_TEMPD.T;	
+		//in_TEMPD.SID2		<< "," <<
+		//in_TEMPD.T2			<< "," <<
+		//in_TEMPD.SID3		<< "," <<
+		//in_TEMPD.T3			<< "," <<
+		//in_TEMPD.SID4		<< "," <<
+		//in_TEMPD.T4;
+
+		// Delete trailing commas
+		std::string s = temp.str();
+		s.erase(s.find_last_not_of(",") + 1);
+
+		stream << s;
+		return stream;
+	}
+
+	std::ostream& operator<<(std::ostream& stream, const SPOINT &in_SPOINT)
+	{
+		std::stringstream temp;
+
+		temp << "SPOINT," << 
+		IDToString_0Null(in_SPOINT.ID);	//<< "," <<
+	//	in_SPOINT.ID2	<< "," <<
+	//	in_SPOINT.ID3	<< "," <<
+	//	in_SPOINT.ID4	<< "," <<
+	//	in_SPOINT.ID5	<< "," <<
+	//	in_SPOINT.ID6	<< "," <<
+	//	in_SPOINT.ID7	<< "," <<
+	//	in_SPOINT.ID8;
+
+		// Delete trailing commas
+		std::string s = temp.str();
+		s.erase(s.find_last_not_of(",") + 1);
+
+		stream << s;
+		return stream;
+	}
+
+	std::ostream& operator<<(std::ostream& stream, const PCONV &in_PCONV)
+	{
+		std::stringstream temp;
+
+		temp << "PCONV," << 
+		IDToString_0Null(in_PCONV.PCONID)	<< "," <<
+		IDToString_0Null(in_PCONV.MID)	<< "," <<
+		in_PCONV.FORM	<< "," <<
+		in_PCONV.EXPF;
+
+		// Delete trailing commas
+		std::string s = temp.str();
+		s.erase(s.find_last_not_of(",") + 1);
+
+		stream << s;
+		return stream;
+	}
+
+	std::ostream& operator<<(std::ostream& stream, const CONV &in_CONV)
+	{
+		std::stringstream temp;
+
+		temp << "CONV," << 
+		IDToString_0Null(in_CONV.EID)		<< "," <<
+		IDToString_0Null(in_CONV.PCONID)	<< "," <<
+		in_CONV.FLMND						<< "," <<
+		in_CONV.CNTRLND						<< "," <<
+		IDToString_0Null(in_CONV.TA1)		<< "," <<
+		IDToString_0Null(in_CONV.TA2)		<< "," <<
+		IDToString_0Null(in_CONV.TA3)		<< "," <<
+		IDToString_0Null(in_CONV.TA4)		<< "," <<
+		IDToString_0Null(in_CONV.TA5)		<< "," <<
+		IDToString_0Null(in_CONV.TA6)		<< "," <<
+		IDToString_0Null(in_CONV.TA7)		<< "," <<
+		IDToString_0Null(in_CONV.TA8);
+
+		// Delete trailing commas
+		std::string s = temp.str();
+		s.erase(s.find_last_not_of(",") + 1);
+
+		stream << s;
+		return stream;
+	}
+
 	
+	std::ostream& operator<<(std::ostream& stream, const CHBDYG &in_CHBDYG)
+	{
+		std::stringstream temp1;
+
+		temp1 << "CHBDYG," << 
+		IDToString_0Null(in_CHBDYG.EID)		<< ",," <<  // before Type is an empty field.
+		in_CHBDYG.TYPE						<< "," <<
+		in_CHBDYG.IVIEWF					<< "," <<
+		in_CHBDYG.IVIEWB					<< "," <<
+		in_CHBDYG.RADMIDF					<< "," <<
+		in_CHBDYG.RADMIDB;
+
+		std::string s1 = temp1.str();
+		s1.erase(s1.find_last_not_of(",") + 1);
+
+		std::stringstream temp2;
+
+		temp2 << "," <<
+		IDToString_0Null(in_CHBDYG.G1)		<< "," <<
+		IDToString_0Null(in_CHBDYG.G2)		<< "," <<
+		IDToString_0Null(in_CHBDYG.G3)		<< "," <<
+		IDToString_0Null(in_CHBDYG.G4)		<< "," <<
+		IDToString_0Null(in_CHBDYG.G5)		<< "," <<
+		IDToString_0Null(in_CHBDYG.G6)		<< "," <<
+		IDToString_0Null(in_CHBDYG.G7)		<< "," <<
+		IDToString_0Null(in_CHBDYG.G8);
+
+		// Delete trailing commas
+		std::string s2 = temp2.str();
+		s2.erase(s2.find_last_not_of(",") + 1);
+
+		if ( s2.size() > 0 )
+			stream << s1 << std::endl << s2;
+		else
+			stream << s1;
+
+		return stream;
+	}
+
+	std::ostream& operator<<(std::ostream& stream, const QBDY3 &in_QBDY3)
+	{
+		std::stringstream temp1;
+
+		temp1 << "QBDY3," << 
+		IDToString_0Null(in_QBDY3.SID)	<< "," <<
+		in_QBDY3.Q0		<< "," <<
+		in_QBDY3.CNTRLND		<< "," <<
+		IDToString_0Null(in_QBDY3.EID1)		<< "," <<
+		IDToString_0Null(in_QBDY3.EID2)		<< "," <<
+		IDToString_0Null(in_QBDY3.EID3)		<< "," <<
+		IDToString_0Null(in_QBDY3.EID4)		<< "," <<
+		IDToString_0Null(in_QBDY3.EID5);
+
+
+		std::stringstream temp2;
+		temp2 << "," <<
+		IDToString_0Null(in_QBDY3.EID6)		<< "," <<
+		IDToString_0Null(in_QBDY3.EID7)		<< "," <<
+		IDToString_0Null(in_QBDY3.EID8);
+
+		// Delete trailing commas
+		std::string s1 = temp1.str();
+		s1.erase(s1.find_last_not_of(",") + 1);
+
+		std::string s2 = temp2.str();
+		s2.erase(s2.find_last_not_of(",") + 1);
+
+		if ( s2.size() > 0 )
+			stream << s1 << std::endl << s2;
+		else
+			stream << s1;
+		return stream;
+	}
+
+
 	std::ostream& operator<<(std::ostream& stream, const Force &myForce)
 	{
 		stream << "FORCE," << myForce.SID << "," << myForce.GID << ","
@@ -139,11 +364,56 @@ namespace isis_CADCommon
 		}
 	}
 
+	// Token must contain a postive (one or  greater) integer; otherwise, throw an exception
+	// IDs in a Nastran deck are always one or greater
+	int atoi_WithVerifyIDInt(const std::string &in_Card, int in_FieldNum, const std::string &in_Token)
+	{
+		if ( in_Token.size() == 0  || in_Token.find_first_not_of("0123456789") != std::string::npos )
+		{
+			std::stringstream errorString;
+			errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+						    "Deck Line:    " << in_Card					<< std::endl <<
+							"Field Number: " << in_FieldNum + 1			<< std::endl <<
+							"Error:		   " << "The field (designated by Field Number) must contain an integer.";
+			throw isis::application_exception(errorString.str().c_str()); 
+		}
+
+
+		int temp =	atoi(in_Token.c_str());
+
+		if ( temp < 1 )
+		{
+			std::stringstream errorString;
+			errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+						    "Deck Line:     " << in_Card				<< std::endl <<
+							"Field Number:  " << in_FieldNum + 1		<< std::endl <<
+							"Integer Value: " << temp					<< std::endl <<
+							"Error:		   " << "The field (designated by Field Number) must contain an integer with a value greater than zero.";
+			throw isis::application_exception(errorString.str().c_str()); 
+
+		}
+
+		return temp;
+	}
+
+
+
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	class NastranDeck
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	NastranDeck::NastranDeck():maxCoordinateID(0) {}
+	NastranDeck::NastranDeck():	maxCoordinateID(0),
+								MATERIALS_PLACEMENT_MAT4_set(false),
+								TEMPERATURE_TEMP_set(false),
+								TEMPERATURE_TEMPD_set(false), 
+								POINT_SPOINT_set(false),
+								CONVECTION_PCONV_set(false),
+								CONVECTION_CONV_set(false),
+								SURFACE_ELEMENT_CHBDYG_set(false),
+								SURFACE_ELEMENT_QBDY3_set(false),
+								createdElementCounter(100000),
+								gridPointIDCurrentMax(0){}
 
 
 	/////////////
@@ -193,19 +463,163 @@ namespace isis_CADCommon
 	{
 		return endBulkData;
 	}
-	std::map<int, Material>& NastranDeck::getMaterialData() 
+	const std::map<int, MAT1>& NastranDeck::getMaterialData_MAT1() const
 	{
-		return materialData;
+		return materialData_MAT1;
 	} 
+
+	const std::map<int, MAT4>& NastranDeck::getMaterialData_MAT4() const
+	{
+		return materialData_MAT4;
+	} 
+
+	void NastranDeck::deleteAllMaterialData_MAT4()
+	{
+			materialData_MAT4.clear();
+	};
+
+
+	void NastranDeck::AddMaterialData_MAT4( const MAT4 &in_MAT4)
+	{
+	
+		materialData_MAT4.insert(std::pair<int, MAT4>(in_MAT4.MID, in_MAT4));
+		if ( !MATERIALS_PLACEMENT_MAT4_set )
+		{
+			bulkString.push_back("MATERIALS_PLACEMENT_MAT4");
+			MATERIALS_PLACEMENT_MAT4_set = true;
+		}
+	}
+
+	const std::multimap<int, TEMP>& NastranDeck::getTemperature_TEMP() const 
+	{
+		return temperature_TEMP;
+	} 
+
+	const std::multimap<int, TEMPD>& NastranDeck::getTemperature_TEMPD() const
+	{
+		return temperature_TEMPD;
+	} 
+
+	void  NastranDeck::AddTemperature_TEMPD(const TEMPD &in_TEMPD)
+	{
+		temperature_TEMPD.insert(std::pair<int, TEMPD>(in_TEMPD.SID, in_TEMPD));
+		if ( !TEMPERATURE_TEMPD_set )
+		{
+			TEMPERATURE_TEMPD_set = true;
+			bulkString.push_back("TEMPERATURE_TEMPD");
+		}
+
+	}
+
+	void  NastranDeck::AddTemperature_TEMP(const TEMP &in_TEMP)
+	{
+		temperature_TEMP.insert(std::pair<int, TEMP>(in_TEMP.SID, in_TEMP));
+		if ( !TEMPERATURE_TEMP_set )
+		{
+			TEMPERATURE_TEMP_set = true;
+			bulkString.push_back("TEMPERATURE_TEMP");
+		}
+	}
+
+	const std::map<int, SPOINT>& NastranDeck::getPoint_SPOINT() const
+	{
+		return point_SPOINT;
+	} 
+
+	void	NastranDeck::AddPoint_SPOINT(const SPOINT &in_SPOINT)
+	{
+		point_SPOINT.insert(std::pair<int, SPOINT>(in_SPOINT.ID, in_SPOINT));
+		if ( !POINT_SPOINT_set )
+		{
+			bulkString.push_back("POINT_SPOINT");
+			POINT_SPOINT_set = true;
+		}
+	}
+
+	const std::map<int, PCONV>& NastranDeck::getConvection_PCONV() const 
+	{
+		return convection_PCONV;
+	}
+
+	void NastranDeck::AddConvection_PCONV( const PCONV &in_PCONV )
+	{
+		convection_PCONV.insert(std::pair<int, PCONV>(in_PCONV.PCONID, in_PCONV));
+		if ( !CONVECTION_PCONV_set )
+		{
+			bulkString.push_back("CONVECTION_PCONV");
+			CONVECTION_PCONV_set = true;
+		}
+	}
+
+	const std::map<int, CONV>& NastranDeck::getConvection_CONV() const
+	{
+		return convection_CONV;
+	} 
+
+	void NastranDeck::AddConvection_CONV( const CONV &in_CONV )
+	{
+		convection_CONV.insert(std::pair<int, CONV>(in_CONV.EID, in_CONV));
+		if ( !CONVECTION_CONV_set )
+		{
+			bulkString.push_back("CONVECTION_CONV");
+			CONVECTION_CONV_set = true;
+		}
+	}
+
+	const std::map<int, CHBDYG>& NastranDeck::getSurfaceElement_CHBDYG() const
+	{
+		return surfaceElement_CHBDYG;
+	} 
+
+	void  NastranDeck::AddSurfaceElement_CHBDYG(const CHBDYG &in_CHBDYG)
+	{
+		surfaceElement_CHBDYG.insert(std::pair<int, CHBDYG>(in_CHBDYG.EID, in_CHBDYG));
+
+		if ( !SURFACE_ELEMENT_CHBDYG_set )
+		{
+			bulkString.push_back("SURFACE_ELEMENT_CHBDYG");
+			SURFACE_ELEMENT_CHBDYG_set = true;
+		}
+	}
+
+	const std::multimap<int, QBDY3>& NastranDeck::getHeatFlux_QBDY3() const
+	{
+		return heatFlux_QBDY3;
+	} 
+
+	void  NastranDeck::AddHeatFlux_QBDY3(const QBDY3 &in_QBDY3)
+	{
+		heatFlux_QBDY3.insert(std::pair<int, QBDY3>(in_QBDY3.SID, in_QBDY3));
+		if ( !SURFACE_ELEMENT_QBDY3_set )
+		{
+			bulkString.push_back("SURFACE_ELEMENT_QBDY3");
+			SURFACE_ELEMENT_QBDY3_set = true;
+		}
+	}
+
+
 	std::map<int, GridPoint>& NastranDeck::getGridPointData() 
 	{
 		return gridPointData;
 	}	
+
+	int	 NastranDeck::getNextGridPointID()
+	{
+		if ( gridPointIDCurrentMax == 0 )
+		{
+			if ( gridPointData.size() > 0 )
+			{
+				gridPointIDCurrentMax = (--gridPointData.end())->first;
+			}
+		}
+		return ++gridPointIDCurrentMax;
+	}
+
 	std::map<int, PSolid>& NastranDeck::getPsolidData() 
 	{
 		return psolidData;
 	}
-	std::map<int, SolidElement>& NastranDeck::getElementData() 
+	const std::map<int, SolidElement>& NastranDeck::getElementData() const
 	{
 		return elementData;
 	}
@@ -213,10 +627,15 @@ namespace isis_CADCommon
 	{
 		return coordSystems;
 	}
-	std::multimap<int, SPC>& NastranDeck::getSpcData() 
+	std::multimap<int, SPC>& NastranDeck::getSpcData_SIDKey() 
 	{
-		return spcData;
+		return spcData_SIDKey;
 	}
+	const std::multimap<int, SPC>& NastranDeck::getSpcData_GridIDKey() const
+	{
+		return spcData_GridIDKey;
+	}
+
 	std::multimap<int, Force>& NastranDeck::getForceLoadData()
 	{
 		return forceLoadData;
@@ -263,7 +682,8 @@ namespace isis_CADCommon
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	void NastranDeck::ReadNastranDeck( const std::string &in_InputFileName ) throw (isis::application_exception)
+	void NastranDeck::ReadNastranDeck( const std::string &in_InputFileName )
+												throw (isis::application_exception)
 	{
 		std::string::size_type pos = in_InputFileName.find(".nas");
 		name = in_InputFileName.substr(0, pos);
@@ -388,26 +808,101 @@ namespace isis_CADCommon
 	void NastranDeck::AddSubCaseAndLoadStatement(	int in_SubCaseID, 
 													int in_ConstraintSetID, 
 													int in_LoadStatementID, 
-													int in_LoadSetID )
+													int in_LoadSetID, 
+													bool in_IncludeSubcaseStatement )
 	{
 		std::string tempString;
 
-		tempString = "SUBCASE = " + IntegerToString(in_SubCaseID);
+		std::string indentString;
+
+		if ( in_IncludeSubcaseStatement )
+		{
+			tempString = "SUBCASE = " + IntegerToString(in_SubCaseID);
+			caseControl.push_back( tempString );
+			indentString = "   ";
+		}
+
+		tempString = indentString + "SPC = " + IntegerToString(in_ConstraintSetID);
 		caseControl.push_back( tempString );
 
-		tempString = "   SPC = " + IntegerToString(in_ConstraintSetID);
-		caseControl.push_back( tempString );
-
-		tempString = "   LOAD = " + IntegerToString(in_LoadStatementID);
+		tempString = indentString + "LOAD = " + IntegerToString(in_LoadStatementID);
 		caseControl.push_back( tempString );
 
 		tempString = "LOAD," + IntegerToString(in_LoadStatementID) + ",1.,1.," + 
 							   IntegerToString(in_LoadSetID);
 				
-		bulkString.insert( bulkString.begin(), tempString );		//bulkData.push_front( tempString );
+		if ( bulkString.size() > 2 )
+		{
+			//Insert after first to param statements
+			std::list<std::string>::iterator itr_bulk = bulkString.begin();
+			++itr_bulk;
+			++itr_bulk;
+			bulkString.insert( itr_bulk, tempString );
+
+		}
+		else
+		{
+			bulkString.insert( bulkString.begin(), tempString );
+		}
+
+	}
+
+	void NastranDeck::ReplaceExecutiveControlWithThermalStatements()
+	{
+		executiveControl.clear();
+		executiveControl.push_back("SOL 153"); 
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	void NastranDeck::AddCardToCaseControl( const std::string &in_Card)
+	{
+		caseControl.push_back(in_Card);
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	void NastranDeck::ReplaceCaseControlWithThermalStatements(	const std::string	&in_Title,	
+																//int					in_TemperatureInitialID, 
+																int					in_NLParmID )
+	{
+			caseControl.clear();
+			caseControl.push_back("TITLE = " + std::string(in_Title));
+			caseControl.push_back("ANALYSIS = HEAT");
+			caseControl.push_back("THERMAL = ALL");
+			caseControl.push_back("FLUX = ALL");
+			caseControl.push_back("SPCF = ALL");
+			caseControl.push_back("OLOAD = ALL");
+			//caseControl.push_back("TEMP(INIT) = " + IntegerToString(in_TemperatureInitialID));
+
+			// Initialize with a TEMPD card.  This will get replaced if TEMPD is 
+			//temperature_TEMPD.clear();
+
+			// If a TEMPD card was added by the Creo mesher, delete it so that a correct value can (optionally) be added later.
+			temperature_TEMPD.clear();
+
+			caseControl.push_back("NLPARM = " + IntegerToString(in_NLParmID));
+
+			std::string tempString = "NLPARM," + IntegerToString(in_NLParmID) + ",10,,AUTO,5,25,,NO";
+				
+
+			if ( bulkString.size() > 2 )
+			{
+				//Insert after first to param statements
+				std::list<std::string>::iterator itr_bulk = bulkString.begin();
+				++itr_bulk;
+				++itr_bulk;
+				bulkString.insert( itr_bulk, tempString );
+
+			}
+			else
+			{
+				bulkString.insert( bulkString.begin(), tempString );
+			}
+				
+
+
 
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	void NastranDeck::AddConstraintToDeck(	int in_ConstraintID, int in_GridID, 
 											bool in_xDisp_Defined,
 											bool in_yDisp_Defined,
@@ -590,8 +1085,12 @@ namespace isis_CADCommon
 		bool aMaterialFound = false;
 		for ( std::list<std::string>::iterator i(bulkString.begin()); i != bulkString.end(); ++i )
 		{	
-			if ( i->find("MAT1") != std::string::npos ) 
+			// The deck will contain a card as follows:
+			// MATERIALS_PLACEMENT_MAT1
+			// Must only search on cards that begin with MAT1
+			if ( i->find("MAT1") == 0 )  // Card must start with MAT1 
 			{
+				//std::cout << std::endl << "MAT1 Card: " << *i;
 				aMaterialFound = true;
 				// See "Nastran Linear Static Analysis Guide.pdf"
 				char	Mat1[32];	//Mat1[0] = '\0';
@@ -865,12 +1364,86 @@ namespace isis_CADCommon
 		{	
 			std::string line = *i;
 			
-			if(line == "MATERIALS_PLACEMENT")
+			if(line == "MATERIALS_PLACEMENT_MAT1")
 			{
 				//to be replaced later by iterating through
 				//materials?
 				//DO NOTHING for now
 			}
+			else if(line == "MATERIALS_PLACEMENT_MAT4")
+			{
+				for each ( const std::pair<int,MAT4> &i in in_NastranDeck.materialData_MAT4 )
+				{
+					output << i.second << std::endl;
+				}
+
+			}
+
+			else if(line == "TEMPERATURE_TEMP")
+			{
+				for each ( const std::pair<int,TEMP> &i in in_NastranDeck.temperature_TEMP )
+				{
+					output << i.second << std::endl;
+				}
+
+			}
+
+			else if(line == "TEMPERATURE_TEMPD")
+			{
+				for each ( const std::pair<int,TEMPD> &i in in_NastranDeck.temperature_TEMPD )
+				{
+					output << i.second << std::endl;
+				}
+
+			}
+
+
+			else if(line == "POINT_SPOINT")
+			{
+				for each ( const std::pair<int,SPOINT> &i in in_NastranDeck.point_SPOINT )
+				{
+					output << i.second << std::endl;
+				}
+
+			}
+
+			else if(line == "CONVECTION_PCONV")
+			{
+				for each ( const std::pair<int,PCONV> &i in in_NastranDeck.convection_PCONV )
+				{
+					output << i.second << std::endl;
+				}
+
+			}
+
+			else if(line == "CONVECTION_CONV")
+			{
+				for each ( const std::pair<int,CONV> &i in in_NastranDeck.convection_CONV )
+				{
+					output << i.second << std::endl;
+				}
+
+			}
+
+			else if(line == "SURFACE_ELEMENT_CHBDYG")
+			{
+				for each ( const std::pair<int,CHBDYG> &i in in_NastranDeck.surfaceElement_CHBDYG )
+				{
+					output << i.second << std::endl;
+				}
+
+			}
+
+			else if(line == "SURFACE_ELEMENT_QBDY3")
+			{
+				for each ( const std::pair<int,QBDY3> &i in in_NastranDeck.heatFlux_QBDY3 )
+				{
+					output << i.second << std::endl;
+				}
+
+			}
+
+
 			else if(line == "PSOLIDS_PLACEMENT")
 			{
 				std::map<int, PSolid>::const_iterator it = in_NastranDeck.psolidData.begin();
@@ -900,12 +1473,12 @@ namespace isis_CADCommon
 			}
 			else if(line == "CONSTRAINTS_PLACEMENT")
 			{
-				std::multimap<int, SPC>::const_iterator it = in_NastranDeck.spcData.begin();
-				std::multimap<int, SPC>::const_iterator endMap = in_NastranDeck.spcData.end();
+				std::multimap<int, SPC>::const_iterator it = in_NastranDeck.spcData_SIDKey.begin();
+				std::multimap<int, SPC>::const_iterator endMap = in_NastranDeck.spcData_SIDKey.end();
 				for(; it != endMap; ++it)
 				{
 					output << it->second << std::endl;
-		}
+				}
 			}
 			else if(line == "FORCES_PLACEMENT")
 			{
@@ -986,7 +1559,24 @@ namespace isis_CADCommon
 		std::list<std::string>::const_iterator zi = caseControl.end();
 		for (std::list<std::string>::const_iterator yi = caseControl.begin(); yi != zi;)
 		{
+
 			std::string data = *yi, card, outputConfig;
+
+			// Skip blank lines
+			// Skip comment (i.e. $ ...)
+			if (data == "" || data[0] == '$' )
+			{
+				yi++;
+				continue;
+			}
+
+			// Only handling SUBCASE
+			if (data.find("SUBCASE") == std::string::npos)	
+			{
+				yi++;
+				continue;
+			}		
+
 			std::vector<std::string> tokens;
 			isis_CADCommon::tokenize_strtok(tokens, data, " =");
 			if (tokens.size() != 2)
@@ -1001,7 +1591,8 @@ namespace isis_CADCommon
 				while (yi != zi)				// not end of caseControl vector
 				{
 					std::string line = *yi;
-					if (line.find("SUBCASE") == std::string::npos)
+					//if (line.find("SUBCASE") == std::string::npos)
+					if ( line != "" && line[0] != '$' &&  line.find("SUBCASE") == std::string::npos )
 					{
 						std::vector<std::string> tokens_subcase;
 						tokenize_strtok(tokens_subcase, line, " =");
@@ -1050,12 +1641,12 @@ namespace isis_CADCommon
 				ReplaceDoubleCommasWithCommaSpaceComma(data);
 				if (card == "MAT1")
 				{
-					if(materialData.empty())
+					if(materialData_MAT1.empty())
 					{
-						bulkString.push_back("MATERIALS_PLACEMENT");
+						bulkString.push_back("MATERIALS_PLACEMENT_MAT1");
 					}
 
-					Material material;
+					MAT1 material;
 					stringTokenize(data.c_str(), tokens, ",");		//tokenize(data)
 					if (tokens.size() != 9)
 					{
@@ -1063,7 +1654,7 @@ namespace isis_CADCommon
 						continue;
 					}
 					material.name = tokens[0];
-					material.MID = atoi(tokens[1].c_str());
+					material.MID = atoi_WithVerifyIDInt(data, 1, tokens[1]);
 					material.Young = tokens[2];
 					material.Shear = tokens[3];
 					material.Poisson = tokens[4];
@@ -1071,11 +1662,342 @@ namespace isis_CADCommon
 					material.Thermal = tokens[6];
 					material.RefTemp = (tokens[7] == " " ? "0": tokens[7]);
 					material.Damping = tokens[8];
-					materialData[material.MID] = material;
+					materialData_MAT1[material.MID] = material;
 					bulkString.push_back(data); //need this because of the double commas
 					//we don't know how original string delimits tokens - or maybe not
 					//replace comma space comma with double comma?
 				}
+				else if (card == "MAT4")
+				{
+					if(materialData_MAT4.empty())
+					{
+						bulkString.push_back("MATERIALS_PLACEMENT_MAT4");
+						MATERIALS_PLACEMENT_MAT4_set = true;
+					}
+
+					MAT4 material;
+					stringTokenize(data.c_str(), tokens, ",");		//tokenize(data)
+					if (tokens.size() < 3 )
+					{
+						std::cout << "MAT4: Not enough entries, need to be greater than two [" << data << "]" << std::endl;
+						continue;
+					}
+
+					if ( tokens.size() > 0 ) material.name =		tokens[0];
+					if ( tokens.size() > 1 ) { material.MID =		atoi_WithVerifyIDInt(data, 1, tokens[1]);
+					if ( tokens.size() > 2 ) { material.K =			(tokens[2] == " " ? "": tokens[2]);
+					if ( tokens.size() > 3 ) { material.CP =		(tokens[3] == " " ? "": tokens[3]);
+					if ( tokens.size() > 4 ) { material.p =			(tokens[4] == " " ? "": tokens[4]);
+					if ( tokens.size() > 5 ) { material.H =			(tokens[5] == " " ? "": tokens[5]);
+					if ( tokens.size() > 6 ) { material.m =			(tokens[6] == " " ? "": tokens[6]);
+					if ( tokens.size() > 7 ) { material.HGEN =		(tokens[7] == " " ? "": tokens[7]);
+					if ( tokens.size() > 8 ) { material.REFENTH =	(tokens[8] == " " ? "": tokens[8]);
+					if ( tokens.size() > 9 ) { material.TCH =		(tokens[9] == " " ? "": tokens[9]);
+					if ( tokens.size() > 10 ){ material.TDELTA =	(tokens[10] == " " ? "": tokens[10]);
+					if ( tokens.size() > 11 ){ material.QLAT =		(tokens[11] == " " ? "": tokens[11]);
+					}}}}}}}}}}}
+
+					materialData_MAT4[material.MID] = material;
+					//bulkString.push_back(data); //need this because of the double commas
+					//we don't know how original string delimits tokens - or maybe not
+					//replace comma space comma with double comma?
+				}
+
+
+				else if (card == "TEMP")
+				{
+					if(temperature_TEMP.empty())
+					{
+						bulkString.push_back("TEMPERATURE_TEMP");
+						TEMPERATURE_TEMP_set = true;
+					}
+
+					TEMP elem;
+					stringTokenize(data.c_str(), tokens, ",");		//tokenize(data)
+					if (tokens.size() < 2)
+					{
+						std::cout << "TEMP: Not enough entries, need to be greater than two [" << data << "]" << std::endl;
+						continue;
+					}
+
+					if ( tokens.size() > 0 ) elem.name =	tokens[0];
+					if ( tokens.size() > 1 ) { elem.SID =	atoi_WithVerifyIDInt(data, 1, tokens[1]);
+					if ( tokens.size() > 2 ) { elem.G1 =	atoi_WithVerifyIDInt(data, 2, tokens[2]);
+					if ( tokens.size() > 3 ) { elem.T1 =	(tokens[3] == " " ? "": tokens[3]);
+					if ( tokens.size() > 4 ) { elem.G2 =	atoi_WithVerifyIDInt(data, 4, tokens[4]);
+					if ( tokens.size() > 5 ) { elem.T2 =	(tokens[5] == " " ? "": tokens[5]);
+					if ( tokens.size() > 6 ) { elem.G3 =	atoi_WithVerifyIDInt(data, 6, tokens[6]);
+					if ( tokens.size() > 7 ) { elem.T3 =	(tokens[7] == " " ? "": tokens[7]);
+					}}}}}}}
+
+					temperature_TEMP.insert(std::pair<int,TEMP>(elem.SID, elem));
+					//bulkString.push_back(data); //need this because of the double commas
+					//we don't know how original string delimits tokens - or maybe not
+					//replace comma space comma with double comma?
+				}
+
+				
+				else if (card == "TEMPD")
+				{
+					if(temperature_TEMPD.empty())
+					{
+						bulkString.push_back("TEMPERATURE_TEMPD");
+						TEMPERATURE_TEMPD_set = true;
+					}
+
+					TEMPD elem;
+					stringTokenize(data.c_str(), tokens, ",");		//tokenize(data)
+					if (tokens.size() < 2)
+					{
+						std::cout << "TEMPD: Not enough entries, need to be greater than two [" << data << "]" << std::endl;
+						continue;
+					}
+
+					// Note - if there are more than one SIDs, the SIDs must not be the same.  For a SID, there can be one and
+					//		  only one default temperature.
+
+					if ( tokens.size() > 0 ) elem.name =	tokens[0];
+					if ( tokens.size() > 1 ) { elem.SID =	atoi_WithVerifyIDInt(data, 1, tokens[1]);
+					if ( tokens.size() > 2 ) { elem.T =	(tokens[2] == " " ? "": tokens[2]); temperature_TEMPD.insert(std::pair<int,TEMPD>(elem.SID, elem));
+					if ( tokens.size() > 3 ) { elem.SID =	atoi_WithVerifyIDInt(data, 3, tokens[3]);
+					if ( tokens.size() > 4 ) { elem.T =	(tokens[4] == " " ? "": tokens[4]);  temperature_TEMPD.insert(std::pair<int,TEMPD>(elem.SID, elem));
+					if ( tokens.size() > 5 ) { elem.SID =	atoi_WithVerifyIDInt(data, 5, tokens[5]);
+					if ( tokens.size() > 6 ) { elem.T =	(tokens[6] == " " ? "": tokens[6]);  temperature_TEMPD.insert(std::pair<int,TEMPD>(elem.SID, elem));
+					if ( tokens.size() > 7 ) { elem.SID =	atoi_WithVerifyIDInt(data, 7, tokens[7]);
+					if ( tokens.size() > 8 ) { elem.T =	(tokens[8] == " " ? "": tokens[8]);  temperature_TEMPD.insert(std::pair<int,TEMPD>(elem.SID, elem));
+					}}}}}}}}
+				}				
+
+				else if (card == "SPOINT")
+				{
+					if(point_SPOINT.empty())
+					{
+						bulkString.push_back("POINT_SPOINT");
+						POINT_SPOINT_set = true;
+
+					}
+
+					SPOINT elem;
+					stringTokenize(data.c_str(), tokens, ",");		//tokenize(data)
+					if (tokens.size() < 2)
+					{
+						std::cout << "SPOINT: Not enough entries, need to be greater than one [" << data << "]" << std::endl;
+						continue;
+					}
+
+					if ( tokens.size() > 0 ) elem.name =	tokens[0];
+					if ( tokens.size() > 1 ) { elem.ID =	atoi_WithVerifyIDInt(data, 1, tokens[1]); point_SPOINT[elem.ID] = elem;
+					if ( tokens.size() > 2 ) { elem.ID =	atoi_WithVerifyIDInt(data, 2, tokens[2]); point_SPOINT[elem.ID] = elem;
+					if ( tokens.size() > 3 ) { elem.ID =	atoi_WithVerifyIDInt(data, 3, tokens[3]); point_SPOINT[elem.ID] = elem;
+					if ( tokens.size() > 4 ) { elem.ID =	atoi_WithVerifyIDInt(data, 4, tokens[4]); point_SPOINT[elem.ID] = elem;
+					if ( tokens.size() > 5 ) { elem.ID =	atoi_WithVerifyIDInt(data, 5, tokens[5]); point_SPOINT[elem.ID] = elem;
+					if ( tokens.size() > 6 ) { elem.ID =	atoi_WithVerifyIDInt(data, 6, tokens[6]); point_SPOINT[elem.ID] = elem;
+					if ( tokens.size() > 7 ) { elem.ID =	atoi_WithVerifyIDInt(data, 7, tokens[7]); point_SPOINT[elem.ID] = elem;
+					if ( tokens.size() > 8 ) { elem.ID =	atoi_WithVerifyIDInt(data, 8, tokens[8]); point_SPOINT[elem.ID] = elem;
+					}}}}}}}}
+
+				}
+				
+				else if (card == "PCONV")
+				{
+					if(convection_PCONV.empty())
+					{
+						bulkString.push_back("CONVECTION_PCONV");
+						CONVECTION_PCONV_set = true;
+					}
+
+					PCONV elem;
+					stringTokenize(data.c_str(), tokens, ",");		//tokenize(data)
+					if (tokens.size() < 3)
+					{
+						std::cout << "PCONV: Not enough entries, need to be greater than two [" << data << "]" << std::endl;
+						continue;
+					}
+
+					if ( tokens.size() > 0 ) elem.name =		tokens[0];
+					if ( tokens.size() > 1 ) { elem.PCONID =	atoi_WithVerifyIDInt(data, 1, tokens[1]);
+					if ( tokens.size() > 2 ) { elem.MID =		atoi_WithVerifyIDInt(data, 2, tokens[2]);
+					if ( tokens.size() > 3 ) { elem.FORM =		(tokens[3] == " " ? "": tokens[3]);
+					if ( tokens.size() > 4 ) { elem.EXPF =		(tokens[4] == " " ? "": tokens[4]); 
+					}}}}
+
+					convection_PCONV[elem.PCONID] = elem;
+				}
+				
+				
+				else if (card == "CONV")
+				{
+					if(convection_CONV.empty())
+					{
+						bulkString.push_back("CONVECTION_CONV");
+						CONVECTION_CONV_set = true;
+					}
+
+
+					CONV elem;
+					stringTokenize(data.c_str(), tokens, ",");		//tokenize(data)
+					if (tokens.size() < 3)
+					{
+						std::cout << "CONV: Not enough entries, need to be greater than two [" << data << "]" << std::endl;
+						continue;
+					}
+
+					if ( tokens.size() > 0 )   elem.name =		tokens[0];
+					if ( tokens.size() > 1 )  { elem.EID =		atoi_WithVerifyIDInt(data, 1, tokens[1]);
+					if ( tokens.size() > 2 )  { elem.PCONID =	atoi_WithVerifyIDInt(data, 2, tokens[2]);
+					if ( tokens.size() > 3 )  { elem.FLMND =	(tokens[3] == " " ? "": tokens[3]);
+					if ( tokens.size() > 4 )  { elem.CNTRLND =	(tokens[4] == " " ? "": tokens[4]);
+					if ( tokens.size() > 5 )  { elem.TA1 =		atoi_WithVerifyIDInt(data, 5, tokens[5]);
+					if ( tokens.size() > 6 )  { elem.TA2 =		atoi_WithVerifyIDInt(data, 6, tokens[6]);
+					if ( tokens.size() > 7 )  { elem.TA3 =		atoi_WithVerifyIDInt(data, 7, tokens[7]); 
+					if ( tokens.size() > 8 )  { elem.TA4 =		atoi_WithVerifyIDInt(data, 8, tokens[8]);
+					}}}}}}}}
+
+					// Must check for continuation card
+					std::list<std::string>::const_iterator bulkIter_temp = bulkIter;
+					++bulkIter_temp;
+					if (bulkIter_temp != endBulk )
+					{
+						std::string tempString =  *bulkIter_temp;
+						if ( tempString[0] == ',' )
+						{
+							++bulkIter;
+							data = *bulkIter;
+							tokens.clear();
+							stringTokenize(data.c_str(), tokens, ",");		//tokenize(data)
+							if (tokens.size() < 1 )
+							{
+								std::cout << "CONV: Not enough entries, need to be one or more [" << data << "]" << std::endl;
+								continue;
+							}
+							if ( tokens.size() > 0 )  { elem.TA5 =		atoi_WithVerifyIDInt(data, 0, tokens[0]);
+							if ( tokens.size() > 1 )  { elem.TA6 =		atoi_WithVerifyIDInt(data, 1, tokens[1]);
+							if ( tokens.size() > 2 )  { elem.TA7 =		atoi_WithVerifyIDInt(data, 2, tokens[2]);
+							if ( tokens.size() > 3 )  { elem.TA8 =		atoi_WithVerifyIDInt(data, 3, tokens[3]);
+							}}}}
+						}
+					}
+					convection_CONV[elem.EID] = elem;
+				}	
+				
+				else if (card == "CHBDYG")
+				{
+					if(surfaceElement_CHBDYG.empty())
+					{
+						bulkString.push_back("SURFACE_ELEMENT_CHBDYG");
+						SURFACE_ELEMENT_CHBDYG_set = true;
+					}
+
+					stringTokenize(data.c_str(), tokens, ",");		//tokenize(data)
+					if (tokens.size() < 3)
+					{
+						std::cout << "CHBDYG: Not enough entries, need to be greater than two [" << data << "]" << std::endl;
+						continue;
+					}
+
+					CHBDYG elem;
+					if ( tokens.size() > 0 )   elem.name =		tokens[0];
+					if ( tokens.size() > 1 )  { elem.EID =	atoi_WithVerifyIDInt(data, 1, tokens[1]);
+					if ( tokens.size() > 2 )  { elem.TYPE =	(tokens[2] == " " ? "": tokens[2]);
+					if ( tokens.size() > 3 )  { elem.IVIEWF =	(tokens[3] == " " ? "": tokens[3]);
+					if ( tokens.size() > 4 )  { elem.IVIEWB =	(tokens[4] == " " ? "": tokens[4]);
+					if ( tokens.size() > 5 )  { elem.RADMIDF =	(tokens[5] == " " ? "": tokens[5]);
+					if ( tokens.size() > 6 )  { elem.RADMIDB =	(tokens[6] == " " ? "": tokens[6]);
+					}}}}}}
+
+					// Must check for continuation card
+					std::list<std::string>::const_iterator bulkIter_temp = bulkIter;
+					++bulkIter_temp;
+					if (bulkIter_temp != endBulk )
+					{
+						std::string tempString =  *bulkIter_temp;
+						if ( tempString[0] == ',' )
+						{
+							++bulkIter;
+							data = *bulkIter;
+							tokens.clear();
+							stringTokenize(data.c_str(), tokens, ",");		//tokenize(data)
+							if (tokens.size() < 1)
+							{
+								std::cout << "CHBDYG: Not enough entries, need one or more [" << data << "]" << std::endl;
+								continue;
+							}
+
+							if ( tokens.size() > 0 )  { elem.G1 =		atoi_WithVerifyIDInt(data, 0, tokens[0]);
+							if ( tokens.size() > 1 )  { elem.G2 =		atoi_WithVerifyIDInt(data, 1, tokens[1]);
+							if ( tokens.size() > 2 )  { elem.G3 =		atoi_WithVerifyIDInt(data, 2, tokens[2]); 
+							if ( tokens.size() > 3 ) { elem.G4 =		atoi_WithVerifyIDInt(data, 3, tokens[3]);
+							if ( tokens.size() > 4 ) { elem.G5 =		atoi_WithVerifyIDInt(data, 4, tokens[4]);
+							if ( tokens.size() > 5 ) { elem.G6 =		atoi_WithVerifyIDInt(data, 5, tokens[5]);
+							if ( tokens.size() > 6 ) { elem.G7 =		atoi_WithVerifyIDInt(data, 6, tokens[6]);
+							if ( tokens.size() > 7 ) { elem.G8 =		atoi_WithVerifyIDInt(data, 7, tokens[7]);
+							}}}}}}}}
+
+						}
+					}
+
+					//std::cout << std::endl << "****************** G1 *************: " << 	 elem.G1;
+					surfaceElement_CHBDYG[elem.EID] = elem;
+				}	
+
+				else if (card == "QBDY3")
+				{
+					if(heatFlux_QBDY3.empty())
+					{
+						bulkString.push_back("SURFACE_ELEMENT_QBDY3");
+						SURFACE_ELEMENT_QBDY3_set = true;
+					}
+
+					QBDY3 elem;
+					stringTokenize(data.c_str(), tokens, ",");		//tokenize(data)
+					if (tokens.size() < 3)
+					{
+						std::cout << "QBDY3: Not enough entries, need to be greater than two [" << data << "]" << std::endl;
+						continue;
+					}
+
+					if ( tokens.size() > 0 )   elem.name =		tokens[0];
+					if ( tokens.size() > 1 )  { elem.SID =		atoi_WithVerifyIDInt(data, 1, tokens[1]);
+					if ( tokens.size() > 2 )  { elem.Q0 =		(tokens[2] == " " ? "": tokens[2]);
+					if ( tokens.size() > 3 )  { elem.CNTRLND =		(tokens[3] == " " ? "": tokens[3]);
+					if ( tokens.size() > 4 )  { elem.EID1 =		atoi_WithVerifyIDInt(data, 4, tokens[4]);
+					if ( tokens.size() > 5 )  { elem.EID2 =		atoi_WithVerifyIDInt(data, 5, tokens[5]);
+					if ( tokens.size() > 6 )  { elem.EID3 =		atoi_WithVerifyIDInt(data, 6, tokens[6]); 
+					if ( tokens.size() > 7 )  { elem.EID4 =		atoi_WithVerifyIDInt(data, 7, tokens[7]);
+					if ( tokens.size() > 8 )  { elem.EID5 =		atoi_WithVerifyIDInt(data, 8, tokens[8]);
+					}}}}}}}}
+					
+
+					// Must check for continuation card
+					std::list<std::string>::const_iterator bulkIter_temp = bulkIter;
+					++bulkIter_temp;
+					if (bulkIter_temp != endBulk )
+					{
+						std::string tempString =  *bulkIter_temp;
+						if ( tempString[0] == ',' )
+						{
+							++bulkIter;
+							data = *bulkIter;
+							tokens.clear();
+							stringTokenize(data.c_str(), tokens, ",");		//tokenize(data)
+							if (tokens.size() < 1)
+							{
+								std::cout << "QBDY3: Not enough entries, need one or more [" << data << "]" << std::endl;
+								continue;
+							}
+							if ( tokens.size() > 0 ) { elem.EID6 =		atoi_WithVerifyIDInt(data, 0, tokens[0]);
+							if ( tokens.size() > 1 ) { elem.EID7 =		atoi_WithVerifyIDInt(data, 1, tokens[1]);
+							if ( tokens.size() > 2 ) { elem.EID8 =		atoi_WithVerifyIDInt(data, 2, tokens[2]);
+							}}}
+
+						}
+					}
+
+					heatFlux_QBDY3.insert(std::pair<int,QBDY3>(elem.SID, elem));
+
+				}
+
+				
 				else if (card == "LOAD")
 				{
 					//Load load;
@@ -1219,7 +2141,7 @@ namespace isis_CADCommon
 						std::cout << "CTETRA: [ " << data << "]" << std::endl;
 						continue;
 					}
-
+					
 					SolidElement element;
 					element.EID = atoi(tokens[1].c_str());
 					element.PID = atoi(tokens[2].c_str());
@@ -1296,7 +2218,7 @@ namespace isis_CADCommon
 				}
 				else if (card == "SPC")		
 				{
-					if(spcData.empty())
+					if(spcData_SIDKey.empty())
 					{
 						bulkString.push_back("CONSTRAINTS_PLACEMENT");
 					}
@@ -1312,7 +2234,9 @@ namespace isis_CADCommon
 					spc.G1 = tokens[2];
 					spc.C1 = tokens[3];
 					spc.D1 = tokens[4];
-					spcData.insert(std::make_pair(spc.SID, spc));
+					spcData_SIDKey.insert(std::make_pair(spc.SID, spc));
+					int gridPointID = atoi(spc.G1.c_str());
+					spcData_GridIDKey.insert(std::make_pair(gridPointID, spc));
 				}
 				else if (card == "FORCE")	
 				{
@@ -1838,5 +2762,712 @@ namespace isis_CADCommon
 		double Volume_EQUILATERAL_TETRAHEDRON = (8.0 * sqrt(3.0) * pow(CIRCUMSPHERE_RADIUS, 3)) / 27.0;
 		out_ElementDistortionMetrics.tetrahedralQualityMeasure = Volume_TETRAHEDRON / Volume_EQUILATERAL_TETRAHEDRON;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	NastranDeckHelper::NastranDeckHelper( const NastranDeck &in_NastranDeck ) : nastranDeck( in_NastranDeck ), sufaceCornerGridIDs_to_SolidElementID_map_populated(false) {}
+
+	void NastranDeckHelper::getDefaultGridPointTemperature( bool &out_DefaultGridPointTemperature_set, double &out_DefaultGridPointTemperature ) const
+																								throw (isis::application_exception)
+	{
+		out_DefaultGridPointTemperature_set = false;
+		out_DefaultGridPointTemperature = 0.0;
+
+		if ( nastranDeck.getTemperature_TEMPD().size() == 0 ) return;
+
+		if ( nastranDeck.getTemperature_TEMPD().size() > 1 )
+		{
+			std::stringstream errorString;
+			errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+							"Function:       getDefaultGridPointTemperature" << std::endl <<
+							"Number Default Grid Point Temperatures:  " <<  nastranDeck.getTemperature_TEMPD().size()		<< std::endl <<
+							"Error:		   " << "A nastranDeck can contain at the most one Default-Node temperature";
+			throw isis::application_exception(errorString.str()); 
+		}
+
+		std::pair<int, TEMPD> temp_pair = *nastranDeck.getTemperature_TEMPD().begin();
+
+		std::string temp_string = temp_pair.second.T;
+
+		// This check should be moved to when the deck was read from the BDF.  
+		// Leave the check here for now to assure the integrity of the data.
+		if ( temp_string.find_first_not_of("0123456789.-+eE") != std::string::npos )
+		{
+			std::stringstream errorString;
+			errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+							"Function:						NastranDeckHelper::getDefaultGridPointTemperature" << std::endl <<
+							"DefaultGridPointTemperature string: " << temp_string		<< std::endl <<
+							"Error:		                    " << "DefaultGridPointTemperature string must represent a valid floating point number.";
+			throw isis::application_exception(errorString.str()); 
+
+		}
+
+		out_DefaultGridPointTemperature = atof(temp_pair.second.T.c_str());
+		out_DefaultGridPointTemperature_set = true;
+	}
+
+
+
+	void NastranDeckHelper::getSpecifiedGridPointTemperatures( std::map<int,double> &out_GridPointToTemperature_map ) const
+																								throw (isis::application_exception)
+	{
+		out_GridPointToTemperature_map.clear();
+
+		const std::multimap<int, TEMP> &temperature_TEMP_map = nastranDeck.getTemperature_TEMP();
+
+		for each ( const std::pair<int, TEMP> &i in temperature_TEMP_map )
+		{
+			if ( i.second.G1 != 0 ) // 0 would indicate that the temperature is not set
+			{		
+				if ( i.second.T1.find_first_not_of("0123456789.-+eE") != std::string::npos )
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+							"Function:						NastranDeckHelper::getSpecifiedGridPointTemperatures" << std::endl <<
+							"GridPointTemperature string:   " <<  i.second.T1		<< std::endl <<
+							"Error:		                    " << "GridPointTemperature string must represent a valid floating point number.";
+					throw isis::application_exception(errorString.str()); 
+				}
+				out_GridPointToTemperature_map[i.second.G1] = atof(i.second.T1.c_str());
+			}		
+
+			if ( i.second.G2 != 0 ) // 0 would indicate that the temperature is not set
+			{		
+				if ( i.second.T2.find_first_not_of("0123456789.-+eE") != std::string::npos )
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+							"Function:						NastranDeckHelper::getSpecifiedGridPointTemperatures" << std::endl <<
+							"GridPointTemperature string:   " <<  i.second.T2		<< std::endl <<
+							"Error:		                    " << "GridPointTemperature string must represent a valid floating point number.";
+					throw isis::application_exception(errorString.str()); 
+				}
+				out_GridPointToTemperature_map[i.second.G2] = atof(i.second.T2.c_str());
+			}		
+
+			if ( i.second.G3 != 0 ) // 0 would indicate that the temperature is not set
+			{		
+				if ( i.second.T3.find_first_not_of("0123456789.-+eE") != std::string::npos )
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+							"Function:						NastranDeckHelper::getSpecifiedGridPointTemperatures" << std::endl <<
+							"GridPointTemperature string:   " <<  i.second.T3		<< std::endl <<
+							"Error:		                    " << "GridPointTemperature string must represent a valid floating point number.";
+					throw isis::application_exception(errorString.str()); 
+				}
+				out_GridPointToTemperature_map[i.second.G3] = atof(i.second.T3.c_str());
+			}		
+
+		}
+	}
+
+	void NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map() throw (isis::application_exception)
+	{
+		const std::map<int, SolidElement> &elementData_map = nastranDeck.getElementData();
+
+		for each ( const std::pair<int, SolidElement> &i in elementData_map)
+		{
+			if (i.second.Type != CTETRA )
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+							"Function:				NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map" << std::endl <<
+							"ElementType:			"	<<  i.second.Type << ", 0 - CHEXA, 1-  CPENTA, 2 - CTETRA"	<< std::endl <<
+							"Error:		            " << "Only CTETRA currently supported.";
+				throw isis::application_exception(errorString.str()); 
+			}
+			
+			if (i.second.GID.size() < 4 )
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+							"Function:				  NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map" << std::endl <<
+							"ElementType:			  "	<<  i.second.Type << ", 0 - CHEXA, 1-  CPENTA, 2 - CTETRA"	<< std::endl <<
+							"ElementNumberGridPoints: " << i.second.GID.size() <<  std::endl <<
+							"Error:		            " << "CTETRA must have at least four grid points.";
+				throw isis::application_exception(errorString.str()); 
+			}
+
+			std::vector<int> key_1;
+			std::vector<int> key_2;
+			std::vector<int> key_3;
+			std::vector<int> key_4;
+			// Face Keys Numbering from 1 ( Grid points as numberd by Nastran
+			// 1 2 3
+			// 1 2 4
+			// 2 3 4
+			// 1 3 4
+
+			// Face Keys Numbering from 0 
+			// 0 1 2
+			// 0 1 3
+			// 1 2 3
+			// 0 2 3
+
+
+			key_1.push_back(i.second.GID[0]);
+			key_1.push_back(i.second.GID[1]);
+			key_1.push_back(i.second.GID[2]);
+
+			key_2.push_back(i.second.GID[0]);
+			key_2.push_back(i.second.GID[1]);
+			key_2.push_back(i.second.GID[3]);
+
+			key_3.push_back(i.second.GID[1]);
+			key_3.push_back(i.second.GID[2]);
+			key_3.push_back(i.second.GID[3]);
+
+			key_4.push_back(i.second.GID[0]);
+			key_4.push_back(i.second.GID[2]);
+			key_4.push_back(i.second.GID[3]);
+
+			std::sort(key_1.begin(), key_1.end());
+			std::sort(key_2.begin(), key_2.end());
+			std::sort(key_3.begin(), key_3.end());
+			std::sort(key_4.begin(), key_4.end());
+
+			/* Not Checking if Key already exists.  This is because a face can be shared between tetras and thus would in some cases
+			   already exists
+			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_1) != sufaceCornerGridIDs_to_SolidElementID_map.end())
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+							"Function:                NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map" << std::endl <<
+							"ElementType:             "	<<  i.second.Type << ", 0 - CHEXA, 1-  CPENTA, 2 - CTETRA"	<< std::endl <<
+							"ElementNumberGridPoints: " << i.second.GID.size() <<  std::endl <<
+							"ElementID:               " << i.second.EID  <<  std::endl <<
+							"Key:                     ";
+							for each ( const int &j in key_1) errorString << " " << j;
+							errorString <<	std::endl << "Error:		            " << "Key already found.  Key should appear only once.";
+				throw isis::application_exception(errorString.str()); 
+			}
+			sufaceCornerGridIDs_to_SolidElementID_map[key_1] = i.second.EID;
+
+			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_2) != sufaceCornerGridIDs_to_SolidElementID_map.end())
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+							"Function:                NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map" << std::endl <<
+							"ElementType:			  "	<<  i.second.Type << ", 0 - CHEXA, 1-  CPENTA, 2 - CTETRA"	<< std::endl <<
+							"ElementNumberGridPoints: " << i.second.GID.size() <<  std::endl <<
+							"ElementID:               " << i.second.EID  <<  std::endl <<
+							"Key:                     ";
+							for each ( const int &j in key_2) errorString << " " << j;
+							errorString <<	std::endl << "Error:		            " << "Key already found.  Key should appear only once.";
+				throw isis::application_exception(errorString.str()); 
+			}
+			sufaceCornerGridIDs_to_SolidElementID_map[key_2] = i.second.EID;
+
+			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_3) != sufaceCornerGridIDs_to_SolidElementID_map.end())
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+							"Function:                NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map" << std::endl <<
+							"ElementType:             "	<<  i.second.Type << ", 0 - CHEXA, 1-  CPENTA, 2 - CTETRA"	<< std::endl <<
+							"ElementNumberGridPoints: " << i.second.GID.size() <<  std::endl <<
+							"ElementID:               " << i.second.EID  <<  std::endl <<
+							"Key:                     ";
+							for each ( const int &j in key_3) errorString << " " << j;
+							errorString <<	std::endl << "Error:		            " << "Key already found.  Key should appear only once.";
+				throw isis::application_exception(errorString.str()); 
+			}
+			sufaceCornerGridIDs_to_SolidElementID_map[key_3] = i.second.EID;
+
+			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_4) != sufaceCornerGridIDs_to_SolidElementID_map.end())
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+							"Function:                 NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map" << std::endl <<
+							"ElementType:              "	<<  i.second.Type << ", 0 - CHEXA, 1-  CPENTA, 2 - CTETRA"	<< std::endl <<
+							"ElementNumberGridPoints:  " << i.second.GID.size() <<  std::endl <<
+							"ElementID:                " << i.second.EID  <<  std::endl <<
+							"Key:                      ";
+							for each ( const int &j in key_4) errorString << " " << j;
+							errorString <<	std::endl << "Error:	            " << "Key already found.  Key should appear only once.";
+				throw isis::application_exception(errorString.str()); 
+			}
+			*/
+
+			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_1) == sufaceCornerGridIDs_to_SolidElementID_map.end())
+																sufaceCornerGridIDs_to_SolidElementID_map[key_1] = i.second.EID;
+			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_2) == sufaceCornerGridIDs_to_SolidElementID_map.end())
+																sufaceCornerGridIDs_to_SolidElementID_map[key_2] = i.second.EID;
+			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_3) == sufaceCornerGridIDs_to_SolidElementID_map.end())
+																sufaceCornerGridIDs_to_SolidElementID_map[key_3] = i.second.EID;
+			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_4) == sufaceCornerGridIDs_to_SolidElementID_map.end())
+																sufaceCornerGridIDs_to_SolidElementID_map[key_4] = i.second.EID;
+
+
+		} // for each (
+
+		sufaceCornerGridIDs_to_SolidElementID_map_populated = true;
+	} //void NastranDeckHelper::populate_S...
+
+	void NastranDeckHelper::findElementContainingSurface( const std::vector<int> &in_SurfaceCornerGridIDs, bool &out_ElementFound, int &out_ElementID )
+																											throw (isis::application_exception)
+	{
+		out_ElementFound = false;
+		out_ElementID = 0;
+
+		std::vector<int> surfaceCornerGridIDs = in_SurfaceCornerGridIDs;
+
+		std::sort(surfaceCornerGridIDs.begin(), surfaceCornerGridIDs.end());
+
+		if (!sufaceCornerGridIDs_to_SolidElementID_map_populated) populate_sufaceCornerGridIDs_to_SolidElementID_map();
+
+		const std::map<std::vector<int>, int>::const_iterator i = sufaceCornerGridIDs_to_SolidElementID_map.find(surfaceCornerGridIDs);
+
+		if ( i != sufaceCornerGridIDs_to_SolidElementID_map.end() )
+		{
+			out_ElementFound = true;
+			out_ElementID = i->second;
+		}
+	}
+
+	void NastranDeckHelper::getHeatFluxLoadsForBoundarySurfaces( std::vector<HeatFluxLoad> &out_HeatFluxLoads ) 	throw (isis::application_exception)
+	{
+
+		out_HeatFluxLoads.clear();
+
+		if (!sufaceCornerGridIDs_to_SolidElementID_map_populated) populate_sufaceCornerGridIDs_to_SolidElementID_map();
+
+		const std::multimap<int, QBDY3>	&heatFlux_QBDY3_map = nastranDeck.getHeatFlux_QBDY3();
+		const std::map<int, CHBDYG> &surfaceElement_CHBDYG_map = nastranDeck.getSurfaceElement_CHBDYG(); 
+
+		for each ( const std::pair<int, QBDY3> &i in  heatFlux_QBDY3_map )
+		{
+			HeatFluxLoad heatFluxLoad;
+
+			if ( i.second.Q0.find_first_not_of("0123456789.-+eE") != std::string::npos )
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+						"Function:                      " __FUNCTION__ << std::endl <<
+						"HeatFlux string:               " <<  i.second.Q0		<< std::endl <<
+						"Error:                         " << "HeatFlux string must represent a valid floating point number.";
+				throw isis::application_exception(errorString.str()); 
+			}
+
+			heatFluxLoad.Q0	  = atof(i.second.Q0.c_str());
+			heatFluxLoad.SID  = i.second.SID;
+			heatFluxLoad.name = i.second.name;
+
+			std::vector<int> CHBDYG_EIDs;
+			
+			if ( i.second.EID1 != 0 ) CHBDYG_EIDs.push_back(i.second.EID1);
+			if ( i.second.EID2 != 0 ) CHBDYG_EIDs.push_back(i.second.EID2);
+			if ( i.second.EID3 != 0 ) CHBDYG_EIDs.push_back(i.second.EID3);
+			if ( i.second.EID4 != 0 ) CHBDYG_EIDs.push_back(i.second.EID4);
+			if ( i.second.EID5 != 0 ) CHBDYG_EIDs.push_back(i.second.EID5);
+			if ( i.second.EID6 != 0 ) CHBDYG_EIDs.push_back(i.second.EID6);
+			if ( i.second.EID7 != 0 ) CHBDYG_EIDs.push_back(i.second.EID7);
+			if ( i.second.EID8 != 0 ) CHBDYG_EIDs.push_back(i.second.EID8);
+
+			for each ( const int &j in CHBDYG_EIDs )
+			{
+				std::map<int, CHBDYG>::const_iterator k_itr = surfaceElement_CHBDYG_map.find(j);
+
+				if ( k_itr == surfaceElement_CHBDYG_map.end() )
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+						"Function:                      " __FUNCTION__ << std::endl <<
+						"QBDY3:                         " <<   i.second		<< std::endl <<
+						"CHBDYG ID                      " <<  j		<< std::endl <<
+						"Error:                         " << "QBDY3 referenced a CHBDYG card, but the CHBDYG was not found in the deck.";
+					throw isis::application_exception(errorString.str()); 
+				}
+
+				if ( k_itr->second.G1 == 0 || k_itr->second.G2 == 0 || k_itr->second.G2 == 0 )
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+						"Function:                      " __FUNCTION__ << std::endl <<
+						"QBDY3:                         " <<   i.second		<< std::endl <<
+						"CHBDYG ID                      " <<  j		<< std::endl <<
+						"Error:		                    " << "CHBDYG does not have at least three grid point IDs defined.";
+					throw isis::application_exception(errorString.str()); 
+				}
+
+				std::vector<int> key;
+
+				key.push_back(k_itr->second.G1);
+				key.push_back(k_itr->second.G2);
+				key.push_back(k_itr->second.G3);
+
+				std::sort(key.begin(), key.end());
+
+				const std::map<std::vector<int>, int>::const_iterator key_itr = sufaceCornerGridIDs_to_SolidElementID_map.find(key);
+
+				if ( key_itr == sufaceCornerGridIDs_to_SolidElementID_map.end() )
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+						"Function:                      " __FUNCTION__ << std::endl <<
+						"QBDY3:                         " <<   i.second		<< std::endl <<
+						"CHBDYG ID                      " <<  j		<< std::endl <<
+						"Error:                         " << "Could not locate the tetra element containing the face defined by the CHBDYG card.";	
+					throw isis::application_exception(errorString.str()); 
+				}
+				else
+				{
+					heatFluxLoad.elementIDThatContainsSurface = key_itr->second;
+					heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G1);
+					heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G2);
+					heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G3);
+					if ( k_itr->second.G4 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G4);
+					if ( k_itr->second.G5 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G5);
+					if ( k_itr->second.G6 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G6);
+					if ( k_itr->second.G7 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G7);
+					if ( k_itr->second.G8 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G8);
+				
+					out_HeatFluxLoads.push_back(heatFluxLoad);
+				}
+			} // for each ( const int &j in CHBDYG_EIDs ) 
+		}  // for each ( const std::pair<int, QBDY3> &i in  heatFlux_QBDY3_map )
+	}
+
+	void NastranDeckHelper::getSurfaceConvectionConstraints ( std::vector<SurfaceConvection> &out_SurfaceConvections ) throw (isis::application_exception)
+	{
+		if (!sufaceCornerGridIDs_to_SolidElementID_map_populated) populate_sufaceCornerGridIDs_to_SolidElementID_map();
+
+		out_SurfaceConvections.clear();
+
+		//const std::map<int, SPOINT> &SPOINT_map = nastranDeck.getPoint_SPOINT();
+		const std::map<int, PCONV>		&PCONV_map				= nastranDeck.getConvection_PCONV(); 
+		const std::map<int, CONV>		&CONV_map				= nastranDeck.getConvection_CONV(); 
+		const std::map<int, CHBDYG>		&CHBDYG_map				= nastranDeck.getSurfaceElement_CHBDYG(); 
+		const std::map<int, MAT4>		&MAT4_map				= nastranDeck.getMaterialData_MAT4();
+        const std::multimap<int, SPC>	&SPC_GridIDKey_map		= nastranDeck.getSpcData_GridIDKey();
+
+		for each ( const std::pair<int, CONV> &conv_ref in CONV_map )
+		{
+			SurfaceConvection surfaceConvection;
+			surfaceConvection.convID = conv_ref.second.EID;
+
+			surfaceConvection.pconvID = conv_ref.second.PCONID;
+
+			if ( conv_ref.second.TA1 == 0 )
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+					//"Function:                      NastranDeckHelper::getSurfaceConvectionConstraints" << std::endl <<
+					"Function:                      " __FUNCTION__ <<  std::endl <<
+					"CONV:                          " <<   conv_ref.second		<< std::endl <<
+					"PCONID                         " <<  conv_ref.second.PCONID	<< std::endl <<
+					"SPOINTID:                      " <<  conv_ref.second.TA1	<< std::endl <<
+					"Error:                         " << "SPOINTID not set. This is the node in space that is used to define the ambient temperature.";	
+				throw isis::application_exception(errorString.str()); 
+			}
+
+			surfaceConvection.spointID = conv_ref.second.TA1;
+
+			// Find Temperature associated with surfaceConvection.spointID
+
+			std::pair <std::multimap<int,SPC>::const_iterator, std::multimap<int,SPC>::const_iterator> sPC_pairs;
+
+			sPC_pairs = SPC_GridIDKey_map.equal_range(surfaceConvection.spointID);
+			int count = 0;
+			for ( std::multimap<int,SPC>::const_iterator spc_itr = sPC_pairs.first; spc_itr != sPC_pairs.second; ++spc_itr )
+			{
+				++count;
+				surfaceConvection.ambientTemperature = atof(spc_itr->second.D1.c_str());
+			}
+
+			if ( count == 0 )
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+					"Function:                      " __FUNCTION__ << std::endl <<
+					"CONV:                          " <<   conv_ref.second		<< std::endl <<
+					"PCONID                         " <<  conv_ref.second.PCONID	<< std::endl <<
+					"SPOINTID:                      " <<  conv_ref.second.TA1	<< std::endl <<
+					"Error:                         " << "SPC card error.  SPC card with point == SPOINTID not found.";	
+				throw isis::application_exception(errorString.str()); 
+			}
+
+
+			if ( count > 1 )
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+					"Function:                      " __FUNCTION__ << std::endl <<
+					"CONV:                          " <<   conv_ref.second		<< std::endl <<
+					"PCONID                         " <<  conv_ref.second.PCONID	<< std::endl <<
+					"SPOINTID:                      " <<  conv_ref.second.TA1	<< std::endl <<
+					"Error:                         " << "SPC card error.  More that one SPC cards with point == SPOINTID found.";	
+				throw isis::application_exception(errorString.str()); 
+			}
+
+
+			const std::map<int, PCONV>::const_iterator pconv_itr = PCONV_map.find( conv_ref.second.PCONID );
+
+			if ( pconv_itr == PCONV_map.end() )
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+					"Function:                      " __FUNCTION__ << std::endl <<
+					"CONV:                          " <<   conv_ref.second		<< std::endl <<
+					"PCONID                         " <<  conv_ref.second.PCONID	<< std::endl <<
+					"Error:                         " << "Could not locate PCONID card.";	
+				throw isis::application_exception(errorString.str()); 
+			}
+		
+			surfaceConvection.mat4ID = pconv_itr->second.MID;
+
+			const std::map<int, MAT4>::const_iterator mat4_itr = MAT4_map.find(pconv_itr->second.MID);
+
+			if ( mat4_itr == MAT4_map.end() )
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+					"Function:                      " __FUNCTION__ << std::endl <<
+					"CONV:                          " <<   conv_ref.second		  << std::endl <<
+					"PCONID                         " <<  conv_ref.second.PCONID  << std::endl <<
+					"MAT4ID                         " <<  pconv_itr->second.MID   << std::endl <<
+					"Error:                         " << "Could not locate MAT4 card.";	
+				throw isis::application_exception(errorString.str()); 
+			}
+
+			if (mat4_itr->second.H.find_first_not_of("0123456789.-+eE") != std::string::npos )
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+					"Function:                      " __FUNCTION__ << std::endl <<
+					"CONV:                          " <<   conv_ref.second		  << std::endl <<
+					"PCONID                         " <<  conv_ref.second.PCONID  << std::endl <<
+					"MAT4ID                         " <<  pconv_itr->second.MID   << std::endl <<
+					"MAT4 H ()                      " << mat4_itr->second.H  << std::endl <<
+					"Error:                         " << "MAT4 H (convectionCoefficient) could not be converted to a float point number.";	
+				throw isis::application_exception(errorString.str()); 
+			}
+
+			surfaceConvection.convectionCoefficient = atof(mat4_itr->second.H.c_str());
+			
+			std::map<int, CHBDYG>::const_iterator chbdyg_itr = CHBDYG_map.find( conv_ref.second.EID);  // EID is Surface element identification number.
+
+			if ( chbdyg_itr == CHBDYG_map.end() )
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+					"Function:                      " __FUNCTION__ << std::endl <<
+					"CONV:                          " <<   conv_ref.second		  << std::endl <<
+					"PCONID                         " <<  conv_ref.second.PCONID  << std::endl <<
+					"MAT4ID                         " <<  pconv_itr->second.MID   << std::endl <<
+					"MAT4 H ()                      " << mat4_itr->second.H  << std::endl <<
+					"CHBDYG ID                      " << conv_ref.second.EID  << std::endl <<
+					"Error:                         " << "CHBDYG ID card could not be found.";	
+				throw isis::application_exception(errorString.str()); 
+			}
+
+			std::vector<int> key;
+
+			key.push_back(chbdyg_itr->second.G1);
+			key.push_back(chbdyg_itr->second.G2);
+			key.push_back(chbdyg_itr->second.G3);
+
+			std::sort(key.begin(), key.end());
+
+			const std::map<std::vector<int>, int>::const_iterator key_itr = sufaceCornerGridIDs_to_SolidElementID_map.find(key);
+
+			if ( key_itr == sufaceCornerGridIDs_to_SolidElementID_map.end() )
+			{
+				std::stringstream errorString;
+				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+				"Function:                      " __FUNCTION__ << std::endl <<
+				"CONV:                          " <<   conv_ref.second		  << std::endl <<
+				"PCONID                         " <<  conv_ref.second.PCONID  << std::endl <<
+				"MAT4ID                         " <<  pconv_itr->second.MID   << std::endl <<
+				"MAT4 H ()                      " << mat4_itr->second.H  << std::endl <<
+				"CHBDYG ID                      " << conv_ref.second.EID  << std::endl <<
+				"Error:                         " << "Could not locate the tetra element containing the face defined by the CHBDYG card.";	
+				throw isis::application_exception(errorString.str()); 
+			}
+			else
+			{
+				surfaceConvection.elementIDThatContainsSurface = key_itr->second;
+				surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G1);
+				surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G2);
+				surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G3);
+				if ( chbdyg_itr->second.G4 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G4);
+				if ( chbdyg_itr->second.G5 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G5);
+				if ( chbdyg_itr->second.G6 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G6);
+				if ( chbdyg_itr->second.G7 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G7);
+				if ( chbdyg_itr->second.G8 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G8);
+				
+				out_SurfaceConvections.push_back(surfaceConvection);
+			}
+
+		} // for each ( const std::pair<int, CONV> &conv_ref in CONV_map )
+
+	}
+
+
+	void NastranDeckHelper::getSurfaceElementsContainingGridPoints (	const std::set<int> &in_GridPointIDs, 
+																		std::multimap< int, std::vector<int>> &out_ElementID_to_SurfacePoints_map )
+																							throw (isis::application_exception)
+	{
+	
+		const std::map<int, SolidElement> &elementData_map = nastranDeck.getElementData();
+
+		if (!sufaceCornerGridIDs_to_SolidElementID_map_populated) populate_sufaceCornerGridIDs_to_SolidElementID_map();	
+
+		//std::map<std::vector<int>, int> sufaceCornerGridIDs_to_SolidElementID_map
+		for each ( const std::pair<std::vector<int>, int> &i in sufaceCornerGridIDs_to_SolidElementID_map )
+		{
+			std::set<int> elementCornerPoints_set;
+			for each ( const int &j in i.first ) elementCornerPoints_set.insert(j);
+			std::set<int> intersect_set;
+			std::set_intersection(	in_GridPointIDs.begin(),			in_GridPointIDs.end(),
+									elementCornerPoints_set.begin(),	elementCornerPoints_set.end(),
+									std::inserter(intersect_set,intersect_set.begin()));
+
+
+			if ( intersect_set.size() == elementCornerPoints_set.size() )
+			{
+				// Found an element with all the corner points in in_GridPointIDs
+				// Need to find the complete set of grid points for the applicable face
+
+				const std::map<int, SolidElement>::const_iterator elem_itr = elementData_map.find(i.second);
+
+				if ( elem_itr == elementData_map.end())
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+					"Function:                      " __FUNCTION__ << std::endl <<
+					"ElementID:                     " <<   i.second		  << std::endl <<
+					"Error:                         " << "Could not locate an element identified with ElementID.";	
+					throw isis::application_exception(errorString.str()); 
+				}
+
+				// Could be one of four faces
+				// Face Keys Numbering from 1 ( Grid points as numberd by Nastran
+				// 1 2 3
+				// 1 2 4
+				// 2 3 4
+				// 1 3 4
+
+				// Face Keys Numbering from 0 
+				// 0 1 2
+				// 0 1 3
+				// 1 2 3
+				// 0 2 3
+
+				if ( elem_itr->second.GID.size() < 4 )
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+					"Function:                      " __FUNCTION__ << std::endl <<
+					"ElementID:                     " <<   i.second		  << std::endl <<
+					"Element Grid Points:          ";
+					for each ( const int &i_grid in elem_itr->second.GID) errorString << " " <<  i_grid;
+					errorString <<
+					"Search for Grid Points:          ";
+					for each ( const int &i_search in i.first )errorString << " " <<  i_search;
+					errorString <<
+					"Error:                         " << "\"Element Grid Points\" must contain at least four grid points.";	
+					throw isis::application_exception(errorString.str()); 
+
+				}
+
+				std::set<int> faceKey_1_set;
+				faceKey_1_set.insert( elem_itr->second.GID[0] );
+				faceKey_1_set.insert( elem_itr->second.GID[1] );
+				faceKey_1_set.insert( elem_itr->second.GID[2] );
+
+				std::set<int> faceKey_2_set;
+				faceKey_2_set.insert( elem_itr->second.GID[0] );
+				faceKey_2_set.insert( elem_itr->second.GID[1] );
+				faceKey_2_set.insert( elem_itr->second.GID[3] );
+
+				std::set<int> faceKey_3_set;
+				faceKey_3_set.insert( elem_itr->second.GID[1] );
+				faceKey_3_set.insert( elem_itr->second.GID[2] );
+				faceKey_3_set.insert( elem_itr->second.GID[3] );
+
+				std::set<int> faceKey_4_set;
+				faceKey_4_set.insert( elem_itr->second.GID[0] );
+				faceKey_4_set.insert( elem_itr->second.GID[2] );
+				faceKey_4_set.insert( elem_itr->second.GID[3] );
+
+				std::vector<int> faceGridPoints;
+
+				if ( faceKey_1_set == intersect_set)
+				{
+					// First Face Match
+					faceGridPoints.push_back( elem_itr->second.GID[0]);
+					faceGridPoints.push_back( elem_itr->second.GID[1]);
+					faceGridPoints.push_back( elem_itr->second.GID[2]);
+					if (  elem_itr->second.GID.size() == 10 )
+					{
+						faceGridPoints.push_back( elem_itr->second.GID[4]);
+						faceGridPoints.push_back( elem_itr->second.GID[5]);
+						faceGridPoints.push_back( elem_itr->second.GID[6]);
+					}
+
+				}
+				else if ( faceKey_2_set == intersect_set)
+				{
+					// Second Face Match
+					faceGridPoints.push_back( elem_itr->second.GID[0]);
+					faceGridPoints.push_back( elem_itr->second.GID[1]);
+					faceGridPoints.push_back( elem_itr->second.GID[3]);
+					if (  elem_itr->second.GID.size() == 10 )
+					{
+						faceGridPoints.push_back( elem_itr->second.GID[4]);
+						faceGridPoints.push_back( elem_itr->second.GID[8]);
+						faceGridPoints.push_back( elem_itr->second.GID[7]);
+					}
+				}
+				else if ( faceKey_3_set == intersect_set)
+				{
+					// Third Face Match
+					faceGridPoints.push_back( elem_itr->second.GID[1]);
+					faceGridPoints.push_back( elem_itr->second.GID[2]);
+					faceGridPoints.push_back( elem_itr->second.GID[3]);
+					if (  elem_itr->second.GID.size() == 10 )
+					{
+						faceGridPoints.push_back( elem_itr->second.GID[5]);
+						faceGridPoints.push_back( elem_itr->second.GID[9]);
+						faceGridPoints.push_back( elem_itr->second.GID[8]);
+					}
+
+				}
+				else if ( faceKey_4_set == intersect_set)
+				{
+					// Fourth Face Match
+					// Third Face Match
+					faceGridPoints.push_back( elem_itr->second.GID[0]);
+					faceGridPoints.push_back( elem_itr->second.GID[2]);
+					faceGridPoints.push_back( elem_itr->second.GID[3]);
+					if (  elem_itr->second.GID.size() == 10 )
+					{
+						faceGridPoints.push_back( elem_itr->second.GID[6]);
+						faceGridPoints.push_back( elem_itr->second.GID[9]);
+						faceGridPoints.push_back( elem_itr->second.GID[7]);
+					}
+				}	
+
+				if ( faceGridPoints.size() == 0 )
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+					"Function:                      " __FUNCTION__ << std::endl <<
+					"ElementID:                     " <<   i.second		  << std::endl <<
+					"Element Grid Points:          ";
+					for each ( const int &i_grid in elem_itr->second.GID) errorString << " " <<  i_grid;
+					errorString <<
+					"Search for Grid Points:          ";
+					for each ( const int &i_search in i.first )errorString << " " <<  i_search;
+					errorString <<
+					"Error:                         " << "Could not locate \"Search for Grid Points\" in \"Element Grid Points\".";	
+					throw isis::application_exception(errorString.str()); 
+				}
+
+				out_ElementID_to_SurfacePoints_map.insert(std::pair<int, std::vector<int>>(elem_itr->first, faceGridPoints));
+			}
+
+		} // for each ( const std::pair<std::vector<int>, int> &i
+	} // NastranDeckHelper::getSurfaceElementsContainingGridPoints
 
 } // End namespace isis

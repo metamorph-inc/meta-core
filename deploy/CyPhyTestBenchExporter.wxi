@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyTestBenchExporter">
+  <Component Id="CyPhyTestBenchExporter.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhyTestBenchExporter.dll" Name="CyPhyTestBenchExporter.dll" KeyPath="yes" Source="..\src\CyPhyTestBenchExporter\bin\Release\CyPhyTestBenchExporter.dll" />
+    <Class Id="{30264C52-88FD-4AAB-BAF9-424975A31CF9}" Context="InprocServer32" Description="MGA.Interpreter.CyPhyTestBenchExporter" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Interpreter.CyPhyTestBenchExporter" Description="MGA.Interpreter.CyPhyTestBenchExporter" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{30264C52-88FD-4AAB-BAF9-424975A31CF9}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{30264C52-88FD-4AAB-BAF9-424975A31CF9}\InprocServer32" Name="Class" Value="CyPhyTestBenchExporter.CyPhyTestBenchExporterInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{30264C52-88FD-4AAB-BAF9-424975A31CF9}\InprocServer32" Name="Assembly" Value="CyPhyTestBenchExporter, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{30264C52-88FD-4AAB-BAF9-424975A31CF9}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{30264C52-88FD-4AAB-BAF9-424975A31CF9}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyTestBenchExporter.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyPhyTestBenchExporter'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhyTestBenchExporter'/>
+      <RegistryValue Name='Icon' Type='string' Value='[#CyPhyTestBenchExporter.ico]'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='TestBenchExporter'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+  <Component Directory="INSTALLDIR_BIN">
+    <File Source="..\src\CyPhyTestBenchExporter/CyPhyTestBenchExporter.ico" />
+  </Component>
+  <Component Directory="INSTALLDIR_BIN">
+    <File Source="..\src\CyPhy2TestBenchInterchange\bin\Release\CyPhy2TestBenchInterchange.dll" />
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

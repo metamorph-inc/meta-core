@@ -872,8 +872,10 @@ def createReleaseExe(srcdir):
     #os.mkdir(distdir, 0755)
     # run python setup.py py2exe
     if (not isdir('dist') or not isfile(join('dist','hsalRA.exe'))) and (not isdir(distdir) or not isfile(join(distdir,'hsalRA.exe'))):
-        python26 = join('C:',os.path.sep,'Python26','python.exe')
-        subprocess.call([python26,'setup.py','py2exe'])
+        # python26 = join('C:',os.path.sep,'Python26','python.exe')
+        # subprocess.call([python26,'setup.py','py2exe'])
+        python27 = join('C:',os.path.sep,'Python27','python.exe')
+        subprocess.call([python27,'setup.py','py2exe'])
     if isdir('dist') and not isdir(distdir):
         os.rename('dist', distdir)
     assert isdir(distdir) and isfile(join(distdir,'hsalRA.exe'))
@@ -895,7 +897,9 @@ def createReleaseExe(srcdir):
     # make examples/ directory
     allFiles1 = ['MassSpringDamperTest.MassSpringDamperTest.xml','MassSpringDamperTest.property.json']
     allFiles2 = ['Linear1.hsal','SimpleThermo4.hsal']
-    os.mkdir( os.path.join(distdir,'examples'), 0755 )
+    examples_dir = os.path.join(distdir,'examples')
+    if not isdir(examples_dir):
+        os.mkdir( os.path.join(distdir,'examples'), 0755 )
     for i in allFiles1:
         src = os.path.join( currdir, 'modelica2hsal', 'examples', i)
         dst = os.path.join( distdir, 'examples', i)

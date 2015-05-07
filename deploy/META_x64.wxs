@@ -335,6 +335,8 @@
       <ComponentGroupRef Id='SubTreeMerge' />
       <ComponentGroupRef Id="CyPhyDesignExporter" />
       <ComponentGroupRef Id="CyPhyDesignImporter" />
+      <ComponentGroupRef Id="CyPhyTestBenchExporter" />
+      <ComponentGroupRef Id="CyPhyTestBenchImporter" />
       <ComponentGroupRef Id='dot_bin'/>
       <ComponentGroupRef Id='bin'/>
       <ComponentGroupRef Id='analysis_tools'/>

@@ -20,11 +20,14 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public string ShellType { get; set; }
         public string MeshType { get; set; }
         public int MaxAdaptiveIterations { get; set; }
-        private List<FEALoadBase> Loads;
-        private List<FEAConstraintBase> Constraints;
-        public List<string> PostProcessScripts { get; set; }
-        public List<FEAThermalElement> ThermalElements { get; set; }
+        private List<FEALoadBase> Loads = new List<FEALoadBase>();
+        private List<FEAConstraintBase> Constraints = new List<FEAConstraintBase>();
+        public List<string> PostProcessScripts = new List<string>();
+        public List<FEAThermalElement> ThermalElements = new List<FEAThermalElement>();
         public CyPhyClasses.CADTestBench.AttributesClass.AdjoiningTreatment_enum AdjSurfTreatment;
+        public string FEAAnalysisType;
+
+        public List<TBComputation> StaticComputations = new List<TBComputation>();
 
         protected CyPhy.CADTestBench CyphyTestBenchRef;
 
@@ -34,10 +37,6 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                                   bool auto = false) :
                                   base(cadSetting, outputdir, projectdir, auto)
         {
-            Loads = new List<FEALoadBase>();
-            Constraints = new List<FEAConstraintBase>();
-            PostProcessScripts = new List<string>();
-            ThermalElements = new List<FEAThermalElement>();
         }
 
         private void CollectLeafComponents(List<CyPhy.Component> result, CyPhy.ComponentAssembly assembly)
@@ -178,6 +177,12 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             //testBench.Attributes.InfiniteCycle;
             //testBench.Attributes.NumerOfCycles.ToString();
 
+            FEAAnalysisType = "STRUCTURAL";
+            if (testBench.Children.ThermalLoadCollection.Any() || testBench.Children.ThermalEnvironmentCollection.Any())
+            {
+                FEAAnalysisType = "THERMAL";
+            }
+
 
             // Metrics
             foreach (var item in testBench.Children.TIP2StructuralMetricCollection)
@@ -208,8 +213,23 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
                         foreach (var cyphycompport in feaComp.Children.StructuralAnalysisComputationTypeCollection)
                         {
-                            TBComputationType tbcomputation = new TBComputationType();
-                            tbcomputation.ComputationType = cyphycompport.Kind.Replace("Stress", "").Replace("Maximum", "");
+                            TBComputation tbcomputation = new TBComputation();
+                            if (cyphycompport is CyPhy.BearingStress)
+                            {
+                                tbcomputation.ComputationType = TBComputation.Type.BEARINGSTRESS;
+                            } else if (cyphycompport is CyPhy.MisesStress)
+                            {
+                                tbcomputation.ComputationType = TBComputation.Type.VONMISESSTRESS;
+                            } else if (cyphycompport is CyPhy.ShearStress)
+                            {
+                                tbcomputation.ComputationType = TBComputation.Type.SHEARSTRESS;
+                            } else if (cyphycompport is CyPhy.MaximumDisplacement)
+                            {
+                                tbcomputation.ComputationType = TBComputation.Type.DISPLACEMENT;
+                            } else if (cyphycompport is CyPhy.FactorOfSafety)
+                            {
+                                tbcomputation.ComputationType = TBComputation.Type.FACTOROFSAFETY;
+                            }
                             tbcomputation.FeatureDatumName = "";
                             tbcomputation.RequestedValueType = "Scalar";
                             tbcomputation.Details = "InfiniteCycle";
@@ -255,8 +275,14 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
                         foreach (var cyphycompport in feaComp.Children.ThermalAnalysisMetricsCollection)
                         {
-                            TBComputationType tbcomputation = new TBComputationType();
-                            tbcomputation.ComputationType = cyphycompport.Kind;
+                            TBComputation tbcomputation = new TBComputation();
+                            if (cyphycompport is CyPhy.MinimumTemperature)
+                            {
+                                tbcomputation.ComputationType = TBComputation.Type.MINIMUMTEMPERATURE;
+                            } else if (cyphycompport is CyPhy.MaximumTemperature)
+                            {
+                                tbcomputation.ComputationType = TBComputation.Type.MAXIMUMTEMPERATURE;
+                            }
                             tbcomputation.FeatureDatumName = "";
                             tbcomputation.RequestedValueType = "Scalar";
                             tbcomputation.Details = "InfiniteCycle";
@@ -357,7 +383,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                             string tipContextPath = Path.GetDirectoryName(cylinderType.Path);
                             AddGeometry2Constraint(feapinRep,
                                                    cylinderType.Impl as MgaFCO,
-                                                   tipContextPath);
+                                                   tipContextPath, true);
                         }
                     }
 
@@ -375,7 +401,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                             string tipContextPath = Path.GetDirectoryName(sphereType.Path);
                             AddGeometry2Constraint(feaballRep,
                                                    sphereType.Impl as MgaFCO,
-                                                   tipContextPath);
+                                                   tipContextPath, true);
                         }
                     }
                 }
@@ -455,10 +481,11 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                             string tipContextPath = Path.GetDirectoryName(geometry.Path);
                             AddGeometry2Constraint(feadispRep,
                                                    geometry.Impl as MgaFCO,
-                                                   tipContextPath);
+                                                   tipContextPath, true);
                         }
                     }
                 }
+                
             }
 
             // Loads
@@ -713,18 +740,34 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
         private void AddGeometry2Constraint(FEAConstraintBase constraintRep,
                                     MgaFCO geometryFCO,
-                                    string tipContextPath)
+                                    string tipContextPath, bool addcomputations)
         {
             GeometryTraversal traverser = new GeometryTraversal();
             traverser.TraverseGeometry(geometryFCO);
 
             CADGeometry geomRep = FillOutGeometryRep(geometryFCO,
                                                      tipContextPath);
+
+            if (addcomputations)
+            {
+                foreach (var point in geomRep.GeometryFeatures)
+                {
+                    TBComputation tbcomputation = new TBComputation();
+                    tbcomputation.ComputationType = TBComputation.Type.POINTCOORDINATES;
+                    tbcomputation.MetricID = point.ComponentID + ":" + point.DatumName;
+                    tbcomputation.RequestedValueType = "Vector";
+                    tbcomputation.FeatureDatumName = point.DatumName;
+                    tbcomputation.ComponentID = point.ComponentID;
+
+                    StaticComputations.Add(tbcomputation);
+                }
+            }
+
             if (geomRep != null)
             {
                 constraintRep.AddGeometry(geomRep);
                 this.Constraints.Add(constraintRep);
-            }           
+            }
             
         }
 
@@ -812,6 +855,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             AddDataExchangeFormatToXMLOutput(assembliesoutroot);
             assembliesoutroot.SerializeToFile(Path.Combine(OutputDirectory, TestBenchBase.CADAssemblyFile));
 
+            assembliesoutroot.Assembly[0].Analyses.SerializeToFile(Path.Combine(OutputDirectory, TestBenchBase.CADAnalysisFile));
         }
 
         protected override void AddAnalysisToXMLOutput(CAD.AssemblyType assembly)
@@ -822,7 +866,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             CAD.FEAType feaanalysis = new CAD.FEAType();
             feaanalysis._id = UtilityHelpers.MakeUdmID();
             feaanalysis.AnalysisID = AnalysisID;
-            feaanalysis.Type = "STRUCTURAL";
+            feaanalysis.Type = FEAAnalysisType;
             feaanalysis.MaxAdaptiveIterations = MaxAdaptiveIterations;
             feaanalysis.MaxElementSize = this.CyphyTestBenchRef.Attributes.MaximumElementSize;
             // solvers
@@ -833,7 +877,15 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             solver.ElementShapeType = ElementType;
             solver.MeshType = MeshType;
             solver.ShellElementType = ShellType;
-            solver.Type = SolverType;
+            if (SolverType == "CALCULIX")
+            {
+                solver.Type = "NASTRAN";
+            }
+            else
+            {
+                solver.Type = SolverType;
+            }
+            
             solversType.Solver = new CAD.SolverType[1];
             solversType.Solver[0] = solver;
             feaanalysis.Solvers = solversType;
@@ -906,8 +958,8 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 metric._id = UtilityHelpers.MakeUdmID();
                 metric.ComponentID = item.ComponentID;
                 metric.MetricID = item.MetricID;
-                metric.RequestedValueType = "Scalar";
-                metric.MetricType1 = item.ComputationType;
+                metric.RequestedValueType = item.RequestedValueType;
+                metric.MetricType1 = item.ComputationType.ToString();
                 metric.Details = "";
                 metriclist.Add(metric);
             }
@@ -919,9 +971,59 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             }
 
             cadanalysis.FEA = new CAD.FEAType[] { feaanalysis };
+
+            AddStaticAnalysis(assembly, StaticComputations);
+
         }
 
-        
+        // This code is copy/pasted from TestBench. Since this class is not a subclass of TestBench,
+        // it can't be re-used. Can this code be re-used from there by moving it to TestBenchBase?
+        private void AddStaticAnalysis(CAD.AssemblyType assemblyRoot, List<TBComputation> computations)
+        {
+            if (computations.Any())
+            {
+                CAD.AnalysesType cadanalysis = GetCADAnalysis(assemblyRoot);
+
+                CAD.StaticType staticanalysis = new CAD.StaticType();
+                staticanalysis._id = UtilityHelpers.MakeUdmID();
+                staticanalysis.AnalysisID = AnalysisID;
+
+                List<CAD.MetricType> metriclist = new List<CAD.MetricType>();
+                foreach (var item in computations)
+                {
+                    if (item.ComputationType == TBComputation.Type.POINTCOORDINATES)
+                    {
+                        CAD.MetricType ptout = new CAD.MetricType();
+                        ptout._id = UtilityHelpers.MakeUdmID();
+                        ptout.ComponentID = item.ComponentID;
+                        ptout.MetricID = item.MetricID;
+                        ptout.MetricType1 = item.ComputationType.ToString();
+                        ptout.RequestedValueType = item.RequestedValueType;
+                        ptout.Details = item.FeatureDatumName;
+                        ptout.ComponentID = String.IsNullOrEmpty(item.ComponentID) ? "" : item.ComponentID;     // PointCoordinate metric is tied to a specific Component  
+                        metriclist.Add(ptout);
+                    }
+                    else
+                    {
+                        CAD.MetricType metric = new CAD.MetricType();
+                        metric._id = UtilityHelpers.MakeUdmID();
+                        metric.MetricID = item.MetricID;
+                        metric.MetricType1 = item.ComputationType.ToString();
+                        metric.RequestedValueType = item.RequestedValueType;
+                        metric.ComponentID = assemblyRoot.ConfigurationID;
+                        metric.Details = "";
+                        metriclist.Add(metric);
+                    }
+                }
+
+                staticanalysis.Metrics = new CAD.MetricsType();
+                staticanalysis.Metrics._id = UtilityHelpers.MakeUdmID();
+                staticanalysis.Metrics.Metric = metriclist.ToArray();
+
+                cadanalysis.Static = new CAD.StaticType[] { staticanalysis };
+            }
+        }
+
         public override void GenerateRunBat()
         {
             Template.run_bat searchmeta = new Template.run_bat()
@@ -947,6 +1049,11 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             {
                 searchmeta.Mesher = "CREO";
                 searchmeta.Analyzer = "NASTRAN";
+            }
+            else if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.CALCULIX.ToString())
+            {
+                searchmeta.Mesher = "CREO";
+                searchmeta.Analyzer = "CALCULIX";
             }
 
             if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.ABAQUS_Model_Based.ToString())

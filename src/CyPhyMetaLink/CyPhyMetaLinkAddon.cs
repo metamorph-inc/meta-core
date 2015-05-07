@@ -12,11 +12,14 @@ namespace CyPhyMetaLink
 {
     /// <summary>
     /// This file contains GME-related plugin functionality.
+    /// Most of the implemented functions implement interface functionality
     /// </summary>
-    partial class CyPhyMetaLinkAddon
+    partial class CyPhyMetaLinkAddon // : IMgaComponentEx, IGMEVersionInfo, IMgaEventSink
     {
-        public bool TestMode; // No UI activity if on
+        // Used in automated tests, no UI activity if on
+        public bool TestMode;
 
+        // The latest (current) configuration
         MetaLinkConfiguration Configuration;
 
         public void Initialize(MgaProject project)
@@ -31,8 +34,9 @@ namespace CyPhyMetaLink
                 Configuration = new MetaLinkConfiguration();
             }
 
-            // Creating addon
+            // Creating addon 
             project.CreateAddOn(this, out addon);
+
             // Setting event mask (see ComponentConfig.eventMask)
             unchecked
             {
@@ -41,6 +45,7 @@ namespace CyPhyMetaLink
             // DISABLE BY DEFAULT
             Enable(false);
 
+            // Create the proxy windows control which sends-receives messages
             this.SyncControl = new System.Windows.Forms.Control();
             IntPtr handle = SyncControl.Handle; // If the handle has not yet been created, referencing this property will force the handle to be created.
         }

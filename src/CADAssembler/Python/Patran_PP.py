@@ -27,7 +27,7 @@ def ParseOutFile(outfilename, gComponentList):
             if eID == row[part].lower():
                 gComponentList[component].FEAResults[row[mtype]] = float(row[value])
 
-            
+
 LIB_FILE_NAME="patran_pp.pcl"
 
 parser = argparse.ArgumentParser(description='Post process Nastran output w/ Patran')
@@ -44,25 +44,25 @@ if (not os.path.exists(args.nas_filename)):
 
 if (not os.path.exists(args.xdb_filename)):
     print("Error: %s file not found" % xdb_filename)
-    
+
 if (not os.path.exists(args.MetaDataFile)):
     print("Error: %s file not found" % MetaDataFile)
-    
+
 if (not os.path.exists(args.RequestedMetrics)):
     print("Error: %s file not found" % RequestedMetrics)
-    
+
 with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0, _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
         META_PATH = _winreg.QueryValueEx(key, 'META_PATH')[0]
         ppDir = os.path.join(META_PATH, 'bin', 'CAD')
 with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE,  r'Software\Wow6432Node\MSC.Software Corporation\Patran x64\20.0.0', \
                      0, _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
-        PATRAN_PATH = _winreg.QueryValueEx(key, 'Path')[0]    
-        
+        PATRAN_PATH = _winreg.QueryValueEx(key, 'Path')[0]
+
 if (not os.path.exists(os.path.join(ppDir, LIB_FILE_NAME))):
     print("Error: %s file not found in Meta-Tools installation" % LIB_FILE_NAME)
 
 shutil.copy2(os.path.join(ppDir, LIB_FILE_NAME), os.getcwd())
-    
+
 filename = args.xdb_filename.split(".")[0]
 filename = filename.replace("_nas_mod","")
 bdf_filename = filename + ".bdf"
@@ -91,12 +91,12 @@ if(retcode == 0):
     print "Patran Process Successful!!"
 else:
     raise Exception("Patran Process Failed!")
-    
+
 gComponentList = ComputedMetricsSummary.ParseMetaDataFile(args.MetaDataFile, None, None)
-    
+
 if (not os.path.exists(filename + "_out.txt")):
     print("Error: %s file not found" % (filename + "_out.txt"))
-    
+
 ParseOutFile(filename + "_out.txt", gComponentList)
 
 reqMetrics = ComputedMetricsSummary.ParseReqMetricsFile(args.RequestedMetrics, gComponentList)
@@ -105,7 +105,8 @@ reqMetrics = ComputedMetricsSummary.ParseReqMetricsFile(args.RequestedMetrics, g
 ################  Compute FOS  #######################
 for component in gComponentList.values():
     if component.CadType == "PART":
-        fos = float(component.MaterialProperty['Mises'])  / component.FEAResults["VM"]
+        fos = float(component.Allowables.mechanical__strength_tensile) / component.FEAResults["VM"]
+        #fos = float(component.MaterialProperty['Mises'])  / component.FEAResults["VM"]
         component.FEAResults['FOS'] = fos
         component.MetricsOutput[component.MetricsInfo['FactorOfSafety']] = fos
         component.MetricsOutput[component.MetricsInfo['VonMisesStress']] = component.FEAResults["VM"]
@@ -116,10 +117,11 @@ with open(filename + '.csv', 'wb') as f:
     writer.writerow(["Unique ID","Allowable Stress","Maximum Stress","Factor of Safety"])
     for component in gComponentList.values():
         if component.CadType == "PART":
-            writer.writerow([component.ComponentID,str(component.MaterialProperty['Mises']), \
+            writer.writerow([component.ComponentID,
+                             str(component.Allowables.mechanical__strength_tensile), \
                              str(component.FEAResults["VM"]),str(component.FEAResults["FOS"])])
 
-            
+
 ################  Populate Assembly Results  #########
 for component in gComponentList.values():
     if component.CadType == "ASSEMBLY":
@@ -133,11 +135,11 @@ for component in gComponentList.values():
         component.MetricsOutput[component.MetricsInfo['FactorOfSafety']] = min(FOS)
         component.MetricsOutput[component.MetricsInfo['VonMisesStress']] = max(VM)
 
-        
+
 ################  Populate Metrics  #################
-computedValuesXml = ComputedMetricsSummary.WriteXMLFile(gComponentList)        
-         
-         
+computedValuesXml = ComputedMetricsSummary.WriteXMLFile(gComponentList)
+
+
 ################  Update Results Json  ##############
 if (os.path.exists(args.ResultsJson)):
     UpdateReportJson_CAD.update_manifest(args.ResultsJson, computedValuesXml)
@@ -145,5 +147,6 @@ else:
     print "ERROR: Could not update file: " + args.ResultsJson + ", file does not exist."
 
 print "Post Processing Complete, CSV and metrics updated"
+sys.exit(0)
 
 

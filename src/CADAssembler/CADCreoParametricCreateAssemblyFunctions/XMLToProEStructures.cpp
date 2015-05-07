@@ -32,7 +32,6 @@
 namespace isis
 {	
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void stream_IndentedAssemblyTree( vector<AssemblyInterface::CADComponent> &cadComponentVector, 
 						  ostream &out_Stream, 
@@ -1097,7 +1096,6 @@ void PopulateAnalyses (	 const AssemblyInterface::Analyses &in_Analyses_FromXML,
 
 				PopulateGeometry( geometryVector, analysisLoad.geometry );
 
-
 				/*
 				AssemblyInterface::Features features = cj->Features_child();
 				if ( features != Udm::null )
@@ -1189,6 +1187,80 @@ void PopulateAnalyses (	 const AssemblyInterface::Analyses &in_Analyses_FromXML,
 	
 		}
 
+		////////////////////////////////
+		// ThermalElements
+		////////////////////////////////
+		// Load						Allowed Geometry Types	
+		// ------------				----------------------
+		// SpecifiedTemperature		Polygon, Circle, Concentric_Circles, Cylinder_Surface(To be added),Sphere_Surface (To be added) 
+		// InitialTemperature		None, or Polygon, Circle, Concentric_Circles, Cylinder_Surface(To be added),Sphere_Surface (To be added) 
+		// HeatFlux					Polygon, Circle, Concentric_Circles, Cylinder_Surface(To be added),Sphere_Surface (To be added) 
+		// HeatGeneration           Not Supported
+		//
+		// Constraint				Allowed Geometry Types	
+		// ------------				----------------------
+		// ConvectionHeat			Polygon, Circle, Concentric_Circles, Cylinder_Surface(To be added),Sphere_Surface (To be added) 
+
+		AssemblyInterface::ThermalElements thermalElements = ci->ThermalElements_child();
+
+		if ( thermalElements != Udm::null )
+		{
+			vector<AssemblyInterface::ThermalElement> thermalElementVector = thermalElements.ThermalElement_kind_children();
+
+			for ( vector<AssemblyInterface::ThermalElement>::const_iterator therm_i = thermalElementVector.begin(); therm_i != thermalElementVector.end(); therm_i++ )
+			{
+				bool analysisLoad_defined		= false;
+				bool analysisConstraint_defined = false;
+				
+				e_Thermal_LoadConstraint thermalLoadConstraint = Thermal_LoadConstraint_enum(therm_i->LoadType());
+
+				isis::AnalysisConstraint	analysisConstraint;
+				isis::AnalysisLoad			analysisLoad;
+
+				vector<AssemblyInterface::Geometry> geometryVector = therm_i->Geometry_kind_children();
+
+				switch ( thermalLoadConstraint )
+				{
+					case THERMAL_CONVECTION_HEAT:		// Constraint
+						analysisConstraint.convectionBoundary.convectionCoefficient = therm_i->Value();
+						analysisConstraint.convectionBoundaryDefined = true;
+						PopulateGeometry( geometryVector, analysisConstraint.geometry );	
+						analysisFEA.analysisConstraints.push_back(analysisConstraint);
+						break;
+					case THERMAL_HEAT_FLUX:				// Load
+						analysisLoad.heatFlux.value = therm_i->Value();
+						analysisLoad.heatFluxDefined = true;
+						PopulateGeometry( geometryVector, analysisLoad.geometry );
+						analysisFEA.analysisLoads.push_back(analysisLoad);
+						break;
+					case THERMAL_HEAT_GENERATION:		// Load
+						analysisLoad.heatGeneration.value = therm_i->Value();
+						analysisLoad.heatGenerationDefined = true;
+						PopulateGeometry( geometryVector, analysisLoad.geometry );
+						analysisFEA.analysisLoads.push_back(analysisLoad);
+						break;
+					case THERMAL_INITIAL_TEMPERATURE:	// Load
+						analysisLoad.gridPointInitialTemperature.value = therm_i->Value();
+						analysisLoad.gridPointInitialTemperatureDefined = true;
+						PopulateGeometry( geometryVector, analysisLoad.geometry );
+						analysisFEA.analysisLoads.push_back(analysisLoad);
+						break;
+					case THERMAL_SPECIFIED_TEMPERATURE:	// Load
+						analysisLoad.gridPointTemperature.value = therm_i->Value();
+						analysisLoad.gridPointTemperatureDefined = true;
+						PopulateGeometry( geometryVector, analysisLoad.geometry );
+						analysisFEA.analysisLoads.push_back(analysisLoad);
+						break;
+					case THERMAL_AMBIENT_TEMPERATURE:
+						// Not supported by deck-based FEA.  Skip for now.
+						break;
+					default:
+						std::string TempError = "Function PopulateAnalyses, unknown thermal analysis type: " + 
+												Thermal_LoadConstraint_string(thermalLoadConstraint);
+						throw isis::application_exception(TempError.c_str());
+				}
+			}
+		}
 		////////////////////////////////
 		// Part Interfaces
 		////////////////////////////////

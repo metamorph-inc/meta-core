@@ -643,6 +643,7 @@ namespace CAD {
             }
         }
     }
+
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.1")]
@@ -2155,6 +2156,8 @@ namespace CAD {
         
         private string componentIDField;
         
+        private string metricIDField;
+        
         private string _idField;
         
         private string _archetypeField;
@@ -2173,8 +2176,15 @@ namespace CAD {
         
         private bool _subtypeFieldSpecified;
         
+        public FeatureType() {
+            this.nameField = "";
+            this.componentIDField = "";
+            this.metricIDField = "";
+        }
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute("")]
         public string Name {
             get {
                 return this.nameField;
@@ -2186,12 +2196,25 @@ namespace CAD {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute("")]
         public string ComponentID {
             get {
                 return this.componentIDField;
             }
             set {
                 this.componentIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute("")]
+        public string MetricID {
+            get {
+                return this.metricIDField;
+            }
+            set {
+                this.metricIDField = value;
             }
         }
         

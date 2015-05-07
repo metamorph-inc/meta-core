@@ -21,7 +21,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                                 base(cadSetting, outputdir, projectdir, auto)
         {
             PostProcessScripts = new List<string>();
-            Computations = new List<TBComputationType>();
+            Computations = new List<TBComputation>();
         }
 
         private List<CFDConfig> cfdConfigs = new List<CFDConfig>();
@@ -39,9 +39,9 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
             foreach (var conn in testBench.Children.CFDComputation2MetricCollection)
             {
-                TBComputationType tbcomputation = new TBComputationType();
+                TBComputation tbcomputation = new TBComputation();
                 tbcomputation.MetricID = conn.DstEnds.Metric.ID;
-                tbcomputation.ComputationType = "CoefficientOfDrag";
+                tbcomputation.ComputationType = TBComputation.Type.COEFFICIENTOFDRAG;
                 tbcomputation.RequestedValueType = "SCALAR";
                 Computations.Add(tbcomputation);
             }

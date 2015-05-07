@@ -336,7 +336,7 @@ namespace CADTeamTest
         public void KinematicTB_4Bar()
         {
             string XmePath = Path.GetFullPath(@"..\..\..\..\models\MBD\MBD.xme");
-            string TestbenchPath = "/@Testing|kind=Testing|relpos=0/@Kinematic_FourBar|kind=KinematicTestBench|relpos=0";
+            string TestbenchPath = "/@Testing|kind=Testing|relpos=0/@Kinematics|kind=Testing|relpos=0/@Kinematic_FourBar|kind=KinematicTestBench|relpos=0";
             string OutputDir = Path.Combine(Path.GetDirectoryName(XmePath), "Kinematic_FourBar");
 
             bool status = CADTeamTest.CyPhy2CADRun.Run(OutputDir, XmePath, TestbenchPath, true);
@@ -348,7 +348,7 @@ namespace CADTeamTest
         public void FEATB_4Bar()
         {
             string XmePath = Path.GetFullPath(@"..\..\..\..\models\MBD\MBD.xme");
-            string TestbenchPath = "/@Testing|kind=Testing|relpos=0/@FEA_Fourbar|kind=CADTestBench|relpos=0";
+            string TestbenchPath = "/@Testing|kind=Testing|relpos=0/@FEA|kind=Testing|relpos=0/@FourBar|kind=Testing|relpos=0/@ModelBased|kind=Testing|relpos=0/@FEA_Fourbar|kind=CADTestBench|relpos=0";
             string OutputDir = Path.Combine(Path.GetDirectoryName(XmePath), "FEA_FourBar");
 
             bool status = CADTeamTest.CyPhy2CADRun.Run(OutputDir, XmePath, TestbenchPath, true);

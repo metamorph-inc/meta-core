@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{76478168-47BA-4F3E-B706-F8D2EEDCEC1B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CyPhyTestBenchExporter</RootNamespace>
+    <AssemblyName>CyPhyTestBenchExporter</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>AssemblySignature.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ISIS.GME.Common, Version=1.0.4.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
+      <HintPath>../../externals/common-scripts/ISIS.GME.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="GME, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.MGA, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.MGA.Core, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ComponentConfig.cs" />
+    <Compile Include="CyPhyTestBenchExporter.cs" />
+    <Compile Include="Registrar.cs" />
+    <Compile Include="MgaGateway.cs" />
+    <Compile Include="GMEConsole.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <!--$ADDITIONALFILES$-->
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CyPhyTestBenchExporter.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AssemblySignature.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\meta\DesignDataPackage\lib\csharp\XSD2CSharp\XSD2CSharp.csproj">
+      <Project>{B4B9DC90-2857-4C8E-9BDE-47EC4649122B}</Project>
+      <Name>XSD2CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhy2TestBenchInterchange\CyPhy2TestBenchInterchange.csproj">
+      <Project>{27086971-68BE-427E-A6E0-5582BC06B18E}</Project>
+      <Name>CyPhy2TestBenchInterchange</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyElaborateCS\CyPhyElaborateCS.csproj">
+      <Project>{ABDA448D-4C24-4E96-93D8-B6E64DBB2F51}</Project>
+      <Name>CyPhyElaborateCS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyGUIs\CyPhyGUIs.csproj">
+      <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
+      <Name>CyPhyGUIs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyMLCS\CyPhyMLCS.csproj">
+      <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>
+      <Name>CyPhyMLCS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!--
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

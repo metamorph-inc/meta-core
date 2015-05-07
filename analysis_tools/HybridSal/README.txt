@@ -30,19 +30,3 @@ To test, you can run this from a Cygwin terminal (assuming that you have already
   $ sal-inf-bmc ~/bin/sal-3.3/examples/inf-bakery/inf_bakery.sal mutex 
   no counterexample between depths: [0, 10].
 
-Install HybridSal (not needed!)
------------------
-
-Now test the installation of HybridSal for Win32 using the Windows Command Line.  Navigate in the Explorer to the folder 'C:\Program Files (x86)\META\analysis_tools\HybridSal` and SHIFT+RIGHT-CLICK 'bin'. In the context menu that pops up, choose "Open command window here".  Then type:
-   >"C:\Program Files (x86)\META\bin\Python27\Scripts\python.exe" install.py
-   -------------------------------------------------
-   Installing HybridSal Relational Abstraction Tool.
-        Copyright (c) SRI International 2011.
-   -------------------------------------------------
-   Searching for java... Successful. Found C:\Windows\system32\java.exe
-   Searching for hybridsal2xml... Found hybridsal2xml.jar at C:\Program Files (x86)\META\analysis_tools\HybridSal\bin\hybridsal2xml.jar
-   Testing hybridsal2xml...
-     ***Failed to find an example (C:\Program Files (x86)\META\analysis_tools\HybridSal\bin\examples\Linear1.hsal) for testing
-   Searching for numpy... Found.
-   Searching for scipy... Found.
-   HybridSal successfully installed.

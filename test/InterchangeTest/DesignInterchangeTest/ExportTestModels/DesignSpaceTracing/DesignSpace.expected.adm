@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<Design xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="DesignSpace" DesignID="{3b9be282-9e79-4762-967f-c81f53a70208}" xmlns="avm">
+<Design xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="DesignSpace" DesignID="id-3b9be282-9e79-4762-967f-c81f53a70208" xmlns="avm">
   <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="DesignSpace" xmlns="">
     <Container xsi:type="q1:Alternative" YPosition="168" XPosition="406" Name="Alt">
       <ComponentInstance ComponentID="e2a9027d-6cdc-436b-9557-9f662165900b" ID="{299cff31-af97-4589-9aee-5b26db3b1af9}" Name="CompB" />

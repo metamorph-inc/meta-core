@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<Design xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="DesignSpace_cfg1" DesignSpaceSrcID="{3b9be282-9e79-4762-967f-c81f53a70208}" DesignID="{c0e3fcf3-a78c-41c4-b3a6-c578d257f778}" xmlns="avm">
+<Design xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="DesignSpace_cfg1" DesignSpaceSrcID="{3b9be282-9e79-4762-967f-c81f53a70208}" DesignID="c0e3fcf3-a78c-41c4-b3a6-c578d257f778" xmlns="avm">
   <RootContainer xmlns:q1="avm" xsi:type="q1:Compound" Name="DesignSpace_cfg1" xmlns="">
     <ComponentInstance DesignSpaceSrcComponentID="{21a32d61-47a4-4607-a5a3-e08a51163293}" XPosition="203" YPosition="175" ComponentID="66581ca9-8b10-4e8c-b574-79f7be4ad00b" ID="{5b2ee592-77b2-4734-ad60-1f6dd65dd69e}" Name="CompA" />
     <ComponentInstance DesignSpaceSrcComponentID="{299cff31-af97-4589-9aee-5b26db3b1af9}" XPosition="406" YPosition="168" ComponentID="e2a9027d-6cdc-436b-9557-9f662165900b" ID="{e497e369-6650-45b5-abc7-2554e2c313b1}" Name="Alt__CompB" />

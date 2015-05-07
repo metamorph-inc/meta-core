@@ -104,12 +104,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Property/YPosition"/>
     </genClasses>
     <genClasses ecoreClass="AVM.ecore#//Value">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Value/Unit"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Value/ValueExpression"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Value/DataType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Value/DimensionType"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Value/Dimensions"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Value/DataSource"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Value/DataType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Value/Dimensions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Value/Unit"/>
     </genClasses>
     <genClasses ecoreClass="AVM.ecore#//FixedValue">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//FixedValue/Value"/>
@@ -209,6 +209,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Design/DesignID"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Design/Name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Design/DesignSpaceSrcID"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Design/DomainFeature"/>
     </genClasses>
     <genClasses image="false" ecoreClass="AVM.ecore#//Container">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Container/Name"/>
@@ -282,9 +283,56 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DoDDistributionStatement/Type"/>
     </genClasses>
     <genClasses image="false" ecoreClass="AVM.ecore#//ConnectorFeature"/>
+    <genClasses ecoreClass="AVM.ecore#//TestBench">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//TestBench/Name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//TestBench/TopLevelSystemUnderTest"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//TestBench/Parameter"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//TestBench/Metric"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//TestBench/TestInjectionPoint"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//TestBench/TestComponent"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//TestBench/Workflow"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//TestBench/Settings"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//TestBench/TestStructure"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//TopLevelSystemUnderTest">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//TopLevelSystemUnderTest/DesignID"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//Parameter"/>
+    <genClasses ecoreClass="AVM.ecore#//Metric"/>
+    <genClasses image="false" ecoreClass="AVM.ecore#//ContainerInstanceBase">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ContainerInstanceBase/IDinSourceModel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ContainerInstanceBase/XPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ContainerInstanceBase/YPosition"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//TestBenchValueBase">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//TestBenchValueBase/ID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//TestBenchValueBase/Name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//TestBenchValueBase/Notes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//TestBenchValueBase/XPosition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//TestBenchValueBase/YPosition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//TestBenchValueBase/Value"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//TestInjectionPoint"/>
+    <genClasses ecoreClass="AVM.ecore#//Workflow">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//Workflow/Task"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//Workflow/Name"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//WorkflowTaskBase">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//WorkflowTaskBase/Name"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//InterpreterTask">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//InterpreterTask/COMName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//InterpreterTask/Parameters"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//ExecutionTask">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ExecutionTask/Description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//ExecutionTask/Invocation"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//Settings"/>
     <genClasses ecoreClass="AVM.ecore#//ValueFlowMux">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AVM.ecore#//ValueFlowMux/Source"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="AVM.ecore#//DesignDomainFeature"/>
     <nestedGenPackages prefix="Modelica" basePackage="avm" resource="XML" disposableProviderFactory="true"
         ecorePackage="AVM.ecore#//modelica">
       <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
@@ -311,6 +359,17 @@
         <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/RedeclareTypeEnum/Block"/>
         <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/RedeclareTypeEnum/Connector"/>
         <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/RedeclareTypeEnum/Function"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="AVM.ecore#//modelica/IntervalMethod">
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/IntervalMethod/NumberOfIntervals"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/IntervalMethod/IntervalLength"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="AVM.ecore#//modelica/JobManagerToolSelection">
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/JobManagerToolSelection/Dymola_latest"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/JobManagerToolSelection/Dymola_2014"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/JobManagerToolSelection/Dymola_2013"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/JobManagerToolSelection/OpenModelica_latest"/>
+        <genEnumLiterals ecoreEnumLiteral="AVM.ecore#//modelica/JobManagerToolSelection/JModelica_1_12"/>
       </genEnums>
       <genClasses ecoreClass="AVM.ecore#//modelica/ModelicaModel">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/ModelicaModel/Class"/>
@@ -345,6 +404,17 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/Redeclare/Locator"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//modelica/Redeclare/Value"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/Redeclare/Type"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//modelica/SolverSettings">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/SolverSettings/Solver"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/SolverSettings/JobManagerToolSelection"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/SolverSettings/StartTime"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/SolverSettings/StopTime"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/SolverSettings/IntervalMethod"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/SolverSettings/NumberOfIntervals"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/SolverSettings/IntervalLength"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/SolverSettings/ToolSpecificAnnotations"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//modelica/SolverSettings/Tolerance"/>
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Cad" basePackage="avm" resource="XML" disposableProviderFactory="true"
@@ -441,6 +511,10 @@
       <genClasses ecoreClass="AVM.ecore#//cad/GuideDatum">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference AVM.ecore#//cad/GuideDatum/Datum"/>
+      </genClasses>
+      <genClasses ecoreClass="AVM.ecore#//cad/AssemblyRoot">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AVM.ecore#//cad/AssemblyRoot/AssemblyRootComponentInstance"/>
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Manufacturing" basePackage="avm" resource="XML" disposableProviderFactory="true"

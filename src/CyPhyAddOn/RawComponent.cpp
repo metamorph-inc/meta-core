@@ -362,15 +362,15 @@ STDMETHODIMP RawComponent::ObjectEvent(IMgaObject * obj, unsigned long eventmask
 				{	
 					if(turnedon)
 					{
-						COMTHROW(fco->put_IntAttrByName(CBstrIn("ID"), ++maxId));
+						COMTHROW(fco->put_IntAttrByName(_bstr_t(L"ID"), ++maxId));
 
 						if ( dontAssignGUIDsOnNextTransaction == false &&
 							 (wcscmp(fcoKind, L"Component") == 0 || wcscmp(fcoKind, L"ComponentRef") == 0 ) )
 						{
 							// Populate InstanceGUID field with the object's GUID
-							BSTR newGUID;
-							fco->GetGuidDisp(&newGUID);
-							COMTHROW(fco->put_StrAttrByName(CBstrIn("InstanceGUID"), newGUID ));
+							_bstr_t guid = fco->imp_GetGuidDisp();
+							_bstr_t noBraces(SysAllocStringLen(static_cast<const OLECHAR*>(guid) + 1, guid.length() - 2), false);
+							COMTHROW(fco->put_StrAttrByName(_bstr_t(L"InstanceGUID"), noBraces));
 						}
 					}
 				}

@@ -1,0 +1,10 @@
+fault,component,parameter,type,change
+Slip,Modelica.Mechanics.Rotational.Components.Brake,mue_pos,Real,"u * {{1,0},{0,1-amount}}"
+Slip,Modelica.Mechanics.Rotational.Components.Clutch,mue_pos,Real,"u * {{1,0},{0,1-amount}}"
+Fatigue,Modelica.Mechanics.Rotational.Components.Spring,c,Modelica.SIunits.RotationalSpringConstant,"u  * (1 - amount)"
+Slip,Modelica.Mechanics.Translational.Components.Brake,mue_pos,Real,"u * {{1,0},{0,1-amount}}"
+Slip,Modelica.Mechanics.Translational.Components.Clutch,mue_pos,Real,"u * {{1,0},{0,1-amount}}"
+Fatigue,Modelica.Mechanics.Translational.Components.Spring,c,Modelica.SIunits.TranslationalSpringConstant,"u  * (1 - amount)"
+Loose,C2M2L_OM.MSL_Extend.Electrical.Electric_Machines.Base_Classes.Motor_With_Inverter_As_Generator,efficiency,Real,"u * (1 - amount)"
+Fatigue,Modelica.Mechanics.Rotational.Components.SpringDamper,c,Modelica.SIunits.RotationalSpringConstant,"u  * (1 - amount)"
+Weak,Modelica.Electrical.Analog.Sources.ConstantVoltage,V,Modelica.SIunits.Voltage,"u  * (1 - amount)"

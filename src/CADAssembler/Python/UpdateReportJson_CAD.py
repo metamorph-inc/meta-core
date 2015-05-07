@@ -17,8 +17,7 @@ def convert_pp_metric(metric, value, inUnit, outUnit):
     # If GME testbench metrics have either degrees Celsius or Fahrenheit,
     # convert data from Kelvin to desired units.    
     logger = logging.getLogger()
-    logger.info('Converting ' + metric + ' of ' + str(value) + ' ' + \
-                inUnit + ' to ' + outUnit)
+    logger.info('Converting ' + metric + ' of ' + str(value) + ' ' + inUnit + ' to ' + outUnit)
     if str(outUnit) == 'Degree Celsius':
         return float(float(value) - 273.15)
     elif str(outUnit) == 'Degree Fahrenheit':
@@ -28,20 +27,18 @@ def convert_pp_metric(metric, value, inUnit, outUnit):
         return value
     
 
-def update_manifest(manifest, computedValuesXml):
+def update_manifest(tbmanifest, computedValuesXml):
     #from optparse import OptionParser
     #parser = OptionParser()
     #options = add_options(parser)
-    
+
     logger = logging.getLogger()
     logger.info('\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     logger.info('FUNCTION: UpdateReportJson_CAD()\n')
-    
-    result_json = {}
 
-    if os.path.exists(manifest):
+    if os.path.exists(tbmanifest):
         # read current summary report, which contains the metrics
-        with open(manifest,'r') as file_in:
+        with open(tbmanifest, 'r') as file_in:
             result_json = json.load(file_in)
 
         # update analysis status
@@ -51,22 +48,22 @@ def update_manifest(manifest, computedValuesXml):
             else:
                     result_json['Status'] = 'OK'
         else:
-            logger.debug('%s does not contain Status' %(manifest))
+            logger.debug('%s does not contain Status' % tbmanifest)
         
         if os.path.exists(computedValuesXml):
-            Parsed_ComputedValueList = dict()
-            Parsed_ComputedValueList = ComputedMetricsSummary.ParseReqMetricsFile(computedValuesXml)
+            ComputedMetricsSummary.ParseReqMetricsFile(computedValuesXml)
 
             if 'Metrics' in result_json:
                 for metric in result_json['Metrics']:
                     if 'Name' in metric and 'Value' in metric and 'GMEID' in metric:
                         key = metric['GMEID']
-                        if ComputedMetricsSummary.gMetricSummary.has_key(key):
+                        if key in ComputedMetricsSummary.gMetricSummary:
                             # update metric's value to the last value in
                             # time series
                             if metric['Unit'] != '':
-                                metric['Value'] = convert_pp_metric(key, ComputedMetricsSummary.gMetricSummary[key][1], \
-                                            ComputedMetricsSummary.gMetricSummary[key][0], metric['Unit'])
+                                metric['Value'] = convert_pp_metric(key, ComputedMetricsSummary.gMetricSummary[key][1],
+                                                                    ComputedMetricsSummary.gMetricSummary[key][0],
+                                                                    metric['Unit'])
                             else:
                                 metric['Value'] = ComputedMetricsSummary.gMetricSummary[key][1]
                                 metric['Unit'] = ComputedMetricsSummary.gMetricSummary[key][0]
@@ -78,22 +75,19 @@ def update_manifest(manifest, computedValuesXml):
                             logger.debug('ComputedMetrics.xml key error: {0}'.format(key))
             else:
                 # create warning message
-                logger.debug('% does not contain Metrics' %(manifest))
+                logger.debug('% does not contain Metrics' % tbmanifest)
         else:
             logger.debug('Given result file does not exist: {0}'.format(computedValuesXml))
 
         # update json file with the new values
-        with open(manifest,'wb') as file_out:
+        with open(tbmanifest, 'wb') as file_out:
             json.dump(result_json, file_out, indent=4)
-        logger.debug('Finished updating %s file.' %(manifest))
+        logger.debug('Finished updating %s file.' % tbmanifest)
         
     else:
-        logger.debug('%s does not exist!' %(manifest))                   
+        logger.debug('%s does not exist!' % tbmanifest)
 
     
 if __name__ == '__main__':
     manifest = os.path.join(os.getcwd(), 'testbench_manifest.json')
     update_manifest(manifest, 'ComputedValues.xml')
-
-
-

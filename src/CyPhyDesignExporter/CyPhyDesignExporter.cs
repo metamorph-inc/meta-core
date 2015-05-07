@@ -25,7 +25,7 @@ namespace CyPhyDesignExporter
     ProgId(ComponentConfig.progID),
     ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class CyPhyDesignExporterInterpreter : IMgaComponentEx, IGMEVersionInfo, ICyPhyInterpreter
+    public class CyPhyDesignExporterInterpreter : IGMEVersionInfo, IMgaComponentEx, ICyPhyInterpreter
     {
         /// <summary>
         /// Contains information about the GUI event that initiated the invocation.
@@ -84,11 +84,49 @@ namespace CyPhyDesignExporter
                 MgaGateway = new MgaGateway(mainParameters.Project);
                 parameters.Project.CreateTerritoryWithoutSink(out MgaGateway.territory);
 
+                var result = new InterpreterResult() { Success = true, RunCommand = "" };
+
                 MgaGateway.PerformInTransaction(delegate
                 {
                     MainInTransaction((InterpreterMainParameters)parameters);
+
+
+                    // TODO: this part needs to be refactored!
+                    var workflowRef = this.mainParameters
+                        .CurrentFCO
+                        .ChildObjects
+                        .OfType<MgaReference>()
+                        .FirstOrDefault(x => x.Meta.Name == "WorkflowRef");
+                    
+                    if (workflowRef != null)
+                    {
+                        string Parameters = workflowRef
+                            .Referred
+                            .ChildObjects
+                            .OfType<MgaAtom>()
+                            .FirstOrDefault(fco => fco.Meta.Name == typeof(CyPhy.Task).Name
+                                && String.Equals(CyPhyClasses.Task.Cast(fco).Attributes.COMName, this.ComponentProgID, StringComparison.InvariantCultureIgnoreCase))
+                            .StrAttrByName["Parameters"];
+
+                        Dictionary<string, string> workflowParameters = new Dictionary<string, string>();
+
+                        try
+                        {
+                            workflowParameters = (Dictionary<string, string>)Newtonsoft.Json.JsonConvert.DeserializeObject(Parameters, typeof(Dictionary<string, string>));
+                            if (workflowParameters == null)
+                            {
+                                workflowParameters = new Dictionary<string, string>();
+                            }
+                        }
+                        catch (Newtonsoft.Json.JsonReaderException)
+                        {
+                        }
+
+                        META.AnalysisTool.ApplyToolSelection(this.ComponentProgID, workflowParameters, result, this.mainParameters);
+                    }
                 });
-                return new InterpreterResult() { Success = true, RunCommand = "" };
+
+                return result;
             }
             finally
             {

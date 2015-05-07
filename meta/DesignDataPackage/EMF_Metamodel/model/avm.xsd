@@ -48,7 +48,20 @@
   <xsd:element ecore:ignore="true" name="Operand" type="avm:Operand"/>
   <xsd:element ecore:ignore="true" name="DoDDistributionStatement" type="avm:DoDDistributionStatement"/>
   <xsd:element ecore:ignore="true" name="ConnectorFeature" type="avm:ConnectorFeature"/>
+  <xsd:element ecore:ignore="true" name="TestBench" type="avm:TestBench"/>
+  <xsd:element ecore:ignore="true" name="TopLevelSystemUnderTest" type="avm:TopLevelSystemUnderTest"/>
+  <xsd:element ecore:ignore="true" name="Parameter" type="avm:Parameter"/>
+  <xsd:element ecore:ignore="true" name="Metric" type="avm:Metric"/>
+  <xsd:element ecore:ignore="true" name="ContainerInstanceBase" type="avm:ContainerInstanceBase"/>
+  <xsd:element ecore:ignore="true" name="TestBenchValueBase" type="avm:TestBenchValueBase"/>
+  <xsd:element ecore:ignore="true" name="TestInjectionPoint" type="avm:TestInjectionPoint"/>
+  <xsd:element ecore:ignore="true" name="Workflow" type="avm:Workflow"/>
+  <xsd:element ecore:ignore="true" name="WorkflowTaskBase" type="avm:WorkflowTaskBase"/>
+  <xsd:element ecore:ignore="true" name="InterpreterTask" type="avm:InterpreterTask"/>
+  <xsd:element ecore:ignore="true" name="ExecutionTask" type="avm:ExecutionTask"/>
+  <xsd:element ecore:ignore="true" name="Settings" type="avm:Settings"/>
   <xsd:element ecore:ignore="true" name="ValueFlowMux" type="avm:ValueFlowMux"/>
+  <xsd:element ecore:ignore="true" name="DesignDomainFeature" type="avm:DesignDomainFeature"/>
   <xsd:complexType name="Component">
     <xsd:annotation>
       <xsd:documentation>Test documentation for Component type. Yep.</xsd:documentation>
@@ -94,10 +107,10 @@
           <xsd:element ecore:name="ValueExpression" ecore:resolveProxies="true" minOccurs="0" name="ValueExpression" type="avm:ValueExpressionType"/>
           <xsd:element ecore:name="DataSource" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="DataSource" type="avm:DataSource"/>
         </xsd:sequence>
-        <xsd:attribute ecore:name="Unit" name="Unit" type="xsd:string"/>
-        <xsd:attribute ecore:name="DataType" ecore:unsettable="false" name="DataType" type="avm:DataTypeEnum"/>
         <xsd:attribute ecore:name="DimensionType" ecore:unsettable="false" name="DimensionType" type="avm:DimensionTypeEnum"/>
+        <xsd:attribute ecore:name="DataType" ecore:unsettable="false" name="DataType" type="avm:DataTypeEnum"/>
         <xsd:attribute ecore:name="Dimensions" name="Dimensions" type="xsd:string"/>
+        <xsd:attribute ecore:name="Unit" name="Unit" type="xsd:string"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -307,6 +320,7 @@
   <xsd:complexType name="Design">
     <xsd:sequence>
       <xsd:element ecore:name="RootContainer" ecore:resolveProxies="true" minOccurs="0" name="RootContainer" type="avm:Container"/>
+      <xsd:element ecore:name="DomainFeature" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="DomainFeature" type="avm:DesignDomainFeature"/>
     </xsd:sequence>
     <xsd:attribute ecore:name="SchemaVersion" name="SchemaVersion" type="xsd:string"/>
     <xsd:attribute ecore:id="true" ecore:name="DesignID" name="DesignID" type="xsd:string"/>
@@ -470,10 +484,86 @@
     </xsd:restriction>
   </xsd:simpleType>
   <xsd:complexType abstract="true" name="ConnectorFeature"/>
+  <xsd:complexType name="TestBench">
+    <xsd:sequence>
+      <xsd:element ecore:name="TopLevelSystemUnderTest" ecore:resolveProxies="true" minOccurs="0" name="TopLevelSystemUnderTest" type="avm:TopLevelSystemUnderTest"/>
+      <xsd:element ecore:name="Parameter" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Parameter" type="avm:Parameter"/>
+      <xsd:element ecore:name="Metric" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Metric" type="avm:Metric"/>
+      <xsd:element ecore:name="TestInjectionPoint" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="TestInjectionPoint" type="avm:TestInjectionPoint"/>
+      <xsd:element ecore:name="TestComponent" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="TestComponent" type="avm:ComponentInstance"/>
+      <xsd:element ecore:name="Workflow" ecore:resolveProxies="true" minOccurs="0" name="Workflow" type="avm:Workflow"/>
+      <xsd:element ecore:name="Settings" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Settings" type="avm:Settings"/>
+      <xsd:element ecore:name="TestStructure" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="TestStructure" type="avm:DomainModel"/>
+    </xsd:sequence>
+    <xsd:attribute ecore:name="Name" name="Name" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType name="TopLevelSystemUnderTest">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ContainerInstanceBase">
+        <xsd:attribute ecore:name="DesignID" name="DesignID" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Parameter">
+    <xsd:complexContent>
+      <xsd:extension base="avm:TestBenchValueBase"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Metric">
+    <xsd:complexContent>
+      <xsd:extension base="avm:TestBenchValueBase"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="ContainerInstanceBase">
+    <xsd:attribute ecore:name="IDinSourceModel" name="IDinSourceModel" type="xsd:string" use="required"/>
+    <xsd:attribute ecore:name="XPosition" name="XPosition" type="xsd:unsignedInt"/>
+    <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="TestBenchValueBase">
+    <xsd:sequence>
+      <xsd:element ecore:name="Value" ecore:resolveProxies="true" minOccurs="0" name="Value" type="avm:Value"/>
+    </xsd:sequence>
+    <xsd:attribute ecore:name="ID" name="ID" type="xsd:string" use="required"/>
+    <xsd:attribute ecore:name="Name" name="Name" type="xsd:string" use="required"/>
+    <xsd:attribute ecore:name="Notes" name="Notes" type="xsd:string"/>
+    <xsd:attribute ecore:name="XPosition" name="XPosition" type="xsd:unsignedInt"/>
+    <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
+  </xsd:complexType>
+  <xsd:complexType name="TestInjectionPoint">
+    <xsd:complexContent>
+      <xsd:extension base="avm:ContainerInstanceBase"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Workflow">
+    <xsd:sequence>
+      <xsd:element ecore:name="Task" ecore:resolveProxies="true" maxOccurs="unbounded" name="Task" type="avm:WorkflowTaskBase"/>
+    </xsd:sequence>
+    <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="WorkflowTaskBase">
+    <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:complexType name="InterpreterTask">
+    <xsd:complexContent>
+      <xsd:extension base="avm:WorkflowTaskBase">
+        <xsd:attribute ecore:name="COMName" name="COMName" type="xsd:string" use="required"/>
+        <xsd:attribute ecore:name="Parameters" name="Parameters" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExecutionTask">
+    <xsd:complexContent>
+      <xsd:extension base="avm:WorkflowTaskBase">
+        <xsd:attribute ecore:name="Description" name="Description" type="xsd:string"/>
+        <xsd:attribute ecore:name="Invocation" name="Invocation" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="Settings"/>
   <xsd:complexType name="ValueFlowMux">
     <xsd:complexContent>
       <xsd:extension base="avm:ValueNode">
-        <xsd:attribute ecore:name="Source" ecore:reference="avm:ValueNode" name="Source">
+        <xsd:attribute ecore:keys="ID" ecore:name="Source" ecore:reference="avm:ValueNode" name="Source">
           <xsd:simpleType>
             <xsd:list itemType="xsd:anyURI"/>
           </xsd:simpleType>
@@ -481,4 +571,5 @@
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
+  <xsd:complexType abstract="true" name="DesignDomainFeature"/>
 </xsd:schema>

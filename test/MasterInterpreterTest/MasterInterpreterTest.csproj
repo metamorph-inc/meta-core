@@ -118,6 +118,7 @@
     <Compile Include="FunctionalTests\GetConfigurations.cs" />
     <Compile Include="JobManagerFixture.cs" />
     <Compile Include="MasterInterpreterTest.cs" />
+    <Compile Include="MBD\MBD.cs" />
     <Compile Include="Project\MasterInterpreter.cs" />
     <Compile Include="Project\MasterInterpreter.designer.cs">
       <DependentUpon>MasterInterpreter.cs</DependentUpon>

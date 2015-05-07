@@ -2,7 +2,7 @@ import os, os.path
 import math
 import argparse
 import CreateAdamsModel_analysis as MA
-import CreateAdamsModel_cadMetrics as CM
+import cad_library
 import CreateAdamsModel_cadPostProcessing as CP
 
 # Global parameters - change if needed
@@ -10,8 +10,6 @@ globalParams = {"Analysis_File": "Analysis_MBD.xml",
                 "CADMetrics_File": "CADAssembly_metrics.xml",
                 "CADPostProc_File": "ComputedValues.xml",
                 "AdamsExtension": "cmd",
-                "PI": math.pi,
-                "z_Axis": [0.0, 0.0, 1.0],  # must be a unit-vector!
                 "Length": "mm",
                 "Angle": "deg",  # don't change, will be reused!
                 "Force": "newton",
@@ -38,41 +36,23 @@ globalParams = {"Analysis_File": "Analysis_MBD.xml",
                 "SimScriptName": "Last_Sim",
                 "AnalysisName": "Analysis_for_FEA",
                 "GravityActive": "on",
-                "Gravity_x": 0.0,
-                "Gravity_y": -9.81,
-                "Gravity_z": 0.0,
                 "GEN_Fixed": "Fixed",  # translation for joint type(s)
-                "ADS_Fixed": "fix",
-                "Parasolid_Path": "Parasolid"}
+                "ADS_Fixed": "fix"}
+
+GRAVITY = cad_library.Vec3([0.0, -9.81, 0.0])
 
 # map CAD output joint names to Adams names
-jointTypes = {"REVOLUTE": "revolute",
+JOINTTYPES = {"REVOLUTE": "revolute",
               "PRISMATIC": "translational",
               "FIXED": "fixed",
               "CYLINDRICAL": "cylindrical"}
 
-scriptName = "CreateAdamsModel.py"
-# Should merge bodies connected by fixed joints?
-mergeFixedBodies = False
+SCRIPTNAME = "CreateAdamsModel.py"
 # Global id counters for joints/forces/motions and markers, respectively
 idCounter = 1
 idMarker = 1
 idJoint = 1
-precision = 0.0001
 args = None
-
-def vectorcompare(v1, v2):
-    global precision
-    diff = [math.fabs(v1[i] - v2[i]) for i in [0, 1, 2]]
-    if diff[0] < precision and diff[1] < precision and diff[2] < precision:
-        return True
-    else:
-        return False
-
-def vectorclean(v):
-    global precision
-    result = [0 if math.fabs(i - 0) < precision else i for i in v]
-    return result
 
 def vectornorm(v):
     length = math.sqrt(sum([x ** 2 for x in v]))
@@ -82,109 +62,9 @@ def vectornorm(v):
         axis_unit = [x for x in v]
     return axis_unit
 
-class Vec3(object):
-    def __init__(self, data):
-        self.__data = data
-
-    def normalize(self):
-        sum = math.sqrt(sum([x ** 2 for x in self.__data]))
-        self.__data = [x / sum for x in self.__data]
-
-    def clean(self):
-        global precision
-        self.__data = [0 if math.fabs(i - 0) < precision else i for i in self.__data]
-
-    def add(self, v):
-        return Vec3([self.__data[0] + v.__data[0], self.__data[1] + v.__data[1], self.__data[2] + v.__data[2]])
-
-    def copy(self):
-        return Vec3(list(self.__data))
-
-    def get_value(self):
-        return self.__data
-
-class Mat4x4(object):
-    @classmethod
-    def unit(self):
-        return Mat4x4([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1])
-
-    def __init__(self, content):
-        self.__data = content
-
-    def mul(self, other):
-        newdata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        for i in range(0,4):
-            for j in range(0,4):
-                for k in range(0,4):
-                    newdata[i*4+j] = newdata[i*4+j] + self.__data[i*4+k] * other.__data[k*4+j]
-        return Mat4x4(newdata)
-
-    def copy(self):
-        return Mat4x4(list(self.__data))
-
-    def get_translation(self):
-        return Vec3([self.__data[3], self.__data[7], self.__data[11]])
-
-    def toString(self):
-        return '[' + str(self.__data[0]) + ',' + str(self.__data[1]) + ',' +str(self.__data[2]) + ']\n[' + str(self.__data[3]) + "," +str(self.__data[4]) + "," +str(self.__data[5]) + "]\n" + "[" + str(self.__data[6]) + "," + str(self.__data[7]) + "," +str(self.__data[8])  + "]\n"
-
-    def to_Euler313(self):
-        axis_unit = vectornorm([self.__data[8], self.__data[9], self.__data[10]])
-        axis_unit = vectorclean(axis_unit)
-        # Check whether axis is z-Axis or (-1)*z-Axis!
-        if axis_unit == globalParams['z_Axis']:
-            return [math.atan2(-self.__data[1], self.__data[0]), 0.0, 0.0]
-        elif axis_unit == [(-1) * x for x in globalParams['z_Axis']]:
-            return [-math.atan2(-self.__data[1], self.__data[0]), math.pi, 0.0]
-
-        orientation = [0.0, 0.0, 0.0]
-
-        if axis_unit[2] < 1:
-            if axis_unit[2] > -1:
-                orientation[0] = math.atan2(self.__data[2],-self.__data[6])
-                orientation[1] = math.acos(self.__data[10])
-                orientation[2] = math.atan2(self.__data[8], self.__data[9])
-                return orientation
-            else: # == -1
-                orientation[0] = -math.atan2(-self.__data[1],-self.__data[0])
-                orientation[1] = math.pi
-                orientation[2] = 0
-                return orientation
-
-        #return [0.0, globalParams['PI'], 0.0]
-        # Compute the cross product of z-Axis and the given unit axis
-        cross_product = [0.0, 0.0, 0.0]
-        cross_product[0] = globalParams['z_Axis'][1] * axis_unit[2] - globalParams['z_Axis'][2] * axis_unit[1]
-        cross_product[1] = - globalParams['z_Axis'][0] * axis_unit[2] + globalParams['z_Axis'][2] * axis_unit[0]
-        cross_product[2] = globalParams['z_Axis'][0] * axis_unit[1] + globalParams['z_Axis'][1] * axis_unit[0]
-        # Compute the unit vector of cross product -> rotation vector
-        cross_sum = sum([x ** 2 for x in cross_product])
-        rot_vector = [x / cross_sum for x in cross_product]
-        # Compute dot product of z-Axis and the given unit axis
-        dot_product = globalParams['z_Axis'][0] * axis_unit[0] + \
-                      globalParams['z_Axis'][1] * axis_unit[1] + \
-                      globalParams['z_Axis'][2] * axis_unit[2]
-        rot_angle = math.acos(dot_product)
-        # We have the Euler-axis (rot_vector) and angle (rot_angle)
-        # Compute the quaternions based on axis/angle
-        quat = [0.0, 0.0, 0.0, 0.0]
-        quat[0] = rot_vector[0] * math.sin(rot_angle / 2)
-        quat[1] = rot_vector[1] * math.sin(rot_angle / 2)
-        quat[2] = rot_vector[2] * math.sin(rot_angle / 2)
-        quat[3] = math.cos(rot_angle / 2)
-        quat = vectornorm(quat)
-        # Compute the 313-orientation based on quaternion
-        orientation = [0.0, 0.0, 0.0]
-        orientation[0] = math.atan2((quat[0] * quat[2] + quat[1] * quat[3]),
-                                         (quat[0] * quat[3] - quat[1] * quat[2]))
-        orientation[1] = math.acos(quat[3] ** 2 - quat[0] ** 2 - quat[1] ** 2 + quat[2] ** 2)
-        orientation[2] = math.atan2((quat[0] * quat[2] + quat[1] * quat[3]),
-                                         (quat[0] * quat[3] - quat[1] * quat[2]))
-
-        return orientation
-
 class ProcessingError(Exception):
     def __init__(self, value):
+        super(ProcessingError, self).__init__()
         self.value = value
 
     def __str__(self):
@@ -198,12 +78,13 @@ class MBD_Model(object):
         self.simulation = None
         self.material_dict = {}
         self.motion_list = []
-        self.result_FEA_list = []
+        self.result_fea_list = []
         self.component_dict = {}
         self.joint_dict = {}
         self.merge_list = []
         self.terrainfile = None
         self.contacts = []
+        self.__gravity = None
 
     def get_name(self):
         return self.name
@@ -211,22 +92,22 @@ class MBD_Model(object):
     def add_component(self, component):
         self.component_dict[component.get_componentId()] = component
 
-    def get_component(self, componentID):
-        if componentID in self.component_dict:
-            return self.component_dict[componentID]
+    def get_component(self, componentid):
+        if componentid in self.component_dict:
+            return self.component_dict[componentid]
         else:
             return None
 
-    def add_contact(self, c):
-        self.contacts.append(c)
+    def add_contact(self, contact):
+        self.contacts.append(contact)
 
     def add_fea_load(self, fea):
-        self.result_FEA_list.append(fea)
+        self.result_fea_list.append(fea)
         #if fea.get_componentID() in self.component_dict:
         #    self.component_dict[fea.get_componentID()].set_fea_flag()
 
     def add_gravity(self, gravity):
-        self.gravity = gravity
+        self.__gravity = gravity
 
     def add_ground(self, ground):
         self.ground = ground
@@ -236,9 +117,9 @@ class MBD_Model(object):
     def add_joint(self, joint):
         self.joint_dict[joint.get_id()] = joint
 
-    def get_joint(self, jointID):
-        if jointID in self.joint_dict:
-            return self.joint_dict[jointID]
+    def get_joint(self, jointid):
+        if jointid in self.joint_dict:
+            return self.joint_dict[jointid]
         else:
             return None
 
@@ -260,142 +141,142 @@ class MBD_Model(object):
     def get_components(self):
         return self.component_dict.iteritems()
 
-    def exportMerge2Adams(self):
-        yString = ''
-        for m in self.merge_list:
-            yString += m.export2Adams()
-        return yString
+    def export_merge_2_adams(self):
+        resultstr = ''
+        for merge in self.merge_list:
+            resultstr += merge.export2Adams()
+        return resultstr
 
-    def exportCAD2Adams(self):
-        yString = '!\n'
-        yString += '!----- Read STEP files for each body -----!\n!\n'
+    def export_cad_2_adams(self):
+        resultstr = '!\n'
+        resultstr += '!----- Read STEP files for each body -----!\n!\n'
         for item in sorted(self.component_dict):
             if item != self.ground.get_componentId():
-                yString += 'part create rigid_body name_and_position &\n'
-                yString += '   part_name = ' + self.component_dict[item].get_uniquename() + ' &\n'
-                yString += '   location = 0.0,0.0,0.0 \n!\n'
-                yString += 'file geometry read &\n'
-                yString += '   type_of_geometry = stp &\n'
+                resultstr += 'part create rigid_body name_and_position &\n'
+                resultstr += '   part_name = ' + self.component_dict[item].get_uniquename() + ' &\n'
+                resultstr += '   location = 0.0,0.0,0.0 \n!\n'
+                resultstr += 'file geometry read &\n'
+                resultstr += '   type_of_geometry = stp &\n'
                 if self.component_dict[item].is_assembly():
-                    extension='asm'
+                    extension = 'asm'
                 else:
-                    extension='prt'
-                yString += '   file_name = "' + os.getcwd() + os.sep + 'AP203_E2_SINGLE_FILE' + os.sep + self.component_dict[item].get_ownPartname() + '_' + extension + '.stp" &\n'
-                yString += '   part_name = ' + self.component_dict[item].get_uniquename() + ' \n\n'
-                yString += 'part modify rigid_body name_and_position &\n'
-                yString += '   part_name = ' + self.component_dict[item].get_uniquename() + ' &\n'
+                    extension = 'prt'
+                resultstr += '   file_name = "' + os.getcwd() + os.sep + 'AP203_E2_SINGLE_FILE' + os.sep + self.component_dict[item].get_ownPartname() + '_' + extension + '.stp" &\n'
+                resultstr += '   part_name = ' + self.component_dict[item].get_uniquename() + ' \n\n'
+                resultstr += 'part modify rigid_body name_and_position &\n'
+                resultstr += '   part_name = ' + self.component_dict[item].get_uniquename() + ' &\n'
                 trans = self.component_dict[item].get_globalmatrix().get_translation()
-                yString += '   location = ' + str(trans.get_value()[0]) + ',' + str(trans.get_value()[1]) + ',' + str(trans.get_value()[2]) + ' &\n'
-                orient = self.component_dict[item].get_globalmatrix().to_Euler313()
-                yString += '   orientation = ' + str(orient[0]) + ',' + str(orient[1]) + ',' + str(orient[2]) + ' \n!\n'
+                resultstr += '   location = ' + str(trans[0]) + ',' + str(trans[1]) + ',' + str(trans[2]) + ' &\n'
+                orient = self.component_dict[item].get_globalmatrix().to_euler313()
+                resultstr += '   orientation = ' + str(orient[0]) + ',' + str(orient[1]) + ',' + str(orient[2]) + ' \n!\n'
         if self.terrainfile is not None:
-            yString += '!\n'
-            yString += '!----- Import terrain -----!\n!\n'
-            yString += 'file parasolid read &\n'
-            yString += '   file_name = "' + os.getcwd() + os.sep + self.terrainfile + '.x_t" &\n'
-            yString += '   model_name = .' + self.name + '\n!\n'
-            yString += 'part modify rigid_body name_and_position &\n'
-            yString += '   part_name = .' + self.name + '.' + self.terrainfile + ' &\n'
-            yString += '   new_part_name = .' + self.name + '.TERRAIN &\n'
-            yString += '   location = 0.0, -1200.0, -1200.0 \n!\n'
+            resultstr += '!\n'
+            resultstr += '!----- Import terrain -----!\n!\n'
+            resultstr += 'file parasolid read &\n'
+            resultstr += '   file_name = "' + os.getcwd() + os.sep + self.terrainfile + '.x_t" &\n'
+            resultstr += '   model_name = .' + self.name + '\n!\n'
+            resultstr += 'part modify rigid_body name_and_position &\n'
+            resultstr += '   part_name = .' + self.name + '.' + self.terrainfile + ' &\n'
+            resultstr += '   new_part_name = .' + self.name + '.TERRAIN &\n'
+            resultstr += '   location = 0.0, -1200.0, -1200.0 \n!\n'
 
-        return yString
+        return resultstr
 
-    def exportComponents2Adams(self):
-        yString = '!\n'
-        yString += '!--------- Rigid parts ----------!\n!\n'
-        yString += globalParams['Ground_Prefix']
-        if (self.ground is not None):
-            yString += self.component_dict[self.ground.get_componentId()].export2Adams()
+    def export_components_2_adams(self):
+        resultstr = '!\n'
+        resultstr += '!--------- Rigid parts ----------!\n!\n'
+        resultstr += globalParams['Ground_Prefix']
+        if self.ground is not None:
+            resultstr += self.component_dict[self.ground.get_componentId()].export2Adams()
         for item in sorted(self.component_dict):
             if self.ground is None or item != self.ground.get_componentId():
-                yString += self.component_dict[item].export2Adams(self.units.is_radian())
-        return yString
+                resultstr += self.component_dict[item].export2Adams(self.units.is_radian())
+        return resultstr
 
-    def exportFEA2Adams(self):
-        yString = '!\n'
-        yString += '!----- FEA load export -----!\n!\n'
-        for item in self.result_FEA_list:
-            yString += item.export2Adams()
-        return yString
+    def export_fea_2_adams(self):
+        resultstr = '!\n'
+        resultstr += '!----- FEA load export -----!\n!\n'
+        for item in self.result_fea_list:
+            resultstr += item.export2Adams()
+        return resultstr
 
-    def exportJoint2Adams(self):
-        yString = '!\n'
-        yString += '!----- Joints -----!\n!\n'
+    def export_joint_2_adams(self):
+        resultstr = '!\n'
+        resultstr += '!----- Joints -----!\n!\n'
         for item in sorted(self.joint_dict):
-            yString += self.joint_dict[item].export2Adams()
-        return yString
+            resultstr += self.joint_dict[item].export2Adams()
+        return resultstr
 
     def exportMaterial2Adams(self):
-        yString = '!\n'
-        yString += '!----- Materials -----!\n!\n'
+        resultstr = '!\n'
+        resultstr += '!----- Materials -----!\n!\n'
         for item in self.material_dict:
-            yString += self.material_dict[item].export2Adams()
-        return yString
+            resultstr += self.material_dict[item].export2Adams()
+        return resultstr
 
     def exportContact2Adams(self):
-        yString = '!\n'
-        yString += '!----- Contacts -----!\n!\n'
+        resultstr = '!\n'
+        resultstr += '!----- Contacts -----!\n!\n'
         for contact in self.contacts:
-            yString += contact.export2Adams()
-        return yString
+            resultstr += contact.export2Adams()
+        return resultstr
 
     def exportMotion2Adams(self):
-        yString = '!\n'
-        yString += '!----- Motions -----!\n!\n'
+        resultstr = '!\n'
+        resultstr += '!----- Motions -----!\n!\n'
         for item in self.motion_list:
-            yString += item.export2Adams()
-        return yString
+            resultstr += item.export2Adams()
+        return resultstr
 
     def exportName2Adams(self):
-        yString = '!\n!\n'
-        yString += '!----- Adams/View Model -----!\n!\n!\n'
-        yString += 'model create &\n'
-        yString += '   model_name = ' + self.name + '\n'
-        yString += '!\nview erase\n!\n'
-        return yString
+        resultstr = '!\n!\n'
+        resultstr += '!----- Adams/View Model -----!\n!\n!\n'
+        resultstr += 'model create &\n'
+        resultstr += '   model_name = ' + self.name + '\n'
+        resultstr += '!\nview erase\n!\n'
+        return resultstr
 
     def export2AdamsPrefix(self):
-        yString = '!\n'
-        yString += '! File automatically generated by ' + scriptName + ' script\n'
-        yString += '!\n'
-        return yString
+        resultstr = '!\n'
+        resultstr += '! File automatically generated by ' + SCRIPTNAME + ' script\n'
+        resultstr += '!\n'
+        return resultstr
 
     def export2AdamsSuffix(self):
-        yString = '!\n'
-        yString += '!----- Show model ----!\n!\n'
-        yString += 'model display &\n'
-        yString += '   model_name = ' + self.name + '\n!\n'
-        return yString
+        resultstr = '!\n'
+        resultstr += '!----- Show model ----!\n!\n'
+        resultstr += 'model display &\n'
+        resultstr += '   model_name = ' + self.name + '\n!\n'
+        return resultstr
 
     def export1stPass(self):
-        yString = self.units.export2Adams()
-        yString += self.exportName2Adams()
-        yString += self.exportMaterial2Adams()
-        yString += self.exportCAD2Adams()
-        yString += self.exportMerge2Adams()
-        yString += self.exportComponents2Adams()
+        resultstr = self.units.export2Adams()
+        resultstr += self.exportName2Adams()
+        resultstr += self.exportMaterial2Adams()
+        resultstr += self.export_cad_2_adams()
+        resultstr += self.export_merge_2_adams()
+        resultstr += self.export_components_2_adams()
         for item in sorted(self.component_dict):
             if self.ground is None or item != self.ground.get_componentId():
-                yString += self.component_dict[item].exportInfoRequest()
-        return yString
+                resultstr += self.component_dict[item].exportInfoRequest()
+        return resultstr
 
     def export2Adams(self):
-        yString = self.export2AdamsPrefix()
-        yString += self.units.export2Adams()
-        yString += self.exportName2Adams()
-        yString += self.exportMaterial2Adams()
-        yString += self.exportCAD2Adams()
-        yString += self.exportMerge2Adams()
-        yString += self.exportComponents2Adams()
-        yString += self.exportJoint2Adams()
-        yString += self.exportContact2Adams()
-        yString += self.exportMotion2Adams()
-        yString += self.gravity.export2Adams()
-        yString += self.simulation.export2Adams()
-        yString += self.exportFEA2Adams()
-        yString += self.export2AdamsSuffix()
-        return yString
+        resultstr = self.export2AdamsPrefix()
+        resultstr += self.units.export2Adams()
+        resultstr += self.exportName2Adams()
+        resultstr += self.exportMaterial2Adams()
+        resultstr += self.export_cad_2_adams()
+        resultstr += self.export_merge_2_adams()
+        resultstr += self.export_components_2_adams()
+        resultstr += self.export_joint_2_adams()
+        resultstr += self.exportContact2Adams()
+        resultstr += self.exportMotion2Adams()
+        resultstr += self.__gravity.export2Adams()
+        resultstr += self.simulation.export2Adams()
+        resultstr += self.export_fea_2_adams()
+        resultstr += self.export2AdamsSuffix()
+        return resultstr
 
 
 class MBD_Units(object):
@@ -424,18 +305,18 @@ class MBD_Units(object):
             return True
 
     def export2Adams(self):
-        yString = '!\n'
-        yString += '!----- Default Units for Model -----!\n!\n!\n'
-        yString += 'defaults units &\n'
-        yString += '   length = ' + self.length + ' &\n'
-        yString += '   angle = ' + self.angle + ' &\n'
-        yString += '   force = ' + self.force + ' &\n'
-        yString += '   mass = ' + self.mass + ' &\n'
-        yString += '   time = ' + self.time + ' &\n'
-        yString += '   coordinate_system_type = ' + self.coordinateSystem + ' &\n'
-        yString += '   orientation_type = ' + self.orientationType + '\n'
-        yString += '!\n'
-        return yString
+        resultstr = '!\n'
+        resultstr += '!----- Default Units for Model -----!\n!\n!\n'
+        resultstr += 'defaults units &\n'
+        resultstr += '   length = ' + self.length + ' &\n'
+        resultstr += '   angle = ' + self.angle + ' &\n'
+        resultstr += '   force = ' + self.force + ' &\n'
+        resultstr += '   mass = ' + self.mass + ' &\n'
+        resultstr += '   time = ' + self.time + ' &\n'
+        resultstr += '   coordinate_system_type = ' + self.coordinateSystem + ' &\n'
+        resultstr += '   orientation_type = ' + self.orientationType + '\n'
+        resultstr += '!\n'
+        return resultstr
 
 
 class MBD_Material(object):
@@ -450,68 +331,48 @@ class MBD_Material(object):
         return self.name
 
     def export2Adams(self):
-        yString = '!\n'
-        yString += 'material create &\n'
-        yString += '   material_name = .' + self.modelname + '.' + self.name + ' &\n'
-        yString += '   youngs_modulus = ' + str(self.young) + ' &\n'
-        yString += '   poissons_ratio = ' + str(self.poisson) + ' &\n'
-        yString += '   density = ' + str(self.density) + '\n!\n'
-        return yString
+        resultstr = '!\n'
+        resultstr += 'material create &\n'
+        resultstr += '   material_name = .' + self.modelname + '.' + self.name + ' &\n'
+        resultstr += '   youngs_modulus = ' + str(self.young) + ' &\n'
+        resultstr += '   poissons_ratio = ' + str(self.poisson) + ' &\n'
+        resultstr += '   density = ' + str(self.density) + '\n!\n'
+        return resultstr
 
 
 class MBD_Marker(object):
-    def __init__(self, counter, location, orientation, existing = False):
+    def __init__(self, counter, location, orientation, existing=False):
         # self.id = id   # = MetricID in the Assembly_MBD.xml
         self.__existing = existing
         self.adamsid = counter  # Adams will need a unique number for each marker
-        self.location = [float(x) for x in location.split(";")]
-        if orientation is None:
-            self.axis = [0.0, 0.0, 0.0]
+        self.location = location
+        self.axis = orientation
+        if self.axis is not None:
+            self.axis.normalize().clean()
         else:
-            self.axis = [float(x) for x in orientation.split(";")]
-            self.axis = vectornorm(vectorclean(self.axis))
-        if not self.check_zero_axis(self.axis):
-            self.adams_geotrafo()
-        else:
-            self.orientation = self.axis
+            self.axis = cad_library.Vec3.zunit()
+        self.calc_orientation()
 
-    def get_adamsid(self):
-        return self.adamsid
-
-    def get_id(self):
-        return self.adamsid
-
-    def check_zero_axis(self, axis):
-        if axis[0] or axis[1] or axis[2]:
-            return False
-        else:
-            return True
-
-    def adams_geotrafo(self):
+    def calc_orientation(self):
         # Perform only if constraint axis exists and is not a zero-vector
         # then compute orientation in Euler angles (313)
         # ##
         # Compute unit vector of given axis
-        axis_unit = vectornorm(self.axis)
+        axis_unit = self.axis
         # Check whether axis is z-Axis or (-1)*z-Axis!
-        if axis_unit == globalParams['z_Axis']:
+        if cmp(axis_unit, cad_library.Vec3.zunit()) == 0:
             self.orientation = [0.0, 0.0, 0.0]
             return
-        elif axis_unit == [(-1) * x for x in globalParams['z_Axis']]:
-            self.orientation = [0.0, globalParams['PI'], 0.0]
+        elif cmp(axis_unit, [(-1) * x for x in cad_library.Vec3.zunit()]) == 0:
+            self.orientation = [0.0, math.pi, 0.0]
             return
         # Compute the cross product of z-Axis and the given unit axis
-        cross_product = [0.0, 0.0, 0.0]
-        cross_product[0] = globalParams['z_Axis'][1] * axis_unit[2] - globalParams['z_Axis'][2] * axis_unit[1]
-        cross_product[1] = - globalParams['z_Axis'][0] * axis_unit[2] + globalParams['z_Axis'][2] * axis_unit[0]
-        cross_product[2] = globalParams['z_Axis'][0] * axis_unit[1] + globalParams['z_Axis'][1] * axis_unit[0]
+        cross_product = cad_library.Vec3.zunit().crossprod(axis_unit)
         # Compute the unit vector of cross product -> rotation vector
         cross_sum = sum([x ** 2 for x in cross_product])
         rot_vector = [x / cross_sum for x in cross_product]
         # Compute dot product of z-Axis and the given unit axis
-        dot_product = globalParams['z_Axis'][0] * axis_unit[0] + \
-                      globalParams['z_Axis'][1] * axis_unit[1] + \
-                      globalParams['z_Axis'][2] * axis_unit[2]
+        dot_product = cad_library.Vec3.zunit().dotprod(axis_unit)
         rot_angle = math.acos(dot_product)
         # We have the Euler-axis (rot_vector) and angle (rot_angle)
         # Compute the quaternions based on axis/angle
@@ -529,32 +390,56 @@ class MBD_Marker(object):
         self.orientation[2] = math.atan2((quat[0] * quat[2] + quat[1] * quat[3]),
                                          (quat[0] * quat[3] - quat[1] * quat[2]))
 
-    def exportOrientation(self, isRad=False):
-        yString = ''
-        if isRad:
-            yString += str(self.orientation[0]) + ', ' + str(self.orientation[1]) + ', ' + str(self.orientation[2])
-        else:
-            yString += str(self.orientation[0] * (180 / globalParams['PI'])) + 'd, '
-            yString += str(self.orientation[1] * (180 / globalParams['PI'])) + 'd, '
-            yString += str(self.orientation[2] * (180 / globalParams['PI'])) + 'd '
-        return yString
+        # xaxis = None
+        # yaxis = None
+        # zaxis = None
+        # if cmp(self.axis,cad_library.Vec3.zunit()) or cmp(self.axis,cad_library.Vec3.zunit().mul(-1)):
+        #     zaxis = self.axis
+        #     xaxis = cad_library.Vec3.xunit()
+        #     yaxis = cad_library.Vec3.yunit()
+        # elif cmp(self.axis,cad_library.Vec3.xunit()) or cmp(self.axis,cad_library.Vec3.xunit().mul(-1)):
+        #     zaxis = self.axis
+        #     xaxis = cad_library.Vec3.zunit()
+        #     yaxis = cad_library.Vec3.yunit()
+        # elif cmp(self.axis,cad_library.Vec3.yunit()) or cmp(self.axis,cad_library.Vec3.yunit().mul(-1)):
+        #     zaxis = self.axis
+        #     xaxis = cad_library.Vec3.xunit()
+        #     yaxis = cad_library.Vec3.zunit()
+        # else:
+        #     zaxis = self.axis
+        #     tmp = cad_library.Vec3([self.axis[0], -self.axis[2], self.axis[1]])
+        #     yaxis = self.axis.dotprod(tmp)
+        #     xaxis = self.axis.dotprod(yaxis)
+        #
+        # mat = cad_library.Mat4x4([xaxis[0], xaxis[1], xaxis[2], 0.0, yaxis[0], yaxis[1], yaxis[2], 0.0, zaxis[0], zaxis[1], zaxis[2], 0.0, 0.0, 0.0, 0.0, 1.0])
+        # return mat.to_euler313()
+
+    def get_adamsid(self):
+        return self.adamsid
+
+    def get_id(self):
+        return self.adamsid
+
+    def check_zero_axis(self, axis):
+        return cmp(axis, cad_library.Vec3.null())
 
     def get_name(self):
-        return str(globalParams['Marker_Prefix']) + str(self.adamsid);
+        return str(globalParams['Marker_Prefix']) + str(self.adamsid)
 
     def export2Adams(self, parentname, isRad=False):
         if self.__existing:
             return ''
-        yString = '!\n'
-        yString += 'marker create &\n'
-        yString += '   marker_name = .' + parentname + '.' + self.get_name() + ' &\n'
-        yString += '   location = ' + str(self.location[0]) + ', ' + str(self.location[1]) + ', ' + str(self.location[2]) + ' &\n'
-        yString += '   orientation = ' + str(self.orientation[0]) + ', ' + str(self.orientation[1]) + ', ' + str(self.orientation[2]) + '\n'
-        return yString
+        resultstr = '!\n'
+        resultstr += 'marker create &\n'
+        resultstr += '   marker_name = .' + parentname + '.' + self.get_name() + ' &\n'
+        resultstr += '   location = ' + str(self.location[0]) + ', ' + str(self.location[1]) + ', ' + str(self.location[2]) + ' &\n'
+
+        resultstr += '   orientation = ' + str(self.orientation[0]) + ', ' + str(self.orientation[1]) + ', ' + str(self.orientation[2]) + '\n'
+        return resultstr
 
 class MBD_Body:
     cadfilesmap = {}
-    def __init__(self, modelname, componentID, cadmodelname, globalmatrix = None, existingbody=True, materialid=None, ground=False, readInfo = False, assembly = False):
+    def __init__(self, modelname, componentID, cadmodelname, globalmatrix=None, existingbody=True, materialid=None, ground=False, readInfo=False, assembly=False):
         self.__componentID = componentID  # component id (cyphy id)
         self.__cadmodelname = cadmodelname  # name of the cad model file
         self.__modelname = modelname  # name of the whole model
@@ -638,98 +523,98 @@ class MBD_Body:
         if self.__uniquecounter == 1:
             return self.get_ownPartname()
         else:
-            return self.get_ownPartname()+'_' + str(self.__uniquecounter)
+            return self.get_ownPartname() + str(self.__uniquecounter)
 
     def get_fullname(self):
         return '.' + self.get_modelname() + '.' + self.get_ownPartname()
 
     def get_fea_marker_name(self):
-        return '.' + self.__modelname + '.' + self.get_uniquename() + '.' + globalParams['FEA_Marker'];
+        return '.' + self.__modelname + '.' + self.get_uniquename() + '.' + globalParams['FEA_Marker']
 
     def is_existing(self):
         return self.__existing
 
     def exportInfoRequest(self):
-        yString = 'list_info part &\n'
-        yString += '   part_name = .' + self.get_modelname() + '.' + self.get_uniquename() + ' &\n'
-        yString += '   file_name = "' + self.get_uniquename() + '.nfo" &\n'
-        yString += '   write_to_terminal = off &\n'
-        yString += '   brief = off \n!\n'
-        return yString
+        resultstr = 'list_info part &\n'
+        resultstr += '   part_name = .' + self.get_modelname() + '.' + self.get_uniquename() + ' &\n'
+        resultstr += '   file_name = "' + self.get_uniquename() + '.nfo" &\n'
+        resultstr += '   write_to_terminal = off &\n'
+        resultstr += '   brief = off \n!\n'
+        return resultstr
 
     def export2Adams(self, isRad=False):
-        yString = '!\n'
-        yString += '!----- ' + str(self.get_componentId()) + ' -----!\n!\n'
-        yString += 'defaults coordinate_system &\n'
-        yString += '   default_coordinate_system = .' + str(self.__modelname) + '.' + globalParams['GroundName'] + '\n'
-        yString += '!\n'
+        resultstr = '!\n'
+        resultstr += '!----- ' + str(self.get_componentId()) + ' -----!\n!\n'
+        resultstr += 'defaults coordinate_system &\n'
+        resultstr += '   default_coordinate_system = .' + str(self.__modelname) + '.' + globalParams['GroundName'] + '\n'
+        resultstr += '!\n'
 
         if not self.__existing:
-            #yString += 'part create rigid_body name_and_position &\n'
-            #yString += '   part_name = .' + self.get_modelname() + '.' + self.get_uniquename() + ' \n!\n'
-            yString += 'part create rigid_body mass_properties &\n'
-            yString += '   part_name = .' + self.get_modelname() + '.' + self.get_uniquename() + ' &\n'
-            yString += '   material_type = .' + self.get_modelname() + '.' + globalParams['MaterialName'] + ' \n!\n'
-            #yString += '   center_of_mass_marker = cm \n!\n'
+            #resultstr += 'part create rigid_body name_and_position &\n'
+            #resultstr += '   part_name = .' + self.get_modelname() + '.' + self.get_uniquename() + ' \n!\n'
+            resultstr += 'part create rigid_body mass_properties &\n'
+            resultstr += '   part_name = .' + self.get_modelname() + '.' + self.get_uniquename() + ' &\n'
+            resultstr += '   material_type = .' + self.get_modelname() + '.' + globalParams['MaterialName'] + ' \n!\n'
+            #resultstr += '   center_of_mass_marker = cm \n!\n'
 
         #for child in self.__mergedbodies:
             #if not child.is_existing:
                 #raise ProcessingError(
                     #'Child of a merged body must be an existing part [' + child.get_ComponentInstanceID + '].')
-            #yString += 'part create rigid_body mass_properties &\n'
-            #yString += '   part_name = .' + child.get_modelname() + '.' + child.get_uniquename() + ' &\n'
-            #yString += '   material_type = .' + child.get_modelname() + '.' + globalParams['MaterialName'] + ' \n!\n'
+            #resultstr += 'part create rigid_body mass_properties &\n'
+            #resultstr += '   part_name = .' + child.get_modelname() + '.' + child.get_uniquename() + ' &\n'
+            #resultstr += '   material_type = .' + child.get_modelname() + '.' + globalParams['MaterialName'] + ' \n!\n'
 
-            #yString += 'part merge rigid_body &\n'
-            #yString += '   part_name = .' + child.get_modelname() + '.' + child.get_uniquename() + ' &\n'
-            #yString += '   into_part_name = .' + self.get_modelname() + '.' + self.get_uniquename() + '\n!\n'
+            #resultstr += 'part merge rigid_body &\n'
+            #resultstr += '   part_name = .' + child.get_modelname() + '.' + child.get_uniquename() + ' &\n'
+            #resultstr += '   into_part_name = .' + self.get_modelname() + '.' + self.get_uniquename() + '\n!\n'
 
-        yString += 'part create rigid_body mass_properties &\n'
-        yString += '   part_name = .' + self.get_modelname() + '.' + self.get_uniquename() + ' &\n'
-        yString += '   material_type = .' + self.get_modelname() + '.' + globalParams['MaterialName'] + ' \n'
+        resultstr += 'part create rigid_body mass_properties &\n'
+        resultstr += '   part_name = .' + self.get_modelname() + '.' + self.get_uniquename() + ' &\n'
+        resultstr += '   material_type = .' + self.get_modelname() + '.' + globalParams['MaterialName'] + ' \n'
 
         for item in self.marker_dict:
-            yString += self.marker_dict[item].export2Adams(self.__modelname + '.' + self.__cadmodelname, isRad)
+            resultstr += self.marker_dict[item].export2Adams(self.__modelname + '.' + self.get_uniquename(), isRad)
         if not self.ground:
-            yString += '!\n'
-            yString += 'marker create &\n'
-            yString += '   marker_name = ' + self.get_fea_marker_name() + ' &\n'
-            yString += '   location = (LOC_RELATIVE_TO({0, 0, 0}, .' + self.__modelname + '.' + self.__cadmodelname + '.cm)) &\n'
-            yString += '   orientation = (ORI_RELATIVE_TO({0d,0d,0d}, .' + self.__modelname + '.' + globalParams[
+            resultstr += '!\n'
+            resultstr += 'marker create &\n'
+            resultstr += '   marker_name = ' + self.get_fea_marker_name() + ' &\n'
+            resultstr += '   location = (LOC_RELATIVE_TO({0, 0, 0}, .' + self.__modelname + '.' + self.__cadmodelname + '.cm)) &\n'
+            resultstr += '   orientation = (ORI_RELATIVE_TO({0d,0d,0d}, .' + self.__modelname + '.' + globalParams[
                 'GroundName'] + '))\n'
-        return yString
+        return resultstr
 
 class MBD_Contact(object):
-    def __init__(self, id, bodyI, bodyJ):
+    def __init__(self, idstr, bodyI, bodyJ):
         self.__bodyI = bodyI
         self.__bodyJ = bodyJ
-        self.id = id
+        self.id = idstr
     def export2Adams(self):
         geomJ = self.__bodyJ.get_geometries()[0]
         for geomI in self.__bodyI.get_geometries():
-            yString = 'contact create &\n'
-            yString += '   contact_name = test_' + str(self.id) + ' &\n'
-            yString += '   i_geometry_name = ' + self.__bodyI.get_fullname() + '.' + geomI + ' &\n'
-            yString += '   j_geometry_name = ' + self.__bodyJ.get_fullname() + '.' + geomJ + ' &\n'
-            yString += '   stiffness = 1.0E+005 &\n'
-            yString += '   damping = 10.0 &\n'
-            yString += '   dmax = 0.11 &\n'
-            yString += '   exponent = 2.2 &\n'
-            yString += '   mu_static = 1.0 &\n'
-            yString += '   mu_dynamic = 1.6 &\n'
-            yString += '   coulomb_friction = dynamics_only &\n'
-            yString += '   friction_transition_velocity = 1000.0 &\n'
-            yString += '   stiction_transition_velocity = 100.0 \n!\n'
-            return yString
+            resultstr = 'contact create &\n'
+            resultstr += '   contact_name = test_' + str(self.id) + ' &\n'
+            resultstr += '   i_geometry_name = ' + self.__bodyI.get_fullname() + '.' + geomI + ' &\n'
+            resultstr += '   j_geometry_name = ' + self.__bodyJ.get_fullname() + '.' + geomJ + ' &\n'
+            resultstr += '   stiffness = 1.0E+005 &\n'
+            resultstr += '   damping = 10.0 &\n'
+            resultstr += '   dmax = 0.11 &\n'
+            resultstr += '   exponent = 2.2 &\n'
+            resultstr += '   mu_static = 1.0 &\n'
+            resultstr += '   mu_dynamic = 1.6 &\n'
+            resultstr += '   coulomb_friction = dynamics_only &\n'
+            resultstr += '   friction_transition_velocity = 1000.0 &\n'
+            resultstr += '   stiction_transition_velocity = 100.0 \n!\n'
+            return resultstr
 
 class MBD_Joint(object):
-    def __init__(self, id, idCounter, modelname, type, componentI, markerI, componentJ, markerJ):
-        self.adamsid = idCounter
-        if id is None or len(id) is 0:
-            id = str(globalParams['Joint_Prefix']) + str(self.adamsid)
-        self.id = id
+    def __init__(self, jointid, idcount, modelname, jointtype, componentI, markerI, componentJ, markerJ):
+        self.adamsid = idcount
+        if jointid is None or len(jointid) is 0:
+            jointid = str(globalParams['Joint_Prefix']) + str(self.adamsid)
+        self.id = jointid
         self.modelname = modelname
-        self.type = type
+        self.type = jointtype
         self.__bodyI = componentI
         self.markerI = markerI
         self.__bodyJ = componentJ
@@ -739,15 +624,15 @@ class MBD_Joint(object):
         return self.id
 
     def export2Adams(self):
-        yString = '!\n'
-        yString += 'constraint create joint ' + str(self.type).lower() + ' &\n'
-        yString += '   joint_name = .' + self.modelname + '.' + str(self.id) + ' &\n'
-        yString += '   adams_id = ' + str(self.adamsid) + ' &\n'
-        yString += '   i_marker_name = .' + self.modelname + \
-                   '.' + self.__bodyI.get_ownPartname() + '.' + self.markerI.get_name() + ' &\n'
-        yString += '   j_marker_name = .' + self.modelname + \
-                   '.' + self.__bodyJ.get_ownPartname() + '.' + self.markerJ.get_name() + ' \n'
-        return yString
+        resultstr = '!\n'
+        resultstr += 'constraint create joint ' + str(self.type).lower() + ' &\n'
+        resultstr += '   joint_name = .' + self.modelname + '.' + str(self.id) + ' &\n'
+        resultstr += '   adams_id = ' + str(self.adamsid) + ' &\n'
+        resultstr += '   i_marker_name = .' + self.modelname + \
+                   '.' + self.__bodyI.get_uniquename() + '.' + self.markerI.get_name() + ' &\n'
+        resultstr += '   j_marker_name = .' + self.modelname + \
+                   '.' + self.__bodyJ.get_uniquename() + '.' + self.markerJ.get_name() + ' \n'
+        return resultstr
 
 
 class MBD_Motion(object):
@@ -766,46 +651,46 @@ class MBD_Motion(object):
             self.active = 'off'
 
     def export2Adams(self):
-        yString = ''
+        resultstr = ''
         if self.active.lower() == 'on':
-            yString += '!\n'
-            yString += 'constraint create motion_generator &\n'
-            yString += '   motion_name = .' + self.modelname + '.' + self.motionid + ' &\n'
-            yString += '   adams_id = ' + str(self.adamsid) + ' &\n'
-            yString += '   type_of_freedom = ' + str(self.freedom).lower() + ' &\n'
-            yString += '   joint_name = .' + self.modelname + '.' + self.jointid + ' &\n'
-            yString += '   time_derivative = ' + str(self.timederivative).lower() + ' &\n'
-            yString += '   function = "' + self.function + '"\n'
-            # yString += 'constraint attributes &\n'
-            #yString += '   constraint_name = .'+self.modelname+'.'+self.motionid+' &\n'
-            #yString += '   name_visibility = off\n'
-        return yString
+            resultstr += '!\n'
+            resultstr += 'constraint create motion_generator &\n'
+            resultstr += '   motion_name = .' + self.modelname + '.' + self.motionid + ' &\n'
+            resultstr += '   adams_id = ' + str(self.adamsid) + ' &\n'
+            resultstr += '   type_of_freedom = ' + str(self.freedom).lower() + ' &\n'
+            resultstr += '   joint_name = .' + self.modelname + '.' + self.jointid + ' &\n'
+            resultstr += '   time_derivative = ' + str(self.timederivative).lower() + ' &\n'
+            resultstr += '   function = "' + self.function + '"\n'
+            # resultstr += 'constraint attributes &\n'
+            #resultstr += '   constraint_name = .'+self.modelname+'.'+self.motionid+' &\n'
+            #resultstr += '   name_visibility = off\n'
+        return resultstr
 
 
 class MBD_Gravity(object):
     def __init__(self, gravityObject):
         self.active = globalParams['GravityActive']
         if gravityObject is None:
-            self.x = globalParams['Gravity_x']
-            self.y = globalParams['Gravity_y']
-            self.z = globalParams['Gravity_z']
+            self.x = GRAVITY[0]
+            self.y = GRAVITY[1]
+            self.z = GRAVITY[2]
         else:
-            temp = [float(x) for x in gravityObject.Value.split(";")]
+            temp = cad_library.Vec3.parse(gravityObject.Value)
             self.x = temp[0]
             self.y = temp[1]
             self.z = temp[2]
 
     def export2Adams(self):
-        yString = '!\n'
-        yString += '!----- Gravity acceleration (Accgrav) -----!\n!\n!\n'
+        resultstr = '!\n'
+        resultstr += '!----- Gravity acceleration (Accgrav) -----!\n!\n!\n'
         if self.active.lower() == 'on':
-            yString += 'force create body gravitational  &\n'
-            yString += '   gravity_field_name = gravity  &\n'
-            yString += '   x_component_gravity = ' + str(self.x) + ' &\n'
-            yString += '   y_component_gravity = ' + str(self.y) + ' &\n'
-            yString += '   z_component_gravity = ' + str(self.z) + '  \n'
-            yString += '!\n'
-        return yString
+            resultstr += 'force create body gravitational  &\n'
+            resultstr += '   gravity_field_name = gravity  &\n'
+            resultstr += '   x_component_gravity = ' + str(self.x) + ' &\n'
+            resultstr += '   y_component_gravity = ' + str(self.y) + ' &\n'
+            resultstr += '   z_component_gravity = ' + str(self.z) + '  \n'
+            resultstr += '!\n'
+        return resultstr
 
 
 class MBD_FEA_Load(object):
@@ -823,17 +708,17 @@ class MBD_FEA_Load(object):
 
     def export2Adams(self):
         # here we export for a single FEA load only!
-        yString = ''
+        resultstr = ''
         if self.__body is not None:
-            yString += 'file fea_loads write &\n'
-            yString += '   file_name = "' + os.getcwd() + os.sep + globalParams['FEA_Prefix'] + self.__body.get_componentId() + globalParams['FEA_Suffix'] + '" &\n'
-            yString += '   format = ' + self.feaTool.upper() + ' &\n'
-            yString += '   marker_name = ' + self.__body.get_fea_marker_name() + ' &\n'
-            yString += '   analysis_name = ' + globalParams['AnalysisName'] + ' &\n'
+            resultstr += 'file fea_loads write &\n'
+            resultstr += '   file_name = "' + os.getcwd() + os.sep + globalParams['FEA_Prefix'] + self.__body.get_componentId() + globalParams['FEA_Suffix'] + '" &\n'
+            resultstr += '   format = ' + self.feaTool.upper() + ' &\n'
+            resultstr += '   marker_name = ' + self.__body.get_fea_marker_name() + ' &\n'
+            resultstr += '   analysis_name = ' + globalParams['AnalysisName'] + ' &\n'
             standard = 'no' if (self.feaType.lower() == globalParams['FEA_Type'].lower()) else 'yes'
-            yString += '   no_inertia = ' + standard + '\n'
-            yString += '!\n'
-        return yString
+            resultstr += '   no_inertia = ' + standard + '\n'
+            resultstr += '!\n'
+        return resultstr
 
 
 class MBD_Merge(object):
@@ -845,13 +730,13 @@ class MBD_Merge(object):
                 self.models.append(m)
 
     def export2Adams(self):
-        yString = ''
+        resultstr = ''
         for m in self.models:
-            yString += 'part merge rigid_body &\n'
-            yString += '   part_name = .' + m.get_modelname() + '.' + m.get_partname() + ' &\n'
-            yString += '   into_part_name = .' + self.main.get_modelname() + '.' + self.main.get_partname() + '\n'
-            yString += '!\n'
-        return yString
+            resultstr += 'part merge rigid_body &\n'
+            resultstr += '   part_name = .' + m.get_modelname() + '.' + m.get_partname() + ' &\n'
+            resultstr += '   into_part_name = .' + self.main.get_modelname() + '.' + self.main.get_partname() + '\n'
+            resultstr += '!\n'
+        return resultstr
 
 
 class MBD_Simulation(object):
@@ -865,133 +750,19 @@ class MBD_Simulation(object):
             self.steps = globalParams['SimSteps']
 
     def export2Adams(self):
-        yString = '!\n!\n'
-        yString += '!----- Simulation Scripts -----!\n!\n!\n'
-        yString += 'simulation script create &\n'
-        yString += '   sim_script_name = .' + self.modelname + '.' + globalParams['SimScriptName'] + ' &\n'
-        yString += '   commands = "simulation single_run transient type=auto_select initial_static=no '
-        yString += 'end_time=' + str(self.time) + ' number_of_steps=' + str(
+        resultstr = '!\n!\n'
+        resultstr += '!----- Simulation Scripts -----!\n!\n!\n'
+        resultstr += 'simulation script create &\n'
+        resultstr += '   sim_script_name = .' + self.modelname + '.' + globalParams['SimScriptName'] + ' &\n'
+        resultstr += '   commands = "simulation single_run transient type=auto_select initial_static=no '
+        resultstr += 'end_time=' + str(self.time) + ' number_of_steps=' + str(
             self.steps) + ' model_name=.' + self.modelname + '", &\n'
-        yString += '              "simulation single_run save analysis_name=' + globalParams['AnalysisName'] + '"\n\n'
-        yString += 'simulation single scripted &\n'
-        yString += '   sim_script_name = .' + self.modelname + '.' + globalParams['SimScriptName'] + ' &\n'
-        yString += '   reset_before_and_after = yes\n'
-        yString += '!\n'
-        return yString
-
-
-class AssemblyMetrics:
-    def __init__(self, cadmetrics):
-        self.__rootasmid = cadmetrics.get_Assemblies().get_Assembly()[0].get_CADComponent().get_ComponentInstanceID()
-        self.__localmatricesdict = {}
-        self.__localmatricesdict[self.__rootasmid] = Mat4x4.unit()
-        self.__cadcomponent_dict = self.__setupmetricsdict(cadmetrics)  # Associating component id with metrics id
-        self.__metriccomp_dict = self.__setupmetriccompdict(cadmetrics)  # Associating metrics id with metrics data
-        # Assumption: parasolid file name is identical to assembly name and the assembly is the 1st component in the list
-        self.__parasolidname = self.get_CADModelName(self.__rootasmid)
-        self.__kinematicdict = self.__setupkinematics(cadmetrics.get_Joints().get_JointsMetaData())
-
-    def get_RootAsmID(self):
-        return self.__rootasmid
-
-    def __setupkinematics(self, jointsmetadata):
-        dict = {}
-        for jmdata in jointsmetadata:
-            for compdata in jmdata.get_ComponentInstanceData():
-                dict[compdata.get_ComponentInstanceID()] = False
-        return dict
-
-    def __setupmetricsdict(self, cadmetrics):
-        dict = {}
-        for asm in cadmetrics.get_Assemblies().get_Assembly():
-            dict[asm.get_CADComponent().get_ComponentInstanceID()] = asm.get_CADComponent().get_MetricID()
-            for comp in asm.get_CADComponent().get_CADComponent():
-                dict[comp.get_ComponentInstanceID()] = comp.get_MetricID()
-        return dict
-
-    def __setupmetriccompdict(self, cadmetrics):
-        dict = {}
-        for mcomp in cadmetrics.get_MetricComponents().get_MetricComponent():
-            dict[mcomp.get_MetricID()] = mcomp
-            if mcomp.get_Children() is not None:
-                for child in mcomp.get_Children().get_ChildMetric():
-                    mat = Mat4x4([float(child.get_RotationMatrix().get_Rows().get_Row()[0].get_Column()[0].get_Value()), \
-                                  float(child.get_RotationMatrix().get_Rows().get_Row()[0].get_Column()[1].get_Value()), \
-                                  float(child.get_RotationMatrix().get_Rows().get_Row()[0].get_Column()[2].get_Value()), \
-                                  float(child.get_Translation().get_X()), \
-                                  float(child.get_RotationMatrix().get_Rows().get_Row()[1].get_Column()[0].get_Value()), \
-                                  float(child.get_RotationMatrix().get_Rows().get_Row()[1].get_Column()[1].get_Value()), \
-                                  float(child.get_RotationMatrix().get_Rows().get_Row()[1].get_Column()[2].get_Value()), \
-                                  child.get_Translation().get_Y(), \
-                                  float(child.get_RotationMatrix().get_Rows().get_Row()[2].get_Column()[0].get_Value()), \
-                                  float(child.get_RotationMatrix().get_Rows().get_Row()[2].get_Column()[1].get_Value()), \
-                                  float(child.get_RotationMatrix().get_Rows().get_Row()[2].get_Column()[2].get_Value()),
-                                  child.get_Translation().get_Z(), \
-                                  float(0), float(0), float(0), float(1)])
-                    self.__localmatricesdict[child.get_ComponentInstanceID()] = mat
-        return dict
-
-    def get_ComponentIDs(self):
-        return self.__cadcomponent_dict.keys()
-
-    def get_CADModelName(self, componentID):
-        if componentID in self.__cadcomponent_dict:
-            return self.__metriccomp_dict[self.__cadcomponent_dict[componentID]].get_Name()
-        else:
-            return None
-
-    def get_CADModelType(self, componentID):
-        if componentID in self.__cadcomponent_dict:
-            return self.__metriccomp_dict[self.__cadcomponent_dict[componentID]].get_Type()
-        else:
-            return None
-
-    def is_Kinematic(self, componentID):
-        if componentID in self.__kinematicdict:
-            return self.__kinematicdict[componentID]
-        else:
-            return True
-
-    def get_LocalMatrix(self, componentID):
-        return self.__localmatricesdict[componentID]
-
-    def get_GlobalMatrix(self, componentID):
-        #print componentID
-        parentlist = []
-        while componentID is not None:
-            parentlist.append(componentID)
-            componentID = self.get_Parent(componentID)
-        result = None
-        for id in reversed(parentlist):
-            if result is None:
-                result = self.get_LocalMatrix(id).copy()
-            else:
-                result = result.mul(self.get_LocalMatrix(id))
-        return result
-
-    def is_assembly(self, componentID):
-        return self.__metriccomp_dict[self.__cadcomponent_dict[componentID]].get_Type() == "ASSEMBLY"
-
-    def get_Children(self, componentID):
-        children = []
-        if self.__metriccomp_dict[self.__cadcomponent_dict[componentID]].get_Children() is None:
-            return children
-        for child in self.__metriccomp_dict[self.__cadcomponent_dict[componentID]].get_Children().get_ChildMetric():
-            children.append(child.get_ComponentInstanceID())
-        return children
-
-    def get_Parent(self, componentid):
-        # Assemblies can't have parents
-        if self.is_assembly(componentid):
-            return None
-        for comp in self.__cadcomponent_dict.keys():
-            if componentid in self.get_Children(comp):
-                return comp
-        return None
-
-    def get_ParasolidName(self):
-        return self.__parasolidname
-
+        resultstr += '              "simulation single_run save analysis_name=' + globalParams['AnalysisName'] + '"\n\n'
+        resultstr += 'simulation single scripted &\n'
+        resultstr += '   sim_script_name = .' + self.modelname + '.' + globalParams['SimScriptName'] + ' &\n'
+        resultstr += '   reset_before_and_after = yes\n'
+        resultstr += '!\n'
+        return resultstr
 
 class CADPostProc:
     def __init__(self, cadpostproc):
@@ -1005,12 +776,10 @@ class CADPostProc:
         return self.ground
 
 
-def setup_model(analysis, cadmetrics, cadpostproc, firstpass):
+def setup_model(analysis, asminfo, cadpostproc, firstpass):
     global idCounter
     global idMarker
     global idJoint
-    global jointTypes
-    global args
     # print 'Model: %s' % (analysis.get_Name())
     # create model, pass its name
     mod = MBD_Model(analysis.get_Name())
@@ -1021,7 +790,6 @@ def setup_model(analysis, cadmetrics, cadpostproc, firstpass):
                                   globalParams['MaterialPoisson'], globalParams['MaterialDensity'],
                                   analysis.get_Name()))
     # add Parasolid
-    asm_metrics = AssemblyMetrics(cadmetrics)
     postproc = CADPostProc(cadpostproc)
 
     fixedsets = []
@@ -1029,97 +797,78 @@ def setup_model(analysis, cadmetrics, cadpostproc, firstpass):
     # Setup bodies
     processedcomps = []
     # Do assemblies first
-    for compid in asm_metrics.get_ComponentIDs():
-        if compid == asm_metrics.get_RootAsmID():
+    for compid in asminfo.componentsdict.keys():
+        if compid == asminfo.root.cyphyid:
             continue
-        if asm_metrics.is_assembly(compid):
+        comp = asminfo.componentsdict[compid]
+        if comp.is_assembly():
             processedcomps.append(compid)
-            if (asm_metrics.is_Kinematic((compid))):
+            if comp.kinematic:
                 # Create bodies for all children (but not for the assembly)
-                for child in asm_metrics.get_Children(compid):
-                    mod.add_component(MBD_Body(analysis.get_Name(), child, asm_metrics.get_CADModelName(child), asm_metrics.get_GlobalMatrix(child), True, readInfo=not firstpass))
-                    processedcomps.append(child)
+                for child in comp.children:
+                    mod.add_component(MBD_Body(analysis.get_Name(), child.cyphyid, child.cadmodelname, child.get_global_matrix(), True, readInfo=not firstpass))
+                    processedcomps.append(child.cyphyid)
             else:
                 # Create a body for the assembly and add children as sub-parts (parts to be merged)
-                added_comp = MBD_Body(analysis.get_Name(), compid, asm_metrics.get_CADModelName(compid), asm_metrics.get_GlobalMatrix(compid), False, readInfo=not firstpass, assembly=True)
-                for child in asm_metrics.get_Children(compid):
-                    added_comp.merge_body(MBD_Body(analysis.get_Name(), child, asm_metrics.get_CADModelName(child), asm_metrics.get_GlobalMatrix(child), True, assembly=False))
-                    processedcomps.append(child)
+                added_comp = MBD_Body(analysis.get_Name(), compid, comp.cadmodelname, comp.get_global_matrix(), False, readInfo=not firstpass, assembly=True)
+                for child in comp.children:
+                    added_comp.merge_body(MBD_Body(analysis.get_Name(), child.cyphyid, child.cadmodelname, child.get_global_matrix(), True, assembly=False))
+                    processedcomps.append(child.cyphyid)
                 mod.add_component(added_comp)
 
     # Whatever remains and not has been processed yet
-    for compid in asm_metrics.get_ComponentIDs():
-        if compid == asm_metrics.get_RootAsmID():
+    for compid in asminfo.componentsdict.keys():
+        if compid == asminfo.root.cyphyid:
             continue
+        comp = asminfo.componentsdict[compid]
         if compid not in processedcomps:
-            mod.add_component(MBD_Body(analysis.get_Name(), compid, asm_metrics.get_CADModelName(compid), asm_metrics.get_GlobalMatrix(compid), True, readInfo=not firstpass, assembly=False))
+            mod.add_component(MBD_Body(analysis.get_Name(), comp.cyphyid, comp.cadmodelname, comp.get_global_matrix(), True, readInfo=not firstpass, assembly=False))
 
     # Setup joints
-    if cadmetrics.get_Joints() is not None:
-        for joint in cadmetrics.get_Joints().get_Joint():
-            if len(joint.get_ConstrainedToComponents().get_ConstrainedToComponent()) == 0:
-                print "WARNING: " + joint.get_AssembledComponentInstanceID() + " is constrained to nothing."
+    for joint in asminfo.joints:
+        for constrainedtocomp in joint.compto:
+            added_instance_id = constrainedtocomp.cyphyid
+            assembly_instance_id = joint.compfrom.cyphyid
+            # Not interested in constraints to the top assembly (there's no top assembly in Adams)
+            if added_instance_id == asminfo.root.cyphyid or assembly_instance_id == asminfo.root.cyphyid:
                 continue
-            for constrainedtocomp in joint.get_ConstrainedToComponents().get_ConstrainedToComponent():
-                added_instance_id = constrainedtocomp.get_ComponentInstanceID()
-                assembly_instance_id = joint.get_AssembledComponentInstanceID()
-                # Not interested in constraints to the top assembly (there's no top assembly in Adams)
-                if (added_instance_id == asm_metrics.get_RootAsmID()):
-                    continue
-                if (asm_metrics.get_CADModelType(added_instance_id) == "ASSEMBLY" and asm_metrics.is_Kinematic(added_instance_id)):
-                    print "Skipping joint " + joint.get_ID() + ", added component is a kinematic assembly: " + added_instance_id
-                    continue
-                if (asm_metrics.get_CADModelType(assembly_instance_id) == "ASSEMBLY" and asm_metrics.is_Kinematic(assembly_instance_id)):
-                    print "Skipping joint " + joint.get_ID() + ", assembled component is a kinematic assembly: " + assembly_instance_id
+            if asminfo.componentsdict[added_instance_id].is_assembly() and asminfo.componentsdict[added_instance_id].kinematic:
+                print "Skipping joint " + joint.id + ", added component is a kinematic assembly: " + added_instance_id
+                continue
+            if asminfo.componentsdict[added_instance_id].is_assembly() and asminfo.componentsdict[added_instance_id].kinematic:
+                print "Skipping joint " + joint.id + ", assembled component is a kinematic assembly: " + assembly_instance_id
+                continue
+            component_added = mod.get_component(added_instance_id)
+            if component_added is None:
+                added_instance_id = asminfo.componentsdict[added_instance_id].parent.cyphyid
+                if added_instance_id == asminfo.root.cyphyid:
                     continue
                 component_added = mod.get_component(added_instance_id)
-                if component_added is None:
-                    added_instance_id = asm_metrics.get_Parent(added_instance_id)
-                    component_added = mod.get_component(added_instance_id)
-                if component_added is None:
-                    print "Component is not found, but referred to in a joint: " + added_instance_id
-                    return None
+            if component_added is None:
+                print "Component is not found, but referred to in a joint: " + added_instance_id
+                return None
+            component_assembly = mod.get_component(assembly_instance_id)
+            if component_assembly is None:
+                assembly_instance_id = asminfo.componentsdict[assembly_instance_id].parent.cyphyid
+                if assembly_instance_id == asminfo.root.cyphyid:
+                    continue
                 component_assembly = mod.get_component(assembly_instance_id)
-                if component_assembly is None:
-                    assembly_instance_id = asm_metrics.get_Parent(assembly_instance_id)
-                    component_assembly = mod.get_component(assembly_instance_id)
-                if component_assembly is None:
-                    print "Component is not found, but referred to in a joint: " + assembly_instance_id
-                    return None
-                asm_marker = MBD_Marker(idMarker, joint.get_GlobalCoordinateSystem().get_Location().get_ArrayValue(),
-                                        joint.get_GlobalCoordinateSystem().get_Orientation().get_ArrayValue())
-                component_assembly.add_marker(asm_marker)
-                idMarker += 1
-                added_marker = MBD_Marker(idMarker, joint.get_GlobalCoordinateSystem().get_Location().get_ArrayValue(),
-                                          joint.get_GlobalCoordinateSystem().get_Orientation().get_ArrayValue())
-                component_added.add_marker(added_marker)
-                idMarker += 1
-                if joint.get_Type() in jointTypes:
-                    mod.add_joint(MBD_Joint(joint.get_ID(), idJoint, analysis.get_Name(), jointTypes[joint.get_Type()],
-                                            component_assembly, asm_marker, component_added, added_marker))
-                    # done = False
-                    # if mergeFixedBodies and joint.get_Type() == "FIXED":
-                    #     for s in fixedsets:
-                    #         if component_assembly in s:
-                    #             s.add(component_added)
-                    #             done = True
-                    #     if not done:
-                    #         for s in fixedsets:
-                    #             if component_added in s:
-                    #                 s.add(component_assembly)
-                    #                 done = True
-                    #     if not done:
-                    #         s = set()
-                    #         s.add(component_assembly)
-                    #         s.add(component_added)
-                    #         fixedsets.append(s)
-                    idJoint += 1
-                else:
-                    print "Invalid joint type: " + joint.get_Type() + ". Please correct this error."
-                    return None
-    else:
-        print "No joints section present in metrics file."
-        return None
+            if component_assembly is None:
+                print "Component is not found, but referred to in a joint: " + assembly_instance_id
+                return None
+            asm_marker = MBD_Marker(idMarker, joint.location, joint.orientation)
+            component_assembly.add_marker(asm_marker)
+            idMarker += 1
+            added_marker = MBD_Marker(idMarker, joint.location, joint.orientation)
+            component_added.add_marker(added_marker)
+            idMarker += 1
+            if joint.type in JOINTTYPES:
+                mod.add_joint(MBD_Joint(joint.id, idJoint, analysis.get_Name(), JOINTTYPES[joint.type],
+                                        component_assembly, asm_marker, component_added, added_marker))
+                idJoint += 1
+            else:
+                print "Invalid joint type: " + joint.type + ". Please correct this error."
+                return None
 
     for s in fixedsets:
         for i in s:
@@ -1132,7 +881,7 @@ def setup_model(analysis, cadmetrics, cadpostproc, firstpass):
     if args.terrain is not None:
         mod.terrainfile = args.terrain
         terrain = MBD_Body(analysis.get_Name(), "TERRAIN", 'TERRAIN', readInfo=not firstpass)
-        terrain_marker = MBD_Marker(idMarker, "0;0;0", None)
+        terrain_marker = MBD_Marker(idMarker, cad_library.Vec3.null(), None)
         terrain.add_marker(terrain_marker)
         mod.add_component(terrain)
         idMarker += 1
@@ -1144,9 +893,9 @@ def setup_model(analysis, cadmetrics, cadpostproc, firstpass):
 
     groundpos = None
     if postproc.get_Ground() is None:
-        groundpos = "0;0;0"
+        groundpos = cad_library.Vec3.null()
     else:
-        groundpos = postproc.get_Ground()
+        groundpos = cad_library.Vec3.parse(postproc.get_Ground())
 
     ground = MBD_Body(analysis.get_Name(), "ground", 'ground', ground=True)  # no material
     ground_marker = MBD_Marker(idMarker, groundpos, None)
@@ -1162,7 +911,7 @@ def setup_model(analysis, cadmetrics, cadpostproc, firstpass):
         print 'WARNING: No anchor component was specified. No body is going to be constrained to the ground.'
     # Fix the root to the ground
     elif anchor is not None and ground is not None:
-        ground_added_marker = MBD_Marker(idMarker, postproc.get_Ground(), None)
+        ground_added_marker = MBD_Marker(idMarker, groundpos, None)
         mod.get_component(anchor).add_marker(ground_added_marker)
         idMarker += 1
         mod.add_joint(MBD_Joint("JOINT_root", idJoint, analysis.get_Name(), "fixed", ground, ground_marker,
@@ -1184,29 +933,29 @@ def setup_model(analysis, cadmetrics, cadpostproc, firstpass):
     mod.add_simulation(MBD_Simulation(analysis.get_Name(), analysis.get_Simulation()))
     # add FEA export
     for k, v in mod.get_components():
-        if (k != "ground"):
+        if k != "ground":
             mod.add_fea_load(MBD_FEA_Load(v, None))
 
     return mod
 
 
-def AdamsExport(model, firstpass, isSilent=True):
+def AdamsExport(model, firstpass, issilent=True):
     cwd = os.getcwd()
     filename = cwd + str(os.sep) + "adams_output" + '.' + globalParams['AdamsExtension']
-    with open(filename, "w") as file:
+    with open(filename, "w") as resultfile:
         if firstpass:
-            file.write(model.export1stPass())
+            resultfile.write(model.export1stPass())
         else:
-            file.write(model.export2Adams())
-    if not isSilent:
+            resultfile.write(model.export2Adams())
+    if not issilent:
         print model.export2Adams()
     return
 
 def main():
     global args
     parser = argparse.ArgumentParser(description='Creates an Adams .cmd file to build up the kinematic model.')
-    parser.add_argument('-terrain');
-    parser.add_argument('-firstpass');
+    parser.add_argument('-terrain')
+    parser.add_argument('-firstpass')
     args = parser.parse_args()
 
     missing = False
@@ -1223,22 +972,26 @@ def main():
     if missing:
         exit(-1)
 
+    asminfo = cad_library.AssemblyInfo()
+
     try:
         analysis = MA.parse(os.getcwd() + os.sep + globalParams["Analysis_File"], True)
-    except MA.GDSParseError as e:
-        print "Unable to parse " + globalParams["Analysis_File"] + ", exiting. Error message: " + e.message
+    except MA.GDSParseError as exc:
+        print "Unable to parse " + globalParams["Analysis_File"] + ", exiting. Error message: " + exc.message
         exit(-1)
 
     try:
-        cadmetrics = CM.parse(os.getcwd() + os.sep + globalParams["CADMetrics_File"], True)
-    except CM.GDSParseError as e:
-        print "Unable to parse " + globalParams["CADMetrics_File"] + ", exiting. Error message: " + e.message
+        asminfo.read_metrics_file(os.getcwd() + os.sep + globalParams["CADMetrics_File"])
+    except Exception as exc:
+        print "Unable to parse " + globalParams["CADMetrics_File"] + ", exiting. Error message: " + exc.message
         exit(-1)
+
+    #cad_library.ComponentData.dump_hierarchy(asminfo.root)
 
     try:
         cadpostproc = CP.parse(os.getcwd() + os.sep + globalParams["CADPostProc_File"], True)
-    except CM.GDSParseError as e:
-        print "Unable to parse " + globalParams["CADPostProc_File"] + ", exiting. Error message: " + e.message
+    except CP.GDSParseError as exc:
+        print "Unable to parse " + globalParams["CADPostProc_File"] + ", exiting. Error message: " + exc.message
         exit(-1)
 
     firstpass = False
@@ -1246,7 +999,7 @@ def main():
     if args.firstpass:
         firstpass = True
 
-    model = setup_model(analysis, cadmetrics, cadpostproc, firstpass)
+    model = setup_model(analysis, asminfo, cadpostproc, firstpass)
 
     try:
         if model is None:

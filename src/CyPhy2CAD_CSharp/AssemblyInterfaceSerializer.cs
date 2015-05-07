@@ -79,6 +79,13 @@ namespace CAD
     public partial class AssembliesType : CyPhy2CAD_CSharp.MyXmlSerializeBase
     {
     }
+
+    public partial class AnalysesType : CyPhy2CAD_CSharp.MyXmlSerializeBase
+    {
+    }
+
+
+
 }
 
 

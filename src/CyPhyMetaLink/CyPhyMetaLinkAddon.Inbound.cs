@@ -34,7 +34,7 @@ using META;
 namespace CyPhyMetaLink
 {
     /// <summary>
-    /// This file contains functionality related to business logic handling incoming messages (from Creo)
+    /// This file contains functionality related to business logic handling incoming messages (from CAD)
     /// </summary>
     [Guid(ComponentConfig_Addon.guid),
     ProgId(ComponentConfig_Addon.progID),
@@ -43,9 +43,7 @@ namespace CyPhyMetaLink
     public partial class CyPhyMetaLinkAddon : IMgaComponentEx, IGMEVersionInfo, IMgaEventSink
     {
 
-        private readonly String CadAssemblyOrigin = "creo parameteric create assembly";
-        private readonly String GMEOrigin = "GME";
-        private readonly CreoStartupDialog StartupDialog = new CreoStartupDialog();
+        // String format for message topics
         public static readonly String CadAssemblyTopic = "ISIS.METALINK.CADASSEMBLY";
         public static readonly String ResyncTopic = "ISIS.METALINK.RESYNC";
         public static readonly String ConnectTopic = "ISIS.METALINK.CADASSEMBLY.CONNECT";
@@ -56,10 +54,15 @@ namespace CyPhyMetaLink
         public static readonly String ComponentInfoTopic = "ISIS.METALINK.COMPONENT.INFO";
         public static readonly String CadPassiveTopic = "ISIS.METALINK.CAD.PASSIVE";
         public static readonly String SearchPathStr = "SearchPath";
+
+        private readonly String CadAssemblyOrigin = "creo parameteric create assembly";
+        private readonly String GMEOrigin = "GME";
+
+        private readonly CreoStartupDialog StartupDialog = new CreoStartupDialog();
         private Dictionary<string, int> interests = new Dictionary<string, int>();
         private Dictionary<string, int> InstanceIDToConstraint_Table = new Dictionary<string, int>();
-        
-        readonly HashSet<string> datumKinds = new HashSet<string>()
+
+        private readonly HashSet<string> datumKinds = new HashSet<string>()
             {
                 "Datum", // abstract
                 "Axis",
@@ -67,7 +70,8 @@ namespace CyPhyMetaLink
                 "Point",
                 "Surface"
             };
-        readonly Dictionary<string, string> datumKindsMap = new Dictionary<string, string>()
+
+        private readonly Dictionary<string, string> datumKindsMap = new Dictionary<string, string>()
         {
             { "Datum", "DATUM" },
             { "Axis", "AXIS" },
@@ -76,20 +80,25 @@ namespace CyPhyMetaLink
             { "Surface", "SURFACE" },
         };
 
+        #region Process Incoming Messages
+        /// <summary>
+        /// The main dispatch handler for incoming messages
+        /// </summary>
+        /// <param name="message"></param>
         private void ProcessEditMessage(MetaLinkProtobuf.Edit message)
         {
             if (GMEConsole == null)
             {
                 GMEConsole = GMEConsole.CreateFromProject(addon.Project);
             }
-            // This is the first message from Creo, hide the Startup Dialog
+            // This is the first message from Creo, hide the CAD Startup Dialog
             if (StartupDialog.Visible && message.origin.Contains(CadAssemblyOrigin) &&
                 message.editMode == Edit.EditMode.INTEREST && message.topic.Count == 2 &&
                 message.topic[1] == LastStartedGuid)
             {
                 ShowStartupDialog(false);
             }
-            // Drop a warning message to the console if it's a suspicious response
+            // Drop a message to the console with the acknowledgement of a previous message
             if (message.actions.Count > 0)
             {
                 foreach (var action in message.actions)
@@ -149,6 +158,7 @@ namespace CyPhyMetaLink
                 
             }
 
+            // Write message to console if it's an error response
             if (message.mode.Count > 0 && message.mode.Last() == MetaLinkProtobuf.Edit.EditMode.NOTICE)
             {
                 foreach (var notice in message.actions.SelectMany(a => a.notices)
@@ -159,8 +169,8 @@ namespace CyPhyMetaLink
                 }
             }
 
-
-            if (message.origin.Contains(GMEOrigin)) // ignore messages from ourselves
+            // ignore messages from ourselves
+            if (message.origin.Contains(GMEOrigin))
                 return;
 
             // DISINTEREST: The user closed Creo (component)
@@ -198,12 +208,7 @@ namespace CyPhyMetaLink
                 message.mode.SequenceEqual(new Edit.EditMode[] { Edit.EditMode.DISINTEREST }))
             {
                 Guid componentAssemblyID = Guid.Parse(message.topic[1]);
-                /*try{
-                    Directory.Delete(syncedComponents[componentAssemblyID.ToString()].WorkingDir);
-                } catch (Exception e)
-                {
-                    GMEConsole.Warning.WriteLine("Unable to delete working directory: " + e.Message);
-                }*/
+
                 syncedComponents.Remove(componentAssemblyID.ToString());
                 SendDisinterest(CadAssemblyTopic, message.topic[1]);
                 addon.Project.BeginTransactionInNewTerr();
@@ -222,6 +227,7 @@ namespace CyPhyMetaLink
                 AssemblyID = null;
             }
 
+            // Create analysis point
             if (message.topic.Count == 2 && message.topic[0] == ComponentAnalysisPointTopic &&
                 message.mode.SequenceEqual(new Edit.EditMode[] { Edit.EditMode.POST }))
             {
@@ -245,12 +251,12 @@ namespace CyPhyMetaLink
                     }
                     if (action.actionMode == MetaLinkProtobuf.Action.ActionMode.SELECT && action.payload != null)
                     {
-                        // Select a component ref
+                        // Select a component
                         ProcessEditSelect(message.topic[1], action);
                     }
                     if (action.actionMode == MetaLinkProtobuf.Action.ActionMode.DISCARD)
                     {
-                        // Remove a component ref
+                        // Remove a component
                         ProcessEditDiscard(message.topic[1], action);
                     }
                 }
@@ -263,7 +269,7 @@ namespace CyPhyMetaLink
                 ProcessResync(message.topic[1]);
             }
             
-
+            // The client indicated an interest in an assemby. Send the assembly info
             if (message.topic.Count == 2 && message.topic[0] == CadAssemblyTopic &&
                 message.mode.SequenceEqual(new Edit.EditMode[] { Edit.EditMode.INTEREST }))
             {
@@ -295,7 +301,7 @@ namespace CyPhyMetaLink
                 addon.Project.BeginTransactionInNewTerr();
                 try
                 {
-                    SendComponentManifest();
+                    SendComponentList();
                 }
                 finally
                 {
@@ -395,6 +401,11 @@ namespace CyPhyMetaLink
             }
         }
 
+        /// <summary>
+        /// Create analysis point(s)
+        /// </summary>
+        /// <param name="avmid"></param>
+        /// <param name="action"></param>
         private void ProcessAnalysisPointMessage(string avmid, MetaLinkProtobuf.Action action)
         {
             addon.Project.BeginTransactionInNewTerr();
@@ -444,15 +455,10 @@ namespace CyPhyMetaLink
             }
         }
 
-        private string GetStartupParams(string assemblyGUID)
-        {
-            CyPhyML.ComponentAssembly asm = CyphyMetaLinkUtils.GetComponentAssemblyByGuid(addon.Project, assemblyGUID);
-            if (asm == null) return "";
-            var param = asm.Children.ParameterCollection.Where(p => p.Name.ToUpper() == "CADEXEPARAMS");
-            if (!param.Any()) return "";
-            return param.First().Attributes.Value;
-        }
-
+        /// <summary>
+        /// Resync: re-send the whole assembly information again
+        /// </summary>
+        /// <param name="id"></param>
         private void ProcessResync(string id)
         {
             try
@@ -485,39 +491,15 @@ namespace CyPhyMetaLink
             }
         }
 
-        private void StartComponentEditAction(MetaLinkProtobuf.Edit message)
-        {
-            // message.topic[1] is the component AVMID
-            String avmid = message.topic[1];
-            StartComponentEdit(avmid);
-        }
-
-        private void StartComponentEdit(string avmid, bool transaction = true)
-        {
-            string componentCADDirectory = null;
-            CyPhyML.Component component = null;
-            if (transaction) addon.Project.BeginTransactionInNewTerr();
-            try
-            {
-                component = CyphyMetaLinkUtils.GetComponentByAvmId(addon.Project, avmid);
-                componentCADDirectory = Path.GetDirectoryName(GetCadModelPath(component));
-            }
-            finally
-            {
-                if (transaction) addon.Project.CommitTransaction();
-            }
-            if (componentCADDirectory != null) // If this is not a newly created component
-            {
-                StartAssemblyExe(CreoOpenMode.OPEN_COMPONENT, avmid, false, "", workingDir: componentCADDirectory);
-            }
-            else
-            {
-                GMEConsole.Error.WriteLine("Can't find directory for CAD components. Maybe there isn't any in the model?");
-                LastStartedGuid = avmid;
-                ExeStartupFailed();
-            }
-        }
-
+        /// <summary>
+        /// Create a new or update an existing connector
+        /// </summary>
+        /// <param name="component"></param>
+        /// <param name="datumList"></param>
+        /// <param name="datumNames"></param>
+        /// <param name="datumAligns"></param>
+        /// <param name="connector"></param>
+        /// <param name="connectorName"></param>
         private void CreateOrUpdateConnector(CyPhyML.Component component, List<CyPhyML.CADDatum> datumList, List<string> datumNames, List<ConnectorDatumType.AlignType> datumAligns, CyPhyML.Connector connector = null, String connectorName = null)
         {
             if (connector == null)
@@ -546,6 +528,11 @@ namespace CyPhyMetaLink
             
         }
 
+        /// <summary>
+        /// Add a new AVM component to an existing assembly
+        /// </summary>
+        /// <param name="avmid"></param>
+        /// <param name="action"></param>
         private void ProcessAVMComponentInsert(string avmid, MetaLinkProtobuf.Action action)
         {
             
@@ -610,6 +597,14 @@ namespace CyPhyMetaLink
             }
         }
 
+        /// <summary>
+        /// Connect 2 components
+        /// </summary>
+        /// <param name="assemblyguid"></param>
+        /// <param name="connectorguid1"></param>
+        /// <param name="comprefguid1"></param>
+        /// <param name="connectorguid2"></param>
+        /// <param name="comprefguid2"></param>
         private void ProcessConnect(string assemblyguid, string connectorguid1, string comprefguid1, string connectorguid2, string comprefguid2)
         {
             addon.Project.BeginTransactionInNewTerr();
@@ -652,7 +647,7 @@ namespace CyPhyMetaLink
             }
             try
             {
-// FIXME this will fail if ref1 and ref2 are across hierarchies
+                // FIXME this will fail if ref1 and ref2 are across hierarchies
                 CyPhyMLClasses.ConnectorComposition.Connect(conn1, conn2, ref1, ref2, parent: (CyPhyML.DesignElement)null);
             }
             catch (Exception ex)
@@ -664,6 +659,11 @@ namespace CyPhyMetaLink
             addon.Project.CommitTransaction();
         }
 
+        /// <summary>
+        /// Remove a component from a design
+        /// </summary>
+        /// <param name="assemblyId"></param>
+        /// <param name="action"></param>
         private void ProcessEditDiscard(string assemblyId, MetaLinkProtobuf.Action action)
         {
             try
@@ -695,6 +695,11 @@ namespace CyPhyMetaLink
             }
         }
 
+        /// <summary>
+        /// Select a component within a design
+        /// </summary>
+        /// <param name="assemblyId"></param>
+        /// <param name="action"></param>
         private void ProcessEditSelect(string assemblyId, MetaLinkProtobuf.Action action)
         {
             CyPhyML.ComponentRef compRef = null;
@@ -720,16 +725,11 @@ namespace CyPhyMetaLink
             }
         }
 
-        private string GetProjectDir()
-        {
-            string workingDir = Path.GetTempPath();
-            if (addon.Project.ProjectConnStr.StartsWith("MGA="))
-            {
-                workingDir = Path.GetDirectoryName(addon.Project.ProjectConnStr.Substring("MGA=".Length));
-            }
-            return workingDir;
-        }
-
+        /// <summary>
+        /// Add AVM component to design
+        /// </summary>
+        /// <param name="componentAssemblyGuid"></param>
+        /// <param name="action"></param>
         private void ProcessEditInsert(string componentAssemblyGuid, MetaLinkProtobuf.Action action)
         {
             addon.Project.BeginTransactionInNewTerr();
@@ -773,314 +773,11 @@ namespace CyPhyMetaLink
             }
         }
 
-        // Event handlers for addons
-        #region MgaEventSink members
-        public void GlobalEvent(globalevent_enum @event)
-        {
-            if (@event == globalevent_enum.GLOBALEVENT_CLOSE_PROJECT)
-            {
-                bridgeClient.CloseConnection();
-                // clear the queue. no more messages are coming, since the receive thread is dead
-                Edit _;
-                while (queuedMessages.TryDequeue(out _))
-                    ;
-                if (GMEConsole != null)
-                {
-                    if (GMEConsole.gme != null)
-                    {
-                        Marshal.FinalReleaseComObject(GMEConsole.gme);
-                    }
-                    GMEConsole = null;
-                }
-                Marshal.FinalReleaseComObject(addon);
-                // potential race: SyncControl.BeginInvoke was called before the receive thread was killed but after CLOSE_PROJECT
-                SyncControl.BeginInvoke((System.Action)delegate
-                {
-                    SyncControl.Dispose();
-                    SyncControl = null;
-                });
-                addon = null;
-                metalinkBridge = null;
-            }
-            if (@event == globalevent_enum.APPEVENT_XML_IMPORT_BEGIN)
-            {
-                handleEvents = false;
-                addon.EventMask = 0;
-            }
-            else if (@event == globalevent_enum.APPEVENT_XML_IMPORT_END)
-            {
-                unchecked { addon.EventMask = (uint)ComponentConfig_Addon.eventMask; }
-                handleEvents = true;
-            }
-            else if (@event == globalevent_enum.APPEVENT_LIB_ATTACH_BEGIN)
-            {
-                addon.EventMask = 0;
-                handleEvents = false;
-            }
-            else if (@event == globalevent_enum.APPEVENT_LIB_ATTACH_END)
-            {
-                unchecked { addon.EventMask = (uint)ComponentConfig_Addon.eventMask; }
-                handleEvents = true;
-            }
-            else if (@event == globalevent_enum.GLOBALEVENT_COMMIT_TRANSACTION
-                || @event == globalevent_enum.GLOBALEVENT_ABORT_TRANSACTION)
-            {
-                if (GMEConsole == null)
-                {
-                    GMEConsole = GMEConsole.CreateFromProject(addon.Project);
-                }
-                RestartAssemblySync();
-                // n.b. MgaProject is in tx now, post a message so we can start our own
-                SyncControl.BeginInvoke((System.Action)delegate
-                {
-                    if (addon != null)
-                    {
-                        if ((addon.Project.ProjectStatus & 8) != 0) // in tx
-                        {
-                        }
-                        else
-                        {
-                            ProcessQueuedEditMessages();
-                        }
-                    }
-                });
-            }
-            if (!componentEnabled)
-            {
-                return;
-            }
-
-            // TODO: Handle global events
-            // MessageBox.Show(@event.ToString());
-        }
-
-
-
-        private HashSet<CyPhyML.ComponentAssembly> assembliesToRestart = new HashSet<CyPhyML.ComponentAssembly>();
-        private void RestartAssemblySyncAtEndOfTransaction(CyPhyML.ComponentAssembly design)
-        {
-            if (design != null)
-            {
-                assembliesToRestart.Add(design);
-            }
-        }
-
-        private void RestartAssemblySync()
-        {
-            foreach (var design in assembliesToRestart)
-            {
-                SyncControl.BeginInvoke((System.Action)delegate
-                {
-                    if ((addon.Project.ProjectStatus & 8) != 0) // in tx
-                    {
-                        return;
-                    }
-                    addon.Project.BeginTransactionInNewTerr();
-                    try
-                    {
-                        try
-                        {
-                            handleEvents = false;
-                            GenerateCADAssemblyXml(addon.Project, (MgaFCO)design.Impl, 0);
-                            SendCadAssemblyXml(design.Guid.ToString(), true);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            AssemblyID = null;
-                            GMEConsole.Error.WriteLine("Unable to generate model. Error: " + ex.Message);
-                        }
-                    }
-                    finally
-                    {
-                        addon.Project.AbortTransaction();
-                        handleEvents = true;
-                    }
-                });
-            }
-            assembliesToRestart.Clear();
-        }
-
-        #endregion
-
-        public bool SendInterest(Action<MetaLinkProtobuf.Edit> noticeaction, params string[] topic)
-        {
-            MetaLinkProtobuf.Edit message = new MetaLinkProtobuf.Edit
-            {
-                editMode = MetaLinkProtobuf.Edit.EditMode.INTEREST,
-                guid = Guid.NewGuid().ToString(),
-                //sequence = 0,
-            };
-            message.origin.Add(GMEOrigin);
-            message.topic.AddRange(topic.ToList());
-            if (noticeaction != null)
-            {
-                noticeActions.Add(message.guid, noticeaction);
-            }
-            string topicstr = String.Join("_", topic);
-            // MetaLink will send us the same message multiple times if we express interest multiple times
-            if (!interests.ContainsKey(topicstr))
-            {
-                interests.Add(topicstr, 1);
-                bridgeClient.SendToMetaLinkBridge(message);
-                return true;
-            }
-            else
-            {
-                interests[topicstr]++;
-            }
-            return false;
-        }
-
-        public bool SendDisinterest(params string[] topic)
-        {
-            MetaLinkProtobuf.Edit message = new MetaLinkProtobuf.Edit
-            {
-                editMode = MetaLinkProtobuf.Edit.EditMode.DISINTEREST,
-                guid = Guid.NewGuid().ToString(),
-                //sequence = 0,
-            };
-            message.origin.Add(GMEOrigin);
-            message.topic.AddRange(topic.ToList());
-            string topicstr = String.Join("_", topic);
-            if (interests.ContainsKey(topicstr))
-            {
-                interests[topicstr]--;
-                if (interests[topicstr] == 0)
-                {
-                    interests.Remove(topicstr);
-                    bridgeClient.SendToMetaLinkBridge(message);
-                    return true;
-                }
-            }
-            else
-            {
-                GMEConsole.Warning.WriteLine("Sending disinterest for topic without interest entry");
-                bridgeClient.SendToMetaLinkBridge(message);
-            }
-            return false;
-        }
-
-        public void SendManifestInterest()
-        {
-            SendInterest(null, ComponentManifestTopic);
-        }
-
-        public void SendComponentManifest()
-        {
-            MetaLinkProtobuf.Edit manifestMessage = new MetaLinkProtobuf.Edit
-            {
-                editMode = Edit.EditMode.POST,
-            };
-            manifestMessage.topic.Add(ComponentManifestTopic);
-            var manifestAction = new MetaLinkProtobuf.Action();
-            manifestMessage.actions.Add(manifestAction);
-            manifestAction.actionMode = MetaLinkProtobuf.Action.ActionMode.INSERT;
-            var rf = CyPhyMLClasses.RootFolder.GetRootFolder(addon.Project);
-            Queue<CyPhyML.Components> componentsQueue = new Queue<CyPhyML.Components>();
-            foreach (var childComponents in rf.Children.ComponentsCollection)
-            {
-                componentsQueue.Enqueue(childComponents);
-            }
-            while (componentsQueue.Count > 0)
-            {
-                var components = componentsQueue.Dequeue();
-                manifestAction.manifest.Add(new ComponentManifestNode()
-                {
-                    nodeMode = ComponentManifestNode.NodeMode.FOLDER,
-                    guid = components.Guid.ToString("D"),
-                    name = components.Name
-                });
-                foreach (var childComponents in components.Children.ComponentsCollection)
-                {
-                    componentsQueue.Enqueue(childComponents);
-                }
-                foreach (var component in components.Children.ComponentCollection)
-                {
-                    manifestAction.manifest.Add(new ComponentManifestNode()
-                    {
-                        nodeMode = ComponentManifestNode.NodeMode.COMPONENT,
-                        guid = component.Attributes.AVMID,
-                        cyphyParentId = components.Guid.ToString("D"),
-                        name = component.Name
-                    });
-                }
-            }
-            bridgeClient.SendToMetaLinkBridge(manifestMessage);
-        }
-
-        public void SaveCadAssemblyXml(string xml, string assemblyGuid)
-        {
-            try
-            {
-                File.WriteAllText(Path.Combine(Path.GetTempPath(), "CyPhyMLPropagate_" + assemblyGuid + ".log"), xml);
-            }
-            catch (IOException)
-            {
-            }
-            designIdToCadAssemblyXml[assemblyGuid] = xml;
-        }
-
-        public void SendCadAssemblyXml(string assemblyGuid, bool clear)
-        {
-            SendCadAssemblyXml(designIdToCadAssemblyXml[assemblyGuid], assemblyGuid, clear);
-        }
-
-        public void SendCadAssemblyXml(string xml, string assemblyGuid, bool clear)
-        {
-            MetaLinkProtobuf.Edit message = new MetaLinkProtobuf.Edit
-            {
-                editMode = Edit.EditMode.POST,
-            };
-            message.topic.Add(CadAssemblyTopic);
-            message.topic.Add(assemblyGuid);
-            if (clear)
-            {
-                message.actions.Add(new edu.vanderbilt.isis.meta.Action()
-                {
-                    actionMode = MetaLinkProtobuf.Action.ActionMode.CLEAR
-                });
-            }
-            var action = new MetaLinkProtobuf.Action();
-            message.actions.Add(action);
-            action.actionMode = MetaLinkProtobuf.Action.ActionMode.INSERT;
-            MetaLinkProtobuf.Alien alien = new MetaLinkProtobuf.Alien();
-            action.alien = alien;
-            alien.encoded = Encoding.UTF8.GetBytes(xml);
-            alien.encodingMode = Alien.EncodingMode.XML;
-
-            CyPhyML.ComponentAssembly targetAssembly = CyphyMetaLinkUtils.GetComponentAssemblyByGuid(addon.Project, assemblyGuid);
-            if (targetAssembly != null)
-            {
-                var filter = targetAssembly.Impl.Project.CreateFilter();
-                filter.Kind = "ComponentRef";
-                try
-                {
-                    var env = new MetaLinkProtobuf.Environment
-                    {
-                        name = SearchPathStr,
-                    };
-
-                    foreach (var component in CyphyMetaLinkUtils.CollectComponentsRecursive(targetAssembly))
-                    {
-                        if (component is CyPhyML.Component)
-                            AddSearchPathToEnvironment(component as CyPhyML.Component, env);
-                    }
-
-                    if (env.value.Count > 0)
-                    {
-                        action.environment.Add(env);
-                    }
-                }
-                catch (IOException)
-                {
-                    // XXX
-                }
-            }
-
-            bridgeClient.SendToMetaLinkBridge(message);
-        }
-
+        /// <summary>
+        /// Update an existing component
+        /// </summary>
+        /// <param name="componentId"></param>
+        /// <param name="component_xml"></param>
         private void ProcessAVMComponentUpdate(string componentId, string component_xml)
         {
             try
@@ -1297,6 +994,308 @@ namespace CyPhyMetaLink
             }
         }
 
+        /// <summary>
+        /// Create a new component
+        /// </summary>
+        /// <param name="component_xml"></param>
+        /// <param name="topic"></param>
+        private void ProcessAVMComponentCreate(string component_xml, string topic)
+        {
+            try
+            {
+                File.WriteAllText(Path.Combine(Path.GetTempPath(), "CyPhyMetaLink_ComponentCreate.xml"), component_xml);
+            }
+            catch (IOException)
+            {
+            }
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(component_xml);
+
+            XmlNamespaceManager manager = new XmlNamespaceManager(doc.NameTable);
+            manager.AddNamespace("avm", "avm");
+            manager.AddNamespace("cad", "cad");
+
+            avm.Component component = CyPhyComponentImporter.CyPhyComponentImporterInterpreter.DeserializeAvmComponentXml(new StringReader(doc.OuterXml));
+
+            addon.Project.BeginTransactionInNewTerr();
+            CyPhyML.Component createdComp = null;
+            string createdavmid = null;
+            try
+            {
+                var rf = CyPhyMLClasses.RootFolder.GetRootFolder(addon.Project);
+
+                CyPhyML.Components importedComponents = CyphyMetaLinkUtils.GetImportedComponentsFolder(addon.Project);
+                if (importedComponents == null)
+                {
+                    importedComponents = CyPhyMLClasses.Components.Create(rf);
+                    importedComponents.Name = CyPhyComponentImporter.CyPhyComponentImporterInterpreter.ImportedComponentsFolderName;
+                }
+
+                var avmidComponentMap = CyPhyComponentImporter.CyPhyComponentImporterInterpreter.getCyPhyMLComponentDictionary_ByAVMID(rf);
+                createdComp = CyPhy2ComponentModel.Convert.AVMComponent2CyPhyML(importedComponents, component, true, GMEConsole);
+
+                // Ricardo requirement: Classification must not be empy
+                if (createdComp.Attributes.Classifications.Length == 0)
+                    createdComp.Attributes.Classifications = "Unknown";
+
+                List<string> notcopied = new List<string>();
+                CopyResources(Path.Combine(GetProjectDir(), createdComp.GetDirectoryPath(), "CAD\\"), doc, manager, notcopied, false);
+
+                CyPhyML.CADModel cadModel = createdComp.Children.CADModelCollection.First();
+
+                // Ricardo requirement: ID must be cad.path
+                if (cadModel.SrcConnections.UsesResourceCollection.Any() && cadModel.SrcConnections.UsesResourceCollection.First().DstEnds.Resource != null)
+                {
+                    cadModel.SrcConnections.UsesResourceCollection.First().DstEnds.Resource.Attributes.ID = "cad.path";
+                }
+                else if (cadModel.DstConnections.UsesResourceCollection.Any() && cadModel.DstConnections.UsesResourceCollection.First().DstEnds.Resource != null)
+                {
+                    cadModel.DstConnections.UsesResourceCollection.First().DstEnds.Resource.Attributes.ID = "cad.path";
+                }
+
+                foreach (var res in createdComp.Children.ResourceCollection)
+                {
+                    res.Attributes.Path = Path.Combine("CAD", res.Name);
+                }
+
+                CyphyMetaLinkUtils.SetCADModelTypesFromFilenames(createdComp);
+
+                RefreshManufacturingResources(createdComp, Path.Combine(createdComp.GetDirectoryPath(), "Manufacturing"));
+
+                createdavmid = createdComp.Attributes.AVMID;
+            }
+            finally
+            {
+                addon.Project.CommitTransaction();
+            }
+            if (createdavmid != null && topic != null)
+            {
+                MetaLinkProtobuf.Edit Edit_msg = new MetaLinkProtobuf.Edit()
+                {
+                    editMode = Edit.EditMode.POST
+                };
+                Edit_msg.topic.Add(CadPassiveTopic);
+                Edit_msg.topic.Add(topic);
+                MetaLinkProtobuf.Action action = new MetaLinkProtobuf.Action()
+                {
+                    actionMode = MetaLinkProtobuf.Action.ActionMode.SWITCH,
+                    interest = new Interest()
+                };
+                action.interest.topic.Add(ComponentUpdateTopic);
+                action.interest.uid.Add(createdavmid);
+
+                Edit_msg.actions.Add(action);
+
+                bridgeClient.SendToMetaLinkBridge(Edit_msg);
+
+                SendInterest(null, ComponentUpdateTopic, createdavmid);
+            }
+        }
+        #endregion
+
+        // Event handlers for addons
+        #region MgaEventSink members
+        public void GlobalEvent(globalevent_enum @event)
+        {
+            if (@event == globalevent_enum.GLOBALEVENT_CLOSE_PROJECT)
+            {
+                bridgeClient.CloseConnection();
+                // clear the queue. no more messages are coming, since the receive thread is dead
+                Edit _;
+                while (queuedMessages.TryDequeue(out _))
+                    ;
+                if (GMEConsole != null)
+                {
+                    if (GMEConsole.gme != null)
+                    {
+                        Marshal.FinalReleaseComObject(GMEConsole.gme);
+                    }
+                    GMEConsole = null;
+                }
+                Marshal.FinalReleaseComObject(addon);
+                // potential race: SyncControl.BeginInvoke was called before the receive thread was killed but after CLOSE_PROJECT
+                SyncControl.BeginInvoke((System.Action)delegate
+                {
+                    SyncControl.Dispose();
+                    SyncControl = null;
+                });
+                addon = null;
+                metalinkBridge = null;
+            }
+            if (@event == globalevent_enum.APPEVENT_XML_IMPORT_BEGIN)
+            {
+                handleEvents = false;
+                addon.EventMask = 0;
+            }
+            else if (@event == globalevent_enum.APPEVENT_XML_IMPORT_END)
+            {
+                unchecked { addon.EventMask = (uint)ComponentConfig_Addon.eventMask; }
+                handleEvents = true;
+            }
+            else if (@event == globalevent_enum.APPEVENT_LIB_ATTACH_BEGIN)
+            {
+                addon.EventMask = 0;
+                handleEvents = false;
+            }
+            else if (@event == globalevent_enum.APPEVENT_LIB_ATTACH_END)
+            {
+                unchecked { addon.EventMask = (uint)ComponentConfig_Addon.eventMask; }
+                handleEvents = true;
+            }
+            else if (@event == globalevent_enum.GLOBALEVENT_COMMIT_TRANSACTION
+                || @event == globalevent_enum.GLOBALEVENT_ABORT_TRANSACTION)
+            {
+                if (GMEConsole == null)
+                {
+                    GMEConsole = GMEConsole.CreateFromProject(addon.Project);
+                }
+                RestartAssemblySync();
+                // n.b. MgaProject is in tx now, post a message so we can start our own
+                SyncControl.BeginInvoke((System.Action)delegate
+                {
+                    if (addon != null)
+                    {
+                        if ((addon.Project.ProjectStatus & 8) != 0) // in tx
+                        {
+                        }
+                        else
+                        {
+                            ProcessQueuedEditMessages();
+                        }
+                    }
+                });
+            }
+            if (!componentEnabled)
+            {
+                return;
+            }
+
+            // TODO: Handle global events
+            // MessageBox.Show(@event.ToString());
+        }
+
+
+
+        private HashSet<CyPhyML.ComponentAssembly> assembliesToRestart = new HashSet<CyPhyML.ComponentAssembly>();
+        private void RestartAssemblySyncAtEndOfTransaction(CyPhyML.ComponentAssembly design)
+        {
+            if (design != null)
+            {
+                assembliesToRestart.Add(design);
+            }
+        }
+
+        private void RestartAssemblySync()
+        {
+            foreach (var design in assembliesToRestart)
+            {
+                SyncControl.BeginInvoke((System.Action)delegate
+                {
+                    if ((addon.Project.ProjectStatus & 8) != 0) // in tx
+                    {
+                        return;
+                    }
+                    addon.Project.BeginTransactionInNewTerr();
+                    try
+                    {
+                        try
+                        {
+                            handleEvents = false;
+                            GenerateCADAssemblyXml(addon.Project, (MgaFCO)design.Impl, 0);
+                            SendCadAssemblyXml(design.Guid.ToString(), true);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            AssemblyID = null;
+                            GMEConsole.Error.WriteLine("Unable to generate model. Error: " + ex.Message);
+                        }
+                    }
+                    finally
+                    {
+                        addon.Project.AbortTransaction();
+                        handleEvents = true;
+                    }
+                });
+            }
+            assembliesToRestart.Clear();
+        }
+
+        #endregion
+
+        private void StartComponentEditAction(MetaLinkProtobuf.Edit message)
+        {
+            // message.topic[1] is the component AVMID
+            String avmid = message.topic[1];
+            StartComponentEdit(avmid);
+        }
+
+        private void StartComponentEdit(string avmid, bool transaction = true)
+        {
+            string componentCADDirectory = null;
+            CyPhyML.Component component = null;
+            if (transaction) addon.Project.BeginTransactionInNewTerr();
+            try
+            {
+                component = CyphyMetaLinkUtils.GetComponentByAvmId(addon.Project, avmid);
+                componentCADDirectory = Path.GetDirectoryName(GetCadModelPath(component));
+            }
+            finally
+            {
+                if (transaction) addon.Project.CommitTransaction();
+            }
+            if (componentCADDirectory != null) // If this is not a newly created component
+            {
+                StartAssemblyExe(CreoOpenMode.OPEN_COMPONENT, avmid, false, "", workingDir: componentCADDirectory);
+            }
+            else
+            {
+                GMEConsole.Error.WriteLine("Can't find directory for CAD components. Maybe there isn't any in the model?");
+                LastStartedGuid = avmid;
+                ExeStartupFailed();
+            }
+        }
+
+        private void SaveCadAssemblyXml(string xml, string assemblyGuid)
+        {
+            try
+            {
+                File.WriteAllText(Path.Combine(Path.GetTempPath(), "CyPhyMLPropagate_" + assemblyGuid + ".log"), xml);
+            }
+            catch (IOException)
+            {
+            }
+            designIdToCadAssemblyXml[assemblyGuid] = xml;
+        }
+
+        private string GetProjectDir()
+        {
+            string workingDir = Path.GetTempPath();
+            if (addon.Project.ProjectConnStr.StartsWith("MGA="))
+            {
+                workingDir = Path.GetDirectoryName(addon.Project.ProjectConnStr.Substring("MGA=".Length));
+            }
+            return workingDir;
+        }
+
+        private string GetStartupParams(string assemblyGUID)
+        {
+            CyPhyML.ComponentAssembly asm = CyphyMetaLinkUtils.GetComponentAssemblyByGuid(addon.Project, assemblyGUID);
+            if (asm == null) return "";
+            var param = asm.Children.ParameterCollection.Where(p => p.Name.ToUpper() == "CADEXEPARAMS");
+            if (!param.Any()) return "";
+            return param.First().Attributes.Value;
+        }
+
+        /// <summary>
+        /// Copy the resources to the directory of the created/updated component
+        /// </summary>
+        /// <param name="cadResourcesAbsPath"></param>
+        /// <param name="doc"></param>
+        /// <param name="manager"></param>
+        /// <param name="notcopied"></param>
+        /// <param name="update"></param>
         private void CopyResources(string cadResourcesAbsPath, XmlDocument doc, XmlNamespaceManager manager, List<string> notcopied, bool update)
         {
             XPathNavigator navigator = doc.CreateNavigator();
@@ -1435,96 +1434,5 @@ namespace CyPhyMetaLink
             }
         }
 
-        private void ProcessAVMComponentCreate(string component_xml, string topic)
-        {
-            try
-            {
-                File.WriteAllText(Path.Combine(Path.GetTempPath(), "CyPhyMetaLink_ComponentCreate.xml"), component_xml);
-            }
-            catch (IOException)
-            {
-            }
-
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(component_xml);
-
-            XmlNamespaceManager manager = new XmlNamespaceManager(doc.NameTable);
-            manager.AddNamespace("avm", "avm");
-            manager.AddNamespace("cad", "cad");
-
-            avm.Component component = CyPhyComponentImporter.CyPhyComponentImporterInterpreter.DeserializeAvmComponentXml(new StringReader(doc.OuterXml));
-
-            addon.Project.BeginTransactionInNewTerr();
-            CyPhyML.Component createdComp = null;
-            string createdavmid = null;
-            try
-            {
-                var rf = CyPhyMLClasses.RootFolder.GetRootFolder(addon.Project);
-
-                CyPhyML.Components importedComponents = CyphyMetaLinkUtils.GetImportedComponentsFolder(addon.Project);
-                if (importedComponents == null)
-                {
-                    importedComponents = CyPhyMLClasses.Components.Create(rf);
-                    importedComponents.Name = CyPhyComponentImporter.CyPhyComponentImporterInterpreter.ImportedComponentsFolderName;
-                }
-
-                var avmidComponentMap = CyPhyComponentImporter.CyPhyComponentImporterInterpreter.getCyPhyMLComponentDictionary_ByAVMID(rf);
-                createdComp = CyPhy2ComponentModel.Convert.AVMComponent2CyPhyML(importedComponents, component, true, GMEConsole);
-
-                // Ricardo requirement: Classification must not be empy
-                if (createdComp.Attributes.Classifications.Length == 0)
-                    createdComp.Attributes.Classifications = "Unknown";
-
-                List<string> notcopied = new List<string>();
-                CopyResources(Path.Combine(GetProjectDir(), createdComp.GetDirectoryPath(), "CAD\\"), doc, manager, notcopied, false);
-
-                CyPhyML.CADModel cadModel = createdComp.Children.CADModelCollection.First();
-
-                // Ricardo requirement: ID must be cad.path
-                if (cadModel.SrcConnections.UsesResourceCollection.Any() && cadModel.SrcConnections.UsesResourceCollection.First().DstEnds.Resource != null)
-                {
-                    cadModel.SrcConnections.UsesResourceCollection.First().DstEnds.Resource.Attributes.ID = "cad.path";
-                }
-                else if (cadModel.DstConnections.UsesResourceCollection.Any() && cadModel.DstConnections.UsesResourceCollection.First().DstEnds.Resource != null)
-                {
-                    cadModel.DstConnections.UsesResourceCollection.First().DstEnds.Resource.Attributes.ID = "cad.path";
-                }
-
-                foreach (var res in createdComp.Children.ResourceCollection)
-                {
-                    res.Attributes.Path = Path.Combine("CAD", res.Name);
-                }
-
-                CyphyMetaLinkUtils.SetCADModelTypesFromFilenames(createdComp);
-
-                RefreshManufacturingResources(createdComp, Path.Combine(createdComp.GetDirectoryPath(), "Manufacturing"));
-
-                createdavmid = createdComp.Attributes.AVMID;
-            }
-            finally
-            {
-                addon.Project.CommitTransaction();
-            }
-            if (createdavmid != null && topic != null)
-            {
-                MetaLinkProtobuf.Edit Edit_msg = new MetaLinkProtobuf.Edit(){
-                    editMode = Edit.EditMode.POST
-                };
-                Edit_msg.topic.Add(CadPassiveTopic);
-                Edit_msg.topic.Add(topic);
-                MetaLinkProtobuf.Action action = new MetaLinkProtobuf.Action(){
-                    actionMode = MetaLinkProtobuf.Action.ActionMode.SWITCH,
-                    interest = new Interest()
-                };
-                action.interest.topic.Add(ComponentUpdateTopic);
-                action.interest.uid.Add(createdavmid);
-
-                Edit_msg.actions.Add(action);
-
-                bridgeClient.SendToMetaLinkBridge(Edit_msg);
-
-                SendInterest(null, ComponentUpdateTopic, createdavmid);
-            }
-        }
     }
 }

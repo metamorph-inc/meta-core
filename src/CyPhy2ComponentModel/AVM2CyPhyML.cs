@@ -1543,6 +1543,10 @@ namespace AVM2CyPhyML {
 			_avmResourceIDMap.Add(avmResource.ID, avmResource);
 
 			cyPhyMLResource.Name = avmResource.Name;
+            cyPhyMLResource.Attributes.Hash = avmResource.Hash;
+            cyPhyMLResource.Attributes.ID = avmResource.ID;
+            cyPhyMLResource.Attributes.Notes = avmResource.Notes;
+
 			cyPhyMLResource.Attributes.Path = avmResource.Path;
             // META-3490 special-case CAD files: CyPhy resource should not contain .1
             Match m = cadResourceRegex.Match(avmResource.Path);
@@ -1550,11 +1554,6 @@ namespace AVM2CyPhyML {
             {
                 cyPhyMLResource.Attributes.Path = m.Groups[1].Value + m.Groups[2].Value;
             }
-
-			cyPhyMLResource.Attributes.Hash = avmResource.Hash;
-			cyPhyMLResource.Attributes.ID = avmResource.ID;
-			cyPhyMLResource.Attributes.Notes = avmResource.Notes;
-
 		}
 
 		private void process(avm.Connector avmConnector)
@@ -2065,9 +2064,20 @@ namespace AVM2CyPhyML {
 			_cyPhyMLComponent.Attributes.Supercedes = s_Supercedes;
 		}
 
-		public CyPhyML.Component AVM2CyPhyMLNonStatic( avm.Component avmComponent ) {
+        private void TellCyPhyAddonDontAssignIds()
+        {
+            var cyPhyAddon = project.AddOnComponents.Cast<IMgaComponentEx>().Where(x => x.ComponentName.ToLowerInvariant() == "CyPhyAddOn".ToLowerInvariant()).FirstOrDefault();
+            if (cyPhyAddon != null)
+            {
+                cyPhyAddon.ComponentParameter["DontAssignGuidsOnNextTransaction".ToLowerInvariant()] = true;
+            }
+        }
 
-			SetComponentName( avmComponent.Name );
+        public CyPhyML.Component AVM2CyPhyMLNonStatic(avm.Component avmComponent)
+        {
+            TellCyPhyAddonDontAssignIds();
+    
+            SetComponentName( avmComponent.Name );
 			SetComponentId(avmComponent.ID);
 			if ( ! String.IsNullOrEmpty(avmComponent.Version) )
 				_cyPhyMLComponent.Attributes.Version = avmComponent.Version;
@@ -2106,9 +2116,16 @@ namespace AVM2CyPhyML {
                 process(avmCyberModel);
             }
 
+            bool hasCADModel = false;
 			foreach (avm.cad.CADModel avmCADModel in avmComponent.DomainModel.OfType<avm.cad.CADModel>()) {
 				process(avmCADModel);
+                hasCADModel = true;
 			}
+            if (hasCADModel)
+            {
+                CyPhyML.ReferenceCoordinateSystem coordSys = CyPhyMLClasses.ReferenceCoordinateSystem.Create(_cyPhyMLComponent);
+                coordSys.Name = "AssemblyRoot";
+            }
 
 			foreach (avm.manufacturing.ManufacturingModel avmManufacturingModel in avmComponent.DomainModel.OfType<avm.manufacturing.ManufacturingModel>()) {
 				process(avmManufacturingModel);

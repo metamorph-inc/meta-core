@@ -12,7 +12,7 @@ namespace CyPhy2CAD_CSharp.Template
     using System;
     
     
-    #line 1 "C:\Users\Robert\Repositories\META_trunk\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+    #line 1 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "10.0.0.0")]
     public partial class run_bat : run_batBase
     {
@@ -126,8 +126,8 @@ set PYTHONPATH=%PYTHONPATH%;%MetaPath%
 
 if exist %PY_SCRIPT% goto  :PY_FOUND
 @echo off
-echo		Error: Could not find %PY_SCRIPT_NAME%.
-echo		Your system is not properly configured to run %PY_SCRIPT_NAME%.
+echo		Error: Could not find %PY_SCRIPT%.
+echo		Your system is not properly configured to run %PY_SCRIPT%.
 echo		Please see For instructions on how to configure your system, please see ""0Readme - CreateAssembly.txt""
 echo		which is typically located at ""C:\Program Files\META\Proe ISIS Extensions""
 set ERROR_CODE=2

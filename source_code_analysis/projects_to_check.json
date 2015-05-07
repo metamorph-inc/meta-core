@@ -1,6 +1,6 @@
 {
     "CSharp": {
-        "command": "\"%ProgramFiles%\\Microsoft Visual Studio 10.0\\Team Tools\\Static Analysis Tools\\FxCop\\FxCopCmd.exe\" /searchgac /console /summary /file:\"{srcDir}\\bin\\Release\\{name}\" /out:{name}.fxcop-result.xml",
+        "command": "\"%ProgramFiles%\\Microsoft Visual Studio 10.0\\Team Tools\\Static Analysis Tools\\FxCop\\FxCopCmd.exe\" /searchgac /console /summary /file:\"{srcDir}\\bin\\Release\\{name}\" /out:{name}.fxcop-result.html /axsl",
         "projects": [
             {
                 "name": "CLM_light.dll",
@@ -13,6 +13,10 @@
             {
                 "name": "CyPhy2Modelica_v2.dll",
                 "srcDir": "..\\src\\CyPhy2Modelica_v2"
+            },
+            {
+                "name": "ModelicaImporter.dll",
+                "srcDir": "..\\src\\ModelicaImporter"
             },
             {
                 "name": "CyPhyGUIs.dll",
@@ -65,6 +69,280 @@
                 "srcDir": ""
             },
             {
+                "name": "add_registry_entries.py",
+                "srcDir": "..\\analysis_tools\\"
+            },
+            {
+                "name": "CADJobDriver.py",
+                "srcDir": "..\\bin\\CAD\\"
+            },
+            {
+                "name": "cmc.py",
+                "srcDir": "..\\bin\\Prismatic\\"
+            },
+            {
+                "name": "completeNess.py",
+                "srcDir": "..\\bin\\"
+            },
+            {
+                "name": "CyPhyPython_ComputeClassifications.py",
+                "srcDir": "..\\bin\\"
+            },
+            {
+                "name": "massCalc.py",
+                "srcDir": "..\\bin\\"
+            },
+            {
+                "name": "runCTH.py",
+                "srcDir": "..\\bin\\"
+            },
+            {
+                "name": "runLSDyna.py",
+                "srcDir": "..\\bin\\"
+            },
+            {
+                "name": "runOpenFoam.py",
+                "srcDir": "..\\bin\\"
+            },
+            {
+                "name": "build_msi.py",
+                "srcDir": "..\\deploy\\"
+            },
+            {
+                "name": "gen_analysis_tool_wxi.py",
+                "srcDir": "..\\deploy\\"
+            },
+            {
+                "name": "gen_dir_wxi.py",
+                "srcDir": "..\\deploy\\"
+            },
+            {
+                "name": "gen_GME_CS_interpreter_wxi.py",
+                "srcDir": "..\\deploy\\"
+            },
+            {
+                "name": "gen_GME_interpreter_wxi.py",
+                "srcDir": "..\\deploy\\"
+            },
+            {
+                "name": "py_modelica",
+                "srcDir": "..\\src\\Python27Packages\\py_modelica\\"
+            },
+            {
+                "name": "PCC",
+                "srcDir": "..\\src\\Python27Packages\\PCC\\"
+            },
+            {
+                "name": "meta_nrmm",
+                "srcDir": "..\\src\\Python27Packages\\meta_nrmm\\"
+            },
+            {
+                "name": "cad_library",
+                "srcDir": "..\\src\\Python27Packages\\cad_library\\"
+            },
+			{
+                "name": "isis_meta",
+                "srcDir": "..\\src\\Python27Packages\\isis_meta\\"
+            },
+			{
+                "name": "MaterialLibraryInterface",
+                "srcDir": "..\\src\\Python27Packages\\material_library\\"
+            },
+			{
+                "name": "py_modelica_exporter",
+                "srcDir": "..\\src\\Python27Packages\\py_modelica_exporter\\"
+            },
+            {
+                "name": "CreateAdamsModel.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\Adams\\"
+            },
+            {
+                "name": "CreateAdamsModel_analysis.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\Adams\\"
+            },
+            {
+                "name": "CreateAdamsModel_cadPostProcessing.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\Adams\\"
+            },
+            {
+                "name": "allowable_stress_levels_test.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\Test\\"
+            },
+            {
+                "name": "material_properties_test.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\Test\\"
+            },
+            {
+                "name": "ABQ_CompletePostProcess.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\"
+            },
+            {
+                "name": "ComputedMetricsSummary.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\"
+            },
+            {
+                "name": "CreateCsysFromStep.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\"
+            },
+            {
+                "name": "Nastran.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\"
+            },
+            {
+                "name": "Patran_PP.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\"
+            },
+            {
+                "name": "StepFileUtility.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\"
+            },
+            {
+                "name": "UpdateReportJson_CAD.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\"
+            },
+            {
+                "name": "utility_functions.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\"
+            },
+            {
+                "name": "Utils.py",
+                "srcDir": "..\\src\\CADAssembler\\Python\\"
+            }
+        ]
+    },
+    "Javascript": {
+        "projects": []    },
+    "cppstyle": {
+		"command": "..\\3rdparty\\cppcheck\\cppcheck.exe --enable=all {srcDir} 1> {name}.cppcheck.txt 2>&1",
+		"projects": [
+			{
+				"name": "CADAssembler",
+				"srcDir": "..\\src\\CADAssembler"
+			},
+            {
+				"name": "DesignSpaceHelper",
+				"srcDir": "..\\src\\DesignSpaceHelper"
+			},
+            {
+				"name": "CyPhyDSEConverter",
+				"srcDir": "..\\src\\CyPhyDSEConverter"
+			},
+            {
+				"name": "CyPhyDSRefiner",
+				"srcDir": "..\\src\\CyPhyDSRefiner"
+			},
+            {
+				"name": "CyPhy2Desert",
+				"srcDir": "..\\src\\CyPhy2Desert"
+			},
+            {
+				"name": "Desert2CyPhy",
+				"srcDir": "..\\src\\Desert2CyPhy"
+			}
+		]
+	},
+    "CLOC_generated": {
+        "command": "..\\3rdParty\\cloc\\cloc-1.62.exe --exclude-dir=Release,Debug,Documentation {srcDir} --csv > {name}.cloc.csv",
+        "projects": [
+            {
+                "name": "generated",
+                "srcDir": "..\\generated"
+            }
+        ]
+    },
+    "CLOC_dashboard": {
+        "command": "..\\3rdParty\\cloc\\cloc-1.62.exe --exclude-dir=Release,Debug,inc {srcDir} --csv > {name}.cloc.csv",
+        "projects": [
+            {
+                "name": "dashboard",
+                "srcDir": "..\\bin\\dashboard"
+            }
+        ]
+    },
+    "CLOC": {
+        "command": "..\\3rdParty\\cloc\\cloc-1.62.exe --exclude-dir=Release,Debug {srcDir} --csv > {name}.cloc.csv",
+        "projects": [
+            {
+                "name": "src_full",
+                "srcDir": "..\\src"
+            },
+            {
+                "name": "CLM_light.dll",
+                "srcDir": "..\\src\\CLM_light"
+            },
+            {
+                "name": "ClmLib.dll",
+                "srcDir": "..\\src\\ClmLib"
+            },
+            {
+                "name": "ModelicaImporter.dll",
+                "srcDir": "..\\src\\ModelicaImporter"
+            },
+            {
+                "name": "CyPhy2Modelica_v2.dll",
+                "srcDir": "..\\src\\CyPhy2Modelica_v2"
+            },
+            {
+                "name": "CyPhyGUIs.dll",
+                "srcDir": "..\\src\\CyPhyGUIs"
+            },
+            {
+                "name": "CyPhyMasterExe.exe",
+                "srcDir": "..\\src\\CyPhyMasterExe"
+            },
+            {
+                "name": "CyPhyMasterInterpreter.dll",
+                "srcDir": "..\\src\\CyPhyMasterInterpreter"
+            },
+            {
+                "name": "CyPhyMdaoAddOn.dll",
+                "srcDir": "..\\src\\CyPhyMdaoAddOn"
+            },
+            {
+                "name": "CyPhyPET.dll",
+                "srcDir": "..\\src\\CyPhyPET"
+            },
+            {
+                "name": "CyPhySoT.dll",
+                "srcDir": "..\\src\\CyPhySoT"
+            },
+            {
+                "name": "CyPhySignalBlocksAddOn.dll",
+                "srcDir": "..\\src\\CyPhySignalBlocksAddOn"
+            },
+            {
+                "name": "JobManager.exe",
+                "srcDir": "..\\src\\JobManager\\JobManager"
+            },
+            {
+                "name": "JobManagerLib.dll",
+                "srcDir": "..\\src\\JobManager\\JobManagerLib"
+            },
+            {
+                "name": "ReferenceSwitcher.dll",
+                "srcDir": "..\\src\\ReferenceSwitcher"
+            },
+            {
+				"name": "DesignSpaceHelper",
+				"srcDir": "..\\src\\DesignSpaceHelper"
+			},
+            {
+				"name": "CyPhyDSEConverter",
+				"srcDir": "..\\src\\CyPhyDSEConverter"
+			},
+            {
+				"name": "CyPhyDSRefiner",
+				"srcDir": "..\\src\\CyPhyDSRefiner"
+			},
+            {
+				"name": "CyPhy2Desert",
+				"srcDir": "..\\src\\CyPhy2Desert"
+			},
+            {
+				"name": "Desert2CyPhy",
+				"srcDir": "..\\src\\Desert2CyPhy"
+			},
+            {
                 "name": "build_msi.py",
                 "srcDir": "..\\deploy\\"
             },
@@ -97,8 +375,5 @@
                 "srcDir": "..\\src\\Python27Packages\\meta_nrmm\\"
             }
         ]
-    },
-    "Javascript": {
-        "projects": []
     }
 }

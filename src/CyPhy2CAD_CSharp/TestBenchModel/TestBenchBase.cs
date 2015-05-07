@@ -10,9 +10,35 @@ using System.Text.RegularExpressions;
 
 namespace CyPhy2CAD_CSharp.TestBenchModel
 {
-    public struct TBComputationType
+
+
+    public struct TBComputation
     {
-        public string ComputationType;
+        public enum Type
+        {
+            BOUNDINGBOX,
+            CENTEROFGRAVITY,
+            POINTCOORDINATES,
+            MASS,
+            COEFFICIENTOFDRAG,
+            PLANE,
+            VONMISESSTRESS,
+            SHEARSTRESS,
+            BEARINGSTRESS,
+            FACTOROFSAFETY,
+            TOTALSHOTS,
+            TOTALINTERSECTIONS,
+            TOTALPERFORATIONS,
+            TOTALKILLS,
+            MAXVERTICALJUMP,
+            MAXVERTICALVELOCITY,
+            MAXHORIZONALVELOCITY,
+            MINIMUMTEMPERATURE,
+            MAXIMUMTEMPERATURE,
+            BLASTCOMPUTATION,
+            DISPLACEMENT
+        }
+        public Type ComputationType;
         public string RequestedValueType;
         public string MetricID;
         public string FeatureDatumName;
@@ -32,6 +58,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         }
 
         public static readonly string CADAssemblyFile = "CADAssembly.xml";
+        public static readonly string CADAnalysisFile = "CADAnalysis.xml";
 
         public List<string> DataExchangeFormats { get; set; }
         public List<string> STLDataExchangeFormats { get; set; }
@@ -42,7 +69,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public string CadAuxiliaryDirectory { get; set; }
         public bool IsAutomated { get; set; }
         public bool MetaLink    { get; set; } // true if Meta-Link invoked the intepreter
-        public List<TBComputationType> Computations { get; set; }
+        public List<TBComputation> Computations { get; set; }
         public string AnalysisID { get; set; }
 
         // Which CAD model representation to use in each case?
@@ -86,7 +113,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             CadAuxiliaryDirectory = cadSetting.AuxiliaryDirectory??"";
             IsAutomated = auto;
             MetaLink = cadSetting.MetaLink;
-            Computations = new List<TBComputationType>();
+            Computations = new List<TBComputation>();
         }
 
         public string GetRepresentation(DataRep.CADComponent component)
@@ -284,7 +311,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 metric.ComponentID = componentID;
                 metric.MetricID = item.MetricID;
                 metric.RequestedValueType = "Scalar";
-                metric.MetricType1 = item.ComputationType;
+                metric.MetricType1 = item.ComputationType.ToString();
                 metric.Details = "";
                 metriclist.Add(metric);
             }

@@ -176,7 +176,7 @@ namespace InterchangeXmlComparator
                             FeedbackType = FeedbackType.Error,
                             ExportedNode = exported.Attribute(dAttribute.Name.LocalName),
                             DesiredNode = dAttribute,
-                            Message = "Attributes are different"
+                            Message = String.Format("Attributes are different: Expected '{0}' vs '{1}'", dAttribute.Value ?? "", matchExported == null ? "[missing]" : matchExported.Value)
                         });
                     }
                 }
@@ -195,7 +195,7 @@ namespace InterchangeXmlComparator
                             FeedbackType = FeedbackType.Error,
                             ExportedNode = exported.Attribute(eAttribute.Name),
                             DesiredNode = eAttribute,
-                            Message = "Attributes are different"
+                            Message = String.Format("Attributes are different: Expected '{0}' vs '{1}'", matchDesired == null ? "[missing]" : matchDesired.Value, eAttribute.Value ?? "")
                         });
                     }
                 }

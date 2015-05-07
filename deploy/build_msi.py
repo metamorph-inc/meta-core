@@ -89,11 +89,13 @@ def build_msi():
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\meta_nrmm\meta_nrmm",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica\py_modelica",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica_exporter\py_modelica_exporter",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\cad_library\cad_library",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
     gen_dir_wxi.main(r"CAD_Installs\Proe ISIS Extensions", "Proe_ISIS_Extensions_x64.wxi", "Proe_ISIS_Extensions_x64", diskId='4') # do not call gen_dir_from_vc, it would exclude CADCreoCreateAssembly.exe
     gen_dir_wxi.gen_dir_from_vc(r"..\WebGME",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\CyPhyML\icons",)
     gen_dir_wxi.gen_dir_from_vc(r"..\models\MassSpringDamper",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\models\Validation",)
     gen_dir_wxi.gen_dir_from_vc(r"..\bin", diskId='3')
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\PCC\PCC",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\isis_meta\isis_meta",)
@@ -198,7 +200,7 @@ def build_msi():
     defines.append(('VERSIONSTRCYPHYML', cyphy_versions[1]))
     
     
-    version = '14.10.'
+    version = '14.11.'
     if 'M' in svnversion:
         version = version + '1'
     else:
@@ -233,7 +235,7 @@ def build_msi():
         import datetime
         starttime = datetime.datetime.now()
         system(['light', '-sw1055', '-sice:ICE82', '-sice:ICE57', '-sice:ICE60', '-sice:ICE69', '-ext', 'WixNetFxExtension', '-ext', 'WixUIExtension', '-ext', 'WixUtilExtension', 
-            '-cc', os.path.join(this_dir, 'cab_cache'), '-reusecab',
+            # '-cc', os.path.join(this_dir, 'cab_cache'), '-reusecab', # we were getting errors during installation relating to corrupted cab files => disable cab cache
             '-o', os.path.splitext(source_wxs)[0] + ".msi"] + [ get_wixobj(file) for file in sources ])
         print "elapsed time: %d seconds" % (datetime.datetime.now() - starttime).seconds
     else:

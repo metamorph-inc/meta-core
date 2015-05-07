@@ -36,7 +36,7 @@ namespace CyPhyMetaLink
 
     public partial class CyPhyMetaLinkAddon
     {
-        string previouslySelectedParent = null;
+        private string previouslySelectedParent = null;
         HashSet<string> selectedFCOIDs = new HashSet<string>();
         [ComVisible(true)] // called by CPMDecorator
         public void SetSelected(IMgaFCO fco, bool selected)
@@ -139,6 +139,7 @@ namespace CyPhyMetaLink
                 GMEConsole.Warning.WriteLine("An exception has been thrown during selection: " + e.Message);
             }
         }
+
         /// <summary>
         /// Called when an FCO or folder changes
         /// </summary>
@@ -470,12 +471,10 @@ namespace CyPhyMetaLink
 
         }
 
-
-        private void RemoveComponent(MgaObject mgaComponentRef)
-        {
-
-        }
-
+        /// <summary>
+        /// A component has been added.
+        /// </summary>
+        /// <param name="mgaComponentRef"></param>
         private void AddComponent(MgaObject mgaComponentRef)
         {
             // [1] Find ModelName
@@ -561,12 +560,10 @@ namespace CyPhyMetaLink
             return null;
         }
 
-
-        private void RemoveConstraint(MgaObject subject)
-        {
-
-        }
-
+        /// <summary>
+        /// A connection has been added.
+        /// </summary>
+        /// <param name="subject"></param>
         private void AddConnection(MgaObject subject)
         {
             // [1] Traverse a ConnectorComposition connection
@@ -708,29 +705,10 @@ namespace CyPhyMetaLink
                
         }
 
-        
-        /*
-        private void RunFormulaEvaluator(CyPhyML.ValueFlowTarget vft,
-                                        MgaFCO vft_parent,
-                                        MgaProject project)
-        {
-            if (vft_parent.MetaBase.Name == "Component" || vft_parent.MetaBase.Name == "ComponentAssembly")
-            {
-                // Formula Evaluator doesn't work correctly, using elaborator instead.
-                
-                Type tFormulaEval = Type.GetTypeFromProgID("MGA.Interpreter.CyPhyFormulaEvaluator");
-                IMgaComponentEx formulaEval = Activator.CreateInstance(tFormulaEval) as IMgaComponentEx;
-
-                MgaFCOs selected = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
-                formulaEval.Initialize(project);
-                formulaEval.InvokeEx(project, vft_parent, selected, 0);
-                
-                
-            }
-            else
-                return;
-        }*/
-
+        /// <summary>
+        /// A parameter has been modified
+        /// </summary>
+        /// <param name="cyphycadparam"></param>
         private void ModifyCADParameter(CyPhyML.CADParameter cyphycadparam)
         {
             // [1] Find ComponentInstanceID
@@ -773,6 +751,166 @@ namespace CyPhyMetaLink
             }
         }       // end function
 
+        private bool SendInterest(Action<MetaLinkProtobuf.Edit> noticeaction, params string[] topic)
+        {
+            MetaLinkProtobuf.Edit message = new MetaLinkProtobuf.Edit
+            {
+                editMode = MetaLinkProtobuf.Edit.EditMode.INTEREST,
+                guid = Guid.NewGuid().ToString(),
+                //sequence = 0,
+            };
+            message.origin.Add(GMEOrigin);
+            message.topic.AddRange(topic.ToList());
+            if (noticeaction != null)
+            {
+                noticeActions.Add(message.guid, noticeaction);
+            }
+            string topicstr = String.Join("_", topic);
+            // MetaLink will send us the same message multiple times if we express interest multiple times
+            if (!interests.ContainsKey(topicstr))
+            {
+                interests.Add(topicstr, 1);
+                bridgeClient.SendToMetaLinkBridge(message);
+                return true;
+            }
+            else
+            {
+                interests[topicstr]++;
+            }
+            return false;
+        }
+
+        private bool SendDisinterest(params string[] topic)
+        {
+            MetaLinkProtobuf.Edit message = new MetaLinkProtobuf.Edit
+            {
+                editMode = MetaLinkProtobuf.Edit.EditMode.DISINTEREST,
+                guid = Guid.NewGuid().ToString(),
+                //sequence = 0,
+            };
+            message.origin.Add(GMEOrigin);
+            message.topic.AddRange(topic.ToList());
+            string topicstr = String.Join("_", topic);
+            if (interests.ContainsKey(topicstr))
+            {
+                interests[topicstr]--;
+                if (interests[topicstr] == 0)
+                {
+                    interests.Remove(topicstr);
+                    bridgeClient.SendToMetaLinkBridge(message);
+                    return true;
+                }
+            }
+            else
+            {
+                GMEConsole.Warning.WriteLine("Sending disinterest for topic without interest entry");
+                bridgeClient.SendToMetaLinkBridge(message);
+            }
+            return false;
+        }
+
+        private void SendComponentList()
+        {
+            MetaLinkProtobuf.Edit manifestMessage = new MetaLinkProtobuf.Edit
+            {
+                editMode = Edit.EditMode.POST,
+            };
+            manifestMessage.topic.Add(ComponentManifestTopic);
+            var manifestAction = new MetaLinkProtobuf.Action();
+            manifestMessage.actions.Add(manifestAction);
+            manifestAction.actionMode = MetaLinkProtobuf.Action.ActionMode.INSERT;
+            var rf = CyPhyMLClasses.RootFolder.GetRootFolder(addon.Project);
+            Queue<CyPhyML.Components> componentsQueue = new Queue<CyPhyML.Components>();
+            foreach (var childComponents in rf.Children.ComponentsCollection)
+            {
+                componentsQueue.Enqueue(childComponents);
+            }
+            while (componentsQueue.Count > 0)
+            {
+                var components = componentsQueue.Dequeue();
+                manifestAction.manifest.Add(new ComponentManifestNode()
+                {
+                    nodeMode = ComponentManifestNode.NodeMode.FOLDER,
+                    guid = components.Guid.ToString("D"),
+                    name = components.Name
+                });
+                foreach (var childComponents in components.Children.ComponentsCollection)
+                {
+                    componentsQueue.Enqueue(childComponents);
+                }
+                foreach (var component in components.Children.ComponentCollection)
+                {
+                    manifestAction.manifest.Add(new ComponentManifestNode()
+                    {
+                        nodeMode = ComponentManifestNode.NodeMode.COMPONENT,
+                        guid = component.Attributes.AVMID,
+                        cyphyParentId = components.Guid.ToString("D"),
+                        name = component.Name
+                    });
+                }
+            }
+            bridgeClient.SendToMetaLinkBridge(manifestMessage);
+        }
+
+        private void SendCadAssemblyXml(string assemblyGuid, bool clear)
+        {
+            SendCadAssemblyXml(designIdToCadAssemblyXml[assemblyGuid], assemblyGuid, clear);
+        }
+
+        private void SendCadAssemblyXml(string xml, string assemblyGuid, bool clear)
+        {
+            MetaLinkProtobuf.Edit message = new MetaLinkProtobuf.Edit
+            {
+                editMode = Edit.EditMode.POST,
+            };
+            message.topic.Add(CadAssemblyTopic);
+            message.topic.Add(assemblyGuid);
+            if (clear)
+            {
+                message.actions.Add(new edu.vanderbilt.isis.meta.Action()
+                {
+                    actionMode = MetaLinkProtobuf.Action.ActionMode.CLEAR
+                });
+            }
+            var action = new MetaLinkProtobuf.Action();
+            message.actions.Add(action);
+            action.actionMode = MetaLinkProtobuf.Action.ActionMode.INSERT;
+            MetaLinkProtobuf.Alien alien = new MetaLinkProtobuf.Alien();
+            action.alien = alien;
+            alien.encoded = Encoding.UTF8.GetBytes(xml);
+            alien.encodingMode = Alien.EncodingMode.XML;
+
+            CyPhyML.ComponentAssembly targetAssembly = CyphyMetaLinkUtils.GetComponentAssemblyByGuid(addon.Project, assemblyGuid);
+            if (targetAssembly != null)
+            {
+                var filter = targetAssembly.Impl.Project.CreateFilter();
+                filter.Kind = "ComponentRef";
+                try
+                {
+                    var env = new MetaLinkProtobuf.Environment
+                    {
+                        name = SearchPathStr,
+                    };
+
+                    foreach (var component in CyphyMetaLinkUtils.CollectComponentsRecursive(targetAssembly))
+                    {
+                        if (component is CyPhyML.Component)
+                            AddSearchPathToEnvironment(component as CyPhyML.Component, env);
+                    }
+
+                    if (env.value.Count > 0)
+                    {
+                        action.environment.Add(env);
+                    }
+                }
+                catch (IOException)
+                {
+                    // XXX
+                }
+            }
+
+            bridgeClient.SendToMetaLinkBridge(message);
+        }
 
 
         #region PROTOBUF

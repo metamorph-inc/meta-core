@@ -76,7 +76,7 @@ IF NOT %ERRORLEVEL%==0 exit /b %ERRORLEVEL%
 IF EXIST c:\windows\sysnative\reg.exe c:\windows\sysnative\reg add HKLM\Software\META /v MAX_SIMULATION_TIME /t REG_DWORD /d 86400 /f
 echo "Done."
 
-$(META_PATH)\bin\Python27\Scripts\python.exe $(ProjectDir)\add_registry_entries.py</Command>
+$(META_PATH)\bin\Python27\Scripts\python.exe $(SolutionDir)\..\analysis_tools\add_registry_entries.py</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -88,6 +88,7 @@ $(META_PATH)\externals\common-scripts\gmepy.exe xme2mga %(FullPath) $(META_PATH)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated\CyPhyML\models\%(Filename).mga</Outputs>
       <FileType>Document</FileType>
       <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated\CyPhyML\models\%(FileName).mga</OutFile>
+      <SubType>Designer</SubType>
     </xme2mga>
   </ItemGroup>
   <ItemGroup>

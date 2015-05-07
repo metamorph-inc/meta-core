@@ -126,15 +126,12 @@ def main():
     om_script_path = os.path.join(cyphy_dir,om_script)
     with open(om_script_path,'w') as f:
         print >> f, '''
-echo(false);
-setCommandLineOptions("+debug=failtrace");
-setCommandLineOptions("+showErrorMessages");
-loadModel(Modelica, {{"{}"}});
-loadFile("{}");'''.format(data["MSL_version"],data["model_file_name"])
+//echo(false);
+loadModel(Modelica, {{"{}"}}); print(getErrorString());
+loadFile("{}"); print(getErrorString());'''.format(data["MSL_version"],data["model_file_name"])
         for name in data["lib_package_names"]:
-            f.write('loadModel({});\n'.format(name))
-        print >> f, '''dumpXMLDAE({},"optimiser",addMathMLCode=true,fileNamePrefix="{}");
-getErrorString();
+            f.write('loadModel({}); print(getErrorString());\n'.format(name))
+        print >> f, '''dumpXMLDAE({},"optimiser",addMathMLCode=true,fileNamePrefix="{}"); print(getErrorString());
 '''.format(model_name,result_prefix)
     log.info("  Written Open Modelica script to file {}".format(om_script_path))
 
@@ -150,8 +147,13 @@ getErrorString();
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=cyphy_dir)
         (stdout, stderr) = process.communicate()
         printStdOutErr(log,"omc.exe",stdout,stderr)
-        log.debug("  Called 'omc.exe' with script {}".format(os.path.join(cyphy_dir,om_script)))
-        log.debug("  This should have created file {}".format(daexml_file))
+        # abort if omc.exe throws error!
+        if process.returncode:
+            log.error("  Calling 'omc.exe' threw an error: {} -- exiting!".format(process.returncode))
+            sys.exit(process.returncode)
+        else:
+            log.debug("  Called 'omc.exe' with script {}".format(os.path.join(cyphy_dir,om_script)))
+            log.debug("  This should have created file {}".format(daexml_file))
     else:
         log.warning("Skipping omc.exe because not in Windows!")
 
@@ -192,7 +194,7 @@ getErrorString();
 
         # update status
         if process.returncode: # HybridSal created a non-zero return code
-            log.warning('HybridSal failed with code {}'.format(process.returncode))
+            log.warning('  HybridSal failed with code {}'.format(process.returncode))
             summary_results['Status'] = 'FAILED'
         else:
             summary_results['Status'] = 'OK'
@@ -213,80 +215,81 @@ getErrorString();
                 log.debug("  Found limit checks")
                 checks = limits['LimitChecks'][0]  # TODO: more checks on items in this list!
                 if 'ModelicaRecordName' in checks:
-                    log.debug(" Found 'ModelicaRecordName' in limit checks")
+                    log.debug("  Found 'ModelicaRecordName' in limit checks")
                     hsal_results['ReqName'] = checks['ModelicaRecordName']
 
         # process results
         sal_output_file = os.path.abspath(os.path.join(cyphy_dir,result_prefix+"ModelResult.txt"))
-        with open(sal_output_file,'r') as f:
-            sal_output = f.read()
-            if 'no counterexample' in sal_output.lower():
-                hsal_results['Result'] = 'SUCCESS'
-                log.info("  Result: no counterexample")
-            elif 'counterexample' in sal_output.lower():
-                hsal_results['Result'] = 'FAIL'
+        if os.path.isfile(sal_output_file):
+            with open(sal_output_file,'r') as f:
+                sal_output = f.read()
+                if 'no counterexample' in sal_output.lower():
+                    hsal_results['Result'] = 'SUCCESS'
+                    log.info("  Result: no counterexample")
+                elif 'counterexample' in sal_output.lower():
+                    hsal_results['Result'] = 'FAIL'
 
-                # parse counterexample into data structure for "GroupBody":
-                group_body = []
-                # markers and collectors in loop:
-                step = None
-                transition = None
-                assigns = {}
-                information = ''            
-                # patterns for parsing:
-                stepRE = re.compile(r'Step\s+(\d+):')      # Step <N>:
-                assignRE = re.compile(r'---\s+(.+)\s+---') # --- <assignments title> ---
-                varsRE = re.compile(r'(\S+)\s+=\s+(\S+)')  # <var> = <value>
-                # loop over lines (plus a final delimiter)
-                sal_lines = sal_output.splitlines()
-                sal_lines.append('-')  # last delimiter to make loop work
-                iterator = range(len(sal_lines)).__iter__()
-                for i in iterator:
-                    line = sal_lines[i]
-                    # skip blank or certain lines:
-                    if not line.strip() or line.startswith(('Counterexample','=','Path')):
-                        log.debug("  -- skipping: {}".format(line))
-                        continue
-                    stepM = stepRE.match(line)
-                    if stepM:
-                        # parse "Step" information:
-                        step = int(stepM.group(1))
-                        transition = None
-                        log.debug("  -- found step {}".format(step))
-                        # consume next line:
-                        i = next(iterator)
+                    # parse counterexample into data structure for "GroupBody":
+                    group_body = []
+                    # markers and collectors in loop:
+                    step = None
+                    transition = None
+                    assigns = {}
+                    information = ''            
+                    # patterns for parsing:
+                    stepRE = re.compile(r'Step\s+(\d+):')      # Step <N>:
+                    assignRE = re.compile(r'---\s+(.+)\s+---') # --- <assignments title> ---
+                    varsRE = re.compile(r'(\S+)\s+=\s+(\S+)')  # <var> = <value>
+                    # loop over lines (plus a final delimiter)
+                    sal_lines = sal_output.splitlines()
+                    sal_lines.append('-')  # last delimiter to make loop work
+                    iterator = range(len(sal_lines)).__iter__()
+                    for i in iterator:
                         line = sal_lines[i]
-                        assignM = assignRE.match(line)
-                        if not assignM:
-                            log.warning("  Couldn't find assignment title at {}: {}".format(i,line))
-                    elif step is not None:
-                        # collect assignments until reaching line that starts with "-" or end
-                        varsM = varsRE.match(line)
-                        if line.startswith('-'):
-                            group_body.append({'Step':step, assignM.group(1):assigns})
-                            assigns = {}  # reset
-                            transition = step
-                            step = None
-                        elif varsM:
-                            assigns[varsM.group(1)] = varsM.group(2)
-                        else:
-                            log.warning("  Couldn't find var assignment at {}: {}".format(i,line))
-                    elif transition is not None:
-                        if line.startswith('-'):
-                            group_body.append({'Transition':'{} -> {}'.format(transition,transition+1), 'Information':information})
+                        # skip blank or certain lines:
+                        if not line.strip() or line.startswith(('Counterexample','=','Path')):
+                            log.debug("  -- skipping: {}".format(line))
+                            continue
+                        stepM = stepRE.match(line)
+                        if stepM:
+                            # parse "Step" information:
+                            step = int(stepM.group(1))
                             transition = None
-                        elif line.startswith('Transition Information:'):
-                            information = ''  # reset
+                            log.debug("  -- found step {}".format(step))
+                            # consume next line:
+                            i = next(iterator)
+                            line = sal_lines[i]
+                            assignM = assignRE.match(line)
+                            if not assignM:
+                                log.warning("  Couldn't find assignment title at {}: {}".format(i,line))
+                        elif step is not None:
+                            # collect assignments until reaching line that starts with "-" or end
+                            varsM = varsRE.match(line)
+                            if line.startswith('-'):
+                                group_body.append({'Step':step, assignM.group(1):assigns})
+                                assigns = {}  # reset
+                                transition = step
+                                step = None
+                            elif varsM:
+                                assigns[varsM.group(1)] = varsM.group(2)
+                            else:
+                                log.warning("  Couldn't find var assignment at {}: {}".format(i,line))
+                        elif transition is not None:
+                            if line.startswith('-'):
+                                group_body.append({'Transition':'{} -> {}'.format(transition,transition+1), 'Information':information})
+                                transition = None
+                            elif line.startswith('Transition Information:'):
+                                information = ''  # reset
+                            else:
+                                # collect transition information
+                                information += line
                         else:
-                            # collect transition information
-                            information += line
-                    else:
-                        log.warning("  Cannot parse Counterexample line at {}: {}".format(i,line))
+                            log.warning("  Cannot parse Counterexample line at {}: {}".format(i,line))
 
-                hsal_results['Details'].append({'GroupTitle': 'Counterexample generated by HybridSal with these steps and transitions','GroupBody': group_body})
-                log.info("  Result: counterexample found...\n"+sal_output)
-            else:
-                log.warning("  No result found!")
+                    hsal_results['Details'].append({'GroupTitle': 'Counterexample generated by HybridSal with these steps and transitions','GroupBody': group_body})
+                    log.info("  Result: counterexample found...\n"+sal_output)
+                else:
+                    log.warning("  No result found!")
 
         # update verification results
         mapping = dict((item['Source'], item) for item in verif_results)
@@ -298,6 +301,12 @@ getErrorString();
             json.dump(summary_results,f,indent=2)
         log.info("  Summary results file written as {}".format(summary_file))
         #print json.dumps(summary_results['FormalVerification'],indent=2) # TODO: remove after testing
+
+        # -------------------------------------------------
+        print
+        log.info("* Returning HybridSal exit code...")
+        sys.exit(process.returncode)
+
     else:
         log.warning("Skipping hsalRA.exe because not in Windows!")
 

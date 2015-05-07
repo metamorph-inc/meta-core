@@ -10,7 +10,7 @@ __author__ = __authors__[0]
 
 __credits__ = __authors__
 
-__version__ = "14.10"
+__version__ = "14.11"
 
 __maintainer__ = __author__
 __contact__ = __author__

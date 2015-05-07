@@ -1,18 +1,14 @@
 {
   "Project": {
     "Components": [],
-    "DesignSpaceModels": [
-      "./design-space/PlateContainer.adm",
-      "./design-space/PlateContainer.metadesign.json",
-      "./design-space/DesignContainer.adm",
-      "./design-space/DesignContainer.metadesign.json"
-    ],
+    "DesignSpaceModels": [],
     "Configurations": [
-      "./designs/DesignContainer_cfg1.adm"
+      "./designs/Plate.adm"
     ],
     "TestBenches": [
-      "./test-benches/StructuralFEATestBench.testbench.json",
-      "./test-benches/Plate with a hole.testbench.json"
+      "./test-benches/Plate_with_a_hole.testbench.json",
+      "./test-benches/Plate_with_a_hole_coupled.testbench.json",
+      "./test-benches/Plate_with_a_hole_thermal.testbench.json"
     ],
     "Results": {
       "UrlHints": [
@@ -28,6 +24,6 @@
       "text": ""
     },
     "CyPhyProjectFileName": "PlateWithHoleModel.mga",
-    "LastModified": "2014-02-03 14-54-41"
+    "LastModified": "2014-10-15 12-51-46"
   }
 }

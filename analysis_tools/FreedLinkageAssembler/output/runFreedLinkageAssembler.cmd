@@ -15,10 +15,11 @@ set EXE_JAR_NAME=freed_linkage_assembler.jar
 set EXE_JAR_PATH=%WORKING_DIR%%EXE_JAR_NAME%
 set CAS_ORIG=%WORKING_DIR%CADAssembly.xml
 set CAS_AUG=%WORKING_DIR%CADAssembly_aug.xml
+set CAS_SCAD=%WORKING_DIR%CADAssembly.scad
 
 set JAVA_PATH=%windir%\SysWOW64\java.exe
 if exist %JAVA_PATH% goto :JAVA_FOUND
-set JAVA_PATH=%windir\System32\java.exe
+set JAVA_PATH=%windir%\System32\java.exe
 if exist %JAVA_PATH% goto :JAVA_FOUND
 set JAVA_PATH=%windir%\Sysnative\java.exe
 if exist %JAVA_PATH% goto :JAVA_FOUND
@@ -31,7 +32,7 @@ goto  :ERROR_SECTION
 
 :JAVA_FOUND
 rem %JAVA_PATH%
-%JAVA_PATH% -Xmx1024m -jar "%EXE_JAR_PATH%" -i "%CAS_ORIG%" -o "%CAS_AUG%"
+%JAVA_PATH% -Xmx1024m -jar "%EXE_JAR_PATH%" -i "%CAS_ORIG%" -o "%CAS_AUG%" -s "%CAS_SCAD%"
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERROR_CODE% NEQ 0 (

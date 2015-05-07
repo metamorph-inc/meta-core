@@ -22,6 +22,7 @@
   <xsd:element ecore:ignore="true" name="Surface" type="cad:Surface"/>
   <xsd:element ecore:ignore="true" name="PlaneReference" type="cad:PlaneReference"/>
   <xsd:element ecore:ignore="true" name="GuideDatum" type="cad:GuideDatum"/>
+  <xsd:element ecore:ignore="true" name="AssemblyRoot" type="cad:AssemblyRoot"/>
   <xsd:complexType name="CADModel">
     <xsd:complexContent>
       <xsd:extension base="avm:DomainModel">
@@ -210,6 +211,13 @@
     <xsd:complexContent>
       <xsd:extension base="avm:ConnectorFeature">
         <xsd:attribute ecore:keys="ID" ecore:name="Datum" ecore:reference="cad:Datum" name="Datum" type="xsd:anyURI" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AssemblyRoot">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DesignDomainFeature">
+        <xsd:attribute ecore:keys="ID" ecore:name="AssemblyRootComponentInstance" ecore:reference="avm:ComponentInstance" name="AssemblyRootComponentInstance" type="xsd:anyURI" use="required"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>

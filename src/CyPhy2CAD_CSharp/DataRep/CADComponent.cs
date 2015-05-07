@@ -58,6 +58,7 @@ namespace CyPhy2CAD_CSharp.DataRep
         public string Classification { get; set; }
         public string HyperLink { get; set; } // For debug messages
         public string SpecialInstructions { get; set; }
+        public List<Datum> SpecialDatums = new List<Datum>();
 
         public static readonly string MakeOrBuyParamStr = "procurement__make_or_buy";
         public static readonly string SpecialInstrParamStr = "SPECIALINSTRUCTIONS";
@@ -90,6 +91,18 @@ namespace CyPhy2CAD_CSharp.DataRep
             if (specialinstr.Any())
             {
                 SpecialInstructions = specialinstr.First().Attributes.Value.Replace("\"", "");
+            }
+
+            // META-3555 hack
+            if (cyphycomp.Children.CADModelCollection.Any())
+            {
+                foreach (var datum in cyphycomp.Children.CADModelCollection.First().Children.CADDatumCollection)
+                {
+                    if (datum.Name == "FRONT" || datum.Name == "TOP" || datum.Name == "RIGHT")
+                    {
+                        SpecialDatums.Add(new Datum(datum, "", false));
+                    }
+                }
             }
         }
 

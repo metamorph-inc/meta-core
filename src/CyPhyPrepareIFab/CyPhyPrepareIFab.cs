@@ -533,7 +533,8 @@ namespace CyPhyPrepareIFab
                 .Referred
                 .ChildObjects
                 .OfType<MgaAtom>()
-                .FirstOrDefault()
+                .FirstOrDefault(fco => fco.Meta.Name == typeof(CyPhy.Task).Name
+                    && String.Equals(CyPhyClasses.Task.Cast(fco).Attributes.COMName, this.ComponentProgID, StringComparison.InvariantCultureIgnoreCase))
                 .StrAttrByName["Parameters"];
 
             Dictionary<string, string> workflowParameters = new Dictionary<string, string>();

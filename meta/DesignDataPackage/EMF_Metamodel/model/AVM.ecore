@@ -52,14 +52,14 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Value" eSuperTypes="#//ValueNode">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Unit" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ValueExpression" ordered="false"
         eType="#//ValueExpressionType" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DataType" eType="#//DataTypeEnum"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="DimensionType" eType="#//DimensionTypeEnum"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Dimensions" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="DataSource" upperBound="-1"
         eType="#//DataSource" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DataType" eType="#//DataTypeEnum"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Dimensions" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Unit" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FixedValue" eSuperTypes="#//ValueExpressionType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Value" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String">
@@ -215,6 +215,8 @@
         iD="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="DesignSpaceSrcID" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DomainFeature" upperBound="-1"
+        eType="#//DesignDomainFeature" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Container" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
@@ -332,10 +334,71 @@
     <eLiterals name="StatementE" value="4"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ConnectorFeature" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TestBench">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="TopLevelSystemUnderTest"
+        eType="#//TopLevelSystemUnderTest" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Parameter" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Metric" upperBound="-1"
+        eType="#//Metric" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="TestInjectionPoint" upperBound="-1"
+        eType="#//TestInjectionPoint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="TestComponent" upperBound="-1"
+        eType="#//ComponentInstance" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Workflow" eType="#//Workflow"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Settings" upperBound="-1"
+        eType="#//Settings" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="TestStructure" upperBound="-1"
+        eType="#//DomainModel" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TopLevelSystemUnderTest" eSuperTypes="#//ContainerInstanceBase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DesignID" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//TestBenchValueBase"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Metric" eSuperTypes="#//TestBenchValueBase"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ContainerInstanceBase" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="IDinSourceModel" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="XPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TestBenchValueBase" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Notes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="XPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Value" eType="#//Value"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TestInjectionPoint" eSuperTypes="#//ContainerInstanceBase"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Workflow">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Task" lowerBound="1" upperBound="-1"
+        eType="#//WorkflowTaskBase" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkflowTaskBase" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterpreterTask" eSuperTypes="#//WorkflowTaskBase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="COMName" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Parameters" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExecutionTask" eSuperTypes="#//WorkflowTaskBase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Invocation" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Settings" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="ValueFlowMux" eSuperTypes="#//ValueNode">
     <eStructuralFeatures xsi:type="ecore:EReference" name="Source" upperBound="-1"
         eType="#//ValueNode" eKeys="#//ValueNode/ID"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DesignDomainFeature" abstract="true"/>
   <eSubpackages name="modelica" nsURI="modelica" nsPrefix="modelica">
     <eClassifiers xsi:type="ecore:EClass" name="ModelicaModel" eSuperTypes="#//DomainModel">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="Class" lowerBound="1"
@@ -403,6 +466,31 @@
       <eLiterals name="Block" value="4"/>
       <eLiterals name="Connector" value="5"/>
       <eLiterals name="Function" value="6"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SolverSettings" eSuperTypes="#//Settings">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Solver" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="JobManagerToolSelection"
+          eType="#//modelica/JobManagerToolSelection"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="StartTime" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//DoubleObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="StopTime" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//DoubleObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="IntervalMethod" eType="#//modelica/IntervalMethod"
+          defaultValueLiteral="NumberOfIntervals"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="NumberOfIntervals" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//IntObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="IntervalLength" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//DoubleObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ToolSpecificAnnotations"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Tolerance" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DoubleObject"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="IntervalMethod">
+      <eLiterals name="NumberOfIntervals"/>
+      <eLiterals name="IntervalLength" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="JobManagerToolSelection">
+      <eLiterals name="Dymola_latest" literal="Dymola_latest"/>
+      <eLiterals name="Dymola_2014" value="1" literal="Dymola_2014"/>
+      <eLiterals name="Dymola_2013" value="2" literal="Dymola_2013"/>
+      <eLiterals name="OpenModelica_latest" value="3" literal="OpenModelica_latest"/>
+      <eLiterals name="JModelica_1_12" value="4" literal="JModelica_1_12"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="cad" nsURI="cad" nsPrefix="cad">
@@ -509,6 +597,10 @@
     <eClassifiers xsi:type="ecore:EClass" name="GuideDatum" eSuperTypes="#//ConnectorFeature">
       <eStructuralFeatures xsi:type="ecore:EReference" name="Datum" lowerBound="1"
           eType="#//cad/Datum" eKeys="#//PortMapTarget/ID"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AssemblyRoot" eSuperTypes="#//DesignDomainFeature">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="AssemblyRootComponentInstance"
+          lowerBound="1" eType="#//ComponentInstance" eKeys="#//ComponentInstance/ID"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="manufacturing" nsURI="manufacturing" nsPrefix="manufacturing">

@@ -1343,4 +1343,385 @@ namespace avm.modelica {
         /// <remarks/>
         Function,
     }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="modelica")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="modelica", IsNullable=false)]
+    public partial class SolverSettings : Settings {
+        
+        private string solverField;
+        
+        private JobManagerToolSelection jobManagerToolSelectionField;
+        
+        private bool jobManagerToolSelectionFieldSpecified;
+        
+        private double startTimeField;
+        
+        private bool startTimeFieldSpecified;
+        
+        private double stopTimeField;
+        
+        private bool stopTimeFieldSpecified;
+        
+        private IntervalMethod intervalMethodField;
+        
+        private int numberOfIntervalsField;
+        
+        private bool numberOfIntervalsFieldSpecified;
+        
+        private double intervalLengthField;
+        
+        private bool intervalLengthFieldSpecified;
+        
+        private string toolSpecificAnnotationsField;
+        
+        private double toleranceField;
+        
+        private bool toleranceFieldSpecified;
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        public SolverSettings() {
+            this.intervalMethodField = IntervalMethod.NumberOfIntervals;
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Solver {
+            get {
+                return this.solverField;
+            }
+            set {
+                this.solverField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public JobManagerToolSelection JobManagerToolSelection {
+            get {
+                return this.jobManagerToolSelectionField;
+            }
+            set {
+                this.jobManagerToolSelectionField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool JobManagerToolSelectionSpecified {
+            get {
+                return this.jobManagerToolSelectionFieldSpecified;
+            }
+            set {
+                this.jobManagerToolSelectionFieldSpecified = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public double StartTime {
+            get {
+                return this.startTimeField;
+            }
+            set {
+                this.startTimeField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool StartTimeSpecified {
+            get {
+                return this.startTimeFieldSpecified;
+            }
+            set {
+                this.startTimeFieldSpecified = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public double StopTime {
+            get {
+                return this.stopTimeField;
+            }
+            set {
+                this.stopTimeField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool StopTimeSpecified {
+            get {
+                return this.stopTimeFieldSpecified;
+            }
+            set {
+                this.stopTimeFieldSpecified = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(IntervalMethod.NumberOfIntervals)]
+        public IntervalMethod IntervalMethod {
+            get {
+                return this.intervalMethodField;
+            }
+            set {
+                this.intervalMethodField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public int NumberOfIntervals {
+            get {
+                return this.numberOfIntervalsField;
+            }
+            set {
+                this.numberOfIntervalsField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool NumberOfIntervalsSpecified {
+            get {
+                return this.numberOfIntervalsFieldSpecified;
+            }
+            set {
+                this.numberOfIntervalsFieldSpecified = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public double IntervalLength {
+            get {
+                return this.intervalLengthField;
+            }
+            set {
+                this.intervalLengthField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool IntervalLengthSpecified {
+            get {
+                return this.intervalLengthFieldSpecified;
+            }
+            set {
+                this.intervalLengthFieldSpecified = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string ToolSpecificAnnotations {
+            get {
+                return this.toolSpecificAnnotationsField;
+            }
+            set {
+                this.toolSpecificAnnotationsField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public double Tolerance {
+            get {
+                return this.toleranceField;
+            }
+            set {
+                this.toleranceField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool ToleranceSpecified {
+            get {
+                return this.toleranceFieldSpecified;
+            }
+            set {
+                this.toleranceFieldSpecified = value;
+            }
+        }
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(SolverSettings));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current SolverSettings object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an SolverSettings object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output SolverSettings object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out SolverSettings obj, out System.Exception exception) {
+            exception = null;
+            obj = default(SolverSettings);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out SolverSettings obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static SolverSettings Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((SolverSettings)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current SolverSettings object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an SolverSettings object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output SolverSettings object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out SolverSettings obj, out System.Exception exception) {
+            exception = null;
+            obj = default(SolverSettings);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out SolverSettings obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static SolverSettings LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="modelica")]
+    public enum JobManagerToolSelection {
+        
+        /// <remarks/>
+        Dymola_latest,
+        
+        /// <remarks/>
+        Dymola_2014,
+        
+        /// <remarks/>
+        Dymola_2013,
+        
+        /// <remarks/>
+        OpenModelica_latest,
+        
+        /// <remarks/>
+        JModelica_1_12,
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="modelica")]
+    public enum IntervalMethod {
+        
+        /// <remarks/>
+        NumberOfIntervals,
+        
+        /// <remarks/>
+        IntervalLength,
+    }
 }

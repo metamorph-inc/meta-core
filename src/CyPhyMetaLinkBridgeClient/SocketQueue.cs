@@ -22,11 +22,9 @@ namespace CyPhyMetaLinkBridgeClient
         private NetworkStream _networkStream = null;
         private BufferedStream _bufferedNetworkStream = null;
 
-        //GMEConsole GMEConsole { get; set; }
 
         public SocketQueue(/*MgaProject mgaProject*/)
         {
-            //GMEConsole = GMEConsole.CreateFromProject(mgaProject);
         }
 
         private Socket tryGetSocket()
@@ -66,24 +64,7 @@ namespace CyPhyMetaLinkBridgeClient
             {
                 socket = null;
             }
-            //if (socket != null) return socket;
 
-            //ProcessStartInfo processStartInfo = new ProcessStartInfo(@"C:\Path\to\server.exe");
-            //processStartInfo.RedirectStandardOutput = true;
-            //Process process = null;
-            //try {
-            //    process = Process.Start(processStartInfo);
-            //} catch( Exception exception ) {
-            //    terminate(exception.Message);
-            //}
-
-            //string status = process.StandardOutput.ReadToEnd();
-
-            //try {
-            //    socket = tryGetSocket();
-            //} catch( Exception exception ) {
-            //    terminate(exception.Message);
-            //}
 
             return socket;
         }
@@ -94,7 +75,6 @@ namespace CyPhyMetaLinkBridgeClient
             _socket = getSocket();
             if (_socket == null)
             {
-                //GMEConsole.Error.WriteLine("CyPhyMLSync cannot establish a connection with the server.  Exiting.");
                 return false;
             }
 
@@ -138,7 +118,6 @@ namespace CyPhyMetaLinkBridgeClient
             bool status = false;
             if (_socket != null)
             {
-                //status = _socket.Connected;
                 try
                 {
                     status = !(_socket.Poll(1, SelectMode.SelectRead) && _socket.Available == 0);
@@ -178,9 +157,6 @@ namespace CyPhyMetaLinkBridgeClient
 
             _networkStream.Write(frameMemoryStream.GetBuffer(), 0, (int)frameMemoryStream.Length);
             _networkStream.Flush();
-            // test serialization:
-            //  messageMemoryStream.Seek(0, SeekOrigin.Begin);
-            //  MetaLinkProtobuf.Edit editdeserialized = ProtoBuf.Serializer.Deserialize<MetaLinkProtobuf.Edit>(messageMemoryStream);
         }
 
         public void enQueue(MetaLinkProtobuf.Edit message)
@@ -189,6 +165,7 @@ namespace CyPhyMetaLinkBridgeClient
         }
 
         public System.Threading.CancellationTokenSource sendThreadCancellation = new System.Threading.CancellationTokenSource();
+
         public void sendThread()
         {
             try
@@ -216,7 +193,6 @@ namespace CyPhyMetaLinkBridgeClient
             }
             catch (ProtoBuf.ProtoException e)
             {
-                // e.InnerException may be System.Threading.ThreadAbortException
                 ReceiveError(e);
             }
             catch (System.OperationCanceledException)

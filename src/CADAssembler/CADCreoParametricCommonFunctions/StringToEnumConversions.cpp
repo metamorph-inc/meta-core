@@ -861,6 +861,70 @@ namespace isis
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	 e_CADUnitsHeatCapacity CADUnitsHeatCapacity_enum( const string &in_UnitsHeatCapacity_string )
+																throw (isis::application_exception)
+	 {
+		  std::string UnitsHeatCapacity_string = ConvertToUpperCase(in_UnitsHeatCapacity_string);
+
+		  if ( UnitsHeatCapacity_string.compare("J/KGK") == 0 )
+			  return CAD_UNITS_J_PER_KG_K;
+	 
+		  string temp_string = "Function CADUnitsHeatCapacity_enum was passed " + in_UnitsHeatCapacity_string + " which is an erroneous type.";
+		  throw isis::application_exception(temp_string.c_str());
+	 }
+
+
+	std::string CADUnitsHeatCapacity_string(  e_CADUnitsHeatCapacity in_UnitsHeatCapacity_enum)
+											throw (isis::application_exception)
+	{
+		switch (in_UnitsHeatCapacity_enum )
+		{
+			case CAD_UNITS_J_PER_KG_K:
+				return "J/KgK";
+				break;
+
+			default:
+				char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
+				string temp_string = "Function UnitsHeatCapacity_string was passed " + 
+					std::string(itoa(in_UnitsHeatCapacity_enum, temp_char_array, 10)) + 
+					" which is an erroneous type.  Allowed enum values are CAD_UNITS_J_PER_KG_K.";
+				throw isis::application_exception(temp_string.c_str());
+	  }
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	 e_CADUnitsThermalConductivity CADUnitsThermalConductivity_enum( const string &in_UnitsThermalConductivity_string )
+																throw (isis::application_exception)
+	 {
+		  std::string UnitsThermalConductivity_string = ConvertToUpperCase(in_UnitsThermalConductivity_string);
+
+		  if ( UnitsThermalConductivity_string.compare("W/MMK") == 0 )
+			  return CAD_UNITS_W_PER_MM_K;
+
+		  string temp_string = "Function CADUnitsThermalConductivity_enum was passed " + in_UnitsThermalConductivity_string + " which is an erroneous type.";
+		  throw isis::application_exception(temp_string.c_str());
+	 }
+
+
+	std::string CADUnitsThermalConductivity_string(  e_CADUnitsThermalConductivity in_UnitsThermalConductivity_enum)
+											throw (isis::application_exception)
+	{
+		switch (in_UnitsThermalConductivity_enum )
+		{
+			case CAD_UNITS_W_PER_MM_K:
+				return "W/mmK";
+				break;
+
+
+			default:
+				char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
+				string temp_string = "Function UnitsThermalConductivity_string was passed " + 
+					std::string(itoa(in_UnitsThermalConductivity_enum, temp_char_array, 10)) + 
+					" which is an erroneous type.  Allowed enum values are CAD_UNITS_W_PER_MM_K.";
+				throw isis::application_exception(temp_string.c_str());
+	  }
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	 e_CADUnitsAngle CADUnitsAngle_enum( const string &in_UnitsAngle_string )
 																throw (isis::application_exception)
 	 {
@@ -2608,6 +2672,64 @@ namespace isis
 				string temp_string = "Function Metrics_JointsComponentInstanceData_Secondary_string was passed " + 
 					std::string(itoa(in_Metrics_JointsComponentInstanceData_Secondary_enum, temp_char_array, 10)) + 
 					" which is an erroneous type.  Allowed enum values are METRICS_JOINTS_NONE, and METRICS_JOINTS_TREAT_AS_ONE_BODY.";
+				throw isis::application_exception(temp_string.c_str());
+	  }
+	}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ e_Thermal_LoadConstraint Thermal_LoadConstraint_enum(const std::string &in_Thermal_LoadConstraint_string)
+												throw (isis::application_exception)
+  {
+	  std::string Thermal_LoadConstraint_string = ConvertToUpperCase(in_Thermal_LoadConstraint_string);
+
+	  if      ( Thermal_LoadConstraint_string.compare("CONVECTIONHEAT") == 0 )			
+												return THERMAL_CONVECTION_HEAT;
+	  else if ( Thermal_LoadConstraint_string.compare("HEATFLUX") == 0 )		
+												return THERMAL_HEAT_FLUX;
+	  else if ( Thermal_LoadConstraint_string.compare("HEATGENERATION") == 0 )		
+												return THERMAL_HEAT_GENERATION;
+	  else if ( Thermal_LoadConstraint_string.compare("INITIALTEMPERATURE") == 0 )		
+												return THERMAL_INITIAL_TEMPERATURE;
+	  else if ( Thermal_LoadConstraint_string.compare("SPECIFIEDTEMPERATURE") == 0 )		
+												return THERMAL_SPECIFIED_TEMPERATURE;
+	  else if ( Thermal_LoadConstraint_string.compare("AMBIENTTEMPERATURE") == 0 )		
+												return THERMAL_AMBIENT_TEMPERATURE;
+
+
+ 
+	  std::string temp_string = "Function Thermal_LoadConstraint_enum was passed '" + Thermal_LoadConstraint_string + "' which is an erroneous type. Allowed types are: ConvectionHeat, HeatFlux, HeatGeneration, InitialTemperature, and SpecifiedTemperature.";
+	  throw isis::application_exception(temp_string.c_str());
+  }
+
+	std::string Thermal_LoadConstraint_string(  e_Thermal_LoadConstraint in_Thermal_LoadConstraint_enum)
+											throw (isis::application_exception)
+	{
+		switch (in_Thermal_LoadConstraint_enum )
+		{
+			case THERMAL_CONVECTION_HEAT:
+				return "ConvectionHeat";
+				break;
+			case THERMAL_HEAT_FLUX:
+				return "HeatFlux";
+				break;
+			case THERMAL_HEAT_GENERATION:
+				return "HeatGeneration";
+				break;
+			case THERMAL_INITIAL_TEMPERATURE:
+				return "InitialTemperature";
+				break;
+			case THERMAL_SPECIFIED_TEMPERATURE:
+				return "SpecifiedTemperature";
+				break;
+			case THERMAL_AMBIENT_TEMPERATURE:
+				return "AmbientTemperature";
+				break;
+			default:
+				char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
+				string temp_string = "Function Thermal_LoadConstraint_string was passed " + 
+					std::string(itoa(in_Thermal_LoadConstraint_enum, temp_char_array, 10)) + 
+					" which is an erroneous type.  Allowed enum values are THERMAL_CONVECTION_HEAT, THERMAL_HEAT_FLUX, THERMAL_HEAT_GENERATION, THERMAL_INITIAL_TEMPERATURE, HERMAL_SPECIFIED_TEMPERATURE, and THERMAL_AMBIENT_TEMPERATURE.";
 				throw isis::application_exception(temp_string.c_str());
 	  }
 	}

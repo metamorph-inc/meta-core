@@ -4,37 +4,37 @@ import _winreg
 import subprocess
 import random
 import string
+import cad_library
 
 outputcmds = True
 
-with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0, _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
-    META_PATH = _winreg.QueryValueEx(key, 'META_PATH')[0]
-
-def exitwitherror(msg,code):
-    f = open('_FAILED.txt','a')
-    f.write(msg + '\n') # python will convert \n to os.linesep
-    f.close() # you can omit in most cases as the destructor will call if
-    exit(code)
 
 def runCreoAssembler():
     isisext = os.environ['PROE_ISIS_EXTENSIONS']
     if isisext is None:
-        exitwitherror ('PROE_ISIS_EXTENSIONS env. variable is not set. Do you have the META toolchain installed properly?', -1)
+        cad_library.exitwitherror ('PROE_ISIS_EXTENSIONS env. variable is not set. Do you have the META toolchain installed properly?', -1)
     createasm = os.path.join(isisext,'bin','CADCreoParametricCreateAssembly.exe')
     if not os.path.isfile(createasm):
-        exitwitherror ('Can\'t find CADCreoParametricCreateAssembly.exe. Do you have the META toolchain installed properly?', -1)
+        cad_library.exitwitherror ('Can\'t find CADCreoParametricCreateAssembly.exe. Do you have the META toolchain installed properly?', -1)
     #logdir = os.path.join(workdir,'log')
     result = os.system('\"' + createasm + '" -i CADAssembly.xml')
     return result
 
-def callsubprocess(cmd):
+
+def callsubprocess(cmd, failonexit = True):
     global outputcmds
     if outputcmds == True:
         print cmd
-    return subprocess.call(cmd)
+    try:
+        result = subprocess.call(cmd)
+    except Exception as e:
+        cad_library.exitwitherror('Failed to execute: ' + cmd + ' Error is: ' + e.message, -1)
+    if result != 0 and failonexit:
+        cad_library.exitwitherror('The command ' + cmd + ' exited with value: ' + result, -1)
+
 
 def runAbaqusModelBased(meshonly, modelcheck, mode=None):
-    feascript = META_PATH + 'bin\\CAD\\Abaqus\\AbaqusMain.py'
+    feascript = cad_library.META_PATH + 'bin\\CAD\\Abaqus\\AbaqusMain.py'
     if meshonly:
         if modelcheck:
             param = '-b'
@@ -51,33 +51,49 @@ def runAbaqusModelBased(meshonly, modelcheck, mode=None):
             param = '-e'
 
     callsubprocess('c:\\SIMULIA\\Abaqus\\Commands\\abaqus.bat cae noGUI="' + feascript + '" -- ' + param)
+    exit(0)
     pass
+
 
 def runAbaqusDeckBased():
     id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
-    callsubprocess('c:\\SIMULIA\\Abaqus\\Commands\\abaqus.bat fromnastran job=' + id + ' input=Analysis\Nastran_mod.nas')
+    os.chdir(os.getcwd() + '\\Analysis\\Abaqus')
+    callsubprocess('c:\\SIMULIA\\Abaqus\\Commands\\abaqus.bat fromnastran job=' + id + ' input=..\Nastran_mod.nas')
     callsubprocess('c:\\SIMULIA\\Abaqus\\Commands\\abaqus.bat analysis interactive job=' + id)
     callsubprocess('c:\\SIMULIA\\Abaqus\\Commands\\abaqus.bat odbreport job=' + id + ' results')
-    callsubprocess('c:\\SIMULIA\\Abaqus\\Commands\\abaqus.bat cae noGUI="' + META_PATH + '\\bin\\CAD\\ABQ_CompletePostProcess.py\" -- -o ' + id + '.odb  -p Analysis\\Abaqus\\Abaqus.xml')
+    callsubprocess('c:\\SIMULIA\\Abaqus\\Commands\\abaqus.bat cae noGUI="' + cad_library.META_PATH + '\\bin\\CAD\\ABQ_CompletePostProcess.py\" -- -o ' + id + '.odb -p ..\\AnalysisMetaData.xml -m ..\\..\\RequestedMetrics.xml -j ..\\..\\testbench_manifest.json')
+
 
 def runNastran():
     os.chdir(os.getcwd() + '\\Analysis\\Nastran')
-    result = callsubprocess(sys.executable + ' \"' + META_PATH + 'bin\\CAD\Nastran.py\" ..\\Nastran_mod.nas')
-    if result != 0:
-        exitwitherror('CADJobDriver.py: Nastran.py returned with code: ' + str(result),-1)
-    patranscript = META_PATH + 'bin\\CAD\\Patran_PP.py'
+    callsubprocess(sys.executable + ' \"' + cad_library.META_PATH + 'bin\\CAD\Nastran.py\" ..\\Nastran_mod.nas')
+    #if result != 0:
+    #    cad_library.exitwitherror('CADJobDriver.py: Nastran.py returned with code: ' + str(result),-1)
+    patranscript = cad_library.META_PATH + 'bin\\CAD\\Patran_PP.py'
     if not os.path.isfile(patranscript):
-        exitwitherror ('Can\'t find ' + patranscript + '. Do you have the META toolchain installed properly?', -1)
-    result = callsubprocess(sys.executable + ' \"' + patranscript + '\" ..\\Nastran_mod.nas Nastran_mod.xdb ..\\AnalysisMetaData.xml ..\\..\\RequestedMetrics.xml ..\\..\\testbench_manifest.json')
-    if result != 0:
-        exitwitherror('CADJobDriver.py: Patran_PP.py returned with code: ' + str(result),-1)
+        cad_library.exitwitherror('Can\'t find ' + patranscript + '. Do you have the META toolchain installed properly?', -1)
+    callsubprocess(sys.executable + ' \"' + patranscript + '\" ..\\Nastran_mod.nas Nastran_mod.xdb ..\\AnalysisMetaData.xml ..\\..\\RequestedMetrics.xml ..\\..\\testbench_manifest.json')
+    #if result != 0:
+    #    cad_library.exitwitherror('CADJobDriver.py: Patran_PP.py returned with code: ' + str(result),-1)
+
+def runCalculix():
+    isisext = os.environ['PROE_ISIS_EXTENSIONS']
+    if isisext is None:
+        cad_library.exitwitherror ('PROE_ISIS_EXTENSIONS env. variable is not set. Do you have the META toolchain installed properly?', -1)
+    deckconvexe = os.path.join(isisext,'bin','DeckConverter.exe')
+    callsubprocess(deckconvexe + ' -i Analysis\\Nastran_mod.nas')
+    with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\CMS\CalculiX', 0,
+                     _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
+        bconvergedpath = _winreg.QueryValueEx(key, 'InstallLocation')[0]
+    callsubprocess(bconvergedpath+'\\CalculiX\\bin\\ccx.bat -i Analysis\\Nastran_mod')
+
 
 def main():
     global args
     parser = argparse.ArgumentParser(description='Executes a CAD or FEA job. Invokes the specified assembler, mesher and analyzer in this sequence.')
     parser.add_argument('-assembler', choices=['CREO']);
     parser.add_argument('-mesher', choices=['NONE','CREO','ABAQUS','PATRAN','ABAQUSMDLCHECK','GMESH']);
-    parser.add_argument('-analyzer', choices=['NONE','ABAQUSMODEL','ABAQUSDECK','NASTRAN']);
+    parser.add_argument('-analyzer', choices=['NONE','ABAQUSMODEL','ABAQUSDECK','NASTRAN','CALCULIX']);
     parser.add_argument('-mode', choices=['STATIC','MODAL','DYNIMPL','DYNEXPL']);
     args = parser.parse_args()
 
@@ -109,9 +125,9 @@ def main():
     if assembler=='CREO':
         result = runCreoAssembler()
         if result == -1:
-            exitwitherror('CADJobDriver.py: The CreateAssembly program returned with an error:' + str(result), -1)
+            cad_library.exitwitherror('CADJobDriver.py: The CreateAssembly program returned with an error:' + str(result), -1)
     else:
-        exitwitherror('CADJobDriver.py: Only CREO assembler is supported.', -1)
+        cad_library.exitwitherror('CADJobDriver.py: Only CREO assembler is supported.', -1)
 
     # Run mesher
     if mesher == 'ABAQUS' or mesher == 'ABAQUSMDLCHECK':
@@ -120,9 +136,9 @@ def main():
         elif analyzer == 'ABAQUSMODEL':
             runAbaqusModelBased(False, False, mode)
         else:
-            exitwitherror('Abaqus mesher only supports Abaqus Model-Based.',-1)
+            cad_library.exitwitherror('Abaqus mesher only supports Abaqus Model-Based.',-1)
     elif mesher == 'PATRAN':
-        exitwitherror('CADJobDriver.py: PATRAN mesher is not supported yet', -1)
+        cad_library.exitwitherror('CADJobDriver.py: PATRAN mesher is not supported yet', -1)
     elif mesher == 'CREO':
         # Skipping, CREO has already been invoked
         pass
@@ -130,7 +146,7 @@ def main():
         # Not meshing, skip analysis
         exit(0)
     else:
-        exitwitherror('CADJobDriver.py: Mesher ' + mesher + ' is not supported.', -1)
+        cad_library.exitwitherror('CADJobDriver.py: Mesher ' + mesher + ' is not supported.', -1)
 
     # Run analyzer
     if analyzer == 'ABAQUSMODEL':
@@ -144,6 +160,8 @@ def main():
         runAbaqusDeckBased()
     elif analyzer == 'NASTRAN':
         runNastran()
+    elif analyzer == 'CALCULIX':
+        runCalculix();
 
 if __name__ == '__main__':
     main()

@@ -41,18 +41,26 @@ if os.name == 'nt':
     os.environ['PATH'] += str(os.pathsep + os.path.join(tools['QR']['InstallLocation'], 'bin'))
 
 model_config = json.load(open('model_config.json'))
+# assumes a single lib_package_paths
 for directory in model_config.get("lib_package_paths"):
     libraries = [os.getcwd()+'\\']
     for file in os.listdir(directory):
-        if not file.startswith(".") and (file.endswith(".mo") or (os.path.isdir(file) and os.path.isdir(os.path.join(file, "package.mo")))):
-            libraries.append(os.path.join(directory, file))
+        file = os.path.join(directory, file)
+        print 'file: '+file
+        # not file.startswith(".") used to be the first clause here, but not 
+        # possible with the relateive path from the 
+        if (file.endswith(".mo") or (os.path.isdir(file) and os.path.isfile(os.path.join(file, "package.mo")))):
+            libraries.append(file)
 
 model_name = model_config.get('verification_model_name')
+print 'libraries'
 print libraries
-jsonfile = PARC_QRM_Toolkit.do_envisionment_from_modelica(model_name, libraries,CyPhy_output=True)
+jsonfile = PARC_QRM_Toolkit.do_envisionment_from_modelica(model_name, libraries, "../scripts/rewrite_rules.txt",CyPhy_output=True)
 json_filename = os.path.join("..", model_config.get("result_file")) + ".qrm.json"
 open(json_filename, "w").write(open(jsonfile).read())
-os.unlink(jsonfile)
+print "json output file: "
+print jsonfile
+#os.unlink(jsonfile)
 
 # update summary.testresults.json file
 qrm_results = {}

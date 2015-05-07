@@ -3,7 +3,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
  elementFormDefault="qualified" 
 >
-<!-- generated on Mon Aug 25 14:13:08 2014 -->
+<!-- generated on Thu Sep 25 13:49:16 2014 -->
 
 
 	<xsd:complexType name="LimitReferenceType">
@@ -414,8 +414,9 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="FeatureType">
-		<xsd:attribute name="Name" type="xsd:string" use="required"/>
-		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>
+		<xsd:attribute name="Name" type="xsd:string" default=""/>
+		<xsd:attribute name="ComponentID" type="xsd:string" default=""/>
+		<xsd:attribute name="MetricID" type="xsd:string" default=""/>
 		<xsd:attribute name="_id" type="xsd:ID"/>
 		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
 		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
