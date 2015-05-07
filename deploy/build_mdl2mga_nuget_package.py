@@ -8,7 +8,7 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 nuget = os.path.join(THIS_DIR, "../src/.nuget/NuGet.exe")
 
 sys.path.append(THIS_DIR)
-import svn_info
+import vc_info
 
 package_name = 'MDL2MGACyber'
 
@@ -20,12 +20,12 @@ def _get_version():
     nuspec = ElementTree.parse(os.path.join(THIS_DIR, '%s.nuspec' % package_name))
     nuspec_version = nuspec.find('metadata/version').text
 
-    _version = svn_info.update_version(nuspec_version, svn_info.last_mdl2mga_rev())
+    _version = vc_info.update_version(nuspec_version, vc_info.last_mdl2mga_rev())
     return _version
 
 def pack_nuget():
-    with open(os.path.join(THIS_DIR, 'svnversion'), 'wb') as svnversion:
-        svnversion.write(svn_info.svnversion())
+    with open(os.path.join(THIS_DIR, 'vcinfo'), 'wb') as vcinfo:
+        vcinfo.write(vc_info.repo_rev())
     system([nuget, "pack", os.path.join(THIS_DIR, package_name + ".nuspec"),
         "-Verbosity", "detailed",
         "-Version", _get_version(),
