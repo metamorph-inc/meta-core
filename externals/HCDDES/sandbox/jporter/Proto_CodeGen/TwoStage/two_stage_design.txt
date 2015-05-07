@@ -1,0 +1,98 @@
+Two-stage interpreter design:
+
+Design Idea: Have a single semantic interpretation for all of the analysis 
+interpreters.  The target is a more abstract language, with additional
+relations for semantic concepts (like the transitive connection of a bus
+channel to an actual bus).  The abstract target then removes all semantics
+from interpreters, so any interpreter should be reducible to a traversal and
+a template.
+
+Stage 0: Validity - not implemented yet
+
+From ESMoL (presentation language) to ESMoL_Abstract (formal abstract model):
+
+1. Field validity checker -- check formats in fields:
+     Check unit-based fields.
+     Check schedule fields.
+     Make sure all required fields are filled in.
+     
+2. Structural validity checker:
+     Encode structural restrictions (OCL? - probably not)
+     One bus per node -- document that restriction comes from FRODO
+     One connected bus for each bus channel
+
+3. Structural reduction (ESMoL -> ESMoL_Abstract):
+     Break down the interpretation:
+          Travel model hierarchy and capture all of the elements
+            Drop a copy of each one into the Abstract (flat) model
+          Travel model hierarchy and do all associations
+            Some types (like bus channels) require recursive search
+
+     Do proper reductions, as encoded in various interpreters
+     Copy fields as we go
+     
+
+Stage 1: Translation to Abstract Relations
+
+Multi-pass interpreter to ESMoL_Abstract
+
+1. Copy entities only (Create deployment model and everything in it).
+
+2. Wire up the relations -- traverse the ESMoL model and capture all of the relations that
+   need to be created in the semantic model.
+
+Stage 2: Generation
+
+For each target language, define a traversal and a template. 
+Identify elements which must be mapped back to the source language.
+
+Targets:
+
+1. FRODO: 
+
+Template is in FRODO.tpl.
+
+Traversal:
+
+	Visit each Deployment.
+	For each Node:  (a separate template output per node)
+		Look up tasks, and get all messages in and out of this node.
+		Build a table of messages and their types.
+		Get all local messages (between tasks on the node).
+		Put details of local messages into local variables for the template.
+		Generate an initialization function that handles all local message instances.
+		For each TTTask:
+			Instantiate a single task wrapper
+			Do any necessary message reads
+			Calculate the call order for components within the task.
+			Generate the calls and returns for the components.
+			Do any necessary message writes
+		Schedule entries:
+			Hyperperiod length
+            Task schedule struct (in start time order)
+            Message schedule struct (in start time order)
+            Peripheral schedule struct (in start time order)
+
+
+2. Scheduler: 
+
+Template is in sched.tpl.
+
+Traversal:
+
+	Visit each Deployment.
+	For each Node, create a new section:
+		Visit each TTTask (name, period, duration)
+	For each TTBus, create a new section:
+        Visit each TTMsg (name, length, sender, receivers)
+
+	Handle Deployment_Behavioral stuff.
+
+3. TrueTime:
+
+Stage 3+:
+
+How do we do import for round-trip tools?  For simple cases like schedules 
+it's not hard to do, but we eventually want to integrate more sophisticated 
+results like verification counterexamples.
+

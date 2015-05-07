@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FBBF41F8-61F8-4943-8312-271E83FC50D0}</ProjectGuid>
+    <RootNamespace>MDL2MGA</RootNamespace>
+    <Keyword>ManagedCProj</Keyword>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v100</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v100</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\VCP.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_BIN)</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_BIN)</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)D</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)D</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(VCP_PATH)\$(PlatformName)\bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VCP_PATH)\$(PlatformName)\bin\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(MATLAB_PATH)\extern\include;$(UDM_PATH)\include;..\..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>C:\Temp\$(TargetName)$(Configuration)$(Platform)$(MSBuildThisFileDirectory.GetHashCode()).pch</PrecompiledHeaderOutputFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ForcedIncludeFiles>StdAfx.h</ForcedIncludeFiles>
+      <AdditionalOptions>/Zm200 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libeng.lib;libmx.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;$(MATLAB_PATH)\extern\lib\win$(PlatformArchitecture)\microsoft;$(VCP_PATH)\lib;$(ANTLR3_PATH)\$(PlatformName)\lib;$(ANTLR3_PATH)\lib;..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(MATLAB_PATH)\extern\include;$(UDM_PATH)\include;..\..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>C:\Temp\$(TargetName)$(Configuration)$(Platform)$(MSBuildThisFileDirectory.GetHashCode()).pch</PrecompiledHeaderOutputFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ForcedIncludeFiles>StdAfx.h</ForcedIncludeFiles>
+      <AdditionalOptions>/Zm200 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libeng.lib;libmx.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;$(MATLAB_PATH)\extern\lib\win$(PlatformArchitecture)\microsoft;$(VCP_PATH)\lib;$(ANTLR3_PATH)\$(PlatformName)\lib;$(ANTLR3_PATH)\lib;..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MATLAB_PATH)\extern\include;$(UDM_PATH)\include;..\..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>C:\Temp\$(TargetName)$(Configuration)$(Platform)$(MSBuildThisFileDirectory.GetHashCode()).pch</PrecompiledHeaderOutputFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ForcedIncludeFiles>StdAfx.h</ForcedIncludeFiles>
+      <AdditionalOptions>/Zm200 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/noentry /force %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libeng.lib;libmx.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;$(MATLAB_PATH)\extern\lib\win$(PlatformArchitecture)\microsoft;$(VCP_PATH)\lib;$(ANTLR3_PATH)\$(PlatformName)\lib;$(ANTLR3_PATH)\lib;..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+      <DelayLoadDLLs>libeng.dll;libmx.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MATLAB_PATH)\extern\include;$(UDM_PATH)\include;..\..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>C:\Temp\$(TargetName)$(Configuration)$(Platform)$(MSBuildThisFileDirectory.GetHashCode()).pch</PrecompiledHeaderOutputFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ForcedIncludeFiles>StdAfx.h</ForcedIncludeFiles>
+      <AdditionalOptions>/Zm200 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/noentry /force %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libeng.lib;libmx.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;$(MATLAB_PATH)\extern\lib\win$(PlatformArchitecture)\microsoft;$(VCP_PATH)\lib;$(ANTLR3_PATH)\$(PlatformName)\lib;$(ANTLR3_PATH)\lib;..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <DelayLoadDLLs>libeng.dll;libmx.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="BExprMapBuilder.cpp" />
+    <ClCompile Include="BlockChecker.cpp" />
+    <ClCompile Include="ConfigKeeper.cpp" />
+    <ClCompile Include="MatLabEngine.cpp" />
+    <ClCompile Include="MatLabUdm.cpp" />
+    <ClCompile Include="MatLabUdmBlock.cpp" />
+    <ClCompile Include="MatLabUdmData.cpp" />
+    <ClCompile Include="MatLabUdmMiscSimulink.cpp" />
+    <ClCompile Include="MatLabUdmMiscStateflow.cpp" />
+    <ClCompile Include="MatLabUdmPort.cpp" />
+    <ClCompile Include="MatLabUdmState.cpp" />
+    <ClCompile Include="MatLabUdmTransition.cpp" />
+    <ClCompile Include="mdl2mga.cpp" />
+    <ClCompile Include="..\..\generated\sfc\generated\SFC.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\RegexCommon.hpp" />
+    <ClInclude Include="..\..\include\SLSF.h" />
+    <ClInclude Include="BExprMapBuilder.hpp" />
+    <ClInclude Include="BlockChecker.h" />
+    <ClInclude Include="ConfigKeeper.hpp" />
+    <ClInclude Include="MatLabEngine.hpp" />
+    <ClInclude Include="MatLabUdm.hpp" />
+    <ClInclude Include="MatLabUdmBlock.hpp" />
+    <ClInclude Include="MatLabUdmData.hpp" />
+    <ClInclude Include="MatLabUdmMiscSimulink.hpp" />
+    <ClInclude Include="MatLabUdmMiscStateflow.hpp" />
+    <ClInclude Include="MatLabUdmPort.hpp" />
+    <ClInclude Include="MatLabUdmState.hpp" />
+    <ClInclude Include="MatLabUdmTransition.hpp" />
+    <ClInclude Include="..\include\MatrixBuilder.hpp" />
+    <ClInclude Include="..\include\UdmEngine.hpp" />
+    <CustomBuild Include="StdAfx.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">if not exist C:\temp mkdir C:\temp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Creating C:\temp directory</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\temp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">if not exist C:\temp mkdir C:\temp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Creating C:\temp directory</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\temp</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lib\BExprMapTree\BExprMapTree.vcxproj">
+      <Project>{8f8c9016-c830-4bed-9676-f96246ff8308}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\mfile2SFC\mfile2SFC.vcxproj">
+      <Project>{2b72f4cc-c4f7-47d3-ac06-31b67cef6cbb}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\SFCUdmEngine\SFCUdmEngine.vcxproj">
+      <Project>{a6c033c3-ac95-4872-b8bd-9d0ec6761a69}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\UdmBuilder\UdmBuilder.vcxproj">
+      <Project>{47e6f95b-668f-4963-b1c5-535c8e09d609}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\UdmEngine\UdmEngine.vcxproj">
+      <Project>{700b132f-b9a8-4532-84c3-c2e55c900d73}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\models\ESMoL\ESMoL.vcxproj">
+      <Project>{35efa7d1-a834-4297-a597-6c76cc4fd399}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\models\SFC\SFC.vcxproj">
+      <Project>{e4950023-ab75-4eef-8cd6-653be9290daa}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\nuget\antlrC.3.1.3\build\native\antlrC.targets" Condition="Exists('..\..\nuget\antlrC.3.1.3\build\native\antlrC.targets')" />
+    <Import Project="..\..\nuget\antlrC-vc100.3.1.3\build\native\antlrC-vc100.targets" Condition="Exists('..\..\nuget\antlrC-vc100.3.1.3\build\native\antlrC-vc100.targets')" />
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="..\..\nuget\boost.1.55.0.10\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.10\build\native\boost.targets')" />
+    <Import Project="..\..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets" Condition="Exists('..\..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets" Condition="Exists('..\..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets" Condition="Exists('..\..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets" Condition="Exists('..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets')" />
+  </ImportGroup>
+</Project>

@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stage1", "MetaAdapter.vcproj", "{B5C13D34-EEF9-4FC4-BB13-5E3FEE26BB6C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{09BABF33-9B15-49C2-B060-27B85FE0B197} = {09BABF33-9B15-49C2-B060-27B85FE0B197}
+		{35EFA7D1-A834-4297-A597-6C76CC4FD399} = {35EFA7D1-A834-4297-A597-6C76CC4FD399}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ESMoL", "ESMoL\ESMoL.vcproj", "{35EFA7D1-A834-4297-A597-6C76CC4FD399}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ESMoL_Abstract", "ESMoL_Abstract\ESMoL_Abstract.vcproj", "{09BABF33-9B15-49C2-B060-27B85FE0B197}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stage2", "Stage2.vcproj", "{EF2F96CC-96C7-4BE3-847E-A1DBACEBE397}"
+	ProjectSection(ProjectDependencies) = postProject
+		{09BABF33-9B15-49C2-B060-27B85FE0B197} = {09BABF33-9B15-49C2-B060-27B85FE0B197}
+		{B5C13D34-EEF9-4FC4-BB13-5E3FEE26BB6C} = {B5C13D34-EEF9-4FC4-BB13-5E3FEE26BB6C}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5C13D34-EEF9-4FC4-BB13-5E3FEE26BB6C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B5C13D34-EEF9-4FC4-BB13-5E3FEE26BB6C}.Debug|Win32.Build.0 = Debug|Win32
+		{B5C13D34-EEF9-4FC4-BB13-5E3FEE26BB6C}.Release|Win32.ActiveCfg = Release|Win32
+		{B5C13D34-EEF9-4FC4-BB13-5E3FEE26BB6C}.Release|Win32.Build.0 = Release|Win32
+		{35EFA7D1-A834-4297-A597-6C76CC4FD399}.Debug|Win32.ActiveCfg = Debug|Win32
+		{35EFA7D1-A834-4297-A597-6C76CC4FD399}.Debug|Win32.Build.0 = Debug|Win32
+		{35EFA7D1-A834-4297-A597-6C76CC4FD399}.Release|Win32.ActiveCfg = Release|Win32
+		{35EFA7D1-A834-4297-A597-6C76CC4FD399}.Release|Win32.Build.0 = Release|Win32
+		{09BABF33-9B15-49C2-B060-27B85FE0B197}.Debug|Win32.ActiveCfg = Debug|Win32
+		{09BABF33-9B15-49C2-B060-27B85FE0B197}.Debug|Win32.Build.0 = Debug|Win32
+		{09BABF33-9B15-49C2-B060-27B85FE0B197}.Release|Win32.ActiveCfg = Release|Win32
+		{09BABF33-9B15-49C2-B060-27B85FE0B197}.Release|Win32.Build.0 = Release|Win32
+		{EF2F96CC-96C7-4BE3-847E-A1DBACEBE397}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EF2F96CC-96C7-4BE3-847E-A1DBACEBE397}.Debug|Win32.Build.0 = Debug|Win32
+		{EF2F96CC-96C7-4BE3-847E-A1DBACEBE397}.Release|Win32.ActiveCfg = Release|Win32
+		{EF2F96CC-96C7-4BE3-847E-A1DBACEBE397}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

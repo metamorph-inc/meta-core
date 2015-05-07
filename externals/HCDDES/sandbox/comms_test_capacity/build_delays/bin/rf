@@ -1,0 +1,19 @@
+#!/bin/sh
+
+bitbake -c rebuild robostix-frodo
+if [ $? -ne 0 ] ; then
+	echo "FAILED."
+	exit 1
+fi
+
+scp /home/jporter/gumstix/gumstix-oe/tmp/deploy/glibc/ipk/armv5te/robostix-frodo_1.0-r0_armv5te.ipk root@192.168.0.195:
+if [ $? -ne 0 ] ; then
+	echo "FAILED."
+	exit 2
+fi
+
+ssh root@192.168.0.195 "ipkg -force-reinstall install robostix-frodo_1.0-r0_armv5te.ipk"
+if [ $? -ne 0 ] ; then
+        echo "FAILED."
+        exit 3
+fi

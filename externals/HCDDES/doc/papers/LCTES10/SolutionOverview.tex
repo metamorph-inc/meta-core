@@ -1,0 +1,62 @@
+\section{Solution Overview and Example}
+\label{section:solution}
+
+Talk about the overall solution and motivate with an example.
+
+\subsection{Workflow}
+
+\begin{figure}[htb]
+	\centering
+		\includegraphics[width=1.00\columnwidth]{images/tool_diagram.png}
+	\caption{Flow of models in the design process.}
+	\label{fig:tool_diagram}
+\end{figure}
+
+ESMoL supports a model-based design flow for embedded systems.  The process is shown in Fig. \ref{fig:tool_diagram}.
+
+\begin{enumerate}
+\item Import design models from other languages (here we are interested in BIP). 
+\item Blocks in the imported language are used to define components in the design language.
+\item User specifies the platform topology and its parameters.
+\item User specifies the component-to-hardware deployment mapping.
+\item We generate socket implementations in order to test event-driven applications.
+\item The scheduling tool uses specified timing and execution frequency bounds to determine schedulability and calculate start times for time-triggered tasks.
+\item The BIP model is re-generated with the platform models included (for analysis).
+\item We generate an implementation in C to run on the virtual machine.
+\end{enumerate}
+
+
+BIP interactions are much more expressive than those of ESMoL.  On the other hand, ESMoL includes explicit model concepts to describe the hardware platform and deployment of the design on a platform.
+
+Consider two important cases:
+
+\begin{itemize}
+\item In the distributed case, BIP-defined components are deployed on separate processors.  Then event-driven interactions between components are strictly causal, as they must communicate by sending messages.  We restrict the BIP syntax to send/receive type interactions, including broadcast but excluding rendezvous. Some parallel/distributed platforms provide more advanced synchronization primitives, but our platforms are more simple.
+\item In the local case, BIP-defined components are deployed on the same processor.  Locally, we can easily interpret send/receive and broadcast using synchronous data flow semantics.  Rendezvous is also possible, but we do not handle that case yet.
+\end{itemize}
+
+\begin{figure}[htb]
+	\centering
+		\includegraphics[width=1.00\columnwidth]{images/bip_gme_meta.png}
+	\caption{GME Metamodel for restricted BIP Petri net language.}
+	\label{fig:bip_gme_meta}
+\end{figure}
+
+The BIP GME metamodel (Fig. \ref{fig:bip_gme_meta}) formalizes the structure of a language where each component is specified as a Petri Net.  Petri Net components contain states, transitions, and connections between them. A transition is interpreted as handling a sending or receiving interaction, depending on the connections made to the associated port.  For inbound connections (the destination end of a connector) the transition is triggered by an arriving message.  For outbound connections, the transition sends a message.  
+
+\subsection{Send and Receive translation for interactions}
+
+\begin{figure}[htb]
+	\centering
+		\includegraphics[width=1.00\columnwidth]{images/bip_import.png}
+	\caption{Process for importing BIP models into ESMoL.}
+	\label{fig:bip_import}
+\end{figure}
+
+
+Todo: Details of the send/receive translation (MJ).
+
+\subsection{Importing into ESMoL}
+
+The ESMoL language is a composite of many sublanguages.  One of those sublanguages is structurally indentical to the BIP metamodel previous described.  The transformation is an isomorphism from a BIP GME model into an ESMoL BIP GME model, but which navigates the structure of the ESMoL model to place the imported data into the right folders.
+

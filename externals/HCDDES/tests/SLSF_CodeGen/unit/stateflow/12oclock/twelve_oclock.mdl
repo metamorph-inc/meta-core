@@ -1,0 +1,2037 @@
+Model {
+  Name			  "twelve_oclock"
+  Version		  6.6
+  MdlSubVersion		  0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    1
+    Outport {
+      BusObject		      ""
+      BusOutputAsStruct	      "off"
+      Name		      "Out1"
+    }
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.23"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SavedCharacterEncoding  "windows-1252"
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Aug 14 11:19:08 2007"
+  Creator		  "vBuskirk"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "vBuskirk"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Fri Aug 31 17:52:43 2007"
+  ModelVersionFormat	  "1.%<AutoIncrement:23>"
+  ConfigurationManager	  "None"
+  SimulationMode	  "normal"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  AccelVerboseBuild	  off
+  TryForcingSFcnDF	  off
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  ProdHWDeviceType	  "32-bit Generic"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.2.0"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.2.0"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "1"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "FixedStepDiscrete"
+	  SolverName		  "FixedStepDiscrete"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.2.0"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SignalLogging		  on
+	  InspectSignalLogs	  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    5
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.2.0"
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  ExpressionDepthLimit	  2147483647
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	  BufferReusableBoundary  on
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.2.0"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "UseLocalSettings"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "error"
+	  MultiTaskCondExecSysMsg "error"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  ParameterTunabilityLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "Use local settings"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StateNameClashWarn	  "warning"
+	  StrictBusMsg		  "Warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.2.0"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.2.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.2.0"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  IncludeERTFirstTime	  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		16
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		Cell			"CustomSymbolStrGlobalVar"
+		Cell			"CustomSymbolStrType"
+		Cell			"CustomSymbolStrField"
+		Cell			"CustomSymbolStrFcn"
+		Cell			"CustomSymbolStrBlkIO"
+		Cell			"CustomSymbolStrTmpVar"
+		Cell			"CustomSymbolStrMacro"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.2.0"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      MangleLength	      1
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		15
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"GenerateTestInterfaces"
+		Cell			"ModelStepFunctionPrototypeControlComp"
+"liant"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"PortableWordSizes"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.2.0"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      EnableShiftOperators    on
+	      ParenthesesLevel	      "Nominal"
+	      PortableWordSizes	      off
+	      ModelStepFunctionPrototypeControlCompliant off
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      ExtModeIntrfLevel	      "Level1"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Arial"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      Ground
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      SFunctionModules	      "''"
+      PortCounts	      "[]"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      "FromPortIcon"
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Terminator
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Arial"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    UseDisplayTextAsClickCallback off
+  }
+  LineDefaults {
+    FontName		    "Arial"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "twelve_oclock"
+    Location		    [504, 496, 1040, 789]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Chart"
+      Ports		      [0, 1]
+      Position		      [180, 69, 240, 121]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Array {
+	Type			"Handle"
+	Dimension		0
+	PropName		"AvailSigsLoadSave"
+      }
+      MaskHideContents	      off
+      MaskType		      "Stateflow"
+      MaskDescription	      "Stateflow diagram"
+      MaskDisplay	      "plot(sf('Private','sfblk','xIcon'),sf('Private'"
+",'sfblk','yIcon'));text(0.5,0,sf('Private', 'sfblk', 'tIcon'),'HorizontalAl',"
+"'Center','VerticalAl','Bottom');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      off
+      MaskIconOpaque	      off
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Chart"
+	Location		[257, 457, 812, 717]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Demux
+	  Name			  " Demux "
+	  Ports			  [1, 1]
+	  Position		  [270, 160, 320, 200]
+	  Outputs		  "1"
+	}
+	Block {
+	  BlockType		  Ground
+	  Name			  " Ground "
+	  Position		  [20, 121, 40, 139]
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  " SFunction "
+	  Tag			  "Stateflow S-Function twelve_oclock 1"
+	  Ports			  [1, 2]
+	  Position		  [180, 100, 230, 160]
+	  FunctionName		  "sf_sfun"
+	  PortCounts		  "[1 2]"
+	  Port {
+	    PortNumber		    2
+	    Name		    "out"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  " Terminator "
+	  Position		  [460, 171, 480, 189]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "out"
+	  Position		  [460, 101, 480, 119]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  " Demux "
+	  SrcPort		  1
+	  DstBlock		  " Terminator "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  " SFunction "
+	  SrcPort		  1
+	  Points		  [0, 65]
+	  DstBlock		  " Demux "
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "out"
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  2
+	  DstBlock		  "out"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  " Ground "
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Outport
+      Name		      "Out1"
+      Position		      [290, 88, 320, 102]
+      IconDisplay	      "Port number"
+      BusOutputAsStruct	      off
+    }
+    Line {
+      SrcBlock		      "Chart"
+      SrcPort		      1
+      DstBlock		      "Out1"
+      DstPort		      1
+    }
+  }
+}
+
+# Finite State Machines
+#
+#    Stateflow Version 6.6 (R2007a) dated Jan 30 2007, 03:33:34
+#
+#
+
+Stateflow {
+
+	machine {
+		id                   		1
+		name                 		"twelve_oclock"
+		created              		"14-Aug-2007 11:19:44"
+		isLibrary            		0
+		firstTarget          		67
+		sfVersion            		66014000
+	}
+
+	chart {
+		id                                        		2
+		name                                      		"Chart"
+		windowPosition                            		[18.75 50.25 1184.25 787.5]
+		viewLimits                                		[86.97 914.014 25.24 570.077]
+		zoomFactor                                		0.725
+		screen                                    		[1 1 1600 1200 1.333333333333333]
+		treeNode                                  		[0 33 0 0]
+		firstTransition                           		64
+		viewObj                                   		2
+		machine                                   		1
+		subviewS {
+			x1        		85.102
+			y1        		25.24
+			zoomFactor		0.725
+		}
+		decomposition                             		CLUSTER_CHART
+		firstData                                 		65
+		chartFileNumber                           		1
+		disableImplicitCasting                    		1
+	}
+
+	state {
+		id                           		3
+		labelString                  		"s10000"
+		position                     		[456.625 492.0625 46 17.875]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 5 0]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		4
+		labelString                  		"s11000"
+		position                     		[264.4167 411.375 47.5208 18.4375]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 9 5]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		5
+		labelString                  		"s12000"
+		position                     		[644.0833 424.375 47.9583 17.5]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 4 3]
+		superState                   		GROUPED
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		6
+		labelString                  		"s11100"
+		position                     		[187.3333 339.6875 40.9375 17.1875]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 8 9]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		7
+		labelString                  		"s11200"
+		position                     		[388.6875 337.5 40.8333 17.5]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 17 8]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		8
+		labelString                  		"s12100"
+		position                     		[591.7083 337.8125 47.7083 17.0417]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 7 6]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		9
+		labelString                  		"s12200"
+		position                     		[786.0833 346.3542 39.5833 16.6667]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 6 4]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		10
+		labelString                  		"s12120"
+		position                     		[650.2681 189.3159 39.5833 16.6667]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 18 11]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		11
+		labelString                  		"s12110"
+		position                     		[540.164 192.7534 39.5833 16.6667]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 10 17]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		12
+		labelString                  		"s12210"
+		position                     		[746.5725 184.343 40.4167 16.6667]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 23 13]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		13
+		labelString                  		"s12220"
+		position                     		[835.4176 185.7968 39.5833 16.6667]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 12 15]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		14
+		labelString                  		"s11121"
+		position                     		[198.5561 50.566 44.0218 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 25 24]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		15
+		labelString                  		"s11110"
+		position                     		[137.664 186.5034 39.5833 16.6667]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 13 16]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		16
+		labelString                  		"s11120"
+		position                     		[216.7265 188.0659 39.5833 16.6667]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 15 18]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		17
+		labelString                  		"s11220"
+		position                     		[437.039 194.0034 39.5833 16.6667]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 11 7]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		18
+		labelString                  		"s11210"
+		position                     		[348.289 189.0034 39.5833 16.6667]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 16 10]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		19
+		labelString                  		"s11122"
+		position                     		[247.3242 49.2888 45.1087 16.3949]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 27 22]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		20
+		labelString                  		"s11111"
+		position                     		[99.7246 47.9573 42.9348 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 21 31]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		21
+		labelString                  		"s11112"
+		position                     		[148.5425 47.6448 44.0218 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 29 20]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		22
+		labelString                  		"s11211"
+		position                     		[302.4963 49.2888 43.4783 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 19 28]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		23
+		labelString                  		"s11212"
+		position                     		[351.4863 53.2426 44.0218 15.8514]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 26 12]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		24
+		labelString                  		"s11221"
+		position                     		[402.7363 50.9872 43.4783 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 14 26]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		25
+		labelString                  		"s11222"
+		position                     		[453.6285 49.8867 44.0218 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 28 14]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		26
+		labelString                  		"s12111"
+		position                     		[503.9863 51.6281 45.1087 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 24 23]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		27
+		labelString                  		"s12112"
+		position                     		[553.4156 49.1552 46.7392 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 32 19]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		28
+		labelString                  		"s12121"
+		position                     		[607.1453 49.2979 44.5652 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 22 25]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		29
+		labelString                  		"s12122"
+		position                     		[657.9832 47.3549 45.1087 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 30 21]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		30
+		labelString                  		"s12211"
+		position                     		[707.999 46.8567 43.7681 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 33 29]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		31
+		labelString                  		"s12212"
+		position                     		[755.0915 48.0252 44.8551 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 20 32]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		32
+		labelString                  		"s12221"
+		position                     		[801.7717 48.2562 44.5652 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 31 27]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		33
+		labelString                  		"s12222"
+		position                     		[860.8161 45.5796 47.2827 16.9384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 0 30]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	transition {
+		id             		34
+		labelPosition  		[478.796 507.131 8.152 15.195]
+		fontSize       		12
+		src {
+			intersection		[0 0 -1 0 484.6668 574.75 0 0]
+		}
+		dst {
+			id          		3
+			intersection		[3 0 1 0.3904 484.6668 509.9375 0 0]
+		}
+		midPoint       		[484.6668 545.1955]
+		chart          		2
+		linkNode       		[2 36 0]
+		dataLimits     		[482.267 487.067 509.938 574.75]
+		subviewer      		2
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	transition {
+		id             		35
+		labelPosition  		[331.651 484.611 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		3
+			intersection		[4 -1 0 0.5824 456.625 499.5273 0 -7.4648]
+		}
+		dst {
+			id          		4
+			intersection		[3 0 1 0.4077 292.5625 429.8125 0 19.375]
+		}
+		midPoint       		[347.9738 489.8661]
+		chart          		2
+		linkNode       		[2 40 36]
+		dataLimits     		[290.163 456.625 429.813 500.712]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		36
+		labelPosition  		[614.512 473.82 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		3
+			intersection		[1 0 -1 0.8637 496.3542 492.0625 0 -6.2708]
+		}
+		dst {
+			id          		5
+			intersection		[3 0 1 0.3501 675.2526 441.875 0 -31.1693]
+		}
+		midPoint       		[591.6333 471.6097]
+		chart          		2
+		linkNode       		[2 35 34]
+		dataLimits     		[496.354 677.653 441.875 492.062]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		37
+		labelPosition  		[229.178 385.017 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		4
+			intersection		[1 0 -1 0.1484 271.4687 411.375 0 7.052]
+		}
+		dst {
+			id          		6
+			intersection		[3 0 1 0.5089 207.4375 356.875 0 20.8333]
+		}
+		midPoint       		[237.3664 387.5219]
+		chart          		2
+		linkNode       		[2 38 40]
+		dataLimits     		[205.037 271.469 356.875 411.375]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		38
+		labelPosition  		[363.375 384.959 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		4
+			intersection		[1 0 -1 0.8203 303.3958 411.375 0 -8.5417]
+		}
+		dst {
+			id          		7
+			intersection		[3 0 1 0.8648 394.2083 355 0 -5.5208]
+		}
+		midPoint       		[351.7615 386.7707]
+		chart          		2
+		linkNode       		[2 39 37]
+		dataLimits     		[303.396 396.608 355 411.375]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		39
+		labelPosition  		[629.614 387.784 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		5
+			intersection		[1 0 -1 0.1871 653.058 424.375 0 8.9747]
+		}
+		dst {
+			id          		8
+			intersection		[3 0 1 0.4581 617.5625 354.8542 0 21.8542]
+		}
+		midPoint       		[634.1535 392.4566]
+		chart          		2
+		linkNode       		[2 56 38]
+		dataLimits     		[615.163 653.058 354.854 424.375]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		40
+		labelPosition  		[763.361 396.581 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		5
+			intersection		[1 0 -1 0.6964 677.4792 424.375 0 -14.5625]
+		}
+		dst {
+			id          		9
+			intersection		[3 0 1 0.4587 807.5103 363.0208 0 -21.4269]
+		}
+		midPoint       		[746.7322 397.5191]
+		chart          		2
+		linkNode       		[2 37 35]
+		dataLimits     		[677.479 809.91 363.021 424.375]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		41
+		labelPosition  		[777.898 263.316 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		9
+			intersection		[1 0 -1 0.2781 797.0933 346.3542 0 10.1042]
+		}
+		dst {
+			id          		12
+			intersection		[3 0 1 0.4691 768.0308 201.0097 0 18.9583]
+		}
+		midPoint       		[781.615 274.8142]
+		chart          		2
+		linkNode       		[2 52 42]
+		dataLimits     		[765.631 797.093 201.01 346.354]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		42
+		labelPosition  		[844.363 264.387 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		9
+			intersection		[1 0 -1 0.7447 815.5625 346.3542 0 -10.1042]
+		}
+		dst {
+			id          		13
+			intersection		[3 0 1 0.4 859.1676 202.4635 0 -23.75]
+		}
+		midPoint       		[838.7861 275.6116]
+		chart          		2
+		linkNode       		[2 41 45]
+		dataLimits     		[815.563 861.568 202.464 346.354]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		43
+		labelPosition  		[557.168 281.815 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		8
+			intersection		[4 -1 0 0.4721 591.7083 346.809 0 -8.9965]
+		}
+		dst {
+			id          		11
+			intersection		[3 0 1 0.5158 559.3306 209.42 0 20.4167]
+		}
+		midPoint       		[557.6193 296.2744]
+		chart          		2
+		linkNode       		[2 44 56]
+		dataLimits     		[555.552 591.708 209.42 346.809]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		44
+		labelPosition  		[657.106 263.227 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		8
+			intersection		[1 0 -1 0.7576 627.8542 337.8125 0 -11.5625]
+		}
+		dst {
+			id          		10
+			intersection		[3 0 1 0.4474 672.1431 205.9825 0 -21.875]
+		}
+		midPoint       		[651.4419 273.3709]
+		chart          		2
+		linkNode       		[2 55 43]
+		dataLimits     		[627.854 674.543 205.982 337.812]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		45
+		labelPosition  		[170.424 262.235 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		6
+			intersection		[1 0 -1 0.1319 192.7335 339.6875 0 5.4002]
+		}
+		dst {
+			id          		15
+			intersection		[3 0 1 0.4526 159.3306 203.17 0 17.9167]
+		}
+		midPoint       		[174.9435 272.7654]
+		chart          		2
+		linkNode       		[2 42 46]
+		dataLimits     		[156.931 192.733 203.17 339.687]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		46
+		labelPosition  		[232.826 262.763 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		6
+			intersection		[1 0 -1 0.6489 213.8958 339.6875 0 -14.375]
+		}
+		dst {
+			id          		16
+			intersection		[3 0 1 0.3816 241.2056 204.7325 0 -18.8542]
+		}
+		midPoint       		[228.8559 275.4473]
+		chart          		2
+		linkNode       		[2 45 55]
+		dataLimits     		[213.896 243.606 204.732 339.687]
+		stampAngle     		NaN
+		subviewer      		2
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		47
+		labelString    		"/ out=11111;"
+		labelPosition  		[94.652 80.104 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		15
+			intersection		[1 0 -1 0.113 142.1386 186.5034 0 -0.5208]
+		}
+		dst {
+			id          		20
+			intersection		[3 0 1 0.5192 120.3677 64.8957 0 22.2917]
+		}
+		midPoint       		[130.5437 127.3376]
+		chart          		2
+		linkNode       		[2 48 62]
+		dataLimits     		[117.968 142.139 64.896 186.503]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		48
+		labelString    		"/ out=11112;"
+		labelPosition  		[142.843 97.323 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		15
+			intersection		[1 0 -1 0.8368 170.789 186.5034 0 13.3333]
+		}
+		dst {
+			id          		21
+			intersection		[3 0 1 0.3006 179.3306 64.5832 0 -21.875]
+		}
+		midPoint       		[175.3382 127.1568]
+		chart          		2
+		linkNode       		[2 60 47]
+		dataLimits     		[170.789 181.731 64.583 186.503]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		49
+		labelString    		"/ out=11121;"
+		labelPosition  		[193.729 123.244 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		16
+			intersection		[1 0 -1 0.2746 227.5967 188.0659 0 -8.9214]
+		}
+		dst {
+			id          		14
+			intersection		[3 0 1 0.6659 213.2617 67.5044 0 23.2564]
+		}
+		midPoint       		[219.9621 129.4342]
+		chart          		2
+		linkNode       		[2 54 53]
+		dataLimits     		[210.862 227.597 67.504 188.066]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		50
+		labelString    		"/ out=11122;"
+		labelPosition  		[230.721 146.935 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		16
+			intersection		[1 0 -1 0.5414 238.1575 188.0659 0 -9.1667]
+		}
+		dst {
+			id          		19
+			intersection		[3 0 1 0.6629 262.5325 65.6837 0 -15.2083]
+		}
+		midPoint       		[251.1393 128.5011]
+		chart          		2
+		linkNode       		[2 63 58]
+		dataLimits     		[238.158 264.933 65.684 188.066]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		51
+		labelString    		"/ out=11211;"
+		labelPosition  		[293.739 88.886 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		18
+			intersection		[1 0 -1 0.2632 358.7056 189.0034 0 -20.5208]
+		}
+		dst {
+			id          		22
+			intersection		[3 0 1 0.5184 323.4345 66.2272 0 20.5208]
+		}
+		midPoint       		[340.709 128.7988]
+		chart          		2
+		linkNode       		[2 58 59]
+		dataLimits     		[321.035 358.706 66.227 189.003]
+		stampAngle     		NaN
+		subviewer      		2
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		52
+		labelString    		"/ out=11212;"
+		labelPosition  		[346.257 102.644 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		18
+			intersection		[1 0 -1 0.5796 371.23 189.0034 0 15.5589]
+		}
+		dst {
+			id          		23
+			intersection		[3 0 1 0.5515 371.23 69.0941 0 -21.6667]
+		}
+		midPoint       		[371.23 130.7027]
+		chart          		2
+		linkNode       		[2 57 41]
+		dataLimits     		[368.83 373.63 69.094 189.003]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		executionOrder 		2
+	}
+
+	transition {
+		id             		53
+		labelString    		"/ out=11221;"
+		labelPosition  		[403.667 123.592 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		17
+			intersection		[1 0 -1 0.2318 446.2146 194.0034 0 -0]
+		}
+		dst {
+			id          		24
+			intersection		[3 0 1 0.472 425.6938 67.9256 0 20.5208]
+		}
+		midPoint       		[435.2855 132.5024]
+		chart          		2
+		linkNode       		[2 49 57]
+		dataLimits     		[423.294 446.215 67.926 194.003]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		54
+		labelString    		"/ out=11222;"
+		labelPosition  		[440.764 144.374 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		17
+			intersection		[1 0 -1 0.4395 454.4348 194.0034 0 -2.3958]
+		}
+		dst {
+			id          		25
+			intersection		[3 0 1 0.3783 480.9973 66.8251 0 -24.1667]
+		}
+		midPoint       		[468.5817 131.94]
+		chart          		2
+		linkNode       		[2 59 49]
+		dataLimits     		[454.435 483.397 66.825 194.003]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		55
+		labelPosition  		[396.669 321.222 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		7
+			intersection		[1 0 -1 0.1964 396.7083 337.5 0 8.0208]
+		}
+		dst {
+			id          		18
+			intersection		[3 0 1 0.2079 379.6431 205.67 0 8.2292]
+		}
+		midPoint       		[387.6196 272.9918]
+		chart          		2
+		linkNode       		[2 46 44]
+		dataLimits     		[377.243 396.708 205.67 337.5]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		56
+		labelPosition  		[443.88 265.874 8.152 15.195]
+		fontSize       		12
+		src {
+			id          		7
+			intersection		[1 0 -1 0.7347 418.6875 337.5 0 -10.8333]
+		}
+		dst {
+			id          		17
+			intersection		[3 0 1 0.5 456.8306 210.67 0 -19.7917]
+		}
+		midPoint       		[439.0021 275.6494]
+		chart          		2
+		linkNode       		[2 43 39]
+		dataLimits     		[418.688 459.231 210.67 337.5]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		57
+		labelString    		"/ out=12111;"
+		labelPosition  		[505.595 81.484 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		11
+			intersection		[1 0 -1 0.202 548.1601 192.7534 0 -0.935]
+		}
+		dst {
+			id          		26
+			intersection		[3 0 1 0.4434 529.0951 68.5665 0 20]
+		}
+		midPoint       		[538.0063 132.2367]
+		chart          		2
+		linkNode       		[2 53 52]
+		dataLimits     		[526.695 548.16 68.567 192.753]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		58
+		labelString    		"/ out=12112;"
+		labelPosition  		[552.435 102.941 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		11
+			intersection		[1 0 -1 0.8061 572.0733 192.7534 0 12.1177]
+		}
+		dst {
+			id          		27
+			intersection		[3 0 1 0.3586 583.3931 66.0936 0 -23.4375]
+		}
+		midPoint       		[578.1021 130.9362]
+		chart          		2
+		linkNode       		[2 50 51]
+		dataLimits     		[572.073 585.793 66.094 192.753]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		59
+		labelString    		"/ out=12121;"
+		labelPosition  		[599.939 132.502 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		10
+			intersection		[4 -1 0 0.5831 650.2681 196.2647 0 -8.3912]
+		}
+		dst {
+			id          		28
+			intersection		[3 0 1 0.5511 627.1511 66.2363 0 24.5594]
+		}
+		midPoint       		[622.1955 148.4674]
+		chart          		2
+		linkNode       		[2 51 54]
+		dataLimits     		[621.454 650.268 66.236 196.265]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		60
+		labelString    		"/ out=12122;"
+		labelPosition  		[661.838 138.384 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		10
+			intersection		[1 0 -1 0.7156 678.5956 189.3159 0 8.5358]
+		}
+		dst {
+			id          		29
+			intersection		[3 0 1 0.543 678.5956 64.2933 0 -8.5358]
+		}
+		midPoint       		[678.5956 128.3474]
+		chart          		2
+		linkNode       		[2 61 48]
+		dataLimits     		[676.196 680.996 64.293 189.316]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	transition {
+		id             		61
+		labelString    		"/ out=12211;"
+		labelPosition  		[707.491 77.514 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		12
+			intersection		[1 0 -1 0.318 759.4248 184.343 0 7.6576]
+		}
+		dst {
+			id          		30
+			intersection		[3 0 1 0.4135 733.6684 63.7952 0 18.0988]
+		}
+		midPoint       		[745.7073 125.7387]
+		chart          		2
+		linkNode       		[2 64 60]
+		dataLimits     		[731.268 759.425 63.795 184.343]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		62
+		labelString    		"/ out=12212;"
+		labelPosition  		[756.404 97.079 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		12
+			intersection		[1 0 -1 0.6392 772.4058 184.343 0 5.625]
+		}
+		dst {
+			id          		31
+			intersection		[3 0 1 0.2579 788.3789 64.9636 0 -21.5981]
+		}
+		midPoint       		[780.9129 126.3304]
+		chart          		2
+		linkNode       		[2 47 63]
+		dataLimits     		[772.406 790.779 64.964 184.343]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		63
+		labelString    		"/ out=12221;"
+		labelPosition  		[798.252 120.449 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		13
+			intersection		[1 0 -1 0.1329 840.6767 185.7968 0 -5.6602]
+		}
+		dst {
+			id          		32
+			intersection		[3 0 1 0.4722 825.2953 65.1946 0 21.0417]
+		}
+		midPoint       		[832.4847 127.1452]
+		chart          		2
+		linkNode       		[2 62 50]
+		dataLimits     		[822.895 840.677 65.195 185.797]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		64
+		labelString    		"/ out=12222;"
+		labelPosition  		[847.165 141.101 70.11 15.195]
+		fontSize       		12
+		src {
+			id          		13
+			intersection		[1 0 -1 0.7339 864.4663 185.7968 0 3.6502]
+		}
+		dst {
+			id          		33
+			intersection		[3 0 1 0.5946 879.9828 62.518 0 -19.1667]
+		}
+		midPoint       		[867.1837 151.6992]
+		chart          		2
+		linkNode       		[2 0 61]
+		dataLimits     		[864.466 882.383 62.518 185.797]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	data {
+		id                            		65
+		name                          		"out"
+		linkNode                      		[2 0 0]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			initialValue         		"-1"
+			type {
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"double"
+		debug                         		[1]
+	}
+
+	instance {
+		id     		66
+		name   		"Chart"
+		machine		1
+		chart  		2
+	}
+
+	target {
+		id                        		67
+		name                      		"sfun"
+		description               		"Default Simulink S-Function Target."
+		machine                   		1
+		linkNode                  		[1 0 0]
+	}
+}

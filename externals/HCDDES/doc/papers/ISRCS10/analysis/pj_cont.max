@@ -1,0 +1,4 @@
+/* To invoke maxima -p two_tank.max */
+/* Compute misc. quantities for two tank problem using IDA-PBC  */
+Qd : matrix([-1/(k1*A1),1/(k2*A2),0],[0,-1/(k2*A2),0],[k3/k1,0,-k3/k1]);
+determinant(Qd);

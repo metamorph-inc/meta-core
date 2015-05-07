@@ -1,0 +1,17 @@
+#from BlockOperationManager import performOperation
+#
+## FOR THE ADDTYPES PASS
+###
+###if $input.type.isNull()
+##$getDemuxOutputTypes( $inputs, $outputs, $parameters )#slurp
+##    #return
+###end if
+#
+## FOR THE CODE GENERATION PASS
+#
+$block.setKeepStructs()#slurp
+#set $template = '''$output = $input
+'''
+#set $nameMap = { 'input':$inputs, 'output':$outputs }
+#
+$performOperation( $nameMap, $template )#slurp

@@ -1,0 +1,331 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="instancemerge" name="instancemerge" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id73" Name="" dstLine_end_="id50" srcLine_end_="id72"/>
+			<Line _id="id74" Name="" dstLine_end_="id4" srcLine_end_="id51"/>
+			<Line _id="ida9" Name="" dstLine_end_="id93" srcLine_end_="ida8"/>
+			<Line _id="idaa" Name="" dstLine_end_="id7" srcLine_end_="id94"/>
+			<Line _id="iddf" Name="" dstLine_end_="idc9" srcLine_end_="idde"/>
+			<Line _id="ide0" Name="" dstLine_end_="id8" srcLine_end_="idca"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id74">
+				<TypeBaseRef _id="id12e" ref="id11d" name="MbooleanC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id7" name="Out2" Number="2" srcLine="idaa">
+				<TypeBaseRef _id="id12d" ref="id11d" name="MbooleanC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id8" name="Out3" Number="3" srcLine="ide0">
+				<TypeBaseRef _id="id12f" ref="id11d" name="MbooleanC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id72" name="Out_1" Number="1" dstLine="id73">
+					<TypeBaseRef _id="idef" ref="ideb" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="1"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant1" name="Constant1" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="ida8" name="Out_1" Number="1" dstLine="ida9">
+					<TypeBaseRef _id="id101" ref="ideb" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="2"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant2" name="Constant2" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="idde" name="Out_1" Number="1" dstLine="iddf">
+					<TypeBaseRef _id="id104" ref="ideb" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<System Tag="" _id="id18" Name="GreaterThan2c1" name="GreaterThan2c1" Priority="0" position="" BlockType="SubSystem" SampleTime="0.000000" _archetype="idc" Description="" _desynched_atts="BlockType Description name Name Tag Priority SampleTime">
+				<InputPort _id="id50" name="In1" Number="1" dstLine="id19" srcLine="id73" position="" _archetype="idd" _real_archetype="false">
+					<TypeBaseRef _id="idf1" ref="ideb" name="MdoubleC1C1M" position="" _archetype="idf2" MemberIndex="0" _real_archetype="false"/>
+				</InputPort>
+				<Line _id="id19" Name="" name="" position="" _archetype="id11" dstLine_end_="id6f" srcLine_end_="id50" _real_archetype="false"/>
+				<Line _id="id1a" Name="" name="" position="" _archetype="id14" dstLine_end_="id70" srcLine_end_="id63" _real_archetype="false"/>
+				<Line _id="id1b" Name="" name="" position="" _archetype="id17" dstLine_end_="id51" srcLine_end_="id71" _real_archetype="false"/>
+				<OutputPort _id="id51" name="Out1" Number="1" dstLine="id74" srcLine="id1b" position="" _archetype="ide" _real_archetype="false">
+					<TypeBaseRef _id="id126" ref="id11d" name="MbooleanC1C1M" position="" _archetype="id127" MemberIndex="0" _real_archetype="false"/>
+				</OutputPort>
+				<Parameter _id="id1c" name="BlockChoice" Value="" position="" _archetype="id1d" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id1e" name="CheckFcnCallInpInsideContextMsg" Value="off" position="" _archetype="id1f" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id20" name="DataTypeOverride" Value="UseLocalSettings" position="" _archetype="id21" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id22" name="ErrorFcn" Value="" position="" _archetype="id23" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id24" name="FunctionWithSeparateData" Value="off" position="" _archetype="id25" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id26" name="MemberBlocks" Value="" position="" _archetype="id27" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id28" name="MinAlgLoopOccurrences" Value="off" position="" _archetype="id29" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id2a" name="MinMaxOverflowLogging" Value="UseLocalSettings" position="" _archetype="id2b" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id2c" name="Permissions" Value="ReadWrite" position="" _archetype="id2d" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id2e" name="PermitHierarchicalResolution" Value="All" position="" _archetype="id2f" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id30" name="PropExecContextOutsideSubsystem" Value="off" position="" _archetype="id31" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id32" name="RTWFcnName" Value="" position="" _archetype="id33" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id34" name="RTWFcnNameOpts" Value="Auto" position="" _archetype="id35" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id36" name="RTWFileName" Value="" position="" _archetype="id37" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id38" name="RTWFileNameOpts" Value="Auto" position="" _archetype="id39" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id3a" name="RTWMemSecDataConstants" Value="Inherit from model" position="" _archetype="id3b" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id3c" name="RTWMemSecDataInternal" Value="Inherit from model" position="" _archetype="id3d" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id3e" name="RTWMemSecDataParameters" Value="Inherit from model" position="" _archetype="id3f" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id40" name="RTWMemSecFuncExecute" Value="Inherit from model" position="" _archetype="id41" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id42" name="RTWMemSecFuncInitTerm" Value="Inherit from model" position="" _archetype="id43" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id44" name="RTWSystemCode" Value="Auto" position="" _archetype="id45" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id46" name="SCDConfigFcn" Value="" position="" _archetype="id47" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id48" name="ShowPortLabels" Value="FromPortIcon" position="" _archetype="id49" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id4a" name="SystemSampleTime" Value="-1" position="" _archetype="id4b" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id4c" name="TemplateBlock" Value="" position="" _archetype="id4d" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id4e" name="TreatAsAtomicUnit" Value="off" position="" _archetype="id4f" _desynched_atts="Value" _real_archetype="false"/>
+				<Primitive Tag="" _id="id52" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" position="" BlockType="Constant" SampleTime="0.000000" _archetype="idf" Description="" ExecutionTime="0" _real_archetype="false">
+					<OutputPort _id="id63" name="Out_1" Number="1" dstLine="id1a" position="" _archetype="id13" _real_archetype="false">
+						<TypeBaseRef _id="id107" ref="ideb" name="MdoubleC1C1M" position="" _archetype="id108" MemberIndex="0" _real_archetype="false"/>
+					</OutputPort>
+					<Parameter _id="id53" name="ConRadixGroup" Value="Use specified scaling" position="" _archetype="id54" _real_archetype="false"/>
+					<Parameter _id="id55" name="FramePeriod" Value="inf" position="" _archetype="id56" _real_archetype="false"/>
+					<Parameter _id="id57" name="OutDataType" Value="sfix(16)" position="" _archetype="id58" _real_archetype="false"/>
+					<Parameter _id="id59" name="OutDataTypeMode" Value="Inherit from 'Constant value'" position="" _archetype="id5a" _real_archetype="false"/>
+					<Parameter _id="id5b" name="OutScaling" Value="2^0" position="" _archetype="id5c" _real_archetype="false"/>
+					<Parameter _id="id5d" name="SamplingMode" Value="Sample based" position="" _archetype="id5e" _real_archetype="false"/>
+					<Parameter _id="id5f" name="Value" Value="2" position="" _archetype="id60" _real_archetype="false"/>
+					<Parameter _id="id61" name="VectorParams1D" Value="on" position="" _archetype="id62" _real_archetype="false"/>
+				</Primitive>
+				<Primitive Tag="" _id="id64" Name="Relational Operator" name="Relational Operator" Period="0" Deadline="0" Priority="0" position="" BlockType="RelationalOperator" SampleTime="-1.000000" _archetype="id10" Description="" ExecutionTime="0" _real_archetype="false">
+					<InputPort _id="id6f" name="In_1" Number="1" srcLine="id19" position="" _archetype="id12" _real_archetype="false">
+						<TypeBaseRef _id="idf8" ref="ideb" name="MdoubleC1C1M" position="" _archetype="idf9" MemberIndex="0" _real_archetype="false"/>
+					</InputPort>
+					<InputPort _id="id70" name="In_2" Number="2" srcLine="id1a" position="" _archetype="id15" _real_archetype="false">
+						<TypeBaseRef _id="id110" ref="ideb" name="MdoubleC1C1M" position="" _archetype="id111" MemberIndex="0" _real_archetype="false"/>
+					</InputPort>
+					<OutputPort _id="id71" name="Out_1" Number="1" dstLine="id1b" position="" _archetype="id16" _real_archetype="false">
+						<TypeBaseRef _id="id11e" ref="id11d" name="MbooleanC1C1M" position="" _archetype="id11f" MemberIndex="0" _real_archetype="false"/>
+					</OutputPort>
+					<Parameter _id="id65" name="InputSameDT" Value="off" position="" _archetype="id66" _real_archetype="false"/>
+					<Parameter _id="id67" name="LogicDataType" Value="uint(8)" position="" _archetype="id68" _real_archetype="false"/>
+					<Parameter _id="id69" name="LogicOutDataTypeMode" Value="Boolean" position="" _archetype="id6a" _real_archetype="false"/>
+					<Parameter _id="id6b" name="Operator" Value=">" position="" _archetype="id6c" _real_archetype="false"/>
+					<Parameter _id="id6d" name="ZeroCross" Value="on" position="" _archetype="id6e" _real_archetype="false"/>
+				</Primitive>
+			</System>
+			<System Tag="" _id="id75" Name="GreaterThan2c2" name="GreaterThan2c2" Priority="0" position="" BlockType="SubSystem" SampleTime="0.000000" _archetype="idc" Description="" _desynched_atts="BlockType Description name Name Tag Priority SampleTime">
+				<InputPort _id="id93" name="In1" Number="1" dstLine="id76" srcLine="ida9" position="" _archetype="idd" _real_archetype="false">
+					<TypeBaseRef _id="idf3" ref="ideb" name="MdoubleC1C1M" position="" _archetype="idf2" MemberIndex="0" _real_archetype="false"/>
+				</InputPort>
+				<Line _id="id76" Name="" name="" position="" _archetype="id11" dstLine_end_="ida5" srcLine_end_="id93" _real_archetype="false"/>
+				<Line _id="id77" Name="" name="" position="" _archetype="id14" dstLine_end_="ida6" srcLine_end_="id9e" _real_archetype="false"/>
+				<Line _id="id78" Name="" name="" position="" _archetype="id17" dstLine_end_="id94" srcLine_end_="ida7" _real_archetype="false"/>
+				<OutputPort _id="id94" name="Out1" Number="1" dstLine="idaa" srcLine="id78" position="" _archetype="ide" _real_archetype="false">
+					<TypeBaseRef _id="id128" ref="id11d" name="MbooleanC1C1M" position="" _archetype="id127" MemberIndex="0" _real_archetype="false"/>
+				</OutputPort>
+				<Parameter _id="id79" name="BlockChoice" Value="" position="" _archetype="id1d" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id7a" name="CheckFcnCallInpInsideContextMsg" Value="off" position="" _archetype="id1f" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id7b" name="DataTypeOverride" Value="UseLocalSettings" position="" _archetype="id21" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id7c" name="ErrorFcn" Value="" position="" _archetype="id23" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id7d" name="FunctionWithSeparateData" Value="off" position="" _archetype="id25" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id7e" name="MemberBlocks" Value="" position="" _archetype="id27" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id7f" name="MinAlgLoopOccurrences" Value="off" position="" _archetype="id29" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id80" name="MinMaxOverflowLogging" Value="UseLocalSettings" position="" _archetype="id2b" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id81" name="Permissions" Value="ReadWrite" position="" _archetype="id2d" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id82" name="PermitHierarchicalResolution" Value="All" position="" _archetype="id2f" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id83" name="PropExecContextOutsideSubsystem" Value="off" position="" _archetype="id31" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id84" name="RTWFcnName" Value="" position="" _archetype="id33" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id85" name="RTWFcnNameOpts" Value="Auto" position="" _archetype="id35" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id86" name="RTWFileName" Value="" position="" _archetype="id37" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id87" name="RTWFileNameOpts" Value="Auto" position="" _archetype="id39" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id88" name="RTWMemSecDataConstants" Value="Inherit from model" position="" _archetype="id3b" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id89" name="RTWMemSecDataInternal" Value="Inherit from model" position="" _archetype="id3d" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id8a" name="RTWMemSecDataParameters" Value="Inherit from model" position="" _archetype="id3f" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id8b" name="RTWMemSecFuncExecute" Value="Inherit from model" position="" _archetype="id41" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id8c" name="RTWMemSecFuncInitTerm" Value="Inherit from model" position="" _archetype="id43" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id8d" name="RTWSystemCode" Value="Auto" position="" _archetype="id45" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id8e" name="SCDConfigFcn" Value="" position="" _archetype="id47" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id8f" name="ShowPortLabels" Value="FromPortIcon" position="" _archetype="id49" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id90" name="SystemSampleTime" Value="-1" position="" _archetype="id4b" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id91" name="TemplateBlock" Value="" position="" _archetype="id4d" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="id92" name="TreatAsAtomicUnit" Value="off" position="" _archetype="id4f" _desynched_atts="Value" _real_archetype="false"/>
+				<Primitive Tag="" _id="id95" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" position="" BlockType="Constant" SampleTime="0.000000" _archetype="idf" Description="" ExecutionTime="0" _real_archetype="false">
+					<OutputPort _id="id9e" name="Out_1" Number="1" dstLine="id77" position="" _archetype="id13" _real_archetype="false">
+						<TypeBaseRef _id="id109" ref="ideb" name="MdoubleC1C1M" position="" _archetype="id108" MemberIndex="0" _real_archetype="false"/>
+					</OutputPort>
+					<Parameter _id="id96" name="ConRadixGroup" Value="Use specified scaling" position="" _archetype="id54" _real_archetype="false"/>
+					<Parameter _id="id97" name="FramePeriod" Value="inf" position="" _archetype="id56" _real_archetype="false"/>
+					<Parameter _id="id98" name="OutDataType" Value="sfix(16)" position="" _archetype="id58" _real_archetype="false"/>
+					<Parameter _id="id99" name="OutDataTypeMode" Value="Inherit from 'Constant value'" position="" _archetype="id5a" _real_archetype="false"/>
+					<Parameter _id="id9a" name="OutScaling" Value="2^0" position="" _archetype="id5c" _real_archetype="false"/>
+					<Parameter _id="id9b" name="SamplingMode" Value="Sample based" position="" _archetype="id5e" _real_archetype="false"/>
+					<Parameter _id="id9c" name="Value" Value="2" position="" _archetype="id60" _real_archetype="false"/>
+					<Parameter _id="id9d" name="VectorParams1D" Value="on" position="" _archetype="id62" _real_archetype="false"/>
+				</Primitive>
+				<Primitive Tag="" _id="id9f" Name="Relational Operator" name="Relational Operator" Period="0" Deadline="0" Priority="0" position="" BlockType="RelationalOperator" SampleTime="-1.000000" _archetype="id10" Description="" ExecutionTime="0" _real_archetype="false">
+					<InputPort _id="ida5" name="In_1" Number="1" srcLine="id76" position="" _archetype="id12" _real_archetype="false">
+						<TypeBaseRef _id="idfa" ref="ideb" name="MdoubleC1C1M" position="" _archetype="idf9" MemberIndex="0" _real_archetype="false"/>
+					</InputPort>
+					<InputPort _id="ida6" name="In_2" Number="2" srcLine="id77" position="" _archetype="id15" _real_archetype="false">
+						<TypeBaseRef _id="id112" ref="ideb" name="MdoubleC1C1M" position="" _archetype="id111" MemberIndex="0" _real_archetype="false"/>
+					</InputPort>
+					<OutputPort _id="ida7" name="Out_1" Number="1" dstLine="id78" position="" _archetype="id16" _real_archetype="false">
+						<TypeBaseRef _id="id120" ref="id11d" name="MbooleanC1C1M" position="" _archetype="id11f" MemberIndex="0" _real_archetype="false"/>
+					</OutputPort>
+					<Parameter _id="ida0" name="InputSameDT" Value="off" position="" _archetype="id66" _real_archetype="false"/>
+					<Parameter _id="ida1" name="LogicDataType" Value="uint(8)" position="" _archetype="id68" _real_archetype="false"/>
+					<Parameter _id="ida2" name="LogicOutDataTypeMode" Value="Boolean" position="" _archetype="id6a" _real_archetype="false"/>
+					<Parameter _id="ida3" name="Operator" Value=">" position="" _archetype="id6c" _real_archetype="false"/>
+					<Parameter _id="ida4" name="ZeroCross" Value="on" position="" _archetype="id6e" _real_archetype="false"/>
+				</Primitive>
+			</System>
+			<System Tag="" _id="idab" Name="GreaterThan2c3" name="GreaterThan2c3" Priority="0" position="" BlockType="SubSystem" SampleTime="0.000000" _archetype="idc" Description="" _desynched_atts="BlockType Description name Name Tag Priority SampleTime">
+				<InputPort _id="idc9" name="In1" Number="1" dstLine="idac" srcLine="iddf" position="" _archetype="idd" _real_archetype="false">
+					<TypeBaseRef _id="idf4" ref="ideb" name="MdoubleC1C1M" position="" _archetype="idf2" MemberIndex="0" _real_archetype="false"/>
+				</InputPort>
+				<Line _id="idac" Name="" name="" position="" _archetype="id11" dstLine_end_="iddb" srcLine_end_="idc9" _real_archetype="false"/>
+				<Line _id="idad" Name="" name="" position="" _archetype="id14" dstLine_end_="iddc" srcLine_end_="idd4" _real_archetype="false"/>
+				<Line _id="idae" Name="" name="" position="" _archetype="id17" dstLine_end_="idca" srcLine_end_="iddd" _real_archetype="false"/>
+				<OutputPort _id="idca" name="Out1" Number="1" dstLine="ide0" srcLine="idae" position="" _archetype="ide" _real_archetype="false">
+					<TypeBaseRef _id="id129" ref="id11d" name="MbooleanC1C1M" position="" _archetype="id127" MemberIndex="0" _real_archetype="false"/>
+				</OutputPort>
+				<Parameter _id="idaf" name="BlockChoice" Value="" position="" _archetype="id1d" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idb0" name="CheckFcnCallInpInsideContextMsg" Value="off" position="" _archetype="id1f" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idb1" name="DataTypeOverride" Value="UseLocalSettings" position="" _archetype="id21" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idb2" name="ErrorFcn" Value="" position="" _archetype="id23" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idb3" name="FunctionWithSeparateData" Value="off" position="" _archetype="id25" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idb4" name="MemberBlocks" Value="" position="" _archetype="id27" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idb5" name="MinAlgLoopOccurrences" Value="off" position="" _archetype="id29" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idb6" name="MinMaxOverflowLogging" Value="UseLocalSettings" position="" _archetype="id2b" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idb7" name="Permissions" Value="ReadWrite" position="" _archetype="id2d" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idb8" name="PermitHierarchicalResolution" Value="All" position="" _archetype="id2f" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idb9" name="PropExecContextOutsideSubsystem" Value="off" position="" _archetype="id31" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idba" name="RTWFcnName" Value="" position="" _archetype="id33" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idbb" name="RTWFcnNameOpts" Value="Auto" position="" _archetype="id35" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idbc" name="RTWFileName" Value="" position="" _archetype="id37" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idbd" name="RTWFileNameOpts" Value="Auto" position="" _archetype="id39" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idbe" name="RTWMemSecDataConstants" Value="Inherit from model" position="" _archetype="id3b" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idbf" name="RTWMemSecDataInternal" Value="Inherit from model" position="" _archetype="id3d" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idc0" name="RTWMemSecDataParameters" Value="Inherit from model" position="" _archetype="id3f" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idc1" name="RTWMemSecFuncExecute" Value="Inherit from model" position="" _archetype="id41" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idc2" name="RTWMemSecFuncInitTerm" Value="Inherit from model" position="" _archetype="id43" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idc3" name="RTWSystemCode" Value="Auto" position="" _archetype="id45" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idc4" name="SCDConfigFcn" Value="" position="" _archetype="id47" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idc5" name="ShowPortLabels" Value="FromPortIcon" position="" _archetype="id49" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idc6" name="SystemSampleTime" Value="-1" position="" _archetype="id4b" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idc7" name="TemplateBlock" Value="" position="" _archetype="id4d" _desynched_atts="Value" _real_archetype="false"/>
+				<Parameter _id="idc8" name="TreatAsAtomicUnit" Value="off" position="" _archetype="id4f" _desynched_atts="Value" _real_archetype="false"/>
+				<Primitive Tag="" _id="idcb" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" position="" BlockType="Constant" SampleTime="0.000000" _archetype="idf" Description="" ExecutionTime="0" _real_archetype="false">
+					<OutputPort _id="idd4" name="Out_1" Number="1" dstLine="idad" position="" _archetype="id13" _real_archetype="false">
+						<TypeBaseRef _id="id10a" ref="ideb" name="MdoubleC1C1M" position="" _archetype="id108" MemberIndex="0" _real_archetype="false"/>
+					</OutputPort>
+					<Parameter _id="idcc" name="ConRadixGroup" Value="Use specified scaling" position="" _archetype="id54" _real_archetype="false"/>
+					<Parameter _id="idcd" name="FramePeriod" Value="inf" position="" _archetype="id56" _real_archetype="false"/>
+					<Parameter _id="idce" name="OutDataType" Value="sfix(16)" position="" _archetype="id58" _real_archetype="false"/>
+					<Parameter _id="idcf" name="OutDataTypeMode" Value="Inherit from 'Constant value'" position="" _archetype="id5a" _real_archetype="false"/>
+					<Parameter _id="idd0" name="OutScaling" Value="2^0" position="" _archetype="id5c" _real_archetype="false"/>
+					<Parameter _id="idd1" name="SamplingMode" Value="Sample based" position="" _archetype="id5e" _real_archetype="false"/>
+					<Parameter _id="idd2" name="Value" Value="2" position="" _archetype="id60" _real_archetype="false"/>
+					<Parameter _id="idd3" name="VectorParams1D" Value="on" position="" _archetype="id62" _real_archetype="false"/>
+				</Primitive>
+				<Primitive Tag="" _id="idd5" Name="Relational Operator" name="Relational Operator" Period="0" Deadline="0" Priority="0" position="" BlockType="RelationalOperator" SampleTime="-1.000000" _archetype="id10" Description="" ExecutionTime="0" _real_archetype="false">
+					<InputPort _id="iddb" name="In_1" Number="1" srcLine="idac" position="" _archetype="id12" _real_archetype="false">
+						<TypeBaseRef _id="idfb" ref="ideb" name="MdoubleC1C1M" position="" _archetype="idf9" MemberIndex="0" _real_archetype="false"/>
+					</InputPort>
+					<InputPort _id="iddc" name="In_2" Number="2" srcLine="idad" position="" _archetype="id15" _real_archetype="false">
+						<TypeBaseRef _id="id113" ref="ideb" name="MdoubleC1C1M" position="" _archetype="id111" MemberIndex="0" _real_archetype="false"/>
+					</InputPort>
+					<OutputPort _id="iddd" name="Out_1" Number="1" dstLine="idae" position="" _archetype="id16" _real_archetype="false">
+						<TypeBaseRef _id="id121" ref="id11d" name="MbooleanC1C1M" position="" _archetype="id11f" MemberIndex="0" _real_archetype="false"/>
+					</OutputPort>
+					<Parameter _id="idd6" name="InputSameDT" Value="off" position="" _archetype="id66" _real_archetype="false"/>
+					<Parameter _id="idd7" name="LogicDataType" Value="uint(8)" position="" _archetype="id68" _real_archetype="false"/>
+					<Parameter _id="idd8" name="LogicOutDataTypeMode" Value="Boolean" position="" _archetype="id6a" _real_archetype="false"/>
+					<Parameter _id="idd9" name="Operator" Value=">" position="" _archetype="id6c" _real_archetype="false"/>
+					<Parameter _id="idda" name="ZeroCross" Value="on" position="" _archetype="id6e" _real_archetype="false"/>
+				</Primitive>
+			</System>
+		</System>
+		<System Tag="" _id="idc" Name="GreaterThan2" name="GreaterThan2" Priority="0" BlockType="SubSystem" SampleTime="0.000000" _instances="id18 id75 idab" Description="">
+			<InputPort _id="idd" name="In1" Number="1" dstLine="id11" _instances="id50 id93 idc9">
+				<TypeBaseRef _id="idf2" ref="ideb" name="MdoubleC1C1M" _instances="idf1 idf3 idf4" MemberIndex="0"/>
+			</InputPort>
+			<Line _id="id11" Name="" _instances="id19 id76 idac" dstLine_end_="id12" srcLine_end_="idd"/>
+			<Line _id="id14" Name="" _instances="id1a id77 idad" dstLine_end_="id15" srcLine_end_="id13"/>
+			<Line _id="id17" Name="" _instances="id1b id78 idae" dstLine_end_="ide" srcLine_end_="id16"/>
+			<OutputPort _id="ide" name="Out1" Number="1" srcLine="id17" _instances="id51 id94 idca">
+				<TypeBaseRef _id="id127" ref="id11d" name="MbooleanC1C1M" _instances="id126 id128 id129" MemberIndex="0"/>
+			</OutputPort>
+			<Parameter _id="id1d" name="BlockChoice" Value="" _instances="id1c id79 idaf"/>
+			<Parameter _id="id1f" name="CheckFcnCallInpInsideContextMsg" Value="off" _instances="id1e id7a idb0"/>
+			<Parameter _id="id21" name="DataTypeOverride" Value="UseLocalSettings" _instances="id20 id7b idb1"/>
+			<Parameter _id="id23" name="ErrorFcn" Value="" _instances="id22 id7c idb2"/>
+			<Parameter _id="id25" name="FunctionWithSeparateData" Value="off" _instances="id24 id7d idb3"/>
+			<Parameter _id="id27" name="MemberBlocks" Value="" _instances="id26 id7e idb4"/>
+			<Parameter _id="id29" name="MinAlgLoopOccurrences" Value="off" _instances="id28 id7f idb5"/>
+			<Parameter _id="id2b" name="MinMaxOverflowLogging" Value="UseLocalSettings" _instances="id2a id80 idb6"/>
+			<Parameter _id="id2d" name="Permissions" Value="ReadWrite" _instances="id2c id81 idb7"/>
+			<Parameter _id="id2f" name="PermitHierarchicalResolution" Value="All" _instances="id2e id82 idb8"/>
+			<Parameter _id="id31" name="PropExecContextOutsideSubsystem" Value="off" _instances="id30 id83 idb9"/>
+			<Parameter _id="id33" name="RTWFcnName" Value="" _instances="id32 id84 idba"/>
+			<Parameter _id="id35" name="RTWFcnNameOpts" Value="Auto" _instances="id34 id85 idbb"/>
+			<Parameter _id="id37" name="RTWFileName" Value="" _instances="id36 id86 idbc"/>
+			<Parameter _id="id39" name="RTWFileNameOpts" Value="Auto" _instances="id38 id87 idbd"/>
+			<Parameter _id="id3b" name="RTWMemSecDataConstants" Value="Inherit from model" _instances="id3a id88 idbe"/>
+			<Parameter _id="id3d" name="RTWMemSecDataInternal" Value="Inherit from model" _instances="id3c id89 idbf"/>
+			<Parameter _id="id3f" name="RTWMemSecDataParameters" Value="Inherit from model" _instances="id3e id8a idc0"/>
+			<Parameter _id="id41" name="RTWMemSecFuncExecute" Value="Inherit from model" _instances="id40 id8b idc1"/>
+			<Parameter _id="id43" name="RTWMemSecFuncInitTerm" Value="Inherit from model" _instances="id42 id8c idc2"/>
+			<Parameter _id="id45" name="RTWSystemCode" Value="Auto" _instances="id44 id8d idc3"/>
+			<Parameter _id="id47" name="SCDConfigFcn" Value="" _instances="id46 id8e idc4"/>
+			<Parameter _id="id49" name="ShowPortLabels" Value="FromPortIcon" _instances="id48 id8f idc5"/>
+			<Parameter _id="id4b" name="SystemSampleTime" Value="-1" _instances="id4a id90 idc6"/>
+			<Parameter _id="id4d" name="TemplateBlock" Value="" _instances="id4c id91 idc7"/>
+			<Parameter _id="id4f" name="TreatAsAtomicUnit" Value="off" _instances="id4e id92 idc8"/>
+			<Primitive Tag="" _id="idf" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" _instances="id52 id95 idcb" Description="" ExecutionTime="0">
+				<OutputPort _id="id13" name="Out_1" Number="1" dstLine="id14" _instances="id63 id9e idd4">
+					<TypeBaseRef _id="id108" ref="ideb" name="MdoubleC1C1M" _instances="id107 id109 id10a" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter _id="id54" name="ConRadixGroup" Value="Use specified scaling" _instances="id53 id96 idcc"/>
+				<Parameter _id="id56" name="FramePeriod" Value="inf" _instances="id55 id97 idcd"/>
+				<Parameter _id="id58" name="OutDataType" Value="sfix(16)" _instances="id57 id98 idce"/>
+				<Parameter _id="id5a" name="OutDataTypeMode" Value="Inherit from 'Constant value'" _instances="id59 id99 idcf"/>
+				<Parameter _id="id5c" name="OutScaling" Value="2^0" _instances="id5b id9a idd0"/>
+				<Parameter _id="id5e" name="SamplingMode" Value="Sample based" _instances="id5d id9b idd1"/>
+				<Parameter _id="id60" name="Value" Value="2" _instances="id5f id9c idd2"/>
+				<Parameter _id="id62" name="VectorParams1D" Value="on" _instances="id61 id9d idd3"/>
+			</Primitive>
+			<Primitive Tag="" _id="id10" Name="Relational Operator" name="Relational Operator" Period="0" Deadline="0" Priority="0" BlockType="RelationalOperator" SampleTime="-1.000000" _instances="id64 id9f idd5" Description="" ExecutionTime="0">
+				<InputPort _id="id12" name="In_1" Number="1" srcLine="id11" _instances="id6f ida5 iddb">
+					<TypeBaseRef _id="idf9" ref="ideb" name="MdoubleC1C1M" _instances="idf8 idfa idfb" MemberIndex="0"/>
+				</InputPort>
+				<InputPort _id="id15" name="In_2" Number="2" srcLine="id14" _instances="id70 ida6 iddc">
+					<TypeBaseRef _id="id111" ref="ideb" name="MdoubleC1C1M" _instances="id110 id112 id113" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id16" name="Out_1" Number="1" dstLine="id17" _instances="id71 ida7 iddd">
+					<TypeBaseRef _id="id11f" ref="id11d" name="MbooleanC1C1M" _instances="id11e id120 id121" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter _id="id66" name="InputSameDT" Value="off" _instances="id65 ida0 idd6"/>
+				<Parameter _id="id68" name="LogicDataType" Value="uint(8)" _instances="id67 ida1 idd7"/>
+				<Parameter _id="id6a" name="LogicOutDataTypeMode" Value="Boolean" _instances="id69 ida2 idd8"/>
+				<Parameter _id="id6c" name="Operator" Value=">" _instances="id6b ida3 idd9"/>
+				<Parameter _id="id6e" name="ZeroCross" Value="on" _instances="id6d ida4 idda"/>
+			</Primitive>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow"/>
+	<Types name="Types">
+		<Matrix _id="ideb" Type="double" name="MdoubleC1C1M" rows="1" columns="1" referedbyTypeStructRef="idef idf2 idf1 idf3 idf4 idf9 idf8 idfa idfb id101 id104 id108 id107 id109 id10a id111 id110 id112 id113"/>
+		<Matrix _id="id11d" Type="boolean" name="MbooleanC1C1M" rows="1" columns="1" referedbyTypeStructRef="id11f id11e id120 id121 id127 id126 id128 id129 id12d id12e id12f"/>
+	</Types>
+</RootFolder>
+
+

@@ -1,0 +1,30 @@
+Problem ParserMasterTimeTriggered
+Resolution 1us
+
+Proc N1 100us EDF
+TTask T1 =10Hz 1ms
+PTask T2 =50Hz 1ms 2ms
+ATask T3 <50Hz 1ms 2ms
+PTask T4 =50Hz 1ms 2ms
+PTask T5 =50Hz 1ms 2ms
+SyncMsg S1
+Msg MT2T3 10B T2 T3 
+
+Proc N2 100us EDF
+TTask T6 =50Hz 1ms
+ATask T7 <50Hz 1ms 2ms
+SyncMsg S1 
+
+TBus B1 100Mb 1ms
+SyncMsg S1 10B
+Msg M1 10B N2/T6 N1/T4
+
+AFDXBus AB1 100Mb 100kb 100
+BMsg M2 10 B 1 B 5ms N1/T2 N2/T6
+
+LatencyBound 10ms N1/T2 N2/T6
+LatencyBound 14ms N1/T2 N1/T5
+
+LatencyChain 40ms N1/T2 AB1/M2 N2/T6 B1/M1 N1/T4
+
+

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_PropertySheetDisplayName>GMEVS2010</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GMEVS2010>False</GMEVS2010>
+  </PropertyGroup>
+  <PropertyGroup Condition="Exists('$(GME_ROOT)\SDK\DecoratorLib\DecoratorLib.vcxproj')">
+    <GMEVS2010>True</GMEVS2010>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="$(GMEVS2010)">
+    <ClCompile>
+      <PreprocessorDefinitions>GMEVS2010;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Midl>
+      <PreprocessorDefinitions>GMEVS2010;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>

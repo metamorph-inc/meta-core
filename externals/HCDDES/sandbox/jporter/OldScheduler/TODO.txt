@@ -1,0 +1,32 @@
+TODO:
+
+Hmmm... this is very out of date.
+
+Testing:
+2/11/2008 Test on rp_autopilot_mode.scs and rp_landing_mode.scs -- those seem to run 
+forever, but they are schedulable.
+
+2/11/2008 Test the release build more thoroughly, and check run time comparisons.
+
+Refinement:
+2/11/2008 Proper uncertainty and resolution handling -- processor resolution in 
+terms of OS resolution.  Overhead terms in processors and buses.
+
+2/11/2008 Command-line option parser for selection of scheduling model, solver, 
+output type, solver parameters, etc...
+
+2/11/2008 Exception handling for input parser -- it's pretty messy right now.
+
+2/11/2008 TTP/C Scheduling model.
+
+Wishlist:
+2/11/2008 Timing wrapper -- how long did the run take?
+
+2/12/2008 Global mode change points in scheduling model (as in RP thesis) and
+synchronization idioms.
+
+Build/Deployment:
+2/11/2008 Add path variables to build for Gecode.
+
+2/11/2008 Make a simple installable package.
+

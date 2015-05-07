@@ -1,0 +1,246 @@
+\section{IDA-PBC, Integrator Anti-Windup \& Discrete Time Control}
+\label{S:control}%Nicholas
+Our primary concern is to determine a desired state trajectory $x^*$
+which may be a function of a smaller subset of desired {\em
+  independently-controllable} states $x_{\mathsf{c}}^*$ and a corresponding
+control law $u=\beta(x,x_{\mathsf{I}},x^*)\ \in\ \mathbb{R}^m$ ($x,x^* \in\
+\mathbb{R}^n$ and $x_{\mathsf{c}}^*, x_{\mathsf{I}} \in
+\mathbb{R}^{p}$ in which $p \leq n$ is the number of
+independently controllable states) for the following input-affine system 
+\begin{equation}
+\label{E:ias}
+\dot{x} = f(x) + g(x)u 
+\end{equation}
+augmented with $p$ additional (non-linear) integrator
+states $x_{\mathsf{I}}$ to account for system uncertainty such that 
+\begin{align*}
+\dot{x}_{\mathsf{I}} &= k_{\mathsf{I}}\left ( f_{\mathsf{I}} (x_{\mathsf{c}}) -
+  f_{\mathsf{I}} (x_{\mathsf{c}}^*) \right )\\
+&= \diag \{
+k_{\mathsf{I}1}\left ( f_{\mathsf{I1}} (x_{\mathsf{c}1}) -
+  f_{\mathsf{I1}} (x_{\mathsf{c}1}^*) \right ),\dots,k_{\mathsf{I}p}\left ( f_{\mathsf{I}p} (x_{\mathsf{c}p}) -
+  f_{\mathsf{I}p} (x_{\mathsf{c}p}^*) \right )\}.
+\end{align*}
+N.B. it may not be necessary to introduce $p$ integrators in order to
+account for system uncertainty, however, in order to simplify
+discussion we will assume that the system studied is asymptotically
+stable for each controllable state.  This will typically require an
+additional integral term in order to account for system uncertainty
+and actuator degradation.  In addition, we desire to implement an
+anti-windup control law which will improve system resilience when
+either the control actuator deteriorates or other system parameters
+deviate substantially such that actuator saturation occurs.  Finally,
+we consider a discrete-time implementation of our control-law in which
+we use a bilinear-transform to approximate the integral and
+anti-windup control law.  Section~\ref{S:ida_pbc} provides an overview
+of IDA-PBC which will allow us to effectively control (non)-linear
+systems and achieve large operating ranges while being able to
+quantify system degradation. Section~\ref{S:anti_windup} presents our
+integrator anti-windup compensator which typically improves system
+resilience.  Finally, Section~\ref{S:DT_imp} presents our
+discrete-time implementation which we found to work exceptionally well
+by allowing large sampling times $T_s$.
+\subsection{IDA-PBC}
+\label{S:ida_pbc}
+IDA-PBC is concerned with rendering our input affine system \eqn{E:ias} 
+with augmented integrator control law to have the following final form
+in terms of the gradient of the desired Hamiltonian $H_d(x,x_{\mathsf{I}},x^*)$:
+\begin{equation}
+\label{E:match_eq}
+\begin{bmatrix}\dot{x}\\\dot{x}_{\mathsf{I}}\end{bmatrix} = Q_d(x,x_{\mathsf{I}}) \grad H_d(x,x_{\mathsf{I}},x^*) 
+\end{equation}
+in which $Q_d(x,x_{\mathsf{I}}) \in\ \mathbb{R}^{(n+p) \times (n+p)}$ is negative definite
+($Q_d(x,x_{\mathsf{I}}) < 0$) and the operation $\grad = [\frac{\partial}{\partial
+  x_1},\dots,\frac{\partial}{\partial x_n},\frac{\partial}{\partial x_{\mathsf{I}1}},\dots,\frac{\partial}{\partial x_{\mathsf{I}p}}
+  ]\tr$.  In order to guarantee that $x=x^*$ and $x_{\mathsf{I}}=0$ at steady-state (for
+the ideal model-matching case) the control law $\beta(x,x_{\mathsf{I}},x^*)$ should
+guarantee that: 
+\begin{gather*}
+\grad H_d(x=x^*,x_{\mathsf{I}}=0,x^*) = 0 \text{ necessary}\\
+\hessian H_d(x=x^*,x_{\mathsf{I}}=0,x^*) > 0 \text{ a sufficient condition.}
+\end{gather*}
+Although not required for controller synthesis, many physical systems,
+such as robotic systems $Q_d = J_d - R_d$ in which
+$J_d=-J_d\tr$ is a skew-symmetric matrix representing the
+underlying network structure of the system whereas $R_d =
+R_d\tr \geq 0$ describes the damping in the system
+\cite{ortega02:_inter_and_dampin_assig_passiv}.  Such observations may
+prove useful in choosing an initial Hamiltonian to begin control
+design, however, by choosing $Q_d$ to simply be a constant negative
+definite matrix an engineer can systematically determine a controller
+$\beta(x,x_{\mathsf{I}},x^*)$ as originally described in
+\cite{johnsen07:_inter_and_dampin_assig_passiv}  and summarized here
+(in which we add some additional discussion on determining $x^*$ from
+$x_{\mathsf{c}}^*$ while improving upon the discussion in introducing
+additional integrator terms).
+\begin{enumerate}
+\item Recall that the introduction of $p$ additional (non-linear)
+  integrators results in an augmented state-space description in
+  order to account for system uncertainty:
+\begin{equation*}
+\begin{bmatrix}\dot{x}\\\dot{x_{\mathsf{I}}}\end{bmatrix} = \begin{bmatrix}f(x) \\
+ k_{\mathsf{I}}\left ( f_{\mathsf{I}} (x_{\mathsf{c}}) -
+  f_{\mathsf{I}} (x_{\mathsf{c}}^*) \right )\end{bmatrix}+ \begin{bmatrix} g(x)\\
+0
+\end{bmatrix} u.
+\end{equation*}
+\item Select a candidate Hamiltonian $H(x,x_{\mathsf{I}})$ which
+  depends on additional scaling terms $k_i$, $i\ \in \{1,\dots,n\}$
+  such that 
+\begin{equation*}
+\begin{bmatrix}\dot{x}\\\dot{x}_{\mathsf{I}} \end{bmatrix}= Q_d \grad 
+  H(x,x_{\mathsf{I}}) = \begin{bmatrix}f(x) \\
+ k_{\mathsf{I}}\left ( f_{\mathsf{I}} (x_{\mathsf{c}}) -
+  f_{\mathsf{I}} (x_{\mathsf{c}}^*) \right )\end{bmatrix}
+\end{equation*}
+ in which $Q_d\ \in\ \mathbb{R}^{(n+p) \times (n+p)}$ is a constant matrix.
+\item Determine the conditions on $k_i$ and $k_{\mathsf{I}}$ such
+  that $Q_d$ is negative definite.  We do this by verifying that the negative of
+  the Hermitian of $Q_d$ ($-\hermitian\{Q_d\}=-\frac{1}{2}(Q_d\tr+Q_d)$)
+  is positive definite using Sylvester's Criterion (the
+  determinants of the leading principal submatrices of $-\hermitian\{Q_d\}$ are
+  positive).
+\item Determine a matrix $P \in \mathbb{R}^{(n+p) \times
+    m}$ having columns spanning the null-space of 
+  $g^{\bot}Q_d$ ($g^{\bot}Q_dP=0$ and normalized such that
+  $g^{\dagger}Q_dP=-I$) in which $g^{\bot}(x)\ \in\
+  \mathbb{R}^{(n-m)\times (n+p)}$ is the maximum rank
+  left annihilator of $g(x)$ such that $g^{\bot}(x)[g(x)\tr,0\tr]\tr=0$ and
+  $g^{\dagger}(x) \ \in\
+  \mathbb{R}^{m \times (n+p)}$ is the left-inverse of $g(x)$ such that
+  $g^{\dagger}(x)[g(x)\tr,0\tr]\tr=I$ ($P$ is used to compute the characteristic $z
+  = P\tr [x\tr,x_{\mathsf{I}}\tr]\tr$).
+\item Denoting $\tilde{x}=[(x-x^*)\tr,(x_{\mathsf{I}}-0)\tr]\tr$,
+  $\tilde{z}=P\tr \tilde{x}$ and choosing the desired Hamiltonian $H_d$ 
+  to be of the following form:
+\begin{equation*}
+H_d(x,x_{\mathsf{I}},x^*)=H(x,x_{\mathsf{I}}) + \frac{1}{2} \tilde{z}\tr Q
+\tilde{z} + l\tr z 
+\end{equation*}
+in which $Q\ \in\ \mathbb{R}^{m \times m}$ $Q=Q\tr > 0$.  The corresponding gradient is 
+\begin{equation*}
+\grad H_d (x,x_{\mathsf{I}},x^*)=\grad H(x,x_{\mathsf{I}}) + PQP\tr \tilde{x} +
+P l.
+\end{equation*}
+When $x=x^*$ and $x_{\mathsf{I}}=0$ the gradient simplifies to
+\begin{equation*}
+\grad H_d (x=x^*,x_{\mathsf{I}}=0,x^*)=\grad H(x=x^*,x_{\mathsf{I}}=0)
++ P l
+\end{equation*}
+which we use to determine $l$ and the uncontrolable parts of $x^*$
+which are not part of $x^*_c$ such that $\grad H_d
+(x=x^*,x_{\mathsf{I}}=0,x^*)=0$.  In addition we verify that the
+corresponding Hessian is positive definite for $x=x^*$  and
+$x_{\mathsf{I}}=0$
+\begin{equation*}
+\hessian H_d (x=x^*,x_{\mathsf{I}}=0,x^*)=\hessian H(x=x^*,x_{\mathsf{I}}=0)+P Q P\tr.
+\end{equation*}
+\item Finally we determine our control law $\beta(x,x_{\mathsf{I}},x^*)$:
+\begin{gather*}
+\beta(x)=g^{\dagger} \left \{ Q_d \grad H_d (x,x_{\mathsf{I}},x^*) -  \begin{bmatrix} f(x)\\ k_{\mathsf{I}}\left ( f_{\mathsf{I}} (x_{\mathsf{c}}) -
+  f_{\mathsf{I}} (x_{\mathsf{c}}^*) \right ) \end{bmatrix} \right \} \\
+\beta(x,x_{\mathsf{I}},x^*)=g^{\dagger} \left \{ Q_d P \left ( QP\tr \tilde{x} +
+ l \right )  \right \}
+\end{gather*}
+{\em Since $P$ was normalized such that $g^{\dagger}Q_dP=-I$} then our
+  final control law has the following simplified form:
+\begin{gather*}
+\beta(x,x_{\mathsf{I}},x^*)=-K_p \tilde{x} + u^*\\
+\text{in which } K_p = QP\tr,\ u^* = -l.
+\end{gather*}
+\end{enumerate}
+\subsection{Integrator Anti-Windup Compensator}
+\label{S:anti_windup}
+In \cite{johnsen07:_inter_and_dampin_assig_passiv} the authors addressed integrator wind-up issues by simply setting
+$\dot{x}_{\mathsf{I}}=0$ if $\beta(x,x_{\mathsf{I}},x^*) > u_{\max}$ or $\beta(x,x_{\mathsf{I}},x^*) <
+u_{\min}$.  Unfortunately this ad hoc solution caused the simulation
+to halt when evaluating their control law for the two tank and
+four tank processes when actuator saturation occurred.  When the
+overall system to be controlled is asymptotically 
+stable a more effective approach is to introduce an additional
+feed-back term which attempts to approximate the system dynamics as if
+saturation has not occurred
+\cite{fu10:_feedb_therm_contr_for_real_time_system}.  Since the
+integrator dynamics can not describe the case when $x < 0$ we will use
+a linear approximation of the system with respect to the desired
+trajectory components $x^*$.  In addition the matrix $g(x)$ for the
+systems studied do not depend on $x$.  We denote the Jacobian of
+$f(x)$ as $A(x)$ such that 
+\begin{equation*}
+A(x)=\begin{bmatrix}
+\frac{\partial f_1(x)}{\partial x_1} & \dots & \frac{\partial
+f_1(x)}{\partial x_n}\\
+\vdots & \vdots & \vdots\\
+\frac{\partial f_n(x)}{\partial x_1} & \dots & \frac{\partial
+f_n(x)}{\partial x_n}
+\end{bmatrix}.
+\end{equation*}
+ Specifically we modify the integrator dynamics as follows:
+\begin{equation*}
+\dot{x}_{\mathsf{I}} = k_{\mathsf{I}} 
+  \left ( f_{\mathsf{I}}(x_{\linc}) - f_{\mathsf{I}}(x^*_c) \right ),\
+  x_{\linc} = \bar{x}_c + x_c 
+\end{equation*}
+in which $x_{\linc}$ is further constrained to gaurantee that
+$f_{\mathsf{I}}(x_{\linc})$ is valid
+(ie. if $f_{\mathsf{I}}(x_{\linc})=\sqrt{x_{\linc}}$ then if $x_{\linc}
+< 0$ set $x_{\linc}=0$).  $\bar{x}_c$ are the appropriate components of $\bar{x}$ which
+are determined from the following dynamic relationship
+\begin{gather*}
+\dot{\bar{x}} = A(x^*) \bar{x} + g \bar{u}\\
+\bar{u} = u - \sat(u,u_{\min},u_{\max}),\ u =
+\beta(x,x_{\mathsf{I}},x^*)\\
+\sat(u,u_{\min},u_{\max})=\begin{cases}
+u\ \text{if } u_{\min}\ \leq u\  \leq \ u_{\max}, \\
+u_{\min}\ \text{if } u\ < u_{\min}, \\
+u_{\max}\ \text{otherwise.}
+\end{cases}
+\end{gather*}
+
+We observe that for the linear time-invariant (\LTI) case that if 
+exact knowledge of the plant dynamics are given such that both
+$A(x) x=f(x)$ and the exact saturation model is
+known then the closed-loop dynamics considered for stability are
+identical to those considered when actuator saturation is not
+considered.  Therefore stability is unaffected using our proposed
+control scheme for the \LTI\ case.  Analysis for the non-linear case
+is clearly much more involved and worthy of future study.  However,
+for the non-linear tank processes studied, using the jacobian $A(x)$
+to approximate the plant dyanmics was sufficient to prevent integrator
+wind-up while maintaining stability.
+\subsection{Discrete-Time Implementation}
+\label{S:DT_imp}%
+Observing the final control-law for $\beta(x,x_{\mathsf{I}},x^*)$ and
+noting the form for the actuator anti-windup structure in computing
+$\dot{\bar{x}}$ and $\dot{x}_{\mathsf{I}}$.  Most of the control
+components consists of a standard matrix multiplication and the
+corresponding (non-linear) integral terms can be approximated by
+applying either a matched pole-zero or bilinear transform
+\cite{franklin06:_feedb_contr_of_dynam_system}.  The bilinear 
+transform is preferred because it preserves the passivity properties of the
+integration term which typically allows for longer sample and hold
+times than if a matched pole-zero method was used.  Thus reducing
+communication bandwidth and typically reducing sensitivity to time
+delay jitter.  We note that the integer $k$ shall be related to time
+$t$ and sampling rate $T_s > 0$ as follows $k=\lfloor \frac{t}{T_s}
+\rfloor$ for all $t \geq 0$.  Specifically, our discrete-time
+implementation is as  follows:
+\begin{gather*}
+u(k) = \beta(x(kT_s),x_{\mathsf{I}}(k-1),x^*(k))\\
+\bar{u}(k) = u(k) - \sat(u(k),u_{\min},u_{\max})\\
+\dot{\bar{x}}(k)=A(x^*(k))\bar{x}(k)+ g \bar{u}(k)\\
+\bar{x}(k) = \bar{x}(k-1) + \frac{T_s}{2} \left [
+  \dot{\bar{x}}(k) + \dot{\bar{x}}(k-1) \right ]\\
+x_{\linc}(k)=\bar{x}_c(k) + x_c(kT_s)\ \in\ [x_{\min},x_{\max}]\\
+\dot{x}_{\mathsf{I}}(k)=k_{\mathsf{I}} \left [
+  f_{\mathsf{I}}(x_{\linc}(k))-f_{\mathsf{I}}(x^*_c(k)) \right ]\\
+x_{\mathsf{I}}(k) = x_{\mathsf{I}}(k-1) + \frac{T_s}{2} \left [
+  \dot{x}_{\mathsf{I}}(k) + \dot{x}_{\mathsf{I}}(k-1) \right ]
+\end{gather*}
+in which $u(t)=u(k),\ t\ \in\ [kT_s,(k+1)T_s)$.  It is of future
+interest to implement an observer for the plant-subsystem in order to
+preserve dissipative properties in the discrete-time setting
+\cite{stramigioli05:_sampl_hamil}.  Such an observer set-up could
+potentially lead to a one-to-one mapping between the continuous-time
+and discrete-time implementation in regards to satisfying
+discrete-time stability for a given set of gain constraints.

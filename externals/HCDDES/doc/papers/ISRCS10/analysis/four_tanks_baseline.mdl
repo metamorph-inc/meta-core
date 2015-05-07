@@ -1,0 +1,5893 @@
+Model {
+  Name			  "four_tanks_baseline"
+  Version		  7.5
+  MdlSubVersion		  0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.39"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SavedCharacterEncoding  "windows-1252"
+  SaveDefaultBlockParams  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  MaxMDLFileLineLength	  120
+  Created		  "Thu Apr 08 17:17:48 2010"
+  Creator		  "Administrator"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "jporter"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Mon May 10 17:37:29 2010"
+  RTWModifiedTimeStamp	  195413812
+  ModelVersionFormat	  "1.%<AutoIncrement:39>"
+  ConfigurationManager	  "None"
+  SampleTimeColors	  off
+  SampleTimeAnnotations	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowSignalResolutionIcons on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  SimulationMode	  "normal"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  CovForceBlockReductionOff on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  CovModelRefEnable	  "Off"
+  CovExternalEMLEnable	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.10.0"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.10.0"
+	  StartTime		  "0.0"
+	  StopTime		  "8000"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ZcThreshold		  "auto"
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  ".25"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "ode45"
+	  SolverName		  "ode45"
+	  SolverJacobianMethodControl "auto"
+	  ShapePreserveControl	  "DisableAll"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  ZeroCrossAlgorithm	  "Nonadaptive"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  InsertRTBMode		  "Whenever possible"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.10.0"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveCompleteFinalSimState off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SignalLogging		  on
+	  DSMLogging		  on
+	  InspectSignalLogs	  off
+	  SaveTime		  on
+	  ReturnWorkspaceOutputs  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  DSMLoggingName	  "dsmout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  ReturnWorkspaceOutputsName "out"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.10.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    6
+	    Cell		    "PassReuseOutputArgsAs"
+	    Cell		    "PassReuseOutputArgsThreshold"
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  UseIntDivNetSlope	  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnhancedBackFolding	  off
+	  StrengthReduction	  off
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  BooleansAsBitfields	  off
+	  BitfieldContainerType	  "uint_T"
+	  EnableMemcpy		  on
+	  MemcpyThreshold	  64
+	  PassReuseOutputArgsAs	  "Structure reference"
+	  ExpressionDepthLimit	  2147483647
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  off
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  EfficientMapNaN2IntZero on
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	  MaxStackSize		  "Inherit from target"
+	  BufferReusableBoundary  on
+	  SimCompilerOptimization "Off"
+	  AccelVerboseBuild	  off
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.10.0"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  SignalRangeChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  SaveWithDisabledLinksMsg "warning"
+	  SaveWithParameterizedLinksMsg	"warning"
+	  CheckSSInitialOutputMsg on
+	  UnderspecifiedInitializationDetection	"Classic"
+	  MergeDetectMultiDrivingBlocksExec "none"
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "UseLocalSettings"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "error"
+	  MultiTaskCondExecSysMsg "error"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  ParameterTunabilityLossMsg "warning"
+	  FixptConstUnderflowMsg  "none"
+	  FixptConstOverflowMsg	  "none"
+	  FixptConstPrecisionLossMsg "none"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "Use local settings"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StateNameClashWarn	  "warning"
+	  SimStateInterfaceChecksumMismatchMsg "warning"
+	  StrictBusMsg		  "Warning"
+	  BusNameAdapt		  "WarnAndRepair"
+	  NonBusSignalsTreatedAsBus "none"
+	  LoggingUnavailableSignals "error"
+	  BlockIODiagnostic	  "none"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.10.0"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.10.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  EnableParallelModelReferenceBuilds off
+	  ParallelModelReferenceMATLABWorkerInit "None"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  PropagateVarSize	  "Infer from blocks in model"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	  PropagateSignalLabelsOutOfModel off
+	  SupportModelReferenceSimTargetCustomCode off
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  8
+	  Version		  "1.10.0"
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SimBlas		  on
+	  SimCtrlC		  on
+	  SimExtrinsic		  on
+	  SimIntegrity		  on
+	  SimUseLocalCustomCode	  off
+	  SimBuildMode		  "sf_incremental_build"
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  9
+	  Version		  "1.10.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    6
+	    Cell		    "IncludeHyperlinkInReport"
+	    Cell		    "GenerateTraceInfo"
+	    Cell		    "GenerateTraceReport"
+	    Cell		    "GenerateTraceReportSl"
+	    Cell		    "GenerateTraceReportSf"
+	    Cell		    "GenerateTraceReportEml"
+	    PropName		    "DisabledProps"
+	  }
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  RTWUseLocalCustomCode	  off
+	  RTWUseSimCustomCode	  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  IncludeERTFirstTime	  off
+	  GenerateTraceInfo	  off
+	  GenerateTraceReport	  off
+	  GenerateTraceReportSl	  off
+	  GenerateTraceReportSf	  off
+	  GenerateTraceReportEml  off
+	  GenerateCodeInfo	  off
+	  RTWCompilerOptimization "Off"
+	  CheckMdlBeforeBuild	  "Off"
+	  CustomRebuildMode	  "OnUpdate"
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      10
+	      Version		      "1.10.0"
+	      Array {
+		Type			"Cell"
+		Dimension		17
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"IgnoreTestpoints"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		Cell			"CustomSymbolStrGlobalVar"
+		Cell			"CustomSymbolStrType"
+		Cell			"CustomSymbolStrField"
+		Cell			"CustomSymbolStrFcn"
+		Cell			"CustomSymbolStrBlkIO"
+		Cell			"CustomSymbolStrTmpVar"
+		Cell			"CustomSymbolStrMacro"
+		PropName		"DisabledProps"
+	      }
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IgnoreTestpoints	      off
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      MangleLength	      1
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrFcnArg   "rt$I$N$M"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	      UseSimReservedNames     off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      11
+	      Version		      "1.10.0"
+	      Array {
+		Type			"Cell"
+		Dimension		16
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"GenerateTestInterfaces"
+		Cell			"ModelStepFunctionPrototypeControlCompliant"
+		Cell			"CPPClassGenCompliant"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"PortableWordSizes"
+		PropName		"DisabledProps"
+	      }
+	      TargetFcnLib	      "ansi_tfl_table_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      TargetFunctionLibrary   "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      ERTMultiwordTypeDef     "System defined"
+	      ERTCodeCoverageTool     "None"
+	      ERTMultiwordLength      256
+	      MultiwordLength	      2048
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      ParMdlRefBuildCompliant on
+	      CompOptLevelCompliant   on
+	      IncludeMdlTerminateFcn  on
+	      GeneratePreprocessorConditionals "Disable all"
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      ERTFirstTimeCompliant   off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      SupportVariableSizeSignals off
+	      EnableShiftOperators    on
+	      ParenthesesLevel	      "Nominal"
+	      PortableWordSizes	      off
+	      ModelStepFunctionPrototypeControlCompliant off
+	      CPPClassGenCompliant    off
+	      AutosarCompliant	      off
+	      UseMalloc		      off
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      ExtModeIntrfLevel	      "Level1"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      CurrentDlgPage	      "Solver"
+      ConfigPrmDlgPosition    " [ 254, 46, 1142, 703 ] "
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  WSMdlFileData		  "DataTag0"
+  BlockDefaults {
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+    BlockRotation	    0
+    BlockMirror		    off
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    UseDisplayTextAsClickCallback off
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      SamplingMode	      "Sample based"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "fixdt(1,16,0)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Inherit from 'Constant value'"
+      LockScale		      off
+      SampleTime	      "inf"
+      FramePeriod	      "inf"
+      PreserveConstantTs      off
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParamMin		      "[]"
+      ParamMax		      "[]"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "fixdt(1,16,0)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "[]"
+      ParamDataTypeStr	      "Inherit: Same as input"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      DataType		      "auto"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchInputForFeedbackSignals off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Integrator
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      AbsoluteTolerance	      "auto"
+      IgnoreLimit	      off
+      ZeroCross		      on
+      ContinuousStateAttributes	"''"
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Same as first input"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      IntermediateResultsDataTypeStr "Inherit: Inherit via internal rule"
+      AlgorithmType	      "Newton-Raphson"
+      Iterations	      "3"
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      DataType		      "auto"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      SourceOfInitialOutputValue "Dialog"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      CollapseMode	      "All dimensions"
+      CollapseDim	      "1"
+      InputSameDT	      on
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Same as first input"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
+      LockScale		      off
+      RndMeth		      "Floor"
+    }
+    Block {
+      BlockType		      Scope
+      ModelBased	      off
+      TickLabels	      "OneTimeTick"
+      ZoomMode		      "on"
+      Grid		      "on"
+      TimeRange		      "auto"
+      YMin		      "-5"
+      YMax		      "5"
+      SaveToWorkspace	      off
+      SaveName		      "ScopeData"
+      LimitDataPoints	      on
+      MaxDataPoints	      "5000"
+      Decimation	      "1"
+      SampleInput	      off
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      SignalGenerator
+      WaveForm		      "sine"
+      TimeSource	      "Use simulation time"
+      Amplitude		      "1"
+      Frequency		      "1"
+      Units		      "Hertz"
+      VectorParams1D	      on
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      "FromPortIcon"
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      CheckFcnCallInpInsideContextMsg off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      CollapseMode	      "All dimensions"
+      CollapseDim	      "1"
+      InputSameDT	      on
+      AccumDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Same as first input"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      TransferFcn
+      Numerator		      "[1]"
+      Denominator	      "[1 2 1]"
+      AbsoluteTolerance	      "auto"
+      ContinuousStateAttributes	"''"
+      Realization	      "auto"
+    }
+  }
+  System {
+    Name		    "four_tanks_baseline"
+    Location		    [132, 86, 1303, 621]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    SIDHighWatermark	    214
+    Block {
+      BlockType		      SubSystem
+      Name		      "C1"
+      SID		      1
+      Ports		      [2, 1]
+      Position		      [630, 77, 685, 128]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "K|Ti|u1_max (ml/sec)|gamma_1|gamma_2|x1o|x2o|a1|a2|g"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "|||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVariables	      "K=@1;Ti=@2;u1_max=@3;gamma_1=@4;gamma_2=@5;x1o=@6;x2o=@7;a1=@8;a2=@9;g=@10;"
+      MaskInitialization      "L12 = [gamma_1, (1-gamma_2);\n    (1-gamma_1),gamma_2];\nus=inv(L12)*[a1*sqrt(2*g*x1o);"
+      "a2*sqrt(2*g*x2o)];\nxIo1=us(1)/K\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "1.5|110|100|gamma_1|gamma_2|x1o|x2o|a1|a2|g"
+      System {
+	Name			"C1"
+	Location		[757, 507, 1216, 701]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "x1_d"
+	  SID			  2
+	  Position		  [25, 73, 55, 87]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "x1"
+	  SID			  3
+	  Position		  [25, 133, 55, 147]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "1/Ti"
+	  SID			  4
+	  Position		  [160, 64, 180, 96]
+	  Gain			  "1/Ti"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "fixdt(1, 16)"
+	  ParameterScaling	  "2^0"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Integrator1"
+	  SID			  5
+	  Ports			  [1, 1]
+	  Position		  [205, 65, 225, 95]
+	  InitialCondition	  "xIo1"
+	  LimitOutput		  on
+	  UpperSaturationLimit	  "u1_max/(abs(K))"
+	  LowerSaturationLimit	  "-u1_max/(abs(K))"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "K"
+	  SID			  6
+	  Position		  [300, 64, 325, 96]
+	  Gain			  "K"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "fixdt(1, 16)"
+	  ParameterScaling	  "2^0"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "SAT"
+	  SID			  7
+	  Ports			  [1, 1]
+	  Position		  [360, 65, 375, 95]
+	  UpperLimit		  "u1_max"
+	  LowerLimit		  "0"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum10"
+	  SID			  8
+	  Ports			  [2, 1]
+	  Position		  [110, 70, 130, 90]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|+-"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum11"
+	  SID			  9
+	  Ports			  [3, 1]
+	  Position		  [250, 70, 270, 90]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "++-"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "u1c"
+	  SID			  10
+	  Position		  [410, 73, 440, 87]
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "K"
+	  SrcPort		  1
+	  DstBlock		  "SAT"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum10"
+	  SrcPort		  1
+	  DstBlock		  "1/Ti"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum11"
+	  SrcPort		  1
+	  DstBlock		  "K"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "1/Ti"
+	  SrcPort		  1
+	  DstBlock		  "Integrator1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Integrator1"
+	  SrcPort		  1
+	  DstBlock		  "Sum11"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "x1_d"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  Branch {
+	    Points		    [0, -50; 185, 0]
+	    DstBlock		    "Sum11"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Sum10"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "SAT"
+	  SrcPort		  1
+	  DstBlock		  "u1c"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "x1"
+	  SrcPort		  1
+	  Points		  [60, 0]
+	  Branch {
+	    DstBlock		    "Sum10"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [140, 0]
+	    DstBlock		    "Sum11"
+	    DstPort		    3
+	  }
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "C2"
+      SID		      11
+      Ports		      [2, 1]
+      Position		      [630, 142, 685, 193]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "K|Ti|u2_max (ml/sec)|gamma_1|gamma_2|x1o|x2o|a1|a2|g"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "|||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVariables	      "K=@1;Ti=@2;u1_max=@3;gamma_1=@4;gamma_2=@5;x1o=@6;x2o=@7;a1=@8;a2=@9;g=@10;"
+      MaskInitialization      "L12 = [gamma_1, (1-gamma_2);\n    (1-gamma_1),gamma_2];\nus=inv(L12)*[a1*sqrt(2*g*x1o);"
+      "a2*sqrt(2*g*x2o)];\nxIo2=us(2)/K\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "-.12|220|100|gamma_1|gamma_2|x1o|x2o|a1|a2|g"
+      System {
+	Name			"C2"
+	Location		[757, 507, 1216, 701]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "x2_d"
+	  SID			  12
+	  Position		  [25, 73, 55, 87]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "x2"
+	  SID			  13
+	  Position		  [25, 133, 55, 147]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "1/Ti"
+	  SID			  14
+	  Position		  [160, 64, 180, 96]
+	  Gain			  "1/Ti"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "fixdt(1, 16)"
+	  ParameterScaling	  "2^0"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Integrator1"
+	  SID			  15
+	  Ports			  [1, 1]
+	  Position		  [205, 65, 225, 95]
+	  InitialCondition	  "xIo2"
+	  LimitOutput		  on
+	  UpperSaturationLimit	  "u1_max/(abs(K))"
+	  LowerSaturationLimit	  "-u1_max/(abs(K))"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "K"
+	  SID			  16
+	  Position		  [300, 64, 325, 96]
+	  Gain			  "K"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "fixdt(1, 16)"
+	  ParameterScaling	  "2^0"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "SAT"
+	  SID			  17
+	  Ports			  [1, 1]
+	  Position		  [360, 65, 375, 95]
+	  UpperLimit		  "u1_max"
+	  LowerLimit		  "0"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum10"
+	  SID			  18
+	  Ports			  [2, 1]
+	  Position		  [110, 70, 130, 90]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|+-"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum11"
+	  SID			  19
+	  Ports			  [3, 1]
+	  Position		  [250, 70, 270, 90]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "++-"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "u2c"
+	  SID			  20
+	  Position		  [410, 73, 440, 87]
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "x2"
+	  SrcPort		  1
+	  Points		  [60, 0]
+	  Branch {
+	    Points		    [140, 0]
+	    DstBlock		    "Sum11"
+	    DstPort		    3
+	  }
+	  Branch {
+	    DstBlock		    "Sum10"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "SAT"
+	  SrcPort		  1
+	  DstBlock		  "u2c"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "x2_d"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  Branch {
+	    DstBlock		    "Sum10"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -50; 185, 0]
+	    DstBlock		    "Sum11"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Integrator1"
+	  SrcPort		  1
+	  DstBlock		  "Sum11"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "1/Ti"
+	  SrcPort		  1
+	  DstBlock		  "Integrator1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum11"
+	  SrcPort		  1
+	  DstBlock		  "K"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum10"
+	  SrcPort		  1
+	  DstBlock		  "1/Ti"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "K"
+	  SrcPort		  1
+	  DstBlock		  "SAT"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "IDA_PBC"
+      SID		      21
+      Ports		      [6, 3]
+      Position		      [585, 364, 640, 426]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "k1|k2|A_1|A_2|A_3|A_4|a1|a2|a3|a4|gamma_1 in [0,1]|gamma_2 in [0,1]|u1_max|u2_max|g (cm/"
+      "s^2)"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVariables	      "k1=@1;k2=@2;A_1=@3;A_2=@4;A_3=@5;A_4=@6;a1=@7;a2=@8;a3=@9;a4=@10;gamma_1=@11;gamma_2=@12;u1"
+      "_max=@13;u2_max=@14;g=@15;"
+      MaskInitialization      "k3=2*k1*A_3/(4*A_1);\nk4=2*k2*A_4/(4*A_2);\nkI1=0.1*(4-(k1/k3));\nkI2=0.1*(4-(k2/k4));\n"
+      "JmR=[-1/(k1*A_1),0,1/(k3*A_1),0,0,0;\n   0,-1/(k2*A_2),0,1/(k4*A_2),0,0;\n   0,0,-1/(k3*A_3),0,0,0;\n   0,0,0,-1"
+      "/(k4*A_4),0,0;\n   kI1/k1,0,0,0,-kI1/k1,0;\n   0,kI2/k2,0,0,0,-kI2/k2];\neig(JmR)\nP=[gamma_1*k1,(1-gamma_1)*k2,"
+      "0,(1-gamma_1)*k4,gamma_1*k1,(1-gamma_1)*k2;\n   (1-gamma_2)*k1,gamma_2*k2,(1-gamma_2)*k3,0,(1-gamma_2)*k1,gamma_"
+      "2*k2];\nL12=[gamma_1,(1-gamma_2);\n    (1-gamma_1),gamma_2];\nL34=[0,(1-gamma_2);\n    (1-gamma_1),0];\nQ=eye(2)"
+      ";\nK=Q*P;\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      ".2|.2|A_1|A_2|A_3|A_4|a1|a2|a3|a4|gamma_1|gamma_2|u1_max|u2_max|g"
+      System {
+	Name			"IDA_PBC"
+	Location		[344, 145, 1287, 529]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "x1_d"
+	  SID			  22
+	  Position		  [150, 113, 180, 127]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "x2_d"
+	  SID			  23
+	  Position		  [150, 153, 180, 167]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "x1"
+	  SID			  24
+	  Position		  [25, 133, 55, 147]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "x2"
+	  SID			  25
+	  Position		  [25, 208, 55, 222]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "x3"
+	  SID			  26
+	  Position		  [305, 83, 335, 97]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "x4"
+	  SID			  27
+	  Position		  [305, 108, 335, 122]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  SID			  28
+	  Ports			  [1, 2]
+	  Position		  [720, 60, 725, 120]
+	  ShowName		  off
+	  Outputs		  "2"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain"
+	  SID			  29
+	  Position		  [565, 74, 615, 106]
+	  Gain			  "-K"
+	  Multiplication	  "Matrix(K*u)"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "fixdt(1, 16)"
+	  ParameterScaling	  "2^0"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  SID			  30
+	  Ports			  [5, 1]
+	  Position		  [380, 22, 385, 158]
+	  ShowName		  off
+	  Inputs		  "[1,1,1,1,2]"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  SID			  31
+	  Ports			  [2, 1]
+	  Position		  [460, 80, 480, 100]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|+-"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	  Port {
+	    PortNumber		    1
+	    Name		    "x^bar"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum1"
+	  SID			  32
+	  Ports			  [2, 1]
+	  Position		  [660, 80, 680, 100]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|++"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum2"
+	  SID			  33
+	  Ports			  [2, 1]
+	  Position		  [115, 130, 135, 150]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|++"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum3"
+	  SID			  34
+	  Ports			  [2, 1]
+	  Position		  [145, 205, 165, 225]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|++"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "anti_wind_up"
+	  SID			  35
+	  Ports			  [2, 2]
+	  Position		  [740, 321, 795, 379]
+	  BlockMirror		  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "anti_wind_up"
+	    Location		    [495, 320, 1002, 548]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u1"
+	      SID		      36
+	      Position		      [25, 33, 55, 47]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u2"
+	      SID		      37
+	      Position		      [25, 143, 55, 157]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      SID		      38
+	      Position		      [400, 109, 450, 141]
+	      Gain		      "gamma_1/(a1*sqrt(2*g))"
+	      Multiplication	      "Matrix(K*u)"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain1"
+	      SID		      39
+	      Position		      [400, 199, 450, 231]
+	      Gain		      "gamma_2/(a2*sqrt(2*g))"
+	      Multiplication	      "Matrix(K*u)"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Saturate
+	      Name		      "SAT"
+	      SID		      40
+	      Ports		      [1, 1]
+	      Position		      [165, 25, 195, 55]
+	      UpperLimit	      "u1_max"
+	      LowerLimit	      "0"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Saturate
+	      Name		      "SAT1"
+	      SID		      41
+	      Ports		      [1, 1]
+	      Position		      [165, 135, 195, 165]
+	      UpperLimit	      "u1_max"
+	      LowerLimit	      "0"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      SID		      42
+	      Ports		      [2, 1]
+	      Position		      [170, 90, 190, 110]
+	      BlockRotation	      270
+	      BlockMirror	      on
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "+-"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum1"
+	      SID		      43
+	      Ports		      [2, 1]
+	      Position		      [170, 190, 190, 210]
+	      BlockRotation	      270
+	      BlockMirror	      on
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "+-"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      TransferFcn
+	      Name		      "Transfer Fcn"
+	      SID		      44
+	      Position		      [300, 107, 360, 143]
+	      Numerator		      "1"
+	      Denominator	      "[A_1/(a1*sqrt(2*g)),1]"
+	    }
+	    Block {
+	      BlockType		      TransferFcn
+	      Name		      "Transfer Fcn1"
+	      SID		      45
+	      Position		      [300, 197, 360, 233]
+	      Numerator		      "1"
+	      Denominator	      "[A_2/(a2*sqrt(2*g)),1]"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x1_lin"
+	      SID		      46
+	      Position		      [485, 118, 515, 132]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x2_lin"
+	      SID		      47
+	      Position		      [485, 208, 515, 222]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "u1"
+	      SrcPort		      1
+	      Points		      [70, 0]
+	      Branch {
+		DstBlock		"SAT"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 60]
+		DstBlock		"Sum"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "u2"
+	      SrcPort		      1
+	      Points		      [70, 0]
+	      Branch {
+		DstBlock		"SAT1"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 50]
+		DstBlock		"Sum1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "SAT"
+	      SrcPort		      1
+	      Points		      [35, 0; 0, 60]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "SAT1"
+	      SrcPort		      1
+	      Points		      [35, 0; 0, 50]
+	      DstBlock		      "Sum1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      Points		      [0, 10]
+	      DstBlock		      "Transfer Fcn"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Transfer Fcn"
+	      SrcPort		      1
+	      DstBlock		      "Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Gain"
+	      SrcPort		      1
+	      DstBlock		      "x1_lin"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Transfer Fcn1"
+	      SrcPort		      1
+	      DstBlock		      "Gain1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Gain1"
+	      SrcPort		      1
+	      DstBlock		      "x2_lin"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum1"
+	      SrcPort		      1
+	      DstBlock		      "Transfer Fcn1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "x5_x6_u*_sub"
+	  SID			  48
+	  Ports			  [4, 2]
+	  Position		  [220, 110, 295, 230]
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "x5_x6_u*_sub"
+	    Location		    [506, 370, 1260, 648]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "x1_d"
+	      SID		      49
+	      Position		      [125, 33, 155, 47]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "x1"
+	      SID		      50
+	      Position		      [125, 63, 155, 77]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "x2_d"
+	      SID		      51
+	      Position		      [220, 168, 250, 182]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "x2"
+	      SID		      52
+	      Position		      [220, 198, 250, 212]
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      SID		      53
+	      Position		      [480, 163, 555, 227]
+	      Gain		      "inv(L12)"
+	      Multiplication	      "Matrix(K*u)"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux"
+	      SID		      54
+	      Ports		      [2, 1]
+	      Position		      [445, 176, 450, 214]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux1"
+	      SID		      55
+	      Ports		      [2, 1]
+	      Position		      [465, 31, 470, 69]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "x5_sub"
+	      SID		      56
+	      Ports		      [2, 2]
+	      Position		      [275, 25, 365, 85]
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      RequestExecContextInheritance off
+	      MaskHideContents	      off
+	      System {
+		Name			"x5_sub"
+		Location		[96, 159, 881, 430]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "x1_d"
+		  SID			  57
+		  Position		  [35, 78, 65, 92]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "x1"
+		  SID			  58
+		  Position		  [35, 178, 65, 192]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  SID			  59
+		  Position		  [310, 59, 350, 111]
+		  NamePlacement		  "alternate"
+		  Gain			  "kI1"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  ParameterDataType	  "fixdt(1, 16)"
+		  ParameterScaling	  "2^0"
+		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain1"
+		  SID			  60
+		  Position		  [140, 154, 215, 216]
+		  Gain			  "a1*sqrt(2*g)"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  ParameterDataType	  "fixdt(1, 16)"
+		  ParameterScaling	  "2^0"
+		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain2"
+		  SID			  61
+		  Position		  [145, 50, 215, 120]
+		  Gain			  "a1*sqrt(2*g)"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  ParameterDataType	  "fixdt(1, 16)"
+		  ParameterScaling	  "2^0"
+		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum9"
+		  SID			  62
+		  Ports			  [2, 1]
+		  Position		  [240, 75, 260, 95]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|-+"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "sqrt"
+		  SID			  63
+		  Ports			  [1, 1]
+		  Position		  [85, 70, 115, 100]
+		  NamePlacement		  "alternate"
+		  Operator		  "sqrt"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "sqrt1"
+		  SID			  64
+		  Ports			  [1, 1]
+		  Position		  [85, 170, 115, 200]
+		  NamePlacement		  "alternate"
+		  Operator		  "sqrt"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		}
+		Block {
+		  BlockType		  Integrator
+		  Name			  "x5_integrator"
+		  SID			  65
+		  Ports			  [1, 1]
+		  Position		  [410, 59, 455, 111]
+		  UpperSaturationLimit	  ".1*sqrt(2*g*100)"
+		  LowerSaturationLimit	  "-.1*sqrt(2*g*100)"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "x5"
+		  SID			  66
+		  Position		  [555, 78, 585, 92]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "a1sqrt(2gx1_d)"
+		  SID			  67
+		  Position		  [295, 13, 325, 27]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		}
+		Line {
+		  SrcBlock		  "sqrt"
+		  SrcPort		  1
+		  DstBlock		  "Gain2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "sqrt1"
+		  SrcPort		  1
+		  DstBlock		  "Gain1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum9"
+		  SrcPort		  1
+		  DstBlock		  "Gain"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "x1_d"
+		  SrcPort		  1
+		  DstBlock		  "sqrt"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "x5_integrator"
+		  SrcPort		  1
+		  DstBlock		  "x5"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "x1"
+		  SrcPort		  1
+		  DstBlock		  "sqrt1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain1"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  DstBlock		  "Sum9"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Gain2"
+		  SrcPort		  1
+		  Points		  [0, 0]
+		  Branch {
+		    DstBlock		    "Sum9"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, -65]
+		    DstBlock		    "a1sqrt(2gx1_d)"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  DstBlock		  "x5_integrator"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "x6_sub"
+	      SID		      68
+	      Ports		      [2, 2]
+	      Position		      [300, 160, 390, 220]
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      RequestExecContextInheritance off
+	      MaskHideContents	      off
+	      System {
+		Name			"x6_sub"
+		Location		[96, 159, 833, 431]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "x2_d"
+		  SID			  69
+		  Position		  [35, 78, 65, 92]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "x2"
+		  SID			  70
+		  Position		  [35, 178, 65, 192]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  SID			  71
+		  Position		  [290, 59, 330, 111]
+		  NamePlacement		  "alternate"
+		  Gain			  "kI2"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  ParameterDataType	  "fixdt(1, 16)"
+		  ParameterScaling	  "2^0"
+		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain1"
+		  SID			  72
+		  Position		  [140, 154, 215, 216]
+		  Gain			  "a2*sqrt(2*g)"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  ParameterDataType	  "fixdt(1, 16)"
+		  ParameterScaling	  "2^0"
+		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain2"
+		  SID			  73
+		  Position		  [145, 50, 215, 120]
+		  Gain			  "a2*sqrt(2*g)"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  ParameterDataType	  "fixdt(1, 16)"
+		  ParameterScaling	  "2^0"
+		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum9"
+		  SID			  74
+		  Ports			  [2, 1]
+		  Position		  [240, 75, 260, 95]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|-+"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "sqrt"
+		  SID			  75
+		  Ports			  [1, 1]
+		  Position		  [85, 70, 115, 100]
+		  NamePlacement		  "alternate"
+		  Operator		  "sqrt"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "sqrt1"
+		  SID			  76
+		  Ports			  [1, 1]
+		  Position		  [85, 170, 115, 200]
+		  NamePlacement		  "alternate"
+		  Operator		  "sqrt"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		}
+		Block {
+		  BlockType		  Integrator
+		  Name			  "x6_integrator"
+		  SID			  77
+		  Ports			  [1, 1]
+		  Position		  [415, 59, 460, 111]
+		  UpperSaturationLimit	  ".1*sqrt(2*g*100)"
+		  LowerSaturationLimit	  "-.1*sqrt(2*g*100)"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "x6"
+		  SID			  78
+		  Position		  [520, 78, 550, 92]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "a2sqrt(2gx2_d)"
+		  SID			  79
+		  Position		  [295, 13, 325, 27]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		}
+		Line {
+		  SrcBlock		  "Gain2"
+		  SrcPort		  1
+		  Points		  [0, 0]
+		  Branch {
+		    Points		    [0, -65]
+		    DstBlock		    "a2sqrt(2gx2_d)"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Sum9"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Gain1"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  DstBlock		  "Sum9"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "x2"
+		  SrcPort		  1
+		  DstBlock		  "sqrt1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "x6_integrator"
+		  SrcPort		  1
+		  DstBlock		  "x6"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "x2_d"
+		  SrcPort		  1
+		  DstBlock		  "sqrt"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum9"
+		  SrcPort		  1
+		  DstBlock		  "Gain"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "sqrt1"
+		  SrcPort		  1
+		  DstBlock		  "Gain1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "sqrt"
+		  SrcPort		  1
+		  DstBlock		  "Gain2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  DstBlock		  "x6_integrator"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "[x5,x6]"
+	      SID		      80
+	      Position		      [565, 43, 595, 57]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "u*"
+	      SID		      81
+	      Position		      [580, 188, 610, 202]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "x5_sub"
+	      SrcPort		      2
+	      Points		      [50, 0; 0, 115]
+	      DstBlock		      "Mux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "x6_sub"
+	      SrcPort		      2
+	      DstBlock		      "Mux"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Mux"
+	      SrcPort		      1
+	      DstBlock		      "Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "x5_sub"
+	      SrcPort		      1
+	      DstBlock		      "Mux1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "x6_sub"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -115]
+	      DstBlock		      "Mux1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "x1_d"
+	      SrcPort		      1
+	      DstBlock		      "x5_sub"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Mux1"
+	      SrcPort		      1
+	      DstBlock		      "[x5,x6]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "x1"
+	      SrcPort		      1
+	      DstBlock		      "x5_sub"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "x2_d"
+	      SrcPort		      1
+	      DstBlock		      "x6_sub"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "x2"
+	      SrcPort		      1
+	      DstBlock		      "x6_sub"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Gain"
+	      SrcPort		      1
+	      DstBlock		      "u*"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "x_d"
+	  SID			  82
+	  Ports			  [3, 1]
+	  Position		  [350, 235, 410, 315]
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "x_d"
+	    Location		    [764, 323, 1119, 512]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "x1_d"
+	      SID		      83
+	      Position		      [205, 38, 235, 52]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "x2_d"
+	      SID		      84
+	      Position		      [205, 73, 235, 87]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u*"
+	      SID		      85
+	      Position		      [25, 118, 55, 132]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux1"
+	      SID		      86
+	      Ports		      [4, 1]
+	      Position		      [270, 29, 275, 166]
+	      ShowName		      off
+	      Inputs		      "[1,1,2,2]"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "gen_x3d_x4d"
+	      SID		      87
+	      Ports		      [1, 1]
+	      Position		      [80, 95, 140, 155]
+	      MinAlgLoopOccurrences   off
+	      PropExecContextOutsideSubsystem off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      Opaque		      off
+	      RequestExecContextInheritance off
+	      MaskHideContents	      off
+	      System {
+		Name			"gen_x3d_x4d"
+		Location		[859, 186, 1359, 291]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "u*"
+		  SID			  88
+		  Position		  [25, 48, 55, 62]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "L1"
+		  SID			  89
+		  Position		  [370, 27, 420, 73]
+		  Gain			  "1/(2*g)"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  ParameterDataType	  "fixdt(1, 16)"
+		  ParameterScaling	  "2^0"
+		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "L34"
+		  SID			  90
+		  Position		  [80, 32, 130, 78]
+		  Gain			  "L34"
+		  Multiplication	  "Matrix(K*u)"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  ParameterDataType	  "fixdt(1, 16)"
+		  ParameterScaling	  "2^0"
+		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  SID			  91
+		  Ports			  [2, 1]
+		  Position		  [310, 32, 340, 63]
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "scale"
+		  SID			  92
+		  Position		  [150, 30, 265, 80]
+		  Gain			  "[1/a3,0;0,1/a4]"
+		  Multiplication	  "Matrix(K*u)"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  ParameterDataType	  "fixdt(1, 16)"
+		  ParameterScaling	  "2^0"
+		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutDataType		  "fixdt(1, 16)"
+		  OutScaling		  "2^0"
+		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "[x3d,x4d]"
+		  SID			  93
+		  Position		  [445, 43, 475, 57]
+		  IconDisplay		  "Port number"
+		}
+		Line {
+		  SrcBlock		  "L34"
+		  SrcPort		  1
+		  DstBlock		  "scale"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "scale"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    DstBlock		    "Product"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [0, -15]
+		    DstBlock		    "Product"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  DstBlock		  "L1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "L1"
+		  SrcPort		  1
+		  DstBlock		  "[x3d,x4d]"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "u*"
+		  SrcPort		  1
+		  DstBlock		  "L34"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "x5d_x6d"
+	      SID		      94
+	      Position		      [165, 135, 195, 165]
+	      Value		      "[0,0]"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x_d"
+	      SID		      95
+	      Position		      [300, 88, 330, 102]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "x5d_x6d"
+	      SrcPort		      1
+	      DstBlock		      "Mux1"
+	      DstPort		      4
+	    }
+	    Line {
+	      SrcBlock		      "gen_x3d_x4d"
+	      SrcPort		      1
+	      Points		      [45, 0; 0, -10]
+	      DstBlock		      "Mux1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "x1_d"
+	      SrcPort		      1
+	      DstBlock		      "Mux1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "x2_d"
+	      SrcPort		      1
+	      DstBlock		      "Mux1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Mux1"
+	      SrcPort		      1
+	      DstBlock		      "x_d"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u*"
+	      SrcPort		      1
+	      DstBlock		      "gen_x3d_x4d"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "u1"
+	  SID			  96
+	  Position		  [880, 68, 910, 82]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "u2"
+	  SID			  97
+	  Position		  [880, 98, 910, 112]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "u*"
+	  SID			  98
+	  Position		  [705, 193, 735, 207]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "x1_d"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    Points		    [10, 0]
+	    DstBlock		    "x5_x6_u*_sub"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Labels		    [0, 0]
+	    Points		    [0, 130]
+	    DstBlock		    "x_d"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "x1"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  Branch {
+	    Points		    [0, -100]
+	    DstBlock		    "Mux"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Sum2"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "x2_d"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    Points		    [15, 0]
+	    DstBlock		    "x5_x6_u*_sub"
+	    DstPort		    3
+	  }
+	  Branch {
+	    Labels		    [0, 0]
+	    Points		    [0, 115]
+	    DstBlock		    "x_d"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "x2"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    Points		    [0, -150]
+	    DstBlock		    "Mux"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "Sum3"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "x5_x6_u*_sub"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "x3"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "x4"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "x5_x6_u*_sub"
+	  SrcPort		  2
+	  Points		  [15, 0]
+	  Branch {
+	    Points		    [0, 100]
+	    DstBlock		    "x_d"
+	    DstPort		    3
+	  }
+	  Branch {
+	    Points		    [355, 0]
+	    Branch {
+	      DstBlock		      "Sum1"
+	      DstPort		      2
+	    }
+	    Branch {
+	      DstBlock		      "u*"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "x_d"
+	  SrcPort		  1
+	  Points		  [55, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+	Line {
+	  Name			  "x^bar"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "Gain"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain"
+	  SrcPort		  1
+	  DstBlock		  "Sum1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum1"
+	  SrcPort		  1
+	  DstBlock		  "Demux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [105, 0]
+	  Branch {
+	    DstBlock		    "u1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 260]
+	    DstBlock		    "anti_wind_up"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  Points		  [120, 0]
+	  Branch {
+	    DstBlock		    "u2"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 260]
+	    DstBlock		    "anti_wind_up"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "anti_wind_up"
+	  SrcPort		  1
+	  Points		  [-610, 0]
+	  DstBlock		  "Sum2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sum2"
+	  SrcPort		  1
+	  Points		  [65, 0]
+	  DstBlock		  "x5_x6_u*_sub"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sum3"
+	  SrcPort		  1
+	  DstBlock		  "x5_x6_u*_sub"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "anti_wind_up"
+	  SrcPort		  2
+	  Points		  [-580, 0]
+	  DstBlock		  "Sum3"
+	  DstPort		  2
+	}
+      }
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux1"
+      SID		      99
+      Ports		      [2, 1]
+      Position		      [980, 218, 985, 242]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux2"
+      SID		      100
+      Ports		      [2, 1]
+      Position		      [980, 153, 985, 177]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux3"
+      SID		      101
+      Ports		      [2, 1]
+      Position		      [980, 93, 985, 117]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+      Port {
+	PortNumber		1
+	Name			"x2"
+	PropagatedSignals	", x2"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux4"
+      SID		      102
+      Ports		      [3, 1]
+      Position		      [980, 318, 985, 342]
+      ShowName		      off
+      Inputs		      "[1,1,2]"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux5"
+      SID		      103
+      Ports		      [2, 1]
+      Position		      [980, 423, 985, 447]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+      Port {
+	PortNumber		1
+	Name			"x2"
+	PropagatedSignals	", x2"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux6"
+      SID		      104
+      Ports		      [2, 1]
+      Position		      [980, 43, 985, 67]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+      Port {
+	PortNumber		1
+	Name			"x1"
+	PropagatedSignals	", x1"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux7"
+      SID		      105
+      Ports		      [2, 1]
+      Position		      [980, 378, 985, 402]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+      Port {
+	PortNumber		1
+	Name			"x1"
+	PropagatedSignals	", x1"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux8"
+      SID		      106
+      Ports		      [2, 1]
+      Position		      [980, 468, 985, 492]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      SignalGenerator
+      Name		      "Signal\nGenerator"
+      SID		      107
+      Ports		      [0, 1]
+      Position		      [65, 120, 95, 150]
+      WaveForm		      "square"
+      Amplitude		      "x1f-x1o"
+      Frequency		      "1/8000"
+    }
+    Block {
+      BlockType		      SignalGenerator
+      Name		      "Signal\nGenerator1"
+      SID		      108
+      Ports		      [0, 1]
+      Position		      [65, 280, 95, 310]
+      WaveForm		      "square"
+      Amplitude		      "x2f-x2o+.001"
+      Frequency		      "1/8000"
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum1"
+      SID		      109
+      Ports		      [2, 1]
+      Position		      [230, 225, 250, 245]
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|+-"
+      InputSameDT	      off
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "fixdt(1, 16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum12"
+      SID		      110
+      Ports		      [2, 1]
+      Position		      [230, 80, 250, 100]
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|+-"
+      InputSameDT	      off
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "fixdt(1, 16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      TransferFcn
+      Name		      "Transfer Fcn1"
+      SID		      111
+      Position		      [125, 277, 170, 313]
+      Numerator		      ".05^2"
+      Denominator	      "[1,2*.05*.9,.05^2]"
+    }
+    Block {
+      BlockType		      TransferFcn
+      Name		      "Transfer Fcn2"
+      SID		      112
+      Position		      [150, 117, 195, 153]
+      Numerator		      ".02^2"
+      Denominator	      "[1,2*.02*.9,.02^2]"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "four_tanks"
+      SID		      113
+      Ports		      [2, 4]
+      Position		      [815, 87, 855, 148]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "x1o (cm)|x2o (cm)|x3o (cm)|x4o (cm)|x1_max (cm)|x2_max (cm)|x3_max (cm)|x4_max (cm)|u1_m"
+      "ax (ml/s)|u2_max (ml/s)|a1 (cm2)|a2 (cm2)|a3 (cm2)|a4 (cm2)|A_1 (cm2)|A_2 (cm2)|A_3 (cm2)|A_4 (cm2)|gamma_1 in ["
+      "0,1]|gamma_2 in [0,1]|g (cm/s2)"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit"
+      ",edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||||||||||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVariables	      "x1o=@1;x2o=@2;x3o=@3;x4o=@4;x1_max=@5;x2_max=@6;x3_max=@7;x4_max=@8;u1_max=@9;u2_max=@10;a1"
+      "=@11;a2=@12;a3=@13;a4=@14;A_1=@15;A_2=@16;A_3=@17;A_4=@18;gamma_1=@19;gamma_2=@20;g=@21;"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "x1o|x2o|x3o|x4o|x1_max|x2_max|x3_max|x4_max|100|100|a1|a2|a3|a4|A_1|A_2|A_3|A_4|gamma_1|g"
+      "amma_2|g"
+      Port {
+	PortNumber		2
+	Name			"x2"
+	PropagatedSignals	"x2"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
+      System {
+	Name			"four_tanks"
+	Location		[687, 309, 1251, 702]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "u1"
+	  SID			  114
+	  Position		  [15, 58, 45, 72]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "u2"
+	  SID			  115
+	  Position		  [15, 208, 45, 222]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Saturation"
+	  SID			  116
+	  Ports			  [1, 1]
+	  Position		  [85, 50, 110, 80]
+	  UpperLimit		  "u1_max"
+	  LowerLimit		  "0"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Saturation1"
+	  SID			  117
+	  Ports			  [1, 1]
+	  Position		  [85, 200, 110, 230]
+	  UpperLimit		  "u2_max"
+	  LowerLimit		  "0"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Tank_1"
+	  SID			  118
+	  Ports			  [2, 1]
+	  Position		  [370, 50, 410, 110]
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Tank_1"
+	    Location		    [410, 188, 1022, 399]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u1"
+	      SID		      119
+	      Position		      [25, 58, 55, 72]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "x3"
+	      SID		      120
+	      Position		      [25, 138, 55, 152]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      SID		      121
+	      Ports		      [3, 1]
+	      Position		      [335, 46, 360, 94]
+	      ShowName		      off
+	      Inputs		      "|++-"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "g1"
+	      SID		      122
+	      Position		      [105, 39, 215, 91]
+	      Gain		      "gamma_1/A_1"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "k1"
+	      SID		      123
+	      Position		      [355, 124, 480, 166]
+	      BlockMirror	      on
+	      Gain		      "sqrt(2*g)*a1/A_1"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "k2"
+	      SID		      124
+	      Position		      [155, 124, 275, 166]
+	      Gain		      "sqrt(2*g)*a3/A_1"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "sqrt1"
+	      SID		      125
+	      Ports		      [1, 1]
+	      Position		      [485, 55, 515, 85]
+	      NamePlacement	      "alternate"
+	      Operator		      "sqrt"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "sqrt2"
+	      SID		      126
+	      Ports		      [1, 1]
+	      Position		      [105, 130, 135, 160]
+	      NamePlacement	      "alternate"
+	      Operator		      "sqrt"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Integrator
+	      Name		      "x1_integrator"
+	      SID		      127
+	      Ports		      [1, 1]
+	      Position		      [395, 44, 440, 96]
+	      InitialCondition	      "x1o"
+	      LimitOutput	      on
+	      UpperSaturationLimit    "x1_max"
+	      LowerSaturationLimit    "0"
+	      Port {
+		PortNumber		1
+		Name			"x1"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x1"
+	      SID		      128
+	      Position		      [540, 13, 570, 27]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "g1"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "x1"
+	      Labels		      [0, 0]
+	      SrcBlock		      "x1_integrator"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		DstBlock		"sqrt1"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -50]
+		DstBlock		"x1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "sqrt1"
+	      SrcPort		      1
+	      Points		      [35, 0; 0, 75]
+	      DstBlock		      "k1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "k1"
+	      SrcPort		      1
+	      Points		      [-40, 0; 0, -60]
+	      DstBlock		      "Sum"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "x1_integrator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u1"
+	      SrcPort		      1
+	      DstBlock		      "g1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "x3"
+	      SrcPort		      1
+	      DstBlock		      "sqrt2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "sqrt2"
+	      SrcPort		      1
+	      DstBlock		      "k2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "k2"
+	      SrcPort		      1
+	      Points		      [0, -70]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Annotation {
+	      Name		      "sqrt(x1)"
+	      Position		      [540, 71]
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Tank_2"
+	  SID			  129
+	  Ports			  [2, 1]
+	  Position		  [370, 275, 410, 335]
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Tank_2"
+	    Location		    [481, 465, 1093, 676]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u2"
+	      SID		      130
+	      Position		      [25, 58, 55, 72]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "x4"
+	      SID		      131
+	      Position		      [25, 138, 55, 152]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      SID		      132
+	      Ports		      [3, 1]
+	      Position		      [335, 46, 360, 94]
+	      ShowName		      off
+	      Inputs		      "|++-"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "g1"
+	      SID		      133
+	      Position		      [105, 39, 215, 91]
+	      Gain		      "gamma_2/A_2"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "k1"
+	      SID		      134
+	      Position		      [355, 124, 480, 166]
+	      BlockMirror	      on
+	      Gain		      "sqrt(2*g)*a2/A_2"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "k2"
+	      SID		      135
+	      Position		      [155, 124, 275, 166]
+	      Gain		      "sqrt(2*g)*a4/A_2"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "sqrt1"
+	      SID		      136
+	      Ports		      [1, 1]
+	      Position		      [495, 55, 525, 85]
+	      NamePlacement	      "alternate"
+	      Operator		      "sqrt"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "sqrt2"
+	      SID		      137
+	      Ports		      [1, 1]
+	      Position		      [105, 130, 135, 160]
+	      NamePlacement	      "alternate"
+	      Operator		      "sqrt"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Integrator
+	      Name		      "x2_integrator"
+	      SID		      138
+	      Ports		      [1, 1]
+	      Position		      [395, 44, 440, 96]
+	      InitialCondition	      "x2o"
+	      LimitOutput	      on
+	      UpperSaturationLimit    "x2_max"
+	      LowerSaturationLimit    "0"
+	      Port {
+		PortNumber		1
+		Name			"x2"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x2"
+	      SID		      139
+	      Position		      [555, 13, 585, 27]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "k2"
+	      SrcPort		      1
+	      Points		      [0, -70]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "sqrt2"
+	      SrcPort		      1
+	      DstBlock		      "k2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "x4"
+	      SrcPort		      1
+	      DstBlock		      "sqrt2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u2"
+	      SrcPort		      1
+	      DstBlock		      "g1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "x2_integrator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "k1"
+	      SrcPort		      1
+	      Points		      [-40, 0; 0, -60]
+	      DstBlock		      "Sum"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "sqrt1"
+	      SrcPort		      1
+	      Points		      [55, 0; 0, 75]
+	      DstBlock		      "k1"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "x2"
+	      Labels		      [0, 0]
+	      SrcBlock		      "x2_integrator"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		Points			[0, -50]
+		DstBlock		"x2"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"sqrt1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "g1"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Annotation {
+	      Name		      "sqrt(x2)"
+	      Position		      [565, 61]
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Tank_3"
+	  SID			  140
+	  Ports			  [1, 1]
+	  Position		  [180, 185, 220, 245]
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Tank_3"
+	    Location		    [481, 465, 1093, 676]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u2"
+	      SID		      141
+	      Position		      [25, 63, 55, 77]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      SID		      142
+	      Ports		      [2, 1]
+	      Position		      [295, 55, 325, 85]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|+-"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "g1"
+	      SID		      143
+	      Position		      [110, 43, 250, 97]
+	      Gain		      "(1-gamma_2)/A_3"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "k1"
+	      SID		      144
+	      Position		      [355, 124, 480, 166]
+	      BlockMirror	      on
+	      Gain		      "sqrt(2*g)*a3/A_3"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "sqrt1"
+	      SID		      145
+	      Ports		      [1, 1]
+	      Position		      [495, 55, 525, 85]
+	      NamePlacement	      "alternate"
+	      Operator		      "sqrt"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Integrator
+	      Name		      "x3_integrator"
+	      SID		      146
+	      Ports		      [1, 1]
+	      Position		      [395, 44, 440, 96]
+	      InitialCondition	      "x3o"
+	      LimitOutput	      on
+	      UpperSaturationLimit    "x3_max"
+	      LowerSaturationLimit    "0"
+	      Port {
+		PortNumber		1
+		Name			"x3"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x3"
+	      SID		      147
+	      Position		      [555, 13, 585, 27]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "g1"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "x3"
+	      Labels		      [0, 0]
+	      SrcBlock		      "x3_integrator"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		DstBlock		"sqrt1"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -50]
+		DstBlock		"x3"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "sqrt1"
+	      SrcPort		      1
+	      Points		      [55, 0; 0, 75]
+	      DstBlock		      "k1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "x3_integrator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u2"
+	      SrcPort		      1
+	      DstBlock		      "g1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "k1"
+	      SrcPort		      1
+	      Points		      [-40, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Annotation {
+	      Name		      "sqrt(x3)"
+	      Position		      [565, 61]
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Tank_4"
+	  SID			  148
+	  Ports			  [1, 1]
+	  Position		  [180, 90, 220, 150]
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Tank_4"
+	    Location		    [481, 465, 1095, 654]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u1"
+	      SID		      149
+	      Position		      [25, 63, 55, 77]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      SID		      150
+	      Ports		      [2, 1]
+	      Position		      [295, 55, 325, 85]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|+-"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "g1"
+	      SID		      151
+	      Position		      [110, 43, 250, 97]
+	      Gain		      "(1-gamma_1)/A_4"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "k1"
+	      SID		      152
+	      Position		      [355, 124, 480, 166]
+	      BlockMirror	      on
+	      Gain		      "sqrt(2*g)*a4/A_4"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "sqrt1"
+	      SID		      153
+	      Ports		      [1, 1]
+	      Position		      [495, 55, 525, 85]
+	      NamePlacement	      "alternate"
+	      Operator		      "sqrt"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Integrator
+	      Name		      "x4_integrator"
+	      SID		      154
+	      Ports		      [1, 1]
+	      Position		      [395, 44, 440, 96]
+	      InitialCondition	      "x4o"
+	      LimitOutput	      on
+	      UpperSaturationLimit    "x4_max"
+	      LowerSaturationLimit    "0"
+	      Port {
+		PortNumber		1
+		Name			"x4"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x4"
+	      SID		      155
+	      Position		      [555, 13, 585, 27]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "k1"
+	      SrcPort		      1
+	      Points		      [-40, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "u1"
+	      SrcPort		      1
+	      DstBlock		      "g1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "x4_integrator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "sqrt1"
+	      SrcPort		      1
+	      Points		      [55, 0; 0, 75]
+	      DstBlock		      "k1"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "x4"
+	      Labels		      [0, 0]
+	      SrcBlock		      "x4_integrator"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		Points			[0, -50]
+		DstBlock		"x4"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"sqrt1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "g1"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Annotation {
+	      Name		      "sqrt(x4)"
+	      Position		      [565, 61]
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "x1"
+	  SID			  156
+	  Position		  [470, 73, 500, 87]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "x2"
+	  SID			  157
+	  Position		  [470, 298, 500, 312]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "x3"
+	  SID			  158
+	  Position		  [470, 208, 500, 222]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "x4"
+	  SID			  159
+	  Position		  [480, 358, 510, 372]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  "u1"
+	  SrcPort		  1
+	  DstBlock		  "Saturation"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Tank_1"
+	  SrcPort		  1
+	  DstBlock		  "x1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Tank_2"
+	  SrcPort		  1
+	  DstBlock		  "x2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "u2"
+	  SrcPort		  1
+	  DstBlock		  "Saturation1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Saturation"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  Branch {
+	    DstBlock		    "Tank_1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 55]
+	    DstBlock		    "Tank_4"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Saturation1"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Tank_3"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 75]
+	    DstBlock		    "Tank_2"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Tank_3"
+	  SrcPort		  1
+	  Points		  [80, 0]
+	  Branch {
+	    Points		    [0, -120]
+	    DstBlock		    "Tank_1"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "x3"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Tank_4"
+	  SrcPort		  1
+	  Points		  [45, 0; 0, 200]
+	  Branch {
+	    DstBlock		    "Tank_2"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 45]
+	    DstBlock		    "x4"
+	    DstPort		    1
+	  }
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "four_tanks_1"
+      SID		      160
+      Ports		      [2, 4]
+      Position		      [805, 357, 845, 418]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "x1o (cm)|x2o (cm)|x3o (cm)|x4o (cm)|x1_max (cm)|x2_max (cm)|x3_max (cm)|x4_max (cm)|u1_m"
+      "ax (ml/s)|u2_max (ml/s)|a1 (cm2)|a2 (cm2)|a3 (cm2)|a4 (cm2)|A_1 (cm2)|A_2 (cm2)|A_3 (cm2)|A_4 (cm2)|gamma_1 in ["
+      "0,1]|gamma_2 in [0,1]|g (cm/s2)"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,edit"
+      ",edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||||||||||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVariables	      "x1o=@1;x2o=@2;x3o=@3;x4o=@4;x1_max=@5;x2_max=@6;x3_max=@7;x4_max=@8;u1_max=@9;u2_max=@10;a1"
+      "=@11;a2=@12;a3=@13;a4=@14;A_1=@15;A_2=@16;A_3=@17;A_4=@18;gamma_1=@19;gamma_2=@20;g=@21;"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "x1o|x2o|x3o|x4o|x1_max|x2_max|x3_max|x4_max|100|100|a1|a2|a3|a4|A_1|A_2|A_3|A_4|gamma_1|g"
+      "amma_2|g"
+      System {
+	Name			"four_tanks_1"
+	Location		[687, 309, 1251, 702]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "u1"
+	  SID			  161
+	  Position		  [15, 58, 45, 72]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "u2"
+	  SID			  162
+	  Position		  [15, 208, 45, 222]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Saturation"
+	  SID			  163
+	  Ports			  [1, 1]
+	  Position		  [85, 50, 110, 80]
+	  UpperLimit		  "u1_max"
+	  LowerLimit		  "0"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Saturation1"
+	  SID			  164
+	  Ports			  [1, 1]
+	  Position		  [85, 200, 110, 230]
+	  UpperLimit		  "u2_max"
+	  LowerLimit		  "0"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Tank_1"
+	  SID			  165
+	  Ports			  [2, 1]
+	  Position		  [370, 50, 410, 110]
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Tank_1"
+	    Location		    [410, 188, 1022, 399]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u1"
+	      SID		      166
+	      Position		      [25, 58, 55, 72]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "x3"
+	      SID		      167
+	      Position		      [25, 138, 55, 152]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      SID		      168
+	      Ports		      [3, 1]
+	      Position		      [335, 46, 360, 94]
+	      ShowName		      off
+	      Inputs		      "|++-"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "g1"
+	      SID		      169
+	      Position		      [105, 39, 215, 91]
+	      Gain		      "gamma_1/A_1"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "k1"
+	      SID		      170
+	      Position		      [355, 124, 480, 166]
+	      BlockMirror	      on
+	      Gain		      "sqrt(2*g)*a1/A_1"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "k2"
+	      SID		      171
+	      Position		      [155, 124, 275, 166]
+	      Gain		      "sqrt(2*g)*a3/A_1"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "sqrt1"
+	      SID		      172
+	      Ports		      [1, 1]
+	      Position		      [485, 55, 515, 85]
+	      NamePlacement	      "alternate"
+	      Operator		      "sqrt"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "sqrt2"
+	      SID		      173
+	      Ports		      [1, 1]
+	      Position		      [105, 130, 135, 160]
+	      NamePlacement	      "alternate"
+	      Operator		      "sqrt"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Integrator
+	      Name		      "x1_integrator"
+	      SID		      174
+	      Ports		      [1, 1]
+	      Position		      [395, 44, 440, 96]
+	      InitialCondition	      "x1o"
+	      LimitOutput	      on
+	      UpperSaturationLimit    "x1_max"
+	      LowerSaturationLimit    "0"
+	      Port {
+		PortNumber		1
+		Name			"x1"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x1"
+	      SID		      175
+	      Position		      [540, 13, 570, 27]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "k2"
+	      SrcPort		      1
+	      Points		      [0, -70]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "sqrt2"
+	      SrcPort		      1
+	      DstBlock		      "k2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "x3"
+	      SrcPort		      1
+	      DstBlock		      "sqrt2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u1"
+	      SrcPort		      1
+	      DstBlock		      "g1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "x1_integrator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "k1"
+	      SrcPort		      1
+	      Points		      [-40, 0; 0, -60]
+	      DstBlock		      "Sum"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "sqrt1"
+	      SrcPort		      1
+	      Points		      [35, 0; 0, 75]
+	      DstBlock		      "k1"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "x1"
+	      Labels		      [0, 0]
+	      SrcBlock		      "x1_integrator"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		Points			[0, -50]
+		DstBlock		"x1"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"sqrt1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "g1"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Annotation {
+	      Name		      "sqrt(x1)"
+	      Position		      [540, 71]
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Tank_2"
+	  SID			  176
+	  Ports			  [2, 1]
+	  Position		  [370, 275, 410, 335]
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Tank_2"
+	    Location		    [481, 465, 1093, 676]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u2"
+	      SID		      177
+	      Position		      [25, 58, 55, 72]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "x4"
+	      SID		      178
+	      Position		      [25, 138, 55, 152]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      SID		      179
+	      Ports		      [3, 1]
+	      Position		      [335, 46, 360, 94]
+	      ShowName		      off
+	      Inputs		      "|++-"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "g1"
+	      SID		      180
+	      Position		      [105, 39, 215, 91]
+	      Gain		      "gamma_2/A_2"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "k1"
+	      SID		      181
+	      Position		      [355, 124, 480, 166]
+	      BlockMirror	      on
+	      Gain		      "sqrt(2*g)*a2/A_2"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "k2"
+	      SID		      182
+	      Position		      [155, 124, 275, 166]
+	      Gain		      "sqrt(2*g)*a4/A_2"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "sqrt1"
+	      SID		      183
+	      Ports		      [1, 1]
+	      Position		      [495, 55, 525, 85]
+	      NamePlacement	      "alternate"
+	      Operator		      "sqrt"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "sqrt2"
+	      SID		      184
+	      Ports		      [1, 1]
+	      Position		      [105, 130, 135, 160]
+	      NamePlacement	      "alternate"
+	      Operator		      "sqrt"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Integrator
+	      Name		      "x2_integrator"
+	      SID		      185
+	      Ports		      [1, 1]
+	      Position		      [395, 44, 440, 96]
+	      InitialCondition	      "x2o"
+	      LimitOutput	      on
+	      UpperSaturationLimit    "x2_max"
+	      LowerSaturationLimit    "0"
+	      Port {
+		PortNumber		1
+		Name			"x2"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x2"
+	      SID		      186
+	      Position		      [555, 13, 585, 27]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "g1"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "x2"
+	      Labels		      [0, 0]
+	      SrcBlock		      "x2_integrator"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		DstBlock		"sqrt1"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -50]
+		DstBlock		"x2"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "sqrt1"
+	      SrcPort		      1
+	      Points		      [55, 0; 0, 75]
+	      DstBlock		      "k1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "k1"
+	      SrcPort		      1
+	      Points		      [-40, 0; 0, -60]
+	      DstBlock		      "Sum"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "x2_integrator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u2"
+	      SrcPort		      1
+	      DstBlock		      "g1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "x4"
+	      SrcPort		      1
+	      DstBlock		      "sqrt2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "sqrt2"
+	      SrcPort		      1
+	      DstBlock		      "k2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "k2"
+	      SrcPort		      1
+	      Points		      [0, -70]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Annotation {
+	      Name		      "sqrt(x2)"
+	      Position		      [565, 61]
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Tank_3"
+	  SID			  187
+	  Ports			  [1, 1]
+	  Position		  [180, 185, 220, 245]
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Tank_3"
+	    Location		    [481, 465, 1093, 676]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u2"
+	      SID		      188
+	      Position		      [25, 63, 55, 77]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      SID		      189
+	      Ports		      [2, 1]
+	      Position		      [295, 55, 325, 85]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|+-"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "g1"
+	      SID		      190
+	      Position		      [110, 43, 250, 97]
+	      Gain		      "(1-gamma_2)/A_3"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "k1"
+	      SID		      191
+	      Position		      [355, 124, 480, 166]
+	      BlockMirror	      on
+	      Gain		      "sqrt(2*g)*a3/A_3"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "sqrt1"
+	      SID		      192
+	      Ports		      [1, 1]
+	      Position		      [495, 55, 525, 85]
+	      NamePlacement	      "alternate"
+	      Operator		      "sqrt"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Integrator
+	      Name		      "x3_integrator"
+	      SID		      193
+	      Ports		      [1, 1]
+	      Position		      [395, 44, 440, 96]
+	      InitialCondition	      "x3o"
+	      LimitOutput	      on
+	      UpperSaturationLimit    "x3_max"
+	      LowerSaturationLimit    "0"
+	      Port {
+		PortNumber		1
+		Name			"x3"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x3"
+	      SID		      194
+	      Position		      [555, 13, 585, 27]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "k1"
+	      SrcPort		      1
+	      Points		      [-40, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "u2"
+	      SrcPort		      1
+	      DstBlock		      "g1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "x3_integrator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "sqrt1"
+	      SrcPort		      1
+	      Points		      [55, 0; 0, 75]
+	      DstBlock		      "k1"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "x3"
+	      Labels		      [0, 0]
+	      SrcBlock		      "x3_integrator"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		Points			[0, -50]
+		DstBlock		"x3"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"sqrt1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "g1"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Annotation {
+	      Name		      "sqrt(x3)"
+	      Position		      [565, 61]
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Tank_4"
+	  SID			  195
+	  Ports			  [1, 1]
+	  Position		  [180, 90, 220, 150]
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Tank_4"
+	    Location		    [481, 465, 1095, 654]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u1"
+	      SID		      196
+	      Position		      [25, 63, 55, 77]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      SID		      197
+	      Ports		      [2, 1]
+	      Position		      [295, 55, 325, 85]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|+-"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "g1"
+	      SID		      198
+	      Position		      [110, 43, 250, 97]
+	      Gain		      "(1-gamma_1)/A_4"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "k1"
+	      SID		      199
+	      Position		      [355, 124, 480, 166]
+	      BlockMirror	      on
+	      Gain		      "sqrt(2*g)*a4/A_4"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "fixdt(1, 16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "sqrt1"
+	      SID		      200
+	      Ports		      [1, 1]
+	      Position		      [495, 55, 525, 85]
+	      NamePlacement	      "alternate"
+	      Operator		      "sqrt"
+	      OutDataType	      "fixdt(1, 16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Integrator
+	      Name		      "x4_integrator"
+	      SID		      201
+	      Ports		      [1, 1]
+	      Position		      [395, 44, 440, 96]
+	      InitialCondition	      "x4o"
+	      LimitOutput	      on
+	      UpperSaturationLimit    "x4_max"
+	      LowerSaturationLimit    "0"
+	      Port {
+		PortNumber		1
+		Name			"x4"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x4"
+	      SID		      202
+	      Position		      [555, 13, 585, 27]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "g1"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "x4"
+	      Labels		      [0, 0]
+	      SrcBlock		      "x4_integrator"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		DstBlock		"sqrt1"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -50]
+		DstBlock		"x4"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "sqrt1"
+	      SrcPort		      1
+	      Points		      [55, 0; 0, 75]
+	      DstBlock		      "k1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "x4_integrator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u1"
+	      SrcPort		      1
+	      DstBlock		      "g1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "k1"
+	      SrcPort		      1
+	      Points		      [-40, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Annotation {
+	      Name		      "sqrt(x4)"
+	      Position		      [565, 61]
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "x1"
+	  SID			  203
+	  Position		  [470, 73, 500, 87]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "x2"
+	  SID			  204
+	  Position		  [470, 298, 500, 312]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "x3"
+	  SID			  205
+	  Position		  [470, 208, 500, 222]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "x4"
+	  SID			  206
+	  Position		  [480, 358, 510, 372]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "fixdt(1, 16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  "Tank_4"
+	  SrcPort		  1
+	  Points		  [45, 0; 0, 200]
+	  Branch {
+	    Points		    [0, 45]
+	    DstBlock		    "x4"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Tank_2"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Tank_3"
+	  SrcPort		  1
+	  Points		  [80, 0]
+	  Branch {
+	    DstBlock		    "x3"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -120]
+	    DstBlock		    "Tank_1"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Saturation1"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    Points		    [0, 75]
+	    DstBlock		    "Tank_2"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Tank_3"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Saturation"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  Branch {
+	    Points		    [0, 55]
+	    DstBlock		    "Tank_4"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Tank_1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "u2"
+	  SrcPort		  1
+	  DstBlock		  "Saturation1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Tank_2"
+	  SrcPort		  1
+	  DstBlock		  "x2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Tank_1"
+	  SrcPort		  1
+	  DstBlock		  "x1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "u1"
+	  SrcPort		  1
+	  DstBlock		  "Saturation"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "u1_u2_IDA_PBC"
+      SID		      207
+      Ports		      [1]
+      Position		      [1040, 312, 1070, 348]
+      Floating		      off
+      Location		      [10, 485, 334, 724]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "200"
+      YMin		      "8.25"
+      YMax		      "11"
+      SaveName		      "ScopeData1"
+      DataFormat	      "StructureWithTime"
+      SampleInput	      on
+      SampleTime	      "2"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "u1_u2_dec"
+      SID		      208
+      Ports		      [1]
+      Position		      [1070, 212, 1100, 248]
+      Floating		      off
+      Location		      [12, 193, 336, 432]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "xonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "200"
+      YMin		      "0"
+      YMax		      "40"
+      SaveName		      "ScopeData5"
+      DataFormat	      "StructureWithTime"
+      SampleInput	      on
+      SampleTime	      "2"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "x1_x2_IDA_PBC"
+      SID		      209
+      Ports		      [2]
+      Position		      [1070, 397, 1100, 448]
+      Floating		      off
+      Location		      [21, 208, 345, 447]
+      Open		      on
+      NumInputPorts	      "2"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+      }
+      YMin		      "7.5~7.5"
+      YMax		      "17.5~17.5"
+      SaveName		      "ScopeData2"
+      DataFormat	      "StructureWithTime"
+      SampleInput	      on
+      SampleTime	      "2"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "x1_x2_dec"
+      SID		      210
+      Ports		      [2]
+      Position		      [1070, 67, 1100, 118]
+      Floating		      off
+      Location		      [20, 502, 344, 741]
+      Open		      on
+      NumInputPorts	      "2"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+      }
+      YMin		      "1~2.5"
+      YMax		      "15~15"
+      SaveName		      "ScopeData6"
+      DataFormat	      "StructureWithTime"
+      SampleInput	      on
+      SampleTime	      "2"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "x1o"
+      SID		      211
+      Position		      [60, 74, 105, 106]
+      Value		      "x1o"
+      OutDataType	      "fixdt(1, 16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "x2o"
+      SID		      212
+      Position		      [60, 219, 105, 251]
+      Value		      "x2o"
+      OutDataType	      "fixdt(1, 16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "x3_x4_IDA_PBC"
+      SID		      213
+      Ports		      [1]
+      Position		      [1030, 462, 1060, 498]
+      Floating		      off
+      Location		      [20, 192, 344, 431]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "xonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "200"
+      YMin		      "2"
+      YMax		      "9.5"
+      SaveName		      "ScopeData3"
+      DataFormat	      "StructureWithTime"
+      SampleInput	      on
+      SampleTime	      "2"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "x3_x4_dec"
+      SID		      214
+      Ports		      [1]
+      Position		      [1030, 147, 1060, 183]
+      Floating		      off
+      Location		      [20, 192, 344, 431]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "xonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "200"
+      YMin		      "0"
+      YMax		      "40"
+      DataFormat	      "StructureWithTime"
+      SampleInput	      on
+      SampleTime	      "2"
+    }
+    Line {
+      SrcBlock		      "Signal\nGenerator"
+      SrcPort		      1
+      DstBlock		      "Transfer Fcn2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "x1o"
+      SrcPort		      1
+      DstBlock		      "Sum12"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "four_tanks"
+      SrcPort		      3
+      Points		      [105, 0]
+      DstBlock		      "Mux2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "four_tanks"
+      SrcPort		      4
+      Points		      [90, 0; 0, 30]
+      DstBlock		      "Mux2"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Mux1"
+      SrcPort		      1
+      DstBlock		      "u1_u2_dec"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Mux2"
+      SrcPort		      1
+      DstBlock		      "x3_x4_dec"
+      DstPort		      1
+    }
+    Line {
+      Labels		      [0, 0]
+      SrcBlock		      "Sum12"
+      SrcPort		      1
+      Points		      [15, 0]
+      Branch {
+	Points			[0, 280; 280, 0]
+	Branch {
+	  DstBlock		  "IDA_PBC"
+	  DstPort		  1
+	}
+	Branch {
+	  Points		  [0, -20; 400, 0; 0, 35]
+	  DstBlock		  "Mux7"
+	  DstPort		  1
+	}
+      }
+      Branch {
+	Points			[0, -40]
+	DstBlock		"Mux6"
+	DstPort			1
+      }
+      Branch {
+	DstBlock		"C1"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "four_tanks"
+      SrcPort		      1
+      Points		      [55, 0]
+      Branch {
+	Points			[0, 210; -510, 0; 0, -190]
+	DstBlock		"C1"
+	DstPort			2
+      }
+      Branch {
+	Points			[20, 0; 0, -35]
+	DstBlock		"Mux6"
+	DstPort			2
+      }
+    }
+    Line {
+      Name		      "x2"
+      Labels		      [0, 0; 0, 0]
+      SrcBlock		      "four_tanks"
+      SrcPort		      2
+      Points		      [40, 0]
+      Branch {
+	DstBlock		"Mux3"
+	DstPort			2
+      }
+      Branch {
+	Points			[0, 180; -355, 0; 0, -110]
+	DstBlock		"C2"
+	DstPort			2
+      }
+    }
+    Line {
+      SrcBlock		      "Transfer Fcn2"
+      SrcPort		      1
+      Points		      [40, 0]
+      DstBlock		      "Sum12"
+      DstPort		      2
+    }
+    Line {
+      Name		      "x2"
+      Labels		      [0, 0]
+      SrcBlock		      "Mux3"
+      SrcPort		      1
+      DstBlock		      "x1_x2_dec"
+      DstPort		      2
+    }
+    Line {
+      Name		      "x1"
+      Labels		      [0, 0]
+      SrcBlock		      "Mux6"
+      SrcPort		      1
+      Points		      [0, 25]
+      DstBlock		      "x1_x2_dec"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "IDA_PBC"
+      SrcPort		      1
+      Points		      [70, 0]
+      Branch {
+	DstBlock		"four_tanks_1"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -55]
+	DstBlock		"Mux4"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "IDA_PBC"
+      SrcPort		      2
+      Points		      [90, 0]
+      Branch {
+	Points			[0, 10]
+	DstBlock		"four_tanks_1"
+	DstPort			2
+      }
+      Branch {
+	Points			[0, -65]
+	DstBlock		"Mux4"
+	DstPort			2
+      }
+    }
+    Line {
+      SrcBlock		      "four_tanks_1"
+      SrcPort		      4
+      Points		      [10, 0; 0, 30]
+      Branch {
+	Points			[-290, 0]
+	DstBlock		"IDA_PBC"
+	DstPort			6
+      }
+      Branch {
+	Points			[0, 45]
+	DstBlock		"Mux8"
+	DstPort			2
+      }
+    }
+    Line {
+      SrcBlock		      "four_tanks_1"
+      SrcPort		      3
+      Points		      [20, 0; 0, 55]
+      Branch {
+	Points			[-305, 0; 0, -40]
+	DstBlock		"IDA_PBC"
+	DstPort			5
+      }
+      Branch {
+	Points			[95, 0]
+	DstBlock		"Mux8"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "four_tanks_1"
+      SrcPort		      2
+      Points		      [30, 0]
+      Branch {
+	Points			[0, 85; -320, 0; 0, -65]
+	DstBlock		"IDA_PBC"
+	DstPort			4
+      }
+      Branch {
+	Points			[50, 0; 0, 60]
+	DstBlock		"Mux5"
+	DstPort			2
+      }
+    }
+    Line {
+      SrcBlock		      "four_tanks_1"
+      SrcPort		      1
+      Points		      [40, 0]
+      Branch {
+	Points			[0, 110; -340, 0; 0, -85]
+	DstBlock		"IDA_PBC"
+	DstPort			3
+      }
+      Branch {
+	Points			[45, 0; 0, 30]
+	DstBlock		"Mux7"
+	DstPort			2
+      }
+    }
+    Line {
+      SrcBlock		      "Mux4"
+      SrcPort		      1
+      DstBlock		      "u1_u2_IDA_PBC"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "IDA_PBC"
+      SrcPort		      3
+      Points		      [35, 0; 0, -75]
+      DstBlock		      "Mux4"
+      DstPort		      3
+    }
+    Line {
+      Name		      "x2"
+      Labels		      [0, 0]
+      SrcBlock		      "Mux5"
+      SrcPort		      1
+      DstBlock		      "x1_x2_IDA_PBC"
+      DstPort		      2
+    }
+    Line {
+      Name		      "x1"
+      Labels		      [0, 0]
+      SrcBlock		      "Mux7"
+      SrcPort		      1
+      Points		      [25, 0; 0, 20]
+      DstBlock		      "x1_x2_IDA_PBC"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Mux8"
+      SrcPort		      1
+      DstBlock		      "x3_x4_IDA_PBC"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Signal\nGenerator1"
+      SrcPort		      1
+      DstBlock		      "Transfer Fcn1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "x2o"
+      SrcPort		      1
+      DstBlock		      "Sum1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Transfer Fcn1"
+      SrcPort		      1
+      Points		      [65, 0]
+      DstBlock		      "Sum1"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Sum1"
+      SrcPort		      1
+      Points		      [225, 0]
+      Branch {
+	Points			[0, 145]
+	Branch {
+	  DstBlock		  "IDA_PBC"
+	  DstPort		  2
+	}
+	Branch {
+	  Points		  [0, 120; 470, 0; 0, -70]
+	  DstBlock		  "Mux5"
+	  DstPort		  1
+	}
+      }
+      Branch {
+	Points			[0, -80]
+	Branch {
+	  Points		  [0, -100; 435, 0; 0, 25; 35, 0; 0, 20]
+	  DstBlock		  "Mux3"
+	  DstPort		  1
+	}
+	Branch {
+	  DstBlock		  "C2"
+	  DstPort		  1
+	}
+      }
+    }
+    Line {
+      SrcBlock		      "C1"
+      SrcPort		      1
+      Points		      [65, 0]
+      Branch {
+	DstBlock		"four_tanks"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 120]
+	DstBlock		"Mux1"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "C2"
+      SrcPort		      1
+      Points		      [55, 0; 0, -35; 40, 0]
+      Branch {
+	DstBlock		"four_tanks"
+	DstPort			2
+      }
+      Branch {
+	Points			[0, 100]
+	DstBlock		"Mux1"
+	DstPort			2
+      }
+    }
+    Annotation {
+      Position		      [965, 147]
+    }
+  }
+}
+MatData {
+  NumRecords		  1
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    ('<   8    (     @         %    \"     $    7     0         %  0 !@    $    ,    3F%M90"
+    "  5F%L=64       X    X    !@    @    $          4    (     0    <    !         !     '    9V%M;6%?,0 .    Z 0   8 "
+    "   (    $0         !          $    &    :&%N9&QE   !    $@   %-I;75L:6YK+E!A<F%M971E<@        X   \"8!   !@    @  "
+    "  !          4    (    !P    $    !          X   \"( @  !@    @    )          4    (    6 (   $    !          (   "
+    "!8 @   0   !4      0  0 $  $@!  \"H 0  4 (  %@\"             %-I;75L:6YK %!A<F%M971E<@!686QU90!25%=);F9O %!A<F%M4E"
+    "1726YF;P!3=&]R86=E0VQA<W, 075T;P!4>7!E475A;&EF:65R  !!;&EA<P!#=7-T;VU3=&]R86=E0VQA<W, 1&5F875L= !#=7-T;VU!='1R:6)U"
+    "=&5S %-I;75L:6YK0U-# $%T=')I8D-L87-S7U-I;75L:6YK7T1E9F%U;'0 1&5S8W)I<'1I;VX 1&%T851Y<&4 875T;P!-:6X 36%X $1O8U5N:7"
+    "1S                           !     @               0    4               X    /                                    "
+    "                      $                    !          (                    \"          ,                    #     "
+    "               !P    ,    !          0    !     @   !          \"0   !$         $@   !,    !     P   !0    !    ! "
+    "   !4         \"0    4    &          <    (          D    *          D    +          P    -     0    $            "
+    "             #@   '@    &    \"     $         !0    @    !     0    $         #@   $@    &    \"     T         !0 "
+    "   @    %     0    $         !@   !0       #= @    $    !     0         .    .     8    (    !@         %    \"   "
+    "  $    !     0         )    \"    (7K4;@>A=L_#@   $@    &    \"     T         !0    @    %     0    $         !@  "
+    " !0       #= @    $    !     P         .    2     8    (    #0         %    \"     4    !     0         &    %    "
+    "    -T\"     0    $    \"          X    X    !@    @    &          4    (     0    $    !          D    (         "
+    "   \\/\\.    .     8    (    !@         %    \"     $    !     0         )    \"            /!_#@   #@    &    \" "
+    "    0         !0    @    !    !P    $         $     <   !G86UM85\\R  X   #H!   !@    @    1          $          0 "
+    "   8   !H86YD;&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R        #@   )@$   &    \"     $         !0    @    '     0  "
+    "  $         #@   (@\"   &    \"     D         !0    @   !8 @   0    $          @   %@\"   !    %0     !  !  0  2 $"
+    "  *@!  !0 @  6 (             4VEM=6QI;FL 4&%R86UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25%=);F9O %-T;W)A9V5#;&%S<P!!=71O"
+    " %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5T97, 4VEM=6QI;FM#4T, 071T<FEB0V"
+    "QA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'EP90!A=71O $UI;@!-87@ 1&]C56YI=',                           $ "
+    "   \"               !    !0              #@    \\                                                          0      "
+    "              $          @                    (          P                    ,                    '     P    $   "
+    "      !     $    \"    $          )    $0         2    $P    $    #    %     $    $    %0         )    !0    8    "
+    "     !P    @         \"0    H         \"0    L         #     T    !     0                         .    >     8    "
+    "(     0         %    \"     $    !     0         .    2     8    (    #0         %    \"     4    !     0         "
+    "&    %        -T\"     0    $    !          X    X    !@    @    &          4    (     0    $    !          D    ("
+    "    P_4H7(_\"U3\\.    2     8    (    #0         %    \"     4    !     0         &    %        -T\"     0    $   "
+    " #          X   !(    !@    @    -          4    (    !0    $    !          8    4        W0(    !     0    (     "
+    "    #@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P_PX    X    !@    @    &"
+    "          4    (     0    $    !          D    (            \\'\\.    ,     8    (    !          %    \"     $    "
+    "\"     0         0  ( 83$   X   #H!   !@    @    1          $          0    8   !H86YD;&4   $    2    4VEM=6QI;FLN"
+    "4&%R86UE=&5R        #@   )@$   &    \"     $         !0    @    '     0    $         #@   (@\"   &    \"     D    "
+    "     !0    @   !8 @   0    $          @   %@\"   !    %0     !  !  0  2 $  *@!  !0 @  6 (             4VEM=6QI;FL "
+    "4&%R86UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25%=);F9O %-T;W)A9V5#;&%S<P!!=71O %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;"
+    "W)A9V5#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5T97, 4VEM=6QI;FM#4T, 071T<FEB0VQA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&E"
+    "O;@!$871A5'EP90!A=71O $UI;@!-87@ 1&]C56YI=',                           $    \"               !    !0              "
+    "#@    \\                                                          0                    $          @               "
+    "     (          P                    ,                    '     P    $         !     $    \"    $          )    $0"
+    "         2    $P    $    #    %     $    $    %0         )    !0    8         !P    @         \"0    H         \"0"
+    "    L         #     T    !     0                         .    >     8    (     0         %    \"     $    !     0 "
+    "        .    2     8    (    #0         %    \"     4    !     0         &    %        -T\"     0    $    !       "
+    "   X    X    !@    @    &          4    (     0    $    !          D    (    DQ@$5@XMLC\\.    2     8    (    #0  "
+    "       %    \"     4    !     0         &    %        -T\"     0    $    #          X   !(    !@    @    -        "
+    "  4    (    !0    $    !          8    4        W0(    !     0    (         #@   #@    &    \"     8         !0   "
+    " @    !     0    $         \"0    @           #P_PX    X    !@    @    &          4    (     0    $    !          "
+    "D    (            \\'\\.    ,     8    (    !          %    \"     $    \"     0         0  ( 83(   X   #H!   !@  "
+    "  @    1          $          0    8   !H86YD;&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R        #@   )@$   &    \"    "
+    " $         !0    @    '     0    $         #@   (@\"   &    \"     D         !0    @   !8 @   0    $          @   "
+    "%@\"   !    %0     !  !  0  2 $  *@!  !0 @  6 (             4VEM=6QI;FL 4&%R86UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25"
+    "%=);F9O %-T;W)A9V5#;&%S<P!!=71O %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5"
+    "T97, 4VEM=6QI;FM#4T, 071T<FEB0VQA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'EP90!A=71O $UI;@!-87@ 1&]C56YI="
+    "',                           $    \"               !    !0              #@    \\                                  "
+    "                        0                    $          @                    (          P                    ,    "
+    "                '     P    $         !     $    \"    $          )    $0         2    $P    $    #    %     $    $"
+    "    %0         )    !0    8         !P    @         \"0    H         \"0    L         #     T    !     0          "
+    "               .    >     8    (     0         %    \"     $    !     0         .    2     8    (    #0         % "
+    "   \"     4    !     0         &    %        -T\"     0    $    !          X    X    !@    @    &          4    ( "
+    "    0    $    !          D    (    R7:^GQHOK3\\.    2     8    (    #0         %    \"     4    !     0         & "
+    "   %        -T\"     0    $    #          X   !(    !@    @    -          4    (    !0    $    !          8    4  "
+    "      W0(    !     0    (         #@   #@    &    \"     8         !0    @    !     0    $         \"0    @       "
+    "    #P_PX    X    !@    @    &          4    (     0    $    !          D    (            \\'\\.    ,     8    (  "
+    "  !          %    \"     $    \"     0         0  ( 83,   X   #H!   !@    @    1          $          0    8   !H86"
+    "YD;&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R        #@   )@$   &    \"     $         !0    @    '     0    $        "
+    " #@   (@\"   &    \"     D         !0    @   !8 @   0    $          @   %@\"   !    %0     !  !  0  2 $  *@!  !0 @"
+    "  6 (             4VEM=6QI;FL 4&%R86UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25%=);F9O %-T;W)A9V5#;&%S<P!!=71O %1Y<&51=6%"
+    "L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5T97, 4VEM=6QI;FM#4T, 071T<FEB0VQA<W-?4VEM="
+    "6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'EP90!A=71O $UI;@!-87@ 1&]C56YI=',                           $    \"      "
+    "         !    !0              #@    \\                                                          0                 "
+    "   $          @                    (          P                    ,                    '     P    $         !    "
+    " $    \"    $          )    $0         2    $P    $    #    %     $    $    %0         )    !0    8         !P    "
+    "@         \"0    H         \"0    L         #     T    !     0                         .    >     8    (     0    "
+    "     %    \"     $    !     0         .    2     8    (    #0         %    \"     4    !     0         &    %     "
+    "   -T\"     0    $    !          X    X    !@    @    &          4    (     0    $    !          D    (    DQ@$5@X"
+    "MLC\\.    2     8    (    #0         %    \"     4    !     0         &    %        -T\"     0    $    #          "
+    "X   !(    !@    @    -          4    (    !0    $    !          8    4        W0(    !     0    (         #@   #@ "
+    "   &    \"     8         !0    @    !     0    $         \"0    @           #P_PX    X    !@    @    &          4 "
+    "   (     0    $    !          D    (            \\'\\.    ,     8    (    !          %    \"     $    \"     0    "
+    "     0  ( 830   X   #H!   !@    @    1          $          0    8   !H86YD;&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R"
+    "        #@   )@$   &    \"     $         !0    @    '     0    $         #@   (@\"   &    \"     D         !0    @"
+    "   !8 @   0    $          @   %@\"   !    %0     !  !  0  2 $  *@!  !0 @  6 (             4VEM=6QI;FL 4&%R86UE=&5R"
+    " %9A;'5E %)45TEN9F\\ 4&%R86U25%=);F9O %-T;W)A9V5#;&%S<P!!=71O %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<"
+    "P!$969A=6QT $-U<W1O;4%T=')I8G5T97, 4VEM=6QI;FM#4T, 071T<FEB0VQA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'E"
+    "P90!A=71O $UI;@!-87@ 1&]C56YI=',                           $    \"               !    !0              #@    \\    "
+    "                                                      0                    $          @                    (      "
+    "    P                    ,                    '     P    $         !     $    \"    $          )    $0         2  "
+    "  $P    $    #    %     $    $    %0         )    !0    8         !P    @         \"0    H         \"0    L       "
+    "  #     T    !     0                         .    >     8    (     0         %    \"     $    !     0         .   "
+    " 2     8    (    #0         %    \"     4    !     0         &    %        -T\"     0    $    !          X    X   "
+    " !@    @    &          4    (     0    $    !          D    (    R7:^GQHOK3\\.    2     8    (    #0         %    "
+    "\"     4    !     0         &    %        -T\"     0    $    #          X   !(    !@    @    -          4    (    "
+    "!0    $    !          8    4        W0(    !     0    (         #@   #@    &    \"     8         !0    @    !     "
+    "0    $         \"0    @           #P_PX    X    !@    @    &          4    (     0    $    !          D    (      "
+    "      \\'\\.    ,     8    (    !          %    \"     $    !     0         0  $ 9P    X   #H!   !@    @    1     "
+    "     $          0    8   !H86YD;&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R        #@   )@$   &    \"     $         !0"
+    "    @    '     0    $         #@   (@\"   &    \"     D         !0    @   !8 @   0    $          @   %@\"   !    %"
+    "0     !  !  0  2 $  *@!  !0 @  6 (             4VEM=6QI;FL 4&%R86UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25%=);F9O %-T;W"
+    ")A9V5#;&%S<P!!=71O %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5T97, 4VEM=6QI"
+    ";FM#4T, 071T<FEB0VQA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'EP90!A=71O $UI;@!-87@ 1&]C56YI=',           "
+    "                $    \"               !    !0              #@    \\                                               "
+    "           0                    $          @                    (          P                    ,                 "
+    "   '     P    $         !     $    \"    $          )    $0         2    $P    $    #    %     $    $    %0       "
+    "  )    !0    8         !P    @         \"0    H         \"0    L         #     T    !     0                       "
+    "  .    >     8    (     0         %    \"     $    !     0         .    2     8    (    #0         %    \"     4  "
+    "  !     0         &    %        -T\"     0    $    !          X    X    !@    @    &          4    (     0    $   "
+    " !          D    (          \"HCD .    2     8    (    #0         %    \"     4    !     0         &    %        -"
+    "T\"     0    $    #          X   !(    !@    @    -          4    (    !0    $    !          8    4        W0(    "
+    "!     0    (         #@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P_PX    "
+    "X    !@    @    &          4    (     0    $    !          D    (            \\'\\.    ,     8    (    !          "
+    "%    \"     $    #     0         0  , 05\\Q  X   #H!   !@    @    1          $          0    8   !H86YD;&4   $    "
+    "2    4VEM=6QI;FLN4&%R86UE=&5R        #@   )@$   &    \"     $         !0    @    '     0    $         #@   (@\"   "
+    "&    \"     D         !0    @   !8 @   0    $          @   %@\"   !    %0     !  !  0  2 $  *@!  !0 @  6 (        "
+    "     4VEM=6QI;FL 4&%R86UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25%=);F9O %-T;W)A9V5#;&%S<P!!=71O %1Y<&51=6%L:69I97(  $%L"
+    ":6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5T97, 4VEM=6QI;FM#4T, 071T<FEB0VQA<W-?4VEM=6QI;FM?1&5F87"
+    "5L= !$97-C<FEP=&EO;@!$871A5'EP90!A=71O $UI;@!-87@ 1&]C56YI=',                           $    \"               !   "
+    " !0              #@    \\                                                          0                    $         "
+    " @                    (          P                    ,                    '     P    $         !     $    \"    $"
+    "          )    $0         2    $P    $    #    %     $    $    %0         )    !0    8         !P    @         \"0"
+    "    H         \"0    L         #     T    !     0                         .    >     8    (     0         %    \" "
+    "    $    !     0         .    2     8    (    #0         %    \"     4    !     0         &    %        -T\"     0"
+    "    $    !          X    X    !@    @    &          4    (     0    $    !          D    (            /$ .    2   "
+    "  8    (    #0         %    \"     4    !     0         &    %        -T\"     0    $    #          X   !(    !@  "
+    "  @    -          4    (    !0    $    !          8    4        W0(    !     0    (         #@   #@    &    \"    "
+    " 8         !0    @    !     0    $         \"0    @           #P_PX    X    !@    @    &          4    (     0    "
+    "$    !          D    (            \\'\\.    ,     8    (    !          %    \"     $    #     0         0  , 05\\R"
+    "  X   #H!   !@    @    1          $          0    8   !H86YD;&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R        #@   )"
+    "@$   &    \"     $         !0    @    '     0    $         #@   (@\"   &    \"     D         !0    @   !8 @   0   "
+    " $          @   %@\"   !    %0     !  !  0  2 $  *@!  !0 @  6 (             4VEM=6QI;FL 4&%R86UE=&5R %9A;'5E %)45T"
+    "EN9F\\ 4&%R86U25%=);F9O %-T;W)A9V5#;&%S<P!!=71O %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$969A=6QT $-"
+    "U<W1O;4%T=')I8G5T97, 4VEM=6QI;FM#4T, 071T<FEB0VQA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'EP90!A=71O $UI;"
+    "@!-87@ 1&]C56YI=',                           $    \"               !    !0              #@    \\                  "
+    "                                        0                    $          @                    (          P         "
+    "           ,                    '     P    $         !     $    \"    $          )    $0         2    $P    $    #"
+    "    %     $    $    %0         )    !0    8         !P    @         \"0    H         \"0    L         #     T    !"
+    "     0                         .    >     8    (     0         %    \"     $    !     0         .    2     8    ( "
+    "   #0         %    \"     4    !     0         &    %        -T\"     0    $    !          X    X    !@    @    & "
+    "         4    (     0    $    !          D    (            0$ .    2     8    (    #0         %    \"     4    !  "
+    "   0         &    %        -T\"     0    $    #          X   !(    !@    @    -          4    (    !0    $    !   "
+    "       8    4        W0(    !     0    (         #@   #@    &    \"     8         !0    @    !     0    $         "
+    "\"0    @           #P_PX    X    !@    @    &          4    (     0    $    !          D    (            \\'\\.   "
+    " ,     8    (    !          %    \"     $    #     0         0  , 05\\S  X   #H!   !@    @    1          $        "
+    "  0    8   !H86YD;&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R        #@   )@$   &    \"     $         !0    @    '    "
+    " 0    $         #@   (@\"   &    \"     D         !0    @   !8 @   0    $          @   %@\"   !    %0     !  !  0 "
+    " 2 $  *@!  !0 @  6 (             4VEM=6QI;FL 4&%R86UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25%=);F9O %-T;W)A9V5#;&%S<P!!"
+    "=71O %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5T97, 4VEM=6QI;FM#4T, 071T<F"
+    "EB0VQA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'EP90!A=71O $UI;@!-87@ 1&]C56YI=',                         "
+    "  $    \"               !    !0              #@    \\                                                          0  "
+    "                  $          @                    (          P                    ,                    '     P    "
+    "$         !     $    \"    $          )    $0         2    $P    $    #    %     $    $    %0         )    !0    8"
+    "         !P    @         \"0    H         \"0    L         #     T    !     0                         .    >     8"
+    "    (     0         %    \"     $    !     0         .    2     8    (    #0         %    \"     4    !     0     "
+    "    &    %        -T\"     0    $    !          X    X    !@    @    &          4    (     0    $    !          D "
+    "   (            /$ .    2     8    (    #0         %    \"     4    !     0         &    %        -T\"     0    $ "
+    "   #          X   !(    !@    @    -          4    (    !0    $    !          8    4        W0(    !     0    (   "
+    "      #@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P_PX    X    !@    @   "
+    " &          4    (     0    $    !          D    (            \\'\\.    ,     8    (    !          %    \"     $  "
+    "  #     0         0  , 05\\T  X   #H!   !@    @    1          $          0    8   !H86YD;&4   $    2    4VEM=6QI;F"
+    "LN4&%R86UE=&5R        #@   )@$   &    \"     $         !0    @    '     0    $         #@   (@\"   &    \"     D  "
+    "       !0    @   !8 @   0    $          @   %@\"   !    %0     !  !  0  2 $  *@!  !0 @  6 (             4VEM=6QI;F"
+    "L 4&%R86UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25%=);F9O %-T;W)A9V5#;&%S<P!!=71O %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-"
+    "T;W)A9V5#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5T97, 4VEM=6QI;FM#4T, 071T<FEB0VQA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP="
+    "&EO;@!$871A5'EP90!A=71O $UI;@!-87@ 1&]C56YI=',                           $    \"               !    !0            "
+    "  #@    \\                                                          0                    $          @             "
+    "       (          P                    ,                    '     P    $         !     $    \"    $          )    "
+    "$0         2    $P    $    #    %     $    $    %0         )    !0    8         !P    @         \"0    H         \""
+    "0    L         #     T    !     0                         .    >     8    (     0         %    \"     $    !     0"
+    "         .    2     8    (    #0         %    \"     4    !     0         &    %        -T\"     0    $    !      "
+    "    X    X    !@    @    &          4    (     0    $    !          D    (            0$ .    2     8    (    #0  "
+    "       %    \"     4    !     0         &    %        -T\"     0    $    #          X   !(    !@    @    -        "
+    "  4    (    !0    $    !          8    4        W0(    !     0    (         #@   #@    &    \"     8         !0   "
+    " @    !     0    $         \"0    @           #P_PX    X    !@    @    &          4    (     0    $    !          "
+    "D    (            \\'\\.    ,     8    (    !          %    \"     $    #     0         0  , >#%O  X   #H!   !@   "
+    " @    1          $          0    8   !H86YD;&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R        #@   )@$   &    \"     "
+    "$         !0    @    '     0    $         #@   (@\"   &    \"     D         !0    @   !8 @   0    $          @   %"
+    "@\"   !    %0     !  !  0  2 $  *@!  !0 @  6 (             4VEM=6QI;FL 4&%R86UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25%"
+    "=);F9O %-T;W)A9V5#;&%S<P!!=71O %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5T"
+    "97, 4VEM=6QI;FM#4T, 071T<FEB0VQA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'EP90!A=71O $UI;@!-87@ 1&]C56YI='"
+    ",                           $    \"               !    !0              #@    \\                                   "
+    "                       0                    $          @                    (          P                    ,     "
+    "               '     P    $         !     $    \"    $          )    $0         2    $P    $    #    %     $    $ "
+    "   %0         )    !0    8         !P    @         \"0    H         \"0    L         #     T    !     0           "
+    "              .    >     8    (     0         %    \"     $    !     0         .    2     8    (    #0         %  "
+    "  \"     4    !     0         &    %        -T\"     0    $    !          X    X    !@    @    &          4    (  "
+    "   0    $    !          D    (    ,S,S,S,S*4 .    2     8    (    #0         %    \"     4    !     0         &   "
+    " %        -T\"     0    $    #          X   !(    !@    @    -          4    (    !0    $    !          8    4    "
+    "    W0(    !     0    (         #@   #@    &    \"     8         !0    @    !     0    $         \"0    @         "
+    "  #P_PX    X    !@    @    &          4    (     0    $    !          D    (            \\'\\.    ,     8    (    "
+    "!          %    \"     $    #     0         0  , >#)O  X   #H!   !@    @    1          $          0    8   !H86YD;"
+    "&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R        #@   )@$   &    \"     $         !0    @    '     0    $         #@"
+    "   (@\"   &    \"     D         !0    @   !8 @   0    $          @   %@\"   !    %0     !  !  0  2 $  *@!  !0 @  6"
+    " (             4VEM=6QI;FL 4&%R86UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25%=);F9O %-T;W)A9V5#;&%S<P!!=71O %1Y<&51=6%L:6"
+    "9I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5T97, 4VEM=6QI;FM#4T, 071T<FEB0VQA<W-?4VEM=6QI"
+    ";FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'EP90!A=71O $UI;@!-87@ 1&]C56YI=',                           $    \"         "
+    "      !    !0              #@    \\                                                          0                    "
+    "$          @                    (          P                    ,                    '     P    $         !     $ "
+    "   \"    $          )    $0         2    $P    $    #    %     $    $    %0         )    !0    8         !P    @  "
+    "       \"0    H         \"0    L         #     T    !     0                         .    >     8    (     0       "
+    "  %    \"     $    !     0         .    2     8    (    #0         %    \"     4    !     0         &    %        "
+    "-T\"     0    $    !          X    X    !@    @    &          4    (     0    $    !          D    (            *D"
+    " .    2     8    (    #0         %    \"     4    !     0         &    %        -T\"     0    $    #          X   "
+    "!(    !@    @    -          4    (    !0    $    !          8    4        W0(    !     0    (         #@   #@    &"
+    "    \"     8         !0    @    !     0    $         \"0    @           #P_PX    X    !@    @    &          4    ("
+    "     0    $    !          D    (            \\'\\.    ,     8    (    !          %    \"     $    #     0         "
+    "0  , >#-O  X   #H!   !@    @    1          $          0    8   !H86YD;&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R     "
+    "   #@   )@$   &    \"     $         !0    @    '     0    $         #@   (@\"   &    \"     D         !0    @   !8"
+    " @   0    $          @   %@\"   !    %0     !  !  0  2 $  *@!  !0 @  6 (             4VEM=6QI;FL 4&%R86UE=&5R %9A;"
+    "'5E %)45TEN9F\\ 4&%R86U25%=);F9O %-T;W)A9V5#;&%S<P!!=71O %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$96"
+    "9A=6QT $-U<W1O;4%T=')I8G5T97, 4VEM=6QI;FM#4T, 071T<FEB0VQA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'EP90!A"
+    "=71O $UI;@!-87@ 1&]C56YI=',                           $    \"               !    !0              #@    \\         "
+    "                                                 0                    $          @                    (          P"
+    "                    ,                    '     P    $         !     $    \"    $          )    $0         2    $P "
+    "   $    #    %     $    $    %0         )    !0    8         !P    @         \"0    H         \"0    L         #  "
+    "   T    !     0                         .    >     8    (     0         %    \"     $    !     0         .    2   "
+    "  8    (    #0         %    \"     4    !     0         &    %        -T\"     0    $    !          X    X    !@  "
+    "  @    &          4    (     0    $    !          D    (    ,S,S,S,S$T .    2     8    (    #0         %    \"    "
+    " 4    !     0         &    %        -T\"     0    $    #          X   !(    !@    @    -          4    (    !0    "
+    "$    !          8    4        W0(    !     0    (         #@   #@    &    \"     8         !0    @    !     0    $"
+    "         \"0    @           #P_PX    X    !@    @    &          4    (     0    $    !          D    (            "
+    "\\'\\.    ,     8    (    !          %    \"     $    #     0         0  , >#1O  X   #H!   !@    @    1          $"
+    "          0    8   !H86YD;&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R        #@   )@$   &    \"     $         !0    @ "
+    "   '     0    $         #@   (@\"   &    \"     D         !0    @   !8 @   0    $          @   %@\"   !    %0     "
+    "!  !  0  2 $  *@!  !0 @  6 (             4VEM=6QI;FL 4&%R86UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25%=);F9O %-T;W)A9V5#"
+    ";&%S<P!!=71O %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5T97, 4VEM=6QI;FM#4T"
+    ", 071T<FEB0VQA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'EP90!A=71O $UI;@!-87@ 1&]C56YI=',                 "
+    "          $    \"               !    !0              #@    \\                                                     "
+    "     0                    $          @                    (          P                    ,                    '  "
+    "   P    $         !     $    \"    $          )    $0         2    $P    $    #    %     $    $    %0         )   "
+    " !0    8         !P    @         \"0    H         \"0    L         #     T    !     0                         .   "
+    " >     8    (     0         %    \"     $    !     0         .    2     8    (    #0         %    \"     4    !   "
+    "  0         &    %        -T\"     0    $    !          X    X    !@    @    &          4    (     0    $    !    "
+    "      D    (    FIF9F9F9$T .    2     8    (    #0         %    \"     4    !     0         &    %        -T\"    "
+    " 0    $    #          X   !(    !@    @    -          4    (    !0    $    !          8    4        W0(    !     0"
+    "    (         #@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P_PX    X    !@"
+    "    @    &          4    (     0    $    !          D    (            \\'\\.    .     8    (    !          %    \""
+    "     $    &     0         0    !@   '@Q7VUA>   #@   .@$   &    \"    !$          0         !    !@   &AA;F1L90   0"
+    "   !(   !3:6UU;&EN:RY087)A;65T97(        .    F 0   8    (     0         %    \"     <    !     0         .    B ("
+    "   8    (    \"0         %    \"    %@\"   !     0         \"    6 (   $    5      $  $ !  !( 0  J $  % \"  !8 @  "
+    "          !3:6UU;&EN:P!087)A;65T97( 5F%L=64 4E1726YF;P!087)A;5)45TEN9F\\ 4W1O<F%G94-L87-S $%U=&\\ 5'EP95%U86QI9FEE"
+    "<@  06QI87, 0W5S=&]M4W1O<F%G94-L87-S $1E9F%U;'0 0W5S=&]M071T<FEB=71E<P!3:6UU;&EN:T-30P!!='1R:6)#;&%S<U]3:6UU;&EN:U"
+    "]$969A=6QT $1E<V-R:7!T:6]N $1A=&%4>7!E &%U=&\\ 36EN $UA> !$;V-5;FET<P                           0    (            "
+    "   $    %               .    #P                                                         !                     0   "
+    "      \"                     @         #                     P                    <    #     0         $     0    "
+    "(    0          D    1         !(    3     0    ,    4     0    0    5          D    %    !@         '    \"      "
+    "    )    \"@         )    \"P         ,    #0    $    !                          X   !X    !@    @    !          4"
+    "    (     0    $    !          X   !(    !@    @    -          4    (    !0    $    !          8    4        W0(  "
+    "  !     0    $         #@   #@    &    \"     8         !0    @    !     0    $         \"0    @          $\"/0 X "
+    "  !(    !@    @    -          4    (    !0    $    !          8    4        W0(    !     0    ,         #@   $@   "
+    " &    \"     T         !0    @    %     0    $         !@   !0       #= @    $    !     @         .    .     8    "
+    "(    !@         %    \"     $    !     0         )    \"            /#_#@   #@    &    \"     8         !0    @   "
+    " !     0    $         \"0    @           #P?PX    X    !@    @    $          4    (     0    8    !         !     "
+    "&    >#)?;6%X   .    Z 0   8    (    $0         !          $    &    :&%N9&QE   !    $@   %-I;75L:6YK+E!A<F%M971E<"
+    "@        X   \"8!   !@    @    !          4    (    !P    $    !          X   \"( @  !@    @    )          4    ( "
+    "   6 (   $    !          (   !8 @   0   !4      0  0 $  $@!  \"H 0  4 (  %@\"             %-I;75L:6YK %!A<F%M971E<"
+    "@!686QU90!25%=);F9O %!A<F%M4E1726YF;P!3=&]R86=E0VQA<W, 075T;P!4>7!E475A;&EF:65R  !!;&EA<P!#=7-T;VU3=&]R86=E0VQA<W,"
+    " 1&5F875L= !#=7-T;VU!='1R:6)U=&5S %-I;75L:6YK0U-# $%T=')I8D-L87-S7U-I;75L:6YK7T1E9F%U;'0 1&5S8W)I<'1I;VX 1&%T851Y<"
+    "&4 875T;P!-:6X 36%X $1O8U5N:71S                           !     @               0    4               X    /       "
+    "                                                   $                    !          (                    \"        "
+    "  ,                    #                    !P    ,    !          0    !     @   !          \"0   !$         $@   "
+    "!,    !     P   !0    !    !    !4         \"0    4    &          <    (          D    *          D    +          "
+    "P    -     0    $                         #@   '@    &    \"     $         !0    @    !     0    $         #@   $@"
+    "    &    \"     T         !0    @    %     0    $         !@   !0       #= @    $    !     0         .    .     8 "
+    "   (    !@         %    \"     $    !     0         )    \"           0(] #@   $@    &    \"     T         !0    @"
+    "    %     0    $         !@   !0       #= @    $    !     P         .    2     8    (    #0         %    \"     4 "
+    "   !     0         &    %        -T\"     0    $    \"          X    X    !@    @    &          4    (     0    $ "
+    "   !          D    (            \\/\\.    .     8    (    !@         %    \"     $    !     0         )    \"     "
+    "       /!_#@   #@    &    \"     0         !0    @    !    !@    $         $     8   !X,U]M87@   X   #H!   !@    @"
+    "    1          $          0    8   !H86YD;&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R        #@   )@$   &    \"     $ "
+    "        !0    @    '     0    $         #@   (@\"   &    \"     D         !0    @   !8 @   0    $          @   %@\""
+    "   !    %0     !  !  0  2 $  *@!  !0 @  6 (             4VEM=6QI;FL 4&%R86UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25%=);"
+    "F9O %-T;W)A9V5#;&%S<P!!=71O %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5T97,"
+    " 4VEM=6QI;FM#4T, 071T<FEB0VQA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'EP90!A=71O $UI;@!-87@ 1&]C56YI=',  "
+    "                         $    \"               !    !0              #@    \\                                      "
+    "                    0                    $          @                    (          P                    ,        "
+    "            '     P    $         !     $    \"    $          )    $0         2    $P    $    #    %     $    $    "
+    "%0         )    !0    8         !P    @         \"0    H         \"0    L         #     T    !     0              "
+    "           .    >     8    (     0         %    \"     $    !     0         .    2     8    (    #0         %    \""
+    "     4    !     0         &    %        -T\"     0    $    !          X    X    !@    @    &          4    (     0"
+    "    $    !          D    (          ! CT .    2     8    (    #0         %    \"     4    !     0         &    %  "
+    "      -T\"     0    $    #          X   !(    !@    @    -          4    (    !0    $    !          8    4        "
+    "W0(    !     0    (         #@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P"
+    "_PX    X    !@    @    &          4    (     0    $    !          D    (            \\'\\.    .     8    (    !   "
+    "       %    \"     $    &     0         0    !@   '@T7VUA>   #@   .@$   &    \"    !$          0         !    !@  "
+    " &AA;F1L90   0   !(   !3:6UU;&EN:RY087)A;65T97(        .    F 0   8    (     0         %    \"     <    !     0   "
+    "      .    B (   8    (    \"0         %    \"    %@\"   !     0         \"    6 (   $    5      $  $ !  !( 0  J $"
+    "  % \"  !8 @            !3:6UU;&EN:P!087)A;65T97( 5F%L=64 4E1726YF;P!087)A;5)45TEN9F\\ 4W1O<F%G94-L87-S $%U=&\\ 5'"
+    "EP95%U86QI9FEE<@  06QI87, 0W5S=&]M4W1O<F%G94-L87-S $1E9F%U;'0 0W5S=&]M071T<FEB=71E<P!3:6UU;&EN:T-30P!!='1R:6)#;&%S"
+    "<U]3:6UU;&EN:U]$969A=6QT $1E<V-R:7!T:6]N $1A=&%4>7!E &%U=&\\ 36EN $UA> !$;V-5;FET<P                           0   "
+    " (               $    %               .    #P                                                         !           "
+    "          0         \"                     @         #                     P                    <    #     0      "
+    "   $     0    (    0          D    1         !(    3     0    ,    4     0    0    5          D    %    !@        "
+    " '    \"          )    \"@         )    \"P         ,    #0    $    !                          X   !X    !@    @  "
+    "  !          4    (     0    $    !          X   !(    !@    @    -          4    (    !0    $    !          8    "
+    "4        W0(    !     0    $         #@   #@    &    \"     8         !0    @    !     0    $         \"0    @    "
+    "      $\"/0 X   !(    !@    @    -          4    (    !0    $    !          8    4        W0(    !     0    ,     "
+    "    #@   $@    &    \"     T         !0    @    %     0    $         !@   !0       #= @    $    !     @         . "
+    "   .     8    (    !@         %    \"     $    !     0         )    \"            /#_#@   #@    &    \"     8     "
+    "    !0    @    !     0    $         \"0    @           #P?PX    X    !@    @    $          4    (     0    8    ! "
+    "        !     &    =3%?;6%X   .    Z 0   8    (    $0         !          $    &    :&%N9&QE   !    $@   %-I;75L:6Y"
+    "K+E!A<F%M971E<@        X   \"8!   !@    @    !          4    (    !P    $    !          X   \"( @  !@    @    )   "
+    "       4    (    6 (   $    !          (   !8 @   0   !4      0  0 $  $@!  \"H 0  4 (  %@\"             %-I;75L:6Y"
+    "K %!A<F%M971E<@!686QU90!25%=);F9O %!A<F%M4E1726YF;P!3=&]R86=E0VQA<W, 075T;P!4>7!E475A;&EF:65R  !!;&EA<P!#=7-T;VU3="
+    "&]R86=E0VQA<W, 1&5F875L= !#=7-T;VU!='1R:6)U=&5S %-I;75L:6YK0U-# $%T=')I8D-L87-S7U-I;75L:6YK7T1E9F%U;'0 1&5S8W)I<'1"
+    "I;VX 1&%T851Y<&4 875T;P!-:6X 36%X $1O8U5N:71S                           !     @               0    4              "
+    " X    /                                                          $                    !          (                "
+    "    \"          ,                    #                    !P    ,    !          0    !     @   !          \"0   !$"
+    "         $@   !,    !     P   !0    !    !    !4         \"0    4    &          <    (          D    *          D "
+    "   +          P    -     0    $                         #@   '@    &    \"     $         !0    @    !     0    $  "
+    "       #@   $@    &    \"     T         !0    @    %     0    $         !@   !0       #= @    $    !     0        "
+    " .    .     8    (    !@         %    \"     $    !     0         )    \"            %E #@   $@    &    \"     T  "
+    "       !0    @    %     0    $         !@   !0       #= @    $    !     P         .    2     8    (    #0         "
+    "%    \"     4    !     0         &    %        -T\"     0    $    \"          X    X    !@    @    &          4   "
+    " (     0    $    !          D    (            \\/\\.    .     8    (    !@         %    \"     $    !     0       "
+    "  )    \"            /!_#@   #@    &    \"     0         !0    @    !    !@    $         $     8   !U,E]M87@   X  "
+    " #H!   !@    @    1          $          0    8   !H86YD;&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R        #@   )@$   "
+    "&    \"     $         !0    @    '     0    $         #@   (@\"   &    \"     D         !0    @   !8 @   0    $   "
+    "       @   %@\"   !    %0     !  !  0  2 $  *@!  !0 @  6 (             4VEM=6QI;FL 4&%R86UE=&5R %9A;'5E %)45TEN9F\\"
+    " 4&%R86U25%=);F9O %-T;W)A9V5#;&%S<P!!=71O %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$969A=6QT $-U<W1O;"
+    "4%T=')I8G5T97, 4VEM=6QI;FM#4T, 071T<FEB0VQA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'EP90!A=71O $UI;@!-87@"
+    " 1&]C56YI=',                           $    \"               !    !0              #@    \\                        "
+    "                                  0                    $          @                    (          P               "
+    "     ,                    '     P    $         !     $    \"    $          )    $0         2    $P    $    #    % "
+    "    $    $    %0         )    !0    8         !P    @         \"0    H         \"0    L         #     T    !     0"
+    "                         .    >     8    (     0         %    \"     $    !     0         .    2     8    (    #0 "
+    "        %    \"     4    !     0         &    %        -T\"     0    $    !          X    X    !@    @    &       "
+    "   4    (     0    $    !          D    (            64 .    2     8    (    #0         %    \"     4    !     0  "
+    "       &    %        -T\"     0    $    #          X   !(    !@    @    -          4    (    !0    $    !         "
+    " 8    4        W0(    !     0    (         #@   #@    &    \"     8         !0    @    !     0    $         \"0   "
+    " @           #P_PX    X    !@    @    &          4    (     0    $    !          D    (            \\'\\.    ,    "
+    " 8    (    !          %    \"     $    #     0         0  , >#%F  X   #H!   !@    @    1          $          0    "
+    "8   !H86YD;&4   $    2    4VEM=6QI;FLN4&%R86UE=&5R        #@   )@$   &    \"     $         !0    @    '     0    $"
+    "         #@   (@\"   &    \"     D         !0    @   !8 @   0    $          @   %@\"   !    %0     !  !  0  2 $  *"
+    "@!  !0 @  6 (             4VEM=6QI;FL 4&%R86UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25%=);F9O %-T;W)A9V5#;&%S<P!!=71O %1"
+    "Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5T97, 4VEM=6QI;FM#4T, 071T<FEB0VQA<"
+    "W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$871A5'EP90!A=71O $UI;@!-87@ 1&]C56YI=',                           $    "
+    "\"               !    !0              #@    \\                                                          0         "
+    "           $          @                    (          P                    ,                    '     P    $      "
+    "   !     $    \"    $          )    $0         2    $P    $    #    %     $    $    %0         )    !0    8       "
+    "  !P    @         \"0    H         \"0    L         #     T    !     0                         .    >     8    (  "
+    "   0         %    \"     $    !     0         .    2     8    (    #0         %    \"     4    !     0         &  "
+    "  %        -T\"     0    $    !          X    X    !@    @    &          4    (     0    $    !          D    (   "
+    "         ,$ .    2     8    (    #0         %    \"     4    !     0         &    %        -T\"     0    $    #   "
+    "       X   !(    !@    @    -          4    (    !0    $    !          8    4        W0(    !     0    (         #"
+    "@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P_PX    X    !@    @    &     "
+    "     4    (     0    $    !          D    (            \\'\\.    ,     8    (    !          %    \"     $    #    "
+    " 0         0  , >#)F  X   #H!   !@    @    1          $          0    8   !H86YD;&4   $    2    4VEM=6QI;FLN4&%R86"
+    "UE=&5R        #@   )@$   &    \"     $         !0    @    '     0    $         #@   (@\"   &    \"     D         !"
+    "0    @   !8 @   0    $          @   %@\"   !    %0     !  !  0  2 $  *@!  !0 @  6 (             4VEM=6QI;FL 4&%R86"
+    "UE=&5R %9A;'5E %)45TEN9F\\ 4&%R86U25%=);F9O %-T;W)A9V5#;&%S<P!!=71O %1Y<&51=6%L:69I97(  $%L:6%S $-U<W1O;5-T;W)A9V5"
+    "#;&%S<P!$969A=6QT $-U<W1O;4%T=')I8G5T97, 4VEM=6QI;FM#4T, 071T<FEB0VQA<W-?4VEM=6QI;FM?1&5F875L= !$97-C<FEP=&EO;@!$8"
+    "71A5'EP90!A=71O $UI;@!-87@ 1&]C56YI=',                           $    \"               !    !0              #@    "
+    "\\                                                          0                    $          @                    ("
+    "          P                    ,                    '     P    $         !     $    \"    $          )    $0      "
+    "   2    $P    $    #    %     $    $    %0         )    !0    8         !P    @         \"0    H         \"0    L "
+    "        #     T    !     0                         .    >     8    (     0         %    \"     $    !     0       "
+    "  .    2     8    (    #0         %    \"     4    !     0         &    %        -T\"     0    $    !          X  "
+    "  X    !@    @    &          4    (     0    $    !          D    (            *D .    2     8    (    #0         "
+    "%    \"     4    !     0         &    %        -T\"     0    $    #          X   !(    !@    @    -          4    "
+    "(    !0    $    !          8    4        W0(    !     0    (         #@   #@    &    \"     8         !0    @    !"
+    "     0    $         \"0    @           #P_PX    X    !@    @    &          4    (     0    $    !          D    ( "
+    "           \\'\\.    B     8    (    \"0         %    \"     $   !8     0         \"    6      !24T     #@   $@   "
+    " &    \"     (         !0    @    !     0    $         !0 $  <    !    !P   &AA;F1L90  #@         "
+  }
+}
+# Finite State Machines
+#
+#    Stateflow Version 7.5 (R2010a) dated Jan 19 2010, 11:01:51
+#
+#
+
+
+Stateflow {
+  machine {
+    id			    1
+    name		    "four_tanks_baseline"
+    created		    "14-Apr-2010 10:18:08"
+    isLibrary		    0
+    firstTarget		    2
+    sfVersion		    75014000
+  }
+  target {
+    id			    2
+    name		    "sfun"
+    description		    "Default Simulink S-Function Target."
+    machine		    1
+    linkNode		    [1 0 0]
+  }
+}

@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\Cyber2SLC_CodeGen\CGLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SF_CodeGen\Cyber2SFC.cpp">
+      <Filter>SF_CodeGen\Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SF_CodeGen\CyberComposition.cpp">
+      <Filter>SF_CodeGen\Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SF_CodeGen\GenCyber2SFC.cpp">
+      <Filter>SF_CodeGen\Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SF_CodeGen\LINKS.cpp">
+      <Filter>SF_CodeGen\Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SF_CodeGen\SFC.cpp">
+      <Filter>SF_CodeGen\Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SF_CodeGen\ConfigKeeper.cpp">
+      <Filter>SF_CodeGen\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="runSF_CodeGen.cpp">
+      <Filter>SF_CodeGen\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SF_CodeGen\SFManager.cpp">
+      <Filter>SF_CodeGen\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SF_CodeGen\SfuncCodeTemplate.cpp">
+      <Filter>SF_CodeGen\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SF_CodeGen\SFuncWrapperPrint.cpp">
+      <Filter>SF_CodeGen\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SF_CodeGen\VarResolve.cpp">
+      <Filter>SF_CodeGen\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RawComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UdmApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UdmConsole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UdmFormatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Cyber2SLC_CodeGen\CGLog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_CodeGen\Cyber2SFC.h">
+      <Filter>SF_CodeGen\Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_CodeGen\CyberComposition.h">
+      <Filter>SF_CodeGen\Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_CodeGen\GenCyber2SFC.h">
+      <Filter>SF_CodeGen\Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_CodeGen\LINKS.h">
+      <Filter>SF_CodeGen\Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_CodeGen\SFC.h">
+      <Filter>SF_CodeGen\Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_CodeGen\ConfigKeeper.hpp">
+      <Filter>SF_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="runSF_CodeGen.h">
+      <Filter>SF_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_CodeGen\SFManager.hpp">
+      <Filter>SF_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_CodeGen\SfuncCodeTemplate.hpp">
+      <Filter>SF_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_CodeGen\SFuncWrapperPrint.h">
+      <Filter>SF_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_CodeGen\SfUtils.h">
+      <Filter>SF_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_CodeGen\VarResolve.hpp">
+      <Filter>SF_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComponentObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\GMECOM.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RawComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="string_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UdmApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UdmConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UdmConsole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UdmFormatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="SF_CodeGen\Cyber2SFC_udm.xme" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CompIcon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SF_CodeGen\sfunc_code_template.txt">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Component.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <mga2udmudm Include="SF_CodeGen\Cyber2SFC_udm.mga" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{3b2d9de5-59c1-4a76-b603-8c7ca3e4e102}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{062f391c-8562-4d0d-9f7c-38f435d0e4f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SF_CodeGen">
+      <UniqueIdentifier>{3395078c-d387-4363-bf67-4fb2cea62096}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{a25cd5fe-db1c-4bbd-82c6-0e7598173b19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SF_CodeGen\Generated Files">
+      <UniqueIdentifier>{3c7f7984-7a94-4ad5-b4fd-c77ba0f33d80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SF_CodeGen\Header Files">
+      <UniqueIdentifier>{703d10cc-4d3e-48c7-b225-2bc09f5e42c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SF_CodeGen\Source Files">
+      <UniqueIdentifier>{a3fc95f5-ac9a-4087-aac1-919d8cb5f4c0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Component.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <udm Include="SF_CodeGen\Cyber2SFC_udm.udm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="$(GME_ROOT)\SDK\BON\Common\ComponentLib.idl">
+      <Filter>Source Files</Filter>
+    </Midl>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,255 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="sum" name="sum" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id13" Name="" dstLine_end_="id14" srcLine_end_="id12"/>
+			<Line _id="id16" Name="" dstLine_end_="id17" srcLine_end_="id15"/>
+			<Line _id="id19" Name="" dstLine_end_="id1a" srcLine_end_="id18"/>
+			<Line _id="id1c" Name="" dstLine_end_="id1d" srcLine_end_="id1b"/>
+			<Line _id="id1f" Name="" dstLine_end_="id20" srcLine_end_="id1e"/>
+			<Line _id="id22" Name="" dstLine_end_="id4" srcLine_end_="id21"/>
+			<Line _id="id25" Name="" dstLine_end_="id26" srcLine_end_="id24"/>
+			<Line _id="id28" Name="" dstLine_end_="id5" srcLine_end_="id27"/>
+			<Line _id="id2b" Name="" dstLine_end_="id2c" srcLine_end_="id2a"/>
+			<Line _id="id2e" Name="" dstLine_end_="id6" srcLine_end_="id2d"/>
+			<Line _id="id31" Name="" dstLine_end_="id32" srcLine_end_="id30"/>
+			<Line _id="id34" Name="" dstLine_end_="id7" srcLine_end_="id33"/>
+			<Line _id="id36" Name="" dstLine_end_="id37" srcLine_end_="id30"/>
+			<Line _id="id39" Name="" dstLine_end_="id8" srcLine_end_="id38"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id22">
+				<TypeBaseRef _id="id63" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id5" name="Out2" Number="2" srcLine="id28">
+				<TypeBaseRef _id="id66" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id6" name="Out3" Number="3" srcLine="id2e">
+				<TypeBaseRef _id="id69" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id7" name="Out4" Number="4" srcLine="id34">
+				<TypeBaseRef _id="id6c" ref="id6a" name="MdoubleC1C3M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id8" name="Out5" Number="5" srcLine="id39">
+				<TypeBaseRef _id="id6f" ref="id5b" name="MdoubleC3C1M" MemberIndex="0"/>
+			</OutputPort>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id12" name="Out_1" Number="1" dstLine="id13">
+					<TypeBaseRef _id="id47" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="1"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant1" name="Constant1" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id15" name="Out_1" Number="1" dstLine="id16">
+					<TypeBaseRef _id="id4a" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="23"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant10" name="Constant10" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id30" name="Out_1" Number="1" dstLine="id31 id36">
+					<TypeBaseRef _id="id4d" ref="id4c" name="MdoubleC3C3M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[1 3.23 -90; 3 2 6; 20 -1.986 3]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant2" name="Constant2" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id18" name="Out_1" Number="1" dstLine="id19">
+					<TypeBaseRef _id="id53" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-1.23"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant3" name="Constant3" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id1b" name="Out_1" Number="1" dstLine="id1c">
+					<TypeBaseRef _id="id56" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="656"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant4" name="Constant4" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id1e" name="Out_1" Number="1" dstLine="id1f">
+					<TypeBaseRef _id="id59" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="9"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant5" name="Constant5" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id24" name="Out_1" Number="1" dstLine="id25">
+					<TypeBaseRef _id="id5c" ref="id5b" name="MdoubleC3C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[1 3.23 -90]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant9" name="Constant9" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id2a" name="Out_1" Number="1" dstLine="id2b">
+					<TypeBaseRef _id="id5f" ref="id4c" name="MdoubleC3C3M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[1 3.23 -90; 3 2 6; 20 -1.986 3]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Sum" name="Sum" Period="0" Deadline="0" Priority="0" BlockType="Sum" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id14" name="In_1" Number="1" srcLine="id13">
+					<TypeBaseRef _id="id48" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<InputPort _id="id17" name="In_2" Number="2" srcLine="id16">
+					<TypeBaseRef _id="id4b" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<InputPort _id="id1a" name="In_3" Number="3" srcLine="id19">
+					<TypeBaseRef _id="id54" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<InputPort _id="id1d" name="In_4" Number="4" srcLine="id1c">
+					<TypeBaseRef _id="id57" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<InputPort _id="id20" name="In_5" Number="5" srcLine="id1f">
+					<TypeBaseRef _id="id5a" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id21" name="Out_1" Number="1" dstLine="id22">
+					<TypeBaseRef _id="id62" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="All dimensions"/>
+				<Parameter name="IconShape" Value="round"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="|++-|+-|"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Sum1" name="Sum1" Period="0" Deadline="0" Priority="0" BlockType="Sum" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id26" name="In_1" Number="1" srcLine="id25">
+					<TypeBaseRef _id="id5d" ref="id5b" name="MdoubleC3C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id27" name="Out_1" Number="1" dstLine="id28">
+					<TypeBaseRef _id="id65" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="All dimensions"/>
+				<Parameter name="IconShape" Value="round"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="1"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Sum2" name="Sum2" Period="0" Deadline="0" Priority="0" BlockType="Sum" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id2c" name="In_1" Number="1" srcLine="id2b">
+					<TypeBaseRef _id="id60" ref="id4c" name="MdoubleC3C3M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id2d" name="Out_1" Number="1" dstLine="id2e">
+					<TypeBaseRef _id="id68" ref="id45" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="All dimensions"/>
+				<Parameter name="IconShape" Value="round"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="1"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Sum3" name="Sum3" Period="0" Deadline="0" Priority="0" BlockType="Sum" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id32" name="In_1" Number="1" srcLine="id31">
+					<TypeBaseRef _id="id51" ref="id4c" name="MdoubleC3C3M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id33" name="Out_1" Number="1" dstLine="id34">
+					<TypeBaseRef _id="id6b" ref="id6a" name="MdoubleC1C3M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="Specified dimension"/>
+				<Parameter name="IconShape" Value="round"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="1"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Sum4" name="Sum4" Period="0" Deadline="0" Priority="0" BlockType="Sum" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id37" name="In_1" Number="1" srcLine="id36">
+					<TypeBaseRef _id="id50" ref="id4c" name="MdoubleC3C3M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id38" name="Out_1" Number="1" dstLine="id39">
+					<TypeBaseRef _id="id6e" ref="id5b" name="MdoubleC3C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="CollapseDim" Value="2"/>
+				<Parameter name="CollapseMode" Value="Specified dimension"/>
+				<Parameter name="IconShape" Value="round"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="1"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow"/>
+	<Types name="Types">
+		<Matrix _id="id45" Type="double" name="MdoubleC1C1M" rows="1" columns="1" referedbyTypeStructRef="id47 id48 id4a id4b id53 id54 id56 id57 id59 id5a id62 id63 id65 id66 id68 id69"/>
+		<Matrix _id="id4c" Type="double" name="MdoubleC3C3M" rows="3" columns="3" referedbyTypeStructRef="id4d id50 id51 id5f id60"/>
+		<Matrix _id="id5b" Type="double" name="MdoubleC3C1M" rows="3" columns="1" referedbyTypeStructRef="id5c id5d id6e id6f"/>
+		<Matrix _id="id6a" Type="double" name="MdoubleC1C3M" rows="1" columns="3" referedbyTypeStructRef="id6b id6c"/>
+	</Types>
+</RootFolder>
+
+

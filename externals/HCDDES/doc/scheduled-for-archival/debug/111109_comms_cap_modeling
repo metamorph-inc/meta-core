@@ -1,0 +1,15 @@
+0. (Yesterday evening).  We now have a mysterious crash in the processing of
+   device objects, probably due to the duplicate relation bug when Stage 1 is
+   trying to reduce dependencies to messages.  This was worked around by 
+   commenting out the code that copies the ExecInfo relations to the device
+   nodes (that's where the crash occurred).  Make sure to put it back after
+   fixing the relation bug.
+
+1. Tracking down issues in schedule generation.  For some reason the peripheral
+   messages are not generated.  Filed a trac issue, put them into the 
+   scheduler file by hand, and moved on.
+
+2. It was dumbness on my part -- one of the channels was not connected in the
+   model.  Thanks to Graham for finding that one.
+
+

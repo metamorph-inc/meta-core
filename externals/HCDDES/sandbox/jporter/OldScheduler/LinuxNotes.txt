@@ -1,0 +1,23 @@
+Linux Port Notes:
+
+Needed Ubuntu boost packages:
+libboost-dev
+libboost-regex-dev
+libboost-regex1.34.1
+libboost-program-options-dev
+libboost-program-options1.34.1
+libboost-graph-dev
+libboost-graph1.34.1
+
+Gecode:
+Currently built 2.2.0 from SVN
+jporter@hcddes-build:~/Desktop/HCDDES/3rdparty$ svn --username anonymous checkout 
+https://svn.gecode.org/svn/gecode/tags/release-2.2.0
+./configure --prefix=<path to pkg dir> --enable-static --enable-gist
+make
+make install
+make check (all passed)
+tar cvzf gecode-2.2.0-ubuntu-x86_64.tar.gz gecode-2.2.0-ubuntu-x86_64
+
+
+

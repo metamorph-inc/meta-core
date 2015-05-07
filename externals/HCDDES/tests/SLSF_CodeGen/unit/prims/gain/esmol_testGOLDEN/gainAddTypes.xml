@@ -1,0 +1,544 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="gain" name="gain" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id1b" Name="" dstLine_end_="id1c" srcLine_end_="id19"/>
+			<Line _id="id1e" Name="" dstLine_end_="id4" srcLine_end_="id1d"/>
+			<Line _id="id21" Name="" dstLine_end_="id22" srcLine_end_="id20"/>
+			<Line _id="id24" Name="" dstLine_end_="id5" srcLine_end_="id23"/>
+			<Line _id="id27" Name="" dstLine_end_="id28" srcLine_end_="id26"/>
+			<Line _id="id2b" Name="" dstLine_end_="id2c" srcLine_end_="id2a"/>
+			<Line _id="id2f" Name="" dstLine_end_="id30" srcLine_end_="id2e"/>
+			<Line _id="id32" Name="" dstLine_end_="ide" srcLine_end_="id31"/>
+			<Line _id="id35" Name="" dstLine_end_="id36" srcLine_end_="id34"/>
+			<Line _id="id38" Name="" dstLine_end_="idf" srcLine_end_="id37"/>
+			<Line _id="id3b" Name="" dstLine_end_="idd" srcLine_end_="id3a"/>
+			<Line _id="id3e" Name="" dstLine_end_="id3f" srcLine_end_="id3d"/>
+			<Line _id="id41" Name="" dstLine_end_="id6" srcLine_end_="id40"/>
+			<Line _id="id44" Name="" dstLine_end_="id45" srcLine_end_="id43"/>
+			<Line _id="id47" Name="" dstLine_end_="id7" srcLine_end_="id46"/>
+			<Line _id="id4a" Name="" dstLine_end_="id4b" srcLine_end_="id49"/>
+			<Line _id="id4d" Name="" dstLine_end_="id8" srcLine_end_="id4c"/>
+			<Line _id="id50" Name="" dstLine_end_="id51" srcLine_end_="id4f"/>
+			<Line _id="id53" Name="" dstLine_end_="id9" srcLine_end_="id52"/>
+			<Line _id="id55" Name="" dstLine_end_="id56" srcLine_end_="id4f"/>
+			<Line _id="id58" Name="" dstLine_end_="ida" srcLine_end_="id57"/>
+			<Line _id="id5a" Name="" dstLine_end_="id5b" srcLine_end_="id4f"/>
+			<Line _id="id5d" Name="" dstLine_end_="idb" srcLine_end_="id5c"/>
+			<Line _id="id5f" Name="" dstLine_end_="id60" srcLine_end_="id49"/>
+			<Line _id="id62" Name="" dstLine_end_="idc" srcLine_end_="id61"/>
+			<Line _id="id65" Name="" dstLine_end_="id66" srcLine_end_="id64"/>
+			<Line _id="id68" Name="" dstLine_end_="id69" srcLine_end_="id67"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id1e">
+				<TypeBaseRef _id="idf2" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id5" name="Out2" Number="2" srcLine="id24">
+				<TypeBaseRef _id="idbe" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id6" name="Out4" Number="3" srcLine="id41">
+				<TypeBaseRef _id="idcd" ref="idc2" name="Mfloat_double_C1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id7" name="Out5" Number="4" srcLine="id47">
+				<TypeBaseRef _id="idd0" ref="idc2" name="Mfloat_double_C1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id8" name="Out3" Number="5" srcLine="id4d">
+				<TypeBaseRef _id="idd3" ref="idd1" name="MdoubleC1C4M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id9" name="Out6" Number="6" srcLine="id53">
+				<TypeBaseRef _id="idd6" ref="idab" name="MdoubleC3C3M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="ida" name="Out7" Number="7" srcLine="id58">
+				<TypeBaseRef _id="idd9" ref="idab" name="MdoubleC3C3M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="idb" name="Out8" Number="8" srcLine="id5d">
+				<TypeBaseRef _id="iddc" ref="idab" name="MdoubleC3C3M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="idc" name="Out9" Number="9" srcLine="id62">
+				<TypeBaseRef _id="iddf" ref="iddd" name="MdoubleC3C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="idd" name="Out10" Number="10" srcLine="id3b">
+				<TypeBaseRef _id="idf5" ref="idc2" name="Mfloat_double_C1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="ide" name="Out11" Number="11" srcLine="id32">
+				<TypeBaseRef _id="idc7" ref="idc2" name="Mfloat_double_C1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="idf" name="Out12" Number="12" srcLine="id38">
+				<TypeBaseRef _id="idca" ref="idc2" name="Mfloat_double_C1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id20" name="Out_1" Number="1" dstLine="id21">
+					<TypeBaseRef _id="id9d" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="double"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="3.41"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant1" name="Constant1" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id3d" name="Out_1" Number="1" dstLine="id3e">
+					<TypeBaseRef _id="ida0" ref="id9f" name="Muint16C1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="uint16"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="3424"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant2" name="Constant2" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id43" name="Out_1" Number="1" dstLine="id44">
+					<TypeBaseRef _id="ida3" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="double"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="3.512"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant3" name="Constant3" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id49" name="Out_1" Number="1" dstLine="id4a id5f">
+					<TypeBaseRef _id="ida6" ref="ida5" name="MdoubleC4C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="double"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[1.3 2.4 3.5 4.6]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant4" name="Constant4" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id4f" name="Out_1" Number="1" dstLine="id50 id55 id5a">
+					<TypeBaseRef _id="idac" ref="idab" name="MdoubleC3C3M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[ 1.2 2.3 3.4; 3.2 4.3 5.4; 10 12 13]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant5" name="Constant5" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id64" name="Out_1" Number="1" dstLine="id65">
+					<TypeBaseRef _id="idb4" ref="idb3" name="Mint32C1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="int32"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="7"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant6" name="Constant6" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id26" name="Out_1" Number="1" dstLine="id27">
+					<TypeBaseRef _id="idb7" ref="idb6" name="Muint8C1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="uint8"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="213"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant7" name="Constant7" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id2a" name="Out_1" Number="1" dstLine="id2b">
+					<TypeBaseRef _id="idba" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="double"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="3.512"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain" name="Gain" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id1c" name="In_1" Number="1" srcLine="id1b">
+					<TypeBaseRef _id="idec" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id1d" name="Out_1" Number="1" dstLine="id1e">
+					<TypeBaseRef _id="idf1" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="1.45"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(K.*u)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="sfix(16)"/>
+				<Parameter name="ParameterDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain1" name="Gain1" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id22" name="In_1" Number="1" srcLine="id21">
+					<TypeBaseRef _id="id9e" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id23" name="Out_1" Number="1" dstLine="id24">
+					<TypeBaseRef _id="idbd" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="2.6"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(K.*u)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="sfix(16)"/>
+				<Parameter name="ParameterDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain10" name="Gain10" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id28" name="In_1" Number="1" srcLine="id27">
+					<TypeBaseRef _id="idb8" ref="idb6" name="Muint8C1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id2e" name="Out_1" Number="1" dstLine="id2f">
+					<TypeBaseRef _id="idc0" ref="idb3" name="Mint32C1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="26"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(K.*u)"/>
+				<Parameter name="OutDataType" Value="float('double')"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="float('single')"/>
+				<Parameter name="ParameterDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain11" name="Gain11" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id2c" name="In_1" Number="1" srcLine="id2b">
+					<TypeBaseRef _id="idbb" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id34" name="Out_1" Number="1" dstLine="id35">
+					<TypeBaseRef _id="idc3" ref="idc2" name="Mfloat_double_C1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="26.3"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(K.*u)"/>
+				<Parameter name="OutDataType" Value="float('double')"/>
+				<Parameter name="OutDataTypeMode" Value="Specify via dialog"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="float('double')"/>
+				<Parameter name="ParameterDataTypeMode" Value="Specify via dialog"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain12" name="Gain12" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id30" name="In_1" Number="1" srcLine="id2f">
+					<TypeBaseRef _id="idc1" ref="idb3" name="Mint32C1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id31" name="Out_1" Number="1" dstLine="id32">
+					<TypeBaseRef _id="idc6" ref="idc2" name="Mfloat_double_C1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="1"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(K.*u)"/>
+				<Parameter name="OutDataType" Value="float('double')"/>
+				<Parameter name="OutDataTypeMode" Value="Specify via dialog"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="float('single')"/>
+				<Parameter name="ParameterDataTypeMode" Value="Specify via dialog"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain13" name="Gain13" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id36" name="In_1" Number="1" srcLine="id35">
+					<TypeBaseRef _id="idc4" ref="idc2" name="Mfloat_double_C1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id37" name="Out_1" Number="1" dstLine="id38">
+					<TypeBaseRef _id="idc9" ref="idc2" name="Mfloat_double_C1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="1"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(K.*u)"/>
+				<Parameter name="OutDataType" Value="float('double')"/>
+				<Parameter name="OutDataTypeMode" Value="Specify via dialog"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="float('double')"/>
+				<Parameter name="ParameterDataTypeMode" Value="Specify via dialog"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain14" name="Gain14" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id69" name="In_1" Number="1" srcLine="id68">
+					<TypeBaseRef _id="ide2" ref="idb3" name="Mint32C1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id3a" name="Out_1" Number="1" dstLine="id3b">
+					<TypeBaseRef _id="idf4" ref="idc2" name="Mfloat_double_C1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="1"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(K.*u)"/>
+				<Parameter name="OutDataType" Value="float('double')"/>
+				<Parameter name="OutDataTypeMode" Value="Specify via dialog"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="sfix(16)"/>
+				<Parameter name="ParameterDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain2" name="Gain2" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id3f" name="In_1" Number="1" srcLine="id3e">
+					<TypeBaseRef _id="ida1" ref="id9f" name="Muint16C1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id40" name="Out_1" Number="1" dstLine="id41">
+					<TypeBaseRef _id="idcc" ref="idc2" name="Mfloat_double_C1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="26.3"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(K.*u)"/>
+				<Parameter name="OutDataType" Value="float('double')"/>
+				<Parameter name="OutDataTypeMode" Value="Specify via dialog"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="float('double')"/>
+				<Parameter name="ParameterDataTypeMode" Value="Specify via dialog"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain3" name="Gain3" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id45" name="In_1" Number="1" srcLine="id44">
+					<TypeBaseRef _id="ida4" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id46" name="Out_1" Number="1" dstLine="id47">
+					<TypeBaseRef _id="idcf" ref="idc2" name="Mfloat_double_C1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="26.3"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(K.*u)"/>
+				<Parameter name="OutDataType" Value="float('double')"/>
+				<Parameter name="OutDataTypeMode" Value="Specify via dialog"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="float('double')"/>
+				<Parameter name="ParameterDataTypeMode" Value="Specify via dialog"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain4" name="Gain4" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id4b" name="In_1" Number="1" srcLine="id4a">
+					<TypeBaseRef _id="idaa" ref="ida5" name="MdoubleC4C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id4c" name="Out_1" Number="1" dstLine="id4d">
+					<TypeBaseRef _id="idd2" ref="idd1" name="MdoubleC1C4M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="[ 1.2 2.3 3.4 4.5]"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(K.*u)"/>
+				<Parameter name="OutDataType" Value="float('double')"/>
+				<Parameter name="OutDataTypeMode" Value="Same as input"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="sfix(16)"/>
+				<Parameter name="ParameterDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain5" name="Gain5" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id51" name="In_1" Number="1" srcLine="id50">
+					<TypeBaseRef _id="idb1" ref="idab" name="MdoubleC3C3M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id52" name="Out_1" Number="1" dstLine="id53">
+					<TypeBaseRef _id="idd5" ref="idab" name="MdoubleC3C3M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="[ 1.2 2.3 3.4; 3.2 4.3 5.4; 10 12 13]"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Matrix(K*u)"/>
+				<Parameter name="OutDataType" Value="float('double')"/>
+				<Parameter name="OutDataTypeMode" Value="Same as input"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="sfix(16)"/>
+				<Parameter name="ParameterDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain6" name="Gain6" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id56" name="In_1" Number="1" srcLine="id55">
+					<TypeBaseRef _id="idb0" ref="idab" name="MdoubleC3C3M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id57" name="Out_1" Number="1" dstLine="id58">
+					<TypeBaseRef _id="idd8" ref="idab" name="MdoubleC3C3M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="[ 1.2 2.3 3.4; 3.2 4.3 5.4; 10 12 13]"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Matrix(u*K)"/>
+				<Parameter name="OutDataType" Value="float('double')"/>
+				<Parameter name="OutDataTypeMode" Value="Same as input"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="sfix(16)"/>
+				<Parameter name="ParameterDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain7" name="Gain7" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id5b" name="In_1" Number="1" srcLine="id5a">
+					<TypeBaseRef _id="idb2" ref="idab" name="MdoubleC3C3M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id5c" name="Out_1" Number="1" dstLine="id5d">
+					<TypeBaseRef _id="iddb" ref="idab" name="MdoubleC3C3M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="[ 6 7 12; 4 2 65; 32 63 1.423]"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(K.*u)"/>
+				<Parameter name="OutDataType" Value="float('double')"/>
+				<Parameter name="OutDataTypeMode" Value="Same as input"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="sfix(16)"/>
+				<Parameter name="ParameterDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain8" name="Gain8" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id60" name="In_1" Number="1" srcLine="id5f">
+					<TypeBaseRef _id="ida9" ref="ida5" name="MdoubleC4C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id61" name="Out_1" Number="1" dstLine="id62">
+					<TypeBaseRef _id="idde" ref="iddd" name="MdoubleC3C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="[ 1.2 2.3 3.4 3.5; 132 3.2 4.3 5.4; 2 10 12 13]"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Matrix(K*u) (u vector)"/>
+				<Parameter name="OutDataType" Value="float('double')"/>
+				<Parameter name="OutDataTypeMode" Value="Same as input"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="sfix(16)"/>
+				<Parameter name="ParameterDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain9" name="Gain9" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id66" name="In_1" Number="1" srcLine="id65">
+					<TypeBaseRef _id="idb5" ref="idb3" name="Mint32C1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id67" name="Out_1" Number="1" dstLine="id68">
+					<TypeBaseRef _id="ide1" ref="idb3" name="Mint32C1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Gain" Value="9"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(K.*u)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Same as input"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="sfix(16)"/>
+				<Parameter name="ParameterDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<System Tag="" Name="Counter" name="Counter" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<Line _id="id6e" Name="" dstLine_end_="id6f" srcLine_end_="id6d"/>
+				<Line _id="id71" Name="" dstLine_end_="id72" srcLine_end_="id70"/>
+				<Line _id="id74" Name="" dstLine_end_="id19" srcLine_end_="id73"/>
+				<Line _id="id77" Name="" dstLine_end_="id78" srcLine_end_="id76"/>
+				<OutputPort _id="id19" name="ctr" Number="1" dstLine="id1b" srcLine="id74">
+					<TypeBaseRef _id="ideb" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ExecuteAtInitialization" Value="off"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id72" name="In_1" Number="1" srcLine="id71">
+						<TypeBaseRef _id="idee" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+					<OutputPort _id="id76" name="Out_1" Number="1" dstLine="id77">
+						<TypeBaseRef _id="idf7" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="" Name="Ground" name="Ground" Period="0" Deadline="0" Priority="0" BlockType="Ground" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<OutputPort _id="id6d" name="Out_1" Number="1" dstLine="id6e">
+						<TypeBaseRef _id="ide4" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function gain 1" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id7a" ref="id79" name="Counter"/>
+					<InputPort _id="id6f" name="In_1" Number="1" srcLine="id6e">
+						<TypeBaseRef _id="ide5" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+					<OutputPort _id="id70" name="Out_1" Number="1" dstLine="id71">
+						<TypeBaseRef _id="ided" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<OutputPort _id="id73" name="Out_2" Number="2" dstLine="id74">
+						<TypeBaseRef _id="idea" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id78" name="In_1" Number="1" srcLine="id77">
+						<TypeBaseRef _id="idf8" ref="id9b" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+				</Primitive>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow">
+		<State Name="" name="TopLevel" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+			<State _id="id79" Name="Counter" name="Counter" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" referedbyConnectorRef="id7a">
+				<Data Max="" Min="" Name="ctr" Port="1" name="ctr" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="1" ArrayFirstIndex="0"/>
+				<State _id="id7b" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id7f id80" srcTransition="id7d id7f id80"/>
+				<TransStart _id="id7e" dstTransition="id7d"/>
+				<Transition _id="id7d" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id7b" srcTransition_end_="id7e"/>
+				<Transition _id="id7f" name="" Guard="ctr &lt; 4" Order="1" Action="ctr = ctr+1;" Trigger="" ConditionAction="" dstTransition_end_="id7b" srcTransition_end_="id7b"/>
+				<Transition _id="id80" name="" Guard="ctr >= 4" Order="2" Action="ctr = 0;" Trigger="" ConditionAction="" dstTransition_end_="id7b" srcTransition_end_="id7b"/>
+			</State>
+		</State>
+	</Stateflow>
+	<Types name="Types">
+		<Matrix _id="id9b" Type="double" name="MdoubleC1C1M" rows="1" columns="1" referedbyTypeStructRef="id9d id9e ida3 ida4 idba idbb idbd idbe ide4 ide5 idea ideb idec ided idee idf1 idf2 idf7 idf8"/>
+		<Matrix _id="id9f" Type="uint16" name="Muint16C1C1M" rows="1" columns="1" referedbyTypeStructRef="ida0 ida1"/>
+		<Matrix _id="ida5" Type="double" name="MdoubleC4C1M" rows="4" columns="1" referedbyTypeStructRef="ida6 ida9 idaa"/>
+		<Matrix _id="idab" Type="double" name="MdoubleC3C3M" rows="3" columns="3" referedbyTypeStructRef="idac idb0 idb1 idb2 idd5 idd6 idd8 idd9 iddb iddc"/>
+		<Matrix _id="idb3" Type="int32" name="Mint32C1C1M" rows="1" columns="1" referedbyTypeStructRef="idb4 idb5 idc0 idc1 ide1 ide2"/>
+		<Matrix _id="idb6" Type="uint8" name="Muint8C1C1M" rows="1" columns="1" referedbyTypeStructRef="idb7 idb8"/>
+		<Matrix _id="idc2" Type="float('double')" name="Mfloat_double_C1C1M" rows="1" columns="1" referedbyTypeStructRef="idc3 idc4 idc6 idc7 idc9 idca idcc idcd idcf idd0 idf4 idf5"/>
+		<Matrix _id="idd1" Type="double" name="MdoubleC1C4M" rows="1" columns="4" referedbyTypeStructRef="idd2 idd3"/>
+		<Matrix _id="iddd" Type="double" name="MdoubleC3C1M" rows="3" columns="1" referedbyTypeStructRef="idde iddf"/>
+	</Types>
+</RootFolder>
+
+

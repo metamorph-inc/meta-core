@@ -1,0 +1,7 @@
+Resolution 1us
+Proc A1 100MHz 50us 150us
+Comp T1 =1kHz 5us
+Comp T2 =1kHz 3us
+Comp T3 =100Hz 1us
+
+Latency 30us A1/T1 A1/T2 

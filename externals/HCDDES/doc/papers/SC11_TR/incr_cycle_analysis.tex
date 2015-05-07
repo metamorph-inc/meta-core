@@ -1,0 +1,125 @@
+% This is LLNCS.DEM the demonstration file of
+% the LaTeX macro package from Springer-Verlag
+% for Lecture Notes in Computer Science,
+% version 2.3 for LaTeX2e
+%
+\def\techreport{true}
+\ifx\techreport\undefined
+\documentclass{llncs}
+\else
+\documentclass[10pt]{article}
+\fi
+
+%
+\usepackage{makeidx}  % allows for indexgeneration
+\usepackage[pdftex]{graphicx}
+\usepackage{multicol}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\usepackage{algorithmicx}
+\usepackage[ruled]{algorithm}
+\usepackage{algpseudocode}
+%\usepackage{latex8}
+%
+
+% Make floats work with multicols (maybe)
+\makeatletter
+\newenvironment{figurehere}
+	{\def\@captype{figure}}
+	{}
+\makeatother
+
+
+\begin{document}
+%
+%\frontmatter          % for the preliminaries
+%
+\ifx\techreport\undefined
+\pagestyle{headings}  % switches on printing of running heads
+\addtocmark{Incremental Cycle Analysis} % additional mark in the TOC
+%
+%\tableofcontents
+%
+\mainmatter              % start of the contributions
+\fi
+%
+\title{Towards Incremental Cycle Analysis in ESMoL Distributed Control System
+Models}
+%
+\ifx\techreport\undefined
+\titlerunning{Incremental Cycle Analysis}  % abbreviated title (for running head)
+%                                     also used for the TOC unless
+%                                     \toctitle is used
+%
+\author{Joseph Porter \and Daniel Balasubramanian \and Graham Hemingway \and J\'{a}nos Sztipanovits}
+%
+\authorrunning{Joseph Porter et al.}   % abbreviated author list (for running head)
+%
+%%%% list of authors for the TOC (use if author list has to be modified)
+\tocauthor{Joseph Porter}
+%
+\institute{Institute for Software Integrated Systems, \\Vanderbilt University, \\Nashville TN 37212, USA,\\
+\email{jporter@isis.vanderbilt.edu},\\ WWW home page:
+\texttt{http://www.isis.vanderbilt.edu}
+}
+\fi
+
+\ifx\techreport\undefined
+\else
+\input{ipr.cover.tex}
+\fi
+
+\ifx\techreport\undefined
+\maketitle % typeset the title of the contribution
+\fi
+
+
+\begin{abstract}
+We consider the problem of incremental cycle analysis for dataflow models in 
+the Embedded Systems Modeling Language (ESMoL).  We give a general form of a
+cycle enumeration algorithm that makes use of graph hierarchy to improve
+analysis efficiency.  Our framework also stores simple connectivity information
+in the model to accelerate future cycle analyses when additional components
+are added or modifications are made.  Finally we give a mapping from a term
+algebraic model of the ESMoL component model and logical dataflow sublanguages
+to the analysis framework, and an evaluation on a fixed-wing aircraft controller model.  This is part of a larger effort to integrate cycle analysis into the ESMoL tool suite to aid well-formedness checking during model construction.
+\ifx\techreport\undefined
+\keywords{model-based design, embedded systems, model analysis}
+\fi
+\end{abstract}
+%
+%\twocolumn
+%\begin{multicols}{2}
+
+\input{introduction.tex}
+
+\input{background.tex}
+
+\input{cycleanalysis.tex} 
+
+\input{esmolcycles.tex} 
+
+\input{evaluation.tex}
+
+\input{conclusion.tex}
+
+\section{Acknowledgements}
+This work is sponsored in part by the National Science Foundation 
+(grant NSF-CCF-0820088) and by the Air Force Office of Scientific Research, 
+USAF (grant/contract number FA9550-06-0312).  The views and conclusions 
+contained herein are those of the authors and should not be interpreted as 
+necessarily representing the official policies or endorsements, either 
+expressed or implied, of the Air Force Office of Scientific Research or the 
+U.S. Government.
+
+
+% ---- Bibliography ----
+%
+\bibliographystyle{splncs03}
+\bibliography{incr_cycle_analysis}
+
+%\end{multicols}
+
+\end{document}

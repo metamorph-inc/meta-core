@@ -1,0 +1,143 @@
+\Section{Introduction}
+
+A number of platform technologies aim to support high-confidence distributed
+control systems design.
+
+1. Give a short general introduction, so we know where the problem and solution
+   fit in the research field.
+
+CPS -> High-confidence -> distributed control systems -> real-time scheduling
+
+Designing software for complex safety-critical systems poses unique challenges. 
+Control theory, distributed software design principles, and real-time scheduling
+techniques intersect in this design domain.  Each of these design disciplines 
+imposes a different set of correctness constraints.  Researchers strive to make
+the techniques from these areas work together in a meaningful way.
+
+2. Introduce the specific problem and explain what is difficult about it.
+
+More specifically 
+ARINC + distributed objects with multiple communication semantics
+
+Distributed object computing relies on well-defined component interfaces and 
+on computational abstractions for networked data communications in order to 
+simplify the specification and deployment of large networked software systems.
+Distributed systems are specified as a design-time component model and a 
+runtime framework for deploying designs.  These techniques allow distributed 
+software designs to scale to larger problems.   In avionics designs the 
+ARINC-653 standard defines runtime services to support safety-critical designs,
+but does not deal with distribution concerns (is that true?).  The APEX kernel 
+associated with the standard runs on top of a real-time operatings system (RTOS)
+and defines how processes are grouped into spatially and temporally distributed 
+partitions. Numerous control design analysis techniques support these 
+high-confidence design problems, but lie beyond the scope of the current 
+discussion.  
+
+High-confidence design and analysis techniques are necessarily formal, and are 
+specified to a fine level of detail.  Perhaps the biggest challenge in using
+multiple techniques together lies in reconciling those details, and filling in 
+the gaps where their intersection is not complete.  Consider the case of a
+distributed object system running real-time communicating tasks in ARINC-653
+partitions, as in the ARINC-653 Component Model \cite{}.  The first challenge
+would be the creation of a runtime environment that supports both distributed
+object-style specification and deployment as well as timely partitioned 
+execution. The second challenge would be the joint analysis of both frameworks 
+with respect to schedulability.  
+
+Avionics -> Partitioned execution + real-time tasks within partitions
+Avionics -> Distributed messaging -> non-blocking (time-triggered) + blocking messages
+
+
+3. Briefly describe our proposed solution to the problem, and our specific 
+   contributions to the proposed solution.
+
+Easwaran showed how to do Partitions + EDF on a single processor.
+
+We need to be able to do fixed priority scheduling within partitions, 
+time-triggered message scheduling between partitions on different processors,
+and guarantee that blocking messages between tasks in any partitions will not
+cause deadline violations.
+
+We propose to extend the hierarchical scheduling framework originally proposed
+by Shin and Lee, and extended by Easwaran and Lee.
+
+1. Easwaran's model treats statically scheduled partitions as a periodic 
+   supply to the tasks within the partitions.
+2. Partition offset bounds must respect message dependency requirements.
+3. We assume that blocking messages are sent with worst-case latency -
+   the message is sent at the start of the sending task (which blocks), the
+   receiver gets it at the start of its execution time, and runs to completion
+   before sending a response to unblock the sender. 
+
+We are extending our constraint-based scheduling tool to handle the case 
+described above.
+
+Cover related work here in brief.
+
+Old Notes:
+
+\SubSection{Problems}
+
+Semantic gap -- mixed design paradigms, and multiple communication models.
+
+- Task execution models: Giotto: ARINC-653
+-Communication Message Scheduling: TTP/C TTEthernet - to some extent AFDX
+- Issue: combining them together and solving an integrated problem. 
+
+Examples: 
+
+\begin{enumerate}
+\item Distributed tasks and messaging with time- and event-triggered execution
+models.  Consider the time-triggered ethernet communication protocol.
+\item ARINC-653 partitioned execution does not fully specify the semantics of
+intermodule communication.  We consider the case where real-time tasks within a 
+partition make blocking calls to other tasks in the system.  Assuming that the
+dependencies are known \emph{a priori}, the task and partition offsets must be 
+calculated to satisfy the communication constraints.  This example assumes an
+AFDX-style communication model.
+\end{enumerate}
+
+\SubSection{Contributions}
+
+Unified scheduling tool, including:
+
+\begin{enumerate}
+
+\item Integrated task and message scheduling:
+
+\begin{itemize}
+\item Blocking dependencies
+
+Partitioned execution and communication are critical for secure and 
+fault-tolerant real time systems design.  However, distribution of computation
+over a network complicates partition scheduling, especially in the case of
+blocking calls (e.g. for remote method invocations).   One solution to this
+problem is the use of synchronized partitions and time-triggered data 
+communications.  Previous execution models rely on non-blocking 
+communications to enhance fault tolerance, and logical execution time 
+constraints to simplify the calculation of the static message schedule.
+
+We propose to increase the flexibility of this design paradigm by adding 
+blocking calls to partitions.  We assume that all partition schedules in the
+distributed system are synchronized, to ensure proper overlap of blocking
+messages between partitions.  Obviously, the burden of designing the system
+specifications to eliminate conflicts will fall to the designers.  We will 
+also address static \emph{a priori} deadlock detection from the specification.
+
+\item Offset determination
+\end{itemize}
+
+\item Two-level scheduling model
+
+\begin{itemize}
+\item Partitioned execution
+\item Mixed time-triggered and event-triggered approach
+\end{itemize}
+
+\item Flexible communication bus model
+
+\item Extensions of the incremental approach
+
+\end{enumerate}
+
+

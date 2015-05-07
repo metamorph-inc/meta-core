@@ -1,0 +1,17 @@
+1. Loaded the xPC model and the new code.  The I2C successfully sends the 
+   sync byte (so it appears), and then everything locks up shortly after that.
+
+   + Try commenting out the I2C messages to see what we get on the line.  The
+     expectation is that the local data handling will provide at least an 
+     attenuated copy of the output back out (so far we haven't seen anything
+     out on the serial line, only inbound).  We're also only seeing the 9-word
+     IMU message in.  The GPS message is not being sent.
+
+   + Restructuring the model to send one giant message with all 15 words. 
+     This is the worst-case test.
+     Changed the union buffer to a big struct containing both messages.
+     Set the peripheral pointers to point to those fields.
+     Reverted the UART code, and added a single buffer length parameter.
+
+   + We're going to try live debugging with the AVR dragon.  No gumstix, so no
+     I2C messages. I need to build a JTAG connector.  We'll see how this goes...

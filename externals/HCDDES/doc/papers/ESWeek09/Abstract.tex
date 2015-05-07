@@ -1,0 +1,19 @@
+\begin{abstract}
+
+Time-triggered architectures (TTA) provide replica determinism in safety-critical distributed embedded software designs.  TTA has become a crucial part of many high-confidence embedded paradigms, as it decouples functional concerns from platform timing concerns in system designs.  Complex embedded software development workflows for safety-critical applications are increasingly managed by model-based design tools, in order to support automated verification and reconcile conflicts between functional and non-functional concerns in designs.  We present a prototype scheduling tool (ESched) which calculates cyclic schedules for time-triggered networks.  ESched supports the model-based workflow of the ESMoL modeling language and tool suite.  Using ESMoL, designers can rapidly iterate through simulating a control design, capturing platform effects in models, generating a schedule (if feasible), and re-simulating the control design subject to the platform model and the computed schedule.  ESched specifications include a number of useful platform parameters, and it supports troubleshooting of infeasible schedules by allowing the user to specify partial platform models to solve.
+
+%Prior work has shown that constraint logic programming (CLP) can provide cyclic schedules for distributed time-triggered execution, scaling well to large designs.  Such logical models should directly capture platform timing effects where possible.  A difficulty in using constraint solvers in embedded software design workflows lies in debugging infeasible schedules, as such tools usually either present a solution or simply report failure (often with statistics).  We present here a prototype scheduling tool built on the Gecode CLP library.  The tool explicitly models platform effects, and provides debugging support by allowing users to choose to solve only partial models over the distributed platform topology, or to try to extract unsatisfiable subsets of specified timing constraints using unsat core extraction techniques.  
+
+\end{abstract}
+
+\category{C.3}{Special-Purpose and Application-Based Systems}{Real-time and embedded systems}
+\category{F.2.2}{Analysis of Algorithms and Problem Complexity}{Nonnumerical Algorithms and Problems}[Sequencing and scheduling]
+\category{D.2.2}{Software Engineering}{Design Tools and Techniques}
+\category{I.6.4}{Simulation and Modeling}{Model Validation and Analysis}
+
+\terms{Design}
+
+
+
+ 
+ 

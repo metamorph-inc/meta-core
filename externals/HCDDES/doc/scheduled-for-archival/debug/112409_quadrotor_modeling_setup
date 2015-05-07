@@ -1,0 +1,39 @@
+Going through the cleanup steps for the generated FRODO code:
+
+1. Linked quadrotor_demo/build under the gumstix tools tree
+   cd ~/gumstix/gumstix-oe/user.collection
+   mv packages packages.comms_cap
+   ln -s ~/sources/HCDDES/trunk/Plant/quadrotor_demo/build packages
+
+2. Copied Gumstix and Robostix to their proper locations:
+   mv build/gumstix-frodo/files/app/app.c build/gumstix-frodo/files/app/app.old.c
+   cp quadrotor_demo_src/Gumstix.c build/gumstix-frodo/files/app/app.c
+   mv build/robostix-frodo/files/app/app.c build/robostix-frodo/files/app/app.old.c
+   cp quadrotor_demo_src/Robostix.c build/robostix-frodo/files/app/app.c
+
+3. Still waiting on the SL_CodeGen part -- creating app_tasks_init for both
+   sides.
+
+4. Creating the peripheral table for the robostix.
+
+5. Cleaning up the end of line characters in the generated code.
+
+6. Removed the duplicate message declarations from the robostix app.c.
+
+7. At Gabor's direction, tried the working binaries from this system on the
+   other two boxes. Amazingly they worked!
+
+8. Still working with Harmon on the code generation issues:
+   + Harmon had me make a change the output port on the inner loop to specify
+     the data types.  The generator still crashed.
+   + Created a new model without the inner loop, to see if we could generate 
+     only the parts for the outer loop.  That crashed as well...
+   + Created a new model with only the inner loop.  That crashed due to a UDM
+     precision exception.  I'm going through the model now to eliminate any
+     constants that are too small (e.g. 1.5e-315 ).  Set them all to zero 
+     (only a handful, anyway).
+
+   + It looks like something generated for the inner loop.  I need to look it
+     over to see if it makes sense.
+
+

@@ -1,0 +1,13 @@
+Resolution 2us
+Proc A1 100MHz 50us 150us
+Comp T1 =500Hz 50us
+Comp T2 =1kHz 10us
+
+Proc B1 100MHz 50us 150us
+Comp T1 =500Hz 50us
+Comp T2 =1kHz 10us
+
+Bus AB 10Mb 100us
+Msg M1 16B A1/T1 B1/T1
+Msg M2 2B  B1/T2 A1/T2
+

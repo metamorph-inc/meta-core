@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Generated Files\models">
+      <UniqueIdentifier>{fa499f61-5a9b-453a-8cf6-4cf1270c074f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\generated">
+      <UniqueIdentifier>{9a117232-4c51-4c7a-b6a7-d373fd880f2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\include">
+      <UniqueIdentifier>{81877d1a-bebd-4dea-b5e3-d883938ef3fd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(VCP_PATH)\generated\esmol\generated\ESMoL_xsd.h">
+      <Filter>Generated Files\generated</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(VCP_PATH)\generated\esmol\generated\ESMoL.xsd">
+      <Filter>Generated Files\generated</Filter>
+    </None>
+    <None Include="$(VCP_PATH)\generated\esmol\generated\ESMoL.cpp">
+      <Filter>Generated Files\generated</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <xme2mga Include="ESMoL.xme" />
+  </ItemGroup>
+  <ItemGroup>
+    <meta2uml Include="..\..\..\generated\esmol\models\ESMoL.mga">
+      <Filter>Generated Files\models</Filter>
+    </meta2uml>
+  </ItemGroup>
+  <ItemGroup>
+    <mga2udmxml Include="..\..\..\generated\esmol\models\ESMoL_uml.mga">
+      <Filter>Generated Files\models</Filter>
+    </mga2udmxml>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\generated\esmol\models\ESMoL_udm.xml">
+      <Filter>Generated Files\models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\generated\ESMoL\generated\ESMoL.h">
+      <Filter>Generated Files\generated</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

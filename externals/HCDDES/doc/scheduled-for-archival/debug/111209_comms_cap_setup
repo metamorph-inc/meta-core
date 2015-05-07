@@ -1,0 +1,87 @@
+We have actually generated code!  Now to get it working...
+
+0. Copying over the build subdirectory was done previously.
+
+1. After updating from svn, linked comms_test_capacity/build under the gumstix
+   tree (user.collection/packages).
+
+2. Copied generated files:
+   DataHandler_sl.* -> robostix-frodo/files
+   InnerLoop_sl.* -> robostix-frodo/files 
+   Ssignal1CA4singleACsignal2CA6singleAS.h -> robostix-frodo/files
+   Ssignal1CA9singleACsignal2CA6singleAS.h -> robostix-frodo/files
+   Robostix.c -> robostix-frodo/files/app/app.c
+   OuterLoop_sl.* -> gumstix-frodo/files
+   Ssignal1CA4singleACsignal2CA12singleAS.h -> gumstix-frodo/files
+   Gumstix.c -> gumstix-frodo/files/app/app.c
+
+3. Changed the permissions on the new copies of the bin/rf and bin/gf scripts:
+   chmod u+x bin/rf
+   chmod u+x bin/gf
+   (from the gumstix/gumstix-oe/user.collection/packages directory)
+
+4. Compilation and issues:
+
+   Robostix:
+   * #include errors (couldn't find headers)
+   + Added DataHandler_sl.c to the Makefile (robostix-frodo/files/Makefile)
+   + Added DataHandler_sl.* to bitbake (robostix-frodo/robostix-frodo.bb)
+   + Also added signal includes to bitbake
+   * SL_CodeGen simplifications created an error:
+
+        /* SIMPLIFIED PROGRAM CONTEXT */
+        typedef DataHandler_100000171_class DataHandler_class;
+
+        instead of
+
+        /* SIMPLIFIED PROGRAM CONTEXT */
+        typedef DataHandler_100000171_context DataHandler_context;
+
+   + Fixed those by hand.
+   * Duplicate copy of the attitude data message found in app.c (robostix).
+   + Fixed by hand.
+   * The target name (robostix-frodo.hex) is not being formed correctly by make.
+   + Trying 'fromdos' on everything just to be sure.
+   + Gabor fixed it -- the robostix-frodo target had a space on the end.
+   * Duplicates for DataHandler_init, DataHandler_main
+   + Those should have been DataHandler_100000171_init, etc...
+   + Same problem for InnerLoop_init, etc... (and OuterLoop)
+   + Fixed those by hand.
+   * Conflicts with math.h.
+   + Removed the math.h from DataHandler and InnerLoop headers.
+   * Since the main,init wrapper functions are defined in the header, avr-gcc
+     gets duplicate symbols.
+   + Worked around by making them externs in app.c. 
+   + That didn't work, because we have too many datatype definitions.
+   + Moved those functions down into *_sl.c.
+
+   Gumstix:
+   * Failed to create the code for RefSocketHandler.  
+   + It wasn't put into the model, nor the port type for the raw data message.
+   + We're not using it yet, so we can comment it out for now.
+   * Same #include errors
+   + Added signal header to the bitbake file.
+   * More strange compilation errors.
+   + Ran fromdos to remove the DOS line-ends (ran it twice).
+   * The float[4] notation doesn't translate directly into C.
+   + Changed it and filed a bug report. 
+   * The field name for RefSockethandler_Pos_Ref_msg was wrong.
+   + Fixed by hand for now (that code is not being used).
+   * Same problem linking the OuterLoop_main (and init).
+   + Moved the definitions of those functions out of the header.
+
+5. Create the app_tasks_init functions.
+   Also had to move the context structure declarations above the function,
+   and call the *_init( &*_ctxt) functions.
+
+6. Once again, the peripherals failed to generate.
+
+7. Tweaked the schedule.  We didn't put the right durations in for the 
+   messages, so we had to tweak it a bit.  Also, the usual tweak for the I2C.
+
+8. We need to handle multiple messages from the UART.  This will require some
+   changes.
+   * Put header fields on the UART messages, and initialize them.
+   * Created a structure for making sure that the receivers rotate between the
+     handlers.
+   * Did a union of the incoming messages to avoid overflow and deadlock.

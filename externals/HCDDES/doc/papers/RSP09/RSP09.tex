@@ -1,0 +1,47 @@
+%
+%  $Description: Author guidelines and sample document in LaTeX 2.09$
+%
+%  $Author: ienne $
+%  $Date: 1995/09/15 15:20:59 $
+%  $Revision: 1.4 $
+%
+\documentclass[10pt,twocolumn]{article}
+\usepackage{latex8}
+\usepackage{times}
+\usepackage{graphicx}
+%-------------------------------------------------------------------------
+% take the % away on next line to produce the final camera-ready version
+%\pagestyle{empty}
+%-------------------------------------------------------------------------
+\begin{document}
+\title{An Experimental Model-Based Rapid Prototyping Environment for High-Confidence Embedded Software}
+\author{Joseph Porter, Peter Volgyesi, Nicholas Kottenstette, Harmon Nine, Gabor Karsai, Janos Sztipanovits\\
+Institute for Software Integrated Systems \\ Vanderbilt University\\ 2015 Terrace Place, Nashville, TN 37203 USA\\ jporter@isis.vanderbilt.edu\\
+}
+\maketitle
+\thispagestyle{empty}
+\begin{abstract}
+   The development of embedded software for high-confidence systems is a challenging task that must be supported by a deep integration of control theoretical and computational aspects. Model-based development of embedded software has been practiced for more than a decade now, but very few integrated approaches have emerged to provide end-to-end support for the process, and integrate platform aspects as well as verification. The paper describes an early version of a model-based prototyping toolchain that provides such support and covers most engineering steps. The toolchain is coupled with a hardware-in-the-loop simulation system, allowing quick experimental evaluation of designs. 
+\end{abstract}
+%-------------------------------------------------------------------------
+\Section{Introduction}
+\input{SectionIntro}
+
+\Section{Rapid Development Process}
+\input{SectionDev}
+
+\Section{Hardware-in-the-Loop Simulation}
+\input{SectionSim}
+
+\Section{Related Work}
+\input{SectionRel}
+
+\Section{Conclusion and Future Work}
+\input{SectionEnd}
+
+\Section{Acknowledgements}
+This work was sponsored (in part) by the Air Force Office of Scientific Research, USAF, under grant/contract number FA9550-06-0312.  The views and conclusions contained herein are those of the authors and should not be interpreted as necessarily representing the official policies or endorsements, either expressed or implied, of the Air Force Office of Scientific Research or the U.S. Government.
+
+\bibliographystyle{latex8}
+\bibliography{rsp09}
+\end{document}

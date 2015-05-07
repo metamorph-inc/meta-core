@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FF033E37-6928-41C2-A537-5CF772C8D788}</ProjectGuid>
+    <RootNamespace>ESMoLUpdate</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(GME_ROOT)\SDK\BON\Common\GMEInterpreter.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(GME_ROOT)\SDK\BON\Common\GMEInterpreter.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\bin\</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\bin\</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)D</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CustomBuildStep>
+      <Message>Performing registration (requires elevated priviledges on Windows Vista)...</Message>
+      <Command>regsvr32 /s /c "$(TargetPath)"
+echo regsvr32 exec. time &gt; "$(OutDir)regsvr32.trg"
+</Command>
+      <Outputs>$(OutDir)regsvr32.trg;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\Gme\Release;$(GME_ROOT)\Gme\Debug;$(GME_ROOT)\bin;$(GME_ROOT)/Interfaces;$(GME_ROOT)/Gme/Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TypeLibraryName>.\ComponentLib.tlb</TypeLibraryName>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\Interfaces;$(GME_ROOT)\Gme\Interfaces;$(GME_ROOT)/SDK/BON/Common;$(UDM_PATH)/include;..\..\include;$(UDM_PATH)\3rdparty\xerces-c_2_8_0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>Component.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuildStep>
+      <Message>Performing registration (requires elevated priviledges on Windows Vista)...</Message>
+      <Command>regsvr32 /s /c "$(TargetPath)"
+echo regsvr32 exec. time &gt; "$(OutDir)regsvr32.trg"
+</Command>
+      <Outputs>$(OutDir)regsvr32.trg;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\Gme\Release;$(GME_ROOT)\Gme\Debug;$(GME_ROOT)\bin;$(GME_ROOT)/Interfaces;$(GME_ROOT)/Gme/Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TypeLibraryName>.\ComponentLib.tlb</TypeLibraryName>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\Interfaces;$(GME_ROOT)\Gme\Interfaces;$(GME_ROOT)/SDK/BON/Common;$(UDM_PATH)/include;..\..\include;$(UDM_PATH)\3rdparty\xerces-c_2_8_0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>Component.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.cpp" />
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp" />
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentObj.cpp" />
+    <ClCompile Include="..\..\generated\esmol\generated\ESMoL.cpp" />
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp" />
+    <ClCompile Include="ESMoLUpdate.cpp" />
+    <ClCompile Include="RawComponent.cpp" />
+    <ClCompile Include="StdAfx.cpp" />
+    <ClCompile Include="UdmApp.cpp" />
+    <ClCompile Include="UdmConsole.cpp" />
+    <ClCompile Include="UdmFormatter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Component.def" />
+    <None Include="CompIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Component.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="$(GME_ROOT)\SDK\BON\Common\ComponentLib.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.h" />
+    <ClInclude Include="ComponentConfig.h" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.h" />
+    <ClInclude Include="ComponentLib_h.h" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComponentObj.h" />
+    <ClInclude Include="..\..\include\ESMoL.h" />
+    <ClInclude Include="ESMoLUpdate.h" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\GMECOM.H" />
+    <ClInclude Include="RawComponent.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="string_utils.h" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\targetver.h" />
+    <ClInclude Include="UdmApp.h" />
+    <ClInclude Include="UdmConfig.h" />
+    <ClInclude Include="UdmConsole.h" />
+    <ClInclude Include="UdmFormatter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\models\ESMoL\ESMoL.vcxproj">
+      <Project>{35efa7d1-a834-4297-a597-6c76cc4fd399}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

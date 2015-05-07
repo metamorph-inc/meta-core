@@ -1,0 +1,63 @@
+As this research effort is a work in progress, we conclude with a brief summary of
+the next steps and future objectives for each of the tools presented.   We must 
+keep in mind the final goal of verifiable and certifiable software for embedded 
+systems.  This section contains forward-looking statements.
+
+\SubSection{Software architecture specification}
+The chief limitation of our software architecture tools is the one-way design flow 
+from the SL/SF design, through componentization, down to the final 
+code. We aim to improve the ability to send design information back to the earlier 
+stages of the design as neeeded.  For example, platform-specific simulations may
+indicate that jitter or quantization effects will impact the initial assumptions
+of a control design.  Representing that data to control designers in a meaningful 
+way will allow design changes without excessive workflow iterations.  
+Schedulability is another area where downstream software 
+design tools can provide meaningful feedback to the original design engineers.
+
+\SubSection{Code generation}
+The abstract model in the code generator opens the door for a number of
+potential static analysis and verification opportunities.  The current toolchain 
+includes two code generators that produce C (and Java) source code from 
+(single-rate) subsystems in Simulink and Stateflow models. The code generators have 
+been implemented using graph transformation techniques, and they produce an AST from 
+which the actual code is printed. To assist in system-level or functional code
+verification the AST could be extended to carry over information from the original 
+model, thus providing guidance for the source code-level verification tool 
+regarding the original model from which the code was generated and its properties.
+We believe this can significantly improve the performance of the verification step 
+because the verifier does not have to ‘reverse engineer’ the high-level 
+abstractions from the source code, as the abstractions are readily available in
+the models. 
+
+\SubSection{Scheduling}
+We aim to expand the scheduling tools to include specific time-triggered models.
+One simple example is that of adding constraints to support the requirements of
+the TTTech TTP/C hardware.   Another avenue for research is the exploration of 
+interactions between the resource allocation model (via schedules) with other 
+system objectives which can be modeled by constraint or optimization problems in
+other domains (such as continuous stability in the control design).  
+
+\SubSection{Extending the modeling of the execution platform}
+The formal DEVS model is a big step towards providing guaranteed safety and 
+performance in time-triggered control system designs.  DEVS also supports pure
+event-triggered behaviors in addtion to timed models.  Experimentation with this 
+capability will hopefully lead to a better understanding of the limitations of 
+heterogeneous component interactions in our system designs. 
+
+Platform simulation also opens up opportunities for exploration.  The TrueTime tool
+suite from Lund University \cite{TrueTime} extends Simulink models with 
+concepts for modeling distributed platforms, scheduling policies, and communication 
+protocols.   TrueTime promises to help characterize behavioral changes due to the
+distribution of functionality over networked processors.
+
+\SubSection{Extending the capabilities of the execution platform}
+As the capabilities of the formal models expand, we aim to extend our portable
+VM implementation to manage heterogeneous behaviors.  The VM will also be ported
+to other operating platforms, including diverse hardware and RTOSes such as QNX 
+and uC-OS.  Different platforms provide different levels of assurance regarding
+timing, determinism, and resource management.  These differences will need to be
+reflected in the models.  New features may also be added to the VM as required to 
+support interaction idioms such as remote procedure calls or rendezvous.  We may 
+also require additional component services such as health monitoring, fault management, 
+robust clock synchronization, or failover.  
+

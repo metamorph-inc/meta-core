@@ -1,0 +1,63 @@
+#def collapse( $block, $inputs, $outputs, $parameters, $operation )
+	#set $init = 0.0 if $operation == "+" else 1.0
+	#set $output = $outputs[ 0 ]
+	#set $input = $inputs[ 0 ]
+    #
+    ## GET COLLAPSE MODE
+    #set $collapseMode = "All"
+    #if "CollapseMode" in $parameters and $parameters.CollapseMode == "Specified dimension"
+        #set $collapseMode = "Rows" if $parameters.CollapseDim == "1" else "Columns"
+    #end if
+    #
+    ## MODIFY COLLAPSE MODE BASED ON INPUT DIMENSIONS
+    #set $inputDimensions = $input.getAllDimensions
+    #set $sumDimensions = 0
+    #set $noDimensions = 0
+    #if $len( $inputDimensions ) == 0
+        #set $sumDimensions = 0
+    #elif $len( $inputDimensions ) == 1
+        #set $noDimensions = 1
+        #set $sumDimensions = 0 if $collapseMode == "Rows" else 1
+    #elif $len( $inputDimensions ) == 2 and $inputDimensions[ 0 ] == 1
+        #set $noDimensions = 1
+        #set $sumDimensions = 0 if $collapseMode == "Columns" else 1
+    #else
+        #set $noDimensions = 2
+        #set $sumDimensions = 2 if $collapseMode == "All" else 1
+    #end if
+    #
+    #if $sumDimensions == 0
+$output = $input
+    #else
+        #set $sum = $block.createVariable( "sum", $output.getElementType() )
+        #if $sumDimensions == 2 or $noDimensions == 1
+$sum = $init
+        #end if
+        #set $ix = $block.createVariable( "ix", "int" )
+$ix = 0
+while $ix < $inputDimensions[ 0 if $collapseMode != "Rows" else 1 ]
+        #set $indent = '    '
+        #if $noDimensions == 2
+            #if $sumDimensions == 1
+    $sum = $init
+            #end if
+            #set $jx = $block.createVariable( "jx", "int" )
+    $jx = 0
+    while $jx < $inputDimensions[ 1 if $collapseMode != "Rows" else 0 ]
+            #set $indent = '        '
+        #end if
+${indent}$sum = $sum $operation ${input}( #if $noDimensions == 1#$ix#elif $collapseMode == "Rows"#$jx, $ix#else#$ix, $jx#end if# )
+        #if $noDimensions == 2
+        $jx = $jx + 1
+    end
+            #if $sumDimensions == 1
+    ${output}( $ix ) = $sum
+            #end if
+        #end if
+    $ix = $ix + 1
+end
+        #if $sumDimensions == 2 or $noDimensions == 1
+$output = $sum
+        #end if
+    #end if
+#end def

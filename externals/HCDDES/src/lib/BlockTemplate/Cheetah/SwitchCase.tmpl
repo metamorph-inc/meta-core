@@ -1,0 +1,38 @@
+#import re
+#
+## ALIAS INPUT TO "u1"
+$input.alias( "u1" )#slurp
+#
+## ALIAS OUTPUTS TO "outn", SET ALL TO 0
+#for $ix in $range(  0, $len( $outputs )  )
+$outputs[ $ix ].alias(  "out" + $str( $ix + 1 )  )#slurp
+out$str( $ix + 1 ) = 0
+#end for
+#
+#set $cases = []
+#set $caseRE = $re.compile( "[^[]*(\\d+)|[^[]*\\[(\\s*\\d+\\s*(?:,\\s*\\d+\\s*)*)\\]" )
+#set $start = 0
+#set $match = $caseRE.match( $parameters.CaseConditions.value[$start:] )
+#while $match
+$cases.append(  $match.group( 1 ) if $match.group( 1 ) else $match.group( 2 )  )#slurp
+    #set $start += $match.end( 0 )
+    #set $match = $caseRE.match( $parameters.CaseConditions.value[$start:] )
+#end while
+#
+#set $index = 1
+#set $notFirstCase = False
+#for $case in $cases
+    #if $notFirstCase
+else#slurp
+    #end if
+    #set $notFirstCase = True
+if $str( " | " ).join(   $map(  lambda s: "u1 == " + s.strip(), $case.split( ',' )  )   )
+    out$index = 1
+    #set $index += 1
+#end for
+#set $showCaseDefault = $parameters.ShowDefaultCase if "ShowDefaultCase" in $parameters else $parameters.CaseShowDefault
+#if $showCaseDefault == "on"
+else
+    out$index = 1
+#end if
+end

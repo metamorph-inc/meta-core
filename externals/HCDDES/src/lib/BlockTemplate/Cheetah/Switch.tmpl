@@ -1,0 +1,28 @@
+#from LoopHelper import LoopHelper
+#set $threshold = $parameters.Threshold.placeInContext
+#set $input0HasIndexes = $inputs[0].isArray()
+#set $input1HasIndexes = $inputs[1].isArray()
+#set $input2HasIndexes = $inputs[2].isArray()
+#set $thresholdHasIndexes = $threshold.isArray()
+#set $lh = LoopHelper( $block, $output.getDimensions )
+#set $conditionExpr = $inputs[1]
+#if $input1HasIndexes
+	#set $conditionExpr += $lh.indexes
+#end if
+#if $thresholdHasIndexes
+	#set $threshold += $lh.indexes
+#end if
+#if $parameters.Criteria == "u2 > Threshold"
+	#set $conditionExpr += " > " + $threshold
+#elif $parameters.Criteria == "u2 >= Threshold"
+	#set $conditionExpr += " >= " + $threshold
+#else
+	#set $conditionExpr += " ~= 0"
+#end if
+$lh.startLoops#slurp
+${lh.indent}if $conditionExpr
+${lh.indent}    $output${lh.indexes} = $inputs[0]#if $input0HasIndexes#$lh.indexes#end if
+${lh.indent}else
+${lh.indent}    $output${lh.indexes} = $inputs[2]#if $input2HasIndexes#$lh.indexes#end if
+${lh.indent}end
+$lh.endLoops#slurp

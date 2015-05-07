@@ -1,0 +1,27 @@
+
+Things to do:
+
+Scheduling side:
+Add instance creation code
+Add code to create constraints from instances
+Add parts for master time sync broadcast
+
+
+Constraint side:
+#Handle size constraints and individual var ranges correctly
+Make the interpreter only work on selected constraint problem objects.
+Templatize the search engine & hook up to model choices
+Figure what to do for branching instructions
+Map results back into variable instances
+Map results back into scheduling instances
+How do we collect multiple solutions?  
+   #Create a model container for each possible solution.
+   Add a limit for number of solutions to return.
+   Maybe make another interpreter to do the mapping for a single selected solution set back to the scheduler
+   How do we display solutions in a way that allows the designer to make choices?
+
+
+Meta:
+Add regular real-time tasks, with preemptability and everything
+Try the whole thing end-to-end with one bus
+Try more buses

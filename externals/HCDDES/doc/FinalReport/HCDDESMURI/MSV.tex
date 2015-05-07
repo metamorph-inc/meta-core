@@ -1,0 +1,246 @@
+\subsection{Model-Based Software Design and Verification}
+
+\subsubsection{Advances in Verification and Reachability Analysis}
+
+Reachability computations are foundational to the verification of continuous and hybrid dynamic systems.  In this MURI we made several advances in the development of reachability analysis techniques for continuous and hybrid dynamic systems.  We extended the concept of counterexample guided abstraction refinement (CEGAR) techniques in the verification of discrete systems to hybrid systems.  In a new method called iterative relaxation analysis, multiple abstractions are constructed such that the composition of the results for the collection of abstractions leads to a successful verification of the overall system.  This approach out-performs state-of-the-art reachability engines by a factor of 1000 on some examples.
+
+We also developed reachability-based methods for verifying properties of numerical software, taking into account floating point errors.  The technique uses a new widening operator, similar to the types of operators used to guarantee convergence to a fixed point in abstract interpretation.  We developed a new bounded-time verification technique that combines software model checking and simulation.  The technique directly analyzes controller code and reachable set estimation via bisimulation functions is used to conservatively capture the behaviors of a plant with continuous dynamics.  We have also developed a new method for finding counterexamples that uses a software model checker to perform a systematic simulation of the software implementation of a controller coupled with a continuous plant. 
+
+ In year 5 we developed new methods for computing tight overapproximations of reachable sets for linear dynamic systems with uncertain, time-varying parameters and bounded input signals.   This makes it possible to compute much tighter approximations to reachable sets for nonlinear systems using on-the-fly local linearizations.  Using zonotopes as the fundamental representation of sets, reachable sets can be computed for systems with dozens of continuous state variables.  Improvements of two to three orders of magnitudes in computation times have been achieved.
+
+\subsubsection{Model-Integrated Computing (Sztipanovits, Karsai, Kottenstette, Hemingway, Porter)}
+
+\emph{Cross-layer abstractions}
+
+Model-based software design progresses along abstraction layers
+(design platforms) capturing essential design concerns. Effectiveness of the model-based design
+largely depends on how much the design concerns (captured in the abstraction layers) are orthogonal,
+i.e., how much the design decisions in the different layers are independent. Heterogeneity
+of embedded systems causes major difficulties in this regard. The controller dynamics is typically
+designed without considering implementation side effects (e.g. numeric accuracy of computational
+components, timing accuracy caused by shared resource and schedulers, time varying delays
+caused by network effects, etc.). Compositionality in one layer depends on a web of assumptions
+to be satisfied by other layers.
+
+We have continued investigating theories and techniques for applying cross-layer abstraction
+to make the controller designs robust against implementation side effects. We pursue this by inserting
+implementation related abstractions in the controller design, and physical abstractions in
+software design. The ultimate goal is decreasing the entanglement across the design layers.
+We have developed model transformation tools that generate TrueTime abstractions from system
+level models and investigate now the application of orthogonal structures in implementing
+dynamics.
+
+
+              \subsubsection{Autocoding Embedded Software for Safety Critical Systems (Lee)} 
+
+
+               \emph{Code Generation}
+               
+               During this period, we enhanced the code generator so
+               that we can generate code that calls user-defined actors
+               for which we do not have code generation templates.  This
+               feature allows the same user-generated code to be used in
+               development and in deployment.
+
+               In addition, we modified the code generator so that it can handle very
+               large models and generate code that can be successfully compiled.  Our
+               test case is a propietary model consisting of 19000 actors.  Our code
+               generated created a 96Mb Java file that we were able to compile by
+               implementing a number of tricks such as inner classes, static imports
+               and using arrays instead of individual variables.  This work was done
+               as part of the Extensible Modeling and Analysis Framework (EMAF) for
+               AFRL.
+
+
+               During this period we explored the theoretical
+               ramifications of interface theory.  This work is
+               critical if we are to be able to prove that that the
+               clustering of models is correct.  Marc Geilen, visiting
+               Berkeley from Eindhoven University of Technology,
+               coauthored a paper with Stavros Tripakis (Berkeley) and
+               Maarten Wiggers (Berkeley), ``The Earlier the Better: A
+               Theory of Timed Actor Interfaces''
+               \cite{GeilenTripakisWiggers11_EarlierBetterTheoryOfTimedActorInterfaces}
+
+               \begin{quotation}
+                 ``In a component-based design context, we propose a
+                 relational interface theory for synchronous systems. A
+                 component is abstracted by its interface, which
+                 consists of input and output variables, as well as one
+                 or more contracts. A contract is a relation between
+                 input and output assignments. In the stateless case,
+                 there is a single contract that holds at every
+                 synchronous round. In the general, stateful, case, the
+                 contract may depend on the state, modeled as the
+                 history of past observations. Interfaces can be
+                 composed by connection or feedback. Parallel
+                 composition is a special case of connection. Feedback
+                 is allowed only for Moore interfaces, where the
+                 contract does not depend on the current values of the
+                 input variables that are connected (although it may
+                 depend on past values of such variables). The theory
+                 includes explicit notions of environments, pluggability
+                 and substitutability. Environments are themselves
+                 interfaces. Pluggability means that the closed-loop
+                 system formed by an interface and an environment is
+                 well-formed, that is, a state with unsatisfiable
+                 contract is unreachable. Substitutability means that an
+                 interface can replace another interface in any
+                 environment. A refinement relation between interfaces
+                 is proposed, that has two main properties: first, it is
+                 preserved by composition; second, it is equivalent to
+                 substitutability for well-formed interfaces. Shared
+                 refinement and abstraction operators, corresponding to
+                 greatest lower and least upper bounds with respect to
+                 refinement, are also defined. Input-complete
+                 interfaces, that impose no restrictions on inputs, and
+                 deterministic interfaces, that produce a unique output
+                 for any legal input, are discussed as special cases,
+                 and an interesting duality between the two classes is
+                 exposed. A number of illustrative examples are
+                 provided, as well as algorithms to compute
+                 compositions, check refinement, and so on, for
+                 finite-state interfaces.''
+               \end{quotation}
+
+
+               Stavros Tripakis, Ben Lickly, Tom Henzinger (EPLF) and Edward A. Lee's
+               paper, ``A Theory of Synchronous Relational Interfaces,''\cite{TripakisLicklyHenzingerLee10_TheoryOfSynchronousRelationalInterfaces} was accepted to the ACM Transactions on Programming Languages and Systems (TOPLAS).  The abstract for that paper is below:
+
+               \begin{quotation}
+                 ``In a component-based design context, we propose a relational interface
+                 theory for synchronous systems. A component is abstracted by its
+                 interface, which consists of input and output variables, as well as
+                 one or more contracts. A contract is a relation between input and
+                 output assignments. In the stateless case, there is a single contract
+                 that holds at every synchronous round. In the general, stateful, case,
+                 the contract may depend on the state, modeled as the history of past
+                 observations. Interfaces can be composed by connection or
+                 feedback. Parallel composition is a special case of
+                 connection. Feedback is allowed only for Moore interfaces, where the
+                 contract does not depend on the current values of the input variables
+                 that are connected (although it may depend on past values of such
+                 variables). The theory includes explicit notions of environments,
+                 pluggability and substitutability. Environments are themselves
+                 interfaces. Pluggability means that the closed-loop system formed by
+                 an interface and an environment is well-formed, that is, a state with
+                 unsatisfiable contract is unreachable. Substitutability means that an
+                 interface can replace another interface in any environment. A
+                 refinement relation between interfaces is proposed, that has two main
+                 properties: first, it is preserved by composition; second, it is
+                 equivalent to substitutability for well-formed interfaces. Shared
+                 refinement and abstraction operators, corresponding to greatest lower
+                 and least upper bounds with respect to refinement, are also
+                 defined. Input-complete interfaces, that impose no restrictions on
+                 inputs, and deterministic interfaces, that produce a unique output for
+                 any legal input, are discussed as special cases, and an interesting
+                 duality between the two classes is exposed. A number of illustrative
+                 examples are provided, as well as algorithms to compute compositions,
+                 check refinement, and so on, for finite-state interfaces.''
+               \end{quotation}
+
+               Two other papers that relate to autocoding and model checking are:
+               \begin{itemize}
+               \item Dai Bui, Hiren Patel and Edward A. Lee, ``Checking for Circular Dependencies in Distributed Stream Programs'', \cite{Bui:EECS-2011-97}
+                 EECS Department, University of California, Berkeley. Technical Report No. UCB/EECS-2011-97, August 29, 2011.
+
+               \item Stavros Tripakis, Christos Stergiou, Roberto
+                 Lublinerman, ``Checking Non-Interference in SPMD Programs''
+                 \cite{TripakisStergiouLublinerman10_CheckingNonInterferenceInSPMDPrograms}
+                 at the 2nd USENIX Workshop on Hot Topics in Parallelism (HotPar 2010).
+               \end{itemize}
+
+
+               \emph{Ontologies}
+
+               The Ptolemy Hierarchical Orthogonal Multi-Attribute Solver
+               (PtHOMAS) project (in conjunction with Bosch Research Center, Palo
+               Alto) is focused on enhancing model-based design techniques with the
+               ability to include in models semantic information about data (what the
+               data means), to check consistency in the usage of data across models,
+               and to optimize models based on inferences made about the meaning of
+               the data. 
+
+               Including semantic information in models helps to expose modeling
+               errors early in the design process, engage a designer in a deeper
+               understanding of the model, and standardize concepts and terminology
+               across a development team.  It is impractical, however, for model
+               builders to manually annotate every modeling element with semantic
+               properties.  PtHOMAS demonstrates a correct, scalable and automated
+               method to infer semantic properties using lattice-based ontologies,
+               given relatively few manual annotations.  Semantic concepts and their
+               relationships are formalized as a lattice, and relationships within
+               and between components are expressed as a set of constraints and
+               acceptance criteria relative to the lattice.  Our inference engine
+               automatically infers properties wherever they are not explicitly
+               specified.  Our implementation leverages the infrastructure in the
+               Ptolemy II type system to get efficient and scalable inference and
+               consistency checking. We demonstrate the approach on a non-trivial
+               Ptolemy II model of an adaptive cruise control system.
+
+               Our primary focus during this period has been making the ontology
+               analyzer more powerful by enabling expression of more types of
+               ontologies.  There are two methods that we have pursued to allow this.
+               The first method allows composition of existing ontologies to create
+               new combination ontologies, while the second method allows expression
+               of ontologies that are potentially infinite.
+
+               Composing multiple ontologies into a combination ontology allows us to
+               create analyses that rely on interaction between multiple domains.
+               Using this, we can do things like creating an ontology that infers
+               both variable values and statement reachability, and uses the
+               knowledge of variable values at conditional branches to determine that
+               certain branches are unreachable.
+
+               Allowing infinite ontologies makes the ontologies much more powerful,
+               in that it allows us to model much more fine-grained information
+               within the ontology rather than just coarse abstractions.  One example
+               of an infinite ontology is one that can infer the values  of variables
+               no matter what the value is.  Another completely different type of
+               infinite ontology is one that handles structured recursive data-types,
+               such as a record types.   Another infinite ontology whose structure is
+               very similar to that of a record is expression monotonicity. Since it
+               is important in our analysis for all constraint expressions to be
+               monotonic in order for our algorithm to guarantee a unique result, we
+               have also worked on developing an analysis that determines the
+               monotonicity of expressions.  Based on the work ``Static Monotonicity
+               Analysis for $\lambda$-Definable Functions over Lattices'' by Murawski
+               and Yi\cite{Murawski02},
+               we have implemented this analysis itself within Ptolemy's ontology
+               analyzer using the infinite monotonicity ontology.
+
+\subsubsection{Automated Source Code Verification and Testing (Clarke, Krogh)}
+
+Verifying Simulink models of nonlinear systems using Sensitivity Analysis. We
+initiated an adaptation of the reachability analysis technique using sensitivity analysis developed
+in the thesis of A. Donzé to the case of continuous-time nonlinear Simulink models. We use the
+Real Time Workshop toolbox of The Mathworks to generate code from the Simulink model and
+reuse this code in conjunction with a specific numerical solver to perform the sensitivity analysis.
+The method computes simulation traces and their sensitivity to parameters to estimate reachable
+tubes around trajectories. An automatic refinement of the set of parameters guarantees the
+coverage of the reachable set. It can efficiently find counterexamples and identify safe ranges of
+parameters for arbitrary nonlinear continuous systems. We are currently extending our implementation
+to handle models with discrete states.
+
+\subsubsection{Architectural Modeling}
+
+We developed an extension of existing software architecture tools to model physical systems, their interconnections, and the interactions between physical and cyber components. To support the principled design and evaluation of alternative architectures for cyber-physical systems (CPSs), a new CPS architectural style has been developed.  The implementation in AcmeStudio includes behavioral annotations on components and connectors using either finite state processes (FSP) or linear hybrid automata (LHA) with plug-ins to perform behavior analysis using the Labeled Transition System Analyzer (LTSA) or Polyhedral Hybrid Automata Verifier (PHAVer), respectively.   
+
+in year 5 we continued the development of an architectural approach to multi-modeling for the development of complex embedded control systems.   Models in heterogeneous formalisms are related by associating each model with an architectural view of a base architecture.  Structural consistency is evaluated through the analysis of graph morphisms, with algorithmic methods for identifying inconsistencies in connectivity and encapsulations.  These methods have been applied to the analysis of multiple heterogeneous models of the STARMAC quadrotor system.  We have also performed an architectural analysis and restructuring of the lower-level control system for the quadrotor in our laboratory.    We also developed a new approach to specifying and analyzing semantic consistency between models through the evaluation of logical conditions on the constraints on model parameters.  Plug-ins for both structural and semantic consistency are being developed during the last months of the project.
+
+\subsubsection{Statistical Model Checking}
+
+Statistical Model Checking is an efficient technique for solving the Probabilistic Model Checking problem that is, finding out whether a system satisfies a specification with at least (or at most) a fixed probability. For example: “does the system fulfill a request within 1ms with probability at least 0.99?” In particular, Statistical Model Checking is useful for large (or infinite) state space systems. This technique heavily relies on simulation which, especially for large, complex systems, is generally easier and faster than a full symbolic study of the system.
+
+Statistical Model Checking treats the Probabilistic Model Checking problem as a statistical inference problem, and solves it by randomized sampling of the traces (or simulations) from the model. We model-check each sample trace separately to determine whether a given temporal property $\phi$ holds, and the number of satisfying traces is used to decide whether $\phi$ is true with probability larger than a fixed bound $\theta$ (say, $\theta=0.99$). This decision is made by means of either estimation or hypothesis testing. In the first case one seeks to estimate probabilistically (i.e., compute with high probability a value close to) the probability that the property holds and then compare that estimate to $\theta$ (in statistics such estimates are known as confidence intervals). In the second case, the PMC problem is directly treated as a hypothesis testing problem, i.e., deciding between the null hypothesis $H0: p>θ$ versus the alternative hypothesis $H1: p < θ$, where $p$ is the actual probability that the property $\theta$ holds. In general, hypothesis-testing based methods are more efficient than those based on estimation when $\theta$ (which is specified by the user) is significantly different from the true probability $p$ that the property holds. Also, note that Statistical Model Checking cannot guarantee a correct answer to the Probabilistic Model Checking problem. However, the probability that Statistical Model Checking gives a wrong answer can be bounded arbitrarily by the user. This holds for both hypothesis testing and estimation techniques.
+
+We have investigated the applicability of Statistical Model Checking to the verification of Probabilistic Bounded Linear Temporal Logic (PBLTL) properties of Simulink/Stateflow (SL/SF) models. In particular, our approach uses novel hypothesis testing and estimation methods based on Bayes’ theorem and sequential sampling. Bayes’ theorem enables us to incorporate prior information about the model being verified, where available. Sequential sampling means that the number of sampled traces is not fixed a priori, but it is instead determined at “run-time”, depending on the evidence gathered by the samples seen so far. This often leads to significantly smaller number of sampled traces (simulations). Our estimation method follows directly from our Bayesian approach. In fact, Bayes’ theorem enables us to obtain the posterior distribution of the true probability p with which the model satisfies the formula (i.e., the distribution of p according to the data sampled and chosen prior). By integrating the posterior over a suitably chosen interval, we can compute a Bayes interval estimate with any given confidence coefficient. We have proved error bounds for both statistical techniques. We have applied the approach to a SL/SF model implementing a fault-tolerant fuel control system for a gasoline engine, with very good performance results. In particular, our estimation method can be orders of magnitude faster than other estimation-based model checking techniques. This work was presented at the HSCC 2010 conference.
+
+Statistical Model Checking can be efficiently used for verifying temporal properties of stochastic systems for which it is either expensive or impossible to build a concise representation of the transition relation. A problem with this approach is caused by rare events, i.e., properties whose probability of being true is very small, say $10^{-8}$. It is well known that straight Monte Carlo techniques, such as statistical model checking, do not perform well when estimating rare-event probabilities. The problem is that the sample size (i.e., the number of simulations) required for accurate estimates grows too large as the event probability tends to zero. However, several techniques have been developed to address this problem.
+
+We have been studying importance sampling techniques, which bias the original system to increase the likelihood of the event of interest, and then weight the simulation results in order to obtain unbiased estimates. The main difficulty in importance sampling is to devise a good biasing density, that is, a density yielding a low-variance estimator. Optimal, zero-variance biasing densities do exist, but are extremely difficult to sample from.
+
+We have been investigating two techniques for variance reduction with importance sampling. Both techniques search for a biasing density in a parameterized family of densities which include the original density of the system. The first technique is the cross-entropy method, which searches in the parameterized family of densities for a biasing density `close' to the optimal one. A practical notion of "closeness" between two densities is provided by the cross-entropy (or Kullback-Leibler divergence). The second technique seeks to (numerically) find the density which actually minimizes the variance of the importance sampling estimator.
+
+We have used the cross-entropy method and variance minimization for generating optimal biasing densities in statistical model checking. In particular, we have applied both techniques with importance sampling for verifying Stateflow/Simulink models of a fault-tolerant fuel control system and of a fault-tolerant controller for an aircraft elevator system. Our results suggest that importance sampling and can be successfully combined for statistical model checking of rare events in moderately large, though realistic, cyber-physical systems.
+

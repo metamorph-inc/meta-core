@@ -1,0 +1,49 @@
+%
+%  $Description: Author guidelines and sample document in LaTeX 2.09$
+%
+%  $Author: ienne $
+%  $Date: 1995/09/15 15:20:59 $
+%  $Revision: 1.4 $
+%
+\documentclass[10pt,twocolumn]{article}
+\usepackage{latex8}
+\usepackage{times}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{amssymb,amsmath}
+\usepackage{listings}
+%-------------------------------------------------------------------------
+% take the % away on next line to produce the final camera-ready version
+\pagestyle{empty}
+%-------------------------------------------------------------------------
+\begin{document}
+\title{Automated Synthesis of Time-Triggered Architecture-based TrueTime Models for Platform Effects Simulation and Analysis}
+\author{G. Hemingway, J. Porter, N. Kottenstette, H. Nine, C. vanBuskirk, G. Karsai, J. Sztipanovits\\
+Institute for Software Integrated Systems \\ Vanderbilt University\\ 2015 Terrace Place, Nashville, TN 37203 USA\\ graham.hemingway@vanderbilt.edu\\
+}
+\maketitle
+\thispagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\lfoot{\footnotesize \parbox{11cm}{978-1-42447074-7/10/\$26.00 ©2010 IEEE\\DOI 10.1109/rsp\_2010.43}}
+\begin{abstract}
+The TrueTime toolbox simulates real-time control systems, including platform-specific details like process scheduling, task execution and network communications.  Analysis using these models provides insight into platform-induced timing effects, such as jitter and delay.  For safety-critical applications, the Time-Triggered Architecture (TTA) has been shown to provide the necessary services to create robust, fault-tolerant control systems.  Communication induced timing effects still need to be simulated and analyzed even for TTA-compliant models.  The process of adapting time-invariant control system models, through the inclusion of platform specifics, into TTA-based TrueTime models requires significant manual effort and detailed knowledge of the desired platform's execution semantics.  In this paper, we present an extension of the Embedded Systems Modeling Language (ESMoL) tool chain that automatically synthesizes TTA-based TrueTime models.  In our tools, time-invariant Simulink models are imported into the ESMoL modeling environment where they are annotated with details of the desired deployment platforms.  A constraint-based offline scheduler then generates the static TTA execution schedules. Finally, we synthesize new TrueTime models that encapsulate all of the TTA execution semantics.  Using this approach it is possible to rapidly prototype, evaluate, and modify controller designs and their hardware platforms to better understand deployment induced performance and timing effects.
+\end{abstract}
+
+%-------------------------------------------------------------------------
+\Section{Introduction}
+\input{A_Introduction}
+\Section{ESMoL Modeling Process}
+\input{B_ESMoL}
+\Section{TrueTime Model Generation, Simulation and Analysis}
+\input{C_TrueTime}
+\Section{Related Work}
+\input{D_RelatedWork}
+\Section{Future Work and Conclusion}
+\input{E_Conclusion}
+\Section{Acknowledgements}
+This work was sponsored (in part) by the Air Force Office of Scientific Research, USAF, under grant/contract number FA9550-06-0312.  The views and conclusions contained herein are those of the authors and should not be interpreted as necessarily representing the official policies or endorsements, either expressed or implied, of the Air Force Office of Scientific Research or the U.S. Government.
+
+\bibliographystyle{latex8}
+\bibliography{RSP10}
+\end{document}
+

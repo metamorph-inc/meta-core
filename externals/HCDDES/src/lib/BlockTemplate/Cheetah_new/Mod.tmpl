@@ -1,0 +1,25 @@
+#from LoopHelper import LoopHelper
+#
+#
+	#if len( $inputs[1].getDimensions ) == 0
+		#set $lh = LoopHelper( $block, $inputs[0].getDimensions, '    ' )
+if $inputs[1] == 0
+$lh.startLoops#slurp
+${lh.indent}    $output${lh.indexes} = $inputs[0]${lh.indexes}
+$lh.endLoops#slurp
+else
+$lh.startLoops#slurp
+${lh.indent}    $output${lh.indexes} = $inputs[0]${lh.indexes} - $inputs[1] .* floor( $inputs[0]${lh.indexes} ./ $inputs[1] )
+$lh.endLoops#slurp
+end
+	#else
+		#set $lh = LoopHelper( $block, $inputs[1].getDimensions )
+		#set $indexes0 = $lh.indexes if $len( $inputs[0].getDimensions ) > 0 else ''
+$lh.startLoops#slurp
+${lh.indent}if $inputs[1]${lh.indexes} == 0
+${lh.indent}    $output${lh.indexes} = $inputs[0]${indexes0}
+${lh.indent}else
+${lh.indent}    $output${lh.indexes} = $inputs[0]${indexes0} - $inputs[1]${lh.indexes} .* floor( $inputs[0]${indexes0} ./ $inputs[1]${lh.indexes} )
+${lh.indent}end
+$lh.endLoops#slurp
+	#end if

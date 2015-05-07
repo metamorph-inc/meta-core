@@ -1,0 +1,71 @@
+WARNING: this document is outdated.
+
+Unpack the MICTES-source.zip archive in a directory of your choosing.
+You may also want the ANTLR.zip archive, as this contains a version of antlr
+that was compiled under VS8(2005) and has both release and debug versions of
+the antlr C++ run-time libraries (i.e. antlr.lib and antlrD.lib).
+
+IF YOU DON'T HAVE antlrD.lib, YOU WON'T BE ABLE TO COMPILE THE DEBUG VERSIONS
+OF THE MICTES SOFTWARE
+
+There is also a boost.zip archive that contains only the boost libraries
+needed for MICTES (as well as *all* the header files).
+
+Prerequisites for compile:
+A) The BOOST library for windows XP.  This can be obtained from www.boost.org,
+   or from the "boost.zip" file that can be obtained from ISIS.
+B) The ANTLR library and jar files.  These can be obtained from www.anltr.org,
+   or from the "antlr.zip" file that can be obtained from ISIS.
+C) The latest GME distribution from ISIS.
+D) The latest UDM distribution from ISIS - WITH THE XERCES HEADER FILES.
+E) The latest GReAT distribution from ISIS.
+F) Microsoft Visual Studio 2005 (or any package that contains the MSBuild.exe
+   executable).
+G) MATLAB 2006a or more recent version
+
+
+Necessary Environment Variables:
+UDM_PATH     This should already have been set by the UDM installation package,
+             and should have a value that is the toplevel directory of your UDM
+             installation (e.g. C:\Program Files\ISIS\UDM).
+
+GREAT_PATH   This should already have been set by the GReAT installation
+             package, and should have a value that is the toplevel directory
+             of your GReAT installation (e.g. C:\Program Files\ISIS\GReAT).
+
+ANTLR_PATH   Value should be the directory in your ANTLR installation that has
+             the "include" and "lib" directories in it
+             (e.g. C:\...\antlr\2.7.7).
+             
+ANTLR3_PATH  Value should be the directory with ANTLR 3.0.1 "include" and 
+             "runtime" directories, needed while we are using both 2.7.7 and 
+             3.0.1
+
+BOOST_PATH   Value should be the toplevel directory of your Boost installation.
+
+BOOST_VER    Value should be the name of the boost version directory in your
+             boost installation BY ITSELF, i.e. it is NOT a path and thus
+             SHOULD NOT contain any slashes (e.g. boost-1_33_1).
+
+XERCES_PATH  Value should be the toplevel directory of your UDM installation's
+             XERCES 3rdparty distribution.  This is typically
+             %UDM_PATH%\3rdparty\xerces-c_2_5_0
+
+MATLAB_PATH  Value should be the version-specific directory of your MATLAB
+             installation (e.g. C:\Program Files\MATLAB\R2006b).
+
+To compile:
+1) Change your directory to that with the VCP.sln file in it.  This file should
+   be in the top level directory of the unzipped MICTES-source.zip file.
+
+2) Type the following command:
+
+<path-to-msbuild>\MSBUILD.exe /p:Configuration=[Release|Debug] VCP.sln
+
+For instance, on my desktop machine, the command is:
+
+C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\MSBuild.exe /p:Configuration=Release VCP.sln
+
+
+
+DISREGARD WARNING MESSAGES

@@ -1,0 +1,95 @@
+<Project _id="id45" name="ProjectRoot" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" statementCount="5" statementIndex="0" xsi:noNamespaceSchemaLocation="SFC.xsd">
+	<BasicType te="id4e id4f id65 id6a id6e id7d" _id="id4b" name="double" statementIndex="2"/>
+	<BasicType _id="id9a" name="int" statementIndex="4"/>
+	<Program _id="id52" filename="toworkspace_sl" stateCount="0" numInstance="1" statementCount="2" statementIndex="3">
+		<Class _id="id51" name="toworkspace_80_class" statementCount="3" statementIndex="0">
+			<Function _id="id5e" name="toworkspace_80_main" scope="" argCount="1" returnType="void" statementCount="8" statementIndex="1">
+				<Arg dt="id5d" _id="id5f" ptr="true" ref="id7f id96" name="context" size="1" type="" argIndex="0"/>
+				<FunctionCall _id="id82" callee="id63" argCount="2" libFuncName="Counter_main" statementIndex="4">
+					<ArgVal _id="id81" arg="id62" val="0" argIndex="0">
+						<BinaryExprs op="." _id="ida8">
+							<ArgDeclRef _id="id96" unres="" argdecl="id5f" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id97" unres="" argdecl="id95" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</ArgVal>
+					<ArgVal _id="id83" arg="id65" val="" argIndex="1">
+						<ArgDeclRef _id="id84" unres="" argdecl="id6a"/>
+					</ArgVal>
+				</FunctionCall>
+				<LocalVar dt="id4b" _id="id6a" ref="id84 id8c" name="sig_0" size="1" type="double" scope="" initial="" statementIndex="0"/>
+				<LocalVar dt="id4a" _id="id6c" ref="id8a id8d" name="sig_1" size="1" type="double" scope="" initial="" statementIndex="1"/>
+				<LocalVar dt="id4b" _id="id6e" ref="id7e id8f" name="sig_2" size="1" type="double" scope="" initial="" statementIndex="2"/>
+				<UserCode _id="ida5" expr="" statementIndex="3">
+					<BinaryExprs op="=" _id="ida6">
+						<ArgDeclRef _id="id7e" unres="" argdecl="id6e" __child_as="leftexpr"/>
+						<BinaryExprs op="." _id="ida7" __child_as="rightexpr">
+							<ArgDeclRef _id="id7f" unres="" argdecl="id5f" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id80" unres="" argdecl="id7d" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</BinaryExprs>
+				</UserCode>
+				<UserCode _id="ida9" expr="" statementIndex="5">
+					<BinaryExprs op="=" _id="idaa">
+						<ArgDeclRef _id="id8c" unres="" argdecl="id6a" __child_as="rightexpr"/>
+						<BinaryExprs op="." _id="idab" __child_as="leftexpr">
+							<ArgDeclRef _id="id8a" unres="" argdecl="id6c" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id8b" unres="" argdecl="id4f" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</BinaryExprs>
+				</UserCode>
+				<UserCode _id="idac" expr="" statementIndex="6">
+					<BinaryExprs op="=" _id="idad">
+						<ArgDeclRef _id="id8f" unres="" argdecl="id6e" __child_as="rightexpr"/>
+						<BinaryExprs op="." _id="idae" __child_as="leftexpr">
+							<ArgDeclRef _id="id8d" unres="" argdecl="id6c" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id8e" unres="" argdecl="id4e" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</BinaryExprs>
+				</UserCode>
+				<UserCode _id="idaf" expr="" statementIndex="7">
+					<Str _id="idb0" val="// WARNING: SL_CodeGen(.\SLPrims.cpp, line:1116): ToWorkspace block: do nothing."/>
+				</UserCode>
+			</Function>
+			<Function _id="id98" name="toworkspace_80_init" scope="" argCount="1" returnType="void" statementCount="2" statementIndex="2">
+				<Arg dt="id5d" _id="id99" ptr="true" ref="id9b id9f" name="context" size="1" type="" argIndex="0"/>
+				<FunctionCall _id="ida1" callee="id9e" argCount="1" libFuncName="" statementIndex="1">
+					<ArgVal _id="ida2" arg="id9d" val="" argIndex="0">
+						<BinaryExprs op="." _id="idb3">
+							<ArgDeclRef _id="ida0" unres="" argdecl="id95" __child_as="rightexpr"/>
+							<ArgDeclRef _id="id9f" unres="" argdecl="id99" __child_as="leftexpr"/>
+						</BinaryExprs>
+					</ArgVal>
+				</FunctionCall>
+				<UserCode _id="ida3" expr="" statementIndex="0">
+					<BinaryExprs op="=" _id="ida4">
+						<BinaryExprs op="." _id="idb1" __child_as="leftexpr">
+							<ArgDeclRef _id="id9b" unres="" argdecl="id99" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id9c" unres="" argdecl="id7d" __child_as="rightexpr"/>
+						</BinaryExprs>
+						<Double _id="idb2" val="1.000000" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+			</Function>
+			<Struct te="id5f id99" _id="id5d" name="toworkspace_80_context" memberCount="2" statementIndex="0">
+				<LocalVar dt="id4b" _id="id7d" ref="id80 id9c" name="Value125" size="1" type="" scope="" initial="" statementIndex="0"/>
+				<LocalVar dt="id61" _id="id95" ref="id97 ida0" name="Counter_class_member1" size="1" type="" scope="" initial="" statementIndex="1"/>
+			</Struct>
+		</Class>
+		<Class _id="id59" name="Counter_class" statementCount="3" statementIndex="1">
+			<Function _id="id63" name="Counter_main" scope="" caller="id82" argCount="2" returnType="void" statementCount="-1" statementIndex="1">
+				<Arg dt="id61" _id="id62" ptr="true" val="id81" name="context" size="1" type="" argIndex="0"/>
+				<Arg dt="id4b" _id="id65" ptr="true" val="id83" name="ctr_1" size="1" type="" argIndex="1"/>
+			</Function>
+			<Function _id="id9e" name="Counter_init" scope="" caller="ida1" argCount="1" returnType="void" statementCount="-1" statementIndex="2">
+				<Arg dt="id61" _id="id9d" ptr="true" val="ida2" name="context" size="1" type="" argIndex="0"/>
+			</Function>
+			<Struct te="id62 id95 id9d" _id="id61" name="Counter_context" memberCount="-1" statementIndex="0"/>
+		</Class>
+	</Program>
+	<Struct te="id6c" _id="id4a" name="SMdoubleC1C1MCMdoubleC1C1MS" memberCount="2" statementIndex="0">
+		<LocalVar dt="id4b" _id="id4e" ref="id8e" name="member1" size="1" type="" scope="" initial="" statementIndex="1"/>
+		<LocalVar dt="id4b" _id="id4f" ref="id8b" name="member0" size="1" type="" scope="" initial="" statementIndex="0"/>
+	</Struct>
+</Project>
+
+

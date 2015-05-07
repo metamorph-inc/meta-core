@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectSchemaDefinitions xmlns="clr-namespace:Microsoft.Build.Framework.XamlTypes;assembly=Microsoft.Build.Framework" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:transformCallback="Microsoft.Cpp.Dev10.ConvertPropertyCallback">
+  <Rule
+    Name="meta2uml"
+    PageTemplate="tool"
+    DisplayName="meta2uml"
+    Order="200">
+    <Rule.DataSource>
+      <DataSource
+        Persistence="ProjectFile"
+        ItemType="meta2uml" />
+    </Rule.DataSource>
+    <Rule.Categories>
+      <Category
+        Name="General">
+        <Category.DisplayName>
+          <sys:String>General</sys:String>
+        </Category.DisplayName>
+      </Category>
+    </Rule.Categories>
+	<BoolProperty
+	  Name="RefreshLibs"
+	  Category="General"
+	  DisplayName="Refresh libraries"
+	  Visible="true"/>
+    <StringProperty
+      Name="OutFile"
+      Category="General"
+      HelpContext="0"
+      DisplayName="Output File"
+      Visible="true"
+      Switch="&quot;[value]&quot;"/>
+    <StringProperty
+      Name="CommandLineTemplate"
+      DisplayName="Command Line"
+      Visible="False"
+      IncludeInCommandLine="False" />
+    <DynamicEnumProperty
+      Name="meta2uml_RuleBeforeTargets"
+      Category="General"
+      EnumProvider="Targets"
+      IncludeInCommandLine="False">
+      <DynamicEnumProperty.DisplayName>
+        <sys:String>Execute Before</sys:String>
+      </DynamicEnumProperty.DisplayName>
+      <DynamicEnumProperty.Description>
+        <sys:String>Specifies the targets for the build customization to run before.</sys:String>
+      </DynamicEnumProperty.Description>
+      <DynamicEnumProperty.ProviderSettings>
+        <NameValuePair
+          Name="Exclude"
+          Value="^meta2uml_RuleBeforeTargets|^Compute" />
+      </DynamicEnumProperty.ProviderSettings>
+      <DynamicEnumProperty.DataSource>
+        <DataSource
+          Persistence="ProjectFile"
+          HasConfigurationCondition="true" />
+      </DynamicEnumProperty.DataSource>
+    </DynamicEnumProperty>
+    <DynamicEnumProperty
+      Name="meta2uml_RuleAfterTargets"
+      Category="General"
+      EnumProvider="Targets"
+      IncludeInCommandLine="False">
+      <DynamicEnumProperty.DisplayName>
+        <sys:String>Execute After</sys:String>
+      </DynamicEnumProperty.DisplayName>
+      <DynamicEnumProperty.Description>
+        <sys:String>Specifies the targets for the build customization to run after.</sys:String>
+      </DynamicEnumProperty.Description>
+      <DynamicEnumProperty.ProviderSettings>
+        <NameValuePair
+          Name="Exclude"
+          Value="^meta2uml_RuleAfterTargets|^Compute" />
+      </DynamicEnumProperty.ProviderSettings>
+      <DynamicEnumProperty.DataSource>
+        <DataSource
+          Persistence="ProjectFile"
+          ItemType=""
+          HasConfigurationCondition="true" />
+      </DynamicEnumProperty.DataSource>
+    </DynamicEnumProperty>
+    <StringListProperty
+      Name="AdditionalDependencies"
+      Category="General"
+      DisplayName="Additional Dependencies"
+      IncludeInCommandLine="False"
+      Visible="true" />
+  </Rule>
+  <ItemType
+    Name="meta2uml"
+    DisplayName="meta2uml" />
+  <FileExtension
+    Name="*.mga"
+    ContentType="meta2uml" />
+  <ContentType
+    Name="meta2uml"
+    DisplayName="meta2uml"
+    ItemType="meta2uml" />
+</ProjectSchemaDefinitions>

@@ -1,0 +1,73 @@
+<Project _id="id3b" name="ProjectRoot" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" statementCount="4" statementIndex="0" xsi:noNamespaceSchemaLocation="SFC.xsd">
+	<BasicType te="id4d id57 id58 id5c id67" _id="id3f" name="double" statementIndex="1"/>
+	<BasicType _id="id76" name="int" statementIndex="3"/>
+	<Program _id="id42" filename="dont_enter_at_initialization_sl" stateCount="0" numInstance="1" statementCount="2" statementIndex="2">
+		<Class _id="id41" name="dont_enter_at_initialization_64_class" statementCount="3" statementIndex="0">
+			<Function _id="id4a" name="dont_enter_at_initialization_64_main" scope="" argCount="2" returnType="void" statementCount="3" statementIndex="1">
+				<Arg dt="id49" _id="id4b" ptr="true" ref="id69 id72" name="context" size="1" type="" argIndex="0"/>
+				<Arg dt="id3f" _id="id4d" ptr="true" ref="id70" name="Out1_2" size="1" type="double" argIndex="2"/>
+				<FunctionCall _id="id6c" callee="id54" argCount="3" libFuncName="Chart_main" statementIndex="2">
+					<ArgVal _id="id6b" arg="id53" val="0" argIndex="0">
+						<BinaryExprs op="." _id="id84">
+							<ArgDeclRef _id="id72" unres="" argdecl="id4b" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id73" unres="" argdecl="id71" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</ArgVal>
+					<ArgVal _id="id6d" arg="id57" val="" argIndex="1">
+						<ArgDeclRef _id="id6e" unres="" argdecl="id5c"/>
+					</ArgVal>
+					<ArgVal _id="id6f" arg="id58" val="" argIndex="2">
+						<ArgDeclRef _id="id70" unres="" argdecl="id4d"/>
+					</ArgVal>
+				</FunctionCall>
+				<LocalVar dt="id3f" _id="id5c" ref="id68 id6e" name="sig_0" size="1" type="double" scope="" initial="" statementIndex="0"/>
+				<UserCode _id="id81" expr="" statementIndex="1">
+					<BinaryExprs op="=" _id="id82">
+						<ArgDeclRef _id="id68" unres="" argdecl="id5c" __child_as="leftexpr"/>
+						<BinaryExprs op="." _id="id83" __child_as="rightexpr">
+							<ArgDeclRef _id="id69" unres="" argdecl="id4b" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id6a" unres="" argdecl="id67" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</BinaryExprs>
+				</UserCode>
+			</Function>
+			<Function _id="id74" name="dont_enter_at_initialization_64_init" scope="" argCount="1" returnType="void" statementCount="2" statementIndex="2">
+				<Arg dt="id49" _id="id75" ptr="true" ref="id77 id7b" name="context" size="1" type="" argIndex="0"/>
+				<FunctionCall _id="id7d" callee="id7a" argCount="1" libFuncName="" statementIndex="1">
+					<ArgVal _id="id7e" arg="id79" val="" argIndex="0">
+						<BinaryExprs op="." _id="id87">
+							<ArgDeclRef _id="id7c" unres="" argdecl="id71" __child_as="rightexpr"/>
+							<ArgDeclRef _id="id7b" unres="" argdecl="id75" __child_as="leftexpr"/>
+						</BinaryExprs>
+					</ArgVal>
+				</FunctionCall>
+				<UserCode _id="id7f" expr="" statementIndex="0">
+					<BinaryExprs op="=" _id="id80">
+						<BinaryExprs op="." _id="id85" __child_as="leftexpr">
+							<ArgDeclRef _id="id77" unres="" argdecl="id75" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id78" unres="" argdecl="id67" __child_as="rightexpr"/>
+						</BinaryExprs>
+						<Double _id="id86" val="1.000000" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+			</Function>
+			<Struct te="id4b id75" _id="id49" name="dont_enter_at_initialization_64_context" memberCount="2" statementIndex="0">
+				<LocalVar dt="id3f" _id="id67" ref="id6a id78" name="Value103" size="1" type="" scope="" initial="" statementIndex="0"/>
+				<LocalVar dt="id52" _id="id71" ref="id73 id7c" name="Chart_class_member1" size="1" type="" scope="" initial="" statementIndex="1"/>
+			</Struct>
+		</Class>
+		<Class _id="id48" name="Chart_class" statementCount="3" statementIndex="1">
+			<Function _id="id54" name="Chart_main" scope="" caller="id6c" argCount="3" returnType="void" statementCount="-1" statementIndex="1">
+				<Arg dt="id52" _id="id53" ptr="true" val="id6b" name="context" size="1" type="" argIndex="0"/>
+				<Arg dt="id3f" _id="id57" ptr="false" val="id6d" name="in_1" size="1" type="" argIndex="1"/>
+				<Arg dt="id3f" _id="id58" ptr="true" val="id6f" name="out_2" size="1" type="" argIndex="2"/>
+			</Function>
+			<Function _id="id7a" name="Chart_init" scope="" caller="id7d" argCount="1" returnType="void" statementCount="-1" statementIndex="2">
+				<Arg dt="id52" _id="id79" ptr="true" val="id7e" name="context" size="1" type="" argIndex="0"/>
+			</Function>
+			<Struct te="id53 id71 id79" _id="id52" name="Chart_context" memberCount="-1" statementIndex="0"/>
+		</Class>
+	</Program>
+</Project>
+
+

@@ -1,0 +1,35 @@
+
+\section{Related Work}
+\label{section:related}
+
+The present technique has much in common with techniques in online verification. 
+Online verification is not a new concept in computational domains.  See for example 
+\cite{verif:onlinerules} and \cite{verif:pathfinder} for examples which integrate formal logical 
+models and executing code to detect errors.
+
+Sammapun, Lee, and Sokolsky\cite{online:rtmac} address lightweight online verification for 
+checking timeliness and reliability in real-time systems.  RT-MaC uses a stochastic approach which 
+yields confidence intervals for specified properties.  This is probably the closest in practice
+to our technique.  See also recent work from Zuliani, Platzer, and Clarke 
+\cite{verif:bayesian} which focuses on statistically checking properties on simulated 
+trajectories in Simulink models, and which should be just as applicable to traces collected
+from a running control system.
+
+% Some of the related research is more particular to digital control systems.
+% ORTEGA\cite{online:ortega} is a real-time fault-tolerant guard for dynamic 
+% control.  When runtime faults are detected, ORTEGA switches the system over to a simpler
+% (more computationally efficient) controller to provide resources for fault handling
+% tasks.  We see this as complementary to our technique, as sector search could be applied
+% in a similar way.  
+
+From the control community self-triggered control\cite{control:selftriggered} is a framework 
+which could also be used for online stability guarantees.  Control actions are timed based on 
+specified criteria on measured or estimated states rather than periodic sampling.  This 
+suggests interesting extensions to our technique to accomodate non-uniform sampling.
+Skaf and Boyd present techniques for calculating and verifying quantization levels offline
+using constraint problems representing design requirements, system behavior, and 
+objective functions for assessing performance\cite{opt:trunc1}. \cite{opt:trunc} describes
+a technique for calculating a set from which controller coefficients can be selected without
+compromising performance.  A better understanding of the sector relationships to platform
+and design parameters may lead us to be able to benefit from this technique.
+

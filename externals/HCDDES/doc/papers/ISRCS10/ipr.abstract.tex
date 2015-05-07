@@ -1,0 +1,25 @@
+\begin{abstract}
+%Gabor, Janos ... ?
+%This is about resilient control of cyber physical systems.
+Interconnection damping assignment passivity based control (IDA-PBC)
+is an emerging control design method which allows an engineer to
+systematically design an advanced controller for complex non-linear
+systems.  As a result specific gain ranges can be determined which can
+prevent an operator (adversary) from accidentally (maliciously) setting
+control gains which could potentially destabilize the system.  However
+in order to generate the controller the engineer will have to resort
+to using symbolic numerical solvers in order to complete the design.
+This can be both a cumbersome and error-prone task which can be
+automated.  We present initial results of a tool which simplifies
+IDA-PBC.  In addition many fluid control problems posses tight
+operating regions in which pumps degrade over time.  As a result
+actuator saturation may occur for given set-point profiles which will
+lead to integrator wind-up and more oscillatory behavior.  We
+provide a non-linear anti-windup control-law which greatly improves
+system resilience to such degradation.  Finally we demonstrate that
+IDA-PBC works reasonably well for moderately large sampling times by
+simply applying the bilinear transform to approximate any additional
+(non-linear) integral control terms.
+\end{abstract}
+\footnotetext{Contract/grant sponsor (number): NSF (NSF-CCF-0820088)\\
+Contract/grant sponsor (number): Air Force (FA9550-06-1-0312).}

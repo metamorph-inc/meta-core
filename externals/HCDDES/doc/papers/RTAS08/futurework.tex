@@ -1,0 +1,73 @@
+Although the presented toolchain in its current early prototype
+stage addresses many of the challenges inherent in a unified design
+and implementation environment, it lacks many of the desired
+features and workflow procedures to be useful in real applications.
+
+The most critical lacking functionality is feedback from the
+implementation phases back into the
+high-level design. The chosen target platforms enable us to
+understand the nature of these influential properties (e.g. jitter,
+quantization, constraints on the schedule, fault-tolerance, and computational models). It remains an essential part of
+our ongoing quest to widen this set by experimenting with different
+deployment platforms. On the other hand, feedback mechanisms will
+require formal definitions of such properties; thus, one of the main
+focus areas in future development is the formalization of platform
+properties and their utilization in the design phases as early as
+possible.
+
+A related area in our plans is the design and implementation of an
+\emph{adaption layer} on top of the different target architectures.
+This layer shall hide many of the differences of the platform APIs
+but should be flexible and thin enough not to try to hide the
+important characteristics of the underlying platform. The emphasis
+is on API adaption, not emulation, and is essential to avoid or to
+lessen the need for "glue code" generators. We have already made the
+first steps in the design of this layer, e.g. our Linux-based virtual
+machine could be considered an early prototype of this attempt.
+Ideally, the toolchain should be able to handle any target platform
+if the proper adaption layer and a formal set of platform properties
+are available.
+
+Finally, the presented tools mostly support a one-way "single shot"
+development workflow. Changes to the input MATLAB/Simulink model
+require the ECSL-DP model to be regenerated.
+Even though this affects only the dataflow aspects of the model,
+this step invalidates existing references from the software
+component model and deployment models. Clearly, the MATLAB/Simulink
+model importer should be prepared to handle existing output models
+and should execute the changes only. With properly identifying the
+Simulink elements and their corresponding ECSL-DP pairs and by
+restricting the set of supported changes to the dataflow models, we will be able to overcome this limitation without bloating
+the importer tool.
+
+Along a typical workflow many files are generated and/or modified by
+the designer. Most of these files are final output or report files,
+but some of them serve as input for later stages in the workflow
+process. Currently, the toolchain does not address versioning and
+dependency issues between the different tools and intermediate
+files. Tool integration in its current form consists of common APIs,
+modeling languages, and file formats. The underlying development
+tools (GME, UDM, GReAT) provide an excellent framework for
+developing an integrated toolset, but this level of integration is
+not evident on the user level. We shall provide a high-level
+framework---ideally in the form of a GUI application---which executes
+the elements of the toolchain, tracks changes and dependencies, and
+supports the user in understanding the different stages of the
+design process. This approach is very similar to current HDL design
+environments \cite{xilinx:ise}\cite{altera:quartus}, which are built
+primarily on command line tools with a high-level GUI driver
+application.
+
+A related but somewhat more complicated issue with various files and
+models is that these files contain related and/or
+redundant information. MATLAB/Simulink models have almost the same
+information as ECSL-DP dataflow models. Component and deployment
+models refer to the dataflow elements and to each other. The
+generated code and/or SFC models have clear origins in the ECSL-DP
+projects. Because of the different languages and different file
+formats, one can find it extremely hard to navigate along these
+intricate connections. The high-level integration framework (GUI)
+would ideally support the user in this task. Understanding the exact effects (or just the magnitude of
+the size of the affected part of the system) and knowing where a
+particular information or code artifact is coming from is surely
+invaluable in the envisioned design environment.

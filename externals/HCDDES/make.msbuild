@@ -1,0 +1,33 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+
+  <Import Project="common-scripts\common.msbuild"/>
+
+  <Target Name="CheckEnv" DependsOnTargets="CheckEnvGme;CheckEnvUdm;CheckEnvGreat">
+    <Error Text="ANTLR3_PATH='$(ANTLR3_PATH)' doesn't exist" Condition="!Exists('$(ANTLR3_PATH)')"/>
+    <Error Text="CTEMPLATE_PATH='$(CTEMPLATE_PATH)' doesn't exist" Condition="!Exists('$(CTEMPLATE_PATH)')"/>
+    <Error Text="MATLAB_PATH='$(MATLAB_PATH)' doesn't exist" Condition="!Exists('$(MATLAB_PATH)')"/>
+    <Error Text="PYTHON_HOME='$(PYTHON_HOME)' doesn't exist" Condition="!Exists('$(PYTHON_HOME)')"/>
+    <Error Text="VCP_PATH='$(VCP_PATH)' doesn't exist" Condition="!Exists('$(VCP_PATH)')"/>
+  </Target>
+
+  <ItemGroup>
+    <ProjectToBuild Include="VCP.sln"/>
+    <ProjectToBuild Include="src\Stage1\Stage1.sln"/>
+    <ProjectToBuild Include="src\Stage2\Stage2.sln"/>
+    <ProjectToBuild Include="src\SchedTool\SchedTool.sln"/>
+    <ProjectToBuild Include="src\SchedResults\SchedResults.sln"/>
+    <ProjectToBuild Include="src\SchedViz\SchedViz.sln"/>
+    <ProjectToBuild Include="src\ESMoLUpdate\ESMoLUpdate.sln"/>
+  </ItemGroup>
+
+  <Target Name="py2exe">
+    <Exec Command="generate_dist.cmd" WorkingDirectory="py2exe"/>
+  </Target>
+
+  <PropertyGroup>
+    <ISS>deploy\HCDDES.iss</ISS>
+  </PropertyGroup>
+  <Target Name="Installer" DependsOnTargets="BuildRelease">
+    <CallTarget Targets="ISCC"/>
+  </Target>
+</Project>

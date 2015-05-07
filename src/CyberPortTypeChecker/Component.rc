@@ -1,0 +1,188 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "1 TYPELIB ""ComponentLib.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "FileDescription", "Interpreter Module"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "Interpreter"
+            VALUE "LegalCopyright", "Copyright 2000"
+            VALUE "OriginalFilename", "Interpreter.DLL"
+            VALUE "ProductName", "Interpreter Module"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_COMPICON            ICON                    "compicon.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG1 DIALOGEX 0, 0, 317, 183
+STYLE DS_ABSALIGN | DS_SYSMODAL | DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_BORDER | WS_SYSMENU
+EXSTYLE WS_EX_STATICEDGE
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,270,146,40,30
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_DIALOG1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 310
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 176
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+CONSOLE_MENU MENUEX
+BEGIN
+    POPUP "Console Menu",                   65535,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
+    BEGIN
+        MENUITEM "Copy",                        ID_CONSOLEMENU_COPY,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
+        MENUITEM "Copy All",                    ID_CONSOLEMENU_COPYALL,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
+        MENUITEM "Clear All",                   ID_CONSOLEMENU_CLEARALL,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
+        MENUITEM "Clear",                       ID_CONSOLEMENU_CLEAR,MFT_STRING,MFS_ENABLED
+    END
+END
+
+PROPERTY_EDITOR_BAR_RCLK_MENU MENU
+BEGIN
+    POPUP "PROPEDIT_MENU"
+    BEGIN
+        MENUITEM "Copy Selected",               ID_PROPEDIT_COPYSELECTED
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_PROJNAME            "Component"
+    LOG_ERR_PREF            "==[ERR]-->   "
+    LOG_NOR_PREF            "==[NOR]-->   "
+    CONSOLE_CAP_TEXT        " Output Console:"
+    PROPERTY_EDITOR_CAP_TEXT "Property Viewer (No Editing Allowed):"
+    PROPERTY_EDITORBAR_DROPDOWN_DEFAULT_TEXT "<NO_TYPE>"
+    PROPERTY_EDITORBAR_ROW_NAME_CAP_TEXT "Start Port Path:"
+    PROPERTY_EDITORBAR_ROW_TYPE_CAP_TEXT "Start Port Type:"
+    PROPERTY_EDITORBAR_COL_NAME_CAP_TEXT "End Port Path:"
+    PROPERTY_EDITORBAR_COL_TYPE_CAP_TEXT "End Port Type:"
+    LOG_WAR_PREF            "==[WAR]-->  "
+    LOG_TOOL_PREF           "[Cyber Port Type Checker] "
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "ComponentLib.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

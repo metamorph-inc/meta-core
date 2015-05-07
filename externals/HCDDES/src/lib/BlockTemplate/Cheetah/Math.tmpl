@@ -1,0 +1,72 @@
+#from LoopHelper import LoopHelper
+#
+#if $parameters.Operator == "10^u"
+#
+$output = pow( 10, $input )
+#
+#elif $parameters.Operator == "conj"
+#
+$output = $input
+#
+#elif $parameters.Operator == "hypot"
+#
+$output = sqrt( $inputs[0] .* $inputs[0] + $inputs[1] .* $inputs[1] )
+#
+#elif $parameters.Operator == "magnitude^2"
+#
+$output = $input .* $input
+#
+## "mod" HAS A NON-TRIVIAL IMPLEMENTATION
+#elif $parameters.Operator == "mod"
+	#
+	#if len( $inputs[1].getDimensions ) == 0
+		#set $lh = LoopHelper( $block, $inputs[0].getDimensions, '    ' )
+if $inputs[1] == 0
+$lh.startLoops#slurp
+${lh.indent}    $output${lh.indexes} = $inputs[0]${lh.indexes}
+$lh.endLoops#slurp
+else
+$lh.startLoops#slurp
+${lh.indent}    $output${lh.indexes} = $inputs[0]${lh.indexes} - $inputs[1] .* floor( $inputs[0]${lh.indexes} ./ $inputs[1] )
+$lh.endLoops#slurp
+end
+	#else
+		#set $lh = LoopHelper( $block, $inputs[1].getDimensions )
+		#set $indexes0 = $lh.indexes if $len( $inputs[0].getDimensions ) > 0 else ''
+$lh.startLoops#slurp
+${lh.indent}if $inputs[1]${lh.indexes} == 0
+${lh.indent}    $output${lh.indexes} = $inputs[0]${indexes0}
+${lh.indent}else
+${lh.indent}    $output${lh.indexes} = $inputs[0]${indexes0} - $inputs[1]${lh.indexes} .* floor( $inputs[0]${indexes0} ./ $inputs[1]${lh.indexes} )
+${lh.indent}end
+$lh.endLoops#slurp
+	#end if
+#
+## END OF "mod"
+#
+#
+#elif $parameters.Operator == "reciprocal"
+#
+$output = 1 ./ $input
+#
+#elif $parameters.Operator == "rem"
+#
+$output = fmod( $inputs[0], $inputs[1] )
+#
+#elif $parameters.Operator == "square"
+#
+$output = $input .* $input
+#
+#elif $parameters.Operator == "transpose"
+#
+$output = $input.'
+#
+#else
+#
+$output = ${parameters.Operator}( $inputs[0]#slurp
+#for $inp in $inputs[1:]
+, $inp#slurp
+#end for
+ )
+#
+#end if

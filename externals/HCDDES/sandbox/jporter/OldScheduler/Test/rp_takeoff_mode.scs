@@ -1,0 +1,35 @@
+% From Ramadass Prabhakar 
+% MS Thesis
+% Scheduling in Time Triggered Systems Under Mode Changes
+Resolution 1us
+
+Proc INU 100MHz 1us 1us
+Comp IA =10Hz 10ms
+Comp IB =20Hz 5ms
+Comp IC =20Hz 5ms
+Comp IA1 =10Hz 5ms
+Comp IB1 =40Hz 4ms
+
+Proc PCS 100MHz 1us 1us
+Comp PD =10Hz 10ms
+Comp PE =20Hz 10ms
+
+Proc ADMS 100MHz 1us 1us
+Comp AF =20Hz 10ms
+
+Proc GPS 100MHz 1us 1us
+Comp GG =20Hz 10ms
+Comp GH =40Hz 4ms
+
+Bus BUS 10Mb 1us
+Msg M1 2kB INU/IA PCS/PD
+Msg M2 2kB PCS/PD INU/IA
+Msg M3 2kB INU/IB PCS/PE ADMS/AF
+Msg M4 2kB PCS/PE INU/IB INU/IC
+Msg M5 2kB INU/IC PCS/PE ADMS/AF
+Msg M6 2kB ADMS/AF INU/IB INU/IC
+Msg M7 2kB GPS/GG ADMS/AF
+Msg M8 2kB GPS/GH INU/IB1
+Msg M9 2kB GPS/GG INU/IC
+
+

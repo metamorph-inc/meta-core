@@ -1,0 +1,19 @@
+\section{Related Work}
+\label{relatedwork}
+
+%\subsection{Scheduling Tools and Techniques}
+%
+%Flow graph approach
+%
+%Oz Scheduler
+%
+%other tools based on traditional algorithms
+%
+%other useful heuristics? -- symmetry breaking
+%
+%\subsection{Platform Modeling Tools with Integrated Scheduling Analysis}
+
+A number of modeling frameworks for real-time embedded systems development include some variant of schedule analysis or computation.  Giotto\cite{modeling:giotto3} is a modeling language for time-triggered tasks running on a single processor.  Giotto uses a simple greedy algorithm to compute schedules.  ESMoL extends these capabilities with distributed architecture models and appropriate schedule calculation.  Also worth noting, the TDL (Timing Definition Language) is the successor to Giotto, and extends the language and tools with the notion of modules (software components)\cite{timed:tdl}.  One version of a TDL scheduler determines acceptable communication windows in the schedule for all modes, and attempts to assign bus messages to those windows\cite{timed:tdlflexray}.  AADL is a textual language and standard for specifying deployments of control system designs in data networks\cite{modeling:aadl_control_systems}s.  AADL projects also include integration with scheduling tools\cite{sched:aadl_sched}. The Metropolis modeling framework\cite{modeling:metropolis} aims to give designers tools to create verifiable system models.  Metropolis integrates with SystemC, the SPIN model-checking tool, and other tools for schedule and timing analysis.  We differ from AADL and Metropolis in the basic modeling approach\cite{modeling:aces08}.
+
+
+

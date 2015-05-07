@@ -1,0 +1,17 @@
+Hyperperiod 20 ms
+
+TTBusSync 0
+Gumstix/EthernetIn_0 4
+Gumstix/ReferenceHandler_0 7
+Gumstix/OuterLoop_0 12
+
+TTBusSync 0
+Robostix/UARTIn1_0 5
+Robostix/DataHandler_0 9
+Robostix/InnerLoop_0 10
+Robostix/UARTOut_0 11
+
+TTBusSync 0
+TTBus/DataHandler.Pos_Data_msg_0 14
+TTBus/OuterLoop.Att_Ref_msg_0 17
+

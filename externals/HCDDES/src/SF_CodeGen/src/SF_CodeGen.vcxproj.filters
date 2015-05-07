@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{c2668da5-5347-422e-a1d6-c09a7d947d94}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{738d6161-6ac2-4c01-ad83-807ce4963bda}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{625cc7cf-2913-4a9b-8042-83848f05dd51}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;txt</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{51be4f8d-1903-488d-a80a-51577ddb9647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Models">
+      <UniqueIdentifier>{85c4e813-edd2-4728-9dcc-c093ee05eea8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ConfigKeeper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GenESM2SFC_main_g.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SFManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SfuncCodeTemplate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SFuncWrapperPrint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VarResolve.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\ESM2SFC.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\ESMoL.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\GenESM2SFC.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\LINKS.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\SFC.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ConfigKeeper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GenESM2SFC_main_g.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SFManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SfuncCodeTemplate.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SFuncWrapperPrint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VarResolve.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\transroot.hpp">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\ESM2SFC.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\ESM2SFC_xsd.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\ESMoL.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\ESMoL_xsd.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\LINKS.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\LINKS_xsd.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\SFC.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\SFC_xsd.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sfunc_code_template.txt">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\models\ESM2SFC.xme" />
+    <CustomBuild Include="..\..\..\generated\SF_CodeGen\models\ESMoL\ESM2SFC.mga">
+      <Filter>Generated Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\generated\SF_CodeGen\models\ESMoL\Config.mga">
+      <Filter>Generated Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\generated\SF_CodeGen\models\ESMoL\Udm\ESM2SFC.udm">
+      <Filter>Generated Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\GenESM2SFC.h">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

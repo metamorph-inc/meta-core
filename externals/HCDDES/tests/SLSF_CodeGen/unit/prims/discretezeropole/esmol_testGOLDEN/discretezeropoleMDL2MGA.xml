@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="Newdiscretezeropole00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="discretezeropole" Period="0" Priority="0" SampleTime="0" Tag="" UserData="" name="discretezeropole">
+          <Line Name="" _id="idC" dstLine_end_="idD" srcLine_end_="idB"/>
+          <Line Name="" _id="idF" dstLine_end_="id4" srcLine_end_="ide"/>
+          <Line Name="" _id="id11" dstLine_end_="id12" srcLine_end_="idB"/>
+          <Line Name="" _id="id14" dstLine_end_="id5" srcLine_end_="id13"/>
+          <Line Name="" _id="id16" dstLine_end_="id17" srcLine_end_="idB"/>
+          <Line Name="" _id="id19" dstLine_end_="id7" srcLine_end_="id18"/>
+          <Line Name="" _id="id1B" dstLine_end_="id1C" srcLine_end_="idB"/>
+          <Line Name="" _id="id1e" dstLine_end_="id6" srcLine_end_="id1D"/>
+          <Line Name="" _id="id20" dstLine_end_="id21" srcLine_end_="idB"/>
+          <Line Name="" _id="id23" dstLine_end_="id8" srcLine_end_="id22"/>
+          <OutputPort Number="1" _id="id4" name="Out1" srcLine="idF">
+            <TypeBaseRef MemberIndex="0" _id="id27" name="double" ref="id25"/>
+          </OutputPort>
+          <OutputPort Number="2" _id="id5" name="Out2" srcLine="id14">
+            <TypeBaseRef MemberIndex="0" _id="id29" name="double" ref="id25"/>
+          </OutputPort>
+          <OutputPort Number="3" _id="id6" name="Out3" srcLine="id1e">
+            <TypeBaseRef MemberIndex="0" _id="id2B" name="double" ref="id25"/>
+          </OutputPort>
+          <OutputPort Number="4" _id="id7" name="Out7" srcLine="id19">
+            <TypeBaseRef MemberIndex="0" _id="id2D" name="double" ref="id25"/>
+          </OutputPort>
+          <OutputPort Number="5" _id="id8" name="Out8" srcLine="id23">
+            <TypeBaseRef MemberIndex="0" _id="id2F" name="double" ref="id25"/>
+          </OutputPort>
+          <Primitive BlockType="Constant" Description="" Name="Constant1" Priority="0" SampleTime="0" Tag="" UserData="" name="Constant1">
+            <OutputPort Number="1" _id="idB" dstLine="idC id11 id16 id1B id20" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id30" name="double" ref="id25"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="double" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="6" name="Value"/>
+            <Parameter Value="on" name="VectorParams1D"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="DiscreteZeroPole" Description="" Name="Discrete&#xA;Zero-Pole" Priority="0" SampleTime="1" Tag="" UserData="" name="Discrete&#xA;Zero-Pole">
+            <InputPort Number="1" _id="idD" name="In_1" srcLine="idC">
+              <TypeBaseRef MemberIndex="0" _id="id32" name="double" ref="id25"/>
+            </InputPort>
+            <OutputPort Number="1" _id="ide" dstLine="idF" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id34" name="double" ref="id25"/>
+            </OutputPort>
+            <Parameter Value="2" name="Gain"/>
+            <Parameter Value="[]" name="Poles"/>
+            <Parameter Value="Auto" name="RTWStateStorageClass"/>
+            <Parameter Value="" name="RTWStateStorageTypeQualifier"/>
+            <Parameter Value="" name="StateIdentifier"/>
+            <Parameter Value="off" name="StateMustResolveToSignalObject"/>
+            <Parameter Value="[]" name="Zeros"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="DiscreteZeroPole" Description="" Name="Discrete&#xA;Zero-Pole1" Priority="0" SampleTime="1" Tag="" UserData="" name="Discrete&#xA;Zero-Pole1">
+            <InputPort Number="1" _id="id12" name="In_1" srcLine="id11">
+              <TypeBaseRef MemberIndex="0" _id="id36" name="double" ref="id25"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id13" dstLine="id14" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id38" name="double" ref="id25"/>
+            </OutputPort>
+            <Parameter Value="1" name="Gain"/>
+            <Parameter Value="[0.05317]" name="Poles"/>
+            <Parameter Value="Auto" name="RTWStateStorageClass"/>
+            <Parameter Value="" name="RTWStateStorageTypeQualifier"/>
+            <Parameter Value="" name="StateIdentifier"/>
+            <Parameter Value="off" name="StateMustResolveToSignalObject"/>
+            <Parameter Value="[]" name="Zeros"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="DiscreteZeroPole" Description="" Name="Discrete&#xA;Zero-Pole2" Priority="0" SampleTime="1" Tag="" UserData="" name="Discrete&#xA;Zero-Pole2">
+            <InputPort Number="1" _id="id17" name="In_1" srcLine="id16">
+              <TypeBaseRef MemberIndex="0" _id="id3A" name="double" ref="id25"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id18" dstLine="id19" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id3C" name="double" ref="id25"/>
+            </OutputPort>
+            <Parameter Value="0.20000000000000001" name="Gain"/>
+            <Parameter Value="[-0.5]" name="Poles"/>
+            <Parameter Value="Auto" name="RTWStateStorageClass"/>
+            <Parameter Value="" name="RTWStateStorageTypeQualifier"/>
+            <Parameter Value="" name="StateIdentifier"/>
+            <Parameter Value="off" name="StateMustResolveToSignalObject"/>
+            <Parameter Value="[-5]" name="Zeros"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="DiscreteZeroPole" Description="" Name="Discrete&#xA;Zero-Pole3" Priority="0" SampleTime="1" Tag="" UserData="" name="Discrete&#xA;Zero-Pole3">
+            <InputPort Number="1" _id="id1C" name="In_1" srcLine="id1B">
+              <TypeBaseRef MemberIndex="0" _id="id3e" name="double" ref="id25"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id1D" dstLine="id1e" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id40" name="double" ref="id25"/>
+            </OutputPort>
+            <Parameter Value="1" name="Gain"/>
+            <Parameter Value="[2.482002 0.332997]" name="Poles"/>
+            <Parameter Value="Auto" name="RTWStateStorageClass"/>
+            <Parameter Value="" name="RTWStateStorageTypeQualifier"/>
+            <Parameter Value="" name="StateIdentifier"/>
+            <Parameter Value="off" name="StateMustResolveToSignalObject"/>
+            <Parameter Value="[]" name="Zeros"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="DiscreteZeroPole" Description="" Name="Discrete&#xA;Zero-Pole4" Priority="0" SampleTime="1" Tag="" UserData="" name="Discrete&#xA;Zero-Pole4">
+            <InputPort Number="1" _id="id21" name="In_1" srcLine="id20">
+              <TypeBaseRef MemberIndex="0" _id="id42" name="double" ref="id25"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id22" dstLine="id23" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id44" name="double" ref="id25"/>
+            </OutputPort>
+            <Parameter Value="0.20000000000000001" name="Gain"/>
+            <Parameter Value="[2.482002 0.332997]" name="Poles"/>
+            <Parameter Value="Auto" name="RTWStateStorageClass"/>
+            <Parameter Value="" name="RTWStateStorageTypeQualifier"/>
+            <Parameter Value="" name="StateIdentifier"/>
+            <Parameter Value="off" name="StateMustResolveToSignalObject"/>
+            <Parameter Value="[-5]" name="Zeros"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow name="Stateflow"/>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types">
+    <Matrix Type="double" _id="id25" columns="1" name="double" referedbyTypeStructRef="id27 id29 id2B id2D id2F id30 id32 id34 id36 id38 id3A id3C id3e id40 id42 id44" rows="1"/>
+  </Types>
+
+</RootFolder>

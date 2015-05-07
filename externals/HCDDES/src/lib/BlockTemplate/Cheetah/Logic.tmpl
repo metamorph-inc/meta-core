@@ -1,0 +1,17 @@
+#if $parameters.Operator == "NOT"
+$output = ~$input
+#elif $parameters.Operator == "XOR"
+$output = 0
+    #for $inp in $inputs
+if $inp; $output = ~$output; end
+    #end for
+#else
+    #set $negation = $parameters.Operator.value[0] == "N"
+    #set $operator_name = $parameters.Operator.value[1:] if $negation else $parameters.Operator.value
+    #set $operator = "|" if $operator_name == "OR" else "&"
+$output = #if $negation#~( #end if#$inputs[ 0 ]#slurp
+    #for $inp in $inputs[1:]
+ $operator $inp#slurp
+    #end for
+#if $negation# )#end if
+#end if

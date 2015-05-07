@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E4950023-AB75-4EEF-8CD6-653BE9290DAA}</ProjectGuid>
+    <RootNamespace>SFC</RootNamespace>
+    <Keyword>ManagedCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>OldSyntax</CLRSupport>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>OldSyntax</CLRSupport>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>OldSyntax</CLRSupport>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>OldSyntax</CLRSupport>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\..\common-scripts\build_customization\meta2uml.props" />
+    <Import Project="..\..\..\common-scripts\build_customization\mga2udmxml.props" />
+    <Import Project="..\..\..\common-scripts\build_customization\mga2xmp.props" />
+    <Import Project="..\..\..\common-scripts\build_customization\udm.props" />
+    <Import Project="..\..\..\common-scripts\build_customization\xme2mga.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)</OutDir>
+    <mga2udmxml_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CustomBuild</mga2udmxml_RuleBeforeTargets>
+    <mga2udmxml_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CustomBuild</mga2udmxml_RuleBeforeTargets>
+    <mga2udmxml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xme2mga</mga2udmxml_RuleAfterTargets>
+    <mga2udmxml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xme2mga</mga2udmxml_RuleAfterTargets>
+    <mga2udmxml_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CustomBuild</mga2udmxml_RuleBeforeTargets>
+    <mga2udmxml_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CustomBuild</mga2udmxml_RuleBeforeTargets>
+    <mga2udmxml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xme2mga</mga2udmxml_RuleAfterTargets>
+    <mga2udmxml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xme2mga</mga2udmxml_RuleAfterTargets>
+    <xme2mga_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mga2udmxml</xme2mga_RuleBeforeTargets>
+    <xme2mga_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mga2udmxml</xme2mga_RuleBeforeTargets>
+    <xme2mga_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mga2udmxml</xme2mga_RuleBeforeTargets>
+    <xme2mga_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mga2udmxml</xme2mga_RuleBeforeTargets>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\generated\SFC\models\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VCP_PATH)\generated\SFC\models\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\generated\SFC\models\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(VCP_PATH)\generated\SFC\models\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <mga2udmxml Include="..\..\..\generated\sfc\models\SFC.mga">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SFC.mga -&gt; SFC_udm.xml</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">SFC.mga -&gt; SFC_udm.xml</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd "%(RootDir)%(Directory)"
+"$(UDM_PATH)\etc\CreateUdmXml.vbs" "%(Filename)%(Extension)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cd "%(RootDir)%(Directory)"
+"$(UDM_PATH)\etc\CreateUdmXml.vbs" "%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\SFC_udm.xml;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\SFC_udm.xml;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">SFC.mga -&gt; SFC_udm.xml</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SFC.mga -&gt; SFC_udm.xml</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd "%(RootDir)%(Directory)"
+"$(UDM_PATH)\etc\CreateUdmXml.vbs" "%(Filename)%(Extension)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cd "%(RootDir)%(Directory)"
+"$(UDM_PATH)\etc\CreateUdmXml.vbs" "%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\SFC_udm.xml;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\SFC_udm.xml;%(Outputs)</Outputs>
+      <FileType>Document</FileType>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SFC</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">SFC</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">SFC</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SFC</MetaName>
+    </mga2udmxml>
+    <CustomBuild Include="..\..\..\generated\sfc\models\SFC_udm.xml">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SFC_udm.xml -&gt; source</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">SFC_udm.xml -&gt; source</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mkdir "%(RootDir)%(Directory)\..\generated"
+cd "%(RootDir)%(Directory)\..\generated"
+"$(UDM_PATH)\bin\Udm.exe" -g -v "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mkdir "%(RootDir)%(Directory)\..\generated"
+cd "%(RootDir)%(Directory)\..\generated"
+"$(UDM_PATH)\bin\Udm.exe" -g -v "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\..\generated\SFC.h;%(RootDir)%(Directory)\..\generated\SFC.cpp;%(RootDir)%(Directory)\..\generated\SFC.xsd;%(RootDir)%(Directory)\..\generated\SFC_xsd.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\..\generated\SFC.h;%(RootDir)%(Directory)\..\generated\SFC.cpp;%(RootDir)%(Directory)\..\generated\SFC.xsd;%(RootDir)%(Directory)\..\generated\SFC_xsd.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">SFC_udm.xml -&gt; source</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SFC_udm.xml -&gt; source</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mkdir "%(RootDir)%(Directory)\..\generated"
+cd "%(RootDir)%(Directory)\..\generated"
+"$(UDM_PATH)\bin\Udm.exe" -g -v "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mkdir "%(RootDir)%(Directory)\..\generated"
+cd "%(RootDir)%(Directory)\..\generated"
+"$(UDM_PATH)\bin\Udm.exe" -g -v "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\..\generated\SFC.h;%(RootDir)%(Directory)\..\generated\SFC.cpp;%(RootDir)%(Directory)\..\generated\SFC.xsd;%(RootDir)%(Directory)\..\generated\SFC_xsd.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\..\generated\SFC.h;%(RootDir)%(Directory)\..\generated\SFC.cpp;%(RootDir)%(Directory)\..\generated\SFC.xsd;%(RootDir)%(Directory)\..\generated\SFC_xsd.h;%(Outputs)</Outputs>
+      <SubType>Designer</SubType>
+    </CustomBuild>
+    <xme2mga Include="SFC.xme">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SFC.xme -&gt; SFC.mga</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">SFC.xme -&gt; SFC.mga</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" "$(VCP_PATH)\generated\SFC\models\SFC.mga" UML
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" "$(VCP_PATH)\generated\SFC\models\SFC.mga" UML
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\generated\SFC\models\SFC.mga;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VCP_PATH)\generated\SFC\models\SFC.mga;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">SFC.xme -&gt; SFC.mga</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SFC.xme -&gt; SFC.mga</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" "$(VCP_PATH)\generated\SFC\models\SFC.mga" UML
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" "$(VCP_PATH)\generated\SFC\models\SFC.mga" UML
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\generated\SFC\models\SFC.mga;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(VCP_PATH)\generated\SFC\models\SFC.mga;%(Outputs)</Outputs>
+      <FileType>Document</FileType>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\generated\SFC\models\SFC.mga</OutFile>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VCP_PATH)\generated\SFC\models\SFC.mga</OutFile>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\generated\SFC\models\SFC.mga</OutFile>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(VCP_PATH)\generated\SFC\models\SFC.mga</OutFile>
+    </xme2mga>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\generated\sfc\generated\SFC.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\generated\sfc\generated\SFC.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying %(Filename)%(Extension) to solution include directory</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying %(Filename)%(Extension) to solution include directory</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy "%(FullPath)" ..\..\..\include
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy "%(FullPath)" ..\..\..\include
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\include\SFC.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\include\SFC.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying %(Filename)%(Extension) to solution include directory</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying %(Filename)%(Extension) to solution include directory</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy "%(FullPath)" ..\..\..\include
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy "%(FullPath)" ..\..\..\include
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\include\SFC.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\include\SFC.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\..\..\generated\sfc\generated\SFC_xsd.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\generated\sfc\generated\SFC.xsd" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\common-scripts\build_customization\meta2uml.targets" />
+    <Import Project="..\..\..\common-scripts\build_customization\mga2udmxml.targets" />
+    <Import Project="..\..\..\common-scripts\build_customization\mga2xmp.targets" />
+    <Import Project="..\..\..\common-scripts\build_customization\udm.targets" />
+    <Import Project="..\..\..\common-scripts\build_customization\xme2mga.targets" />
+  </ImportGroup>
+</Project>

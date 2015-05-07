@@ -1,0 +1,31 @@
+% Quadrotor schedule with extras - PTasks and ATasks only
+Problem QuadrotorExtrasPTasksATasks
+Resolution 1ms 
+
+Proc Gumstix 400MHz 0s 0s 
+PTask OuterLoop =50Hz 1.6ms 
+PTask ReferenceHandler =50Hz 1ms 
+PTask SensorDataCollector =10Hz 1.1ms
+SyncMsg TTBusSync
+Msg ReferenceHandler.Pos_Ref_msg_out 17B Gumstix/ReferenceHandler Gumstix/OuterLoop 
+
+Proc Robostix 16MHz 0s 0s 
+PTask DataHandler =50Hz 200us 
+PTask InnerLoop =50Hz 600us 
+PTask UARTIn1 =50Hz 1us 
+PTask UARTOut =50Hz 1.1ms 
+PTask Streaming =10Hz 1ms
+ATask WarningSensor <2Hz 1ms
+SyncMsg TTBusSync
+Msg DataHandler.PL_Data 61B Robostix/UARTIn1 Robostix/DataHandler 
+Msg InnerLoop.Thrust_Cmd_msg 17B Robostix/InnerLoop Robostix/UARTOut 
+Msg DataHandler.Att_Data_msg 25B Robostix/DataHandler Robostix/InnerLoop 
+
+TTEBus TTEBus 100kb 1.3ms Gumstix Robostix 
+SyncMsg TTBusSync 1.25ms 0s 
+Msg DataHandler.Pos_Data_msg 37B Robostix/DataHandler Gumstix/OuterLoop 
+Msg OuterLoop.Att_Ref_msg 17B Gumstix/OuterLoop Robostix/InnerLoop 
+Msg Streaming.Audio_Data_msg 4B Robostix/Streaming Gumstix/SensorDatCollector
+Msg WarningSensor.Alert 10B Robostix/WarningSensor Gumstix/SensorDataCollector
+
+

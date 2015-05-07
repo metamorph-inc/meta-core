@@ -1,0 +1,291 @@
+model simple_SR
+
+  header {#
+
+	
+
+   typedef char* String;
+
+   #define SLEEP_TIME 1000000
+
+   #define RequestNb 100
+
+   int getSLEEP_TIME() { return SLEEP_TIME ; }
+
+   int getRequestNb() { return RequestNb ; }
+
+   int getMax(int x , int y) { return x > y ? x : y ; }
+
+   int getRandom() { return rand() % 100 ; }
+
+
+
+#}
+
+
+
+  port type IntPort(int x)
+
+  port type SynEPort1
+
+  port type PSType1(bool x0, int x1)
+
+
+
+  atomic type Generator_Distributed(String Name)
+
+    data int x=0
+
+    data bool workingguardVar=false
+
+    export port IntPort working(x)
+
+    export port PSType1 S_working(workingguardVar, x)
+
+    port Port Intern_Initialize()
+
+    place OCCUPIED
+
+    place BusyState1_OCCUPIED
+
+    place BusyState2_OCCUPIED
+
+    initial to OCCUPIED
+
+do {
+
+        x = getRandom();
+
+        printf("I am %s and I send the value %d \n", Name, x);
+
+      }
+
+    on working
+
+      from BusyState2_OCCUPIED to OCCUPIED
+
+      do {
+
+        printf("I am %s and I received the value %d \n", Name, x);
+
+        x = getRandom();
+
+        usleep(getSLEEP_TIME());
+
+        printf("I am %s and I send the value %d \n", Name, x);
+
+      }
+
+
+
+    on Intern_Initialize
+
+      from OCCUPIED to BusyState1_OCCUPIED
+
+      do {
+
+        workingguardVar = true;
+
+      }
+
+
+
+    on S_working
+
+      from BusyState1_OCCUPIED to BusyState2_OCCUPIED
+
+      provided workingguardVar
+
+
+
+
+
+  end
+
+
+
+  connector type ConnTransferSR_Port(Port p1, Port p2)
+
+    define  p1' p2
+
+    on p1 p2
+
+    on p1
+
+      provided false
+
+  end
+
+
+
+  connector type ConnTransferSR_IntPort(IntPort p1, IntPort p2)
+
+    define  p1' p2
+
+    on p1 p2
+
+      up {
+
+      }
+
+
+
+    down {
+
+      p2.x = p1.x;
+
+    }
+
+
+
+    on p1
+
+      provided false
+
+  end
+
+
+
+  connector type ConnTransferSR_SynEPort1(SynEPort1 p1, SynEPort1 p2)
+
+    define  p1' p2
+
+    on p1 p2
+
+    on p1
+
+      provided false
+
+  end
+
+
+
+  connector type ConnTransferSR_PSType1(PSType1 p1, PSType1 p2)
+
+    define  p1' p2
+
+    on p1 p2
+
+      up {
+
+      }
+
+
+
+    down {
+
+      p2.x0 = p1.x0;
+
+      p2.x1 = p1.x1;
+
+    }
+
+
+
+    on p1
+
+      provided false
+
+  end
+
+
+
+  atomic type Engine0
+
+    data int val_conn
+
+    data int x_g1
+
+    data bool working_g1_GuarVar=false
+
+    data int x_g2
+
+    data bool working_g2_GuarVar=false
+
+    port Port Intern_Initialize()
+
+    export port IntPort working_g1(x_g1)
+
+    export port PSType1 SPort_0(working_g1_GuarVar, x_g1)
+
+    export port IntPort working_g2(x_g2)
+
+    export port PSType1 SPort_1(working_g2_GuarVar, x_g2)
+
+    place S_SPort_0Init
+
+    place S_SPort_0
+
+    place S_working_g1
+
+    place S_SPort_1Init
+
+    place S_SPort_1
+
+    place S_working_g2
+
+    initial to S_SPort_0Init,S_SPort_1Init
+
+    on SPort_0
+
+      from S_SPort_0Init to S_SPort_0
+
+    on working_g1
+
+      from S_working_g1 to S_SPort_0Init
+
+    on SPort_1
+
+      from S_SPort_1Init to S_SPort_1
+
+    on working_g2
+
+      from S_working_g2 to S_SPort_1Init
+
+    on Intern_Initialize
+
+      from S_SPort_0, S_SPort_1 to S_working_g1, S_working_g2
+
+      provided (working_g1_GuarVar&&working_g2_GuarVar)&&true
+
+      do {
+
+        val_conn = getMax(x_g1, x_g2);
+
+        x_g1 = val_conn;
+
+        x_g2 = val_conn;
+
+        printf("Execution of Interaction : conn\n");
+
+      }
+
+
+
+  end
+
+
+
+  compound type Simple_SR
+
+    component Generator_Distributed g1_dist("Left")
+
+    component Generator_Distributed g2_dist("righ")
+
+    component Engine0 Engine0_I
+
+    connector ConnTransferSR_IntPort conn_0(Engine0_I.working_g1, g1_dist.working)
+
+    connector ConnTransferSR_IntPort conn_1(Engine0_I.working_g2, g2_dist.working)
+
+    connector ConnTransferSR_PSType1 conn_2(g1_dist.S_working, Engine0_I.SPort_0)
+
+    connector ConnTransferSR_PSType1 conn_3(g2_dist.S_working, Engine0_I.SPort_1)
+
+  end
+
+
+
+  component Simple_SR top
+
+end

@@ -1,0 +1,149 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="saturate" name="saturate" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="idf" Name="" dstLine_end_="id10" srcLine_end_="idc"/>
+			<Line _id="id12" Name="" dstLine_end_="id4" srcLine_end_="id11"/>
+			<Line _id="id14" Name="" dstLine_end_="id15" srcLine_end_="idc"/>
+			<Line _id="id17" Name="" dstLine_end_="id5" srcLine_end_="id16"/>
+			<Line _id="id19" Name="" dstLine_end_="id1a" srcLine_end_="idc"/>
+			<Line _id="id1c" Name="" dstLine_end_="id6" srcLine_end_="id1b"/>
+			<Line _id="id1f" Name="" dstLine_end_="id7" srcLine_end_="id1e"/>
+			<Line _id="id22" Name="" dstLine_end_="id23" srcLine_end_="id21"/>
+			<Line _id="id25" Name="" dstLine_end_="id8" srcLine_end_="id24"/>
+			<Line _id="id27" Name="" dstLine_end_="id28" srcLine_end_="idc"/>
+			<Line _id="id2a" Name="" dstLine_end_="id2b" srcLine_end_="id29"/>
+			<Line _id="id2d" Name="" dstLine_end_="id2e" srcLine_end_="id2c"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id12"/>
+			<OutputPort _id="id5" name="Out2" Number="2" srcLine="id17"/>
+			<OutputPort _id="id6" name="Out3" Number="3" srcLine="id1c"/>
+			<OutputPort _id="id7" name="Out4" Number="4" srcLine="id1f"/>
+			<OutputPort _id="id8" name="Out5" Number="5" srcLine="id25"/>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id29" name="Out_1" Number="1" dstLine="id2a"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-.3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant1" name="Constant1" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id21" name="Out_1" Number="1" dstLine="id22"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[ 1 5 13]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Saturation" name="Saturation" Period="0" Deadline="0" Priority="0" BlockType="Saturate" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id10" name="In_1" Number="1" srcLine="idf"/>
+				<OutputPort _id="id11" name="Out_1" Number="1" dstLine="id12"/>
+				<Parameter name="LinearizeAsGain" Value="on"/>
+				<Parameter name="LowerLimit" Value="0.9"/>
+				<Parameter name="UpperLimit" Value="2.3"/>
+				<Parameter name="ZeroCross" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Saturation1" name="Saturation1" Period="0" Deadline="0" Priority="0" BlockType="Saturate" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id15" name="In_1" Number="1" srcLine="id14"/>
+				<OutputPort _id="id16" name="Out_1" Number="1" dstLine="id17"/>
+				<Parameter name="LinearizeAsGain" Value="on"/>
+				<Parameter name="LowerLimit" Value="1"/>
+				<Parameter name="UpperLimit" Value="4"/>
+				<Parameter name="ZeroCross" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Saturation2" name="Saturation2" Period="0" Deadline="0" Priority="0" BlockType="Saturate" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id1a" name="In_1" Number="1" srcLine="id19"/>
+				<OutputPort _id="id1b" name="Out_1" Number="1" dstLine="id1c"/>
+				<Parameter name="LinearizeAsGain" Value="on"/>
+				<Parameter name="LowerLimit" Value="4"/>
+				<Parameter name="UpperLimit" Value="4"/>
+				<Parameter name="ZeroCross" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Saturation3" name="Saturation3" Period="0" Deadline="0" Priority="0" BlockType="Saturate" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id2e" name="In_1" Number="1" srcLine="id2d"/>
+				<OutputPort _id="id1e" name="Out_1" Number="1" dstLine="id1f"/>
+				<Parameter name="LinearizeAsGain" Value="on"/>
+				<Parameter name="LowerLimit" Value="1"/>
+				<Parameter name="UpperLimit" Value="3"/>
+				<Parameter name="ZeroCross" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Saturation4" name="Saturation4" Period="0" Deadline="0" Priority="0" BlockType="Saturate" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id23" name="In_1" Number="1" srcLine="id22"/>
+				<OutputPort _id="id24" name="Out_1" Number="1" dstLine="id25"/>
+				<Parameter name="LinearizeAsGain" Value="on"/>
+				<Parameter name="LowerLimit" Value="[ 3 5 10]"/>
+				<Parameter name="UpperLimit" Value="[ 5 6 15]"/>
+				<Parameter name="ZeroCross" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Sum" name="Sum" Period="0" Deadline="0" Priority="0" BlockType="Sum" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id28" name="In_1" Number="1" srcLine="id27"/>
+				<InputPort _id="id2b" name="In_2" Number="2" srcLine="id2a"/>
+				<OutputPort _id="id2c" name="Out_1" Number="1" dstLine="id2d"/>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="All dimensions"/>
+				<Parameter name="IconShape" Value="round"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="|++"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<System Tag="" Name="Counter" name="Counter" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<Line _id="id33" Name="" dstLine_end_="id34" srcLine_end_="id32"/>
+				<Line _id="id36" Name="" dstLine_end_="id37" srcLine_end_="id35"/>
+				<Line _id="id39" Name="" dstLine_end_="idc" srcLine_end_="id38"/>
+				<Line _id="id3b" Name="" dstLine_end_="idd" srcLine_end_="id3a"/>
+				<Line _id="id3e" Name="" dstLine_end_="id3f" srcLine_end_="id3d"/>
+				<OutputPort _id="idc" name="ctr" Number="1" dstLine="idf id14 id19 id27" srcLine="id39"/>
+				<OutputPort _id="idd" name="data" Number="2" srcLine="id3b"/>
+				<Parameter name="ExecuteAtInitialization" Value="on"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id37" name="In_1" Number="1" srcLine="id36"/>
+					<OutputPort _id="id3d" name="Out_1" Number="1" dstLine="id3e"/>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="" Name="Ground" name="Ground" Period="0" Deadline="0" Priority="0" BlockType="Ground" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<OutputPort _id="id32" name="Out_1" Number="1" dstLine="id33"/>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function saturate 1" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id41" ref="id40" name="Counter"/>
+					<InputPort _id="id34" name="In_1" Number="1" srcLine="id33"/>
+					<OutputPort _id="id35" name="Out_1" Number="1" dstLine="id36"/>
+					<OutputPort _id="id38" name="Out_2" Number="2" dstLine="id39"/>
+					<OutputPort _id="id3a" name="Out_3" Number="3" dstLine="id3b"/>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id3f" name="In_1" Number="1" srcLine="id3e"/>
+				</Primitive>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow">
+		<State Name="" name="TopLevel" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+			<State _id="id40" Name="Counter" name="Counter" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" referedbyConnectorRef="id41">
+				<Data Max="" Min="" Name="ctr" Port="1" name="ctr" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="1" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="data" Port="2" name="data" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="-1" ArrayFirstIndex="0"/>
+				<State _id="id42" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id47 id48" srcTransition="id45 id47 id48"/>
+				<TransStart _id="id46" dstTransition="id45"/>
+				<Transition _id="id45" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id42" srcTransition_end_="id46"/>
+				<Transition _id="id47" name="" Guard="ctr &lt; 4" Order="1" Action="ctr = ctr+1;" Trigger="" ConditionAction="" dstTransition_end_="id42" srcTransition_end_="id42"/>
+				<Transition _id="id48" name="" Guard="ctr >= 4" Order="2" Action="ctr = 0;" Trigger="" ConditionAction="" dstTransition_end_="id42" srcTransition_end_="id42"/>
+			</State>
+		</State>
+	</Stateflow>
+</RootFolder>
+
+

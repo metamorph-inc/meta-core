@@ -1,0 +1,30 @@
+#from Collapse import Collapse
+#
+#set $operations = $parameters.Inputs.value
+#if $operations.isdigit()
+    #set $operations = '*' * int( $operations )
+#end if
+#set $operations = $filter( lambda x : x == '/' or x == '*', $operations )
+#
+#if $len( $inputs ) == 1 and $operations != '/'
+$Collapse().collapse( $block, $inputs, $outputs, $parameters, '.*' )#slurp
+	#stop
+#end if
+#
+#set $operationMap = { '*':'*', '/':'/' } if $parameters.Multiplication == "Matrix(*)" else { '*':'.*', '/':'./' }
+$output = #slurp
+#set $index = 0
+#set $notFirstOp = False
+#for $operation in $operations
+    #if $operation == '|'
+        #continue
+    #end if
+    #if $notFirstOp
+ $operationMap[ $operation ] #slurp
+    #elif $operation == '/'
+1 $operationMap[ '/' ] #slurp
+    #end if
+$inputs[ $index ]#slurp
+    #set $notFirstOp = True
+    #set $index += 1
+#end for

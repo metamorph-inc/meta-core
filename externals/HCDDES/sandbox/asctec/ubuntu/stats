@@ -1,0 +1,77 @@
+[1;31mType:		[0mmodule
+[1;31mBase Class:	[0m<type 'module'>
+[1;31mString Form:[0m	<module 'scipy' from '/usr/lib/python2.6/dist-packages/scipy/__init__.pyc'>
+[1;31mNamespace:	[0mInteractive
+[1;31mFile:		[0m/usr/lib/python2.6/dist-packages/scipy/__init__.py
+[1;31mDocstring:
+[0m    SciPy --- A scientific computing package for Python
+    ===================================================
+    
+    Documentation is available in the docstrings and
+    online at http://docs.scipy.org.
+    
+    Contents
+    --------
+    SciPy imports all the functions from the NumPy namespace, and in
+    addition provides:
+    
+    Available subpackages
+    ---------------------
+    odr                          --- Orthogonal Distance Regression [*]
+    misc                         --- Various utilities that don't have
+                                     another home.
+    sparse.linalg.eigen.arpack   --- Eigenvalue solver using iterative
+                                     methods. [*]
+    fftpack                      --- Discrete Fourier Transform algorithms
+                                     [*]
+    io                           --- Data input and output [*]
+    sparse.linalg.eigen.lobpcg   --- Locally Optimal Block Preconditioned
+                                     Conjugate Gradient Method (LOBPCG) [*]
+    special                      --- Airy Functions [*]
+    lib.blas                     --- Wrappers to BLAS library [*]
+    sparse.linalg.eigen          --- Sparse Eigenvalue Solvers [*]
+    stats                        --- Statistical Functions [*]
+    lib                          --- Python wrappers to external libraries
+                                     [*]
+    lib.lapack                   --- Wrappers to LAPACK library [*]
+    spatial                      --- Spatial data structures and algorithms
+                                     [*]
+    integrate                    --- Integration routines [*]
+    ndimage                      --- n-dimensional image package [*]
+    linalg                       --- Linear algebra routines [*]
+    maxentropy                   --- Routines for fitting maximum entropy
+                                     models [*]
+    interpolate                  --- Interpolation Tools [*]
+    sparse.linalg                --- Sparse Linear Algebra [*]
+    sparse.linalg.dsolve.umfpack --- :Interface to the UMFPACK library: [*]
+    sparse.linalg.dsolve         --- Linear Solvers [*]
+    optimize                     --- Optimization Tools [*]
+    cluster                      --- Vector Quantization / Kmeans [*]
+    signal                       --- Signal Processing Tools [*]
+    sparse                       --- Sparse Matrices [*]
+      [*] - using a package requires explicit import (see pkgload)
+    
+    Global symbols from subpackages
+    -------------------------------
+    misc                  --> info, factorial, factorial2, factorialk,
+                              comb, who, lena, central_diff_weights,
+                              derivative, pade, source
+    fftpack               --> fft, fftn, fft2, ifft, ifft2, ifftn,
+                              fftshift, ifftshift, fftfreq
+    stats                 --> find_repeats
+    linalg.dsolve.umfpack --> UmfpackContext
+    
+    Utility tools
+    -------------
+    
+      test        --- Run scipy unittests
+      pkgload     --- Load scipy packages
+      show_config --- Show scipy build configuration
+      show_numpy_config --- Show numpy build configuration
+      __version__ --- Scipy version string
+      __numpy_version__ --- Numpy version string
+    
+    Environment variables
+    ---------------------
+    
+      SCIPY_IMPORT_VERBOSE --- pkgload verbose flag, default is 0.

@@ -1,0 +1,159 @@
+\section{Synthesis of Code and Analysis Models}
+
+\subsection{Functional Code}
+
+\cite{mic:ecsldp} describes a much earlier version of the modeling language and
+tools created to support automotive software development.  The Simulink model
+importer and graph transformation-based code generation for the control
+functions are documented in \cite{mic:ecsldp}.  The tools still support the
+importing of Simulink functions, and generation from Simulink subsystem blocks
+to synchronous C code.  The main advantage over the Simulink Real-Time Workshop
+code generator \cite{tools:mathworks} is the easy customizability of our
+generator.  Generation is based on simple code templates for each functional
+block which can be created new or customized by the user.  Transformation details
+are also open to inspection and modification.
+
+\subsection{Scheduler}
+
+The scheduling tool is a good example of the second-stage generation
+process.  We will consider one example of an analysis artifact.  For generation other than the
+functional code, we use the CTemplate engine\cite{tools:ctemplate} called from C++
+code.
+
+The host section of the template appears below, followed by an example
+generated from the quad integrator model:
+
+\newpage
+
+\begin{alltt}
+\scriptsize
+\{\{\#HOST_SECTION\}\} Proc \{\{NODENAME\}\}\{\{NODEFREQ\}\}\{\{SENDOHD\}\}\{\{RECVOHD\}\}
+\{\{\#TASK_SECTION\}\}Comp \{\{TASKNAME\}\} = \{\{FREQUENCY\}\}\{\{WCEXECTIME\}\}
+\{\{\/TASK_SECTION\}\}\{\{\#LOCAL_MSG_SECTION\}\}Msg \{\{MSGNAME\}\} \{\{MSGSIZE\}\} \{\{SENDTASK\}\}\{\{RECVTASKS\}\}
+\{\{\/LOCAL_MSG_SECTION\}\}
+\{\{/HOST_SECTION\}\}
+
+---------------------------------------------------------------------
+
+Proc RS 4MHz 0s 0s
+Comp InnerLoop =50Hz 1.9ms
+Comp DataHandling =50Hz 1.8ms
+Comp SerialIn =50Hz 1us
+Comp SerialOut =50Hz 1ms
+Msg DataHandling.sensor_data_in 1B RS/SerialIn RS/DataHandling 
+Msg InnerLoop.thrust_commands 37B RS/InnerLoop RS/SerialOut
+Msg DataHandling.ang_msg 1B RS/DataHandling RS/InnerLoop 
+
+Proc GS 100MHz 0s 0s
+Comp RefHandling =50Hz 1us
+Comp OuterLoop =50Hz 245us
+Msg RefHandling.pos_ref_out 9B GS/RefHandling GS/OuterLoop
+\end{alltt}
+
+In CTemplate, each \verb${{#...}} {{/...}}$ tag pair delimits a section which
+can be repeated by filling in the proper data structure in the code.  The other
+tags \verb${{...}}$ are replaced by the string specified in the generation
+code. Our model has two processors (Proc lines, above), each of which runs
+multiple components (Comp) and has at least one local data dependency (Msg).
+
+Producing the Proc and Comp lines from the model API is straightforward,
+as these are simple traversals of the model, respecting the model hierarchy. 
+Each generated line uses parameters from the respective model object. 
+The parameters are shown only in the generated output, though the object diagram in 
+Fig. \ref{fig:msg_sched} illustrates a good example of parameter layout and disposition. 
+In order to produce each Msg line, many relations must be collected (as shown 
+in table \ref{tab:localdeps}) and distilled into the right relationships.  
+This requires complex traversal code.  To write a generator similar to this one, the developer uses the 
+interpreter API and the transformed abstract syntax graph model.  In the abstract language
+traversal we collect the LocalDependency objects and filter them by processor. 
+Each LocalDependency object contains all of the information necessary to fill
+out the parameters in the template and create a new Msg line in the
+configuration file.
+
+\subsection{Platform-Specific Code}
+
+The template description for the platform-specific code generator is shown here:
+
+\begin{alltt}
+\scriptsize
+////////////////////////////////// SCHEDULE /////////////////////////////////
+
+portTickType hp_len = \{\{NODE_hyperperiod\}\};
+
+\{\{\#SCHEDULE_SECTION\}\}
+task\_entry tasks[] = \{
+\{\{\#TASK\}\}
+   \{ \{\{TASK_name\}\}, "\{\{TASK_name\}\}", \{\{TASK\_startTime\}\}, 0\},\{\{\/TASK\}\}
+   \{NULL, NULL, 0, 0\}
+\}\;
+
+msg\_entry msgs[] = \{
+\{\{\#MESSAGE\_NAME\}\}
+   \{ \{\{MESSAGE\_index\}\}, \{\{MESSAGE\_sendreceive\}\}, sizeof( \{\{MESSAGE\_name\}\} ), 
+         (portCHAR *) \& \{\{MESSAGE\_name\}\}, 
+         (portCHAR *) \& \{\{MESSAGE\_name\}\}\_c, \{\{MESSAGE\_startTime\}\}, 
+         pdFALSE\},
+\{\{\/MESSAGE\_NAME\}\}
+   \{ -1, 0, 0, NULL, NULL, 0, 0\}
+\}\;
+
+per\_entry pers[] = \{
+\{\{\#PER_NAME\}\}
+   \{ \{\{PER\_index\}\}, "\{\{PER\_type\}\}", 
+         \{\{PER\_way\}\}, 0, \{\{PER\_pin\_number\}\}, sizeof( \{\{PER\_name\}\} ), 
+         (portCHAR *) \& \{\{PER\_name\}\}, 
+         (portCHAR *) \& \{\{PER\_name\}\}\_c, 
+         \{\{PER\_startTime\}\}, NULL\}, 
+\{\{\/PER_NAME\}\}
+   \{ -1, NULL, 0, 0, 0, 0, NULL, NULL, 0, NULL \}
+\}\;
+\{\{\/SCHEDULE_SECTION\}\}
+
+-----------------------------------------------------------------------------
+
+////////////////////////////////// SCHEDULE /////////////////////////////////
+
+portTickType hp_len = 20;
+
+task\_entry tasks[] = \{
+   \{ DataHandling, "DataHandling", 4, 0\},
+   \{ InnerLoop, "InnerLoop", 9, 0\},
+   \{NULL, NULL, 0, 0\}
+\}\;
+
+msg\_entry msgs[] = \{
+   \{ 1, MSG\_DIR\_RECV, sizeof( OuterLoop\_ang\_ref ), 
+      (portCHAR *) \& OuterLoop\_ang\_ref, 
+      (portCHAR *) OuterLoop_ang\_ref\_c, 7, 0, 0\},
+   \{ 2, MSG\_DIR\_SEND, sizeof( DataHandling\_pos\_msg ), 
+      (portCHAR *) \& DataHandling\_pos\_msg, 
+      (portCHAR *) DataHandling\_pos\_msg\_c, 11, 0, 0\},
+   \{ -1, 0, 0, NULL, NULL, 0, 0, 0\}
+\}\;
+
+per\_entry pers[] = \{
+   \{ 1, "UART", IN, 0, 0, sizeof( DataHandling\_sensor\_data\_in ), 
+      (portCHAR *) \& DataHandling\_sensor\_data\_in, 
+      (portCHAR *) DataHandling\_sensor\_data\_in\_c, 2, NULL, 0, 0\},
+   \{ 2, "UART", OUT, 0, 0, sizeof( InnerLoop\_thrust\_commands ), 
+      (portCHAR *) \& InnerLoop\_thrust\_commands, 
+      (portCHAR *) InnerLoop\_thrust\_commands\_c, 14, NULL, 0, 0\},
+   \{ -1, NULL, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, 0 \}
+\}\;
+
+\end{alltt}
+
+The FRODO virtual machine generation template brings together all of the
+semantic relations described in the earlier section.  The template and generated code
+segment above correspond to the second-stage interpreter that creates the static schedule
+structures used by the virtual machine.  The tasks, messages, and peripherals
+listed here come from the Acquisition, Actuation, Transmit, and Receive
+relation objects.  The various connected objects are sorted according to
+schedule time, and then the template instantiation uses the object parameters
+to create the tables in a manner similar to that described for the scheduler
+configuration generation above.  For the curious, the LocalDependency relations
+do not appear in this table.  The scheduler creates constraints that must be
+satisfied for each local dependency.  Therefore, any valid task and message
+schedule will satisfy them.  In a different part of the FRODO template, the
+local dependencies determine which message fields must be used as
+arguments to the component function calls (not shown).

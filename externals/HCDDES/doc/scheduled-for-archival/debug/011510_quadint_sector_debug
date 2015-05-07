@@ -1,0 +1,53 @@
+Actually, this part was from 01/14/2010
+
+1. Trying to find data glitch:
+
+   * Assigned GPIO pins to the I2C and UART interrupts.  Nothing obvious.
+
+   * Trying to find a way to trigger the logic analyzer only on the error 
+     condition.  The current approach is to add trap code right after the
+     data copy (UART move function).
+
+   * Following the same pattern, we trapped the values right before the copy.
+     Then we tried putting a trap in the interrupt handler, right after the 
+     last byte was received.  The disturbing case is that we have valid values
+     on the wire (according to the logic probe), and then corrupt values in the
+     buffer immediately afterwards.
+
+   * It's still a mystery at this point.
+
+This is the part from 01/15/2010:
+
+1. We need to check for memory interference.  The question is how to see it.
+   
+   * Add pins for the task executions and peripheral functions.  No obvious
+     interference.
+
+   * Will decreasing the UART data rate help?  We're not getting any errors on
+     the line (no frame errors, overruns, or parity checks), so that's not 
+     likely the problem.
+
+   * The simulator may help here.  Can we simulate the asynchronous input?
+     No, but we need to look at memory layout.  It could be that something
+     else is stomping on the data.
+
+   * Tried replacing the brainstem RS-232 adapter.  That was not it.
+
+   * Tried swapping the LEDs to make sure that we weren't missing the I/O
+     errors due to a bad LED.  That was not it.
+
+   * Trying a different gumstix board.  No improvement.
+
+   * w/ Nicholas: sending clean sin data out on the transmit side.  Disabled
+     incoming UART data (and interrupts) -- no glitches.
+
+   * re-enabled the incoming data.  still sending the clean sin data -- 
+     no glitches in the output, but we do see them on the logic port.
+
+2. It was a casting problem.  The array index in the UART and I2C handlers
+   assumed the size of the message, but the pointer had been previously cast
+   to char.  It was indexing between char positions 0 and 1, rather than 
+   message buffer positions 0 and 1.  Fixed it by changing the starting 
+   write pointer value to the message length.  It seems to be working great.
+
+

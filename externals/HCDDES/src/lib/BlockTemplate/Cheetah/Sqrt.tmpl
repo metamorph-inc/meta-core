@@ -1,0 +1,21 @@
+#from LoopHelper import LoopHelper
+#
+#if $parameters.Operator == "sqrt"
+#
+$output = sqrt( $input )
+#
+#elif $parameters.Operator == "signedSqrt"
+#
+#set $lh = LoopHelper( $block, $input.getDimensions )
+$lh.startLoops#slurp
+$output${lh.indexes} = sqrt(  fabs( $input${lh.indexes} )  )
+${lh.indent}if $input${lh.indexes} < 0
+${lh.indent}    $output${lh.indexes} = -$output${lh.indexes}
+${lh.indent}end
+$lh.endLoops#slurp
+#
+#else ## $parameters.Operator == "rSqrt"
+#
+$output = 1 ./ sqrt( $input )
+#
+#end if

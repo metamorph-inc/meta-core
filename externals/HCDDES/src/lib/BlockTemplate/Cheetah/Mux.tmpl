@@ -1,0 +1,33 @@
+#from BlockOperationManager import performOperation
+###
+## HERE, WE ARE DETERMINING IF THE OUTPUT TYPE OF THE MUX IS A STRUCTURE
+## WHOSE MEMBERS HAVE THE TYPES OF THE INPUTS.  IF SO, THE OUTPUT MAY BE
+## COMPUTED MORE EFFICIENTLY.
+#
+$block.setKeepStructs()#slurp
+#
+#set $outputStruct = False
+#set $inputTypes = $map( lambda x: x.type, $inputs )
+#set $outputTypes = $map( lambda x: x.type, $output.type.getMembers() )
+#if $len( $inputTypes ) == $len( $outputTypes )
+	#set $outputStruct = True
+	#for ( $inputType, $outputType ) in $zip( $inputTypes, $outputTypes )
+	#if $inputType != $outputType
+		#set $outputStruct = False
+		#break
+	#end if
+	#end for
+#end if
+#
+## IF OUTPUT IS A STRUCTURE WHOSE MEMBERS HAVE THE TYPES OF THE INPUTS,
+## JUST DO A STRAIGHT ASSIGNMENT TO THE OUTPUT MEMBERS FROM THE INPUTS.
+#if $outputStruct
+	#
+	#for ( $inp, $out ) in $zip( $inputs, $output.type.getMembers() )
+${output}.${out} = $inp
+	#end for
+	#
+## OTHERWISE, PERFORM MULTIPLE ASSIGNMENTS BETWEEN BASE ELEMENTS OF OUTPUT AND INPUTS.
+#else
+$performOperation( { 'input':$inputs, 'output':$output }, '$output = $input' )#slurp
+#end if

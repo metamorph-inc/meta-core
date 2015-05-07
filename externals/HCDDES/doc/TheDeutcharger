@@ -1,0 +1,44 @@
+THE DEUTCHARGER
+
+
+This is the brief introduction to charging the HCDDES project's 3 "zellen" LiPo batteries.
+
+First of all, let me warn you, the user, about a few things. This charger and the batteries we use are no joke. They can be very dangerous if not used properly.
+
+**REALLY** read all the warnings. If you don't and improperly operate/connect/charge these batteries, any one of the following can happen:
+
+- You could be shocked
+- You could blow the expensive battery
+- Or worse, the charger
+- You could be blinded by battery acids/flying debris
+- You could set the office on fire
+- Cause a nuclear holocaust
+- Create a quantum singularity
+
+So, make sure you do the following:
+
+- Keep the battery wires from shorting
+- Nevery crush or strike the battery, it has feelings too.
+- Keep the battery between 40 and 70 degrees FAHRENHEIT
+- Never charge the battery if the voltage indicated is BELOW 9.9V
+- Keep the battery in observation if anything goes wrong for at LEAST 15 minutes
+
+Now, onto the charger.
+
+PART 1. DeutsCharger set up
+
+Make sure the charger is plugged in to a standard 120V 60hz outlet. The red and black alligator clips on the left side are for 12V DC input ONLY. Read that last part again. Those clips are for INPUT! DO NOT TRY TO CHARGE THE LiPo BATTERIES WITH THESE CLIPS!
+
+***Make sure to NEVER connect the DC input when the AC input is powered. Never charge with both inputs. It's bad. Trust me!***
+
+Attach banalligator clips on the RIGHT side 4 mm plugs, and the balancer board onto the balancer port on the same side. Make sure this board has the 3s port.
+
+PART 2. Battery charging (3 Cell LiPo battery)
+
+Go through the conveniently English dialogues on the LCD screen and set up the charger for LiPo Charge, 11.1V, 2100mAh.
+
+Clip the battery's molex plug into the balancer's 3s port.
+
+Connect the banalligator clips FROM THE RIGHT SIDE of the charger onto the terminals of the battery. Follow common sense, red to red, black to black.
+
+Press and HOLD the enter/start button on the Deutscharger for at least a second. It should begin charging. It generally is topped off at around 12.6V. The Deutscharger will beep and display an END message. It is now time to disconnect the, the now fully charged, battery.

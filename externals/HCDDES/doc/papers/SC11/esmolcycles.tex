@@ -1,0 +1,64 @@
+\section{ ESMoL Language Mapping }
+\label{section:esmol}
+
+%Now to map ESMoL logical architecture models onto this cycle-checking
+%formal model we use the following rules:
+%
+%\begin{align}
+%\mathbf{Subsys} ::=\; & L_{\bar{i},\bar{o}}^{Subsys} \llbracket \mathbf{Dataflow} \rrbracket \nonumber \\
+%\mathbf{Dataflow} ::=\; & \mathbf{0} \mid x \mid l_D <\bar{x}>\, \mid \mathbf{Subsys} <\bar{x}, \bar{x} > \nonumber \\
+% & \mid \mathbf{Dataflow} \parallel \mathbf{Dataflow} \mid (\nu \bar{x}) \, \mathbf{Dataflow} \nonumber \\
+%\mathbf{MsgType} ::=\; & M_{\bar{e},e_{ext}} \\
+%\mathbf{SysTypeDef} ::=\; & \mathbf{Subsys} <\bar{i},\bar{o}> \, \mid l_S <x,x> \nonumber \\
+% & \mid \mathbf{SysTypeDef} \parallel \mathbf{SysTypeDef} \mid \mathbf{MsgType} <\bar{x},y> \nonumber \\
+%\mathbf{SysType} ::=\; & L_{\bar{y_i},\bar{y_o}}^{Sys} \llbracket (\nu \bar{x})(\nu \bar{e}) \, \mathbf{SysTypeDef} \rrbracket \nonumber \\
+%\mathbf{LogicalModel} ::=\; & \mathbf{SysType} <\bar{i},\bar{o}>\, \mid \, l_L <o,i>  \nonumber \\
+% & \mid \mathbf{LogicalModel} \parallel \mathbf{LogicalModel} \nonumber
+%\end{align}
+%
+%Briefly (from the bottom rule to the top), logical 
+%models consist of component blocks ($\mathbf{SysType}$) 
+%whose interface ports connected by edges.  Component 
+%blocks are specified by Simulink dataflow blocks 
+%($\mathbf{Dataflow}$) whose interface ports are 
+%connected either to other Simulink dataflow blocks 
+%or to fields in message instances. Each message 
+%instance ($\mathbf{MsgType}$) inside a system component 
+%type block also has an interface vertex ($y$) which
+%faces outward, and all other vertices are hidden within 
+%the component $(\nu \bar{x})(\nu \bar{y}) \mathbf{SysTypeDef}$.  
+%At the logical architecture model level, data is 
+%exchanged via messages which aggregate the individual 
+%dataflow connections within the components.  
+%$\mathbf{Dataflow}$ blocks are built up from connections 
+%between functional vertices and between the interfaces 
+%on composite subsystem blocks ($\mathbf{Subsys}$).  
+%These each correspond to sorts in the ESMoL term algebra.
+%
+%Let $i$, $o$, and $e$ be vertex sorts corresponding to input ports, output 
+%ports, and message elements respectively.  Let $s$, $c$, $f$, and $d$ be
+%edge sorts (of $l_D$, above) representing signal edges, connectivity edges
+%(as described above to support the incremental interface), $f$ for Simulink
+%primitive function blocks, and $d$ for delay blocks.  The $f$ function edge
+%sorts are n-ary, so each function block can have an arbitrary but finite
+%number of input and output connections. For $l_S$ define the
+%sorts (given with their interfaces) $l^{b,b} < o, i >$, $l^{m,b} <e,i>$, 
+%and $l^{b,m} <o,e>$.  These represent the three different connection types in
+%a $\mathbf{SysType}$ specification, for connecting between ports of Simulink
+%blocks (from outputs to inputs) ($l^{b,b}$), from message elements to Simulink 
+%input ports ($l^{m,b}$), and from Simulink output ports to message elements
+%($l^{b,m}$).
+
+%Finally we give an abbreviated encoding of terms representing ESMoL models into the more general hierarchical graph algebra. The encoding assigns the various layers of hierarchy from the ESMoL component type system to hierarchical designs in the graph.  Edges from all layers map to (possibly generalized) edges in the new graph, and ESMoL ports map to vertices.
+%
+%\begin{align}
+%%x &= x & \nonumber \\
+%L_{\bar{i},\bar{o}}^{Subsys} \llbracket \mathbf{Dataflow} \rrbracket <\bar{x},\bar{x}> &= L_{\bar{x}} \llbracket \mathbb{G} \rrbracket < \bar{x} > & \nonumber \\
+%%M_{\bar{e},e_{ext}} \llbracket \rrbracket <\bar{x}, y> &= L_{\bar{x}} \llbracket \mathbb{G} \rrbracket <\bar{x}> & \nonumber \\
+%L_{\bar{i},\bar{o}}^{Sys} \llbracket (\nu \bar{x})(\nu \bar{e}) \mathbf{SysTypeDef} \rrbracket &=  L_{\bar{y}} \llbracket \mathbb{G} \rrbracket <\bar{x}> & \\
+%l_D <\bar{x}> &= l <\bar{x}> & \nonumber \\
+%l_{*} <x,x> &= l_c <\bar{x}> & \nonumber
+%%(\nu \bar{x}) \mathbf{Dataflow} &= (\nu \bar{x}) \mathbb{G} & \nonumber
+%\end{align}
+
+To find delay-free loops for a given ESMoL model, we must first map a well-formed ESMoL model to the generic hierarchical graph model (as in \cite{modeling:esmol_cycles_tr}), remove all delay elements from the model, and  then invoke the algorithm.  For any cycle found in a component we can construct a more detailed cycle by substituting paths using the connectivity edges with their more detailed equivalents in the descendants of the component (recursively descending downwards until we run out of cycle elements).  Call this subgraph the \emph{expanded cycle}.  Repeating the cycle enumeration algorithm on these structures yields the full set of elementary cycles, and should still retain considerable efficiency as we are only analyzing cycles with possible subcycles, which can be a relatively small slice of the design graph.  \cite{modeling:esmol_cycles_tr} includes an example.

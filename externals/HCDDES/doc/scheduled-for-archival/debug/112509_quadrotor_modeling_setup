@@ -1,0 +1,51 @@
+1. Reworked the I/O in the gumstix to use multiplexers and hopefully work
+   around the code generation issues.
+
+   + Re-imported and ran addTypes -- so far, so good.
+   + Forgot to remove the near-zero gains...
+   + SL_CodeGen -- it's running for a very long time.
+
+   + The init structure for the transfer function blocks needs some fixing:
+
+     The scalar values in the context fields are handled as arrays, for example
+    
+       ( *context ).NumeratorTerms325[ (int)(  ) ] = 0;
+
+     should be
+
+       ( *context ).NumeratorTerms325 = 0;
+
+     Also the actual gain initialization is given as follows:
+
+      ix750 = 0;
+      while( ix750 < 0 )
+      {
+        ( *context ).Numerator321[ (int)( ix750 ) ] = Hzn1(  );
+        ++ix750;
+      }
+
+    Actually, those weren't supposed to be scalars, either.  The generated
+    implementation code doesn't look right.  Hacking on it...
+
+    This will require a careful audit, but for now let's see if the code
+    compiles and whether we can profile the timing.
+
+2. Added the newly generated inner loop files to the make and bitbake files.
+
+3. Looked at the generated app.c to see whether the message field assignments
+   make sense with the input and output structure of the generated code. 
+
+   + The fields line up well, but the types don't make sense.  There are lots
+     of fixdt(1,16,0) calls which should be float calls.  Those will have to 
+     be changed in the generated code.  Xe and Ve were correct, though.
+
+4. Work-arounds from Harmon:
+
+   + very strange -- adding a comment above the last line of the mux_euler 
+     block seems to get the parser to behave.
+   + hard-coded the filter coefficients, as our tools are having trouble
+     determining the sizes of the filter polynomials.
+   + Still having trouble with the parsing - Harmon updated the MDL2MGA to 
+     make sure that it executes the mask initialization functions.
+
+   + We have generation!  Still a way to go, though...

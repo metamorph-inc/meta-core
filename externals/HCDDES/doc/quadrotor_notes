@@ -1,0 +1,20 @@
+Make sure the XBee's are paired correctly! They come paired to each other on the same channel.
+
+For the Futaba T9CHP, the settings should be similar/exactly as follows (or just select the quadrotor model).
+-All trims zeroed. They interfere with the QR's native stabilization.
+-No reverses.
+-Throttle Cut is however your intestinal fortitude dictates.
+-Aux-Ch should be configured to user liking, just know that you need them.
+-Under Parameter>Type, it should be ACROBATIC, the Modul should be PPM, ATL on, AIL-2 Ch6or7
+-Trainer should be configured so ALL channels 1-8 display FUNC
+**-Basically, just go to the SERVO screen and make sure each switch/stick only modifies a sensible channel.
+************DO NOT SELECT A HELICOPTER MODEL IN PARAMETER SCREEN!**********
+The helicopter model binds the stick motions to things you don't want. Trust me. Glider is right out.
+Remember, acrobatic shall be the model chosen, and the model of choice is Acrobatic. Thou will choose Acrobatic.
+
+****PRE FLIGHT CHECKLIST****
+Make sure the Futabab or w/e radio you desire is on FIRST and gets turned off LAST.
+
+The command to turn on the rotors is the same as to kill them. Keep throttle at 0 and push yaw to left or right all the way.
+
+

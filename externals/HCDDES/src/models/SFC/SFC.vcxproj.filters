@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{98bdcb5d-4ca2-4884-a1a1-0d3467b003e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\models">
+      <UniqueIdentifier>{baa0fe3f-54bf-4d7a-b8c8-5921f6bbefb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\generated">
+      <UniqueIdentifier>{538925a1-adcb-4e6b-a9a6-9cb7e12bb68e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\generated\sfc\generated\SFC_xsd.h">
+      <Filter>Generated Files\generated</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\generated\sfc\models\SFC_udm.xml">
+      <Filter>Generated Files\models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\generated\sfc\generated\SFC.h">
+      <Filter>Generated Files\generated</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <xme2mga Include="SFC.xme" />
+  </ItemGroup>
+  <ItemGroup>
+    <mga2udmxml Include="..\..\..\generated\sfc\models\SFC.mga">
+      <Filter>Generated Files\models</Filter>
+    </mga2udmxml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\generated\sfc\generated\SFC.xsd">
+      <Filter>Generated Files\generated</Filter>
+    </None>
+    <None Include="..\..\..\generated\sfc\generated\SFC.cpp">
+      <Filter>Generated Files\generated</Filter>
+    </None>
+  </ItemGroup>
+</Project>

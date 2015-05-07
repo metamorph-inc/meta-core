@@ -1,0 +1,55 @@
+First pass without added subsys: 1.123
+Second pass for added subsys (from subsystem4) : .344
+Second pass for added subsys (from top): .687
+
+Total pass with added subsys (all modified, from top): 1.358 
+
+
+Fixed Wing:
+
+velocity_controller: 0.765
+omega_sensor: 0.015
+omega_controller: 1.904
+gamma_chi_mu_sensor: 1.263
+gamma_chi_controller: 1.545
+alpha_beta_mu_controller: 2.106
+
+Fixed Wing, revisited:
+
+omega_controller: 0.89 seconds, 9 hier comps, 80 elements
+alpha_beta_mu_controller: 2.028 seconds, 11 hier comps, 159 elements
+velocity_controller: .640 seconds, 6 hier comps, 60 elements, 1 cycle
+gamma_chi_controller: 1.622 seconds, 7 hier comps, 134 elements
+gamma_chi_mu_sensor: 2.355 seconds, 8 hier comps, 100 elements
+toplevel: 2.294 seconds, visited 42 hier comps, proc 1 hier comp, 21 elts processed, 18 cycles
+
+total time: 9.829
+
+The whole shebang:
+toplevel: 7.893 seconds, 42 hier comps, 554 elements, 19 cycles
+
+Fixed Wing, with depth:
+
+omega_controller: 1.061 seconds, 9 hier comps, 80 elements, no cycles
+alpha_beta_mu_controller: 2.870 seconds, 11 hier comps, 159 elements, no cycles
+velocity controller: 0.874 seconds, 6 hier comps, 60 elements, 1 abs cycle, 2 total cycles
+gamma_chi_controller: 2.044 seconds, 7 hier comps, 134 elements, no cycles
+gamma_chi_mu_sensor: 1.311 seconds, 8 hier comps, 100 elements, no cycles
+toplevel: 129.746 seconds, visited 42 hier comps, 1695 elts processed, 18 abs cycles, 870 cycles
+
+The whole shebang:
+toplevel: 96.159 seconds, 42 hier comps, 554 elements, 19 total abstract cycles,
+872 total cycles 
+
+
+Last call:
+
+omega_controller: 0.889 seconds, 9 hier comps, 80 elements, no cycles
+alpha_beta_mu_controller: 2.060 seconds, 11 hier comps, 159 elements, no cycles
+velocity controller: 0.780 seconds, 6 hier comps, 60 elements, 1 abs cycle, 2 total cycles
+gamma_chi_controller: 1.575 seconds, 7 hier comps, 134 elements, no cycles
+gamma_chi_mu_sensor: 1.248 seconds, 8 hier comps, 100 elements, no cycles
+toplevel: 55.053 seconds, visited 42 hier comps, 21 elts processed, 18 abs cycles, 54 cycles
+
+The whole shebang:
+toplevel: 60.450 seconds, 42 hier comps, 554 elements, 19 abstract cycles, 56 total cycles

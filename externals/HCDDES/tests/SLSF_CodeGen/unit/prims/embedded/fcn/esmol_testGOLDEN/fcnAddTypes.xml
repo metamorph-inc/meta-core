@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <Dataflow name="Dataflow">
+    <Subsystem BlockType="Model" Deadline="0" Description="" Name="fcn" Period="0" Priority="0" SampleTime="111.00" Tag="" UserData="" name="fcn">
+      <Line Name="" _id="idC" dstLine_end_="idD" srcLine_end_="idB"/>
+      <Line Name="" _id="idF" dstLine_end_="id4" srcLine_end_="ide"/>
+      <Line Name="" _id="id11" dstLine_end_="id12" srcLine_end_="idB"/>
+      <Line Name="" _id="id14" dstLine_end_="id7" srcLine_end_="id13"/>
+      <Line Name="" _id="id16" dstLine_end_="id17" srcLine_end_="idB"/>
+      <Line Name="" _id="id19" dstLine_end_="id8" srcLine_end_="id18"/>
+      <OutputPort Number="1" _id="id4" name="Out2" srcLine="idF">
+        <TypeBaseRef MemberIndex="0" _id="id4C" name="MdoubleC1C1M" ref="id21"/>
+      </OutputPort>
+      <OutputPort Number="2" _id="id7" name="Out3" srcLine="id14">
+        <TypeBaseRef MemberIndex="0" _id="id5e" name="MdoubleC1C1M" ref="id21"/>
+      </OutputPort>
+      <OutputPort Number="3" _id="id8" name="Out4" srcLine="id19">
+        <TypeBaseRef MemberIndex="0" _id="id6e" name="MdoubleC1C1M" ref="id21"/>
+      </OutputPort>
+      <Primitive BlockType="Constant" Description="" Name="Constant" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Constant">
+        <OutputPort Number="1" _id="idB" dstLine="idC id11 id16" name="Out_1">
+          <TypeBaseRef MemberIndex="0" _id="id2F" name="MdoubleC1C6M" ref="id2e"/>
+        </OutputPort>
+        <Parameter Value="Use specified scaling" name="ConRadixGroup"/>
+        <Parameter Value="inf" name="FramePeriod"/>
+        <Parameter Value="sfix(16)" name="OutDataType"/>
+        <Parameter Value="Inherit from 'Constant value'" name="OutDataTypeMode"/>
+        <Parameter Value="2^0" name="OutScaling"/>
+        <Parameter Value="Sample based" name="SamplingMode"/>
+        <Parameter Value="[0 1 2 3 4 5]" name="Value"/>
+        <Parameter Value="off" name="VectorParams1D"/>
+      </Primitive>
+      <Primitive BlockType="Fcn" Description="" Name="Fcn" Priority="0" SampleTime="-1.00" Tag="" UserData="" name="Fcn">
+        <InputPort Number="1" _id="idD" name="In_1" srcLine="idC">
+          <TypeBaseRef MemberIndex="0" _id="id36" name="MdoubleC1C6M" ref="id2e"/>
+        </InputPort>
+        <OutputPort Number="1" _id="ide" dstLine="idF" name="Out_1">
+          <TypeBaseRef MemberIndex="0" _id="id4A" name="MdoubleC1C1M" ref="id21"/>
+        </OutputPort>
+        <Parameter Value="u(1) &amp;&amp; u(3) || u(2)" name="Expr"/>
+      </Primitive>
+      <Primitive BlockType="Fcn" Description="" Name="Fcn1" Priority="0" SampleTime="-1.00" Tag="" UserData="" name="Fcn1">
+        <InputPort Number="1" _id="id12" name="In_1" srcLine="id11">
+          <TypeBaseRef MemberIndex="0" _id="id34" name="MdoubleC1C6M" ref="id2e"/>
+        </InputPort>
+        <OutputPort Number="1" _id="id13" dstLine="id14" name="Out_1">
+          <TypeBaseRef MemberIndex="0" _id="id5C" name="MdoubleC1C1M" ref="id21"/>
+        </OutputPort>
+        <Parameter Value="u(2)*u(4)^u(2)" name="Expr"/>
+      </Primitive>
+      <Primitive BlockType="Fcn" Description="" Name="Fcn2" Priority="0" SampleTime="-1.00" Tag="" UserData="" name="Fcn2">
+        <InputPort Number="1" _id="id17" name="In_1" srcLine="id16">
+          <TypeBaseRef MemberIndex="0" _id="id38" name="MdoubleC1C6M" ref="id2e"/>
+        </InputPort>
+        <OutputPort Number="1" _id="id18" dstLine="id19" name="Out_1">
+          <TypeBaseRef MemberIndex="0" _id="id6C" name="MdoubleC1C1M" ref="id21"/>
+        </OutputPort>
+        <Parameter Value="u(3)-u(6)" name="Expr"/>
+      </Primitive>
+    </Subsystem>
+  </Dataflow>
+
+  <Stateflow name="Stateflow"/>
+
+  <Types name="Types">
+    <Matrix Type="double" _id="id21" columns="1" name="MdoubleC1C1M" referedbyTypeStructRef="id4A id4C id5C id5e id6C id6e" rows="1"/>
+    <Matrix Type="double" _id="id2e" columns="6" name="MdoubleC1C6M" referedbyTypeStructRef="id2F id34 id36 id38" rows="1"/>
+  </Types>
+
+</RootFolder>

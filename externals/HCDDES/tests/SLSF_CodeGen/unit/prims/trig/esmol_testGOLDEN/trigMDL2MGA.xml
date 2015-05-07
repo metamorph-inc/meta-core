@@ -1,0 +1,233 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="trig" name="trig" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id16" Name="" dstLine_end_="id17" srcLine_end_="id12"/>
+			<Line _id="id19" Name="" dstLine_end_="id4" srcLine_end_="id18"/>
+			<Line _id="id1b" Name="" dstLine_end_="id1c" srcLine_end_="id12"/>
+			<Line _id="id1e" Name="" dstLine_end_="id5" srcLine_end_="id1d"/>
+			<Line _id="id20" Name="" dstLine_end_="id21" srcLine_end_="id12"/>
+			<Line _id="id23" Name="" dstLine_end_="ide" srcLine_end_="id22"/>
+			<Line _id="id25" Name="" dstLine_end_="id26" srcLine_end_="id12"/>
+			<Line _id="id28" Name="" dstLine_end_="idf" srcLine_end_="id27"/>
+			<Line _id="id2a" Name="" dstLine_end_="id2b" srcLine_end_="id12"/>
+			<Line _id="id2d" Name="" dstLine_end_="id10" srcLine_end_="id2c"/>
+			<Line _id="id2f" Name="" dstLine_end_="id30" srcLine_end_="id12"/>
+			<Line _id="id32" Name="" dstLine_end_="id6" srcLine_end_="id31"/>
+			<Line _id="id34" Name="" dstLine_end_="id35" srcLine_end_="id12"/>
+			<Line _id="id37" Name="" dstLine_end_="id7" srcLine_end_="id36"/>
+			<Line _id="id39" Name="" dstLine_end_="id3a" srcLine_end_="id12"/>
+			<Line _id="id3c" Name="" dstLine_end_="id8" srcLine_end_="id3b"/>
+			<Line _id="id3e" Name="" dstLine_end_="id3f" srcLine_end_="id12"/>
+			<Line _id="id41" Name="" dstLine_end_="id9" srcLine_end_="id40"/>
+			<Line _id="id43" Name="" dstLine_end_="id44" srcLine_end_="id12"/>
+			<Line _id="id45" Name="" dstLine_end_="id46" srcLine_end_="id14"/>
+			<Line _id="id48" Name="" dstLine_end_="ida" srcLine_end_="id47"/>
+			<Line _id="id4a" Name="" dstLine_end_="id4b" srcLine_end_="id12"/>
+			<Line _id="id4d" Name="" dstLine_end_="idb" srcLine_end_="id4c"/>
+			<Line _id="id4f" Name="" dstLine_end_="id50" srcLine_end_="id12"/>
+			<Line _id="id52" Name="" dstLine_end_="idc" srcLine_end_="id51"/>
+			<Line _id="id54" Name="" dstLine_end_="id55" srcLine_end_="id12"/>
+			<Line _id="id57" Name="" dstLine_end_="idd" srcLine_end_="id56"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id19"/>
+			<OutputPort _id="id5" name="Out2" Number="2" srcLine="id1e"/>
+			<OutputPort _id="id6" name="Out3" Number="3" srcLine="id32"/>
+			<OutputPort _id="id7" name="Out4" Number="4" srcLine="id37"/>
+			<OutputPort _id="id8" name="Out5" Number="5" srcLine="id3c"/>
+			<OutputPort _id="id9" name="Out6" Number="6" srcLine="id41"/>
+			<OutputPort _id="ida" name="Out7" Number="7" srcLine="id48"/>
+			<OutputPort _id="idb" name="Out8" Number="8" srcLine="id4d"/>
+			<OutputPort _id="idc" name="Out9" Number="9" srcLine="id52"/>
+			<OutputPort _id="idd" name="Out10" Number="10" srcLine="id57"/>
+			<OutputPort _id="ide" name="Out11" Number="11" srcLine="id23"/>
+			<OutputPort _id="idf" name="Out12" Number="12" srcLine="id28"/>
+			<OutputPort _id="id10" name="Out13" Number="13" srcLine="id2d"/>
+			<Primitive Tag="" Name="Trigonometric
+Function" name="Trigonometric
+Function" Period="0" Deadline="0" Priority="0" BlockType="Trigonometry" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id17" name="In_1" Number="1" srcLine="id16"/>
+				<OutputPort _id="id18" name="Out_1" Number="1" dstLine="id19"/>
+				<Parameter name="Operator" Value="sin"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+			</Primitive>
+			<Primitive Tag="" Name="Trigonometric
+Function1" name="Trigonometric
+Function1" Period="0" Deadline="0" Priority="0" BlockType="Trigonometry" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id1c" name="In_1" Number="1" srcLine="id1b"/>
+				<OutputPort _id="id1d" name="Out_1" Number="1" dstLine="id1e"/>
+				<Parameter name="Operator" Value="cos"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+			</Primitive>
+			<Primitive Tag="" Name="Trigonometric
+Function10" name="Trigonometric
+Function10" Period="0" Deadline="0" Priority="0" BlockType="Trigonometry" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id21" name="In_1" Number="1" srcLine="id20"/>
+				<OutputPort _id="id22" name="Out_1" Number="1" dstLine="id23"/>
+				<Parameter name="Operator" Value="asinh"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+			</Primitive>
+			<Primitive Tag="" Name="Trigonometric
+Function11" name="Trigonometric
+Function11" Period="0" Deadline="0" Priority="0" BlockType="Trigonometry" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id26" name="In_1" Number="1" srcLine="id25"/>
+				<OutputPort _id="id27" name="Out_1" Number="1" dstLine="id28"/>
+				<Parameter name="Operator" Value="acosh"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+			</Primitive>
+			<Primitive Tag="" Name="Trigonometric
+Function12" name="Trigonometric
+Function12" Period="0" Deadline="0" Priority="0" BlockType="Trigonometry" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id2b" name="In_1" Number="1" srcLine="id2a"/>
+				<OutputPort _id="id2c" name="Out_1" Number="1" dstLine="id2d"/>
+				<Parameter name="Operator" Value="atanh"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+			</Primitive>
+			<Primitive Tag="" Name="Trigonometric
+Function2" name="Trigonometric
+Function2" Period="0" Deadline="0" Priority="0" BlockType="Trigonometry" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id30" name="In_1" Number="1" srcLine="id2f"/>
+				<OutputPort _id="id31" name="Out_1" Number="1" dstLine="id32"/>
+				<Parameter name="Operator" Value="tan"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+			</Primitive>
+			<Primitive Tag="" Name="Trigonometric
+Function3" name="Trigonometric
+Function3" Period="0" Deadline="0" Priority="0" BlockType="Trigonometry" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id35" name="In_1" Number="1" srcLine="id34"/>
+				<OutputPort _id="id36" name="Out_1" Number="1" dstLine="id37"/>
+				<Parameter name="Operator" Value="asin"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+			</Primitive>
+			<Primitive Tag="" Name="Trigonometric
+Function4" name="Trigonometric
+Function4" Period="0" Deadline="0" Priority="0" BlockType="Trigonometry" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id3a" name="In_1" Number="1" srcLine="id39"/>
+				<OutputPort _id="id3b" name="Out_1" Number="1" dstLine="id3c"/>
+				<Parameter name="Operator" Value="acos"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+			</Primitive>
+			<Primitive Tag="" Name="Trigonometric
+Function5" name="Trigonometric
+Function5" Period="0" Deadline="0" Priority="0" BlockType="Trigonometry" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id3f" name="In_1" Number="1" srcLine="id3e"/>
+				<OutputPort _id="id40" name="Out_1" Number="1" dstLine="id41"/>
+				<Parameter name="Operator" Value="atan"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+			</Primitive>
+			<Primitive Tag="" Name="Trigonometric
+Function6" name="Trigonometric
+Function6" Period="0" Deadline="0" Priority="0" BlockType="Trigonometry" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id44" name="In_1" Number="1" srcLine="id43"/>
+				<InputPort _id="id46" name="In_2" Number="2" srcLine="id45"/>
+				<OutputPort _id="id47" name="Out_1" Number="1" dstLine="id48"/>
+				<Parameter name="Operator" Value="atan2"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+			</Primitive>
+			<Primitive Tag="" Name="Trigonometric
+Function7" name="Trigonometric
+Function7" Period="0" Deadline="0" Priority="0" BlockType="Trigonometry" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id4b" name="In_1" Number="1" srcLine="id4a"/>
+				<OutputPort _id="id4c" name="Out_1" Number="1" dstLine="id4d"/>
+				<Parameter name="Operator" Value="sinh"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+			</Primitive>
+			<Primitive Tag="" Name="Trigonometric
+Function8" name="Trigonometric
+Function8" Period="0" Deadline="0" Priority="0" BlockType="Trigonometry" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id50" name="In_1" Number="1" srcLine="id4f"/>
+				<OutputPort _id="id51" name="Out_1" Number="1" dstLine="id52"/>
+				<Parameter name="Operator" Value="cosh"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+			</Primitive>
+			<Primitive Tag="" Name="Trigonometric
+Function9" name="Trigonometric
+Function9" Period="0" Deadline="0" Priority="0" BlockType="Trigonometry" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id55" name="In_1" Number="1" srcLine="id54"/>
+				<OutputPort _id="id56" name="Out_1" Number="1" dstLine="id57"/>
+				<Parameter name="Operator" Value="tanh"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+			</Primitive>
+			<System Tag="" Name="Counter" name="Counter" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<Line _id="id5c" Name="" dstLine_end_="id5d" srcLine_end_="id5b"/>
+				<Line _id="id5f" Name="" dstLine_end_="id60" srcLine_end_="id5e"/>
+				<Line _id="id62" Name="" dstLine_end_="id12" srcLine_end_="id61"/>
+				<Line _id="id65" Name="" dstLine_end_="id66" srcLine_end_="id64"/>
+				<OutputPort _id="id12" name="ctr" Number="1" dstLine="id16 id1b id20 id25 id2a id2f id34 id39 id3e id43 id4a id4f id54" srcLine="id62"/>
+				<Parameter name="ExecuteAtInitialization" Value="off"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id60" name="In_1" Number="1" srcLine="id5f"/>
+					<OutputPort _id="id64" name="Out_1" Number="1" dstLine="id65"/>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="" Name="Ground" name="Ground" Period="0" Deadline="0" Priority="0" BlockType="Ground" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<OutputPort _id="id5b" name="Out_1" Number="1" dstLine="id5c"/>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function trig 1" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id68" ref="id67" name="Counter"/>
+					<InputPort _id="id5d" name="In_1" Number="1" srcLine="id5c"/>
+					<OutputPort _id="id5e" name="Out_1" Number="1" dstLine="id5f"/>
+					<OutputPort _id="id61" name="Out_2" Number="2" dstLine="id62"/>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id66" name="In_1" Number="1" srcLine="id65"/>
+				</Primitive>
+			</System>
+			<System Tag="" Name="ReverseCounter" name="ReverseCounter" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<Line _id="id6f" Name="" dstLine_end_="id70" srcLine_end_="id6e"/>
+				<Line _id="id72" Name="" dstLine_end_="id73" srcLine_end_="id71"/>
+				<Line _id="id75" Name="" dstLine_end_="id14" srcLine_end_="id74"/>
+				<Line _id="id78" Name="" dstLine_end_="id79" srcLine_end_="id77"/>
+				<OutputPort _id="id14" name="rctr" Number="1" dstLine="id45" srcLine="id75"/>
+				<Parameter name="ExecuteAtInitialization" Value="off"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id73" name="In_1" Number="1" srcLine="id72"/>
+					<OutputPort _id="id77" name="Out_1" Number="1" dstLine="id78"/>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="" Name="Ground" name="Ground" Period="0" Deadline="0" Priority="0" BlockType="Ground" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<OutputPort _id="id6e" name="Out_1" Number="1" dstLine="id6f"/>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function trig 2" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id7b" ref="id7a" name="ReverseCounter"/>
+					<InputPort _id="id70" name="In_1" Number="1" srcLine="id6f"/>
+					<OutputPort _id="id71" name="Out_1" Number="1" dstLine="id72"/>
+					<OutputPort _id="id74" name="Out_2" Number="2" dstLine="id75"/>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id79" name="In_1" Number="1" srcLine="id78"/>
+				</Primitive>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow">
+		<State Name="" name="TopLevel" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+			<State _id="id67" Name="Counter" name="Counter" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" referedbyConnectorRef="id68">
+				<Data Max="" Min="" Name="ctr" Port="1" name="ctr" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="1" ArrayFirstIndex="0"/>
+				<State _id="id69" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id80 id81" srcTransition="id7e id80 id81"/>
+				<TransStart _id="id7f" dstTransition="id7e"/>
+				<Transition _id="id7e" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id69" srcTransition_end_="id7f"/>
+				<Transition _id="id80" name="" Guard="ctr &lt;6.2831853 " Order="1" Action="ctr = ctr+0.01;" Trigger="" ConditionAction="" dstTransition_end_="id69" srcTransition_end_="id69"/>
+				<Transition _id="id81" name="" Guard="ctr >= 6.2831853" Order="2" Action="ctr = -6.2831853;" Trigger="" ConditionAction="" dstTransition_end_="id69" srcTransition_end_="id69"/>
+			</State>
+			<State _id="id7a" Name="ReverseCounter" name="ReverseCounter" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" referedbyConnectorRef="id7b">
+				<Data Max="" Min="" Name="rctr" Port="1" name="rctr" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="1" ArrayFirstIndex="0"/>
+				<State _id="id7c" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id82 id83" srcTransition="id82 id83 id84"/>
+				<TransStart _id="id85" dstTransition="id84"/>
+				<Transition _id="id82" name="" Guard="rctr >-6.2831853 " Order="1" Action="rctr = rctr-0.02;" Trigger="" ConditionAction="" dstTransition_end_="id7c" srcTransition_end_="id7c"/>
+				<Transition _id="id83" name="" Guard="rctr &lt;= -6.2831853" Order="2" Action="rctr = 6.2831853;" Trigger="" ConditionAction="" dstTransition_end_="id7c" srcTransition_end_="id7c"/>
+				<Transition _id="id84" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id7c" srcTransition_end_="id85"/>
+			</State>
+		</State>
+	</Stateflow>
+</RootFolder>
+
+

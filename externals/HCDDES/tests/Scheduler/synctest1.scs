@@ -1,0 +1,26 @@
+Resolution 1ms
+
+% Test bus synchronization
+
+Proc P1 100MHz 0s 0s
+Comp C1 =1Hz 0.1s
+Comp C2 =1Hz 0.1s
+
+Proc P2 100MHz 0s 0s
+Comp C1 =1Hz 0.1s
+Comp C2 =1Hz 0.1s
+
+Proc P3 100MHz 0s 0s
+Comp C1 =1Hz 0.1s
+Comp C2 =1Hz 0.1s
+
+Bus B12 1Mb 0us P1 P2
+Sync MS12 10us 0us 20us
+Msg M1 2B P1/C1 P2/C2
+Msg M2 2B P2/C1 P1/C2
+
+Bus B23 1Mb 0us P2 P3
+Sync MS23 10us 893ms
+Msg M3 2B P2/C1 P3/C1
+Msg M4 2B P3/C2 P2/C2
+

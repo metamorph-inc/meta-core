@@ -1,0 +1,23 @@
+#from DiscreteZFunction import DiscreteZFunction
+#from GetCoefficients import GetCoefficients
+#from MatLabHelper import *
+#
+#set $Gain = $float(  str( $parameters.Gain )  )
+#set $Zeros = $MatLabStringToNumList(  str( $parameters.Zeros )  )
+#set $Zeros = [ -$x for $x in $Zeros ]
+#set $NumeratorCoefficientValues = $GetCoefficients( $Zeros )
+#set $NumeratorCoefficientValues = [ $x * $Gain for $x in $NumeratorCoefficientValues ]
+#set $NumeratorCoefficients = $block.createContextVariable(   "NumeratorCoefficients", $Array(  $len( $NumeratorCoefficientValues ), $output.type  )   )
+$NumeratorCoefficients.setInitialValue(  str( $NumeratorCoefficientValues )  )#slurp
+#
+#set $Poles = $MatLabStringToNumList(  str( $parameters.Poles )  )
+#set $Poles = [ -$x for $x in $Poles ]
+#set $DenominatorCoefficientValues = $GetCoefficients( $Poles )
+#set $DenominatorCoefficients = $block.createContextVariable(   "DenominatorCoefficients", $Array(  $len( $DenominatorCoefficientValues ), $output.type  )   )
+$DenominatorCoefficients.setInitialValue(  str( $DenominatorCoefficientValues )  )#slurp
+#
+#set $nd = { 'NumeratorCoefficients':$NumeratorCoefficients, 'DenominatorCoefficients':$DenominatorCoefficients }
+#set $newSearchList = $searchList()
+$newSearchList.append( $nd )#slurp
+#set $discreteZFunction = $DiscreteZFunction( searchList=$newSearchList )
+$discreteZFunction.respond()

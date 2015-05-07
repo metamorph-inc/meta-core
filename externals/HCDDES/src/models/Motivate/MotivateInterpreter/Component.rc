@@ -1,0 +1,196 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "1 TYPELIB ""ComponentLib.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "FileDescription", "Interpreter Module"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "Interpreter"
+            VALUE "LegalCopyright", "Copyright 2000"
+            VALUE "OriginalFilename", "Interpreter.DLL"
+            VALUE "ProductName", "Interpreter Module"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_COMPICON            ICON                    "compicon.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MAIN_DIALOG DIALOGEX 0, 0, 332, 412
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Action Execution"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Execute",IDOK,221,391,50,14
+    PUSHBUTTON      "Close",IDCANCEL,275,391,50,14
+    RTEXT           "Select Process",IDC_STATIC,33,10,56,9
+    RTEXT           "Set Initial Action",IDC_STATIC,32,30,56,9
+    CONTROL         "Halt Execution on Error",IDC_ERRORHALT_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,42,312,90,10
+    GROUPBOX        "",IDC_STATIC,33,329,266,57
+    CONTROL         "Save Scipt to File",IDC_SAVESCRIPT_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,42,328,71,10
+    CONTROL         "Only Generate Script (Don't Execute)",IDC_SAVEONLY_CHECK,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,42,344,135,10
+    EDITTEXT        IDC_SCRIPTPATH_EDIT,77,362,165,14,ES_AUTOHSCROLL | WS_DISABLED
+    PUSHBUTTON      "Browse",IDC_SCRIPTPATH_BUTTON,245,362,50,14,WS_DISABLED
+    LTEXT           "Script Path",IDC_SCRIPTPATH_LABEL,38,364,36,8,WS_DISABLED
+    COMBOBOX        IDC_PROCESS_COMBO,92,7,210,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_INITACTION_COMBO,92,27,210,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_ACTION_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,25,53,274,248
+END
+
+IDD_RESULTS_DIALOG DIALOGEX 0, 0, 369, 411
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_WINDOWEDGE
+CAPTION "Script / Results"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Close",IDCANCEL,312,390,50,14
+    EDITTEXT        IDC_RESULTS_EDIT,7,211,355,174,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_SCRIPT_EDIT,7,17,355,174,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Script",IDC_STATIC,7,7,101,8
+    LTEXT           "Results",IDC_STATIC,7,201,105,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_MAIN_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 325
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 405
+    END
+
+    IDD_RESULTS_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 362
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 404
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_ACTIONLISTIMGS      BITMAP                  "bitmap1.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_PROJNAME            "Component"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "ComponentLib.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,87 @@
+
+%
+%  $Description: FRED Toolchain paper for RTAS 2008$
+%
+%  $Author: volgy $
+%  $Date: 2007/10/09 15:20:59 $
+%  $Revision: 1 $
+%
+
+\documentclass[times, 10pt,twocolumn]{article}
+\usepackage{latex8}
+\usepackage{times}
+\usepackage{graphicx}
+
+%\documentstyle[times,art10,twocolumn,latex8]{article}
+
+%-------------------------------------------------------------------------
+% take the % away on next line to produce the final camera-ready version
+\pagestyle{empty}
+
+%-------------------------------------------------------------------------
+\begin{document}
+
+\title{Towards a Model-based Toolchain for the \\
+High-Confidence Design of Embedded Systems}
+
+\author{P\'{e}ter V\"{o}lgyesi, G\'{a}bor Karsai,  Sandeep Neema, Harmon Nine, \\
+Joseph Porter, Ryan Thibodeaux,  and J\'{a}nos Sztipanovits \\
+Institute for Software Integrated Systems \\
+Vanderbilt University\\
+Nashville, TN 37235, USA \\
+peter.volgyesi@vanderbilt.edu\\
+}
+\maketitle
+\thispagestyle{empty}
+\begin{abstract}
+While design automation for hardware systems is quite advanced,
+this is not the case for practical embedded systems. The current
+state-of-the-art is to use a software modeling environment
+and integrated development environment for code development and debugging, but
+these rarely include the sort of automatic synthesis and
+verification capabilities available in the VLSI domain. This paper
+introduces concepts, elements, and some early prototypes for
+an envisioned suite of tools for the development of embedded
+software that integrates verification steps into the overall
+process.
+\end{abstract}
+
+\Section{Introduction}
+\input{introduction.tex}
+
+\Section{The vision}
+\input{vision.tex}
+
+\Section{Elements of the toolchain}
+Below, we describe the implemented elements of the toolchain. Figure \ref{fig:existing} illustrates the toolchain as it exists today, and it shows how the services needed (e.g. scheduling, code generation) are implemented by specific elements.
+
+\begin{figure}[h]
+   \includegraphics[width=0.9\columnwidth]{existing}
+   \caption{Existing elements of the toolchain.}
+   \label{fig:existing}
+\end{figure}
+
+%-------------------------------------------------------------------------
+\SubSection{Platforms}
+\input{ttplatform.tex}
+\input{frodoplatform.tex}
+
+\SubSection{Modeling languages}
+\input{modlang.tex}
+
+\SubSection{Generators}
+\input{generators.tex}
+
+\Section{Related work}
+\input{relatedwork.tex}
+
+\Section{Future work}
+\input{futurework.tex}
+
+\Section{Acknowledgements}
+This work was sponsored (in part) by the Air Force Office of Scientific Research, USAF, under grant/contract number FA9550-06-0312.  The views and conclusions contained herein are those of the authors and should not be interpreted as necessarily representing the official policies or endorsements, either expressed or implied, of the Air Force Office of Scientific Research or the U.S. Government.
+%-------------------------------------------------------------------------
+\bibliographystyle{latex8}
+\bibliography{rtas_2008}
+
+\end{document}

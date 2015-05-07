@@ -1,0 +1,25 @@
+\section{Conclusions}
+\label{S:conclusions}
+From Fig.~\ref{F:four_tank_nonmin_phase_x2} it is clear that IDA-PBC
+can achieve superior tracking performance when compared to the
+decentralized controller for the \nonminimum-phase four tank process.
+Unlike the decentralized controller we 
+evaluated, the IDA-PBC provides both explicit constraints on allowable
+controller gains and set-point trajectories $x^*$ which can be
+enforced at run-time.  We clarified how to correctly determine if
+$Q_d < 0$ and verified correct constraints on $k_i$ and
+$k_{\mathsf{I}}$ for the four tank process which were
+incorrectly determined in
+\cite{johnsen07:_inter_and_dampin_assig_passiv} which allowed us to
+provide new results showing a working controller for the non-minimum phase
+four-tank system.  We further improved
+system resilience by implementing a 
+feasible integrator anti-windup compensator as demonstrated in the
+full-scale step responses of the two-tank process depicted in 
+Fig.~\ref{F:two_tank_x1} and Fig.~\ref{F:two_tank_x2}.  The explicit 
+solution for $u^*=-l$ and the uncontrollable components of $x^*$
+clearly provide visual indications about actuator degradation and
+uncertainty in $\gamma$ for the coupled tank processes we studied.
+Finally, we demonstrated that the bilinear transform can be used to
+achieve moderately large sample times $T_s = .1$ second which will
+reduce both computational and communication demands.

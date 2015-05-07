@@ -1,0 +1,190 @@
+Global resolution: 1e-006 secs
+INU: 1e+008 1e-006 1e-006
+INU/IA: =10 0.01
+INU/IB: =20 0.005
+INU/IC: =20 0.005
+INU/IC1: =20 0.005
+PCS: 1e+008 1e-006 1e-006
+PCS/PD: =10 0.01
+PCS/PE: =20 0.01
+PCS/PE1: =20 0.01
+ADMS: 1e+008 1e-006 1e-006
+ADMS/AF: =20 0.01
+ADMS/AF1: =20 0.01
+ADMS/AF2: =40 0.005
+GPS: 1e+008 1e-006 1e-006
+GPS/GG: =20 0.01
+BUS: 1e+007 1e-006
+BUS/M1: 16384 INU/IA
+Rcvr BUS/M1 PCS/PD
+BUS/M2: 16384 PCS/PD
+Rcvr BUS/M2 INU/IA
+BUS/M3: 16384 INU/IB
+Rcvr BUS/M3 PCS/PE
+Rcvr BUS/M3 ADMS/AF
+BUS/M4: 16384 PCS/PE
+Rcvr BUS/M4 INU/IB
+Rcvr BUS/M4 INU/IC
+BUS/M5: 16384 INU/IC
+Rcvr BUS/M5 PCS/PE
+Rcvr BUS/M5 ADMS/AF
+BUS/M6: 16384 ADMS/AF
+Rcvr BUS/M6 INU/IB
+Rcvr BUS/M6 INU/IC
+BUS/M7: 16384 GPS/GG
+Rcvr BUS/M7 ADMS/AF
+BUS/M8: 16384 ADMS/AF1
+Rcvr BUS/M8 PCS/PE
+BUS/M9: 16384 ADMS/AF
+Rcvr BUS/M9 PCS/PD
+BUS/M10: 16384 PCS/PD
+Rcvr BUS/M10 ADMS/AF1
+BUS/M11: 16384 PCS/PE
+Rcvr BUS/M11 ADMS/AF
+Resolution 1e-006 (sec), hp 0.1 (sec) ticks:100000
+Task ADMS/AF 2 instances 10000 ticks long
+Ordering...
+x = ADMS/AF_0 y = ADMS/AF_1 offset 50000
+Duration bound...
+ADMS/AF_1 dur 10000
+Task ADMS/AF1 2 instances 10000 ticks long
+Ordering...
+x = ADMS/AF1_0 y = ADMS/AF1_1 offset 50000
+Duration bound...
+ADMS/AF1_1 dur 10000
+Task ADMS/AF2 4 instances 5000 ticks long
+Ordering...
+x = ADMS/AF2_0 y = ADMS/AF2_1 offset 25000
+x = ADMS/AF2_1 y = ADMS/AF2_2 offset 25000
+x = ADMS/AF2_2 y = ADMS/AF2_3 offset 25000
+Duration bound...
+ADMS/AF2_3 dur 5000
+Serializing...
+ADMS/AF_0 dur 10000
+ADMS/AF_1 dur 10000
+ADMS/AF1_0 dur 10000
+ADMS/AF1_1 dur 10000
+ADMS/AF2_0 dur 5000
+ADMS/AF2_1 dur 5000
+ADMS/AF2_2 dur 5000
+ADMS/AF2_3 dur 5000
+Task GPS/GG 2 instances 10000 ticks long
+Ordering...
+x = GPS/GG_0 y = GPS/GG_1 offset 50000
+Duration bound...
+GPS/GG_1 dur 10000
+Serializing...
+GPS/GG_0 dur 10000
+GPS/GG_1 dur 10000
+Task INU/IA 1 instances 10000 ticks long
+Task INU/IB 2 instances 5000 ticks long
+Ordering...
+x = INU/IB_0 y = INU/IB_1 offset 50000
+Duration bound...
+INU/IB_1 dur 5000
+Task INU/IC 2 instances 5000 ticks long
+Ordering...
+x = INU/IC_0 y = INU/IC_1 offset 50000
+Duration bound...
+INU/IC_1 dur 5000
+Task INU/IC1 2 instances 5000 ticks long
+Ordering...
+x = INU/IC1_0 y = INU/IC1_1 offset 50000
+Duration bound...
+INU/IC1_1 dur 5000
+Serializing...
+INU/IA_0 dur 10000
+INU/IB_0 dur 5000
+INU/IB_1 dur 5000
+INU/IC_0 dur 5000
+INU/IC_1 dur 5000
+INU/IC1_0 dur 5000
+INU/IC1_1 dur 5000
+Task PCS/PD 1 instances 10000 ticks long
+Task PCS/PE 2 instances 10000 ticks long
+Ordering...
+x = PCS/PE_0 y = PCS/PE_1 offset 50000
+Duration bound...
+PCS/PE_1 dur 10000
+Task PCS/PE1 2 instances 10000 ticks long
+Ordering...
+x = PCS/PE1_0 y = PCS/PE1_1 offset 50000
+Duration bound...
+PCS/PE1_1 dur 10000
+Serializing...
+PCS/PD_0 dur 10000
+PCS/PE_0 dur 10000
+PCS/PE_1 dur 10000
+PCS/PE1_0 dur 10000
+PCS/PE1_1 dur 10000
+Msg BUS/M1 1 instances 1639 ticks long
+Msg BUS/M2 1 instances 1639 ticks long
+Msg BUS/M3 1 instances 1639 ticks long
+Msg BUS/M4 1 instances 1639 ticks long
+Msg BUS/M5 1 instances 1639 ticks long
+Msg BUS/M6 1 instances 1639 ticks long
+Msg BUS/M7 1 instances 1639 ticks long
+Msg BUS/M8 1 instances 1639 ticks long
+Msg BUS/M9 1 instances 1639 ticks long
+Msg BUS/M10 1 instances 1639 ticks long
+Msg BUS/M11 1 instances 1639 ticks long
+Serializing...
+BUS/M1_0 dur 1639
+BUS/M2_0 dur 1639
+BUS/M3_0 dur 1639
+BUS/M4_0 dur 1639
+BUS/M5_0 dur 1639
+BUS/M6_0 dur 1639
+BUS/M7_0 dur 1639
+BUS/M8_0 dur 1639
+BUS/M9_0 dur 1639
+BUS/M10_0 dur 1639
+BUS/M11_0 dur 1639
+Stats: Search Stats
+
+Initial
+	propagators:   49
+	branchings:    2
+
+Summary
+	propagations:  516700
+	failures:      168328
+	clones:        168350
+	commits:       336678
+	peak memory:   6626 KB
+
+Solution1_14024
+ADMS/AF_0: 19999
+ADMS/AF_1: 69999
+ADMS/AF1_0: 29999
+ADMS/AF1_1: 79999
+ADMS/AF2_0: 14999
+ADMS/AF2_1: 39999
+ADMS/AF2_2: 64999
+ADMS/AF2_3: 89999
+GPS/GG_0: 19999
+GPS/GG_1: 69999
+INU/IA_0: 49999
+INU/IB_0: 22499
+INU/IB_1: 72499
+INU/IC_0: 27499
+INU/IC_1: 77499
+INU/IC1_0: 17499
+INU/IC1_1: 67499
+PCS/PD_0: 49999
+PCS/PE_0: 19999
+PCS/PE_1: 69999
+PCS/PE1_0: 29999
+PCS/PE1_1: 79999
+BUS/M1_0: 49999
+BUS/M2_0: 51638
+BUS/M3_0: 48360
+BUS/M4_0: 53277
+BUS/M5_0: 46721
+BUS/M6_0: 54916
+BUS/M7_0: 45082
+BUS/M8_0: 56555
+BUS/M9_0: 43443
+BUS/M10_0: 58194
+BUS/M11_0: 41804
+

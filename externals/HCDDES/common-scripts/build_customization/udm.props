@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup
+    Condition="'$(udm_RuleBeforeTargets)' == '' and '$(udm_RuleAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <udm_RuleBeforeTargets>CustomBuild</udm_RuleBeforeTargets>
+    <udm_RuleAfterTargets></udm_RuleAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <udm_RuleDependsOn
+      Condition="'$(ConfigurationType)' != 'Makefile'">_SelectedFiles;$(udm_RuleDependsOn)</udm_RuleDependsOn>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <udm>
+      <MetaName></MetaName>
+      <OutDir>%(RelativeDir)</OutDir>
+      <IntegrateXSD>False</IntegrateXSD>
+      <CommandLineTemplate>Udm.exe &quot;%(Identity)&quot; [AllOptions]</CommandLineTemplate>
+      <ExecutionDescription>Udm.exe &quot;%(Identity)&quot;</ExecutionDescription>
+      <ShowOnlyRuleProperties>false</ShowOnlyRuleProperties>
+    </udm>
+  </ItemDefinitionGroup>
+</Project>

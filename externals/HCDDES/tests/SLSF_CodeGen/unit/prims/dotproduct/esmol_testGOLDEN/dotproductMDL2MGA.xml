@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="Newdotproduct00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="dotproduct" Period="0" Priority="0" SampleTime="0.00" Tag="" UserData="" name="dotproduct">
+          <Line Name="" _id="idB" dstLine_end_="idC" srcLine_end_="idA"/>
+          <Line Name="" _id="ide" dstLine_end_="idF" srcLine_end_="idD"/>
+          <Line Name="" _id="id11" dstLine_end_="id4" srcLine_end_="id10"/>
+          <OutputPort Number="1" _id="id4" name="Out1" srcLine="id11"/>
+          <Primitive BlockType="Constant" Description="" Name="Constant" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Constant">
+            <OutputPort Number="1" _id="idA" dstLine="idB" name="Out_1"/>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit from 'Constant value'" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="[1 2 3]" name="Value"/>
+            <Parameter Value="off" name="VectorParams1D"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant1" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Constant1">
+            <OutputPort Number="1" _id="idD" dstLine="ide" name="Out_1"/>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit from 'Constant value'" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="[4;5;6]" name="Value"/>
+            <Parameter Value="on" name="VectorParams1D"/>
+          </Primitive>
+          <Primitive BlockType="DotProduct" Description="" Name="Dot Product" Priority="0" SampleTime="-1.00" Tag="" UserData="" name="Dot Product">
+            <InputPort Number="1" _id="idC" name="In_1" srcLine="idB"/>
+            <InputPort Number="2" _id="idF" name="In_2" srcLine="ide"/>
+            <OutputPort Number="1" _id="id10" dstLine="id11" name="Out_1"/>
+            <Parameter Value="on" name="InputSameDT"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit via internal rule" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Floor" name="RndMeth"/>
+            <Parameter Value="off" name="SaturateOnIntegerOverflow"/>
+          </Primitive>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow name="Stateflow"/>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types"/>
+
+</RootFolder>

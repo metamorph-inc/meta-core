@@ -1,0 +1,2617 @@
+Model {
+  Name			  "fixedphone"
+  Version		  6.3
+  MdlSubVersion		  0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.40"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SavedCharacterEncoding  "windows-1252"
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Thu Aug 02 16:16:13 2007"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "hnine"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Mon Aug 06 10:38:51 2007"
+  ModelVersionFormat	  "1.%<AutoIncrement:40>"
+  ConfigurationManager	  "None"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  StrictBusMsg		  "Warning"
+  ProdHWDeviceType	  "32-bit Generic"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.1.0"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.1.0"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "ode45"
+	  SolverName		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.1.0"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SignalLogging		  on
+	  InspectSignalLogs	  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    5
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.1.0"
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	  BufferReusableBoundary  on
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.1.0"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "Use local settings"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.1.0"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.1.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.1.0"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  TargetLang		  "C"
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		9
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.1.0"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		12
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.1.0"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "arial"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+      SampleTime	      "inf"
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchByCopyingInsideSignal off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      SFunctionModules	      "''"
+      PortCounts	      "[]"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Switch
+      Criteria		      "u2 >= Threshold"
+      Threshold		      "0"
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Terminator
+    }
+    Block {
+      BlockType		      TriggerPort
+      TriggerType	      "rising"
+      StatesWhenEnabling      "inherit"
+      ShowOutputPort	      off
+      OutputDataType	      "auto"
+      SampleTimeType	      "triggered"
+      SampleTime	      "1"
+      ZeroCross		      on
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "arial"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "arial"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "fixedphone"
+    Location		    [2, 82, 582, 652]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "80"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "FixedPhone"
+      Ports		      [0, 0, 0, 1]
+      Position		      [335, 619, 395, 671]
+      TreatAsAtomicUnit	      on
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      MaskHideContents	      off
+      MaskType		      "Stateflow"
+      MaskDescription	      "Stateflow diagram"
+      MaskDisplay	      "plot(sf('Private','sfblk','xIcon'),sf('Private'"
+",'sfblk','yIcon'));text(0.5,0,sf('Private', 'sfblk', 'tIcon'),'HorizontalAl',"
+"'Center','VerticalAl','Bottom');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      off
+      MaskIconOpaque	      off
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"FixedPhone"
+	Location		[257, 457, 812, 717]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  TriggerPort
+	  Name			  " input events "
+	  Ports			  [0, 1]
+	  Position		  [20, 101, 40, 119]
+	  TriggerType		  "either"
+	  ShowOutputPort	  on
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  " Demux "
+	  Ports			  [1, 1]
+	  Position		  [270, 100, 320, 140]
+	  Outputs		  "1"
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  " SFunction "
+	  Tag			  "Stateflow S-Function fixedphone 1"
+	  Ports			  [1, 1]
+	  Position		  [180, 100, 230, 140]
+	  FunctionName		  "sf_sfun"
+	  PortCounts		  "[1 1]"
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  " Terminator "
+	  Position		  [460, 111, 480, 129]
+	}
+	Line {
+	  SrcBlock		  " Demux "
+	  SrcPort		  1
+	  DstBlock		  " Terminator "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  " SFunction "
+	  SrcPort		  1
+	  DstBlock		  " Demux "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  " input events "
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux"
+      Ports		      [12, 1]
+      Position		      [196, 555, 534, 560]
+      Orientation	      "down"
+      NamePlacement	      "alternate"
+      ShowName		      off
+      Inputs		      "12"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "after"
+      Ports		      [2, 1]
+      Position		      [135, 367, 165, 403]
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "busy"
+      Ports		      [2, 1]
+      Position		      [605, 162, 635, 198]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "callee"
+      Ports		      [2, 1]
+      Position		      [135, 472, 165, 508]
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "connected"
+      Ports		      [2, 1]
+      Position		      [462, 110, 498, 140]
+      Orientation	      "down"
+      NamePlacement	      "alternate"
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "dialDigit"
+      Ports		      [2, 1]
+      Position		      [262, 110, 298, 140]
+      Orientation	      "down"
+      NamePlacement	      "alternate"
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "disconnect"
+      Ports		      [2, 1]
+      Position		      [135, 267, 165, 303]
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "incompleteNumber"
+      Ports		      [2, 1]
+      Position		      [585, 267, 615, 303]
+      Orientation	      "left"
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "invalidNumber"
+      Ports		      [2, 1]
+      Position		      [585, 477, 615, 513]
+      Orientation	      "left"
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "neg1"
+      Position		      [35, 195, 65, 225]
+      Value		      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "neg10"
+      Position		      [435, 25, 465, 55]
+      Orientation	      "down"
+      NamePlacement	      "alternate"
+      Value		      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "neg11"
+      Position		      [680, 140, 710, 170]
+      Orientation	      "left"
+      Value		      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "neg2"
+      Position		      [35, 295, 65, 325]
+      Value		      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "neg3"
+      Position		      [35, 395, 65, 425]
+      Value		      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "neg4"
+      Position		      [35, 500, 65, 530]
+      Value		      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "neg5"
+      Position		      [235, 25, 265, 55]
+      Orientation	      "down"
+      NamePlacement	      "alternate"
+      Value		      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "neg7"
+      Position		      [680, 295, 710, 325]
+      Orientation	      "left"
+      Value		      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "neg8"
+      Position		      [680, 400, 710, 430]
+      Orientation	      "left"
+      Value		      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "neg9"
+      Position		      [680, 505, 710, 535]
+      Orientation	      "left"
+      Value		      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "pos1"
+      Position		      [35, 145, 65, 175]
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "pos10"
+      Position		      [495, 25, 525, 55]
+      Orientation	      "down"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "pos11"
+      Position		      [680, 190, 710, 220]
+      Orientation	      "left"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "pos2"
+      Position		      [35, 245, 65, 275]
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "pos3"
+      Position		      [35, 345, 65, 375]
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "pos4"
+      Position		      [35, 450, 65, 480]
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "pos5"
+      Position		      [295, 25, 325, 55]
+      Orientation	      "down"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "pos7"
+      Position		      [680, 245, 710, 275]
+      Orientation	      "left"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "pos8"
+      Position		      [680, 350, 710, 380]
+      Orientation	      "left"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "pos9"
+      Position		      [680, 455, 710, 485]
+      Orientation	      "left"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "receiver"
+      Ports		      [2, 1]
+      Position		      [135, 167, 165, 203]
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "0"
+      action		      "0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "validNumber"
+      Ports		      [2, 1]
+      Position		      [585, 372, 615, 408]
+      Orientation	      "left"
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Line {
+      SrcBlock		      "pos1"
+      SrcPort		      1
+      Points		      [25, 0; 0, 15]
+      DstBlock		      "receiver"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "neg1"
+      SrcPort		      1
+      Points		      [25, 0; 0, -15]
+      DstBlock		      "receiver"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "pos2"
+      SrcPort		      1
+      Points		      [25, 0; 0, 15]
+      DstBlock		      "disconnect"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "neg2"
+      SrcPort		      1
+      Points		      [25, 0; 0, -15]
+      DstBlock		      "disconnect"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "pos3"
+      SrcPort		      1
+      Points		      [25, 0; 0, 15]
+      DstBlock		      "after"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "neg3"
+      SrcPort		      1
+      Points		      [25, 0; 0, -15]
+      DstBlock		      "after"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "pos4"
+      SrcPort		      1
+      Points		      [25, 0; 0, 15]
+      DstBlock		      "callee"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "neg4"
+      SrcPort		      1
+      Points		      [25, 0; 0, -15]
+      DstBlock		      "callee"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "neg5"
+      SrcPort		      1
+      Points		      [0, 20; 20, 0]
+      DstBlock		      "dialDigit"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "pos5"
+      SrcPort		      1
+      Points		      [0, 20; -20, 0]
+      DstBlock		      "dialDigit"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "pos7"
+      SrcPort		      1
+      Points		      [-20, 0; 0, 15]
+      DstBlock		      "incompleteNumber"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "neg7"
+      SrcPort		      1
+      Points		      [-20, 0; 0, -15]
+      DstBlock		      "incompleteNumber"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "pos8"
+      SrcPort		      1
+      Points		      [-20, 0; 0, 15]
+      DstBlock		      "validNumber"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "neg8"
+      SrcPort		      1
+      Points		      [-20, 0; 0, -15]
+      DstBlock		      "validNumber"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "pos9"
+      SrcPort		      1
+      Points		      [-20, 0; 0, 15]
+      DstBlock		      "invalidNumber"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "neg9"
+      SrcPort		      1
+      Points		      [-20, 0; 0, -15]
+      DstBlock		      "invalidNumber"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "neg10"
+      SrcPort		      1
+      Points		      [0, 20; 20, 0]
+      DstBlock		      "connected"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "pos10"
+      SrcPort		      1
+      Points		      [0, 20; -20, 0]
+      DstBlock		      "connected"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "neg11"
+      SrcPort		      1
+      Points		      [-25, 0]
+      DstBlock		      "busy"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "pos11"
+      SrcPort		      1
+      Points		      [-25, 0]
+      DstBlock		      "busy"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "callee"
+      SrcPort		      1
+      Points		      [30, 0]
+      Branch {
+	DstBlock		"Mux"
+	DstPort			1
+      }
+      Branch {
+	Points			[30, 0]
+	DstBlock		"Mux"
+	DstPort			2
+      }
+    }
+    Line {
+      SrcBlock		      "after"
+      SrcPort		      1
+      Points		      [90, 0]
+      DstBlock		      "Mux"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "disconnect"
+      SrcPort		      1
+      Points		      [120, 0]
+      DstBlock		      "Mux"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "receiver"
+      SrcPort		      1
+      Points		      [150, 0]
+      Branch {
+	DstBlock		"Mux"
+	DstPort			5
+      }
+      Branch {
+	Points			[30, 0]
+	DstBlock		"Mux"
+	DstPort			6
+      }
+    }
+    Line {
+      SrcBlock		      "dialDigit"
+      SrcPort		      1
+      Points		      [0, 15; 100, 0]
+      DstBlock		      "Mux"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "connected"
+      SrcPort		      1
+      Points		      [0, 15; -70, 0]
+      DstBlock		      "Mux"
+      DstPort		      8
+    }
+    Line {
+      SrcBlock		      "busy"
+      SrcPort		      1
+      Points		      [0, 35; -160, 0]
+      DstBlock		      "Mux"
+      DstPort		      9
+    }
+    Line {
+      SrcBlock		      "incompleteNumber"
+      SrcPort		      1
+      Points		      [-110, 0]
+      DstBlock		      "Mux"
+      DstPort		      10
+    }
+    Line {
+      SrcBlock		      "validNumber"
+      SrcPort		      1
+      Points		      [-80, 0]
+      DstBlock		      "Mux"
+      DstPort		      11
+    }
+    Line {
+      SrcBlock		      "invalidNumber"
+      SrcPort		      1
+      Points		      [-50, 0]
+      DstBlock		      "Mux"
+      DstPort		      12
+    }
+    Line {
+      SrcBlock		      "Mux"
+      SrcPort		      1
+      DstBlock		      "FixedPhone"
+      DstPort		      trigger
+    }
+  }
+}
+
+# Finite State Machines
+#
+#    Stateflow Version 6.2 (R14SP2) dated Aug  4 2005, 10:13:39
+#
+#
+
+Stateflow {
+
+	machine {
+		id                   		1
+		name                 		"fixedphone"
+		created              		"02-Aug-2007 16:58:38"
+		isLibrary            		0
+		firstTarget          		76
+		sfVersion            		62014000
+	}
+
+	chart {
+		id                                        		2
+		name                                      		"FixedPhone"
+		windowPosition                            		[1.5 51.75 963 658.5]
+		viewLimits                                		[220.929 1615.811 0 944.332]
+		zoomFactor                                		1.517
+		screen                                    		[1 1 1280 1024 1.333333333333333]
+		treeNode                                  		[0 4 0 0]
+		firstTransition                           		38
+		viewObj                                   		2
+		visible                                   		1
+		machine                                   		1
+		subviewS {
+		}
+		decomposition                             		CLUSTER_CHART
+		firstEvent                                		62
+		chartFileNumber                           		1
+		disableImplicitCasting                    		1
+	}
+
+	state {
+		id                           		3
+		labelString                  		"Idle\n"
+						"en: idling()"
+		position                     		[40.9363 419.4465 316.033 189.7035]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 25 4 0]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		4
+		labelString                  		"Active\n"
+						"en: turnOnDisplay()\n"
+						"ex: turnOffDisplay()"
+		position                     		[446.6769 120.1582 1169.1336 799.8844]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 17 0 3]
+		firstTransition              		46
+		subviewer                    		2
+		subviewS {
+			x1        		-12.688
+			y1        		188.25
+			pos       		[0 0 627.375 615]
+		}
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		5
+		labelString                  		"DialTone\n"
+						"du: playDialTone()"
+		position                     		[480.0026 449.5864 269.1873 150.9818]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 24 7 12]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		6
+		labelString                  		"Timeout\n"
+						"du: playMessage()"
+		position                     		[510.0451 202.7246 408.6588 168.423]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 20 11 18]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		7
+		labelString                  		"Dialing"
+		position                     		[934.3953 432.1245 271 181.5]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 9 18 5]
+		firstTransition              		43
+		subviewer                    		2
+		subviewS {
+			x1        		-15
+			y1        		-15
+			pos       		[0 0 121.125 78.375]
+		}
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		8
+		labelString                  		"Send"
+		position                     		[957.0828 481.9995 55.625 27.375]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[7 0 9 10]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		9
+		labelString                  		"Wait"
+		position                     		[1097.6039 472.6909 56.375 31.125]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[7 0 0 8]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		10
+		labelString                  		"Receive"
+		position                     		[1073.3766 563.6066 63.125 28.125]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[7 0 8 0]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		11
+		labelString                  		"Invalid\n"
+						"du: playMessage()"
+		position                     		[958.7595 202.7246 286.7715 161.6985]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 21 17 6]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		12
+		labelString                  		"Connecting\n"
+						"en: System.out.println( \"connecting..\" );"
+		position                     		[910.6895 654.5021 264.5035 64.4055]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 0 5 16]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		13
+		labelString                  		"Busy\n"
+						"du: playBusyTone()"
+		position                     		[1276.344 736.0275 292.3504 152.9306]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 22 16 14]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		14
+		labelString                  		"Ringing\n"
+						"du: playRingTone()"
+		position                     		[691.5423 748.8109 532.0985 152.3362]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 23 13 15]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		15
+		labelString                  		"Talking"
+		position                     		[488.2823 825.9915 74.375 35.625]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 0 14 0]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		16
+		labelString                  		"Pinned"
+		position                     		[494.0323 711.2415 71.375 38.625]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 0 12 13]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		17
+		labelString                  		"turnOnDisplay"
+		position                     		[1352.3913 191.5073 236.3186 95.5384]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 0 0 11]
+		firstTransition              		53
+		firstJunction                		26
+		subviewer                    		2
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		18
+		labelString                  		"turnOffDisplay"
+		position                     		[1351.0639 338.043 236.6979 88.7119]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 0 6 7]
+		firstTransition              		54
+		firstJunction                		27
+		subviewer                    		2
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		19
+		labelString                  		"enableSpeech"
+		position                     		[959.6779 802.6845 245.0414 76.1966]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[14 0 23 0]
+		firstTransition              		55
+		firstJunction                		28
+		subviewer                    		2
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		20
+		labelString                  		"playMessage"
+		position                     		[529.2291 251.4173 372.8486 90.9874]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[6 0 0 0]
+		firstTransition              		56
+		firstJunction                		29
+		subviewer                    		2
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		21
+		labelString                  		"playMessage"
+		position                     		[978.3515 254.4458 249.4028 88.143]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[11 0 0 0]
+		firstTransition              		57
+		firstJunction                		30
+		subviewer                    		2
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		22
+		labelString                  		"playBusyTone"
+		position                     		[1290.6868 787.9082 261.3491 78.4721]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[13 0 0 0]
+		firstTransition              		49
+		firstJunction                		31
+		subviewer                    		2
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		23
+		labelString                  		"playRingTone"
+		position                     		[708.7821 802.659 242.197 75.6278]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[14 0 0 19]
+		firstTransition              		59
+		firstJunction                		32
+		subviewer                    		2
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		24
+		labelString                  		"playDialTone"
+		position                     		[491.7035 501.6536 242.9555 83.592]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[5 0 0 0]
+		firstTransition              		60
+		firstJunction                		33
+		subviewer                    		2
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	state {
+		id                           		25
+		labelString                  		"idling"
+		position                     		[61.6324 472.0816 270.2615 91.5562]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[3 0 0 0]
+		firstTransition              		61
+		firstJunction                		34
+		subviewer                    		2
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			fimathString    		"fimath(...\n"
+								"'RoundMode', 'floor',...\n"
+								"'OverflowMode', 'wrap',...\n"
+								"'ProductMode', 'KeepLSB', 'ProductWordLength', 32,..."
+								"\n"
+								"'SumMode', 'KeepLSB', 'SumWordLength', 32,...\n"
+								"'CastBeforeSum', false)"
+			treatIntsAsFixpt		0
+		}
+	}
+
+	junction {
+		id         		26
+		position   		[1562.5534 252.2854 7]
+		chart      		2
+		linkNode   		[17 0 0]
+		subviewer  		2
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	junction {
+		id         		27
+		position   		[1564.243 394.6297 7]
+		chart      		2
+		linkNode   		[18 0 0]
+		subviewer  		2
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	junction {
+		id         		28
+		position   		[1185.1486 853.0136 7]
+		chart      		2
+		linkNode   		[19 0 0]
+		subviewer  		2
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	junction {
+		id         		29
+		position   		[887.4714 297.1954 7]
+		chart      		2
+		linkNode   		[20 0 0]
+		subviewer  		2
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	junction {
+		id         		30
+		position   		[1206.2456 302.4593 7]
+		chart      		2
+		linkNode   		[21 0 0]
+		subviewer  		2
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	junction {
+		id         		31
+		position   		[1532.1024 833.9707 7]
+		chart      		2
+		linkNode   		[22 0 0]
+		subviewer  		2
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	junction {
+		id         		32
+		position   		[922.411 854.3179 7]
+		chart      		2
+		linkNode   		[23 0 0]
+		subviewer  		2
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	junction {
+		id         		33
+		position   		[714.4344 550.4682 7]
+		chart      		2
+		linkNode   		[24 0 0]
+		subviewer  		2
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	junction {
+		id         		34
+		position   		[309.5834 523.7406 7]
+		chart      		2
+		linkNode   		[25 0 0]
+		subviewer  		2
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		35
+		labelPosition  		[23.538 510.977 9.098 18.169]
+		fontSize       		12
+		src {
+			intersection		[0 1 0 0 10.1863 526.1547 0 0]
+		}
+		dst {
+			id          		3
+			intersection		[4 -1 0 0.4375 40.9363 526.1547 0 0]
+		}
+		midPoint       		[21.9691 526.1547]
+		chart          		2
+		linkNode       		[2 36 37]
+		visible        		0
+		dataLimits     		[10.186 40.936 523.755 528.555]
+		subviewer      		2
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	transition {
+		id             		36
+		labelString    		"liftReceiver\n"
+						"/System.out.println( \"lifted receiver\" );"
+		labelPosition  		[213.386 299.581 206.97 34.066]
+		fontSize       		12
+		src {
+			id          		3
+			intersection		[1 0 -1 0.7408 275.0511 419.4465 0 -176.7699]
+		}
+		dst {
+			id          		4
+			intersection		[4 -1 0 0.7253 446.6769 339.9028 0 174.3954]
+		}
+		midPoint       		[337.5694 354.5079]
+		chart          		2
+		linkNode       		[2 38 35]
+		dataLimits     		[275.051 446.677 337.503 419.447]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		37
+		labelString    		"hangupReceiver"
+		labelPosition  		[311.775 688.451 92.113 18.169]
+		fontSize       		12
+		src {
+			id          		4
+			intersection		[4 -1 0 0.2948 446.6769 684.2417 0 -169.9434]
+		}
+		dst {
+			id          		3
+			intersection		[3 0 1 0.2376 281.8776 609.15 0 169.9434]
+		}
+		midPoint       		[337.2943 672.0867]
+		chart          		2
+		linkNode       		[2 35 0]
+		dataLimits     		[279.478 446.677 609.15 684.242]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		DST_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		38
+		labelString    		"disconnect"
+		labelPosition  		[340.809 96.966 62.546 18.169]
+		fontSize       		12
+		src {
+			id          		4
+			intersection		[4 -1 0 0.8482 446.6769 241.5807 0 0]
+		}
+		dst {
+			id          		4
+			intersection		[1 0 -1 0.1168 583.2317 120.1582 0 0]
+		}
+		midPoint       		[410.554 109.224]
+		chart          		2
+		linkNode       		[2 0 36]
+		dataLimits     		[399.985 585.632 70.28 241.581]
+		stampAngle     		NaN
+		subviewer      		2
+		slide {
+			sticky        		SRC_STICK
+			midPointSticky		1
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		39
+		labelPosition  		[619.445 594.959 9.098 18.169]
+		fontSize       		12
+		src {
+			intersection		[0 0 -1 0.5184 619.8447 653.4431 0 0]
+		}
+		dst {
+			id          		5
+			intersection		[3 0 1 0.4805 619.8454 600.5681 0 0]
+		}
+		midPoint       		[619.8447 630.1168]
+		chart          		2
+		linkNode       		[4 47 48]
+		dataLimits     		[617.445 622.245 600.568 653.443]
+		subviewer      		2
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	transition {
+		id             		40
+		labelString    		"after"
+		labelPosition  		[572.346 399.804 28.43 18.169]
+		fontSize       		12
+		src {
+			id          		5
+			intersection		[1 0 -1 0.4539 602.1814 449.5864 0 4.1773]
+		}
+		dst {
+			id          		6
+			intersection		[3 0 1 0.7745 602.1814 371.1476 0 -4.1773]
+		}
+		midPoint       		[602.1814 412.9225]
+		chart          		2
+		linkNode       		[4 46 42]
+		dataLimits     		[599.781 604.581 371.148 449.586]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		41
+		labelString    		"dialDigit"
+		labelPosition  		[826.362 477.918 43.214 18.169]
+		fontSize       		12
+		src {
+			id          		5
+			intersection		[2 1 0 0.2927 749.1899 493.7835 0 -1.9035]
+		}
+		dst {
+			id          		8
+			intersection		[4 -1 0 0.5695 957.0828 493.7835 0 2.7786]
+		}
+		midPoint       		[853.395 493.7835]
+		chart          		2
+		linkNode       		[4 42 47]
+		dataLimits     		[749.19 957.083 491.383 496.183]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		42
+		labelString    		"after"
+		labelPosition  		[885.534 423.151 28.43 18.169]
+		fontSize       		12
+		src {
+			id          		7
+			intersection		[4 -1 0 0.8233 934.3953 464.202 0 -32.0775]
+		}
+		dst {
+			id          		6
+			intersection		[3 0 1 0.1676 850.2109 371.1476 0 68.493]
+		}
+		midPoint       		[874.5845 435.2395]
+		chart          		2
+		linkNode       		[4 40 41]
+		dataLimits     		[847.811 934.395 371.148 464.202]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		43
+		labelString    		"dialDigit"
+		labelPosition  		[1045.624 443.499 43.214 18.169]
+		fontSize       		12
+		src {
+			id          		9
+			intersection		[1 0 -1 0.5133 1126.5412 472.6909 0 60.0625]
+		}
+		dst {
+			id          		8
+			intersection		[1 0 -1 0.6818 995.0079 481.9995 0 -28.5741]
+		}
+		midPoint       		[1059.72 440.5343]
+		chart          		2
+		linkNode       		[7 0 45]
+		dataLimits     		[992.608 1126.541 440.542 482]
+		stampAngle     		NaN
+		subviewer      		2
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		44
+		labelPosition  		[1035.053 551.839 9.098 18.169]
+		fontSize       		12
+		src {
+			id          		8
+			intersection		[3 0 1 0.3439 993.5809 509.3745 0 19.1269]
+		}
+		dst {
+			id          		10
+			intersection		[4 -1 0 0.5333 1073.3766 576.7326 0 -13.1259]
+		}
+		midPoint       		[1018.2236 557.7105]
+		chart          		2
+		linkNode       		[7 45 0]
+		dataLimits     		[993.581 1073.377 509.375 579.133]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		45
+		labelString    		"incompleteNumber"
+		labelPosition  		[1029.247 522.023 102.348 18.169]
+		fontSize       		12
+		src {
+			id          		10
+			intersection		[1 0 -1 0.7574 1121.185 563.6066 0 -4.6064]
+		}
+		dst {
+			id          		9
+			intersection		[3 0 1 0.2549 1139.6109 503.8159 0 -13.8196]
+		}
+		midPoint       		[1130.9984 536.7023]
+		chart          		2
+		linkNode       		[7 43 44]
+		dataLimits     		[1121.185 1142.011 503.816 563.607]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		3
+	}
+
+	transition {
+		id             		46
+		labelString    		"invalidNumber"
+		labelPosition  		[1248.9 428.466 78.467 18.169]
+		fontSize       		12
+		src {
+			id          		10
+			intersection		[2 1 0 0.6728 1136.5016 582.528 0 50.4839]
+		}
+		dst {
+			id          		11
+			intersection		[3 0 1 0.2006 1188.0016 364.4231 0 -83.0625]
+		}
+		midPoint       		[1276.8671 525.6405]
+		chart          		2
+		linkNode       		[4 0 40]
+		dataLimits     		[1136.502 1279.151 364.423 582.528]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+			midPointSticky		1
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		47
+		labelString    		"validNumber"
+		labelPosition  		[1052.994 626.983 69.369 18.169]
+		fontSize       		12
+		src {
+			id          		10
+			intersection		[3 0 1 0.6174 1097.5307 591.7316 0 7.4084]
+		}
+		dst {
+			id          		12
+			intersection		[1 0 -1 0.8281 1129.7281 654.5021 0 24.789]
+		}
+		midPoint       		[1114.6787 620.1364]
+		chart          		2
+		linkNode       		[4 41 39]
+		dataLimits     		[1097.531 1132.128 591.732 654.502]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		48
+		labelString    		"busy"
+		labelPosition  		[1297.862 684.686 29.567 18.169]
+		fontSize       		12
+		src {
+			id          		12
+			intersection		[2 1 0 0.596 1175.193 692.8897 0 -26.0179]
+		}
+		dst {
+			id          		13
+			intersection		[1 0 -1 0.0935 1303.6878 736.0275 0 27.3438]
+		}
+		midPoint       		[1259.8033 693.9577]
+		chart          		2
+		linkNode       		[4 39 58]
+		dataLimits     		[1175.193 1306.088 691.939 736.028]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		49
+		labelString    		"{ System.out.println( \"beep beep beep..\" ); }"
+		labelPosition  		[1304.351 805.09 239.949 18.169]
+		fontSize       		12
+		src {
+			intersection		[0 1 0 0 1311.9478 833.9707 0 0]
+		}
+		dst {
+			id          		31
+			intersection		[0 -1 0 -1 1525.1024 833.9707 0 0]
+		}
+		midPoint       		[1418.8982 833.9707]
+		chart          		2
+		linkNode       		[22 0 0]
+		dataLimits     		[1311.948 1525.102 831.571 836.371]
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		50
+		labelString    		"calleeAnswers\n"
+						"/enableSpeech()"
+		labelPosition  		[576.849 862.408 93.25 34.066]
+		fontSize       		12
+		src {
+			id          		14
+			intersection		[4 -1 0 0.3184 691.5423 852.6501 0 -1.3125]
+		}
+		dst {
+			id          		15
+			intersection		[2 1 0 0.7483 562.6573 852.6501 0 1.3125]
+		}
+		midPoint       		[628.5586 852.6501]
+		chart          		2
+		linkNode       		[4 52 0]
+		dataLimits     		[562.657 691.542 850.25 855.05]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		51
+		labelString    		"calleeHangsUp"
+		labelPosition  		[418.646 773.344 84.153 18.169]
+		fontSize       		12
+		src {
+			id          		15
+			intersection		[1 0 -1 0.2577 507.4524 825.9915 0 -18.0174]
+		}
+		dst {
+			id          		16
+			intersection		[3 0 1 0.812 507.4524 749.8665 0 18.3759]
+		}
+		midPoint       		[507.4524 790.5348]
+		chart          		2
+		linkNode       		[4 58 52]
+		dataLimits     		[505.052 509.852 749.867 825.992]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		52
+		labelString    		"calleeAnswers"
+		labelPosition  		[548.828 795.59 86.427 18.169]
+		fontSize       		12
+		src {
+			id          		16
+			intersection		[3 0 1 0.2567 547.084 749.8665 0 -21.6143]
+		}
+		dst {
+			id          		15
+			intersection		[1 0 -1 0.7906 547.084 825.9915 0 21.6226]
+		}
+		midPoint       		[547.084 785.3232]
+		chart          		2
+		linkNode       		[4 51 50]
+		dataLimits     		[544.684 549.484 749.867 825.992]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		53
+		labelString    		"{ System.out.println( \"display on\" ); }"
+		labelPosition  		[1370.238 225.274 200.147 18.169]
+		fontSize       		12
+		src {
+			intersection		[0 1 0 0 1374.2283 252.2854 0 0]
+		}
+		dst {
+			id          		26
+			intersection		[0 -1 0 -1 1555.5534 252.2854 0 0]
+		}
+		midPoint       		[1464.572 252.2854]
+		chart          		2
+		linkNode       		[17 0 0]
+		dataLimits     		[1374.228 1555.553 249.885 254.685]
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		54
+		labelString    		"{ System.out.println( \"display off\" ); }"
+		labelPosition  		[1369.015 364.08 202.422 18.169]
+		fontSize       		12
+		src {
+			intersection		[0 1 0 0 1375.5556 394.6297 0 0]
+		}
+		dst {
+			id          		27
+			intersection		[0 -1 0 -1 1557.243 394.6297 0 0]
+		}
+		midPoint       		[1466.0883 394.6297]
+		chart          		2
+		linkNode       		[18 0 0]
+		dataLimits     		[1375.556 1557.243 392.23 397.03]
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		55
+		labelString    		"{ System.out.println( \"enable speech\" ); }"
+		labelPosition  		[969.758 826.575 225.166 18.169]
+		fontSize       		12
+		src {
+			intersection		[0 1 0 0 976.2054 853.0136 0 0]
+		}
+		dst {
+			id          		28
+			intersection		[0 -1 0 -1 1178.1486 853.0136 0 0]
+		}
+		midPoint       		[1077.3064 853.0136]
+		chart          		2
+		linkNode       		[19 0 0]
+		dataLimits     		[976.205 1178.149 850.614 855.414]
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		56
+		labelString    		"{ System.out.println(\"timeout, please hang up and try aga"
+						"in\"); }"
+		labelPosition  		[544.2 275.336 342.297 18.169]
+		fontSize       		12
+		src {
+			intersection		[0 1 0 0 544.9823 297.1954 0 0]
+		}
+		dst {
+			id          		29
+			intersection		[0 -1 0 -1 880.4714 297.1954 0 0]
+		}
+		midPoint       		[715.7593 297.1954]
+		chart          		2
+		linkNode       		[20 0 0]
+		dataLimits     		[544.982 880.471 294.795 299.595]
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		57
+		labelString    		"{ System.out.println( \"invalid number\" ); }"
+		labelPosition  		[992.125 277.042 222.891 18.169]
+		fontSize       		12
+		src {
+			intersection		[0 1 0 0 995.8429 302.4593 0 0]
+		}
+		dst {
+			id          		30
+			intersection		[7 -1 0 -1 1199.2456 302.4593 0 0]
+		}
+		midPoint       		[1097.7053 302.4593]
+		chart          		2
+		linkNode       		[21 0 0]
+		dataLimits     		[995.843 1199.246 300.059 304.859]
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		58
+		labelString    		"connected"
+		labelPosition  		[784.422 688.297 60.272 18.169]
+		fontSize       		12
+		src {
+			id          		12
+			intersection		[4 -1 0 0.3156 910.6895 698.5785 0 152.5809]
+		}
+		dst {
+			id          		14
+			intersection		[1 0 -1 0.2028 799.459 748.8109 0 -243.4823]
+		}
+		midPoint       		[836.8844 705.1819]
+		chart          		2
+		linkNode       		[4 48 51]
+		dataLimits     		[797.059 910.69 698.578 748.811]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		59
+		labelString    		"{ System.out.println( \"rring, rring ..\" ); }"
+		labelPosition  		[722.602 827.713 211.519 18.169]
+		fontSize       		12
+		src {
+			intersection		[0 1 0 0 731.8849 854.3179 0 0]
+		}
+		dst {
+			id          		32
+			intersection		[7 -1 0 -1 915.411 854.3179 0 0]
+		}
+		midPoint       		[823.3769 854.3179]
+		chart          		2
+		linkNode       		[23 0 0]
+		dataLimits     		[731.885 915.411 851.918 856.718]
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		60
+		labelString    		"{ System.out.println( \"rrrrrrrrrrrr..\" ); }"
+		labelPosition  		[508.284 523.934 205.833 18.169]
+		fontSize       		12
+		src {
+			intersection		[0 1 0 0 508.8859 550.4682 0 0]
+		}
+		dst {
+			id          		33
+			intersection		[7 -1 0 -1 707.4344 550.4682 0 0]
+		}
+		midPoint       		[608.2157 550.4682]
+		chart          		2
+		linkNode       		[24 0 0]
+		dataLimits     		[508.886 707.434 548.068 552.868]
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		61
+		labelString    		"{ System.out.println( \"I'm idling around\" ); }"
+		labelPosition  		[82.349 498.334 230.852 18.169]
+		fontSize       		12
+		src {
+			intersection		[0 1 0 0 84.0702 523.7406 0 0]
+		}
+		dst {
+			id          		34
+			intersection		[7 -1 0 -1 302.5834 523.7406 0 0]
+		}
+		midPoint       		[193.8164 523.7406]
+		chart          		2
+		linkNode       		[25 0 0]
+		dataLimits     		[84.07 302.583 521.341 526.141]
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+		}
+		executionOrder 		1
+	}
+
+	event {
+		id         		62
+		name       		"calleeAnswers"
+		description		"Callee picks up receiver"
+		linkNode   		[2 0 63]
+		scope      		INPUT_EVENT
+		trigger    		RISING_EDGE_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		63
+		name       		"calleeHangsUp"
+		description		"Callee hangs up receiver"
+		linkNode   		[2 62 64]
+		scope      		INPUT_EVENT
+		trigger    		FALLING_EDGE_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		64
+		name       		"after"
+		description		"15 second timer"
+		linkNode   		[2 63 65]
+		scope      		INPUT_EVENT
+		trigger    		EITHER_EDGE_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		65
+		name       		"disconnect"
+		description		"Call is disconnected"
+		linkNode   		[2 64 66]
+		scope      		INPUT_EVENT
+		trigger    		EITHER_EDGE_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		66
+		name       		"liftReceiver"
+		description		"caller lifts receiver"
+		linkNode   		[2 65 67]
+		scope      		INPUT_EVENT
+		trigger    		RISING_EDGE_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		67
+		name       		"hangupReceiver"
+		description		"Caller hangs up receiver"
+		linkNode   		[2 66 68]
+		scope      		INPUT_EVENT
+		trigger    		FALLING_EDGE_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		68
+		name       		"dialDigit"
+		description		"Caller dials a digit"
+		linkNode   		[2 67 69]
+		scope      		INPUT_EVENT
+		trigger    		EITHER_EDGE_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		69
+		name       		"connected"
+		description		"Call is connected to callee's phone"
+		linkNode   		[2 68 70]
+		scope      		INPUT_EVENT
+		trigger    		EITHER_EDGE_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		70
+		name       		"busy"
+		description		"Callee's phone is busy"
+		linkNode   		[2 69 71]
+		scope      		INPUT_EVENT
+		trigger    		EITHER_EDGE_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		71
+		name       		"checkNumber"
+		description		"Number dialed is checked for completeness and validity"
+		linkNode   		[2 70 72]
+		scope      		INPUT_EVENT
+		trigger    		EITHER_EDGE_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		72
+		name       		"incompleteNumber"
+		description		"Dialed number is not complete"
+		linkNode   		[2 71 73]
+		scope      		INPUT_EVENT
+		trigger    		EITHER_EDGE_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		73
+		name       		"validNumber"
+		description		"Number dialed is valid"
+		linkNode   		[2 72 74]
+		scope      		INPUT_EVENT
+		trigger    		EITHER_EDGE_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		74
+		name       		"invalidNumber"
+		description		"Number dialed is invalid"
+		linkNode   		[2 73 0]
+		scope      		INPUT_EVENT
+		trigger    		EITHER_EDGE_EVENT
+		machine    		1
+	}
+
+	instance {
+		id     		75
+		name   		"FixedPhone"
+		machine		1
+		chart  		2
+	}
+
+	target {
+		id                        		76
+		name                      		"sfun"
+		description               		"Default Simulink S-Function Target."
+		machine                   		1
+		linkNode                  		[1 0 0]
+	}
+}

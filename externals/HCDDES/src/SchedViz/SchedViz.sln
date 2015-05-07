@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ESMoL_Abstract", "..\models\ESMoL_Abstract\ESMoL_Abstract.vcxproj", "{09BABF33-9B15-49C2-B060-27B85FE0B197}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SchedViz", "SchedViz.vcxproj", "{1D45B373-821B-4246-A6A9-B855AF875EF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{848B348B-D2BC-412D-85E7-43BB1872019F}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09BABF33-9B15-49C2-B060-27B85FE0B197}.Debug|Win32.ActiveCfg = Debug|Win32
+		{09BABF33-9B15-49C2-B060-27B85FE0B197}.Debug|Win32.Build.0 = Debug|Win32
+		{09BABF33-9B15-49C2-B060-27B85FE0B197}.Release|Win32.ActiveCfg = Release|Win32
+		{09BABF33-9B15-49C2-B060-27B85FE0B197}.Release|Win32.Build.0 = Release|Win32
+		{1D45B373-821B-4246-A6A9-B855AF875EF5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1D45B373-821B-4246-A6A9-B855AF875EF5}.Debug|Win32.Build.0 = Debug|Win32
+		{1D45B373-821B-4246-A6A9-B855AF875EF5}.Release|Win32.ActiveCfg = Release|Win32
+		{1D45B373-821B-4246-A6A9-B855AF875EF5}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <Dataflow name="Dataflow">
+    <Subsystem BlockType="Model" Deadline="0" Description="" Name="fcn" Period="0" Priority="0" SampleTime="111.00" Tag="" UserData="" name="fcn">
+      <Line Name="" _id="idC" dstLine_end_="idD" srcLine_end_="idB"/>
+      <Line Name="" _id="idF" dstLine_end_="id4" srcLine_end_="ide"/>
+      <Line Name="" _id="id11" dstLine_end_="id12" srcLine_end_="idB"/>
+      <Line Name="" _id="id14" dstLine_end_="id7" srcLine_end_="id13"/>
+      <Line Name="" _id="id16" dstLine_end_="id17" srcLine_end_="idB"/>
+      <Line Name="" _id="id19" dstLine_end_="id8" srcLine_end_="id18"/>
+      <OutputPort Number="1" _id="id4" name="Out2" srcLine="idF"/>
+      <OutputPort Number="2" _id="id7" name="Out3" srcLine="id14"/>
+      <OutputPort Number="3" _id="id8" name="Out4" srcLine="id19"/>
+      <Primitive BlockType="Constant" Description="" Name="Constant" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Constant">
+        <OutputPort Number="1" _id="idB" dstLine="idC id11 id16" name="Out_1"/>
+        <Parameter Value="Use specified scaling" name="ConRadixGroup"/>
+        <Parameter Value="inf" name="FramePeriod"/>
+        <Parameter Value="sfix(16)" name="OutDataType"/>
+        <Parameter Value="Inherit from 'Constant value'" name="OutDataTypeMode"/>
+        <Parameter Value="2^0" name="OutScaling"/>
+        <Parameter Value="Sample based" name="SamplingMode"/>
+        <Parameter Value="[0 1 2 3 4 5]" name="Value"/>
+        <Parameter Value="off" name="VectorParams1D"/>
+      </Primitive>
+      <Primitive BlockType="Fcn" Description="" Name="Fcn" Priority="0" SampleTime="-1.00" Tag="" UserData="" name="Fcn">
+        <InputPort Number="1" _id="idD" name="In_1" srcLine="idC"/>
+        <OutputPort Number="1" _id="ide" dstLine="idF" name="Out_1"/>
+        <Parameter Value="u(1) &amp;&amp; u(3) || u(2)" name="Expr"/>
+      </Primitive>
+      <Primitive BlockType="Fcn" Description="" Name="Fcn1" Priority="0" SampleTime="-1.00" Tag="" UserData="" name="Fcn1">
+        <InputPort Number="1" _id="id12" name="In_1" srcLine="id11"/>
+        <OutputPort Number="1" _id="id13" dstLine="id14" name="Out_1"/>
+        <Parameter Value="u(2)*u(4)^u(2)" name="Expr"/>
+      </Primitive>
+      <Primitive BlockType="Fcn" Description="" Name="Fcn2" Priority="0" SampleTime="-1.00" Tag="" UserData="" name="Fcn2">
+        <InputPort Number="1" _id="id17" name="In_1" srcLine="id16"/>
+        <OutputPort Number="1" _id="id18" dstLine="id19" name="Out_1"/>
+        <Parameter Value="u(3)-u(6)" name="Expr"/>
+      </Primitive>
+    </Subsystem>
+  </Dataflow>
+
+  <Stateflow name="Stateflow"/>
+
+  <Types name="Types"/>
+
+</RootFolder>

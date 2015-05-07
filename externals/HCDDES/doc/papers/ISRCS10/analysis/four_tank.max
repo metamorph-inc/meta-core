@@ -1,0 +1,9 @@
+/* To invoke maxima -b four_tank.max */
+/* Compute misc. quantities for four tank problem using IDA-PBC */
+
+Qd : matrix( [-1/(k1*A1), 0, 1/(k3*A1), 0, 0, 0], [0, -1/(k2*A2), 0, 1/(k4*A2), 0, 0], [0, 0, -1/(k3*A3), 0, 0, 0], [0, 0, 0, -1/(k4*A4), 0, 0], [k5/k1, 0, 0, 0, -k5/k1, 0], [0, k6/k2, 0, 0, 0, -k6/k2] );
+
+gn : matrix( [gamma1/A1, 0], [0, gamma2/A2], [0, (1-gamma2)/A3], [(1-gamma1)/A4, 0], [0, 0], [0, 0] );
+
+/* Hamiltonian */
+

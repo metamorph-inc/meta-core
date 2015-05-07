@@ -1,0 +1,104 @@
+/***********************************************************************************************
+Copyright (C) 2010 Anvesh Komuravelli, Paolo Zuliani and Edmund M. Clarke.  All rights reserved.
+By using this software the USER indicates that he or she has read, understood and will comply
+with the following:
+
+1. The USER is hereby granted non-exclusive permission to use, copy and/or
+modify this software for internal, non-commercial, research purposes only. Any
+distribution, including commercial sale or license, of this software, copies of
+the software, its associated documentation and/or modifications of either is
+strictly prohibited without the prior consent of the authors. Title to copyright
+to this software and its associated documentation shall at all times remain with
+the authors. Appropriated copyright notice shall be placed on all software
+copies, and a complete copy of this notice shall be included in all copies of
+the associated documentation. No right is granted to use in advertising,
+publicity or otherwise any trademark, service mark, or the name of the authors.
+
+2. This software and any associated documentation is provided "as is".
+
+THE AUTHORS MAKE NO REPRESENTATIONS OR WARRANTIES, EXPRESSED OR IMPLIED,
+INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, OR THAT
+USE OF THE SOFTWARE, MODIFICATIONS, OR ASSOCIATED DOCUMENTATION WILL NOT
+INFRINGE ANY PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER INTELLECTUAL PROPERTY
+RIGHTS OF A THIRD PARTY.
+
+The authors shall not be liable under any circumstances for any direct,
+indirect, special, incidental, or consequential damages with respect to any
+claim by USER or any third party on account of or arising from the use, or
+inability to use, this software or its associated documentation, even if the
+authors have been advised of the possibility of those damages.
+***********************************************************************************************/
+
+
+
+
+==============================================================================
+ONLINE MODEL CHECKER FOR BOUNDED LTL (BLTL) PROPERTIES ON TRACES WITH RATIONAL
+TIMESTAMPS
+==============================================================================
+
+
+1. BLTL syntax
+--------------
+
+The properties that can be stated to use with the tool follow the syntax
+
+  P := R or
+       ~P or
+       P & P or
+       P | P or
+       F[T] P or
+       G[T] P or
+       P U[T] P
+
+  R := A == A or
+       A ~= A or
+       A < A or
+       A <= A or
+       A > A or
+       A >= A
+
+  A := S + S or
+       S - S or
+       S * S or
+       S / S
+
+  S := <name of a signal ; alphanumeric case-sensitive character string>
+
+  T := <any `double' value>
+
+If no explicit parantheses are provided, usual precedence of operators is
+followed. For more details, please refer to the parser (parser.ypp).
+
+2. What does each file in the module do?
+----------------------------------------
+
+  lexer.l      :   Lexical analyzer (Flex) for the input BLTL property
+  parser.ypp   :   Bison parser for the input BLTL property
+  parser.hpp   :   Contains all the useful C++ classes for the parser and the model
+                   checker (checker.cpp)
+  checker.cpp  :   Contains the core of the model checker
+  checker.hpp  :   Contains declarations for all the methods defined in
+                   checker.cpp
+  interface.cpp:   Contains the interface methods to be used by an external
+                   software for using the model checker
+  test.cpp     :   Drives a testcase given on command-line
+
+3. How to use?
+--------------
+
+  The most general use is to integrate the too with external software. For that,
+    >cd $CHECKER
+    >make interface
+    Then, compile the external software and link with the object files so
+    generated (namely, interface.o, checker.o, parser.tab.o)
+
+    Note: interface.cpp may need to be changed depending on the language of the
+          external software. Currently, it assumes the external software to use
+          the C language.
+
+  For testing purposes, do
+    >cd $CHECKER
+    >make
+    This creates an executable named `checker' in the directory `$CHECKER'. In
+    order to run it, one needs two files - 1. property file 2. trace file

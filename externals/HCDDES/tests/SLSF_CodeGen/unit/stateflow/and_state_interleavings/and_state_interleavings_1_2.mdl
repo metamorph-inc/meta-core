@@ -1,0 +1,1198 @@
+Model {
+  Name			  "and_state_interleavings_1_2"
+  Version		  6.6
+  MdlSubVersion		  0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    2
+    Outport {
+      BusObject		      ""
+      BusOutputAsStruct	      "off"
+      Name		      "Out1"
+    }
+    Outport {
+      BusObject		      ""
+      BusOutputAsStruct	      "off"
+      Name		      "Out2"
+    }
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.20"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SavedCharacterEncoding  "windows-1252"
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Aug 14 15:19:52 2007"
+  Creator		  "vBuskirk"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "vBuskirk"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu Aug 23 11:50:06 2007"
+  ModelVersionFormat	  "1.%<AutoIncrement:20>"
+  ConfigurationManager	  "None"
+  SimulationMode	  "normal"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  AccelVerboseBuild	  off
+  TryForcingSFcnDF	  off
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  ProdHWDeviceType	  "32-bit Generic"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.2.0"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.2.0"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "1"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "FixedStepDiscrete"
+	  SolverName		  "FixedStepDiscrete"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.2.0"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SignalLogging		  on
+	  InspectSignalLogs	  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    5
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.2.0"
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  ExpressionDepthLimit	  2147483647
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	  BufferReusableBoundary  on
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.2.0"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "UseLocalSettings"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "error"
+	  MultiTaskCondExecSysMsg "error"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  ParameterTunabilityLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "Use local settings"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StateNameClashWarn	  "warning"
+	  StrictBusMsg		  "Warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.2.0"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.2.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.2.0"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  IncludeERTFirstTime	  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		16
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		Cell			"CustomSymbolStrGlobalVar"
+		Cell			"CustomSymbolStrType"
+		Cell			"CustomSymbolStrField"
+		Cell			"CustomSymbolStrFcn"
+		Cell			"CustomSymbolStrBlkIO"
+		Cell			"CustomSymbolStrTmpVar"
+		Cell			"CustomSymbolStrMacro"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.2.0"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      MangleLength	      1
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		15
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"GenerateTestInterfaces"
+		Cell			"ModelStepFunctionPrototypeControlComp"
+"liant"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"PortableWordSizes"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.2.0"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      EnableShiftOperators    on
+	      ParenthesesLevel	      "Nominal"
+	      PortableWordSizes	      off
+	      ModelStepFunctionPrototypeControlCompliant off
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      ExtModeIntrfLevel	      "Level1"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Arial"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      Ground
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      SFunctionModules	      "''"
+      PortCounts	      "[]"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      "FromPortIcon"
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Terminator
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Arial"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    UseDisplayTextAsClickCallback off
+  }
+  LineDefaults {
+    FontName		    "Arial"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "and_state_interleavings_1_2"
+    Location		    [825, 584, 1361, 877]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Chart"
+      Ports		      [0, 2]
+      Position		      [195, 101, 255, 154]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Array {
+	Type			"Handle"
+	Dimension		0
+	PropName		"AvailSigsLoadSave"
+      }
+      MaskHideContents	      off
+      MaskType		      "Stateflow"
+      MaskDescription	      "Stateflow diagram"
+      MaskDisplay	      "plot(sf('Private','sfblk','xIcon'),sf('Private'"
+",'sfblk','yIcon'));text(0.5,0,sf('Private', 'sfblk', 'tIcon'),'HorizontalAl',"
+"'Center','VerticalAl','Bottom');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      off
+      MaskIconOpaque	      off
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Chart"
+	Location		[257, 457, 812, 717]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Demux
+	  Name			  " Demux "
+	  Ports			  [1, 1]
+	  Position		  [270, 180, 320, 220]
+	  Outputs		  "1"
+	}
+	Block {
+	  BlockType		  Ground
+	  Name			  " Ground "
+	  Position		  [20, 131, 40, 149]
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  " SFunction "
+	  Tag			  "Stateflow S-Function and_state_interleaving"
+"s_1_2 1"
+	  Ports			  [1, 3]
+	  Position		  [180, 100, 230, 180]
+	  FunctionName		  "sf_sfun"
+	  PortCounts		  "[1 3]"
+	  Port {
+	    PortNumber		    2
+	    Name		    "data1"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    3
+	    Name		    "data2"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  " Terminator "
+	  Position		  [460, 191, 480, 209]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "data1"
+	  Position		  [460, 101, 480, 119]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "data2"
+	  Position		  [460, 136, 480, 154]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  " Demux "
+	  SrcPort		  1
+	  DstBlock		  " Terminator "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  " SFunction "
+	  SrcPort		  1
+	  Points		  [0, 85]
+	  DstBlock		  " Demux "
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "data1"
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  2
+	  DstBlock		  "data1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  " Ground "
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "data2"
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  3
+	  DstBlock		  "data2"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Outport
+      Name		      "Out1"
+      Position		      [335, 98, 365, 112]
+      IconDisplay	      "Port number"
+      BusOutputAsStruct	      off
+    }
+    Block {
+      BlockType		      Outport
+      Name		      "Out2"
+      Position		      [335, 138, 365, 152]
+      Port		      "2"
+      IconDisplay	      "Port number"
+      BusOutputAsStruct	      off
+    }
+    Line {
+      SrcBlock		      "Chart"
+      SrcPort		      1
+      Points		      [0, -10]
+      DstBlock		      "Out1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Chart"
+      SrcPort		      2
+      Points		      [30, 0; 0, 5]
+      DstBlock		      "Out2"
+      DstPort		      1
+    }
+  }
+}
+
+# Finite State Machines
+#
+#    Stateflow Version 6.6 (R2007a) dated Jan 30 2007, 03:33:34
+#
+#
+
+Stateflow {
+
+	machine {
+		id                   		1
+		name                 		"and_state_interleavings_1_2"
+		created              		"14-Aug-2007 15:20:12"
+		isLibrary            		0
+		firstTarget          		26
+		sfVersion            		66014000
+	}
+
+	chart {
+		id                                        		2
+		name                                      		"Chart"
+		windowPosition                            		[168.75 326.25 945 483]
+		viewLimits                                		[0 780.699 0 387.102]
+		zoomFactor                                		0.866
+		screen                                    		[1 1 1600 1200 1.333333333333333]
+		treeNode                                  		[0 3 0 0]
+		viewObj                                   		2
+		machine                                   		1
+		subviewS {
+			zoomFactor		0.866
+		}
+		decomposition                             		SET_CHART
+		firstData                                 		23
+		chartFileNumber                           		1
+		disableImplicitCasting                    		1
+	}
+
+	state {
+		id                           		3
+		labelString                  		"Parent1"
+		position                     		[15.625 8.625 345.125 277.125]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 6 0 11]
+		subviewer                    		2
+		type                         		AND_STATE
+		decomposition                		SET_STATE
+		executionOrder               		1
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		4
+		labelString                  		"S3"
+		position                     		[27.25 57 327.125 219.375]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[3 7 5 0]
+		firstTransition              		17
+		subviewer                    		2
+		type                         		AND_STATE
+		decomposition                		CLUSTER_STATE
+		executionOrder               		3
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		5
+		labelString                  		"S2\n"
+						"en: data1 = 2;"
+		position                     		[232.1042 22.0625 86.9966 30.5552]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[3 0 6 4]
+		subviewer                    		2
+		type                         		AND_STATE
+		decomposition                		CLUSTER_STATE
+		executionOrder               		2
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		6
+		labelString                  		"S1\n"
+						"en: data1 = 1;"
+		position                     		[93.9688 18.6563 94.8101 30.8892]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[3 0 0 5]
+		subviewer                    		2
+		type                         		AND_STATE
+		decomposition                		CLUSTER_STATE
+		executionOrder               		1
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		7
+		labelString                  		"S3_a"
+		position                     		[176.625 94.125 33.875 25.875]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 0 0 9]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		8
+		labelString                  		"S3_c\n"
+						"en: data1=4;"
+		position                     		[240.25 228.75 80.125 30.875]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 0 9 0]
+		superState                   		GROUPED
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		9
+		labelString                  		"S3_b\n"
+						"en: data1=3;"
+		position                     		[51.25 228.75 74.625 31.125]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[4 0 7 8]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		10
+		labelString                  		"S2\n"
+						"en: data2 = 2;"
+		position                     		[609.4625 23.4583 86.9966 30.5552]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[11 0 12 13]
+		subviewer                    		2
+		type                         		AND_STATE
+		decomposition                		CLUSTER_STATE
+		executionOrder               		2
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		11
+		labelString                  		"Parent2"
+		position                     		[391.5 12.375 345.125 277.125]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 12 3 0]
+		subviewer                    		2
+		type                         		AND_STATE
+		decomposition                		SET_STATE
+		executionOrder               		2
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		12
+		labelString                  		"S1\n"
+						"en: data2 = 1;"
+		position                     		[465.1563 19.5938 94.8101 30.8892]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[11 0 0 10]
+		subviewer                    		2
+		type                         		AND_STATE
+		decomposition                		CLUSTER_STATE
+		executionOrder               		1
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		13
+		labelString                  		"S3"
+		position                     		[403.125 60.75 327.125 219.375]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[11 14 10 0]
+		firstTransition              		20
+		subviewer                    		2
+		type                         		AND_STATE
+		decomposition                		CLUSTER_STATE
+		executionOrder               		3
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		14
+		labelString                  		"S3_a"
+		position                     		[552.5 97.875 33.875 25.875]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[13 0 0 16]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		15
+		labelString                  		"S3_c\n"
+						"en: data2=4;"
+		position                     		[616.125 232.5 80.125 30.875]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[13 0 16 0]
+		superState                   		GROUPED
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	state {
+		id                           		16
+		labelString                  		"S3_b\n"
+						"en: data2=3;"
+		position                     		[427.125 232.5 74.625 31.125]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[13 0 14 15]
+		subviewer                    		2
+		type                         		OR_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	transition {
+		id             		17
+		labelPosition  		[192.173 65.864 8.439 15.558]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0.4937 192.5 66.75 0 -3.1875]
+		}
+		dst {
+			id          		7
+			intersection		[1 0 -1 0.4686 192.5 94.125 0 3.1875]
+		}
+		midPoint       		[192.5 76.7719]
+		chart          		2
+		linkNode       		[4 0 18]
+		dataLimits     		[190.1 194.9 66.75 94.125]
+		subviewer      		2
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	transition {
+		id             		18
+		labelString    		"[data1==1]"
+		labelPosition  		[114.714 153.872 59.725 15.558]
+		fontSize       		12
+		src {
+			id          		7
+			intersection		[3 0 1 0.8634 181.2513 120 0 -4.6263]
+		}
+		dst {
+			id          		9
+			intersection		[1 0 -1 0.6415 99.125 228.75 0 -26.75]
+		}
+		midPoint       		[137.5118 172.1798]
+		chart          		2
+		linkNode       		[4 17 19]
+		dataLimits     		[96.725 181.251 120 228.75]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		19
+		labelString    		"[data1==2]"
+		labelPosition  		[223.084 190.303 59.725 15.558]
+		fontSize       		12
+		src {
+			id          		7
+			intersection		[3 0 1 0.1366 205.8737 120 0 4.6263]
+		}
+		dst {
+			id          		8
+			intersection		[1 0 -1 0.3354 267.125 228.75 0 26.875]
+		}
+		midPoint       		[238.4954 172.3042]
+		chart          		2
+		linkNode       		[4 18 0]
+		dataLimits     		[205.874 269.525 120 228.75]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	transition {
+		id             		20
+		labelPosition  		[568.048 69.614 8.439 15.558]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0.4937 568.375 70.5 0 -3.1875]
+		}
+		dst {
+			id          		14
+			intersection		[1 0 -1 0.4686 568.375 97.875 0 3.1875]
+		}
+		midPoint       		[568.375 80.5219]
+		chart          		2
+		linkNode       		[13 0 22]
+		dataLimits     		[565.975 570.775 70.5 97.875]
+		subviewer      		2
+		executionOrder 		1
+	}
+
+	transition {
+		id             		21
+		labelString    		"[data2==1]"
+		labelPosition  		[490.589 157.622 59.725 15.558]
+		fontSize       		12
+		src {
+			id          		14
+			intersection		[3 0 1 0.8634 557.1263 123.75 0 -4.6263]
+		}
+		dst {
+			id          		16
+			intersection		[1 0 -1 0.6415 475 232.5 0 -26.75]
+		}
+		midPoint       		[513.3868 175.9298]
+		chart          		2
+		linkNode       		[13 22 0]
+		dataLimits     		[472.6 557.126 123.75 232.5]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		2
+	}
+
+	transition {
+		id             		22
+		labelString    		"[data2==2]"
+		labelPosition  		[598.959 194.053 59.725 15.558]
+		fontSize       		12
+		src {
+			id          		14
+			intersection		[3 0 1 0.1366 581.7487 123.75 0 4.6263]
+		}
+		dst {
+			id          		15
+			intersection		[1 0 -1 0.3354 643 232.5 0 26.875]
+		}
+		midPoint       		[614.3704 176.0542]
+		chart          		2
+		linkNode       		[13 20 21]
+		dataLimits     		[581.749 645.4 123.75 232.5]
+		stampAngle     		NaN
+		subviewer      		2
+		drawStyle      		SMART
+		slide {
+			mode          		MIRROR_SLIDE
+			sticky        		BOTH_STICK
+		}
+		executionOrder 		1
+	}
+
+	data {
+		id                            		23
+		name                          		"data1"
+		linkNode                      		[2 0 24]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			type {
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"double"
+	}
+
+	data {
+		id                            		24
+		name                          		"data2"
+		linkNode                      		[2 23 0]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			type {
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"double"
+	}
+
+	instance {
+		id     		25
+		name   		"Chart"
+		machine		1
+		chart  		2
+	}
+
+	target {
+		id                        		26
+		name                      		"sfun"
+		description               		"Default Simulink S-Function Target."
+		machine                   		1
+		linkNode                  		[1 0 0]
+	}
+}

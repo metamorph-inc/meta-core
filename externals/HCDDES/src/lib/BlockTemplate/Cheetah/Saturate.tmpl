@@ -1,0 +1,15 @@
+#from LoopHelper import LoopHelper
+#set $lowerLimit = $parameters.LowerLimit.placeInContext
+#set $upperLimit = $parameters.UpperLimit.placeInContext
+#set $lowerHasIndexes = $lowerLimit.isArray()
+#set $upperHasIndexes = $upperLimit.isArray()
+#set $lh = LoopHelper( $block, $output.getDimensions )
+$lh.startLoops#slurp
+${lh.indent}if $input${lh.indexes} > $upperLimit#if $upperHasIndexes#$lh.indexes#end if
+${lh.indent}    $output${lh.indexes} = $upperLimit#if $upperHasIndexes#$lh.indexes#end if
+${lh.indent}elseif $input${lh.indexes} < $lowerLimit#if $lowerHasIndexes#$lh.indexes#end if
+${lh.indent}    $output${lh.indexes} = $lowerLimit#if $lowerHasIndexes#$lh.indexes#end if
+${lh.indent}else
+${lh.indent}    $output${lh.indexes} = $input${lh.indexes}
+${lh.indent}end
+$lh.endLoops#slurp

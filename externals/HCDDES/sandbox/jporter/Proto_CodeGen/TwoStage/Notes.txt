@@ -1,0 +1,27 @@
+Notes:
+
+2/23/2009
+Mapping AVR devices from Simulink to ESMoL:
+   AVR devices must correspond to something in the control language, like 
+   a ZOH block or other data source/sink.
+
+UI-level tools:
+   Deployment mapping sheet view.
+   Schedule display for deployment.
+
+Model Query:
+   Find sending, receiving tasks for a given message.
+   Find tasks in a a node.
+   Find bus eventually connected to a buschan in a node.
+   Find signals for a particular message, and their ordering.
+   Find comps invoked by a task, and their ordering.
+
+Language/Semantics:
+   Data sources and conditions -> events
+   Attach events to data flows or state transitions.
+   Error handlers -- highest priority (higher than TT tasks).
+   Everything else -- lower priority than TT.
+     For low-priority event handlers, we can have untimed (lowest priority)
+     or timed/deadline handlers (slightly higher priority).  We have to check 
+     schedulability for the timed/deadline handlers under the TT regime.
+

@@ -1,0 +1,19 @@
+
+Create UDM wrapper for standalone operation
+
+xHyperperiod Test
+
+xCreate all instances for tasks
+xCreate all instances for msgs and their dependencies
+
+xCreate a model for constraints
+xMap tasks/msgs/dependencies onto constraints
+  Revise constraints for simple cases
+
+xRun solver
+xGet results back again
+
+xOutput something
+  Feed results into instance model and output XML
+
+xMake a viewer that can display a system schedule solution.

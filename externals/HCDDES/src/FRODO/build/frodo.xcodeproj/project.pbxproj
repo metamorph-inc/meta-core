@@ -1,0 +1,619 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5806553B1213460900769995 /* events.h in Headers */ = {isa = PBXBuildFile; fileRef = 5806553A1213460900769995 /* events.h */; };
+		5880659C11F8D84100A87B1B /* error_handler.c in Sources */ = {isa = PBXBuildFile; fileRef = 5880659411F8D84100A87B1B /* error_handler.c */; };
+		5880659E11F8D84100A87B1B /* logger.c in Sources */ = {isa = PBXBuildFile; fileRef = 5880659611F8D84100A87B1B /* logger.c */; };
+		5880659F11F8D84100A87B1B /* peripheral.c in Sources */ = {isa = PBXBuildFile; fileRef = 5880659711F8D84100A87B1B /* peripheral.c */; };
+		588065A011F8D84100A87B1B /* ports.c in Sources */ = {isa = PBXBuildFile; fileRef = 5880659811F8D84100A87B1B /* ports.c */; };
+		588065A111F8D84100A87B1B /* scheduler.c in Sources */ = {isa = PBXBuildFile; fileRef = 5880659911F8D84100A87B1B /* scheduler.c */; };
+		588065A311F8D84100A87B1B /* udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 5880659B11F8D84100A87B1B /* udp.c */; };
+		588065A711F8D85400A87B1B /* highres_timing.c in Sources */ = {isa = PBXBuildFile; fileRef = 588065A411F8D85400A87B1B /* highres_timing.c */; };
+		588065A911F8D85400A87B1B /* platform.c in Sources */ = {isa = PBXBuildFile; fileRef = 588065A611F8D85400A87B1B /* platform.c */; };
+		588065B411F8D86400A87B1B /* arch.h in Headers */ = {isa = PBXBuildFile; fileRef = 588065AA11F8D86400A87B1B /* arch.h */; };
+		588065B511F8D86400A87B1B /* error_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 588065AB11F8D86400A87B1B /* error_handler.h */; };
+		588065B611F8D86400A87B1B /* frodo.h in Headers */ = {isa = PBXBuildFile; fileRef = 588065AC11F8D86400A87B1B /* frodo.h */; };
+		588065B711F8D86400A87B1B /* highres_timing.h in Headers */ = {isa = PBXBuildFile; fileRef = 588065AD11F8D86400A87B1B /* highres_timing.h */; };
+		588065B811F8D86400A87B1B /* logger.h in Headers */ = {isa = PBXBuildFile; fileRef = 588065AE11F8D86400A87B1B /* logger.h */; };
+		588065B911F8D86400A87B1B /* peripheral.h in Headers */ = {isa = PBXBuildFile; fileRef = 588065AF11F8D86400A87B1B /* peripheral.h */; };
+		588065BA11F8D86400A87B1B /* ports.h in Headers */ = {isa = PBXBuildFile; fileRef = 588065B011F8D86400A87B1B /* ports.h */; };
+		588065BB11F8D86400A87B1B /* scheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 588065B111F8D86400A87B1B /* scheduler.h */; };
+		588065BD11F8D86400A87B1B /* udp.h in Headers */ = {isa = PBXBuildFile; fileRef = 588065B311F8D86400A87B1B /* udp.h */; };
+		588065BF11F8D89A00A87B1B /* platform.h in Headers */ = {isa = PBXBuildFile; fileRef = 588065BE11F8D89A00A87B1B /* platform.h */; };
+		588065C211F8D8AE00A87B1B /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588065C111F8D8AE00A87B1B /* CoreServices.framework */; };
+		588066DD11F8DD1C00A87B1B /* platform_udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 588066DC11F8DD1C00A87B1B /* platform_udp.c */; };
+		58A95C8E12159F5500709BE1 /* events.c in Sources */ = {isa = PBXBuildFile; fileRef = 58A95C8D12159F5500709BE1 /* events.c */; };
+		58DFE3001225B6F800467D69 /* libfrodo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC046055464E500DB518D /* libfrodo.a */; };
+		58DFE3011225B70F00467D69 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588065C111F8D8AE00A87B1B /* CoreServices.framework */; };
+		58E1466A12260471000737F1 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 58DFE2F11225B6D900467D69 /* main.c */; };
+		58F30E431222C97300406EDC /* libfrodo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC046055464E500DB518D /* libfrodo.a */; };
+		58F30E6D1222CB5900406EDC /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 58F30E391222C94C00406EDC /* main.c */; };
+		58F30E791222CBDC00406EDC /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588065C111F8D8AE00A87B1B /* CoreServices.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		58DFE2FE1225B6F200467D69 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC045055464E500DB518D;
+			remoteInfo = frodo;
+		};
+		58F30E411222C96900406EDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC045055464E500DB518D;
+			remoteInfo = frodo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		5806553A1213460900769995 /* events.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = events.h; path = ../include/events.h; sourceTree = SOURCE_ROOT; };
+		5880659411F8D84100A87B1B /* error_handler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = error_handler.c; path = ../src/error_handler.c; sourceTree = SOURCE_ROOT; };
+		5880659611F8D84100A87B1B /* logger.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = logger.c; path = ../src/logger.c; sourceTree = SOURCE_ROOT; };
+		5880659711F8D84100A87B1B /* peripheral.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = peripheral.c; path = ../src/peripheral.c; sourceTree = SOURCE_ROOT; };
+		5880659811F8D84100A87B1B /* ports.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ports.c; path = ../src/ports.c; sourceTree = SOURCE_ROOT; };
+		5880659911F8D84100A87B1B /* scheduler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = scheduler.c; path = ../src/scheduler.c; sourceTree = SOURCE_ROOT; };
+		5880659B11F8D84100A87B1B /* udp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = udp.c; path = ../src/udp.c; sourceTree = SOURCE_ROOT; };
+		588065A411F8D85400A87B1B /* highres_timing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = highres_timing.c; path = ../src/arch/osx/highres_timing.c; sourceTree = SOURCE_ROOT; };
+		588065A611F8D85400A87B1B /* platform.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = platform.c; path = ../src/arch/osx/platform.c; sourceTree = SOURCE_ROOT; };
+		588065AA11F8D86400A87B1B /* arch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = arch.h; path = ../include/arch.h; sourceTree = SOURCE_ROOT; };
+		588065AB11F8D86400A87B1B /* error_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = error_handler.h; path = ../include/error_handler.h; sourceTree = SOURCE_ROOT; };
+		588065AC11F8D86400A87B1B /* frodo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = frodo.h; path = ../include/frodo.h; sourceTree = SOURCE_ROOT; };
+		588065AD11F8D86400A87B1B /* highres_timing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = highres_timing.h; path = ../include/highres_timing.h; sourceTree = SOURCE_ROOT; };
+		588065AE11F8D86400A87B1B /* logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = logger.h; path = ../include/logger.h; sourceTree = SOURCE_ROOT; };
+		588065AF11F8D86400A87B1B /* peripheral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = peripheral.h; path = ../include/peripheral.h; sourceTree = SOURCE_ROOT; };
+		588065B011F8D86400A87B1B /* ports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ports.h; path = ../include/ports.h; sourceTree = SOURCE_ROOT; };
+		588065B111F8D86400A87B1B /* scheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scheduler.h; path = ../include/scheduler.h; sourceTree = SOURCE_ROOT; };
+		588065B311F8D86400A87B1B /* udp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = udp.h; path = ../include/udp.h; sourceTree = SOURCE_ROOT; };
+		588065BE11F8D89A00A87B1B /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = platform.h; path = ../include/arch/osx/platform.h; sourceTree = SOURCE_ROOT; usesTabs = 0; };
+		588065C111F8D8AE00A87B1B /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		588066DC11F8DD1C00A87B1B /* platform_udp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = platform_udp.c; path = ../src/arch/osx/platform_udp.c; sourceTree = SOURCE_ROOT; };
+		58A95C40121598C800709BE1 /* introduction.tex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.latex; name = introduction.tex; path = ../docs/introduction.tex; sourceTree = SOURCE_ROOT; wrapsLines = 1; };
+		58A95C5D12159CBD00709BE1 /* types_structures.tex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.latex; name = types_structures.tex; path = ../docs/types_structures.tex; sourceTree = SOURCE_ROOT; };
+		58A95C8D12159F5500709BE1 /* events.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = events.c; path = ../src/events.c; sourceTree = SOURCE_ROOT; };
+		58AF28A0121482EA00572268 /* events_errors.tex */ = {isa = PBXFileReference; explicitFileType = sourcecode.latex; fileEncoding = 4; name = events_errors.tex; path = ../docs/events_errors.tex; sourceTree = SOURCE_ROOT; wrapsLines = 1; };
+		58AF8C8D121457E300C74BA2 /* FRODO.tex */ = {isa = PBXFileReference; explicitFileType = sourcecode.latex; fileEncoding = 4; name = FRODO.tex; path = ../docs/FRODO.tex; sourceTree = SOURCE_ROOT; };
+		58DFE2F11225B6D900467D69 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = ../tests/Benchmarks/UDPSimpleListen/main.c; sourceTree = SOURCE_ROOT; };
+		58DFE2F81225B6EA00467D69 /* UDPSimpleListen */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = UDPSimpleListen; sourceTree = BUILT_PRODUCTS_DIR; };
+		58F30E391222C94C00406EDC /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = ../tests/Benchmarks/SingleTaskTiming/main.c; sourceTree = SOURCE_ROOT; };
+		58F30E3D1222C96300406EDC /* SingleTaskTiming */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SingleTaskTiming; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2AAC046055464E500DB518D /* libfrodo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfrodo.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		58DFE2F61225B6EA00467D69 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58DFE3001225B6F800467D69 /* libfrodo.a in Frameworks */,
+				58DFE3011225B70F00467D69 /* CoreServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58F30E3B1222C96300406EDC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58F30E431222C97300406EDC /* libfrodo.a in Frameworks */,
+				58F30E791222CBDC00406EDC /* CoreServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D289987405E68DCB004EDB86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				588065C211F8D8AE00A87B1B /* CoreServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* frodo */ = {
+			isa = PBXGroup;
+			children = (
+				588065C111F8D8AE00A87B1B /* CoreServices.framework */,
+				580EC295122847440013EBF6 /* libfrodo */,
+				580EC34B122847630013EBF6 /* Examples */,
+				580EC294122847310013EBF6 /* Tests */,
+				58AF8C891214392500C74BA2 /* Documentation */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = frodo;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				5880659411F8D84100A87B1B /* error_handler.c */,
+				58A95C8D12159F5500709BE1 /* events.c */,
+				5880659611F8D84100A87B1B /* logger.c */,
+				5880659711F8D84100A87B1B /* peripheral.c */,
+				5880659811F8D84100A87B1B /* ports.c */,
+				5880659911F8D84100A87B1B /* scheduler.c */,
+				5880659B11F8D84100A87B1B /* udp.c */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2AAC046055464E500DB518D /* libfrodo.a */,
+				58F30E3D1222C96300406EDC /* SingleTaskTiming */,
+				58DFE2F81225B6EA00467D69 /* UDPSimpleListen */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		580EC294122847310013EBF6 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				58F30E321222C91100406EDC /* Benchmarks */,
+				580EC34A1228475B0013EBF6 /* Unit Tests */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+		580EC295122847440013EBF6 /* libfrodo */ = {
+			isa = PBXGroup;
+			children = (
+				5880658311F8D81200A87B1B /* Arch */,
+				5880658211F8D80C00A87B1B /* Headers */,
+				08FB7795FE84155DC02AAC07 /* Source */,
+			);
+			name = libfrodo;
+			sourceTree = "<group>";
+		};
+		580EC34A1228475B0013EBF6 /* Unit Tests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Unit Tests";
+			sourceTree = "<group>";
+		};
+		580EC34B122847630013EBF6 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				580EC34D1228477F0013EBF6 /* SimpleExample */,
+				580EC34E1228478B0013EBF6 /* SimpleExampleP1 */,
+				580EC34C122847740013EBF6 /* QuadRotorPlant */,
+			);
+			name = Examples;
+			sourceTree = "<group>";
+		};
+		580EC34C122847740013EBF6 /* QuadRotorPlant */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = QuadRotorPlant;
+			sourceTree = "<group>";
+		};
+		580EC34D1228477F0013EBF6 /* SimpleExample */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = SimpleExample;
+			sourceTree = "<group>";
+		};
+		580EC34E1228478B0013EBF6 /* SimpleExampleP1 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = SimpleExampleP1;
+			sourceTree = "<group>";
+		};
+		5880658211F8D80C00A87B1B /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				588065AA11F8D86400A87B1B /* arch.h */,
+				588065AB11F8D86400A87B1B /* error_handler.h */,
+				5806553A1213460900769995 /* events.h */,
+				588065AC11F8D86400A87B1B /* frodo.h */,
+				588065AD11F8D86400A87B1B /* highres_timing.h */,
+				588065AE11F8D86400A87B1B /* logger.h */,
+				588065AF11F8D86400A87B1B /* peripheral.h */,
+				588065B011F8D86400A87B1B /* ports.h */,
+				588065B111F8D86400A87B1B /* scheduler.h */,
+				588065B311F8D86400A87B1B /* udp.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		5880658311F8D81200A87B1B /* Arch */ = {
+			isa = PBXGroup;
+			children = (
+				5880658411F8D81700A87B1B /* Headers */,
+				5880658511F8D81C00A87B1B /* Source */,
+			);
+			name = Arch;
+			sourceTree = "<group>";
+		};
+		5880658411F8D81700A87B1B /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				588065BE11F8D89A00A87B1B /* platform.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		5880658511F8D81C00A87B1B /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				588065A411F8D85400A87B1B /* highres_timing.c */,
+				588065A611F8D85400A87B1B /* platform.c */,
+				588066DC11F8DD1C00A87B1B /* platform_udp.c */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		58A95C421215996600709BE1 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		58AF8C891214392500C74BA2 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				58A95C421215996600709BE1 /* Images */,
+				58AF8C8D121457E300C74BA2 /* FRODO.tex */,
+				58A95C40121598C800709BE1 /* introduction.tex */,
+				58A95C5D12159CBD00709BE1 /* types_structures.tex */,
+				58AF28A0121482EA00572268 /* events_errors.tex */,
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+		58DFE2EE1225B6B500467D69 /* UDPSimpleListen */ = {
+			isa = PBXGroup;
+			children = (
+				58DFE2F11225B6D900467D69 /* main.c */,
+			);
+			name = UDPSimpleListen;
+			sourceTree = "<group>";
+		};
+		58F30E321222C91100406EDC /* Benchmarks */ = {
+			isa = PBXGroup;
+			children = (
+				58F30E4B1222C9A600406EDC /* SingleTaskTiming */,
+				58DFE2EE1225B6B500467D69 /* UDPSimpleListen */,
+			);
+			name = Benchmarks;
+			sourceTree = "<group>";
+		};
+		58F30E4B1222C9A600406EDC /* SingleTaskTiming */ = {
+			isa = PBXGroup;
+			children = (
+				58F30E391222C94C00406EDC /* main.c */,
+			);
+			name = SingleTaskTiming;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D2AAC043055464E500DB518D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				588065B411F8D86400A87B1B /* arch.h in Headers */,
+				588065B511F8D86400A87B1B /* error_handler.h in Headers */,
+				588065B611F8D86400A87B1B /* frodo.h in Headers */,
+				588065B711F8D86400A87B1B /* highres_timing.h in Headers */,
+				588065B811F8D86400A87B1B /* logger.h in Headers */,
+				588065B911F8D86400A87B1B /* peripheral.h in Headers */,
+				588065BA11F8D86400A87B1B /* ports.h in Headers */,
+				588065BB11F8D86400A87B1B /* scheduler.h in Headers */,
+				588065BD11F8D86400A87B1B /* udp.h in Headers */,
+				588065BF11F8D89A00A87B1B /* platform.h in Headers */,
+				5806553B1213460900769995 /* events.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		58DFE2F71225B6EA00467D69 /* UDPSimpleListen */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 58DFE3161225B78F00467D69 /* Build configuration list for PBXNativeTarget "UDPSimpleListen" */;
+			buildPhases = (
+				58DFE2F51225B6EA00467D69 /* Sources */,
+				58DFE2F61225B6EA00467D69 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				58DFE2FF1225B6F200467D69 /* PBXTargetDependency */,
+			);
+			name = UDPSimpleListen;
+			productName = UDPSimpleListen;
+			productReference = 58DFE2F81225B6EA00467D69 /* UDPSimpleListen */;
+			productType = "com.apple.product-type.tool";
+		};
+		58F30E3C1222C96300406EDC /* SingleTaskTiming */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 58F30E4A1222C99C00406EDC /* Build configuration list for PBXNativeTarget "SingleTaskTiming" */;
+			buildPhases = (
+				58F30E3A1222C96300406EDC /* Sources */,
+				58F30E3B1222C96300406EDC /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				58F30E421222C96900406EDC /* PBXTargetDependency */,
+			);
+			name = SingleTaskTiming;
+			productName = SingleTaskTiming;
+			productReference = 58F30E3D1222C96300406EDC /* SingleTaskTiming */;
+			productType = "com.apple.product-type.tool";
+		};
+		D2AAC045055464E500DB518D /* frodo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "frodo" */;
+			buildPhases = (
+				D2AAC043055464E500DB518D /* Headers */,
+				D2AAC044055464E500DB518D /* Sources */,
+				D289987405E68DCB004EDB86 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = frodo;
+			productName = frodo;
+			productReference = D2AAC046055464E500DB518D /* libfrodo.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Vanderbilt University";
+			};
+			buildConfigurationList = 1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "frodo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 08FB7794FE84155DC02AAC07 /* frodo */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D2AAC045055464E500DB518D /* frodo */,
+				58F30E3C1222C96300406EDC /* SingleTaskTiming */,
+				58DFE2F71225B6EA00467D69 /* UDPSimpleListen */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		58DFE2F51225B6EA00467D69 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58E1466A12260471000737F1 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58F30E3A1222C96300406EDC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58F30E6D1222CB5900406EDC /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2AAC044055464E500DB518D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5880659C11F8D84100A87B1B /* error_handler.c in Sources */,
+				5880659E11F8D84100A87B1B /* logger.c in Sources */,
+				5880659F11F8D84100A87B1B /* peripheral.c in Sources */,
+				588065A011F8D84100A87B1B /* ports.c in Sources */,
+				588065A111F8D84100A87B1B /* scheduler.c in Sources */,
+				588065A311F8D84100A87B1B /* udp.c in Sources */,
+				588065A711F8D85400A87B1B /* highres_timing.c in Sources */,
+				588065A911F8D85400A87B1B /* platform.c in Sources */,
+				588066DD11F8DD1C00A87B1B /* platform_udp.c in Sources */,
+				58A95C8E12159F5500709BE1 /* events.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		58DFE2FF1225B6F200467D69 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2AAC045055464E500DB518D /* frodo */;
+			targetProxy = 58DFE2FE1225B6F200467D69 /* PBXContainerItemProxy */;
+		};
+		58F30E421222C96900406EDC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2AAC045055464E500DB518D /* frodo */;
+			targetProxy = 58F30E411222C96900406EDC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB91EC08733DB70010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(EFFECTIVE_PLATFORM_NAME)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/lib;
+				OBJROOT = "$(PROJECT_DIR)";
+				PRODUCT_NAME = frodo;
+				SYMROOT = "$(PROJECT_DIR)/../lib";
+			};
+			name = Debug;
+		};
+		1DEB91ED08733DB70010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PRODUCT_NAME = frodo;
+			};
+			name = Release;
+		};
+		1DEB91F008733DB70010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(EFFECTIVE_PLATFORM_NAME)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = ../include;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		1DEB91F108733DB70010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		58DFE2FA1225B6EA00467D69 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = ../lib;
+				OBJROOT = "$(PROJECT_DIR)";
+				PREBINDING = NO;
+				PRODUCT_NAME = UDPSimpleListen;
+				SYMROOT = "$(PROJECT_DIR)/../bin";
+			};
+			name = Debug;
+		};
+		58DFE2FB1225B6EA00467D69 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = UDPSimpleListen;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		58F30E3F1222C96300406EDC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = ../lib;
+				OBJROOT = "$(PROJECT_DIR)";
+				PREBINDING = NO;
+				PRODUCT_NAME = SingleTaskTiming;
+				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
+				SYMROOT = "$(PROJECT_DIR)/../bin";
+			};
+			name = Debug;
+		};
+		58F30E401222C96300406EDC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = SingleTaskTiming;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "frodo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB91EC08733DB70010E9CD /* Debug */,
+				1DEB91ED08733DB70010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "frodo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB91F008733DB70010E9CD /* Debug */,
+				1DEB91F108733DB70010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		58DFE3161225B78F00467D69 /* Build configuration list for PBXNativeTarget "UDPSimpleListen" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58DFE2FA1225B6EA00467D69 /* Debug */,
+				58DFE2FB1225B6EA00467D69 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		58F30E4A1222C99C00406EDC /* Build configuration list for PBXNativeTarget "SingleTaskTiming" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58F30E3F1222C96300406EDC /* Debug */,
+				58F30E401222C96300406EDC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

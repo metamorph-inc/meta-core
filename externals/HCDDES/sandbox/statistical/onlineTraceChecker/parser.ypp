@@ -1,0 +1,604 @@
+/***********************************************************************************************
+Copyright (C) 2010 Anvesh Komuravelli, Paolo Zuliani and Edmund M. Clarke.  All rights reserved.
+By using this software the USER indicates that he or she has read, understood and will comply
+with the following:
+
+1. The USER is hereby granted non-exclusive permission to use, copy and/or
+modify this software for internal, non-commercial, research purposes only. Any
+distribution, including commercial sale or license, of this software, copies of
+the software, its associated documentation and/or modifications of either is
+strictly prohibited without the prior consent of the authors. Title to copyright
+to this software and its associated documentation shall at all times remain with
+the authors. Appropriated copyright notice shall be placed on all software
+copies, and a complete copy of this notice shall be included in all copies of
+the associated documentation. No right is granted to use in advertising,
+publicity or otherwise any trademark, service mark, or the name of the authors.
+
+2. This software and any associated documentation is provided "as is".
+
+THE AUTHORS MAKE NO REPRESENTATIONS OR WARRANTIES, EXPRESSED OR IMPLIED,
+INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, OR THAT
+USE OF THE SOFTWARE, MODIFICATIONS, OR ASSOCIATED DOCUMENTATION WILL NOT
+INFRINGE ANY PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER INTELLECTUAL PROPERTY
+RIGHTS OF A THIRD PARTY.
+
+The authors shall not be liable under any circumstances for any direct,
+indirect, special, incidental, or consequential damages with respect to any
+claim by USER or any third party on account of or arising from the use, or
+inability to use, this software or its associated documentation, even if the
+authors have been advised of the possibility of those damages.
+***********************************************************************************************/
+
+
+/**
+  * Parser for BLTL properties where arbitrary relational expressions on
+  * rational variables serve as the propositions. Currently, the rational
+  * time bounds in the properties only have an upper bound, with an
+  * implicit lower bound of 0.
+  *
+  * Allowed temporal operators - F (future), U (until) and G (global)
+  *
+  * Unbounded temporal operators are not allowed
+  *
+  * The usual precedence among the operators is used
+  *
+  * Tested on GNU Bison version 2.3. No guarantees on other versions of Bison or
+  * even Yacc.
+  */
+
+%{
+  #include "parser.hpp"
+  #include "lex.yy.c" /* can't think of a better way to avoid clashes between C
+                         and C++ */
+
+  extern FILE *yyin;
+  extern char *yytext;
+  Node *parse_tree;
+
+  #ifdef VERBOSE
+    class Q_el {
+    public:
+      Node *n;
+      Q_el *next;
+    };
+  #endif
+
+  Node *nodep_copy(Node *, double);
+  LogicalRelationalNode *push_neg(LogicalRelationalNode *);
+  #ifdef VERBOSE
+    void traverse(Node *);
+  #endif
+  int yyerror(const char *);
+%}
+
+%token ID
+%token T_DOUBLE
+%token T_INT
+%token TRUE
+%token FALSE
+%token L_PAREN
+%token R_PAREN
+%token L_SQUARE
+%token R_SQUARE
+%token COMMA
+%token EQ
+%token NEQ
+%token LTE
+%token LT
+%token GTE
+%token GT
+%token MUL
+%token ADD
+%token SUB
+%token DIV
+%token NEG
+%token AND
+%token OR
+%token NEXT
+%token FUTURE
+%token GLOBAL
+%token UNTIL
+%token UNKN
+%token ENDOFFILE
+
+%error-verbose
+
+%union {
+  double constant;
+  Node *tree_node;
+}
+
+%type <constant> bound
+%type <tree_node> formula disj conj until neg relation sum term factor
+
+%%
+formula: disj
+           {
+             #ifdef VERBOSE
+               printf("\tformula: disj\n");
+             #endif
+             $$ = $1;
+             #ifdef VERBOSE
+               traverse($$);
+             #endif
+             /* copy $$ to global memory */
+             parse_tree = $$;
+           }
+       ;
+
+disj: conj
+        {
+          #ifdef VERBOSE
+            printf("\tdisj: conj\n");
+          #endif
+          $$ = $1;
+        }
+    | disj OR conj
+        {
+          #ifdef VERBOSE
+            printf("\tdisj: disj OR conj\n");
+          #endif
+          $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, $1, $3, OR_L, -0.1,
+                                         DONT_KNOW, 0);
+        }
+    ;
+
+conj: until
+        {
+          #ifdef VERBOSE
+            printf("\tconj: until\n");
+          #endif
+          $$ = $1;
+        }
+    | conj AND until
+        {
+          #ifdef VERBOSE
+            printf("\tconj: conj AND until\n");
+          #endif
+          $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, $1, $3, AND_L, -0.1,
+                                         DONT_KNOW, 0);
+        }
+    ;
+
+until: neg
+         {
+           #ifdef VERBOSE
+             printf("\tuntil: neg\n");
+           #endif
+           $$ = $1;
+         }
+     | until UNTIL L_SQUARE bound R_SQUARE neg
+         {
+           #ifdef VERBOSE
+             printf("\tuntil: until UNTIL L_SQUARE bound R_SQUARE neg\n");
+           #endif
+           $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, $1, $6, UNTIL_L, $4,
+                                          DONT_KNOW, 0);
+         }
+     ;
+
+neg: NEG neg
+       {
+         #ifdef VERBOSE
+           printf("\tneg: NEG neg\n");
+         #endif
+         $$ = push_neg((LogicalRelationalNode *)$2);
+       }
+   | NEXT L_SQUARE R_SQUARE neg
+       {
+         #ifdef VERBOSE
+           printf("\tneg: NEXT L_SQUARE R_SQUARE neg\n");
+         #endif
+         $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, NULL, $4, NEXT_L, 1,
+                                        DONT_KNOW, 0);
+       }
+   | FUTURE L_SQUARE bound R_SQUARE neg
+       {
+         #ifdef VERBOSE
+           printf("\tneg: FUTURE L_SQUARE bound R_SQUARE neg\n");
+         #endif
+         $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, NULL, $5, FUTURE_L, $3,
+                                        DONT_KNOW, 0);
+       }
+   | GLOBAL L_SQUARE bound R_SQUARE neg
+       {
+         #ifdef VERBOSE
+           printf("\tneg: GLOBAL L_SQUARE bound R_SQUARE neg\n");
+         #endif
+         $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, NULL, $5, GLOBAL_L, $3,
+                                        DONT_KNOW, 0);
+       }
+   | relation
+       {
+         #ifdef VERBOSE
+           printf("\tneg: relation\n");
+         #endif
+         $$ = $1;
+       }
+   ;
+
+bound: T_INT
+         {
+           #ifdef VERBOSE
+             printf("\tbound: T_INT\n");
+           #endif
+           $$ = atof(yytext);
+         }
+     | T_DOUBLE
+         {
+           #ifdef VERBOSE
+             printf("\tbound: T_DOUBLE\n");
+           #endif
+           $$ = atof(yytext);
+         }
+     ;
+
+relation: TRUE
+            {
+              #ifdef VERBOSE
+                printf("\trelation: TRUE\n");
+              #endif
+              $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, NULL, NULL, NOOP_L, -0.1,
+                                             SAT, 0);
+            }
+        | FALSE
+            {
+              #ifdef VERBOSE
+                printf("\trelation: FALSE\n");
+              #endif
+              $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, NULL, NULL, NOOP_L, -0.1,
+                                             UNSAT, 0);
+            }
+        | L_PAREN disj R_PAREN
+            {
+              #ifdef VERBOSE
+                printf("\trelation: L_PAREN disj R_PAREN\n");
+              #endif
+              $$ = $2;
+            }
+        | sum LTE sum
+            {
+              #ifdef VERBOSE
+                printf("\trelation: sum LTE sum\n");
+              #endif
+              $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, $1, $3, LTE_R, -0.1,
+                                             DONT_KNOW, 0);
+            }
+        | sum LT sum
+            {
+              #ifdef VERBOSE
+                printf("\trelation: sum LT sum\n");
+              #endif
+              $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, $1, $3, LT_R, -0.1,
+                                             DONT_KNOW, 0);
+            }
+        | sum EQ sum
+            {
+              #ifdef VERBOSE
+                printf("\trelation: sum EQ sum\n");
+              #endif
+              $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, $1, $3, EQ_R, -0.1,
+                                             DONT_KNOW, 0);
+            }
+        | sum NEQ sum
+            {
+              #ifdef VERBOSE
+                printf("\trelation: sum NEQ sum\n");
+              #endif
+              $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, $1, $3, NEQ_R, -0.1,
+                                             DONT_KNOW, 0);
+            }
+        | sum GTE sum
+            {
+              #ifdef VERBOSE
+                printf("\trelation: sum GTE sum\n");
+              #endif
+              $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, $1, $3, GTE_R, -0.1,
+                                             DONT_KNOW, 0);
+            }
+        | sum GT sum
+            {
+              #ifdef VERBOSE
+                printf("\trelation: sum GT sum\n");
+              #endif
+              $$ = new LogicalRelationalNode(LOGICAL_RELATIONAL, $1, $3, GT_R, -0.1,
+                                             DONT_KNOW, 0);
+            }
+        ;
+
+sum: term
+       {
+         #ifdef VERBOSE
+           printf("\tsum: term\n");
+         #endif
+         $$ = $1;
+       }
+   | SUB term
+       {
+         #ifdef VERBOSE
+           printf("\tsum: SUB term\n");
+         #endif
+         $$ = new ArithmeticNode(ARITHMETIC, NULL, $2, SUB_A, "", 0.0);
+       }
+   | sum ADD term
+       {
+         #ifdef VERBOSE
+           printf("\tsum: sum ADD term\n");
+         #endif
+         $$ = new ArithmeticNode(ARITHMETIC, $1, $3, ADD_A, "", 0.0);
+       }
+   | sum SUB term
+       {
+         #ifdef VERBOSE
+           printf("\tsum: sum SUB term\n");
+         #endif
+         $$ = new ArithmeticNode(ARITHMETIC, $1, $3, SUB_A, "", 0.0);
+       }
+   ;
+
+term: factor
+        {
+          #ifdef VERBOSE
+            printf("\tterm: factor\n");
+          #endif
+          $$ = $1;
+        }
+    | term MUL factor
+        {
+          #ifdef VERBOSE
+            printf("\tterm: term MUL factor\n");
+          #endif
+          $$ = new ArithmeticNode(ARITHMETIC, $1, $3, MUL_A, "", 0.0);
+        }
+    | term DIV factor
+        {
+          #ifdef VERBOSE
+            printf("\tterm: term DIV factor\n");
+          #endif
+          $$ = new ArithmeticNode(ARITHMETIC, $1, $3, DIV_A, "", 0.0);
+        }
+    ;
+
+factor: T_INT
+          {
+            #ifdef VERBOSE
+              printf("\tfactor: T_INT\n");
+            #endif
+            $$ = new ArithmeticNode(ARITHMETIC, NULL, NULL, NOOP_A, "", atof(yytext));
+          }
+      | T_DOUBLE
+          {
+            #ifdef VERBOSE
+              printf("\tfactor: T_DOUBLE\n");
+            #endif
+            $$ = new ArithmeticNode(ARITHMETIC, NULL, NULL, NOOP_A, "", atof(yytext));
+          }
+      | ID
+          {
+            #ifdef VERBOSE
+              printf("\tfactor: ID\n");
+            #endif
+            $$ = new ArithmeticNode(ARITHMETIC, NULL, NULL, NOOP_A, yytext, 0.0);
+          }
+      | L_PAREN sum R_PAREN
+          {
+            #ifdef VERBOSE
+              printf("\tfactor: L_PAREN sum R_PAREN\n");
+            #endif
+            $$ = $2;
+          }
+      ;
+
+%%
+
+/**
+ * copies the entire subtree rooted at src, recursively, and returns the result
+ */
+Node *nodep_copy(Node *src, double ts) {
+  if (src == NULL) {
+    return NULL;
+  }
+  if (src->op_type == ARITHMETIC) {
+    return new ArithmeticNode(ARITHMETIC,
+                              nodep_copy(src->left, ts),
+                              nodep_copy(src->right, ts),
+                              src->golden,
+                              ts,
+                              (((ArithmeticNode *)src)->a).op,
+                              (((ArithmeticNode *)src)->a).var,
+                              (((ArithmeticNode *)src)->a).val);
+  } else { // src->op_type == LOGICAL_RELATIONAL
+    return new LogicalRelationalNode(LOGICAL_RELATIONAL,
+                                     nodep_copy(src->left, ts),
+                                     nodep_copy(src->right, ts),
+                                     src->golden,
+                                     ts,
+                                     (((LogicalRelationalNode *)src)->lr).op,
+                                     (((LogicalRelationalNode *)src)->lr).vect,
+                                     (((LogicalRelationalNode *)src)->lr).path);
+  }
+}
+
+/**
+ * this is a utility function for converting the input property to Negation Normal
+ * Form. It pushes the negation sign inwards recursively
+ */
+LogicalRelationalNode *push_neg(LogicalRelationalNode *n) {
+  if (n == NULL) {
+    printf("error! pushing neg inside NULL\n");
+    return NULL;
+  }
+  if (n->op_type == LOGICAL_RELATIONAL) {
+    LogicalRelationalNode *new_node;
+    switch((n->lr).op) {
+      case OR_L :
+        (n->lr).op = AND_L;
+        n->left = push_neg((LogicalRelationalNode *)(n->left));
+        n->right = push_neg((LogicalRelationalNode *)(n->right));
+        return n;
+
+      case AND_L :
+        (n->lr).op = OR_L;
+        n->left = push_neg((LogicalRelationalNode *)(n->left));
+        n->right = push_neg((LogicalRelationalNode *)(n->right));
+        return n;
+
+      case NEXT_L :
+        n->right = push_neg((LogicalRelationalNode *)(n->right));
+        return n;
+
+      case FUTURE_L :
+        (n->lr).op = GLOBAL_L;
+        n->right = push_neg((LogicalRelationalNode *)(n->right));
+        return n;
+
+      case GLOBAL_L :
+        (n->lr).op = FUTURE_L;
+        n->right = push_neg((LogicalRelationalNode *)(n->right));
+        return n;
+
+      case UNTIL_L :
+        /* ~(pUq) = [~q U (~p & ~q)] | G(~q)
+         *
+         * keeps multiple copies of ~q instead of creating one and everyone
+         * pointing to that. that is, we ultimately have a tree and not a dag
+         */
+        new_node
+          = new LogicalRelationalNode
+                  (LOGICAL_RELATIONAL,
+                   new LogicalRelationalNode(LOGICAL_RELATIONAL,
+                                             nodep_copy(push_neg((LogicalRelationalNode *)(n->right)), 0),
+                                             new LogicalRelationalNode(LOGICAL_RELATIONAL,
+                                                                       push_neg((LogicalRelationalNode *)(n->left)),
+                                                                       nodep_copy(push_neg((LogicalRelationalNode *)(n->right)), 0),
+                                                                       AND_L,
+                                                                       -0.1,
+                                                                       DONT_KNOW,
+                                                                       0),
+                                             UNTIL_L,
+                                             (n->lr).vect.at(0).bound,
+                                             DONT_KNOW,
+                                             0),
+                   new LogicalRelationalNode(LOGICAL_RELATIONAL,
+                                             NULL,
+                                             nodep_copy(push_neg((LogicalRelationalNode *)(n->right)), 0),
+                                             GLOBAL_L,
+                                             (n->lr).vect.at(0).bound,
+                                             DONT_KNOW,
+                                             0),
+                   OR_L,
+                   -0.1,
+                   DONT_KNOW,
+                   0);
+         delete n->right;
+         delete n;
+         return new_node;
+
+      case NOOP_L :
+        if ((n->lr).vect.at(0).val == SAT) {
+          (n->lr).vect.at(0).val = UNSAT;
+        } else if ((n->lr).vect.at(0).val == UNSAT) {
+          (n->lr).vect.at(0).val = SAT;
+        } else {
+          printf("push_neg : NOOP_L : has a value of DONT_KNOW\n");
+        }
+        return n;
+
+      case EQ_R :
+        (n->lr).op = NEQ_R;
+        return n;
+
+      case NEQ_R :
+        (n->lr).op = EQ_R;
+        return n;
+
+      case LTE_R :
+        (n->lr).op = GT_R;
+        return n;
+
+      case LT_R :
+        (n->lr).op = GTE_R;
+        return n;
+
+      case GTE_R :
+        (n->lr).op = LT_R;
+        return n;
+
+      case GT_R :
+        (n->lr).op = LTE_R;
+        return n;
+    }
+  } else {
+    printf("push_neg : arithmetic?\n");
+    return NULL;
+  }
+}
+
+#ifdef VERBOSE
+  /**
+   * traverse the entire subtree rooted at "root" in a breadth-first manner and
+   * print out some information
+   */
+  void traverse(Node *root) {
+    /* do a bfs */
+    Q_el *head, *end;
+    Node *current;
+  
+    head = new Q_el();
+    head -> n = root;
+    head -> next = NULL;
+    end = head;
+  
+    while (head != NULL) {
+      current = head -> n;
+      if (current->left == NULL && current->right == NULL) {
+        /* leaf node */
+        if (current->op_type == ARITHMETIC) {
+          if ((((ArithmeticNode *)current)->a).var.empty() == false) {
+            cout << (((ArithmeticNode *)current)->a).var << "  ";
+          } else {
+            printf("%f  ", (((ArithmeticNode *)current)->a).val);
+          }
+        } else if (current->op_type == LOGICAL_RELATIONAL && (((LogicalRelationalNode *)current)->lr).op == NOOP_L) {
+          if ((((LogicalRelationalNode *)current)->lr).vect.at(0).val == SAT) {
+            printf("SAT  ");
+          } else if ((((LogicalRelationalNode *)current)->lr).vect.at(0).val == UNSAT) {
+            printf("UNSAT  ");
+          } else {
+            printf("error!  ");
+          }
+        } else {
+          printf("error!  ");
+        }
+      } else {
+        /* non-leaf node */
+        if (current->op_type == ARITHMETIC) {
+          printf("%d  ", (((ArithmeticNode *)current)->a).op);
+        } else if (current->op_type == LOGICAL_RELATIONAL) {
+          printf("%d:%f  ", (((LogicalRelationalNode *)current)->lr).op, (((LogicalRelationalNode *)current)->lr).vect.at(0).bound);
+        }
+        if (current->left != NULL) {
+          end->next = new Q_el();
+          end->next->n = current->left;
+          end = end->next;
+          end->next = NULL;
+        }
+        if (current->right != NULL) {
+          end->next = new Q_el();
+          end->next->n = current->right;
+          end = end->next;
+          end->next = NULL;
+        }
+      }
+      head = head -> next;
+    }
+    printf("\n");
+  }
+#endif
+
+/**
+ * this is called when a parse error is encountered by Bison
+ */
+int yyerror(const char *s) {
+  printf("%s\n", s);
+}

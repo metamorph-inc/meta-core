@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{332E0F2B-5ACC-429B-B1FD-7D24D6286527}" cdate="Thu Apr 29 08:45:14 2010" mdate="Thu Apr 29 08:45:14 2010" version="" metaguid="{05C1E540-B898-4A7D-BB8A-C65AB0485E8C}" metaversion="" metaname="BIP">
+	<name>Root Folder</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x1" kind="RootFolder" guid="{60408dd7-fba5-4614-9446-88407864e25b}">
+		<name>Root Folder</name>
+		<model id="id-0065-00000001" kind="Module" guid="{05190419-a5ae-42f5-bdfc-bf2ba074ec7d}" relid="0x1" childrelidcntr="0x3">
+			<name>simple_SR</name>
+			<model id="id-0065-00000002" kind="PetriNet" role="PetriNet" guid="{4c9b24ba-d1b4-4371-8f12-7d7d63743294}" relid="0x1" childrelidcntr="0x8">
+				<name>Generator_Distributed</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="Aspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>371,56</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="action" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000016" kind="Variable" role="Variable" guid="{3c905216-9870-47d8-bf9a-a1ce8677e381}" relid="0x1" childrelidcntr="0x0">
+					<name>x</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>427,560</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="datatype" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000017" kind="Variable" role="Variable" guid="{ae2da64a-ccc0-4205-8865-44fa0ec15d90}" relid="0x2" childrelidcntr="0x0">
+					<name>workingguardVar</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>560,560</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="datatype" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000018" kind="Port" role="Port" guid="{3ff5cab5-214f-4dce-92f6-843d8895cbf8}" relid="0x3" childrelidcntr="0x0">
+					<name>Intern_Initialize</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,35</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="export" status="meta">
+						<value>false</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000019" kind="Port" role="Port" guid="{43eb2a78-690d-4728-b250-994f2b99d85e}" relid="0x4" childrelidcntr="0x0">
+					<name>working</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,147</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="export">
+						<value>true</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000001a" kind="Port" role="Port" guid="{65292113-101f-4bfd-9e0e-251b265e4a82}" relid="0x5" childrelidcntr="0x0">
+					<name>S_working</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,266</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="export">
+						<value>true</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000001b" kind="State" role="State" guid="{d69fc24f-f16e-4ae7-af81-acc20c025509}" relid="0x6" childrelidcntr="0x0">
+					<name>OCCUPIED</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>336,196</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialeState">
+						<value>true</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000001c" kind="State" role="State" guid="{0fa9af75-8a9f-402b-abfa-19a23943f775}" relid="0x7" childrelidcntr="0x0">
+					<name>BusyState1_OCCUPIED</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>672,63</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialeState" status="meta">
+						<value>false</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000001d" kind="State" role="State" guid="{f816e36e-f7e2-4e41-b131-3cd6b8335325}" relid="0x8" childrelidcntr="0x0">
+					<name>BusyState2_OCCUPIED</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>672,273</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialeState" status="meta">
+						<value>false</value>
+					</attribute>
+				</model>
+			</model>
+			<model id="id-0065-00000003" kind="PetriNet" role="PetriNet" guid="{cea018d9-e8d2-41d2-8343-5fcea114600f}" relid="0x2" childrelidcntr="0x11">
+				<name>Engine0</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="Aspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>371,190</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="action" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000005" kind="Variable" role="Variable" guid="{58cc4387-7736-45e2-adbb-1e5348e005f6}" relid="0x1" childrelidcntr="0x0">
+					<name>val_conn</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>238,630</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="datatype" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000006" kind="Variable" role="Variable" guid="{4a58338b-8b74-44b9-bb73-f01e8698ab12}" relid="0x2" childrelidcntr="0x0">
+					<name>x_g1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,630</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="datatype" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000007" kind="Variable" role="Variable" guid="{7dd65479-f333-48ff-891f-611e040afca3}" relid="0x3" childrelidcntr="0x0">
+					<name>working_g1_GuarVar</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>490,630</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="datatype" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000008" kind="Variable" role="Variable" guid="{32a51eaf-6d3c-446b-afd0-22592a15ba21}" relid="0x4" childrelidcntr="0x0">
+					<name>x_g2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>616,630</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="datatype" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000009" kind="Variable" role="Variable" guid="{f88d6d20-cc3f-4184-b4f0-6d13cd231e3f}" relid="0x5" childrelidcntr="0x0">
+					<name>working_g2_GuarVar</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>742,630</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="datatype" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000000a" kind="Port" role="Port" guid="{c86da51c-b92a-439c-b87b-cc4698735195}" relid="0x6" childrelidcntr="0x0">
+					<name>Intern_Initialize</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>42,35</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="export" status="meta">
+						<value>false</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000000b" kind="Port" role="Port" guid="{4042b984-102c-4b3f-9595-b1cc65578f5c}" relid="0x7" childrelidcntr="0x0">
+					<name>working_g1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>42,140</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="export">
+						<value>true</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000000c" kind="Port" role="Port" guid="{f5b19b56-9ce8-461d-91d3-d09efe91eae6}" relid="0x8" childrelidcntr="0x0">
+					<name>SPort_0</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>42,245</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="export">
+						<value>true</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000000d" kind="Port" role="Port" guid="{8810f5d0-ac92-4ebc-89f9-95a8bee7cd3d}" relid="0x9" childrelidcntr="0x0">
+					<name>working_g2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>42,350</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="export">
+						<value>true</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000000e" kind="Port" role="Port" guid="{18f9bc53-3e2c-4b27-97ab-15b2852e6b22}" relid="0xa" childrelidcntr="0x0">
+					<name>SPort_1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>42,455</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="export">
+						<value>true</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000010" kind="State" role="State" guid="{99cab402-1815-435a-b117-adf419744a67}" relid="0xc" childrelidcntr="0x0">
+					<name>S_SPort_0Init</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>280,126</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialeState">
+						<value>true</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000011" kind="State" role="State" guid="{d8b4e81e-fcb1-46fd-9209-5f47823e8e67}" relid="0xd" childrelidcntr="0x0">
+					<name>S_SPort_0</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>497,126</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialeState" status="meta">
+						<value>false</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000012" kind="State" role="State" guid="{5dbbf817-6781-49cd-b681-4ef6cb272b44}" relid="0xe" childrelidcntr="0x0">
+					<name>S_working_g1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>721,126</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialeState" status="meta">
+						<value>false</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000013" kind="State" role="State" guid="{086c301c-1056-4f6d-88a6-0e4ddbc45ba0}" relid="0xf" childrelidcntr="0x0">
+					<name>S_SPort_1Init</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>280,231</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialeState">
+						<value>true</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000014" kind="State" role="State" guid="{b49ad71c-5ef6-443e-9dfc-47d2fd51c3d2}" relid="0x10" childrelidcntr="0x0">
+					<name>S_SPort_1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>497,231</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialeState" status="meta">
+						<value>false</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000015" kind="State" role="State" guid="{2933e8a8-6144-44f1-887a-a03f0acdc79b}" relid="0x11" childrelidcntr="0x0">
+					<name>S_working_g2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>721,231</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialeState" status="meta">
+						<value>false</value>
+					</attribute>
+				</model>
+			</model>
+			<model id="id-0065-00000004" kind="Component" role="Component" guid="{9a4e3f8b-0e70-4e58-9d4a-8b9667cd250a}" relid="0x3" childrelidcntr="0x7">
+				<name>top</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="Aspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>133,105</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<model id="id-0065-0000001e" kind="PetriNetWrapper" role="PetriNetWrapper" guid="{8999c9ca-8713-4866-b353-6ff89f2912de}" relid="0x1" childrelidcntr="0x3">
+					<name>g1_dist</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>77,98</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<reference id="id-0067-00000001" kind="PetriNetRef" role="PetriNetRef" guid="{bd7a8e0c-b822-49c3-b854-055b4b766dd3}" relid="0x1" referred="id-0065-00000002">
+						<name>Generator_Distributed</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>390,222</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000002" kind="PortRef" role="PortRef" guid="{b98ed3a4-4692-4480-b56e-26dafc3ee11e}" relid="0x2" referred="id-0065-00000019">
+						<name>working</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>145,124</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000003" kind="PortRef" role="PortRef" guid="{c8269896-0d25-4dc5-a87e-5e1762855847}" relid="0x3" referred="id-0065-0000001a">
+						<name>S_working</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>145,292</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+				</model>
+				<model id="id-0065-0000001f" kind="PetriNetWrapper" role="PetriNetWrapper" guid="{ce186e99-0d4e-4215-a9ad-654e3517160b}" relid="0x2" childrelidcntr="0x3">
+					<name>g2_dist</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>630,98</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<reference id="id-0067-00000004" kind="PetriNetRef" role="PetriNetRef" guid="{019d79a0-226e-44f6-8bca-ace5801dce9c}" relid="0x1" referred="id-0065-00000002">
+						<name>Generator_Distributed</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>376,194</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000005" kind="PortRef" role="PortRef" guid="{6d7f164d-d934-4760-b219-1bbe037b3935}" relid="0x2" referred="id-0065-00000019">
+						<name>working</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>40,131</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000006" kind="PortRef" role="PortRef" guid="{49faa56f-c4d0-4b34-b8f8-219e4adda671}" relid="0x3" referred="id-0065-0000001a">
+						<name>S_working</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>54,383</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+				</model>
+				<model id="id-0065-00000020" kind="PetriNetWrapper" role="PetriNetWrapper" guid="{d035c65c-6a5f-42a2-986d-34bb77a26d5d}" relid="0x3" childrelidcntr="0x5">
+					<name>Engine0_I</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>343,98</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<reference id="id-0067-00000007" kind="PetriNetRef" role="PetriNetRef" guid="{0ca6c919-2c51-425e-b333-58cea0f6b72a}" relid="0x1" referred="id-0065-00000003">
+						<name>Engine0</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>572,237</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000008" kind="PortRef" role="PortRef" guid="{0602d88c-c449-46db-9963-2b607f21c8de}" relid="0x2" referred="id-0065-0000000b">
+						<name>working_g1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>40,110</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000009" kind="PortRef" role="PortRef" guid="{e8606367-5248-4dae-8067-0b8d349766f0}" relid="0x3" referred="id-0065-0000000c">
+						<name>SPort_0</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>47,229</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-0000000a" kind="PortRef" role="PortRef" guid="{2ffca801-d91a-4ef2-b7a2-910c80127300}" relid="0x4" referred="id-0065-0000000d">
+						<name>working_g2</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>824,96</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-0000000b" kind="PortRef" role="PortRef" guid="{f318e92a-6eaf-4ce7-aa17-042ce87e0c1d}" relid="0x5" referred="id-0065-0000000e">
+						<name>SPort_1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>824,215</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+				</model>
+				<connection id="id-0068-00000001" kind="Connector" role="Connector" guid="{5799a52f-3c0d-4a3a-9036-9c88f6c84d2a}" relid="0x4">
+					<name>Connector</name>
+					<connpoint role="dst" target="id-0067-00000002"/>
+					<connpoint role="src" target="id-0067-00000008"/>
+				</connection>
+				<connection id="id-0068-00000002" kind="Connector" role="Connector" guid="{d7c2c700-70ef-4053-b2bf-803e9051920e}" relid="0x5">
+					<name>Connector</name>
+					<connpoint role="dst" target="id-0067-00000005"/>
+					<connpoint role="src" target="id-0067-0000000a"/>
+				</connection>
+				<connection id="id-0068-00000003" kind="Connector" role="Connector" guid="{5acf49a8-78f0-40cc-ac2f-3044ae0403c6}" relid="0x6">
+					<name>Connector</name>
+					<connpoint role="src" target="id-0067-00000003"/>
+					<connpoint role="dst" target="id-0067-00000009"/>
+				</connection>
+				<connection id="id-0068-00000004" kind="Connector" role="Connector" guid="{1cbddfd6-d7e5-4fdb-a271-3f5c398370c5}" relid="0x7">
+					<name>Connector</name>
+					<connpoint role="src" target="id-0067-00000006"/>
+					<connpoint role="dst" target="id-0067-0000000b"/>
+				</connection>
+			</model>
+		</model>
+	</folder>
+</project>

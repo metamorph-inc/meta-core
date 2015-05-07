@@ -1,0 +1,40 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+	<Dataflow name="Dataflow">
+		<Subsystem Tag="" Name="embedded_with_delay" name="embedded_with_delay" Period="0" Deadline="0" Priority="0" UserData="" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id11" Name="" dstLine_end_="id4" srcLine_end_="ide"/>
+			<Line _id="id13" Name="" dstLine_end_="id14" srcLine_end_="ide"/>
+			<Line _id="id16" Name="" dstLine_end_="idb" srcLine_end_="id15"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id11">
+				<TypeBaseRef _id="id9" ref="id8" name="MsingleC3C1M" MemberIndex="0"/>
+			</OutputPort>
+			<Primitive Tag="" Name="Embedded MATLAB Function" name="Embedded MATLAB Function" Priority="0" UserData="" BlockType="Embedded" SampleTime="0.000000" Description="">
+				<InputPort _id="idb" name="u" Number="1" srcLine="id16">
+					<TypeBaseRef _id="idd" ref="id8" name="MsingleC3C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="ide" name="y" Number="1" dstLine="id11 id13">
+					<TypeBaseRef _id="id10" ref="id8" name="MsingleC3C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="Script" Value="function y = fcn(u)&amp;#x0a;% This block supports the Embedded MATLAB subset.&amp;#x0a;% See the help menu for details. &amp;#x0a;&amp;#x0a;y = u + [ 1 ; 2 ; 3 ]"/>
+			</Primitive>
+			<Primitive Tag="" Name="Unit Delay" name="Unit Delay" Priority="0" UserData="" BlockType="UnitDelay" SampleTime="1.000000" Description="">
+				<InputPort _id="id14" name="In_1" Number="1" srcLine="id13">
+					<TypeBaseRef _id="id1f" ref="id8" name="MsingleC3C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id15" name="Out_1" Number="1" dstLine="id16">
+					<TypeBaseRef _id="id22" ref="id8" name="MsingleC3C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="RTWStateStorageClass" Value="Auto"/>
+				<Parameter name="RTWStateStorageTypeQualifier" Value=""/>
+				<Parameter name="StateIdentifier" Value=""/>
+				<Parameter name="StateMustResolveToSignalObject" Value="off"/>
+				<Parameter name="X0" Value="0"/>
+			</Primitive>
+		</Subsystem>
+	</Dataflow>
+	<Stateflow name="Stateflow"/>
+	<Types name="Types">
+		<Matrix _id="id8" Type="single" name="MsingleC3C1M" rows="3" columns="1" referedbyTypeStructRef="id9 idd id10 id1f id22"/>
+	</Types>
+</RootFolder>
+
+

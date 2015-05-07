@@ -1,0 +1,27 @@
+\section{Symbolic Analysis}
+\label{S:symbolics}
+
+We created a prototype tool which symbolically derives the controller 
+expressions using the dynamic model and some user guidance.  We used the
+MuPAD symbolic analysis tool available in Matlab \cite{the09:_matlab}.  Our tool follows the 
+steps described in section \ref{S:control} in which we highlight some
+additional details in regards to our implementation.
+\begin{enumerate}
+\item  For each leading principal submatrix $-\hermitian\{Q_d\}_k\
+  \in \mathbb{R}^{k \times k}$ $k\ \in \{1,\dots,n+p\}$ we formed the
+  symbolic determinant expression $|-\hermitian\{Q_d\}_k|$.  Then use
+  MuPAD's \verb solve() command to jointly solve for the control
+  coefficients $k_i,\ k_{\mathsf{I}}$ subject to the constraint that
+  $|-\hermitian\{Q_d\}_k| > 0$.
+\item The calculation of $P$ is a bit more involved:
+\begin{enumerate}
+\item Use MuPAD's function \verb linalg::nullspace() to extract the
+  nullspace basis set for $g(x)^T$, then  concatenate the resulting
+  list of vectors to construct the matrix $g^{\bot}(x)$. 
+\item Compute $g^{\dagger}$ using the Moore-Penrose left psuedoinverse
+  $g^{\dagger}=(g(x)^T g(x))^{-1} g(x)^T$.
+\item Form the matrices $g(x)^{\bot} Q_d$ and 
+$g(x)^{\dagger} Q_d$.  The matrix $P_{\nulll}$ comes from the basis vectors for
+the null space of $g(x)^{\bot} Q_d$.   Solving $P = -P_{\nulll} (g^{\dagger} Q_d P_{\nulll})^{-1}$ yields the appropriately scaled matrix $P$.
+\end{enumerate}
+\end{enumerate} 

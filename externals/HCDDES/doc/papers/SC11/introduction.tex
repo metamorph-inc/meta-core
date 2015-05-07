@@ -1,0 +1,41 @@
+\section{Introduction}
+
+High confidence embedded control system software designs often require formal 
+analyses to ensure design correctness.  Detailed models of system behavior 
+include numerous design concerns such as controller stability, timing 
+requirements, fault tolerance, and deadlock freedom.  Models for each of these
+domains must together provide a consistent and faithful representation of the
+potential problems an operational system would face.  This poses challenges 
+for structural representation of models, as components and design
+aspects are commonly tightly coupled.  The ESMoL embedded software design language is built on a platform which provides inherent correctness properties for well-formed models.   We rely on decoupling methods such as passive control design (decoupling controller stability from network effects) and time-triggered models of computation (decoupling timing and fault tolerance from functional requirements) and on compositional and incremental analysis to enable rapid prototyping in our design environment.  As design paradigms become more fully decoupled and analysis becomes faster (and therefore cheaper), we move closer to the goal of ``correct by construction'' model-based software development.
+
+In compositional analysis for graphical software models, sometimes the nature of the analysis does not easily lead to a clean syntactic decomposition in the models.  Examples include end-to-end properties such as latency, and other properties which require the evaluation of particular connections spanning multiple levels of components.  One approach for dealing with such properties in hierarchical dataflow designs is the creation of interface data for each component which abstracts properties of that component.  Hierarchical schedulability models defined over dataflows are a particular example\cite{sched:shin} -- each composite task contains a resource interface characterizing the aggregate supply required to schedule the task and all of its children.  Extensions to the formalism allow the designer to efficiently and incrementally evaluate whether new tasks can be admitted to the design without recomputing the full analysis\cite{sched:easwaran}.  One goal is to see whether this approach can be generalized to other properties that do not easily fit the compositional structure of hierarchical designs.
+ 
+One particular syntactic analysis problem concerns synchronous execution environments and system assembly.  In dataflow models of computation we are often concerned with so-called ``algebraic'' or delay-free processing loops in a design model.  Many synchronous formalisms require the absence of delay-free loops in order to guarantee deadlock freedom \cite{moc:ltta} or timing determinism \cite{moc:sdf}. This condition can be encoded structurally into dataflow modeling languages -- for example Simulink \cite{tools:mathworks} analyzes models for algebraic loops and attempts to resolve them analytically.  In our work we only consider the structural problem of loop detection in model-based distributed embedded system designs.
+
+We propose a simple incremental cycle enumeration technique for ESMoL:
+
+\begin{itemize}
+\item The algorithm uses Johnson's simple cycle enumeration algorithm as its 
+core engine\cite{cycles:johnson75}.  Johnson's algorithm is known to be 
+efficient \cite{cycles:mateti76}.  We use cycle enumeration in order to provide detailed feedback to designers.
+\item The algorithm exploits the component structure of hierarchical dataflow 
+models to allow the cycle enumeration to scale up to larger models.   A small amount of interface data is created and stored for each component as the analysis processes the model hierarchy from the bottom up.  The interface data consists of a set of typed graph edges indicating whether dataflow paths exist between each of the component's input/output pairs.  Each component is evaluated for cycles using the interface data instead of the detailed dataflow connections of its child components.
+\item   The interface data facilitates incremental analysis, as it also contains a flag to determine whether modifications have been made to the component.  We refer to the flag and the connectivity edges as an \emph{incremental interface} for the component.  This is consistent with the use of the concept in other model analysis domains, such as compositional scheduling analysis\cite{sched:easwaran}. In order for the incremental method to assist our development processes, the total runtime for all partial assessments of the model should be no greater than the analysis running on the full model.  Because the amount of interface data supporting the incremental analysis is small, the method should scale to large designs without imposing onerous data storage requirements on the model.
+\item The technique will not produce false positive cycle reports, though it 
+may compress multiple cycles into a single cycle through the interface abstraction.  Fortunately,
+full cycles can be recovered from the abstract cycles through application
+of the enumeration algorithm on a much smaller graph.
+\end{itemize}
+
+Zhou and Lee presented an algebraic formalism for detecting causality cycles
+in dataflow graphs, identifying particular ports that participate in a cycle.
+\cite{comp:causality}. Our method traverses the entire model and extracts all 
+elementary cycles,
+reporting all ports and subsystems involved in each cycle.
+Our approach is also inspired by work from Tripakis et al, which 
+creates a richer incremental interface for components to capture execution 
+granularity as well as potential deadlock information\cite{moc:hsdf}.  
+Their approach is much more complex in both model space and computation than our approach. Our formalism does not aim to pull 
+semantic information forward into the interface beyond connectivity.  In that sense our approach is more general, as it could be applied to multiple 
+model analysis problems in the embedded systems design domain.

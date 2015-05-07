@@ -1,0 +1,21 @@
+\begin{abstract}
+
+High-confidence design of embedded systems demands multiple types of analysis in 
+order to verify properties of the system design.  Integrating disparate analysis 
+tools into a unified tool chain has proven to be problematic due to the difficulty 
+of maintaining semantic consistency of the design across the translation both to 
+and from the domain of each analysis tool.  Poorly integrated tools and processes 
+result in incorrect designs, decreased system performance, and increased design cost.
+
+In this paper we discuss a model-based approach to integrating analysis tools into 
+an embedded system design workflow.  Our two-stage modeling language approach provides 
+abstraction at both the model design and analysis tool integration points.  Semantic 
+consistency when mapping into alternate domains is more easily maintained because the 
+first stage (to an abstract intermediate language) contains all semantically relevant 
+transformation details, reducing the second stage (generators) to simplified syntax-only 
+translations as much as possible.  The transformations explicitly address the consistency 
+of both structural and behavioral semantics. We illustrate our supported design flow with 
+a simple control design example and discuss the integration of a few particular analysis 
+tools.
+
+\end{abstract}

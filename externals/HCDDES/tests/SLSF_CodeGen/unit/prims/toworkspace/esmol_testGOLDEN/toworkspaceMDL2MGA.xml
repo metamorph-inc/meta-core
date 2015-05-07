@@ -1,0 +1,82 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="toworkspace" name="toworkspace" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id8" Name="" dstLine_end_="id9" srcLine_end_="id6"/>
+			<Line _id="idb" Name="" dstLine_end_="idc" srcLine_end_="ida"/>
+			<Line _id="idf" Name="" dstLine_end_="id10" srcLine_end_="ide"/>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="ida" name="Out_1" Number="1" dstLine="idb"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="1"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Mux" name="Mux" Period="0" Deadline="0" Priority="0" BlockType="Mux" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id9" name="In_1" Number="1" srcLine="id8"/>
+				<InputPort _id="idc" name="In_2" Number="2" srcLine="idb"/>
+				<OutputPort _id="ide" name="Out_1" Number="1" dstLine="idf"/>
+				<Parameter name="BusObject" Value="BusObject"/>
+				<Parameter name="DisplayOption" Value="bar"/>
+				<Parameter name="Inputs" Value="2"/>
+				<Parameter name="NonVirtualBus" Value="off"/>
+				<Parameter name="UseBusObject" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="To Workspace" name="To Workspace" Period="0" Deadline="0" Priority="0" BlockType="ToWorkspace" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id10" name="In_1" Number="1" srcLine="idf"/>
+				<Parameter name="Decimation" Value="1"/>
+				<Parameter name="FixptAsFi" Value="off"/>
+				<Parameter name="MaxDataPoints" Value="inf"/>
+				<Parameter name="SaveFormat" Value="Structure"/>
+				<Parameter name="VariableName" Value="simout"/>
+			</Primitive>
+			<System Tag="" Name="Counter" name="Counter" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<Line _id="id15" Name="" dstLine_end_="id16" srcLine_end_="id14"/>
+				<Line _id="id18" Name="" dstLine_end_="id19" srcLine_end_="id17"/>
+				<Line _id="id1b" Name="" dstLine_end_="id6" srcLine_end_="id1a"/>
+				<Line _id="id1e" Name="" dstLine_end_="id1f" srcLine_end_="id1d"/>
+				<OutputPort _id="id6" name="ctr" Number="1" dstLine="id8" srcLine="id1b"/>
+				<Parameter name="ExecuteAtInitialization" Value="off"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id19" name="In_1" Number="1" srcLine="id18"/>
+					<OutputPort _id="id1d" name="Out_1" Number="1" dstLine="id1e"/>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="" Name="Ground" name="Ground" Period="0" Deadline="0" Priority="0" BlockType="Ground" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<OutputPort _id="id14" name="Out_1" Number="1" dstLine="id15"/>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function toworkspace 1" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id21" ref="id20" name="Counter"/>
+					<InputPort _id="id16" name="In_1" Number="1" srcLine="id15"/>
+					<OutputPort _id="id17" name="Out_1" Number="1" dstLine="id18"/>
+					<OutputPort _id="id1a" name="Out_2" Number="2" dstLine="id1b"/>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id1f" name="In_1" Number="1" srcLine="id1e"/>
+				</Primitive>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow">
+		<State Name="" name="TopLevel" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+			<State _id="id20" Name="Counter" name="Counter" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" referedbyConnectorRef="id21">
+				<Data Max="" Min="" Name="ctr" Port="1" name="ctr" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="1" ArrayFirstIndex="0"/>
+				<State _id="id22" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id26 id27" srcTransition="id24 id26 id27"/>
+				<TransStart _id="id25" dstTransition="id24"/>
+				<Transition _id="id24" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id22" srcTransition_end_="id25"/>
+				<Transition _id="id26" name="" Guard="ctr &lt; 4" Order="1" Action="ctr = ctr+1;" Trigger="" ConditionAction="" dstTransition_end_="id22" srcTransition_end_="id22"/>
+				<Transition _id="id27" name="" Guard="ctr >= 4" Order="2" Action="ctr = 0;" Trigger="" ConditionAction="" dstTransition_end_="id22" srcTransition_end_="id22"/>
+			</State>
+		</State>
+	</Stateflow>
+</RootFolder>
+
+

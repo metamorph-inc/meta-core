@@ -1,0 +1,25 @@
+#from LoopHelper import LoopHelper
+#
+#if $parameters.Operator == "floor"
+$output = floor( $input )
+#elif $parameters.Operator == "ceil"
+$output = ceil( $input )
+#elif $parameters.Operator == "round"
+	#set $lh = LoopHelper( $block, $input.getDimensions, '    ' )
+$lh.startLoops#slurp
+${lh.indent}    if ( $input${lh.indexes} > 0 )
+${lh.indent}        $output${lh.indexes} = floor( $input${lh.indexes} + 0.5 )
+${lh.indent}    else
+${lh.indent}        $output${lh.indexes} = ceil( $input${lh.indexes} - 0.5 )
+${lh.indent}    end
+$lh.endLoops#slurp
+#else  ## $parameters.Operator == "fix"
+	#set $lh = LoopHelper( $block, $input.getDimensions, '    ' )
+$lh.startLoops#slurp
+${lh.indent}    if ( $input${lh.indexes} > 0 )
+${lh.indent}        $output${lh.indexes} = floor( $input${lh.indexes} )
+${lh.indent}    else
+${lh.indent}        $output${lh.indexes} = ceil( $input${lh.indexes} )
+${lh.indent}    end
+$lh.endLoops#slurp
+#end if

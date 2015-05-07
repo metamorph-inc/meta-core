@@ -1,0 +1,44 @@
+
+// This file will be processed by the MIDL compiler to produce the
+// type library (ComponentLib.tlb).
+
+#include "ComponentConfig.h"
+
+#define MAKE_STR(PAR) #PAR
+#define PATH3(X,Y) MAKE_STR(X##Y)
+#define PATH2(X,Y) PATH3(X,Y)
+#define PATH(NAME) PATH2(GME_BASE,NAME)
+
+
+#include PATH(/Interfaces/InterfaceColl.h)
+#include PATH(/Interfaces/meta.idl)
+#include PATH(/Interfaces/mga.idl)
+#include PATH(/Interfaces/mgautil.idl)
+#include PATH(/Interfaces/gme.idl)
+#include PATH(/Interfaces/parser.idl)
+
+
+[
+	uuid(TYPELIB_UUID),
+	version(1.0),
+	helpstring(TYPELIB_NAME)
+]
+library MgaComponentLib
+{
+	importlib("stdole32.tlb");
+
+	[
+		// you have to copy this GUID to the ComponentObj.cpp,
+
+		uuid(COCLASS_UUID),
+		helpstring(COCLASS_NAME)
+	]
+	coclass MgaComponent
+	{
+		[default] interface IMgaComponentEx;
+		interface IMgaComponent;
+		interface IMgaVersionInfo;
+	};
+};
+
+

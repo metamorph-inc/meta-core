@@ -1,0 +1,7 @@
+#if 'X0' in $parameters.keys()
+    #set $X0 = $parameters.X0.placeInContext()
+#else
+    #set $X0 = $parameters.InitialCondition.placeInContext()
+#end if
+#set $X0.type = $output.type
+$output = $X0

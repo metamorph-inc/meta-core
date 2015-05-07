@@ -1,0 +1,8 @@
+Resolution 1us
+
+% Test a full schedule on a single processor
+
+Proc P1 100MHz 0s 0s
+Comp C1 =0.5Hz 1.0s Offset 1ms
+Comp C2 =0.5Hz 1.0s
+

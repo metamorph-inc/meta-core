@@ -1,0 +1,32 @@
+boolean            char
+Boolean            char
+byte               char
+char               char
+double             float
+fixdt(1,16)        float
+fixdt(1,16,0)      float
+fixdt(1,16,2^0,0)  float
+float              float
+float('double')    float
+float('single')    float
+int8               char
+int(8)             char
+int16              short
+int(16)            short
+int32              int
+int(32)            int
+integer            int
+int                int
+long               long
+short              short
+single             float
+sfix(16)           float
+State              int
+ufix16             float
+uint8              unsigned char
+uint(8)            unsigned char
+uint16             unsigned short
+uint(16)           unsigned short
+uint32             unsigned int
+uint(32)           unsigned int
+void               void

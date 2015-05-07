@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{35EFA7D1-A834-4297-A597-6C76CC4FD399}</ProjectGuid>
+    <RootNamespace>ESMoL</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\..\common-scripts\build_customization\xme2mga.props" />
+    <Import Project="..\..\..\common-scripts\build_customization\meta2uml.props" />
+    <Import Project="..\..\..\common-scripts\build_customization\mga2udmxml.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\generated\ESMoL\models\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\generated\ESMoL\models\</IntDir>
+    <meta2uml_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mga2udmxml</meta2uml_RuleBeforeTargets>
+    <meta2uml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xme2mga</meta2uml_RuleAfterTargets>
+    <mga2udmxml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">meta2uml</mga2udmxml_RuleAfterTargets>
+    <xme2mga_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">meta2uml</xme2mga_RuleBeforeTargets>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)</OutDir>
+    <mga2udmxml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">meta2uml</mga2udmxml_RuleAfterTargets>
+    <meta2uml_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mga2udmxml</meta2uml_RuleBeforeTargets>
+    <meta2uml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xme2mga</meta2uml_RuleAfterTargets>
+    <xme2mga_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">meta2uml</xme2mga_RuleBeforeTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuild>
+      <Message>ESMoL.mga -&gt; ESMoL_uml.mga</Message>
+    </CustomBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuild>
+      <Command>"$(GREAT_PATH)\bin\MetaGME2UML.exe" "%(FullPath)" "%(RootDir)%(Directory)\ESMoL_uml.mga"
+"$(VCP_PATH)\common-scripts\gmepy.exe" mga2xmp "%(FullPath)"
+"$(VCP_PATH)\common-scripts\gmepy.exe" mga2xme "%(FullPath)"
+</Command>
+    </CustomBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuild>
+      <Outputs>%(RootDir)%(Directory)\ESMoL_uml.mga;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuild>
+      <Message>ESMoL_udm.xml -&gt; source</Message>
+    </CustomBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuild>
+      <Outputs>%(RootDir)%(Directory)\..\generated\ESMoL.cpp;%(RootDir)%(Directory)\..\generated\ESMoL.h;%(RootDir)%(Directory)\..\generated\ESMoL.xsd;%(RootDir)%(Directory)\..\generated\ESMoL_xsd.h;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuild>
+      <Message>ESMoL_uml.mga -&gt; ESMoL_udm.xml</Message>
+    </CustomBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuild>
+      <Command>cd %(RootDir)%(Directory)
+"$(UDM_PATH)\etc\CreateUdmXml.vbs" %(Filename)%(Extension)
+</Command>
+    </CustomBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuild>
+      <Outputs>%(RootDir)%(Directory)\ESMoL_udm.xml;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuild>
+      <Message>Copying %(Filename)%(Extension) to solution include directory</Message>
+    </CustomBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuild>
+      <Command>mkdir $(VCP_PATH)\include
+xcopy /Y/D/F "%(FullPath)" $(VCP_PATH)\include
+</Command>
+    </CustomBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuild>
+      <Outputs>$(VCP_PATH)\include\ESMoL.h;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <xme2mga Include="ESMoL.xme">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ESMoL.xme -&gt; ESMoL.mga</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" "$(VCP_PATH)\generated\ESMoL\models\ESMoL.mga" MetaGME
+mkdir "$(VCP_PATH)\generated\ESMoL\models\icons"
+copy "%(RootDir)%(Directory)\icons\*" "$(VCP_PATH)\generated\ESMoL\models\icons\"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\generated\ESMoL\models\ESMoL.mga</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ESMoL.xme -&gt; ESMoL.mga</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" "$(VCP_PATH)\generated\ESMoL\models\ESMoL.mga" MetaGME
+mkdir "$(VCP_PATH)\generated\ESMoL\models\icons"
+copy "%(RootDir)%(Directory)\icons\*" "$(VCP_PATH)\generated\ESMoL\models\icons\"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\generated\ESMoL\models\ESMoL.mga</Outputs>
+      <FileType>Document</FileType>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\generated\ESMoL\models\ESMoL.mga</OutFile>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\generated\ESMoL\models\ESMoL.mga</OutFile>
+    </xme2mga>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(VCP_PATH)\generated\esmol\generated\ESMoL.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(VCP_PATH)\generated\esmol\generated\ESMoL_xsd.h" />
+    <CustomBuild Include="..\..\..\generated\ESMoL\generated\ESMoL.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xcopy /Y/D/F  "%(FullPath)" "$(VCP_PATH)\include"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\include\ESMoL.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xcopy /Y/D/F  "%(FullPath)" "$(VCP_PATH)\include"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\include\ESMoL.h</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying %(Identity) to include</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying %(Identity) to include</Message>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(VCP_PATH)\generated\esmol\generated\ESMoL.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <meta2uml Include="..\..\..\generated\esmol\models\ESMoL.mga">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(GREAT_PATH)\bin\MetaGME2UML.exe" %(FullPath) %(RootDir)%(Directory)\ESMoL_uml.mga
+"$(VCP_PATH)\common-scripts\gmepy.exe" mga2xmp %(FullPath)
+"$(VCP_PATH)\common-scripts\gmepy.exe" mga2xme %(FullPath)
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ESMoL.mga -&gt; ESMoL_uml.mga</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\ESMoL_uml.mga</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(GREAT_PATH)\bin\MetaGME2UML.exe" %(FullPath) %(RootDir)%(Directory)\ESMoL_uml.mga
+"$(VCP_PATH)\common-scripts\gmepy.exe" mga2xmp %(FullPath)
+"$(VCP_PATH)\common-scripts\gmepy.exe" mga2xme %(FullPath)
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ESMoL.mga -&gt; ESMoL_uml.mga</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\ESMoL_uml.mga</Outputs>
+      <FileType>Document</FileType>
+    </meta2uml>
+  </ItemGroup>
+  <ItemGroup>
+    <mga2udmxml Include="..\..\..\generated\esmol\models\ESMoL_uml.mga">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd %(RootDir)%(Directory)
+"$(UDM_PATH)\etc\CreateUdmXml.vbs" %(FullPath)
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ESMoL_uml.mga -&gt; ESMoL_udm.xml</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd %(RootDir)%(Directory)
+"$(UDM_PATH)\etc\CreateUdmXml.vbs" %(FullPath)
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ESMoL_uml.mga -&gt; ESMoL_udm.xml</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\ESMoL_udm.xml</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\ESMoL_udm.xml</Outputs>
+      <FileType>Document</FileType>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ESMoL</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ESMoL</MetaName>
+    </mga2udmxml>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\generated\esmol\models\ESMoL_udm.xml">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mkdir "%(RootDir)%(Directory)\..\generated"
+cd "%(RootDir)%(Directory)\..\generated"
+"$(UDM_PATH)\bin\Udm.exe" -g -v "%(FullPath)"
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ESMoL_udm.xml -&gt; source</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\..\generated\ESMoL.cpp;%(RootDir)%(Directory)\..\generated\ESMoL.h;%(RootDir)%(Directory)\..\generated\ESMoL.xsd;%(RootDir)%(Directory)\..\generated\ESMoL_xsd.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mkdir "%(RootDir)%(Directory)\..\generated"
+cd "%(RootDir)%(Directory)\..\generated"
+"$(UDM_PATH)\bin\Udm.exe" -g -v "%(FullPath)"
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ESMoL_udm.xml -&gt; source</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\..\generated\ESMoL.cpp;%(RootDir)%(Directory)\..\generated\ESMoL.h;%(RootDir)%(Directory)\..\generated\ESMoL.xsd;%(RootDir)%(Directory)\..\generated\ESMoL_xsd.h</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\common-scripts\build_customization\xme2mga.targets" />
+    <Import Project="..\..\..\common-scripts\build_customization\meta2uml.targets" />
+    <Import Project="..\..\..\common-scripts\build_customization\mga2udmxml.targets" />
+  </ImportGroup>
+</Project>

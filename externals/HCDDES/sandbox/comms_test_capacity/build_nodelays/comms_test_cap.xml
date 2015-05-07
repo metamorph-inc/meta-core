@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Semantics.xsd">
+
+  <Deployment id="0">
+    <Acquisition _id="id47" acquiredMsg="id2F" acquiringChannel="id8" acquiringTasks="id3D" id="0"/>
+    <Acquisition _id="id48" acquiredMsg="id30" acquiringChannel="id11" acquiringTasks="id3e" id="0"/>
+    <Actuation _id="id46" actuatingChannel="id13" actuatingMsg="id2e" actuatingTask="id3F" id="0"/>
+    <BChan _id="id5" chanInterface="id6" channelListeners="id43" channelTransmitters="id44" config="" id="200000276" name="BChan_chan"/>
+    <BChan _id="idD" chanInterface="ide" channelListeners="id45" channelTransmitters="id42" config="" id="200000283" name="BChan_chan"/>
+    <CommInterface _id="id6" commChannels="id5" commMedium="id7" config="" devicetype="none" id="200000276" integratedBy="id4" name="BChan_dev"/>
+    <CommInterface _id="ide" commChannels="idD" commMedium="id7" config="" devicetype="none" id="200000283" integratedBy="idC" name="BChan_dev"/>
+    <Component _id="id15" ccode="" cfiles="DataHandler_sl.c" consumes="id17 id19" generates="id1A id1C" hfiles="DataHandler_sl.h" id="300000006" invokedBy="id3e" msubsystem="DataHandler" name="DataHandler"/>
+    <Component _id="id1D" ccode="" cfiles="InnerLoop_sl.c" consumes="id1F id20" generates="id21" hfiles="InnerLoop_sl.h" id="300000007" invokedBy="id3F" msubsystem="InnerLoop" name="InnerLoop"/>
+    <Component _id="id22" ccode="" cfiles="OuterLoop_sl.c" consumes="id23 id24" generates="id25" hfiles="OuterLoop_sl.h" id="300000008" invokedBy="id3C" msubsystem="OuterLoop" name="OuterLoop"/>
+    <Component _id="id26" ccode="memcpy( &amp;pos_ref, &amp;raw_pos_ref, sizeof(float[4]) );" cfiles="CCode.c" consumes="id28" generates="id29" hfiles="CCode.h" id="300000009" invokedBy="id3D" msubsystem="CCode" name="RefSocketHandler"/>
+    <ExecInfo _id="id31" executor="id3C" name="OLExec">
+      <MaxDuration exectimesecs="1e-006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id32" executor="id3D" name="RefSockExec">
+      <MaxDuration exectimesecs="1e-006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id33" executor="id3e" name="DHOLExec">
+      <MaxDuration exectimesecs="0.0047"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id34" executor="id3F" name="ILExec">
+      <MaxDuration exectimesecs="0.0007999999999999999"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id35" executor="id11 id12 id30" name="PLMsgExec">
+      <MaxDuration exectimesecs="1e-006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id36" executor="id2C" name="AttDataMsgExec">
+      <MaxDuration exectimesecs="1e-006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id37" executor="id2A" name="PosDataMsgExec">
+      <MaxDuration exectimesecs="1e-006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id38" executor="id13 id14 id2e" name="ThrustMsgExec">
+      <MaxDuration exectimesecs="1e-006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id39" executor="id2D" name="AttRefMsgExec">
+      <MaxDuration exectimesecs="1e-006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id3A" executor="id2B" name="PosRefMsgExec">
+      <MaxDuration exectimesecs="1e-006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id3B" executor="id8 id9 id2F" name="PosRefSockExec">
+      <MaxDuration exectimesecs="1e-006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <IChan _id="id8" channelAcquisition="id47" config="" ichanDevice="id9" id="200000279" info="id3B" name="SocketIChan"/>
+    <IChan _id="idF" config="name=ADC&#xA;way=ADC_EXT_AVCC&#xA;pin_number=ADC_PIN1" ichanDevice="id10" id="200000281" name="ADCChan"/>
+    <IChan _id="id11" channelAcquisition="id48" config="name=UART&#xA;way=IN&#xA;pin_number=0" ichanDevice="id12" id="200000282" info="id35" name="UART"/>
+    <InputDevice _id="id9" config="" devicetype="" id="0" info="id3B" inputChannels="id8" integratedBy="id4" name="EthernetIn"/>
+    <InputDevice _id="id10" config="" devicetype="" id="0" inputChannels="idF" integratedBy="idC" name="ADC"/>
+    <InputDevice _id="id12" config="" devicetype="" id="0" info="id35" inputChannels="id11" integratedBy="idC" name="UARTIn"/>
+    <LocalDependency _id="id40" depMsg="id2B" id="0" localDepNode="id4" localDepReceivingTasks="id3C" localDepSendingTask="id3D"/>
+    <LocalDependency _id="id41" depMsg="id2C" id="0" localDepNode="idC" localDepReceivingTasks="id3F" localDepSendingTask="id3e"/>
+    <Msg _id="id2A" carries="id1C id24" id="0" info="id37" messagetype="Remote" msgListeners="id43" msgTransmitter="id42" name="DataHandler.Pos_Data_msg" sizebytes="49"/>
+    <Msg _id="id2B" carries="id23 id29" id="0" info="id3A" messagetype="Local" msgDep="id40" name="RefSocketHandler.Pos_Ref_msg" sizebytes="17"/>
+    <Msg _id="id2C" carries="id1A id20" id="0" info="id36" messagetype="Local" msgDep="id41" name="DataHandler.Att_Data_msg" sizebytes="25"/>
+    <Msg _id="id2D" carries="id1F id25" id="0" info="id39" messagetype="Remote" msgListeners="id45" msgTransmitter="id44" name="OuterLoop.Att_Ref_msg" sizebytes="17"/>
+    <Msg _id="id2e" carries="id21" id="0" info="id38" messagetype="Local" msgActuation="id46" name="InnerLoop.Thrust_Cmd_msg" sizebytes="17"/>
+    <Msg _id="id2F" carries="id28" id="0" info="id3B" messagetype="Local" msgAcquisitions="id47" name="RefSocketHandler.PosRefSocketData" sizebytes="20"/>
+    <Msg _id="id30" carries="id17 id19" id="0" info="id35" messagetype="Local" msgAcquisitions="id48" name="DataHandler.PL_IMU_GPS_msg" sizebytes="1"/>
+    <Node _id="id4" analog_inp_num="1" analog_outp_num="1" clockspeedhz="4e+008" ctxtswitchsecs="0" executes="id3D id3C" hyperperiodsecs="0" hyperperiodticks="0" id="100000120" integrates="id6 id9 idB" name="Gumstix" nodeLocalDeps="id40" platformtype="PXA" pp_directives="" processormodel="PXA-255" rcvohdsecs="0" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <Node _id="idC" analog_inp_num="2" analog_outp_num="1" clockspeedhz="1.6e+007" ctxtswitchsecs="0" executes="id3F id3e" hyperperiodsecs="0" hyperperiodticks="0" id="100000121" integrates="ide id10 id12 id14" name="Robostix" nodeLocalDeps="id41" platformtype="AVR" pp_directives="" processormodel="ATmega128" rcvohdsecs="0" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <OChan _id="idA" config="" id="200000278" name="SocketOChan" ochanDevice="idB"/>
+    <OChan _id="id13" channelActuations="id46" config="name=UART&#xA;way=OUT&#xA;pin_number=0" id="200000280" info="id38" name="UARTOChan" ochanDevice="id14"/>
+    <OutputDevice _id="idB" config="" devicetype="" id="0" integratedBy="id4" name="EthernetOut" outputChannels="idA"/>
+    <OutputDevice _id="id14" config="" devicetype="" id="0" info="id38" integratedBy="idC" name="UARTOut" outputChannels="id13"/>
+    <Receives _id="id43" id="0" receivedMsg="id2A" receivingChannel="id5" receivingTask="id3C"/>
+    <Receives _id="id45" id="0" receivedMsg="id2D" receivingChannel="idD" receivingTask="id3F"/>
+    <Signal _id="id17" callIndex="1" carriedBy="id30" consumedBy="id15" id="100000175" isOfType="id16" msgIndex="2" name="DataHandler_data1"/>
+    <Signal _id="id19" callIndex="2" carriedBy="id30" consumedBy="id15" id="100000176" isOfType="id18" msgIndex="1" name="DataHandler_data2"/>
+    <Signal _id="id1A" callIndex="1" carriedBy="id2C" generatedBy="id15" id="100000177" isOfType="id18" msgIndex="1" name="DataHandler_att_data"/>
+    <Signal _id="id1C" callIndex="2" carriedBy="id2A" generatedBy="id15" id="100000178" isOfType="id1B" msgIndex="1" name="DataHandler_pos_data"/>
+    <Signal _id="id1F" callIndex="1" carriedBy="id2D" consumedBy="id1D" id="100000198" isOfType="id1e" msgIndex="1" name="InnerLoop_att_ref"/>
+    <Signal _id="id20" callIndex="2" carriedBy="id2C" consumedBy="id1D" id="100000199" isOfType="id18" msgIndex="1" name="DataHandler_att_data"/>
+    <Signal _id="id21" callIndex="1" carriedBy="id2e" generatedBy="id1D" id="100000200" isOfType="id1e" msgIndex="1" name="InnerLoop_Torque"/>
+    <Signal _id="id23" callIndex="1" carriedBy="id2B" consumedBy="id22" id="100000214" isOfType="id1e" msgIndex="1" name="RefSocketHandler_pos_ref"/>
+    <Signal _id="id24" callIndex="2" carriedBy="id2A" consumedBy="id22" id="100000215" isOfType="id1B" msgIndex="1" name="OuterLoop_pos_data"/>
+    <Signal _id="id25" callIndex="1" carriedBy="id2D" generatedBy="id22" id="100000216" isOfType="id1e" msgIndex="1" name="OuterLoop_att_ref"/>
+    <Signal _id="id28" callIndex="1" carriedBy="id2F" consumedBy="id26" id="100000113" isOfType="id27" msgIndex="1" name="RefSocketHandler_raw_pos_ref"/>
+    <Signal _id="id29" callIndex="2" carriedBy="id2B" generatedBy="id26" id="100000112" isOfType="id27" msgIndex="1" name="RefSocketHandler_pos_ref"/>
+    <SignalType _id="id16" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A9floatA" name="A9floatA" rows="" signalsOfType="id17"/>
+    <SignalType _id="id18" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A6floatA" name="A6floatA" rows="" signalsOfType="id19 id1A id20"/>
+    <SignalType _id="id1B" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A12floatA" name="A12floatA" rows="" signalsOfType="id1C id24"/>
+    <SignalType _id="id1e" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A4floatA" name="A4floatA" rows="" signalsOfType="id1F id21 id23 id25"/>
+    <SignalType _id="id27" columns="" ctypestr="float[4]" id="0" isStruct="false" mtypestr="" name="float[4]" rows="" signalsOfType="id28 id29"/>
+    <TTBus _id="id7" busslotbytes="512" dataratebps="1e+005" hyperperiodsecs="0" hyperperiodticks="0" id="100000119" interfaces="id6 ide" minframebytes="512" name="TTBus" setupsecs="0.0013000000000000002" switchmembytes="83886080"/>
+    <Task _id="id3C" executedBy="id4" id="0" incomingData="id43" info="id31" invokes="id22" localReceivingTaskDeps="id40" name="OuterLoop" outboundData="id44"/>
+    <Task _id="id3D" executedBy="id4" id="0" info="id32" invokes="id26" localSendingTaskDeps="id40" name="RefSocketHandler" taskAcquisitions="id47"/>
+    <Task _id="id3e" executedBy="idC" id="0" info="id33" invokes="id15" localSendingTaskDeps="id41" name="DataHandler" outboundData="id42" taskAcquisitions="id48"/>
+    <Task _id="id3F" executedBy="idC" id="0" incomingData="id45" info="id34" invokes="id1D" localReceivingTaskDeps="id41" name="InnerLoop" taskActuations="id46"/>
+    <Transmits _id="id42" id="0" sendingChan="idD" sendingTask="id3e" transmittedMsg="id2A"/>
+    <Transmits _id="id44" id="0" sendingChan="id5" sendingTask="id3C" transmittedMsg="id2D"/>
+  </Deployment>
+
+</RootFolder>

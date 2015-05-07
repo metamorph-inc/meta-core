@@ -1,0 +1,474 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="product" name="product" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id11" Name="" dstLine_end_="id9" srcLine_end_="id10"/>
+			<Line _id="id16" Name="" dstLine_end_="id17" srcLine_end_="id15"/>
+			<Line _id="id1a" Name="" dstLine_end_="id1b" srcLine_end_="id19"/>
+			<Line _id="id1e" Name="" dstLine_end_="id1f" srcLine_end_="id1d"/>
+			<Line _id="id22" Name="" dstLine_end_="id23" srcLine_end_="id21"/>
+			<Line _id="id26" Name="" dstLine_end_="id27" srcLine_end_="id25"/>
+			<Line _id="id2a" Name="" dstLine_end_="id2b" srcLine_end_="id29"/>
+			<Line _id="id2e" Name="" dstLine_end_="id2f" srcLine_end_="id2d"/>
+			<Line _id="id3e" Name="" dstLine_end_="id3f" srcLine_end_="id3d"/>
+			<Line _id="id41" Name="" dstLine_end_="id42" srcLine_end_="id40"/>
+			<Line _id="id44" Name="" dstLine_end_="ida" srcLine_end_="id43"/>
+			<Line _id="id46" Name="" dstLine_end_="id47" srcLine_end_="id43"/>
+			<Line _id="id49" Name="" dstLine_end_="id4a" srcLine_end_="id48"/>
+			<Line _id="id4c" Name="" dstLine_end_="id4d" srcLine_end_="id4b"/>
+			<Line _id="id4f" Name="" dstLine_end_="idb" srcLine_end_="id4e"/>
+			<Line _id="id51" Name="" dstLine_end_="id52" srcLine_end_="id48"/>
+			<Line _id="id54" Name="" dstLine_end_="idc" srcLine_end_="id53"/>
+			<Line _id="id56" Name="" dstLine_end_="id57" srcLine_end_="id48"/>
+			<Line _id="id59" Name="" dstLine_end_="idd" srcLine_end_="id58"/>
+			<Line _id="id5b" Name="" dstLine_end_="id5c" srcLine_end_="id48"/>
+			<Line _id="id5e" Name="" dstLine_end_="ide" srcLine_end_="id5d"/>
+			<Line _id="id61" Name="" dstLine_end_="id62" srcLine_end_="id60"/>
+			<Line _id="id64" Name="" dstLine_end_="id65" srcLine_end_="id63"/>
+			<Line _id="id67" Name="" dstLine_end_="id8" srcLine_end_="id66"/>
+			<Line _id="id6a" Name="" dstLine_end_="id6b" srcLine_end_="id69"/>
+			<Line _id="id6d" Name="" dstLine_end_="id6e" srcLine_end_="id6c"/>
+			<Line _id="id70" Name="" dstLine_end_="id7" srcLine_end_="id6f"/>
+			<Line _id="id73" Name="" dstLine_end_="id74" srcLine_end_="id72"/>
+			<Line _id="id76" Name="" dstLine_end_="id77" srcLine_end_="id75"/>
+			<Line _id="id79" Name="" dstLine_end_="id5" srcLine_end_="id78"/>
+			<Line _id="id7c" Name="" dstLine_end_="id7d" srcLine_end_="id7b"/>
+			<Line _id="id7f" Name="" dstLine_end_="id80" srcLine_end_="id7e"/>
+			<Line _id="id82" Name="" dstLine_end_="id6" srcLine_end_="id81"/>
+			<Line _id="id85" Name="" dstLine_end_="id86" srcLine_end_="id84"/>
+			<Line _id="id88" Name="" dstLine_end_="id89" srcLine_end_="id87"/>
+			<Line _id="id8b" Name="" dstLine_end_="id4" srcLine_end_="id8a"/>
+			<OutputPort _id="id4" name="Out 1x1" Number="1" srcLine="id8b"/>
+			<OutputPort _id="id5" name="Out 1x1 2" Number="2" srcLine="id79"/>
+			<OutputPort _id="id6" name="Out 1x1 3" Number="3" srcLine="id82"/>
+			<OutputPort _id="id7" name="Out 1x1 4" Number="4" srcLine="id70"/>
+			<OutputPort _id="id8" name="Out 1x1 5" Number="5" srcLine="id67"/>
+			<OutputPort _id="id9" name="Out 1x1 6" Number="6" srcLine="id11"/>
+			<OutputPort _id="ida" name="Out1" Number="7" srcLine="id44"/>
+			<OutputPort _id="idb" name="Out2" Number="8" srcLine="id4f"/>
+			<OutputPort _id="idc" name="Out3" Number="9" srcLine="id54"/>
+			<OutputPort _id="idd" name="Out4" Number="10" srcLine="id59"/>
+			<OutputPort _id="ide" name="Out5" Number="11" srcLine="id5e"/>
+			<Primitive Tag="" Name="2 scalar inputs5" name="2 scalar inputs5" Period="0" Deadline="0" Priority="0" BlockType="Product" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id1f" name="In_1" Number="1" srcLine="id1e"/>
+				<InputPort _id="id23" name="In_2" Number="2" srcLine="id22"/>
+				<InputPort _id="id17" name="In_3" Number="3" srcLine="id16"/>
+				<InputPort _id="id27" name="In_4" Number="4" srcLine="id26"/>
+				<InputPort _id="id1b" name="In_5" Number="5" srcLine="id1a"/>
+				<InputPort _id="id2b" name="In_6" Number="6" srcLine="id2a"/>
+				<InputPort _id="id2f" name="In_7" Number="7" srcLine="id2e"/>
+				<OutputPort _id="id10" name="Out_1" Number="1" dstLine="id11"/>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="All dimensions"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="*****/*"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(.*)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Zero"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id84" name="Out_1" Number="1" dstLine="id85"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="2"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant1" name="Constant1" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id87" name="Out_1" Number="1" dstLine="id88"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant10" name="Constant10" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id15" name="Out_1" Number="1" dstLine="id16"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="2"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant11" name="Constant11" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id19" name="Out_1" Number="1" dstLine="id1a"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant12" name="Constant12" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id1d" name="Out_1" Number="1" dstLine="id1e"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant13" name="Constant13" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id21" name="Out_1" Number="1" dstLine="id22"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant14" name="Constant14" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id25" name="Out_1" Number="1" dstLine="id26"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant15" name="Constant15" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id29" name="Out_1" Number="1" dstLine="id2a"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant16" name="Constant16" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id2d" name="Out_1" Number="1" dstLine="id2e"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant17" name="Constant17" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id3d" name="Out_1" Number="1" dstLine="id3e"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[1 2 3 4; 5 6 7 8; 9 10 11 12]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant18" name="Constant18" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id40" name="Out_1" Number="1" dstLine="id41"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[2 3; 4 1; 1.2 3; 4 9]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant19" name="Constant19" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id48" name="Out_1" Number="1" dstLine="id49 id51 id56 id5b"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[2 3 0 1; 4 2 3 9]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant2" name="Constant2" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id72" name="Out_1" Number="1" dstLine="id73"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="2"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant20" name="Constant20" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id4b" name="Out_1" Number="1" dstLine="id4c"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[ 1 2 0 8; 3 9 8 6; 3 8 7 6; 9 8 7 5]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant3" name="Constant3" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id75" name="Out_1" Number="1" dstLine="id76"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant4" name="Constant4" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id7b" name="Out_1" Number="1" dstLine="id7c"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="2"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant5" name="Constant5" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id7e" name="Out_1" Number="1" dstLine="id7f"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant6" name="Constant6" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id69" name="Out_1" Number="1" dstLine="id6a"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="2"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant7" name="Constant7" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id6c" name="Out_1" Number="1" dstLine="id6d"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant8" name="Constant8" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id60" name="Out_1" Number="1" dstLine="id61"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="2"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant9" name="Constant9" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id63" name="Out_1" Number="1" dstLine="id64"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Product" name="Product" Period="0" Deadline="0" Priority="0" BlockType="Product" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id3f" name="In_1" Number="1" srcLine="id3e"/>
+				<InputPort _id="id42" name="In_2" Number="2" srcLine="id41"/>
+				<OutputPort _id="id43" name="Out_1" Number="1" dstLine="id44 id46"/>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="All dimensions"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="2"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Matrix(*)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Zero"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Product1" name="Product1" Period="0" Deadline="0" Priority="0" BlockType="Product" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id47" name="In_1" Number="1" srcLine="id46"/>
+				<InputPort _id="id4a" name="In_2" Number="2" srcLine="id49"/>
+				<InputPort _id="id4d" name="In_3" Number="3" srcLine="id4c"/>
+				<OutputPort _id="id4e" name="Out_1" Number="1" dstLine="id4f"/>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="All dimensions"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="3"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Matrix(*)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Zero"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Product2" name="Product2" Period="0" Deadline="0" Priority="0" BlockType="Product" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id52" name="In_1" Number="1" srcLine="id51"/>
+				<OutputPort _id="id53" name="Out_1" Number="1" dstLine="id54"/>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="All dimensions"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="1"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(.*)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Zero"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Product4" name="Product4" Period="0" Deadline="0" Priority="0" BlockType="Product" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id57" name="In_1" Number="1" srcLine="id56"/>
+				<OutputPort _id="id58" name="Out_1" Number="1" dstLine="id59"/>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="Specified dimension"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="1"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(.*)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Zero"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Product5" name="Product5" Period="0" Deadline="0" Priority="0" BlockType="Product" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id5c" name="In_1" Number="1" srcLine="id5b"/>
+				<OutputPort _id="id5d" name="Out_1" Number="1" dstLine="id5e"/>
+				<Parameter name="CollapseDim" Value="2"/>
+				<Parameter name="CollapseMode" Value="Specified dimension"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="1"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(.*)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Zero"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="inputs = 
+slash star" name="inputs = 
+slash star" Period="0" Deadline="0" Priority="0" BlockType="Product" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id62" name="In_1" Number="1" srcLine="id61"/>
+				<InputPort _id="id65" name="In_2" Number="2" srcLine="id64"/>
+				<OutputPort _id="id66" name="Out_1" Number="1" dstLine="id67"/>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="All dimensions"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="/*"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(.*)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Zero"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="inputs=
+&quot; * / &quot;" name="inputs=
+&quot; * / &quot;" Period="0" Deadline="0" Priority="0" BlockType="Product" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id6b" name="In_1" Number="1" srcLine="id6a"/>
+				<InputPort _id="id6e" name="In_2" Number="2" srcLine="id6d"/>
+				<OutputPort _id="id6f" name="Out_1" Number="1" dstLine="id70"/>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="All dimensions"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="*/"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(.*)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Zero"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="inputs=
+* *" name="inputs=
+* *" Period="0" Deadline="0" Priority="0" BlockType="Product" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id74" name="In_1" Number="1" srcLine="id73"/>
+				<InputPort _id="id77" name="In_2" Number="2" srcLine="id76"/>
+				<OutputPort _id="id78" name="Out_1" Number="1" dstLine="id79"/>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="All dimensions"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="**"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(.*)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Zero"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="inputs=
+slash slash" name="inputs=
+slash slash" Period="0" Deadline="0" Priority="0" BlockType="Product" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id7d" name="In_1" Number="1" srcLine="id7c"/>
+				<InputPort _id="id80" name="In_2" Number="2" srcLine="id7f"/>
+				<OutputPort _id="id81" name="Out_1" Number="1" dstLine="id82"/>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="All dimensions"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="//"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(.*)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Zero"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="inputs=2" name="inputs=2" Period="0" Deadline="0" Priority="0" BlockType="Product" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id86" name="In_1" Number="1" srcLine="id85"/>
+				<InputPort _id="id89" name="In_2" Number="2" srcLine="id88"/>
+				<OutputPort _id="id8a" name="Out_1" Number="1" dstLine="id8b"/>
+				<Parameter name="CollapseDim" Value="1"/>
+				<Parameter name="CollapseMode" Value="All dimensions"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="2"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(.*)"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Zero"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow"/>
+</RootFolder>
+
+

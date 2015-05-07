@@ -1,0 +1,30 @@
+\section{Conclusion}
+
+The current implementation is integrated into the ESMoL tool suite for the Generic Modeling Environment\cite{mic:gme}, but thorough scalability testing requires larger models.
+
+One interesting observation is the generality of the approach.  Algorithm 
+\ref{alg:hcycles} very nearly captures a generic procedure for bottom-up incremental syntactic analysis of hierarchical graphical models.  Algorithm \ref{alg:genincr} proposes such a generic template.  A complete study of such generic 
+incremental structural analysis techniques should include consideration of the effects of the component processing order on the accuracy of the result.  Note that two small contributions may emerge from this observation 1) we have a structure to which we can adapt some other model analysis techniques for incremental operation, if an appropriate component interface can be found for the particular analysis in question, and 2) this approach could lead to a tool for efficiently specifying such analyses, from which we could generate software code to implement the analysis.
+
+\begin{algorithm}[H]
+\caption{Hierarchical cycle detection}
+\label{alg:genincr}
+\begin{algorithmic}[1]
+\State $results \gets [ ]$
+\State $ifaces \gets \{ \}$
+\Function{analyze}{ $ \llbracket W_{\bar{x}}^p [\mathbb{G}] \rrbracket$ }
+   \ForAll { $W_{\bar{x}_i}^{c_i} [\mathbb{G}] \in W_{\bar{x}}^p [\mathbb{G}]$  }
+      \State ${\scriptstyle \mathrm{ANALYZE}}( \llbracket W_{\bar{x}_i}^{c_i} [\mathbb{G}] \rrbracket )$
+   \EndFor
+   \State $modified( W_{\bar{x}}^p [\mathbb{G}]) \gets (modified( W_{\bar{x}}^p [\mathbb{G}]) \vee ( \vee_{c_i} modified( W_{\bar{x}_i}^{c_i} [\mathbb{G}] ) )$
+   \If { $modified( W_{\bar{x}}^p [\mathbb{G}])$ }
+      \State $T \gets {\scriptstyle \mathrm{ANALYZESTRUCTURE}}(W_{\bar{x}}^p [\mathbb{G}])$
+      \State $results \gets [ results; {\scriptstyle \mathrm{COLLECTRESULTS}}( T ) ]$
+      \State $ifaces[p] \gets {\scriptstyle \mathrm{CREATEINTERFACE}}(T)$
+   \EndIf
+\EndFunction
+\State ${\scriptstyle \mathrm{ANALYZE}}( \mathbb{G}) $
+\end{algorithmic}
+\end{algorithm}
+
+Two immediate applications of this generic incremental method in ESMoL embedded control system designs are 1) automated sector analysis for passivity and/or stability \cite{pass:validation} and 2) quantization interval analysis for data precision and overflow.  Both represent a static analysis of possible system behaviors that can be encoded syntactically and have a natural component interface that can be easily defined.  In both cases component interface data requirements are small, and computation is fairly efficient.

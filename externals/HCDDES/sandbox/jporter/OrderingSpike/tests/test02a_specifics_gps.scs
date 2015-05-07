@@ -1,0 +1,27 @@
+% GPS Example
+Problem GPSExample
+Resolution 1ms
+
+Proc N1 1us
+
+Partition Part1 =500Hz 1ms policy=RM jitter=11us
+PTask SensorDataOut =250Hz 155us 4ms
+
+Partition Part2 =500Hz 1ms policy=RM jitter=23us
+PTask GPSDataIn =250Hz 171us 4ms
+ATask NavDisplayDataIn <250Hz 231us 4ms
+ATask NavDisplayGetGPSData <250Hz 177us 4ms
+ATask GPSGetGPSData <250Hz 48us 4ms
+
+Msg GPSDataIn1_Msg Part1/SensorDataOut Part2/GPSDataIn 36B
+Msg GPSDataIn2_Msg Part2/GPSDataIn Part2/NavDisplayDataIn 36B
+BMsg NavDisplayMsg Part2/NavDisplayDataIn Part2/NavDisplayGetGPSData 0B 0B 8ms
+BMsg GPSDataMsg  Part2/NavDisplayGetGPSData Part2/GPSGetGPSData 40B 40B 8ms
+
+
+%1. maxexSensor_data_out = 1.540184020996094e-004 seconds
+%2. maxexGPS_data_in = 1.702308654785156e-004 seconds
+%3. maxexP_GPS_getGPSData = 4.744529724121094e-005 seconds
+%4. maxexNavDisplay_data_in = 2.305507659912109e-004 seconds
+%5. maxexU_NavDisplay_getGPSData = 1.769065856933594e-004 seconds
+

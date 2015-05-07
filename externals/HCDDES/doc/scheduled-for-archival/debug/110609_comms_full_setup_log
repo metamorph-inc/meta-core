@@ -1,0 +1,9 @@
+1. Importing into GME.  This went OK, but AddTypes choked on the ones(n,m)
+   call in the gain block.  The workaround is to specify those explicitly, but
+   it's a little bit tedious.
+
+2. Expressions in the gain block don't work.  I split the gain into the matrix
+   part and then another gain to scale it all.  Also used decimal constants
+   instead of the rational expressions (don't know if that was necessary).
+
+3. Having trouble with the matrix gains in AddTypes.

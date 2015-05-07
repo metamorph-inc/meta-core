@@ -1,0 +1,33 @@
+1. Quad Integrator generation and setup:
+
+   . Generated everything from the qint.mga model.
+
+   . Copied the QuadIntegrator tree over to Plant for experimentation (we're
+     using a modified version of the Simulink and GME models).
+
+   . Updated the Makefiles appropriately, and ran dos2unix.
+
+   . Missing \ in gumstix-frodo.bb (after last file entry). 
+
+   . No context was generated for the DataHandler -- it should generate an
+     empty one.
+
+   . An extra memset was created by the FRODO template.  Easy fix.
+
+2. (Next day) Regenerated.
+
+   . Problem with component name mismatch.  Fixed in stage2 and regenerated.
+
+   . Problem with slot 1 in the schedule -- we need to explicitly model the
+     sync message.  Should we even have the ADC?  In the model, the input msg
+     was connected to the wrong peripheral.  Not good.
+
+   . Fixed the model and regenerated everything.
+
+   . Almost running right out of the box.  Since the input messages were not
+     fully connected, the vel_err field was not generated correctly for the
+     angle ref message.  This will be addressed by the constraints, but it's
+     annoying for now :-(
+
+3. It appears to be up and running.  Now the xPC is giving us some grief, but
+   that's to be expected.

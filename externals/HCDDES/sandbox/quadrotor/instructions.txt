@@ -1,0 +1,74 @@
+Instructions for generating and running the quadrotor model:
+
+1. Set up the hardware:
+   a. Windows XP dev machine with GME7/GReAT, Matlab R2008a, Hyperterminal,
+      Visual C++ 2005
+   b. Linux dev machine with Ubuntu 8.04 LTS, avr cross-compilers, and
+      Gumstix OpenEmbedded image (compiled)
+   c. Gumstix/Robostix setup -- Cross-connected Gumstix UART 
+      (via Robostix break-out) to Atmel AVR UART 0 (I2C connection), 
+	  connected power to bypass the regulator so both boards could be 
+	  supplied by one wall wart. Installed and removed gumstix packages 
+	  per Peter's instructions in the FRODOs directory.  Level converter 
+	  used for communication to the xPC.
+
+	  Gumstix was also initialized with freshly built OpenEmbedded image,
+	  also per Peter's instructions (in the FRODOs directory).
+   d. xPC Simulator - Quatech ESC-100 8-port serial PCI card, PCI ethernet
+      (for compatibility with the xPC), and a USB floppy drive for booting
+	  the xPC RTOS.
+
+2. Created a design directory (quadrotor) and built models.
+   a. Created subdirectories for xPC, CodeGen, ESMoL, and TrueTime.
+   b. Copied relevant Simulink models into the subdirectory.
+   c. Extracted the plant portion of the model from the master starmac_system
+      Simulink model (created starmac_xpc.mdl).
+   d. Created Simulink specifications for communications to and from the xPC.
+   e. Set Real-Time workshop to target the xPC, and changed solver
+      configuration to fixed-step.
+   f. Built the xPC model and downloaded it to the xPC target box.
+
+3. ESMoL
+   a. From directory Plant/quadrotor/ESMoL - import the Simulink .mdl file.
+   b.   ..\..\..\bin\MDL2MGA.exe -L .. ..\starmac_system.mdl starmac_system.mga
+   c.   Made a backup copy of the newly imported starmac_system.mga.
+   d.   ..\..\..\bin\addTypes.exe starmac_system.mga
+   e.   Ignore lots and lots of warnings!
+   f. Open the model starmac_system.mga in GME.
+   g.   Enabled the autolayout component.
+   h.   Opened /Root Folder/Dataflow/starmac_system and ran auto layout.
+   i.   Ran auto layout on robo_stix and gum_stix as well (and deeper layers).
+   j.   Renamed "Root Folder" to "RootFolder" (just in case).
+   k. Problems with data type propagation -- start again!
+
+   a. Created a new model with _only_ the gum_stix and robo_stix blocks.
+   b. Used MDL2MGA and addTypes to get an .mga-file.
+   c. Fixed type deficiencies in minimal Simulink model.
+   d.   Removed all rate transition blocks.
+   e.   Explicitly set the sizes and types of the top-level ports.
+   f.   Turned on port size & type displays, and refreshed the diagram 
+         (^d) to check port consistency.
+   g. Importing again -- may have worked this time!  Working on code gen.
+   h. Mistake -- gum_stix and robo_stix Simulink blocks must be in the top
+      level directory inside the Dataflow folder in order to be processed by
+	  SL_CodeGen.exe -- making change in the mga.
+   i. Code generation failed due to the Zero-Order Hold blocks -- removing
+      them from the model.  Where necessary they were replaced with unity
+	  gains.
+   j. Note: some of the variables (notably external connections) were cast as
+      double.  We'll have to change that for this to work.  All of the gain
+	  values are doubles as well.  Looking into that...
+   k. Added a patch with Harmon to handle the type for the gain parameters.
+      Modified all of the gain parameters in the Simulink model to use the 
+	  single data type.  Trying again...
+   l. Removed zero-order holds from starmac_system_minimal.  Re-imported the
+      model.  Moved gum_stix and robo_stix up a level to the Dataflow folder.
+	  Ran addTypes (looks good so far).  Ran SL_CodeGen - missed some params
+	  in the Simulink model -- try again.
+   m. Set all of the input and output port data types in the whole model to
+      single to get rid of double in the parameter calls.  A few more 
+	  iterations to fix inferencing problems between ports (set size 
+	  explicitly as well as type).
+   n. Still a few left -- hit those on Monday!
+
+

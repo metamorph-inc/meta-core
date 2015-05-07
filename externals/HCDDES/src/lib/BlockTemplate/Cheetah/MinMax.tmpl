@@ -1,0 +1,8 @@
+$output = #slurp
+#for $inp in $inputs[:-1]
+${parameters.Function}( $inp, #slurp
+#end for
+$inputs[ -1 ]#slurp
+#for $inp in $inputs[:-1]
+ )#slurp
+#end for

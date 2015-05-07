@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+       <assemblyIdentity
+                    type="win32"
+                    name="CSharpDSMLGenerator"
+                    version="1.0.1.0"
+                    publicKeyToken="1321e6b92842fe54"
+                    processorArchitecture="msil" />
+       <clrClass
+                    clsid="{78BE7B95-3564-4BA9-8FE6-8D9B91EEE0B8}"
+                    progid="MGA.Interpreter.CSharpDSMLGenerator"
+                    threadingModel="Both"
+                    name="CSharpDSMLGenerator.CSharpDSMLGeneratorInterpreter"
+                    runtimeVersion="v4.0.30319">
+       </clrClass>
+       <file name="CSharpDSMLGenerator.dll">
+       </file>
+</assembly>

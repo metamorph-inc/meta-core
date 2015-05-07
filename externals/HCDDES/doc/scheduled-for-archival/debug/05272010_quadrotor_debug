@@ -1,0 +1,62 @@
+Attempting to validate and tune the controller:
+
+1. Getting zeros for thrust (amazingly, that's not stable):
+
+   First, we need to send through the reference information for the attitude
+   to see whether it's tracking attitude.
+
+   Second, we need to send the position tracking information through to see
+   whether it's tracking position.
+
+   Attitude:
+   Well, first we have to disable the debug code that zeros out the thrust.
+   Trying again...
+
+   Still zero -- now to send through the attitude reference information.
+   
+   Reference values from the outer loop:
+   roll ref = 0, pitch ref = 0, yaw ref = 0.7854, u ref = 1.2263.
+   That does not look right.
+  
+   Extended the OL->IL I2C message to send reference data.  The reference 
+   values are generated correctly by the reference handler.  
+
+   Next try to send the sensor values for comparison, followed by the 
+   error values. 
+
+   The sensor values did not come through.  Something is wrong.  Checking the
+   data handler output via direct loopback (in the extra fields).
+   The data is OK in the data handler message -- for some reason it's no 
+   longer OK on the outer loop side.
+
+   Snooping on the I2C bus:  the data values going in and out look right.
+   The problem seems to be on the robostix, where the data is moved over.
+   The data is actually moving correctly, but it was being displayed wrong.
+
+   Now to check the error values --  
+   Error values are way out of bounds -- it doesn't make any sense.  The x and
+   y error values have a magnitude on the order of 10^9, but both the sensor 
+   and reference values checked out OK before.  That is strange.
+ 
+
+2. Sending the inputs and outputs of that operation out (for a single data
+   channel) -- send the sensor x-value, the ref x-value, and the difference.
+
+   Trace the problem down to the rate limiter block.  Simulink shows that the
+   input data should be completely unchanged, but it gets corrupted at some
+   point before the code for the embedded Matlab block.
+
+   Perplexing -- the error appeared to come from the difference calculation
+   between the current filtered value and the previous input value.  However,
+   tracking down the particular value that has gone off is proving difficult.
+
+   No panic -- the bad value was actually coming from the delay value, so we
+   need to look at the following calculations more carefully.
+
+   Tried removing just the rate-limiting step to see if that's where the error
+   came in.  It looks like it's probably the absolute value function that is
+   going crazy.  I'm going to try a local implementation. 
+
+   That seems to have solved it -- abs was returning garbage.
+   
+   

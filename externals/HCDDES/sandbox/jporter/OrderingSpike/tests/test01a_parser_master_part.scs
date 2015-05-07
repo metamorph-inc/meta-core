@@ -1,0 +1,38 @@
+Problem ParserMasterPartitioned
+Resolution 1us
+
+Proc N1 100us EDF
+Partition P1 =50 Hz 9ms policy=RM jitter=1us
+PTask T1 =10Hz 1ms 2ms
+PTask T2 =50Hz 1ms 2ms
+ATask T3 <50Hz 1ms 2ms
+SyncMsg S1 
+Msg MT2T3 P1/T2 P1/T3 10B
+
+Partition P2 =50Hz  9ms policy=EDF jitter=1us
+PTask T4 =50Hz 1ms 2ms
+PTask T5 =50Hz 1ms 2ms
+SyncMsg S2
+
+Proc N2 100us EDF
+Partition P3 =50Hz 9ms policy=RM jitter=1us
+PTask T6 =50Hz 1ms 2ms
+SyncMsg S1
+
+Partition P4 =50Hz 2ms
+ATask T7 <50Hz 1ms 2ms
+SyncMsg S2
+
+TBus B1 1ms 100Mb
+SyncMsg S2 10B 1ms 0s
+Msg M1 N2/P3/T6 N1/P2/T4 10B
+
+AFDXBus AB1 100Mb 100kb 100
+SyncMsg S1 1ms
+BMsg M2 N1/P1/T2 N2/P3/T6 10 B 5ms
+
+LatencyBound N1/P1/T2 N2/P3/T6 10ms
+LatencyBound N1/P1/T2 N1/P2/T5 14ms
+
+LatencyChain N1/P1/T2 AB1/M2 N2/P3/T6 B1/M1 N1/P2/T4 40ms
+

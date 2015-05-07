@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="CGLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CGProgressDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ComHelp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SL_CodeGen\CommandExecutor.cpp">
+      <Filter>SL_CodeGen\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SL_CodeGen\ConfigKeeper.cpp">
+      <Filter>SL_CodeGen\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SL_CodeGen\Cyber2SLC.cpp">
+      <Filter>SL_CodeGen\Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SL_CodeGen\CyberComposition.cpp">
+      <Filter>SL_CodeGen\Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SL_CodeGen\FMI\FMI.cpp">
+      <Filter>SL_CodeGen\FMI</Filter>
+    </ClCompile>
+    <ClCompile Include="SL_CodeGen\FMUCodeGen.cpp">
+      <Filter>SL_CodeGen\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SL_CodeGen\GenCyber2SLC.cpp">
+      <Filter>SL_CodeGen\Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SL_CodeGen\LINKS.cpp">
+      <Filter>SL_CodeGen\Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SL_CodeGen\ModelicaCodeGen.cpp">
+      <Filter>SL_CodeGen\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RawComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="runSL_CodeGen.cpp">
+      <Filter>SL_CodeGen\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SL_CodeGen\SFC.cpp">
+      <Filter>SL_CodeGen\Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SL_CodeGen\utils.cpp">
+      <Filter>SL_CodeGen\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UdmApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UdmConsole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UdmFormatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CyberCycles.cpp">
+      <Filter>SL_CodeGen\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\converter\boost_python.converter.arg_to_python_base.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\converter\boost_python.converter.builtin_converters.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\converter\boost_python.converter.from_python.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\converter\boost_python.converter.registry.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\converter\boost_python.converter.type_id.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\object\boost_python.object.class.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\object\boost_python.object.enum.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\object\boost_python.object.function.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\object\boost_python.object.function_doc_signature.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\object\boost_python.object.inheritance.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\object\boost_python.object.iterator.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\object\boost_python.object.life_support.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\object\boost_python.object.pickle_support.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\object\boost_python.object.stl_iterator.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.dict.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.errors.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.exec.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.import.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.list.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.long.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.module.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.numeric.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.object_operators.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.object_protocol.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.slice.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.str.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.tuple.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\boost_python.wrapper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CGLog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CGProgressDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\CommandExecutor.h">
+      <Filter>SL_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\ConfigKeeper.hpp">
+      <Filter>SL_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\Cyber2SLC.h">
+      <Filter>SL_CodeGen\Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\CyberComposition.h">
+      <Filter>SL_CodeGen\Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\FMI\FMI.h">
+      <Filter>SL_CodeGen\FMI</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\FMUCodeGen.h">
+      <Filter>SL_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\GenCyber2SLC.h">
+      <Filter>SL_CodeGen\Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\LINKS.h">
+      <Filter>SL_CodeGen\Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\GMECOM.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\ModelicaCodeGen.h">
+      <Filter>SL_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\ModelicaTemplate.h">
+      <Filter>SL_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RawComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="runSL_CodeGen.h">
+      <Filter>SL_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\SFC.h">
+      <Filter>SL_CodeGen\Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\utils.h">
+      <Filter>SL_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="string_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UdmApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UdmConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UdmConsole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UdmFormatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\Cyber2SLC-gr_cmptempl.h">
+      <Filter>SL_CodeGen\Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SL_CodeGen\Cyber2SLC-gr_userinc.h">
+      <Filter>SL_CodeGen\Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cycles\CycleGraphs.h">
+      <Filter>SL_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cycles\JohnsonsAlgorithm.h">
+      <Filter>SL_CodeGen\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CyberCycles.h">
+      <Filter>SL_CodeGen\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CompIcon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Component.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{f85e3e6c-73a1-4007-95d2-1bad08dd13b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{702c7d79-70c1-42da-b4d7-6ff25dc0ba76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SL_CodeGen">
+      <UniqueIdentifier>{b467227e-8d53-4149-9d6a-76e91aae7faa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{6bb3f80d-c2b0-4f77-b76d-f9c4263b9000}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SL_CodeGen\Generated Files">
+      <UniqueIdentifier>{a96eb33d-b3e4-492b-adc3-d3ac377c827e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SL_CodeGen\Header Files">
+      <UniqueIdentifier>{50f96237-e04d-48c2-b8f1-8d90d1d6090a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SL_CodeGen\Source Files">
+      <UniqueIdentifier>{2cb8c775-7aee-4380-9502-96ee941e810d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SL_CodeGen\FMI">
+      <UniqueIdentifier>{b9a85934-2901-4a75-be33-c74a80d7090e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Component.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="$(GME_ROOT)\SDK\BON\Common\ComponentLib.idl">
+      <Filter>Source Files</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <udm Include="SL_CodeGen\FMI\FMI_udm.xml">
+      <Filter>SL_CodeGen\FMI</Filter>
+    </udm>
+  </ItemGroup>
+  <ItemGroup>
+    <mga2udmxml Include="SL_CodeGen\FMI\FMI_uml.mga">
+      <Filter>SL_CodeGen\FMI</Filter>
+    </mga2udmxml>
+  </ItemGroup>
+  <ItemGroup>
+    <xme2mga Include="..\..\meta\FMI\FMI_uml.xme">
+      <Filter>SL_CodeGen\FMI</Filter>
+    </xme2mga>
+  </ItemGroup>
+</Project>

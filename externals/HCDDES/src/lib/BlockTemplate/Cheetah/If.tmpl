@@ -1,0 +1,25 @@
+#for $ix in $range(  0, $len( $inputs )  )
+$inputs[ $ix ].alias(  "u" + $str( $ix + 1 )  )#slurp
+#end for
+#
+#for $ix in $range(  0, $len( $outputs )  )
+$outputs[ $ix ].alias(  "out" + $str( $ix + 1 )  )#slurp
+out$str( $ix + 1 ) = 0
+#end for
+#
+if $parameters.IfExpression.value.strip()
+    out1 = 1
+#
+#set $elseIfExpressions = $parameters.ElseIfExpressions.value.strip()
+#if $elseIfExpressions != ""
+	#set $elseExpressions = $elseIfExpressions.split( "," )
+	#for $ix in $range(  0, $len( $elseExpressions )  )
+elseif $elseExpressions[ $ix ].strip()
+    out$str( $ix + 2 ) = 1
+	#end for
+#end if
+#if $parameters.ShowElse == "on"
+else
+    out$len( $outputs ) = 1
+#end if
+end

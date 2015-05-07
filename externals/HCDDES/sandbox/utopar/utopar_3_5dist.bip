@@ -1,0 +1,2353 @@
+model utopar_3_5
+  {# 
+ 
+   int delta(int u, int du) { 
+     return (u < du) ? 1 : (u > du) ? -1 : 0; 
+   }
+ 
+  #}
+  header {#
+
+#include <assert.h>
+
+// warning: matrices are used from 1 to M
+
+const int Z = 20;
+
+typedef int matrix[Z][Z];
+#}
+  {# 
+
+void initializeMatrix(matrix& m, const int v = 0) {
+        for(int i = 0; i < Z; i++)
+                for(int j = 0; j < Z; j++)
+                        m[i][j] = v;
+}
+
+void copyMatrix(matrix& m1, const matrix& m2) {
+    for(int i = 0; i < Z; i++)
+      for(int j = 0; j < Z; j++)
+        m1[i][j] = m2[i][j];
+}
+
+#}
+  port type RequestPort(int x, int y)
+  port type EnterPort(int x, int y)
+  atomic type CallingUnit(int px, int py)
+    data int x=px
+    data int y=py
+    data int z=0
+    export port RequestPort request(x, y)
+    export port EnterPort enter(x, y)
+    place OCCUPIED
+    place EMPTY
+    initial to EMPTY
+do {
+      }
+    on request
+      from EMPTY to OCCUPIED
+      provided z<=200
+      do z = z+1;
+
+    on enter
+      from OCCUPIED to EMPTY
+
+
+  end
+
+  port type AwakePort(int x, int y)
+  port type ExitPort
+  port type OpenPort(int x, int y)
+  port type ClosePort(int x, int y)
+  port type DeparturePort(int id, int x, int y, int dx, int dy)
+  port type ArrivalPort(int x, int y, bool e)
+  port type DestinationPort(int id, int x, int y, int dx, int dy)
+  port type PosChangedPort(int x, int y, int s)
+  atomic type Car(int pM, int px, int py, int pid)
+    data int M=pM
+    data int x=px
+    data int y=py
+    data int dx=0
+    data int dy=0
+    data int sx=0
+    data int sy=0
+    data int id=pid
+    data bool e=true
+    export port AwakePort awake(x, y)
+    export port EnterPort enter(x, y)
+    export port ExitPort exit()
+    export port OpenPort open(x, y)
+    export port ClosePort close(x, y)
+    export port DeparturePort departure(id, x, y, dx, dy)
+    export port ArrivalPort arrival(x, y, e)
+    export port DestinationPort destination(id, x, y, dx, dy)
+    export port PosChangedPort xposChanged(x, y, sx)
+    export port PosChangedPort yposChanged(x, y, sy)
+    place IDLE_EMPTY
+    place RUN_EMPTY
+    place SLEEP
+    place PREPARE_IDLE_EMPTY
+    place PREPARE_IDLE_OCCUPIED
+    place IDLE_OCCUPIED
+    place RUN_OCCUPIED
+    place PREPARE_RUN_OCCUPIED
+    initial to SLEEP
+do {
+      }
+    on awake
+      from SLEEP to IDLE_EMPTY
+    on departure
+      from IDLE_EMPTY to RUN_EMPTY
+      do {
+        sx = delta(x, dx);
+        sy = delta(y, dy);
+      }
+
+    on open
+      from IDLE_EMPTY to PREPARE_IDLE_OCCUPIED
+    on xposChanged
+      from RUN_EMPTY to RUN_EMPTY
+      provided x!=dx
+      do x = x+sx;
+
+    on yposChanged
+      from RUN_EMPTY to RUN_EMPTY
+      provided y!=dy
+      do y = y+sy;
+
+    on arrival
+      from RUN_EMPTY to IDLE_EMPTY
+      provided (x==dx)&&(y==dy)
+    on enter
+      from PREPARE_IDLE_OCCUPIED to IDLE_OCCUPIED
+      do {
+        e = false;
+        dx = ((x*7)%M)+1;
+        dy = ((y*11)%M)+1;
+      }
+
+    on destination
+      from IDLE_OCCUPIED to PREPARE_RUN_OCCUPIED
+    on exit
+      from IDLE_OCCUPIED to PREPARE_IDLE_EMPTY
+      do e = true;
+
+    on departure
+      from PREPARE_RUN_OCCUPIED to RUN_OCCUPIED
+      do {
+        sx = delta(x, dx);
+        sy = delta(y, dy);
+      }
+
+    on xposChanged
+      from RUN_OCCUPIED to RUN_OCCUPIED
+      provided x!=dx
+      do x = x+sx;
+
+    on yposChanged
+      from RUN_OCCUPIED to RUN_OCCUPIED
+      provided y!=dy
+      do y = y+sy;
+
+    on arrival
+      from RUN_OCCUPIED to IDLE_OCCUPIED
+      provided (x==dx)&&(y==dy)
+      do {
+        dx = ((x*7)%M)+1;
+        dy = ((y*11)%M)+1;
+      }
+
+    on close
+      from PREPARE_IDLE_EMPTY to IDLE_EMPTY
+
+
+
+
+
+
+
+
+
+
+  end
+
+  port type InternalPort
+  atomic type CentralStation(int pn, int pm)
+    data int N=pn
+    data int M=pm
+    data int x=0
+    data int y=0
+    data bool e
+    data int sx
+    data int sy
+    data int dx=0
+    data int dy=0
+    data matrix u
+    data matrix a
+    data matrix b
+    data matrix m
+    data int nu=0
+    data int na=0
+    data int id=-1
+    export port AwakePort awake(x, y)
+    export port OpenPort open(x, y)
+    export port DeparturePort departure(id, x, y, dx, dy)
+    export port PosChangedPort xposChanged(x, y, sx)
+    export port PosChangedPort yposChanged(x, y, sy)
+    export port ArrivalPort arrival(x, y, e)
+    export port DestinationPort destination(id, x, y, dx, dy)
+    export port ClosePort close(x, y)
+    export port RequestPort request(x, y)
+    port InternalPort think()
+    port InternalPort init()
+    place RUN
+    place INITIAL
+    place DEPARTURE
+    place DECIDE
+    place DISPLAY
+    initial to INITIAL
+do {
+      }
+    on init
+      from INITIAL to RUN
+      do {
+        initializeMatrix(u);
+        initializeMatrix(a);
+        initializeMatrix(b);
+        initializeMatrix(m);
+      }
+
+    on request
+      from RUN to RUN
+      do {# u[x][y] = 1; nu = nu + 1; #}
+
+    on awake
+      from RUN to RUN
+      do {# a[x][y] = a[x][y] + 1; na = na + 1; #}
+
+    on close
+      from RUN to RUN
+      do {# b[x][y] = b[x][y] - 1; a[x][y] = a[x][y] + 1; na = na + 1; #}
+
+    on xposChanged
+      from RUN to RUN
+      do {# m[x][y] = m[x][y]- 1; m[x+sx][y] = m[x+sx][y] + 1; #}
+
+    on yposChanged
+      from RUN to RUN
+      do {# m[x][y] = m[x][y]- 1; m[x][y+sy] = m[x][y+sy] + 1; #}
+
+    on arrival
+      from RUN to RUN
+      do {# m[x][y] = m[x][y] - 1; 
+      if (e) {a[x][y] = a[x][y] + 1; na = na + 1; } else { b[x][y] = b[x][y] + 1;} #}
+
+    on destination
+      from RUN to DEPARTURE
+    on think
+      from RUN to DECIDE
+      provided (nu>0)&&(na>0)
+      do {#
+        x = 0; y = 0; dx = 0; dy = 0; id = -1;
+        // check to open
+        bool ok = false;
+        for(int i = 1; i <= M && !ok; i++)
+          for(int j = 1; j <= M && !ok; j++)
+            if (u[i][j] == 1 && a[i][j] > 0) {
+                x = i; 
+                y = j; 
+                ok = true;
+            }
+            
+         if (ok) {
+           // printf("\n\nopen at %d %d\n\n", x, y);
+         }
+         // if no opening possible, there must be a move anyway
+         else {
+            // choose a random request and a random car to move there
+	    int cu = 0, ca = 0;            
+            for(int i = 1; i <= M; i++)
+                for(int j = 1; j <= M; j++) {
+                     if (u[i][j] == 1) { 
+	                cu++; 
+                        if (random() % cu == 0) { dx = i; dy = j;} 
+                     }
+                     if (a[i][j] > 0) { 
+                        ca++; 
+                        if (random() % ca == 0) { x = i; y = j;} 
+                     }
+                }
+                // printf("\n\nmove de %d %d a %d %d\n\n", x, y, dx, dy);
+         }
+         #}
+
+    on open
+      from DECIDE to RUN
+      provided (((x!=0)&&(y!=0))&&(dx==0))&&(dy==0)
+      do {# nu = nu - 1; na = na - 1;
+         u[x][y] = 0; a[x][y] = a[x][y] - 1; 
+         b[x][y] = b[x][y] + 1; #}
+
+    on departure
+      from DECIDE to RUN
+      provided (((x!=0)&&(y!=0))&&(dx!=0))&&(dy!=0)
+      do {# a[x][y] = a[x][y] - 1; na = na - 1; 
+         m[x][y] = m[x][y] + 1; #}
+
+    on departure
+      from DEPARTURE to RUN
+      do {# b[x][y] = b[x][y]-1; m[x][y] = m[x][y] + 1; #}
+
+
+
+
+
+
+
+
+
+
+  end
+
+  connector type EnterConnector(EnterPort pu, EnterPort pc)
+    define  pu pc
+    on pu pc
+      provided (pu.x==pc.x)&&(pu.y==pc.y)
+  end
+
+  connector type ExitConnector(ExitPort pc)
+    define pc
+    on pc
+  end
+
+  connector type AwakeConnector(AwakePort pc, AwakePort ps)
+    define  pc ps
+    on pc ps
+    down {
+      ps.x = pc.x;
+      ps.y = pc.y;
+    }
+
+  end
+
+  connector type OpenConnector(OpenPort pc, OpenPort ps)
+    define  pc ps
+    on pc ps
+      provided (pc.x==ps.x)&&(pc.y==ps.y)
+  end
+
+  connector type CloseConnector(ClosePort pc, ClosePort ps)
+    define  pc ps
+    on pc ps
+    down {
+      ps.x = pc.x;
+      ps.y = pc.y;
+    }
+
+  end
+
+  connector type PosChangedConnector(PosChangedPort pc, PosChangedPort ps)
+    define  pc ps
+    on pc ps
+    down {
+      ps.x = pc.x;
+      ps.y = pc.y;
+      ps.s = pc.s;
+    }
+
+  end
+
+  connector type DepartureConnector(DeparturePort pc, DeparturePort ps)
+    define  pc ps
+    on pc ps
+      provided (pc.id==ps.id)||(((ps.id==(-1))&&(pc.x==ps.x))&&(pc.y==ps.y))
+    down {
+      pc.dx = ps.dx;
+      pc.dy = ps.dy;
+    }
+
+  end
+
+  connector type ArrivalConnector(ArrivalPort pc, ArrivalPort ps)
+    define  pc ps
+    on pc ps
+    down {
+      ps.x = pc.x;
+      ps.y = pc.y;
+      ps.e = pc.e;
+    }
+
+  end
+
+  connector type DestinationConnector(DestinationPort pc, DestinationPort ps)
+    define  pc ps
+    on pc ps
+    down {
+      ps.id = pc.id;
+      ps.x = pc.x;
+      ps.y = pc.y;
+      ps.dx = pc.dx;
+      ps.dy = pc.dy;
+    }
+
+  end
+
+  connector type RequestConnector(RequestPort pu, RequestPort ps)
+    define  pu ps
+    on pu ps
+    down {
+      ps.x = pu.x;
+      ps.y = pu.y;
+    }
+
+  end
+
+  compound type Utopar
+    component CallingUnit u00(1, 1)
+    component CallingUnit u01(1, 2)
+    component CallingUnit u02(1, 3)
+    component CallingUnit u10(2, 1)
+    component CallingUnit u11(2, 2)
+    component CallingUnit u12(2, 3)
+    component CallingUnit u20(3, 1)
+    component CallingUnit u21(3, 2)
+    component CallingUnit u22(3, 3)
+    component Car c0(3, 1, 1, 0)
+    component Car c1(3, 1, 1, 1)
+    component CentralStation s(2, 3)
+    connector EnterConnector enter000(u00.enter, c0.enter)
+    connector EnterConnector enter010(u01.enter, c0.enter)
+    connector EnterConnector enter020(u02.enter, c0.enter)
+    connector EnterConnector enter001(u00.enter, c1.enter)
+    connector EnterConnector enter011(u01.enter, c1.enter)
+    connector EnterConnector enter021(u02.enter, c1.enter)
+    connector EnterConnector enter100(u10.enter, c0.enter)
+    connector EnterConnector enter110(u11.enter, c0.enter)
+    connector EnterConnector enter120(u12.enter, c0.enter)
+    connector EnterConnector enter101(u10.enter, c1.enter)
+    connector EnterConnector enter111(u11.enter, c1.enter)
+    connector EnterConnector enter121(u12.enter, c1.enter)
+    connector EnterConnector enter200(u20.enter, c0.enter)
+    connector EnterConnector enter210(u21.enter, c0.enter)
+    connector EnterConnector enter220(u22.enter, c0.enter)
+    connector EnterConnector enter201(u20.enter, c1.enter)
+    connector EnterConnector enter211(u21.enter, c1.enter)
+    connector EnterConnector enter221(u22.enter, c1.enter)
+    connector ExitConnector exit0(c0.exit)
+    connector ExitConnector exit1(c1.exit)
+    connector AwakeConnector awake0(c0.awake, s.awake)
+    connector AwakeConnector awake1(c1.awake, s.awake)
+    connector OpenConnector open0(c0.open, s.open)
+    connector OpenConnector open1(c1.open, s.open)
+    connector CloseConnector close0(c0.close, s.close)
+    connector CloseConnector close1(c1.close, s.close)
+    connector PosChangedConnector xposchange0(c0.xposChanged, s.xposChanged)
+    connector PosChangedConnector xposchange1(c1.xposChanged, s.xposChanged)
+    connector PosChangedConnector yposchange0(c0.yposChanged, s.yposChanged)
+    connector PosChangedConnector yposchange1(c1.yposChanged, s.yposChanged)
+    connector DepartureConnector departure0(c0.departure, s.departure)
+    connector DepartureConnector departure1(c1.departure, s.departure)
+    connector ArrivalConnector arrival0(c0.arrival, s.arrival)
+    connector ArrivalConnector arrival1(c1.arrival, s.arrival)
+    connector DestinationConnector destination0(c0.destination, s.destination)
+    connector DestinationConnector destination1(c1.destination, s.destination)
+    connector RequestConnector request00(u00.request, s.request)
+    connector RequestConnector request01(u01.request, s.request)
+    connector RequestConnector request02(u02.request, s.request)
+    connector RequestConnector request10(u10.request, s.request)
+    connector RequestConnector request11(u11.request, s.request)
+    connector RequestConnector request12(u12.request, s.request)
+    connector RequestConnector request20(u20.request, s.request)
+    connector RequestConnector request21(u21.request, s.request)
+    connector RequestConnector request22(u22.request, s.request)
+  end
+
+  port type SynEPort1
+  connector type ConnSynPrint(SynEPort1 p)
+    define  p
+  end
+
+  port type PSType1(bool x0, int x1, int x2)
+  port type PSType2(bool x0, int x1, int x2)
+  atomic type CallingUnit_Distributed(int px, int py)
+    data int x=px
+    data int y=py
+    data int z=0
+    data bool requestguardVar=false
+    data bool enterguardVar=false
+    export port RequestPort request(x, y)
+    export port EnterPort enter(x, y)
+    export port PSType1 S_request(requestguardVar, x, y)
+    export port PSType2 S_enter(enterguardVar, x, y)
+    port SynEPort1 Intern_Initialize()
+    place OCCUPIED
+    place EMPTY
+    place BusyState1_OCCUPIED
+    place BusyState2_OCCUPIED
+    place BusyState1_EMPTY
+    place BusyState2_EMPTY
+    initial to EMPTY
+do {
+      }
+    on request
+      from BusyState2_EMPTY to OCCUPIED
+      do z = z+1;
+
+    on enter
+      from BusyState2_OCCUPIED to EMPTY
+    on Intern_Initialize
+      from OCCUPIED to BusyState1_OCCUPIED
+      do {
+        enterguardVar = true;
+      }
+
+    on S_enter
+      from BusyState1_OCCUPIED to BusyState2_OCCUPIED
+      provided enterguardVar
+    on Intern_Initialize
+      from EMPTY to BusyState1_EMPTY
+      do {
+        requestguardVar = z<=200;
+      }
+
+    on S_request
+      from BusyState1_EMPTY to BusyState2_EMPTY
+      provided requestguardVar
+
+
+
+
+  end
+
+  port type PSType3(bool x0, int x1, int x2)
+  port type PSType4(bool x0, int x1, int x2)
+  port type PSType5(bool x0, bool x1, int x2, int x3, int x4, int x5, int x6)
+  port type PSType6(bool x0, bool x1, int x2, int x3, int x4, int x5, int x6)
+  port type PSType7(bool x0, int x1, int x2)
+  port type PSType8(bool x0, bool x1, bool x2, int x3, int x4, bool x5, int x6, int x7)
+  atomic type Car_Distributed(int pM, int px, int py, int pid)
+    data int M=pM
+    data int x=px
+    data int y=py
+    data int dx=0
+    data int dy=0
+    data int sx=0
+    data int sy=0
+    data int id=pid
+    data bool e=true
+    data bool awakeguardVar=false
+    data bool enterguardVar=false
+    data bool exitguardVar=false
+    data bool openguardVar=false
+    data bool closeguardVar=false
+    data bool departureguardVar=false
+    data bool arrivalguardVar=false
+    data bool destinationguardVar=false
+    data bool xposChangedguardVar=false
+    data bool yposChangedguardVar=false
+    export port AwakePort awake(x, y)
+    export port EnterPort enter(x, y)
+    export port ExitPort exit()
+    export port OpenPort open(x, y)
+    export port ClosePort close(x, y)
+    export port DeparturePort departure(id, x, y, dx, dy)
+    export port ArrivalPort arrival(x, y, e)
+    export port DestinationPort destination(id, x, y, dx, dy)
+    export port PosChangedPort xposChanged(x, y, sx)
+    export port PosChangedPort yposChanged(x, y, sy)
+    export port PSType3 S_awake(awakeguardVar, x, y)
+    export port PSType4 S_enter(enterguardVar, x, y)
+    export port PSType5 S_exitdestination(exitguardVar, destinationguardVar, id, x, y, dx, dy)
+    export port PSType6 S_opendeparture(openguardVar, departureguardVar, x, y, id, dx, dy)
+    export port PSType7 S_close(closeguardVar, x, y)
+    export port PSType8 S_arrivalxposChangedyposChanged(arrivalguardVar, xposChangedguardVar, yposChangedguardVar, x, y, e, sx, sy)
+    port SynEPort1 Intern_Initialize()
+    place IDLE_EMPTY
+    place RUN_EMPTY
+    place SLEEP
+    place PREPARE_IDLE_EMPTY
+    place PREPARE_IDLE_OCCUPIED
+    place IDLE_OCCUPIED
+    place RUN_OCCUPIED
+    place PREPARE_RUN_OCCUPIED
+    place BusyState1_IDLE_EMPTY
+    place BusyState2_IDLE_EMPTY
+    place BusyState1_RUN_EMPTY
+    place BusyState2_RUN_EMPTY
+    place BusyState1_SLEEP
+    place BusyState2_SLEEP
+    place BusyState1_PREPARE_IDLE_EMPTY
+    place BusyState2_PREPARE_IDLE_EMPTY
+    place BusyState1_PREPARE_IDLE_OCCUPIED
+    place BusyState2_PREPARE_IDLE_OCCUPIED
+    place BusyState1_IDLE_OCCUPIED
+    place BusyState2_IDLE_OCCUPIED
+    place BusyState1_RUN_OCCUPIED
+    place BusyState2_RUN_OCCUPIED
+    place BusyState1_PREPARE_RUN_OCCUPIED
+    place BusyState2_PREPARE_RUN_OCCUPIED
+    initial to SLEEP
+do {
+      }
+    on awake
+      from BusyState2_SLEEP to IDLE_EMPTY
+    on departure
+      from BusyState2_IDLE_EMPTY to RUN_EMPTY
+      do {
+        sx = delta(x, dx);
+        sy = delta(y, dy);
+      }
+
+    on open
+      from BusyState2_IDLE_EMPTY to PREPARE_IDLE_OCCUPIED
+    on xposChanged
+      from BusyState2_RUN_EMPTY to RUN_EMPTY
+      do x = x+sx;
+
+    on yposChanged
+      from BusyState2_RUN_EMPTY to RUN_EMPTY
+      do y = y+sy;
+
+    on arrival
+      from BusyState2_RUN_EMPTY to IDLE_EMPTY
+    on enter
+      from BusyState2_PREPARE_IDLE_OCCUPIED to IDLE_OCCUPIED
+      do {
+        e = false;
+        dx = ((x*7)%M)+1;
+        dy = ((y*11)%M)+1;
+      }
+
+    on destination
+      from BusyState2_IDLE_OCCUPIED to PREPARE_RUN_OCCUPIED
+    on exit
+      from BusyState2_IDLE_OCCUPIED to PREPARE_IDLE_EMPTY
+      do e = true;
+
+    on departure
+      from BusyState2_PREPARE_RUN_OCCUPIED to RUN_OCCUPIED
+      do {
+        sx = delta(x, dx);
+        sy = delta(y, dy);
+      }
+
+    on xposChanged
+      from BusyState2_RUN_OCCUPIED to RUN_OCCUPIED
+      do x = x+sx;
+
+    on yposChanged
+      from BusyState2_RUN_OCCUPIED to RUN_OCCUPIED
+      do y = y+sy;
+
+    on arrival
+      from BusyState2_RUN_OCCUPIED to IDLE_OCCUPIED
+      do {
+        dx = ((x*7)%M)+1;
+        dy = ((y*11)%M)+1;
+      }
+
+    on close
+      from BusyState2_PREPARE_IDLE_EMPTY to IDLE_EMPTY
+    on Intern_Initialize
+      from IDLE_EMPTY to BusyState1_IDLE_EMPTY
+      do {
+        openguardVar = true;
+        departureguardVar = true;
+      }
+
+    on S_opendeparture
+      from BusyState1_IDLE_EMPTY to BusyState2_IDLE_EMPTY
+      provided departureguardVar||openguardVar
+    on Intern_Initialize
+      from RUN_EMPTY to BusyState1_RUN_EMPTY
+      do {
+        arrivalguardVar = (x==dx)&&(y==dy);
+        xposChangedguardVar = x!=dx;
+        yposChangedguardVar = y!=dy;
+      }
+
+    on S_arrivalxposChangedyposChanged
+      from BusyState1_RUN_EMPTY to BusyState2_RUN_EMPTY
+      provided (xposChangedguardVar||yposChangedguardVar)||arrivalguardVar
+    on Intern_Initialize
+      from SLEEP to BusyState1_SLEEP
+      do {
+        awakeguardVar = true;
+      }
+
+    on S_awake
+      from BusyState1_SLEEP to BusyState2_SLEEP
+      provided awakeguardVar
+    on Intern_Initialize
+      from PREPARE_IDLE_EMPTY to BusyState1_PREPARE_IDLE_EMPTY
+      do {
+        closeguardVar = true;
+      }
+
+    on S_close
+      from BusyState1_PREPARE_IDLE_EMPTY to BusyState2_PREPARE_IDLE_EMPTY
+      provided closeguardVar
+    on Intern_Initialize
+      from PREPARE_IDLE_OCCUPIED to BusyState1_PREPARE_IDLE_OCCUPIED
+      do {
+        enterguardVar = true;
+      }
+
+    on S_enter
+      from BusyState1_PREPARE_IDLE_OCCUPIED to BusyState2_PREPARE_IDLE_OCCUPIED
+      provided enterguardVar
+    on Intern_Initialize
+      from IDLE_OCCUPIED to BusyState1_IDLE_OCCUPIED
+      do {
+        exitguardVar = true;
+        destinationguardVar = true;
+      }
+
+    on S_exitdestination
+      from BusyState1_IDLE_OCCUPIED to BusyState2_IDLE_OCCUPIED
+      provided destinationguardVar||exitguardVar
+    on Intern_Initialize
+      from RUN_OCCUPIED to BusyState1_RUN_OCCUPIED
+      do {
+        arrivalguardVar = (x==dx)&&(y==dy);
+        xposChangedguardVar = x!=dx;
+        yposChangedguardVar = y!=dy;
+      }
+
+    on S_arrivalxposChangedyposChanged
+      from BusyState1_RUN_OCCUPIED to BusyState2_RUN_OCCUPIED
+      provided (xposChangedguardVar||yposChangedguardVar)||arrivalguardVar
+    on Intern_Initialize
+      from PREPARE_RUN_OCCUPIED to BusyState1_PREPARE_RUN_OCCUPIED
+      do {
+        openguardVar = false;
+        departureguardVar = true;
+      }
+
+    on S_opendeparture
+      from BusyState1_PREPARE_RUN_OCCUPIED to BusyState2_PREPARE_RUN_OCCUPIED
+      provided departureguardVar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end
+
+  port type PSType9(bool x0, bool x1, bool x2, bool x3, bool x4, bool x5, bool x6, int x7, int x8, int x9, int x10, bool x11, int x12, int x13, int x14)
+  port type PSType10(bool x0, bool x1, int x2, int x3, int x4, int x5, int x6)
+  atomic type CentralStation_Distributed(int pn, int pm)
+    data int N=pn
+    data int M=pm
+    data int x=0
+    data int y=0
+    data bool e
+    data int sx
+    data int sy
+    data int dx=0
+    data int dy=0
+    data matrix u
+    data matrix a
+    data matrix b
+    data matrix m
+    data int nu=0
+    data int na=0
+    data int id=-1
+    data bool awakeguardVar=false
+    data bool openguardVar=false
+    data bool departureguardVar=false
+    data bool xposChangedguardVar=false
+    data bool yposChangedguardVar=false
+    data bool arrivalguardVar=false
+    data bool destinationguardVar=false
+    data bool closeguardVar=false
+    data bool requestguardVar=false
+    export port AwakePort awake(x, y)
+    export port OpenPort open(x, y)
+    export port DeparturePort departure(id, x, y, dx, dy)
+    export port PosChangedPort xposChanged(x, y, sx)
+    export port PosChangedPort yposChanged(x, y, sy)
+    export port ArrivalPort arrival(x, y, e)
+    export port DestinationPort destination(id, x, y, dx, dy)
+    export port ClosePort close(x, y)
+    export port RequestPort request(x, y)
+    port InternalPort think()
+    port InternalPort init()
+    export port PSType9 S_awakexposChangedyposChangedarrivaldestinationcloserequest(awakeguardVar, xposChangedguardVar, yposChangedguardVar, arrivalguardVar, destinationguardVar, closeguardVar, requestguardVar, x, y, sx, sy, e, id, dx, dy)
+    export port PSType10 S_opendeparture(openguardVar, departureguardVar, x, y, id, dx, dy)
+    port SynEPort1 Intern_Initialize()
+    place RUN
+    place INITIAL
+    place DEPARTURE
+    place DECIDE
+    place DISPLAY
+    place BusyState1_RUN
+    place BusyState2_RUN
+    place BusyState1_INITIAL
+    place BusyState2_INITIAL
+    place BusyState1_DEPARTURE
+    place BusyState2_DEPARTURE
+    place BusyState1_DECIDE
+    place BusyState2_DECIDE
+    place BusyState1_DISPLAY
+    place BusyState2_DISPLAY
+    initial to INITIAL
+do {
+      }
+    on init
+      from BusyState1_INITIAL to RUN
+      do {
+        initializeMatrix(u);
+        initializeMatrix(a);
+        initializeMatrix(b);
+        initializeMatrix(m);
+      }
+
+    on request
+      from BusyState2_RUN to RUN
+      do {# u[x][y] = 1; nu = nu + 1; #}
+
+    on awake
+      from BusyState2_RUN to RUN
+      do {# a[x][y] = a[x][y] + 1; na = na + 1; #}
+
+    on close
+      from BusyState2_RUN to RUN
+      do {# b[x][y] = b[x][y] - 1; a[x][y] = a[x][y] + 1; na = na + 1; #}
+
+    on xposChanged
+      from BusyState2_RUN to RUN
+      do {# m[x][y] = m[x][y]- 1; m[x+sx][y] = m[x+sx][y] + 1; #}
+
+    on yposChanged
+      from BusyState2_RUN to RUN
+      do {# m[x][y] = m[x][y]- 1; m[x][y+sy] = m[x][y+sy] + 1; #}
+
+    on arrival
+      from BusyState2_RUN to RUN
+      do {# m[x][y] = m[x][y] - 1; 
+      if (e) {a[x][y] = a[x][y] + 1; na = na + 1; } else { b[x][y] = b[x][y] + 1;} #}
+
+    on destination
+      from BusyState2_RUN to DEPARTURE
+    on think
+      from BusyState1_RUN to DECIDE
+      provided (nu>0)&&(na>0)
+      do {#
+        x = 0; y = 0; dx = 0; dy = 0; id = -1;
+        // check to open
+        bool ok = false;
+        for(int i = 1; i <= M && !ok; i++)
+          for(int j = 1; j <= M && !ok; j++)
+            if (u[i][j] == 1 && a[i][j] > 0) {
+                x = i; 
+                y = j; 
+                ok = true;
+            }
+            
+         if (ok) {
+           // printf("\n\nopen at %d %d\n\n", x, y);
+         }
+         // if no opening possible, there must be a move anyway
+         else {
+            // choose a random request and a random car to move there
+	    int cu = 0, ca = 0;            
+            for(int i = 1; i <= M; i++)
+                for(int j = 1; j <= M; j++) {
+                     if (u[i][j] == 1) { 
+	                cu++; 
+                        if (random() % cu == 0) { dx = i; dy = j;} 
+                     }
+                     if (a[i][j] > 0) { 
+                        ca++; 
+                        if (random() % ca == 0) { x = i; y = j;} 
+                     }
+                }
+                // printf("\n\nmove de %d %d a %d %d\n\n", x, y, dx, dy);
+         }
+         #}
+
+    on open
+      from BusyState2_DECIDE to RUN
+      do {# nu = nu - 1; na = na - 1;
+         u[x][y] = 0; a[x][y] = a[x][y] - 1; 
+         b[x][y] = b[x][y] + 1; #}
+
+    on departure
+      from BusyState2_DECIDE to RUN
+      do {# a[x][y] = a[x][y] - 1; na = na - 1; 
+         m[x][y] = m[x][y] + 1; #}
+
+    on departure
+      from BusyState2_DEPARTURE to RUN
+      do {# b[x][y] = b[x][y]-1; m[x][y] = m[x][y] + 1; #}
+
+    on Intern_Initialize
+      from RUN to BusyState1_RUN
+      do {
+        awakeguardVar = true;
+        xposChangedguardVar = true;
+        yposChangedguardVar = true;
+        arrivalguardVar = true;
+        destinationguardVar = true;
+        closeguardVar = true;
+        requestguardVar = true;
+      }
+
+    on S_awakexposChangedyposChangedarrivaldestinationcloserequest
+      from BusyState1_RUN to BusyState2_RUN
+      provided (((((requestguardVar||awakeguardVar)||closeguardVar)||xposChangedguardVar)||yposChangedguardVar)||arrivalguardVar)||destinationguardVar
+    on Intern_Initialize
+      from INITIAL to BusyState1_INITIAL
+      do {
+      }
+
+    on Intern_Initialize
+      from DEPARTURE to BusyState1_DEPARTURE
+      do {
+        openguardVar = false;
+        departureguardVar = true;
+      }
+
+    on S_opendeparture
+      from BusyState1_DEPARTURE to BusyState2_DEPARTURE
+      provided departureguardVar
+    on Intern_Initialize
+      from DECIDE to BusyState1_DECIDE
+      do {
+        openguardVar = (((x!=0)&&(y!=0))&&(dx==0))&&(dy==0);
+        departureguardVar = (((x!=0)&&(y!=0))&&(dx!=0))&&(dy!=0);
+      }
+
+    on S_opendeparture
+      from BusyState1_DECIDE to BusyState2_DECIDE
+      provided openguardVar||departureguardVar
+    on Intern_Initialize
+      from DISPLAY to BusyState1_DISPLAY
+      do {
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+  end
+
+  connector type ConnTransferSR_Port(Port p1, Port p2)
+    define  p1' p2
+    on p1 p2
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_RequestPort(RequestPort p1, RequestPort p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x = p1.x;
+      p2.y = p1.y;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_EnterPort(EnterPort p1, EnterPort p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x = p1.x;
+      p2.y = p1.y;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_AwakePort(AwakePort p1, AwakePort p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x = p1.x;
+      p2.y = p1.y;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_ExitPort(ExitPort p1, ExitPort p2)
+    define  p1' p2
+    on p1 p2
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_OpenPort(OpenPort p1, OpenPort p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x = p1.x;
+      p2.y = p1.y;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_ClosePort(ClosePort p1, ClosePort p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x = p1.x;
+      p2.y = p1.y;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_DeparturePort(DeparturePort p1, DeparturePort p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.id = p1.id;
+      p2.x = p1.x;
+      p2.y = p1.y;
+      p2.dx = p1.dx;
+      p2.dy = p1.dy;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_ArrivalPort(ArrivalPort p1, ArrivalPort p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x = p1.x;
+      p2.y = p1.y;
+      p2.e = p1.e;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_DestinationPort(DestinationPort p1, DestinationPort p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.id = p1.id;
+      p2.x = p1.x;
+      p2.y = p1.y;
+      p2.dx = p1.dx;
+      p2.dy = p1.dy;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_PosChangedPort(PosChangedPort p1, PosChangedPort p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x = p1.x;
+      p2.y = p1.y;
+      p2.s = p1.s;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_InternalPort(InternalPort p1, InternalPort p2)
+    define  p1' p2
+    on p1 p2
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_SynEPort1(SynEPort1 p1, SynEPort1 p2)
+    define  p1' p2
+    on p1 p2
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_PSType1(PSType1 p1, PSType1 p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x0 = p1.x0;
+      p2.x1 = p1.x1;
+      p2.x2 = p1.x2;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_PSType2(PSType2 p1, PSType2 p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x0 = p1.x0;
+      p2.x1 = p1.x1;
+      p2.x2 = p1.x2;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_PSType3(PSType3 p1, PSType3 p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x0 = p1.x0;
+      p2.x1 = p1.x1;
+      p2.x2 = p1.x2;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_PSType4(PSType4 p1, PSType4 p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x0 = p1.x0;
+      p2.x1 = p1.x1;
+      p2.x2 = p1.x2;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_PSType5(PSType5 p1, PSType5 p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x0 = p1.x0;
+      p2.x1 = p1.x1;
+      p2.x2 = p1.x2;
+      p2.x3 = p1.x3;
+      p2.x4 = p1.x4;
+      p2.x5 = p1.x5;
+      p2.x6 = p1.x6;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_PSType6(PSType6 p1, PSType6 p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x0 = p1.x0;
+      p2.x1 = p1.x1;
+      p2.x2 = p1.x2;
+      p2.x3 = p1.x3;
+      p2.x4 = p1.x4;
+      p2.x5 = p1.x5;
+      p2.x6 = p1.x6;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_PSType7(PSType7 p1, PSType7 p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x0 = p1.x0;
+      p2.x1 = p1.x1;
+      p2.x2 = p1.x2;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_PSType8(PSType8 p1, PSType8 p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x0 = p1.x0;
+      p2.x1 = p1.x1;
+      p2.x2 = p1.x2;
+      p2.x3 = p1.x3;
+      p2.x4 = p1.x4;
+      p2.x5 = p1.x5;
+      p2.x6 = p1.x6;
+      p2.x7 = p1.x7;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_PSType9(PSType9 p1, PSType9 p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x0 = p1.x0;
+      p2.x1 = p1.x1;
+      p2.x2 = p1.x2;
+      p2.x3 = p1.x3;
+      p2.x4 = p1.x4;
+      p2.x5 = p1.x5;
+      p2.x6 = p1.x6;
+      p2.x7 = p1.x7;
+      p2.x8 = p1.x8;
+      p2.x9 = p1.x9;
+      p2.x10 = p1.x10;
+      p2.x11 = p1.x11;
+      p2.x12 = p1.x12;
+      p2.x13 = p1.x13;
+      p2.x14 = p1.x14;
+    }
+
+    on p1
+      provided false
+  end
+
+  connector type ConnTransferSR_PSType10(PSType10 p1, PSType10 p2)
+    define  p1' p2
+    on p1 p2
+      up {
+      }
+
+    down {
+      p2.x0 = p1.x0;
+      p2.x1 = p1.x1;
+      p2.x2 = p1.x2;
+      p2.x3 = p1.x3;
+      p2.x4 = p1.x4;
+      p2.x5 = p1.x5;
+      p2.x6 = p1.x6;
+    }
+
+    on p1
+      provided false
+  end
+
+  atomic type Engine0
+    data int x_u00
+    data int y_u00
+    data bool enter_u00_GuarVar=false
+    data int x_c0
+    data int y_c0
+    data bool enter_c0_GuarVar=false
+    data int x_u01
+    data int y_u01
+    data bool enter_u01_GuarVar=false
+    data int x_u02
+    data int y_u02
+    data bool enter_u02_GuarVar=false
+    data int x_c1
+    data int y_c1
+    data bool enter_c1_GuarVar=false
+    data int x_u10
+    data int y_u10
+    data bool enter_u10_GuarVar=false
+    data int x_u11
+    data int y_u11
+    data bool enter_u11_GuarVar=false
+    data int x_u12
+    data int y_u12
+    data bool enter_u12_GuarVar=false
+    data int x_u20
+    data int y_u20
+    data bool enter_u20_GuarVar=false
+    data int x_u21
+    data int y_u21
+    data bool enter_u21_GuarVar=false
+    data int x_u22
+    data int y_u22
+    data bool enter_u22_GuarVar=false
+    port SynEPort1 Intern_Initialize()
+    export port EnterPort enter_u00(x_u00, y_u00)
+    export port PSType2 SPort_0(enter_u00_GuarVar, x_u00, y_u00)
+    export port EnterPort enter_c0(x_c0, y_c0)
+    export port PSType4 SPort_1(enter_c0_GuarVar, x_c0, y_c0)
+    export port EnterPort enter_u01(x_u01, y_u01)
+    export port PSType2 SPort_2(enter_u01_GuarVar, x_u01, y_u01)
+    export port EnterPort enter_u02(x_u02, y_u02)
+    export port PSType2 SPort_3(enter_u02_GuarVar, x_u02, y_u02)
+    export port EnterPort enter_c1(x_c1, y_c1)
+    export port PSType4 SPort_4(enter_c1_GuarVar, x_c1, y_c1)
+    export port EnterPort enter_u10(x_u10, y_u10)
+    export port PSType2 SPort_5(enter_u10_GuarVar, x_u10, y_u10)
+    export port EnterPort enter_u11(x_u11, y_u11)
+    export port PSType2 SPort_6(enter_u11_GuarVar, x_u11, y_u11)
+    export port EnterPort enter_u12(x_u12, y_u12)
+    export port PSType2 SPort_7(enter_u12_GuarVar, x_u12, y_u12)
+    export port EnterPort enter_u20(x_u20, y_u20)
+    export port PSType2 SPort_8(enter_u20_GuarVar, x_u20, y_u20)
+    export port EnterPort enter_u21(x_u21, y_u21)
+    export port PSType2 SPort_9(enter_u21_GuarVar, x_u21, y_u21)
+    export port EnterPort enter_u22(x_u22, y_u22)
+    export port PSType2 SPort_10(enter_u22_GuarVar, x_u22, y_u22)
+    place S_SPort_0Init
+    place S_SPort_0
+    place S_enter_u00
+    place S_SPort_1Init
+    place S_SPort_1
+    place S_enter_c0
+    place S_SPort_2Init
+    place S_SPort_2
+    place S_enter_u01
+    place S_SPort_3Init
+    place S_SPort_3
+    place S_enter_u02
+    place S_SPort_4Init
+    place S_SPort_4
+    place S_enter_c1
+    place S_SPort_5Init
+    place S_SPort_5
+    place S_enter_u10
+    place S_SPort_6Init
+    place S_SPort_6
+    place S_enter_u11
+    place S_SPort_7Init
+    place S_SPort_7
+    place S_enter_u12
+    place S_SPort_8Init
+    place S_SPort_8
+    place S_enter_u20
+    place S_SPort_9Init
+    place S_SPort_9
+    place S_enter_u21
+    place S_SPort_10Init
+    place S_SPort_10
+    place S_enter_u22
+    initial to S_SPort_0Init,S_SPort_1Init,S_SPort_2Init,S_SPort_3Init,S_SPort_4Init,S_SPort_5Init,S_SPort_6Init,S_SPort_7Init,S_SPort_8Init,S_SPort_9Init,S_SPort_10Init
+    on SPort_0
+      from S_SPort_0Init to S_SPort_0
+    on enter_u00
+      from S_enter_u00 to S_SPort_0Init
+    on SPort_1
+      from S_SPort_1Init to S_SPort_1
+    on enter_c0
+      from S_enter_c0 to S_SPort_1Init
+    on SPort_2
+      from S_SPort_2Init to S_SPort_2
+    on enter_u01
+      from S_enter_u01 to S_SPort_2Init
+    on SPort_3
+      from S_SPort_3Init to S_SPort_3
+    on enter_u02
+      from S_enter_u02 to S_SPort_3Init
+    on SPort_4
+      from S_SPort_4Init to S_SPort_4
+    on enter_c1
+      from S_enter_c1 to S_SPort_4Init
+    on SPort_5
+      from S_SPort_5Init to S_SPort_5
+    on enter_u10
+      from S_enter_u10 to S_SPort_5Init
+    on SPort_6
+      from S_SPort_6Init to S_SPort_6
+    on enter_u11
+      from S_enter_u11 to S_SPort_6Init
+    on SPort_7
+      from S_SPort_7Init to S_SPort_7
+    on enter_u12
+      from S_enter_u12 to S_SPort_7Init
+    on SPort_8
+      from S_SPort_8Init to S_SPort_8
+    on enter_u20
+      from S_enter_u20 to S_SPort_8Init
+    on SPort_9
+      from S_SPort_9Init to S_SPort_9
+    on enter_u21
+      from S_enter_u21 to S_SPort_9Init
+    on SPort_10
+      from S_SPort_10Init to S_SPort_10
+    on enter_u22
+      from S_enter_u22 to S_SPort_10Init
+    on Intern_Initialize
+      from S_SPort_0, S_SPort_1 to S_enter_u00, S_enter_c0
+      provided (enter_u00_GuarVar&&enter_c0_GuarVar)&&((x_u00==x_c0)&&(y_u00==y_c0))
+      do {
+        printf("Execution of Interaction : enter000\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_2, S_SPort_1 to S_enter_u01, S_enter_c0
+      provided (enter_u01_GuarVar&&enter_c0_GuarVar)&&((x_u01==x_c0)&&(y_u01==y_c0))
+      do {
+        printf("Execution of Interaction : enter010\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_3, S_SPort_1 to S_enter_u02, S_enter_c0
+      provided (enter_u02_GuarVar&&enter_c0_GuarVar)&&((x_u02==x_c0)&&(y_u02==y_c0))
+      do {
+        printf("Execution of Interaction : enter020\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_0, S_SPort_4 to S_enter_u00, S_enter_c1
+      provided (enter_u00_GuarVar&&enter_c1_GuarVar)&&((x_u00==x_c1)&&(y_u00==y_c1))
+      do {
+        printf("Execution of Interaction : enter001\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_2, S_SPort_4 to S_enter_u01, S_enter_c1
+      provided (enter_u01_GuarVar&&enter_c1_GuarVar)&&((x_u01==x_c1)&&(y_u01==y_c1))
+      do {
+        printf("Execution of Interaction : enter011\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_3, S_SPort_4 to S_enter_u02, S_enter_c1
+      provided (enter_u02_GuarVar&&enter_c1_GuarVar)&&((x_u02==x_c1)&&(y_u02==y_c1))
+      do {
+        printf("Execution of Interaction : enter021\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_5, S_SPort_1 to S_enter_u10, S_enter_c0
+      provided (enter_u10_GuarVar&&enter_c0_GuarVar)&&((x_u10==x_c0)&&(y_u10==y_c0))
+      do {
+        printf("Execution of Interaction : enter100\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_6, S_SPort_1 to S_enter_u11, S_enter_c0
+      provided (enter_u11_GuarVar&&enter_c0_GuarVar)&&((x_u11==x_c0)&&(y_u11==y_c0))
+      do {
+        printf("Execution of Interaction : enter110\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_7, S_SPort_1 to S_enter_u12, S_enter_c0
+      provided (enter_u12_GuarVar&&enter_c0_GuarVar)&&((x_u12==x_c0)&&(y_u12==y_c0))
+      do {
+        printf("Execution of Interaction : enter120\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_5, S_SPort_4 to S_enter_u10, S_enter_c1
+      provided (enter_u10_GuarVar&&enter_c1_GuarVar)&&((x_u10==x_c1)&&(y_u10==y_c1))
+      do {
+        printf("Execution of Interaction : enter101\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_6, S_SPort_4 to S_enter_u11, S_enter_c1
+      provided (enter_u11_GuarVar&&enter_c1_GuarVar)&&((x_u11==x_c1)&&(y_u11==y_c1))
+      do {
+        printf("Execution of Interaction : enter111\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_7, S_SPort_4 to S_enter_u12, S_enter_c1
+      provided (enter_u12_GuarVar&&enter_c1_GuarVar)&&((x_u12==x_c1)&&(y_u12==y_c1))
+      do {
+        printf("Execution of Interaction : enter121\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_8, S_SPort_1 to S_enter_u20, S_enter_c0
+      provided (enter_u20_GuarVar&&enter_c0_GuarVar)&&((x_u20==x_c0)&&(y_u20==y_c0))
+      do {
+        printf("Execution of Interaction : enter200\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_9, S_SPort_1 to S_enter_u21, S_enter_c0
+      provided (enter_u21_GuarVar&&enter_c0_GuarVar)&&((x_u21==x_c0)&&(y_u21==y_c0))
+      do {
+        printf("Execution of Interaction : enter210\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_10, S_SPort_1 to S_enter_u22, S_enter_c0
+      provided (enter_u22_GuarVar&&enter_c0_GuarVar)&&((x_u22==x_c0)&&(y_u22==y_c0))
+      do {
+        printf("Execution of Interaction : enter220\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_8, S_SPort_4 to S_enter_u20, S_enter_c1
+      provided (enter_u20_GuarVar&&enter_c1_GuarVar)&&((x_u20==x_c1)&&(y_u20==y_c1))
+      do {
+        printf("Execution of Interaction : enter201\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_9, S_SPort_4 to S_enter_u21, S_enter_c1
+      provided (enter_u21_GuarVar&&enter_c1_GuarVar)&&((x_u21==x_c1)&&(y_u21==y_c1))
+      do {
+        printf("Execution of Interaction : enter211\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_10, S_SPort_4 to S_enter_u22, S_enter_c1
+      provided (enter_u22_GuarVar&&enter_c1_GuarVar)&&((x_u22==x_c1)&&(y_u22==y_c1))
+      do {
+        printf("Execution of Interaction : enter221\n");
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end
+
+  atomic type Engine1
+    data int id_c0
+    data int x_c0
+    data int y_c0
+    data int dx_c0
+    data int dy_c0
+    data bool e_c0
+    data int sx_c0
+    data int sy_c0
+    data bool exit_c0_GuarVar=false
+    data bool destination_c0_GuarVar=false
+    data bool awake_c0_GuarVar=false
+    data bool close_c0_GuarVar=false
+    data bool arrival_c0_GuarVar=false
+    data bool xposChanged_c0_GuarVar=false
+    data bool yposChanged_c0_GuarVar=false
+    data int id_c1
+    data int x_c1
+    data int y_c1
+    data int dx_c1
+    data int dy_c1
+    data bool e_c1
+    data int sx_c1
+    data int sy_c1
+    data bool exit_c1_GuarVar=false
+    data bool destination_c1_GuarVar=false
+    data bool awake_c1_GuarVar=false
+    data bool close_c1_GuarVar=false
+    data bool arrival_c1_GuarVar=false
+    data bool xposChanged_c1_GuarVar=false
+    data bool yposChanged_c1_GuarVar=false
+    data int x_s
+    data int y_s
+    data int sx_s
+    data int sy_s
+    data bool e_s
+    data int id_s
+    data int dx_s
+    data int dy_s
+    data bool awake_s_GuarVar=false
+    data bool xposChanged_s_GuarVar=false
+    data bool yposChanged_s_GuarVar=false
+    data bool arrival_s_GuarVar=false
+    data bool destination_s_GuarVar=false
+    data bool close_s_GuarVar=false
+    data bool request_s_GuarVar=false
+    data int x_u00
+    data int y_u00
+    data bool request_u00_GuarVar=false
+    data int x_u01
+    data int y_u01
+    data bool request_u01_GuarVar=false
+    data int x_u02
+    data int y_u02
+    data bool request_u02_GuarVar=false
+    data int x_u10
+    data int y_u10
+    data bool request_u10_GuarVar=false
+    data int x_u11
+    data int y_u11
+    data bool request_u11_GuarVar=false
+    data int x_u12
+    data int y_u12
+    data bool request_u12_GuarVar=false
+    data int x_u20
+    data int y_u20
+    data bool request_u20_GuarVar=false
+    data int x_u21
+    data int y_u21
+    data bool request_u21_GuarVar=false
+    data int x_u22
+    data int y_u22
+    data bool request_u22_GuarVar=false
+    port SynEPort1 Intern_Initialize()
+    export port ExitPort exit_c0()
+    export port DestinationPort destination_c0(id_c0, x_c0, y_c0, dx_c0, dy_c0)
+    export port AwakePort awake_c0(x_c0, y_c0)
+    export port ClosePort close_c0(x_c0, y_c0)
+    export port ArrivalPort arrival_c0(x_c0, y_c0, e_c0)
+    export port PosChangedPort xposChanged_c0(x_c0, y_c0, sx_c0)
+    export port PosChangedPort yposChanged_c0(x_c0, y_c0, sy_c0)
+    export port PSType5 SPort_11(exit_c0_GuarVar, destination_c0_GuarVar, id_c0, x_c0, y_c0, dx_c0, dy_c0)
+    export port PSType3 SPort_12(awake_c0_GuarVar, x_c0, y_c0)
+    export port PSType7 SPort_13(close_c0_GuarVar, x_c0, y_c0)
+    export port PSType8 SPort_14(arrival_c0_GuarVar, xposChanged_c0_GuarVar, yposChanged_c0_GuarVar, x_c0, y_c0, e_c0, sx_c0, sy_c0)
+    export port ExitPort exit_c1()
+    export port DestinationPort destination_c1(id_c1, x_c1, y_c1, dx_c1, dy_c1)
+    export port AwakePort awake_c1(x_c1, y_c1)
+    export port ClosePort close_c1(x_c1, y_c1)
+    export port ArrivalPort arrival_c1(x_c1, y_c1, e_c1)
+    export port PosChangedPort xposChanged_c1(x_c1, y_c1, sx_c1)
+    export port PosChangedPort yposChanged_c1(x_c1, y_c1, sy_c1)
+    export port PSType5 SPort_15(exit_c1_GuarVar, destination_c1_GuarVar, id_c1, x_c1, y_c1, dx_c1, dy_c1)
+    export port PSType3 SPort_16(awake_c1_GuarVar, x_c1, y_c1)
+    export port PSType7 SPort_17(close_c1_GuarVar, x_c1, y_c1)
+    export port PSType8 SPort_18(arrival_c1_GuarVar, xposChanged_c1_GuarVar, yposChanged_c1_GuarVar, x_c1, y_c1, e_c1, sx_c1, sy_c1)
+    export port AwakePort awake_s(x_s, y_s)
+    export port PosChangedPort xposChanged_s(x_s, y_s, sx_s)
+    export port PosChangedPort yposChanged_s(x_s, y_s, sy_s)
+    export port ArrivalPort arrival_s(x_s, y_s, e_s)
+    export port DestinationPort destination_s(id_s, x_s, y_s, dx_s, dy_s)
+    export port ClosePort close_s(x_s, y_s)
+    export port RequestPort request_s(x_s, y_s)
+    export port PSType9 SPort_19(awake_s_GuarVar, xposChanged_s_GuarVar, yposChanged_s_GuarVar, arrival_s_GuarVar, destination_s_GuarVar, close_s_GuarVar, request_s_GuarVar, x_s, y_s, sx_s, sy_s, e_s, id_s, dx_s, dy_s)
+    export port RequestPort request_u00(x_u00, y_u00)
+    export port PSType1 SPort_20(request_u00_GuarVar, x_u00, y_u00)
+    export port RequestPort request_u01(x_u01, y_u01)
+    export port PSType1 SPort_21(request_u01_GuarVar, x_u01, y_u01)
+    export port RequestPort request_u02(x_u02, y_u02)
+    export port PSType1 SPort_22(request_u02_GuarVar, x_u02, y_u02)
+    export port RequestPort request_u10(x_u10, y_u10)
+    export port PSType1 SPort_23(request_u10_GuarVar, x_u10, y_u10)
+    export port RequestPort request_u11(x_u11, y_u11)
+    export port PSType1 SPort_24(request_u11_GuarVar, x_u11, y_u11)
+    export port RequestPort request_u12(x_u12, y_u12)
+    export port PSType1 SPort_25(request_u12_GuarVar, x_u12, y_u12)
+    export port RequestPort request_u20(x_u20, y_u20)
+    export port PSType1 SPort_26(request_u20_GuarVar, x_u20, y_u20)
+    export port RequestPort request_u21(x_u21, y_u21)
+    export port PSType1 SPort_27(request_u21_GuarVar, x_u21, y_u21)
+    export port RequestPort request_u22(x_u22, y_u22)
+    export port PSType1 SPort_28(request_u22_GuarVar, x_u22, y_u22)
+    place S_SPort_11Init
+    place S_SPort_11
+    place S_SPort_12Init
+    place S_SPort_12
+    place S_SPort_13Init
+    place S_SPort_13
+    place S_SPort_14Init
+    place S_SPort_14
+    place S_exit_c0
+    place S_destination_c0
+    place S_awake_c0
+    place S_close_c0
+    place S_arrival_c0
+    place S_xposChanged_c0
+    place S_yposChanged_c0
+    place S_SPort_15Init
+    place S_SPort_15
+    place S_SPort_16Init
+    place S_SPort_16
+    place S_SPort_17Init
+    place S_SPort_17
+    place S_SPort_18Init
+    place S_SPort_18
+    place S_exit_c1
+    place S_destination_c1
+    place S_awake_c1
+    place S_close_c1
+    place S_arrival_c1
+    place S_xposChanged_c1
+    place S_yposChanged_c1
+    place S_SPort_19Init
+    place S_SPort_19
+    place S_awake_s
+    place S_xposChanged_s
+    place S_yposChanged_s
+    place S_arrival_s
+    place S_destination_s
+    place S_close_s
+    place S_request_s
+    place S_SPort_20Init
+    place S_SPort_20
+    place S_request_u00
+    place S_SPort_21Init
+    place S_SPort_21
+    place S_request_u01
+    place S_SPort_22Init
+    place S_SPort_22
+    place S_request_u02
+    place S_SPort_23Init
+    place S_SPort_23
+    place S_request_u10
+    place S_SPort_24Init
+    place S_SPort_24
+    place S_request_u11
+    place S_SPort_25Init
+    place S_SPort_25
+    place S_request_u12
+    place S_SPort_26Init
+    place S_SPort_26
+    place S_request_u20
+    place S_SPort_27Init
+    place S_SPort_27
+    place S_request_u21
+    place S_SPort_28Init
+    place S_SPort_28
+    place S_request_u22
+    initial to S_SPort_11Init,S_SPort_12Init,S_SPort_13Init,S_SPort_14Init,S_SPort_15Init,S_SPort_16Init,S_SPort_17Init,S_SPort_18Init,S_SPort_19Init,S_SPort_20Init,S_SPort_21Init,S_SPort_22Init,S_SPort_23Init,S_SPort_24Init,S_SPort_25Init,S_SPort_26Init,S_SPort_27Init,S_SPort_28Init
+    on SPort_11
+      from S_SPort_11Init to S_SPort_11
+    on SPort_12
+      from S_SPort_12Init to S_SPort_12
+    on SPort_13
+      from S_SPort_13Init to S_SPort_13
+    on SPort_14
+      from S_SPort_14Init to S_SPort_14
+    on exit_c0
+      from S_exit_c0 to S_SPort_11Init
+    on destination_c0
+      from S_destination_c0 to S_SPort_11Init
+    on awake_c0
+      from S_awake_c0 to S_SPort_12Init
+    on close_c0
+      from S_close_c0 to S_SPort_13Init
+    on arrival_c0
+      from S_arrival_c0 to S_SPort_14Init
+    on xposChanged_c0
+      from S_xposChanged_c0 to S_SPort_14Init
+    on yposChanged_c0
+      from S_yposChanged_c0 to S_SPort_14Init
+    on SPort_15
+      from S_SPort_15Init to S_SPort_15
+    on SPort_16
+      from S_SPort_16Init to S_SPort_16
+    on SPort_17
+      from S_SPort_17Init to S_SPort_17
+    on SPort_18
+      from S_SPort_18Init to S_SPort_18
+    on exit_c1
+      from S_exit_c1 to S_SPort_15Init
+    on destination_c1
+      from S_destination_c1 to S_SPort_15Init
+    on awake_c1
+      from S_awake_c1 to S_SPort_16Init
+    on close_c1
+      from S_close_c1 to S_SPort_17Init
+    on arrival_c1
+      from S_arrival_c1 to S_SPort_18Init
+    on xposChanged_c1
+      from S_xposChanged_c1 to S_SPort_18Init
+    on yposChanged_c1
+      from S_yposChanged_c1 to S_SPort_18Init
+    on SPort_19
+      from S_SPort_19Init to S_SPort_19
+    on awake_s
+      from S_awake_s to S_SPort_19Init
+    on xposChanged_s
+      from S_xposChanged_s to S_SPort_19Init
+    on yposChanged_s
+      from S_yposChanged_s to S_SPort_19Init
+    on arrival_s
+      from S_arrival_s to S_SPort_19Init
+    on destination_s
+      from S_destination_s to S_SPort_19Init
+    on close_s
+      from S_close_s to S_SPort_19Init
+    on request_s
+      from S_request_s to S_SPort_19Init
+    on SPort_20
+      from S_SPort_20Init to S_SPort_20
+    on request_u00
+      from S_request_u00 to S_SPort_20Init
+    on SPort_21
+      from S_SPort_21Init to S_SPort_21
+    on request_u01
+      from S_request_u01 to S_SPort_21Init
+    on SPort_22
+      from S_SPort_22Init to S_SPort_22
+    on request_u02
+      from S_request_u02 to S_SPort_22Init
+    on SPort_23
+      from S_SPort_23Init to S_SPort_23
+    on request_u10
+      from S_request_u10 to S_SPort_23Init
+    on SPort_24
+      from S_SPort_24Init to S_SPort_24
+    on request_u11
+      from S_request_u11 to S_SPort_24Init
+    on SPort_25
+      from S_SPort_25Init to S_SPort_25
+    on request_u12
+      from S_request_u12 to S_SPort_25Init
+    on SPort_26
+      from S_SPort_26Init to S_SPort_26
+    on request_u20
+      from S_request_u20 to S_SPort_26Init
+    on SPort_27
+      from S_SPort_27Init to S_SPort_27
+    on request_u21
+      from S_request_u21 to S_SPort_27Init
+    on SPort_28
+      from S_SPort_28Init to S_SPort_28
+    on request_u22
+      from S_request_u22 to S_SPort_28Init
+    on Intern_Initialize
+      from S_SPort_11 to S_exit_c0
+      provided exit_c0_GuarVar
+      do {
+        printf("Execution of Interaction : exit0\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_15 to S_exit_c1
+      provided exit_c1_GuarVar
+      do {
+        printf("Execution of Interaction : exit1\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_12, S_SPort_19 to S_awake_c0, S_awake_s
+      provided awake_c0_GuarVar&&awake_s_GuarVar
+      do {
+        x_s = x_c0;
+        y_s = y_c0;
+        printf("Execution of Interaction : awake0\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_16, S_SPort_19 to S_awake_c1, S_awake_s
+      provided awake_c1_GuarVar&&awake_s_GuarVar
+      do {
+        x_s = x_c1;
+        y_s = y_c1;
+        printf("Execution of Interaction : awake1\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_13, S_SPort_19 to S_close_c0, S_close_s
+      provided close_c0_GuarVar&&close_s_GuarVar
+      do {
+        x_s = x_c0;
+        y_s = y_c0;
+        printf("Execution of Interaction : close0\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_17, S_SPort_19 to S_close_c1, S_close_s
+      provided close_c1_GuarVar&&close_s_GuarVar
+      do {
+        x_s = x_c1;
+        y_s = y_c1;
+        printf("Execution of Interaction : close1\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_14, S_SPort_19 to S_xposChanged_c0, S_xposChanged_s
+      provided xposChanged_c0_GuarVar&&xposChanged_s_GuarVar
+      do {
+        x_s = x_c0;
+        y_s = y_c0;
+        sx_s = sx_c0;
+        printf("Execution of Interaction : xposchange0\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_18, S_SPort_19 to S_xposChanged_c1, S_xposChanged_s
+      provided xposChanged_c1_GuarVar&&xposChanged_s_GuarVar
+      do {
+        x_s = x_c1;
+        y_s = y_c1;
+        sx_s = sx_c1;
+        printf("Execution of Interaction : xposchange1\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_14, S_SPort_19 to S_yposChanged_c0, S_yposChanged_s
+      provided yposChanged_c0_GuarVar&&yposChanged_s_GuarVar
+      do {
+        x_s = x_c0;
+        y_s = y_c0;
+        sy_s = sy_c0;
+        printf("Execution of Interaction : yposchange0\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_18, S_SPort_19 to S_yposChanged_c1, S_yposChanged_s
+      provided yposChanged_c1_GuarVar&&yposChanged_s_GuarVar
+      do {
+        x_s = x_c1;
+        y_s = y_c1;
+        sy_s = sy_c1;
+        printf("Execution of Interaction : yposchange1\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_14, S_SPort_19 to S_arrival_c0, S_arrival_s
+      provided arrival_c0_GuarVar&&arrival_s_GuarVar
+      do {
+        x_s = x_c0;
+        y_s = y_c0;
+        e_s = e_c0;
+        printf("Execution of Interaction : arrival0\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_18, S_SPort_19 to S_arrival_c1, S_arrival_s
+      provided arrival_c1_GuarVar&&arrival_s_GuarVar
+      do {
+        x_s = x_c1;
+        y_s = y_c1;
+        e_s = e_c1;
+        printf("Execution of Interaction : arrival1\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_11, S_SPort_19 to S_destination_c0, S_destination_s
+      provided destination_c0_GuarVar&&destination_s_GuarVar
+      do {
+        id_s = id_c0;
+        x_s = x_c0;
+        y_s = y_c0;
+        dx_s = dx_c0;
+        dy_s = dy_c0;
+        printf("Execution of Interaction : destination0\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_15, S_SPort_19 to S_destination_c1, S_destination_s
+      provided destination_c1_GuarVar&&destination_s_GuarVar
+      do {
+        id_s = id_c1;
+        x_s = x_c1;
+        y_s = y_c1;
+        dx_s = dx_c1;
+        dy_s = dy_c1;
+        printf("Execution of Interaction : destination1\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_20, S_SPort_19 to S_request_u00, S_request_s
+      provided request_u00_GuarVar&&request_s_GuarVar
+      do {
+        x_s = x_u00;
+        y_s = y_u00;
+        printf("Execution of Interaction : request00\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_21, S_SPort_19 to S_request_u01, S_request_s
+      provided request_u01_GuarVar&&request_s_GuarVar
+      do {
+        x_s = x_u01;
+        y_s = y_u01;
+        printf("Execution of Interaction : request01\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_22, S_SPort_19 to S_request_u02, S_request_s
+      provided request_u02_GuarVar&&request_s_GuarVar
+      do {
+        x_s = x_u02;
+        y_s = y_u02;
+        printf("Execution of Interaction : request02\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_23, S_SPort_19 to S_request_u10, S_request_s
+      provided request_u10_GuarVar&&request_s_GuarVar
+      do {
+        x_s = x_u10;
+        y_s = y_u10;
+        printf("Execution of Interaction : request10\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_24, S_SPort_19 to S_request_u11, S_request_s
+      provided request_u11_GuarVar&&request_s_GuarVar
+      do {
+        x_s = x_u11;
+        y_s = y_u11;
+        printf("Execution of Interaction : request11\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_25, S_SPort_19 to S_request_u12, S_request_s
+      provided request_u12_GuarVar&&request_s_GuarVar
+      do {
+        x_s = x_u12;
+        y_s = y_u12;
+        printf("Execution of Interaction : request12\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_26, S_SPort_19 to S_request_u20, S_request_s
+      provided request_u20_GuarVar&&request_s_GuarVar
+      do {
+        x_s = x_u20;
+        y_s = y_u20;
+        printf("Execution of Interaction : request20\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_27, S_SPort_19 to S_request_u21, S_request_s
+      provided request_u21_GuarVar&&request_s_GuarVar
+      do {
+        x_s = x_u21;
+        y_s = y_u21;
+        printf("Execution of Interaction : request21\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_28, S_SPort_19 to S_request_u22, S_request_s
+      provided request_u22_GuarVar&&request_s_GuarVar
+      do {
+        x_s = x_u22;
+        y_s = y_u22;
+        printf("Execution of Interaction : request22\n");
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end
+
+  atomic type Engine2
+    data int x_c0
+    data int y_c0
+    data int id_c0
+    data int dx_c0
+    data int dy_c0
+    data bool open_c0_GuarVar=false
+    data bool departure_c0_GuarVar=false
+    data int x_s
+    data int y_s
+    data int id_s
+    data int dx_s
+    data int dy_s
+    data bool open_s_GuarVar=false
+    data bool departure_s_GuarVar=false
+    data int x_c1
+    data int y_c1
+    data int id_c1
+    data int dx_c1
+    data int dy_c1
+    data bool open_c1_GuarVar=false
+    data bool departure_c1_GuarVar=false
+    port SynEPort1 Intern_Initialize()
+    export port OpenPort open_c0(x_c0, y_c0)
+    export port DeparturePort departure_c0(id_c0, x_c0, y_c0, dx_c0, dy_c0)
+    export port PSType6 SPort_29(open_c0_GuarVar, departure_c0_GuarVar, x_c0, y_c0, id_c0, dx_c0, dy_c0)
+    export port OpenPort open_s(x_s, y_s)
+    export port DeparturePort departure_s(id_s, x_s, y_s, dx_s, dy_s)
+    export port PSType10 SPort_30(open_s_GuarVar, departure_s_GuarVar, x_s, y_s, id_s, dx_s, dy_s)
+    export port OpenPort open_c1(x_c1, y_c1)
+    export port DeparturePort departure_c1(id_c1, x_c1, y_c1, dx_c1, dy_c1)
+    export port PSType6 SPort_31(open_c1_GuarVar, departure_c1_GuarVar, x_c1, y_c1, id_c1, dx_c1, dy_c1)
+    place S_SPort_29Init
+    place S_SPort_29
+    place S_open_c0
+    place S_departure_c0
+    place S_SPort_30Init
+    place S_SPort_30
+    place S_open_s
+    place S_departure_s
+    place S_SPort_31Init
+    place S_SPort_31
+    place S_open_c1
+    place S_departure_c1
+    initial to S_SPort_29Init,S_SPort_30Init,S_SPort_31Init
+    on SPort_29
+      from S_SPort_29Init to S_SPort_29
+    on open_c0
+      from S_open_c0 to S_SPort_29Init
+    on departure_c0
+      from S_departure_c0 to S_SPort_29Init
+    on SPort_30
+      from S_SPort_30Init to S_SPort_30
+    on open_s
+      from S_open_s to S_SPort_30Init
+    on departure_s
+      from S_departure_s to S_SPort_30Init
+    on SPort_31
+      from S_SPort_31Init to S_SPort_31
+    on open_c1
+      from S_open_c1 to S_SPort_31Init
+    on departure_c1
+      from S_departure_c1 to S_SPort_31Init
+    on Intern_Initialize
+      from S_SPort_29, S_SPort_30 to S_open_c0, S_open_s
+      provided (open_c0_GuarVar&&open_s_GuarVar)&&((x_c0==x_s)&&(y_c0==y_s))
+      do {
+        printf("Execution of Interaction : open0\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_31, S_SPort_30 to S_open_c1, S_open_s
+      provided (open_c1_GuarVar&&open_s_GuarVar)&&((x_c1==x_s)&&(y_c1==y_s))
+      do {
+        printf("Execution of Interaction : open1\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_29, S_SPort_30 to S_departure_c0, S_departure_s
+      provided (departure_c0_GuarVar&&departure_s_GuarVar)&&((id_c0==id_s)||(((id_s==(-1))&&(x_c0==x_s))&&(y_c0==y_s)))
+      do {
+        dx_c0 = dx_s;
+        dy_c0 = dy_s;
+        printf("Execution of Interaction : departure0\n");
+      }
+
+    on Intern_Initialize
+      from S_SPort_31, S_SPort_30 to S_departure_c1, S_departure_s
+      provided (departure_c1_GuarVar&&departure_s_GuarVar)&&((id_c1==id_s)||(((id_s==(-1))&&(x_c1==x_s))&&(y_c1==y_s)))
+      do {
+        dx_c1 = dx_s;
+        dy_c1 = dy_s;
+        printf("Execution of Interaction : departure1\n");
+      }
+
+
+
+
+
+
+
+
+
+
+  end
+
+  compound type TOP_Distributed
+    component CallingUnit_Distributed u00_dist(1, 1)
+    component CallingUnit_Distributed u01_dist(1, 2)
+    component CallingUnit_Distributed u02_dist(1, 3)
+    component CallingUnit_Distributed u10_dist(2, 1)
+    component CallingUnit_Distributed u11_dist(2, 2)
+    component CallingUnit_Distributed u12_dist(2, 3)
+    component CallingUnit_Distributed u20_dist(3, 1)
+    component CallingUnit_Distributed u21_dist(3, 2)
+    component CallingUnit_Distributed u22_dist(3, 3)
+    component Car_Distributed c0_dist(3, 1, 1, 0)
+    component Car_Distributed c1_dist(3, 1, 1, 1)
+    component CentralStation_Distributed s_dist(2, 3)
+    component Engine0 Engine0_I
+    component Engine1 Engine1_I
+    component Engine2 Engine2_I
+    connector ConnTransferSR_RequestPort conn_0(Engine1_I.request_u00, u00_dist.request)
+    connector ConnTransferSR_EnterPort conn_1(Engine0_I.enter_u00, u00_dist.enter)
+    connector ConnTransferSR_RequestPort conn_2(Engine1_I.request_u01, u01_dist.request)
+    connector ConnTransferSR_EnterPort conn_3(Engine0_I.enter_u01, u01_dist.enter)
+    connector ConnTransferSR_RequestPort conn_4(Engine1_I.request_u02, u02_dist.request)
+    connector ConnTransferSR_EnterPort conn_5(Engine0_I.enter_u02, u02_dist.enter)
+    connector ConnTransferSR_RequestPort conn_6(Engine1_I.request_u10, u10_dist.request)
+    connector ConnTransferSR_EnterPort conn_7(Engine0_I.enter_u10, u10_dist.enter)
+    connector ConnTransferSR_RequestPort conn_8(Engine1_I.request_u11, u11_dist.request)
+    connector ConnTransferSR_EnterPort conn_9(Engine0_I.enter_u11, u11_dist.enter)
+    connector ConnTransferSR_RequestPort conn_10(Engine1_I.request_u12, u12_dist.request)
+    connector ConnTransferSR_EnterPort conn_11(Engine0_I.enter_u12, u12_dist.enter)
+    connector ConnTransferSR_RequestPort conn_12(Engine1_I.request_u20, u20_dist.request)
+    connector ConnTransferSR_EnterPort conn_13(Engine0_I.enter_u20, u20_dist.enter)
+    connector ConnTransferSR_RequestPort conn_14(Engine1_I.request_u21, u21_dist.request)
+    connector ConnTransferSR_EnterPort conn_15(Engine0_I.enter_u21, u21_dist.enter)
+    connector ConnTransferSR_RequestPort conn_16(Engine1_I.request_u22, u22_dist.request)
+    connector ConnTransferSR_EnterPort conn_17(Engine0_I.enter_u22, u22_dist.enter)
+    connector ConnTransferSR_AwakePort conn_18(Engine1_I.awake_c0, c0_dist.awake)
+    connector ConnTransferSR_EnterPort conn_19(Engine0_I.enter_c0, c0_dist.enter)
+    connector ConnTransferSR_ExitPort conn_20(Engine1_I.exit_c0, c0_dist.exit)
+    connector ConnTransferSR_OpenPort conn_21(Engine2_I.open_c0, c0_dist.open)
+    connector ConnTransferSR_ClosePort conn_22(Engine1_I.close_c0, c0_dist.close)
+    connector ConnTransferSR_DeparturePort conn_23(Engine2_I.departure_c0, c0_dist.departure)
+    connector ConnTransferSR_ArrivalPort conn_24(Engine1_I.arrival_c0, c0_dist.arrival)
+    connector ConnTransferSR_DestinationPort conn_25(Engine1_I.destination_c0, c0_dist.destination)
+    connector ConnTransferSR_PosChangedPort conn_26(Engine1_I.xposChanged_c0, c0_dist.xposChanged)
+    connector ConnTransferSR_PosChangedPort conn_27(Engine1_I.yposChanged_c0, c0_dist.yposChanged)
+    connector ConnTransferSR_AwakePort conn_28(Engine1_I.awake_c1, c1_dist.awake)
+    connector ConnTransferSR_EnterPort conn_29(Engine0_I.enter_c1, c1_dist.enter)
+    connector ConnTransferSR_ExitPort conn_30(Engine1_I.exit_c1, c1_dist.exit)
+    connector ConnTransferSR_OpenPort conn_31(Engine2_I.open_c1, c1_dist.open)
+    connector ConnTransferSR_ClosePort conn_32(Engine1_I.close_c1, c1_dist.close)
+    connector ConnTransferSR_DeparturePort conn_33(Engine2_I.departure_c1, c1_dist.departure)
+    connector ConnTransferSR_ArrivalPort conn_34(Engine1_I.arrival_c1, c1_dist.arrival)
+    connector ConnTransferSR_DestinationPort conn_35(Engine1_I.destination_c1, c1_dist.destination)
+    connector ConnTransferSR_PosChangedPort conn_36(Engine1_I.xposChanged_c1, c1_dist.xposChanged)
+    connector ConnTransferSR_PosChangedPort conn_37(Engine1_I.yposChanged_c1, c1_dist.yposChanged)
+    connector ConnTransferSR_AwakePort conn_38(Engine1_I.awake_s, s_dist.awake)
+    connector ConnTransferSR_OpenPort conn_39(Engine2_I.open_s, s_dist.open)
+    connector ConnTransferSR_DeparturePort conn_40(Engine2_I.departure_s, s_dist.departure)
+    connector ConnTransferSR_PosChangedPort conn_41(Engine1_I.xposChanged_s, s_dist.xposChanged)
+    connector ConnTransferSR_PosChangedPort conn_42(Engine1_I.yposChanged_s, s_dist.yposChanged)
+    connector ConnTransferSR_ArrivalPort conn_43(Engine1_I.arrival_s, s_dist.arrival)
+    connector ConnTransferSR_DestinationPort conn_44(Engine1_I.destination_s, s_dist.destination)
+    connector ConnTransferSR_ClosePort conn_45(Engine1_I.close_s, s_dist.close)
+    connector ConnTransferSR_RequestPort conn_46(Engine1_I.request_s, s_dist.request)
+    connector ConnTransferSR_PSType2 conn_47(u00_dist.S_enter, Engine0_I.SPort_0)
+    connector ConnTransferSR_PSType4 conn_48(c0_dist.S_enter, Engine0_I.SPort_1)
+    connector ConnTransferSR_PSType2 conn_49(u01_dist.S_enter, Engine0_I.SPort_2)
+    connector ConnTransferSR_PSType2 conn_50(u02_dist.S_enter, Engine0_I.SPort_3)
+    connector ConnTransferSR_PSType4 conn_51(c1_dist.S_enter, Engine0_I.SPort_4)
+    connector ConnTransferSR_PSType2 conn_52(u10_dist.S_enter, Engine0_I.SPort_5)
+    connector ConnTransferSR_PSType2 conn_53(u11_dist.S_enter, Engine0_I.SPort_6)
+    connector ConnTransferSR_PSType2 conn_54(u12_dist.S_enter, Engine0_I.SPort_7)
+    connector ConnTransferSR_PSType2 conn_55(u20_dist.S_enter, Engine0_I.SPort_8)
+    connector ConnTransferSR_PSType2 conn_56(u21_dist.S_enter, Engine0_I.SPort_9)
+    connector ConnTransferSR_PSType2 conn_57(u22_dist.S_enter, Engine0_I.SPort_10)
+    connector ConnTransferSR_PSType5 conn_58(c0_dist.S_exitdestination, Engine1_I.SPort_11)
+    connector ConnTransferSR_PSType3 conn_59(c0_dist.S_awake, Engine1_I.SPort_12)
+    connector ConnTransferSR_PSType7 conn_60(c0_dist.S_close, Engine1_I.SPort_13)
+    connector ConnTransferSR_PSType8 conn_61(c0_dist.S_arrivalxposChangedyposChanged, Engine1_I.SPort_14)
+    connector ConnTransferSR_PSType5 conn_62(c1_dist.S_exitdestination, Engine1_I.SPort_15)
+    connector ConnTransferSR_PSType3 conn_63(c1_dist.S_awake, Engine1_I.SPort_16)
+    connector ConnTransferSR_PSType7 conn_64(c1_dist.S_close, Engine1_I.SPort_17)
+    connector ConnTransferSR_PSType8 conn_65(c1_dist.S_arrivalxposChangedyposChanged, Engine1_I.SPort_18)
+    connector ConnTransferSR_PSType9 conn_66(s_dist.S_awakexposChangedyposChangedarrivaldestinationcloserequest, Engine1_I.SPort_19)
+    connector ConnTransferSR_PSType1 conn_67(u00_dist.S_request, Engine1_I.SPort_20)
+    connector ConnTransferSR_PSType1 conn_68(u01_dist.S_request, Engine1_I.SPort_21)
+    connector ConnTransferSR_PSType1 conn_69(u02_dist.S_request, Engine1_I.SPort_22)
+    connector ConnTransferSR_PSType1 conn_70(u10_dist.S_request, Engine1_I.SPort_23)
+    connector ConnTransferSR_PSType1 conn_71(u11_dist.S_request, Engine1_I.SPort_24)
+    connector ConnTransferSR_PSType1 conn_72(u12_dist.S_request, Engine1_I.SPort_25)
+    connector ConnTransferSR_PSType1 conn_73(u20_dist.S_request, Engine1_I.SPort_26)
+    connector ConnTransferSR_PSType1 conn_74(u21_dist.S_request, Engine1_I.SPort_27)
+    connector ConnTransferSR_PSType1 conn_75(u22_dist.S_request, Engine1_I.SPort_28)
+    connector ConnTransferSR_PSType6 conn_76(c0_dist.S_opendeparture, Engine2_I.SPort_29)
+    connector ConnTransferSR_PSType10 conn_77(s_dist.S_opendeparture, Engine2_I.SPort_30)
+    connector ConnTransferSR_PSType6 conn_78(c1_dist.S_opendeparture, Engine2_I.SPort_31)
+  end
+
+  component TOP_Distributed top
+end

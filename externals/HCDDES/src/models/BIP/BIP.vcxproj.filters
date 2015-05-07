@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Generated Files\models">
+      <UniqueIdentifier>{3deabc83-d6b5-4479-afec-4679b10c5ac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\generated">
+      <UniqueIdentifier>{691ef6cf-a10b-426c-a9ab-654a2dab0776}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\generated\BIP\generated\BIP.h">
+      <Filter>Generated Files\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\BIP\generated\BIP_xsd.h">
+      <Filter>Generated Files\generated</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\generated\BIP\models\BIP_udm.xml">
+      <Filter>Generated Files\models</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <xme2mga Include="BIP_Petri_nets.xme" />
+  </ItemGroup>
+  <ItemGroup>
+    <meta2uml Include="..\..\..\generated\BIP\models\BIP_Petri_nets.mga">
+      <Filter>Generated Files\models</Filter>
+    </meta2uml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\generated\BIP\generated\BIP.xsd">
+      <Filter>Generated Files\generated</Filter>
+    </None>
+    <None Include="..\..\..\generated\BIP\generated\BIP.cpp">
+      <Filter>Generated Files\generated</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <mga2udmxml Include="..\..\..\generated\BIP\models\BIP_Petri_nets_uml.mga">
+      <Filter>Generated Files\models</Filter>
+    </mga2udmxml>
+  </ItemGroup>
+</Project>

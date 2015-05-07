@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<!-- based on
+heat dir ../models/IFV/CyberControllers -template fragment -o IFV_CyberControllers.wxi -gg -cg IFV_CyberControllers -srd -var var.IFV_CyberControllers -dr IFV_CyberControllers
+-->
+<?define IFV_CyberControllers=../models/IFV/CyberControllers?>
+    <Fragment>
+        <DirectoryRef Id="IFV_CyberControllers">
+            <Directory Id="dir6D42A3A86123C6E7B5873A20D2C4D264" Name="PowerPack" />
+            <Directory Id="dir7F410007DEA36BABBE60EB2709BC6843" Name="Suspension" />
+            <Directory Id="dirD3D2F20F05855C7BFCA79EF234247EF4" Name="TransAssembly" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="IFV_CyberControllers">
+            <Component Id="cmp2188CAE02DF7E4E1BB2D7B5F161F7542" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{FE04B744-761D-461D-AA4A-8C119A4D951B}">
+                <File Id="filDDD210781A245EE03FDDD9FAF3085DA1" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\DiscCruiseController.mdl" />
+            </Component>
+            <Component Id="cmpDA468CC4322A73B203D0736BB38C9D17" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{57D395BA-51DF-4D4B-9FD6-6CB5A0B28E49}">
+                <File Id="fil3A6B1CF3AF1E671542009E1180F9D466" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\DiscModeController.mdl" />
+            </Component>
+            <Component Id="cmp0AB133C03F371C7703EFD1B3F9B50AA0" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{8765DC83-A073-4D9F-B47D-0A4413A595F3}">
+                <File Id="fil558A17D67D9C944AAB6EAFE6E2B94949" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\DiscTransController.mdl" />
+            </Component>
+            <Component Id="cmp4A509BC243151CBADECB5DDD7C1BAC98" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{2A89BCE0-8386-406D-95F5-F4847C8B9D46}">
+                <File Id="fil19B920261DE2F0BBFBCB17B5B3203B28" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\Evaluation.mdl" />
+            </Component>
+            <Component Id="cmp08FE6519B95E8CC47E984D20509A475B" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{AD325B6D-E62E-4885-BAEF-D8970B01C4D8}">
+                <File Id="fil22F1AE487368570F1B78AC25341A5977" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\IntegratedController_ESMoL.mga" />
+            </Component>
+            <Component Id="cmpB99C235F26518FB805BFFB773DA4EB7F" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{49178C98-42C6-4DB9-8D0F-7743136E6342}">
+                <File Id="fil3B61211E3C59FB40087797DD29AC19F6" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\IntegratedController_ESMoL.xme" />
+            </Component>
+            <Component Id="cmp7F95E5E14AA2F622E45736B3F410D4EB" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{B250B03A-1B68-4A59-8890-251741A3BADB}">
+                <File Id="filB0D458DFD200E4DCC4858E6D0F8A8BA1" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\ModeController.mdl" />
+            </Component>
+            <Component Id="cmp22929F0727D998D36D4277C80E991652" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{2BBC00E3-801E-40F7-8631-D21FB51D9480}">
+                <File Id="fil6FE8CD2C80431E8FDDE6E57B641DCCD0" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\SpeedController.mdl" />
+            </Component>
+            <Component Id="cmp3E96898C0A2845309FEB767063D96097" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{26ECE17B-2F3A-4F89-9AE7-D1664662F22E}">
+                <File Id="filE2EDF057266DFEA3F9AC811719774675" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\suspension_lib.mdl" />
+            </Component>
+            <Component Id="cmp6644AA28F9D62C5A50E802F1B79AECED" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{74FE6314-C005-48BC-84F2-5F676CD66876}">
+                <File Id="fil12A5783DC3E2618333AFD01497621F7B" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\TestBench.mdl" />
+            </Component>
+            <Component Id="cmp6220403ABBA2EEE4A1F341AEA824DE8D" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{58019D5F-A633-4E2F-8A65-544E0D95508B}">
+                <File Id="fil01B5A739A368C073FC4E6A5E35539DC1" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\Test_driver.mdl" />
+            </Component>
+            <Component Id="cmp522ABACFC25EC6D483B74FABBF64B12C" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{5C700C15-267D-4F74-9968-C58AA6FAEB33}">
+                <File Id="filC517CF07D16E864DA578DDC9FEC1CE70" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\TransmissionController.mdl" />
+            </Component>
+            <Component Id="cmp09B7558E50D824627CD51E5EDE53C270" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{6B6C5D97-3316-454E-9DFE-1945991C58EA}">
+                <File Id="fil68D609EA5F9262E29500CCAC19C9CE6B" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\Transmission_Library.mdl" />
+            </Component>
+            <Component Id="cmpFD8AEFF7E92B13FC6BD823D647664A1E" Directory="dir6D42A3A86123C6E7B5873A20D2C4D264" Guid="{D8D331CD-CD3F-4BE0-BF14-1D143ED5965B}">
+                <File Id="filE20E7151DCF2CD8848475507701F4A16" KeyPath="yes" Source="$(var.IFV_CyberControllers)\PowerPack\Util.mdl" />
+            </Component>
+            <Component Id="cmp7A065EFA738E5E6B348E961F1E849CB5" Directory="dir7F410007DEA36BABBE60EB2709BC6843" Guid="{B436E10E-3E9D-48FC-95A0-2714143EB781}">
+                <File Id="filA03EBB5734FBC5215104714E204E9F0C" KeyPath="yes" Source="$(var.IFV_CyberControllers)\Suspension\multi_susp_sys.mdl" />
+            </Component>
+            <Component Id="cmpEF3D5034ED1FA28CE9FA1BA06A46E157" Directory="dir7F410007DEA36BABBE60EB2709BC6843" Guid="{E3947FE7-3CAF-4428-8F98-58D98DF8E8CB}">
+                <File Id="filDAFA399318346B0A81D0816D24CCFB2C" KeyPath="yes" Source="$(var.IFV_CyberControllers)\Suspension\multi_susp_sys_comps.mdl" />
+            </Component>
+            <Component Id="cmpDB807703F2EC6596C8A2D9FBB5FEE762" Directory="dir7F410007DEA36BABBE60EB2709BC6843" Guid="{D10E89AB-02DB-456D-B5CD-8247EEBAF4AA}">
+                <File Id="fil94E4A9DCB79D6368328ACC1B5C2B8F27" KeyPath="yes" Source="$(var.IFV_CyberControllers)\Suspension\Util.mdl" />
+            </Component>
+            <Component Id="cmp89567DC422EDC9C470D8D531003B6833" Directory="dir7F410007DEA36BABBE60EB2709BC6843" Guid="{B511492D-6142-45CC-9B29-21A845537F4E}">
+                <File Id="fil09D06EE4EF1DC3D418EFEA7FCB7A1DD3" KeyPath="yes" Source="$(var.IFV_CyberControllers)\Suspension\VehicleSuspensionControl1_ESMoL.mga" />
+            </Component>
+            <Component Id="cmp67E3F7022949D9A8963A50CE011A7540" Directory="dir7F410007DEA36BABBE60EB2709BC6843" Guid="{D73441FF-EA07-4FD2-85DF-147164A9EAEC}">
+                <File Id="fil7A8BED649304A714F12AEF3B4B3E8C03" KeyPath="yes" Source="$(var.IFV_CyberControllers)\Suspension\VehicleSuspensionControl1_ESMoL.rslt" />
+            </Component>
+            <Component Id="cmp84AC96CF7F617FA0E875BBE1D69354C1" Directory="dir7F410007DEA36BABBE60EB2709BC6843" Guid="{4CE762C2-1DB0-42DB-893E-E4CA4F9DFD03}">
+                <File Id="filCE195113ECCAAB75AE3D840968AF9C3E" KeyPath="yes" Source="$(var.IFV_CyberControllers)\Suspension\VehicleSuspensionControl1_ESMoL.scs" />
+            </Component>
+            <Component Id="cmpB8294601DEF2D1499867158F208D474F" Directory="dir7F410007DEA36BABBE60EB2709BC6843" Guid="{ED0DF4D9-EF27-45A1-BD3C-4676D10C6EF2}">
+                <File Id="filA2CE622D0510EF58CFF7709B2F19CC84" KeyPath="yes" Source="$(var.IFV_CyberControllers)\Suspension\VehicleSuspensionControl1_ESMoL.xme" />
+            </Component>
+            <Component Id="cmp0E9C438DF897107880E37B3682164DE4" Directory="dir7F410007DEA36BABBE60EB2709BC6843" Guid="{52B29549-ABFA-4A41-8B43-15DA4475AB5B}">
+                <File Id="filDE1D1B8D9819B920B24F483D53BE26B3" KeyPath="yes" Source="$(var.IFV_CyberControllers)\Suspension\VehicleSuspensionControl1_ESMoL.xml" />
+            </Component>
+            <Component Id="cmp3338496DB7F7E2352C507ABBC62D0582" Directory="dirD3D2F20F05855C7BFCA79EF234247EF4" Guid="{9AAB5574-2D77-4B97-A4FC-11B4E06EC22D}">
+                <File Id="fil977587CF7601E45256C7665D650538E2" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TransAssembly_ESMoL.mga" />
+            </Component>
+            <Component Id="cmp4DC49C4A05296CE7FE00F4B96F02C4F4" Directory="dirD3D2F20F05855C7BFCA79EF234247EF4" Guid="{2E884FA7-41A3-4C05-99A6-383FFB41815E}">
+                <File Id="fil6C66B53C7E3C3B8747093CD62CAD1986" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TransAssembly_ESMoL.rslt" />
+            </Component>
+            <Component Id="cmpA2A548A52FBD1FA82BDF8A0C8093AAB5" Directory="dirD3D2F20F05855C7BFCA79EF234247EF4" Guid="{B9B538D4-A66F-4DC7-9D6B-6B9CEFD7CAFC}">
+                <File Id="fil474DD0092721E4D16C0B4E796FF23744" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TransAssembly_ESMoL.scs" />
+            </Component>
+            <Component Id="cmp13910714922792167E1755E0F6C1998C" Directory="dirD3D2F20F05855C7BFCA79EF234247EF4" Guid="{F278FA87-DC94-45A1-87EB-30BBAAB4277B}">
+                <File Id="fil9AE36E8557AEF028F48F8AEB68941B4B" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TransAssembly_ESMoL.xme" />
+            </Component>
+            <Component Id="cmp2E99926E44E230D6192F211E3043C21A" Directory="dirD3D2F20F05855C7BFCA79EF234247EF4" Guid="{010D0CBD-A0F3-4265-B261-EAE2327A59D2}">
+                <File Id="fil3CAB7C86F863669BDD040DA7D933A755" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TransAssembly_ESMoL.xml" />
+            </Component>
+            <Component Id="cmpFFDD35504668EB7CB28560C77FBB9A6A" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{B4AC9110-61D9-44D9-8597-E0C8CDCEAB7E}">
+                <File Id="fil6332375BEE9FCDDE12E9FDAFE792AF05" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\AutoTransController_sl.c" />
+            </Component>
+            <Component Id="cmp6CF7AE1B8622E53CB6E233BF9E096B8B" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{5C3BAC8D-5FF9-43A2-87F3-32730B6BDD9F}">
+                <File Id="fil8A1BEF7EDA13F1C53E697A9243771967" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\AutoTransController_sl.h" />
+            </Component>
+            <Component Id="cmp4DCD6D858774D3C63EFE73C2DDF5BCD9" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{FBD1E3A1-D450-4DBB-A811-01F3E7F24E91}">
+                <File Id="filAB6B0C9C61C312B1F1105A07AA2F1AC7" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\CruiseController_sl.c" />
+            </Component>
+            <Component Id="cmpF8229962EEB0F08C0BD6678549DB52E9" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{D32FC0CD-89CB-468A-A242-DBBDBD72202D}">
+                <File Id="filB274C2AAE935631100EA9A316CC3B8C3" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\CruiseController_sl.h" />
+            </Component>
+            <Component Id="cmpE2C6B1CC01D772E6572AC6F83573102C" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{D2C893EF-902B-4AB8-A0F2-DA5890F133BC}">
+                <File Id="fil16AA99A7B59BFEEA24E1A556695AC0FF" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\DiscModeController_SFC.xml" />
+            </Component>
+            <Component Id="cmpBC89A02919FF5ECD9D4319C7BBE47EF3" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{D1859B2C-A5AC-4251-8EB7-DFDDE0E76DE2}">
+                <File Id="fil8D099DACD986E646FFEA1ED20CF03A01" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\DiscSpeedController_SFC.xml" />
+            </Component>
+            <Component Id="cmp65FBDB135FA79D9D2FADF7B57DAA4467" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{DA0EB5A8-2EFE-4F66-B282-7A3AAE4344DE}">
+                <File Id="fil63087FDD5D94828D9CAF0654000F1DEB" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\DiscTransController_SFC.xml" />
+            </Component>
+            <Component Id="cmpD4B1E598469DAC0645446DA4D8E8F6F4" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{EDE9B917-9B24-4415-AF1B-026F0A06DF6A}">
+                <File Id="fil9EFF9A46117D223F1C5662DE8D24CBCC" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\ModeController_sl.c" />
+            </Component>
+            <Component Id="cmp1549AB9B7ADA00289AC6C3C295805BB3" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{19207016-07C0-458C-8DCD-D63A32C6D73D}">
+                <File Id="fil677B2A69179D3B1005621522AA27029F" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\ModeController_sl.h" />
+            </Component>
+            <Component Id="cmp421986A77AF8C21FBE64377B87909555" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{A714FC67-F1E9-47AF-9C5F-9C5F66A76A9B}">
+                <File Id="fil818B522140217A552D3AAD411385EAE9" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\PassThrough2_sl.c" />
+            </Component>
+            <Component Id="cmp61DD9AD2ADF23A041EA924ACC90C4D54" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{894D7C82-5184-42DE-B6ED-A4FC6DD39CD7}">
+                <File Id="filAF3A3F53771C4A610C4C111278E03D63" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\PassThrough2_sl.h" />
+            </Component>
+            <Component Id="cmpFEE5C9CA038F0854A6D588FF034BDD45" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{425A91F5-B81A-4BDB-A051-1E8DF9990CA7}">
+                <File Id="filC1A4D45E83FB5B169BA69228610BDA3A" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\PassThrough_sl.c" />
+            </Component>
+            <Component Id="cmp016BA1FC597E16EB667799736182A579" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{56782F8B-FAEB-4DC8-8C8B-6FD3249EAD00}">
+                <File Id="fil839E6FFD3FCC7E08CB1810B74CB3C696" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\PassThrough_sl.h" />
+            </Component>
+            <Component Id="cmp86C12196E44611E1F024E7F7359B811E" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{81A829B5-17BF-46CD-A00F-8DCF872B64E6}">
+                <File Id="fil3C920082DDA6BA2454BA1E6FD9939197" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\struct0.h" />
+            </Component>
+            <Component Id="cmpDB3D10A2A402736177C93767346B6984" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{B8C139A4-A936-414E-AD2B-194CA8819FE2}">
+                <File Id="fil5031060A88A86318991F90AC18B91E3F" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\TCU_init.cpp" />
+            </Component>
+            <Component Id="cmp15F0E0D07A1BE931E87475C7DB132B0F" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{B73EC0FB-C3E6-4114-A64C-A4CFA9296AA3}">
+                <File Id="fil502D18CF2ED8772A85952949AFD3F7D4" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\TransAssembly_ESMoL_gen.m" />
+            </Component>
+            <Component Id="cmp3F5B2CDBF662118EC9712524F6CD5EA3" Directory="dirBD5176495FA204590E28809FB6991B5A" Guid="{AC960463-DC55-456C-9987-380D69B6A5F5}">
+                <File Id="filF92ABC79253049ADD7C3686C2169C9AA" KeyPath="yes" Source="$(var.IFV_CyberControllers)\TransAssembly\TrueTime\Util_SFC.xml" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir6D42A3A86123C6E7B5873A20D2C4D264" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirD3D2F20F05855C7BFCA79EF234247EF4" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir7F410007DEA36BABBE60EB2709BC6843" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirBD5176495FA204590E28809FB6991B5A" />
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirD3D2F20F05855C7BFCA79EF234247EF4">
+            <Directory Id="dirBD5176495FA204590E28809FB6991B5A" Name="TrueTime" />
+        </DirectoryRef>
+    </Fragment>
+</Wix>

@@ -1,0 +1,40 @@
+**Section 1: Getting to Know the Kraken
+
+
+The Kraken is an enormous beast, as you no doubt already noticed, but she holds many secrets and nuances that can snag the unknowing user easily.
+
+**Section 2: Hardware Issues
+
+
+-Power Down- Sometimes, the Kraken does not like to actually shut down when told to do so. In these cases, she can be powered down by holding the power button.
+
+**Section 3: The Meat and Potatoes, Software Issues with Ubuntu
+
+
+-Automount-  You may recently have noticed that the Kraken really likes to mount anything connected to it immediately. When running VMware, this is not really optimal.
+To remedy this, simply open a terminal, type in gconf-editor, navigate to apps>nautilus>preferences and deselect the automount features
+
+-Sound-  The most crippled feature of Linux is sound. Often times, there will be no sound at all. While this will not fix every case, the following command can aid you in restoring sound... most of the time: /sbin/alsa force-reload
+
+**Section 4: VMware: The Next layer of abstraction
+
+
+-MATLAB- Really, this is the only reason to have this monstrosity.
+	-XPC- To change the IP Address assignment of a target pc, you MUST create a new bootdisk.
+	-Creating Boot Disk- By the way, to do this on the XP Pro set up, you must ensure that the MATLAB home directory has no spaces in it.
+	-TCP/IP Timeouts- Simply make sure MATLAB runs the following script on boot up to extend the timeout times: 
+close all force;
+try
+    bdclose('all');
+end
+clear all;
+[status, result]= system('ping -w 5000 destination_host');
+%Changes the default timeout to 'timeout_millisec'
+if(status~=0)
+disp('The timeout settings could not be changed from MATLAB, please try changing the timeout manually');
+end	
+
+**Section 5: XPC Target PC, Know your foe
+
+
+-Communications errors- Ma

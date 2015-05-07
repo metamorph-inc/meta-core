@@ -1,0 +1,31 @@
+
+Embedded software often operates in environments critical to human life and subject to our direct expectations. We assume that a handheld MP3 player will perform reliably, or that the unseen aircraft control system aboard our flight will function safely and correctly. Safety-critical embedded environments require far more care than provided by the current best practices in software development. Embedded systems design challenges are well-documented~\cite{HenSif:2006}, but industrial practice still falls short of these expectations for many kinds of embedded systems.
+
+In modern designs, graphical modeling and simulation tools (e.g. Mathworks' Simulink/Stateflow) represent physical systems and engineering designs using block diagram notations. Design work revolves around simulation and test cases, with code generated from "`complete"' designs. Control designs often ignore software design constraints and issues arising from embedded platform choices. At early stages of the design, platforms may be vaguely specified to engineers as sets of tradeoffs.
+
+Software development uses UML (or similar) tools to capture concepts such as components, interactions, timing, fault handling, and deployment. Workflows focus on source code organization and management, followed by testing and debugging on target hardware. Physical and environmental constraints are not represented by the tools. At best such constraints may be provided as documentation to developers.
+
+Complete systems rely on both aspects of a design.  
+Designers lack tools to model the interactions between the
+hardware, software, and the environment.  For example, software 
+generated from a carefully simulated functional dataflow model may 
+fail to perform correctly when its functions are distributed over a 
+shared network of processing nodes.  Cost considerations may force the
+selection of platform hardware that limits timing accuracy.  Neither 
+aspect of development supports comprehensive validation of certification 
+requirements to meet government safety standards. 
+
+We propose a suite of tools
+that aim to address many of these challenges.  Currently under development at
+Vanderbilt's Institute for Software Integrated Systems (ISIS), these 
+tools use the Embedded Systems Modeling Language (ESMoL), which is a
+suite of domain-specific modeling languages (DSML) to integrate the 
+disparate aspects of a safety-critical embedded systems design and 
+maintain proper separation of concerns between engineering and software 
+development teams.  Many of the concepts and features presented here also 
+exist separately in other tools.  We describe a model-based approach to building 
+a unified model-based design and integration tool suite which has the potential to go far beyond the state of the art.
+
+In the sequel we will provide an overview of the tool vision, and then describe the 
+features of these tools from the point of view of available functionality.   
+Note that two different development processes will be discussed -- the development of a distributed control system implementation (by an imagined user of the tools), and our development of the tool suite itself.  The initial vision section illustrates how the tools would be used to model and develop a control system.  The final sections describe different parts of our tool-development process in decreasing order of maturity.  We strive for clarity, with an apology to the diligent reader where the distinction is unclear.

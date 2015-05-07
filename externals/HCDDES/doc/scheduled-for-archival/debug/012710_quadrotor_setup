@@ -1,0 +1,12 @@
+0. Starting with a cleaned up quadrotor_demo.mdl.
+
+1. Added ReferenceHandler to the design in quadrotor_demo.mga, along with its
+   execution information.
+
+2. Removed the old types from quadrotor_demo.mga, just to be safe (there were
+   still several references to the old fixed-point structures).
+
+3. Imported the new model into the design and connected the component 
+   definitions to the dataflow.
+
+4. addTypes... make sure we have the latest build first...

@@ -1,0 +1,34 @@
+Problem LatencyMultiPathChainTest
+Resolution 100us
+
+Proc N1 100us Static
+TTask T1 =50Hz 1ms
+
+Proc N2 100us Static
+TTask T2 =50Hz 1ms
+TTask T3 =50HZ 1ms
+
+Proc N3 100us Static
+TTask T4 =50Hz 1ms
+
+Proc N4 100us Static
+TTask T5 =50Hz 1ms
+TTask T6 =50HZ 1ms
+
+Proc N5 100us Static
+TTask T7 =50Hz 1ms
+
+TBus B1 1ms 100Mb
+Msg M0 N1/T1 N5/T7 10B
+Msg M1 N1/T1 N2/T2 10B
+Msg M2 N1/T1 N2/T3 10B
+Msg M3 N2/T2 N3/T4 10B
+Msg M4 N2/T3 N3/T4 10B
+Msg M5 N3/T4 N4/T5 10B
+Msg M6 N3/T4 N4/T6 10B
+Msg M7 N4/T5 N5/T7 10B
+Msg M8 N4/T6 N5/T7 10B
+
+LatencyChain N1/T1 B1/M1 N2/T2 B1/M3 N3/T4 B1/M5 N4/T5 B1/M7 N5/T7 17ms
+LatencyChain N1/T1 B1/M2 N2/T3 B1/M4 N3/T4 B1/M6 N4/T6 B1/M8 N5/T7 17ms
+

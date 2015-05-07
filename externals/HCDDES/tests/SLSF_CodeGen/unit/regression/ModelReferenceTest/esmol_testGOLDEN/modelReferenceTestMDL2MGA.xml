@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="NewmodelReferenceTest00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="modelReferenceTest" Period="0" Priority="-1" SampleTime="-1" Tag="" UserData="" name="modelReferenceTest">
+          <Line Name="" _id="id15C" dstLine_end_="id40" srcLine_end_="id15B"/>
+          <Line Name="" _id="id15e" dstLine_end_="id43" srcLine_end_="id15D"/>
+          <Line Name="" _id="id15F" dstLine_end_="id4" srcLine_end_="id46"/>
+          <Line Name="" _id="id160" dstLine_end_="id5" srcLine_end_="id49"/>
+          <Line Name="" _id="id161" dstLine_end_="id6" srcLine_end_="id4C"/>
+          <Line Name="" _id="id162" dstLine_end_="id7" srcLine_end_="id4F"/>
+          <Line Name="" _id="id163" dstLine_end_="ideB" srcLine_end_="id145"/>
+          <Line Name="" _id="id164" dstLine_end_="ideD" srcLine_end_="id15D"/>
+          <Line Name="" _id="id165" dstLine_end_="id8" srcLine_end_="ideF"/>
+          <Line Name="" _id="id166" dstLine_end_="id9" srcLine_end_="idF1"/>
+          <Line Name="" _id="id167" dstLine_end_="idA" srcLine_end_="idF3"/>
+          <Line Name="" _id="id168" dstLine_end_="idB" srcLine_end_="idF5"/>
+          <OutputPort Number="1" _id="id4" name="Out1" srcLine="id15F">
+            <TypeBaseRef MemberIndex="0" _id="id172" name="double" ref="id16e"/>
+          </OutputPort>
+          <OutputPort Number="2" _id="id5" name="Out2" srcLine="id160">
+            <TypeBaseRef MemberIndex="0" _id="id174" name="double" ref="id16e"/>
+          </OutputPort>
+          <OutputPort Number="3" _id="id6" name="Out3" srcLine="id161">
+            <TypeBaseRef MemberIndex="0" _id="id176" name="double" ref="id16e"/>
+          </OutputPort>
+          <OutputPort Number="4" _id="id7" name="Out4" srcLine="id162">
+            <TypeBaseRef MemberIndex="0" _id="id178" name="double" ref="id16e"/>
+          </OutputPort>
+          <OutputPort Number="5" _id="id8" name="Out5" srcLine="id165">
+            <TypeBaseRef MemberIndex="0" _id="id17A" name="double" ref="id16e"/>
+          </OutputPort>
+          <OutputPort Number="6" _id="id9" name="Out6" srcLine="id166">
+            <TypeBaseRef MemberIndex="0" _id="id17C" name="double" ref="id16e"/>
+          </OutputPort>
+          <OutputPort Number="7" _id="idA" name="Out7" srcLine="id167">
+            <TypeBaseRef MemberIndex="0" _id="id17e" name="double" ref="id16e"/>
+          </OutputPort>
+          <OutputPort Number="8" _id="idB" name="Out8" srcLine="id168">
+            <TypeBaseRef MemberIndex="0" _id="id180" name="double" ref="id16e"/>
+          </OutputPort>
+          <Primitive BlockType="Constant" Description="" Name="Constant" Priority="0" SampleTime="105" Tag="" UserData="" name="Constant">
+            <OutputPort Number="1" _id="id15B" dstLine="id15C" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id189" name="double" ref="id16e"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit from 'Constant value'" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="10" name="Value"/>
+            <Parameter Value="on" name="VectorParams1D"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant1" Priority="0" SampleTime="105" Tag="" UserData="" name="Constant1">
+            <OutputPort Number="1" _id="id15D" dstLine="id15e id164" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id18B" name="double" ref="id16e"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit from 'Constant value'" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="5" name="Value"/>
+            <Parameter Value="on" name="VectorParams1D"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Subsystem BlockType="SubSystem" Deadline="0" Description="" Name="Counter" Period="0" Priority="0" SampleTime="-1" Tag="" UserData="" name="Counter">
+            <Line Name="" _id="id14B" dstLine_end_="id14C" srcLine_end_="id14A"/>
+            <Line Name="" _id="id14e" dstLine_end_="id14F" srcLine_end_="id14D"/>
+            <Line Name="" _id="id151" dstLine_end_="id152" srcLine_end_="id150"/>
+            <Line Name="" _id="id154" dstLine_end_="id145" srcLine_end_="id153"/>
+            <OutputPort Number="1" _id="id145" dstLine="id163" name="ctr" srcLine="id154">
+              <TypeBaseRef MemberIndex="0" _id="id188" name="double" ref="id16e"/>
+            </OutputPort>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+            <Parameter Value="off" name="ExecuteAtInitialization"/>
+            <Primitive BlockType="Demux" Description="" Name="Demux" Priority="0" SampleTime="-1" Tag="" UserData="" name="Demux">
+              <InputPort Number="1" _id="id152" name="In_1" srcLine="id151">
+                <TypeBaseRef MemberIndex="0" _id="id199" name="double" ref="id16e"/>
+              </InputPort>
+              <OutputPort Number="1" _id="id14A" dstLine="id14B" name="Out_1">
+                <TypeBaseRef MemberIndex="0" _id="id19B" name="float" ref="id19A"/>
+              </OutputPort>
+              <Parameter Value="off" name="BusSelectionMode"/>
+              <Parameter Value="none" name="DisplayOption"/>
+              <Parameter Value="1" name="Outputs"/>
+              <Parameter Value="double" name="ParamDataTypeStr"/>
+            </Primitive>
+            <Primitive BlockType="Ground" Description="" Name="Ground" Priority="0" SampleTime="-1" Tag="" UserData="" name="Ground">
+              <OutputPort Number="1" _id="id14D" dstLine="id14e" name="Out_1">
+                <TypeBaseRef MemberIndex="0" _id="id19D" name="double" ref="id16e"/>
+              </OutputPort>
+              <Parameter Value="double" name="ParamDataTypeStr"/>
+            </Primitive>
+            <Primitive BlockType="S-Function" Description="" Name="SFunction" Priority="0" SampleTime="-1" Tag="Stateflow S-Function modelReferenceTest_mdl2mga 1" UserData="" name="SFunction">
+              <ConnectorRef _id="id15A" name="Counter" ref="id157"/>
+              <InputPort Number="1" _id="id14F" name="In_1" srcLine="id14e">
+                <TypeBaseRef MemberIndex="0" _id="id1A1" name="double" ref="id16e"/>
+              </InputPort>
+              <OutputPort Number="1" _id="id150" dstLine="id151" name="Out_1">
+                <TypeBaseRef MemberIndex="0" _id="id1A2" name="double" ref="id16e"/>
+              </OutputPort>
+              <OutputPort Number="2" _id="id153" dstLine="id154" name="Out_2">
+                <TypeBaseRef MemberIndex="0" _id="id1A3" name="double" ref="id16e"/>
+              </OutputPort>
+              <Parameter Value="sf_sfun" name="FunctionName"/>
+              <Parameter Value="" name="Parameters"/>
+              <Parameter Value="''" name="SFunctionModules"/>
+              <Parameter Value="double" name="ParamDataTypeStr"/>
+            </Primitive>
+            <Primitive BlockType="Terminator" Description="" Name="Terminator" Priority="0" SampleTime="-1" Tag="" UserData="" name="Terminator">
+              <InputPort Number="1" _id="id14C" name="In_1" srcLine="id14B">
+                <TypeBaseRef MemberIndex="0" _id="id19F" name="float" ref="id19A"/>
+              </InputPort>
+              <Parameter Value="double" name="ParamDataTypeStr"/>
+            </Primitive>
+          </Subsystem>
+          <Subsystem BlockType="ModelReference" Deadline="0" Description="" Name="Model" Period="0" Priority="0" SampleTime="-1" Tag="" UserData="" _archetype="id10" _desynched_atts="BlockType Description name Name Tag Priority SampleTime" _id="id33" name="Model" position="">
+            <InputPort Number="1" _archetype="id11" _id="id40" _real_archetype="false" dstLine="id34 id37 id3A id3D" name="In1" position="" srcLine="id15C">
+              <TypeBaseRef MemberIndex="0" _archetype="id42" _desynched_atts="name" _id="id41" _real_archetype="false" name="double" position="" ref="id16e"/>
+            </InputPort>
+            <InputPort Number="2" _archetype="id12" _id="id43" _real_archetype="false" dstLine="id35 id38 id3B id3e" name="In2" position="" srcLine="id15e">
+              <TypeBaseRef MemberIndex="0" _archetype="id45" _desynched_atts="name" _id="id44" _real_archetype="false" name="double" position="" ref="id16e"/>
+            </InputPort>
+            <Line Name="" _archetype="id18" _id="id34" _real_archetype="false" dstLine_end_="id6B" name="" position="" srcLine_end_="id40"/>
+            <Line Name="" _archetype="id1A" _id="id35" _real_archetype="false" dstLine_end_="id6e" name="" position="" srcLine_end_="id43"/>
+            <Line Name="" _archetype="id1D" _id="id36" _real_archetype="false" dstLine_end_="id4F" name="" position="" srcLine_end_="id71"/>
+            <Line Name="" _archetype="id1F" _id="id37" _real_archetype="false" dstLine_end_="id8D" name="" position="" srcLine_end_="id40"/>
+            <Line Name="" _archetype="id21" _id="id38" _real_archetype="false" dstLine_end_="id90" name="" position="" srcLine_end_="id43"/>
+            <Line Name="" _archetype="id24" _id="id39" _real_archetype="false" dstLine_end_="id4C" name="" position="" srcLine_end_="id93"/>
+            <Line Name="" _archetype="id26" _id="id3A" _real_archetype="false" dstLine_end_="idB1" name="" position="" srcLine_end_="id40"/>
+            <Line Name="" _archetype="id28" _id="id3B" _real_archetype="false" dstLine_end_="idB4" name="" position="" srcLine_end_="id43"/>
+            <Line Name="" _archetype="id2B" _id="id3C" _real_archetype="false" dstLine_end_="id46" name="" position="" srcLine_end_="idB7"/>
+            <Line Name="" _archetype="id2D" _id="id3D" _real_archetype="false" dstLine_end_="idD5" name="" position="" srcLine_end_="id40"/>
+            <Line Name="" _archetype="id2F" _id="id3e" _real_archetype="false" dstLine_end_="idD8" name="" position="" srcLine_end_="id43"/>
+            <Line Name="" _archetype="id32" _id="id3F" _real_archetype="false" dstLine_end_="id49" name="" position="" srcLine_end_="idDB"/>
+            <OutputPort Number="1" _archetype="id13" _id="id46" _real_archetype="false" dstLine="id15F" name="Out1" position="" srcLine="id3C">
+              <TypeBaseRef MemberIndex="0" _archetype="id48" _desynched_atts="name" _id="id47" _real_archetype="false" name="double" position="" ref="id16e"/>
+            </OutputPort>
+            <OutputPort Number="2" _archetype="id14" _id="id49" _real_archetype="false" dstLine="id160" name="Out2" position="" srcLine="id3F">
+              <TypeBaseRef MemberIndex="0" _archetype="id4B" _desynched_atts="name" _id="id4A" _real_archetype="false" name="double" position="" ref="id16e"/>
+            </OutputPort>
+            <OutputPort Number="3" _archetype="id15" _id="id4C" _real_archetype="false" dstLine="id161" name="Out3" position="" srcLine="id39">
+              <TypeBaseRef MemberIndex="0" _archetype="id4e" _desynched_atts="name" _id="id4D" _real_archetype="false" name="double" position="" ref="id16e"/>
+            </OutputPort>
+            <OutputPort Number="4" _archetype="id16" _id="id4F" _real_archetype="false" dstLine="id162" name="Out4" position="" srcLine="id36">
+              <TypeBaseRef MemberIndex="0" _archetype="id51" _desynched_atts="name" _id="id50" _real_archetype="false" name="double" position="" ref="id16e"/>
+            </OutputPort>
+            <Primitive BlockType="Product" Description="" Name="Divide" Priority="0" SampleTime="45" Tag="" UserData="" _archetype="id17" _id="id52" _real_archetype="false" name="Divide" position="">
+              <InputPort Number="1" _archetype="id19" _id="id6B" _real_archetype="false" name="In_1" position="" srcLine="id34">
+                <TypeBaseRef MemberIndex="0" _archetype="id6D" _desynched_atts="name" _id="id6C" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <InputPort Number="2" _archetype="id1B" _id="id6e" _real_archetype="false" name="In_2" position="" srcLine="id35">
+                <TypeBaseRef MemberIndex="0" _archetype="id70" _desynched_atts="name" _id="id6F" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <OutputPort Number="1" _archetype="id1C" _id="id71" _real_archetype="false" dstLine="id36" name="Out_1" position="">
+                <TypeBaseRef MemberIndex="0" _archetype="id73" _desynched_atts="name" _id="id72" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </OutputPort>
+              <Parameter Value="1" _archetype="id54" _id="id53" _real_archetype="false" name="CollapseDim" position=""/>
+              <Parameter Value="All dimensions" _archetype="id56" _id="id55" _real_archetype="false" name="CollapseMode" position=""/>
+              <Parameter Value="off" _archetype="id58" _id="id57" _real_archetype="false" name="InputSameDT" position=""/>
+              <Parameter Value="*/" _archetype="id5A" _id="id59" _real_archetype="false" name="Inputs" position=""/>
+              <Parameter Value="off" _archetype="id5C" _id="id5B" _real_archetype="false" name="LockScale" position=""/>
+              <Parameter Value="Element-wise(.*)" _archetype="id5e" _id="id5D" _real_archetype="false" name="Multiplication" position=""/>
+              <Parameter Value="Inherit: Inherit via internal rule" _archetype="id60" _id="id5F" _real_archetype="false" name="OutDataTypeStr" position=""/>
+              <Parameter Value="[]" _archetype="id62" _id="id61" _real_archetype="false" name="OutMax" position=""/>
+              <Parameter Value="[]" _archetype="id64" _id="id63" _real_archetype="false" name="OutMin" position=""/>
+              <Parameter Value="Floor" _archetype="id66" _id="id65" _real_archetype="false" name="RndMeth" position=""/>
+              <Parameter Value="off" _archetype="id68" _id="id67" _real_archetype="false" name="SaturateOnIntegerOverflow" position=""/>
+              <Parameter Value="double" _archetype="id6A" _id="id69" _real_archetype="false" name="ParamDataTypeStr" position=""/>
+            </Primitive>
+            <Primitive BlockType="Product" Description="" Name="Product" Priority="0" SampleTime="45" Tag="" UserData="" _archetype="id1e" _id="id74" _real_archetype="false" name="Product" position="">
+              <InputPort Number="1" _archetype="id20" _id="id8D" _real_archetype="false" name="In_1" position="" srcLine="id37">
+                <TypeBaseRef MemberIndex="0" _archetype="id8F" _desynched_atts="name" _id="id8e" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <InputPort Number="2" _archetype="id22" _id="id90" _real_archetype="false" name="In_2" position="" srcLine="id38">
+                <TypeBaseRef MemberIndex="0" _archetype="id92" _desynched_atts="name" _id="id91" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <OutputPort Number="1" _archetype="id23" _id="id93" _real_archetype="false" dstLine="id39" name="Out_1" position="">
+                <TypeBaseRef MemberIndex="0" _archetype="id95" _desynched_atts="name" _id="id94" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </OutputPort>
+              <Parameter Value="1" _archetype="id76" _id="id75" _real_archetype="false" name="CollapseDim" position=""/>
+              <Parameter Value="All dimensions" _archetype="id78" _id="id77" _real_archetype="false" name="CollapseMode" position=""/>
+              <Parameter Value="off" _archetype="id7A" _id="id79" _real_archetype="false" name="InputSameDT" position=""/>
+              <Parameter Value="2" _archetype="id7C" _id="id7B" _real_archetype="false" name="Inputs" position=""/>
+              <Parameter Value="off" _archetype="id7e" _id="id7D" _real_archetype="false" name="LockScale" position=""/>
+              <Parameter Value="Element-wise(.*)" _archetype="id80" _id="id7F" _real_archetype="false" name="Multiplication" position=""/>
+              <Parameter Value="Inherit: Inherit via internal rule" _archetype="id82" _id="id81" _real_archetype="false" name="OutDataTypeStr" position=""/>
+              <Parameter Value="[]" _archetype="id84" _id="id83" _real_archetype="false" name="OutMax" position=""/>
+              <Parameter Value="[]" _archetype="id86" _id="id85" _real_archetype="false" name="OutMin" position=""/>
+              <Parameter Value="Zero" _archetype="id88" _id="id87" _real_archetype="false" name="RndMeth" position=""/>
+              <Parameter Value="off" _archetype="id8A" _id="id89" _real_archetype="false" name="SaturateOnIntegerOverflow" position=""/>
+              <Parameter Value="double" _archetype="id8C" _id="id8B" _real_archetype="false" name="ParamDataTypeStr" position=""/>
+            </Primitive>
+            <Primitive BlockType="Sum" Description="" Name="Sum" Priority="0" SampleTime="45" Tag="" UserData="" _archetype="id25" _id="id96" _real_archetype="false" name="Sum" position="">
+              <InputPort Number="1" _archetype="id27" _id="idB1" _real_archetype="false" name="In_1" position="" srcLine="id3A">
+                <TypeBaseRef MemberIndex="0" _archetype="idB3" _desynched_atts="name" _id="idB2" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <InputPort Number="2" _archetype="id29" _id="idB4" _real_archetype="false" name="In_2" position="" srcLine="id3B">
+                <TypeBaseRef MemberIndex="0" _archetype="idB6" _desynched_atts="name" _id="idB5" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <OutputPort Number="1" _archetype="id2A" _id="idB7" _real_archetype="false" dstLine="id3C" name="Out_1" position="">
+                <TypeBaseRef MemberIndex="0" _archetype="idB9" _desynched_atts="name" _id="idB8" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </OutputPort>
+              <Parameter Value="Inherit: Inherit via internal rule" _archetype="id98" _id="id97" _real_archetype="false" name="AccumDataTypeStr" position=""/>
+              <Parameter Value="1" _archetype="id9A" _id="id99" _real_archetype="false" name="CollapseDim" position=""/>
+              <Parameter Value="All dimensions" _archetype="id9C" _id="id9B" _real_archetype="false" name="CollapseMode" position=""/>
+              <Parameter Value="round" _archetype="id9e" _id="id9D" _real_archetype="false" name="IconShape" position=""/>
+              <Parameter Value="off" _archetype="idA0" _id="id9F" _real_archetype="false" name="InputSameDT" position=""/>
+              <Parameter Value="|++" _archetype="idA2" _id="idA1" _real_archetype="false" name="Inputs" position=""/>
+              <Parameter Value="off" _archetype="idA4" _id="idA3" _real_archetype="false" name="LockScale" position=""/>
+              <Parameter Value="Inherit: Inherit via internal rule" _archetype="idA6" _id="idA5" _real_archetype="false" name="OutDataTypeStr" position=""/>
+              <Parameter Value="[]" _archetype="idA8" _id="idA7" _real_archetype="false" name="OutMax" position=""/>
+              <Parameter Value="[]" _archetype="idAA" _id="idA9" _real_archetype="false" name="OutMin" position=""/>
+              <Parameter Value="Floor" _archetype="idAC" _id="idAB" _real_archetype="false" name="RndMeth" position=""/>
+              <Parameter Value="off" _archetype="idAe" _id="idAD" _real_archetype="false" name="SaturateOnIntegerOverflow" position=""/>
+              <Parameter Value="double" _archetype="idB0" _id="idAF" _real_archetype="false" name="ParamDataTypeStr" position=""/>
+            </Primitive>
+            <Primitive BlockType="Sum" Description="" Name="Sum1" Priority="0" SampleTime="45" Tag="" UserData="" _archetype="id2C" _id="idBA" _real_archetype="false" name="Sum1" position="">
+              <InputPort Number="1" _archetype="id2e" _id="idD5" _real_archetype="false" name="In_1" position="" srcLine="id3D">
+                <TypeBaseRef MemberIndex="0" _archetype="idD7" _desynched_atts="name" _id="idD6" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <InputPort Number="2" _archetype="id30" _id="idD8" _real_archetype="false" name="In_2" position="" srcLine="id3e">
+                <TypeBaseRef MemberIndex="0" _archetype="idDA" _desynched_atts="name" _id="idD9" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <OutputPort Number="1" _archetype="id31" _id="idDB" _real_archetype="false" dstLine="id3F" name="Out_1" position="">
+                <TypeBaseRef MemberIndex="0" _archetype="idDD" _desynched_atts="name" _id="idDC" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </OutputPort>
+              <Parameter Value="Inherit: Inherit via internal rule" _archetype="idBC" _id="idBB" _real_archetype="false" name="AccumDataTypeStr" position=""/>
+              <Parameter Value="1" _archetype="idBe" _id="idBD" _real_archetype="false" name="CollapseDim" position=""/>
+              <Parameter Value="All dimensions" _archetype="idC0" _id="idBF" _real_archetype="false" name="CollapseMode" position=""/>
+              <Parameter Value="round" _archetype="idC2" _id="idC1" _real_archetype="false" name="IconShape" position=""/>
+              <Parameter Value="off" _archetype="idC4" _id="idC3" _real_archetype="false" name="InputSameDT" position=""/>
+              <Parameter Value="|+-" _archetype="idC6" _id="idC5" _real_archetype="false" name="Inputs" position=""/>
+              <Parameter Value="off" _archetype="idC8" _id="idC7" _real_archetype="false" name="LockScale" position=""/>
+              <Parameter Value="Inherit: Inherit via internal rule" _archetype="idCA" _id="idC9" _real_archetype="false" name="OutDataTypeStr" position=""/>
+              <Parameter Value="[]" _archetype="idCC" _id="idCB" _real_archetype="false" name="OutMax" position=""/>
+              <Parameter Value="[]" _archetype="idCe" _id="idCD" _real_archetype="false" name="OutMin" position=""/>
+              <Parameter Value="Floor" _archetype="idD0" _id="idCF" _real_archetype="false" name="RndMeth" position=""/>
+              <Parameter Value="off" _archetype="idD2" _id="idD1" _real_archetype="false" name="SaturateOnIntegerOverflow" position=""/>
+              <Parameter Value="double" _archetype="idD4" _id="idD3" _real_archetype="false" name="ParamDataTypeStr" position=""/>
+            </Primitive>
+          </Subsystem>
+          <Subsystem BlockType="ModelReference" Deadline="0" Description="" Name="Model1" Period="0" Priority="0" SampleTime="-1" Tag="" UserData="" _archetype="id10" _desynched_atts="BlockType Description name Name Tag Priority SampleTime" _id="idDe" name="Model1" position="">
+            <InputPort Number="1" _archetype="id11" _id="ideB" _real_archetype="false" dstLine="idDF ide2 ide5 ide8" name="In1" position="" srcLine="id163">
+              <TypeBaseRef MemberIndex="0" _archetype="id42" _desynched_atts="name" _id="ideC" _real_archetype="false" name="double" position="" ref="id16e"/>
+            </InputPort>
+            <InputPort Number="2" _archetype="id12" _id="ideD" _real_archetype="false" dstLine="ide0 ide3 ide6 ide9" name="In2" position="" srcLine="id164">
+              <TypeBaseRef MemberIndex="0" _archetype="id45" _desynched_atts="name" _id="idee" _real_archetype="false" name="double" position="" ref="id16e"/>
+            </InputPort>
+            <Line Name="" _archetype="id18" _id="idDF" _real_archetype="false" dstLine_end_="id104" name="" position="" srcLine_end_="ideB"/>
+            <Line Name="" _archetype="id1A" _id="ide0" _real_archetype="false" dstLine_end_="id106" name="" position="" srcLine_end_="ideD"/>
+            <Line Name="" _archetype="id1D" _id="ide1" _real_archetype="false" dstLine_end_="idF5" name="" position="" srcLine_end_="id108"/>
+            <Line Name="" _archetype="id1F" _id="ide2" _real_archetype="false" dstLine_end_="id117" name="" position="" srcLine_end_="ideB"/>
+            <Line Name="" _archetype="id21" _id="ide3" _real_archetype="false" dstLine_end_="id119" name="" position="" srcLine_end_="ideD"/>
+            <Line Name="" _archetype="id24" _id="ide4" _real_archetype="false" dstLine_end_="idF3" name="" position="" srcLine_end_="id11B"/>
+            <Line Name="" _archetype="id26" _id="ide5" _real_archetype="false" dstLine_end_="id12B" name="" position="" srcLine_end_="ideB"/>
+            <Line Name="" _archetype="id28" _id="ide6" _real_archetype="false" dstLine_end_="id12D" name="" position="" srcLine_end_="ideD"/>
+            <Line Name="" _archetype="id2B" _id="ide7" _real_archetype="false" dstLine_end_="ideF" name="" position="" srcLine_end_="id12F"/>
+            <Line Name="" _archetype="id2D" _id="ide8" _real_archetype="false" dstLine_end_="id13F" name="" position="" srcLine_end_="ideB"/>
+            <Line Name="" _archetype="id2F" _id="ide9" _real_archetype="false" dstLine_end_="id141" name="" position="" srcLine_end_="ideD"/>
+            <Line Name="" _archetype="id32" _id="ideA" _real_archetype="false" dstLine_end_="idF1" name="" position="" srcLine_end_="id143"/>
+            <OutputPort Number="1" _archetype="id13" _id="ideF" _real_archetype="false" dstLine="id165" name="Out1" position="" srcLine="ide7">
+              <TypeBaseRef MemberIndex="0" _archetype="id48" _desynched_atts="name" _id="idF0" _real_archetype="false" name="double" position="" ref="id16e"/>
+            </OutputPort>
+            <OutputPort Number="2" _archetype="id14" _id="idF1" _real_archetype="false" dstLine="id166" name="Out2" position="" srcLine="ideA">
+              <TypeBaseRef MemberIndex="0" _archetype="id4B" _desynched_atts="name" _id="idF2" _real_archetype="false" name="double" position="" ref="id16e"/>
+            </OutputPort>
+            <OutputPort Number="3" _archetype="id15" _id="idF3" _real_archetype="false" dstLine="id167" name="Out3" position="" srcLine="ide4">
+              <TypeBaseRef MemberIndex="0" _archetype="id4e" _desynched_atts="name" _id="idF4" _real_archetype="false" name="double" position="" ref="id16e"/>
+            </OutputPort>
+            <OutputPort Number="4" _archetype="id16" _id="idF5" _real_archetype="false" dstLine="id168" name="Out4" position="" srcLine="ide1">
+              <TypeBaseRef MemberIndex="0" _archetype="id51" _desynched_atts="name" _id="idF6" _real_archetype="false" name="double" position="" ref="id16e"/>
+            </OutputPort>
+            <Primitive BlockType="Product" Description="" Name="Divide" Priority="0" SampleTime="45" Tag="" UserData="" _archetype="id17" _id="idF7" _real_archetype="false" name="Divide" position="">
+              <InputPort Number="1" _archetype="id19" _id="id104" _real_archetype="false" name="In_1" position="" srcLine="idDF">
+                <TypeBaseRef MemberIndex="0" _archetype="id6D" _desynched_atts="name" _id="id105" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <InputPort Number="2" _archetype="id1B" _id="id106" _real_archetype="false" name="In_2" position="" srcLine="ide0">
+                <TypeBaseRef MemberIndex="0" _archetype="id70" _desynched_atts="name" _id="id107" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <OutputPort Number="1" _archetype="id1C" _id="id108" _real_archetype="false" dstLine="ide1" name="Out_1" position="">
+                <TypeBaseRef MemberIndex="0" _archetype="id73" _desynched_atts="name" _id="id109" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </OutputPort>
+              <Parameter Value="1" _archetype="id54" _id="idF8" _real_archetype="false" name="CollapseDim" position=""/>
+              <Parameter Value="All dimensions" _archetype="id56" _id="idF9" _real_archetype="false" name="CollapseMode" position=""/>
+              <Parameter Value="off" _archetype="id58" _id="idFA" _real_archetype="false" name="InputSameDT" position=""/>
+              <Parameter Value="*/" _archetype="id5A" _id="idFB" _real_archetype="false" name="Inputs" position=""/>
+              <Parameter Value="off" _archetype="id5C" _id="idFC" _real_archetype="false" name="LockScale" position=""/>
+              <Parameter Value="Element-wise(.*)" _archetype="id5e" _id="idFD" _real_archetype="false" name="Multiplication" position=""/>
+              <Parameter Value="Inherit: Inherit via internal rule" _archetype="id60" _id="idFe" _real_archetype="false" name="OutDataTypeStr" position=""/>
+              <Parameter Value="[]" _archetype="id62" _id="idFF" _real_archetype="false" name="OutMax" position=""/>
+              <Parameter Value="[]" _archetype="id64" _id="id100" _real_archetype="false" name="OutMin" position=""/>
+              <Parameter Value="Floor" _archetype="id66" _id="id101" _real_archetype="false" name="RndMeth" position=""/>
+              <Parameter Value="off" _archetype="id68" _id="id102" _real_archetype="false" name="SaturateOnIntegerOverflow" position=""/>
+              <Parameter Value="double" _archetype="id6A" _id="id103" _real_archetype="false" name="ParamDataTypeStr" position=""/>
+            </Primitive>
+            <Primitive BlockType="Product" Description="" Name="Product" Priority="0" SampleTime="45" Tag="" UserData="" _archetype="id1e" _id="id10A" _real_archetype="false" name="Product" position="">
+              <InputPort Number="1" _archetype="id20" _id="id117" _real_archetype="false" name="In_1" position="" srcLine="ide2">
+                <TypeBaseRef MemberIndex="0" _archetype="id8F" _desynched_atts="name" _id="id118" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <InputPort Number="2" _archetype="id22" _id="id119" _real_archetype="false" name="In_2" position="" srcLine="ide3">
+                <TypeBaseRef MemberIndex="0" _archetype="id92" _desynched_atts="name" _id="id11A" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <OutputPort Number="1" _archetype="id23" _id="id11B" _real_archetype="false" dstLine="ide4" name="Out_1" position="">
+                <TypeBaseRef MemberIndex="0" _archetype="id95" _desynched_atts="name" _id="id11C" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </OutputPort>
+              <Parameter Value="1" _archetype="id76" _id="id10B" _real_archetype="false" name="CollapseDim" position=""/>
+              <Parameter Value="All dimensions" _archetype="id78" _id="id10C" _real_archetype="false" name="CollapseMode" position=""/>
+              <Parameter Value="off" _archetype="id7A" _id="id10D" _real_archetype="false" name="InputSameDT" position=""/>
+              <Parameter Value="2" _archetype="id7C" _id="id10e" _real_archetype="false" name="Inputs" position=""/>
+              <Parameter Value="off" _archetype="id7e" _id="id10F" _real_archetype="false" name="LockScale" position=""/>
+              <Parameter Value="Element-wise(.*)" _archetype="id80" _id="id110" _real_archetype="false" name="Multiplication" position=""/>
+              <Parameter Value="Inherit: Inherit via internal rule" _archetype="id82" _id="id111" _real_archetype="false" name="OutDataTypeStr" position=""/>
+              <Parameter Value="[]" _archetype="id84" _id="id112" _real_archetype="false" name="OutMax" position=""/>
+              <Parameter Value="[]" _archetype="id86" _id="id113" _real_archetype="false" name="OutMin" position=""/>
+              <Parameter Value="Zero" _archetype="id88" _id="id114" _real_archetype="false" name="RndMeth" position=""/>
+              <Parameter Value="off" _archetype="id8A" _id="id115" _real_archetype="false" name="SaturateOnIntegerOverflow" position=""/>
+              <Parameter Value="double" _archetype="id8C" _id="id116" _real_archetype="false" name="ParamDataTypeStr" position=""/>
+            </Primitive>
+            <Primitive BlockType="Sum" Description="" Name="Sum" Priority="0" SampleTime="45" Tag="" UserData="" _archetype="id25" _id="id11D" _real_archetype="false" name="Sum" position="">
+              <InputPort Number="1" _archetype="id27" _id="id12B" _real_archetype="false" name="In_1" position="" srcLine="ide5">
+                <TypeBaseRef MemberIndex="0" _archetype="idB3" _desynched_atts="name" _id="id12C" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <InputPort Number="2" _archetype="id29" _id="id12D" _real_archetype="false" name="In_2" position="" srcLine="ide6">
+                <TypeBaseRef MemberIndex="0" _archetype="idB6" _desynched_atts="name" _id="id12e" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <OutputPort Number="1" _archetype="id2A" _id="id12F" _real_archetype="false" dstLine="ide7" name="Out_1" position="">
+                <TypeBaseRef MemberIndex="0" _archetype="idB9" _desynched_atts="name" _id="id130" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </OutputPort>
+              <Parameter Value="Inherit: Inherit via internal rule" _archetype="id98" _id="id11e" _real_archetype="false" name="AccumDataTypeStr" position=""/>
+              <Parameter Value="1" _archetype="id9A" _id="id11F" _real_archetype="false" name="CollapseDim" position=""/>
+              <Parameter Value="All dimensions" _archetype="id9C" _id="id120" _real_archetype="false" name="CollapseMode" position=""/>
+              <Parameter Value="round" _archetype="id9e" _id="id121" _real_archetype="false" name="IconShape" position=""/>
+              <Parameter Value="off" _archetype="idA0" _id="id122" _real_archetype="false" name="InputSameDT" position=""/>
+              <Parameter Value="|++" _archetype="idA2" _id="id123" _real_archetype="false" name="Inputs" position=""/>
+              <Parameter Value="off" _archetype="idA4" _id="id124" _real_archetype="false" name="LockScale" position=""/>
+              <Parameter Value="Inherit: Inherit via internal rule" _archetype="idA6" _id="id125" _real_archetype="false" name="OutDataTypeStr" position=""/>
+              <Parameter Value="[]" _archetype="idA8" _id="id126" _real_archetype="false" name="OutMax" position=""/>
+              <Parameter Value="[]" _archetype="idAA" _id="id127" _real_archetype="false" name="OutMin" position=""/>
+              <Parameter Value="Floor" _archetype="idAC" _id="id128" _real_archetype="false" name="RndMeth" position=""/>
+              <Parameter Value="off" _archetype="idAe" _id="id129" _real_archetype="false" name="SaturateOnIntegerOverflow" position=""/>
+              <Parameter Value="double" _archetype="idB0" _id="id12A" _real_archetype="false" name="ParamDataTypeStr" position=""/>
+            </Primitive>
+            <Primitive BlockType="Sum" Description="" Name="Sum1" Priority="0" SampleTime="45" Tag="" UserData="" _archetype="id2C" _id="id131" _real_archetype="false" name="Sum1" position="">
+              <InputPort Number="1" _archetype="id2e" _id="id13F" _real_archetype="false" name="In_1" position="" srcLine="ide8">
+                <TypeBaseRef MemberIndex="0" _archetype="idD7" _desynched_atts="name" _id="id140" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <InputPort Number="2" _archetype="id30" _id="id141" _real_archetype="false" name="In_2" position="" srcLine="ide9">
+                <TypeBaseRef MemberIndex="0" _archetype="idDA" _desynched_atts="name" _id="id142" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </InputPort>
+              <OutputPort Number="1" _archetype="id31" _id="id143" _real_archetype="false" dstLine="ideA" name="Out_1" position="">
+                <TypeBaseRef MemberIndex="0" _archetype="idDD" _desynched_atts="name" _id="id144" _real_archetype="false" name="double" position="" ref="id16e"/>
+              </OutputPort>
+              <Parameter Value="Inherit: Inherit via internal rule" _archetype="idBC" _id="id132" _real_archetype="false" name="AccumDataTypeStr" position=""/>
+              <Parameter Value="1" _archetype="idBe" _id="id133" _real_archetype="false" name="CollapseDim" position=""/>
+              <Parameter Value="All dimensions" _archetype="idC0" _id="id134" _real_archetype="false" name="CollapseMode" position=""/>
+              <Parameter Value="round" _archetype="idC2" _id="id135" _real_archetype="false" name="IconShape" position=""/>
+              <Parameter Value="off" _archetype="idC4" _id="id136" _real_archetype="false" name="InputSameDT" position=""/>
+              <Parameter Value="|+-" _archetype="idC6" _id="id137" _real_archetype="false" name="Inputs" position=""/>
+              <Parameter Value="off" _archetype="idC8" _id="id138" _real_archetype="false" name="LockScale" position=""/>
+              <Parameter Value="Inherit: Inherit via internal rule" _archetype="idCA" _id="id139" _real_archetype="false" name="OutDataTypeStr" position=""/>
+              <Parameter Value="[]" _archetype="idCC" _id="id13A" _real_archetype="false" name="OutMax" position=""/>
+              <Parameter Value="[]" _archetype="idCe" _id="id13B" _real_archetype="false" name="OutMin" position=""/>
+              <Parameter Value="Floor" _archetype="idD0" _id="id13C" _real_archetype="false" name="RndMeth" position=""/>
+              <Parameter Value="off" _archetype="idD2" _id="id13D" _real_archetype="false" name="SaturateOnIntegerOverflow" position=""/>
+              <Parameter Value="double" _archetype="idD4" _id="id13e" _real_archetype="false" name="ParamDataTypeStr" position=""/>
+            </Primitive>
+          </Subsystem>
+        </Subsystem>
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="modelReferenceTest_MR" Period="0" Priority="-1" SampleTime="-1" Tag="" UserData="" _id="id10" _instances="id33 idDe" name="modelReferenceTest_MR">
+          <InputPort Number="1" _id="id11" _instances="id40 ideB" dstLine="id18 id1F id26 id2D" name="In1">
+            <TypeBaseRef MemberIndex="0" _id="id42" _instances="id41 ideC" name="double" ref="id16e"/>
+          </InputPort>
+          <InputPort Number="2" _id="id12" _instances="id43 ideD" dstLine="id1A id21 id28 id2F" name="In2">
+            <TypeBaseRef MemberIndex="0" _id="id45" _instances="id44 idee" name="double" ref="id16e"/>
+          </InputPort>
+          <Line Name="" _id="id18" _instances="id34 idDF" dstLine_end_="id19" srcLine_end_="id11"/>
+          <Line Name="" _id="id1A" _instances="id35 ide0" dstLine_end_="id1B" srcLine_end_="id12"/>
+          <Line Name="" _id="id1D" _instances="id36 ide1" dstLine_end_="id16" srcLine_end_="id1C"/>
+          <Line Name="" _id="id1F" _instances="id37 ide2" dstLine_end_="id20" srcLine_end_="id11"/>
+          <Line Name="" _id="id21" _instances="id38 ide3" dstLine_end_="id22" srcLine_end_="id12"/>
+          <Line Name="" _id="id24" _instances="id39 ide4" dstLine_end_="id15" srcLine_end_="id23"/>
+          <Line Name="" _id="id26" _instances="id3A ide5" dstLine_end_="id27" srcLine_end_="id11"/>
+          <Line Name="" _id="id28" _instances="id3B ide6" dstLine_end_="id29" srcLine_end_="id12"/>
+          <Line Name="" _id="id2B" _instances="id3C ide7" dstLine_end_="id13" srcLine_end_="id2A"/>
+          <Line Name="" _id="id2D" _instances="id3D ide8" dstLine_end_="id2e" srcLine_end_="id11"/>
+          <Line Name="" _id="id2F" _instances="id3e ide9" dstLine_end_="id30" srcLine_end_="id12"/>
+          <Line Name="" _id="id32" _instances="id3F ideA" dstLine_end_="id14" srcLine_end_="id31"/>
+          <OutputPort Number="1" _id="id13" _instances="id46 ideF" name="Out1" srcLine="id2B">
+            <TypeBaseRef MemberIndex="0" _id="id48" _instances="id47 idF0" name="double" ref="id16e"/>
+          </OutputPort>
+          <OutputPort Number="2" _id="id14" _instances="id49 idF1" name="Out2" srcLine="id32">
+            <TypeBaseRef MemberIndex="0" _id="id4B" _instances="id4A idF2" name="double" ref="id16e"/>
+          </OutputPort>
+          <OutputPort Number="3" _id="id15" _instances="id4C idF3" name="Out3" srcLine="id24">
+            <TypeBaseRef MemberIndex="0" _id="id4e" _instances="id4D idF4" name="double" ref="id16e"/>
+          </OutputPort>
+          <OutputPort Number="4" _id="id16" _instances="id4F idF5" name="Out4" srcLine="id1D">
+            <TypeBaseRef MemberIndex="0" _id="id51" _instances="id50 idF6" name="double" ref="id16e"/>
+          </OutputPort>
+          <Primitive BlockType="Product" Description="" Name="Divide" Priority="0" SampleTime="45" Tag="" UserData="" _id="id17" _instances="id52 idF7" name="Divide">
+            <InputPort Number="1" _id="id19" _instances="id6B id104" name="In_1" srcLine="id18">
+              <TypeBaseRef MemberIndex="0" _id="id6D" _instances="id6C id105" name="double" ref="id16e"/>
+            </InputPort>
+            <InputPort Number="2" _id="id1B" _instances="id6e id106" name="In_2" srcLine="id1A">
+              <TypeBaseRef MemberIndex="0" _id="id70" _instances="id6F id107" name="double" ref="id16e"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id1C" _instances="id71 id108" dstLine="id1D" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id73" _instances="id72 id109" name="double" ref="id16e"/>
+            </OutputPort>
+            <Parameter Value="1" _id="id54" _instances="id53 idF8" name="CollapseDim"/>
+            <Parameter Value="All dimensions" _id="id56" _instances="id55 idF9" name="CollapseMode"/>
+            <Parameter Value="off" _id="id58" _instances="id57 idFA" name="InputSameDT"/>
+            <Parameter Value="*/" _id="id5A" _instances="id59 idFB" name="Inputs"/>
+            <Parameter Value="off" _id="id5C" _instances="id5B idFC" name="LockScale"/>
+            <Parameter Value="Element-wise(.*)" _id="id5e" _instances="id5D idFD" name="Multiplication"/>
+            <Parameter Value="Inherit: Inherit via internal rule" _id="id60" _instances="id5F idFe" name="OutDataTypeStr"/>
+            <Parameter Value="[]" _id="id62" _instances="id61 idFF" name="OutMax"/>
+            <Parameter Value="[]" _id="id64" _instances="id63 id100" name="OutMin"/>
+            <Parameter Value="Floor" _id="id66" _instances="id65 id101" name="RndMeth"/>
+            <Parameter Value="off" _id="id68" _instances="id67 id102" name="SaturateOnIntegerOverflow"/>
+            <Parameter Value="double" _id="id6A" _instances="id69 id103" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Product" Description="" Name="Product" Priority="0" SampleTime="45" Tag="" UserData="" _id="id1e" _instances="id74 id10A" name="Product">
+            <InputPort Number="1" _id="id20" _instances="id8D id117" name="In_1" srcLine="id1F">
+              <TypeBaseRef MemberIndex="0" _id="id8F" _instances="id8e id118" name="double" ref="id16e"/>
+            </InputPort>
+            <InputPort Number="2" _id="id22" _instances="id90 id119" name="In_2" srcLine="id21">
+              <TypeBaseRef MemberIndex="0" _id="id92" _instances="id91 id11A" name="double" ref="id16e"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id23" _instances="id93 id11B" dstLine="id24" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id95" _instances="id94 id11C" name="double" ref="id16e"/>
+            </OutputPort>
+            <Parameter Value="1" _id="id76" _instances="id75 id10B" name="CollapseDim"/>
+            <Parameter Value="All dimensions" _id="id78" _instances="id77 id10C" name="CollapseMode"/>
+            <Parameter Value="off" _id="id7A" _instances="id79 id10D" name="InputSameDT"/>
+            <Parameter Value="2" _id="id7C" _instances="id7B id10e" name="Inputs"/>
+            <Parameter Value="off" _id="id7e" _instances="id7D id10F" name="LockScale"/>
+            <Parameter Value="Element-wise(.*)" _id="id80" _instances="id7F id110" name="Multiplication"/>
+            <Parameter Value="Inherit: Inherit via internal rule" _id="id82" _instances="id81 id111" name="OutDataTypeStr"/>
+            <Parameter Value="[]" _id="id84" _instances="id83 id112" name="OutMax"/>
+            <Parameter Value="[]" _id="id86" _instances="id85 id113" name="OutMin"/>
+            <Parameter Value="Zero" _id="id88" _instances="id87 id114" name="RndMeth"/>
+            <Parameter Value="off" _id="id8A" _instances="id89 id115" name="SaturateOnIntegerOverflow"/>
+            <Parameter Value="double" _id="id8C" _instances="id8B id116" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Sum" Description="" Name="Sum" Priority="0" SampleTime="45" Tag="" UserData="" _id="id25" _instances="id96 id11D" name="Sum">
+            <InputPort Number="1" _id="id27" _instances="idB1 id12B" name="In_1" srcLine="id26">
+              <TypeBaseRef MemberIndex="0" _id="idB3" _instances="idB2 id12C" name="double" ref="id16e"/>
+            </InputPort>
+            <InputPort Number="2" _id="id29" _instances="idB4 id12D" name="In_2" srcLine="id28">
+              <TypeBaseRef MemberIndex="0" _id="idB6" _instances="idB5 id12e" name="double" ref="id16e"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id2A" _instances="idB7 id12F" dstLine="id2B" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="idB9" _instances="idB8 id130" name="double" ref="id16e"/>
+            </OutputPort>
+            <Parameter Value="Inherit: Inherit via internal rule" _id="id98" _instances="id97 id11e" name="AccumDataTypeStr"/>
+            <Parameter Value="1" _id="id9A" _instances="id99 id11F" name="CollapseDim"/>
+            <Parameter Value="All dimensions" _id="id9C" _instances="id9B id120" name="CollapseMode"/>
+            <Parameter Value="round" _id="id9e" _instances="id9D id121" name="IconShape"/>
+            <Parameter Value="off" _id="idA0" _instances="id9F id122" name="InputSameDT"/>
+            <Parameter Value="|++" _id="idA2" _instances="idA1 id123" name="Inputs"/>
+            <Parameter Value="off" _id="idA4" _instances="idA3 id124" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit via internal rule" _id="idA6" _instances="idA5 id125" name="OutDataTypeStr"/>
+            <Parameter Value="[]" _id="idA8" _instances="idA7 id126" name="OutMax"/>
+            <Parameter Value="[]" _id="idAA" _instances="idA9 id127" name="OutMin"/>
+            <Parameter Value="Floor" _id="idAC" _instances="idAB id128" name="RndMeth"/>
+            <Parameter Value="off" _id="idAe" _instances="idAD id129" name="SaturateOnIntegerOverflow"/>
+            <Parameter Value="double" _id="idB0" _instances="idAF id12A" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Sum" Description="" Name="Sum1" Priority="0" SampleTime="45" Tag="" UserData="" _id="id2C" _instances="idBA id131" name="Sum1">
+            <InputPort Number="1" _id="id2e" _instances="idD5 id13F" name="In_1" srcLine="id2D">
+              <TypeBaseRef MemberIndex="0" _id="idD7" _instances="idD6 id140" name="double" ref="id16e"/>
+            </InputPort>
+            <InputPort Number="2" _id="id30" _instances="idD8 id141" name="In_2" srcLine="id2F">
+              <TypeBaseRef MemberIndex="0" _id="idDA" _instances="idD9 id142" name="double" ref="id16e"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id31" _instances="idDB id143" dstLine="id32" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="idDD" _instances="idDC id144" name="double" ref="id16e"/>
+            </OutputPort>
+            <Parameter Value="Inherit: Inherit via internal rule" _id="idBC" _instances="idBB id132" name="AccumDataTypeStr"/>
+            <Parameter Value="1" _id="idBe" _instances="idBD id133" name="CollapseDim"/>
+            <Parameter Value="All dimensions" _id="idC0" _instances="idBF id134" name="CollapseMode"/>
+            <Parameter Value="round" _id="idC2" _instances="idC1 id135" name="IconShape"/>
+            <Parameter Value="off" _id="idC4" _instances="idC3 id136" name="InputSameDT"/>
+            <Parameter Value="|+-" _id="idC6" _instances="idC5 id137" name="Inputs"/>
+            <Parameter Value="off" _id="idC8" _instances="idC7 id138" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit via internal rule" _id="idCA" _instances="idC9 id139" name="OutDataTypeStr"/>
+            <Parameter Value="[]" _id="idCC" _instances="idCB id13A" name="OutMax"/>
+            <Parameter Value="[]" _id="idCe" _instances="idCD id13B" name="OutMin"/>
+            <Parameter Value="Floor" _id="idD0" _instances="idCF id13C" name="RndMeth"/>
+            <Parameter Value="off" _id="idD2" _instances="idD1 id13D" name="SaturateOnIntegerOverflow"/>
+            <Parameter Value="double" _id="idD4" _instances="idD3 id13e" name="ParamDataTypeStr"/>
+          </Primitive>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow name="Stateflow">
+        <State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="" ExitAction="" Methods="" Name="" Order="0" name="TopLevel">
+          <State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="" ExitAction="" Methods="" Name="Counter" Order="0" _id="id157" name="Counter" referedbyConnectorRef="id15A">
+            <Data ArrayFirstIndex="" ArraySize="" DataType="" Description="" InitialValue="1" Max="" Min="" Name="ctr" Port="1" Scope="OUTPUT_DATA" Units="" name="ctr">
+              <TypeBaseRef MemberIndex="0" _id="id170" name="double" ref="id16e"/>
+            </Data>
+            <State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="" ExitAction="" Methods="" Name="s1" Order="0" _id="id158" dstTransition="id16B id16C" name="s1" srcTransition="id169 id16B id16C"/>
+            <TransStart _id="id16A" dstTransition="id169"/>
+            <Transition Action="" ConditionAction="" Guard="" Order="1" Trigger="" _id="id169" dstTransition_end_="id158" name="" srcTransition_end_="id16A"/>
+            <Transition Action="ctr = ctr+1;" ConditionAction="" Guard="ctr &lt; 4" Order="1" Trigger="" _id="id16B" dstTransition_end_="id158" name="" srcTransition_end_="id158"/>
+            <Transition Action="ctr = -2;" ConditionAction="" Guard="ctr >= 4" Order="2" Trigger="" _id="id16C" dstTransition_end_="id158" name="" srcTransition_end_="id158"/>
+          </State>
+        </State>
+      </Stateflow>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types">
+    <Matrix Type="double" _id="id16e" columns="1" name="double" referedbyTypeStructRef="id170 id172 id174 id176 id178 id17A id17C id17e id180 id42 id41 ideC id45 id44 idee id48 id47 idF0 id4B id4A idF2 id4e id4D idF4 id51 id50 idF6 id188 id189 id18B id6D id6C id105 id70 id6F id107 id73 id72 id109 id8F id8e id118 id92 id91 id11A id95 id94 id11C idB3 idB2 id12C idB6 idB5 id12e idB9 idB8 id130 idD7 idD6 id140 idDA idD9 id142 idDD idDC id144 id19D id1A1 id1A3 id1A2 id199" rows="1"/>
+    <Matrix Type="float" _id="id19A" columns="1" name="float" referedbyTypeStructRef="id19B id19F" rows="1"/>
+  </Types>
+
+</RootFolder>

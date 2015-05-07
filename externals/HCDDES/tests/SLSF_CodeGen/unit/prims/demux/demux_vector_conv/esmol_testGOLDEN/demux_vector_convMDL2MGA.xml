@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="Newdemux_vector_conv00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="demux_vector_conv" Period="0" Priority="0" SampleTime="0.00" Tag="" UserData="" name="demux_vector_conv">
+          <Line Name="" _id="idF" dstLine_end_="id4" srcLine_end_="ide"/>
+          <Line Name="" _id="id11" dstLine_end_="id5" srcLine_end_="id10"/>
+          <Line Name="" _id="id18" dstLine_end_="id19" srcLine_end_="id17"/>
+          <Line Name="" _id="id1B" dstLine_end_="id1C" srcLine_end_="id1A"/>
+          <Line Name="" _id="id1e" dstLine_end_="id1F" srcLine_end_="id1D"/>
+          <OutputPort Number="1" _id="id4" name="len_two" srcLine="idF">
+            <TypeBaseRef MemberIndex="0" _id="id23" name="A2singleA" ref="id13"/>
+          </OutputPort>
+          <OutputPort Number="2" _id="id5" name="len_two1" srcLine="id11">
+            <TypeBaseRef MemberIndex="0" _id="id24" name="A2singleA" ref="id13"/>
+          </OutputPort>
+          <Primitive BlockType="Constant" Description="" Name="Constant" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Constant">
+            <OutputPort Number="1" _id="id17" dstLine="id18" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id7" name="A3singleA" ref="id9"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="single" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="[2;4;6]" name="Value"/>
+            <Parameter Value="off" name="VectorParams1D"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant1" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Constant1">
+            <OutputPort Number="1" _id="id1A" dstLine="id1B" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="idB" name="single" ref="idC"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="single" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="3" name="Value"/>
+            <Parameter Value="off" name="VectorParams1D"/>
+          </Primitive>
+          <Primitive BlockType="Demux" Description="" Name="Demux" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Demux">
+            <InputPort Number="1" _id="id1F" name="In_1" srcLine="id1e">
+              <TypeBaseRef MemberIndex="0" _id="id29" name="Ssignal1A3singleACsignal2singleS" ref="id28"/>
+            </InputPort>
+            <OutputPort Number="1" _id="ide" dstLine="idF" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id12" name="A2singleA" ref="id13"/>
+            </OutputPort>
+            <OutputPort Number="2" _id="id10" dstLine="id11" name="Out_2">
+              <TypeBaseRef MemberIndex="0" _id="id14" name="A2singleA" ref="id13"/>
+            </OutputPort>
+            <Parameter Value="off" name="BusSelectionMode"/>
+            <Parameter Value="bar" name="DisplayOption"/>
+            <Parameter Value="[2,2]" name="Outputs"/>
+          </Primitive>
+          <Primitive BlockType="Mux" Description="" Name="Mux" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Mux">
+            <InputPort Number="1" _id="id19" name="In_1" srcLine="id18">
+              <TypeBaseRef MemberIndex="0" _id="id21" name="A3singleA" ref="id9"/>
+            </InputPort>
+            <InputPort Number="2" _id="id1C" name="In_2" srcLine="id1B">
+              <TypeBaseRef MemberIndex="0" _id="id22" name="single" ref="idC"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id1D" dstLine="id1e" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id25" name="Ssignal1A3singleACsignal2singleS" ref="id28"/>
+            </OutputPort>
+            <Parameter Value="bar" name="DisplayOption"/>
+            <Parameter Value="[3,1]" name="Inputs"/>
+          </Primitive>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow name="Stateflow"/>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types">
+    <Matrix Type="single" _id="id9" columns="1" name="A3singleA" referedbyTypeStructRef="id7 id21 id26" rows="3"/>
+    <Matrix Type="single" _id="idC" columns="1" name="single" referedbyTypeStructRef="idB id22 id27" rows="1"/>
+    <Matrix Type="single" _id="id13" columns="1" name="A2singleA" referedbyTypeStructRef="id12 id14 id23 id24" rows="2"/>
+    <TypeStruct MemberCount="2" _id="id28" name="Ssignal1A3singleACsignal2singleS" referedbyTypeStructRef="id25 id29">
+      <TypeBaseRef MemberIndex="0" _id="id26" name="signal1" ref="id9"/>
+      <TypeBaseRef MemberIndex="1" _id="id27" name="signal2" ref="idC"/>
+    </TypeStruct>
+  </Types>
+
+</RootFolder>

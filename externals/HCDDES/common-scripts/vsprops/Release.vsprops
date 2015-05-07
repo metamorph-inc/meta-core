@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Release"
+	InheritedPropertySheets=".\Defaults.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		PreprocessorDefinitions="NDEBUG"
+		StringPooling="true"
+		RuntimeLibrary="2"
+		DebugInformationFormat="3"
+	/>
+	<UserMacro
+		Name="d"
+		Value=""
+	/>
+</VisualStudioPropertySheet>

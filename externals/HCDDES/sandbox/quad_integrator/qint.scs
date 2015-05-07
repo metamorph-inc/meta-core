@@ -1,0 +1,24 @@
+Resolution 1ms
+
+Proc RS 4MHz 0s 0s
+Comp InnerLoop =50Hz 1.9ms
+Comp DataHandling =50Hz 1.8ms
+Comp SerialIn =50Hz 1us
+Comp SerialOut =50Hz 1ms
+Msg DataHandling.sensor_data_in 1B RS/SerialIn RS/DataHandling 
+Msg InnerLoop.thrust_commands 37B RS/InnerLoop RS/SerialOut
+Msg DataHandling.ang_msg 1B RS/DataHandling RS/InnerLoop 
+
+Proc GS 100MHz 0s 0s
+Comp RefHandling =50Hz 1us
+Comp OuterLoop =50Hz 245us
+Msg RefHandling.pos_ref_out 9B GS/RefHandling GS/OuterLoop 
+
+
+Bus TT_I2C 100kb 1.3ms
+Msg OuterLoop.ang_ref 20B GS/OuterLoop RS/InnerLoop 
+Msg DataHandling.pos_msg 8B RS/DataHandling GS/OuterLoop 
+
+
+
+

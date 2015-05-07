@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C84EA1D9-06E4-418D-B60E-F63029B21E58}</ProjectGuid>
+    <RootNamespace>ESM2SLC</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\Release\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <TypeLibraryName>.\Debug/ESM2SLC.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TypeLibraryName>.\Debug/ESM2SLC.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <TypeLibraryName>.\Release/ESM2SLC.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TypeLibraryName>.\Release/ESM2SLC.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\generated\ESM2SLC\generated\ESMoL\ESM2SLC.cpp" />
+    <ClCompile Include="..\..\..\generated\ESM2SLC\generated\ESMoL\ESMoL.cpp" />
+    <ClCompile Include="..\..\..\generated\ESM2SLC\generated\ESMoL\GenESM2SLC.cpp" />
+    <ClCompile Include="..\..\..\generated\ESM2SLC\generated\ESMoL\GenESM2SLC_main.cpp" />
+    <ClCompile Include="..\..\..\generated\ESM2SLC\generated\ESMoL\LINKS.cpp" />
+    <ClCompile Include="..\..\..\generated\ESM2SLC\generated\ESMoL\SFC.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\ESM2SLC.h" />
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\ESM2SLC_xsd.h" />
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\ESMoL.h" />
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\ESMoL_xsd.h" />
+    <CustomBuild Include="..\..\..\generated\ESM2SLC\generated\ESMoL\GenESM2SLC.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Executing "transrootd"</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Executing "transrootd"</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\..\bin\transrootd "%(FullPath)" TL "%(RootDir)%(Directory)\transroot.hpp"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\bin\transrootd "%(FullPath)" TL "%(RootDir)%(Directory)\transroot.hpp"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\transroot.hpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\transroot.hpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Executing "transroot"</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Executing "transroot"</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\..\bin\transroot "%(FullPath)" TL "%(RootDir)%(Directory)\transroot.hpp"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\bin\transroot "%(FullPath)" TL "%(RootDir)%(Directory)\transroot.hpp"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\transroot.hpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\transroot.hpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\LINKS.h" />
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\LINKS_xsd.h" />
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\SFC.h" />
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\SFC_xsd.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\generated\ESM2SLC\models\ESMoL\Config.mga">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating CG files ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating CG files ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(GREAT_PATH)"\bin\CG.exe ..\..\generated\ESMoL\GenESM2SLC "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(GREAT_PATH)"\bin\CG.exe ..\generated\GenESM2SLC "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\..\..\generated\ESMoL\GenESM2SLC.h;%(RootDir)%(Directory)\..\..\generated\ESMoL\GenESM2SLC.cpp;%(RootDir)%(Directory)\..\..\generated\ESMoL\GenESM2SLC_main.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\..\generated\GenESM2SLC.h;%(RootDir)%(Directory)\..\generated\GenESM2SLC.cpp;%(RootDir)%(Directory)\..\generated\GenESM2SLC_main.cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating CG files ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating CG files ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(GREAT_PATH)"\bin\CG.exe ..\..\generated\ESMoL\GenESM2SLC "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(GREAT_PATH)"\bin\CG.exe ..\generated\GenESM2SLC "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\..\..\generated\ESMoL\GenESM2SLC.h;%(RootDir)%(Directory)\..\..\generated\ESMoL\GenESM2SLC.cpp;%(RootDir)%(Directory)\..\..\generated\ESMoL\GenESM2SLC_main.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\..\generated\GenESM2SLC.h;%(RootDir)%(Directory)\..\generated\GenESM2SLC.cpp;%(RootDir)%(Directory)\..\generated\GenESM2SLC_main.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\generated\ESM2SLC\models\ESMoL\ESM2SLC.mga">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ESM2SLC.mga -&gt; Config.mga, ESM2SLC-gr.xml, Udm\ESM2SLC.udm</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ESM2SLC.mga -&gt; Config.mga, ESM2SLC-gr.xml, Udm\ESM2SLC.udm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(VCP_PATH)\common-scripts\gmepy.exe" RunGreatMasterInt "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(VCP_PATH)\common-scripts\gmepy.exe" RunGreatMasterInt "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\Config.mga;%(RootDir)%(Directory)\%(Filename)-gr.xml;%(RootDir)%(Directory)\Udm\%(Filename).udm;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\Config.mga;%(RootDir)%(Directory)\%(Filename)-gr.xml;%(RootDir)%(Directory)\Udm\%(Filename).udm;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ESM2SLC.mga -&gt; Config.mga, ESM2SLC-gr.xml, Udm\ESM2SLC.udm</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ESM2SLC.mga -&gt; Config.mga, ESM2SLC-gr.xml, Udm\ESM2SLC.udm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(VCP_PATH)\common-scripts\gmepy.exe" RunGreatMasterInt "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(VCP_PATH)\common-scripts\gmepy.exe" RunGreatMasterInt "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\Config.mga;%(RootDir)%(Directory)\%(Filename)-gr.xml;%(RootDir)%(Directory)\Udm\%(Filename).udm;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\Config.mga;%(RootDir)%(Directory)\%(Filename)-gr.xml;%(RootDir)%(Directory)\Udm\%(Filename).udm;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\generated\ESM2SLC\models\ESMoL\Udm\ESM2SLC.udm">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating *.cpp and *.h files using "Udm -g" so that *.xsd are compiled into them directly</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating *.cpp and *.h files using "Udm -g" so that *.xsd are compiled into them directly</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mkdir "%(RootDir)%(Directory)"\..\..\..\generated\ESMoL
+cd "%(RootDir)%(Directory)"\..\..\..\generated\ESMoL
+"$(UDM_PATH)\bin\Udm.exe" -g "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mkdir "%(RootDir)%(Directory)"\..\..\generated
+cd "%(RootDir)%(Directory)"\..\..\generated
+"$(UDM_PATH)\bin\Udm.exe" -g "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL_xsd.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SLC.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SLC.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SLC.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SLC_xsd.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS_xsd.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC_xsd.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\..\..\generated\ESMoL.cpp;%(RootDir)%(Directory)\..\..\generated\ESMoL.h;%(RootDir)%(Directory)\..\..\generated\ESMoL.xsd;%(RootDir)%(Directory)\..\..\generated\ESMoL_xsd.h;%(RootDir)%(Directory)\..\..\generated\ESM2SLC.cpp;%(RootDir)%(Directory)\..\..\generated\ESM2SLC.h;%(RootDir)%(Directory)\..\..\generated\ESM2SLC.xsd;%(RootDir)%(Directory)\..\..\generated\ESM2SLC_xsd.h;%(RootDir)%(Directory)\..\..\generated\LINKS.cpp;%(RootDir)%(Directory)\..\..\generated\LINKS.h;%(RootDir)%(Directory)\..\..\generated\LINKS.xsd;%(RootDir)%(Directory)\..\..\generated\LINKS_xsd.h;%(RootDir)%(Directory)\..\..\generated\SFC.cpp;%(RootDir)%(Directory)\..\..\generated\SFC.h;%(RootDir)%(Directory)\..\..\generated\SFC.xsd;%(RootDir)%(Directory)\..\..\generated\SFC_xsd.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating *.cpp and *.h files using "Udm -g" so that *.xsd are compiled into them directly</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating *.cpp and *.h files using "Udm -g" so that *.xsd are compiled into them directly</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mkdir "%(RootDir)%(Directory)"\..\..\..\generated\ESMoL
+cd "%(RootDir)%(Directory)"\..\..\..\generated\ESMoL
+"$(UDM_PATH)\bin\Udm.exe" -g "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mkdir "%(RootDir)%(Directory)"\..\..\generated
+cd "%(RootDir)%(Directory)"\..\..\generated
+"$(UDM_PATH)\bin\Udm.exe" -g "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL_xsd.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SLC.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SLC.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SLC.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SLC_xsd.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS_xsd.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC_xsd.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\..\..\generated\ESMoL.cpp;%(RootDir)%(Directory)\..\..\generated\ESMoL.h;%(RootDir)%(Directory)\..\..\generated\ESMoL.xsd;%(RootDir)%(Directory)\..\..\generated\ESMoL_xsd.h;%(RootDir)%(Directory)\..\..\generated\ESM2SLC.cpp;%(RootDir)%(Directory)\..\..\generated\ESM2SLC.h;%(RootDir)%(Directory)\..\..\generated\ESM2SLC.xsd;%(RootDir)%(Directory)\..\..\generated\ESM2SLC_xsd.h;%(RootDir)%(Directory)\..\..\generated\LINKS.cpp;%(RootDir)%(Directory)\..\..\generated\LINKS.h;%(RootDir)%(Directory)\..\..\generated\LINKS.xsd;%(RootDir)%(Directory)\..\..\generated\LINKS_xsd.h;%(RootDir)%(Directory)\..\..\generated\SFC.cpp;%(RootDir)%(Directory)\..\..\generated\SFC.h;%(RootDir)%(Directory)\..\..\generated\SFC.xsd;%(RootDir)%(Directory)\..\..\generated\SFC_xsd.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="ESM2SLC.xme">
+      <FileType>Document</FileType>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ESM2SLC.xme -&gt; ESM2SLC.mga</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ESM2SLC.xme -&gt; ESM2SLC.mga</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mkdir ..\..\..\generated\ESM2SLC\models\ESMoL
+"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" ..\..\..\generated\ESM2SLC\models\ESMoL\ESM2SLC.mga UMLModelTransformer
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mkdir ..\..\..\generated\ESM2SLC\models
+"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" ..\..\..\generated\ESM2SLC\models\ESM2SLC.mga UMLModelTransformer
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../generated/ESM2SLC/models/ESMoL/ESM2SLC.mga;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../../generated/ESM2SLC/models/ESM2SLC.mga;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ESM2SLC.xme -&gt; ESM2SLC.mga</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ESM2SLC.xme -&gt; ESM2SLC.mga</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mkdir ..\..\..\generated\ESM2SLC\models\ESMoL
+"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" ..\..\..\generated\ESM2SLC\models\ESMoL\ESM2SLC.mga UMLModelTransformer
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mkdir ..\..\..\generated\ESM2SLC\models
+"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" ..\..\..\generated\ESM2SLC\models\ESM2SLC.mga UMLModelTransformer
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../../generated/ESM2SLC/models/ESMoL/ESM2SLC.mga;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../../generated/ESM2SLC/models/ESM2SLC.mga;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\TransRoot\TransRoot.vcxproj">
+      <Project>{eedd870a-b2af-4e7c-bd69-6de75f958dd9}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

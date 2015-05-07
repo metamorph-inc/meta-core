@@ -1,0 +1,20 @@
+Notes for 26 May 2010
+
+1. The symptom is zero-data from the reference handler.  
+
+   One bug was the failure to increment the counter, which doesn't account for
+   the symptom.
+
+   Was the reference handler compiled into the executable? Yes.
+
+   Is there something else that could be stepping on that data? No.
+   The pass-through data was read from the wrong message.
+
+   That seems OK.
+
+2. The system is unstable.  
+
+   All of the comms seem to be doing the right thing, but the trajectories are
+   going quickly out into the weeds.
+
+

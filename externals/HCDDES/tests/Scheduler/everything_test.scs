@@ -1,0 +1,25 @@
+Resolution 2us
+
+Proc P1 100MHz 50us 10us
+Comp T1 =50Hz 8us
+Comp T2 =100Hz 10us
+
+Proc P2 100MHz 40us 12us
+Comp T1 =50Hz 10us
+Comp T2 =100Hz 10us
+
+Proc P3 100MHz 50us 12us
+Comp T1 =25Hz 10us
+Comp T2 =50Hz 5us
+
+Bus B12 1Mb 0us
+Msg M1 16B P1/T1 P2/T1
+
+Bus B23 1Mb 0us
+Msg M2 2B  P2/T1 P3/T1
+Msg M3 4B  P3/T2 P2/T2
+
+Latency 35us P1/T1 P2/T1
+% Latency loop
+Latency 100us P2/T1 P2/T2
+

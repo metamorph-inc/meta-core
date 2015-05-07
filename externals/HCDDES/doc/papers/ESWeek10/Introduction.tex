@@ -1,0 +1,82 @@
+\section{Introduction}
+
+High confidence embedded systems development features multi-faceted design activities
+complemented by model and data analysis to ensure the correct operation of the final
+product.  Such analysis is multi-faceted due to the heterogeneity of domains 
+involved in the problems (e.g. cyber-physical systems), leading to high costs and
+extended schedules for development efforts.  Analyses suffer from difficulties
+of scale due to state and parameter space explosion problems.  Further, interactions
+between design domains (such as the physical continous-time and computational 
+discrete-events) are poorly understood, often requiring analyses to be overly conservative.
+Recently the research community for embedded systems has explored 
+compositional techniques for design and analysis, where system correctness properties
+may be inferred from component correctness properties and more abstract interaction 
+models defined on the interconnection structure of the design.  Compositional methods
+strive to dramatically reduce state explosion problems by assuring correctness during
+model construction, while avoiding overly conservative approximations.
+
+ESMoL is a modeling language built to experiment with encoding compositional 
+techniques for high-confidence systems into a single modeling environment.  Prior 
+published work on ESMoL has dealt with modeling, code generation, and deployment for distributed 
+control software implemented using our realization of the time-triggered model of computation
+\cite{timed:frodo, modeling:aces08, sched:analysis}. We rely on the time-triggered paradigm to 
+reduce jitter in sampling and actuating control tasks, to preserve synchronous design properties 
+(such as deadlock freedom), and to detect timing faults\cite{timed:tta}. The modeling tools also 
+include the ability to generate platform-specific simulation models using the TrueTime toolkit for 
+Simulink \cite{modeling:truetime,tools:truetime}. The execution environment addresses only part of 
+the problem.  High-confidence designs require assurances of correct software behavior, including 
+guarantees for stability, schedulability and deadlock freedom.  The ESMoL-centered research effort 
+seeks to address such problems using compositional design paradigms, for example using passive 
+control techniques to ensure closed-loop stability for the controlled system (see Section 
+\ref{section:background} for an overview).
+
+Beyond the multi-faceted challenges described above, one significant challenge lies in 
+assessing the correct behavior of control system software once all of the components have
+been integrated and deployed to the hardware platform.  For example, control designers use a very 
+clean notion of timing behavior that is based on simple uniform sampling intervals, and which hard 
+real-time implementations try to emulate. In reality, moving a control design from models to 
+deployment is much more difficult in the case of distributed controllers.  Calculation uncertainties 
+due to limited data precision and timing uncertainties due to network delays introduce errors into 
+the control system behavior.  Commonly, control designers try to include enough 'slack' in the 
+design to avoid such platform effects.  We would like to be able to assess whether a deployed 
+software control component is still stable as designed, or whether platform effects have changed the 
+system behavior in a way that violates our assumptions.
+
+To meet this challenge we propose an online stability validation technique.  The specific
+requirements and challenges are as follows:
+
+\begin{enumerate}
+ \item It must be efficient, both in space and in computation.  
+ \item When operating, it must be sensitive enough to detect instability for various platform 
+effects. In essence it should provide an abstract metric for stability in the presence of 
+different possible destabilizing conditions.
+ \item The analyzer should operate on sample traces collected either from simulation or from 
+the running system. We would like to be able to provide meaningful comparisons of results between
+simulation and the actual deployed system to aid system troubleshooting.
+\end{enumerate}
+
+Our solution is based on sector theory, proposed originally by Zames\cite{control:sectors1}
+and extended by Willems\cite{control:sectorswillems} to deal with nonlinear elements in
+a control design.  Sectors provide two real-valued parameters which represent bounds on the 
+possible input/output behaviors of a control loop.  Kottenstette \cite{quad:passcontrol} presented a sector
+analysis block for validating a control design in Simulink.  We propose to use the same
+structure to verify the deployed control software online.  Note that our assessment of
+item 3 above is still only preliminary.  This particular technique provides several advantages
+beyond our original requirements:
+
+\begin{enumerate}
+ \item For a given component, the sector measures behavior simultaneously over multiple inputs and 
+outputs, so only one sector analyzer is required per control loop.
+ \item Because of our passive abstraction of the system design (described below), using multiple
+sector analyzers allowed us to quickly isolate problem components in the deployed design.
+\end{enumerate}
+
+
+Section \ref{section:background} gives a brief overview of the our control design approach,
+relevant sector analysis concepts, and describes our solution.   Section \ref{section:solution} 
+introduces describes our example and models in more detail.  Section \ref{section:results} 
+discusses our experimental setup, and gives a first example of a problem uncovered by the online 
+sector analysis.  Section \ref{section:params} describes our preliminary findings on the 
+relationships between various system parameters and the sector values.   Finally we visit 
+related work (Section \ref{section:related}), and future work and conclusions 
+(Section \ref{section:conc}).

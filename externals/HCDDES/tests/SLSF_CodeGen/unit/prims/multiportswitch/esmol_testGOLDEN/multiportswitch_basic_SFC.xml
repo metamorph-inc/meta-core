@@ -1,0 +1,159 @@
+<Project _id="id59" name="ProjectRoot" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" statementCount="4" statementIndex="0" xsi:noNamespaceSchemaLocation="SFC.xsd">
+	<BasicType te="id70 id7a id7b id82 id84 id86 id88 id8a id9b ida7 idb3" _id="id5d" name="double" statementIndex="1"/>
+	<BasicType _id="idc4" name="int" statementIndex="3"/>
+	<Program _id="id60" filename="multiportswitch_basic_sl" stateCount="0" numInstance="1" statementCount="2" statementIndex="2">
+		<Class _id="id5f" name="multiportswitch_basic_94_class" statementCount="3" statementIndex="0">
+			<Function _id="id6d" name="multiportswitch_basic_94_main" scope="" argCount="2" returnType="void" statementCount="10" statementIndex="1">
+				<Arg dt="id6c" _id="id6e" ptr="true" ref="id9d ida9 idb5 idd2" name="context" size="1" type="" argIndex="0"/>
+				<Arg dt="id5d" _id="id70" ptr="true" ref="idc7 idcb idcf" name="Out1_2" size="1" type="double" argIndex="2"/>
+				<ConditionalGroup _id="idc3" statementCount="3" statementIndex="9">
+					<ConditionalBlock _id="idc5" statementCount="1" statementIndex="0">
+						<UserCode _id="idf4" expr="" __child_as="cond" statementIndex="0">
+							<BinaryExprs op="==" _id="idf5">
+								<ArgDeclRef _id="idc6" unres="" argdecl="id88" __child_as="leftexpr"/>
+								<Double _id="idf6" val="1.000000" __child_as="rightexpr"/>
+							</BinaryExprs>
+						</UserCode>
+						<UserCode _id="idee" expr="" __child_as="stmnt" statementIndex="0">
+							<BinaryExprs op="=" _id="idef">
+								<ArgDeclRef _id="idc7" unres="" argdecl="id70" __child_as="leftexpr"/>
+								<ArgDeclRef _id="idc8" unres="" argdecl="id88" __child_as="rightexpr"/>
+							</BinaryExprs>
+						</UserCode>
+					</ConditionalBlock>
+					<ConditionalBlock _id="idc9" statementCount="1" statementIndex="1">
+						<UserCode _id="idf7" expr="" __child_as="cond" statementIndex="0">
+							<BinaryExprs op="==" _id="idf8">
+								<ArgDeclRef _id="idca" unres="" argdecl="id86" __child_as="leftexpr"/>
+								<Double _id="idf9" val="2.000000" __child_as="rightexpr"/>
+							</BinaryExprs>
+						</UserCode>
+						<UserCode _id="idf0" expr="" __child_as="stmnt" statementIndex="0">
+							<BinaryExprs op="=" _id="idf1">
+								<ArgDeclRef _id="idcb" unres="" argdecl="id70" __child_as="leftexpr"/>
+								<ArgDeclRef _id="idcc" unres="" argdecl="id86" __child_as="rightexpr"/>
+							</BinaryExprs>
+						</UserCode>
+					</ConditionalBlock>
+					<ConditionalBlock _id="idcd" statementCount="1" statementIndex="2">
+						<UserCode _id="idfa" expr="" __child_as="cond" statementIndex="0">
+							<BinaryExprs op="==" _id="idfb">
+								<ArgDeclRef _id="idce" unres="" argdecl="id8a" __child_as="leftexpr"/>
+								<Double _id="idfc" val="3.000000" __child_as="rightexpr"/>
+							</BinaryExprs>
+						</UserCode>
+						<UserCode _id="idf2" expr="" __child_as="stmnt" statementIndex="0">
+							<BinaryExprs op="=" _id="idf3">
+								<ArgDeclRef _id="idcf" unres="" argdecl="id70" __child_as="leftexpr"/>
+								<ArgDeclRef _id="idd0" unres="" argdecl="id8a" __child_as="rightexpr"/>
+							</BinaryExprs>
+						</UserCode>
+					</ConditionalBlock>
+				</ConditionalGroup>
+				<FunctionCall _id="idb8" callee="id77" argCount="3" libFuncName="Counter_main" statementIndex="8">
+					<ArgVal _id="idb7" arg="id76" val="0" argIndex="0">
+						<BinaryExprs op="." _id="ided">
+							<ArgDeclRef _id="idd2" unres="" argdecl="id6e" __child_as="leftexpr"/>
+							<ArgDeclRef _id="idd3" unres="" argdecl="idd1" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</ArgVal>
+					<ArgVal _id="idb9" arg="id7a" val="" argIndex="2">
+						<ArgDeclRef _id="idbb" unres="" argdecl="id82"/>
+					</ArgVal>
+					<ArgVal _id="idba" arg="id7b" val="" argIndex="1">
+						<ArgDeclRef _id="idbc" unres="" argdecl="id84"/>
+					</ArgVal>
+				</FunctionCall>
+				<LocalVar dt="id5d" _id="id82" ref="idbb" name="sig_0" size="1" type="double" scope="" initial="" statementIndex="0"/>
+				<LocalVar dt="id5d" _id="id84" ref="idbc" name="sig_1" size="1" type="double" scope="" initial="" statementIndex="1"/>
+				<LocalVar dt="id5d" _id="id86" ref="idb4 idca idcc" name="sig_2" size="1" type="double" scope="" initial="" statementIndex="2"/>
+				<LocalVar dt="id5d" _id="id88" ref="ida8 idc6 idc8" name="sig_3" size="1" type="double" scope="" initial="" statementIndex="3"/>
+				<LocalVar dt="id5d" _id="id8a" ref="id9c idce idd0" name="sig_4" size="1" type="double" scope="" initial="" statementIndex="4"/>
+				<UserCode _id="ide4" expr="" statementIndex="5">
+					<BinaryExprs op="=" _id="ide5">
+						<ArgDeclRef _id="id9c" unres="" argdecl="id8a" __child_as="leftexpr"/>
+						<BinaryExprs op="." _id="ide6" __child_as="rightexpr">
+							<ArgDeclRef _id="id9d" unres="" argdecl="id6e" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id9e" unres="" argdecl="id9b" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</BinaryExprs>
+				</UserCode>
+				<UserCode _id="ide7" expr="" statementIndex="6">
+					<BinaryExprs op="=" _id="ide8">
+						<ArgDeclRef _id="ida8" unres="" argdecl="id88" __child_as="leftexpr"/>
+						<BinaryExprs op="." _id="ide9" __child_as="rightexpr">
+							<ArgDeclRef _id="ida9" unres="" argdecl="id6e" __child_as="leftexpr"/>
+							<ArgDeclRef _id="idaa" unres="" argdecl="ida7" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</BinaryExprs>
+				</UserCode>
+				<UserCode _id="idea" expr="" statementIndex="7">
+					<BinaryExprs op="=" _id="ideb">
+						<ArgDeclRef _id="idb4" unres="" argdecl="id86" __child_as="leftexpr"/>
+						<BinaryExprs op="." _id="idec" __child_as="rightexpr">
+							<ArgDeclRef _id="idb5" unres="" argdecl="id6e" __child_as="leftexpr"/>
+							<ArgDeclRef _id="idb6" unres="" argdecl="idb3" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</BinaryExprs>
+				</UserCode>
+			</Function>
+			<Function _id="idd4" name="multiportswitch_basic_94_init" scope="" argCount="1" returnType="void" statementCount="4" statementIndex="2">
+				<Arg dt="id6c" _id="idd5" ptr="true" ref="idd6 idd8 idda idde" name="context" size="1" type="" argIndex="0"/>
+				<FunctionCall _id="ide0" callee="iddd" argCount="1" libFuncName="" statementIndex="3">
+					<ArgVal _id="ide1" arg="iddc" val="" argIndex="0">
+						<BinaryExprs op="." _id="id107">
+							<ArgDeclRef _id="iddf" unres="" argdecl="idd1" __child_as="rightexpr"/>
+							<ArgDeclRef _id="idde" unres="" argdecl="idd5" __child_as="leftexpr"/>
+						</BinaryExprs>
+					</ArgVal>
+				</FunctionCall>
+				<UserCode _id="ide2" expr="" statementIndex="0">
+					<BinaryExprs op="=" _id="ide3">
+						<BinaryExprs op="." _id="idfd" __child_as="leftexpr">
+							<ArgDeclRef _id="idd6" unres="" argdecl="idd5" __child_as="leftexpr"/>
+							<ArgDeclRef _id="idd7" unres="" argdecl="idb3" __child_as="rightexpr"/>
+						</BinaryExprs>
+						<Double _id="idfe" val="2.000000" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+				<UserCode _id="idff" expr="" statementIndex="1">
+					<BinaryExprs op="=" _id="id100">
+						<BinaryExprs op="." _id="id101" __child_as="leftexpr">
+							<ArgDeclRef _id="idd8" unres="" argdecl="idd5" __child_as="leftexpr"/>
+							<ArgDeclRef _id="idd9" unres="" argdecl="ida7" __child_as="rightexpr"/>
+						</BinaryExprs>
+						<Double _id="id102" val="1.000000" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+				<UserCode _id="id103" expr="" statementIndex="2">
+					<BinaryExprs op="=" _id="id104">
+						<BinaryExprs op="." _id="id105" __child_as="leftexpr">
+							<ArgDeclRef _id="idda" unres="" argdecl="idd5" __child_as="leftexpr"/>
+							<ArgDeclRef _id="iddb" unres="" argdecl="id9b" __child_as="rightexpr"/>
+						</BinaryExprs>
+						<Double _id="id106" val="3.000000" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+			</Function>
+			<Struct te="id6e idd5" _id="id6c" name="multiportswitch_basic_94_context" memberCount="4" statementIndex="0">
+				<LocalVar dt="id5d" _id="id9b" ref="id9e iddb" name="Value155" size="1" type="" scope="" initial="" statementIndex="0"/>
+				<LocalVar dt="id5d" _id="ida7" ref="idaa idd9" name="Value167" size="1" type="" scope="" initial="" statementIndex="1"/>
+				<LocalVar dt="id5d" _id="idb3" ref="idb6 idd7" name="Value179" size="1" type="" scope="" initial="" statementIndex="2"/>
+				<LocalVar dt="id75" _id="idd1" ref="idd3 iddf" name="Counter_class_member3" size="1" type="" scope="" initial="" statementIndex="3"/>
+			</Struct>
+		</Class>
+		<Class _id="id67" name="Counter_class" statementCount="3" statementIndex="1">
+			<Function _id="id77" name="Counter_main" scope="" caller="idb8" argCount="3" returnType="void" statementCount="-1" statementIndex="1">
+				<Arg dt="id75" _id="id76" ptr="true" val="idb7" name="context" size="1" type="" argIndex="0"/>
+				<Arg dt="id5d" _id="id7a" ptr="true" val="idb9" name="data_2" size="1" type="" argIndex="2"/>
+				<Arg dt="id5d" _id="id7b" ptr="true" val="idba" name="ctr_1" size="1" type="" argIndex="1"/>
+			</Function>
+			<Function _id="iddd" name="Counter_init" scope="" caller="ide0" argCount="1" returnType="void" statementCount="-1" statementIndex="2">
+				<Arg dt="id75" _id="iddc" ptr="true" val="ide1" name="context" size="1" type="" argIndex="0"/>
+			</Function>
+			<Struct te="id76 idd1 iddc" _id="id75" name="Counter_context" memberCount="-1" statementIndex="0"/>
+		</Class>
+	</Program>
+</Project>
+
+

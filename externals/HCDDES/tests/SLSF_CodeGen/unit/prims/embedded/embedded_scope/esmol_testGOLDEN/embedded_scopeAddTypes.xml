@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="Newembedded_scope00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="embedded_scope" Period="0" Priority="0" SampleTime="0.00" Tag="" UserData="" name="embedded_scope">
+          <Line Name="" _id="id9" dstLine_end_="id4" srcLine_end_="id8"/>
+          <OutputPort Number="1" _id="id4" name="Out1" srcLine="id9">
+            <TypeBaseRef MemberIndex="0" _id="id1D" name="MintC1C1M" ref="id19"/>
+          </OutputPort>
+          <Primitive BlockType="Embedded" Description="" Name="Embedded&#xA;MATLAB Function" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Embedded&#xA;MATLAB Function">
+            <OutputPort Number="1" _id="id8" dstLine="id9" name="y">
+              <TypeBaseRef MemberIndex="0" _id="id1A" name="MintC1C1M" ref="id19"/>
+            </OutputPort>
+            <Parameter Value="function y = fcn()&amp;#x0a;%#eml&amp;#x0a;&amp;#x0a;if 1&amp;#x0a;    x = 1&amp;#x0a;end&amp;#x0a;&amp;#x0a;y = x + 1&amp;#x0a;" name="Script"/>
+          </Primitive>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow name="Stateflow"/>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types">
+    <Matrix Type="int" _id="id19" columns="1" name="MintC1C1M" referedbyTypeStructRef="id1A id1D" rows="1"/>
+  </Types>
+
+</RootFolder>

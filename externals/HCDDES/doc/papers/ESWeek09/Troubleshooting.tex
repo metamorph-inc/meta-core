@@ -1,0 +1,6 @@
+\section{Partial Schedule Models}
+\label{troubleshooting}
+
+For an infeasible schedule perhaps the most intuitive troubleshooting technique may be the analysis of partial models.  If the tasks on a particular processor are not locally schedulable, then adding extra constraints for communication dependencies will not make them more schedulable.  The other possibility is to isolate a bus -- by selecting all tasks (and only those tasks) which read and write to a given bus, we can make a similar assessment.  The results must be interpreted carefully, since local schedulability does not imply global schedulability.
+
+Users of the scheduling tool select submodels by specifying a list of processors and buses (on the command line) to include in the analysis.  While building the constraint model, the scheduling tool includes only task and message instances residing on a specified processor, or which communicate via a specified bus.  An example will be shown in section \ref{simulation}.

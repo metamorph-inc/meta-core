@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{09BABF33-9B15-49C2-B060-27B85FE0B197}</ProjectGuid>
+    <RootNamespace>ESMoL_Abstract</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\..\common-scripts\build_customization\meta2uml.props" />
+    <Import Project="..\..\..\common-scripts\build_customization\mga2udmxml.props" />
+    <Import Project="..\..\..\common-scripts\build_customization\udm.props" />
+    <Import Project="..\..\..\common-scripts\build_customization\xme2mga.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\generated\ESMoL_Abstract\models\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\generated\ESMoL_Abstract\models\</OutDir>
+    <mga2udmxml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xme2mga</mga2udmxml_RuleAfterTargets>
+    <mga2udmxml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xme2mga</mga2udmxml_RuleAfterTargets>
+    <xme2mga_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mga2udmxml</xme2mga_RuleBeforeTargets>
+    <xme2mga_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mga2udmxml</xme2mga_RuleBeforeTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="..\..\..\generated\ESMoL_Abstract\generated\Semantics.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\generated\ESMoL_Abstract\generated\Semantics.h" />
+    <ClInclude Include="..\..\..\generated\ESMoL_Abstract\generated\Semantics_xsd.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\generated\ESMoL_Abstract\generated\Semantics.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <mga2udmxml Include="..\..\..\generated\ESMoL_Abstract\models\ESMoL_Abstract.mga">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ESMoL_Abstract.mga-&gt;Semantics_udm.xml</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd %(RootDir)%(Directory)
+"$(UDM_PATH)\etc\CreateUdmXml.vbs" %(Filename)%(Extension)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\Semantics_udm.xml;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ESMoL_Abstract.mga-&gt;Semantics_udm.xml</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd %(RootDir)%(Directory)
+"$(UDM_PATH)\etc\CreateUdmXml.vbs" %(Filename)%(Extension)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\Semantics_udm.xml;%(Outputs)</Outputs>
+      <FileType>Document</FileType>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Semantics</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Semantics</MetaName>
+    </mga2udmxml>
+    <CustomBuild Include="..\..\..\generated\ESMoL_Abstract\models\Semantics_udm.xml">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Semantics_udm.xml -&gt; source</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mkdir "%(RootDir)%(Directory)\..\generated"
+cd "%(RootDir)%(Directory)\..\generated"
+"$(UDM_PATH)\bin\Udm.exe" -g -v "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\..\generated\Semantics.cpp;%(RootDir)%(Directory)\..\generated\Semantics.h;%(RootDir)%(Directory)\..\generated\Semantics.xsd;%(RootDir)%(Directory)\..\generated\Semantics_xsd.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Semantics_udm.xml-&gt;source</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mkdir "%(RootDir)%(Directory)\..\generated"
+cd "%(RootDir)%(Directory)\..\generated"
+"$(UDM_PATH)\bin\Udm.exe" -g -v "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\..\generated\Semantics.cpp;%(RootDir)%(Directory)\..\generated\Semantics.h;%(RootDir)%(Directory)\..\generated\Semantics.xsd;%(RootDir)%(Directory)\..\generated\Semantics_xsd.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <xme2mga Include="ESMoL_Abstract.xme">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ESMoL_Abstract.xme-&gt;ESMoL_Abstract.mga</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" "$(VCP_PATH)\generated\ESMoL_Abstract\models\ESMoL_Abstract.mga" UML
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\generated\ESMoL_Abstract\models\ESMoL_Abstract.mga;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ESMoL_Abstract.xme-&gt;ESMoL_Abstract.mga</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" "$(VCP_PATH)\generated\ESMoL_Abstract\models\ESMoL_Abstract.mga" UML
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\generated\ESMoL_Abstract\models\ESMoL_Abstract.mga;%(Outputs)</Outputs>
+      <FileType>Document</FileType>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\generated\ESMoL_Abstract\models\ESMoL_Abstract.mga</OutFile>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\generated\ESMoL_Abstract\models\ESMoL_Abstract.mga</OutFile>
+    </xme2mga>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ESMoL\ESMoL.vcxproj">
+      <Project>{35efa7d1-a834-4297-a597-6c76cc4fd399}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\common-scripts\build_customization\meta2uml.targets" />
+    <Import Project="..\..\..\common-scripts\build_customization\mga2udmxml.targets" />
+    <Import Project="..\..\..\common-scripts\build_customization\udm.targets" />
+    <Import Project="..\..\..\common-scripts\build_customization\xme2mga.targets" />
+  </ImportGroup>
+</Project>

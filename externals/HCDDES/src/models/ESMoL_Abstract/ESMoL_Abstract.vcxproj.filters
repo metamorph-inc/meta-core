@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Generated Files\generated">
+      <UniqueIdentifier>{6305b0fa-6f28-4a97-816a-3e1253fe78cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\models">
+      <UniqueIdentifier>{3e39de22-30ca-4251-94c5-03edcda62172}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\generated\ESMoL_Abstract\generated\Semantics.h">
+      <Filter>Generated Files\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\ESMoL_Abstract\generated\Semantics_xsd.h">
+      <Filter>Generated Files\generated</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\generated\ESMoL_Abstract\models\Semantics_udm.xml">
+      <Filter>Generated Files\models</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\generated\ESMoL_Abstract\generated\Semantics.xsd">
+      <Filter>Generated Files\generated</Filter>
+    </None>
+    <None Include="..\..\..\generated\ESMoL_Abstract\generated\Semantics.cpp">
+      <Filter>Generated Files\generated</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <xme2mga Include="ESMoL_Abstract.xme" />
+  </ItemGroup>
+  <ItemGroup>
+    <mga2udmxml Include="..\..\..\generated\ESMoL_Abstract\models\ESMoL_Abstract.mga">
+      <Filter>Generated Files\models</Filter>
+    </mga2udmxml>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,544 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Generated Python Files">
+      <UniqueIdentifier>{125951b4-1b14-4f48-81f1-e59cd0cc781d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cheetah Templates">
+      <UniqueIdentifier>{7fe9bfc5-1b4a-4d6f-af3d-23a14af6e83d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Python Files">
+      <UniqueIdentifier>{31c82d05-6d18-4ba7-8a0d-7afa1be9e9ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cheetah New Templates">
+      <UniqueIdentifier>{976cb7b0-fb8a-4d2c-8801-85735671143f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\BlockTemplate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BlockTemplateModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BlockTemplateModuleBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CodeGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\BlockTemplate.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\BlockTemplateModule.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BlockTemplateModuleBase.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\CodeGenerator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ESMoLHelper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\SFCHelper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Abs.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Assignment.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\BusCreator.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\BusSelector.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Collapse.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Constant.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\DataStoreMemory.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\DataStoreRead.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\DataStoreWrite.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\DataTypeConversion.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Demux.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\DiscreteStateSpace.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\DiscreteTransferFcn.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\DiscreteZeroPole.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\DiscreteZFunction.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\DotProduct.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Embedded.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Fcn.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Gain.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Ground.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\If.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Logic.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Math.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Merge.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\MinMax.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\MultiPortSwitch.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Mux.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Product.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\RelationalOperator.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Rounding.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Saturate.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Selector.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\SFunction.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\SignalConversion.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Signum.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Sum.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Switch.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\SwitchCase.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Terminator.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\ToWorkspace.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Trigonometry.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\UnitDelay.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\UnitDelayPre.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="Python\ArrayCoordinator.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="Python\ArrayDecomp.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="Python\ArrayManager.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="Python\BlockOperationManager.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="Python\BusMemberDecomp.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="Python\DataStore.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="Python\GetCoefficients.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="Python\LoopHelper.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="Python\LoopVariables.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="Python\MatLabHelper.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="Python\NamedArray.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="Python\NamedBusMember.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="Python\StructToArray.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\ZeroOrderHold.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\RateTransition.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Sqrt.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Lookup_nD.py">
+      <Filter>Generated Python Files</Filter>
+    </None>
+    <None Include="Python\CubicSpline.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="Python\MatrixHelper.py">
+      <Filter>Python Files</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Cheetah Include="Cheetah\Abs.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Assignment.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\BusCreator.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\BusSelector.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Collapse.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Constant.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\DataStoreMemory.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\DataStoreRead.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\DataStoreWrite.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\DataTypeConversion.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Demux.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\DiscreteStateSpace.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\DiscreteTransferFcn.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\DiscreteZeroPole.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\DiscreteZFunction.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\DotProduct.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Embedded.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Fcn.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Gain.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Ground.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\If.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Logic.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Math.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Merge.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\MinMax.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\MultiPortSwitch.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Mux.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Product.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\RelationalOperator.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Rounding.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Saturate.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Selector.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\SFunction.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\SignalConversion.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Signum.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Sum.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Switch.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\SwitchCase.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Terminator.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\ToWorkspace.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Trigonometry.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\UnitDelay.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\UnitDelayPre.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\ZeroOrderHold.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\RateTransition.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Sqrt.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Xor.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Acos.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Add.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\And.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Asin.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Atan.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\conj.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Cos.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Cosh.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Demultiplex2.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Exp.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Greater.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\GreaterEqual.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\isEqual.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Less.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\LessEqual.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Log10.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Log.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Multiplex2.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Nand.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Nor.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Not.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\NotAtempted_Atan2.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\NotEquals.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Or.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Sign.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Sin.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Sinh.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Tan.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Tanh.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Acosh.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Asinh.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Atan2.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Atanh.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Ceil.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Exp10.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Fix.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Floor.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Hermitian.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Hypot.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Mod.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Nxor.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Power.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Power2.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Reciprical.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Remainder.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Round.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\SinCos.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Square.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah_new\Transpose.tmpl">
+      <Filter>Cheetah New Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Lookup_nD.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+    <Cheetah Include="Cheetah\Display.tmpl">
+      <Filter>Cheetah Templates</Filter>
+    </Cheetah>
+  </ItemGroup>
+</Project>

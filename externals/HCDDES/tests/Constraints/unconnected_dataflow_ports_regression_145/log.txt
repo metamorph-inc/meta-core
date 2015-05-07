@@ -1,0 +1,367 @@
+Running tests with the Debug version of Stage1...
+-------------------------------------------------
+1. Unconnected dataflow input port inside component.
+Should give an error in InnerLoop_InnerLoop_InnerLoop.
+Ignore other warnings.
+qint_inputport_unconnected_error.mga
+-------------------------------------------------
+ERROR (in _QuadIntegrator_Deployment Models_RS-GS Deployment_InnerLoop_InnerLoop_InnerLoop): Input port has no connections, which is not valid for a synchronous dataflow block.
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Port vel of input message instance ang_ref is unconnected.
+1 error(s) found in model...exiting.
+-------------------------------------------------
+2. Unconnected dataflow output port inside component.
+Should give a warning in InnerLoop_InnerLoop_InnerLoop.
+Should create a dummy message structure.
+qint_outputport_unconnected_dummy.mga
+-------------------------------------------------
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment_InnerLoop_InnerLoop_InnerLoop): Output port ang_vel has no connector - creating a dummy message.
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Port vel of input message instance ang_ref is unconnected.
+No errors found.
+Translating with Sched... 
+Adding syncmap entry for TT_I2C
+Adding syncmap entry for GS
+Adding syncmap entry for RS
+Adding sync msg TT_I2CSync to list for processor GS
+Adding sync msg TT_I2CSync to list for processor RS
+Adding sync msg TT_I2CSync to list for bus TT_I2C
+Adding sync msg TT_I2CSync to sync list for bus TT_I2C
+Total number of task/message instances: 8
+Instances...
+0 TT_I2CSync
+1 GS/OuterLoop_0
+2 RS/InnerLoop_0
+3 RS/DataHandling_0
+4 RS/ADC_0
+5 RS/SerialIn_0
+6 RS/SerialOut_0
+7 TT_I2C/DataHandling.pos_msg_0
+8 TT_I2C/OuterLoop.ang_ref_0
+
+Serializing (x,d): (1,1), (0,2), 
+Serializing (x,d): (2,2), (3,2), (4,1), (5,1), (6,1), (0,2), 
+Serializing (x,d): (7,3), (8,3), (0,2), 
+Serializing (x,d): (7,3), (8,3), (0,2), (1,1), 
+Serializing (x,d): (7,3), (8,3), (0,2), (2,2), (3,2), (4,1), (5,1), (6,1), 
+Domain x ( 0 ) in range( 0, 0 )
+Stats: Search Stats
+
+Initial
+	propagators:   27
+	branchings:    4294967295
+
+Summary
+	nodes expanded:  0
+	failures:      0
+	depth of search stack:  0
+	peak memory:   7 KB
+
+Solution1_143529
+TT_I2CSync: 0
+GS/OuterLoop_0: 10
+RS/InnerLoop_0: 11
+RS/DataHandling_0: 6
+RS/ADC_0: 3
+RS/SerialIn_0: 4
+RS/SerialOut_0: 16
+TT_I2C/DataHandling.pos_msg_0: 17
+TT_I2C/OuterLoop.ang_ref_0: 13
+
+***** Parsing Scheduler Results: qint_outputport_unconnected_dummy.rslt *****
+***** Populating ESMoL_Abstract Model: qint_outputport_unconnected_dummy.xml *****
+Translating with TrueTime... 
+-- Starting First Pass:
+	TTBus(1): TT_I2C
+	Node: GS
+	Node: RS
+-- Copying Plant Block: 
+-- Starting Second Pass:
+	Node: GS
+	Task: OuterLoop
+	Message: DataHandling_pos_msg
+		Signal Member: OuterLoop_pos_ref
+		Signal Member: OuterLoop_pos
+	Message: OuterLoop_ang_ref
+		Signal Member: OuterLoop_vel_err
+		Signal Member: OuterLoop_ang_ref
+	Node: RS
+	Task: InnerLoop
+	Message: OuterLoop_ang_ref
+		Signal Member: InnerLoop_ang_ref
+	Message: InnerLoop_thrust_commands
+		Signal Member: InnerLoop_ang_err
+		Signal Member: InnerLoop_Torque
+	Task: DataHandling
+	Message: DataHandling_pos_msg
+		Signal Member: DataHandling_pos_data_out
+		Signal Member: DataHandling_pos_ref_out
+	Message: DataHandling_sensor_data_in
+		Signal Member: DataHandling_angle_data
+		Signal Member: DataHandling_pos_data
+	Message: DataHandling_pos_ref
+		Signal Member: DataHandling_pos_ref
+	IChan: ADCChan
+	IChan: SerialIChan
+	OChan: SerialOChan
+	Message: DataHandling_sensor_data_out
+		Signal Member: DataHandling_angle_data_out
+		Signal Member: DataHandling_pos_data_out2
+	Message: RS_DummyMsg
+		Signal Member: InnerLoop_ang_vel
+Translating with FRODO... 
+-------------------------------------------------
+3. Unconnected field in an input message.
+Should give a warning for port vel of message ang_ref.
+qint_inmsgfield_unconnected_warning.mga
+-------------------------------------------------
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Port vel of input message instance ang_ref is unconnected.
+No errors found.
+-------------------------------------------------
+4. Unconnected field in an output message.
+Should give an error for port ang4 of message thrust_commands.
+qint_outmsgfield_unconnected_error.mga
+-------------------------------------------------
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Port vel of input message instance ang_ref is unconnected.
+ERROR (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Port ang4 of output message instance thrust_commands is unconnected.
+1 error(s) found in model...exiting.
+-------------------------------------------------
+5. Unconnected component input message port.
+Should give errors for OuterLoop/pos_msg and InnerLoop/ang_ref.
+Ignore other warnings.
+qint_inputmsg_unconnected_error.mga
+-------------------------------------------------
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Output message instance DataHandling/pos_msg is not connected.
+ERROR (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Message instance DataHandling/pos_msg is unconnected, but has an execInfo timing specification ( PosMsgTiming ).
+ERROR (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Input message instance OuterLoop/pos_msg is not connected.
+ERROR (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Message instance OuterLoop/pos_msg is unconnected, but has an execInfo timing specification ( PosMsgTiming ).
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Output message instance OuterLoop/ang_ref is not connected.
+ERROR (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Message instance OuterLoop/ang_ref is unconnected, but has an execInfo timing specification ( AngRefTiming ).
+ERROR (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Input message instance InnerLoop/ang_ref is not connected.
+ERROR (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Message instance InnerLoop/ang_ref is unconnected, but has an execInfo timing specification ( AngRefTiming ).
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Port vel of input message instance ang_ref is unconnected.
+6 error(s) found in model...exiting.
+-------------------------------------------------
+6. Unconnected component output message port.
+Should give a warning for output message InnerLoop/thrust_commands.
+Ignore other warnings.
+qint_outputmsg_unconnected_warning.mga
+-------------------------------------------------
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Output message instance InnerLoop/thrust_commands is not connected.
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Port vel of input message instance ang_ref is unconnected.
+No errors found.
+Translating with Sched... 
+Adding syncmap entry for TT_I2C
+Adding syncmap entry for GS
+Adding syncmap entry for RS
+Adding sync msg TT_I2CSync to list for processor GS
+Adding sync msg TT_I2CSync to list for processor RS
+Adding sync msg TT_I2CSync to list for bus TT_I2C
+Adding sync msg TT_I2CSync to sync list for bus TT_I2C
+Total number of task/message instances: 7
+Instances...
+0 TT_I2CSync
+1 GS/OuterLoop_0
+2 RS/InnerLoop_0
+3 RS/DataHandling_0
+4 RS/ADC_0
+5 RS/SerialIn_0
+6 TT_I2C/DataHandling.pos_msg_0
+7 TT_I2C/OuterLoop.ang_ref_0
+
+Serializing (x,d): (1,1), (0,2), 
+Serializing (x,d): (2,2), (3,2), (4,1), (5,1), (0,2), 
+Serializing (x,d): (6,3), (7,3), (0,2), 
+Serializing (x,d): (6,3), (7,3), (0,2), (1,1), 
+Serializing (x,d): (6,3), (7,3), (0,2), (2,2), (3,2), (4,1), (5,1), 
+Domain x ( 0 ) in range( 0, 0 )
+Stats: Search Stats
+
+Initial
+	propagators:   24
+	branchings:    4294967295
+
+Summary
+	nodes expanded:  0
+	failures:      0
+	depth of search stack:  0
+	peak memory:   5 KB
+
+Solution1_143543
+TT_I2CSync: 0
+GS/OuterLoop_0: 10
+RS/InnerLoop_0: 11
+RS/DataHandling_0: 6
+RS/ADC_0: 3
+RS/SerialIn_0: 4
+TT_I2C/DataHandling.pos_msg_0: 15
+TT_I2C/OuterLoop.ang_ref_0: 18
+
+***** Parsing Scheduler Results: qint_outputmsg_unconnected_warning.rslt *****
+***** Populating ESMoL_Abstract Model: qint_outputmsg_unconnected_warning.xml *****
+Translating with TrueTime... 
+-- Starting First Pass:
+	TTBus(1): TT_I2C
+	Node: GS
+	Node: RS
+-- Copying Plant Block: 
+-- Starting Second Pass:
+	Node: GS
+	Task: OuterLoop
+	Message: DataHandling_pos_msg
+		Signal Member: OuterLoop_pos_ref
+		Signal Member: OuterLoop_pos
+	Message: OuterLoop_ang_ref
+		Signal Member: OuterLoop_vel_err
+		Signal Member: OuterLoop_ang_ref
+	Node: RS
+	Task: InnerLoop
+	Message: OuterLoop_ang_ref
+		Signal Member: InnerLoop_ang_ref
+	Task: DataHandling
+	Message: DataHandling_pos_msg
+		Signal Member: DataHandling_pos_data_out
+		Signal Member: DataHandling_pos_ref_out
+	Message: DataHandling_sensor_data_in
+		Signal Member: DataHandling_angle_data
+		Signal Member: DataHandling_pos_data
+	Message: DataHandling_pos_ref
+		Signal Member: DataHandling_pos_ref
+	IChan: ADCChan
+	IChan: SerialIChan
+	OChan: SerialOChan
+*** Error: This OChan has no signals - Check your model.
+*** Error: This OChan has no schedule - Check your model.
+	Message: InnerLoop_thrust_commands
+		Signal Member: InnerLoop_ang_err
+		Signal Member: InnerLoop_Torque
+		Signal Member: InnerLoop_ang_vel
+	Message: DataHandling_sensor_data_out
+		Signal Member: DataHandling_angle_data_out
+		Signal Member: DataHandling_pos_data_out2
+Translating with FRODO... 
+*** WARNING: No ExecInfo attached to executable InnerLoop.thrust_commands.
+*** WARNING: No ExecInfo attached to executable InnerLoop.thrust_commands.
+-------------------------------------------------
+7. Partially connected message port --
+CommMapping to a Bus channel, but no dependency.
+Should give an error for four different CommMapping connections.
+qint_inputmsg_partially_connected_error.mga
+-------------------------------------------------
+ERROR (in _QuadIntegrator_Deployment Models_RS-GS Deployment_CM400000117): Message instance InnerLoop/ang_ref has a CommMapping connection, but no Dependency connection.  Look at the LogicalArchitectureView aspect.
+ERROR (in _QuadIntegrator_Deployment Models_RS-GS Deployment_CM400000118): Message instance DataHandling/pos_msg has a CommMapping connection, but no Dependency connection.  Look at the LogicalArchitectureView aspect.
+ERROR (in _QuadIntegrator_Deployment Models_RS-GS Deployment_CM400000119): Message instance OuterLoop/pos_msg has a CommMapping connection, but no Dependency connection.  Look at the LogicalArchitectureView aspect.
+ERROR (in _QuadIntegrator_Deployment Models_RS-GS Deployment_CM400000120): Message instance OuterLoop/ang_ref has a CommMapping connection, but no Dependency connection.  Look at the LogicalArchitectureView aspect.
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Port vel of input message instance ang_ref is unconnected.
+4 error(s) found in model...exiting.
+-------------------------------------------------
+8. Unconnected dataflow output port inside component.
+Should give a warning in InnerLoop_InnerLoop_InnerLoop, and in
+DataHandling_DataHandling_DataHandling.
+Ignore other warnings.
+Should create a dummy message structure with two fields.
+qint_outputport_unconnected_2dummy.mga
+-------------------------------------------------
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment_InnerLoop_InnerLoop_InnerLoop): Output port ang_vel has no connector - creating a dummy message.
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment_DataHandling_DataHandling_DataHandling): Output port pos_data_out2 has no connector - creating a dummy message.
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Port vel of input message instance ang_ref is unconnected.
+No errors found.
+Translating with Sched... 
+Adding syncmap entry for TT_I2C
+Adding syncmap entry for GS
+Adding syncmap entry for RS
+Adding sync msg TT_I2CSync to list for processor GS
+Adding sync msg TT_I2CSync to list for processor RS
+Adding sync msg TT_I2CSync to list for bus TT_I2C
+Adding sync msg TT_I2CSync to sync list for bus TT_I2C
+Total number of task/message instances: 8
+Instances...
+0 TT_I2CSync
+1 GS/OuterLoop_0
+2 RS/InnerLoop_0
+3 RS/DataHandling_0
+4 RS/ADC_0
+5 RS/SerialIn_0
+6 RS/SerialOut_0
+7 TT_I2C/DataHandling.pos_msg_0
+8 TT_I2C/OuterLoop.ang_ref_0
+
+Serializing (x,d): (1,1), (0,2), 
+Serializing (x,d): (2,2), (3,2), (4,1), (5,1), (6,1), (0,2), 
+Serializing (x,d): (7,3), (8,3), (0,2), 
+Serializing (x,d): (7,3), (8,3), (0,2), (1,1), 
+Serializing (x,d): (7,3), (8,3), (0,2), (2,2), (3,2), (4,1), (5,1), (6,1), 
+Domain x ( 0 ) in range( 0, 0 )
+Stats: Search Stats
+
+Initial
+	propagators:   27
+	branchings:    4294967295
+
+Summary
+	nodes expanded:  0
+	failures:      0
+	depth of search stack:  0
+	peak memory:   7 KB
+
+Solution1_143551
+TT_I2CSync: 0
+GS/OuterLoop_0: 10
+RS/InnerLoop_0: 11
+RS/DataHandling_0: 6
+RS/ADC_0: 3
+RS/SerialIn_0: 4
+RS/SerialOut_0: 16
+TT_I2C/DataHandling.pos_msg_0: 17
+TT_I2C/OuterLoop.ang_ref_0: 13
+
+***** Parsing Scheduler Results: qint_outputport_unconnected_2dummy.rslt *****
+***** Populating ESMoL_Abstract Model: qint_outputport_unconnected_2dummy.xml *****
+Translating with TrueTime... 
+-- Starting First Pass:
+	TTBus(1): TT_I2C
+	Node: GS
+	Node: RS
+-- Copying Plant Block: 
+-- Starting Second Pass:
+	Node: GS
+	Task: OuterLoop
+	Message: DataHandling_pos_msg
+		Signal Member: OuterLoop_pos_ref
+		Signal Member: OuterLoop_pos
+	Message: OuterLoop_ang_ref
+		Signal Member: OuterLoop_vel_err
+		Signal Member: OuterLoop_ang_ref
+	Node: RS
+	Task: InnerLoop
+	Message: OuterLoop_ang_ref
+		Signal Member: InnerLoop_ang_ref
+	Message: InnerLoop_thrust_commands
+		Signal Member: InnerLoop_ang_err
+		Signal Member: InnerLoop_Torque
+	Task: DataHandling
+	Message: DataHandling_pos_msg
+		Signal Member: DataHandling_pos_data_out
+		Signal Member: DataHandling_pos_ref_out
+	Message: DataHandling_sensor_data_in
+		Signal Member: DataHandling_angle_data
+	Message: DataHandling_pos_ref
+		Signal Member: DataHandling_pos_ref
+	IChan: ADCChan
+	IChan: SerialIChan
+	OChan: SerialOChan
+	Message: DataHandling_sensor_data_out
+		Signal Member: DataHandling_angle_data_out
+	Message: RS_DummyMsg
+		Signal Member: InnerLoop_ang_vel
+		Signal Member: DataHandling_pos_data_out2
+Translating with FRODO... 
+-------------------------------------------------
+9. Partially connected message port --
+No CommMapping or Dependency, but it still has an execinfo object.
+Should give an error for output message InnerLoop/thrust_commands.
+Ignore other warnings.
+qint_outputmsg_partial_execinfo_error.mga
+-------------------------------------------------
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Output message instance InnerLoop/thrust_commands is not connected.
+ERROR (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Message instance InnerLoop/thrust_commands is unconnected, but has an execInfo timing specification ( ActuatorTiming ).
+WARNING (in _QuadIntegrator_Deployment Models_RS-GS Deployment): Port vel of input message instance ang_ref is unconnected.
+1 error(s) found in model...exiting.

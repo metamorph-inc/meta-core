@@ -1,0 +1,19 @@
+#if 'k' in $parameters.keys()
+	#set $gain = $parameters.k.placeInContext()
+#else
+	#set $gain = $parameters.Gain.placeInContext()
+#end if
+#
+#if $parameters.Multiplication == "Matrix(u*K)"
+#
+$output = $input * $gain
+#
+#elif str( $parameters.Multiplication )[0:11] == "Matrix(K*u)"
+#
+$output = $gain * $input
+#
+#elif $parameters.Multiplication == "Element-wise(K.*u)"
+#
+$output = $input .* $gain
+#
+#end if

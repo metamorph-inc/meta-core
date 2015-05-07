@@ -1,0 +1,33 @@
+1000.053: Synchronizing Channel as Slave.
+1000.123: SyncReady Sent from 192.168.1.2 (Waiting for SyncAck).
+2000.118: SyncReady Sent from 192.168.1.2 (Waiting for SyncAck).
+3000.112: SyncReady Sent from 192.168.1.2 (Waiting for SyncAck).
+4000.111: SyncReady Sent from 192.168.1.2 (Waiting for SyncAck).
+5000.112: SyncReady Sent from 192.168.1.2 (Waiting for SyncAck).
+6000.112: SyncReady Sent from 192.168.1.2 (Waiting for SyncAck).
+6000.452: SyncAck Received from 192.168.1.9 (Waiting for SyncStart).
+6427.862: SyncStart Received from 192.168.1.9.
+6427.872: Syncronized Channel(1) in 5427.818ms with delay delta of 0.167ms.
+6427.875: Beginning execution.
+6427.877: HyperPeriod Commencing (@6427.877) ---
+6437.770: Deadline: Req: 10.00, Act: 10.05, Ex: 0.051.
+6447.763: HyperPeriod Commencing (@20.050) ---
+6457.774: Deadline: Req: 10.00, Act: 10.06, Ex: 0.055.
+6467.762: HyperPeriod Commencing (@20.050) ---
+6477.772: Deadline: Req: 10.00, Act: 10.05, Ex: 0.053.
+6487.762: HyperPeriod Commencing (@20.049) ---
+6497.773: Deadline: Req: 10.00, Act: 10.05, Ex: 0.055.
+6507.762: HyperPeriod Commencing (@20.050) ---
+6517.772: Deadline: Req: 10.00, Act: 10.05, Ex: 0.055.
+6527.761: HyperPeriod Commencing (@20.048) ---
+6537.770: Deadline: Req: 10.00, Act: 10.05, Ex: 0.052.
+6547.762: HyperPeriod Commencing (@20.050) ---
+6557.771: Deadline: Req: 10.00, Act: 10.05, Ex: 0.053.
+6567.762: HyperPeriod Commencing (@20.050) ---
+6577.772: Deadline: Req: 10.00, Act: 10.05, Ex: 0.054.
+6587.762: HyperPeriod Commencing (@20.050) ---
+6597.771: Deadline: Req: 10.00, Act: 10.05, Ex: 0.053.
+6607.762: HyperPeriod Commencing (@20.049) ---
+6617.771: Deadline: Req: 10.00, Act: 10.05, Ex: 0.053.
+6627.763: Halting execution.
+6627.778: SyncHalt Sent from 192.168.1.2.

@@ -1,0 +1,136 @@
+This is the all-inclusive guide to our setup. (Work in Progress)
+
+Goals: 
+--How to take our XPPro vmz file and get it up and running, ready to test and connect to an XPC Target machine.
+--How to take the file that our toolchain spits out and load it onto the gumstix and have it control the XPC Target machine
+
+Part 1: From VMZ to ready XPC Target PC
+
+Simply take our .vmz file and open it up via VMWare's Workstation. All tools should be ready and fully capable of running as is.
+
+See our troubleshooting section for help, should it be needed.
+
+
+Part 2: Cross compiler
+
+Just make sure you have a working cross-compiler. OpenEmbedded has a free cross-compiler ready to be downloaded, all you have to do is follow their instructions on the wiki, located here:
+http://wiki.openembedded.net/index.php/Main_Page
+
+
+Part 3: IPK Files generated
+
+If you are using a brand new gumstix device, follow these instructions. The full version can be found in HCDDES/trunk/FRODOs
+
+From existing documentation:
+
+check out the FRODOs folder to:
+    /opt/gumstix/gumstix-oe/user.collection/packages/ 
+
+1) invoke bin/gumstix-kermit 
+   reboot the gumstix board & hit a button to enter the uBoot prompt
+
+2) install new root filesystem image:
+
+   'loadb a2000000'
+   press CTRL-\ then 'c'
+   'cd ~/gumstix/gumstix-oe/tmp/deploy/glibc/images/gumstix-custom-verdex/'
+   'send gumstix-basic-image-gumstix-custom-verdex.jffs2'
+   wait for the end of the transfer (~20 mins)
+   'connect' 
+   'protect on 1:0-1'
+   'erase all'
+   'cp.b a2000000 40000 ${filesize}'
+
+3) install kernel:
+
+   'loadb a2000000'
+   press CTRL-\ then 'c'
+   'send uImage-2.6.21-r1-gumstix-custom-verdex.bin'
+   wait for the end of the transfer (~2 mins)
+   'connect'
+   'katinstall 100000'
+   'katload 100000'
+   'bootm'
+   
+4) setup wireless link (essid) in /etc/network/interfaces
+------------------------------------------------
+auto wlan0                                                     
+iface wlan0 inet dhcp                                          
+        wireless_mode managed                                  
+>>>        wireless_essid  hcddes <<<
+------------------------------------------------
+
+5) bring up the wireless interface:
+
+    'ifup wlan0'
+
+6) add the following lines to /etc/hosts
+------------------------------------------------
+192.168.0.100   ampere                                                          
+192.168.0.101   gumstix gs                                                      
+192.168.0.150   ampere-wifi                                                     
+192.168.0.151   gumstix-wifi gsw 
+------------------------------------------------
+
+7) install uisp:
+
+    'ipkg update'
+    'ipkg install uisp'
+
+8) install robostix support:
+
+    'ipkg install robostix-cmdline'
+    'ipkg install robostix-module'
+
+9) remove things you don't need (only if you really don't need them!):
+
+    'ipkg remove alsa*' -- sound (ignore errors regarding dependencies)
+    'ipkg remove bluez*' -- bluetooth
+    'ipkg remove boa' -- web server
+    'ipkg remove dbus*' -- message bus (used by bluetooth)
+    'ipkg remove kernel-module-bluetooth kernel-module-bnep kernel-module-hci-uart kernel-module-hci-usb kernel-module-hidp kernel-module-l2cap kernel-module-rfcomm kernel-module-sco' -- more bluetooth (multi-step)
+    'ipkg remove task-base-gumstix task-base-gumstix-bluetooth task-base-gumstix-sound'
+    'ipkg remove kernel-module-l2cap' - more bluetooth
+    'ipkg remove kernel-module-bluetooth kernel-module-gumstix-bluetooth'
+    'ipkg remove task-base-gumstix-touchscreen' -- touchscreeen
+    'ipkg remove kernel-module-tsc2003' -- more touchscreen
+    'ipkg remove tslib-calibrate tslib-tests libts-1.0-0 pointercal' - final ts
+
+10) add ssh public keys to authoried_hosts. We have used the passphrase located in HCDDES/trunk/doc
+
+11) replace dropbear to openssh on the gumstix (in a minicom session :) ):
+    'ipkg remove dropbear'
+    'ipkg install openssh'
+    '/etc/init.d/sshd start'
+
+HOWEVER**
+If you have the gumstix devices that have already been kindly set up. All you must do is edit the app.c files found in each of the *-frodo/files folder.
+
+Following these instructions, you should find that, in the HCCDES/trunk/FRODOs/bin folder, there is a pair of scripts. rf and gf.
+
+Power on the gumstix device
+
+Edit these scripts as necessary. Make sure to change the scp targets to whatever the gumstix has been assigned on your router.
+
+Once you execute these scripts, they will use the cross compiler to build all the .c files necessary for the gumstix to control the XPC Target PC.
+
+These scripts will also dump the IPK files onto the gumstix you have set up in the rf and gf scrips.
+
+Part 4: Building the IPK files on the gumstix
+
+ssh into your device, the default username and password is root:gumstix
+
+From there, you should see the two IPK files in root's home folder. Invoke the IPK rebuild of these two files.
+
+Part 5: Demo
+
+For the quad_integrator demo, you should have the XPC Target PC loaded with the quad_integrator model. Start the model, then run the gumstix-frodo command on the gumstix device.
+
+Optionally, you may find that there is a script called gumstix-perpetual in the home directory. This script will keep the gumstix program running to work around I2C errors, should they arise.
+
+
+Troubleshooting:
+
+VMware Problems:
+
+

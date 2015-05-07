@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="Cyber2SLC_CodeGen">
+  <Component Id="Cyber2SLC_CodeGenLoaderLoader.dll" Directory="INSTALLDIR_BIN">
+    <File Source="$(var.InterpreterBin)\Cyber2SLC_CodeGenLoader.dll">
+      <Class Id="{1a98a829-6ffa-42e9-8f97-8a8804d44662}" Context="InprocServer32" Description="MGA.Interpreter.Cyber2SLC_CodeGen">
+        <ProgId Id="MGA.Interpreter.Cyber2SLC_CodeGen" Description="MGA.Interpreter.Cyber2SLC_CodeGen" />
+      </Class>
+    </File>
+  </Component>
+  <Component Id="Cyber2SLC_CodeGen.dll" Directory="INSTALLDIR_BIN">
+    <File Source="$(var.InterpreterBin)\Cyber2SLC_CodeGen.dll">
+      <TypeLib Id="97f4315e-864e-4ee6-ac1f-a3c12bacace7" Description="MGA Interpreter TypeLibrary (Cyber2SLC_CodeGen)" Language="0" MajorVersion="1" MinorVersion="0"/>
+    </File>
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.Cyber2SLC_CodeGen'>
+      <RegistryValue Name='Description' Type='string' Value='Cyber2SLC_CodeGen'/>
+      <RegistryValue Name='Icon' Type='string' Value=',IDI_COMPICON'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyberComposition'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='Cyber2SLC_Code Interpreter'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyberComposition' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

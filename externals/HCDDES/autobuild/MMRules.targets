@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName
+      Include="XME2MGA">
+      <Targets>_XME2MGA</Targets>
+    </AvailableItemName>
+    <AvailableItemName
+      Include="Cheetah">
+      <Targets>_Cheetah</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask
+    TaskName="XME2MGA"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <UsingTask
+    TaskName="Cheetah"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="_XME2MGA"
+    BeforeTargets="$(XME2MGABeforeTargets)"
+    AfterTargets="$(XME2MGAAfterTargets)"
+    Condition="'@(XME2MGA)' != ''"
+    DependsOnTargets="$(XME2MGADependsOn);ComputeXME2MGAOutput"
+    Outputs="%(XME2MGA.Outputs)"
+    Inputs="%(XME2MGA.Identity);%(XME2MGA.AdditionalDependencies);$(MSBuildProjectFile)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <XME2MGA
+        Remove="@(XME2MGA)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <ItemGroup>
+      <XME2MGA_tlog
+        Include="%(XME2MGA.Outputs)"
+        Condition="'%(XME2MGA.Outputs)' != '' and '%(XME2MGA.ExcludedFromBuild)' != 'true'">
+        <Source>@(XME2MGA, '|')</Source>
+      </XME2MGA_tlog>
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(XME2MGA.ExecutionDescription)" />
+    <WriteLinesToFile
+      Condition="'@(XME2MGA_tlog)' != '' and '%(XME2MGA_tlog.ExcludedFromBuild)' != 'true'"
+      File="$(IntDir)$(ProjectName).write.1.tlog"
+      Lines="^%(XME2MGA_tlog.Source);@(XME2MGA_tlog-&gt;'%(Fullpath)')" />
+    <XME2MGA
+      Condition="'@(XME2MGA)' != '' and '%(XME2MGA.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(XME2MGA.CommandLineTemplate)"
+      AdditionalOptions="%(XME2MGA.AdditionalOptions)"
+      Inputs="%(XME2MGA.Identity)" />
+  </Target>
+  <PropertyGroup>
+    <ComputeLinkInputsTargets>
+            $(ComputeLinkInputsTargets);
+            ComputeXME2MGAOutput;
+          </ComputeLinkInputsTargets>
+    <ComputeLibInputsTargets>
+            $(ComputeLibInputsTargets);
+            ComputeXME2MGAOutput;
+          </ComputeLibInputsTargets>
+  </PropertyGroup>
+  <Target
+    Name="ComputeXME2MGAOutput"
+    Condition="'@(XME2MGA)' != ''">
+    <ItemGroup>
+      <XME2MGADirsToMake
+        Condition="'@(XME2MGA)' != '' and '%(XME2MGA.ExcludedFromBuild)' != 'true'"
+        Include="%(XME2MGA.Outputs)" />
+      <Link
+        Include="%(XME2MGADirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <Lib
+        Include="%(XME2MGADirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <ImpLib
+        Include="%(XME2MGADirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+    </ItemGroup>
+    <MakeDir
+      Directories="@(XME2MGADirsToMake-&gt;'%(RootDir)%(Directory)')" />
+  </Target>
+  <Target
+    Name="_Cheetah"
+    BeforeTargets="$(CheetahBeforeTargets)"
+    AfterTargets="$(CheetahAfterTargets)"
+    Condition="'@(Cheetah)' != ''"
+    DependsOnTargets="$(CheetahDependsOn);ComputeCheetahOutput"
+    Outputs="%(Cheetah.Outputs)"
+    Inputs="%(Cheetah.Identity);%(Cheetah.AdditionalDependencies);$(MSBuildProjectFile)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <Cheetah
+        Remove="@(Cheetah)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <ItemGroup>
+      <Cheetah_tlog
+        Include="%(Cheetah.Outputs)"
+        Condition="'%(Cheetah.Outputs)' != '' and '%(Cheetah.ExcludedFromBuild)' != 'true'">
+        <Source>@(Cheetah, '|')</Source>
+      </Cheetah_tlog>
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(Cheetah.ExecutionDescription)" />
+    <WriteLinesToFile
+      Condition="'@(Cheetah_tlog)' != '' and '%(Cheetah_tlog.ExcludedFromBuild)' != 'true'"
+      File="$(IntDir)$(ProjectName).write.1.tlog"
+      Lines="^%(Cheetah_tlog.Source);@(Cheetah_tlog-&gt;'%(Fullpath)')" />
+    <Cheetah
+      Condition="'@(Cheetah)' != '' and '%(Cheetah.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(Cheetah.CommandLineTemplate)"
+      AdditionalOptions="%(Cheetah.AdditionalOptions)"
+      Inputs="%(Cheetah.Identity)" />
+  </Target>
+  <PropertyGroup>
+    <ComputeLinkInputsTargets>
+            $(ComputeLinkInputsTargets);
+            ComputeCheetahOutput;
+          </ComputeLinkInputsTargets>
+    <ComputeLibInputsTargets>
+            $(ComputeLibInputsTargets);
+            ComputeCheetahOutput;
+          </ComputeLibInputsTargets>
+  </PropertyGroup>
+  <Target
+    Name="ComputeCheetahOutput"
+    Condition="'@(Cheetah)' != ''">
+    <ItemGroup>
+      <CheetahDirsToMake
+        Condition="'@(Cheetah)' != '' and '%(Cheetah.ExcludedFromBuild)' != 'true'"
+        Include="%(Cheetah.Outputs)" />
+      <Link
+        Include="%(CheetahDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <Lib
+        Include="%(CheetahDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <ImpLib
+        Include="%(CheetahDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+    </ItemGroup>
+    <MakeDir
+      Directories="@(CheetahDirsToMake-&gt;'%(RootDir)%(Directory)')" />
+  </Target>
+</Project>

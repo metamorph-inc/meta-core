@@ -1,0 +1,72 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Semantics.xsd">
+	<Deployment id="0">
+		<CommChan id="746" _id="id33a" name="BChan" medium="id33b" channode="id339"/>
+		<CommChan id="774" _id="id343" name="BChan" medium="id33b" channode="id342"/>
+		<CommChan id="806" _id="id34b" name="BChan" medium="id34c" channode="id34a"/>
+		<Component id="852" _id="id355" name="Subsystem1" ccode="" cfile="" comptasks="id353" msubsystem="Subsystem1"/>
+		<Component id="751" _id="id360" name="CCodeFile" ccode="" cfile="test.c" comptasks="id35f" msubsystem=""/>
+		<Component id="752" _id="id367" name="Subsystem2" ccode="" cfile="" comptasks="id35f" msubsystem="Subsystem2"/>
+		<Component id="789" name="CCode" ccode="" cfile="" msubsystem=""/>
+		<Component id="790" name="SubsystemRef2" ccode="" cfile="" msubsystem="Subsystem2"/>
+		<Node id="723" _id="id339" name="Node1" chans="id33a" rcvohdsecs="0.000000" sndohdsecs="0.000000" clockspeedhz="0.000000" analog_inp_num="0" ctxtswitchsecs="0.000000" analog_outp_num="0" hyperperiodsecs="0.000000" tickresolutionsecs="0.000000"/>
+		<Node id="727" _id="id342" name="Node2" chans="id343" rcvohdsecs="0.000000" sndohdsecs="0.000000" clockspeedhz="0.000000" analog_inp_num="0" ctxtswitchsecs="0.000000" analog_outp_num="0" hyperperiodsecs="0.000000" tickresolutionsecs="0.000000"/>
+		<Node id="730" _id="id34a" name="Node" chans="id34b" rcvohdsecs="0.000000" sndohdsecs="0.000000" clockspeedhz="0.000000" analog_inp_num="0" ctxtswitchsecs="0.000000" analog_outp_num="0" hyperperiodsecs="0.000000" tickresolutionsecs="0.000000"/>
+		<Signal id="854" name="TTTask1_Subsystem1__ip1" ctypestr="" mtypestr="MS3x3" dimensions="3,3"/>
+		<Signal id="858" name="TTTask1_Subsystem1__op1" ctypestr="" mtypestr="MS3x3" dimensions="3,3"/>
+		<Signal id="754" name="TTTask2_CCodeFile__an1" ctypestr="" mtypestr="" dimensions="1"/>
+		<Signal id="755" name="TTTask2_CCodeFile__udata1" ctypestr="" mtypestr="" dimensions="1"/>
+		<Signal id="756" name="TTTask2_CCodeFile__attr1" ctypestr="float" mtypestr="" dimensions="1"/>
+		<Signal id="757" name="TTTask2_CCodeFile__attr2" ctypestr="float" mtypestr="" dimensions="1"/>
+		<Signal id="758" name="TTTask2_CCodeFile__result" ctypestr="float *" mtypestr="" dimensions="1"/>
+		<Signal id="759" name="TTTask2_CCodeFile__udata1" ctypestr="" mtypestr="" dimensions="1"/>
+		<Signal id="872" name="TTTask2_Subsystem2__ip2" ctypestr="" mtypestr="MS3x3" dimensions="3,3"/>
+		<Signal id="761" name="TTTask2_Subsystem2__op2_1" ctypestr="" mtypestr="TypeStruct1" dimensions="3"/>
+		<Signal id="762" name="TTTask2_Subsystem2__op2_2" ctypestr="" mtypestr="MS1" dimensions="1,1"/>
+		<Signal id="792" name="TTTask0_CCode__dg1" ctypestr="" mtypestr="" dimensions="1"/>
+		<Signal id="793" name="TTTask0_CCode__dg2" ctypestr="" mtypestr="" dimensions="1"/>
+		<Signal id="794" name="TTTask0_CCode__an1" ctypestr="" mtypestr="" dimensions="1"/>
+		<Signal id="795" name="TTTask0_CCode__tmp2" ctypestr="float" mtypestr="" dimensions="1"/>
+		<Signal id="796" name="TTTask0_CCode__tmp1" ctypestr="float" mtypestr="" dimensions="1"/>
+		<Signal id="894" name="TTTask0_CCode__out" ctypestr="float *" mtypestr="" dimensions="1"/>
+		<Signal id="872" name="TTTask0_SubsystemRef2__ip2" ctypestr="" mtypestr="MS3x3" dimensions="3,3"/>
+		<Signal id="761" name="TTTask0_SubsystemRef2__op2_1" ctypestr="" mtypestr="TypeStruct1" dimensions="3"/>
+		<Signal id="762" name="TTTask0_SubsystemRef2__op2_2" ctypestr="" mtypestr="MS1" dimensions="1,1"/>
+		<TTBus id="724" _id="id33b" name="TTBus" commchans="id33a id343" setupsecs="0.000000" mediummsgs="id35d id35e" dataratebps="1.000000" busslotbytes="4096" minframebytes="4096" switchmembytes="671088640" hyperperiodsecs="0.000000"/>
+		<TTBus id="731" _id="id34c" name="TTBus" commchans="id34b" setupsecs="0.000000" dataratebps="1.000000" busslotbytes="4096" minframebytes="4096" switchmembytes="671088640" hyperperiodsecs="0.000000"/>
+		<TTMsg id="725" name="UART0_in_msg" schedule="" sizebytes="0.000000" messagetype="Local"/>
+		<TTMsg id="726" name="ADC1_msg" schedule="" sizebytes="0.000000" messagetype="Local"/>
+		<TTMsg id="745" name="UART0_out_msg" schedule="" sizebytes="0.000000" messagetype="Local"/>
+		<TTMsg id="728" name="UART0_in_msg" schedule="" sizebytes="0.000000" messagetype="Local"/>
+		<TTMsg id="729" name="ADC1_msg" schedule="" sizebytes="0.000000" messagetype="Local"/>
+		<TTMsg id="773" name="UART0_out_msg" schedule="" sizebytes="0.000000" messagetype="Local"/>
+		<TTMsg id="732" name="GPIO2_msg" schedule="" sizebytes="0.000000" messagetype="Local"/>
+		<TTMsg id="733" name="GPIO2_msg" schedule="" sizebytes="0.000000" messagetype="Local"/>
+		<TTMsg id="734" name="ADC1_msg" schedule="" sizebytes="0.000000" messagetype="Local"/>
+		<TTMsg id="739" _id="id35d" name="msg2_in" schedule="" msgmedium="id33b" sizebytes="8.000000" messagetype="Local"/>
+		<TTMsg id="740" _id="id35e" name="msg2_out" schedule="" msgmedium="id33b" sizebytes="8.000000" messagetype="Local"/>
+		<TTMsg id="763" name="uart_data_in" schedule="" sizebytes="8.000000" messagetype="Local"/>
+		<TTMsg id="764" name="uart_data_out" schedule="" sizebytes="8.000000" messagetype="Local"/>
+		<TTMsg id="765" name="analog_data" schedule="" sizebytes="8.000000" messagetype="Local"/>
+		<TTMsg id="766" name="Msg1Out" schedule="" sizebytes="8.000000" messagetype="Local"/>
+		<TTMsg id="767" name="Msg1In" schedule="" sizebytes="8.000000" messagetype="Local"/>
+		<TTMsg id="768" name="TTMessage" schedule="" sizebytes="8.000000" messagetype="Local"/>
+		<TTMsg id="798" name="msg3_out" schedule="" sizebytes="8.000000" messagetype="Local"/>
+		<TTMsg id="799" name="input_data" schedule="" sizebytes="8.000000" messagetype="Local"/>
+		<TTMsg id="800" name="msg3_in" schedule="" sizebytes="8.000000" messagetype="Local"/>
+		<TTMsg id="801" name="local_msg3" schedule="" sizebytes="8.000000" messagetype="Local"/>
+		<TTTask id="725" name="UART0_in_task" config="" schedule="" wcetsecs="0.000000" devicetype="" samplesecs="0.000000"/>
+		<TTTask id="726" name="ADC1_task" config="" schedule="" wcetsecs="0.000000" devicetype="" samplesecs="0.000000"/>
+		<TTTask id="745" name="UART0_out_task" config="" schedule="" wcetsecs="0.000000" devicetype="" samplesecs="0.000000"/>
+		<TTTask id="728" name="UART0_in_task" config="" schedule="" wcetsecs="0.000000" devicetype="" samplesecs="0.000000"/>
+		<TTTask id="729" name="ADC1_task" config="" schedule="" wcetsecs="0.000000" devicetype="" samplesecs="0.000000"/>
+		<TTTask id="773" name="UART0_out_task" config="" schedule="" wcetsecs="0.000000" devicetype="" samplesecs="0.000000"/>
+		<TTTask id="732" name="GPIO2_task" config="" schedule="" wcetsecs="0.000000" devicetype="" samplesecs="0.000000"/>
+		<TTTask id="733" name="GPIO2_task" config="" schedule="" wcetsecs="0.000000" devicetype="" samplesecs="0.000000"/>
+		<TTTask id="734" name="ADC1_task" config="" schedule="" wcetsecs="0.000000" devicetype="" samplesecs="0.000000"/>
+		<TTTask id="735" _id="id353" name="TTTask1" config="" schedule="" wcetsecs="0.000000" taskcomps="id355" devicetype="none" samplesecs="1.000000"/>
+		<TTTask id="736" _id="id35f" name="TTTask2" config="" schedule="" wcetsecs="0.000000" taskcomps="id360 id367" devicetype="none" samplesecs="1.000000"/>
+		<TTTask id="737" name="TTTask0" config="" schedule="" wcetsecs="0.000000" devicetype="none" samplesecs="1.000000"/>
+	</Deployment>
+</RootFolder>
+
+

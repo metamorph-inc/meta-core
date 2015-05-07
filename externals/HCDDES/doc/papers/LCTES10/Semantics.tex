@@ -1,0 +1,20 @@
+\section{Semantic Transformation}
+\label{section:semantics}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%Semantics of execution of BIP%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Engine Protocol}  \label{sec:enumprotocol}
+The operational semantics is implemented by the BIP engine. In the basic implementation, the engine computes the enabled interactions by enumerating the complete list of possible interactions in the model. At each step, the engine selects the enabled interactions from the complete list of interactions, based on the current state of the atomic components. Then, among the enabled interactions, priority rules are applied to eliminate the ones with lower priority.\\
+The main loop of the engine consists of the following steps:
+\begin{enumerate}
+\item Each atomic component notifies the engine of its current state.
+\item The engine enumerates the allowed interactions in the model and selects the enabled ones based on the current state of the atomic components.
+\item Selected interactions are filtered according to the priority model to keep only those with highest priority.
+\item The engine then selects one of the remaining interactions, and notifies the involved atomic components of their respective transitions to take.
+\end{enumerate}
+
+ 
+\subsection{Send/Receive}
+Why and how ? To do .................................

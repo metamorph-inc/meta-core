@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Semantics.xsd">
+
+  <Deployment _id="id3" id="0" name="System">
+    <Acquisition _id="idAF" acquiredMsg="id5A" acquiringChannel="id8" acquiringTasks="id9A" id="0"/>
+    <Actuation _id="idB0" actuatingChannel="idA" actuatingMsg="id5B" actuatingTask="id9C" id="0"/>
+    <BChan _id="id6" chanIndex="-1" chanInterface="id5" channelListeners="idAe" channelTransmitters="idAB" config="" id="200004481" name="BChan_chan"/>
+    <BChan _id="ide" chanIndex="-1" chanInterface="idD" channelListeners="idAC idAA" channelTransmitters="idA5 idAD" config="" id="200004478" name="BChan_chan"/>
+    <BChan _id="id11" chanIndex="-1" chanInterface="id10" channelListeners="idA6" channelTransmitters="idA7" config="" id="200004483" name="BChan_chan"/>
+    <BChan _id="id14" chanIndex="-1" chanInterface="id13" channelListeners="idA8" channelTransmitters="idA9" config="" id="200004484" name="BChan_chan"/>
+    <CommInterface _id="id5" commChannels="id6" commMedium="id7" config="" devicetype="none" id="200004481" integratedBy="id4" name="BChan_dev"/>
+    <CommInterface _id="idD" commChannels="ide" commMedium="id7" config="" devicetype="none" id="200004478" integratedBy="idC" name="BChan_dev"/>
+    <CommInterface _id="id10" commChannels="id11" commMedium="id7" config="" devicetype="none" id="200004483" integratedBy="idF" name="BChan_dev"/>
+    <CommInterface _id="id13" commChannels="id14" commMedium="id7" config="" devicetype="none" id="200004484" integratedBy="id12" name="BChan_dev"/>
+    <Component _id="id15" ccode="" cfiles="HighLevelController_sl.c" consumes="id1A" generates="id1C" hfiles="HighLevelController_sl.h" id="300001061" invokedBy="id9B" msubsystem="HighLevelController" name="HighLevelController"/>
+    <Component _id="id1e" ccode="" cfiles="Instrument Cluster_sl.c" consumes="id2D id2F id31 id33 id35 id36" generates="id37 id38 id39 id3A id3B id3C" hfiles="Instrument Cluster_sl.h" id="300001062" invokedBy="id99" msubsystem="Instrument Cluster" name="InstrumentCluster"/>
+    <Component _id="id3D" ccode="" cfiles="LowLevel_sl.c" consumes="id3e" generates="id3F id40 id41" hfiles="LowLevel_sl.h" id="300001063" invokedBy="id98" msubsystem="LowLevel" name="LowLevelController"/>
+    <Component _id="id42" ccode="" cfiles="CCode.c" consumes="id43 id45 id46" generates="id47 id48 id49" hfiles="CCode.h" id="300001066" invokedBy="id9A" msubsystem="CCode" name="InputHandler"/>
+    <Component _id="id4A" ccode="" cfiles="CCode.c" consumes="id4B id4C id4D id4e id4F" generates="id50 id51 id52 id53 id54" hfiles="CCode.h" id="300001067" invokedBy="id9C" msubsystem="CCode" name="OutputHandler"/>
+    <ExecInfo _id="id5C" executor="id99" name="ICExec">
+      <Deadline _id="id60" deadlinesecs="-1"/>
+      <MaxDuration _id="id5F" exectimesecs="1.1e-006"/>
+      <SamplePeriod _id="id5D" desiredoffsetsecs="-1" periodsecs="0.005" terminationsecs="0"/>
+      <TTSchedule _id="id5e" sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id61" executor="id9A" name="IHExec">
+      <Deadline _id="id65" deadlinesecs="-1"/>
+      <MaxDuration _id="id64" exectimesecs="9.999999999999999e-006"/>
+      <SamplePeriod _id="id62" desiredoffsetsecs="-1" periodsecs="0.005" terminationsecs="0"/>
+      <TTSchedule _id="id63" sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id66" executor="id9B" name="HLExec">
+      <Deadline _id="id6A" deadlinesecs="-1"/>
+      <MaxDuration _id="id69" exectimesecs="3.0000000000000004e-007"/>
+      <SamplePeriod _id="id67" desiredoffsetsecs="-1" periodsecs="0.005" terminationsecs="0"/>
+      <TTSchedule _id="id68" sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id6B" executor="id9C" name="OHExec">
+      <Deadline _id="id6F" deadlinesecs="-1"/>
+      <MaxDuration _id="id6e" exectimesecs="9.999999999999999e-006"/>
+      <SamplePeriod _id="id6C" desiredoffsetsecs="-1" periodsecs="0.005" terminationsecs="0"/>
+      <TTSchedule _id="id6D" sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id70" executor="id98" name="LLExec">
+      <Deadline _id="id74" deadlinesecs="-1"/>
+      <MaxDuration _id="id73" exectimesecs="1.6999999999999998e-006"/>
+      <SamplePeriod _id="id71" desiredoffsetsecs="-1" periodsecs="0.005" terminationsecs="0"/>
+      <TTSchedule _id="id72" sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id75" executor="id58" name="InpMExec">
+      <Deadline _id="id79" deadlinesecs="-1"/>
+      <MaxDuration _id="id78" exectimesecs="0.00019999999999999998"/>
+      <SamplePeriod _id="id76" desiredoffsetsecs="0.001" periodsecs="0.005" terminationsecs="0"/>
+      <TTSchedule _id="id77" sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id7A" executor="id57" name="IMExec">
+      <Deadline _id="id7e" deadlinesecs="-1"/>
+      <MaxDuration _id="id7D" exectimesecs="0.00019999999999999998"/>
+      <SamplePeriod _id="id7B" desiredoffsetsecs="0.0034" periodsecs="0.005" terminationsecs="0"/>
+      <TTSchedule _id="id7C" sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id7F" executor="id55" name="HLMExec">
+      <Deadline _id="id83" deadlinesecs="-1"/>
+      <MaxDuration _id="id82" exectimesecs="0.00019999999999999998"/>
+      <SamplePeriod _id="id80" desiredoffsetsecs="0.0018000000000000002" periodsecs="0.005" terminationsecs="0"/>
+      <TTSchedule _id="id81" sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id84" executor="id59" name="ActMExec">
+      <Deadline _id="id88" deadlinesecs="-1"/>
+      <MaxDuration _id="id87" exectimesecs="0.00019999999999999998"/>
+      <SamplePeriod _id="id85" desiredoffsetsecs="0.004" periodsecs="0.005" terminationsecs="0"/>
+      <TTSchedule _id="id86" sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id89" executor="id56" name="LLMExec">
+      <Deadline _id="id8D" deadlinesecs="-1"/>
+      <MaxDuration _id="id8C" exectimesecs="0.00019999999999999998"/>
+      <SamplePeriod _id="id8A" desiredoffsetsecs="0.0026000000000000003" periodsecs="0.005" terminationsecs="0"/>
+      <TTSchedule _id="id8B" sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id8e" executor="idA idB id5B" name="OutMsgExec">
+      <Deadline _id="id92" deadlinesecs="-1"/>
+      <MaxDuration _id="id91" exectimesecs="1e-006"/>
+      <SamplePeriod _id="id8F" desiredoffsetsecs="-1" periodsecs="0.005" terminationsecs="0"/>
+      <TTSchedule _id="id90" sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id93" executor="id8 id9 id5A" name="InpExec">
+      <Deadline _id="id97" deadlinesecs="-1"/>
+      <MaxDuration _id="id96" exectimesecs="1e-006"/>
+      <SamplePeriod _id="id94" desiredoffsetsecs="-1" periodsecs="0.005" terminationsecs="0"/>
+      <TTSchedule _id="id95" sched="" ticksched=""/>
+    </ExecInfo>
+    <IChan _id="id8" chanIndex="1" channelAcquisition="idAF" config="" ichanDevice="id9" id="200004479" info="id93" name="IChan"/>
+    <InputDevice _id="id9" config="" devicetype="" id="0" info="id93" inputChannels="id8" integratedBy="id4" name="Acq"/>
+    <LocalDependency _id="id9e" depMsg="id9D" id="0" localDepNode="id4" localDepReceivingTasks="id9C" localDepSendingTask="id9A"/>
+    <LocalDependency _id="idA0" depMsg="id9F" id="0" localDepNode="idC" localDepSendingTask="id99"/>
+    <LocalDependency _id="idA2" depMsg="idA1" id="0" localDepNode="idF" localDepSendingTask="id9B"/>
+    <LocalDependency _id="idA4" depMsg="idA3" id="0" localDepNode="id12" localDepSendingTask="id98"/>
+    <Msg _id="id55" carries="id1A id39" id="0" info="id7F" messagetype="Remote" msgListeners="idA6" msgTransmitter="idA5" msgType="id16" name="InstrumentCluster.HighLevelMsg" sizebytes="1"/>
+    <Msg _id="id56" carries="id1C id3e" id="0" info="id89" messagetype="Remote" msgListeners="idA8" msgTransmitter="idA7" msgType="id18" name="HighLevelController.LowLevelMsg" sizebytes="1"/>
+    <Msg _id="id57" carries="id33 id35 id36 id3F id40 id41" id="0" info="id7A" messagetype="Remote" msgListeners="idAA" msgTransmitter="idA9" msgType="id29" name="LowLevelController.InstrumentMsg" sizebytes="1"/>
+    <Msg _id="id58" carries="id2D id2F id31 id47 id48 id49" id="0" info="id75" messagetype="Remote" msgListeners="idAC" msgTransmitter="idAB" msgType="id25" name="InputHandler.InputMsg_out" sizebytes="1"/>
+    <Msg _id="id59" carries="id37 id38 id3A id3B id3C id4B id4C id4D id4e id4F" id="0" info="id84" messagetype="Remote" msgListeners="idAe" msgTransmitter="idAD" msgType="id1F" name="InstrumentCluster.ActuationMsg" sizebytes="1"/>
+    <Msg _id="id5A" carries="id43 id45 id46" id="0" info="id93" messagetype="Local" msgAcquisitions="idAF" msgType="id25" name="InputHandler.InputMsg_in" sizebytes="1"/>
+    <Msg _id="id5B" carries="id50 id51 id52 id53 id54" id="0" info="id8e" messagetype="Local" msgActuation="idB0" msgType="id1F" name="OutputHandler.ActuationMsg_out" sizebytes="1"/>
+    <Msg _id="id9D" id="0" messagetype="Dummy" msgDep="id9e" name="InputHandler_0_OutputHandler_0" sizebytes="0"/>
+    <Msg _id="id9F" id="0" messagetype="Dummy" msgDep="idA0" name="InstrumentCluster_0_InstrumentCluster_0" sizebytes="0"/>
+    <Msg _id="idA1" id="0" messagetype="Dummy" msgDep="idA2" name="HighLevelController_0_HighLevelController_0" sizebytes="0"/>
+    <Msg _id="idA3" id="0" messagetype="Dummy" msgDep="idA4" name="LowLevelController_0_LowLevelController_0" sizebytes="0"/>
+    <MsgField _id="id17" fieldMsg="id16" id="100001377" implementedBy="id1A id39" initialvalue="" msgindex="1" name="ToHighLevel_Controller" numbits="0"/>
+    <MsgField _id="id19" fieldMsg="id18" id="100001379" implementedBy="id1C id3e" initialvalue="" msgindex="1" name="ToLowLevel_Controller" numbits="0"/>
+    <MsgField _id="id20" fieldMsg="id1F" id="100001372" implementedBy="id3A id4C id51" initialvalue="" msgindex="1" name="Throttle" numbits="0"/>
+    <MsgField _id="id21" fieldMsg="id1F" id="100001373" implementedBy="id3B id4B id50" initialvalue="" msgindex="2" name="Brake" numbits="0"/>
+    <MsgField _id="id22" fieldMsg="id1F" id="100001374" implementedBy="id37 id4D id52" initialvalue="" msgindex="3" name="Detected" numbits="0"/>
+    <MsgField _id="id23" fieldMsg="id1F" id="100001375" implementedBy="id38 id4e id53" initialvalue="" msgindex="4" name="Detected_actual" numbits="0"/>
+    <MsgField _id="id24" fieldMsg="id1F" id="100001376" implementedBy="id3C id4F id54" initialvalue="" msgindex="5" name="Des_range" numbits="0"/>
+    <MsgField _id="id26" fieldMsg="id25" id="100000689" implementedBy="id31 id46 id49" initialvalue="" msgindex="1" name="Driver_Inputs" numbits="0"/>
+    <MsgField _id="id27" fieldMsg="id25" id="100000690" implementedBy="id2D id43 id47" initialvalue="" msgindex="2" name="Host_Vehicle_In" numbits="0"/>
+    <MsgField _id="id28" fieldMsg="id25" id="100000691" implementedBy="id2F id45 id48" initialvalue="" msgindex="3" name="Lead_Vehicle_In" numbits="0"/>
+    <MsgField _id="id2A" fieldMsg="id29" id="100001381" implementedBy="id36 id41" initialvalue="" msgindex="1" name="Desired_range" numbits="0"/>
+    <MsgField _id="id2B" fieldMsg="id29" id="100001382" implementedBy="id35 id40" initialvalue="" msgindex="2" name="Brake" numbits="0"/>
+    <MsgField _id="id2C" fieldMsg="id29" id="100001383" implementedBy="id33 id3F" initialvalue="" msgindex="3" name="Throttle" numbits="0"/>
+    <MsgType _id="id16" id="100000688" msgFields="id17" msgTypeInstances="id55" name="HighLevelMsg"/>
+    <MsgType _id="id18" id="100001378" msgFields="id19" msgTypeInstances="id56" name="LowLevelMsg"/>
+    <MsgType _id="id1F" id="100000687" msgFields="id20 id21 id22 id23 id24" msgTypeInstances="id59 id5B" name="ActuationMsg"/>
+    <MsgType _id="id25" id="100000686" msgFields="id26 id27 id28" msgTypeInstances="id58 id5A" name="InputMsg"/>
+    <MsgType _id="id29" id="100001380" msgFields="id2A id2B id2C" msgTypeInstances="id57" name="InstrumentMsg"/>
+    <Node _id="id4" analog_inp_num="1" analog_outp_num="1" clockspeedhz="0" ctxtswitchsecs="0" executes="id9A id9C" hyperperiodsecs="0" hyperperiodticks="0" id="100001392" integrates="id5 id9 idB" isrohdsecs="0" maxtasknum="1048576" name="CarDynamics" nodeLocalDeps="id9e" platformtype="ARM" pp_directives="" processormodel="" rcvohdsecs="0" schedalgorithm="Static" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <Node _id="idC" analog_inp_num="0" analog_outp_num="0" clockspeedhz="0" ctxtswitchsecs="0" executes="id99" hyperperiodsecs="0" hyperperiodticks="0" id="100001389" integrates="idD" isrohdsecs="0" maxtasknum="1048576" name="Node1" nodeLocalDeps="idA0" platformtype="ARM" pp_directives="" processormodel="" rcvohdsecs="0" schedalgorithm="Static" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <Node _id="idF" analog_inp_num="0" analog_outp_num="0" clockspeedhz="0" ctxtswitchsecs="0" executes="id9B" hyperperiodsecs="0" hyperperiodticks="0" id="100001390" integrates="id10" isrohdsecs="0" maxtasknum="1048576" name="Node2" nodeLocalDeps="idA2" platformtype="ARM" pp_directives="" processormodel="" rcvohdsecs="0" schedalgorithm="Static" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <Node _id="id12" analog_inp_num="0" analog_outp_num="0" clockspeedhz="0" ctxtswitchsecs="0" executes="id98" hyperperiodsecs="0" hyperperiodticks="0" id="100001391" integrates="id13" isrohdsecs="0" maxtasknum="1048576" name="Node3" nodeLocalDeps="idA4" platformtype="ARM" pp_directives="" processormodel="" rcvohdsecs="0" schedalgorithm="Static" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <OChan _id="idA" chanIndex="1" channelActuations="idB0" config="" id="200004480" info="id8e" name="OChan" ochanDevice="idB"/>
+    <OutputDevice _id="idB" config="" devicetype="" id="0" info="id8e" integratedBy="id4" name="Act" outputChannels="idA"/>
+    <Receives _id="idA6" id="0" receivedMsg="id55" receivingChannel="id11" receivingTask="id9B"/>
+    <Receives _id="idA8" id="0" receivedMsg="id56" receivingChannel="id14" receivingTask="id98"/>
+    <Receives _id="idAA" id="0" receivedMsg="id57" receivingChannel="ide" receivingTask="id99"/>
+    <Receives _id="idAC" id="0" receivedMsg="id58" receivingChannel="ide" receivingTask="id99"/>
+    <Receives _id="idAe" id="0" receivedMsg="id59" receivingChannel="id6" receivingTask="id9C"/>
+    <Signal _id="id1A" callIndex="1" carriedBy="id55" consumedBy="id15" id="100000708" implements="id17" isOfType="id1B" msgIndex="1" name="HighLevelController_High_Level_inputs"/>
+    <Signal _id="id1C" callIndex="1" carriedBy="id56" generatedBy="id15" id="100000709" implements="id19" isOfType="id1D" msgIndex="1" name="HighLevelController_To_LowLevelController"/>
+    <Signal _id="id2D" callIndex="1" carriedBy="id58" consumedBy="id1e" id="100000897" implements="id27" isOfType="id2e" msgIndex="2" name="InstrumentCluster_Host_Vehicle_In"/>
+    <Signal _id="id2F" callIndex="2" carriedBy="id58" consumedBy="id1e" id="100000898" implements="id28" isOfType="id30" msgIndex="3" name="InstrumentCluster_Lead_Vehicle_In"/>
+    <Signal _id="id31" callIndex="3" carriedBy="id58" consumedBy="id1e" id="100000899" implements="id26" isOfType="id32" msgIndex="1" name="InstrumentCluster_Driver_Inputs"/>
+    <Signal _id="id33" callIndex="4" carriedBy="id57" consumedBy="id1e" id="100000900" implements="id2C" isOfType="id34" msgIndex="3" name="InstrumentCluster_Throttle_ang_in"/>
+    <Signal _id="id35" callIndex="5" carriedBy="id57" consumedBy="id1e" id="100000901" implements="id2B" isOfType="id34" msgIndex="2" name="InstrumentCluster_P_mc_brake_in"/>
+    <Signal _id="id36" callIndex="6" carriedBy="id57" consumedBy="id1e" id="100000902" implements="id2A" isOfType="id34" msgIndex="1" name="InstrumentCluster_des_range_in"/>
+    <Signal _id="id37" callIndex="1" carriedBy="id59" generatedBy="id1e" id="100000903" implements="id22" isOfType="id34" msgIndex="3" name="InstrumentCluster_Detect"/>
+    <Signal _id="id38" callIndex="2" carriedBy="id59" generatedBy="id1e" id="100000904" implements="id23" isOfType="id34" msgIndex="4" name="InstrumentCluster_Distance_actual"/>
+    <Signal _id="id39" callIndex="3" carriedBy="id55" generatedBy="id1e" id="100000905" implements="id17" isOfType="id1B" msgIndex="1" name="InstrumentCluster_To_High_Level_Controller"/>
+    <Signal _id="id3A" callIndex="4" carriedBy="id59" generatedBy="id1e" id="100000906" implements="id20" isOfType="id34" msgIndex="1" name="InstrumentCluster_Throttle_ang_out"/>
+    <Signal _id="id3B" callIndex="5" carriedBy="id59" generatedBy="id1e" id="100000907" implements="id21" isOfType="id34" msgIndex="2" name="InstrumentCluster_P_mc_brake_out"/>
+    <Signal _id="id3C" callIndex="6" carriedBy="id59" generatedBy="id1e" id="100000908" implements="id24" isOfType="id34" msgIndex="5" name="InstrumentCluster_des_range_out"/>
+    <Signal _id="id3e" callIndex="1" carriedBy="id56" consumedBy="id3D" id="100001069" implements="id19" isOfType="id1D" msgIndex="1" name="LowLevelController_Lowlevel_inputs_from_HighLevel"/>
+    <Signal _id="id3F" callIndex="1" carriedBy="id57" generatedBy="id3D" id="100001070" implements="id2C" isOfType="id34" msgIndex="3" name="LowLevelController_Throttle_Angle"/>
+    <Signal _id="id40" callIndex="2" carriedBy="id57" generatedBy="id3D" id="100001071" implements="id2B" isOfType="id34" msgIndex="2" name="LowLevelController_P_mc_Brake"/>
+    <Signal _id="id41" callIndex="3" carriedBy="id57" generatedBy="id3D" id="100001072" implements="id2A" isOfType="id34" msgIndex="1" name="LowLevelController_desired_Range"/>
+    <Signal _id="id43" callIndex="1" carriedBy="id5A" consumedBy="id42" id="100001413" implements="id27" isOfType="id44" msgIndex="2" name="InputHandler_HV_in_in"/>
+    <Signal _id="id45" callIndex="2" carriedBy="id5A" consumedBy="id42" id="100001414" implements="id28" isOfType="id44" msgIndex="3" name="InputHandler_LV_in_in"/>
+    <Signal _id="id46" callIndex="3" carriedBy="id5A" consumedBy="id42" id="100001415" implements="id26" isOfType="id44" msgIndex="1" name="InputHandler_Drv_in_in"/>
+    <Signal _id="id47" callIndex="4" carriedBy="id58" generatedBy="id42" id="100001416" implements="id27" isOfType="id44" msgIndex="2" name="InputHandler_HV_in_out"/>
+    <Signal _id="id48" callIndex="5" carriedBy="id58" generatedBy="id42" id="100001417" implements="id28" isOfType="id44" msgIndex="3" name="InputHandler_LV_in_out"/>
+    <Signal _id="id49" callIndex="6" carriedBy="id58" generatedBy="id42" id="100001418" implements="id26" isOfType="id44" msgIndex="1" name="InputHandler_DV_in_out"/>
+    <Signal _id="id4B" callIndex="1" carriedBy="id59" consumedBy="id4A" id="100001420" implements="id21" isOfType="id44" msgIndex="2" name="OutputHandler_BR_in"/>
+    <Signal _id="id4C" callIndex="2" carriedBy="id59" consumedBy="id4A" id="100001424" implements="id20" isOfType="id44" msgIndex="1" name="OutputHandler_TR_in"/>
+    <Signal _id="id4D" callIndex="3" carriedBy="id59" consumedBy="id4A" id="100001425" implements="id22" isOfType="id44" msgIndex="3" name="OutputHandler_DT_in"/>
+    <Signal _id="id4e" callIndex="4" carriedBy="id59" consumedBy="id4A" id="100001426" implements="id23" isOfType="id44" msgIndex="4" name="OutputHandler_DA_in"/>
+    <Signal _id="id4F" callIndex="5" carriedBy="id59" consumedBy="id4A" id="100001427" implements="id24" isOfType="id44" msgIndex="5" name="OutputHandler_DR_in"/>
+    <Signal _id="id50" callIndex="6" carriedBy="id5B" generatedBy="id4A" id="100001421" implements="id21" isOfType="id44" msgIndex="2" name="OutputHandler_BR_out"/>
+    <Signal _id="id51" callIndex="7" carriedBy="id5B" generatedBy="id4A" id="100001422" implements="id20" isOfType="id44" msgIndex="1" name="OutputHandler_TR_out"/>
+    <Signal _id="id52" callIndex="8" carriedBy="id5B" generatedBy="id4A" id="100001423" implements="id22" isOfType="id44" msgIndex="3" name="OutputHandler_DT_out"/>
+    <Signal _id="id53" callIndex="9" carriedBy="id5B" generatedBy="id4A" id="100001428" implements="id23" isOfType="id44" msgIndex="4" name="OutputHandler_DA_out"/>
+    <Signal _id="id54" callIndex="10" carriedBy="id5B" generatedBy="id4A" id="100001429" implements="id24" isOfType="id44" msgIndex="5" name="OutputHandler_DR_out"/>
+    <SignalType _id="id1B" columns="" ctypestr="" id="0" isStruct="false" mtypestr="struct2" name="struct2" rows="" signalsOfType="id1A id39"/>
+    <SignalType _id="id1D" columns="" ctypestr="" id="0" isStruct="false" mtypestr="struct1" name="struct1" rows="" signalsOfType="id1C id3e"/>
+    <SignalType _id="id2e" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A11doubleA" name="A11doubleA" rows="" signalsOfType="id2D"/>
+    <SignalType _id="id30" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A4doubleA" name="A4doubleA" rows="" signalsOfType="id2F"/>
+    <SignalType _id="id32" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A3doubleA" name="A3doubleA" rows="" signalsOfType="id31"/>
+    <SignalType _id="id34" columns="" ctypestr="" id="0" isStruct="false" mtypestr="double" name="double" rows="" signalsOfType="id33 id35 id36 id37 id38 id3A id3B id3C id3F id40 id41"/>
+    <SignalType _id="id44" columns="" ctypestr="" id="0" isStruct="false" mtypestr="" name="" rows="" signalsOfType="id43 id45 id46 id47 id48 id49 id4B id4C id4D id4e id4F id50 id51 id52 id53 id54"/>
+    <TTBus _id="id7" busslotbytes="512" dataratebps="1e+008" hyperperiodsecs="0" hyperperiodticks="0" id="100001393" interfaces="id5 idD id10 id13" minframebytes="512" name="TTBus" setupsecs="2e-006" switchmembytes="83886080"/>
+    <Task _id="id98" executedBy="id12" id="0" incomingData="idA8" info="id70" invokes="id3D" localSendingTaskDeps="idA4" name="LowLevelController" outboundData="idA9"/>
+    <Task _id="id99" executedBy="idC" id="0" incomingData="idAC idAA" info="id5C" invokes="id1e" localSendingTaskDeps="idA0" name="InstrumentCluster" outboundData="idA5 idAD"/>
+    <Task _id="id9A" executedBy="id4" id="0" info="id61" invokes="id42" localSendingTaskDeps="id9e" name="InputHandler" outboundData="idAB" taskAcquisitions="idAF"/>
+    <Task _id="id9B" executedBy="idF" id="0" incomingData="idA6" info="id66" invokes="id15" localSendingTaskDeps="idA2" name="HighLevelController" outboundData="idA7"/>
+    <Task _id="id9C" executedBy="id4" id="0" incomingData="idAe" info="id6B" invokes="id4A" localReceivingTaskDeps="id9e" name="OutputHandler" taskActuations="idB0"/>
+    <Transmits _id="idA5" id="0" sendingChan="ide" sendingTask="id99" transmittedMsg="id55"/>
+    <Transmits _id="idA7" id="0" sendingChan="id11" sendingTask="id9B" transmittedMsg="id56"/>
+    <Transmits _id="idA9" id="0" sendingChan="id14" sendingTask="id98" transmittedMsg="id57"/>
+    <Transmits _id="idAB" id="0" sendingChan="id6" sendingTask="id9A" transmittedMsg="id58"/>
+    <Transmits _id="idAD" id="0" sendingChan="ide" sendingTask="id99" transmittedMsg="id59"/>
+  </Deployment>
+
+</RootFolder>

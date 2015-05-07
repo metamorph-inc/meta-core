@@ -1,0 +1,260 @@
+Global resolution: 1e-006 secs
+INU: 1e+008 1e-006 1e-006
+INU/IA: =10 0.01
+INU/IB: =20 0.005
+INU/IC: =20 0.005
+INU/IA1: =10 0.005
+INU/IB1: =40 0.004
+INU/IC2: =40 0.005
+PCS: 1e+008 1e-006 1e-006
+PCS/PD: =10 0.01
+PCS/PD1: =10 0.005
+PCS/PE1: =20 0.01
+ADMS: 1e+008 1e-006 1e-006
+ADMS/AF: =20 0.01
+ADMS/AF2: =40 0.005
+GPS: 1e+008 1e-006 1e-006
+GPS/GG: =20 0.01
+GPS/GH: =40 0.004
+GPS/GG1: =20 0.005
+GPS/GG2: =10 0.005
+BUS: 1e+007 1e-006
+BUS/M1: 16384 INU/IA
+Rcvr BUS/M1 PCS/PD
+BUS/M2: 16384 PCS/PD
+Rcvr BUS/M2 INU/IA
+BUS/M3: 16384 INU/IB
+Rcvr BUS/M3 PCS/PE1
+Rcvr BUS/M3 ADMS/AF
+BUS/M4: 16384 PCS/PE1
+Rcvr BUS/M4 INU/IB
+Rcvr BUS/M4 INU/IC
+BUS/M5: 16384 INU/IC
+Rcvr BUS/M5 PCS/PE1
+Rcvr BUS/M5 ADMS/AF
+BUS/M6: 16384 ADMS/AF
+Rcvr BUS/M6 INU/IB
+Rcvr BUS/M6 INU/IC
+BUS/M7: 16384 GPS/GG
+Rcvr BUS/M7 ADMS/AF
+BUS/M8: 16384 GPS/GH
+Rcvr BUS/M8 ADMS/AF2
+BUS/M9: 16384 GPS/GG1
+Rcvr BUS/M9 ADMS/AF
+BUS/M10: 16384 ADMS/AF2
+Rcvr BUS/M10 INU/IC2
+BUS/M11: 16384 INU/IB1
+Rcvr BUS/M11 ADMS/AF2
+BUS/M12: 16384 INU/IC2
+Rcvr BUS/M12 GPS/GH
+BUS/M13: 16384 PCS/PE1
+Rcvr BUS/M13 ADMS/AF
+BUS/M14: 16384 INU/IC2
+Rcvr BUS/M14 ADMS/AF2
+BUS/M15: 16384 PCS/PD1
+Rcvr BUS/M15 GPS/GG2
+BUS/M16: 16384 GPS/GG2
+Rcvr BUS/M16 PCS/PD
+BUS/M17: 16384 INU/IB1
+Rcvr BUS/M17 GPS/GH
+Resolution 1e-006 (sec), hp 0.1 (sec) ticks:100000
+Task ADMS/AF 2 instances 10000 ticks long
+Ordering...
+x = ADMS/AF_0 y = ADMS/AF_1 offset 50000
+Duration bound...
+ADMS/AF_1 dur 10000
+Task ADMS/AF2 4 instances 5000 ticks long
+Ordering...
+x = ADMS/AF2_0 y = ADMS/AF2_1 offset 25000
+x = ADMS/AF2_1 y = ADMS/AF2_2 offset 25000
+x = ADMS/AF2_2 y = ADMS/AF2_3 offset 25000
+Duration bound...
+ADMS/AF2_3 dur 5000
+Serializing...
+ADMS/AF_0 dur 10000
+ADMS/AF_1 dur 10000
+ADMS/AF2_0 dur 5000
+ADMS/AF2_1 dur 5000
+ADMS/AF2_2 dur 5000
+ADMS/AF2_3 dur 5000
+Task GPS/GG 2 instances 10000 ticks long
+Ordering...
+x = GPS/GG_0 y = GPS/GG_1 offset 50000
+Duration bound...
+GPS/GG_1 dur 10000
+Task GPS/GH 4 instances 4000 ticks long
+Ordering...
+x = GPS/GH_0 y = GPS/GH_1 offset 25000
+x = GPS/GH_1 y = GPS/GH_2 offset 25000
+x = GPS/GH_2 y = GPS/GH_3 offset 25000
+Duration bound...
+GPS/GH_3 dur 4000
+Task GPS/GG1 2 instances 5000 ticks long
+Ordering...
+x = GPS/GG1_0 y = GPS/GG1_1 offset 50000
+Duration bound...
+GPS/GG1_1 dur 5000
+Task GPS/GG2 1 instances 5000 ticks long
+Serializing...
+GPS/GG_0 dur 10000
+GPS/GG_1 dur 10000
+GPS/GH_0 dur 4000
+GPS/GH_1 dur 4000
+GPS/GH_2 dur 4000
+GPS/GH_3 dur 4000
+GPS/GG1_0 dur 5000
+GPS/GG1_1 dur 5000
+GPS/GG2_0 dur 5000
+Task INU/IA 1 instances 10000 ticks long
+Task INU/IB 2 instances 5000 ticks long
+Ordering...
+x = INU/IB_0 y = INU/IB_1 offset 50000
+Duration bound...
+INU/IB_1 dur 5000
+Task INU/IC 2 instances 5000 ticks long
+Ordering...
+x = INU/IC_0 y = INU/IC_1 offset 50000
+Duration bound...
+INU/IC_1 dur 5000
+Task INU/IA1 1 instances 5000 ticks long
+Task INU/IB1 4 instances 4000 ticks long
+Ordering...
+x = INU/IB1_0 y = INU/IB1_1 offset 25000
+x = INU/IB1_1 y = INU/IB1_2 offset 25000
+x = INU/IB1_2 y = INU/IB1_3 offset 25000
+Duration bound...
+INU/IB1_3 dur 4000
+Task INU/IC2 4 instances 5000 ticks long
+Ordering...
+x = INU/IC2_0 y = INU/IC2_1 offset 25000
+x = INU/IC2_1 y = INU/IC2_2 offset 25000
+x = INU/IC2_2 y = INU/IC2_3 offset 25000
+Duration bound...
+INU/IC2_3 dur 5000
+Serializing...
+INU/IA_0 dur 10000
+INU/IB_0 dur 5000
+INU/IB_1 dur 5000
+INU/IC_0 dur 5000
+INU/IC_1 dur 5000
+INU/IA1_0 dur 5000
+INU/IB1_0 dur 4000
+INU/IB1_1 dur 4000
+INU/IB1_2 dur 4000
+INU/IB1_3 dur 4000
+INU/IC2_0 dur 5000
+INU/IC2_1 dur 5000
+INU/IC2_2 dur 5000
+INU/IC2_3 dur 5000
+Task PCS/PD 1 instances 10000 ticks long
+Task PCS/PD1 1 instances 5000 ticks long
+Task PCS/PE1 2 instances 10000 ticks long
+Ordering...
+x = PCS/PE1_0 y = PCS/PE1_1 offset 50000
+Duration bound...
+PCS/PE1_1 dur 10000
+Serializing...
+PCS/PD_0 dur 10000
+PCS/PD1_0 dur 5000
+PCS/PE1_0 dur 10000
+PCS/PE1_1 dur 10000
+Msg BUS/M1 1 instances 1639 ticks long
+Msg BUS/M2 1 instances 1639 ticks long
+Msg BUS/M3 1 instances 1639 ticks long
+Msg BUS/M4 1 instances 1639 ticks long
+Msg BUS/M5 1 instances 1639 ticks long
+Msg BUS/M6 1 instances 1639 ticks long
+Msg BUS/M7 1 instances 1639 ticks long
+Msg BUS/M8 1 instances 1639 ticks long
+Msg BUS/M9 1 instances 1639 ticks long
+Msg BUS/M10 1 instances 1639 ticks long
+Msg BUS/M11 1 instances 1639 ticks long
+Msg BUS/M12 1 instances 1639 ticks long
+Msg BUS/M13 1 instances 1639 ticks long
+Msg BUS/M14 1 instances 1639 ticks long
+Msg BUS/M15 1 instances 1639 ticks long
+Msg BUS/M16 1 instances 1639 ticks long
+Msg BUS/M17 1 instances 1639 ticks long
+Serializing...
+BUS/M1_0 dur 1639
+BUS/M2_0 dur 1639
+BUS/M3_0 dur 1639
+BUS/M4_0 dur 1639
+BUS/M5_0 dur 1639
+BUS/M6_0 dur 1639
+BUS/M7_0 dur 1639
+BUS/M8_0 dur 1639
+BUS/M9_0 dur 1639
+BUS/M10_0 dur 1639
+BUS/M11_0 dur 1639
+BUS/M12_0 dur 1639
+BUS/M13_0 dur 1639
+BUS/M14_0 dur 1639
+BUS/M15_0 dur 1639
+BUS/M16_0 dur 1639
+BUS/M17_0 dur 1639
+Stats: Search Stats
+
+Initial
+	propagators:   73
+	branchings:    2
+
+Summary
+	propagations:  684088
+	failures:      290004
+	clones:        290036
+	commits:       580040
+	peak memory:   11070 KB
+
+Solution1_135912
+ADMS/AF_0: 19999
+ADMS/AF_1: 69999
+ADMS/AF2_0: 9999
+ADMS/AF2_1: 34999
+ADMS/AF2_2: 59999
+ADMS/AF2_3: 84999
+GPS/GG_0: 19999
+GPS/GG_1: 69999
+GPS/GH_0: 10499
+GPS/GH_1: 35499
+GPS/GH_2: 60499
+GPS/GH_3: 85499
+GPS/GG1_0: 29999
+GPS/GG1_1: 79999
+GPS/GG2_0: 49999
+INU/IA_0: 49999
+INU/IB_0: 22499
+INU/IB_1: 72499
+INU/IC_0: 27499
+INU/IC_1: 77499
+INU/IA1_0: 44999
+INU/IB1_0: 10499
+INU/IB1_1: 35499
+INU/IB1_2: 60499
+INU/IB1_3: 85499
+INU/IC2_0: 14499
+INU/IC2_1: 39499
+INU/IC2_2: 64499
+INU/IC2_3: 89499
+PCS/PD_0: 49999
+PCS/PD1_0: 44999
+PCS/PE1_0: 19999
+PCS/PE1_1: 69999
+BUS/M1_0: 49999
+BUS/M2_0: 51638
+BUS/M3_0: 48360
+BUS/M4_0: 53277
+BUS/M5_0: 46721
+BUS/M6_0: 54916
+BUS/M7_0: 45082
+BUS/M8_0: 56555
+BUS/M9_0: 43443
+BUS/M10_0: 58194
+BUS/M11_0: 41804
+BUS/M12_0: 59833
+BUS/M13_0: 40165
+BUS/M14_0: 61472
+BUS/M15_0: 38526
+BUS/M16_0: 63111
+BUS/M17_0: 36887
+

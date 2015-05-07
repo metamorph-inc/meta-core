@@ -1,0 +1,45 @@
+#define S_FUNCTION_NAME  %s
+#define S_FUNCTION_LEVEL 2
+
+#include "simstruc.h"
+#include "%s"
+
+static void mdlInitializeSizes(SimStruct *S)
+{
+    ssSetNumSFcnParams(S, 0);
+    if (ssGetNumSFcnParams(S) != ssGetSFcnParamsCount(S)) {
+        return;
+    }
+    if (!ssSetNumInputPorts(S, 1)) return;
+    ssSetInputPortWidth(S, 0, %d);
+    ssSetInputPortDirectFeedThrough(S, 0, 1);
+    if (!ssSetNumOutputPorts(S, 1)) return;
+    ssSetOutputPortWidth(S, 0, %d);
+    ssSetNumSampleTimes(S, 1);
+    ssSetOptions(S, SS_OPTION_EXCEPTION_FREE_CODE |
+                 SS_OPTION_USE_TLC_WITH_ACCELERATOR);
+    %s
+}
+
+static void mdlInitializeSampleTimes(SimStruct *S)
+{
+    ssSetSampleTime(S, 0, INHERITED_SAMPLE_TIME);
+    ssSetOffsetTime(S, 0, 0.0);
+}
+
+static void mdlOutputs(SimStruct *S, int_T tid)
+{
+	%s
+}
+
+static void mdlTerminate(SimStruct *S)
+{
+}
+
+
+
+#ifdef  MATLAB_MEX_FILE
+#include "simulink.c" 
+#else
+#include "cg_sfun.h" 
+#endif

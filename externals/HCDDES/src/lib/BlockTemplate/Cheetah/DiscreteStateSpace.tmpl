@@ -1,0 +1,14 @@
+#set $A = $parameters.A.placeInContext()
+$A.setElementType( $output.getElementType() )#slurp
+#set $B = $parameters.B.placeInContext()
+$B.setElementType( $output.getElementType() )#slurp
+#set $C = $parameters.C.placeInContext()
+$C.setElementType( $output.getElementType() )#slurp
+#set $D = $parameters.D.placeInContext()
+$D.setElementType( $output.getElementType() )#slurp
+#set $x = $parameters.X0.placeInContext( $A.getSubArray() )
+
+$output = $C * $x + $D * $input
+#set $y = $block.createVariable( "y", $x.type )
+$y = $A * $x + $B * $input
+$x = $y

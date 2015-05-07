@@ -1,0 +1,142 @@
+Test procedure for comms test (Wed 11/4/2009):
+
+VM and code (setup):
+1. Copied bin, gumstix-frodo, and robostix-frodo subdirectories from 
+quad_integrator/build to comms_test/build.
+
+2. Changed the link at gumstix/gumstix-oe/user.collections/packages to point
+   to comms_test/build.
+
+3. Deployed generated code to comms_test/build/*
+   InnerLoop_sl.[ch] -> robostix-frodo/files
+   RS.c -> robostix-frodo/files/app/app.c
+   OuterLoop_sl.[ch] -> gumstix-frodo/files
+   GS.c -> gumstix-frodo/files/app/app.c
+
+4. In gumstix-frodo app.c changed OuterLoop_main to OuterLoop_100000011_main
+   to synchronize with OuterLoop_sl.h (also changed OuterLoop_context).
+
+5. In robostix-frodo app.c changed InnerLoop_main to InnerLoop_100000008_main
+   to synchronize with InnerLoop_sl.h (also changed InnerLoop_context).
+
+6. Ran fromdos on all of the generated files just to be safe.
+
+7. SL_CodeGen produced something a little strange -- 
+
+#ifndef MsingleC-1C1M_GUARD
+#define MsingleC-1C1M_GUARD
+typedef float MsingleC-1C1M;
+#endif
+
+The '-' doesn't parse.  Temporary workaround by using MsingleC1C1M (also
+defined) instead.  Had to make type substitutions in the generated source. 
+Remove the above define and type (also sent a sample model to Harmon for
+inspection). Did the same for both robostix and gumstix.
+
+8. Had forgotten to put the code line into the DataHandler component spec,
+   so no code was generated for the DataHandler.  Fixed that (re-generated
+   everything, and copied the appropriate lines into the target source).
+   Remember to refer to the variables with their component name pre-pended:
+   i.e.  *DataHandler_MsgOut = DataHandler_SerialIn;
+
+9. The peripheral code did not generate correctly. What is up with that? 
+   Pasted in duplicate code from the quad integrator, and fixed it up.
+
+10. The generated code created arrays for scalars:
+
+void InnerLoop_100000008_main( InnerLoop_100000008_context *context, float angle_2, float (*Torque_3) )
+{
+  ( *Torque_3 )[ (int)( ) ] = ( *context ).Gain19 * angle_2[ (int)( ) ];
+}
+
+It should look like this:
+
+void InnerLoop_100000008_main( InnerLoop_100000008_context *context, float angle_2, float (*Torque_3) )
+{
+  ( *Torque_3 ) = ( *context ).Gain19 * angle_2;
+}
+
+11. Removed #include<math.h> from InnerLoop_sl.h.
+
+12. In gumstix app.c added #include "gumstix-frodo.h".  This means I forgot
+    to set the processor strings correctly in the model.
+
+13. The bus messages were not generated correctly either :-(  Had to fix it.
+    They were unfortunately both sorted to the same time index.  Fudges the 
+    times in the XML model file, and re-generated the message tables.
+
+14. Fixed the schedule to account for the I2C send/receive. Subtracted 1 tick
+    from the schedule values on the robostix message entries.
+
+Thu 11/5/2009
+15. Forgot the app_tasks_init code.  Added it to both of the app.c files.
+
+void app_tasks_init() {
+  memset( (void*)&OuterLoop_OL_to_IL, 0, sizeof(OuterLoop_OL_to_IL_t) );
+  memset( (void*)&OuterLoop_OL_to_IL_c, 0, sizeof(OuterLoop_OL_to_IL_t) );
+  memset( (void*)&InnerLoop_IL_to_PL, 0, sizeof(InnerLoop_IL_to_PL_t) );
+  memset( (void*)&InnerLoop_IL_to_PL_c, 0, sizeof(InnerLoop_IL_to_PL_t) );
+  memset( (void*)&DataHandler_DH_to_OL, 0, sizeof(DataHandler_DH_to_OL_t) );
+  memset( (void*)&DataHandler_DH_to_OL_c, 0, sizeof(DataHandler_DH_to_OL_t) );
+  memset( (void*)&DataHandler_PL_to_DH, 0, sizeof(DataHandler_PL_to_DH_t) );
+  memset( (void*)&DataHandler_PL_to_DH_c, 0, sizeof(DataHandler_PL_to_DH_t) );
+ }
+void app_tasks_init() {
+   memset( (void*)&OuterLoop_OL_to_IL , 0, sizeof(OuterLoop_OL_to_IL_t ) );
+   memset( (void*)&OuterLoop_OL_to_IL , 0, sizeof(OuterLoop_OL_to_IL_t ) );
+   memset( (void*)&DataHandler_DH_to_OL , 0, sizeof(DataHandler_DH_to_OL_t ) );
+   memset( (void*)&DataHandler_DH_to_OL , 0, sizeof(DataHandler_DH_to_OL_t ) );
+ }
+
+16. The OuterLoop_init function was not generated into the app.c for the
+    gumstix.  Moved some things around:
+
+static OuterLoop_100000011_context OuterLoop_ctxt;
+
+///////////////////////// C-CODE /////////////////////////
+
+
+void app_tasks_init() {
+   memset( (void*)&OuterLoop_OL_to_IL , 0, sizeof(OuterLoop_OL_to_IL_t ) );
+   memset( (void*)&OuterLoop_OL_to_IL , 0, sizeof(OuterLoop_OL_to_IL_t ) );
+   memset( (void*)&DataHandler_DH_to_OL , 0, sizeof(DataHandler_DH_to_OL_t ) );
+   memset( (void*)&DataHandler_DH_to_OL , 0, sizeof(DataHandler_DH_to_OL_t ) );
+
+   OuterLoop_100000011_init( &OuterLoop_ctxt );
+ }
+
+17. The gumstix version of the app.c code was generated for the robostix, so
+    all of the semaphore take calls were missing.  Remedied by hand, but we
+    did update the model to put in the DeviceType attributes for the nodes.
+
+18. The gumstix frodo structures do not match what was generated.  We need to 
+    revise the template for the gumstix case.
+
+Previous code:
+
+task_entry tasks[] = {
+   { OuterLoop, "OuterLoop", 10, 0},
+   {NULL, NULL, 0, 0}
+};
+
+msg_entry msgs[] = {
+
+   { 1, MSG_DIR_RECV, sizeof( DataHandler_DH_to_OL ), (portCHAR *) & DataHandler_DH_to_OL, (portCHAR *) & DataHandler_DH_to_OL_c, 7, pdFALSE },
+   { 2, MSG_DIR_SEND, sizeof( OuterLoop_OL_to_IL ), (portCHAR *) & OuterLoop_OL_to_IL, (portCHAR *) & OuterLoop_OL_to_IL_c, 13, pdFALSE},
+   { -1, 0, 0, NULL, NULL, 0, 0}
+};
+
+New code:
+
+task_entry tasks[] = {
+
+   { OuterLoop, "OuterLoop", 10},
+   {NULL, NULL, 0, 0}
+};
+
+msg_entry msgs[] = {
+
+   { 1, MSG_DIR_RECV, sizeof( DataHandler_DH_to_OL ), (portCHAR *) & DataHandler_DH_to_OL, 7 },
+   { 2, MSG_DIR_SEND, sizeof( OuterLoop_OL_to_IL ), (portCHAR *) & OuterLoop_OL_to_IL, 13 },
+   { -1, 0, 0, NULL, 0 }
+};

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyberPortTypeChecker">
+  <Component Id="CyberPortTypeChecker.dll" Directory="INSTALLDIR_BIN">
+    <File Source="$(var.InterpreterBin)\CyberPortTypeChecker.dll">
+      <TypeLib Id="3894F514-AC5B-46A6-8387-69BA10284531" Description="MGA Interpreter TypeLibrary (CyberPortTypeChecker)" Language="0" MajorVersion="1" MinorVersion="0">
+        <Class Id="{4E51BF6F-68CF-484E-9EC4-0BD6D64AAD33}" Context="InprocServer32" Description="MGA.Interpreter.CyberPortTypeChecker">
+          <ProgId Id="MGA.Interpreter.CyberPortTypeChecker" Description="MGA.Interpreter.CyberPortTypeChecker" />
+        </Class>
+      </TypeLib>
+    </File>
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyberPortTypeChecker'>
+      <RegistryValue Name='Description' Type='string' Value='CyberPortTypeChecker'/>
+      <RegistryValue Name='Icon' Type='string' Value=',IDI_COMPICON'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyberComposition'/>
+      <RegistryValue Name='Tooltip' Type='string' Value='Cyber Port Type Checker'/>
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyberComposition' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

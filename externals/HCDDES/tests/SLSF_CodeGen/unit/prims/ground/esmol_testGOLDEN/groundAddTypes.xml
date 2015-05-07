@@ -1,0 +1,40 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="ground" name="ground" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id8" Name="" dstLine_end_="id4" srcLine_end_="id7"/>
+			<Line _id="idb" Name="" dstLine_end_="idc" srcLine_end_="ida"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id8">
+				<TypeBaseRef _id="id14" ref="idf" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="ida" name="Out_1" Number="1" dstLine="idb">
+					<TypeBaseRef _id="id11" ref="idf" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="1"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Ground" name="Ground" Period="0" Deadline="0" Priority="0" BlockType="Ground" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id7" name="Out_1" Number="1" dstLine="id8">
+					<TypeBaseRef _id="id13" ref="idf" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+			</Primitive>
+			<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<InputPort _id="idc" name="In_1" Number="1" srcLine="idb">
+					<TypeBaseRef _id="id12" ref="idf" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+			</Primitive>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow"/>
+	<Types name="Types">
+		<Matrix _id="idf" Type="double" name="MdoubleC1C1M" rows="1" columns="1" referedbyTypeStructRef="id11 id12 id13 id14"/>
+	</Types>
+</RootFolder>
+
+

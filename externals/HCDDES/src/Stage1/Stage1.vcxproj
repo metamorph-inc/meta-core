@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B5C13D34-EEF9-4FC4-BB13-5E3FEE26BB6C}</ProjectGuid>
+    <RootNamespace>MetaAdapter</RootNamespace>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\VCP.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\bin\</OutDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)D</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\;.\..;$(UDM_PATH)\include;$(VCP_PATH)\include;$(VCP_PATH)\generated\ESMoL_Abstract\generated;$(VCP_PATH)\generated\ESMoL\generated;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\;.\..;$(UDM_PATH)\include;$(VCP_PATH)\include;$(VCP_PATH)\generated\ESMoL_Abstract\generated;$(VCP_PATH)\generated\ESMoL\generated;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AbstractVisitor.cpp" />
+    <ClCompile Include="ConfigKeeper.cpp" />
+    <ClCompile Include="ConstraintVisitor.cpp" />
+    <ClCompile Include="DepGraph.cpp" />
+    <ClCompile Include="ElementVisitor.cpp" />
+    <ClCompile Include="IndexKeeper.cpp" />
+    <ClCompile Include="IndexMerge.cpp" />
+    <ClCompile Include="InferenceVisitor.cpp" />
+    <ClCompile Include="MessageKeeper.cpp" />
+    <ClCompile Include="RelationVisitor.cpp" />
+    <ClCompile Include="Stage1.cpp" />
+    <ClCompile Include="..\..\generated\esmol\generated\ESMoL.cpp" />
+    <ClCompile Include="..\..\generated\ESMoL_Abstract\generated\Semantics.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ConfigKeeper.h" />
+    <ClInclude Include="DepGraph.h" />
+    <ClInclude Include="IndexKeeper.h" />
+    <ClInclude Include="IndexMerge.h" />
+    <ClInclude Include="InferenceVisitor.h" />
+    <ClInclude Include="MessageKeeper.h" />
+    <ClInclude Include="..\..\include\utils.h" />
+    <ClInclude Include="Visitor.h" />
+    <ClInclude Include="..\..\generated\esmol\generated\ESMoL.h" />
+    <ClInclude Include="..\..\generated\esmol\generated\ESMoL_xsd.h" />
+    <ClInclude Include="..\..\generated\ESMoL_Abstract\generated\Semantics.h" />
+    <ClInclude Include="..\..\generated\ESMoL_Abstract\generated\Semantics_xsd.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\models\ESMoL\ESMoL.vcxproj">
+      <Project>{35efa7d1-a834-4297-a597-6c76cc4fd399}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\models\ESMoL_Abstract\ESMoL_Abstract.vcxproj">
+      <Project>{09babf33-9b15-49c2-b060-27b85fe0b197}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
+    <Import Project="..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets" Condition="Exists('..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets')" />
+  </ImportGroup>
+</Project>

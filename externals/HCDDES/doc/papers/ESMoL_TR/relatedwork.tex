@@ -1,0 +1,70 @@
+
+\section{Related Work: Languages and Tools for Embedded Systems Design}
+
+A number of projects seek to bring together 
+tools and techniques which can automate different
+aspects of high-confidence distributed control system design and analysis:
+
+\begin{itemize}
+
+\item AADL is a textual language and standard for 
+specifying deployments of control system designs in data 
+networks\cite{modeling:aadl_control_systems}.  AADL 
+projects also include integration with the Cheddar 
+scheduling tool\cite{sched:aadl_sched}. Cheddar is 
+an extensible analysis framework which includes a 
+number of classic real-time scheduling 
+algorithms\cite{sched:cheddar}.
+
+\item Giotto\cite{modeling:giotto3} is a modeling 
+language for time-triggered tasks running on a single 
+processor.  Giotto uses a simple greedy algorithm to 
+compute schedules.   The TDL (Timing 
+Definition Language) is a successor to Giotto, and 
+extends the language and tools with the notion of 
+modules (software components)\cite{timed:tdl}.  One version 
+of a TDL scheduler determines acceptable communication windows 
+in the schedule for all modes, and attempts to assign bus 
+messages to those windows\cite{timed:tdlflexray}.
+
+\item The Metropolis modeling framework\cite{modeling:metropolis} 
+aims to give designers tools to create verifiable system models.  
+Metropolis integrates with SystemC, the SPIN model-checking tool, 
+and other tools for schedule and timing analysis. 
+
+\item Topcased\cite{tools:Topcased} is a large tool integration effort
+centering around UML software design languages and integration of
+formal tools.
+
+\item Several independent efforts have used the synchronous 
+language Lustre as a model translation target 
+(e.g. \cite{modeling:lustre2} and \cite{modeling:lustre1}) 
+for deadlock and timing analysis.
+
+\item RTComposer\cite{modeling:rtcomposer} is a 
+modeling, analysis, and runtime framework built on 
+automata models.  It aims to provide compositional 
+construction of schedulers subject to requirements 
+specifications.  Requirements in RTComposer can be 
+given as automata or temporal logic specifications.  
+
+\item The DECOS toolchain \cite{modeling:decos} 
+combines a number of existing modeling tools (e.g. the 
+TTTech tools, SCADE from Esterel Technologies, 
+and others) but the hardware platform modeling 
+and analysis aspects are not covered.
+
+\end{itemize}
+
+We are creating a modeling language to experiment with design decoupling 
+techniques, integration of heterogeneous tools, 
+and rapid analysis and deployment.  Many of the 
+listed projects are too large to allow 
+experimentation with the toolchain structure, and 
+standardization does not favor experimentation 
+with syntax or semantics.  Due to its experimental nature 
+some parts of our language and tool infrastructure 
+change very frequently.  As functionality expands we 
+may seek integration with existing tools or standards as appropriate.
+
+

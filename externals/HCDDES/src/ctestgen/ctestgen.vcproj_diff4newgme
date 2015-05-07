@@ -1,0 +1,50 @@
+Index: ctestgen.vcproj
+===================================================================
+--- ctestgen.vcproj	(revision 2690)
++++ ctestgen.vcproj	(working copy)
+@@ -44,7 +44,7 @@
+ 				Name="VCCLCompilerTool"
+ 				UseUnicodeResponseFiles="false"
+ 				Optimization="0"
+-				AdditionalIncludeDirectories=".;../../../generated/ctestgen/generated;../../include;&quot;$(BOOST_PATH)&quot;;&quot;$(UDM_PATH)\include&quot;;&quot;$(GREAT_PATH)\tmp&quot;;&quot;$(XERCES_PATH)/include&quot;;&quot;$(GREAT_PATH)\etc&quot;"
++				AdditionalIncludeDirectories=".;../../../generated/ctestgen/generated;../../include;&quot;$(BOOST_PATH)&quot;;&quot;$(UDM_PATH)\include&quot;;&quot;$(GREAT_PATH)\tmp&quot;;&quot;$(XERCES_PATH)/include&quot;;&quot;$(GREAT_PATH)\etc&quot;;&quot;$(GREAT_PATH)\include&quot;"
+ 				PreprocessorDefinitions="_DEBUG;WIN32;_CONSOLE;UDM_DYNAMIC_LINKING;PRINT_INFO"
+ 				ExceptionHandling="1"
+ 				BasicRuntimeChecks="3"
+@@ -76,11 +76,11 @@
+ 				Name="VCLinkerTool"
+ 				LinkLibraryDependencies="true"
+ 				UseUnicodeResponseFiles="false"
+-				AdditionalDependencies="UdmDlld.lib SFCUdmEngineD.lib stringExtD.lib"
++				AdditionalDependencies="UdmDlld.lib SFCUdmEngineD.lib stringExtD.lib RTTGeneratorD.lib GReATUtilsD.lib"
+ 				OutputFile="$(OutDir)\ctestgend.exe"
+ 				LinkIncremental="1"
+ 				SuppressStartupBanner="true"
+-				AdditionalLibraryDirectories="&quot;$(UDM_PATH)\lib&quot;;&quot;$(GREAT_PATH)\tmp&quot;;&quot;$(BOOST_PATH)\lib&quot;;..\..\lib"
++				AdditionalLibraryDirectories="&quot;$(UDM_PATH)\lib&quot;;&quot;$(GREAT_PATH)\lib&quot;;&quot;$(GREAT_PATH)\tmp&quot;;&quot;$(BOOST_PATH)\lib&quot;;..\..\lib"
+ 				GenerateDebugInformation="true"
+ 				ProgramDatabaseFile="$(TargetDir)$(TargetName).pdb"
+ 				SubSystem="1"
+@@ -138,7 +138,7 @@
+ 			<Tool
+ 				Name="VCCLCompilerTool"
+ 				Optimization="3"
+-				AdditionalIncludeDirectories=".;../../../generated/ctestgen/generated;../../include;&quot;$(BOOST_PATH)&quot;;&quot;$(UDM_PATH)\include&quot;;&quot;$(GREAT_PATH)\tmp&quot;;&quot;$(XERCES_PATH)/include&quot;;&quot;$(GREAT_PATH)\etc&quot;"
++				AdditionalIncludeDirectories=".;../../../generated/ctestgen/generated;../../include;&quot;$(BOOST_PATH)&quot;;&quot;$(UDM_PATH)\include&quot;;&quot;$(GREAT_PATH)\tmp&quot;;&quot;$(XERCES_PATH)/include&quot;;&quot;$(GREAT_PATH)\etc&quot;;&quot;$(GREAT_PATH)\include&quot;"
+ 				PreprocessorDefinitions="NDEBUG;WIN32;_CONSOLE;UDM_DYNAMIC_LINKING"
+ 				MinimalRebuild="false"
+ 				ExceptionHandling="1"
+@@ -168,11 +168,11 @@
+ 			/>
+ 			<Tool
+ 				Name="VCLinkerTool"
+-				AdditionalDependencies="UdmDll.lib SFCUdmEngine.lib stringExt.lib"
++				AdditionalDependencies="UdmDll.lib SFCUdmEngine.lib stringExt.lib RTTGenerator.lib GReATUtils.lib"
+ 				OutputFile="$(OutDir)\ctestgen.exe"
+ 				LinkIncremental="1"
+ 				SuppressStartupBanner="true"
+-				AdditionalLibraryDirectories="&quot;$(UDM_PATH)\lib&quot;;&quot;$(GREAT_PATH)\tmp&quot;;&quot;$(BOOST_PATH)\lib&quot;;..\..\lib"
++				AdditionalLibraryDirectories="&quot;$(UDM_PATH)\lib&quot;;&quot;$(GREAT_PATH)\lib&quot;;&quot;$(GREAT_PATH)\tmp&quot;;&quot;$(BOOST_PATH)\lib&quot;;..\..\lib"
+ 				GenerateDebugInformation="true"
+ 				SubSystem="1"
+ 				OptimizeReferences="2"

@@ -1,0 +1,50 @@
+1. The Dragon was a total loss -- it doesn't handle the ATMega128 for JTAG, 
+   only for programming.  That was really disappointing.
+
+2. Now on to troubleshoot the data flow, starting with the serial I/O.  We'll
+   have to do this the hard way, by pushing through each test point.
+
+   + It looks like the tasks are never getting to run.  According to the docs
+     for FreeRTOS, vTaskDelay is not reliable for periodic execution as it uses
+     only the offset from the time the task is called.  If the vTaskDelay 
+     function itself is delayed (for example, by interrupts) then the timing is
+     shot.  vTaskDelayUntil( ) solves that problem.  We'll try that instead.
+
+   + Did not fix the problem.  Trying commenting out all of the inbound data
+     movement on the robostix to see if we free up the task execution...
+
+   + Commenting out everything seems to have killed the I2C.  We need to 
+     try decreasing the amount of data coming in instead.  Putting back the
+     data movement code in UART...
+
+   + Trying just 9 bytes for each inbound message.  We'll ratchet it up...
+     The semaphore is now getting to run, but not the tasks.  Tried reverting 
+     the code to use relative delays, but it had no affect.  We went back to
+     absolute delays, since that should be the right thing.
+
+   + There is a window of about 8 ms for execution of the tasks, which should
+     be way too short.  Two things to try to get more information:
+     
+     1. Try commenting out the memcpy in the UART handler to see if that's 
+        taking up the time.  Actually reduced it to move only 1 byte.
+
+        Hmmm... no effect.  For some reason the loop doesn't seem to be doing
+        anything, not even waiting...  Removed the check.
+
+     2. Move the tasks up into the 8 ms window to see if they get run.
+
+        No go.
+
+     3. Remove all of the task delays (except the last one), and let the cycle
+        run as fast as possible.
+
+        Still no change.  Put the debug toggles on the task semaphore delivery.
+     
+     4. Put the delays back in, and removed the critical section protection
+        from the UART peripheral handler.
+
+        Things changed, but it's still about the same.
+
+     5. Gabor suggested that we go to the simulator.
+
+

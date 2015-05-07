@@ -1,0 +1,3803 @@
+@inproceedings{TripakisStergiouLublinerman10_CheckingNonInterferenceInSPMDPrograms,
+    author = {Stavros Tripakis and Christos Stergiou and Roberto
+              Lublinerman},
+    title = {Checking Non-Interference in SPMD Programs},
+    booktitle = {2nd USENIX Workshop on Hot Topics in Parallelism
+              (HotPar 2010)},
+    pages = {1-6},
+    month = {June},
+    year = {2010},
+    abstract = {We study one of the basic multicore and GPU
+              programming models, namely, SPMD (Single-Program
+              Multiple-Data) programs. We define a formal model
+              of SPMD programs based on interleaving threads
+              that manipulate global and local arrays, and
+              synchronize via barriers. SPMD programs are
+              written with the intention to be deterministic,
+              although programming errors may result in this not
+              being true. SPMD programs are also frequently
+              modified toward optimal performance. These facts
+              motivate the need for methods to check determinism
+              and program equivalence. A key property in
+              achieving this is non-interference. We formulate
+              non-interference as validity of logical formulas
+              automatically derived from the program, we show
+              that non-interference implies determinism, and we
+              report on a prototype that can prove
+              non-interference of NVIDIA CUDA programs.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/663.html}
+}
+
+@techreport{MayLeeJones11_StrategicDirectionsInSoftwareAtScale,
+    author = {Michael J. May and Edward A. Lee and Lindsay E.
+              Jones},
+    title = {Strategic Directions in Software At Scale},
+    institution = {Office of Information Systems \& Cyber Security
+              (ISCS), Office of the Director, Defense Research \&
+              Engineering (DDR\&E)},
+    number = {DDRE-ISCS-2010-1},
+    month = {November},
+    year = {2011},
+    note = {The presentations from the workshop may be found
+              at \href{http://chess.eecs.berkeley.edu/conferences/10/SDISAS/}{http://chess.eecs.berkeley.edu/conferences/10/SDISAS/}},
+    abstract = {
+
+In August 2010, the Office of Information Systems and Cyber Security (ISCS) within the Office of the Director, Defense Research and Engineering (DDR\&E) sponsored the Strategic Directions in Software at Scale (SaS) Workshop. The SaS Workshop was hosted by the University of California, Berkeley. The goals of the workshop were to:
+ 
+
+    * Identify new ideas and promising research directions in software engineering and computer science achievable in the short-, mid-, and long-term.
+    * Identify opportunities for collaboration and engage in rich intellectual exchange of technical ideas.
+    * Create a foundation for developing a DoD roadmap for SaS.
+    * Begin to build a case for increasing DoD investment in software engineering and computer science research to strengthen the DoD’s software technology base.
+
+ 
+
+Fifteen invited speakers gave presentations in the areas of software synthesis, robust and continuous behavior, temporal semantics, scalable composition, and software engineering process and methodology. Each speaker advocated a particular technical approach that could be the basis for a “Strategic Direction” in future software research. To capture the quality and promise of the technical approaches, attendees were asked to rate each presentation with respect to six evaluation criteria.
+ 
+
+The overall best technical approaches, as assessed by the attendees, were "Temporal Semantics in Concurrent and Distributed Software"—Edward Lee, "Is Distributed Consistency Scalable?"—Ken Birman, and "The Effect of Software (and Communication) Reliability and Security on Control Systems"—Bruno Sinopoli.
+},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/799.html}
+}
+
+@misc{LeeTripakis10_ModalModelsInPtolemyPresentation,
+    author = {Edward A. Lee and Stavros Tripakis},
+    title = {Modal Models in {Ptolemy}},
+    day = {3},
+    month = {October},
+    year = {2010},
+    note = {Workshop on Equation-Based Object-Oriented
+              Modeling Languages and Tools, in conjunction with
+              MODELS. \href{http://chess.eecs.berkeley.edu/pubs/708.html}{http://chess.eecs.berkeley.edu/pubs/708.html}},
+    abstract = {(No abstract.)},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/708.html}
+}
+
+@inproceedings{LeeTripakis10_ModalModelsInPtolemyProceedings,
+    author = {Edward A. Lee and Stavros Tripakis},
+    title = {Modal Models in {Ptolemy}},
+    booktitle = {Proceedings of 3rd International Workshop on
+              Equation-Based Object-Oriented Modeling Languages
+              and Tools (EOOLT 2010)},
+    pages = {1-11},
+    month = {October},
+    year = {2010},
+    abstract = {Ptolemy is an open-source and extensible modeling
+              and simulation framework. It offers heterogeneous
+              modeling capabilities by allowing different models
+              of computation to be composed hierarchically in an
+              arbitrary fashion. This paper describes modal
+              models, which allow to hierarchically compose
+              finite-state machines with other models of
+              computation, both untimed and timed. The semantics
+              of modal models in Ptolemy are defined in a
+              modular manner.},
+    note = {\href{http://chess.eecs.berkeley.edu/pubs/700.html}{http://chess.eecs.berkeley.edu/pubs/700.html}},                  
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/700.html}
+}
+
+
+@misc{EidsonLeeMaticSeshiaZou10_TimeCentricModelForCyberPhysicalApplicationsPresentation,
+    author = {John Eidson and Edward A. Lee and Slobodan Matic
+              and Sanjit A. Seshia and Jia Zou},
+    title = {A Time-Centric Model for Cyber-Physical
+              Applications},
+    day = {4},
+    month = {October},
+    year = {2010},
+    note = {3rd International Workshop on Model Based
+              Architecting and Construction of Embedded Systems
+              (ACESMB 2010). In conjunction with
+              MODELS Oslo, Norway, October 4, 2010. \href{http://chess.eecs.berkeley.edu/pubs/707.html}{http://chess.eecs.berkeley.edu/pubs/707.html}},
+    abstract = {(No abstract.)},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/707.html}
+}
+
+@techreport{GeilenTripakisWiggers10_EarlierBetterTheoryOfTimedActorInterfaces,
+    author = {Marc Geilen and Stavros Tripakis and Maarten
+              Wiggers},
+    title = {The Earlier the Better: A Theory of Timed Actor
+              Interfaces},
+    institution = {UC Berkeley},
+    number = {UCB/EECS-2010-130},
+    month = {October},
+    year = {2010},
+    abstract = {Programming embedded and cyber-physical systems
+              requires attention not only to functional behavior
+              and correctness, but also to non-functional
+              aspects and specifically timing and performance
+              constraints. A structured, compositional,
+              model-based approach based on stepwise refinement
+              and abstraction techniques can support the
+              development process, increase its quality and
+              reduce development time through automation of
+              synthesis, analysis or verification. For this
+              purpose, we introduce in this paper a general
+              theory of timed actor interfaces. Our theory
+              supports a notion of refinement that is based on
+              the principle of worst-case design that permeates
+              the world of performance-critical systems. This is
+              in contrast with the classical behavioral and
+              functional refinements based on restricting or
+              enlarging sets of behaviors. An important feature
+              of our refinement is that it allows
+              time-deterministic abstractions to be made of
+              time-non-deterministic systems, improving
+              efficiency and reducing complexity of formal
+              analysis. We also show how our theory relates to,
+              and can be used to reconcile a number of existing
+              time and performance models and how their
+              established theories can be exploited to represent
+              and analyze interface specifications and
+              refinement steps.},
+    note = {\href{http://chess.eecs.berkeley.edu/pubs/705.html}{http://chess.eecs.berkeley.edu/pubs/705.html}},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/705.html}
+}
+
+@inproceedings{Lee10_DisciplinedHeterogeneousModelingProceedings,
+    author = {Edward A. Lee},
+    title = {Disciplined Heterogeneous Modeling},
+    booktitle = {Proceedings of the ACM/IEEE 13th International
+              Conference on Model Driven Engineering, Languages,
+              and Systems (MODELS)},
+    editor = {D.C. Petriu, N. Rouquette, O. Haugen},
+    organization = {IEEE},
+    pages = {273-287},
+    day = {3},
+    month = {October},
+    year = {2010},
+    abstract = {Complex systems demand diversity in the modeling
+              mechanisms. One way to deal with a diversity of
+              requirements is to create flexible modeling
+              frameworks that can be adapted to cover the field
+              of interest. The downside of this approach is a
+              weakening of the semantics of the modeling
+              frameworks that compromises interoperability,
+              understandability, and analyzability of the
+              models. An alternative approach is to embrace
+              heterogeneity and to provide mechanisms for a
+              diversity of models to interact. This paper
+              reviews an approach that achieves such interaction
+              between diverse models using an abstract
+              semantics, which is a deliberately incomplete
+              semantics that cannot by itself define a useful
+              modeling framework. It instead focuses on the
+              interactions between diverse models, reducing the
+              nature of those interactions to a minimum that
+              achieves a well-defined composition. An example of
+              such an abstract semantics is the actor semantics,
+              which can handle many heterogeneous models that
+              are built today, and some that are not common
+              today. The actor abstract semantics and many
+              concrete semantics have been implemented in
+              Ptolemy II, an open-source software framework
+              distributed under a BSD-style license.},
+    note = {\href{http://chess.eecs.berkeley.edu/pubs/679.html}{http://chess.eecs.berkeley.edu/pubs/679.html}},                  
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/679.html}
+}
+
+@misc{Lee10_DisciplinedHeterogeneousModelingPresentation,
+    author = {Edward A. Lee},
+    title = {Disciplined Heterogeneous Modeling},
+    day = {6},
+    month = {October},
+    year = {2010},
+    note = {Invited Keynote Talk, MODELS 2010, Oslo, Norway,
+              October 6-8, 2010.
+   \href{http://chess.eecs.berkeley.edu/pubs/706.html}{http://chess.eecs.berkeley.edu/pubs/706.html}},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/706.html}
+}
+
+@misc{Lee10_SynthesisOfReliableDistributedRealTimeSoftware,
+    author = {Edward A. Lee},
+    title = {Synthesis of Reliable Distributed Real-Time
+              Software},
+    day = {29},
+    month = {October},
+    year = {2010},
+    note = {Invited Keynote Talk, Workshop on Software
+              Synthesis, ESWeek 2010, Scottsdale, AZ. \href{http://chess.eecs.berkeley.edu/pubs/795.html}{http://chess.eecs.berkeley.edu/pubs/795.html}},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/795.html}
+}
+
+@inproceedings{FengLeeSchruben10_PteraEventOrientedModelOfComputationForHeterogeneousPaper,
+    author = {Thomas Huining Feng and Edward A. Lee and Lee W.
+              Schruben},
+    title = {Ptera: An Event-Oriented Model of Computation for
+              Heterogeneous Systems},
+    booktitle = {EMSOFT},
+    organization = {ACM Press},
+    pages = {219-228},
+    day = {24},
+    month = {October},
+    year = {2010},
+    abstract = {Many modeling techniques for embedded systems
+              focus on events that occur in time and the
+              causality relationships between them.
+              Event-oriented modeling complements
+              class-oriented, object-oriented, actor-oriented
+              and state-oriented approaches. To facilitate
+              event-oriented modeling, we have extended an older
+              established model called event graphs to define
+              new model of computation that we call Ptera
+              (Ptolemy event relationship actors). Ptera is
+              appropriate for modeling complex discrete-event
+              systems. A key capability is that Ptera models
+              conform with an actor abstract semantics that
+              permits hierarchical composition with other models
+              of computation such as discrete-event actors, data
+              ow, process networks and nite state machines.
+              This enables their use in complex system design,
+              where not every aspect of the system is best
+              described with event-oriented modeling.},
+    note = {\href{http://chess.eecs.berkeley.edu/pubs/680.html}{http://chess.eecs.berkeley.edu/pubs/680.html}},                  
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/680.html}
+}
+                  
+@misc{FengLeeSchruben10_PteraEventOrientedModelOfComputationForHeterogeneousPresentation,
+    author = {Thomas Huining Feng and Edward A. Lee and Lee W.
+              Schruben},
+    title = {Ptera: An Event-Oriented Model of Computation for
+              Heterogeneous Systems},
+    day = {24},
+    month = {October},
+    year = {2010},
+    note = {Presented at EMSOFT 2010, Scottsdale, AZ. \href{http://chess.eecs.berkeley.edu/pubs/768.html}{http://chess.eecs.berkeley.edu/pubs/768.html}},
+    abstract = {(No abstract.)},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/768.html}
+}
+
+@misc{BrooksLeeTripakis10_ExploringModelsOfComputationWithPtolemyII,
+    author = {Christopher Brooks and Edward A. Lee and Stavros
+              Tripakis},
+    title = {Exploring Models of Computation with {Ptolemy} {II}},
+    day = {24},
+    month = {October},
+    year = {2010},
+    note = {Tutorial, ESWeek 2010, Scottsdale,
+              AZ. \href{http://chess.eecs.berkeley.edu/pubs/712.html}{http://chess.eecs.berkeley.edu/pubs/712.html}},
+    abstract = {The Ptolemy project studies modeling, simulation,
+              and design of concurrent, real-time, embedded
+              systems. The focus is on assembly of concurrent
+              components. The key underlying principle in the
+              project is the use of well-defined models of
+              computation that govern the interaction between
+              components. A major problem area being addressed
+              is the use of heterogeneous mixtures of models of
+              computation. Ptolemy II takes a component view of
+              design, in that models are constructed as a set of
+              interacting components. A model of computation
+              governs the semantics of the interaction, and thus
+              imposes an execution-time discipline. Ptolemy II
+              has implementations of many models of computation
+              including Synchronous Data Flow, Kahn Process
+              Networks, Discrete Event, Continuous Time,
+              Synchronous/ Reactive and Modal Models This
+              hands-on tutorial explores how these models of
+              computation are implemented in Ptolemy II and how
+              to create new models of computation such as a
+              “non-dogmatic” Process Networks example and a
+              left-to-right execution policy example.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/712.html}
+}
+
+
+@misc{PtolemyII801,
+    author = {Edward A. Lee and Christopher Brooks and Thomas
+              Huining Feng and Jackie Man-Kit Leung and Bert
+              Rodiers and Kyungmin Bae and Chad Berkley and
+              Chihhong Cheng and Teale Fristoe and Shanna-Shaye
+              Forbes and Hauke Fuhrmann and Ben Lickly and Isaac
+              Liu and Michael Wetter},
+    title = {Ptolemy {II} 8.0.1: An open-source software
+              framework supporting experimentation with
+              actor-oriented design},
+    institution = {University of California, Berkeley},
+    day = {28},
+    month = {October},
+    year = {2010},
+    abstract = {Ptolemy II is an open-source software framework
+              supporting experimentation with actor-oriented
+              design. Actors are software components that
+              execute concurrently and communicate through
+              messages sent via interconnected ports. A model is
+              a hierarchical interconnection of actors. In
+              Ptolemy II, the semantics of a model is not
+              determined by the framework, but rather by a
+              software component in the model called a director,
+              which implements a model of computation. The
+              Ptolemy Project has developed directors supporting
+              process networks (PN), discrete-events (DE),
+              dataflow (SDF), synchronous/reactive(SR),
+              rendezvous-based models, 3-D visualization, and
+              continuous-time models. Each level of the
+              hierarchy in a model can have its own director,
+              and distinct directors can be composed
+              hierarchically. A major emphasis of the project
+              has been on understanding the heterogeneous
+              combinations of models of computation realized by
+              these directors. Directors can be combined
+              hierarchically with state machines to make modal
+              models. A hierarchical combination of
+              continuous-time models with state machines yields
+              hybrid systems ; a combination of
+              synchronous/reactive with state machines yields
+              StateCharts (the Ptolemy II variant is close to
+              SyncCharts). 
+
+Ptolemy II 8.0.1 includes
+
+    * Model Transformation - a framework for the analysis and transformation of actor models using model transformation techniques.
+      Primary Developer: Thomas Huining Feng
+    * Ptera (Ptolemy Event Relationship Actor) Domain
+      Primary Developer: Thomas Huining Feng
+    * Causality Analysis: Updates to our non-conservative causality analysis for modal models within discrete-event (DE) systems.
+      Primary Developers: Edward A. Lee, Ye Zhou
+    * Continuous and Modal Domains: a substantial rework of modal models and the underlying finite state machine infrastructure to make them work predictably and consistently across domains.
+      Primary Developers: Haiyang Zheng, Edward A. Lee
+
+ },
+    note = {\href{http://chess.eecs.berkeley.edu/pubs/713.html}{http://chess.eecs.berkeley.edu/pubs/713.html}},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/713.html}
+}
+
+@misc{Lee10_IntroductoryTextbookOnCyberPhysicalSystems,
+    author = {Edward A. Lee},
+    title = {An Introductory Textbook on Cyber-Physical Systems},
+    day = {28},
+    month = {October},
+    year = {2010},
+    note = {Invited Keynote Address, Workshop on
+              Embedded Systems Education (WESE), at ESWeek 2010, Scottsdale, AZ. \href{http://chess.eecs.berkeley.edu/pubs/767.html}{http://chess.eecs.berkeley.edu/pubs/767.html}},
+    abstract = {(No abstract.)},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/767.html}
+}
+
+@misc{Lee10_ComputingNeedsTime_ENSEEIHT,
+    author = {Edward A. Lee},
+    title = {Computing Needs Time},
+    day = {2},
+    month = {November},
+    year = {2010},
+    note = {Invited presentation at the Working
+              Day on Time-oriented Embedded Systems at
+              ENSEEIHT, Toulouse, France.
+                  \href{http://chess.eecs.berkeley.edu/pubs/792.html}{http://chess.eecs.berkeley.edu/pubs/792.html}
+},
+    abstract = {Cyber-Physical Systems (CPS) are integrations of
+              computation and physical processes. Embedded
+              computers and networks monitor and control the
+              physical processes, usually with feedback loops
+              where physical processes affect computations and
+              vice versa. The prevailing abstractions used in
+              computing, however, do not mesh well with the
+              physical world. Most critically, software systems
+              speak about the passage of time only very
+              indirectly and in non-compositional ways. This
+              talk examines the obstacles in software
+              technologies that are impeding progress, and in
+              particular raises the question of whether today's
+              computing and networking technologies provide an
+              adequate foundation for CPS. It argues that it
+              will not be sufficient to improve design
+              processes, raise the level of abstraction, or
+              verify (formally or otherwise) designs that are
+              built on today's abstractions. To realize the full
+              potential of CPS, we will have to rebuild software
+              abstractions. These abstractions will have to
+              embrace physical dynamics and computation in a
+              unified way. This talk will discuss research
+              challenges and potential solutions, with
+              particular focus on two projects at Berkeley, PRET
+              (which is developing computer architectures with
+              temporal semantics) and PTIDES (which provides a
+              programming model for distributed real-time
+              systems).},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/792.html}
+}
+
+@misc{Lee10_ComputingNeedsTime_WUSTL,
+    author = {Edward A. Lee},
+    title = {Computing Needs Time},
+    day = {12},
+    month = {November},
+    year = {2010},
+    note = {Distinguished
+              Lecture Series on Cyber-Physical Systems,
+              Washington University, St. Louis.
+         \href{http://chess.eecs.berkeley.edu/pubs/793.html}{http://chess.eecs.berkeley.edu/pubs/793.html}},
+    abstract = {Cyber-Physical Systems (CPS) are integrations of
+              computation and physical processes. Embedded
+              computers and networks monitor and control the
+              physical processes, usually with feedback loops
+              where physical processes affect computations and
+              vice versa. The prevailing abstractions used in
+              computing, however, do not mesh well with the
+              physical world. Most critically, software systems
+              speak about the passage of time only very
+              indirectly and in non-compositional ways. This
+              talk examines the obstacles in software
+              technologies that are impeding progress, and in
+              particular raises the question of whether today's
+              computing and networking technologies provide an
+              adequate foundation for CPS. It argues that it
+              will not be sufficient to improve design
+              processes, raise the level of abstraction, or
+              verify (formally or otherwise) designs that are
+              built on today's abstractions. To realize the full
+              potential of CPS, we will have to rebuild software
+              abstractions. These abstractions will have to
+              embrace physical dynamics and computation in a
+              unified way. This talk will discuss research
+              challenges and potential solutions.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/793.html}
+}
+
+@misc{Lee10_ComputingNeedsTime_Purdue,
+    author = {Edward A. Lee},
+    title = {Computing Needs Time},
+    day = {6},
+    month = {December},
+    year = {2010},
+    note = {Presented at the Distinguished Systems Speakers
+              Series, Purdue University. 
+            \href{http://chess.eecs.berkeley.edu/pubs/796.html}{http://chess.eecs.berkeley.edu/pubs/796.html}},
+    abstract = {Cyber-Physical Systems (CPS) are integrations of
+              computation and physical processes. Embedded
+              computers and networks monitor and control the
+              physical processes, usually with feedback loops
+              where physical processes affect computations and
+              vice versa. The prevailing abstractions used in
+              computing, however, do not mesh well with the
+              physical world. Most critically, software systems
+              speak about the passage of time only very
+              indirectly and in on-compositional ways. This talk
+              examines the obstacles in software technologies
+              that are impeding progress, and in particular
+              raises the question of whether today's computing
+              and networking technologies provide an adequate
+              foundation for CPS. It argues that it will not be
+              sufficient to improve design processes, raise the
+              level of abstraction, or verify (formally or
+              otherwise) designs that are built on today's
+              abstractions. To realize the full potential of
+              CPS, we will have to rebuild software
+              abstractions. These abstractions will have to
+              embrace physical dynamics and computation in a
+              unified way. This talk will discuss research
+              challenges and potential solutions.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/796.html}
+}
+
+
+                  
+@misc{Lee10_ComputingNeedsTime_VT,
+    author = {Edward A. Lee},
+    title = {Computing Needs Time},
+    day = {10},
+    month = {December},
+    year = {2010},
+    note = {Presented at the Center for Embedded Systems --
+              Distinguished Lecture Series, Virginia Tech.
+              \href{http://chess.eecs.berkeley.edu/pubs/797.html}{http://chess.eecs.berkeley.edu/pubs/797.html}},
+    abstract = {Cyber-Physical Systems (CPS) are integrations of
+              computation and physical processes. Embedded
+              computers and networks monitor and control the
+              physical processes, usually with feedback loops
+              where physical processes affect computations and
+              vice versa. The prevailing abstractions used in
+              computing, however, do not mesh well with the
+              physical world. Most critically, software systems
+              speak about the passage of time only very
+              indirectly and in non-compositional ways. This
+              talk examines the obstacles in software
+              technologies that are impeding progress, and in
+              particular raises the question of whether today's
+              computing and networking technologies provide an
+              adequate foundation for CPS. It argues that it
+              will not be sufficient to improve design
+              processes, raise the level of abstraction, or
+              verify (formally or otherwise) designs that are
+              built on today's abstractions. To realize the full
+              potential of CPS, we will have to rebuild software
+              abstractions. These abstractions will have to
+              embrace physical dynamics and computation in a
+              unified way. This talk will discuss research
+              challenges and potential solutions. },
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/797.html}
+}
+                  
+@misc{Lee10_PredictabilityRepeatabilityModelsForCyberPhysical,
+    author = {Edward A. Lee},
+    title = {Predictability, Repeatability, and Models for
+              Cyber-Physical Systems},
+    day = {24},
+    month = {October},
+    year = {2010},
+    note = {Invited talk, Workshop on Foundations of Component Based Design (WFCD), at ESWeek 1010, Scottsdale, AZ. \href{http://chess.eecs.berkeley.edu/pubs/798.html}{http://chess.eecs.berkeley.edu/pubs/798.html}},
+    abstract = {To be able to analyze and control the joint
+              dynamics of software, networks, and physical
+              processes, engineers need to be able to analyze
+              and control the temporal behavior of software and
+              networks. Most real-time systems techniques aim to
+              do this by focusing on predicting execution time
+              bounds through program analysis and architectural
+              modeling. In this talk, I attempt to give a
+              rigorous meaning to "prediction" in this context,
+              and argue that what engineers need is not
+              predictability so much as repeatability. The
+              argument relies on the observation that Boolean
+              properties (properties that are either satisfied
+              or not satisfied) are necessarily properties of
+              models and not properties of the physical
+              realizations of systems. Predictability is about
+              the ability to anticipate whether properties will
+              be satisfied, whereas repeatability is about the
+              ability of a physical realization to deliver
+              consistent behavior.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/798.html}
+}
+
+@misc{EidsonLeeMaticSeshiaZou10_PTIDESDiscreteEventBasedProgrammingModelForDistributed,
+    author = {John Eidson and Edward A. Lee and Slobodan Matic
+              and Sanjit A. Seshia and Jia Zou},
+    title = {PTIDES: A Discrete-Event-Based Programming Model
+              for Distributed Embedded Systems},
+    day = {24},
+    month = {October},
+    year = {2010},
+    note = {in Tutorial on Modeling and Analyzing Real-Time Multiprocessor Systems,
+at ESWeek 2010, Scottsdale, AZ
+        \href{http://chess.eecs.berkeley.edu/pubs/769.html}{http://chess.eecs.berkeley.edu/pubs/769.html}},
+    abstract = {(No abstract.)},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/769.html}
+}
+                  
+@book{LeeSeshia10_IntroductionToEmbeddedSystemsCyberPhysicalSystemsApproach,
+    author = {Edward A. Lee and Sanjit A. Seshia},
+    title = {Introduction to Embedded Systems - A
+              Cyber-Physical Systems Approach},
+    publisher = {Lee and Seshia},
+    edition = {1},
+    year = {2010},
+    isbn = {978-0-557-70857-4},
+    abstract = {This book is intended for students at the advanced
+              undergraduate level or the introductory graduate
+              level, and for practicing engineers and computer
+              scientists who wish to understand the engineering
+              principles of embedded systems. },
+    note = {{\href{http://leeseshia.org}{http://leeseshia.org}}},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/794.html}
+}
+
+
+
+
+@misc{Lee10_TemporalSemanticsInConcurrentDistributedSoftware,
+    author = {Edward A. Lee},
+    title = {Temporal Semantics in Concurrent and Distributed
+              Software},
+    day = {19},
+    month = {August},
+    year = {2010},
+    note = {Presented at the Strategic
+              Directions in Software at Scale (SaS),
+              Berkeley, CA.  \href{http://chess.eecs.berkeley.edu/pubs/685.html}{http://chess.eecs.berkeley.edu/pubs/685.html}},
+    abstract = {(from Workshop Goals) Cyber-physical systems
+              integrate computing and networking with physical
+              processes. The temporal dynamics of software and
+              networks becomes critical to predicting and
+              controlling the interactions of system components.
+              But software abstractions omit time. The theme of
+              this discussion is to investigate the potential
+              impact and technical implications of modifying
+              these abstractions to embrace temporal dynamics.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/685.html}
+}
+
+
+
+@inproceedings{Murawski02,
+	location = {http://www.scientificcommons.org/42646541},
+	title = {Static monotonicity analysis for $\lambda$-definable functions over lattices},
+	author = {Andrzej S. Murawski and Kwangkeun Yi},
+	year = {2002},
+	abstract = {Abstract. We employ static analysis to examine monotonicity of functions defined over lattices in a λ-calculus augmented with constants, branching, meets, joins and recursive definitions. The need for such a verification procedure has recently arisen in our work on a static analyzer generator called Zoo, in which the specification of static analysis (input to Zoo) consists of finite-height lattice definitions and function definitions over the lattices. Once monotonicity of the functions is ascertained, the generated analyzer is guaranteed to terminate. 1},
+         booktitle = {Revised Papers from the Third International Workshop on Verification, Model Checking, and Abstract Interpretation},
+        series = {VMCAI '02},
+        isbn = {3-540-43631-6},
+        pages = {139--153},
+	publisher = {Springer-Verlag},
+}
+
+
+
+                  
+@inproceedings{ZhaoLiuLee07_ProgrammingModelForTimeSynchronizedDistributedRealTime,
+          author = {Yang Zhao and Jie Liu and Edward A. Lee},
+          title = {A Programming Model for Time-Synchronized
+                    Distributed Real-Time Systems},
+          booktitle = {13th IEEE  Real Time and Embedded Technology and
+                    Applications Symposium, 2007. RTAS '07},
+          pages = {259 - 268},
+          month = {April},
+          year = {2007},
+          note = {\href{http://chess.eecs.berkeley.edu/pubs/325.html}{http://chess.eecs.berkeley.edu/pubs/325.html}},
+          abstract = {Discrete-event (DE) models are formal system
+                    specifications that have analyzable deterministic
+                    behaviors. Using a global, consistent notion of
+                    time, DE components communicate via time-stamped
+                    events. DE models have primarily been used in
+                    performance modeling and simulation, where time
+                    stamps are a modeling property bearing no
+                    relationship to real time during execution of the
+                    model. In this paper, we extend DE models with the
+                    capability of relating certain events to physical
+                    time. We propose a programming model, called
+                    PTIDES (Programming Temporally Integrated
+                    Distributed Embedded Systems), which has DE
+                    semantics, but with carefully chosen relations
+                    between model time and real time. Key to making
+                    this model effective is to ensure that constraints
+                    that guarantee determinacy in the semantics are
+                    preserved at runtime. To accomplish this, we give
+                    a distributed execution strategy that obeys DE
+                    semantics without the penalty of totally ordered
+                    executions based on time stamps. Our technique
+                    relies on having a distributed common notion of
+                    time, known to some precision. Based on causality
+                    analysis of DE models, we define relevant
+                    dependency and relevant orders to enable
+                    out-of-order execution without compromising
+                    determinism and without requiring backtracking.},
+          howpublished = {http://chess.eecs.berkeley.edu/pubs/325.html}
+      }
+
+@inproceedings{DerlerFengLeeMaticPatelZhaoZou08_PTIDESProgrammingModelForDistributedRealTimeEmbedded,
+          author = {Patricia Derler and Thomas Huining Feng and Edward
+                    A. Lee and Slobodan Matic and Hiren Patel and Yang
+                    Zhao and Jia Zou},
+          title = {PTIDES: A Programming Model for Distributed
+                    Real-Time Embedded Systems},
+          booktitle = {RTSS'08},
+          pages = {submitted},
+          month = {May},
+          year = {2008},
+          abstract = {We describe a programming model called PTIDES
+                    (Pro-gramming Temporally Integrated Distributed
+                    Embedded Sys-tems), that extends the
+                    discrete-event model of computation with a
+                    carefully chosen relationship between real time
+                    and model time. PTIDES provides a framework for
+                    exploring a family of execution strategies for
+                    distributed embedded systems. Our objective in
+                    this paper is to present an execution strategy
+                    that 1) allows independent events to be processed
+                    out of time stamp order, 2) uses clock synchro-
+                    nization as a replacement for null message
+                    communication across distributed platforms, 3)
+                    defines a notion of when events are safe to
+                    process and 4) presents an implementation of a
+                    PTIDES model. This work puts forward an execution
+                    strategy that is aggressive in concurrent
+                    execution of events.},
+          howpublished = {http://chess.eecs.berkeley.edu/pubs/448.html}
+      }                  
+                  
+@phdthesis{Feng:EECS-2009-77,
+    Author = {Feng, Thomas Huining},
+    Title = {Model Transformation with Hierarchical Discrete-Event Control},
+    School = {EECS Department, University of California, Berkeley},
+    Year = {2009},
+    Month = {May},
+    howpublished = {http://www.eecs.berkeley.edu/Pubs/TechRpts/2009/EECS-2009-77.html},
+    Number = {UCB/EECS-2009-77},
+    Abstract = {In this dissertation I present my work on a flexible and efficient model transformation technique, which includes a transformation engine and a formal and expressive control language.
+
+I define a basic transformation with a transformation rule, which describes the relationship between input models and the result of the transformation. I invent a syntax for transformation rules, which is close to the modeling language that designers use to create the input models. This makes it convenient for the designers to use the technology. The semantics of transformation rules is defined based on graph transformation theory. To improve flexibility over traditional approaches, I introduce extensions to allow complex transformation rules with variable structures to be specified with compact higher-order descriptions.
+
+A transformation workflow consists of basic transformations controlled in a control language. Existing control languages include finite state machines and dataflow diagrams. Realizing their limitations in expressiveness and efficiency, I create the Ptera (Ptolemy event relationship actor) model of computation based on event graphs. I show that Ptera is an appropriate control language for transformation workflows. It allows transformation tasks to be composed hierarchically. The event queue and the notion of model time enable the scheduling of future tasks. By using a shared variable to represent the model under transformation, the overhead caused by communication with transient data packages is eliminated.
+
+The research has a wide range of practical applications. I demonstrate the power of the idea with examples including model optimization and automatic model construction.}
+}
+
+@article{Schruben83Simulation,
+  author    = {Lee W. Schruben},
+  title     = {Simulation Modeling with Event Graphs},
+  journal   = {Communications of the ACM},
+  volume    = {26},
+  number    = {11},
+  year      = {1983},
+  pages     = {957-963},
+},
+
+@inproceedings{ZouMaticLeeFengDerler09_ExecutionStrategiesForPTIDESProgrammingModelForDistributed,
+    author = {Jia Zou and Slobodan Matic and Edward A. Lee and
+              Thomas Huining Feng and Patricia Derler},
+    title = {Execution Strategies for PTIDES, a Programming
+              Model for Distributed Embedded Systems},
+    booktitle = {15th IEEE Real-Time and Embedded Technology and
+              Applications Symposium, 2009},
+    organization = {IEEE Computer Society},
+    pages = {77-86},
+    month = {April},
+    year = {2009},
+    note = {The published version can also be found at: http://www2.computer.org/portal/web/csdl/doi/10.1109/RTAS.2009.39},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/529.html}
+}
+@inproceedings{DerlerLeeMatic08_SimulationImplementationOfPTIDESProgrammingModel,
+    author = {Patricia Derler and Edward A. Lee and Slobodan
+              Matic},
+    title = {Simulation and Implementation of the PTIDES
+              Programming Model},
+    booktitle = {Proceedings of the 2008 12th IEEE/ACM
+              International Symposium on Distributed Simulation
+              and Real-Time Applications (DS-RT '08)},
+    pages = {330-333},
+    month = {October},
+    year = {2008},
+    note = {\href{http://chess.eecs.berkeley.edu/pubs/483.html}{http://chess.eecs.berkeley.edu/pubs/483.html}},                   
+    abstract = {We have previously proposed PTIDES (Programming
+              Temporally Integrated Distributed Embedded
+              Systems), a discrete-event framework that binds
+              real time with model time at sensors, actuators,
+              and network interfaces. In this effort we focus on
+              performance issues and tradeoffs in PTIDES
+              implementation. We address event processing
+              performance with respect to other distributed
+              discrete event approaches that can be applied in a
+              similar setting. The procedure is experimentally
+              evaluated on a distributed setup with standard
+              software and networking components. },
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/483.html}
+}
+
+@inproceedings{FengLee08_RealTimeDistributedDiscreteEventExecutionWithFault,
+    author = {Thomas Huining Feng and Edward A. Lee},
+    title = {Real-Time Distributed Discrete-Event Execution
+              with Fault Tolerance},
+    booktitle = {14th IEEE Real-Time and Embedded Technology and
+              Applications Symposium (RTAS 2008)},
+    organization = {IEEE},
+    pages = {205 - 214},
+    month = {April},
+    year = {2008},
+    note = {\href{http://chess.eecs.berkeley.edu/pubs/389.html}{http://chess.eecs.berkeley.edu/pubs/389.html}},
+    abstract = {We build on PTIDES, a programming model for
+                  distributed embedded systems that uses
+                  discrete-event (DE) models as program
+                  specifications. PTIDES improves on distributed DE
+                  execution by allowing more concurrent event
+                  processing without backtracking.  This paper
+                  discusses the general execution strategy for PTIDES,
+                  and provides two feasible implementations. This
+                  execution strategy is then extended with tolerance
+                  for hardware errors. We take a program
+                  transformation approach to automatically enhance DE
+                  models with incremental checkpointing and state
+                  recovery functionality. Our fault tolerance
+                  mechanism is lightweight and has low overhead. It
+                  requires very little human intervention. We
+                  incorporate this mechanism into PTIDES for efficient
+                  execution of faulttolerant real-time distributed DE
+                  systems. },
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/389.html} } 
+
+@inproceedings{ZouAuerbachBaconLee09_PTIDESOnFlexibleTaskGraphRealTimeEmbeddedSystemBuilding,
+    author = {Jia Zou and Joshua Auerbach and David F. Bacon and
+              Edward A. Lee},
+    title = {PTIDES on Flexible Task Graph: Real-Time Embedded
+              System Building from Theory to Practice},
+    booktitle = {Languages, Compilers, and Tools for Embedded
+              Systems (LCTES 2009), Dublin, Ireland},
+    organization = {Published in ACM SIGPLAN Notices},
+    pages = {44(7), pp. 31-40},
+    day = {19},
+    month = {June},
+    year = {2009},
+    note = {The final published version is at:
+              \href{http://portal.acm.org/citation.cfm?id=1543136.1542457}{http://portal.acm.org/citation.cfm?id=1543136.1542457}},
+    abstract = {The Flexotask system claims to enable
+              implementation of both real-time applications and
+              real-time schedulers in a Java Virtual Machine
+              using an actors-like model. The PTIDES model is an
+              actors-like model that claims to deliver precise
+              control over end-to-end latencies in a complex
+              real-time system. The present work jointly
+              investigates both claims by (1) implementing
+              several PTIDES-based schedulers as Flexotask
+              scheduler plugins, and (2) using the resulting
+              system to implement a new reactive control program
+              for a simulation of the JAviator (previously used
+              to evaluate Exotasks, a precursor to Flexotask).
+              We present results from the realistic JAviator
+              control application and also from synthetic
+              benchmarks designed to shed light on the
+              differences between the several PTIDES schedulers
+              we implemented.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/588.html}
+}
+
+
+@techreport{Tripakis:EECS-2009-60,
+    Author = {Tripakis, Stavros and Lickly, Ben and Henzinger, Thomas A. and Lee, Edward A.},
+    Title = {On Relational Interfaces},
+    Institution = {EECS Department, University of California, Berkeley},
+    Year = {2009},
+    Month = {May},
+    howpublished = {http://www.eecs.berkeley.edu/Pubs/TechRpts/2009/EECS-2009-60.html},
+    Number = {UCB/EECS-2009-60},
+    Abstract = {In this paper we extend the work of De Alfaro, Henzinger et al, on interface theories for component-based design. Existing interface theories fail to capture functional relations between the inputs and outputs of an interface. For example, a simple interface that takes as input a number n>0 and returns as output n+1, cannot be expressed in existing theories. In this paper we provide a theory of relational interfaces, where such input-output relations can be captured. Our theory supports both stateless and stateful interfaces, includes explicit notions of environments and pluggability, and satisfies fundamental properties such as preservation of refinement by composition, and characterization of pluggability by refinement. We achieve these properties by making reasonable restrictions on feedback loops in interface compositions.}
+}
+                  
+
+@inproceedings{tripakisEMSOFT09,
+author = {Tripakis, Stavros and Lickly, Ben and Henzinger, Thomas A.
+and Lee, Edward A.},
+title = {{On Relational Interfaces}},
+year = 2009,
+booktitle={Embedded Software (EMSOFT'09)},
+publisher={ACM},
+note={To appear},
+}
+@techreport{Lee:EECS-2009-151,
+    Author = {Lee, Edward A.},
+    Title = {{Finite State Machines and  Modal Models in Ptolemy II}},
+    Institution = {EECS Department, University of California, Berkeley},
+    Year = {2009},
+    Month = {Nov},
+    howpublished = {http://www.eecs.berkeley.edu/Pubs/TechRpts/2009/EECS-2009-151.html},
+    Number = {UCB/EECS-2009-151},
+    Abstract = {This report describes the usage and semantics of finite-state machines (FSMs) and modal models in Ptolemy II. FSMs are actors whose behavior is described using a finite set of states and transitions between the states. The transitions between the states are enabled by guards, which are boolean-valued expressions that can reference inputs to the actor and parameters in scope. The transitions can produce outputs and can update the value of parameters in scope. Modal models extend FSMs by allowing states to have refinements, which are hierarchical Ptolemy II models. The refinements may themselves be FSMs, modal models, or any composite actor containing a director compatible with the domain in which the modal model is being used. This report describes the operational semantics, the practical usage, and the semantics of time in modal models.}
+}
+@techreport{Tripakis:EECS-2009-143,
+    Author = {Tripakis, Stavros and Bui, Dai and Rodiers, Bert and Lee, Edward A.},
+    Title = {Compositionality in Synchronous Data Flow: Modular Code Generation from Hierarchical SDF Graphs},
+    Institution = {EECS Department, University of California, Berkeley},
+    Year = {2009},
+    Month = {Oct},
+    howpublished = {http://www.eecs.berkeley.edu/Pubs/TechRpts/2009/EECS-2009-143.html},
+    Number = {UCB/EECS-2009-143},
+    Abstract = {Hierarchical SDF models are not compositional: a composite SDF actor cannot be represented as an atomic SDF actor without loss of information that can lead to deadlocks. Motivated by the need for incremental and modular code generation from hierarchical SDF models, we introduce in this paper DSSF profiles. This model forms a compositional abstraction of composite actors that can be used for modular compilation. We provide algorithms for automatic synthesis of non monolithic DSSF profiles of composite actors given DSSF profiles of their sub-actors. We show how different tradeoffs can be explored when synthesizing such profiles, in terms of modularity (keeping the size of the generated DSSF profile small) versus reusability (preserving information necessary to avoid deadlocks) as well as algorithmic complexity. We show that our method guarantees maximal reusability and report on a prototype implementation.}
+}
+
+@inproceedings{TripakisLicklyHenzingerLee09_OnRelationalInterfaces,
+    author = {Stavros Tripakis and Ben Lickly and Tom Henzinger
+              and Edward A. Lee},
+    title = {On Relational Interfaces},
+    booktitle = {Embedded Software (EMSOFT'09)},
+    month = {October},
+    year = {2009},
+    abstract = {In this paper we extend the work of Alfaro,
+              Henzinger et al. on interface theories for
+              component-based design. Existing interface
+              theories often fail to capture functional
+              relations between the inputs and outputs of an
+              interface. For example, a simple synchronous
+              interface that takes as input a number n >= 0 and
+              returns, at the same time, as output n + 1, cannot
+              be expressed in existing theories. In this paper
+              we provide a theory of relational interfaces,
+              where such input-output relations can be captured.
+              Our theory supports synchronous interfaces, both
+              stateless and stateful. It includes explicit
+              notions of environments and pluggability, and
+              satisfies fundamental properties such as
+              preservation of refinement by composition, and
+              characterization of pluggability by refinement. We
+              achieve these properties by making reasonable
+              restrictions on feedback loops in interface
+              compositions.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/650.html}
+}
+
+@inproceedings{LeeZheng07_LeveragingSynchronousLanguagePrinciplesForHeterogeneous,
+    author = {Edward A. Lee and Haiyang Zheng},
+    title = {Leveraging Synchronous Language Principles for
+              Heterogeneous Modeling and Design of Embedded
+              Systems},
+    booktitle = {Proceedings of the 7th ACM \& IEEE international
+              conference on Embedded software},
+    editor = {Christoph M. Kirsch,  Reinhard Wilhelm},
+    organization = {ACM},
+    pages = {114-123},
+    year = {2007},
+    abstract = {This paper gives a semantics for discrete-event
+              (DE) models that generalizes that of
+              synchronous/reactive (SR) languages, and a
+              continuous-time (CT) semantics that generalizes
+              the DE semantics. It shows that all three semantic
+              models can be used in actor-oriented composition
+              languages, and that despite the fact that CT is
+              the most general, there are good reasons for using
+              each of the more specialized semantics. Moreover,
+              because of the generalization relationship between
+              them, these three models of computation (MoCs)
+              compose hierarchically in arbitrary order. We
+              describe a design system that supports arbitrary
+              combinations of these three MoCs, leveraging the
+              actor abstract semantics of Ptolemy II.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/430.html}
+}
+
+@inproceedings{1695322,
+ author = {Bae, Kyungmin and \"{O}lveczky, Peter Csaba and Feng, Thomas Huining and Tripakis, Stavros},
+ title = {Verifying Ptolemy II Discrete-Event Models Using Real-Time Maude},
+ booktitle = {ICFEM '09: Proceedings of the 11th International Conference on Formal Engineering Methods},
+ year = {2009},
+ pages = {717--736},
+ address = {Rio de Janeiro, Brazil},
+ publisher = {Springer-Verlag},
+ address = {Berlin, Heidelberg},
+ }
+
+@inproceedings{LeungMandlLatronicoSheltonLee09_ScalableSemanticAnnotationUsingLatticebasedOntologies,
+    author = {Jackie Man-Kit Leung and Thomas Mandl and
+              Elizabeth Latronico and Charles Shelton and Edward
+              A. Lee},
+    title = {Scalable Semantic Annotation using Lattice-based
+              Ontologies},
+    booktitle = {12th International Conference on Model Driven
+              Engineering Languages and Systems},
+    organization = {ACM/IEEE},
+    pages = {393-407},
+    day = {8},
+    month = {October},
+    year = {2009},
+    abstract = {Including semantic information in models helps to
+              expose modeling errors early in the design
+              process, engage a designer in a deeper
+              understanding of the model, and standardize
+              concepts and terminology across a development
+              team. It is impractical, however, for model
+              builders to manually annotate every modeling
+              element with semantic properties. This paper
+              demonstrates a correct, scalable and automated
+              method to infer semantic properties using
+              lattice-based ontologies, given relatively few
+              manual annotations. Semantic concepts and their
+              relationships are formalized as a lattice, and
+              relationships within and between components are
+              expressed as a set of constraints and acceptance
+              criteria relative to the lattice. Our inference
+              engine automatically infers properties wherever
+              they are not explicitly specified. Our
+              implementation leverages the infrastructure in the
+              Ptolemy II type system to get efficient and
+              scalable inference and consistency checking. We
+              demonstrate the approach on a non-trivial Ptolemy
+              II model of an adaptive cruise control system. },
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/611.html},
+    Note = {{\href{http://chess.eecs.berkeley.edu/pubs/611.html}{http://chess.eecs.berkeley.edu/pubs/611.html}(recipient of the MODELS 2009 Distinguished Paper Award)}}
+}
+
+
+@article{Fagan:1976,
+    author = {Michael Fagan},
+    title = {Design and Code inspections to reduce errors in program development},
+    journal = {IBM Systems Journal},
+    volume = {15},
+    number = {3},
+    pages = {182-211},
+    year = {1976}
+}
+
+@techreport{ReekieNeuendorfferHylandsLee99_SoftwarePracticeInPtolemy,
+    author = {John Reekie and Stephen Neuendorffer and
+              Christopher Hylands and Edward A. Lee},
+    title = {Software Practice in the Ptolemy},
+    institution = {Gigascale Silicon Research Center},
+    number = {GSRC-TR-1999-01},
+    month = {April},
+    year = {1999},
+    abstract = {In the Ptolemy project at UC Berkeley, we have
+              been exploring ways of improving our software
+              development process. Unlike many other efforts at
+              improving software development, our efforts are
+              focused on the particular needs of leading-edge
+              academic research. High levels of creativity and
+              flexibility are paramount in this environment, and
+              the goals and qualifications of those producing
+              the software are substantially different from
+              those in commercial software production. This
+              report describes our efforts to meet these needs
+              and what we have learned. },
+    howpublished = {http://www.gigascale.org/pubs/1.html}
+}
+
+@article{ZhaoXiongLeeLiuZhong10_DesignApplicationOfStructuredTypesInPtolemyII,
+    author = {Yang Zhao and Yuhong Xiong and Edward A. Lee and
+              Xiaojun Liu and Lizhi C. Zhong},
+    title = {The Design and Application of Structured Types in
+              Ptolemy II},
+    journal = {International Journal of Intelligent Systems},
+    volume = {25},
+    number = {2},
+    pages = {118-136},
+    year = {2010},
+    abstract = {Ptolemy II is a component-based design and
+              modeling environment. It has a polymorphic type
+              system that supports both base types and
+              structured types, such as arrays, records, and
+              unions. This paper presents the extensions to the
+              base type system that support structured types. In
+              the base type system, all the types are organized
+              into a type lattice, and type constraints in the
+              form of inequalities can be solved efficiently
+              over the lattice. We take a hierarchical and
+              granular approach to add structured types to the
+              lattice and extend the format of inequality
+              constraints to allow arbitrary nesting of
+              structured types. We also analyze the convergence
+              of the constraint-solving algorithm on an infinite
+              lattice after structured types are added. To show
+              the application of structured types, we present
+              two Ptolemy II models that have direct real-world
+              background. The first one describes the workflow
+              of a charity organization, and the second one
+              implements part of the IEEE 802.11 specification.
+              These models make extensive use of record and
+              union types to represent structured information.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/665.html}
+}
+
+@techreport{Tripakis:EECS-2010-52,
+    Author = {Tripakis, Stavros and Bui, Dai and Geilen, Marc and Rodiers, Bert and Lee, Edward A.},
+    Title = {Compositionality in Synchronous Data Flow: Modular Code Generation from Hierarchical SDF Graphs},
+    Institution = {EECS Department, University of California, Berkeley},
+    Year = {2010},
+    Month = {May},
+    Note = {\href{http://www.eecs.berkeley.edu/Pubs/TechRpts/2010/EECS-2010-52.html}{http://www.eecs.berkeley.edu/Pubs/TechRpts/2010/EECS-2010-52.html}},
+    howpublished = {http://www.eecs.berkeley.edu/Pubs/TechRpts/2010/EECS-2010-52.html},
+    Number = {UCB/EECS-2010-52},
+    Abstract = {Hierarchical SDF models are not compositional: a composite SDF actor cannot be represented as an atomic SDF actor without loss of information that can lead to rate inconsistency or deadlock. Motivated by the need for incremental and modular code generation from hierarchical SDF models, we introduce in this paper DSSF profiles. DSSF (Deterministic SDF with Shared FIFOs) forms a compositional abstraction of composite actors that can be used for modular compilation. We provide algorithms for automatic synthesis of non-monolithic DSSF profiles of composite actors given DSSF profiles of their sub-actors. We show how different tradeoffs can be explored when synthesizing such profiles, in terms of modularity (keeping the size of the generated DSSF profile small) versus reusability (maintaining necessary information to preserve rate consistency and deadlock-absence) as well as algorithmic complexity. We show that our method guarantees maximal reusability and report on a prototype implementation.}
+}
+                  
+
+
+@unpublished{ForbesPereiraLeeSenguptaSanjit10_DirectedSimulationOfNetworkedUnmannedAerialVehiclesUsing,
+    author = {Shanna-Shaye Forbes and Eloi Pereira and Edward A.
+              Lee and Raja  Sengupta  and Sanjit Seshia},
+    title = {Directed Simulation of Networked Unmanned Aerial
+              Vehicles Using Model Checking and Ptolemy II},
+    day = {11},
+    month = {February},
+    year = {2010},
+    note = {BEARS 2010 Poster Presentation},
+    abstract = { Modeling, simulation, and verification are
+              currently very important areas in cyber-physical
+              systems. More often than not simulation is done
+              after a model is complete and on many occasions
+              that necessitates modifying the model because of
+              errors. We propose to use software verification
+              before software simulation, to help determine
+              possible error cases in a model. In this work we
+              randomly generate a test plan, formally verify the
+              test plan on a discrete model of the system, and
+              then run the test plan in a timing accurate hybrid
+              model in a software simulator to confirm the
+              results of the formal verification. },
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/657.html}
+}
+
+
+
+
+@techreport{BaeOlveczkyFengLeeTripakis10_VerifyingHierarchicalPtolemyIIDiscreteEventModelsUsing,
+    author = {Kyungmin  Bae and Peter Olveczky and Thomas
+              Huining Feng and Edward A. Lee and Stavros Tripakis},
+    title = {Verifying Hierarchical Ptolemy II Discrete-Event
+              Models using Real-Time Maude},
+    institution = {UC Berkeley},
+    number = {UCB/EECS-2010-50},
+    month = {May},
+    year = {2010},
+    abstract = {This paper defines a real-time rewriting logic
+              semantics for a significant subset of Ptolemy II
+              discrete-event models. This is a challenging task,
+              since such models combine a synchronous
+              fixed-point semantics with hierarchical structure,
+              explicit time, and a rich expression language. The
+              code generation features of Ptolemy II have been
+              leveraged to automatically synthesize a Real-Time
+              Maude verification model from a Ptolemy II design
+              model, and to integrate Real-Time Maude
+              verification of the synthesized model into Ptolemy
+              II. This enables a model-engineering process that
+              combines the convenience of Ptolemy II DE modeling
+              and simulation with formal verification in
+              Real-Time Maude. We illustrate such formal
+              verification of Ptolemy II models with three case
+              studies.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/667.html}
+}
+
+@techreport{ResmeritaDerlerLee10_ModelingSimulationOfLegacyEmbeddedSystems,
+    author = {Stefan Resmerita and Patricia Derler and Edward A.
+              Lee},
+    title = {Modeling and Simulation of Legacy Embedded Systems},
+    institution = {UC Berkeley},
+    number = {EECS-2010-38},
+    month = {April},
+    year = {2010},
+    abstract = {This paper describes a modeling formalism that
+              specifically addresses description and performance
+              analysis of simulators for legacy real-time
+              embedded systems. The proposed framework includes
+              the original software application as a component
+              whose simulation is supervised by an execution
+              controller. Simulation of the legacy system is
+              achieved by controlling the execution of the
+              application code on a host platform, together with
+              a legacy platform model, in closed-loop with the
+              plant model. The control objective is to simulate
+              the behavior of the real time embedded system,
+              including the effects of platform artifacts such
+              as execution times and scheduling (in particular,
+              preemption), as well as the interaction with the
+              continuous-time behavior of the plant.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/664.html}
+}
+
+@misc{Lee11_TimeForHighConfidenceSoftwareSystems,
+    author = {Edward A. Lee},
+    title = {Time for High-Confidence Software Systems},
+    day = {1},
+    month = {May},
+    year = {2011},
+    abstract = {All widely used software abstractions lack
+              temporal semantics. The notion of correct
+              execution of a program written in every
+              widely-used programming language today does not
+              depend on the temporal behavior of the program.
+              But temporal behavior matters in almost all
+              systems. Even in systems with no particular
+              real-time requirements, timing of programs is
+              relevant to the value delivered by programs, and
+              in the case of concurrent programs, also affects
+              the functionality. In systems with real-time
+              requirements, such as most cyber-physical systems,
+              temporal behavior affects not just the value
+              delivered by a system but also its correctness.
+              The lack of temporal semantics in programs has
+              many consequences that can undermine confidence in
+              systems. For example, without temporal semantics,
+              denial-of-service attacks are no threat.
+              Typically, a denial-of-service attack only affects
+              the timing of services, and if timing is
+              irrelevant to correctness, then such an attacks is
+              also irrelevant. But we know that such attacks are
+              not irrelevant. Worse, without temporal semantics
+              in programs, there is no semantic basis for
+              distinguishing between normal behavior and
+              behavior under attack. Hence, detection of
+              denial-of-service attacks is at best a heuristic.
+              In this talk, we will argue that time can and must
+              become part of the semantics of programs for a
+              large class of applications. To illustrate that
+              this is both practical and useful, we will
+              describe two recent efforts at Berkeley in the
+              design and analysis of timing-centric software
+              systems. On the design side, we will describe
+              PTIDES, a programming model for distributed
+              real-time systems. PTIDES rests on a rigorous
+              semantics of discrete-event systems and reflects
+              the realities in distributed real-time, where
+              measuring the passage of time is imperfect. PTIDES
+              enables deterministic time-sensitive distributed
+              actions. It relies on certain assumptions about
+              networks that are not trivial (time
+              synchronization with bounded error and bounded
+              latency), but which have been shown in some
+              contexts to be achievable and economical. PTIDES
+              is also robust to subsystem failures, and, perhaps
+              most interestingly, provides a semantic basis for
+              detecting such failures at the earliest possible
+              time. },
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/840.html}
+}                  
+
+
+@inproceedings{GeilenTripakisWiggers11_EarlierBetterTheoryOfTimedActorInterfaces,
+    author = {Marc Geilen and Stavros Tripakis and Maarten
+              Wiggers},
+    title = {The Earlier the Better: A Theory of Timed Actor
+              Interfaces},
+    booktitle = {14th International Conference on Hybrid Systems:
+              Computation and Control (HSCC'11)},
+    month = {April},
+    year = {2011},
+    abstract = {Programming embedded and cyber-physical systems
+              requires attention not only to functional behavior
+              and correctness, but also to non-functional
+              aspects and specifically timing and performance. A
+              structured, compositional, model-based approach
+              based on stepwise refinement and abstraction
+              techniques can support the development process,
+              increase its quality and reduce development time
+              through automation of synthesis, analysis or
+              verification. Toward this, we introduce a theory
+              of timed actors whose notion of refinement is
+              based on the principle of worst-case design that
+              permeates the world of performance-critical
+              systems. This is in contrast with the classical
+              behavioral and functional refinements based on
+              restricting sets of behaviors. Our refinement
+              allows time-deterministic abstractions to be made
+              of time-non-deterministic systems, improving
+              efficiency and reducing complexity of formal
+              analysis. We show how our theory relates to, and
+              can be used to reconcile existing time and
+              performance models and their established theories.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/801.html}
+}
+
+@techreport{BARRERElenormandBuiLeeShaverTripakis11_IntroductionToPthalesDomainOfPtolemyII,
+    author = {Rémi BARRERE and eric lenormand and Dai Nguyen
+              Bui and Edward A. Lee and Chris Shaver and Stavros
+              Tripakis},
+    title = {An Introduction to the Pthales Domain of Ptolemy II},
+    institution = {EECS Department University of California, Berkeley},
+    number = {UCB/EECS-2011-32},
+    month = {April},
+    year = {2011},
+    abstract = {Pthales is a multidimensional dataflow model of
+              computation implemented in the heterogeneous
+              modeling environment Ptolemy II. This report gives
+              a tutorial of Pthales and a formal analysis of
+              Pthales semantics.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/849.html}
+}
+
+@inproceedings{GrundReinekeWilhelm11_TemplateForPredictabilityDefinitionsWithSupportingEvidence,
+    author = {Daniel Grund and Jan Reineke and Reinhard Wilhelm},
+    title = {A Template for Predictability Definitions with
+              Supporting Evidence},
+    booktitle = {Bringing Theory to Practice: Predictability and
+              Performance in Embedded Systems},
+    editor = {Philipp Lucas and Lothar Thiele and Benoit Triquet and Theo Ungerer and Reinhard Wilhelm},
+    organization = {Schloss Dagstuhl-Leibniz-Zentrum fuer Informatik},
+    pages = {22-31},
+    month = {March},
+    year = {2011},
+    abstract = {In real-time systems, timing behavior is as
+              important as functional behavior. Modern
+              architectures turn verification of timing aspects
+              into a nightmare, due to their "unpredictability".
+              Recently, various efforts have been undertaken to
+              engineer more predictable architectures. Such
+              efforts should be based on a clear understanding
+              of predictability. We discuss key aspects of and
+              propose a template for predictability definitions.
+              To investigate the utility of our proposal, we
+              examine above efforts and try to cast them as
+              instances of our template.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/846.html}
+}
+
+@techreport{DerlerLeeSangiovanniVincentelli11_AddressingModelingChallengesInCyberPhysicalSystems,
+    author = {Patricia Derler and Edward A. Lee and Alberto
+              Sangiovanni-Vincentelli},
+    title = {Addressing Modeling Challenges in Cyber-Physical
+              Systems},
+    institution = {EECS Department University of California, Berkeley},
+    number = {UCB/EECS-2011-17},
+    month = {March},
+    year = {2011},
+    abstract = {This paper focuses on the challenges of modeling
+              cyber-physical systems that arise from the
+              intrinsic heterogeneity, concurrency, and
+              sensitivity to timing of such systems. It uses a
+              portion of an aircraft vehicle management systems
+              (VMS), specifically the fuel management subsystem,
+              to illustrate the challenges, and then discusses
+              technologies that at least partially address the
+              challenges. Specific technologies described
+              include hybrid system modeling and simulation,
+              concurrent and heterogeneous models of
+              computation, the use of domain-specific ontologies
+              to enhance modularity, and the joint modeling of
+              functionality and implementation architectures.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/835.html}
+}
+
+@book{LeeVaraiya11_StructureInterpretationOfSignalsSystems,
+    author = {Edward A. Lee and Pravin Varaiya},
+    title = {Structure and Interpretation of Signals and Systems},
+    publisher = {Lee and Varaiya},
+    edition = {2.01},
+    year = {2011},
+    note = {http://LeeVariaya.org},
+    abstract = {Signals convey information. Systems transform
+              signals. This book introduces the mathematical
+              models used to design and understand both. It is
+              intended for students interested in developing a
+              deep understanding of how to digitally create and
+              manipulate signals to measure and control the
+              physical world and to enhance human experience and
+              communication. },
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/800.html}
+}
+
+@book{LeeSeshia11_IntroductionToEmbeddedSystemsCyberPhysicalSystemsApproach,
+    author = {Edward A. Lee and Sanjit A. Seshia},
+    title = {Introduction to Embedded Systems, A Cyber-Physical
+              Systems Approach},
+    publisher = {Published by authors},
+    edition = {First Edition},
+    year = {2011},
+    isbn = {978-0-557-70857-4},
+    note = {Solutions are available at http://chess.eecs.berkeley.edu/instructors/"},
+    abstract = {This book strives to identify and introduce the
+              durable intellectual ideas of embedded systems as
+              a technology and as a subject of study. The
+              emphasis is on modeling, design, and analysis of
+              cyber-physical systems, which integrate computing,
+              networking, and physical processes. },
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/710.html}
+}
+
+@techreport{TripakisLicklyHenzingerLee10_TheoryOfSynchronousRelationalInterfaces,
+    author = {Stavros Tripakis and Ben Lickly and Tom Henzinger
+              and Edward A. Lee},
+    title = {A Theory of Synchronous Relational Interfaces},
+    institution = {UC Berkeley},
+    number = {UCB/EECS-2010-45},
+    month = {April},
+    year = {2010},
+    note = {Revised version of this report to appear in ACM
+              TOPLAS.},
+    abstract = {In a component-based design context, we propose a
+              relational interface theory for synchronous
+              systems. A component is abstracted by its
+              interface, which consists of input and output
+              variables, as well as one or more contracts. A
+              contract is a relation between input and output
+              assignments. In the stateless case, there is a
+              single contract that holds at every synchronous
+              round. In the general, stateful, case, the
+              contract may depend on the state, modeled as the
+              history of past observations. Interfaces can be
+              composed by connection or feedback. Parallel
+              composition is a special case of connection.
+              Feedback is allowed only for Moore interfaces,
+              where the contract does not depend on the current
+              values of the input variables that are connected
+              (although it may depend on past values of such
+              variables). The theory includes explicit notions
+              of environments, pluggability and
+              substitutability. Environments are themselves
+              interfaces. Pluggability means that the
+              closed-loop system formed by an interface and an
+              environment is well-formed, that is, a state with
+              unsatisfiable contract is unreachable.
+              Substitutability means that an interface can
+              replace another interface in any environment. A
+              refinement relation between interfaces is
+              proposed, that has two main properties: first, it
+              is preserved by composition; second, it is
+              equivalent to substitutability for well-formed
+              interfaces. Shared refinement and abstraction
+              operators, corresponding to greatest lower and
+              least upper bounds with respect to refinement, are
+              also defined. Input-complete interfaces, that
+              impose no restrictions on inputs, and
+              deterministic interfaces, that produce a unique
+              output for any legal input, are discussed as
+              special cases, and an interesting duality between
+              the two classes is exposed. A number of
+              illustrative examples are provided, as well as
+              algorithms to compute compositions, check
+              refinement, and so on, for finite-state interfaces.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/666.html}
+}
+
+@misc{Lee11_PtolemyMiniconferences,
+    author = {Edward A. Lee},
+    title = {Ptolemy Miniconferences},
+    day = {16},
+    month = {February},
+    year = {2011},
+    note = {Presented at the
+              Ninth Biennial Ptolemy Miniconference,
+              Berkeley, CA.},
+    abstract = {An overview of the previous eight Ptolemy
+              Miniconferences.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/805.html}
+}
+
+@misc{WangCrawlAltintasBerkleyJones11_DistributedExecutionArchitecturesInKepler,
+    author = {Jianwu Wang and Daniel Crawl and Ilkay Altintas
+              and Chad Berkley and Matt Jones},
+    title = {Distributed Execution Architectures in Kepler},
+    day = {16},
+    month = {February},
+    year = {2011},
+    note = {Presented at the
+              Ninth Biennial Ptolemy Miniconference,
+              Berkeley, CA.},
+    abstract = {Distributed execution of scientific workflows has
+              been a hot research area to utilize abundant
+              resources for workflow execution acceleration. In
+              this presentation, we will briefly discuss the
+              common requirements for scientific workflow
+              distributed execution and the diverse supporting
+              solutions in Kepler system. Then we will focus on
+              two particular distributed architectures in
+              Kepler: Master-Slave and MapReduce, which have
+              been applied in Ecology and Bioinformatics domain
+              respectively. Applications, experiments and
+              comparisons of these two models will also be
+              explained.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/806.html}
+}
+
+@misc{DerlerZouMaticEidson11_ModelingDistributedRealTimeSystemsWithPtolemyII,
+    author = {Patricia Derler and Jia Zou and Slobodan Matic and
+              John Eidson},
+    title = {{Modeling Distributed Real-Time Systems with
+              Ptolemy II}},
+    day = {16},
+    month = {February},
+    year = {2011},
+    note = {Presented at the
+              Ninth Biennial Ptolemy Miniconference,
+              Berkeley, CA.},
+    abstract = {The PTIDES (Programming Temporally Integrated
+              Distributed Embedded Systems) programming model
+              provides a discrete-event (DE) coordination
+              language for distributed real time systems. In DE
+              models components are coordinated via time stamped
+              events where values of time stamps are referred to
+              as model time. PTIDES enables the specification of
+              real time constraints by relating time stamps of
+              some events to physical time. This presentation
+              describes a simulation environment for PTIDES
+              models, which employs the DE domain in Ptolemy II
+              and uses hierarchical composition to model the
+              relationship between model time and physical time.
+              The specification of timing requirements and
+              platform specific parameters such as execution
+              times and scheduling policies allows for an
+              evaluation of PTIDES systems with respect to real
+              time constraints. The combination with modal
+              models demonstrates how the ability of PTIDES to
+              detect missing signals can be used to implement
+              fault tolerant systems. The simulation environment
+              can simulate clock drift between platforms and
+              provides a means to model clock synchronization
+              protocols. },
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/807.html}
+}
+
+@misc{TripakisLee11_SemanticsOfModalModelsInPtolemy,
+    author = {Stavros Tripakis and Edward A. Lee},
+    title = {{Semantics of Modal Models in Ptolemy}},
+    day = {16},
+    month = {February},
+    year = {2011},
+    note = {Presented at the
+              Ninth Biennial Ptolemy Miniconference,
+              Berkeley, CA.},
+    abstract = {Ptolemy is an open-source and extensible modeling
+              and simulation framework. It offers heterogeneous
+              modeling capabilities by allowing different models
+              of computation to be composed hierarchically in an
+              arbitrary fashion. This talk proposes a formal
+              semantics for Ptolemy in general and modal models
+              in particular. Modal models allow to
+              hierarchically compose finite-state machines with
+              other models of computation, both untimed and
+              timed. A modular and compositional semantics is
+              given for Ptolemy based on two main ideas. First,
+              every actor is viewed as a state machine. Second,
+              directors are viewed as composition operators.
+              They define the state machine of a composite actor
+              given state machines of its internal actors. },
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/808.html}
+}
+
+@misc{ReinekeLiuEadsEdwardsKimPatel11_ToMeetOrNotToMeetDeadline,
+    author = {Jan Reineke and Isaac Liu and Gage W. Eads and
+              Stephen A. Edwards and Sungjun Kim and Hiren D.
+              Patel},
+    title = {To Meet or Not to Meet the Deadline},
+    day = {16},
+    month = {February},
+    year = {2011},
+    note = {Presented at the
+              Ninth Biennial Ptolemy Miniconference,
+              Berkeley, CA.},
+    abstract = {Whether or not a program meets its timing
+              constraints depends on the hardware architecture
+              it is running on. The semantics of conventional
+              instruction set architectures (ISA) does not
+              include time. It is impossible to make any
+              statements about the timing of a program written
+              in an ISA without considering a particular
+              hardware implementation of this ISA. <p>To enable
+              reasoning about timing behavior of programs rather
+              than programs on particular architectures, we
+              propose to endow ISAs with timed semantics, and we
+              introduce ISA extensions, so-called deadline
+              instructions, which enable precise control over
+              timing at the level of nanoseconds. Based on these
+              deadline instructions, we propose higher-level
+              timing constructs in C, which can in turn be used
+              to implement timed models of computation, such as
+              Giotto or PTIDES.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/810.html}
+}
+
+@misc{Bhattacharyya11_DataflowInterchangeFormatTowardsCoDesignOfDSPoriented,
+    author = {Shuvra S. Bhattacharyya},
+    title = {{The Dataflow Interchange Format: Towards Co-Design
+              of DSP-oriented Dataflow Models and 
+              Transformations}},
+    day = {16},
+    month = {February},
+    year = {2011},
+    note = {Presented at the
+              Ninth Biennial Ptolemy Miniconference,
+              Berkeley, CA.},
+    abstract = {This presentation provides an overview of the
+              dataflow interchange format (DIF) project at the
+              University of Maryland. DIF is a textual language
+              for specifying mixedgrain dataflow representations
+              of signal processing applications. A major theme
+              in the DIF project is facilitating experimentation
+              with interactions between different dataflow
+              modeling techniques and associated transformations
+              that exploit specific properties of these
+              techniques. One way that DIF achieves this is by
+              allowing designers to specify subgraphs of a
+              design in terms of specific dataflow modeling
+              techniques, such as synchronous, cyclo-static, and
+              parameterized dataflow, through corresponding
+              keywords in the language. DIF also incorporates a
+              new dataflow model of computation called
+              enable-invoke dataflow, which is geared towards
+              high expressive power, functional simulation,
+              rapid prototyping, quasi-static scheduling, and
+              efficient refinement into more specialized
+              dataflow models.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/811.html}
+}
+
+@misc{KoehlerLudaescherMcPhillips11_WorkflowRecoveryForDifferentModelsOfComputationModels,
+    author = {Sven Koehler and Bertram Ludaescher and Timothy
+              McPhillips},
+    title = {Workflow Recovery for Different Models of
+              Computation and Models of Provenance},
+    day = {16},
+    month = {February},
+    year = {2011},
+    note = {Presented at the
+              Ninth Biennial Ptolemy Miniconference,
+              Berkeley, CA.},
+    abstract = {An increasing number of scientific workflows
+              contain long running jobs but there has been
+              little research on how to recover the workflow
+              execution after the workflow execution engine
+              itself failed. Most related work considers state
+              within a fault tolerance framework where the
+              workflow engine itself is not failing. Other
+              approaches do not deal with stateful actors which
+              can rarely be used in practice. We describe how to
+              save and use internal state of actors for a
+              recovery of a workflow execution engine from
+              provenance information recorded up to the failure.
+              We demonstrate in which degree the model of
+              computation influences the recovery and we use the
+              provenance currently recorded by other approaches
+              such as the Kepler provenance recorder in order to
+              resume a workflow execution. We show that while
+              DAGMan workflows are easy to recover, SDF and PN
+              directed workflows in Kepler are more complex to
+              recover and offer more possibilities to optimize
+              execution and recovery. In a serially scheduled
+              SDF workflow at most one actor invocation can be
+              effected by a workflow engine crash while in PN
+              possibly all actors could be effected. We explore
+              which models of provenance are suitable for a
+              non-trivial (i.e., optimized) resume of a workflow
+              execution and then present extended provenance
+              models that are well suited for speeding up the
+              workflow recovery in context of different models
+              of computation. Modeling PN workflows using the
+              iteration provided by the framework instead of a
+              loop construct within the firing method could
+              speed up workflow recovery dramatically. On the
+              other hand the conventional read/write provenance
+              model was found to insufficient for an efficient
+              recovery of various models of computation because
+              it lacks information about the internal state of
+              actors. Our goal is to find more generic
+              provenance models that offer a good performance
+              for a restore as well as during execution and that
+              will also be practical in a distributed workflow
+              execution. We argue that concepts of global time
+              and global unique IDs should be avoided wherever
+              possible. Finally, we show how provenance queries
+              are used to determine the status of a workflow
+              execution as well as to extract important
+              information that needs to be restored in order to
+              do a resume. },
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/812.html}
+}
+
+@misc{RavindranParthasarathy11_DesignAnalysisImplementationOfStaticDataflowModels,
+    author = {Kaushik Ravindran and Murali Parthasarathy},
+    title = {Design, Analysis, and Implementation of Static
+              Dataflow Models for Hardware Targets},
+    day = {16},
+    month = {February},
+    year = {2011},
+    note = {Presented at the
+              Ninth Biennial Ptolemy Miniconference,
+              Berkeley, CA.},
+    abstract = {We present the DSP Designer framework to implement
+              applications specified in the Static Dataflow
+              (SDF) model of computation on hardware targets,
+              such as FPGAs. Prior studies have shown the
+              effectiveness of SDF as a natural model to specify
+              multi-rate streaming applications. However, the
+              focus of these works has primarily been on SDF
+              implementations for processor targets. DSP
+              Designer specializes the SDF model to make it
+              suitable for hardware targets. It facilitates
+              hardware actor definition and intellectual
+              property (IP) integration. The back end
+              additionally provides analysis methods tuned for
+              synthesis of efficient hardware designs, such as
+              resource allocation, memory optimization, and
+              scheduler generation. The objective is to deliver
+              an exploration framework that empowers application
+              domain experts to become hardware designers. In
+              this talk, we highlight key concepts underlying
+              DSP Designer, demonstrate preliminary capabilities
+              for exploration and implementation using practical
+              applications, and discuss open challenges related
+              to the specification of control and timing along
+              with dataflow. We also summarize key features of
+              the DSP Designer software architecture and invite
+              partners to leverage our infrastructure and API to
+              build tools for graphical design. },
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/813.html}
+}
+
+@misc{CaoDouHartLudaescher11_KeplerGPackKeplerPackageUsingGoogleCloudForInteractive,
+    author = {Gongjing Cao and Lei Dou and Quinn Hart and
+              Bertram Ludaescher},
+    title = {{Kepler/G-Pack: A Kepler Package Using the Google
+              Cloud for Interactive Scientific Workflows}},
+    day = {16},
+    month = {February},
+    year = {2011},
+    note = {Presented at the
+              Ninth Biennial Ptolemy Miniconference,
+              Berkeley, CA.},
+    abstract = {Scientific workflows often aim at fully automating
+              complex data analysis pipelines. However,
+              depending on the nature of the scientific
+              workflow, interactive steps, i.e., which involve
+              human analysis and decision making within the
+              workflow are also common. So far, Kepler has had
+              limited capabilities for letting users become
+              "actors" in a scientific workflow. The
+              Kepler/G-Pack (Google package) is a set of actors
+              that leverage a simple form of cloud computing via
+              Google-Apps and Google-Docs, effectively
+              "outsourcing" Kepler tasks to Google resources.
+              With this package, many tasks and steps that users
+              would use the Google document and computational
+              cloud for can now be orchestrated by Kepler
+              programmatically. For example, via certain actors
+              in this package, Google spreadsheets can be used
+              as data sources, sinks, or computational steps
+              ("transformers") in a Kepler workflow. Additional
+              functionalities include: creating a new copy of a
+              spreadsheet from a template, sharing a spreadsheet
+              with another user, emailing the user to notify the
+              sharing, provide feedback to the workflow that a
+              human interactive session has finished
+              ("committed") so the workflow instance may
+              proceed, visualizing analysis outputs via Google
+              charts etc. We will demonstrate the capabilities
+              of the Kepler/G-Pack using different workflows,
+              e.g., (1) a "Data Curation Workflow" in which
+              biological specimen records are semi-automatically
+              curated: The upstream part of the workflow groups
+              records, identifying "curation work packages" that
+              curators can validate or manually revise (this
+              workflow shows the use of spreadsheets for data
+              fusion and manual data cleaning within the
+              workflow); (2) an "Evapotranspiration Workflow"
+              which shows how Google spreadsheets can be used
+              for remote computation and visualization.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/814.html}
+}
+
+@misc{NguChinJr11_ContextAwareActors,
+    author = {Anne Ngu and George Chin Jr.},
+    title = {Context Aware Actors},
+    day = {16},
+    month = {February},
+    year = {2011},
+    note = {Presented at the
+              Ninth Biennial Ptolemy Miniconference,
+              Berkeley, CA.},
+    abstract = {Data-intensive scientific workflows are
+              traditionally modeled using a dataflow-oriented
+              model. The simplicity of a dataflow model
+              facilitates intuitive workflow design, analysis,
+              and optimization. However, some amount of
+              control-flow modeling is often necessary for
+              engineering fault-tolerant, robust, and adaptive
+              workflows. In scientific domains and cyber
+              physical systems, myriads of environmental
+              information are needed for the effective control
+              of different stages of coordination and execution.
+              Modeling various fine-grained controls using
+              inherently dataflow-oriented actors will quickly
+              result in a workflow that is hard to comprehend,
+              reuse, and maintain. We present a context
+              annotation framework for Kepler/Ptolemy that
+              enables actors to exploit the dynamic
+              environmental information during runtime without
+              introducing complex control-flow actors or
+              low-level re-coding of existing actors to cover
+              all possible dynamic conditions. Contexts can
+              refer to all data or events that can be sensed
+              automatically from the physical environment. They
+              can affect an actor's behavior but is not part of
+              the original actor's design. Context should be
+              modeled separately as an entity that can be read
+              by any actor in many different ways, for example,
+              via global parameters, an actor's ports, or an
+              actor's parameters. To support the context
+              annotation process, three key components are added
+              to the existing Kepler/Ptolemy system: 1) context
+              modeling and provisioning, 2) context binding, and
+              3) context triggering. The incorporation of
+              context-aware actors in a scientific workflow
+              results in a scientific process that is aware of
+              its environment during execution and that responds
+              intelligently based on such awareness without
+              having to hard-code or entangle complex
+              reactionary logic in actors. A further advantage
+              of annotating an actor with contexts is that the
+              defined contexts can be reused and shared across
+              other workflows via a model-driven design approach
+              without writing any low level codes. Context
+              annotation also hides the complexity of using
+              complex workflows by providing high-level concepts
+              for initializing and configuring multiple
+              parameters that have implicit dependencies. This
+              paper presents the motivation for and system
+              design and implementation of a context annotation
+              process in Kepler/Ptolemy.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/815.html}
+}
+
+@misc{BuiTripakisGeilenRodiersLee11_ModularCodeGeneration,
+    author = {Dai Nguyen Bui and Stavros Tripakis and Marc
+              Geilen and Bert Rodiers and Edward A. Lee},
+    title = {Modular Code Generation},
+    day = {16},
+    month = {February},
+    year = {2011},
+    note = {Presented at the
+              Ninth Biennial Ptolemy Miniconference,
+              Berkeley, CA.},
+    abstract = {(No abstract.)},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/816.html}
+}
+
+@misc{Lee11_PtolemyProjectAdvancingSystemDesign,
+    author = {Edward A. Lee},
+    title = {{The Ptolemy Project: Advancing System Design}},
+    day = {16},
+    month = {February},
+    year = {2011},
+    note = {Presented at the
+              Ninth Biennial Ptolemy Miniconference,
+              Berkeley, CA.},
+    abstract = {(No abstract.)},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/817.html}
+}
+
+@misc{SheltonLatronicoLickly11_StaticAnalysisUsingPtolemyIIOntologiesPackage,
+    author = {Charles Shelton and Elizabeth Latronico and Ben
+              Lickly},
+    title = {{Static Analysis using the Ptolemy II Ontologies
+              Package}},
+    day = {16},
+    month = {February},
+    year = {2011},
+    note = {Presented at the
+              Ninth Biennial Ptolemy Miniconference,
+              Berkeley, CA.},
+    abstract = {The Ptolemy II Ontologies package extends the
+              Ptolemy II type inference engine to provide an
+              efficient and scalable framework for general
+              static analysis of arbitrary properties on a
+              Ptolemy model. The framework supports properties
+              that are specified as concepts in an ontology
+              graph that must be structured as a lattice. The
+              usefulness of this framework is demonstrated with
+              an example of a physical dimensions ontology. This
+              ontology labels different signals as representing
+              acceleration, velocity, position, and time. In a
+              Ptolemy model of physical dynamics, the
+              dimensional properties of input and output signals
+              can be automatically inferred using the ontology
+              analysis. Ptolemy model developers can use the
+              ontologies package to define their own ontologies
+              for structural and semantic property analysis.
+              This can prevent interface connection problems
+              during model construction by identifying when
+              incompatible signals are erroneously connected.
+              This work draws on concepts from compiler
+              optimization static analysis techniques and
+              applies them to Ptolemy actor-oriented models.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/809.html}
+}
+
+
+@misc{Lee11_SynthesisOfDistributedRealTimeEmbeddedSoftware,
+    author = {Edward A. Lee},
+    title = {Synthesis of Distributed Real-Time Embedded
+              Software},
+    day = {5},
+    month = {June},
+    year = {2011},
+    note = {Keynote talk, Electronic System Level Synthesis
+              Conference,
+June 5-6, 2011,
+San Diego, California},
+    abstract = {All widely used software abstractions lack
+              temporal semantics. The notion of correct
+              execution of a program written in every
+              widely-used programming language today does not
+              depend on the temporal behavior of the program.
+              But temporal behavior matters in almost all
+              systems, but most particularly in cyber-physical
+              systems, where temporal behavior affects not just
+              the value delivered by a system but also its
+              correctness. In this talk, I will describe a
+              recent effort at Berkeley called PTIDES, a
+              programming model for distributed real-time
+              systems, and PtidyOS, a lightweight microkernel
+              supporting PTIDES. PTIDES rests on a rigorous
+              semantics of discrete-event systems and reflects
+              the realities in distributed real-time, where
+              measuring the passage of time is imperfect. PTIDES
+              enables deterministic time-sensitive distributed
+              actions. It relies on certain assumptions about
+              networks that are not trivial (time
+              synchronization with bounded error and bounded
+              latency), but which have been shown in some
+              contexts to be achievable and economical. },
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/841.html}
+}
+
+@article{EidsonLeeMaticSeshiaZou11_DistributedRealTimeSoftwareForCyberPhysicalSystems,
+    author = {John Eidson and Edward A. Lee and Slobodan Matic
+              and Sanjit A. Seshia and Jia Zou},
+    title = {{Distributed Real-Time Software for Cyber-Physical
+              Systems}},
+    journal = {IEEE Proceedings},
+    month = {December},
+    year = {2011},
+    note = {To appear},
+    abstract = {Real-time embedded software today is commonly
+              built using programming abstractions with little
+              or no temporal semantics. This paper addresses
+              this problem by presenting a programming model
+              called PTIDES that serves as a coordination
+              language for model-based design of distributed
+              real-time embedded systems. Specifically, the
+              paper describes the principles of PTIDES, which
+              leverages network time synchronization to provide
+              a determinate distributed real-time semantics. We
+              show how PTIDES can function as a coordination
+              language, orchestrating components that may be
+              designed and specified using different formalisms.
+              We show the use of this environment in the design
+              of interesting and practical cyber-physical
+              systems, such as a power plant control system.},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/850.html}
+}
+
+@inproceedings{JensenChangLee11_ModelBasedDesignMethodologyForCyberPhysicalSystems,
+    author = {Jeff C. Jensen and Danica Chang and Edward A. Lee},
+    title = {{A Model-Based Design Methodology for
+              Cyber-Physical Systems}},
+    booktitle = {Proceedings of the first IEEE Workshop on Design,
+              Modeling, and Evaluation of Cyber-Physical Systems
+              (CyPhy)},
+    day = {6},
+    month = {July},
+    year = {2011},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/837.html}
+}
+
+@techreport{Bui:EECS-2011-97,
+    Author = {Bui, Dai and Patel, Hiren and Lee, Edward A.},
+    Title = {Checking for Circular Dependencies in Distributed Stream Programs},
+    Institution = {EECS Department, University of California, Berkeley},
+    Year = {2011},
+    Month = {Aug},
+    howpublished = {http://www.eecs.berkeley.edu/Pubs/TechRpts/2011/EECS-2011-97.html},
+    Number = {UCB/EECS-2011-97},
+}
+
+@inproceedings{CardosoDerlerEidsonLee11_NetworkLatencyPacketDelayVariationInCyberphysicalSystems,
+    author = {Janette Cardoso and Patricia Derler and John
+              Eidson and Edward A. Lee},
+    title = {{Network Latency and Packet Delay Variation in
+              Cyber-physical Systems}},
+    booktitle = {2011 IEEE 1st International Workshop on Network
+              Science (NSW 2011)  West Point, NY},
+    organization = {IEEE},
+    day = {23},
+    month = {June},
+    year = {2011},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/844.html}
+}
+
+@misc{Reineke11_PRETDRAMControllerBankPrivatizationForPredictability,
+    author = {Jan Reineke},
+    title = {{PRET DRAM Controller: Bank Privatization for
+              Predictability and Temporal Isolation}},
+    day = {10},
+    month = {October},
+    year = {2011},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/861.html}
+}
+
+@inproceedings{LiuReinekeLee10_PRETArchitectureSupportingConcurrentProgramsWithComposable,
+    author = {Isaac Liu and Jan Reineke and Edward A. Lee},
+    title = {{A PRET Architecture Supporting Concurrent 
+              Programs with Composable Timing Properties}},
+    booktitle = {44th Asilomar Conference  on Signals, Systems, and
+              Computers},
+    pages = {2111-2115},
+    day = {7},
+    month = {November},
+    year = {2010},
+    howpublished = {http://chess.eecs.berkeley.edu/pubs/803.html}
+}
+
+
+@inproceedings{kamgarpour2010cdc,
+	Author = {M. Kamgarpour and V. Dadok and C. Tomlin},
+	Booktitle = {Proceedings of IEEE Conference on Decision and Control},
+	Title = {{Trajectory Generation for Multiple Aircraft Subject to Dynamic Weather Uncertainty}},
+	Year = {2010}
+}
+
+
+@INPROCEEDINGS{kamgar2011cdc,
+author={M. Kamgarpour and J. Ding and S. Summers and and A. Abate and J. Lygeros and C. Tomlin},
+booktitle={Proceedings of IEEE Conference on Decision and Control}, 
+title={{Discrete Time Stochastic Hybrid Dynamic Games: Verification \& Controller Synthesis}},
+year={2011},
+month={Dec},
+note={to appear},
+}
+
+@inproceedings{maryam2011ifac,
+   author = {M. Kamgarpour and M. Soler and C. Tomlin and A. Olivares and J. Lygeros},
+   title = {Hybrid Optimal Control for Aircraft Trajectory Design with a Variable Sequence of Modes},
+   booktitle = {Proceedings of IFAC World Congress},
+   year = {2011},
+   month = aug
+}
+
+@incollection{summers2011stochasticset,
+ author = {Summers, Sean and Kamgarpour, Maryam and Lygeros, John and Tomlin, Claire},
+ title = {{A Stochastic Reach-Avoid Problem with Random Obstacles}},
+ booktitle={Hybrid Systems: Computation and Control},
+ year = {2011},
+ pages = {251--260},
+ publisher = {ACM},
+} 
+
+@INPROCEEDINGS{c:ding-CDC-2008,
+title={Reachability calculations for automated aerial refueling},
+author={Ding, Jerry and Sprinkle, Jonathan and Sastry, S. Shankar and Tomlin, Claire J.},
+booktitle={47th IEEE Conference on Decision and Control},
+year={2008},
+month={Dec.},
+volume={},
+number={},
+pages={3706-3712},
+}
+
+@ARTICLE{ j:ding-aiaa-gnd-2011,
+    AUTHOR = { Jerry Ding and Jonathan Sprinkle and Claire J. Tomlin and S. Shankar Sastry and James L. Paunicka },
+    TITLE = { Reachability Calculations for Vehicle Safety during Manned/Unmanned Vehicle Interaction },
+    JOURNAL = { AIAA Journal of Guidance, Control, and Dynamics },
+    NOTE={Accepted for publication},
+    YEAR = { 2011 },		
+}
+
+@INPROCEEDINGS{c:ding-CDC-2010,
+title={Robust Reach-Avoid Controller Synthesis for Switched Nonlinear Systems},
+author={Ding, Jerry and Tomlin, Claire J.},
+booktitle={49th IEEE Conference on Decision and Control},
+year={2010},
+month={Dec.},
+volume={},
+number={},
+pages={6481-6486},
+}
+
+@INPROCEEDINGS{c:ding-ICRA-2011,
+author={Ding, Jerry and Li, Eugene and Huang, Haomiao and Tomlin, Claire J.},
+booktitle={2011 IEEE International Conference on Robotics and Automation (ICRA)},
+title={Reachability-based synthesis of feedback policies for motion planning under bounded disturbances},
+year={2011},
+month={May},
+volume={},
+number={},
+pages={2160-2165},
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Entries by Humberto Gonzalez
+
+@article{gillula2011applications,
+  Author = {Gillula, J.H. and Hoffmann, G.M. and others},
+  Date-Modified = {2011-07-19 17:08:30 -0700},
+  Issn = {0278-3649},
+  Journal = {International Journal of Robotics Research},
+  Number = {3},
+  Pages = {335--354},
+  Publisher = {Sage Publications, Inc.},
+  Title = {Applications of hybrid reachability analysis to robotic aerial vehicles},
+  Volume = {30},
+  Year = {2011}}
+
+@INPROCEEDINGS{zhang_abate_switch,
+  author = {Wei Zhang and Alessandro Abate and Jianghai Hu},
+  title = {{Stabilization of Discrete-Time Switched Linear Systems: A Control-Lyapunov
+	Function Approach}},
+  booktitle = {Hybrid Systems: Computation and Control},
+  year = {2009},
+  pages = {411-425},
+  crossref = {DBLP:conf/hybrid/2009},
+}
+
+@ARTICLE{axelsson2008,
+  author = {Axelsson, H. and Wardi, Y. and Egerstedt, M. and Verriest, E.I.},
+  title = {{Gradient Descent Approach to Optimal Mode Scheduling in Hybrid Dynamical
+	Systems}},
+  journal = {Journal of Optimization Theory and Applications},
+  year = {2008},
+  volume = {136},
+  pages = {167--186},
+  number = {2},
+  publisher = {Springer}
+}
+
+@CONFERENCE{bemporad2000piecewise,
+  author = {Bemporad, A. and Borrelli, F. and Morari, M.},
+  title = {{Piecewise Linear Optimal Controllers for Hybrid Systems}},
+  booktitle = {Proceedings of the 2000 American Control Conference},
+  year = {2000},
+  volume = {2},
+  owner = {Ram},
+  timestamp = {2009.10.11}
+}
+
+@BOOK{bertsekas1995dpa,
+  title = {{Dynamic Programming and Optimal Control}},
+  publisher = {Athena Scientific Belmont, MA},
+  year = {1995},
+  author = {Bertsekas, D.P.},
+  owner = {Ram},
+  timestamp = {2009.10.17}
+}
+
+@ARTICLE{borrelli_hybrid,
+  author = {Francesco Borrelli and Mato Baoti\'{c} and Alberto Bemporad and Manfred
+	Morari},
+  title = {{Dynamic Programming for Constrained Optimal Control of Discrete-Time
+	Linear Hybrid Systems}},
+  journal = {Automatica},
+  year = {2005},
+  pages = {1709-1721},
+  month = jun,
+  vol = {41}
+}
+
+@ARTICLE{branicky1998ufh,
+  author = {Branicky, MS and Borkar, VS and Mitter, SK},
+  title = {{A Unified Framework for Hybrid Control: Model and Optimal Control
+	theory}},
+  journal = {IEEE Transactions on Automatic Control},
+  year = {1998},
+  volume = {43},
+  pages = {31--45},
+  number = {1},
+  owner = {Ram},
+  timestamp = {2009.05.18}
+}
+
+@CONFERENCE{brockett1995stabilization,
+  author = {Brockett, R.},
+  title = {{Stabilization of Motor Networks}},
+  booktitle = {Proceedings of the 34th IEEE Conference	on Decision and Control},
+  year = {1995},
+  volume = {2},
+  owner = {Ram},
+  timestamp = {2009.10.09}
+}
+
+@BOOK{bryson1969aoc,
+  title = {{Applied optimal control}},
+  publisher = {Ginn Waltham, Mass},
+  year = {1969},
+  author = {Bryson, A.E. and Ho, Y.C.},
+  owner = {Ram},
+  timestamp = {2009.05.19}
+}
+
+@ARTICLE{cassandras2001,
+  author = {Cassandras, C.G. and Pepyne, D.L. and Wardi, Y.},
+  title = {{Optimal Control of a Class of Hybrid Systems}},
+  journal = {Automatic Control, IEEE Transactions on},
+  year = {2001},
+  volume = {46},
+  pages = {398-415},
+  number = {3},
+  month = {Mar}
+}
+
+@INPROCEEDINGS{beck_minimum_principle,
+  author = {Jerawan Chudoung and Carolyn Beck},
+  title = {{The Minimum Principle for Deterministic Impulsive Control Systems}},
+  booktitle = {Proceedings of the 40th IEEE Conference on Decision and Control},
+  year = {2001},
+  pages = {3569- 3574},
+  month = dec,
+  vol = {4}
+}
+
+@CONFERENCE{duindam2008screw,
+  author = {Duindam, V. and Alterovitz, R. and Sastry, S. and Goldberg, K.},
+  title = {{Screw-based motion planning for bevel-tip flexible needles in 3d
+	environments with obstacles}},
+  booktitle = {IEEE Intl. Conf. on Robot. and Autom},
+  year = {2008},
+  pages = {2483--2488},
+  owner = {ramv},
+  timestamp = {2010.03.29}
+}
+
+@CONFERENCE{egerstedt2002multi,
+  author = {Egerstedt, M. and Wardi, Y.},
+  title = {{Multi-Process Control Using Queuing Theory}},
+  booktitle = {IEEE Conference on Decision and Control},
+  year = {2002},
+  volume = {2},
+  pages = {1991--1996},
+  owner = {Ram},
+  timestamp = {2009.10.09}
+}
+
+@ARTICLE{egerstedt2006,
+  author = {Egerstedt, M. and Wardi, Y. and Axelsson, H.},
+  title = {{Transition-Time Optimization for Switched-Mode Dynamical Systems}},
+  journal = {IEEE Transactions on Automatic Control},
+  year = {2006},
+  volume = {51},
+  pages = {110--115},
+  number = {1}
+}
+
+@INPROCEEDINGS{egerstedt_switch,
+  author = {M. Egerstedt and Y. Wardi and F. Delmotte},
+  title = {{Optimal Control of Switching Times in Switched Dynamical Systems}},
+  booktitle = {Proceedings 42nd IEEE Conference on Decision and Control},
+  year = {2003},
+  pages = {2138- 2143},
+  month = dec
+}
+
+@INPROCEEDINGS{eklund2005acc,
+  author = {J. Eklund and J. Sprinkle and S. Sastry},
+  title = {{Implementing and Testing a Nonlinear Model Predictive Tracking Controller
+	for Aerial Pursuit/Evasion Games on a Fixed Wing Aircraft}},
+  booktitle = {Proceedings of the American Control Conference},
+  year = {2005},
+  pages = {1509-1514}
+}
+
+@BOOK{folland1999,
+  title = {{Real Analysis: Modern Techniques and Their Applications}},
+  publisher = {Wiley},
+  year = {1999},
+  author = {Folland, G. B.},
+  edition = {Second}
+}
+
+@BOOK{fornberg1996pgp,
+  title = {{A Practical Guide to Pseudospectral Methods}},
+  publisher = {Cambridge university press},
+  year = {1996},
+  author = {Fornberg, B.},
+  owner = {Ram},
+  timestamp = {2009.05.19}
+}
+
+@CONFERENCE{ghosh2001hybrid,
+  author = {Ghosh, R. and Tomlin, C.J.},
+  title = {{Hybrid System Models of Biological Cell Network Signaling and Differentiation}},
+  booktitle = {Proceedings of the Annual Allerton Conference on Communication Control
+	and Computing},
+  year = {2001},
+  volume = {39},
+  number = {2},
+  pages = {942--951},
+  owner = {Ram},
+  timestamp = {2009.10.09}
+}
+
+@CONFERENCE{giua2001optimal,
+  author = {Giua, A. and Seatzu, C. and Van Der Mee, C.},
+  title = {{Optimal Control of Switched Autonomous Linear systems}},
+  booktitle = {IEEE Conference on Decision and Control},
+  year = {2001},
+  volume = {3},
+  pages = {2472--2477},
+  owner = {Ram},
+  timestamp = {2009.10.11}
+}
+
+@ARTICLE{gokbayrak2000,
+  author = {Gokbayrak, K. and Cassandras, C.G.},
+  title = {{Hybrid Controllers for Hierarchically Decomposed Systems}},
+  journal = {Lecture notes in computer science},
+  year = {2000},
+  pages = {117--129},
+  publisher = {Springer}
+}
+
+@CONFERENCE{gonzalez2010descent,
+  author = {Gonzalez, H. and Vasudevan, R. and Kamgarpour, M. and Sastry, S.
+	and Bajcsy, R. and Tomlin, C.},
+  title = {{A Descent Algorithm for the Optimal Control of Constrained Nonlinear
+	Switched Dynamical Systems}},
+  booktitle = {Proc of the 13th International Conference on Hybrid Systems:
+	Computation and Control},
+  pages={51--60},
+  year = {2010}
+}
+
+@CONFERENCE{gonzalez2010cdc,
+  author = {Gonzalez, H. and Vasudevan, R. and Kamgarpour, M. and Sastry, S.
+	and Bajcsy, R. and Tomlin, C.},
+  title = {A Numerical Method for the Optimal Control of Switched Systems},
+  booktitle = {Proceedings of the 49th IEEE Conference in Decision and Control},
+  pages = {7519--7526},
+  year = {2010}
+}
+
+@TECHREPORT{techreport2010,
+  author = {Gonzalez, Humberto and Vasudevan, Ram and Kamgarpour, Maryam and
+	Sastry, S. Shankar and Bajcsy, Ruzena and Tomlin, Claire},
+  title = {A Descent Algorithm for the Optimal Control of Constrained Nonlinear
+	Switched Dynamical Systems: Appendix},
+  institution = {EECS Department, University of California, Berkeley},
+  year = {2010},
+  number = {UCB/EECS-2010-9},
+  month = {Jan},
+  abstract = {This document is an appendix to the paper "A Descent Algorithm for
+	the Optimal Control of Constrained Nonlinear Switched Dynamical Systems",
+	presented at the 13th International Conference on Hybrid Systems:
+	Computation and Control (HSCC'10), and contains the proofs of all
+	the propositions and theorems in Section 4 of that paper. The reader
+	is advised to read this document after covering the first three sections
+	of the original paper, as the notation and the problem formulation
+	are not covered in this appendix. The numbering of the equations,
+	propositions, and theorems is consistent with the numbering used
+	in the original paper.},
+  howpublished = {http://www.eecs.berkeley.edu/Pubs/TechRpts/2010/EECS-2010-9.html}
+}
+
+@INPROCEEDINGS{rantzer_switch,
+  author = {Sven Hedlund and Andres Rantzer},
+  title = {{Optimal Control of Hybrid Systems}},
+  booktitle = {Proceedings of the 38th IEEE Conference on Decision and Control},
+  year = {1999},
+  address = {Phoenix, Arizona},
+  month = dec
+}
+
+@CONFERENCE{hoffmann2007quadrotor,
+  author = {Hoffmann, G.M. and Huang, H. and Waslander, S.L. and Tomlin, C.J.},
+  title = {{Quadrotor Helicopter Flight Dynamics and Control: Theory and Experiment}},
+  booktitle = {Proc. of the AIAA Guidance, Navigation, and Control Conference},
+  year = {2007},
+  owner = {Ram},
+  timestamp = {2009.10.17}
+}
+
+@MANUAL{tomlab2006,
+  title = {User's Guide for TOMLAB},
+  author = {K. Holmstr\"{o}m and A. O. G\"{o}ran and Marcus M. Edvall},
+  organization = {Tomlab Optimization Inc.},
+  month = {December},
+  year = {2006}
+}
+
+@ARTICLE{hooke-jeeves1961,
+  author = {Robert Hooke and T. A. Jeeves},
+  title = {``{D}irect Search'' Solution of Numerical and Statistical Problems},
+  journal = {Journal of the ACM},
+  year = {1961},
+  volume = {8},
+  pages = {212--229},
+  number = {2}
+}
+
+@CONFERENCE{kallem2007image,
+  author = {Kallem, V. and Cowan, N.J.},
+  title = {{Image-guided Control of Flexible Bevel-Tip Needles}},
+  booktitle = {Proceedings of the IEEE International Conference on Robotics and
+	Automation},
+  year = {2007},
+  pages = {3015--3020},
+  owner = {ramv},
+  timestamp = {2010.03.29}
+}
+
+@ARTICLE{kamgar_tomlin_hs10,
+  author = {Maryam Kamgarpour and Claire Tomlin},
+  title = {{On Optimal Control of Switched Systems}},
+  journal = {Control and Decision Conference},
+  year = {2010},
+  note = {In preparation}
+}
+
+@ARTICLE{kang2008,
+  author = {Kang, W. and Ross, M. and Gong, Q.},
+  title = {{Pseudospectral Optimal Control and Its Convergence Theorems}},
+  journal = {Lecture Notes in Control and Information Sciences, Alessandro Astolfi
+	and Lorenzo Marconi eds.},
+  year = {2008},
+  pages = {109--124},
+  publisher = {Springer}
+}
+
+@INPROCEEDINGS{kang2006aiaa,
+  author = {Y. Kang and J. Hedrick},
+  title = {{Design of Nonlinear Model Predictive Controller for a Small Fixed-Wing
+	Unmanned Aerial Vehicle}},
+  booktitle = {AIAA Guidance, Navigation, and Control Conference},
+  year = {2006}
+}
+
+@INPROCEEDINGS{kim2002acc,
+  author = {H. Kim and D. Shim and S. Sastry},
+  title = {{Nonlinear Model Predictive Tracking Control for Rotorcraft-Based
+	Unmanned Aerial Vehicles}},
+  booktitle = {Proceedings of the American Control Conference},
+  year = {2002},
+  pages = {3576-3581}
+}
+
+@ARTICLE{rantzer_dp_relax,
+  author = {Bo Lincoln and Anders Rantzer},
+  title = {{Relaxing Dynamic Programming}},
+  journal = {IEEE Transactions on Automatic Control},
+  year = {2006},
+  number = {8},
+  month = aug,
+  vol = {51}
+}
+
+@CONFERENCE{lincoln2001optimizing,
+  author = {Lincoln, B. and Rantzer, A.},
+  title = {{Optimizing Linear System Switching}},
+  booktitle = {IEEE Conference on Decision and Control},
+  year = {2001},
+  volume = {3},
+  pages = {2063--2068},
+  owner = {Ram},
+  timestamp = {2009.10.09}
+}
+
+@ARTICLE{mayne1975first,
+  author = {Mayne, DQ and Polak, E.},
+  title = {{First-Order Strong Variation Algorithms for Optimal Control}},
+  journal = {Journal of Optimization Theory and Applications},
+  year = {1975},
+  volume = {16},
+  pages = {277--301},
+  number = {3},
+  owner = {Ram},
+  publisher = {Springer},
+  timestamp = {2009.10.14}
+}
+
+@ARTICLE{mayne2000,
+  author = {D. Q. Mayne and J. B. Rawlings and C. V. Rao and P. O. M. Scokaert},
+  title = {{Constrained Model Predictive Control: Stability and Optimality}},
+  journal = {Automatica},
+  year = {2000},
+  volume = {36},
+  pages = {789--814},
+  number = {6}
+}
+
+@ARTICLE{mitchell2005,
+  author = {I. M. Mitchell and A. M. Bayen and Claire J. Tomlin},
+  title = {{A Time-Dependent Hamilton-Jacobi Formulation of Reachable Sets for
+	Continuous Dynamic Games}},
+  journal = {IEEE Transactions on Automatic Control},
+  year = {2005},
+  volume = {50},
+  pages = {947-957}
+}
+
+@BOOK{polak1997,
+  title = {{Optimization: Algorithms and Consistent Approximations}},
+  publisher = {Springer},
+  year = {1997},
+  author = {Elijah Polak}
+}
+
+@BOOK{pontryagin1962mathematical,
+  title = {{The Mathematical Theory of Optimal Processes}},
+  publisher = {Interscience New York},
+  year = {1962},
+  author = {Pontryagin, L.S. and Boltyanskii, VG and Gamkrelidze, RV and Mishchenko,
+	EF},
+  owner = {Ram},
+  timestamp = {2009.10.15}
+}
+
+@ARTICLE{rantzer2000piecewise,
+  author = {Rantzer, A. and Johansson, M.},
+  title = {{Piecewise Linear Quadratic Optimal Control}},
+  journal = {IEEE Transactions on Automatic Control},
+  year = {2000},
+  volume = {45},
+  pages = {629--637},
+  number = {4},
+  owner = {Ram},
+  publisher = {Citeseer},
+  timestamp = {2009.10.11}
+}
+
+@ARTICLE{rehbinder2004scheduling,
+  author = {Rehbinder, H. and Sanfridson, M.},
+  title = {{Scheduling of a Limited Communication Channel for Optimal Control}},
+  journal = {Automatica},
+  year = {2004},
+  volume = {40},
+  pages = {491--500},
+  number = {3},
+  owner = {Ram},
+  publisher = {Elsevier},
+  timestamp = {2009.10.09}
+}
+
+@ARTICLE{rinehart2008suboptimal,
+  author = {Rinehart, M. and Dahleh, M. and Reed, D. and Kolmanovsky, I.},
+  title = {{Suboptimal Control of Switched Systems with an Application to the
+	Disc Engine}},
+  journal = {IEEE Transactions on Control Systems Technology},
+  year = {2008},
+  volume = {16},
+  pages = {189--201},
+  number = {2},
+  owner = {Ram},
+  publisher = {New York, NY: Institute of Electrical and Electronics Engineers,
+	c1993-},
+  timestamp = {2009.10.09}
+}
+
+@BOOK{rudin1964principles,
+  title = {{Principles of Mathematical Analysis}},
+  publisher = {McGraw-Hill New York},
+  year = {1964},
+  author = {Rudin, W.},
+  owner = {Ram},
+  timestamp = {2009.09.30}
+}
+
+@BOOK{sastry1999,
+  title = {{Nonlinear Systems: Analysis, Stability and Control}},
+  publisher = {Springer},
+  year = {1999},
+  author = {Shankar Sastry}
+}
+
+@INPROCEEDINGS{seidman_optimalcontrol,
+  author = {Thomas I. Seidman},
+  title = {{Optimal Control for Switching Systems}},
+  booktitle = {Proceedings of 21st Annual Conference on Information Science and
+	Systems},
+  year = {1987},
+  pages = {485-489}
+}
+
+@ARTICLE{shaikh2003och,
+  author = {Shaikh, M.S. and Caines, P.E.},
+  title = {{On the Optimal Control of Hybrid Systems: Optimization of Trajectories,
+	Switching Times, and Location Schedules}},
+  journal = {Lecture Notes in Computer Science},
+  year = {2003},
+  volume = {2623},
+  pages = {466--481},
+  owner = {Ram},
+  publisher = {Springer},
+  timestamp = {2009.05.18}
+}
+
+@CONFERENCE{sussmann1999,
+  author = {Sussmann, HJ},
+  title = {{A Maximum Principle for Hybrid Optimal Control Problems}},
+  booktitle = {Decision and Control, 1999. Proceedings of the 38th IEEE Conference
+	on},
+  year = {1999},
+  volume = {1}
+}
+
+@INCOLLECTION{sutton2000,
+  author = {Gordon Sutton and Robert Bitmead},
+  title = {{Performance and Computational Implementation of Nonlinear Model
+	Predictive Control on a Submarine}},
+  booktitle = {Nonlinear Model Predictive Control},
+  publisher = {Birkh{\"a}user},
+  year = {2000},
+  editor = {Frank Allg{\"o}wer and Alex Zheng},
+  series = {Progress in Systems and Control Theory},
+  pages = {461-471}
+}
+
+@MISC{vinter2000optimal,
+  author = {Vinter, R.},
+  title = {{Optimal control, Systems \& Control: Foundations \& Applications}},
+  year = {2000},
+  owner = {Ram},
+  publisher = {Birkhauser Boston Inc., Boston, MA},
+  timestamp = {2009.10.13}
+}
+
+@ARTICLE{walsh2002stability,
+  author = {Walsh, G.C. and Ye, H. and Bushnell, L.G. and others},
+  title = {{Stability Analysis of Networked Control Systems}},
+  journal = {IEEE Transactions on Control Systems Technology},
+  year = {2002},
+  volume = {10},
+  pages = {438--446},
+  number = {3},
+  owner = {Ram},
+  publisher = {Citeseer},
+  timestamp = {2009.10.09}
+}
+
+@ARTICLE{xu2003,
+  author = {Xu, X. and Antsaklis, P.J.},
+  title = {{Results and Perspective on Computational Methods for Optimal Control
+	of Switched Systems}},
+  journal = {Lecture Notes in Computer Science},
+  year = {2003},
+  volume = {2623},
+  pages = {540--556},
+  publisher = {Springer}
+}
+
+@ARTICLE{xu2002,
+  author = {Xu, X. and Antsaklis, PJ},
+  title = {{Optimal Control of Switched Systems via Nonlinear Optimization Based
+	on Direct Differentiation of Value Functions}},
+  journal = {International Journal of Control, 75},
+  year = {2002},
+  volume = {16},
+  pages = {1406--1426},
+  number = {17},
+  publisher = {Taylor and Francis Ltd}
+}
+
+@ARTICLE{yang1993,
+  author = {T. H. Yang and E. Polak},
+  title = {{Moving Horizon Control of Nonlinear Systems with Input Saturation,
+	Disturbances and Plant Uncertainty}},
+  journal = {International Journal of Control},
+  year = {1993},
+  volume = {58},
+  pages = {875-903},
+  number = {4}
+}
+
+@MISC{dido,
+  title = {Elissar LLC},
+  howpublished = {\howpublished{http://www.elissar.biz/Order.html}},
+  year = {2009}
+}
+
+@inproceedings{lqr_hybrid, 
+	author =	{P. Riedinger and F. Kratz and C. Iung and C. Zanne},
+	title = {Linear quadratic optimization for hybrid systems},
+	booktitle = {Proceedings of the 38th IEEE Conference on Decision and Control},
+	pages = {3059-3064},
+	volume ={3},
+	year = {1999}
+}
+
+@article{antsaklis_switched, 
+	author =	{Xuping Xu and Panos J. Antsaklis},
+	title = {Optimal Control of Switched Systems via Nonlinear Optimization Based on Direct Differentiations of Value Functions},
+	journal = {International Journal of Control},
+	year = {2002},
+	vol = {75},
+	number = {8},
+	pages = {1406-1426},
+	month = nov
+}
+
+%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%
+
+@article{WB:10,
+    author = {Y. Wang and S. Boyd},
+    title = {Fast Evaluation of Quadratic Control-Lyapunov Policy},
+    journal = {IEEE Transactions on control Systems Technology},
+    year = 2010,
+    month = jun,
+    volume = {PP},
+    number = 99,
+    pages = {1-8}
+}
+
+@article{MWB:11,
+	title = {Receding Horizon Control: Automatic Generation of High-Speed Solvers},
+	author = {J. Mattingley and Y. Wang and and S. Boyd},
+	journal = {IEEE Control Systems Magazine},
+	year = 2011,
+	month = jun,
+	volume = 31,
+	number = 3,
+	pages = {52--65}
+}
+
+@inproceedings{MWB:10,
+	author = {J. Mattingley and Y. Wang and and S. Boyd},
+	title = {Code Generation for Receding Horizon Control},
+	booktitle = {Proceedings IEEE Multi-Conference on Systems and Control},
+	pages = {985--992},
+	month = sep,
+	year = 2010
+}
+
+@article{MB:12,
+	author = {J. Mattingley and S. Boyd},
+	title = {{CVXGEN: A Code Generator for Embedded Convex Optimization}},
+	journal = {Optimization and Engineering},
+	year = 2012,
+	note = {To appear}
+}
+
+@article{MB:10,
+	author = {J. Mattingley and S. Boyd},
+	title = {Real-Time Convex Optimization in Signal Processing},
+	journal = {IEEE Signal Processing Magazine}, 
+	volume = 27,
+	number = 3, 
+	pages = {50--61},
+	month = may,
+	year = 2010
+}
+
+@misc{WBIterBel:10,
+	author = {Y. Wang and S. Boyd},
+	title = {Approximate Dynamic Programming via Iterated Bellman Inequalities},
+	notes = {Manuscript},
+	year = 2010
+}
+
+@article{WB:11,
+	author = {Y. Wang and S. Boyd},
+	title = {Performance Bounds and Suboptimal Policies for Linear Stochastic Control via LMIs},
+	journal = {International Journal of Robust and Nonlinear Control},
+	volume =  21,
+	number = 14,
+	pages = {1710-–1728}, 
+	month = sep,
+	year = 2011
+}
+
+@article{WB:09,
+	author = {Y. Wang and S. Boyd},
+	title = {Performance Bounds for Linear Stochastic Control},
+	journal = {Systems and Control Letters},
+	volume = 58,
+	number = 3,
+	pages = {178--182},
+	month = mar,
+	year = 2009
+}
+
+@article{WBFastmpc:10,
+	author = {Y. Wang and S. Boyd},
+	title = {Fast Model Predictive Control Using Online Optimization},
+	journal = {IEEE Transactions on Control Systems Technology},
+	volume =  18,
+	number = 2,
+	pages = {267--278},
+	month = mar,
+	year =  2010,
+}
+
+@inproceedings{WBFastmpc:08,
+	author = {Y. Wang and S. Boyd},
+	title = {Fast Model Predictive Control Using Online Optimization},
+	booktitle = {Proceedings IFAC World Congress},
+	location = {Seoul}, 
+	month = jul,
+	year = 2008
+}
+
+@article{BPCPE:10,
+    author = {S. Boyd and N. Parikh and E. Chu and B. Peleato and J. Eckstein},
+    title = {Distributed Optimization and Statistical Learning via the Alternating Direction Method of Multipliers},
+    journal = {Foundations and Trends in Machine Learning},
+    note = {To appear},
+    volume = 3,
+    number = 1,
+    pages = {1--122},
+    year = 2010
+}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+
+@inproceedings{ Bhave:views,
+
+    author = {A. Bhave and B. H. Krogh and D. Garlan and B. Schmerl},
+    title = {Multi-domain modeling of cyber-physical systems using architectural views},
+    booktitle = {Analytic Virtual Integration of Cyber-Physical Systems Workshop},
+    address = {San Diego, CA},
+    month = {Nov},
+    year = {2010}
+}
+
+@inproceedings{ Kapinski:incr_bound_sys,
+
+    author = {J. Kapinski and B. H. Krogh},
+    title = {On incrementally bounded systems},
+    booktitle = {{American Control Conference (ACC)}},
+    address = {Baltimore, MD},
+    month = {July},
+    year = {2010},
+    pages = {6348--6350}
+}
+
+@inproceedings{ Althoff:reachability,
+
+    author = {M. Althoff and C. Le Guernic and B. H. Krogh},
+    title = {Reachable set computation for uncertain time-varying linear systems},
+    booktitle = {{Conf. on Hybrid Systems, Computation, and Control (HSCC)}},
+    address = {Chicago, IL},
+    month = {Apr},
+    year = {2011}
+}
+
+@inproceedings{ Bhave:consistency,
+
+    author = {A. Bhave and B. H. Krogh and D. Garlan and B. Schmerl},
+    title = {View consistency in architectures for cyber-physical systems},
+    booktitle = {{Intl. Conf. on Cyber-Physical Systems (ICCPS)}},
+    address = {Chicago, IL},
+    month = {Apr},
+    year = {2011}
+}
+
+@inproceedings{ Clarke:smc,
+
+    author = {Edmund M. Clarke and Paolo Zuliani},
+    title = {Statistical Model Checking for Cyber-Physical Systems},
+    booktitle = {9th Intl. Symp. on Automated Technology for Verification and Analysis (ATVA)}, 
+    volume = {LNCS 6996},
+    pages = {1--12},
+    year = {2011}
+}
+
+@inproceedings{ Zuliani:rare_event,
+
+    author = {Paolo Zuliani and Christel Baier and Edmund Clarke},
+    title = {{Rare-event verification for Stochastic Hybrid Analysis}},
+    booktitle = {Submitted},
+    year = {2011}
+}
+
+@book{Platzer10,
+  author    = {Andr{\'e} Platzer},
+  title     = {Logical Analysis of Hybrid Systems:
+               Proving Theorems for Complex Dynamics},
+  publisher = {Springer},
+  address   = {Heidelberg},
+  year      = {2010},
+  isbn      = {978-3-642-14508-7},
+}
+
+%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%
+
+
+
+@techreport{ NK_1a,
+    Author = {N. Kottenstette and H. LeBlanc and E. Eyisi and J. Porter},
+    Title = {A Backstepping Control Framework for m-Triangular Systems},
+    Institution = {Inst. for Software Integrated Systems (ISIS), Vanderbilt Univ.},
+    Year = {2011},
+    Month = {Apr},
+    Number = {ISIS-11-04},
+    howpublished = {http://www.isis.vanderbilt.edu/sites/default/files/sop_bstep_press.pdf}
+}
+
+@techreport{ NK_1b,
+    Author = {N. Kottenstette and J. Hall III and X. Koutsoukos and J. Sztipanovits and P. Antsaklis},
+    Title = {Passivity-Based Design of Wireless Networked Control Systems Subject to Time-Varying Delays},
+    Institution = {Inst. for Software Integrated Systems (ISIS), Vanderbilt Univ.},
+    Year = {2011},
+    Pages = {2--17},
+    Month = {Feb},
+    Number = {ISIS-08-904}
+}
+
+@techreport{ NK_1c,
+    Author = {N. Kottenstette and H. LeBlanc and E. Eyisi and X. Koutsoukos},
+    Title = {Multi-Rate Networked Control of Conic Systems},
+    Institution = {Inst. for Software Integrated Systems (ISIS), Vanderbilt Univ.},
+    Year = {2011},
+    Month = {Mar},
+    pages = {2--12},
+    Number = {ISIS-09-108}
+}
+
+@article{ NK_2,
+    author = {N. Kottenstette and J. Hall III and X. Koutsoukos and P. Antsaklis and J. Sztipanovits},
+    title = {Digital Control of Multiple Discrete Passive Plants Over Networks},
+    journal = {Intl. Journal of Systems, Control, and Communications},
+    volume = {3},
+    number = {2},
+    pages = {194--228},
+    month = {Apr},
+    year = {2011}
+}
+
+@inproceedings{ NK_3a,
+    author = {H. LeBlanc and E. Eyisi and N. Kottenstette and X. Koutsoukos},
+    title = {A Passivity-Based Approach To Deployment in Multi-Agent Networks},
+    booktitle = {7th Intl. Conf. on Informatics in Control, Automation, and Robotics (ICINCO)},
+    year = {2010},
+    month = {Jun},
+    address = {Funchal, Madeira - Portugal},
+    pages = {53--62}
+}
+
+@article{ NK_3b,
+   author = {LeBlanc, Heath and Eyisi, Emeka and Kottenstette, Nicholas and Koutsoukos, Xenofon and Sztipanovits, Janos},
+   title = {A Passivity-Based Approach to Group Coordination in Multi-agent Networks},
+   journal = {Informatics in Control, Automation and Robotics},
+   series = {Lecture Notes in Electrical Engineering},
+   editor = {Cetto, Juan Andrade and Ferrier, Jean-Louis and Filipe, Joaquim},
+   publisher = {Springer Berlin Heidelberg},
+   pages = {135-149},
+   volume = {89},
+   year = {2011}
+}
+
+
+@article{ NK_4a,
+    author = {D. M. Stipanovic and P. F. Hokayem and M. W. Spong and D. D. Siljak},
+    title = {Cooperative avoidance control for multiagent systems},
+    journal = {Journal of Dynamic Systems, Measurement, and Control},
+    volume = {129},
+    number = {5},
+    pages = {699--707},
+    year = {2007}
+}
+
+@inproceedings{ NK_4b,
+    author = {Y. Igarashi and T. Hatanaka and M. Fujita and M. Spong},
+    title = {Passivity-based output synchronization and flocking algorithm in SE(3)},
+    booktitle = {47th IEEE Conf. on Decision and Control},
+    year = {2008},
+    pages = {1024--1029}
+}
+
+@article{ NK_5a,
+    author = {J. A. Farrell and M. Sharma and M. Polycarpou},
+    title = {Backstepping-based flight control with adaptive function approximation},
+    journal = {Journal of Guidance, Control, and Dynamics},
+    volume = {28},
+    number = {6},
+    pages = {1089--1102},
+    year = {2005}
+}
+
+@inproceedings{ NK_5b,
+    author = { M. Polycarpou and J. Farrell and M. Sharma },
+    title = {On-line approximation control of uncertain nonlinear systems: issues with control input saturation},
+    booktitle = {Proc. of the American Control Conf.},
+    volume = {1},
+    month = {Jun},
+    year = {2003},
+    pages = {543--548}
+}
+
+@article{ NK_5c,
+    author = { J. A. Farrell and M. Polycarpou and M. Sharma and W. Dong},
+    title = {Command filtered backstepping},
+    journal = {{IEEE Trans. on Automatic Control}},
+    volume = {54},
+    number = {6},
+    pages = {1391--1395},
+    year = {2009}
+}
+
+@inproceedings{ HG_num_opt_ctrl,
+    author = {H. Gonzalez and R. Vasudevan and M. Kamgarpour and S. Sastry and R. Bajcsy and C. Tomlin},
+    title = {{A Numerical Method for the Optimal Control of Switched Systems}},
+    booktitle = {{Proc. of the 49th IEEE Conf. on Decision and Control (CDC 2010)}}, 
+    pages = {7519--7526},
+    month = {Dec},
+    year = {2010}
+}
+
+@incollection{ ss_coll_avoid,
+   author = {Shankaran, Sriram and Stipanovic, Dusan M. and Tomlin, Claire J.},
+   affiliation = {General Electric Research Center, Niskayuna, NY USA},
+   title = {Collision Avoidance Strategies for a Three-Player Game},
+   booktitle = {Advances in Dynamic Games},
+   series = {Annals of the International Society of Dynamic Games},
+   editor = {Breton, Michele and Szajowski, Krzysztof and Bauar, Tamer},
+   publisher = {Birkhauser Boston},
+   pages = {253-271},
+   volume = {11},
+   year = {2011}
+}
+
+@INPROCEEDINGS{5509627,
+author={Gillula, J.H. and Haomiao Huang and Vitus, M.P. and Tomlin, C.J.},
+booktitle={Robotics and Automation (ICRA), 2010 IEEE International Conference on},
+title={Design of guaranteed safe maneuvers using reachable sets: Autonomous quadrotor aerobatics in theory and practice},
+year={2010},
+month={may},
+volume={},
+number={},
+pages={1649--1654}
+}
+
+@INPROCEEDINGS{5399494,
+author={Ding, J. and Tomlin, C.J.},
+booktitle={Decision and Control, 2009 held jointly with the 2009 28th Chinese Control Conference. CDC/CCC 2009. Proceedings of the 48th IEEE Conference on},
+title={Trajectory optimization in convex underapproximations of safe regions},
+year={2009},
+month={dec.},
+volume={},
+number={},
+pages={2510 -2515},
+keywords={aircraft trajectory optimization;collision free conflict resolution trajectory;convex trajectory optimization program;convex underapproximations;game theoretic framework;model linearization;noncooperative setting;robustness analysis;unsafe reachable sets;aircraft control;convex programming;game theory;linear systems;position control;robust control;set theory;},
+doi={10.1109/CDC.2009.5399494},
+ISSN={0191-2216},}
+
+@inproceedings{ JG_hyb_sys_aerial,
+    author = {J. H. Gillula and H. Huang and M. P. Vitus and C. J. Tomlin}, 
+    title = {{Design and Analysis of Hybrid Systems With Applications to Robotic Aerial Vehicles}},
+    booktitle = {Proc. of the 14th Intl. Symp. of Robotics Research}, 
+    month = {Sep},
+    year = {2009}
+}
+
+@inproceedings{ JD_conf_dyn_prog,
+    author = {Jerry Ding and Claire Tomlin},
+    title = {{A Dynamic Programming Approach for Aircraft Conflict Detection}},
+    booktitle = {{Proc. of the AIAA Conf. on Guidance, Navigation and Control}}, 
+    address = {Chicago, IL}, 
+    month = {Aug},
+    year = {2009}
+}
+
+@inproceedings{ PZ_smc,
+    author = {P. Zuliani and A. Platzer and Edmund M. Clarke},
+    title = {{Bayesian Statistical Model Checking with Application to Stateflow/Simulink Verification}},
+    booktitle = {Proc. of the 13th Intl. Conf. on Hybrid Systems: Computation and Control (HSCC 10)}, 
+    pages = {243--252},
+    year = {2010}
+}
+
+@inproceedings{ hj_eff_sat,
+    author = {H. Jain and E. M. Clarke},
+    title = {{Efficient SAT solving for non-clausal formulas using DPLL, graphs, and watched cuts}},
+    booktitle = {DAC 2009},
+    pages = {563--568},
+    year = {2009}
+}
+
+@article{ emc_model_checking,
+    author = {E. M. Clarke and E. A. Emerson and J. Sifakis},
+    title = {{Model checking: algorithmic verification and debugging}},
+    journal = {Commun. of the ACM},
+    volume = {52},
+    number = {11},
+    pages = {74--84},
+    year = {2009}
+}
+
+@article{ hj_craig_interp,
+    author = {H. Jain and E. M. Clarke and O. Grumberg},
+    title = {{Efficient Craig interpolation for linear Diophantine (dis)equations and linear modular equations}},
+    journal = {Formal Methods in System Design},
+    volume = {35},
+    number = {1},
+    pages = {6--39},
+    year = {2009}
+}
+
+
+@incollection{ jm_codegen_rt_conv_opt,
+    author = {J. Mattingley and S. Boyd},
+    title = {{Automatic Code Generation for Real-Time Convex Optimization}},
+    booktitle = {Convex Optimization in Signal Processing and Communications},
+    year = {2010},
+    editor = { Y. Eldar and D. Palomar },
+    publisher = {Cambridge University Press},
+    pages = {1--41}
+}
+    
+@inproceedings{ nk_pos_real_pass,
+    author = {N. Kottenstette and P. J. Antsaklis},
+    title = {{Relationships between positive real, passive dissipative, \& positive systems}}, 
+    booktitle = {American Control Conf. (ACC2010)}, 
+    pages = {1-–8},
+    address = {Baltimore, Maryland},
+    year = {2010}
+}
+
+@techreport{ nk_nl_ctrl_design, 
+	title = {Constructive Non-Linear Control Design With Applications to Quad-Rotor and Fixed-Wing Aircraft},
+	year = {2010},
+	month = {01/2010},
+	institution = {Institute for Software Integrated Systems, Vanderbilt University},
+	address = {Nashville, TN},
+	number = {ISIS-10-101},
+	author = {Kottenstette, Nicholas}
+}
+
+@inproceedings{ nk_resilient1,
+    author = {Kottenstette, N. and G. Karsai and J. Sztipanovits}, 
+    title = {{A Passivity-Based Framework for Resilient Cyber Physical Systems}},
+    booktitle = {2nd Intl. Symp. on Resilient Control Systems (ISRCS 2009)}, 
+    address = {Idaho Falls, ID}, 
+    publisher = {IEEE}, 
+    month = {Aug},
+    year = {2009}
+}
+
+@inproceedings{ nk_resilient2,
+    author = {Kottenstette, N. and Porter, J. and Karsai, G. and Sztipanovits, J.}, 
+    title = {{Discrete-Time IDA-Passivity Based Control of Coupled Tank Processes Subject To Actuator Saturation}}, 
+    booktitle = {3rd Intl. Symp. on Resilient Control Systems (ISRCS 2010)},
+    address = {Idaho Falls, ID}, 
+    publisher = {IEEE}, 
+    month = {Aug},
+    year = {2010}
+}
+
+@inproceedings{ jp_online_stability,
+	title = {Online Stability Validation Using Sector Analysis},
+	booktitle = {Intl. Conf. on Embedded Software (EMSoft 2010)},
+	year = {2010},
+	month = {Oct},
+	pages = {29--38},
+	publisher = {ACM},
+	organization = {ACM},
+	address = {Scottsdale, AZ},
+	author = {Joseph Porter and Graham Hemingway and Kottenstette, Nicholas and Karsai, Gabor and Sztipanovits, Janos}
+}
+
+@phdthesis{ gh_dissertation,
+    author = {Graham Hemingway},
+    title = {{Time-Triggered High-Confidence Embedded Systems: Modeling, Simulation, Analysis, and Back}},
+    school = {Vanderbilt University},
+    month = {May},
+    year = {2011}
+}
+
+@inproceedings{ gh_truetime,
+	title = {Automated synthesis of time-triggered architecture-based TrueTime models for platform effects simulation and analysis},
+	booktitle = {Rapid System Prototyping},
+	year = {2010},
+	month = {Oct},
+	pages = {1--7},
+	publisher = {IEEE},
+	organization = {IEEE},
+	address = {Fairfax, VA},
+	author = {Graham Hemingway and Joseph Porter and Kottenstette, Nicholas and Chris vanBuskirk and Karsai, Gabor and Sztipanovits, Janos}
+}
+
+@phdthesis{ jp_dissertation,
+    author = {Joseph Porter},
+    title = {{Compositional and Incremental Modeling and Analysis} {for High-Confidence Distributed Embedded Control Systems}},
+    school = {Vanderbilt University},
+    month = {May},
+    year = {2011}
+}
+
+@mastersthesis{ rt_thesis,
+    author = {Ryan Thibodeaux},
+    title = {{The Specification and Implementation of a Model of Computation}},
+    school = {Vanderbilt University},
+    month = {May},
+    year = {2008}
+}
+
+@techreport{ jp_esmol,
+	title = {The ESMoL Language and Tools for High-Confidence Distributed Control Systems Design. Part 1: Language, Framework, and Analysis},
+	year = {2010},
+	month = {Sep},
+	institution = {ISIS, Vanderbilt University},
+	address = {Nashville, TN},
+	number = {ISIS-10-109},
+	howpublished = {http://www.isis.vanderbilt.edu/sites/default/files/ESMoL_TR.pdf},
+	author = {Joseph Porter and Graham Hemingway and Nine, Harmon and Chris vanBuskirk and Kottenstette, Nicholas and Karsai, Gabor and Sztipanovits, Janos}
+}
+
+@inproceedings{ jp_incr_cycles1,
+	title = {Towards Incremental Cycle Analysis in ESMoL Distributed Control System Models},
+	booktitle = {Software Composition (SC 2011)},
+	volume = {LNCS 6708},
+	year = {2011},
+	pages = {133--140},
+	publisher = {Springer},
+	address = {Zurich, Switzerland},
+	author = {Joseph Porter and Balasubramanian, Daniel and Graham Hemingway and Sztipanovits, Janos}
+}
+
+@techreport{ jp_incr_cycles2,
+	title = {Towards Incremental Cycle Analysis in ESMoL Distributed Control System Models},
+	number = {ISIS-11-106},
+	year = {2011},
+	month = {Apr},
+	institution = {ISIS, Vanderbilt University},
+	address = {Nashville, TN},
+	howpublished = {http://www.isis.vanderbilt.edu/sites/default/files/incr_cycle_analysis.pdf},
+	author = {Joseph Porter and Balasubramanian, Daniel and Graham Hemingway and Sztipanovits, Janos}
+}
+
+
+@inproceedings{ ee_panecs,
+	title = {PaNeCS: A Modeling Language for Passivity-based Design of Networked Control Systems},
+	booktitle = {19th Mediterranean Conf. on Control and Automation},
+	year = {2011},
+	month = {Jun},
+	address = {Corfu,Greece},
+	author = {Eyisi, Emeka and Joseph Porter and Kottenstette, Nicholas and Koutsoukos, Xenofon and Sztipanovits, Janos}
+}
+
+@inproceedings{ ar_arch,
+    author = {A. Rajhans and S-W Cheng and B. Schmerl and D. Garlan and B. H. Krogh and C. Agbi and A. Bhave}, 
+    title = {An architectural approach to the design and analysis of cyber-physical systems}, 
+    booktitle = {Proc. of the 3rd Intl. Workshop on Multi-Paradigm Modeling (MPM 2009)}, 
+    address = {Denver, CO}, 
+    month = {Oct},
+    year = {2009}
+}
+
+@inproceedings{ ab_arch,
+    author = {Ajinkya Bhave and David Garlan and Bruce H. Krogh and Akshay Rajhans and Bradley Schmerl}, 
+    title = {{Architectural Modeling and Analysis of Cyber-Physical Systems}}, 
+    booktitle = {Embedded Real-Time Software and Systems (ERTS 2010)}, 
+    address = {Toulouse, France},
+    month = {May},
+    year = {2010}
+}
+
+%% Publications from Previous Years
+
+@inproceedings{ jp_tt_sched,
+	title = {Towards a time-triggered schedule calculation tool to support model-based embedded software design},
+	booktitle = {ACM International Conference on Embedded Software (EMSOFT {\textquoteright}09)},
+	year = {2009},
+	month = {Oct},
+	publisher = {ACM},
+	organization = {ACM},
+	address = {Grenoble, France},
+	author = {Joseph Porter and Karsai, Gabor and Sztipanovits, Janos}
+}
+
+@inproceedings{ jp_esmol_rtas,
+	title = {The ESMoL Modeling Language and Tools for Synthesizing and Simulating Real-Time Embedded Systems},
+	booktitle = {15th IEEE Real-Time and Embedded Technology and Applications Symposium},
+	year = {2009},
+	month = {04/2009},
+	type = {Demonstration Extended Abstract},
+	address = {San Francisco, CA},
+	author = {Joseph Porter and Zsolt Lattmann and Graham Hemingway and Mahadevan, Nagabhushan and Neema, Sandeep and Nine, Harmon and Kottenstette, Nicholas and Volgyesi, Peter and Karsai, Gabor and Sztipanovits, Janos}
+}
+
+@inproceedings{ jp_rsp,
+	title = {An Experimental Model-Based Rapid Prototyping Environment for High-Confidence Embedded Software},
+	booktitle = {20th IEEE/IFIP International Symposium on Rapid System Prototyping (RSP{\textquoteright}09)},
+	year = {2009},
+	month = {06/2009},
+	address = {Paris, France},
+	author = {Joseph Porter and Volgyesi, Peter and Kottenstette, Nicholas and Nine, Harmon and Karsai, Gabor and Sztipanovits, Janos}
+}
+
+@article{ js_state_feedback,
+    title = {Analysis and Synthesis of State-Feedback Controllers with Timing Jitter},
+    author = {J. Skaf and S. Boyd},
+    journal = {IEEE Transactions on Automatic Control}, 
+    volume = {54},
+    number = {3},
+    pages = {652--657}, 
+    month = {Mar}, 
+    year = {2009}
+}
+    
+@article{ az_map_fault,
+        author = {A. Zymnis and S. Boyd and D. Gorinevsky},
+        title = {Relaxed maximum a posteriori fault identification}, 
+        journal = {Signal Processing}, 
+        volume = {89},
+        number = {6},
+        pages = {989--999}, 
+        month = {Jun},
+        year = {2009}
+}
+
+@article{ yx_ic_opt,
+    author = {Y. Xu and K.-L. Hsiung and X. Li and I. Nausieda and L. Pileggi and S. Boyd}, 
+    title = {{Regular Analog/RF Integrated Circuits Design Using Optimization with Recourse Including Ellipsoidal Uncertainty}},
+    journal = {IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems}, 
+    volume = {28},
+    number = {5},
+    pages = {623--637}, 
+    month = {May},
+    year = {2009}
+}
+
+@article{ js_q_design,
+    title = {{Nonlinear Q-Design for Convex Stochastic Control}},
+    author = {J. Skaf and S. Boyd},
+    journal = {IEEE Transactions on Automatic Control}, 
+    volume = {54},
+    number = {10},
+    pages = {2426--2430}, 
+    month = {Oct},
+    year = {2009}
+}
+
+@inproceedings{ mz_genetic,
+    author = {M. Zavlanos and A. Julius and S. Boyd and G. Pappas},
+    title = {Identification of stable genetic networks using convex programming},
+    booktitle = {Proc. American Control Conf.}, 
+    pages = {2755--2760}, 
+    month = {Jun},
+    year = {2009}
+}
+
+@article{ sjk_l1_filtering,
+    author = {S. -J. Kim and K. Koh and S. Boyd and D. Gorinevsky},
+    title = {l\_1 Trend Filtering}, 
+    journal = {SIAM Review, problems and techniques}, 
+    month = {May},
+    year = {2009}
+}
+
+@article{ am_cutting_sets,
+    author = {A. Mutapcic and S. Boyd},
+    title = {Cutting-set methods for robust convex optimization with pessimizing oracles}, 
+    journal = {Optimization Methods and Software}, 
+    month = {Jun},
+    year = {2009}
+}
+
+@inproceedings{ hh_qr_helicopters,
+    author = {H. Huang and G. M. Hoffmann and S. L. Waslander and C. J. Tomlin}, 
+    title = {Aerodynamics and Control of Autonomous Quadrotor Helicopters in Aggressive Maneuvering}, 
+    booktitle = {Proc. of the IEEE Intl. Conf. on Robotics and Automation (ICRA 2009)}, 
+    address = {Kobe, Japan}, 
+    month = {May},
+    year = {2009}
+}
+
+@inproceedings{ fl_mcil,
+    author = {Flavio Lerda and James Kapinski and Hitashyam Maka and Edmund M. Clarke and Bruce H. Krogh}, 
+    title = {Model checking in-the-loop}, 
+    booktitle = {2008 American Control Conference}, 
+    address = {Seattle, WA}, 
+    month = {Jun},
+    year = {2008}
+}
+
+@inproceedings{ ab_sf_ctrl,
+    author = {Ajinkya Y. Bhave and Bruce H. Krogh}, 
+    title = {{Performance Bounds on State-Feedback Control-lers with Network Delay}}, 
+    booktitle = {IEEE Conference on Decision and Control}, 
+    month = {Dec},
+    year = {2008}
+}
+
+@inproceedings{ jk_swmc_bisim,
+    author = {James Kapinski and Alexandre Donz{\'e} and Flavio Lerda and Hitashyam Maka and Silke Wagner and Bruce H. Krogh}, 
+    title = {{Control Software Model Checking Using Bisimulation Functions for Nonlinear Systems}}, 
+    booktitle = {IEEE Conference on Decision and Control}, 
+    month = {Dec},
+    year = {2008}
+}
+
+@inproceedings{ ad_param_synth,
+    author = {Alexandre Donz{\'e} and Bruce Krogh and Akshay Rajhans}, 
+    title = {{Parameter Synthesis for Hybrid Systems with an Application to Simulink Models}}, 
+    booktitle = {Hybrid Systems: Computation and Control (HSCC 2009)}, 
+    address = {San Francisco, CA},
+    month = {Apr},
+    year = {2009}
+}
+
+@inproceedings{ hm_polyhedra_widening,
+    author = {Hitashyam Maka and Goran Frehse and Bruce H. Krogh}, 
+    title = {{Polyhedral Domains and Widening for Verification of Numerical Programs}}, 
+    booktitle = {Workshop on Verification of Numerical Software}, 
+    address = {San Francisco}, 
+    month = {Apr},
+    year = {2009}
+}
+
+@inproceedings{ ap_diff_inv,
+    author = {Andr{\'e} Platzer and Edmund M. Clarke},
+    title = {{Computing Differential Invariants of Hybrid Systems as Fixedpoints}},
+    booktitle = {CAV 2008},
+    pages = {176--189},
+    year = {2008}
+}
+
+@inproceedings{ emc_smc_dsm,
+    author = {Edmund M. Clarke and Alexandre Donz{\'e} and Axel Legay},
+    title = {{Statistical Model Checking of Mixed-Analog Circuits with an Application to a Third Order Delta-Sigma Modulator}},
+    booktitle = {HVC 2008, LNCS},
+    volume = {5394},
+    pages = {149--163},
+    publisher = {Springer, Heidelberg},
+    year = {2008}
+}
+
+@inproceedings{ yfc_dfa_comp,
+    author = {Yu-Fang Chen and Azadeh Farzan and Edmund M. Clarke and Yih-Kuen Tsay and Bow-Yaw Wang},
+    title = {{Learning Minimal Separating DFA's for Compositional Verification}},
+    booktitle = {TACAS 2009},
+    pages = {31--45},
+    year = {2009}
+}
+
+@article{ ap_diff_inv_journal,
+    author = {Andr{\'e} Platzer and Edmund M. Clarke},
+    title = {{Computing Differential Invariants of Hybrid Systems as Fixedpoints}},
+    journal = {Formal Methods in System Design}, 
+    volume = {35},
+    number = {1},
+    pages = {98--120},
+    year = {2009}
+}
+
+@article{ hj_wlpa_rtl,
+    author = {Himanshu Jain and Daniel Kroening and Natasha Sharygina and Edmund M. Clarke},
+    title = {Word-Level Predicate-Abstraction and Refinement Techniques for Verifying RTL Verilog},
+    journal = {IEEE Trans. on CAD of Integrated Circuits and Systems},
+    volume = {27},
+    number = {2},
+    pages = {366--379},
+    year = {2008}
+}
+
+@inproceedings{ xk_pass_cps,
+    author = {Xenofon Koutsoukos and Nicholas Kottenstette and Joe Hall and Panos Antsaklis and Janos Sztipanovits},
+    title = {{Passivity-Based Control Design of Cyber-Physical Systems}}, 
+    booktitle = {Proc. of the Workshop on Cyber-Physical Systems - Challenges and Applications (CPS-CA'08) held in conjunction with the 4th IEEE Intl. Conf. on Distributed Computing in Sensor Systems (DCOSS'08)},
+    year = {2008}
+}
+
+@inproceedings{ nk_pass_robust,
+    author = {Kottenstette, N. and X. Koutsoukos and J. Hall and P. J. Antsaklis and J. Sztipanovits}, 
+    title = {{Passivity-Based De-sign of Wireless Networked Control Systems for Robustness To Time-Varying Delays}}, 
+    booktitle = {29th IEEE Real-Time Systems Symposium (RTSS 2008)}, 
+    address = {Barcelona, Spain}, 
+    publisher = {IEEE}, 
+    pages = {15--24}, 
+    month = {Dec},
+    year = {2008}
+}
+
+@techreport{ nk_qr_tr,
+	title = {Digital Passive Attitude and Altitude Control Schemes for Quadrotor Aircraft},
+	year = {2011},
+	month = {Nov},
+	pages = {1--8},
+	institution = {Institute for Software Integrated Systems, Vanderbilt University},
+	type = {Report},
+	address = {Nashville, TN},
+	number = {ISIS-08-911},
+	author = {Kottenstette, Nicholas and Joseph Porter},
+        howpublished = {http://www.isis.vanderbilt.edu/sites/default/files/uav_tr_revised_11_08_2011.pdf}
+}
+
+@inproceedings{ nk_act_sat,
+    author = {N. Kottenstette and P. J. Antsaklis}, 
+    title = {{Wireless control of passive systems subject to actuator constraints}}, 
+    booktitle = {47th IEEE Conference on Decision and Control (CDC 2008)}, 
+    address = {Cancun, Mexico}, 
+    publisher = {IEEE}, 
+    pages = {2979--2984}, 
+    month = {Dec},
+    year = {2008}
+}
+
+@article{ nk_dig_token,
+    author = {N. Kottenstette and P. J. Antsaklis}, 
+    title = {{Wireless Digital Control of Continuous Passive Plants Over Token Ring Networks}}, 
+    journal = {Intl. Journal of Robust and Nonlinear Control: Special Issue on Control with Limited Information}, 
+    month = {Nov},
+    year = {2008}
+}
+
+@techreport{ nk_mult_cont,
+    author = {N. Kottenstette and N. Chopra}, 
+    title = {{$L_m^2$-stable digital control networks for multiple continuous passive plants}}, 
+    address = {Nashville, TN}, 
+    institution = {Institute for Software Integrated Systems, Vanderbilt University}, 
+    pages = {1--14}, 
+    month = {Apr},
+    year = {2009}
+}
+
+@article{ gk_mda_emb,
+    author = {Gabor Karsai and Sandeep Neema and David Sharp}, 
+    title = {{Model-driven architecture for embedded software: A synopsis and an example}}, 
+    journal = {Science of Computer Programming}, 
+    volume = {73}, 
+    number = {1}, 
+    year = {2008}, 
+    pages = {26--38}
+}
+
+@article{ an_mt_vf,
+    author = {Anantha Narayanan and Gabor Karsai}, 
+    title = {{Towards Verifying Model Transformations}}, 
+    journal = {Electronic Notes in Theoretical Computer Science}, 
+    volume = {211}, 
+    year = {2008}, 
+    pages = {191--2008}
+}
+
+@article{ an_mt_sc,
+    author = {Narayanan, A. and Karsai, G.}, 
+    title = {{Verifying Model Transformations by Structural Correspondence}}, 
+    journal = {Electronic Communications of the EASST}, 
+    volume =  {10}, 
+    year = {2008}
+}
+
+@inproceedings{ gk_mt_gdc,
+    author = {Karsai, G. and Narayanan, A},
+    title = {{Towards Verification of Model Transformations Via Goal-Directed Certification}},
+    booktitle = {Model-Driven Development of Reliable Automotive Services: Second Automotive Software Workshop (ASWSD 2006)}, 
+    address = {San Diego, CA}, 
+    month = {Mar},
+    year = {2006}, 
+    editor = {M. Broy and I. H. Krüger and M. Meisinger},
+    volume = {LNCS 4922},
+    publisher = {Springer-Verlag}, 
+    pages = {67--83}
+}
+
+@inproceedings{ gk_mic_cps,
+    author = {Karsai, G. and Sztipanovits, J.},
+    title = {{Model-Integrated Development of Cyber-Physical Systems}},
+    booktitle = {Proc. of the 6th IFIP WG 10.2 intl. Workshop on Software Technologies For Embedded and Ubiquitous Systems},
+    address = {Anacapri, Italy}, 
+    month = {Oct},
+    year = {2008},
+    editor = {U. Brinkschulte and T. Givargis and S. Russo},
+    volume = {LNCS 5287},
+    publisher = {Springer-Verlag},
+    pages = {46--54}
+}
+
+@inproceedings{ jg_dsl,
+    author = {Gray, J. and Fisher, K. and Consel, C. and Karsai, G. and Mernik, M. and Tolvanen, J.},
+    title = {{DSLs: the good, the bad, and the ugly}},
+    booktitle = {Companion to the 23rd ACM SIGPLAN Conf. on Object Oriented Prog. Systems, Languages, and Applications (OOPSLA Companion 2008)}, 
+    address = {Nashville, TN}, 
+    month = {Oct},
+    year = {2008}, 
+    pages = {791-794}
+}
+
+@proceedings{ gk_gmt,
+    author = {G. Karsai and G. Taentzer},
+    title = {3rd Intl. workshop on graph and model transformations},
+    booktitle = {Companion of the 30th Intl. Conf. on Software Engineering (ICSE Companion 2008)},
+    address = {Leipzig, Germany}, 
+    month = {May},
+    year = {2008},
+    pages = {1055--1056}
+}
+
+@article{ sj_sensor,
+    author = {S. Joshi and S. Boyd},
+    title = {Sensor selection via convex optimization},
+    journal = {IEEE Transactions on Signal Processing}, 
+    volume = {57},
+    number = {2},
+    pages = {451--462}, 
+    month = {Feb},
+    year = {2009}
+}
+
+@article{ am_piecewise,
+    author = {A. Magnani and S. Boyd},
+    title = {Convex piecewise-linear fitting},
+    journal = {Optimization and Engineering}, 
+    volume = {10},
+    number = {1},
+    pages = {1--17}, 
+    month = {Mar},
+    year = {2009}
+}
+
+@article{ dg_opt_image_seq,
+    author = {D. Gorinevsky and S.-J. Kim and S. Beard and S. Boyd and G. Gordon},
+    title = {Optimal estimation of deterioration from diagnostic image sequence},
+    journal = {IEEE Transactions on Signal Processing}, 
+    volume = {57},
+    number = {3},
+    pages = {1030--1043}, 
+    month = {Mar},
+    year = {2009}
+}
+
+@article{ sj_gate_size,
+    author = {S. Joshi and S. Boyd},
+    title = {{An Efficient Method for Large-Scale Gate Sizing}}, 
+    journal = {IEEE Transactions on Circuits and Systems I}, 
+    volume = {55},
+    number = {9},
+    pages = {2760-2773}, 
+    month = {Nov},
+    year = {2008}
+}
+
+@article{ rp_fiber,
+    author = {R. Panicker and J. Kahn and S. Boyd},
+    title = {Compensation of multimode fiber dispersion using adaptive optics via convex optimization},
+    journal = {IEEE Journal of Lightwave Technology}, 
+    month = {May},
+    year = {2008}
+}
+
+@article{ zw_sdp_sens_net,
+    author = {Z. Wang and S. Zheng and Y. Ye and S. Boyd},
+    title = {Further relaxations of the semidefinite programming approach to sensor network localization},
+    journal = {SIAM Journal on Optimization}, 
+    month = {Jul},
+    year = {2008}
+}
+
+@inproceedings{ do_wireless_net,
+    author = {D. O’Neill and A. Goldsmith and S. Boyd},
+    title = {Optimizing adaptive modulation in wireless networks via utility maximization},
+    booktitle = {Proc. IEEE Intl. Conf. on Comm.}, 
+    pages = {3372--3377}, 
+    month = {May}, 
+    year = {2008}
+}
+
+@inproceedings{ sjk_kern,
+    author = {S.-J. Kim and A. Zymnis and A. Magnani},
+    title = {Learning the kernel via convex optimization},
+    booktitle = {Proc. IEEE Intl. Conf. on Acoustics, Speech, and Signal Processing}, 
+    pages = {1997--2000}, 
+    month = {Apr},
+    year = {2008}
+}
+
+@article{ js_affine_ctrl,
+    author = {J. Skaf and S. Boyd},
+    title = {Design of affine controllers via convex optimization},
+    journal = {IEEE Transactions on Automatic Control}, 
+    month = {Apr},
+    year = {2008},
+    volume = {55},
+    number = {11},
+    pages = {2476--2487}
+}
+
+@article{ kh_approx_geom,
+    author = {K.-L. Hsiung and S.-J. Kim and S. Boyd},
+    title = {Tractable approximate robust geometric pro-gramming},
+    journal = {Optimization and Engineering}, 
+    month = {Jun},
+    year = {2008}
+}
+
+@article{ am_slow_light,
+    author = {A. Mutapcic and S. Boyd and A. Farjadpour and S. Johnson and Y. Avniel},
+    title = {Robust design of slow-light tapers in periodic waveguides},
+    journal = {Engineering Optimization}, 
+    month = {Apr},
+    year = {2009}
+}
+
+@mastersthesis{ sf_rtc,
+    author = {S. Forbes},
+    title = {{Real-time C Code Generation in Ptolemy II for the Giotto Model of Computation}},  
+    school = {EECS Dept., Univ. of California, Berkeley}, 
+    year = {2009}
+}
+
+@inproceedings{ bl_prog_pret,
+    author = {Ben Lickly and Isaac Liu and Sungjun Kim and Hiren D. Patel and Stephen A. Edwards and Edward A. Lee},
+    title = {{Predictable Programming on a Precision Timed Architecture}},
+    booktitle = {Proc. of Intl. Conf. on Compilers, Architecture, and Synthesis for Embedded Systems (CASES)}, 
+    month = {Oct}, 
+    year = {2008}
+}
+
+@inproceedings{ sf_aut_mapping_pret,
+    author = {Shanna-Shaye Forbes and Hugo A. Andrade and Hiren Patel and Edward A. Lee}, 
+    title = {{An Automated Mapping of Timed Functional Specification to A Precision Timed Architecture}}, 
+    booktitle = {Proc. of the 12th IEEE Intl. Symp. on Distributed Simulation and Real Time Applications}, 
+    month = {Oct}, 
+    year = {2008}
+}
+
+@techreport{Patel:EECS-2008-115,
+    Author = {Patel, Hiren D. and Lickly, Ben and Burgers, Bas and Lee, Edward A.},
+    Title = {A Timing Requirements-Aware Scratchpad Memory Allocation Scheme for a Precision Timed Architecture},
+    Institution = {EECS Department, University of California, Berkeley},
+    Year = {2008},
+    Month = {Sep},
+    howpublished = {http://www.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-115.html},
+    Number = {UCB/EECS-2008-115}
+}
+
+@phdthesis{Zhou:EECS-2008-53,
+    Author = {Zhou, Gang},
+    Title = {Partial Evaluation for Optimized Compilation of Actor-Oriented Models},
+    School = {EECS Department, University of California, Berkeley},
+    Year = {2008},
+    Month = {May},
+    howpublished = {http://www.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-53.html},
+    Number = {UCB/EECS-2008-53}
+}
+
+@article{ sprinkle_urban_challenge,
+author = {Sprinkle, Jonathan and Eklund, J. and Gonzalez, Humberto and Gr{\o}tli, Esten and Upcroft, Ben and Makarenko, Alex and Uther, Will and Moser, Michael and Fitch, Robert and Durrant-Whyte, Hugh and Sastry, S.},
+    journal = {Software and Systems Modeling},
+    month = {Sep},
+    number = {4},
+    pages = {551--566},
+    title = {{Model-based design: a report from the trenches of the DARPA Urban Challenge}},
+    volume = {8},
+    year = {2009}
+}
+
+@inproceedings{GonzalezGrtliTempletonBiermeyerSprinkleSastry08_TransitioningControlSensingTechnologiesFromFullyautonomous,
+    author = {Humberto Gonzalez and Esten Ingar GrÃ¸tli and Todd
+              Templeton and Jan Biermeyer and Jonathan Sprinkle
+              and S. Shankar Sastry},
+    title = {Transitioning Control and Sensing Technologies
+              from Fully-autonomous Driving to Driver Assistance
+              Systems},
+    booktitle = {AAET: Automation, Assistance, and Embedded Systems
+              for Transportation},
+    organization = {Technical University, Braunschweig},
+    day = {13},
+    month = {February},
+    year = {2008}
+}
+
+@ARTICLE{5350445,
+author={Hoffmann, G.M. and Tomlin, C.J.},
+journal={Automatic Control, IEEE Transactions on},
+title={Mobile Sensor Network Control Using Mutual Information Methods and Particle Filters},
+year={2010},
+month={jan},
+volume={55},
+number={1},
+pages={32--47}
+}
+
+@INPROCEEDINGS{4739434,
+author={Hoffmann, G.M. and Tomlin, C.J.},
+booktitle={Decision and Control, 2008. CDC 2008. 47th IEEE Conference on},
+title={Decentralized cooperative collision avoidance for acceleration constrained vehicles},
+year={2008},
+month={dec.},
+volume={},
+number={},
+pages={4357--4363}
+}
+
+@INPROCEEDINGS{4739394,
+author={Vitus, M.P. and Waslander, S.L. and Tomlin, C.J.},
+booktitle={Decision and Control, 2008. CDC 2008. 47th IEEE Conference on},
+title={Locally optimal decomposition for autonomous obstacle avoidance with the Tunnel-MILP algorithm},
+year={2008},
+month={dec.},
+volume={},
+number={},
+pages={540--545}
+}
+
+@inproceedings{ gh_qr_traj,
+    author = {G. M. Hoffmann and S. L. Waslander and C. J. Tomlin}, 
+    title = {{Quadrotor Helicopter Trajectory Tracking Control}}, 
+    booktitle = {Proc. of the AIAA Guidance, Navigation, and Control Conf.}, 
+    month = {Aug},
+    year = {2008}
+}
+
+@inproceedings{ mv_tmilp,
+    author = {M. P. Vitus and V. Pradeep and G. M. Hoffmann and S. L. Waslander and C. J. Tomlin}, 
+    title = {{Tunnel-MILP: Path Planning with Sequential Convex Polytopes}}, 
+    booktitle = {Proc. of the AIAA Guidance, Navigation, and Control Conference}, 
+    month = {Aug},
+    year = {2008}
+}
+
+@inproceedings{ mv_hybrid_coll_avoid,
+    author = {M. P. Vitus and C. J. Tomlin}, 
+    title = {{Hierarchical, Hybrid Framework for Collision Avoidance Algorithms in the National Airspace}}, 
+    booktitle = {Proc. of the AIAA Guidance, Navigation, and Control Conf.}, 
+    month = {Aug},
+    year = {2008}
+}
+
+
+@article{ bipref,
+    author = {Ananda Basu and Saddek Bensalem and Marius Bozga and Jacques Combaz and Mohamad Jaber and Thanh-Hung Nguyen and Joseph Sifakis},
+    title = {{Rigorous Component-Based System Design Using the BIP Framework}}, 
+    journal = {IEEE Software},
+    volume = {28},
+    number = {3},
+    pages = {41--48},
+    year = {2011}
+}
+

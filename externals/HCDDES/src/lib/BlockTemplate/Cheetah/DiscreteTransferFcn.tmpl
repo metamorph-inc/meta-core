@@ -1,0 +1,8 @@
+#from DiscreteZFunction import DiscreteZFunction
+#set $NumeratorCoefficients = $parameters.Numerator.placeInContext
+#set $DenominatorCoefficients = $parameters.Denominator.placeInContext
+#set $nd = { 'NumeratorCoefficients':$NumeratorCoefficients, 'DenominatorCoefficients':$DenominatorCoefficients }
+#set $newSearchList = $searchList()
+$newSearchList.append( $nd )
+#set $discreteZFunction = $DiscreteZFunction( searchList=$newSearchList )
+$discreteZFunction.respond()

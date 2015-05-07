@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DB95B81C-EB0A-4ABB-9843-12D0BD34C80A}</ProjectGuid>
+    <RootNamespace>SchedTool</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">c:\Projects\HCDDES\trunk\bin\</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\bin\</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)D</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CustomBuildStep />
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;..;$(ANTLR3_PATH)\include;$(GECODE_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>antlr3cd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ANTLR3_PATH)\lib;$(GECODE_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalOptions>/verbose:lib %(AdditionalOptions)</AdditionalOptions>
+      <IgnoreSpecificDefaultLibraries>MSVCRT.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuildStep />
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>.;..;$(ANTLR3_PATH)\include;$(GECODE_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>antlr3c.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ANTLR3_PATH)\lib;$(GECODE_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ConfigKeeper.cpp" />
+    <ClCompile Include="CPEngine.cpp" />
+    <ClCompile Include="cpSolver.cpp" />
+    <ClCompile Include="debugSchedModel.cpp" />
+    <ClCompile Include="defaultSchedModel.cpp" />
+    <ClCompile Include="InstanceKeeper.cpp" />
+    <ClCompile Include="schedAdapter.cpp" />
+    <ClCompile Include="schedModel.cpp" />
+    <ClCompile Include="SchedTool.cpp" />
+    <ClCompile Include="solverAdapter.cpp" />
+    <ClCompile Include="schedLexer.c" />
+    <ClCompile Include="schedParser.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ConfigKeeper.h" />
+    <ClInclude Include="cpSolver.h" />
+    <ClInclude Include="debugSchedModel.h" />
+    <ClInclude Include="defaultSchedModel.h" />
+    <ClInclude Include="InstanceKeeper.h" />
+    <ClInclude Include="schedAdapter.h" />
+    <ClInclude Include="schedModel.h" />
+    <ClInclude Include="solverAdapter.h" />
+    <ClInclude Include="schedLexer.h" />
+    <ClInclude Include="schedParser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="sched.g">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating Scheduler Input Lexer/Parser Files from %(Filename)%(Extension)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">java -classpath "$(ANTLR3_PATH)"\lib\antlr-3.1.3.jar%3b"$(ANTLR3_PATH)"\lib\stringtemplate-3.2.jar"%3b$(ANTLR3_PATH)"\lib\antlr-2.7.7.jar org.antlr.Tool %(Filename)%(Extension)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">schedLexer.h;schedLexer.c;schedParser.h;schedParser.c;sched.tokens;sched__.g;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating Scheduler Input Lexer/Parser Files from %(Filename)%(Extension)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">java -classpath "$(ANTLR3_PATH)"\lib\antlr-3.1.3.jar%3b"$(ANTLR3_PATH)"\lib\stringtemplate-3.2.jar"%3b$(ANTLR3_PATH)"\lib\antlr-2.7.7.jar org.antlr.Tool %(Filename)%(Extension)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">schedLexer.h;schedLexer.c;schedParser.h;schedParser.c;sched.tokens;sched__.g;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="..\..\nuget\gecode.3.7.3\build\native\gecode.targets" Condition="Exists('..\..\nuget\gecode.3.7.3\build\native\gecode.targets')" />
+    <Import Project="..\..\nuget\gecode-vc100.redist.3.7.3\build\native\gecode-vc100.redist.targets" Condition="Exists('..\..\nuget\gecode-vc100.redist.3.7.3\build\native\gecode-vc100.redist.targets')" />
+    <Import Project="..\..\nuget\gecode-vc100.3.7.3\build\native\gecode-vc100.targets" Condition="Exists('..\..\nuget\gecode-vc100.3.7.3\build\native\gecode-vc100.targets')" />
+    <Import Project="..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
+    <Import Project="..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets" Condition="Exists('..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\..\nuget\gecode.3.7.3\build\native\gecode.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\gecode.3.7.3\build\native\gecode.targets'))" />
+    <Error Condition="!Exists('..\..\nuget\gecode-vc100.redist.3.7.3\build\native\gecode-vc100.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\gecode-vc100.redist.3.7.3\build\native\gecode-vc100.redist.targets'))" />
+    <Error Condition="!Exists('..\..\nuget\gecode-vc100.3.7.3\build\native\gecode-vc100.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\gecode-vc100.3.7.3\build\native\gecode-vc100.targets'))" />
+  </Target>
+</Project>

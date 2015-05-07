@@ -10,6 +10,7 @@
   <Target Name="CheckEnv" DependsOnTargets="CheckEnvGme;CheckEnvUdm">
     <Error Text="DESERT_PATH='$(DESERT_PATH)' doesn't exist" Condition="!Exists('$(DESERT_PATH)')"/>
     <Error Text="META_PATH='$(META_PATH)' doesn't exist" Condition="!Exists('$(META_PATH)')"/>
+    <Error Text="VCP_PATH='$(VCP_PATH)' doesn't exist" Condition="!Exists('$(VCP_PATH)')"/>
   </Target>
 
   <Target Name="Desert" DependsOnTargets="CheckEnv">
@@ -20,6 +21,15 @@
       <DesertPlatform Condition="'$(Platform)'!='x64'">Win32</DesertPlatform>
     </PropertyGroup>
     <MSBuild Projects="externals/desert/desertVS2010.sln" Properties="Configuration=$(Configuration)Unicode;Platform=$(DesertPlatform)" Targets="Build"/>
+  </Target>
+
+  <Target Name="MDL2MGA" DependsOnTargets="CheckEnv">
+    <Error Text="MATLAB_PATH='$(MATLAB_PATH)' doesn't exist" Condition="!Exists('$(MATLAB_PATH)')"/>
+    <Exec Command=".nuget\NuGet.exe restore -ConfigFile .nuget\NuGet.Config ..\externals\HCDDES\MDL2MGACyPhyML.sln"
+        WorkingDirectory="$(MSBuildThisFileDirectory)\src"/> 
+    <Exec Command=".nuget\NuGet.exe restore MDL2MGACyPhyML.sln"
+        WorkingDirectory="$(MSBuildThisFileDirectory)\externals\HCDDES"/> 
+    <MSBuild Projects="externals/HCDDES/MDL2MGACyPhyML.sln" Properties="Platform=x64;Configuration=$(Configuration);META_PATH=$(META_PATH);MATLAB_PATH=$(MATLAB_PATH);HCDDES_PATH=$(MSBuildThisFileDirectory)externals\HCDDES\;ANTLR3_PATH=$(MSBuildThisFileDirectory)\3rdparty\antlr\3.1.3;ANTLR_PATH=$(MSBuildThisFileDirectory)\3rdparty\antlr\2.7.7" Targets="Build"/>
   </Target>
 
   <Target Name="CyPhyML" DependsOnTargets="CheckEnv;Desert">
@@ -39,7 +49,25 @@
   <Target Name="CyPhyMLQudt" DependsOnTargets="CyPhyML">
     <Exec Command="../../3rdParty/ant/bin/ant.bat" WorkingDirectory="src/java"/>
   </Target>
+ 
+  <Target Name="CyPhyML-Cyber2Code">
+    <Exec Command=".nuget\NuGet.exe restore MDL2MGACyPhyML.sln"
+        WorkingDirectory="$(MSBuildThisFileDirectory)\externals\HCDDES"/> 
+    <Exec Command=".nuget\NuGet.exe restore Cyber2Code.sln"
+        WorkingDirectory="$(MSBuildThisFileDirectory)\src"/> 
+    <MSBuild Projects="3rdParty\ctemplate-1.0\vsprojects\libctemplate\libctemplate.vcxproj" Properties="Configuration=$(Configuration)"/>
+    <MSBuild Projects="src\Cyber2Code.sln" Properties="Configuration=$(Configuration);META_PATH=$(META_PATH);PYTHON_HOME=$(MSBuildThisFileDirectory)bin\Python27;ANTLR3_PATH=$(MSBuildThisFileDirectory)\3rdparty\antlr\3.1.3;ANTLR_PATH=$(MSBuildThisFileDirectory)\3rdparty\antlr\2.7.7" Targets="UpdateCyber2SLC_udm"/>
+    <MSBuild Projects="src\Cyber2Code.sln" Properties="Configuration=$(Configuration);META_PATH=$(META_PATH);PYTHON_HOME=$(MSBuildThisFileDirectory)bin\Python27;ANTLR3_PATH=$(MSBuildThisFileDirectory)\3rdparty\antlr\3.1.3;ANTLR_PATH=$(MSBuildThisFileDirectory)\3rdparty\antlr\2.7.7" Targets="Build"/>
+  </Target>
 
+  <Target Name="Cyber-Tools">
+    <Error Text="META_PATH='$(META_PATH)' doesn't exist" Condition="!Exists('$(META_PATH)')"/>
+    <!--<MSBuild Projects="src\Cyber-Tools.sln" Targets="Build"/>-->
+    <MSBuild Projects="src\Cyber-Tools.sln" Properties="Configuration=Release; Platform=Any CPU" Targets="Build"/>
+    <MSBuild Projects="src\Cyber-Tools.sln" Properties="Configuration=Release; Platform=Win32" Targets="Build"/>
+    <MSBuild Projects="src\Cyber-Tools.sln" Properties="Configuration=Release; Platform=x64" Targets="Build"/>
+  </Target>
+  
   <Target Name="MetaLink">
     <Error Text="JAVA_HOME='$(JAVA_HOME)' doesn't exist" Condition="!Exists('$(JAVA_HOME)')"/>
     <Exec Command="set PATH=%PATH%;$(MSBuildThisFileDirectory)\3rdParty\apache-maven-3.0.5\bin;$(MSBuildThisFileDirectory)\3rdParty\protoc-2.5.0-win32
@@ -57,7 +85,7 @@
     <Exec Command="..\bin\Python27\Scripts\python.exe -c &quot;import build_msi; build_msi.get_nuget_packages()&quot;" IgnoreExitCode="true" WorkingDirectory="$(MSBuildThisFileDirectory)\deploy"/>
   </Target>
   
-  <Target Name="All" DependsOnTargets="Install_PythonLibs;MetaLink;CyPhyML;DownloadNuGetPackages">
+  <Target Name="All" DependsOnTargets="Install_PythonLibs;MetaLink;CyPhyML;CyPhyML-Cyber2Code;Cyber-Tools">
     <MSBuild Projects="src/Run_PRISMATIC_toolchain/Run_Prismatic_toolchain.sln" Properties="Platform=Any CPU;Configuration=$(Configuration);META_PATH=$(META_PATH)" Targets="Build"/>
   </Target>
   

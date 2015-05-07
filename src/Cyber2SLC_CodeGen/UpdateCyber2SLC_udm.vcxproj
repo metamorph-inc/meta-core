@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EB1B381C-6BEA-43D2-8D56-3371814691EC}</ProjectGuid>
+    <RootNamespace>UpdateCyber2SLC_udm</RootNamespace>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\externals\common-scripts\build_customization\mga2udmudm.props" />
+    <Import Project="..\..\externals\common-scripts\build_customization\udm.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <mga2udmudm_RuleAfterTargets>CustomBuild</mga2udmudm_RuleAfterTargets>
+    <mga2udmudm_RuleBeforeTargets>udm</mga2udmudm_RuleBeforeTargets>
+    <CustomBuildBeforeTargets>mga2udmudm</CustomBuildBeforeTargets>
+    <CustomBuildAfterTargets>PrepareForBuild</CustomBuildAfterTargets>
+    <udm_RuleAfterTargets>mga2udmudm</udm_RuleAfterTargets>
+    <udm_RuleBeforeTargets>CopyFilesToOutputDirectory</udm_RuleBeforeTargets>
+    <ExtensionsToDeleteOnClean>*.mga;*.udm;$(ExtensionsToDeleteOnClean)</ExtensionsToDeleteOnClean>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <mga2udmudm_RuleAfterTargets>CustomBuild</mga2udmudm_RuleAfterTargets>
+    <mga2udmudm_RuleBeforeTargets>udm</mga2udmudm_RuleBeforeTargets>
+    <udm_RuleAfterTargets>mga2udmudm</udm_RuleAfterTargets>
+    <CustomBuildBeforeTargets>mga2udmudm</CustomBuildBeforeTargets>
+    <CustomBuildAfterTargets>PrepareForBuild</CustomBuildAfterTargets>
+    <udm_RuleBeforeTargets>CopyFilesToOutputDirectory</udm_RuleBeforeTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <udm>
+      <IntegrateXSD>true</IntegrateXSD>
+    </udm>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <udm>
+      <IntegrateXSD>true</IntegrateXSD>
+    </udm>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <mga2udmudm Include="SL_CodeGen\Cyber2SLC_udm.mga">
+      <FileType>Document</FileType>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Cyber2SLC</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Cyber2SLC</MetaName>
+    </mga2udmudm>
+    <udm Include="SL_CodeGen\Cyber2SLC_udm.udm">
+      <FileType>Document</FileType>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Cyber2SLC</MetaName>
+      <IntegrateXSD Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IntegrateXSD>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Cyber2SLC</MetaName>
+    </udm>
+    <CustomBuild Include="SL_CodeGen\Cyber2SLC_udm.xme">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">set PYTHONPATH=..\..\externals\common-scripts
+cd SL_CodeGen
+..\..\..\externals\common-scripts\gmepy.exe run_module UpdateCyber2SLC_udm
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">set PYTHONPATH=..\..\externals\common-scripts
+cd SL_CodeGen
+..\..\..\externals\common-scripts\gmepy.exe run_module UpdateCyber2SLC_udm
+</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Update the Cyber2SLC_udm.mga with CyberComposition</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SL_CodeGen\Cyber2SLC_udm.mga</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Update the Cyber2SLC_udm.mga with CyberComposition</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">SL_CodeGen\Cyber2SLC_udm.mga</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SL_CodeGen\UpdateCyber2SLC_udm.py;$(META_PATH)\generated\Cyber\models\CyberComposition_uml.mga</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">SL_CodeGen\UpdateCyber2SLC_udm.py;$(META_PATH)\generated\Cyber\models\CyberComposition_uml.mga</AdditionalInputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\meta\Cyber\Cyber.vcxproj">
+      <Project>{cc9e25ea-5c44-4869-a4ec-cb3672d74891}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\externals\common-scripts\build_customization\mga2udmudm.targets" />
+    <Import Project="..\..\externals\common-scripts\build_customization\udm.targets" />
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  </ImportGroup>
+</Project>

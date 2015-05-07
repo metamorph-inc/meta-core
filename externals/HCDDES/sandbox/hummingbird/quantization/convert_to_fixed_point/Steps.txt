@@ -1,0 +1,126 @@
+Conversion of the Hummingbird quadrotor model to fixed-point:
+
+0. Start with a running model.  Make sure it's stable, and that you have a 
+   good simulation dataset that you can use as a reference to check for errors
+   after each step.
+
+1. Replace all of the single and double datatypes in the model with "Inherit"
+   options.  To do so -- in the model explorer search the whole model for 
+   the strings 'single' and 'double'.  Make sure the search includes masked 
+   subsystems.  For any of the data type parameters that are set to single or
+   double, simply change the type by taking the first "Inherit" option at the
+   top of the drop-down list.  Make sure the model still runs and is stable.
+
+2. Rates and data types.  
+
+   a. As much as possible, move all explicit rate change blocks (like ZOH)
+      out of the implementable parts of the model.  For example, we moved 
+      the rate blocks at the inputs of the sensor conversion to the sensor 
+      blocks' outputs.  Make sure the model still runs and is stable.
+
+   b. Put data conversion blocks (with output set to inherit) outside of all 
+      inputs and outputs at the top level of the implementable part of the 
+      model.  Make sure the model still runs and is stable.
+
+   c. Put data conversion blocks on the input ports of subsystems in the 
+      implementable part of the model, and after every multiply operation 
+      (products and filters). Make sure the model still runs and is stable.
+
+3. Replace all of the Embedded Matlab function blocks with subsystems built 
+   from discrete components.  These can be touchy.  It's probably best to 
+   replace them one at a time and then re-run the model after each one to test.
+
+   In the newly replaced subsystems make sure each gain, product, or filter
+   has a data conversion block on its output.  Set the output data type to
+   "Inherit via back-propagation".
+
+4. Run the fixed-point advisor on the resulting model:
+
+   a. Select all of the implementable subsystems at the top level of the 
+      model.  Right click one of them and choose "Create subsystem".  This
+      insures that the fixed-point scaling calculations will be done for 
+      the entire dataflow network.  Make sure everything runs correctly still.
+
+   b. Set up the RTW embedded coder as follows (from the Configuration 
+      Parameters window):
+
+      1. In "Hardware Implementation", set the device vendor and type appropriately.
+         We're using ARM Compatible and ARM 7, respectively. Emulation hardware
+         should be set to None.
+
+      2. In Real-Time Workshop, use the following settings:
+         System Target File: ert.tlc
+         Language: C 
+         Data specification override: check Ignore test point signals
+         Code Generation Advisor
+         Prioritized Objectives: Execution efficiency, Safety precaution, 
+                                 RAM efficiency, ROM efficiency
+         check Generate code only
+
+      3. RTW -> Report
+         check Create code generation report
+
+      4. RTW -> Interface
+         uncheck floating-point numbers
+         Code interface
+         check Generate reusable code
+         select Reusable code error diagnostic: Warning
+         check Combine signal/state structures
+
+      5. The defaults should be fine for other parameters.      
+
+   c. Right-click the new subsystem and run the fixed-point advisor.  Follow
+      the directions as given.  It is important not to close the fixed-point 
+      advisor window, as you will have to start over.  At a few places in the 
+      procedure that can be catastrophic, so make lots of intermediate backups
+      of your model between steps. Here are some particulars on the different parts:
+
+      1. Part one deals mostly with configuration settings for the fixed-point 
+         advisor.
+
+      1.3 Requires us to replace trigonometric functions with lookup tables.
+          Follow the instructions to replace the block.  We changed the output
+          word length setting to 32 bits consistent with our platform, and added
+          a data type conversion block on the output to isolate the fixed-point
+          output from the rest of the model.  In most cases, you will have to 
+          add a 1/(2*pi) gain block and a data conversion before the table.
+
+          Converting the atan2 block to a table is tricky.  The automated 
+          conversion is basically useless.  We need a good way to measure the
+          ranges of the inputs to the atan2 blocks, and then use the atan2
+          function to create the 2-D lookup table.  
+
+          We used a 128-bit fixed-point division fixdt(1,128,58) followed by 
+          a fixed-point 1-D lookup table for atan().  The table takes input
+          data type of fixdt(1,32,26) and outputs type fixdt(1,32,29).  The
+          input space is fi([-10:0.8:10], 1,32, 27) and the output space is 
+          fi( [-pi/2 atan( [-(10-0.8):0.8:(10-0.8)] ) pi/2 ], 1, 32, 29).
+
+      2. Part two is more specific to data type conversion.
+
+      2.2  Re-run your model after making these changes.
+
+      2.7  Specifying the minima and maxima for your input signals is 
+           important.  For fixed constants, set the minimum and maximum 
+           parameter values to equal the value of the constant.  For tunable
+           constants set the parameter values accordingly.  This will help 
+           the fixed-point advisor make much less conservative conversions.
+
+      3. Part three actually makes changes.  You will quickly get to a point
+         where you can not turn back due to inconsistent data types, so make
+         sure you save your model before doing this.  It is helpful to use the
+         built-in "save restore point" functionality to keep from having to
+         start the whole fixed-point advisor process over again with a saved
+         model.  That can eat up a lot of time.
+
+      3.1  We used 32-bit data types for all of the defaults (fixdt(1,32,4)).
+ 
+      
+
+
+      
+      
+
+
+(Before doing the fixed-point advisor) -- remove all of the scopes and other
+non-implementable stuff from the implementation subsystems.

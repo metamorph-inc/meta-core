@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="Newembedded_func_in_cond00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="embedded_func_in_cond" Period="0" Priority="-1" SampleTime="-1" Tag="" UserData="" name="embedded_func_in_cond">
+          <Line Name="" _id="id9" dstLine_end_="id4" srcLine_end_="id8"/>
+          <Line Name="" _id="idB" dstLine_end_="id7" srcLine_end_="idA"/>
+          <OutputPort Number="1" _id="id4" name="Out1" srcLine="id9">
+            <TypeBaseRef MemberIndex="0" _id="id2A" name="double" ref="id26"/>
+          </OutputPort>
+          <Primitive BlockType="Embedded" Description="" Name="Embedded&#xA;MATLAB Function" Priority="0" SampleTime="-1" Tag="" UserData="" name="Embedded&#xA;MATLAB Function">
+            <InputPort Number="1" _id="id7" name="x" srcLine="idB">
+              <TypeBaseRef MemberIndex="0" _id="id2D" name="double" ref="id26"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id8" dstLine="id9" name="y">
+              <TypeBaseRef MemberIndex="0" _id="id2F" name="double" ref="id26"/>
+            </OutputPort>
+            <Parameter Value="function y = fcn( x )&amp;#x0a;%#eml&amp;#x0a;&amp;#x0a;if isone( x )&amp;#x0a;  y = -1&amp;#x0a;elseif istwo( x )&amp;#x0a;  y = -2&amp;#x0a;elseif isthree( x )&amp;#x0a;  y = -3&amp;#x0a;elseif x == 4&amp;#x0a;  y = -4&amp;#x0a;elseif isfive( x )&amp;#x0a;  y = -5&amp;#x0a;elseif x == 6&amp;#x0a;  y = -6&amp;#x0a;elseif x == 7&amp;#x0a;  y = -7&amp;#x0a;elseif iseight( x )&amp;#x0a;  y = -8&amp;#x0a;else&amp;#x0a;  y = x&amp;#x0a;end" name="Script"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Subsystem BlockType="SubSystem" Deadline="0" Description="" Name="Counter" Period="0" Priority="0" SampleTime="-1" Tag="" UserData="" name="Counter">
+            <Line Name="" _id="id11" dstLine_end_="id12" srcLine_end_="id10"/>
+            <Line Name="" _id="id14" dstLine_end_="id15" srcLine_end_="id13"/>
+            <Line Name="" _id="id17" dstLine_end_="id18" srcLine_end_="id16"/>
+            <Line Name="" _id="id1A" dstLine_end_="idA" srcLine_end_="id19"/>
+            <OutputPort Number="1" _id="idA" dstLine="idB" name="ctr" srcLine="id1A">
+              <TypeBaseRef MemberIndex="0" _id="id2C" name="double" ref="id26"/>
+            </OutputPort>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+            <Parameter Value="off" name="ExecuteAtInitialization"/>
+            <Primitive BlockType="Demux" Description="" Name="Demux" Priority="0" SampleTime="-1" Tag="" UserData="" name="Demux">
+              <InputPort Number="1" _id="id18" name="In_1" srcLine="id17">
+                <TypeBaseRef MemberIndex="0" _id="id31" name="double" ref="id26"/>
+              </InputPort>
+              <OutputPort Number="1" _id="id10" dstLine="id11" name="Out_1">
+                <TypeBaseRef MemberIndex="0" _id="id33" name="float" ref="id32"/>
+              </OutputPort>
+              <Parameter Value="off" name="BusSelectionMode"/>
+              <Parameter Value="none" name="DisplayOption"/>
+              <Parameter Value="1" name="Outputs"/>
+              <Parameter Value="double" name="ParamDataTypeStr"/>
+            </Primitive>
+            <Primitive BlockType="Ground" Description="" Name="Ground" Priority="0" SampleTime="-1" Tag="" UserData="" name="Ground">
+              <OutputPort Number="1" _id="id13" dstLine="id14" name="Out_1">
+                <TypeBaseRef MemberIndex="0" _id="id35" name="double" ref="id26"/>
+              </OutputPort>
+              <Parameter Value="double" name="ParamDataTypeStr"/>
+            </Primitive>
+            <Primitive BlockType="S-Function" Description="" Name="SFunction" Priority="0" SampleTime="-1" Tag="Stateflow S-Function embedded_func_in_cond_mdl2mga 1" UserData="" name="SFunction">
+              <ConnectorRef _id="id20" name="Counter" ref="id1D"/>
+              <InputPort Number="1" _id="id15" name="In_1" srcLine="id14">
+                <TypeBaseRef MemberIndex="0" _id="id3A" name="double" ref="id26"/>
+              </InputPort>
+              <OutputPort Number="1" _id="id16" dstLine="id17" name="Out_1">
+                <TypeBaseRef MemberIndex="0" _id="id3B" name="double" ref="id26"/>
+              </OutputPort>
+              <OutputPort Number="2" _id="id19" dstLine="id1A" name="Out_2">
+                <TypeBaseRef MemberIndex="0" _id="id3C" name="double" ref="id26"/>
+              </OutputPort>
+              <Parameter Value="sf_sfun" name="FunctionName"/>
+              <Parameter Value="" name="Parameters"/>
+              <Parameter Value="''" name="SFunctionModules"/>
+              <Parameter Value="double" name="ParamDataTypeStr"/>
+            </Primitive>
+            <Primitive BlockType="Terminator" Description="" Name="Terminator" Priority="0" SampleTime="-1" Tag="" UserData="" name="Terminator">
+              <InputPort Number="1" _id="id12" name="In_1" srcLine="id11">
+                <TypeBaseRef MemberIndex="0" _id="id37" name="float" ref="id32"/>
+              </InputPort>
+              <Parameter Value="double" name="ParamDataTypeStr"/>
+            </Primitive>
+          </Subsystem>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow name="Stateflow">
+        <State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="" ExitAction="" Methods="" Name="" Order="0" name="TopLevel">
+          <State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="" ExitAction="" Methods="" Name="Counter" Order="0" _id="id1D" name="Counter" referedbyConnectorRef="id20">
+            <Data ArrayFirstIndex="" ArraySize="" DataType="" Description="" InitialValue="1" Max="" Min="" Name="ctr" Port="1" Scope="OUTPUT_DATA" Units="" name="ctr">
+              <TypeBaseRef MemberIndex="0" _id="id28" name="double" ref="id26"/>
+            </Data>
+            <State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="" ExitAction="" Methods="" Name="s1" Order="0" _id="id1e" dstTransition="id23 id24" name="s1" srcTransition="id21 id23 id24"/>
+            <TransStart _id="id22" dstTransition="id21"/>
+            <Transition Action="" ConditionAction="" Guard="" Order="1" Trigger="" _id="id21" dstTransition_end_="id1e" name="" srcTransition_end_="id22"/>
+            <Transition Action="ctr = ctr+1;" ConditionAction="" Guard="ctr &lt; 10" Order="1" Trigger="" _id="id23" dstTransition_end_="id1e" name="" srcTransition_end_="id1e"/>
+            <Transition Action="ctr = 0;" ConditionAction="" Guard="ctr >= 10" Order="2" Trigger="" _id="id24" dstTransition_end_="id1e" name="" srcTransition_end_="id1e"/>
+          </State>
+        </State>
+      </Stateflow>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types">
+    <Matrix Type="double" _id="id26" columns="1" name="double" referedbyTypeStructRef="id28 id2A id2C id2D id2F id35 id3A id3C id3B id31" rows="1"/>
+    <Matrix Type="float" _id="id32" columns="1" name="float" referedbyTypeStructRef="id33 id37" rows="1"/>
+  </Types>
+
+</RootFolder>

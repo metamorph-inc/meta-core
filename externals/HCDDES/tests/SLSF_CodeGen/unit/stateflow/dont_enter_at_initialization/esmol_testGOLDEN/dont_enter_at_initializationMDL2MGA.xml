@@ -1,0 +1,63 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="dont_enter_at_initialization" name="dont_enter_at_initialization" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id8" Name="" dstLine_end_="id4" srcLine_end_="id7"/>
+			<Line _id="idb" Name="" dstLine_end_="id6" srcLine_end_="ida"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id8"/>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="ida" name="Out_1" Number="1" dstLine="idb"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="1"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<System Tag="" Name="Chart" name="Chart" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<InputPort _id="id6" name="in" Number="1" dstLine="idf" srcLine="idb"/>
+				<Line _id="idf" Name="" dstLine_end_="ide" srcLine_end_="id6"/>
+				<Line _id="id11" Name="" dstLine_end_="id12" srcLine_end_="id10"/>
+				<Line _id="id14" Name="" dstLine_end_="id7" srcLine_end_="id13"/>
+				<Line _id="id17" Name="" dstLine_end_="id18" srcLine_end_="id16"/>
+				<OutputPort _id="id7" name="out" Number="1" dstLine="id8" srcLine="id14"/>
+				<Parameter name="ExecuteAtInitialization" Value="off"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id12" name="In_1" Number="1" srcLine="id11"/>
+					<OutputPort _id="id16" name="Out_1" Number="1" dstLine="id17"/>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function dont_enter_at_initialization 1" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id1a" ref="id19" name="Chart"/>
+					<InputPort _id="ide" name="In_1" Number="1" srcLine="idf"/>
+					<OutputPort _id="id10" name="Out_1" Number="1" dstLine="id11"/>
+					<OutputPort _id="id13" name="Out_2" Number="2" dstLine="id14"/>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id18" name="In_1" Number="1" srcLine="id17"/>
+				</Primitive>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow">
+		<State Name="" name="TopLevel" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+			<State _id="id19" Name="Chart" name="Chart" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" referedbyConnectorRef="id1a">
+				<Data Max="" Min="" Name="in" Port="1" name="in" Scope="INPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="out" Port="1" name="out" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="" ArrayFirstIndex="0"/>
+				<State _id="id1b" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id1f" srcTransition="id20"/>
+				<State _id="id1c" Name="s2" name="s2" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id1f"/>
+				<TransStart _id="id21" dstTransition="id20"/>
+				<Transition _id="id1f" name="" Guard="" Order="1" Action="out = in;" Trigger="" ConditionAction="" dstTransition_end_="id1c" srcTransition_end_="id1b"/>
+				<Transition _id="id20" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id1b" srcTransition_end_="id21"/>
+			</State>
+		</State>
+	</Stateflow>
+</RootFolder>
+
+

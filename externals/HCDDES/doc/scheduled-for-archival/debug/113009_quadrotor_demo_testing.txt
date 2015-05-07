@@ -1,0 +1,21 @@
+1. Trying to get data through the system.
+   
+   + Put the output tap into place (one floating point word from each point
+     on the robostix).
+
+2. Fixed the data handler -- the outer loop copy of the data was not being
+   copied in the code.
+
+3. Trying to find the NaN bug in the Outer loop code.  
+
+   + The inertial pos controller input filter had the wrong coefficients 
+     (Ts = 0.01 instead of 0.02) -- replaced the coefficients.
+ 
+   + It looks like several of these were wrong in the model -- we'll have
+     to try to re-generate the code and see what we get.
+
+      + AddTypes is not working:
+      +   the Mi matrix is still all zero
+      +   SL_codegen complains that addtypes has not been run.
+
+   + We'll have to make the changes by hand... 

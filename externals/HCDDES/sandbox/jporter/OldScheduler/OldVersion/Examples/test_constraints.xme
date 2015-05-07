@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{8F94A9D2-7B88-4A3D-AF25-3B706519EDB6}" cdate="Thu Feb 22 22:11:29 2007" mdate="Thu Feb 22 22:11:29 2007" version="" metaguid="{4EDF3C76-5C2A-4CD3-8657-8A82EC69F764}" metaversion="" metaname="TTSched">
+	<name>Root Folder</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x2" kind="RootFolder" guid="{19D7691F-98B9-4eae-9A2F-12C95D8D04FC}">
+		<name>Root Folder</name>
+		<model id="id-0065-00000001" kind="ConstraintProblem" guid="{C6BAE90C-83F5-4eba-B5FC-883A0BB874E5}" relid="0x1" childrelidcntr="0x19">
+			<name>ConstraintProblem1</name>
+			<attribute kind="LowerBound">
+				<value>5</value>
+			</attribute>
+			<attribute kind="UpperBound">
+				<value>12</value>
+			</attribute>
+			<model id="id-0065-00000003" kind="InequalityConstraint" role="InequalityConstraint" guid="{47A2356A-DC61-4854-BC7F-B6717D0D80D4}" relid="0xa" childrelidcntr="0x2">
+				<name>XleqYplusOffset</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="ConstraintAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>315,168</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Offset">
+					<value>5</value>
+				</attribute>
+				<atom id="id-0066-00000005" kind="XPort" role="XPort" guid="{D1BD2280-E56F-4709-A30A-4188FD2EEDD6}" relid="0x1">
+					<name>X1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="ConstraintAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>16,23</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+				<atom id="id-0066-00000006" kind="YPort" role="YPort" guid="{C17A02E6-6F6D-4fb8-A253-BB021EB46276}" relid="0x2">
+					<name>Y1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="ConstraintAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>16,135</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+			</model>
+			<model id="id-0065-00000004" kind="InequalityConstraint" role="InequalityConstraint" guid="{C605C18B-9A34-4542-8DC1-D8840F58C480}" relid="0xd" childrelidcntr="0x2">
+				<name>XleqYplusOffset2</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="ConstraintAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>315,70</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Offset">
+					<value>-5</value>
+				</attribute>
+				<atom id="id-0066-00000007" kind="XPort" role="XPort" guid="{806FB582-FC4E-4d4a-AEF8-D3C8B7BFF104}" relid="0x1">
+					<name>X2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="ConstraintAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>23,30</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+				<atom id="id-0066-00000008" kind="YPort" role="YPort" guid="{8853CED4-D8D5-4757-86B9-F0D896E17D2D}" relid="0x2">
+					<name>Y2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="ConstraintAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>23,121</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+			</model>
+			<model id="id-0065-00000005" kind="RangeConstraint" role="RangeConstraint" guid="{54E71327-3172-4ea9-A1CA-682C2AA547CA}" relid="0x10" childrelidcntr="0x0">
+				<name>ARangeConstraint</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="ConstraintAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>490,77</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="LowerBound">
+					<value>10</value>
+				</attribute>
+				<attribute kind="UpperBound">
+					<value>12</value>
+				</attribute>
+			</model>
+			<model id="id-0065-00000006" kind="RangeConstraint" role="RangeConstraint" guid="{8C76EAE0-7965-4a0b-A78B-1365DD45A6F1}" relid="0x12" childrelidcntr="0x0">
+				<name>BRangeConstraint</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="ConstraintAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>483,189</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="LowerBound">
+					<value>5</value>
+				</attribute>
+				<attribute kind="UpperBound">
+					<value>7</value>
+				</attribute>
+			</model>
+			<atom id="id-0066-00000001" kind="FDVar" role="FDVar" guid="{BD49AE1A-422B-4afb-A0A6-3334B610CF45}" relid="0x1">
+				<name>A</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="ConstraintAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>82,89</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="LowerBound">
+					<value>10</value>
+				</attribute>
+				<attribute kind="Size" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="UpperBound">
+					<value>12</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000002" kind="FDVar" role="FDVar" guid="{83B125B0-75A2-4e99-9ABB-9F08E645C5EC}" relid="0x2">
+				<name>B</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="ConstraintAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>82,187</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="LowerBound">
+					<value>5</value>
+				</attribute>
+				<attribute kind="Size" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="UpperBound">
+					<value>7</value>
+				</attribute>
+			</atom>
+			<connection id="id-0068-00000007" kind="Member" role="Member" guid="{6A041C5E-BF2B-41c7-99E6-3107EEA0232D}" relid="0xb">
+				<name>Member</name>
+				<connpoint role="src" target="id-0066-00000001"/>
+				<connpoint role="dst" target="id-0066-00000005"/>
+			</connection>
+			<connection id="id-0068-00000008" kind="Member" role="Member" guid="{AF56F858-EC85-4c84-822B-294D47810BCC}" relid="0xc">
+				<name>Member</name>
+				<connpoint role="src" target="id-0066-00000002"/>
+				<connpoint role="dst" target="id-0066-00000006"/>
+			</connection>
+			<connection id="id-0068-00000009" kind="Member" role="Member" guid="{22AC02DA-2D68-4267-9BF6-D9E48AB2D853}" relid="0xe">
+				<name>Member</name>
+				<connpoint role="src" target="id-0066-00000001"/>
+				<connpoint role="dst" target="id-0066-00000008"/>
+			</connection>
+			<connection id="id-0068-0000000a" kind="Member" role="Member" guid="{FF665777-F961-4dad-B116-7CFDFDC2501F}" relid="0xf">
+				<name>Member</name>
+				<connpoint role="src" target="id-0066-00000002"/>
+				<connpoint role="dst" target="id-0066-00000007"/>
+			</connection>
+			<connection id="id-0068-0000000b" kind="Member" role="Member" guid="{2BB00109-AC41-43e0-A37E-70160C5D5692}" relid="0x11">
+				<name>Member</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>nN</value>
+				</regnode>
+				<connpoint role="dst" target="id-0065-00000005"/>
+				<connpoint role="src" target="id-0066-00000001"/>
+			</connection>
+			<connection id="id-0068-0000000c" kind="Member" role="Member" guid="{E3D1304F-C36D-4838-A173-E17255D32FED}" relid="0x13">
+				<name>Member</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>sS</value>
+				</regnode>
+				<connpoint role="dst" target="id-0065-00000006"/>
+				<connpoint role="src" target="id-0066-00000002"/>
+			</connection>
+		</model>
+		<model id="id-0065-00000007" kind="ConstraintProblem" guid="{3517F795-20CB-4b5e-90A4-B511BDEAE11E}" relid="0x2" childrelidcntr="0xf">
+			<name>ConstraintProblem2</name>
+			<attribute kind="LowerBound">
+				<value>1</value>
+			</attribute>
+			<attribute kind="UpperBound">
+				<value>10</value>
+			</attribute>
+			<model id="id-0065-00000008" kind="SerialConstraint" role="SerialConstraint" guid="{803C0BE7-3149-4982-9266-BDFCC3E1659E}" relid="0x4" childrelidcntr="0x0">
+				<name>SerialConstraint</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="ConstraintAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>266,84</value>
+						</regnode>
+					</regnode>
+				</regnode>
+			</model>
+			<model id="id-0065-00000009" kind="InequalityConstraint" role="InequalityConstraint" guid="{576E1141-9202-4fec-B090-A1DD8A09EBB6}" relid="0x8" childrelidcntr="0x2">
+				<name>IeqCstr1</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="ConstraintAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>490,21</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Offset" status="meta">
+					<value>0</value>
+				</attribute>
+				<atom id="id-0066-0000000c" kind="XPort" role="XPort" guid="{C0B69BC3-E0DB-420f-9751-2D3C628713EA}" relid="0x1">
+					<name>XPort</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="ConstraintAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>16,44</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+				<atom id="id-0066-0000000d" kind="YPort" role="YPort" guid="{67E1341C-1DC2-4f66-9F48-3FB6739EA892}" relid="0x2">
+					<name>YPort</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="ConstraintAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>16,149</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+			</model>
+			<model id="id-0065-0000000a" kind="InequalityConstraint" role="InequalityConstraint" guid="{65AD10B4-E142-435c-941C-7F8FF8660BE3}" relid="0x9" childrelidcntr="0x2">
+				<name>IEqCstr2</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="ConstraintAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>490,196</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Offset" status="meta">
+					<value>0</value>
+				</attribute>
+				<atom id="id-0066-0000000e" kind="YPort" role="YPort" guid="{85856BC7-590D-4a3a-93AD-29AF4EB00467}" relid="0x2">
+					<name>YPort</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="ConstraintAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>16,149</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+				<atom id="id-0066-0000000f" kind="XPort" role="XPort" guid="{CCF7B5FB-2677-437a-9D3C-667FE8A0856A}" relid="0x1">
+					<name>XPort</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="ConstraintAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>16,44</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+			</model>
+			<atom id="id-0066-00000009" kind="FDVar" role="FDVar" guid="{7EF10BAE-E3D5-4d80-9DE9-897CDD104D8C}" relid="0x1">
+				<name>A</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="ConstraintAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>51,30</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="LowerBound">
+					<value>1</value>
+				</attribute>
+				<attribute kind="Size">
+					<value>3</value>
+				</attribute>
+				<attribute kind="UpperBound">
+					<value>10</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-0000000a" kind="FDVar" role="FDVar" guid="{9BEC4A02-B571-4b03-9D97-12475A813A03}" relid="0x2">
+				<name>B</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="ConstraintAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>44,107</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="LowerBound">
+					<value>1</value>
+				</attribute>
+				<attribute kind="Size">
+					<value>4</value>
+				</attribute>
+				<attribute kind="UpperBound">
+					<value>10</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-0000000b" kind="FDVar" role="FDVar" guid="{A248D75A-CC0F-47f2-AB82-CC0AC238C761}" relid="0x3">
+				<name>C</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="ConstraintAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>37,184</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="LowerBound">
+					<value>1</value>
+				</attribute>
+				<attribute kind="Size">
+					<value>3</value>
+				</attribute>
+				<attribute kind="UpperBound">
+					<value>10</value>
+				</attribute>
+			</atom>
+			<connection id="id-0068-0000000d" kind="Member" role="Member" guid="{3E5A77CE-8972-4662-9BF4-8D3AE43A478E}" relid="0x5">
+				<name>Member</name>
+				<connpoint role="dst" target="id-0065-00000008"/>
+				<connpoint role="src" target="id-0066-00000009"/>
+			</connection>
+			<connection id="id-0068-0000000e" kind="Member" role="Member" guid="{6893C390-421B-4912-A730-42E223538D19}" relid="0x6">
+				<name>Member</name>
+				<connpoint role="dst" target="id-0065-00000008"/>
+				<connpoint role="src" target="id-0066-0000000a"/>
+			</connection>
+			<connection id="id-0068-0000000f" kind="Member" role="Member" guid="{1F5CC835-7B2D-4516-B925-CEBB40446A6F}" relid="0x7">
+				<name>Member</name>
+				<connpoint role="dst" target="id-0065-00000008"/>
+				<connpoint role="src" target="id-0066-0000000b"/>
+			</connection>
+			<connection id="id-0068-00000010" kind="Member" role="Member" guid="{DFBBD246-5875-4ee9-923E-F58918BEF1C0}" relid="0xa">
+				<name>Member</name>
+				<connpoint role="src" target="id-0066-00000009"/>
+				<connpoint role="dst" target="id-0066-0000000c"/>
+			</connection>
+			<connection id="id-0068-00000011" kind="Member" role="Member" guid="{E799DFF0-08E2-494f-8E4E-1D071948107C}" relid="0xb">
+				<name>Member</name>
+				<connpoint role="src" target="id-0066-0000000a"/>
+				<connpoint role="dst" target="id-0066-0000000d"/>
+			</connection>
+			<connection id="id-0068-00000012" kind="Member" role="Member" guid="{C90A0376-31FD-4bab-B5BD-BFB0248EE6F5}" relid="0xc">
+				<name>Member</name>
+				<connpoint role="src" target="id-0066-0000000a"/>
+				<connpoint role="dst" target="id-0066-0000000f"/>
+			</connection>
+			<connection id="id-0068-00000013" kind="Member" role="Member" guid="{0D2AF40D-1CA4-4a00-8613-3EBB5B93A819}" relid="0xd">
+				<name>Member</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>S</value>
+				</regnode>
+				<connpoint role="src" target="id-0066-0000000b"/>
+				<connpoint role="dst" target="id-0066-0000000e"/>
+			</connection>
+		</model>
+	</folder>
+</project>

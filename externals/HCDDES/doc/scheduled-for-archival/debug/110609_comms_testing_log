@@ -1,0 +1,12 @@
+1. The outbound serial message has no header byte, so temporarily we're adding
+   a header field to the serial messages in order to handle that.  This should
+   be done differently, probably by allocating a bigger transfer buffer for the
+   double-buffering.  It could be given a generic char array type, with one 
+   more byte for the header.
+
+2. The gumstix seems to be receiving the correct values on the I2C, but sending
+   back zeros.  app_tasks_init was never called by the gumstix-frodo setup, so
+   the OuterLoop_init function was not invoked to set the gain value.  We fixed
+   that by hand.
+
+3. It seems to be working!

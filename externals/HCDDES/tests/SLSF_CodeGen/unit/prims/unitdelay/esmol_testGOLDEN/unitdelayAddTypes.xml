@@ -1,0 +1,214 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="unitdelay" name="unitdelay" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="ide" Name="" dstLine_end_="idf" srcLine_end_="idc"/>
+			<Line _id="id11" Name="" dstLine_end_="id4" srcLine_end_="id10"/>
+			<Line _id="id13" Name="" dstLine_end_="id14" srcLine_end_="id10"/>
+			<Line _id="id16" Name="" dstLine_end_="id5" srcLine_end_="id15"/>
+			<Line _id="id19" Name="" dstLine_end_="id1a" srcLine_end_="id18"/>
+			<Line _id="id1d" Name="" dstLine_end_="id1e" srcLine_end_="id1c"/>
+			<Line _id="id20" Name="" dstLine_end_="id6" srcLine_end_="id1f"/>
+			<Line _id="id22" Name="" dstLine_end_="id23" srcLine_end_="id1f"/>
+			<Line _id="id25" Name="" dstLine_end_="id7" srcLine_end_="id24"/>
+			<Line _id="id28" Name="" dstLine_end_="id29" srcLine_end_="id27"/>
+			<Line _id="id2c" Name="" dstLine_end_="id2d" srcLine_end_="id2b"/>
+			<Line _id="id2f" Name="" dstLine_end_="id8" srcLine_end_="id2e"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id11">
+				<TypeBaseRef _id="id78" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id5" name="Out2" Number="2" srcLine="id16">
+				<TypeBaseRef _id="id7a" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id6" name="Out3" Number="3" srcLine="id20">
+				<TypeBaseRef _id="id60" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id7" name="Out4" Number="4" srcLine="id25">
+				<TypeBaseRef _id="id62" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id8" name="Out5" Number="5" srcLine="id2f">
+				<TypeBaseRef _id="id66" ref="id57" name="MdoubleC3C1M" MemberIndex="0"/>
+			</OutputPort>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id18" name="Out_1" Number="1" dstLine="id19">
+					<TypeBaseRef _id="id55" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="1.32"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant1" name="Constant1" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id27" name="Out_1" Number="1" dstLine="id28">
+					<TypeBaseRef _id="id58" ref="id57" name="MdoubleC3C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[1 3.4 1]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Unit Delay" name="Unit Delay" Period="0" Deadline="0" Priority="0" BlockType="UnitDelay" SampleTime="1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="idf" name="In_1" Number="1" srcLine="ide">
+					<TypeBaseRef _id="id70" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id10" name="Out_1" Number="1" dstLine="id11 id13">
+					<TypeBaseRef _id="id74" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="RTWStateStorageClass" Value="Auto"/>
+				<Parameter name="RTWStateStorageTypeQualifier" Value=""/>
+				<Parameter name="StateIdentifier" Value=""/>
+				<Parameter name="StateMustResolveToSignalObject" Value="off"/>
+				<Parameter name="X0" Value="0"/>
+			</Primitive>
+			<Primitive Tag="" Name="Unit Delay1" name="Unit Delay1" Period="0" Deadline="0" Priority="0" BlockType="UnitDelay" SampleTime="1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id14" name="In_1" Number="1" srcLine="id13">
+					<TypeBaseRef _id="id77" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id15" name="Out_1" Number="1" dstLine="id16">
+					<TypeBaseRef _id="id79" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="RTWStateStorageClass" Value="Auto"/>
+				<Parameter name="RTWStateStorageTypeQualifier" Value=""/>
+				<Parameter name="StateIdentifier" Value=""/>
+				<Parameter name="StateMustResolveToSignalObject" Value="off"/>
+				<Parameter name="X0" Value="0"/>
+			</Primitive>
+			<Primitive Tag="" Name="Unit Delay2" name="Unit Delay2" Period="0" Deadline="0" Priority="0" BlockType="UnitDelay" SampleTime="1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id1a" name="In_1" Number="1" srcLine="id19">
+					<TypeBaseRef _id="id56" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id1c" name="Out_1" Number="1" dstLine="id1d">
+					<TypeBaseRef _id="id5a" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="RTWStateStorageClass" Value="Auto"/>
+				<Parameter name="RTWStateStorageTypeQualifier" Value=""/>
+				<Parameter name="StateIdentifier" Value=""/>
+				<Parameter name="StateMustResolveToSignalObject" Value="off"/>
+				<Parameter name="X0" Value="4"/>
+			</Primitive>
+			<Primitive Tag="" Name="Unit Delay3" name="Unit Delay3" Period="0" Deadline="0" Priority="0" BlockType="UnitDelay" SampleTime="1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id1e" name="In_1" Number="1" srcLine="id1d">
+					<TypeBaseRef _id="id5b" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id1f" name="Out_1" Number="1" dstLine="id20 id22">
+					<TypeBaseRef _id="id5c" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="RTWStateStorageClass" Value="Auto"/>
+				<Parameter name="RTWStateStorageTypeQualifier" Value=""/>
+				<Parameter name="StateIdentifier" Value=""/>
+				<Parameter name="StateMustResolveToSignalObject" Value="off"/>
+				<Parameter name="X0" Value="2.341"/>
+			</Primitive>
+			<Primitive Tag="" Name="Unit Delay4" name="Unit Delay4" Period="0" Deadline="0" Priority="0" BlockType="UnitDelay" SampleTime="1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id23" name="In_1" Number="1" srcLine="id22">
+					<TypeBaseRef _id="id5f" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id24" name="Out_1" Number="1" dstLine="id25">
+					<TypeBaseRef _id="id61" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="RTWStateStorageClass" Value="Auto"/>
+				<Parameter name="RTWStateStorageTypeQualifier" Value=""/>
+				<Parameter name="StateIdentifier" Value=""/>
+				<Parameter name="StateMustResolveToSignalObject" Value="off"/>
+				<Parameter name="X0" Value="0"/>
+			</Primitive>
+			<Primitive Tag="" Name="Unit Delay5" name="Unit Delay5" Period="0" Deadline="0" Priority="0" BlockType="UnitDelay" SampleTime="1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id29" name="In_1" Number="1" srcLine="id28">
+					<TypeBaseRef _id="id59" ref="id57" name="MdoubleC3C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id2b" name="Out_1" Number="1" dstLine="id2c">
+					<TypeBaseRef _id="id63" ref="id57" name="MdoubleC3C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="RTWStateStorageClass" Value="Auto"/>
+				<Parameter name="RTWStateStorageTypeQualifier" Value=""/>
+				<Parameter name="StateIdentifier" Value=""/>
+				<Parameter name="StateMustResolveToSignalObject" Value="off"/>
+				<Parameter name="X0" Value="[0 1 0]"/>
+			</Primitive>
+			<Primitive Tag="" Name="Unit Delay6" name="Unit Delay6" Period="0" Deadline="0" Priority="0" BlockType="UnitDelay" SampleTime="1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id2d" name="In_1" Number="1" srcLine="id2c">
+					<TypeBaseRef _id="id64" ref="id57" name="MdoubleC3C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id2e" name="Out_1" Number="1" dstLine="id2f">
+					<TypeBaseRef _id="id65" ref="id57" name="MdoubleC3C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="RTWStateStorageClass" Value="Auto"/>
+				<Parameter name="RTWStateStorageTypeQualifier" Value=""/>
+				<Parameter name="StateIdentifier" Value=""/>
+				<Parameter name="StateMustResolveToSignalObject" Value="off"/>
+				<Parameter name="X0" Value="[2 3 4]"/>
+			</Primitive>
+			<System Tag="" Name="Counter" name="Counter" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<Line _id="id34" Name="" dstLine_end_="id35" srcLine_end_="id33"/>
+				<Line _id="id37" Name="" dstLine_end_="id38" srcLine_end_="id36"/>
+				<Line _id="id3a" Name="" dstLine_end_="idc" srcLine_end_="id39"/>
+				<Line _id="id3d" Name="" dstLine_end_="id3e" srcLine_end_="id3c"/>
+				<OutputPort _id="idc" name="ctr" Number="1" dstLine="ide" srcLine="id3a">
+					<TypeBaseRef _id="id6f" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ExecuteAtInitialization" Value="off"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id38" name="In_1" Number="1" srcLine="id37">
+						<TypeBaseRef _id="id72" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+					<OutputPort _id="id3c" name="Out_1" Number="1" dstLine="id3d">
+						<TypeBaseRef _id="id7c" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="" Name="Ground" name="Ground" Period="0" Deadline="0" Priority="0" BlockType="Ground" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<OutputPort _id="id33" name="Out_1" Number="1" dstLine="id34">
+						<TypeBaseRef _id="id68" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function unitdelay 1" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id40" ref="id3f" name="Counter"/>
+					<InputPort _id="id35" name="In_1" Number="1" srcLine="id34">
+						<TypeBaseRef _id="id69" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+					<OutputPort _id="id36" name="Out_1" Number="1" dstLine="id37">
+						<TypeBaseRef _id="id71" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<OutputPort _id="id39" name="Out_2" Number="2" dstLine="id3a">
+						<TypeBaseRef _id="id6e" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id3e" name="In_1" Number="1" srcLine="id3d">
+						<TypeBaseRef _id="id7d" ref="id53" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+				</Primitive>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow">
+		<State Name="" name="TopLevel" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+			<State _id="id3f" Name="Counter" name="Counter" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" referedbyConnectorRef="id40">
+				<Data Max="" Min="" Name="ctr" Port="1" name="ctr" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="1" ArrayFirstIndex="0"/>
+				<State _id="id41" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id45 id46" srcTransition="id43 id45 id46"/>
+				<TransStart _id="id44" dstTransition="id43"/>
+				<Transition _id="id43" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id41" srcTransition_end_="id44"/>
+				<Transition _id="id45" name="" Guard="ctr &lt; 4" Order="1" Action="ctr = ctr+1;" Trigger="" ConditionAction="" dstTransition_end_="id41" srcTransition_end_="id41"/>
+				<Transition _id="id46" name="" Guard="ctr >= 4" Order="2" Action="ctr = 0;" Trigger="" ConditionAction="" dstTransition_end_="id41" srcTransition_end_="id41"/>
+			</State>
+		</State>
+	</Stateflow>
+	<Types name="Types">
+		<Matrix _id="id53" Type="double" name="MdoubleC1C1M" rows="1" columns="1" referedbyTypeStructRef="id55 id56 id5a id5b id5c id5f id60 id61 id62 id68 id69 id6e id6f id70 id71 id72 id74 id77 id78 id79 id7a id7c id7d"/>
+		<Matrix _id="id57" Type="double" name="MdoubleC3C1M" rows="3" columns="1" referedbyTypeStructRef="id58 id59 id63 id64 id65 id66"/>
+	</Types>
+</RootFolder>
+
+

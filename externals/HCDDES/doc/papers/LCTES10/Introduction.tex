@@ -1,0 +1,86 @@
+\section{Introduction}
+
+High confidence embedded systems development features multi-faceted design activities
+complemented by model and data analysis to ensure the correct operation of the final
+product.  Such analysis is multi-faceted due to the heterogeneity of domains 
+involved in the problems (e.g. cyber-physical systems), leading to high costs and
+extended schedules for development efforts.  Analyses suffer from difficulties
+of scale due to state and parameter space explosion problems.  Further, interactions
+between design domains (such as the physical continous-time and computational 
+discrete-event) are poorly understood, requiring analyses to be overly conservative.
+Recently the research community for embedded systems has explored 
+constructive techniques for design and analysis, where system correctness properties
+may be inferred from component correctness properties and more abstract interaction 
+models defined on the interconnection structure of the design.  Constructive methods
+strive to dramatically reduce state explosion problems by assuring correctness during
+model construction, while avoiding overly conservative approximations.
+
+BIP \cite{verif:bbs06} is a framework for the constructive assurance of computational 
+properties in embedded systems design.  BIP is a component framework for constructing 
+systems by superimposing three layers of modelling: Behaviour, Interaction, and Priority. 
+The first layer consists of a set of atomic components represented by transition systems.  
+The second layer models Interaction between components. Interactions are sets of ports 
+specified by connectors \cite{verif:bs08,verif:bs09}. Priority, given by a strict partial 
+order on interactions, is used to enforce scheduling policies applied to interactions of 
+the second layer. The BIP component framework has a formal operational semantics given in 
+terms of Labelled Transition Systems and Structural Operational Semantics derivation rules.
+
+The BIP language offers primitives and constructs for modelling and composing complex 
+behaviour from atomic components.  Atomic components are communicating automata extended 
+with C functions and data. Transitions are labelled with sets of communication ports. 
+Compound components are obtained from subcomponents by specifying connectors and 
+priorities.
+
+ESMoL is another modeling language which aims to experiment with encoding constructive 
+techniques for high-confidence systems into a single modeling environment.  Prior work has 
+dealt with modeling and deployment for distributed control systems implemented using an 
+implementation of the time-triggered model of computation\cite{timed:frodo, modeling:aces08, sched:analysis}.  
+While the time-triggered architecture \cite{timed:tta2} provides many guarantees for
+deterministic execution and fault tolerance, extensions are necessary to handle 
+sporadic traffic.  Some hardware solutions aim to address these problems, such as 
+time-triggered ethernet\cite{timed:ttethernet} and AFDX\cite{afdxspec} (to name a few of 
+the most popular).
+
+The execution environment addresses only part of the problem.  High-confidence designs
+require assurances of correct execution, including guarantees for dynamic stability, 
+schedulability and deadlock freedom.  The ESMoL development effort seeks to address such problems 
+constructively.  In order to provide assurances of deadlock freedom, we aim to integrate 
+asynchronous designs modeled in BIP into our modeling, analysis, and deployment environment.
+
+The integration of BIP and ESMoL seeks to address a number of outstanding problems, and
+confers benefits on both tools:
+
+\begin{enumerate}
+ \item ESMoL offers platform and deployment modeling, along with wrapper code generation
+for distributed messaging and real-time execution.  Using ESMoL, BIP models can easily be 
+tested against multiple deployment configurations.
+ \item As mentioned, BIP offers constructive deadlock analysis, which is essential to 
+support high-confidence design activities.  ESMoL resimulation could include BIP models 
+for communication protocols and task schedulers, leading to a more accurate determination
+of possible deadlocks.
+ \item ESMoL currently lacks asynchronous semantics in both the modeling environment and
+runtime, so extensions to support BIP models will address this deficiency.
+\end{enumerate}
+
+In this report we describe the first phase of the integration effort: importing BIP models
+into ESMoL, and creating platform-specific simulations.  To achieve this, a number of 
+technical challenges must be overcome:
+
+\begin{enumerate}
+ \item Creating an appropriate syntactic transformation from BIP models to ESMoL models.
+ \item Mapping BIP component interaction models to appropriate message transfer models
+for deployment, while preserving semantics.
+ \item Extending the ESMoL code generation framework to support imported BIP models.
+ \item Extending the FRODO runtime (used in the ESMoL tools) to support asynchronous
+operation.
+\end{enumerate}
+
+We will cover design details for each of these challenges by describing the 
+flow of an example model through the tools.  We will also discuss current development 
+progress for each part, and include results where appropriate.  Section \ref{section:solution}
+introduces the example and describes our solution in more detail.  Section \ref{section:trans} 
+covers the syntactic transformation between BIP and ESMoL.  Section \ref{section:semantics}
+describes the semantic transformation from generic BIP connectors to send-receive messaging
+required to distribute BIP execution on a network.  Execution environment extensions and 
+simulation results are discussed in Section \ref{section:exec}.  Finally we visit
+related work (Sec. \ref{section:related}), future work, and conclusions (Sec. \ref{section:conc}).

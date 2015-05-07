@@ -1,0 +1,68 @@
+4/25/2008 Trying it out -- attempting to deploy to xPC.
+
+* Generated code for xPC and then deployed.
+	With the default sample setting (~ .0013) the xPC couldn't keep up.
+
+	Reduced the sample period by a factor of 2, then tried again.  Now the xPC can keep
+	up (TET ~ .0019), but dropping the sample rate has seriously influenced the stability
+	of the model (according to simulation in the test harness).  We'll need to do some 
+	carefully-chosen optimization to reduce the cycles.
+
+	Scope test -- reducing the number of inputs to the target scope didn't help much. The
+	TET only changed by a few tens of microseconds.
+
+	Note that this model has no UDP output, no interface to the D/A or DIO, and only constant
+	inputs.  We'll need quite a bit more headroom to make this work.  On the other hand,
+	the inner control loop is in the model.  On the other other hand, removing that won't
+	help, because we'll replace it with accesses to the external controller, which are sure
+	to be slower than the current loop.
+
+	Note: the sample rate is currently half--I did not change it back!	
+
+* Removed all scope blocks from the discretized model, and turned off all workspace logging.
+	That brought the execution time down by an order of magnitude! :-)  We are now well
+	within range of being able to execute the plant model on the xPC target.
+
+4/23/2008 Created test harness model with duplicate of original for cleanup.
+
+* Moved ZOH from input of dynamics to output of controller. OK.
+* Tried removing ZOH blocks from Aerodynamic Effects/Vertical Effect Dynamics.
+	This introduced a small error difference in the dynamics.  I need to find out who
+	 added that, and whether it needs to be there.  Need to talk with Gabe.
+
+	Later thoughts: The ZOH must be part of the inner loop controller.
+	 Earlier today, Jim Kapinski suggested that the inner loop should run about
+	 an order of magnitude faster than the outer loop.  Making that change leads
+	 back to the small error difference seen without the ZOH.  Frankly, it looks exactly
+	 identical to the non-ZOH error plot.  The parameter is going to stay there for now.
+
+	For the record: the ZOH values were 1/tau_motor, now they are t_s/tau_motor.
+	 That will help later when we need RTW to handle the rate transitions.
+
+* Discretization of stuff:
+	Tried replacing the velocity integrator with a discrete integrator in the 6 DOF model.
+	 For the most part it follows fairly well, but a few of the states are beginning to 
+	 wander in a small way.  The discrete integrator has period t_s/tau_motor.
+
+	One more -- the position integrator has been replaced.  It looks about the same.
+
+	Before going too far, try increasing the sample rate of the integrators just for fun.
+	 0.25 * sample rate and 0.1 * sample rate didn't change the result.  Going back to 
+	 the original sample rate 't_s/tau_motor'.
+
+	The "wandering" states are the first two Euler velocities, though their integrated
+	 Euler positions don't seem to have that problem.
+
+	Added discrete-time theta integrator.  No additional change out to t=50.
+	Added discrete-time omega integrator.  Very slight magnitude change in deviating
+	 states.
+	Added ZOH after the wind input. More oscillation in the other states, but the deviating
+	 states are still the same (out to t=50).
+
+	Trying discrete state-space for motor dynamics (using fixed version of discrete model,
+	 and global plant integration time parameter).  That is the last element which was
+	 introducing continuous states into the plant, so if this works it will be fully discrete.
+	 Low level oscillations increased again, but no other issues.
+
+	Trying really long sim ((1/10)*t_s/tau_motor).  No change. Removed the 1/10 factor.
+

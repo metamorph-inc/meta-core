@@ -1,0 +1,31 @@
+What have we learned so far?
+
+There are some questions that must be answered in order to get a model up
+and running.  These questions are key to automating the bring-up and 
+troubleshooting processes.
+
+1. Did the packages compile and install properly?
+2. Does the running system conform to the schedule?
+3. Does each component move data as expected?
+4. Is each component running only as long as expected?
+5. Are the data links working (timing, transfer time, values)?
+6. Do we get consistent end-to-end data flow?
+7. Does each component implement the specified function?
+8. Do the composed components implement the specified control function?
+9. Does the closed-loop system track properly?
+
+
+First steps:
+
+What are the run times of the quadrotor dynamics with the different solvers?
+
+ode2 - 3.076 us (leaking @ 72s)
+ode3 - 3.437 us (leaking time - over 6 us after 300 s running)
+ode4 - 4.154 us (leaking @ 75s - 6 us @ 133 s/7.2 us @ 300 s)
+ode5 - 5.641 us (leaking @ 72s - 8 us @ 110 s/11.2 us @ 300 s)
+ode8 - 13.52 us (leaking @ 72s - 17.6 us @ 100 s/22.4 us @ 200 s)
+
+The leaking effect occurs whether the controller is running or not.
+
+We also get FIFO overflows as it runs.
+

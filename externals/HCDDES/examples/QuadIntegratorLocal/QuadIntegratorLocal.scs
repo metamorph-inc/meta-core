@@ -1,0 +1,24 @@
+Resolution 5us
+
+Proc RS 4MHz 0s 0s
+Comp InnerLoop =50Hz 1ms
+Comp DataHandling =50Hz 1ms
+Comp OuterLoop =12.5Hz 1ms
+Comp ADC =50Hz 1us
+Comp SerialIn =50Hz 1ms
+Comp SerialOut =50Hz 1ms
+Msg DataHandling.sensor_data 8B RS/ADC RS/DataHandling 
+Msg DataHandling.pos_ref 8B RS/SerialIn RS/DataHandling 
+Msg InnerLoop.thrust_commands 8B RS/InnerLoop RS/SerialOut
+Msg DataHandling_0_InnerLoop_0 0B RS/DataHandling RS/InnerLoop 
+Msg DataHandling.pos_msg 8B RS/DataHandling RS/OuterLoop 
+Msg OuterLoop.ang_ref 8B RS/OuterLoop RS/InnerLoop 
+
+Proc GS 100MHz 0s 0s
+
+
+Bus TT_I2C 100kb 1ms
+
+
+
+

@@ -1,0 +1,85 @@
+Warning: Block diagram 'cesna_a_37' contains 1 algebraic loop(s). To see more details about the loops use the command
+line Simulink debugger by typing "sldebug cesna_a_37" in the MATLAB command window. To eliminate this message, set the
+Algebraic loop option in the Diagnostics page of the Simulation Parameters Dialog to "None" 
+Found algebraic loop containing:
+  'cesna_a_37/alpha_beta_mu_controller/K_2'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_mu(x)/Product4'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_mu(x)/Product3'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_mu(x)/Sum1'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_mu(x)/Product'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_mu(x)/Sum'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_mu(x)/Product2'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_alpha(x)/Product'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_alpha(x)/Sum'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_alpha(x)/neg'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_beta(x)/Product'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_beta(x)/Sum'
+  'cesna_a_37/alpha_beta_mu_controller/Divide'
+  'cesna_a_37/alpha_beta_mu_controller/Sum2'
+  'cesna_a_37/alpha_beta_mu_controller/Product'
+  'cesna_a_37/alpha_beta_mu_controller/Product1'
+  'cesna_a_37/alpha_beta_mu_controller/Divide1'
+  'cesna_a_37/alpha_beta_mu_controller/Sum3'
+  'cesna_a_37/alpha_beta_mu_controller/Sum6'
+  'cesna_a_37/alpha_beta_mu_controller/negate'
+  'cesna_a_37/alpha_beta_mu_controller/G_2_inverse'
+  'cesna_a_37/w//G2'
+  'cesna_a_37/omega_controller/alg_loop_filt/Hz_ipesh2/Discrete State-Space'
+  'cesna_a_37/omega_controller/alg_loop_filt/Hz_ipesh1/Discrete State-Space'
+  'cesna_a_37/omega_controller/alg_loop_filt/Hz_ipesh/Discrete State-Space'
+  'cesna_a_37/omega_controller/Add4' (algebraic variable)
+  'cesna_a_37/omega_controller/k_o'
+  'cesna_a_37/omega_controller/omega_set_dot/Hz_ipesh2/Discrete State-Space'
+  'cesna_a_37/omega_controller/omega_set_dot/Hz_ipesh1/Discrete State-Space'
+  'cesna_a_37/veocity_controller/anti_windup_control/Saturation' (discontinuity)
+  'cesna_a_37/alpha_beta_mu_controller/Sum5' (algebraic variable)
+  'cesna_a_37/alpha_beta_mu_controller/Sum4' (algebraic variable)
+  'cesna_a_37/omega_controller/1//b'
+  'cesna_a_37/omega_controller/inv(Clmd)'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_beta(x)/CYdr*delta_r'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_beta(x)/CYda*delta_a'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_beta(x)/Add' (algebraic variable)
+  'cesna_a_37/omega_controller/Gamma_deltam//(cbar*Cmde)'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_alpha(x)/CLde*delta_e'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_alpha(x)/Add' (algebraic variable)
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_mu(x)/Product1' (algebraic variable)
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_mu(x)/CL/CLde*delta_e'
+  'cesna_a_37/alpha_beta_mu_controller/mV*delta_f_mu(x)/CL/Add' (algebraic variable)
+  'cesna_a_37/gamma_chi_controller/Divide2'
+  'cesna_a_37/gamma_chi_controller/1//m'
+  'cesna_a_37/gamma_chi_controller/Sum5'
+  'cesna_a_37/gamma_chi_controller/Calc_CL/Dot Product'
+  'cesna_a_37/gamma_chi_controller/Calc_CL/Dot Product'
+  'cesna_a_37/gamma_chi_controller/Calc_CL/Add'
+  'cesna_a_37/gamma_chi_controller/Sum'
+  'cesna_a_37/gamma_chi_controller/Product'
+  'cesna_a_37/gamma_chi_controller/Calc_CY/Dot Product'
+  'cesna_a_37/gamma_chi_controller/Calc_CY/Add' (algebraic variable)
+  'cesna_a_37/gamma_chi_controller/Product1'
+  'cesna_a_37/gamma_chi_controller/Sum1'
+  'cesna_a_37/gamma_chi_controller/Product2'
+  'cesna_a_37/gamma_chi_controller/S//m'
+  'cesna_a_37/gamma_chi_controller/Divide1'
+  'cesna_a_37/gamma_chi_controller/Sum2'
+  'cesna_a_37/gamma_chi_controller/Sum3'
+  'cesna_a_37/gamma_chi_controller/Divide3'
+  'cesna_a_37/alpha_beta_mu_controller/sat/Saturation2' (discontinuity)
+  'cesna_a_37/alpha_beta_mu_controller/Sum1' (algebraic variable)
+  'cesna_a_37/omega_controller/omega_set_dot/Hz_ipesh/Discrete State-Space'
+  'cesna_a_37/omega_controller/Add6' (algebraic variable)
+  'cesna_a_37/omega_controller/I'
+  'cesna_a_37/omega_controller/Add7'
+  'cesna_a_37/omega_controller/Add3'
+  'cesna_a_37/omega_controller/Divide' (algebraic variable)
+  'cesna_a_37/veocity_controller/C_Dde*delta_e'
+  'cesna_a_37/veocity_controller/Add' (algebraic variable)
+  'cesna_a_37/veocity_controller/S'
+  'cesna_a_37/veocity_controller/Product'
+  'cesna_a_37/veocity_controller/Add1'
+  'cesna_a_37/veocity_controller/anti_windup_control/Add4' (algebraic variable)
+  'cesna_a_37/veocity_controller/anti_windup_control/Hz_ideal_plant/Discrete State-Space'
+  'cesna_a_37/veocity_controller/Add2'
+  'cesna_a_37/veocity_controller/m*K_I'
+  'cesna_a_37/veocity_controller/Hz_ipesh/Discrete State-Space'
+  'cesna_a_37/veocity_controller/Add3' (algebraic variable)
+

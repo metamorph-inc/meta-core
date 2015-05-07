@@ -1,0 +1,30 @@
+# comments must be prefixed by a hashmark
+#UseCache=false
+#AutomaticLogin=true
+#UseAccountInfo=true
+#account=ya
+#phrase=
+
+# specifies maximum time of tolerance (in minutes) for old entries
+# if set to 0 then a max time-to-live is not imposed on entries
+PurgeDelayed=17.7777222
+
+# shows checkout status upon load
+OnLoadShowStatus = false
+
+# use this option to avoid seeing the 'Keep files checked out'
+DefCheckInOnSave = true
+
+# use this option to avoid seeing 'Some files need to be checked out'
+DefCheckOutOnAction = true
+
+# use this option to override the url or it's protocol part only thus you
+# may select from https and svn+ssh protocols and their corresponding urls
+#PreferredUrl = https://.... 
+#PreferredUrl = svn+ssh://... 
+
+# use this option to specify your preferred access method: CMD or API
+#AccessMethod = API # or CMD
+
+# to overwrite these settings with user-specific preferences create a file
+# called config.opt, in your local checkout directory

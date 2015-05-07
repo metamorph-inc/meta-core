@@ -1,0 +1,211 @@
+\section{IDA-PBC of Coupled Tank Systems}
+\label{S:tanks}%simple integrator example ???
+A classic problem in the process control laboratory is to learn how to
+control the height of columns of water for either a coupled two tank
+\cite{astrom86:_teach_labor_for_proces_contr} or four tank process 
+\cite{johansson00:_quadr_tank_proces}.  Each problem is particularly
+interesting in that there are only half as many actuators (pumps) as
+there are tanks of water whose heights there are to control.  Therefore
+each process is under-actuated in which only half of the
+tanks heights can be independently controlled and in particular for
+the four tank process it is unclear how to systematically apply methods
+such as back-stepping control to the process 
+\cite{krstic95:_nonlin_and_adapt_contr_desig}.  However, as
+\cite{johnsen07:_inter_and_dampin_assig_passiv} has demonstrated
+IDA-PBC shows to be a promising tool to handle such a complicated
+system.  In applying IDA-PBC to the four tank process we discovered
+some {\em additional restrictions} are required on the independent
+controllable states $x_c$ and the control gains $k_i$ and
+$k_{\mathsf{I}}$.  Since we are particularly interested in
+implementing a resilient integrator anti-windup compensator
+Section~\ref{S:two_tank} recalls the coupled two tank process model which 
+\cite{johnsen07:_inter_and_dampin_assig_passiv} modified to split the
+flow into both the upper and lower tanks.  We will extend the
+discussion on the control of this system by considering an additional
+integral term to account for model uncertainty.
+Section~\ref{S:four_tank} will recall the coupled four tank process model.
+\subsection{Two Tank Process}
+\label{S:two_tank}
+The two tank process consists of a single gear-pump which provides
+volumetric flow of a fluid from a bottom-reservoir proportional to the control
+input $u$ whose flow is then split such that ideally $\gamma u$ is sent to a
+lower-tank with cross-sectional area $A_1$ and drain-orifice area
+$a_1$ which drains back into the bottom-reservoir.  The remaining
+$(1-\gamma)u$ amount of fluid is sent to the upper-tank with
+cross-sectional area $A_2$ and drain-orifice area $a_2$ which drains
+back into the lower-tank.  The heights of the fluid in lower and
+upper-tanks is denoted $x_1$ and $x_2$ respectively.  Using
+Torricelli's Law the system dynamics have the following form
+\begin{equation}
+\label{E:two_tank}
+\begin{bmatrix}
+\dot{x}_1\\
+\dot{x}_2
+\end{bmatrix}=
+\begin{bmatrix}
+\frac{-a_1 \sqrt{2gx_1} + a_2 \sqrt{2gx_2}}{A_1} \\
+-\frac{a_2 \sqrt{2gx_2}}{A_2} 
+\end{bmatrix}+
+\begin{bmatrix}
+\frac{\delta_{\gamma} \gamma}{A_1}\\
+\frac{1 - \delta_{\gamma} \gamma}{A_2}
+\end{bmatrix} k_u u.
+\end{equation}
+For simplicity of discussion $k_u$ and $\delta_{\gamma}$ are nominally
+considered to be equal to one, however we will perturb these values in
+order to consider effects including pump degradation ($k_u < 1$) and
+uncertainty in the flow-ratio $\gamma\ \in\ (0,1)$ such that $0 <
+k_{\gamma} < \frac{1}{\gamma}$.  It should be clear from
+\eqn{E:two_tank} that only the height of one of the tanks can be
+independently controlled.  We will control the height of the
+lower-tank $x_1=x_c$ and determine $x_2^*$ based on our desired height
+$x_1^*$ and the system dynamics. In order to account for system
+uncertainty we include the following integral control term:
+\begin{equation}
+\label{E:two_tank_I}
+\dot{x}_{\mathsf{I}1} = a_1 \sqrt{2 g} \left ( \sqrt{x^*_1} -
+  \sqrt{x_1} \right ).
+\end{equation}
+The corresponding Hamiltonian used to generate our controller is 
+\begin{equation}
+\label{E:two_tank_ham}
+H(x) = \sum_{i=1}^2 \frac{2}{3} k_i a_i \sqrt{2g} x_i^{\frac{3}{2}} +
+k_{\mathsf{I}1} a_1 \sqrt{x_1^*} x_{\mathsf{I}1}.
+\end{equation}
+Which results in:
+\begin{equation*}
+Q_d = \begin{bmatrix}
+-\frac{1}{A_1 k_1} & \frac{1}{A_1 k_2} &  0\\
+0 & -\frac{1}{A_2 k_2} &  0\\
+\frac{k_{\mathsf{I}1}}{k_1} &  0 & -\frac{k_{\mathsf{I}1}}{k_1}
+\end{bmatrix}
+\end{equation*}
+which is positive-definite iff $0 < k_1 < \frac{\left (4 - A_1 k_{\mathsf{I}1} \right
+  )A_1k_2}{A_2}$, $0 < k_2 < \infty$ and $0 < k_{\mathsf{I}1} < \frac{4}{A_1}$;
+and the remaining control related terms  
+$P=[k_1,k_2(1-\gamma),k_1]\tr$, $l=-a_1\sqrt{2gx_1}$ and
+$x_2^*=\frac{a_1^2(1-\gamma)^2}{a_2^2}x_1^*$.
+\subsection{Four Tank Process}
+\label{S:four_tank}
+The four tank process consists of: i) lower-tanks Tank 1 and Tank 2
+with respective fluid height $x_1$ and $x_2$ which we wish to control
+$x_c=[x_1,x_2]\tr$; ii) upper-tanks Tank 3 and Tank 4 with fluid
+height $x_3$ and $x_4$ such that $x=[x_c\tr,x_3,x_4]\tr$; iii)
+two gear pumps Pump 1 and Pump 2 generating volumetric flows $u_1$ and
+$u_2$ respectively such that $u=[u_1,u_2]\tr$; iv) Valve 1 which
+splits the flow to Tank 1 ($\gamma_1 u_1$) and Tank 4
+($(1-\gamma_1)u_1$); v) Valve 2 which splits the flow to Tank 2
+($\gamma_2 u_2$) and Tank 3 ($(1-\gamma_2) u_2$); and vi) Tank 3
+drains into Tank 1 whereas Tank 4 drains into Tank 2.  This
+cross-coupling creates a system which can be either minimum phase
+$1<(\gamma_1+\gamma_2)<2$ or \nonminimum-phase $0<(\gamma_1 +
+\gamma_2)<1$.  Using Torricelli's Law the system dynamics for the four
+tank process are as follows
+\begin{equation}
+\label{E:four_tank}
+\begin{bmatrix}
+\dot{x}_1\\
+\dot{x}_2\\
+\dot{x}_3\\
+\dot{x}_4
+\end{bmatrix}=
+\begin{bmatrix}
+\frac{-a_1 \sqrt{2gx_1} + a_3 \sqrt{2gx_3}}{A_1} \\
+\frac{-a_2 \sqrt{2gx_2} + a_4 \sqrt{2gx_4}}{A_2} \\
+-\frac{a_3 \sqrt{2gx_3}}{A_3} \\
+-\frac{a_4 \sqrt{2gx_4}}{A_4} 
+\end{bmatrix}+
+\begin{bmatrix}
+\frac{\delta_{\gamma 1} \gamma_1}{A_1} & 0\\
+0 & \frac{\delta_{\gamma 2} \gamma_2}{A_2} \\
+0 & \frac{1 - \delta_{\gamma 2} \gamma_2}{A_3}\\
+\frac{1 - \delta_{\gamma 1} \gamma_1}{A_4} & 0
+\end{bmatrix} k_u
+\begin{bmatrix}
+ u_1\\
+ u_2
+\end{bmatrix}.
+\end{equation}  
+As was done in \cite{johnsen07:_inter_and_dampin_assig_passiv} we
+choose the following integral control states
+\begin{equation}
+\label{E:four_tank_I}
+\begin{bmatrix}
+\dot{x}_{\mathsf{I}1}\\
+\dot{x}_{\mathsf{I}2}\\
+\end{bmatrix} = 
+\begin{bmatrix}
+k_{\mathsf{I}1} a_1 \sqrt{2 g} \left ( \sqrt{x^*_1} -  \sqrt{x_1}
+\right )\\
+k_{\mathsf{I}2} a_2 \sqrt{2 g} \left ( \sqrt{x^*_2} -  \sqrt{x_2}
+\right )
+\end{bmatrix}.
+\end{equation}
+and corresponding Hamiltonian
+\begin{equation}
+\label{E:four_tank_ham}
+H(x) = \sum_{i=1}^4 \frac{2}{3} k_i a_i \sqrt{2g} x_i^{\frac{3}{2}} +
+\sum_{j=1}^2 k_{\mathsf{I}j} a_j \sqrt{x_j^*} x_{\mathsf{I}j}.
+\end{equation}
+Which results in:
+\begin{equation*}
+Q_d = \begin{bmatrix}
+\frac{-1}{A_1k_1} & 0 & \frac{1}{A_3k_3} & 0 & 0 & 0\\
+0 & \frac{-1}{A_2k_2} & 0 & \frac{1}{A_2k_4} & 0 & 0 \\
+0 & 0 & \frac{-1}{A_3k_3} & 0  & 0 & 0 \\
+0 & 0 & 0 & \frac{-1}{A_3k_3} & 0  & 0 \\
+\frac{k_{\mathsf{I}1}}{k_1} & 0 & 0 & 0 & -\frac{k_{\mathsf{I}1}}{k_1}
+& 0\\
+0 & \frac{k_{\mathsf{I}2}}{k_2} & 0 & 0 & 0 & -\frac{k_{\mathsf{I}2}}{k_2}
+\end{bmatrix}
+\end{equation*}
+which is positive-definite iff 
+\begin{gather*}
+0 < k_1< \frac{\left ( 4 - k_{\mathsf{I}1} A_1 \right )k_3}{A_3},\ 0 < k_2 < \frac{\left ( 4 - k_{\mathsf{I}2} A_2 \right )k_4}{A_4}\\
+0 < k_3,\ k_4 < \infty,\ 0 < k_{\mathsf{I}1} < \frac{4}{A_1},\ 0 < k_{\mathsf{I}2} < \frac{4}{A_2};
+\end{gather*}
+and the remaining control related terms
+\begin{gather*}
+P = \begin{bmatrix}
+\gamma_1 k_1 & (\gamma_2-1)k_1 \\
+(1-\gamma_1)k_2 & \gamma_2 k_2 \\
+0 & (1-\gamma_2)k_3\\
+(1-\gamma_1)k_4 & 0\\
+\gamma_1 k_1 & (1-\gamma_2)k_1 \\
+(1-\gamma_1)k_2  & \gamma_2 k_2
+\end{bmatrix},\\
+\begin{bmatrix}
+l_1\\
+l_2
+\end{bmatrix}= \begin{bmatrix}
+-\frac{\gamma_2 a_1\sqrt{2 g x_1^*}+(\gamma_2-1) a_2
+  \sqrt{2 g x_2^*}}{\gamma_1+\gamma_2-1}\\
+-\frac{(\gamma_1-1) a_1\sqrt{2 g x_1^*}+\gamma_1 a_2
+  \sqrt{2 g x_2^*}}{\gamma_1+\gamma_2-1}
+\end{bmatrix},\ 
+\begin{bmatrix}
+x_3^*\\
+x_4^*
+\end{bmatrix}=
+\begin{bmatrix}
+\frac{(1-\gamma_2)^2}{2 g a_3^2}l_2^2\\
+\frac{(1-\gamma_1)^2}{2ga_4^2}l_1^2
+\end{bmatrix}.
+\end{gather*}
+N.B. it appears that in
+\cite{johnsen07:_inter_and_dampin_assig_passiv} the authors
+incorrectly applied Sylvester's Criterion directly to $-Q_d$ instead of
+the negative of the \Hermitian\ of $Q_d\ (-\hermitian\{Q_d\})$ which
+resulted in their clearly incorrect constraints for the controller
+gains $k_i$ and $k_{\mathsf{I}}$ for the four tank process.  Finally
+our analysis revealed that $x^*_1$ and $x^*_2$ can not be set
+completely independent of each other.  Specifically in order for $\grad H_d
+(x=x^*,x_{\mathsf{I}}=0,x^*)=0$ then 
+\begin{gather*}
+\left ( \frac{a_1 \gamma_2}{a_2(1-\gamma_2)} \right )^2 <
+\frac{x_2^*}{x_1^*} < \left ( \frac{a_1 (1-\gamma_1)}{a_2\gamma_1}
+\right )^2 \text{ if } (\gamma_1 + \gamma_2) < 1\\
+\left ( \frac{a_1 (1-\gamma_1)}{a_2 \gamma_1} \right )^2 <
+\frac{x_2^*}{x_1^*} < \left ( \frac{a_1 \gamma_2}{a_2(1-\gamma_2)}
+\right )^2 \text{ if } (\gamma_1 + \gamma_2) > 1.
+\end{gather*}

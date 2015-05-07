@@ -1,0 +1,37 @@
+<Project _id="idf" name="ProjectRoot" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" statementCount="3" statementIndex="0" xsi:noNamespaceSchemaLocation="SFC.xsd">
+	<BasicType te="id1b id28" _id="id13" name="double" statementIndex="1"/>
+	<Program _id="id16" filename="truncate_sl" stateCount="0" numInstance="1" statementCount="1" statementIndex="2">
+		<Class _id="id15" name="truncate_20_class" statementCount="3" statementIndex="0">
+			<Function _id="id18" name="truncate_20_main" scope="" argCount="2" returnType="void" statementCount="1" statementIndex="1">
+				<Arg dt="id17" _id="id19" ptr="true" ref="id2a" name="context" size="1" type="" argIndex="0"/>
+				<Arg dt="id13" _id="id1b" ptr="true" ref="id29" name="Out_2" size="1" type="double" argIndex="2"/>
+				<UserCode _id="id30" expr="" statementIndex="0">
+					<BinaryExprs op="=" _id="id31">
+						<ArgDeclRef _id="id29" unres="" argdecl="id1b" __child_as="leftexpr"/>
+						<BinaryExprs op="." _id="id34" __child_as="rightexpr">
+							<ArgDeclRef _id="id2a" unres="" argdecl="id19" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id2b" unres="" argdecl="id28" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</BinaryExprs>
+				</UserCode>
+			</Function>
+			<Function _id="id2c" name="truncate_20_init" scope="" argCount="1" returnType="void" statementCount="1" statementIndex="2">
+				<Arg dt="id17" _id="id2d" ptr="true" ref="id2e" name="context" size="1" type="" argIndex="0"/>
+				<UserCode _id="id32" expr="" statementIndex="0">
+					<BinaryExprs op="=" _id="id33">
+						<BinaryExprs op="." _id="id35" __child_as="leftexpr">
+							<ArgDeclRef _id="id2e" unres="" argdecl="id2d" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id2f" unres="" argdecl="id28" __child_as="rightexpr"/>
+						</BinaryExprs>
+						<Double _id="id36" val="1.123457" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+			</Function>
+			<Struct te="id19 id2d" _id="id17" name="truncate_20_context" memberCount="1" statementIndex="0">
+				<LocalVar dt="id13" _id="id28" ref="id2b id2f" name="Value40" size="1" type="" scope="" initial="" statementIndex="0"/>
+			</Struct>
+		</Class>
+	</Program>
+</Project>
+
+

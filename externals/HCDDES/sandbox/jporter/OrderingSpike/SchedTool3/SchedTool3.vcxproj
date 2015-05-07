@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5F9466D3-24C0-483A-A15B-1F566268D3E0}</ProjectGuid>
+    <RootNamespace>SchedTool3</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)D</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;$(ANTLR3_PATH)\include;D:\Program Files\boost\boost_1_44;$(GECODEDIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>antlr3cd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)D.exe</OutputFile>
+      <AdditionalLibraryDirectories>$(ANTLR3_PATH)\lib;D:\Program Files\boost\boost_1_44\lib;$(GECODEDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>.;$(ANTLR3_PATH)\include;D:\Program Files\boost\boost_1_44;$(GECODEDIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>antlr3c.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ANTLR3_PATH)\lib;D:\Program Files\boost\boost_1_44\lib;$(GECODEDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="BusTypes.cpp" />
+    <ClCompile Include="ConfigKeeper.cpp" />
+    <ClCompile Include="DiscMsgTypes.cpp" />
+    <ClCompile Include="DiscNWModel.cpp" />
+    <ClCompile Include="DiscTaskTypes.cpp" />
+    <ClCompile Include="ExpNWGraph.cpp" />
+    <ClCompile Include="ExtractSubgraph.cpp" />
+    <ClCompile Include="front_end_profile\ProfBuilder.cpp" />
+    <ClCompile Include="front_end_profile\schedprofilesLexer.c" />
+    <ClCompile Include="front_end_profile\schedprofilesParser.c" />
+    <ClCompile Include="front_end_tt\NWBuilder_tt.cpp" />
+    <ClCompile Include="front_end_tt\schedmodelLexer.c" />
+    <ClCompile Include="front_end_tt\schedmodelParser.c" />
+    <ClCompile Include="LatencyTypes.cpp" />
+    <ClCompile Include="MsgTypes.cpp" />
+    <ClCompile Include="NWModel.cpp" />
+    <ClCompile Include="ParseUtils.cpp" />
+    <ClCompile Include="SchedTool3.cpp" />
+    <ClCompile Include="TaskTypes.cpp" />
+    <ClCompile Include="TestOrdering.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BusTypes.h" />
+    <ClInclude Include="ConfigKeeper.h" />
+    <ClInclude Include="DiscMsgTypes.h" />
+    <ClInclude Include="DiscNWModel.h" />
+    <ClInclude Include="DiscTaskTypes.h" />
+    <ClInclude Include="ExpNWGraph.h" />
+    <ClInclude Include="ExtractSubgraph.h" />
+    <ClInclude Include="front_end_profile\ProfBuilder.h" />
+    <ClInclude Include="front_end_profile\schedprofilesLexer.h" />
+    <ClInclude Include="front_end_profile\schedprofilesParser.h" />
+    <ClInclude Include="front_end_tt\NWBuilder_tt.h" />
+    <ClInclude Include="front_end_tt\schedmodelLexer.h" />
+    <ClInclude Include="front_end_tt\schedmodelParser.h" />
+    <ClInclude Include="LatencyTypes.h" />
+    <ClInclude Include="MsgTypes.h" />
+    <ClInclude Include="NamedElement.h" />
+    <ClInclude Include="NWModel.h" />
+    <ClInclude Include="ParseUtils.h" />
+    <ClInclude Include="PrintableElement.h" />
+    <ClInclude Include="Siblings.h" />
+    <ClInclude Include="TaskTypes.h" />
+    <ClInclude Include="TestOrdering.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

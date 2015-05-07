@@ -1,0 +1,33 @@
+1.  Nicholas helped me replace the sensor fusion details with an Embedded 
+      Matlab function.  That should do it.
+
+    + Also set the output port types to "auto" per Harmon's instructions.
+
+2. Persistent variables are not supported -- re-working the model to use a 
+      data store variable.
+
+    + Still having some trouble with AddTypes.
+    + The Embedded Matlab parser did not like the ones(...) statement in one of
+        the expressions, so it was replaced with [1; 1; 1].  That seems to have
+        worked.
+
+    + Harmon is working on fixes.
+
+3. Stage1 -- completely unconnected message ports don't fare so well.
+ 
+    + Removed the unused message ports from ReferenceHandler.
+    + It looks like we got useful output from Stage1, so we'll proceed.
+
+4. Scheduling -- generated with 1 ms resolution
+
+    + Copied the generated schedule file to a "tweakable" version.
+    + Generated a reasonable schedule, except for the starting tick.  Shifting
+        the whole schedule back by 1 tick should fix that.
+
+5. Back to SL_CodeGen:  
+
+    + Modified the model to avoid cell indexing, and commented out the type
+       mismatch assertion identified by Harmon.  We'll see how this one goes.
+
+6. Removed the refhandler task to get rid of some errors.  Now we have FRODO
+    code.

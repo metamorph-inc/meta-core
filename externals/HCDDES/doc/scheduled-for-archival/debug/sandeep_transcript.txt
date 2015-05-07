@@ -1,0 +1,235 @@
+ me:  Are you still there?
+ neemask:  still here
+somehow I see you as offline
+ 
+neemask:  the thing is still building
+
+neemask:  nope - still the same crap did two missed deadlines and then ioctl failed
+
+me:  Thinking about possibilities -- what would happen if the I2C were still transitioning 
+     between states to process data, and the next sync pulse arrived?   I think that the current 
+     I2C code assumes that everything will be done and that the robostix frodo loop will be 
+     waiting when the messages arrive.
+
+neemask:  what does the setslaveaddress do?
+
+me:  my understanding is that I2C is a multi-peripheral bus, so it is the address of the 
+     slave device that we want to communicate with.
+
+neemask:  this is pretty consistent unfortunately
+          also now I seem to have lost /dev/i2c-0 completely
+
+me:  When I've seen it, it has been consistently inconsistent -- we've had times when we could 
+run for 12 hours, and then times when it would fail constantly.
+You don't get it back with a reboot?
+
+neemask:  nope - didn't the last time I recovered from this was via a reload of robostix
+          which is bizarre  - i did an ipkg reinstall on robostix and now I have bus back
+          and now it is behaving no offset errors sync every 20 ms and then - hosed again
+          same trajectory two WARNING on missed deadline and then SyncByte errors
+
+ me:  Hmmm -- maybe not so bizarre.  The robostix gets its programs over one of those buses -- 
+      either I2C or serial.  It might be a case that some charge is floating a pin somewhere in \
+      the interconnects, and the transfer is somehow clearing it out.
+
+ neemask:  yeah - the error in the i2c driver is however the same "tiemout waiting for bus free"
+           also - seems like those missed deadliens are probably due to the retries in the i2c
+           the send routine is probably holding up - causing us to miss deadlines
+           currently the only thing we are doing to the bus is sending those 20 ms sync
+           you wouldn't think that should drag down the bus ...
+
+me:  My guess would be a faulty connection somewhere.  I'm looking up the relationship 
+     between the flash programming and the i2c.
+
+me:  Maybe that's not it -- the flash programming procedure also resets the robostix completely 
+     before writing to flash, so that would probably recover anything that was in a bad state.
+
+neemask:  ok  shoot
+
+neemask:  don't know all the signaling of the i2c bus -
+
+me:  I2c is a two-wire protocol, so it has only two lines beyond voltage and ground.
+
+neemask:  so serial transfers
+me:  Definitely - multibyte serial transfers with a frame header and a stop bit.
+
+me:  The I2c master (gumstix) controls who gets to send on the wire at any given time.
+
+neemask:  one wire is the control/address, other wire data?
+neemask:  so what decides that bus is busy?
+
+me:  No -- there is a clock line and a data line.  The slave is expected to ACK when the master 
+     sends its address, so my guess is that it didn't get any ACK.
+me:  The wikipedia page is very useful - Zsolt and I relied on it quite a bit when we did this several months ago.
+
+neemask:  ahh okay - so everyone on the line decodes the address
+
+neemask:  is it possible to look at the signals on teh logic analyzer
+
+me:  If you brought any of the little clips, you can hook up and actually decode the I2c messages.
+neemask:  i have three clips from pot ...
+          can i use those?
+
+me:  Hold on, I'll get the other gumstix where we have it hooked up.  Your logicport config file 
+     should already have the configuration.  Stand by...
+
+neemask:  yeah - seems like D8/D9 in the config are set to I2C lines
+          is the ACK on the slave side generated entirely in hardware or does the software on 
+          teh robostix side need to do something?
+
+me:  First the connection:  it's a little tricky, because the I2C lines are 
+     available on the bottom row of one of the connectors.
+ 
+neemask:  ouch
+
+me:  If you look on the bottom at the row with our power jumper, you will see one pin on the 
+     left and two pins on the right of the jumper.
+
+me:  The "one pin on the left" should be connected to the brown probe wire with the light blue end.  
+     The other pin adjacent to the jumper (the leftmost of the "two pins on the right") should be 
+     connected to the black probe wire with the light blue end.
+
+neemask:  ok - i see the pins
+
+me:  The other reason I would suspect an electrical problem is that Zsolt and would see the 
+     reliability of the I2C drop when we had the probe connected.  In the logic port interface, 
+     set the data line to trigger on the rising edge (and turn off the triggers on the other pins).
+
+neemask:  there is a top and bottom - should I hook on the bottom
+
+me:  Hmmm -- which way are you looking at it?
+
+neemask:  the bottom is hwere the jumper is hooked to so D8 to left and D9 to right?
+
+me:  Yes, so connect it to bottom, to the pins right next to the jumper.
+
+neemask:  brown on blue is D9 black on blue is D8
+          on the board here those are marked as RX and TX
+
+me:  brown on blue is left of the jumper (only one pin available) black on blue is right of the 
+     jumper (two pins available) It's an unfortunate mis-marking -- the gumstix wiki tells 
+     you all about that.
+
+neemask:  and how is should I trigger i lost your prev messages, as I close my prev IM
+
+me:  hold on just a second...
+     The I2c SDA (data) is labelled TX (trigger on that), and the SCL (clock) is labelled RX.
+ 
+neemask:  that is black on blue  trigger on low-to-high?
+          that doesn's seem to be working  oh wait need to do some bus activity first :-)
+
+me:  Single trigger mode is nice to get started and to see what a "normal" transfer looks like.  
+     If you are looking for the crash set it to recurring trigger to capture the last transaction, 
+     and then make sure you halt the triggering once the I2C transfers stop, or else the bus 
+     will sort of reset and you'll lose all of your data.
+
+neemask:  by single trigger you mean single acq?
+
+me:  Yes.
+
+neemask:  ok and set teh trigger on the DATA line rising edge?
+
+me:  Yes.
+
+me:  Yes.
+
+neemask:  what should I set teh sample rate to ?
+
+me:  I think the default is 100kbits, so something faster than that.  If you're going too fast 
+     then the logicport software will complain about buffers (down in the status bar). 
+     Sorry about that -- the default "I2C transfer rate" is 100kbits.
+
+neemask:  lowest is 2MHz -
+
+me:  I think I usually use 10 MHz.
+
+neemask:  ok the clock is gated or free running
+          If I did a trigger free acq i should see a clock?
+          the frodo seems to be dying too fast
+
+me:  No, the clock is gated.  It's really "clock + handshaking".
+ 
+neemask:  and I don't see anything in the analyzer
+          currently stuck in the failed state
+
+me:  Try adjusting the logicport voltage threshold once you get running again.
+
+neemask:  set to 1.40v
+
+me:  try a little lower if it's not triggering.
+ 
+neemask:  ok - got a good run ran for about 1007 periods
+          and then crashed stopped the trigger
+          i mean acq...
+ me:  Can you compare the last I2c transaction with one of the others 
+       that was successful?
+
+neemask:  the last one says 4C and FF
+          one interesting thing
+ me:  do you see the stop bit?
+ neemask:  is that A?
+ me:  I don't remember -- it's at the end of every transaction.
+ neemask:  on the analyzer  i see a 4C and then A, and then FF, and then A
+that seems like stop bit
+ me:  I remember a P -- do you see that somewhere?
+ neemask:  i gues I only have the last event
+one odd thing however, that in the second byte transfer
+ me:  4C should be the slave address, so that's the address message.  I guess that means that FF is the sync message.
+ neemask:  yeah
+ me:  your last message was cut off
+ neemask:  in the second byte transfer I see one extra clock pulse
+could be an artifact of the analyzer
+or not
+ Sent at 4:41 PM on Tuesday
+ me:  Is it a faster pulse than the others?  From what I'm reading the clock can be held off for a while by a slave device, but that would appear slower.
+ neemask:  regular pusles are 5 us
+this one is a 1us wide pulse
+ me:  Maybe we have a clock glitch.
+ neemask: in between two pulses possibly
+let me try and reproduce it
+ 
+ Sent at 4:44 PM on Tuesday
+ neemask:  this time it stopped after 255 hyper periods
+didn't see a clock glitch
+ Sent at 4:49 PM on Tuesday
+ neemask:  saw A between bytes and a P at the end
+ Sent at 4:50 PM on Tuesday
+ neemask:  seems like we have a hardware deadlock - normally we don't recover from this even after a hard reboot
+after a hard reboot the device disappears
+ me:  Then A is the ACK and P is the stop bit.
+I'm guess from the count of devices here that you don't have a backup device.
+ neemask:  okay - repeated again,
+saw a missing P and a clock glitch
+ 
+me:  If you have a very small screwdriver you can try re-seating the boards.
+
+Can you send me your latest code?
+ neemask:  don't have one
+shitsky
+ Sent at 4:56 PM on Tuesday
+ neemask:  its almost midnite here ...
+ me:  what would you like to do?
+ neemask:  don't know - kind of out of ideas
+i could try to unseat the board using a tiny pin
+but could do more damage
+ me:  It's a good thing you brought along your anti-static workbench ;-)
+ neemask:  haha
+i was thinking of grabbing some tools from teh lab on Friday
+but since we were in such a bad shape then, that other concerns were forgotten
+ me:  Well, I meant for you to take both of the gumstix, but forgot to tell you.
+ Sent at 5:01 PM on Tuesday
+ me:  So -- other sources of information or ideas:  1. Gabor/Peter  2. Robostix mailing list/forums  3. Try to reproduce it here.
+ 
+
+ neemask:  if its a clock glitch - then i think not much could be done
+i will basically reset and run for a while
+i can now consistently reproduce the clock glitch scenario
+i redid the experiment and again got the same thing
+after about 500 frames
+one glitch and a missing P
+
+neemask:  alright - thanks Joe
+i think I am going to try and get the rest of it checked out ...
+the modeling and slideshow
+
+

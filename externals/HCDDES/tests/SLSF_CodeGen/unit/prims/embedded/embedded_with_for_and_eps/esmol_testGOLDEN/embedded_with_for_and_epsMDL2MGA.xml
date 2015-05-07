@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="Newembedded_with_for_and_eps00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="embedded_with_for_and_eps" Period="0" Priority="-1" SampleTime="-1" Tag="" UserData="" name="embedded_with_for_and_eps">
+          <Line Name="" _id="idB" dstLine_end_="idC" srcLine_end_="idA"/>
+          <Line Name="" _id="idF" dstLine_end_="id10" srcLine_end_="ide"/>
+          <Line Name="" _id="id1C" dstLine_end_="id14" srcLine_end_="id1B"/>
+          <Line Name="" _id="id1e" dstLine_end_="id15" srcLine_end_="id1D"/>
+          <Line Name="" _id="id20" dstLine_end_="id16" srcLine_end_="id1F"/>
+          <Line Name="" _id="id22" dstLine_end_="id17" srcLine_end_="id21"/>
+          <Line Name="" _id="id24" dstLine_end_="id18" srcLine_end_="id23"/>
+          <Line Name="" _id="id25" dstLine_end_="id4" srcLine_end_="id19"/>
+          <Line Name="" _id="id26" dstLine_end_="id5" srcLine_end_="id1A"/>
+          <OutputPort Number="1" _id="id4" name="Out1" srcLine="id25">
+            <TypeBaseRef MemberIndex="0" _id="id2A" name="A12singleA" ref="id29"/>
+          </OutputPort>
+          <OutputPort Number="2" _id="id5" name="Out2" srcLine="id26">
+            <TypeBaseRef MemberIndex="0" _id="id2C" name="A12uint32A" ref="id2B"/>
+          </OutputPort>
+          <Primitive BlockType="BusCreator" Description="" Name="Bus&#xA;Creator" Priority="0" SampleTime="-1" Tag="" UserData="" name="Bus&#xA;Creator">
+            <InputPort Number="1" _id="idC" name="In_1" srcLine="idB">
+              <TypeBaseRef MemberIndex="0" _id="id49" name="single" ref="id32"/>
+            </InputPort>
+            <InputPort Number="2" _id="id10" name="In_2" srcLine="idF">
+              <TypeBaseRef MemberIndex="0" _id="id4A" name="single" ref="id32"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id23" dstLine="id24" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id48" name="ControlParameters" ref="id53"/>
+            </OutputPort>
+            <Parameter Value="bar" name="DisplayOption"/>
+            <Parameter Value="2" name="Inputs"/>
+            <Parameter Value="on" name="NonVirtualBus"/>
+            <Parameter Value="Bus: ControlParameters" name="OutDataTypeStr"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant" Priority="0" SampleTime="105" Tag="" UserData="" name="Constant">
+            <OutputPort Number="1" _id="id1B" dstLine="id1C" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id2D" name="A1A12doubleAA" ref="id2e"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit from 'Constant value'" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="[-6 -5 -4 -3 -2 -1 0 1 2 3 4 5]" name="Value"/>
+            <Parameter Value="off" name="VectorParams1D"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant1" Priority="0" SampleTime="105" Tag="" UserData="" name="Constant1">
+            <OutputPort Number="1" _id="id1F" dstLine="id20" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id2F" name="A1A12doubleAA" ref="id2e"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit from 'Constant value'" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="[1 1 -1 -1 1 -1 -1 1 1 1 -1 1]" name="Value"/>
+            <Parameter Value="off" name="VectorParams1D"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant2" Priority="0" SampleTime="105" Tag="" UserData="" name="Constant2">
+            <OutputPort Number="1" _id="idA" dstLine="idB" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id31" name="single" ref="id32"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="single" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="3" name="Value"/>
+            <Parameter Value="off" name="VectorParams1D"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant3" Priority="0" SampleTime="105" Tag="" UserData="" name="Constant3">
+            <OutputPort Number="1" _id="ide" dstLine="idF" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id33" name="single" ref="id32"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="single" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="5" name="Value"/>
+            <Parameter Value="on" name="VectorParams1D"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant4" Priority="0" SampleTime="105" Tag="" UserData="" name="Constant4">
+            <OutputPort Number="1" _id="id21" dstLine="id22" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id35" name="A1A12doubleAA" ref="id2e"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit from 'Constant value'" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="[11 10 9 8 7 6 5 4 3 2 1 0]" name="Value"/>
+            <Parameter Value="off" name="VectorParams1D"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant5" Priority="0" SampleTime="105" Tag="" UserData="" name="Constant5">
+            <OutputPort Number="1" _id="id1D" dstLine="id1e" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id37" name="A1A12doubleAA" ref="id2e"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit from 'Constant value'" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="[-6 -5 -4 -3 -2 -1 0 1 2 3 4 5]" name="Value"/>
+            <Parameter Value="off" name="VectorParams1D"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Embedded" Description="" Name="Embedded&#xA;MATLAB Function" Priority="0" SampleTime="-1" Tag="" UserData="" name="Embedded&#xA;MATLAB Function">
+            <InputPort Number="1" _id="id14" name="Input" srcLine="id1C">
+              <TypeBaseRef MemberIndex="0" _id="id39" name="A1A12doubleAA" ref="id2e"/>
+            </InputPort>
+            <InputPort Number="2" _id="id15" name="WP" srcLine="id1e">
+              <TypeBaseRef MemberIndex="0" _id="id3B" name="A1A12doubleAA" ref="id2e"/>
+            </InputPort>
+            <InputPort Number="3" _id="id16" name="SJ" srcLine="id20">
+              <TypeBaseRef MemberIndex="0" _id="id3D" name="A1A12doubleAA" ref="id2e"/>
+            </InputPort>
+            <InputPort Number="4" _id="id17" name="CM" srcLine="id22">
+              <TypeBaseRef MemberIndex="0" _id="id3F" name="A1A12doubleAA" ref="id2e"/>
+            </InputPort>
+            <InputPort Number="5" _id="id18" name="NC" srcLine="id24">
+              <TypeBaseRef MemberIndex="0" _id="id41" name="ControlParameters" ref="id53"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id19" dstLine="id25" name="Output">
+              <TypeBaseRef MemberIndex="0" _id="id43" name="A12singleA" ref="id29"/>
+            </OutputPort>
+            <OutputPort Number="2" _id="id1A" dstLine="id26" name="Hout">
+              <TypeBaseRef MemberIndex="0" _id="id45" name="A12uint32A" ref="id2B"/>
+            </OutputPort>
+            <Parameter Value="function [ Output, Hout ] = fcn( Input, WP, SJ, CM, NC )&amp;#x0a;%#eml&amp;#x0a;&amp;#x0a;eml.inline( 'never' );&amp;#x0a;&amp;#x0a;% Output declarations&amp;#x0a;Output = zeros(12,1,'single');&amp;#x0a;Hout = zeros(12,1,'uint32');&amp;#x0a;&amp;#x0a;for index=1:12&amp;#x0a;                &amp;#x0a;    % By default, assign the output to the input&amp;#x0a;    Output(index) = Input(index);&amp;#x0a;    &amp;#x0a;    if (SJ(index) > 0 &amp;&amp; Input(index) &lt; eps('single'))&amp;#x0a;&amp;#x0a;        if (CM(index) == 3) &amp;#x0a;            Hout(index) = 0;      &amp;#x0a;        elseif (WP(index) &lt; NC.WPM)&amp;#x0a;            Output(index) = NC.TC;&amp;#x0a;            Hout(index) = 1;&amp;#x0a;        end&amp;#x0a;    end&amp;#x0a;    &amp;#x0a;end&amp;#x0a;" name="Script"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+        </Subsystem>
+      </Dataflow>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types">
+    <Matrix Type="single" _id="id29" columns="1" name="A12singleA" referedbyTypeStructRef="id2A id43" rows="12"/>
+    <Matrix Type="uint32" _id="id2B" columns="1" name="A12uint32A" referedbyTypeStructRef="id2C id45" rows="12"/>
+    <Matrix Type="double" _id="id2e" columns="12" name="A1A12doubleAA" referedbyTypeStructRef="id2D id2F id35 id37 id39 id3B id3D id3F" rows="1"/>
+    <Matrix Type="single" _id="id32" columns="1" name="single" referedbyTypeStructRef="id31 id33 id49 id4A id4e id52" rows="1"/>
+    <TypeStruct MemberCount="2" _id="id53" name="ControlParameters" referedbyTypeStructRef="id48 id41">
+      <TypeBaseRef MemberIndex="0" _id="id4e" name="WPM" ref="id32"/>
+      <TypeBaseRef MemberIndex="1" _id="id52" name="TC" ref="id32"/>
+    </TypeStruct>
+  </Types>
+
+</RootFolder>

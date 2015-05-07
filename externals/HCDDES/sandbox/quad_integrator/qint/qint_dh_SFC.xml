@@ -1,0 +1,1242 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Project _id="id2" name="qint" statementCount="22" statementIndex="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="SFC.xsd">
+
+  <Array _id="id7" dt="id6" name="A5singleA" noelem="5" statementIndex="6" te="idA id34"/>
+
+  <Array _id="id8" dt="id6" name="A9singleA" noelem="9" statementIndex="9" te="id9"/>
+
+  <Array _id="id9" dt="id8" name="A1A9singleAA" noelem="1" statementIndex="10" te="id3B"/>
+
+  <Array _id="idA" dt="id7" name="A1A5singleAA" noelem="1" statementIndex="12" te="id3C"/>
+
+  <BasicType _id="id6" name="single" statementIndex="4" te="id7 id8 idB idC idD ide idF id10 id11 id12 id13 id14 id15 id16 id17 id18 id19 id1A id32 id33 id35 id36 id37 id38 id39 id3A id3D id47 id48 id49 id4A id4B id4C id4e id4F id50 id51 id52 id53 id54 id55 id57 id58 id59 id5A id5B id5D id5e id5F id60 id61 id62 id63 id64 id65 id66 id67 id68 id69 id6A id6B id6C id6D id6e id6F id82 id9e idA3 idAe idB4 idB9 idBA id135 id139 id13D id141 id145 id149 id156 id15B id160 id165 id16A id16F id174 id179 id17e"/>
+
+  <BasicType _id="id8D" name="int" statementIndex="20"/>
+
+  <BasicType _id="idB3" name="double" statementIndex="21"/>
+
+  <Program _id="id1F" filename="DataHandler_sl" numInstance="1" stateCount="0" statementCount="1" statementIndex="16">
+    <Class _id="id1B" name="DataHandler_100000617_class" statementCount="3" statementIndex="0">
+      <Function _id="id28" argCount="5" name="DataHandler_100000617_main" returnType="void" scope="" statementCount="5" statementIndex="1">
+        <Arg _id="id27" argIndex="0" dt="id26" name="context" ptr="true" size="1" type=""/>
+        <Arg _id="id32" argIndex="2" dt="id6" name="ang_in_2" ptr="false" ref="id72" size="1" type="double"/>
+        <Arg _id="id33" argIndex="3" dt="id6" name="pos_in_3" ptr="false" ref="id75" size="1" type="double"/>
+        <Arg _id="id39" argIndex="4" dt="id6" name="ang_out_4" ptr="true" ref="id87" size="1" type="double"/>
+        <Arg _id="id3A" argIndex="5" dt="id6" name="pos_out_5" ptr="true" ref="id8A" size="1" type="double"/>
+        <LocalVar _id="id4D" dt="id3" initial="" name="sig_0" ref="id70 id73 id88 id8B" scope="" size="1" statementIndex="0" type="double"/>
+        <UserCode _id="id1e7" expr="" statementIndex="1">
+          <BinaryExprs _id="id1e8" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="id72" argdecl="id32" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id1e9" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id70" argdecl="id4D" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id71" argdecl="idB" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id1eA" expr="" statementIndex="2">
+          <BinaryExprs _id="id1eB" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="id75" argdecl="id33" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id1eC" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id73" argdecl="id4D" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id74" argdecl="idC" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id1eD" expr="" statementIndex="3">
+          <BinaryExprs _id="id1ee" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id87" argdecl="id39" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id1eF" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id88" argdecl="id4D" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id89" argdecl="idB" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id1F0" expr="" statementIndex="4">
+          <BinaryExprs _id="id1F1" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id8A" argdecl="id3A" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id1F2" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id8B" argdecl="id4D" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id8C" argdecl="idC" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Function _id="id1A2" argCount="1" name="DataHandler_100000617_init" returnType="void" scope="" statementCount="0" statementIndex="2">
+        <Arg _id="id1A1" argIndex="0" dt="id26" name="context" ptr="true" size="1" type=""/>
+      </Function>
+      <Struct _id="id26" memberCount="0" name="DataHandler_100000617_context" statementIndex="0" te="id27 id1A1"/>
+    </Class>
+  </Program>
+
+  <Program _id="id20" filename="InnerLoop_sl" numInstance="1" stateCount="0" statementCount="3" statementIndex="17">
+    <Class _id="id1C" name="InnerLoop_100000634_class" statementCount="3" statementIndex="0">
+      <Function _id="id2B" argCount="4" name="InnerLoop_100000634_main" returnType="void" scope="" statementCount="41" statementIndex="1">
+        <Arg _id="id2A" argIndex="0" dt="id29" name="context" ptr="true" ref="idA5 idB6 id19B id19D" size="1" type=""/>
+        <Arg _id="id34" argIndex="2" dt="id7" name="ang_ref_2" ptr="false" ref="id8F id91 id93 id95 id97" size="1" type="double"/>
+        <Arg _id="id35" argIndex="3" dt="id6" name="angle_3" ptr="false" ref="id7A id9D idF6" size="1" type="double"/>
+        <Arg _id="id3B" argIndex="4" dt="id9" name="Torque_4" ptr="true" ref="id112 id116 id11A id11e id122 id126 id12A id12e id132" size="1" type="double"/>
+        <FunctionCall _id="id77" argCount="3" callee="id43" libFuncName="" statementIndex="12">
+          <ArgVal _id="id76" arg="id42" argIndex="0" val="">
+            <BinaryExprs _id="id1F9" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id19B" argdecl="id2A" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id19C" argdecl="id198" unres=""/>
+            </BinaryExprs>
+          </ArgVal>
+          <ArgVal _id="id78" arg="id48" argIndex="2" val="">
+            <ArgDeclRef _id="id7A" argdecl="id35" unres=""/>
+          </ArgVal>
+          <ArgVal _id="id79" arg="id4B" argIndex="3" val="">
+            <ArgDeclRef _id="id7B" argdecl="id59" unres=""/>
+          </ArgVal>
+        </FunctionCall>
+        <FunctionCall _id="idCe" argCount="3" callee="id40" libFuncName="" statementIndex="22">
+          <ArgVal _id="idCD" arg="id3F" argIndex="0" val="">
+            <BinaryExprs _id="id21C" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id19D" argdecl="id2A" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id19e" argdecl="id199" unres=""/>
+            </BinaryExprs>
+          </ArgVal>
+          <ArgVal _id="idCF" arg="id47" argIndex="2" val="">
+            <ArgDeclRef _id="idD1" argdecl="id54" unres=""/>
+          </ArgVal>
+          <ArgVal _id="idD0" arg="id4A" argIndex="3" val="">
+            <ArgDeclRef _id="idD2" argdecl="id55" unres=""/>
+          </ArgVal>
+        </FunctionCall>
+        <LocalVar _id="id4e" dt="id6" initial="" name="sig_0" ref="id8e id9C" scope="" size="1" statementIndex="0" type="double"/>
+        <LocalVar _id="id4F" dt="id6" initial="" name="sig_1" ref="id90 ide7" scope="" size="1" statementIndex="1" type="double"/>
+        <LocalVar _id="id50" dt="id6" initial="" name="sig_2" ref="id92 ideA" scope="" size="1" statementIndex="2" type="double"/>
+        <LocalVar _id="id51" dt="id6" initial="" name="sig_3" ref="id94 ideD" scope="" size="1" statementIndex="3" type="double"/>
+        <LocalVar _id="id52" dt="id6" initial="" name="sig_4" ref="id96 idF0" scope="" size="1" statementIndex="4" type="double"/>
+        <LocalVar _id="id53" dt="id6" initial="" name="sig_5" ref="idA4 idAC idF3" scope="" size="1" statementIndex="5" type="double"/>
+        <LocalVar _id="id54" dt="id6" initial="" name="sig_6" ref="idB5 idD1 idF9" scope="" size="1" statementIndex="6" type="double"/>
+        <LocalVar _id="id55" dt="id6" initial="" name="sig_7" ref="idD2 ide4" scope="" size="1" statementIndex="7" type="double"/>
+        <LocalVar _id="id56" dt="id4" initial="" name="sig_8" ref="ide2 ide5 ide8 ideB idee idF1 idF4 idF7 idFA id113 id117 id11B id11F id123 id127 id12B id12F id133" scope="" size="1" statementIndex="8" type="double"/>
+        <LocalVar _id="id57" dt="id6" initial="" name="sig_9" ref="idAB idB8" scope="" size="1" statementIndex="9" type="double"/>
+        <LocalVar _id="id58" dt="id6" initial="" name="sig_10" ref="id9B idA7" scope="" size="1" statementIndex="10" type="double"/>
+        <LocalVar _id="id59" dt="id6" initial="" name="sig_11" ref="id7B idAD idFC" scope="" size="1" statementIndex="11" type="double"/>
+        <UserCode _id="id1FA" expr="" statementIndex="13">
+          <BinaryExprs _id="id1FB" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id8e" argdecl="id4e" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id1FC" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id8F" argdecl="id34" unres=""/>
+              <Int __child_as="rightexpr" _id="id1FD" val="0"/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id1Fe" expr="" statementIndex="14">
+          <BinaryExprs _id="id1FF" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id90" argdecl="id4F" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id200" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id91" argdecl="id34" unres=""/>
+              <Int __child_as="rightexpr" _id="id201" val="1"/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id202" expr="" statementIndex="15">
+          <BinaryExprs _id="id203" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id92" argdecl="id50" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id204" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id93" argdecl="id34" unres=""/>
+              <Int __child_as="rightexpr" _id="id205" val="2"/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id206" expr="" statementIndex="16">
+          <BinaryExprs _id="id207" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id94" argdecl="id51" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id208" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id95" argdecl="id34" unres=""/>
+              <Int __child_as="rightexpr" _id="id209" val="3"/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id20A" expr="" statementIndex="17">
+          <BinaryExprs _id="id20B" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id96" argdecl="id52" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id20C" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id97" argdecl="id34" unres=""/>
+              <Int __child_as="rightexpr" _id="id20D" val="4"/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id20e" expr="" statementIndex="18">
+          <BinaryExprs _id="id20F" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id9B" argdecl="id58" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id210" op="-">
+              <ArgDeclRef __child_as="leftexpr" _id="id9C" argdecl="id4e" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id9D" argdecl="id35" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id211" expr="" statementIndex="19">
+          <BinaryExprs _id="id212" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="idA4" argdecl="id53" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id213" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="idA7" argdecl="id58" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id214" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="idA5" argdecl="id2A" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="idA6" argdecl="idA3" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id215" expr="" statementIndex="20">
+          <BinaryExprs _id="id216" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="idAB" argdecl="id57" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id217" op="-">
+              <ArgDeclRef __child_as="leftexpr" _id="idAC" argdecl="id53" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="idAD" argdecl="id59" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id218" expr="" statementIndex="21">
+          <BinaryExprs _id="id219" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="idB5" argdecl="id54" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id21A" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="idB8" argdecl="id57" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id21B" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="idB6" argdecl="id2A" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="idB7" argdecl="idB4" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id21D" expr="" statementIndex="23">
+          <BinaryExprs _id="id21e" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="ide4" argdecl="id55" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id21F" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="ide2" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="ide3" argdecl="idD" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id220" expr="" statementIndex="24">
+          <BinaryExprs _id="id221" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="ide7" argdecl="id4F" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id222" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="ide5" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="ide6" argdecl="ide" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id223" expr="" statementIndex="25">
+          <BinaryExprs _id="id224" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="ideA" argdecl="id50" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id225" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="ide8" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="ide9" argdecl="idF" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id226" expr="" statementIndex="26">
+          <BinaryExprs _id="id227" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="ideD" argdecl="id51" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id228" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="ideB" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="ideC" argdecl="id10" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id229" expr="" statementIndex="27">
+          <BinaryExprs _id="id22A" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="idF0" argdecl="id52" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id22B" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="idee" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="ideF" argdecl="id11" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id22C" expr="" statementIndex="28">
+          <BinaryExprs _id="id22D" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="idF3" argdecl="id53" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id22e" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="idF1" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="idF2" argdecl="id12" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id22F" expr="" statementIndex="29">
+          <BinaryExprs _id="id230" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="idF6" argdecl="id35" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id231" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="idF4" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="idF5" argdecl="id13" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id232" expr="" statementIndex="30">
+          <BinaryExprs _id="id233" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="idF9" argdecl="id54" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id234" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="idF7" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="idF8" argdecl="id14" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id235" expr="" statementIndex="31">
+          <BinaryExprs _id="id236" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="idFC" argdecl="id59" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id237" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="idFA" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="idFB" argdecl="id15" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id238" expr="" statementIndex="32">
+          <BinaryExprs _id="id239" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id23A" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id112" argdecl="id3B" unres=""/>
+              <Int __child_as="rightexpr" _id="id23B" val="0"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id23C" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id113" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id114" argdecl="idD" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id23D" expr="" statementIndex="33">
+          <BinaryExprs _id="id23e" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id23F" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id116" argdecl="id3B" unres=""/>
+              <Int __child_as="rightexpr" _id="id240" val="1"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id241" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id117" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id118" argdecl="ide" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id242" expr="" statementIndex="34">
+          <BinaryExprs _id="id243" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id244" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id11A" argdecl="id3B" unres=""/>
+              <Int __child_as="rightexpr" _id="id245" val="2"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id246" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id11B" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id11C" argdecl="idF" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id247" expr="" statementIndex="35">
+          <BinaryExprs _id="id248" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id249" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id11e" argdecl="id3B" unres=""/>
+              <Int __child_as="rightexpr" _id="id24A" val="3"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id24B" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id11F" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id120" argdecl="id10" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id24C" expr="" statementIndex="36">
+          <BinaryExprs _id="id24D" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id24e" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id122" argdecl="id3B" unres=""/>
+              <Int __child_as="rightexpr" _id="id24F" val="4"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id250" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id123" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id124" argdecl="id11" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id251" expr="" statementIndex="37">
+          <BinaryExprs _id="id252" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id253" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id126" argdecl="id3B" unres=""/>
+              <Int __child_as="rightexpr" _id="id254" val="5"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id255" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id127" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id128" argdecl="id12" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id256" expr="" statementIndex="38">
+          <BinaryExprs _id="id257" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id258" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id12A" argdecl="id3B" unres=""/>
+              <Int __child_as="rightexpr" _id="id259" val="6"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id25A" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id12B" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id12C" argdecl="id13" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id25B" expr="" statementIndex="39">
+          <BinaryExprs _id="id25C" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id25D" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id12e" argdecl="id3B" unres=""/>
+              <Int __child_as="rightexpr" _id="id25e" val="7"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id25F" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id12F" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id130" argdecl="id14" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id260" expr="" statementIndex="40">
+          <BinaryExprs _id="id261" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id262" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id132" argdecl="id3B" unres=""/>
+              <Int __child_as="rightexpr" _id="id263" val="8"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id264" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id133" argdecl="id56" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id134" argdecl="id15" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Function _id="id1A4" argCount="1" name="InnerLoop_100000634_init" returnType="void" scope="" statementCount="4" statementIndex="2">
+        <Arg _id="id1A3" argIndex="0" dt="id29" name="context" ptr="true" ref="id1A9 id1AB id1De id1e2" size="1" type=""/>
+        <FunctionCall _id="id1DC" argCount="1" callee="id1B8" libFuncName="" statementIndex="2">
+          <ArgVal _id="id1DB" arg="id1B7" argIndex="0" val="">
+            <BinaryExprs _id="id26B" op=".">
+              <ArgDeclRef __child_as="rightexpr" _id="id1DD" argdecl="id199" unres=""/>
+              <ArgDeclRef __child_as="leftexpr" _id="id1De" argdecl="id1A3" unres=""/>
+            </BinaryExprs>
+          </ArgVal>
+        </FunctionCall>
+        <FunctionCall _id="id1e0" argCount="1" callee="id1BA" libFuncName="" statementIndex="3">
+          <ArgVal _id="id1DF" arg="id1B9" argIndex="0" val="">
+            <BinaryExprs _id="id26C" op=".">
+              <ArgDeclRef __child_as="rightexpr" _id="id1e1" argdecl="id198" unres=""/>
+              <ArgDeclRef __child_as="leftexpr" _id="id1e2" argdecl="id1A3" unres=""/>
+            </BinaryExprs>
+          </ArgVal>
+        </FunctionCall>
+        <UserCode _id="id1F3" expr="" statementIndex="0">
+          <BinaryExprs _id="id1F4" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id265" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1A9" argdecl="id1A3" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1AA" argdecl="idA3" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id266" val="2.00"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id267" expr="" statementIndex="1">
+          <BinaryExprs _id="id268" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id269" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1AB" argdecl="id1A3" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1AC" argdecl="idB4" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id26A" val="0.50"/>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Struct _id="id29" memberCount="4" name="InnerLoop_100000634_context" statementIndex="0" te="id2A id1A3">
+        <LocalVar _id="idA3" dt="id6" initial="" name="Gain163" ref="idA6 id1AA" scope="" size="1" statementIndex="0" type=""/>
+        <LocalVar _id="idB4" dt="id6" initial="" name="Gain180" ref="idB7 id1AC" scope="" size="1" statementIndex="1" type=""/>
+        <LocalVar _id="id198" dt="id41" initial="" name="omega_est_100000717_class_member2" ref="id19C id1e1" scope="" size="1" statementIndex="2" type=""/>
+        <LocalVar _id="id199" dt="id3e" initial="" name="LeadComp_100000695_class_member3" ref="id19e id1DD" scope="" size="1" statementIndex="3" type=""/>
+      </Struct>
+    </Class>
+    <Class _id="id23" name="LeadComp_100000695_class" statementCount="3" statementIndex="1">
+      <Function _id="id40" argCount="3" caller="idCe" name="LeadComp_100000695_main" returnType="void" scope="" statementCount="13" statementIndex="1">
+        <Arg _id="id3F" argIndex="0" dt="id3e" name="context" ptr="true" ref="id137 id13B id14D id158 id167 id176 id18F" size="1" type="" val="idCD"/>
+        <Arg _id="id47" argIndex="2" dt="id6" name="x_2" ptr="false" ref="id14F id178" size="1" type="double" val="idCF"/>
+        <Arg _id="id4A" argIndex="3" dt="id6" name="y_3" ptr="true" ref="id183 id191" size="1" type="double" val="idD0"/>
+        <LocalVar _id="id61" dt="id6" initial="" name="sig_0" ref="id175 id185" scope="" size="1" statementIndex="0" type="double"/>
+        <LocalVar _id="id62" dt="id6" initial="" name="sig_1" ref="id166 id184" scope="" size="1" statementIndex="1" type="double"/>
+        <LocalVar _id="id63" dt="id6" initial="" name="sig_2" ref="id157 id186" scope="" size="1" statementIndex="2" type="double"/>
+        <LocalVar _id="id64" dt="id6" initial="" name="sig_3" ref="id136 id169" scope="" size="1" statementIndex="3" type="double"/>
+        <LocalVar _id="id65" dt="id6" initial="" name="sig_4" ref="id13A id15A" scope="" size="1" statementIndex="4" type="double"/>
+        <UserCode _id="id26D" expr="" statementIndex="5">
+          <BinaryExprs _id="id26e" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id136" argdecl="id64" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id26F" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id137" argdecl="id3F" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id138" argdecl="id135" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id270" expr="" statementIndex="6">
+          <BinaryExprs _id="id271" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id13A" argdecl="id65" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id272" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id13B" argdecl="id3F" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id13C" argdecl="id139" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id273" expr="" statementIndex="7">
+          <BinaryExprs _id="id274" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="id14F" argdecl="id47" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id275" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id14D" argdecl="id3F" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id14e" argdecl="id135" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id276" expr="" statementIndex="8">
+          <BinaryExprs _id="id277" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id157" argdecl="id63" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id278" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="id15A" argdecl="id65" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id279" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="id158" argdecl="id3F" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id159" argdecl="id156" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id27A" expr="" statementIndex="9">
+          <BinaryExprs _id="id27B" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id166" argdecl="id62" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id27C" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="id169" argdecl="id64" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id27D" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="id167" argdecl="id3F" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id168" argdecl="id165" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id27e" expr="" statementIndex="10">
+          <BinaryExprs _id="id27F" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id175" argdecl="id61" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id280" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="id178" argdecl="id47" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id281" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="id176" argdecl="id3F" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id177" argdecl="id174" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id282" expr="" statementIndex="11">
+          <BinaryExprs _id="id283" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id183" argdecl="id4A" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id284" op="-">
+              <ArgDeclRef __child_as="rightexpr" _id="id186" argdecl="id63" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id285" op="+">
+                <ArgDeclRef __child_as="leftexpr" _id="id184" argdecl="id62" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id185" argdecl="id61" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id286" expr="" statementIndex="12">
+          <BinaryExprs _id="id287" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="id191" argdecl="id4A" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id288" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id18F" argdecl="id3F" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id190" argdecl="id139" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Function _id="id1B8" argCount="1" caller="id1DC" name="LeadComp_100000695_init" returnType="void" scope="" statementCount="5" statementIndex="2">
+        <Arg _id="id1B7" argIndex="0" dt="id3e" name="context" ptr="true" ref="id1BD id1BF id1C1 id1C3 id1C5" size="1" type="" val="id1DB"/>
+        <UserCode _id="id1F5" expr="" statementIndex="0">
+          <BinaryExprs _id="id1F6" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id289" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1BD" argdecl="id1B7" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1Be" argdecl="id135" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id28A" val="0.00"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id28B" expr="" statementIndex="1">
+          <BinaryExprs _id="id28C" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id28D" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1BF" argdecl="id1B7" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1C0" argdecl="id139" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id28e" val="0.00"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id28F" expr="" statementIndex="2">
+          <BinaryExprs _id="id290" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id291" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1C1" argdecl="id1B7" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1C2" argdecl="id156" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id292" val="-0.0432"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id293" expr="" statementIndex="3">
+          <BinaryExprs _id="id294" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id295" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1C3" argdecl="id1B7" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1C4" argdecl="id165" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id296" val="-4.5226"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id297" expr="" statementIndex="4">
+          <BinaryExprs _id="id298" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id299" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1C5" argdecl="id1B7" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1C6" argdecl="id174" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id29A" val="5.4794"/>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Struct _id="id3e" memberCount="5" name="LeadComp_100000695_context" statementIndex="0" te="id3F id199 id1B7">
+        <LocalVar _id="id135" dt="id6" initial="" name="X0309" ref="id138 id14e id1Be" scope="" size="1" statementIndex="0" type=""/>
+        <LocalVar _id="id139" dt="id6" initial="" name="X0313" ref="id13C id190 id1C0" scope="" size="1" statementIndex="1" type=""/>
+        <LocalVar _id="id156" dt="id6" initial="" name="Gain342" ref="id159 id1C2" scope="" size="1" statementIndex="2" type=""/>
+        <LocalVar _id="id165" dt="id6" initial="" name="Gain357" ref="id168 id1C4" scope="" size="1" statementIndex="3" type=""/>
+        <LocalVar _id="id174" dt="id6" initial="" name="Gain372" ref="id177 id1C6" scope="" size="1" statementIndex="4" type=""/>
+      </Struct>
+    </Class>
+    <Class _id="id24" name="omega_est_100000717_class" statementCount="3" statementIndex="2">
+      <Function _id="id43" argCount="3" caller="id77" name="omega_est_100000717_main" returnType="void" scope="" statementCount="13" statementIndex="1">
+        <Arg _id="id42" argIndex="0" dt="id41" name="context" ptr="true" ref="id13F id143 id150 id15D id16C id17B id192" size="1" type="" val="id76"/>
+        <Arg _id="id48" argIndex="2" dt="id6" name="x_2" ptr="false" ref="id152 id17D" size="1" type="double" val="id78"/>
+        <Arg _id="id4B" argIndex="3" dt="id6" name="y_3" ptr="true" ref="id187 id194" size="1" type="double" val="id79"/>
+        <LocalVar _id="id66" dt="id6" initial="" name="sig_0" ref="id17A id189" scope="" size="1" statementIndex="0" type="double"/>
+        <LocalVar _id="id67" dt="id6" initial="" name="sig_1" ref="id16B id188" scope="" size="1" statementIndex="1" type="double"/>
+        <LocalVar _id="id68" dt="id6" initial="" name="sig_2" ref="id15C id18A" scope="" size="1" statementIndex="2" type="double"/>
+        <LocalVar _id="id69" dt="id6" initial="" name="sig_3" ref="id13e id16e" scope="" size="1" statementIndex="3" type="double"/>
+        <LocalVar _id="id6A" dt="id6" initial="" name="sig_4" ref="id142 id15F" scope="" size="1" statementIndex="4" type="double"/>
+        <UserCode _id="id29B" expr="" statementIndex="5">
+          <BinaryExprs _id="id29C" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id13e" argdecl="id69" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id29D" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id13F" argdecl="id42" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id140" argdecl="id13D" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id29e" expr="" statementIndex="6">
+          <BinaryExprs _id="id29F" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id142" argdecl="id6A" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id2A0" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id143" argdecl="id42" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id144" argdecl="id141" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2A1" expr="" statementIndex="7">
+          <BinaryExprs _id="id2A2" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="id152" argdecl="id48" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id2A3" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id150" argdecl="id42" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id151" argdecl="id13D" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2A4" expr="" statementIndex="8">
+          <BinaryExprs _id="id2A5" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id15C" argdecl="id68" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id2A6" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="id15F" argdecl="id6A" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id2A7" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="id15D" argdecl="id42" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id15e" argdecl="id15B" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2A8" expr="" statementIndex="9">
+          <BinaryExprs _id="id2A9" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id16B" argdecl="id67" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id2AA" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="id16e" argdecl="id69" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id2AB" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="id16C" argdecl="id42" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id16D" argdecl="id16A" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2AC" expr="" statementIndex="10">
+          <BinaryExprs _id="id2AD" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id17A" argdecl="id66" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id2Ae" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="id17D" argdecl="id48" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id2AF" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="id17B" argdecl="id42" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id17C" argdecl="id179" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2B0" expr="" statementIndex="11">
+          <BinaryExprs _id="id2B1" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id187" argdecl="id4B" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id2B2" op="-">
+              <ArgDeclRef __child_as="rightexpr" _id="id18A" argdecl="id68" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id2B3" op="+">
+                <ArgDeclRef __child_as="leftexpr" _id="id188" argdecl="id67" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id189" argdecl="id66" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2B4" expr="" statementIndex="12">
+          <BinaryExprs _id="id2B5" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="id194" argdecl="id4B" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id2B6" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id192" argdecl="id42" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id193" argdecl="id141" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Function _id="id1BA" argCount="1" caller="id1e0" name="omega_est_100000717_init" returnType="void" scope="" statementCount="5" statementIndex="2">
+        <Arg _id="id1B9" argIndex="0" dt="id41" name="context" ptr="true" ref="id1C7 id1C9 id1CB id1CD id1CF" size="1" type="" val="id1DF"/>
+        <UserCode _id="id1F7" expr="" statementIndex="0">
+          <BinaryExprs _id="id1F8" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id2B7" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1C7" argdecl="id1B9" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1C8" argdecl="id13D" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id2B8" val="0.00"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2B9" expr="" statementIndex="1">
+          <BinaryExprs _id="id2BA" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id2BB" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1C9" argdecl="id1B9" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1CA" argdecl="id141" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id2BC" val="0.00"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2BD" expr="" statementIndex="2">
+          <BinaryExprs _id="id2Be" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id2BF" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1CB" argdecl="id1B9" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1CC" argdecl="id15B" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id2C0" val="-0.0432"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2C1" expr="" statementIndex="3">
+          <BinaryExprs _id="id2C2" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id2C3" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1CD" argdecl="id1B9" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1Ce" argdecl="id16A" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id2C4" val="-47.8393"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2C5" expr="" statementIndex="4">
+          <BinaryExprs _id="id2C6" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id2C7" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1CF" argdecl="id1B9" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1D0" argdecl="id179" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id2C8" val="47.8393"/>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Struct _id="id41" memberCount="5" name="omega_est_100000717_context" statementIndex="0" te="id42 id198 id1B9">
+        <LocalVar _id="id13D" dt="id6" initial="" name="X0317" ref="id140 id151 id1C8" scope="" size="1" statementIndex="0" type=""/>
+        <LocalVar _id="id141" dt="id6" initial="" name="X0321" ref="id144 id193 id1CA" scope="" size="1" statementIndex="1" type=""/>
+        <LocalVar _id="id15B" dt="id6" initial="" name="Gain347" ref="id15e id1CC" scope="" size="1" statementIndex="2" type=""/>
+        <LocalVar _id="id16A" dt="id6" initial="" name="Gain362" ref="id16D id1Ce" scope="" size="1" statementIndex="3" type=""/>
+        <LocalVar _id="id179" dt="id6" initial="" name="Gain377" ref="id17C id1D0" scope="" size="1" statementIndex="4" type=""/>
+      </Struct>
+    </Class>
+  </Program>
+
+  <Program _id="id21" filename="OuterLoop_sl" numInstance="1" stateCount="0" statementCount="2" statementIndex="18">
+    <Class _id="id1D" name="OuterLoop_100000642_class" statementCount="3" statementIndex="0">
+      <Function _id="id2e" argCount="4" name="OuterLoop_100000642_main" returnType="void" scope="" statementCount="23" statementIndex="1">
+        <Arg _id="id2D" argIndex="0" dt="id2C" name="context" ptr="true" ref="idA0 idB0 idBe idC1 idC5 idC8 id19F" size="1" type=""/>
+        <Arg _id="id36" argIndex="2" dt="id6" name="pos_ref_2" ptr="false" ref="id99" size="1" type="double"/>
+        <Arg _id="id37" argIndex="3" dt="id6" name="pos_3" ptr="false" ref="id80 id9A idDB" size="1" type="double"/>
+        <Arg _id="id3C" argIndex="4" dt="idA" name="ang_ref_4" ptr="true" ref="idFe id102 id106 id10A id10e" size="1" type="double"/>
+        <ConditionalGroup _id="idBB" statementCount="3" statementIndex="12">
+          <ConditionalBlock _id="idBC" statementCount="1" statementIndex="0">
+            <UserCode __child_as="cond" _id="id2e2" expr="" statementIndex="0">
+              <BinaryExprs _id="id2e3" op="&lt;">
+                <ArgDeclRef __child_as="leftexpr" _id="idBD" argdecl="id5A" unres=""/>
+                <BinaryExprs __child_as="rightexpr" _id="id2e4" op=".">
+                  <ArgDeclRef __child_as="leftexpr" _id="idBe" argdecl="id2D" unres=""/>
+                  <ArgDeclRef __child_as="rightexpr" _id="idBF" argdecl="idB9" unres=""/>
+                </BinaryExprs>
+              </BinaryExprs>
+            </UserCode>
+            <UserCode __child_as="stmnt" _id="id2DC" expr="" statementIndex="0">
+              <BinaryExprs _id="id2DD" op="=">
+                <ArgDeclRef __child_as="leftexpr" _id="idC0" argdecl="id5D" unres=""/>
+                <BinaryExprs __child_as="rightexpr" _id="id2e5" op=".">
+                  <ArgDeclRef __child_as="leftexpr" _id="idC1" argdecl="id2D" unres=""/>
+                  <ArgDeclRef __child_as="rightexpr" _id="idC2" argdecl="idB9" unres=""/>
+                </BinaryExprs>
+              </BinaryExprs>
+            </UserCode>
+          </ConditionalBlock>
+          <ConditionalBlock _id="idC3" statementCount="1" statementIndex="1">
+            <UserCode __child_as="cond" _id="id2e6" expr="" statementIndex="0">
+              <BinaryExprs _id="id2e7" op=">">
+                <ArgDeclRef __child_as="leftexpr" _id="idC4" argdecl="id5A" unres=""/>
+                <BinaryExprs __child_as="rightexpr" _id="id2e8" op=".">
+                  <ArgDeclRef __child_as="leftexpr" _id="idC5" argdecl="id2D" unres=""/>
+                  <ArgDeclRef __child_as="rightexpr" _id="idC6" argdecl="idBA" unres=""/>
+                </BinaryExprs>
+              </BinaryExprs>
+            </UserCode>
+            <UserCode __child_as="stmnt" _id="id2De" expr="" statementIndex="0">
+              <BinaryExprs _id="id2DF" op="=">
+                <ArgDeclRef __child_as="leftexpr" _id="idC7" argdecl="id5D" unres=""/>
+                <BinaryExprs __child_as="rightexpr" _id="id2e9" op=".">
+                  <ArgDeclRef __child_as="leftexpr" _id="idC8" argdecl="id2D" unres=""/>
+                  <ArgDeclRef __child_as="rightexpr" _id="idC9" argdecl="idBA" unres=""/>
+                </BinaryExprs>
+              </BinaryExprs>
+            </UserCode>
+          </ConditionalBlock>
+          <ConditionalBlock _id="idCA" statementCount="1" statementIndex="2">
+            <UserCode __child_as="cond" _id="id2eA" expr="" statementIndex="0">
+              <Int _id="id2eB" val="1"/>
+            </UserCode>
+            <UserCode __child_as="stmnt" _id="id2e0" expr="" statementIndex="0">
+              <BinaryExprs _id="id2e1" op="=">
+                <ArgDeclRef __child_as="leftexpr" _id="idCB" argdecl="id5D" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="idCC" argdecl="id5A" unres=""/>
+              </BinaryExprs>
+            </UserCode>
+          </ConditionalBlock>
+        </ConditionalGroup>
+        <FunctionCall _id="id7D" argCount="3" callee="id46" libFuncName="" statementIndex="7">
+          <ArgVal _id="id7C" arg="id45" argIndex="0" val="">
+            <BinaryExprs _id="id2CD" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id19F" argdecl="id2D" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1A0" argdecl="id19A" unres=""/>
+            </BinaryExprs>
+          </ArgVal>
+          <ArgVal _id="id7e" arg="id49" argIndex="2" val="">
+            <ArgDeclRef _id="id80" argdecl="id37" unres=""/>
+          </ArgVal>
+          <ArgVal _id="id7F" arg="id4C" argIndex="3" val="">
+            <ArgDeclRef _id="id81" argdecl="id60" unres=""/>
+          </ArgVal>
+        </FunctionCall>
+        <LocalVar _id="id5A" dt="id6" initial="" name="sig_0" ref="idAF idBD idC4 idCC idDe" scope="" size="1" statementIndex="0" type="double"/>
+        <LocalVar _id="id5B" dt="id6" initial="" name="sig_1" ref="id9F idA9 idD8" scope="" size="1" statementIndex="1" type="double"/>
+        <LocalVar _id="id5C" dt="id5" initial="" name="sig_2" ref="idD3 idD6 idD9 idDC idDF idFF id103 id107 id10B id10F" scope="" size="1" statementIndex="2" type="double"/>
+        <LocalVar _id="id5D" dt="id6" initial="" name="sig_3" ref="idC0 idC7 idCB idD5" scope="" size="1" statementIndex="3" type="double"/>
+        <LocalVar _id="id5e" dt="id6" initial="" name="sig_4" ref="idA8 idB2" scope="" size="1" statementIndex="4" type="double"/>
+        <LocalVar _id="id5F" dt="id6" initial="" name="sig_5" ref="id98 idA2" scope="" size="1" statementIndex="5" type="double"/>
+        <LocalVar _id="id60" dt="id6" initial="" name="sig_6" ref="id81 idAA ide1" scope="" size="1" statementIndex="6" type="double"/>
+        <UserCode _id="id2Ce" expr="" statementIndex="8">
+          <BinaryExprs _id="id2CF" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id98" argdecl="id5F" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id2D0" op="-">
+              <ArgDeclRef __child_as="leftexpr" _id="id99" argdecl="id36" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id9A" argdecl="id37" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2D1" expr="" statementIndex="9">
+          <BinaryExprs _id="id2D2" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id9F" argdecl="id5B" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id2D3" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="idA2" argdecl="id5F" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id2D4" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="idA0" argdecl="id2D" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="idA1" argdecl="id9e" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2D5" expr="" statementIndex="10">
+          <BinaryExprs _id="id2D6" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="idA8" argdecl="id5e" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id2D7" op="-">
+              <ArgDeclRef __child_as="leftexpr" _id="idA9" argdecl="id5B" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="idAA" argdecl="id60" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2D8" expr="" statementIndex="11">
+          <BinaryExprs _id="id2D9" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="idAF" argdecl="id5A" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id2DA" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="idB2" argdecl="id5e" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id2DB" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="idB0" argdecl="id2D" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="idB1" argdecl="idAe" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2eC" expr="" statementIndex="13">
+          <BinaryExprs _id="id2eD" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="idD5" argdecl="id5D" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id2ee" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="idD3" argdecl="id5C" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="idD4" argdecl="id16" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2eF" expr="" statementIndex="14">
+          <BinaryExprs _id="id2F0" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="idD8" argdecl="id5B" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id2F1" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="idD6" argdecl="id5C" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="idD7" argdecl="id17" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2F2" expr="" statementIndex="15">
+          <BinaryExprs _id="id2F3" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="idDB" argdecl="id37" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id2F4" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="idD9" argdecl="id5C" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="idDA" argdecl="id18" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2F5" expr="" statementIndex="16">
+          <BinaryExprs _id="id2F6" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="idDe" argdecl="id5A" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id2F7" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="idDC" argdecl="id5C" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="idDD" argdecl="id19" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2F8" expr="" statementIndex="17">
+          <BinaryExprs _id="id2F9" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="ide1" argdecl="id60" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id2FA" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="idDF" argdecl="id5C" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="ide0" argdecl="id1A" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id2FB" expr="" statementIndex="18">
+          <BinaryExprs _id="id2FC" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id2FD" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="idFe" argdecl="id3C" unres=""/>
+              <Int __child_as="rightexpr" _id="id2Fe" val="0"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id2FF" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="idFF" argdecl="id5C" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id100" argdecl="id16" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id300" expr="" statementIndex="19">
+          <BinaryExprs _id="id301" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id302" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id102" argdecl="id3C" unres=""/>
+              <Int __child_as="rightexpr" _id="id303" val="1"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id304" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id103" argdecl="id5C" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id104" argdecl="id17" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id305" expr="" statementIndex="20">
+          <BinaryExprs _id="id306" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id307" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id106" argdecl="id3C" unres=""/>
+              <Int __child_as="rightexpr" _id="id308" val="2"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id309" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id107" argdecl="id5C" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id108" argdecl="id18" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id30A" expr="" statementIndex="21">
+          <BinaryExprs _id="id30B" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id30C" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id10A" argdecl="id3C" unres=""/>
+              <Int __child_as="rightexpr" _id="id30D" val="3"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id30e" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id10B" argdecl="id5C" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id10C" argdecl="id19" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id30F" expr="" statementIndex="22">
+          <BinaryExprs _id="id310" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id311" op="[">
+              <ArgDeclRef __child_as="leftexpr" _id="id10e" argdecl="id3C" unres=""/>
+              <Int __child_as="rightexpr" _id="id312" val="4"/>
+            </BinaryExprs>
+            <BinaryExprs __child_as="rightexpr" _id="id313" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id10F" argdecl="id5C" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id110" argdecl="id1A" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Function _id="id1A6" argCount="1" name="OuterLoop_100000642_init" returnType="void" scope="" statementCount="5" statementIndex="2">
+        <Arg _id="id1A5" argIndex="0" dt="id2C" name="context" ptr="true" ref="id1AD id1AF id1B1 id1B3 id1e6" size="1" type=""/>
+        <FunctionCall _id="id1e4" argCount="1" callee="id1BC" libFuncName="" statementIndex="4">
+          <ArgVal _id="id1e3" arg="id1BB" argIndex="0" val="">
+            <BinaryExprs _id="id322" op=".">
+              <ArgDeclRef __child_as="rightexpr" _id="id1e5" argdecl="id19A" unres=""/>
+              <ArgDeclRef __child_as="leftexpr" _id="id1e6" argdecl="id1A5" unres=""/>
+            </BinaryExprs>
+          </ArgVal>
+        </FunctionCall>
+        <UserCode _id="id2C9" expr="" statementIndex="0">
+          <BinaryExprs _id="id2CA" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id314" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1AD" argdecl="id1A5" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1Ae" argdecl="id9e" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id315" val="0.30"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id316" expr="" statementIndex="1">
+          <BinaryExprs _id="id317" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id318" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1AF" argdecl="id1A5" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1B0" argdecl="idAe" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id319" val="2.00"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id31A" expr="" statementIndex="2">
+          <BinaryExprs _id="id31B" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id31C" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1B1" argdecl="id1A5" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1B2" argdecl="idB9" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id31D" val="-0.7853981633974483"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id31e" expr="" statementIndex="3">
+          <BinaryExprs _id="id31F" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id320" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1B3" argdecl="id1A5" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1B4" argdecl="idBA" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id321" val="0.7853981633974483"/>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Struct _id="id2C" memberCount="5" name="OuterLoop_100000642_context" statementIndex="0" te="id2D id1A5">
+        <LocalVar _id="id9e" dt="id6" initial="" name="Gain158" ref="idA1 id1Ae" scope="" size="1" statementIndex="0" type=""/>
+        <LocalVar _id="idAe" dt="id6" initial="" name="Gain174" ref="idB1 id1B0" scope="" size="1" statementIndex="1" type=""/>
+        <LocalVar _id="idB9" dt="id6" initial="" name="LowerLimit185" ref="idBF idC2 id1B2" scope="" size="1" statementIndex="2" type=""/>
+        <LocalVar _id="idBA" dt="id6" initial="" name="UpperLimit186" ref="idC6 idC9 id1B4" scope="" size="1" statementIndex="3" type=""/>
+        <LocalVar _id="id19A" dt="id44" initial="" name="vel_est_100000787_class_member4" ref="id1A0 id1e5" scope="" size="1" statementIndex="4" type=""/>
+      </Struct>
+    </Class>
+    <Class _id="id25" name="vel_est_100000787_class" statementCount="3" statementIndex="1">
+      <Function _id="id46" argCount="3" caller="id7D" name="vel_est_100000787_main" returnType="void" scope="" statementCount="13" statementIndex="1">
+        <Arg _id="id45" argIndex="0" dt="id44" name="context" ptr="true" ref="id147 id14B id153 id162 id171 id180 id195" size="1" type="" val="id7C"/>
+        <Arg _id="id49" argIndex="2" dt="id6" name="x_2" ptr="false" ref="id155 id182" size="1" type="double" val="id7e"/>
+        <Arg _id="id4C" argIndex="3" dt="id6" name="y_3" ptr="true" ref="id18B id197" size="1" type="double" val="id7F"/>
+        <LocalVar _id="id6B" dt="id6" initial="" name="sig_0" ref="id17F id18D" scope="" size="1" statementIndex="0" type="double"/>
+        <LocalVar _id="id6C" dt="id6" initial="" name="sig_1" ref="id170 id18C" scope="" size="1" statementIndex="1" type="double"/>
+        <LocalVar _id="id6D" dt="id6" initial="" name="sig_2" ref="id161 id18e" scope="" size="1" statementIndex="2" type="double"/>
+        <LocalVar _id="id6e" dt="id6" initial="" name="sig_3" ref="id146 id173" scope="" size="1" statementIndex="3" type="double"/>
+        <LocalVar _id="id6F" dt="id6" initial="" name="sig_4" ref="id14A id164" scope="" size="1" statementIndex="4" type="double"/>
+        <UserCode _id="id323" expr="" statementIndex="5">
+          <BinaryExprs _id="id324" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id146" argdecl="id6e" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id325" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id147" argdecl="id45" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id148" argdecl="id145" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id326" expr="" statementIndex="6">
+          <BinaryExprs _id="id327" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id14A" argdecl="id6F" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id328" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id14B" argdecl="id45" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id14C" argdecl="id149" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id329" expr="" statementIndex="7">
+          <BinaryExprs _id="id32A" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="id155" argdecl="id49" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id32B" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id153" argdecl="id45" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id154" argdecl="id145" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id32C" expr="" statementIndex="8">
+          <BinaryExprs _id="id32D" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id161" argdecl="id6D" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id32e" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="id164" argdecl="id6F" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id32F" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="id162" argdecl="id45" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id163" argdecl="id160" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id330" expr="" statementIndex="9">
+          <BinaryExprs _id="id331" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id170" argdecl="id6C" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id332" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="id173" argdecl="id6e" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id333" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="id171" argdecl="id45" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id172" argdecl="id16F" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id334" expr="" statementIndex="10">
+          <BinaryExprs _id="id335" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id17F" argdecl="id6B" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id336" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="id182" argdecl="id49" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id337" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="id180" argdecl="id45" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id181" argdecl="id17e" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id338" expr="" statementIndex="11">
+          <BinaryExprs _id="id339" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id18B" argdecl="id4C" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id33A" op="-">
+              <ArgDeclRef __child_as="rightexpr" _id="id18e" argdecl="id6D" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id33B" op="+">
+                <ArgDeclRef __child_as="leftexpr" _id="id18C" argdecl="id6C" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id18D" argdecl="id6B" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id33C" expr="" statementIndex="12">
+          <BinaryExprs _id="id33D" op="=">
+            <ArgDeclRef __child_as="rightexpr" _id="id197" argdecl="id4C" unres=""/>
+            <BinaryExprs __child_as="leftexpr" _id="id33e" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id195" argdecl="id45" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id196" argdecl="id149" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Function _id="id1BC" argCount="1" caller="id1e4" name="vel_est_100000787_init" returnType="void" scope="" statementCount="5" statementIndex="2">
+        <Arg _id="id1BB" argIndex="0" dt="id44" name="context" ptr="true" ref="id1D1 id1D3 id1D5 id1D7 id1D9" size="1" type="" val="id1e3"/>
+        <UserCode _id="id2CB" expr="" statementIndex="0">
+          <BinaryExprs _id="id2CC" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id33F" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1D1" argdecl="id1BB" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1D2" argdecl="id145" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id340" val="0.00"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id341" expr="" statementIndex="1">
+          <BinaryExprs _id="id342" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id343" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1D3" argdecl="id1BB" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1D4" argdecl="id149" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id344" val="0.00"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id345" expr="" statementIndex="2">
+          <BinaryExprs _id="id346" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id347" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1D5" argdecl="id1BB" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1D6" argdecl="id160" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id348" val="-0.0432"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id349" expr="" statementIndex="3">
+          <BinaryExprs _id="id34A" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id34B" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1D7" argdecl="id1BB" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1D8" argdecl="id16F" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id34C" val="-47.8393"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id34D" expr="" statementIndex="4">
+          <BinaryExprs _id="id34e" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id34F" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1D9" argdecl="id1BB" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1DA" argdecl="id17e" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id350" val="47.8393"/>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Struct _id="id44" memberCount="5" name="vel_est_100000787_context" statementIndex="0" te="id45 id19A id1BB">
+        <LocalVar _id="id145" dt="id6" initial="" name="X0325" ref="id148 id154 id1D2" scope="" size="1" statementIndex="0" type=""/>
+        <LocalVar _id="id149" dt="id6" initial="" name="X0329" ref="id14C id196 id1D4" scope="" size="1" statementIndex="1" type=""/>
+        <LocalVar _id="id160" dt="id6" initial="" name="Gain352" ref="id163 id1D6" scope="" size="1" statementIndex="2" type=""/>
+        <LocalVar _id="id16F" dt="id6" initial="" name="Gain367" ref="id172 id1D8" scope="" size="1" statementIndex="3" type=""/>
+        <LocalVar _id="id17e" dt="id6" initial="" name="Gain382" ref="id181 id1DA" scope="" size="1" statementIndex="4" type=""/>
+      </Struct>
+    </Class>
+  </Program>
+
+  <Program _id="id22" filename="RefHandler_sl" numInstance="1" stateCount="0" statementCount="1" statementIndex="19">
+    <Class _id="id1e" name="RefHandler_100000666_class" statementCount="3" statementIndex="0">
+      <Function _id="id31" argCount="3" name="RefHandler_100000666_main" returnType="void" scope="" statementCount="1" statementIndex="1">
+        <Arg _id="id30" argIndex="0" dt="id2F" name="context" ptr="true" ref="id84" size="1" type=""/>
+        <Arg _id="id38" argIndex="2" dt="id6" name="pos_ref_in_2" ptr="false" ref="id86" size="1" type="double"/>
+        <Arg _id="id3D" argIndex="3" dt="id6" name="pos_ref_out_3" ptr="true" ref="id83" size="1" type="double"/>
+        <UserCode _id="id351" expr="" statementIndex="0">
+          <BinaryExprs _id="id352" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id83" argdecl="id3D" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id355" op="*">
+              <ArgDeclRef __child_as="rightexpr" _id="id86" argdecl="id38" unres=""/>
+              <BinaryExprs __child_as="leftexpr" _id="id356" op=".">
+                <ArgDeclRef __child_as="leftexpr" _id="id84" argdecl="id30" unres=""/>
+                <ArgDeclRef __child_as="rightexpr" _id="id85" argdecl="id82" unres=""/>
+              </BinaryExprs>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Function _id="id1A8" argCount="1" name="RefHandler_100000666_init" returnType="void" scope="" statementCount="1" statementIndex="2">
+        <Arg _id="id1A7" argIndex="0" dt="id2F" name="context" ptr="true" ref="id1B5" size="1" type=""/>
+        <UserCode _id="id353" expr="" statementIndex="0">
+          <BinaryExprs _id="id354" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id357" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id1B5" argdecl="id1A7" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id1B6" argdecl="id82" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="id358" val="1.00"/>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Struct _id="id2F" memberCount="1" name="RefHandler_100000666_context" statementIndex="0" te="id30 id1A7">
+        <LocalVar _id="id82" dt="id6" initial="" name="Gain130" ref="id85 id1B6" scope="" size="1" statementIndex="0" type=""/>
+      </Struct>
+    </Class>
+  </Program>
+
+  <Struct _id="id3" memberCount="2" name="Ssignal1CsingleCsignal2CsingleS" statementIndex="13" te="id4D">
+    <LocalVar _id="idB" dt="id6" initial="" name="signal1" ref="id71 id89" scope="" size="1" statementIndex="0" type=""/>
+    <LocalVar _id="idC" dt="id6" initial="" name="signal2" ref="id74 id8C" scope="" size="1" statementIndex="1" type=""/>
+  </Struct>
+
+  <Struct _id="id4" memberCount="9" name="Ssignal1CsingleCsignal2CsingleCsignal3CsingleCsignal4CsingleCsignal5CsingleCsignal6CsingleCsignal7CsingleCsignal8CsingleCsignal9CsingleS" statementIndex="14" te="id56">
+    <LocalVar _id="idD" dt="id6" initial="" name="signal1" ref="ide3 id114" scope="" size="1" statementIndex="0" type=""/>
+    <LocalVar _id="ide" dt="id6" initial="" name="signal2" ref="ide6 id118" scope="" size="1" statementIndex="1" type=""/>
+    <LocalVar _id="idF" dt="id6" initial="" name="signal3" ref="ide9 id11C" scope="" size="1" statementIndex="2" type=""/>
+    <LocalVar _id="id10" dt="id6" initial="" name="signal4" ref="ideC id120" scope="" size="1" statementIndex="3" type=""/>
+    <LocalVar _id="id11" dt="id6" initial="" name="signal5" ref="ideF id124" scope="" size="1" statementIndex="4" type=""/>
+    <LocalVar _id="id12" dt="id6" initial="" name="signal6" ref="idF2 id128" scope="" size="1" statementIndex="5" type=""/>
+    <LocalVar _id="id13" dt="id6" initial="" name="signal7" ref="idF5 id12C" scope="" size="1" statementIndex="6" type=""/>
+    <LocalVar _id="id14" dt="id6" initial="" name="signal8" ref="idF8 id130" scope="" size="1" statementIndex="7" type=""/>
+    <LocalVar _id="id15" dt="id6" initial="" name="signal9" ref="idFB id134" scope="" size="1" statementIndex="8" type=""/>
+  </Struct>
+
+  <Struct _id="id5" memberCount="5" name="Ssignal1CsingleCsignal2CsingleCsignal3CsingleCsignal4CsingleCsignal5CsingleS" statementIndex="15" te="id5C">
+    <LocalVar _id="id16" dt="id6" initial="" name="signal1" ref="idD4 id100" scope="" size="1" statementIndex="0" type=""/>
+    <LocalVar _id="id17" dt="id6" initial="" name="signal2" ref="idD7 id104" scope="" size="1" statementIndex="1" type=""/>
+    <LocalVar _id="id18" dt="id6" initial="" name="signal3" ref="idDA id108" scope="" size="1" statementIndex="2" type=""/>
+    <LocalVar _id="id19" dt="id6" initial="" name="signal4" ref="idDD id10C" scope="" size="1" statementIndex="3" type=""/>
+    <LocalVar _id="id1A" dt="id6" initial="" name="signal5" ref="ide0 id110" scope="" size="1" statementIndex="4" type=""/>
+  </Struct>
+
+</Project>

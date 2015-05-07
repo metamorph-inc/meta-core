@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="Newembedded_with_transpose00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="embedded_with_transpose" Period="0" Priority="0" SampleTime="0.00" Tag="" UserData="" name="embedded_with_transpose">
+          <Line Name="" _id="id17" dstLine_end_="id4" srcLine_end_="id12"/>
+          <Line Name="" _id="id19" dstLine_end_="id1A" srcLine_end_="id12"/>
+          <Line Name="" _id="id1C" dstLine_end_="idD" srcLine_end_="id1B"/>
+          <OutputPort Number="1" _id="id4" name="Out1" srcLine="id17">
+            <TypeBaseRef MemberIndex="0" _id="idB" name="MsingleC2C2M" ref="idA"/>
+          </OutputPort>
+          <Primitive BlockType="Embedded" Description="" Name="Embedded&#xA;MATLAB Function" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Embedded&#xA;MATLAB Function">
+            <InputPort Number="1" _id="idD" name="u" srcLine="id1C">
+              <TypeBaseRef MemberIndex="0" _id="id11" name="MsingleC2C2M" ref="idA"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id12" dstLine="id17 id19" name="y">
+              <TypeBaseRef MemberIndex="0" _id="id16" name="MsingleC2C2M" ref="idA"/>
+            </OutputPort>
+            <Parameter Value="function y = fcn(u)&amp;#x0a;% This block supports the Embedded MATLAB subset.&amp;#x0a;% See the help menu for details. &amp;#x0a;&amp;#x0a;y = u' + [ 1 2 ; 3 4 ]'" name="Script"/>
+          </Primitive>
+          <Primitive BlockType="UnitDelay" Description="" Name="Unit Delay" Priority="0" SampleTime="1.00" Tag="" UserData="" name="Unit Delay">
+            <InputPort Number="1" _id="id1A" name="In_1" srcLine="id19"/>
+            <OutputPort Number="1" _id="id1B" dstLine="id1C" name="Out_1"/>
+            <Parameter Value="Auto" name="RTWStateStorageClass"/>
+            <Parameter Value="" name="RTWStateStorageTypeQualifier"/>
+            <Parameter Value="" name="StateIdentifier"/>
+            <Parameter Value="off" name="StateMustResolveToSignalObject"/>
+            <Parameter Value="[ 0 0 ; 0 0 ]" name="X0"/>
+          </Primitive>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow name="Stateflow"/>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types">
+    <Matrix Type="single" _id="idA" columns="2" name="MsingleC2C2M" referedbyTypeStructRef="idB id11 id16" rows="2"/>
+  </Types>
+
+</RootFolder>

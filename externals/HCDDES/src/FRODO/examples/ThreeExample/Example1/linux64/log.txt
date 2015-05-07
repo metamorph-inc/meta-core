@@ -1,0 +1,21 @@
+1000.068: Synchronizing Channel as Master (waiting for SyncReady:2).
+1417.486: SyncReady Received from 192.168.1.2.
+1417.508: SyncAck Sent to 192.168.1.2.
+1417.513: Should not have received a message with type: 65533 during sync as master.
+1744.897: SyncReady Received from 192.168.1.3.
+1744.911: SyncAck Sent to 192.168.1.3.
+1844.929: SyncStart Sent from 192.168.1.9.
+1844.951: Syncronized Channel in 844.879ms (1).
+1844.952: Beginning execution.
+1844.953: HyperPeriod Commencing (@1844.954) ---
+1865.024: HyperPeriod Commencing (@20.071) ---
+1885.003: HyperPeriod Commencing (@20.050) ---
+1905.003: HyperPeriod Commencing (@20.049) ---
+1925.003: HyperPeriod Commencing (@20.049) ---
+1945.003: HyperPeriod Commencing (@20.049) ---
+1964.992: HyperPeriod Commencing (@20.039) ---
+1985.046: HyperPeriod Commencing (@20.093) ---
+2005.003: HyperPeriod Commencing (@20.050) ---
+2025.013: HyperPeriod Commencing (@20.060) ---
+2045.013: Halting execution.
+2045.033: SyncHalt Sent from 192.168.1.9.

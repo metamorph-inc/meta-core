@@ -1,0 +1,170 @@
+<RootFolder name="TestStage1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+	<DesignFolder name="Design1">
+		<Deployment name="Deploy" position="" Hyperperiod="">
+			<NodeRef _id="id25b" ref="id25a" name="Node2" position="(740,75)" srcTaskAssignment="id280"/>
+			<NodeRef _id="id265" ref="id264" name="Node1" position="(495,75)" srcTaskAssignment="id297"/>
+			<NodeRef _id="id251" ref="id250" name="Node" position="(208,82)" srcTaskAssignment="id29f"/>
+			<TTTask _id="id27f" name="TTTask2" TTFreq="1Hz" position="(772,289)" TTExecTime="0s" TTSchedule="" dstTaskAssignment="id280">
+				<ChannelRef _id="id263" ref="id262" name="UART0_out" position="(945,301)" srcMsgAssignment="id283"/>
+				<ChannelRef _id="id25f" ref="id25e" name="UART0_in" position="(126,378)" srcMsgAssignment="id286"/>
+				<ChannelRef _id="id261" ref="id260" name="BChan" position="(847,140)" srcMsgAssignment="id28c id28f"/>
+				<ChannelRef _id="id25d" ref="id25c" name="ADC1" position="(126,252)" srcMsgAssignment="id289"/>
+				<Component _id="id26e" ref="id26f" WCET="Worst Case Exec Time (secs)" name="Subsystem2" position="(250,103)"/>
+				<Component _id="id270" ref="id271" WCET="Worst Case Exec Time (secs)" name="CCodeFile" position="(474,222)"/>
+				<InCommMapping _id="id285" name="InCommMapping" position="(-1,-1)" dstInCommMapping_end_="id2bf" srcInCommMapping_end_="id284"/>
+				<InCommMapping _id="id288" name="InCommMapping" position="(-1,-1)" dstInCommMapping_end_="id2c0" srcInCommMapping_end_="id287"/>
+				<InCommMapping _id="id28e" name="InCommMapping" position="(-1,-1)" dstInCommMapping_end_="id2c9" srcInCommMapping_end_="id28d"/>
+				<InCommMapping _id="id292" name="InCommMapping" position="(-1,-1)" dstInCommMapping_end_="id2c5" srcInCommMapping_end_="id290"/>
+				<InCommMapping _id="id295" name="InCommMapping" position="(-1,-1)" dstInCommMapping_end_="id2c1" srcInCommMapping_end_="id293"/>
+				<MsgAssignment _id="id283" name="MsgAssignment" position="(-1,-1)" dstMsgAssignment_end_="id263" srcMsgAssignment_end_="id281"/>
+				<MsgAssignment _id="id286" name="MsgAssignment" position="(-1,-1)" dstMsgAssignment_end_="id25f" srcMsgAssignment_end_="id284"/>
+				<MsgAssignment _id="id289" name="MsgAssignment" position="(-1,-1)" dstMsgAssignment_end_="id25d" srcMsgAssignment_end_="id287"/>
+				<MsgAssignment _id="id28c" name="MsgAssignment" position="(-1,-1)" dstMsgAssignment_end_="id261" srcMsgAssignment_end_="id28a"/>
+				<MsgAssignment _id="id28f" name="MsgAssignment" position="(-1,-1)" dstMsgAssignment_end_="id261" srcMsgAssignment_end_="id28d"/>
+				<OutCommMapping _id="id282" name="OutCommMapping" position="(-1,-1)" dstOutCommMapping_end_="id281" srcOutCommMapping_end_="id2be"/>
+				<OutCommMapping _id="id28b" name="OutCommMapping" position="(-1,-1)" dstOutCommMapping_end_="id28a" srcOutCommMapping_end_="id2c3"/>
+				<OutCommMapping _id="id291" name="OutCommMapping" position="(-1,-1)" dstOutCommMapping_end_="id290" srcOutCommMapping_end_="id2c7"/>
+				<OutCommMapping _id="id294" name="OutCommMapping" position="(-1,-1)" dstOutCommMapping_end_="id293" srcOutCommMapping_end_="id2c8"/>
+				<TTMessage _id="id281" name="uart_data_out" MsgSize="1B" position="(709,296)" TTSchedule="" MsgMetaData="" dstMsgAssignment="id283" srcOutCommMapping="id282"/>
+				<TTMessage _id="id284" name="uart_data_in" MsgSize="1B" position="(240,359)" TTSchedule="" MsgMetaData="" dstInCommMapping="id285" dstMsgAssignment="id286"/>
+				<TTMessage _id="id287" name="analog_data" MsgSize="1B" position="(226,261)" TTSchedule="" MsgMetaData="" dstInCommMapping="id288" dstMsgAssignment="id289"/>
+				<TTMessage _id="id28a" name="Msg1Out" MsgSize="1B" position="(658,49)" TTSchedule="" MsgMetaData="" dstMsgAssignment="id28c" srcOutCommMapping="id28b"/>
+				<TTMessage _id="id28d" name="Msg1In" MsgSize="1B" position="(497,56)" TTSchedule="" MsgMetaData="" dstInCommMapping="id28e" dstMsgAssignment="id28f"/>
+				<TTMessage name="TTMessage" MsgSize="1B" position="(476,343)" TTSchedule="" MsgMetaData="">
+					<MsgPort _id="id290" name="M2" position="(58,226)" MsgPortNum="-1" dstInCommMapping="id292" srcOutCommMapping="id291"/>
+					<MsgPort _id="id293" name="M1" position="(58,86)" MsgPortNum="-1" dstInCommMapping="id295" srcOutCommMapping="id294"/>
+				</TTMessage>
+			</TTTask>
+			<TTTask _id="id296" name="TTTask1" TTFreq="1Hz" position="(527,282)" TTExecTime="0s" TTSchedule="" dstTaskAssignment="id297">
+				<ChannelRef _id="id269" ref="id268" name="UART0_out" position="(644,56)"/>
+				<ChannelRef _id="id26b" ref="id26a" name="UART0_in" position="(84,56)"/>
+				<ChannelRef _id="id26d" ref="id26c" name="BChan" position="(77,175)" srcMsgAssignment="id29a id29d"/>
+				<ChannelRef _id="id267" ref="id266" name="ADC1" position="(105,308)"/>
+				<Component _id="id272" ref="id273" WCET="Worst Case Exec Time (secs)" name="Subsystem1" position="(369,166)"/>
+				<InCommMapping _id="id29c" name="InCommMapping" position="(-1,-1)" dstInCommMapping_end_="id2cc" srcInCommMapping_end_="id29b"/>
+				<MsgAssignment _id="id29a" name="MsgAssignment" position="(-1,-1)" dstMsgAssignment_end_="id26d" srcMsgAssignment_end_="id298"/>
+				<MsgAssignment _id="id29d" name="MsgAssignment" position="(-1,-1)" dstMsgAssignment_end_="id26d" srcMsgAssignment_end_="id29b"/>
+				<OutCommMapping _id="id299" name="OutCommMapping" position="(-1,-1)" dstOutCommMapping_end_="id298" srcOutCommMapping_end_="id2cb"/>
+				<TTMessage _id="id298" name="msg2_out" MsgSize="1B" position="(296,275)" TTSchedule="" MsgMetaData="" dstMsgAssignment="id29a" srcOutCommMapping="id299"/>
+				<TTMessage _id="id29b" name="msg2_in" MsgSize="1B" position="(184,170)" TTSchedule="" MsgMetaData="" dstInCommMapping="id29c" dstMsgAssignment="id29d"/>
+			</TTTask>
+			<TTTask _id="id29e" name="TTTask0" TTFreq="1Hz" position="(240,275)" TTExecTime="0s" TTSchedule="" dstTaskAssignment="id29f">
+				<ChannelRef _id="id253" ref="id252" name="GPIO2" position="(77,280)" srcMsgAssignment="id2a5"/>
+				<ChannelRef _id="id255" ref="id254" name="GPIO2" position="(77,168)" srcMsgAssignment="id2a2"/>
+				<ChannelRef _id="id259" ref="id258" name="BChan" position="(854,182)" srcMsgAssignment="id2ae id2ab"/>
+				<ChannelRef _id="id257" ref="id256" name="ADC1" position="(77,49)" srcMsgAssignment="id2a8"/>
+				<Component _id="id274" ref="id275" WCET="Worst Case Exec Time (secs)" name="SubsystemRef2" position="(551,124)"/>
+				<Component _id="id276" ref="id277" WCET="Worst Case Exec Time (secs)" name="CCode" position="(383,195)"/>
+				<InCommMapping _id="id2a4" name="InCommMapping" position="(-1,-1)" dstInCommMapping_end_="id2b5" srcInCommMapping_end_="id2a3"/>
+				<InCommMapping _id="id2a1" name="InCommMapping" position="(-1,-1)" dstInCommMapping_end_="id2b6" srcInCommMapping_end_="id2a0"/>
+				<InCommMapping _id="id2a7" name="InCommMapping" position="(-1,-1)" dstInCommMapping_end_="id2b7" srcInCommMapping_end_="id2a6"/>
+				<InCommMapping _id="id2ad" name="InCommMapping" position="(-1,-1)" dstInCommMapping_end_="id2c9" srcInCommMapping_end_="id2ac"/>
+				<InCommMapping _id="id2b1" name="InCommMapping" position="(-1,-1)" dstInCommMapping_end_="id2ba" srcInCommMapping_end_="id2af"/>
+				<InCommMapping _id="id2b4" name="InCommMapping" position="(-1,-1)" dstInCommMapping_end_="id2bc" srcInCommMapping_end_="id2b2"/>
+				<MsgAssignment _id="id2a5" name="MsgAssignment" position="(-1,-1)" dstMsgAssignment_end_="id253" srcMsgAssignment_end_="id2a3"/>
+				<MsgAssignment _id="id2a2" name="MsgAssignment" position="(-1,-1)" dstMsgAssignment_end_="id255" srcMsgAssignment_end_="id2a0"/>
+				<MsgAssignment _id="id2a8" name="MsgAssignment" position="(-1,-1)" dstMsgAssignment_end_="id257" srcMsgAssignment_end_="id2a6"/>
+				<MsgAssignment _id="id2ae" name="MsgAssignment" position="(-1,-1)" dstMsgAssignment_end_="id259" srcMsgAssignment_end_="id2ac"/>
+				<MsgAssignment _id="id2ab" name="MsgAssignment" position="(-1,-1)" dstMsgAssignment_end_="id259" srcMsgAssignment_end_="id2a9"/>
+				<OutCommMapping _id="id2aa" name="OutCommMapping" position="(-1,-1)" dstOutCommMapping_end_="id2a9" srcOutCommMapping_end_="id2b8"/>
+				<OutCommMapping _id="id2b0" name="OutCommMapping" position="(-1,-1)" dstOutCommMapping_end_="id2af" srcOutCommMapping_end_="id2c7"/>
+				<OutCommMapping _id="id2b3" name="OutCommMapping" position="(-1,-1)" dstOutCommMapping_end_="id2b2" srcOutCommMapping_end_="id2c8"/>
+				<TTMessage name="input_data" MsgSize="1B" position="(147,336)" TTSchedule="" MsgMetaData="">
+					<MsgPort _id="id2a3" name="d2" position="(457,317)" MsgPortNum="-1" dstInCommMapping="id2a4" dstMsgAssignment="id2a5"/>
+					<MsgPort _id="id2a0" name="d1" position="(457,219)" MsgPortNum="-1" dstInCommMapping="id2a1" dstMsgAssignment="id2a2"/>
+					<MsgPort _id="id2a6" name="a1" position="(464,128)" MsgPortNum="-1" dstInCommMapping="id2a7" dstMsgAssignment="id2a8"/>
+				</TTMessage>
+				<TTMessage _id="id2a9" name="msg3_out" MsgSize="1B" position="(758,44)" TTSchedule="" MsgMetaData="" dstMsgAssignment="id2ab" srcOutCommMapping="id2aa"/>
+				<TTMessage _id="id2ac" name="msg3_in" MsgSize="1B" position="(371,21)" TTSchedule="" MsgMetaData="" dstInCommMapping="id2ad" dstMsgAssignment="id2ae"/>
+				<TTMessage name="local_msg3" MsgSize="1B" position="(562,275)" TTSchedule="" MsgMetaData="">
+					<MsgPort _id="id2af" name="f2" position="(611,198)" MsgPortNum="-1" dstInCommMapping="id2b1" srcOutCommMapping="id2b0"/>
+					<MsgPort _id="id2b2" name="f1" position="(65,191)" MsgPortNum="-1" dstInCommMapping="id2b4" srcOutCommMapping="id2b3"/>
+				</TTMessage>
+			</TTTask>
+			<TaskAssignment _id="id280" name="TaskAssignment" position="(-1,-1)" dstTaskAssignment_end_="id25b" srcTaskAssignment_end_="id27f"/>
+			<TaskAssignment _id="id297" name="TaskAssignment" position="(-1,-1)" dstTaskAssignment_end_="id265" srcTaskAssignment_end_="id296"/>
+			<TaskAssignment _id="id29f" name="TaskAssignment" position="(-1,-1)" dstTaskAssignment_end_="id251" srcTaskAssignment_end_="id29e"/>
+		</Deployment>
+		<HardwareUnit name="Hardware" position="" Configuration="">
+			<HardwareUnit name="Board1" position="(149,72)" Configuration="">
+				<BChan _id="id27b" name="BChan" dstWire="id27a" position="(716,177)" InterruptNum="-1" Configuration=""/>
+				<Node CPU="" RAM="0" ROM="0" _id="id25a" name="Node2" Speed="0" position="(434,70)" Simulator="" PlatformType="" Configuration="" referedbyNodeRef="id25b">
+					<BChan _id="id260" name="BChan" dstWire="id27c" position="(765,233)" InterruptNum="-1" Configuration="" referedbyChannelRef="id261"/>
+					<IChan _id="id25c" name="ADC1" position="(72,240)" DeviceType="" InterruptNum="-1" Configuration="" referedbyChannelRef="id25d"/>
+					<IChan _id="id25e" name="UART0_in" position="(72,100)" DeviceType="" InterruptNum="-1" Configuration="" referedbyChannelRef="id25f"/>
+					<OChan _id="id262" name="UART0_out" position="(772,107)" DeviceType="" InterruptNum="-1" Configuration="" referedbyChannelRef="id263"/>
+				</Node>
+				<Node CPU="" RAM="0" ROM="0" _id="id264" name="Node1" Speed="0" position="(147,59)" Simulator="" PlatformType="" Configuration="" referedbyNodeRef="id265">
+					<BChan _id="id26c" name="BChan" dstWire="id27d" position="(765,233)" InterruptNum="-1" Configuration="" referedbyChannelRef="id26d"/>
+					<IChan _id="id266" name="ADC1" position="(72,240)" DeviceType="" InterruptNum="-1" Configuration="" referedbyChannelRef="id267"/>
+					<IChan _id="id26a" name="UART0_in" position="(72,100)" DeviceType="" InterruptNum="-1" Configuration="" referedbyChannelRef="id26b"/>
+					<OChan _id="id268" name="UART0_out" position="(772,107)" DeviceType="" InterruptNum="-1" Configuration="" referedbyChannelRef="id269"/>
+				</Node>
+				<TTBus _id="id27e" name="TTBus" srcWire="id27c id27d" DataRate="1b" SlotSize="512B" position="(301,217)" Hyperperiod="0s" TTSetupTime="0s" MinFrameSize="512B" OverheadTime="0s" Configuration="" SwitchMemorySize="80MB"/>
+				<Wire _id="id27c" name="Wire" position="(-1,-1)" dstWire_end_="id27e" srcWire_end_="id260"/>
+				<Wire _id="id27d" name="Wire" position="(-1,-1)" dstWire_end_="id27e" srcWire_end_="id26c"/>
+			</HardwareUnit>
+			<Node CPU="" RAM="0" ROM="0" _id="id250" name="Node0" Speed="0" position="(471,86)" Simulator="" PlatformType="" Configuration="" referedbyNodeRef="id251">
+				<BChan _id="id258" name="BChan" dstWire="id278" position="(65,128)" InterruptNum="-1" Configuration="" referedbyChannelRef="id259"/>
+				<IChan _id="id252" name="GPIO2" position="(527,289)" DeviceType="" InterruptNum="-1" Configuration="" referedbyChannelRef="id253"/>
+				<IChan _id="id254" name="GPIO2" position="(527,191)" DeviceType="" InterruptNum="-1" Configuration="" referedbyChannelRef="id255"/>
+				<IChan _id="id256" name="ADC1" position="(527,79)" DeviceType="" InterruptNum="-1" Configuration="" referedbyChannelRef="id257"/>
+			</Node>
+			<TTBus _id="id279" name="TTBus" srcWire="id27a id278" DataRate="1b" SlotSize="512B" position="(317,254)" Hyperperiod="0s" TTSetupTime="0s" MinFrameSize="512B" OverheadTime="0s" Configuration="" SwitchMemorySize="80MB"/>
+			<Wire _id="id27a" name="Wire" position="(-1,-1)" dstWire_end_="id279" srcWire_end_="id27b"/>
+			<Wire _id="id278" name="Wire" position="(-1,-1)" dstWire_end_="id279" srcWire_end_="id258"/>
+		</HardwareUnit>
+		<System name="Arch" position="">
+			<CCode _id="id277" name="CCode" Period="0" CodeInfo="" Deadline="0" position="(709,254)" referedbySystemRef="id276">
+				<CInputPort _id="id2b5" name="dg2" position="(128,331)" CPortType="" srcInCommMapping="id2a4"/>
+				<CInputPort _id="id2b6" name="dg1" position="(170,170)" CPortType="" srcInCommMapping="id2a1"/>
+				<CInputPort _id="id2b7" name="an1" position="(147,14)" CPortType="" srcInCommMapping="id2a7"/>
+				<CInputPort _id="id2ba" name="tmp2" position="(30,247)" CPortType="float" srcConnector="id2bb" srcInCommMapping="id2b1"/>
+				<CInputPort _id="id2bc" name="tmp1" position="(30,107)" CPortType="float" srcConnector="id2bd" srcInCommMapping="id2b4"/>
+				<COutputPort _id="id2b8" name="out" position="(639,184)" CPortType="float *" dstConnector="id2b9" dstOutCommMapping="id2aa"/>
+			</CCode>
+			<CCode _id="id271" name="CCodeFile" Period="0" CodeInfo="test.c" Deadline="0" position="(707,126)" referedbySystemRef="id270">
+				<CInputPort _id="id2bf" name="udata1" position="(149,331)" CPortType="" srcInCommMapping="id285"/>
+				<CInputPort _id="id2c0" name="an1" position="(156,233)" CPortType="" srcInCommMapping="id288"/>
+				<CInputPort _id="id2c1" name="attr1" position="(154,14)" CPortType="float" srcConnector="id2c2" srcInCommMapping="id295"/>
+				<CInputPort _id="id2c5" name="attr2" position="(154,119)" CPortType="float" srcConnector="id2c6" srcInCommMapping="id292"/>
+				<COutputPort _id="id2be" name="udata1" position="(674,205)" CPortType="" dstOutCommMapping="id282"/>
+				<COutputPort _id="id2c3" name="result" position="(679,98)" CPortType="float *" dstConnector="id2c4" dstOutCommMapping="id28b"/>
+			</CCode>
+			<Connector _id="id2b9" name="Connector" position="(-1,-1)" ConnectionType="" dstConnector_end_="id2c9" srcConnector_end_="id2b8"/>
+			<Connector _id="id2bb" name="Connector" position="(-1,-1)" ConnectionType="" dstConnector_end_="id2ba" srcConnector_end_="id2c7"/>
+			<Connector _id="id2bd" name="Connector" position="(-1,-1)" ConnectionType="" dstConnector_end_="id2bc" srcConnector_end_="id2c8"/>
+			<Connector _id="id2c4" name="Connector" position="(-1,-1)" ConnectionType="" dstConnector_end_="id2cc" srcConnector_end_="id2c3"/>
+			<Connector _id="id2c6" name="Connector" position="(-1,-1)" ConnectionType="" dstConnector_end_="id2c5" srcConnector_end_="id2c7"/>
+			<Connector _id="id2c2" name="Connector" position="(-1,-1)" ConnectionType="" dstConnector_end_="id2c1" srcConnector_end_="id2c8"/>
+			<Connector _id="id2ca" name="Connector" position="(-1,-1)" ConnectionType="" dstConnector_end_="id2c9" srcConnector_end_="id2cb"/>
+			<Subsystem Tag="" _id="id26f" Name="" name="Subsystem2" Period="0" Deadline="0" Priority="0" UserData="" position="(476,35)" BlockType="" SampleTime="0.000000" Description="" referedbySystemRef="id26e" referedbySubsystemRef="id275">
+				<InputPort _id="id2c9" name="ip2" Number="0" position="(93,163)" srcConnector="id2b9 id2ca" srcInCommMapping="id2ad id28e">
+					<TypeBaseRef _id="id24d" ref="id24c" name="MS3x3" position="(73,143)" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id2c7" name="op2_2" Number="0" position="(513,261)" dstConnector="id2bb id2c6" dstOutCommMapping="id2b0 id291">
+					<TypeBaseRef _id="id249" ref="id248" name="MS1" position="(290,178)" MemberIndex="0"/>
+				</OutputPort>
+				<OutputPort _id="id2c8" name="op2_1" Number="0" position="(520,93)" dstConnector="id2bd id2c2" dstOutCommMapping="id2b3 id294">
+					<TypeBaseRef _id="id24b" ref="id24a" name="TypeStruct1" position="(257,124)" MemberIndex="0"/>
+				</OutputPort>
+			</Subsystem>
+			<Subsystem Tag="" _id="id273" Name="" name="Subsystem1" Period="0" Deadline="0" Priority="0" UserData="" position="(205,184)" BlockType="" SampleTime="0.000000" Description="" referedbySystemRef="id272">
+				<InputPort _id="id2cc" name="ip1" Number="0" position="(114,226)" srcConnector="id2c4" srcInCommMapping="id29c">
+					<TypeBaseRef _id="id24f" ref="id24c" name="MS3x3" position="(143,199)" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id2cb" name="op1" Number="0" position="(709,240)" dstConnector="id2ca" dstOutCommMapping="id299">
+					<TypeBaseRef _id="id24e" ref="id24c" name="MS3x3" position="(164,206)" MemberIndex="0"/>
+				</OutputPort>
+			</Subsystem>
+			<SubsystemRef _id="id275" ref="id26f" name="SubsystemRef2" Period="0" Deadline="0" position="(476,217)" referedbySystemRef="id274"/>
+		</System>
+	</DesignFolder>
+	<Types name="Types">
+		<Matrix _id="id248" Type="float" name="MS1" rows="1" columns="1" position="" referedbyTypeStructRef="id249"/>
+		<Matrix _id="id24c" Type="float" name="MS3x3" rows="3" columns="3" position="" referedbyTypeStructRef="id24d id24e id24f"/>
+		<TypeStruct _id="id24a" name="TypeStruct1" position="" MemberCount="3" referedbyTypeStructRef="id24b"/>
+	</Types>
+</RootFolder>
+
+

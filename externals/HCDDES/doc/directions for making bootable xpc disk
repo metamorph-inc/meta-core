@@ -1,0 +1,7 @@
+To coerce MATLAB (32 bit running on 64-bit through VMWARE) into creating a bootable disk for xpcxplr, you must:
+
+1. Open a terminal, enter sudo gconf-editor
+2. Navigate to apps/nautilus/preferences, find the option media_automount and unselect it.
+3. Now you may connect the USB floppy drive and connect it to the Vmachine
+4. Make sure the MATLAB directory is set to a directory WITHOUT spaces in the path (it's stupid, but it works so it isn't stupid)
+5. Create the bootable diskette via xpcxplr

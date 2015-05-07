@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Project _id="id2D" name="init_custom_mask" statementCount="4" statementIndex="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="SFC.xsd">
+
+  <BasicType _id="id44" name="double" statementIndex="1" te="id4B id50 id52 id53 id62 id6e"/>
+
+  <BasicType _id="id89" name="int" statementIndex="3"/>
+
+  <Program _id="id46" filename="init_custom_mask_sl" numInstance="1" stateCount="0" statementCount="2" statementIndex="2">
+    <Class _id="id45" name="init_custom_mask_47_class" statementCount="3" statementIndex="0">
+      <Function _id="id49" argCount="2" name="init_custom_mask_47_main" returnType="void" scope="" statementCount="1" statementIndex="1">
+        <Arg _id="id4A" argIndex="0" dt="id48" name="context" ptr="true" ref="id81" size="1" type=""/>
+        <Arg _id="id4B" argIndex="2" dt="id44" name="A_p_B_out_2" ptr="true" ref="id59" size="1" type="double"/>
+        <FunctionCall _id="id57" argCount="2" callee="id4e" libFuncName="" statementIndex="0">
+          <ArgVal _id="id56" arg="id4F" argIndex="0" val="">
+            <BinaryExprs _id="id94" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id81" argdecl="id4A" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id82" argdecl="id80" unres=""/>
+            </BinaryExprs>
+          </ArgVal>
+          <ArgVal _id="id58" arg="id50" argIndex="2" val="">
+            <ArgDeclRef _id="id59" argdecl="id4B" unres=""/>
+          </ArgVal>
+        </FunctionCall>
+      </Function>
+      <Function _id="id83" argCount="1" name="init_custom_mask_47_init" returnType="void" scope="" statementCount="1" statementIndex="2">
+        <Arg _id="id84" argIndex="0" dt="id48" name="context" ptr="true" ref="id8e" size="1" type=""/>
+        <FunctionCall _id="id90" argCount="1" callee="id85" libFuncName="" statementIndex="0">
+          <ArgVal _id="id91" arg="id86" argIndex="0" val="">
+            <BinaryExprs _id="id95" op=".">
+              <ArgDeclRef __child_as="rightexpr" _id="id8F" argdecl="id80" unres=""/>
+              <ArgDeclRef __child_as="leftexpr" _id="id8e" argdecl="id84" unres=""/>
+            </BinaryExprs>
+          </ArgVal>
+        </FunctionCall>
+      </Function>
+      <Struct _id="id48" memberCount="1" name="init_custom_mask_47_context" statementIndex="0" te="id4A id84">
+        <LocalVar _id="id80" dt="id4D" initial="" name="A_m_C_50_class_member0" ref="id82 id8F" scope="" size="1" statementIndex="0" type=""/>
+      </Struct>
+    </Class>
+    <Class _id="id47" name="A_m_C_50_class" statementCount="3" statementIndex="1">
+      <Function _id="id4e" argCount="2" caller="id57" name="A_m_C_50_main" returnType="void" scope="" statementCount="5" statementIndex="1">
+        <Arg _id="id4F" argIndex="0" dt="id4D" name="context" ptr="true" ref="id64 id70" size="1" type="" val="id56"/>
+        <Arg _id="id50" argIndex="2" dt="id44" name="A_m_C_2" ptr="true" ref="id7D" size="1" type="double" val="id58"/>
+        <LocalVar _id="id52" dt="id44" initial="" name="sig_0" ref="id6F id7F" scope="" size="1" statementIndex="0" type="double"/>
+        <LocalVar _id="id53" dt="id44" initial="" name="sig_1" ref="id63 id7e" scope="" size="1" statementIndex="1" type="double"/>
+        <UserCode _id="id96" expr="" statementIndex="2">
+          <BinaryExprs _id="id97" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id63" argdecl="id53" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id98" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id64" argdecl="id4F" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id65" argdecl="id62" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id99" expr="" statementIndex="3">
+          <BinaryExprs _id="id9A" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id6F" argdecl="id52" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id9B" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id70" argdecl="id4F" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id71" argdecl="id6e" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="id9C" expr="" statementIndex="4">
+          <BinaryExprs _id="id9D" op="=">
+            <ArgDeclRef __child_as="leftexpr" _id="id7D" argdecl="id50" unres=""/>
+            <BinaryExprs __child_as="rightexpr" _id="id9e" op="-">
+              <ArgDeclRef __child_as="leftexpr" _id="id7e" argdecl="id53" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id7F" argdecl="id52" unres=""/>
+            </BinaryExprs>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Function _id="id85" argCount="1" caller="id90" name="A_m_C_50_init" returnType="void" scope="" statementCount="2" statementIndex="2">
+        <Arg _id="id86" argIndex="0" dt="id4D" name="context" ptr="true" ref="id8A id8C" size="1" type="" val="id91"/>
+        <UserCode _id="id92" expr="" statementIndex="0">
+          <BinaryExprs _id="id93" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="id9F" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id8A" argdecl="id86" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id8B" argdecl="id62" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="idA0" val="3.00"/>
+          </BinaryExprs>
+        </UserCode>
+        <UserCode _id="idA1" expr="" statementIndex="1">
+          <BinaryExprs _id="idA2" op="=">
+            <BinaryExprs __child_as="leftexpr" _id="idA3" op=".">
+              <ArgDeclRef __child_as="leftexpr" _id="id8C" argdecl="id86" unres=""/>
+              <ArgDeclRef __child_as="rightexpr" _id="id8D" argdecl="id6e" unres=""/>
+            </BinaryExprs>
+            <Double __child_as="rightexpr" _id="idA4" val="53.89"/>
+          </BinaryExprs>
+        </UserCode>
+      </Function>
+      <Struct _id="id4D" memberCount="2" name="A_m_C_50_context" statementIndex="0" te="id4F id80 id86">
+        <LocalVar _id="id62" dt="id44" initial="" name="Value98" ref="id65 id8B" scope="" size="1" statementIndex="0" type=""/>
+        <LocalVar _id="id6e" dt="id44" initial="" name="Value110" ref="id71 id8D" scope="" size="1" statementIndex="1" type=""/>
+      </Struct>
+    </Class>
+  </Program>
+
+</Project>

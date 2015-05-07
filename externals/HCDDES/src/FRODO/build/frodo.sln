@@ -1,0 +1,82 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfrodo", "libfrodo.vcproj", "{AFDF6081-920E-4280-879D-0C4337A2BE7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DEDBA108-E5DC-42BC-97FF-CECB5AB06CA2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", "{3571D70A-06F2-4816-BF2F-BB4F9F2CD1B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{CA196D0C-D381-4AB9-A7AB-E14200FC9C37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{319D7CA2-954A-4446-A85D-85AD19D85618}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleExample", "..\examples\SimpleExample\win32\SimpleExample.vcproj", "{1DAE6203-6F19-4EB7-838D-732F330EE77F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AFDF6081-920E-4280-879D-0C4337A2BE7C} = {AFDF6081-920E-4280-879D-0C4337A2BE7C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleExampleP1", "..\examples\SimpleExampleP1\win32\SimpleExampleP1.vcproj", "{B67096D5-4C5F-4D2B-BD5F-41C9B768C105}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AFDF6081-920E-4280-879D-0C4337A2BE7C} = {AFDF6081-920E-4280-879D-0C4337A2BE7C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SingleTaskTiming", "..\tests\Benchmarks\SingleTaskTiming\win32\SingleTaskTiming.vcproj", "{E5061296-5599-46FB-9C61-2EA248D18C3F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AFDF6081-920E-4280-879D-0C4337A2BE7C} = {AFDF6081-920E-4280-879D-0C4337A2BE7C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UDPSimpleListen", "..\tests\Benchmarks\UDPSimpleListen\win32\UDPSimpleListen.vcproj", "{E9DC9D19-F845-40B0-8C2D-0B461BED45E9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AFDF6081-920E-4280-879D-0C4337A2BE7C} = {AFDF6081-920E-4280-879D-0C4337A2BE7C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuadRotorPlant", "..\examples\QuadRotorPlant\win32\QuadRotorPlant.vcproj", "{A7B2742E-980B-4463-9009-E3AEF340BA67}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AFDF6081-920E-4280-879D-0C4337A2BE7C} = {AFDF6081-920E-4280-879D-0C4337A2BE7C}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFDF6081-920E-4280-879D-0C4337A2BE7C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AFDF6081-920E-4280-879D-0C4337A2BE7C}.Debug|Win32.Build.0 = Debug|Win32
+		{AFDF6081-920E-4280-879D-0C4337A2BE7C}.Release|Win32.ActiveCfg = Release|Win32
+		{AFDF6081-920E-4280-879D-0C4337A2BE7C}.Release|Win32.Build.0 = Release|Win32
+		{1DAE6203-6F19-4EB7-838D-732F330EE77F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1DAE6203-6F19-4EB7-838D-732F330EE77F}.Debug|Win32.Build.0 = Debug|Win32
+		{1DAE6203-6F19-4EB7-838D-732F330EE77F}.Release|Win32.ActiveCfg = Release|Win32
+		{1DAE6203-6F19-4EB7-838D-732F330EE77F}.Release|Win32.Build.0 = Release|Win32
+		{B67096D5-4C5F-4D2B-BD5F-41C9B768C105}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B67096D5-4C5F-4D2B-BD5F-41C9B768C105}.Debug|Win32.Build.0 = Debug|Win32
+		{B67096D5-4C5F-4D2B-BD5F-41C9B768C105}.Release|Win32.ActiveCfg = Release|Win32
+		{B67096D5-4C5F-4D2B-BD5F-41C9B768C105}.Release|Win32.Build.0 = Release|Win32
+		{E5061296-5599-46FB-9C61-2EA248D18C3F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E5061296-5599-46FB-9C61-2EA248D18C3F}.Debug|Win32.Build.0 = Debug|Win32
+		{E5061296-5599-46FB-9C61-2EA248D18C3F}.Release|Win32.ActiveCfg = Release|Win32
+		{E5061296-5599-46FB-9C61-2EA248D18C3F}.Release|Win32.Build.0 = Release|Win32
+		{E9DC9D19-F845-40B0-8C2D-0B461BED45E9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E9DC9D19-F845-40B0-8C2D-0B461BED45E9}.Debug|Win32.Build.0 = Debug|Win32
+		{E9DC9D19-F845-40B0-8C2D-0B461BED45E9}.Release|Win32.ActiveCfg = Release|Win32
+		{E9DC9D19-F845-40B0-8C2D-0B461BED45E9}.Release|Win32.Build.0 = Release|Win32
+		{A7B2742E-980B-4463-9009-E3AEF340BA67}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A7B2742E-980B-4463-9009-E3AEF340BA67}.Debug|Win32.Build.0 = Debug|Win32
+		{A7B2742E-980B-4463-9009-E3AEF340BA67}.Release|Win32.ActiveCfg = Release|Win32
+		{A7B2742E-980B-4463-9009-E3AEF340BA67}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3571D70A-06F2-4816-BF2F-BB4F9F2CD1B5} = {DEDBA108-E5DC-42BC-97FF-CECB5AB06CA2}
+		{319D7CA2-954A-4446-A85D-85AD19D85618} = {DEDBA108-E5DC-42BC-97FF-CECB5AB06CA2}
+		{E5061296-5599-46FB-9C61-2EA248D18C3F} = {3571D70A-06F2-4816-BF2F-BB4F9F2CD1B5}
+		{E9DC9D19-F845-40B0-8C2D-0B461BED45E9} = {3571D70A-06F2-4816-BF2F-BB4F9F2CD1B5}
+		{1DAE6203-6F19-4EB7-838D-732F330EE77F} = {CA196D0C-D381-4AB9-A7AB-E14200FC9C37}
+		{B67096D5-4C5F-4D2B-BD5F-41C9B768C105} = {CA196D0C-D381-4AB9-A7AB-E14200FC9C37}
+		{A7B2742E-980B-4463-9009-E3AEF340BA67} = {CA196D0C-D381-4AB9-A7AB-E14200FC9C37}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,70 @@
+\def\techreport{true}
+\ifx\techreport\undefined
+\documentclass[10pt, conference, compsocconf]{IEEEtran}
+\else
+\documentclass[10pt]{article}
+\fi
+%\documentclass[10pt]{report}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{multirow}
+\usepackage{alltt}
+\usepackage[section]{placeins}
+\usepackage{url}
+\usepackage{latexsym}
+\usepackage{flushend}
+\usepackage{fancyhdr}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{wrapfig}
+\usepackage{subfig}
+
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\sat}{sat}
+\DeclareMathOperator{\nulll}{null}
+\DeclareMathOperator{\linc}{linc}
+\DeclareMathOperator{\traj}{traj}
+\DeclareMathOperator{\grad}{\nabla}
+\DeclareMathOperator{\hessian}{\grad^2}
+\DeclareMathOperator{\hermitian}{He}
+
+\begin{document}
+
+%\title{The ESMoL Language and Tools, Part 1: Design and Analysis}
+%\author{Joseph Porter, Graham Hemingway, Harmon Nine, Chris vanBusKirk, \\
+% Nicholas Kottenstette, Gabor Karsai, and Janos Sztipanovits \\
+% Institute for Software Integrated Systems (ISIS)\\
+%		Department of Electrical Engineering and Computer Science\\
+%		Vanderbilt University\\
+%		Nashville, TN 37235, USA \\
+%jporter@isis.vanderbilt.edu}
+
+\ifx\techreport\undefined
+\else
+\input{ipr.cover.tex}
+\fi
+
+\ifx\techreport\undefined
+\maketitle
+\else
+{\small NOTICE: This is an excerpt from my dissertation, in preparation for
+submitting it for publication.  This work contains excerpts from papers in the ACES-MB workshop, and the EMSoft conference.  Please send comments and corrections  to jporter@isis.vanderbilt.edu. Thanks, -Joe}\\
+\fi
+
+\input {intro}
+\input {relatedwork}
+\input {ESMoL}
+
+\bibliographystyle{IEEEtran}
+\bibliography{esmoltr}
+
+\flushend
+
+\end{document}
+
+  

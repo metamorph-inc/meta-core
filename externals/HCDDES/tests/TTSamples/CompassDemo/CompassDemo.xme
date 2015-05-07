@@ -1,0 +1,1289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{F7F1408D-19D4-481C-9676-E14B01EC8047}" cdate="Wed Sep 24 13:12:39 2008" mdate="Wed Sep 24 13:12:39 2008" version="" metaguid="{92D0CA70-3CFF-4667-ABC8-DD4385B95E4E}" metaversion="" metaname="ESMoL">
+	<name>CompassDemo</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x3" kind="RootFolder" guid="{6EB5BB77-CFA0-4c22-9C6B-97BB737678AC}">
+		<name>CompassDemo</name>
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x1" kind="Dataflow" guid="{8308615C-BBFB-4017-A1E2-9023807E4F2E}">
+			<name>NewDataflow</name>
+			<model id="id-0065-00000001" kind="Subsystem" guid="{01887CCE-AA6F-4a8c-8CF9-F5999B95ABF8}" relid="0x1" childrelidcntr="0x4">
+				<name>abcd</name>
+				<attribute kind="BlockType" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Deadline" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="Description" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Name" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Period" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="Priority" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="SampleTime" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="Tag" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="UserData" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000002" kind="Subsystem" role="Subsystem" guid="{3FE457F2-213E-45ad-8CC1-0C9ECFC13A38}" relid="0x3" childrelidcntr="0x2">
+					<name>one</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DataflowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>338,149</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BlockType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Deadline" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Name" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Period" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Priority" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SampleTime" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="UserData" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000003" kind="InputPort" role="InputPort" guid="{DC82C762-5DB5-49f5-BCD4-890ACFA5B714}" relid="0x1" childrelidcntr="0x0">
+						<name>InputPort</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>156,184</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000004" kind="OutputPort" role="OutputPort" guid="{11446BF1-7C2C-4f1f-85E6-A9F050CFF047}" relid="0x2" childrelidcntr="0x0">
+						<name>OutputPort</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>632,261</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+					</model>
+				</model>
+				<model id="id-0065-00000005" kind="Subsystem" role="Subsystem" guid="{331750D9-2B1D-4d23-8EAD-B9AB9C254338}" relid="0x4" childrelidcntr="0x2">
+					<name>two</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DataflowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>583,135</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BlockType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Deadline" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Name" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Period" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Priority" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SampleTime" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="UserData" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000006" kind="InputPort" role="InputPort" guid="{AC2FCDAB-F428-4136-B134-ACEFC95A1730}" relid="0x1" childrelidcntr="0x0">
+						<name>InputPort</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>44,205</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000007" kind="OutputPort" role="OutputPort" guid="{00199CB5-B51A-4f8c-8B15-D9BB4177B7BA}" relid="0x2" childrelidcntr="0x0">
+						<name>OutputPort</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>863,212</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+					</model>
+				</model>
+			</model>
+		</folder>
+		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x3" kind="DesignFolder" guid="{2CCEA1CF-C9DF-4b53-BB22-B81998B57250}">
+			<name>NewDesignFolder</name>
+			<model id="id-0065-00000008" kind="System" guid="{C8F51CEC-8ADE-42ac-88DB-4DA90279D15C}" relid="0x1" childrelidcntr="0xe">
+				<name>NewSystem</name>
+				<model id="id-0065-00000009" kind="Subsystem" role="Subsystem" guid="{45AB19AD-0A2F-4155-BDF8-53B6290B21DC}" relid="0x8" childrelidcntr="0x2">
+					<name>Compass</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>78,100</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BlockType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Deadline" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Name" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Period" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Priority" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SampleTime" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="UserData" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-0000000a" kind="InputPort" role="InputPort" guid="{A30BAE88-62C7-4f02-95CE-7D8F0CBBD55D}" relid="0x1" childrelidcntr="0x0">
+						<name>InputPort</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>114,261</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+					</model>
+					<model id="id-0065-0000000b" kind="OutputPort" role="OutputPort" guid="{727B2498-88AD-4db5-B5A9-B889623682D9}" relid="0x2" childrelidcntr="0x0">
+						<name>OutputPort</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>1094,268</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+					</model>
+				</model>
+				<model id="id-0065-0000000c" kind="Subsystem" role="Subsystem" guid="{62D943A4-5622-4899-92BE-94752C5CD3E7}" relid="0x9" childrelidcntr="0x2">
+					<name>Smoothing</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>275,100</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BlockType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Deadline" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Name" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Period" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Priority" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SampleTime" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="UserData" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-0000000d" kind="InputPort" role="InputPort" guid="{C7775526-8C76-4729-883F-0D509F4119D2}" relid="0x1" childrelidcntr="0x0">
+						<name>InputPort</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>37,191</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+					</model>
+					<model id="id-0065-0000000e" kind="OutputPort" role="OutputPort" guid="{FEB9C0FD-7132-43b3-87D8-4FBD973DDD76}" relid="0x2" childrelidcntr="0x0">
+						<name>OutputPort</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>1108,191</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+					</model>
+				</model>
+				<model id="id-0065-0000000f" kind="Subsystem" role="Subsystem" guid="{3BB9DCA1-54B2-4599-9BD9-8E1E1313671A}" relid="0xa" childrelidcntr="0x2">
+					<name>Scalar</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>478,100</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BlockType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Deadline" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Name" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Period" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Priority" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SampleTime" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="UserData" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000010" kind="OutputPort" role="OutputPort" guid="{CFEE9A12-D204-4907-A7BB-C2F4F6EAD8DC}" relid="0x1" childrelidcntr="0x0">
+						<name>OutputPort</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>1107,197</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000011" kind="InputPort" role="InputPort" guid="{36CDDAA8-3C6C-4abb-B3CB-76C894781518}" relid="0x2" childrelidcntr="0x0">
+						<name>InputPort</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>36,197</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+					</model>
+				</model>
+				<model id="id-0065-00000012" kind="Subsystem" role="Subsystem" guid="{5036259B-0C8D-47da-A3C3-77A5B89AA31D}" relid="0xb" childrelidcntr="0x2">
+					<name>Servo</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>702,100</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BlockType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Deadline" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Name" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Period" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Priority" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SampleTime" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="UserData" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000013" kind="OutputPort" role="OutputPort" guid="{2865EF57-72FF-4724-900D-412972BB7DD7}" relid="0x1" childrelidcntr="0x0">
+						<name>OutputPort</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>1079,204</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+					</model>
+					<model id="id-0065-00000014" kind="InputPort" role="InputPort" guid="{32ACCAC3-59ED-416a-A804-86B30FD994C4}" relid="0x2" childrelidcntr="0x0">
+						<name>InputPort</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>8,204</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number" status="meta">
+							<value>0</value>
+						</attribute>
+					</model>
+				</model>
+				<connection id="id-0068-00000001" kind="Connector" role="Connector" guid="{AE3271A3-A422-411c-9DB3-30DBC8433513}" relid="0xc">
+					<name>Connector</name>
+					<attribute kind="ConnectionType" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0065-0000000b"/>
+					<connpoint role="dst" target="id-0065-0000000d"/>
+				</connection>
+				<connection id="id-0068-00000002" kind="Connector" role="Connector" guid="{AEEF004E-7963-4793-908F-58EA0D3DBB91}" relid="0xd">
+					<name>Connector</name>
+					<attribute kind="ConnectionType" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0065-0000000e"/>
+					<connpoint role="dst" target="id-0065-00000011"/>
+				</connection>
+				<connection id="id-0068-00000003" kind="Connector" role="Connector" guid="{E5CB161D-55ED-4da8-A99A-7EA2929E5B92}" relid="0xe">
+					<name>Connector</name>
+					<attribute kind="ConnectionType" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0065-00000010"/>
+					<connpoint role="dst" target="id-0065-00000014"/>
+				</connection>
+			</model>
+			<model id="id-0065-00000015" kind="HardwareUnit" guid="{8C1BDB7E-B736-4be2-935F-45C544F403C7}" relid="0x2" childrelidcntr="0x10">
+				<name>NewHardwareUnit</name>
+				<attribute kind="MetaData" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000016" kind="Node" role="Node" guid="{4672C16B-A2B2-45d7-B0D2-F74E203AE5EA}" relid="0x8" childrelidcntr="0x2">
+					<name>Compass</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>51,261</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="CPU" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="MetaData" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="RAM" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="ROM" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Simulator" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Speed" status="meta">
+						<value>0</value>
+					</attribute>
+					<atom id="id-0066-00000001" kind="BChan" role="BChan" guid="{DFA57CD5-3252-4870-B575-AAB038447B2B}" relid="0x1">
+						<name>BChan</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>58,289</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="InterruptNum" status="meta">
+							<value>-1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000002" kind="OS" role="OS" guid="{5D940A92-AC04-4203-8940-F82FB413B84F}" relid="0x2">
+						<name>OS</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>380,303</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ContextSwitchTime">
+							<value>1s</value>
+						</attribute>
+						<attribute kind="RecvOverheadTime">
+							<value>1s</value>
+						</attribute>
+						<attribute kind="SendOverheadTime">
+							<value>1s</value>
+						</attribute>
+						<attribute kind="TickResolution" status="meta">
+							<value>1ms</value>
+						</attribute>
+					</atom>
+				</model>
+				<model id="id-0065-00000017" kind="Node" role="Node" guid="{ADB026A0-C729-49c0-8DB4-1E59305100EF}" relid="0x9" childrelidcntr="0x2">
+					<name>Smoothing</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>338,254</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="CPU" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="MetaData" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="RAM" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="ROM" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Simulator" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Speed" status="meta">
+						<value>0</value>
+					</attribute>
+					<atom id="id-0066-00000003" kind="BChan" role="BChan" guid="{9D1F9715-D0B9-42cf-B9C0-3F72F3F438A6}" relid="0x1">
+						<name>BChan</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>205,310</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="InterruptNum" status="meta">
+							<value>-1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000004" kind="OS" role="OS" guid="{1DD5FEB5-136D-47ee-8EA8-FBE8D3DB4775}" relid="0x2">
+						<name>OS</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>523,320</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ContextSwitchTime">
+							<value>1s</value>
+						</attribute>
+						<attribute kind="RecvOverheadTime">
+							<value>1s</value>
+						</attribute>
+						<attribute kind="SendOverheadTime">
+							<value>1s</value>
+						</attribute>
+						<attribute kind="TickResolution" status="meta">
+							<value>1ms</value>
+						</attribute>
+					</atom>
+				</model>
+				<model id="id-0065-00000018" kind="Node" role="Node" guid="{E904CBF9-607F-493e-935E-C61FE1B832CD}" relid="0xa" childrelidcntr="0x2">
+					<name>Scalar</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>576,247</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="CPU" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="MetaData" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="RAM" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="ROM" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Simulator" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Speed" status="meta">
+						<value>0</value>
+					</attribute>
+					<atom id="id-0066-00000005" kind="BChan" role="BChan" guid="{53EC637F-301D-463f-B67F-4914EAECDB4F}" relid="0x1">
+						<name>BChan</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>275,289</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="InterruptNum" status="meta">
+							<value>-1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000006" kind="OS" role="OS" guid="{AA36377E-B656-4af0-A18E-4AD365440994}" relid="0x2">
+						<name>OS</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>593,299</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ContextSwitchTime">
+							<value>1s</value>
+						</attribute>
+						<attribute kind="RecvOverheadTime">
+							<value>1s</value>
+						</attribute>
+						<attribute kind="SendOverheadTime">
+							<value>1s</value>
+						</attribute>
+						<attribute kind="TickResolution" status="meta">
+							<value>1ms</value>
+						</attribute>
+					</atom>
+				</model>
+				<model id="id-0065-00000019" kind="Node" role="Node" guid="{CEB7E6AC-2115-4f7f-AA48-DA9504B2E8ED}" relid="0xb" childrelidcntr="0x2">
+					<name>Servo</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>870,233</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="CPU" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="MetaData" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="RAM" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="ROM" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Simulator" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Speed" status="meta">
+						<value>0</value>
+					</attribute>
+					<atom id="id-0066-00000007" kind="BChan" role="BChan" guid="{B39552F5-404F-45f0-AEA1-1EF0D108D4C4}" relid="0x1">
+						<name>BChan</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>408,254</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="InterruptNum" status="meta">
+							<value>-1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000008" kind="OS" role="OS" guid="{F6F46566-FC92-4407-B3DA-B3C6D4909F3D}" relid="0x2">
+						<name>OS</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>726,264</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ContextSwitchTime">
+							<value>1s</value>
+						</attribute>
+						<attribute kind="RecvOverheadTime">
+							<value>1s</value>
+						</attribute>
+						<attribute kind="SendOverheadTime">
+							<value>1s</value>
+						</attribute>
+						<attribute kind="TickResolution" status="meta">
+							<value>1ms</value>
+						</attribute>
+					</atom>
+				</model>
+				<model id="id-0065-0000001a" kind="TTBus" role="TTBus" guid="{83853FA3-B024-498a-BA9B-D353A2A0A865}" relid="0xc" childrelidcntr="0x0">
+					<name>TTBus</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>457,422</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DataRate" status="meta">
+						<value>1b</value>
+					</attribute>
+					<attribute kind="Hyperperiod">
+						<value>0.125s</value>
+					</attribute>
+					<attribute kind="MetaData" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="MinFrameSize" status="meta">
+						<value>512B</value>
+					</attribute>
+					<attribute kind="OverheadTime" status="meta">
+						<value>0s</value>
+					</attribute>
+					<attribute kind="SlotSize" status="meta">
+						<value>512B</value>
+					</attribute>
+					<attribute kind="SwitchMemorySize" status="meta">
+						<value>80MB</value>
+					</attribute>
+					<attribute kind="TTSetupTime" status="meta">
+						<value>0s</value>
+					</attribute>
+				</model>
+				<connection id="id-0068-00000004" kind="Wire" role="Wire" guid="{B0A8DED2-A351-4984-ADE4-D851F0BC00CB}" relid="0xd">
+					<name>Wire</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-0000001a"/>
+					<connpoint role="src" target="id-0066-00000001"/>
+				</connection>
+				<connection id="id-0068-00000005" kind="Wire" role="Wire" guid="{208FFA28-1455-4130-863E-5EA14AEE76D5}" relid="0xe">
+					<name>Wire</name>
+					<connpoint role="dst" target="id-0065-0000001a"/>
+					<connpoint role="src" target="id-0066-00000003"/>
+				</connection>
+				<connection id="id-0068-00000006" kind="Wire" role="Wire" guid="{A2930DD2-A2A6-46b7-A6C1-E158E2040DBE}" relid="0xf">
+					<name>Wire</name>
+					<connpoint role="dst" target="id-0065-0000001a"/>
+					<connpoint role="src" target="id-0066-00000005"/>
+				</connection>
+				<connection id="id-0068-00000007" kind="Wire" role="Wire" guid="{9A8F1F2E-4C1B-4b39-B6FE-D3D10B986C47}" relid="0x10">
+					<name>Wire</name>
+					<connpoint role="dst" target="id-0065-0000001a"/>
+					<connpoint role="src" target="id-0066-00000007"/>
+				</connection>
+			</model>
+			<model id="id-0065-0000001b" kind="Deployment" guid="{C508C9AA-61FC-42b9-A36E-7EC89CB4F5D0}" relid="0x3" childrelidcntr="0x15">
+				<name>NewDeployment</name>
+				<model id="id-0065-0000001c" kind="TTTask" role="TTTask" guid="{FAD699F9-F97B-46e3-ABED-588D5C420BA3}" relid="0xe" childrelidcntr="0x5">
+					<name>task1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>86,86</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="TTExecTime">
+						<value>10s</value>
+					</attribute>
+					<attribute kind="TTFreq" status="meta">
+						<value>1Hz</value>
+					</attribute>
+					<attribute kind="TTSchedule" status="meta">
+						<value></value>
+					</attribute>
+					<atom id="id-0066-00000009" kind="TTMessage" role="TTMessage" guid="{E2DADAAE-F6EE-45d1-B01F-E0E08F7EAB6C}" relid="0x4">
+						<name>RawHeading</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>569,177</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="MsgMetaData" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="MsgSize">
+							<value>2000B</value>
+						</attribute>
+						<attribute kind="TTSchedule" status="meta">
+							<value></value>
+						</attribute>
+					</atom>
+					<reference id="id-0067-00000001" kind="ChannelRef" role="ChannelRef" guid="{ABC37B31-9EE8-4df3-B28E-E1A056EAB04E}" relid="0x1" referred="id-0066-00000001">
+						<name>BChan</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>70,175</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000002" kind="Component" role="Component" guid="{A7944D48-6FDE-4556-A8F9-705D9C3D797D}" relid="0x2" referred="id-0065-00000009">
+						<name>Compass</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>313,159</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="WCET" status="meta">
+							<value>Worst Case Exec Time (secs)</value>
+						</attribute>
+					</reference>
+					<connection id="id-0068-00000008" kind="InCommMapping" role="InCommMapping" guid="{AE9EDFF0-CC9A-4aeb-9EF4-B8B11E8B0B87}" relid="0x3">
+						<name>InCommMapping</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>E</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-0000000a" refs="id-0067-00000002"/>
+						<connpoint role="src" target="id-0067-00000001"/>
+					</connection>
+					<connection id="id-0068-00000009" kind="OutCommMapping" role="OutCommMapping" guid="{DCD642D8-42A6-4b57-990F-7804C2DD6D9F}" relid="0x5">
+						<name>OutCommMapping</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>w</value>
+						</regnode>
+						<connpoint role="src" target="id-0065-0000000b" refs="id-0067-00000002"/>
+						<connpoint role="dst" target="id-0066-00000009"/>
+					</connection>
+				</model>
+				<model id="id-0065-0000001d" kind="TTTask" role="TTTask" guid="{7EF44F11-E592-48ea-85C8-33995417B8C9}" relid="0xf" childrelidcntr="0x8">
+					<name>task2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>331,93</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="TTExecTime">
+						<value>10s</value>
+					</attribute>
+					<attribute kind="TTFreq" status="meta">
+						<value>1Hz</value>
+					</attribute>
+					<attribute kind="TTSchedule" status="meta">
+						<value></value>
+					</attribute>
+					<atom id="id-0066-0000000a" kind="TTMessage" role="TTMessage" guid="{0E6A0D10-074F-4767-B109-595DDD65D1CD}" relid="0x3">
+						<name>Heading</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>590,163</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="MsgMetaData" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="MsgSize">
+							<value>2000B</value>
+						</attribute>
+						<attribute kind="TTSchedule" status="meta">
+							<value></value>
+						</attribute>
+					</atom>
+					<reference id="id-0067-00000003" kind="MessageRef" role="MessageRef" guid="{9D8297C8-5529-4272-8B73-CD736742F268}" relid="0x1" referred="id-0066-00000009">
+						<name>RawHeading</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>147,161</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000004" kind="Component" role="Component" guid="{086FDBC2-380A-4a8f-AA89-19746F181B61}" relid="0x2" referred="id-0065-0000000c">
+						<name>Smoothing</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>362,152</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="WCET" status="meta">
+							<value>Worst Case Exec Time (secs)</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-00000005" kind="ChannelRef" role="ChannelRef" guid="{B0F0ECBE-B0AD-49d9-B02F-074ECC45B37A}" relid="0x6" referred="id-0066-00000003">
+						<name>BChan</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,308</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<connection id="id-0068-0000000a" kind="InCommMapping" role="InCommMapping" guid="{8757D3B2-DE83-43d6-97A9-1C5066AD0835}" relid="0x4">
+						<name>InCommMapping</name>
+						<connpoint role="dst" target="id-0065-0000000d" refs="id-0067-00000004"/>
+						<connpoint role="src" target="id-0067-00000003"/>
+					</connection>
+					<connection id="id-0068-0000000b" kind="OutCommMapping" role="OutCommMapping" guid="{C5E24A8E-DCAE-4352-B658-292FEDC55EBC}" relid="0x5">
+						<name>OutCommMapping</name>
+						<connpoint role="src" target="id-0065-0000000e" refs="id-0067-00000004"/>
+						<connpoint role="dst" target="id-0066-0000000a"/>
+					</connection>
+					<connection id="id-0068-0000000c" kind="MsgAssignment" role="MsgAssignment" guid="{AA6272A9-A12D-434e-BC16-D261C69AB1A1}" relid="0x7">
+						<name>MsgAssignment</name>
+						<connpoint role="src" target="id-0067-00000003"/>
+						<connpoint role="dst" target="id-0067-00000005"/>
+					</connection>
+					<connection id="id-0068-0000000d" kind="MsgAssignment" role="MsgAssignment" guid="{14FFF630-A7FF-4f26-BFB2-383C3E95B791}" relid="0x8">
+						<name>MsgAssignment</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0066-0000000a"/>
+						<connpoint role="dst" target="id-0067-00000005"/>
+					</connection>
+				</model>
+				<model id="id-0065-0000001e" kind="TTTask" role="TTTask" guid="{F7D03925-D665-404c-AAB1-8765074775D8}" relid="0x10" childrelidcntr="0x8">
+					<name>task3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>569,86</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="TTExecTime">
+						<value>10s</value>
+					</attribute>
+					<attribute kind="TTFreq" status="meta">
+						<value>1Hz</value>
+					</attribute>
+					<attribute kind="TTSchedule" status="meta">
+						<value></value>
+					</attribute>
+					<atom id="id-0066-0000000b" kind="TTMessage" role="TTMessage" guid="{5C589492-35B7-4e0d-8E04-815CBD4E79B6}" relid="0x3">
+						<name>Value</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>611,156</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="MsgMetaData" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="MsgSize">
+							<value>2000B</value>
+						</attribute>
+						<attribute kind="TTSchedule" status="meta">
+							<value></value>
+						</attribute>
+					</atom>
+					<reference id="id-0067-00000006" kind="MessageRef" role="MessageRef" guid="{08DF4488-4813-4ad4-8876-C68F1C433A7C}" relid="0x1" referred="id-0066-0000000a">
+						<name>Heading</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>133,154</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000007" kind="Component" role="Component" guid="{2B8DEDE2-5303-4558-85BC-F90AB05BF25B}" relid="0x2" referred="id-0065-0000000f">
+						<name>Scalar</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>369,145</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="WCET" status="meta">
+							<value>Worst Case Exec Time (secs)</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-00000008" kind="ChannelRef" role="ChannelRef" guid="{BB3DCF62-B68F-46ef-A904-E663419A0677}" relid="0x6" referred="id-0066-00000005">
+						<name>BChan</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>315,336</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<connection id="id-0068-0000000e" kind="InCommMapping" role="InCommMapping" guid="{57B0A889-C156-4122-B262-B1FE5A6C6D7D}" relid="0x4">
+						<name>InCommMapping</name>
+						<connpoint role="dst" target="id-0065-00000011" refs="id-0067-00000007"/>
+						<connpoint role="src" target="id-0067-00000006"/>
+					</connection>
+					<connection id="id-0068-0000000f" kind="OutCommMapping" role="OutCommMapping" guid="{8BFFFB60-A0A2-4d1c-9C1C-FB9F310A3993}" relid="0x5">
+						<name>OutCommMapping</name>
+						<connpoint role="src" target="id-0065-00000010" refs="id-0067-00000007"/>
+						<connpoint role="dst" target="id-0066-0000000b"/>
+					</connection>
+					<connection id="id-0068-00000010" kind="MsgAssignment" role="MsgAssignment" guid="{7C80774B-390B-4524-ACBB-E0910F3CBEEF}" relid="0x7">
+						<name>MsgAssignment</name>
+						<connpoint role="src" target="id-0067-00000006"/>
+						<connpoint role="dst" target="id-0067-00000008"/>
+					</connection>
+					<connection id="id-0068-00000011" kind="MsgAssignment" role="MsgAssignment" guid="{B73277F1-D854-44bc-8090-23E8C0659C8A}" relid="0x8">
+						<name>MsgAssignment</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0066-0000000b"/>
+						<connpoint role="dst" target="id-0067-00000008"/>
+					</connection>
+				</model>
+				<model id="id-0065-0000001f" kind="TTTask" role="TTTask" guid="{4C69B79B-9E33-4deb-8267-C4F23F861DA4}" relid="0x11" childrelidcntr="0x6">
+					<name>task4</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>790,76</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="TTExecTime">
+						<value>10s</value>
+					</attribute>
+					<attribute kind="TTFreq" status="meta">
+						<value>1Hz</value>
+					</attribute>
+					<attribute kind="TTSchedule" status="meta">
+						<value></value>
+					</attribute>
+					<reference id="id-0067-00000009" kind="MessageRef" role="MessageRef" guid="{CD001327-83B7-4046-BE46-94BFB2E4B2BC}" relid="0x1" referred="id-0066-0000000b">
+						<name>Value</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>105,168</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-0000000a" kind="Component" role="Component" guid="{027B27C2-F490-430c-90BB-2FEEA729FFE9}" relid="0x2" referred="id-0065-00000012">
+						<name>Servo</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>334,152</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="WCET" status="meta">
+							<value>Worst Case Exec Time (secs)</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-0000000b" kind="ChannelRef" role="ChannelRef" guid="{8F074372-F05A-4ffc-BBA2-84A219850C26}" relid="0x4" referred="id-0066-00000007">
+						<name>BChan</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>686,168</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<connection id="id-0068-00000012" kind="InCommMapping" role="InCommMapping" guid="{7AACB882-F0B7-4a65-9A5E-D873B4968698}" relid="0x3">
+						<name>InCommMapping</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>E</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000014" refs="id-0067-0000000a"/>
+						<connpoint role="src" target="id-0067-00000009"/>
+					</connection>
+					<connection id="id-0068-00000013" kind="OutCommMapping" role="OutCommMapping" guid="{4D052AE7-FEF5-4abb-9F41-5B14474BA14B}" relid="0x5">
+						<name>OutCommMapping</name>
+						<connpoint role="src" target="id-0065-00000013" refs="id-0067-0000000a"/>
+						<connpoint role="dst" target="id-0067-0000000b"/>
+					</connection>
+					<connection id="id-0068-00000014" kind="MsgAssignment" role="MsgAssignment" guid="{B16D5B15-CB68-49f8-A160-F9F552D1B567}" relid="0x6">
+						<name>MsgAssignment</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>w</value>
+						</regnode>
+						<connpoint role="src" target="id-0067-00000009"/>
+						<connpoint role="dst" target="id-0067-0000000b"/>
+					</connection>
+				</model>
+				<reference id="id-0067-0000000c" kind="NodeRef" role="NodeRef" guid="{8F903C0F-3A68-4e0f-A7E7-FFB7CFFFAA1D}" relid="0xa" referred="id-0065-00000016">
+					<name>Compass</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>54,229</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000000d" kind="NodeRef" role="NodeRef" guid="{FBC33721-797F-4087-82B1-AC6100ACB260}" relid="0xb" referred="id-0065-00000019">
+					<name>Servo</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>761,201</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000000e" kind="NodeRef" role="NodeRef" guid="{41187DA4-FFB2-431e-8C8F-4DCB21B27926}" relid="0xc" referred="id-0065-00000017">
+					<name>Smoothing</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>299,215</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000000f" kind="NodeRef" role="NodeRef" guid="{B0A91F97-4BC3-4f16-86AB-ECEBC50946E0}" relid="0xd" referred="id-0065-00000018">
+					<name>Scalar</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>537,201</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<connection id="id-0068-00000015" kind="TaskAssignment" role="TaskAssignment" guid="{7EF507C4-7794-41be-B470-46857C8ECD61}" relid="0x12">
+					<name>TaskAssignment</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-0000001c"/>
+					<connpoint role="dst" target="id-0067-0000000c"/>
+				</connection>
+				<connection id="id-0068-00000016" kind="TaskAssignment" role="TaskAssignment" guid="{5EFFE681-8192-47e5-A95B-3F220C59D0E7}" relid="0x13">
+					<name>TaskAssignment</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-0000001d"/>
+					<connpoint role="dst" target="id-0067-0000000e"/>
+				</connection>
+				<connection id="id-0068-00000017" kind="TaskAssignment" role="TaskAssignment" guid="{BAD6550B-2795-4ea8-B4C1-B1F40555B659}" relid="0x14">
+					<name>TaskAssignment</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-0000001e"/>
+					<connpoint role="dst" target="id-0067-0000000f"/>
+				</connection>
+				<connection id="id-0068-00000018" kind="TaskAssignment" role="TaskAssignment" guid="{DF78D097-F7FE-41da-8E92-86146B2ACEDA}" relid="0x15">
+					<name>TaskAssignment</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-0000001f"/>
+					<connpoint role="dst" target="id-0067-0000000d"/>
+				</connection>
+			</model>
+		</folder>
+		<folder id="id-006a-00000004" relid="0x3" childrelidcntr="0x0" kind="ArchitectureLibrary" guid="{6450BFAF-D566-466a-8FAC-3CBFC323CA7A}">
+			<name>NewArchitectureLibrary</name>
+		</folder>
+	</folder>
+</project>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Semantics.xsd">
+
+  <Deployment id="0">
+    <Acquisition _id="id42" acquiredMsg="id2A" acquiringChannel="idD" acquiringTasks="id36" id="0"/>
+    <Actuation _id="id41" actuatingChannel="idF" actuatingMsg="id29" actuatingTask="id35" id="0"/>
+    <BChan _id="id5" chanInterface="id6" channelListeners="id40" channelTransmitters="id3D" config="" id="200000598" name="BChan_chan"/>
+    <BChan _id="id9" chanInterface="idA" channelListeners="id3e" channelTransmitters="id3F" config="" id="200000593" name="BChan_chan"/>
+    <CommInterface _id="id6" commChannels="id5" commMedium="id7" config="" devicetype="none" id="200000598" integratedBy="id4" name="BChan_dev"/>
+    <CommInterface _id="idA" commChannels="id9" commMedium="id7" config="" devicetype="none" id="200000593" integratedBy="id8" name="BChan_dev"/>
+    <Component _id="id11" ccode="" cfiles="OuterLoop_sl.c" consumes="id13 id14" generates="id16" hfiles="OuterLoop_sl.h" id="300000004" invokedBy="id37" msubsystem="OuterLoop" name="OuterLoop"/>
+    <Component _id="id17" ccode="" cfiles="InnerLoop_sl.c" consumes="id19 id1A" generates="id1C" hfiles="InnerLoop_sl.h" id="300000005" invokedBy="id35" msubsystem="InnerLoop" name="InnerLoop"/>
+    <Component _id="id1D" ccode="" cfiles="DataHandler_sl.c" consumes="id1e id1F" generates="id20 id21" hfiles="DataHandler_sl.h" id="300000006" invokedBy="id36" msubsystem="DataHandler" name="DataHandling"/>
+    <Component _id="id22" ccode="" cfiles="RefHandler_sl.c" consumes="id23" generates="id24" hfiles="RefHandler_sl.h" id="300000112" invokedBy="id38" msubsystem="RefHandler" name="RefHandling"/>
+    <ExecInfo _id="id2B" executor="id35" name="InnerLoopTiming">
+      <MaxDuration exectimesecs="0.0019"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.009" ticksched="9"/>
+    </ExecInfo>
+    <ExecInfo _id="id2C" executor="id36" name="DataHandlerTiming">
+      <MaxDuration exectimesecs="0.0018000000000000002"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.004" ticksched="4"/>
+    </ExecInfo>
+    <ExecInfo _id="id2D" executor="id37" name="OuterLoopTiming">
+      <MaxDuration exectimesecs="0.000245"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.013" ticksched="13"/>
+    </ExecInfo>
+    <ExecInfo _id="id2e" executor="id27" name="PosMsgTiming">
+      <MaxDuration exectimesecs="0.001"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.011" ticksched="11"/>
+    </ExecInfo>
+    <ExecInfo _id="id2F" executor="id25" name="AngRefTiming">
+      <MaxDuration exectimesecs="0.001"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.007" ticksched="7"/>
+    </ExecInfo>
+    <ExecInfo _id="id30" executor="idF id10 id29" name="ActuatorTiming">
+      <MaxDuration exectimesecs="0.001"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.014" ticksched="14"/>
+    </ExecInfo>
+    <ExecInfo _id="id31" executor="idD ide id2A" name="SerialSensorTiming">
+      <MaxDuration exectimesecs="0.000001"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.001" ticksched="1"/>
+    </ExecInfo>
+    <ExecInfo _id="id32" executor="id26" name="AngMsgTiming">
+      <MaxDuration exectimesecs="0.000001"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id33" executor="id38" name="RefHandlingTiming">
+      <MaxDuration exectimesecs="0.000001"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.008" ticksched="8"/>
+    </ExecInfo>
+    <ExecInfo _id="id34" executor="id28" name="PosRefMsgTiming">
+      <MaxDuration exectimesecs="0.000001"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <IChan _id="idB" config="name=ADC&#xA;way=ADC_EXT_AVCC&#xA;pin_number=ADC_PIN1" ichanDevice="idC" id="200000594" name="ADCChan"/>
+    <IChan _id="idD" channelAcquisition="id42" config="name=UART&#xA;way=IN&#xA;pin_number=0" ichanDevice="ide" id="200000596" info="id31" name="SerialIChan"/>
+    <InputDevice _id="idC" config="" devicetype="" id="0" inputChannels="idB" integratedBy="id8" name="ADC"/>
+    <InputDevice _id="ide" config="" devicetype="" id="0" info="id31" inputChannels="idD" integratedBy="id8" name="SerialIn"/>
+    <LocalDependency _id="id3A" depMsg="id39" id="0" localDepReceivingTasks="id38"/>
+    <LocalDependency _id="id3B" depMsg="id28" id="0" localDepNode="id4" localDepReceivingTasks="id37" localDepSendingTask="id38"/>
+    <LocalDependency _id="id3C" depMsg="id26" id="0" localDepNode="id8" localDepReceivingTasks="id35" localDepSendingTask="id36"/>
+    <Msg _id="id25" carries="id16 id19" id="0" info="id2F" messagetype="Remote" msgListeners="id3e" msgTransmitter="id3D" name="OuterLoop.ang_ref" sizebytes="20.00"/>
+    <Msg _id="id26" carries="id1A id20" id="0" info="id32" messagetype="Local" msgDep="id3C" name="DataHandling.ang_msg" sizebytes="1.00"/>
+    <Msg _id="id27" carries="id14 id21" id="0" info="id2e" messagetype="Remote" msgListeners="id40" msgTransmitter="id3F" name="DataHandling.pos_msg" sizebytes="8.00"/>
+    <Msg _id="id28" carries="id13 id24" id="0" info="id34" messagetype="Local" msgDep="id3B" name="RefHandling.pos_ref_out" sizebytes="9.00"/>
+    <Msg _id="id29" carries="id1C" id="0" info="id30" messagetype="Local" msgActuation="id41" name="InnerLoop.thrust_commands" sizebytes="37.00"/>
+    <Msg _id="id2A" carries="id1e id1F" id="0" info="id31" messagetype="Local" msgAcquisitions="id42" name="DataHandling.sensor_data_in" sizebytes="1.00"/>
+    <Msg _id="id39" carries="id23" id="0" messagetype="Local" msgDep="id3A" name="RefHandling.pos_ref_in" sizebytes="9.00"/>
+    <Node _id="id4" analog_inp_num="0" analog_outp_num="0" clockspeedhz="100000000.00" ctxtswitchsecs="0.00" executes="id37 id38" hyperperiodsecs="0.02" hyperperiodticks="20" id="100000203" integrates="id6" name="GS" nodeLocalDeps="id3B" platformtype="PXA" pp_directives="" processormodel="ARM" rcvohdsecs="0.00" sndohdsecs="0.00" tickresolutionsecs="0.001"/>
+    <Node _id="id8" analog_inp_num="2" analog_outp_num="1" clockspeedhz="4000000.00" ctxtswitchsecs="0.00" executes="id36 id35" hyperperiodsecs="0.02" hyperperiodticks="20" id="100000201" integrates="idA idC ide id10" name="RS" nodeLocalDeps="id3C" platformtype="AVR" pp_directives="" processormodel="Atmega128" rcvohdsecs="0.00" sndohdsecs="0.00" tickresolutionsecs="0.001"/>
+    <OChan _id="idF" channelActuations="id41" config="name=UART&#xA;way=OUT&#xA;pin_number=0" id="200000595" info="id30" name="SerialOChan" ochanDevice="id10"/>
+    <OutputDevice _id="id10" config="" devicetype="" id="0" info="id30" integratedBy="id8" name="SerialOut" outputChannels="idF"/>
+    <Receives _id="id3e" id="0" receivedMsg="id25" receivingChannel="id9" receivingTask="id35"/>
+    <Receives _id="id40" id="0" receivedMsg="id27" receivingChannel="id5" receivingTask="id37"/>
+    <Signal _id="id13" carriedBy="id28" consumedBy="id11" fnum="1" id="100000643" isOfType="id12" name="RefHandling_pos_ref_out" num="1"/>
+    <Signal _id="id14" carriedBy="id27" consumedBy="id11" fnum="1" id="100000644" isOfType="id12" name="OuterLoop_pos" num="2"/>
+    <Signal _id="id16" carriedBy="id25" fnum="1" generatedBy="id11" id="100000645" isOfType="id15" name="OuterLoop_ang_ref" num="1"/>
+    <Signal _id="id19" carriedBy="id25" consumedBy="id17" fnum="1" id="100000635" isOfType="id18" name="InnerLoop_ang_ref" num="1"/>
+    <Signal _id="id1A" carriedBy="id26" consumedBy="id17" fnum="1" id="100000636" isOfType="id12" name="DataHandling_ang_out" num="2"/>
+    <Signal _id="id1C" carriedBy="id29" fnum="2" generatedBy="id17" id="100000637" isOfType="id1B" name="InnerLoop_Torque" num="1"/>
+    <Signal _id="id1e" carriedBy="id2A" consumedBy="id1D" fnum="1" id="100000618" isOfType="id12" name="DataHandling_ang_in" num="1"/>
+    <Signal _id="id1F" carriedBy="id2A" consumedBy="id1D" fnum="2" id="100000619" isOfType="id12" name="DataHandling_pos_in" num="2"/>
+    <Signal _id="id20" carriedBy="id26" fnum="1" generatedBy="id1D" id="100000620" isOfType="id12" name="DataHandling_ang_out" num="1"/>
+    <Signal _id="id21" carriedBy="id27" fnum="1" generatedBy="id1D" id="100000621" isOfType="id12" name="DataHandling_pos_out" num="2"/>
+    <Signal _id="id23" carriedBy="id39" consumedBy="id22" fnum="1" id="100000667" isOfType="id12" name="RefHandling_pos_ref_in" num="1"/>
+    <Signal _id="id24" carriedBy="id28" fnum="1" generatedBy="id22" id="100000668" isOfType="id12" name="RefHandling_pos_ref_out" num="1"/>
+    <SignalType _id="id12" columns="" ctypestr="" id="0" isStruct="false" mtypestr="single" name="single" rows="" signalsOfType="id13 id14 id1A id1e id1F id20 id21 id23 id24"/>
+    <SignalType _id="id15" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A1A5singleAA" name="A1A5singleAA" rows="" signalsOfType="id16"/>
+    <SignalType _id="id18" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A5singleA" name="A5singleA" rows="" signalsOfType="id19"/>
+    <SignalType _id="id1B" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A1A9singleAA" name="A1A9singleAA" rows="" signalsOfType="id1C"/>
+    <TTBus _id="id7" busslotbytes="1" dataratebps="100000.00" hyperperiodsecs="0.02" hyperperiodticks="20" id="100000202" interfaces="id6 idA" minframebytes="512" name="TT_I2C" setupsecs="0.0013000000000000002" switchmembytes="83886080"/>
+    <Task _id="id35" executedBy="id8" id="0" incomingData="id3e" info="id2B" invokes="id17" localReceivingTaskDeps="id3C" name="InnerLoop" taskActuations="id41"/>
+    <Task _id="id36" executedBy="id8" id="0" info="id2C" invokes="id1D" localSendingTaskDeps="id3C" name="DataHandling" outboundData="id3F" taskAcquisitions="id42"/>
+    <Task _id="id37" executedBy="id4" id="0" incomingData="id40" info="id2D" invokes="id11" localReceivingTaskDeps="id3B" name="OuterLoop" outboundData="id3D"/>
+    <Task _id="id38" executedBy="id4" id="0" info="id33" invokes="id22" localReceivingTaskDeps="id3A" localSendingTaskDeps="id3B" name="RefHandling"/>
+    <Transmits _id="id3D" id="0" sendingChan="id5" sendingTask="id37" transmittedMsg="id25"/>
+    <Transmits _id="id3F" id="0" sendingChan="id9" sendingTask="id36" transmittedMsg="id27"/>
+  </Deployment>
+
+</RootFolder>

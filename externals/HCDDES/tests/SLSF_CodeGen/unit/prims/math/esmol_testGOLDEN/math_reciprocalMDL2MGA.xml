@@ -1,0 +1,93 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="math_reciprocal" name="math_reciprocal" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="idc" Name="" dstLine_end_="idd" srcLine_end_="idb"/>
+			<Line _id="idf" Name="" dstLine_end_="id6" srcLine_end_="ide"/>
+			<Line _id="id12" Name="" dstLine_end_="id13" srcLine_end_="id11"/>
+			<Line _id="id15" Name="" dstLine_end_="id5" srcLine_end_="id14"/>
+			<Line _id="id18" Name="" dstLine_end_="id19" srcLine_end_="id17"/>
+			<Line _id="id1b" Name="" dstLine_end_="id4" srcLine_end_="id1a"/>
+			<OutputPort _id="id4" name="Out8" Number="1" srcLine="id1b"/>
+			<OutputPort _id="id5" name="Out13" Number="2" srcLine="id15"/>
+			<OutputPort _id="id6" name="Out14" Number="3" srcLine="idf"/>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id17" name="Out_1" Number="1" dstLine="id18"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="2.5"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant3" name="Constant3" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id11" name="Out_1" Number="1" dstLine="id12"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[1.5, 3, 0.11]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant4" name="Constant4" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="idb" name="Out_1" Number="1" dstLine="idc"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[0, 1]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Math
+Function13" name="Math
+Function13" Period="0" Deadline="0" Priority="0" BlockType="Math" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="idd" name="In_1" Number="1" srcLine="idc"/>
+				<OutputPort _id="ide" name="Out_1" Number="1" dstLine="idf"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Operator" Value="reciprocal"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Same as first input"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Math
+Function4" name="Math
+Function4" Period="0" Deadline="0" Priority="0" BlockType="Math" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id13" name="In_1" Number="1" srcLine="id12"/>
+				<OutputPort _id="id14" name="Out_1" Number="1" dstLine="id15"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Operator" Value="reciprocal"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Same as first input"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Math
+Function8" name="Math
+Function8" Period="0" Deadline="0" Priority="0" BlockType="Math" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id19" name="In_1" Number="1" srcLine="id18"/>
+				<OutputPort _id="id1a" name="Out_1" Number="1" dstLine="id1b"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Operator" Value="reciprocal"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Same as first input"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="on"/>
+			</Primitive>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow"/>
+</RootFolder>
+
+

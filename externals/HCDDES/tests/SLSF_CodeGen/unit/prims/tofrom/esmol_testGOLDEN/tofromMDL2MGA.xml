@@ -1,0 +1,279 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="tofrom" name="tofrom" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id22" Name="" dstLine_end_="id9" srcLine_end_="id21"/>
+			<Line _id="id4f" Name="" dstLine_end_="id4d" srcLine_end_="id4e"/>
+			<Line _id="id81" Name="" dstLine_end_="id4" srcLine_end_="id13"/>
+			<Line _id="id84" Name="" dstLine_end_="id82" srcLine_end_="id3e"/>
+			<Line _id="id88" Name="" dstLine_end_="id5" srcLine_end_="id87"/>
+			<Line _id="id89" Name="" dstLine_end_="ida" srcLine_end_="id39"/>
+			<Line _id="id8c" Name="" dstLine_end_="idb" srcLine_end_="id8b"/>
+			<Line _id="id91" Name="" dstLine_end_="id8f" srcLine_end_="id43"/>
+			<Line _id="id94" Name="" dstLine_end_="idc" srcLine_end_="id93"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id81"/>
+			<OutputPort _id="id5" name="Out2" Number="2" srcLine="id88">
+				<TypeBaseRef _id="id8" ref="id6" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id9" name="Out3" Number="3" srcLine="id22"/>
+			<OutputPort _id="ida" name="Out4" Number="4" srcLine="id89"/>
+			<OutputPort _id="idb" name="Out5" Number="5" srcLine="id8c"/>
+			<OutputPort _id="idc" name="Out6" Number="6" srcLine="id94"/>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id39" name="Out_1" Number="1" dstLine="id89"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[1 3.4]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant1" name="Constant1" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id34" name="Out_1" Number="1"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="2.3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant2" name="Constant2" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id3e" name="Out_1" Number="1" dstLine="id84"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[43 5]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant3" name="Constant3" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id4e" name="Out_1" Number="1" dstLine="id4f"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[15 13]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant4" name="Constant4" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id43" name="Out_1" Number="1" dstLine="id91"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[6 5.4]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<System Tag="" Name="Counter" name="Counter" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<Line _id="id54" Name="" dstLine_end_="id55" srcLine_end_="id53"/>
+				<Line _id="id57" Name="" dstLine_end_="id58" srcLine_end_="id56"/>
+				<Line _id="id5a" Name="" dstLine_end_="id13" srcLine_end_="id59"/>
+				<Line _id="id5d" Name="" dstLine_end_="id5e" srcLine_end_="id5c"/>
+				<OutputPort _id="id13" name="ctr" Number="1" dstLine="id81" srcLine="id5a"/>
+				<Parameter name="ExecuteAtInitialization" Value="on"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id58" name="In_1" Number="1" srcLine="id57"/>
+					<OutputPort _id="id5c" name="Out_1" Number="1" dstLine="id5d"/>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="" Name="Ground" name="Ground" Period="0" Deadline="0" Priority="0" BlockType="Ground" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<OutputPort _id="id53" name="Out_1" Number="1" dstLine="id54"/>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function tofrom 1" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id60" ref="id5f" name="Counter"/>
+					<InputPort _id="id55" name="In_1" Number="1" srcLine="id54"/>
+					<OutputPort _id="id56" name="Out_1" Number="1" dstLine="id57"/>
+					<OutputPort _id="id59" name="Out_2" Number="2" dstLine="id5a"/>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id5e" name="In_1" Number="1" srcLine="id5d"/>
+				</Primitive>
+			</System>
+			<System Tag="" Name="Deep" name="Deep" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<InputPort _id="id8f" name="FG_1" Number="1" dstLine="id90" srcLine="id91"/>
+				<Line _id="id90" Name="" dstLine_end_="id8d" srcLine_end_="id8f"/>
+				<Line _id="id92" Name="" dstLine_end_="id93" srcLine_end_="id66"/>
+				<OutputPort _id="id93" name="FG_1" Number="1" dstLine="id94" srcLine="id92"/>
+				<Parameter name="BlockChoice" Value=""/>
+				<Parameter name="CheckFcnCallInpInsideContextMsg" Value="off"/>
+				<Parameter name="DataTypeOverride" Value="UseLocalSettings"/>
+				<Parameter name="ErrorFcn" Value=""/>
+				<Parameter name="FunctionWithSeparateData" Value="off"/>
+				<Parameter name="MemberBlocks" Value=""/>
+				<Parameter name="MinAlgLoopOccurrences" Value="off"/>
+				<Parameter name="MinMaxOverflowLogging" Value="UseLocalSettings"/>
+				<Parameter name="Permissions" Value="ReadWrite"/>
+				<Parameter name="PermitHierarchicalResolution" Value="All"/>
+				<Parameter name="PropExecContextOutsideSubsystem" Value="off"/>
+				<Parameter name="RTWFcnName" Value=""/>
+				<Parameter name="RTWFcnNameOpts" Value="Auto"/>
+				<Parameter name="RTWFileName" Value=""/>
+				<Parameter name="RTWFileNameOpts" Value="Auto"/>
+				<Parameter name="RTWMemSecDataConstants" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecDataInternal" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecDataParameters" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecFuncExecute" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecFuncInitTerm" Value="Inherit from model"/>
+				<Parameter name="RTWSystemCode" Value="Auto"/>
+				<Parameter name="SCDConfigFcn" Value=""/>
+				<Parameter name="ShowPortLabels" Value="FromPortIcon"/>
+				<Parameter name="SystemSampleTime" Value="-1"/>
+				<Parameter name="TemplateBlock" Value=""/>
+				<Parameter name="TreatAsAtomicUnit" Value="off"/>
+				<System Tag="" Name="Subsystem" name="Subsystem" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+					<InputPort _id="id8d" name="FG_1" Number="1" dstLine="id8e" srcLine="id90"/>
+					<Line _id="id8e" Name="" dstLine_end_="id66" srcLine_end_="id8d"/>
+					<OutputPort _id="id66" name="Out1" Number="1" dstLine="id92" srcLine="id8e"/>
+					<Parameter name="BlockChoice" Value=""/>
+					<Parameter name="CheckFcnCallInpInsideContextMsg" Value="off"/>
+					<Parameter name="DataTypeOverride" Value="UseLocalSettings"/>
+					<Parameter name="ErrorFcn" Value=""/>
+					<Parameter name="FunctionWithSeparateData" Value="off"/>
+					<Parameter name="MemberBlocks" Value=""/>
+					<Parameter name="MinAlgLoopOccurrences" Value="off"/>
+					<Parameter name="MinMaxOverflowLogging" Value="UseLocalSettings"/>
+					<Parameter name="Permissions" Value="ReadWrite"/>
+					<Parameter name="PermitHierarchicalResolution" Value="All"/>
+					<Parameter name="PropExecContextOutsideSubsystem" Value="off"/>
+					<Parameter name="RTWFcnName" Value=""/>
+					<Parameter name="RTWFcnNameOpts" Value="Auto"/>
+					<Parameter name="RTWFileName" Value=""/>
+					<Parameter name="RTWFileNameOpts" Value="Auto"/>
+					<Parameter name="RTWMemSecDataConstants" Value="Inherit from model"/>
+					<Parameter name="RTWMemSecDataInternal" Value="Inherit from model"/>
+					<Parameter name="RTWMemSecDataParameters" Value="Inherit from model"/>
+					<Parameter name="RTWMemSecFuncExecute" Value="Inherit from model"/>
+					<Parameter name="RTWMemSecFuncInitTerm" Value="Inherit from model"/>
+					<Parameter name="RTWSystemCode" Value="Auto"/>
+					<Parameter name="SCDConfigFcn" Value=""/>
+					<Parameter name="ShowPortLabels" Value="FromPortIcon"/>
+					<Parameter name="SystemSampleTime" Value="-1"/>
+					<Parameter name="TemplateBlock" Value=""/>
+					<Parameter name="TreatAsAtomicUnit" Value="off"/>
+				</System>
+			</System>
+			<System Tag="" Name="From1ToGoto4" name="From1ToGoto4" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<OutputPort _id="id87" name="FG_1" Number="1" dstLine="id88"/>
+				<Parameter name="BlockChoice" Value=""/>
+				<Parameter name="CheckFcnCallInpInsideContextMsg" Value="off"/>
+				<Parameter name="DataTypeOverride" Value="UseLocalSettings"/>
+				<Parameter name="ErrorFcn" Value=""/>
+				<Parameter name="FunctionWithSeparateData" Value="off"/>
+				<Parameter name="MemberBlocks" Value=""/>
+				<Parameter name="MinAlgLoopOccurrences" Value="off"/>
+				<Parameter name="MinMaxOverflowLogging" Value="UseLocalSettings"/>
+				<Parameter name="Permissions" Value="ReadWrite"/>
+				<Parameter name="PermitHierarchicalResolution" Value="All"/>
+				<Parameter name="PropExecContextOutsideSubsystem" Value="off"/>
+				<Parameter name="RTWFcnName" Value=""/>
+				<Parameter name="RTWFcnNameOpts" Value="Auto"/>
+				<Parameter name="RTWFileName" Value=""/>
+				<Parameter name="RTWFileNameOpts" Value="Auto"/>
+				<Parameter name="RTWMemSecDataConstants" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecDataInternal" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecDataParameters" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecFuncExecute" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecFuncInitTerm" Value="Inherit from model"/>
+				<Parameter name="RTWSystemCode" Value="Auto"/>
+				<Parameter name="SCDConfigFcn" Value=""/>
+				<Parameter name="ShowPortLabels" Value="FromPortIcon"/>
+				<Parameter name="SystemSampleTime" Value="-1"/>
+				<Parameter name="TemplateBlock" Value=""/>
+				<Parameter name="TreatAsAtomicUnit" Value="off"/>
+			</System>
+			<System Tag="" Name="From3toPort" name="From3toPort" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<InputPort _id="id82" name="FG_1" Number="1" dstLine="id83" srcLine="id84"/>
+				<Line _id="id83" Name="" dstLine_end_="id21" srcLine_end_="id82"/>
+				<OutputPort _id="id21" name="Out1" Number="1" dstLine="id22" srcLine="id83"/>
+				<Parameter name="BlockChoice" Value=""/>
+				<Parameter name="CheckFcnCallInpInsideContextMsg" Value="off"/>
+				<Parameter name="DataTypeOverride" Value="UseLocalSettings"/>
+				<Parameter name="ErrorFcn" Value=""/>
+				<Parameter name="FunctionWithSeparateData" Value="off"/>
+				<Parameter name="MemberBlocks" Value=""/>
+				<Parameter name="MinAlgLoopOccurrences" Value="off"/>
+				<Parameter name="MinMaxOverflowLogging" Value="UseLocalSettings"/>
+				<Parameter name="Permissions" Value="ReadWrite"/>
+				<Parameter name="PermitHierarchicalResolution" Value="All"/>
+				<Parameter name="PropExecContextOutsideSubsystem" Value="off"/>
+				<Parameter name="RTWFcnName" Value=""/>
+				<Parameter name="RTWFcnNameOpts" Value="Auto"/>
+				<Parameter name="RTWFileName" Value=""/>
+				<Parameter name="RTWFileNameOpts" Value="Auto"/>
+				<Parameter name="RTWMemSecDataConstants" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecDataInternal" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecDataParameters" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecFuncExecute" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecFuncInitTerm" Value="Inherit from model"/>
+				<Parameter name="RTWSystemCode" Value="Auto"/>
+				<Parameter name="SCDConfigFcn" Value=""/>
+				<Parameter name="ShowPortLabels" Value="FromPortIcon"/>
+				<Parameter name="SystemSampleTime" Value="-1"/>
+				<Parameter name="TemplateBlock" Value=""/>
+				<Parameter name="TreatAsAtomicUnit" Value="off"/>
+			</System>
+			<System Tag="" Name="PorttoFrom6" name="PorttoFrom6" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<InputPort _id="id4d" name="In1" Number="1" dstLine="id8a" srcLine="id4f"/>
+				<Line _id="id8a" Name="" dstLine_end_="id8b" srcLine_end_="id4d"/>
+				<OutputPort _id="id8b" name="FG_1" Number="1" dstLine="id8c" srcLine="id8a"/>
+				<Parameter name="BlockChoice" Value=""/>
+				<Parameter name="CheckFcnCallInpInsideContextMsg" Value="off"/>
+				<Parameter name="DataTypeOverride" Value="UseLocalSettings"/>
+				<Parameter name="ErrorFcn" Value=""/>
+				<Parameter name="FunctionWithSeparateData" Value="off"/>
+				<Parameter name="MemberBlocks" Value=""/>
+				<Parameter name="MinAlgLoopOccurrences" Value="off"/>
+				<Parameter name="MinMaxOverflowLogging" Value="UseLocalSettings"/>
+				<Parameter name="Permissions" Value="ReadWrite"/>
+				<Parameter name="PermitHierarchicalResolution" Value="All"/>
+				<Parameter name="PropExecContextOutsideSubsystem" Value="off"/>
+				<Parameter name="RTWFcnName" Value=""/>
+				<Parameter name="RTWFcnNameOpts" Value="Auto"/>
+				<Parameter name="RTWFileName" Value=""/>
+				<Parameter name="RTWFileNameOpts" Value="Auto"/>
+				<Parameter name="RTWMemSecDataConstants" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecDataInternal" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecDataParameters" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecFuncExecute" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecFuncInitTerm" Value="Inherit from model"/>
+				<Parameter name="RTWSystemCode" Value="Auto"/>
+				<Parameter name="SCDConfigFcn" Value=""/>
+				<Parameter name="ShowPortLabels" Value="FromPortIcon"/>
+				<Parameter name="SystemSampleTime" Value="-1"/>
+				<Parameter name="TemplateBlock" Value=""/>
+				<Parameter name="TreatAsAtomicUnit" Value="off"/>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow">
+		<State Name="" name="TopLevel" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+			<State _id="id5f" Name="Counter" name="Counter" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" referedbyConnectorRef="id60">
+				<Data Max="" Min="" Name="ctr" Port="1" name="ctr" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="0" ArrayFirstIndex="0"/>
+				<State _id="id61" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id7e id7f" srcTransition="id7c id7e id7f"/>
+				<TransStart _id="id7d" dstTransition="id7c"/>
+				<Transition _id="id7c" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id61" srcTransition_end_="id7d"/>
+				<Transition _id="id7e" name="" Guard="ctr &lt; 3" Order="1" Action="ctr = ctr+1;" Trigger="" ConditionAction="" dstTransition_end_="id61" srcTransition_end_="id61"/>
+				<Transition _id="id7f" name="" Guard="ctr >= 3" Order="2" Action="ctr = 0;" Trigger="" ConditionAction="" dstTransition_end_="id61" srcTransition_end_="id61"/>
+			</State>
+		</State>
+	</Stateflow>
+	<Types name="Types">
+		<Matrix _id="id6" Type="double" name="MdoubleC1C1M" rows="1" columns="1" referedbyTypeStructRef="id8"/>
+	</Types>
+</RootFolder>
+
+

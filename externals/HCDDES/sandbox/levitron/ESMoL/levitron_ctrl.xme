@@ -1,0 +1,3090 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{7502830C-F288-45DF-A722-5ED489E8BE44}" cdate="Sun Oct 12 15:50:10 2008" mdate="Sun Oct 12 15:50:10 2008" version="" metaguid="{92D0CA70-3CFF-4667-ABC8-DD4385B95E4E}" metaversion="" metaname="ESMoL">
+	<name>Levitron</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x4" kind="RootFolder" guid="{146036EB-1A85-4f73-A71E-0FDFC476FF58}">
+		<name>Levitron</name>
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x1" kind="Dataflow" guid="{A6E30BAB-07EA-4209-A805-CB3BA2E650A9}">
+			<name>Dataflow</name>
+			<model id="id-0065-00000001" kind="Subsystem" guid="{B931335C-D56A-4d74-A7C8-E79B1E67D52B}" relid="0x1" childrelidcntr="0x7">
+				<name>levitron_ctrl</name>
+				<attribute kind="BlockType">
+					<value>Model</value>
+				</attribute>
+				<attribute kind="Deadline" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="Description">
+					<value></value>
+				</attribute>
+				<attribute kind="Name">
+					<value>levitron_ctrl</value>
+				</attribute>
+				<attribute kind="Period" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="Priority">
+					<value>0</value>
+				</attribute>
+				<attribute kind="SampleTime">
+					<value>111</value>
+				</attribute>
+				<attribute kind="Tag">
+					<value></value>
+				</attribute>
+				<attribute kind="UserData" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000002" kind="InputPort" role="InputPort" guid="{516F3C7B-2670-4b47-87A4-282C215C9927}" relid="0x1" childrelidcntr="0x1">
+					<name>Position</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DataflowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>274,50</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Number">
+						<value>1</value>
+					</attribute>
+					<reference id="id-0067-00000001" kind="TypeBaseRef" role="TypeBaseRef" guid="{360FE718-07A6-4838-8B55-1543861F68A0}" relid="0x1" referred="id-0066-00000002">
+						<name>MsingleC1C1M</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>10,10</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="MemberIndex">
+							<value>0</value>
+						</attribute>
+					</reference>
+				</model>
+				<model id="id-0065-00000003" kind="OutputPort" role="OutputPort" guid="{E7C594EB-4177-40bb-8A87-20A85175B41B}" relid="0x2" childrelidcntr="0x1">
+					<name>Force</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DataflowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>547,57</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Number">
+						<value>1</value>
+					</attribute>
+					<reference id="id-0067-00000002" kind="TypeBaseRef" role="TypeBaseRef" guid="{BC6237AB-1FAE-47d4-834E-C8BD9BBECA04}" relid="0x1" referred="id-0066-00000002">
+						<name>MsingleC1C1M</name>
+						<attribute kind="MemberIndex">
+							<value>0</value>
+						</attribute>
+					</reference>
+				</model>
+				<model id="id-0065-00000004" kind="Subsystem" role="Subsystem" guid="{86FF5473-C726-4895-B521-49EA45396387}" relid="0x3" childrelidcntr="0x2b">
+					<name>PD Controller</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DataflowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>343,98</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BlockType">
+						<value>SubSystem</value>
+					</attribute>
+					<attribute kind="Deadline" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Description">
+						<value></value>
+					</attribute>
+					<attribute kind="Name">
+						<value>PD Controller</value>
+					</attribute>
+					<attribute kind="Period" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Priority">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SampleTime">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tag">
+						<value></value>
+					</attribute>
+					<attribute kind="UserData" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000005" kind="InputPort" role="InputPort" guid="{6E3ACD32-ADB5-4cd4-A80C-262A977AA807}" relid="0x18" childrelidcntr="0x1">
+						<name>RefPosition</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>225,57</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number">
+							<value>1</value>
+						</attribute>
+						<reference id="id-0067-00000005" kind="TypeBaseRef" role="TypeBaseRef" guid="{49EB85F1-EECA-4409-ABD6-EF6F3F40FEF2}" relid="0x1" referred="id-0066-00000002">
+							<name>MsingleC1C1M</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Aspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>10,10</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="MemberIndex" status="meta">
+								<value>0</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-00000006" kind="InputPort" role="InputPort" guid="{04689189-0F99-4eea-BAD3-A92B419BB81D}" relid="0x19" childrelidcntr="0x1">
+						<name>Position</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>64,148</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number">
+							<value>2</value>
+						</attribute>
+						<reference id="id-0067-00000007" kind="TypeBaseRef" role="TypeBaseRef" guid="{3CD3BFC5-2328-4fc7-9C3A-8FFC40A39832}" relid="0x1" referred="id-0066-00000002">
+							<name>MsingleC1C1M</name>
+							<attribute kind="MemberIndex" status="meta">
+								<value>0</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-00000007" kind="OutputPort" role="OutputPort" guid="{12E602BD-8343-4e13-BC37-82A9FD5729F5}" relid="0x1a" childrelidcntr="0x1">
+						<name>Force</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>911,43</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number">
+							<value>1</value>
+						</attribute>
+						<reference id="id-0067-00000017" kind="TypeBaseRef" role="TypeBaseRef" guid="{3F7559FC-1299-4c55-A74D-3056C69C046E}" relid="0x1" referred="id-0066-00000002">
+							<name>MsingleC1C1M</name>
+							<attribute kind="MemberIndex" status="meta">
+								<value>0</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-0000000a" kind="Primitive" role="Primitive" guid="{A9CDD47F-EA68-4af2-A45C-50B8083FC934}" relid="0x1b" childrelidcntr="0xd">
+						<name>Gain</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>553,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="BlockType">
+							<value>Gain</value>
+						</attribute>
+						<attribute kind="Description">
+							<value></value>
+						</attribute>
+						<attribute kind="Name">
+							<value>Gain</value>
+						</attribute>
+						<attribute kind="Priority">
+							<value>0</value>
+						</attribute>
+						<attribute kind="SampleTime">
+							<value>-1</value>
+						</attribute>
+						<attribute kind="Tag">
+							<value></value>
+						</attribute>
+						<attribute kind="UserData" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-0000000b" kind="InputPort" role="InputPort" guid="{F8DAEA7C-03D0-4a91-BF01-46E8047BD788}" relid="0xc" childrelidcntr="0x1">
+							<name>In_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>22,190</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-00000013" kind="TypeBaseRef" role="TypeBaseRef" guid="{C832F2A2-C67F-462a-B20D-238BEAF295CE}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-0000000c" kind="OutputPort" role="OutputPort" guid="{F33FC706-F073-455e-9299-30584B7A4A33}" relid="0xd" childrelidcntr="0x1">
+							<name>Out_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>554,225</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-00000014" kind="TypeBaseRef" role="TypeBaseRef" guid="{E08180F1-91DD-4b65-B0F6-CAB02104B362}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<atom id="id-0066-0000001f" kind="Parameter" role="Parameter" guid="{9B92B4FD-5B3E-4273-BBB4-574B6B4FE829}" relid="0x1">
+							<name>Gain</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>10</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000020" kind="Parameter" role="Parameter" guid="{D5E4821B-CAE1-43ab-96F9-8083CB0FEC1B}" relid="0x2">
+							<name>LockScale</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000021" kind="Parameter" role="Parameter" guid="{F29711FE-E4CE-4180-A5DC-3DDB406811CD}" relid="0x3">
+							<name>Multiplication</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Element-wise(K.*u)</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000022" kind="Parameter" role="Parameter" guid="{27E8CCBC-863C-46e5-8EBE-35AC7F19A282}" relid="0x4">
+							<name>OutDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>92,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Inherit: Inherit via internal rule</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000023" kind="Parameter" role="Parameter" guid="{02C5E063-0A03-41d6-8C93-788CE382A293}" relid="0x5">
+							<name>OutMax</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>92,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000024" kind="Parameter" role="Parameter" guid="{144A9CF1-9668-4733-93FA-BF34745EF436}" relid="0x6">
+							<name>OutMin</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000025" kind="Parameter" role="Parameter" guid="{0CEC5FF7-9A79-4032-8648-357F44297D21}" relid="0x7">
+							<name>ParamDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Inherit: Inherit via internal rule</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000026" kind="Parameter" role="Parameter" guid="{75B0EAA0-9623-4768-AA2F-1AA7B9B3270D}" relid="0x8">
+							<name>ParamMax</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000027" kind="Parameter" role="Parameter" guid="{5A8E9490-A35E-4824-84BD-A2E548F08733}" relid="0x9">
+							<name>ParamMin</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000028" kind="Parameter" role="Parameter" guid="{3D0A0A51-3E4A-438c-BAD9-803B4BAF5E86}" relid="0xa">
+							<name>RndMeth</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Floor</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000029" kind="Parameter" role="Parameter" guid="{944B6506-E474-4105-8CFF-EF8121F51402}" relid="0xb">
+							<name>SaturateOnIntegerOverflow</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+					</model>
+					<model id="id-0065-0000000d" kind="Primitive" role="Primitive" guid="{19643AD6-BA88-4dbb-9CA6-AE3BDC6E9352}" relid="0x1c" childrelidcntr="0xd">
+						<name>GainD</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>161,294</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="BlockType">
+							<value>Gain</value>
+						</attribute>
+						<attribute kind="Description">
+							<value></value>
+						</attribute>
+						<attribute kind="Name">
+							<value>GainD</value>
+						</attribute>
+						<attribute kind="Priority">
+							<value>0</value>
+						</attribute>
+						<attribute kind="SampleTime">
+							<value>-1</value>
+						</attribute>
+						<attribute kind="Tag">
+							<value></value>
+						</attribute>
+						<attribute kind="UserData" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-0000000e" kind="InputPort" role="InputPort" guid="{A68FBD4B-7688-4089-B1A3-72E3642DDE84}" relid="0xc" childrelidcntr="0x1">
+							<name>In_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,176</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-0000000b" kind="TypeBaseRef" role="TypeBaseRef" guid="{512C7E92-864A-4462-925D-EB29E68FBE56}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-0000000f" kind="OutputPort" role="OutputPort" guid="{7B0B27CF-001E-4299-8F2E-7B68E31F1A55}" relid="0xd" childrelidcntr="0x1">
+							<name>Out_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>568,183</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-0000000e" kind="TypeBaseRef" role="TypeBaseRef" guid="{ABD02154-2BA8-4096-82BB-7793D5D49B62}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<atom id="id-0066-0000002a" kind="Parameter" role="Parameter" guid="{5438A515-F434-4197-950E-E9FA8155686A}" relid="0x1">
+							<name>Gain</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>92,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>-5</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000002b" kind="Parameter" role="Parameter" guid="{98815E44-8630-4526-A9F0-CB5D05580EF8}" relid="0x2">
+							<name>LockScale</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>92,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000002c" kind="Parameter" role="Parameter" guid="{46DC48A2-59E7-4e32-A3A3-C0F521BC1670}" relid="0x3">
+							<name>Multiplication</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Element-wise(K.*u)</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000002d" kind="Parameter" role="Parameter" guid="{88DB4D27-415B-4318-814D-983D67F72700}" relid="0x4">
+							<name>OutDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Inherit: Inherit via internal rule</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000002e" kind="Parameter" role="Parameter" guid="{37D4AE67-7F26-4833-BB2E-5C533638CBC9}" relid="0x5">
+							<name>OutMax</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000002f" kind="Parameter" role="Parameter" guid="{32B8A055-BFFE-419c-A400-D7865BCA2FD9}" relid="0x6">
+							<name>OutMin</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000030" kind="Parameter" role="Parameter" guid="{7072DBE3-ADF2-4332-83D4-A7C6E3F7A839}" relid="0x7">
+							<name>ParamDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Inherit: Inherit via internal rule</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000031" kind="Parameter" role="Parameter" guid="{E3CFAD44-A746-4359-B029-E4B9EACA14F9}" relid="0x8">
+							<name>ParamMax</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000032" kind="Parameter" role="Parameter" guid="{8F88390D-D93B-488b-BFE8-8EE8B3D61E66}" relid="0x9">
+							<name>ParamMin</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000033" kind="Parameter" role="Parameter" guid="{AA1F2D9A-CA5B-41ec-B52E-DC66C8B6D0B3}" relid="0xa">
+							<name>RndMeth</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Floor</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000034" kind="Parameter" role="Parameter" guid="{1A69B3EF-71D8-4900-AB2F-72C9E84C4E6F}" relid="0xb">
+							<name>SaturateOnIntegerOverflow</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+					</model>
+					<model id="id-0065-00000010" kind="Primitive" role="Primitive" guid="{E87F9692-1605-4874-8785-6F4C6671AC90}" relid="0x1d" childrelidcntr="0xd">
+						<name>GainP</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>161,196</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="BlockType">
+							<value>Gain</value>
+						</attribute>
+						<attribute kind="Description">
+							<value></value>
+						</attribute>
+						<attribute kind="Name">
+							<value>GainP</value>
+						</attribute>
+						<attribute kind="Priority">
+							<value>0</value>
+						</attribute>
+						<attribute kind="SampleTime">
+							<value>-1</value>
+						</attribute>
+						<attribute kind="Tag">
+							<value></value>
+						</attribute>
+						<attribute kind="UserData" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-00000011" kind="InputPort" role="InputPort" guid="{3439C189-6960-4a51-823E-5ABAE20D6A0A}" relid="0xc" childrelidcntr="0x1">
+							<name>In_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,246</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-00000008" kind="TypeBaseRef" role="TypeBaseRef" guid="{5A858B91-AD69-4567-8725-B4E68A5830D7}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-00000012" kind="OutputPort" role="OutputPort" guid="{B2A3B85D-0C49-414e-A22A-07480AC971EC}" relid="0xd" childrelidcntr="0x1">
+							<name>Out_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>484,253</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-0000000c" kind="TypeBaseRef" role="TypeBaseRef" guid="{D9F4D4BC-81E0-49f4-90F9-CA1AEA179C85}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<atom id="id-0066-00000035" kind="Parameter" role="Parameter" guid="{6F0509ED-02EF-4633-A92E-CD67FECBD0C7}" relid="0x1">
+							<name>Gain</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>92,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>6</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000036" kind="Parameter" role="Parameter" guid="{40928003-71F2-46cf-8966-5BBE24401C15}" relid="0x2">
+							<name>LockScale</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>92,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000037" kind="Parameter" role="Parameter" guid="{3757388E-1A61-46c5-AC00-67C044E09A26}" relid="0x3">
+							<name>Multiplication</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Element-wise(K.*u)</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000038" kind="Parameter" role="Parameter" guid="{C206FC30-681D-4dac-82CF-B3AF9E698528}" relid="0x4">
+							<name>OutDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Inherit: Inherit via internal rule</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000039" kind="Parameter" role="Parameter" guid="{8181C37F-4849-4236-996F-FE8669157ADD}" relid="0x5">
+							<name>OutMax</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000003a" kind="Parameter" role="Parameter" guid="{FC87AB3F-B17C-47da-9066-BE7B9D2006C8}" relid="0x6">
+							<name>OutMin</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000003b" kind="Parameter" role="Parameter" guid="{546A88CA-BA4C-4da3-962C-303628036DAE}" relid="0x7">
+							<name>ParamDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Inherit: Inherit via internal rule</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000003c" kind="Parameter" role="Parameter" guid="{540DB551-C44A-49a6-BB0C-99E5004D4D5F}" relid="0x8">
+							<name>ParamMax</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000003d" kind="Parameter" role="Parameter" guid="{2AFE5464-D998-4bb7-8DD7-690E4DB0AB0E}" relid="0x9">
+							<name>ParamMin</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000003e" kind="Parameter" role="Parameter" guid="{8206375A-3AD1-4d92-AE94-4B5B4FEC41B0}" relid="0xa">
+							<name>RndMeth</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Floor</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000003f" kind="Parameter" role="Parameter" guid="{9F002591-5277-4eab-A333-CD8AA199C72F}" relid="0xb">
+							<name>SaturateOnIntegerOverflow</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+					</model>
+					<model id="id-0065-00000013" kind="Primitive" role="Primitive" guid="{042818CC-A348-429d-829E-D41DE3790DEF}" relid="0x1f" childrelidcntr="0xb">
+						<name>Saturation</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>728,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="BlockType">
+							<value>Saturate</value>
+						</attribute>
+						<attribute kind="Description">
+							<value></value>
+						</attribute>
+						<attribute kind="Name">
+							<value>Saturation</value>
+						</attribute>
+						<attribute kind="Priority">
+							<value>0</value>
+						</attribute>
+						<attribute kind="SampleTime">
+							<value>-1</value>
+						</attribute>
+						<attribute kind="Tag">
+							<value></value>
+						</attribute>
+						<attribute kind="UserData" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-00000014" kind="InputPort" role="InputPort" guid="{BE159ACA-A4D4-430d-AC4D-C9A78B3ABB54}" relid="0xa" childrelidcntr="0x1">
+							<name>In_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,211</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-00000015" kind="TypeBaseRef" role="TypeBaseRef" guid="{D9B0DD5F-6AFF-4c62-8157-37DE505EA178}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-00000015" kind="OutputPort" role="OutputPort" guid="{350EC12D-25C6-4cee-8566-414F5F332FCC}" relid="0xb" childrelidcntr="0x1">
+							<name>Out_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>540,211</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-00000016" kind="TypeBaseRef" role="TypeBaseRef" guid="{527DF263-C6D1-4398-97C1-867F790BC5D7}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<atom id="id-0066-00000040" kind="Parameter" role="Parameter" guid="{BBE211C3-CE1D-4d46-B6BA-432950F03F6F}" relid="0x1">
+							<name>LinearizeAsGain</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>on</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000041" kind="Parameter" role="Parameter" guid="{4AC5734C-D929-44e2-A6B7-3440D5A0F268}" relid="0x2">
+							<name>LockScale</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000042" kind="Parameter" role="Parameter" guid="{983A634C-9CBD-4786-9E05-6B7EF4291BB7}" relid="0x3">
+							<name>LowerLimit</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>0</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000043" kind="Parameter" role="Parameter" guid="{D7E19455-CA16-468f-8199-A4470A40A6E7}" relid="0x4">
+							<name>OutDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Inherit: Same as input</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000044" kind="Parameter" role="Parameter" guid="{7D992E97-A2A1-4343-90A6-F195386425E5}" relid="0x5">
+							<name>OutMax</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000045" kind="Parameter" role="Parameter" guid="{635D539C-5852-4636-8DD4-586299A2D239}" relid="0x6">
+							<name>OutMin</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000046" kind="Parameter" role="Parameter" guid="{5CA2202E-1FD7-492e-8B0B-10CE9555D4A5}" relid="0x7">
+							<name>RndMeth</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Floor</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000047" kind="Parameter" role="Parameter" guid="{73AB99EB-5AAC-454b-B569-D9CD94C46097}" relid="0x8">
+							<name>UpperLimit</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>100</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000048" kind="Parameter" role="Parameter" guid="{D08D1E8E-E269-4c1b-A006-B8266D4F0B31}" relid="0x9">
+							<name>ZeroCross</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>on</value>
+							</attribute>
+						</atom>
+					</model>
+					<model id="id-0065-00000016" kind="Primitive" role="Primitive" guid="{1A9D2192-050B-4605-A868-6890DC16B645}" relid="0x22" childrelidcntr="0xf">
+						<name>Sum1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>371,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="BlockType">
+							<value>Sum</value>
+						</attribute>
+						<attribute kind="Description">
+							<value></value>
+						</attribute>
+						<attribute kind="Name">
+							<value>Sum1</value>
+						</attribute>
+						<attribute kind="Priority">
+							<value>0</value>
+						</attribute>
+						<attribute kind="SampleTime">
+							<value>-1</value>
+						</attribute>
+						<attribute kind="Tag">
+							<value></value>
+						</attribute>
+						<attribute kind="UserData" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-00000017" kind="InputPort" role="InputPort" guid="{F91BBD95-73BE-4949-AA4A-C07AE6F0A783}" relid="0xd" childrelidcntr="0x1">
+							<name>In_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>43,141</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-00000006" kind="TypeBaseRef" role="TypeBaseRef" guid="{F156FE97-968D-4649-BBF2-91F475D14DCB}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-00000018" kind="InputPort" role="InputPort" guid="{E7BFBB52-2479-4e38-BAB9-9CC33806437B}" relid="0xe" childrelidcntr="0x1">
+							<name>In_2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>29,323</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>2</value>
+							</attribute>
+							<reference id="id-0067-00000011" kind="TypeBaseRef" role="TypeBaseRef" guid="{A4F89819-AD3E-4991-B1D3-2DD8A5964AFC}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-00000019" kind="OutputPort" role="OutputPort" guid="{801DD6FF-6788-4ef3-9444-73B505B6A03B}" relid="0xf" childrelidcntr="0x1">
+							<name>Out_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>666,141</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-00000012" kind="TypeBaseRef" role="TypeBaseRef" guid="{EF4015DA-BA0E-4c70-881C-FBC4E56D24F9}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<atom id="id-0066-00000049" kind="Parameter" role="Parameter" guid="{BD44B621-07AB-4454-A73A-22FD1ED05173}" relid="0x1">
+							<name>AccumDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>92,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Inherit: Inherit via internal rule</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000004a" kind="Parameter" role="Parameter" guid="{9BE26CB4-AC59-422e-AD86-C32D90BD2A01}" relid="0x2">
+							<name>CollapseDim</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>92,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>1</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000004b" kind="Parameter" role="Parameter" guid="{33B31179-20C6-47fc-B2EB-4F2A07D49C28}" relid="0x3">
+							<name>CollapseMode</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>92,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>All dimensions</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000004c" kind="Parameter" role="Parameter" guid="{47F74FE0-2136-4790-A848-B1F525EF7834}" relid="0x4">
+							<name>IconShape</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>round</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000004d" kind="Parameter" role="Parameter" guid="{BE7780AE-C348-4ff6-A41E-68D7C7EE2B4E}" relid="0x5">
+							<name>InputSameDT</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000004e" kind="Parameter" role="Parameter" guid="{6324DF98-1C56-43ae-91B9-CD3E423CF153}" relid="0x6">
+							<name>Inputs</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>|+-</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000004f" kind="Parameter" role="Parameter" guid="{E9EEA6C6-7CBF-46a0-BA10-EF9EB0840A3C}" relid="0x7">
+							<name>LockScale</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000050" kind="Parameter" role="Parameter" guid="{118E2CFE-B781-43d9-8352-562C5339225F}" relid="0x8">
+							<name>OutDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Inherit: Inherit via internal rule</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000051" kind="Parameter" role="Parameter" guid="{4B065DDE-6D3E-40d1-ACE3-30E84CDB4174}" relid="0x9">
+							<name>OutMax</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000052" kind="Parameter" role="Parameter" guid="{D8A3E569-B021-4d9a-B0E3-A00B9D74A906}" relid="0xa">
+							<name>OutMin</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000053" kind="Parameter" role="Parameter" guid="{B2EBBD56-9833-468a-944C-7F389C992B27}" relid="0xb">
+							<name>RndMeth</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Floor</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000054" kind="Parameter" role="Parameter" guid="{E5776CD9-BDE8-4598-BCEC-6D02D135A097}" relid="0xc">
+							<name>SaturateOnIntegerOverflow</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+					</model>
+					<model id="id-0065-0000001a" kind="Primitive" role="Primitive" guid="{F76D03A5-E97A-402b-B1DB-CAD393588619}" relid="0x25" childrelidcntr="0xf">
+						<name>Sum2</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>343,252</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="BlockType">
+							<value>Sum</value>
+						</attribute>
+						<attribute kind="Description">
+							<value></value>
+						</attribute>
+						<attribute kind="Name">
+							<value>Sum2</value>
+						</attribute>
+						<attribute kind="Priority">
+							<value>0</value>
+						</attribute>
+						<attribute kind="SampleTime">
+							<value>-1</value>
+						</attribute>
+						<attribute kind="Tag">
+							<value></value>
+						</attribute>
+						<attribute kind="UserData" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-0000001b" kind="InputPort" role="InputPort" guid="{0E3A7709-AD3C-49e7-A7B8-0B0734EC2AE9}" relid="0xd" childrelidcntr="0x1">
+							<name>In_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,176</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-0000000d" kind="TypeBaseRef" role="TypeBaseRef" guid="{7220A956-A745-4684-90A9-C441B9BC0B49}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-0000001c" kind="InputPort" role="InputPort" guid="{26CA95A6-E78A-4969-AAA0-A6D522282A11}" relid="0xe" childrelidcntr="0x1">
+							<name>In_2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>43,281</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>2</value>
+							</attribute>
+							<reference id="id-0067-0000000f" kind="TypeBaseRef" role="TypeBaseRef" guid="{65B4F3B2-8DFE-40e9-8FE4-E30C7DCF2D2C}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-0000001d" kind="OutputPort" role="OutputPort" guid="{192A4422-1F91-4723-BA38-F2277A2C40C4}" relid="0xf" childrelidcntr="0x1">
+							<name>Out_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>505,267</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-00000010" kind="TypeBaseRef" role="TypeBaseRef" guid="{5C39CE2A-00F5-49cd-A159-64CB72F10E31}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<atom id="id-0066-00000055" kind="Parameter" role="Parameter" guid="{BF4B61A3-A977-4422-AB0B-EFB2641C6FFA}" relid="0x1">
+							<name>AccumDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>92,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Inherit: Inherit via internal rule</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000056" kind="Parameter" role="Parameter" guid="{F4CEB234-E514-4945-8617-3970CA8ECCF5}" relid="0x2">
+							<name>CollapseDim</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>92,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>1</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000057" kind="Parameter" role="Parameter" guid="{B921CF9E-93A0-4788-BDF1-1B09594476E5}" relid="0x3">
+							<name>CollapseMode</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>92,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>All dimensions</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000058" kind="Parameter" role="Parameter" guid="{40C17488-7FC9-4723-9DDF-97BEADE56BDF}" relid="0x4">
+							<name>IconShape</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>round</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000059" kind="Parameter" role="Parameter" guid="{1E104A39-F2BC-4f01-B8E6-BC81BCC2473F}" relid="0x5">
+							<name>InputSameDT</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000005a" kind="Parameter" role="Parameter" guid="{011951B0-BB51-48fd-8C66-39979A8E1A89}" relid="0x6">
+							<name>Inputs</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,64</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>+|+</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000005b" kind="Parameter" role="Parameter" guid="{65EB7C30-68E9-4487-B4CA-B2C8A0B0AA70}" relid="0x7">
+							<name>LockScale</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000005c" kind="Parameter" role="Parameter" guid="{68033551-F7A9-4973-8865-1569F02AF737}" relid="0x8">
+							<name>OutDataTypeStr</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Inherit: Inherit via internal rule</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000005d" kind="Parameter" role="Parameter" guid="{5BFE769F-FA33-41e6-9834-06ACAA3A2BB4}" relid="0x9">
+							<name>OutMax</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000005e" kind="Parameter" role="Parameter" guid="{61FE7F03-D4E9-40a9-A07E-27AA0C0D6E97}" relid="0xa">
+							<name>OutMin</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>[]</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000005f" kind="Parameter" role="Parameter" guid="{98F36558-22D9-448f-9D81-A8BEC8558945}" relid="0xb">
+							<name>RndMeth</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Floor</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000060" kind="Parameter" role="Parameter" guid="{BF17762F-6FDA-4175-8B5F-2E2C09BBCD60}" relid="0xc">
+							<name>SaturateOnIntegerOverflow</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+					</model>
+					<model id="id-0065-0000001e" kind="Primitive" role="Primitive" guid="{8DC6C766-FBDD-48f0-A115-C28F6E71DB68}" relid="0x29" childrelidcntr="0x7">
+						<name>Unit Delay</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>28,294</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="BlockType">
+							<value>UnitDelay</value>
+						</attribute>
+						<attribute kind="Description">
+							<value></value>
+						</attribute>
+						<attribute kind="Name">
+							<value>Unit Delay</value>
+						</attribute>
+						<attribute kind="Priority">
+							<value>0</value>
+						</attribute>
+						<attribute kind="SampleTime">
+							<value>-1</value>
+						</attribute>
+						<attribute kind="Tag">
+							<value></value>
+						</attribute>
+						<attribute kind="UserData" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-0000001f" kind="InputPort" role="InputPort" guid="{8B99D65B-9EFF-4386-BD88-7FD992E716E6}" relid="0x6" childrelidcntr="0x1">
+							<name>In_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,190</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-00000009" kind="TypeBaseRef" role="TypeBaseRef" guid="{B905684F-8998-4b4d-AEBB-CABCB60377D9}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-00000020" kind="OutputPort" role="OutputPort" guid="{425A9751-A361-4bd4-BC37-D057E52D39F9}" relid="0x7" childrelidcntr="0x1">
+							<name>Out_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>372,169</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-0000000a" kind="TypeBaseRef" role="TypeBaseRef" guid="{E8BA5093-237A-4496-9AFD-76F7B495DAAF}" relid="0x1" referred="id-0066-00000002">
+								<name>MsingleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+						<atom id="id-0066-00000061" kind="Parameter" role="Parameter" guid="{E5F30424-7820-49dc-B3F1-2E0D9493FDB3}" relid="0x1">
+							<name>RTWStateStorageClass</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>64,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>Auto</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000062" kind="Parameter" role="Parameter" guid="{912D4449-A41F-4b49-9ED3-0CE05A9D938F}" relid="0x2">
+							<name>RTWStateStorageTypeQualifier</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000063" kind="Parameter" role="Parameter" guid="{7CBD6263-7507-44c1-95AA-A12B1AB593DD}" relid="0x3">
+							<name>StateIdentifier</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,36</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000064" kind="Parameter" role="Parameter" guid="{398923E4-83DE-470f-8FC3-54F32DDFB7B8}" relid="0x4">
+							<name>StateMustResolveToSignalObject</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>off</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-00000065" kind="Parameter" role="Parameter" guid="{78E0518B-990C-45c9-9A2F-EEA571D0C470}" relid="0x5">
+							<name>X0</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>8,8</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>10</value>
+							</attribute>
+						</atom>
+					</model>
+					<atom id="id-0066-00000004" kind="Parameter" role="Parameter" guid="{3D94EEAA-FE14-4e50-801C-BFD7ADF7765A}" relid="0x1">
+						<name>BlockChoice</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>862,589</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value></value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000005" kind="Parameter" role="Parameter" guid="{FD4A4E54-72E6-4653-B4C6-82A6B5745B02}" relid="0x2">
+						<name>CheckFcnCallInpInsideContextMsg</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>834,589</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>off</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000006" kind="Parameter" role="Parameter" guid="{82C34C88-91CF-4125-8380-98AB136DE4E3}" relid="0x3">
+						<name>ErrorFcn</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>946,589</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value></value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000007" kind="Parameter" role="Parameter" guid="{D183C7DC-9851-4b14-BDC8-9D009A5C6C7C}" relid="0x4">
+						<name>FunctionWithSeparateData</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>946,561</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>off</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000008" kind="Parameter" role="Parameter" guid="{C5FCC4CD-3FB6-4685-BA55-0991B0E01ACB}" relid="0x5">
+						<name>MemberBlocks</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>946,533</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value></value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000009" kind="Parameter" role="Parameter" guid="{CEE1A7EE-7203-4c08-B52D-FBB3AD77D22A}" relid="0x6">
+						<name>MinAlgLoopOccurrences</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>946,505</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>off</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000000a" kind="Parameter" role="Parameter" guid="{C36EB56A-F49B-4583-B231-1BB014E63D06}" relid="0x7">
+						<name>Permissions</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>946,477</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>ReadWrite</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000000b" kind="Parameter" role="Parameter" guid="{6A6004F9-64F6-4d8c-8CD1-70E5641B2BDC}" relid="0x8">
+						<name>PermitHierarchicalResolution</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>890,561</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>All</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000000c" kind="Parameter" role="Parameter" guid="{CF7102BE-3CCF-4be3-BE71-067D90654224}" relid="0x9">
+						<name>PropExecContextOutsideSubsystem</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>862,561</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>off</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000000d" kind="Parameter" role="Parameter" guid="{751FDC01-35DC-4925-8D24-C62A3643B2D2}" relid="0xa">
+						<name>RTWFcnName</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>834,561</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value></value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000000e" kind="Parameter" role="Parameter" guid="{6319F42E-AEA1-4367-A6D0-FB1D0114CEF4}" relid="0xb">
+						<name>RTWFcnNameOpts</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>918,561</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>Auto</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000000f" kind="Parameter" role="Parameter" guid="{66019A0A-6426-49ac-A298-6FBF0D40F17B}" relid="0xc">
+						<name>RTWFileName</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>918,533</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value></value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000010" kind="Parameter" role="Parameter" guid="{F6713553-0296-4b0a-B383-E14953968A90}" relid="0xd">
+						<name>RTWFileNameOpts</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>918,505</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>Auto</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000011" kind="Parameter" role="Parameter" guid="{3DA12064-398F-44e6-8467-BBBFE1C37658}" relid="0xe">
+						<name>RTWMemSecDataConstants</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>918,477</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>Inherit from model</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000012" kind="Parameter" role="Parameter" guid="{37BFE141-0AF7-483a-AE70-7F862BF2F9DA}" relid="0xf">
+						<name>RTWMemSecDataInternal</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>862,533</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>Inherit from model</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000013" kind="Parameter" role="Parameter" guid="{4231E98F-4A7E-43dc-896D-ED241F57EDA8}" relid="0x10">
+						<name>RTWMemSecDataParameters</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>834,533</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>Inherit from model</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000014" kind="Parameter" role="Parameter" guid="{C671509A-1B4A-4019-9A0B-13E28EF47CDB}" relid="0x11">
+						<name>RTWMemSecFuncExecute</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>890,533</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>Inherit from model</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000015" kind="Parameter" role="Parameter" guid="{E67BDF22-3DEA-48cc-851C-6CBAFA2373A2}" relid="0x12">
+						<name>RTWMemSecFuncInitTerm</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>890,505</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>Inherit from model</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000016" kind="Parameter" role="Parameter" guid="{D4BC77DF-5DEC-41d1-84BE-DD7E64FE7AFC}" relid="0x13">
+						<name>RTWSystemCode</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>890,477</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>Auto</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000017" kind="Parameter" role="Parameter" guid="{A6E65779-7A5F-4ec7-8746-BCBECE5E25E2}" relid="0x14">
+						<name>ShowPortLabels</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>834,505</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>FromPortIcon</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000018" kind="Parameter" role="Parameter" guid="{009A97F6-0325-4d21-A2B1-DD9503FB628C}" relid="0x15">
+						<name>SystemSampleTime</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>862,505</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>-1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000019" kind="Parameter" role="Parameter" guid="{A9E8686A-7D76-4f3b-A3B9-978023F1E32D}" relid="0x16">
+						<name>TemplateBlock</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>862,477</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value></value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000001a" kind="Parameter" role="Parameter" guid="{7198DADC-0C61-4182-9901-AD9276862044}" relid="0x17">
+						<name>TreatAsAtomicUnit</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>834,477</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>off</value>
+						</attribute>
+					</atom>
+					<connection id="id-0068-00000004" kind="Line" role="Line" guid="{EAB58130-C476-403c-B218-9AA417AB91F8}" relid="0x1e">
+						<name></name>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000006"/>
+						<connpoint role="dst" target="id-0065-00000011"/>
+					</connection>
+					<connection id="id-0068-00000005" kind="Line" role="Line" guid="{DBDB55E0-B903-48ad-99B9-1E19517BE0B8}" relid="0x20">
+						<name></name>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-0000000c"/>
+						<connpoint role="dst" target="id-0065-00000014"/>
+					</connection>
+					<connection id="id-0068-00000006" kind="Line" role="Line" guid="{F50B455B-D008-4ac4-8D14-4EC89618259E}" relid="0x21">
+						<name></name>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="dst" target="id-0065-00000007"/>
+						<connpoint role="src" target="id-0065-00000015"/>
+					</connection>
+					<connection id="id-0068-00000007" kind="Line" role="Line" guid="{07239DA7-33F3-4472-AFDB-FE0DB0739250}" relid="0x23">
+						<name></name>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000005"/>
+						<connpoint role="dst" target="id-0065-00000017"/>
+					</connection>
+					<connection id="id-0068-00000008" kind="Line" role="Line" guid="{BFF0ADF3-3746-41d8-91CE-6442FB2B4E88}" relid="0x24">
+						<name></name>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="dst" target="id-0065-0000000b"/>
+						<connpoint role="src" target="id-0065-00000019"/>
+					</connection>
+					<connection id="id-0068-00000009" kind="Line" role="Line" guid="{B3C8D332-95B0-4c67-8FFB-B13EFA50A4E1}" relid="0x26">
+						<name></name>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000012"/>
+						<connpoint role="dst" target="id-0065-0000001b"/>
+					</connection>
+					<connection id="id-0068-0000000a" kind="Line" role="Line" guid="{3B915B67-AEAD-44b2-AE7D-D3335E01DE1A}" relid="0x27">
+						<name></name>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-0000000f"/>
+						<connpoint role="dst" target="id-0065-0000001c"/>
+					</connection>
+					<connection id="id-0068-0000000b" kind="Line" role="Line" guid="{B689F39F-2B67-46bb-8D05-955BA976131A}" relid="0x28">
+						<name></name>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="dst" target="id-0065-00000018"/>
+						<connpoint role="src" target="id-0065-0000001d"/>
+					</connection>
+					<connection id="id-0068-0000000c" kind="Line" role="Line" guid="{E2B883C2-2D22-4010-BBED-A9457224204F}" relid="0x2a">
+						<name></name>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000006"/>
+						<connpoint role="dst" target="id-0065-0000001f"/>
+					</connection>
+					<connection id="id-0068-0000000d" kind="Line" role="Line" guid="{2F2BD8A0-4FA3-40fc-8944-660D383B6BE0}" relid="0x2b">
+						<name></name>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="dst" target="id-0065-0000000e"/>
+						<connpoint role="src" target="id-0065-00000020"/>
+					</connection>
+				</model>
+				<model id="id-0065-00000008" kind="Subsystem" role="Subsystem" guid="{3A6323F8-E12A-44ea-A249-2FC48194977B}" relid="0x6" childrelidcntr="0x6">
+					<name>Waypoint list / Interpolation</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DataflowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,91</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="BlockType">
+						<value>SubSystem</value>
+					</attribute>
+					<attribute kind="Deadline" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Description">
+						<value></value>
+					</attribute>
+					<attribute kind="Name">
+						<value>Waypoint list / Interpolation</value>
+					</attribute>
+					<attribute kind="Period" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Priority">
+						<value>0</value>
+					</attribute>
+					<attribute kind="SampleTime">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Tag">
+						<value></value>
+					</attribute>
+					<attribute kind="UserData" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000009" kind="OutputPort" role="OutputPort" guid="{A1D286EA-D3DA-422a-B8B3-58D72791570F}" relid="0x4" childrelidcntr="0x1">
+						<name>NextPosition</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>379,106</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Number">
+							<value>1</value>
+						</attribute>
+						<reference id="id-0067-00000003" kind="TypeBaseRef" role="TypeBaseRef" guid="{1760F489-D444-4613-926C-681304EFD688}" relid="0x1" referred="id-0066-00000002">
+							<name>MsingleC1C1M</name>
+							<attribute kind="MemberIndex">
+								<value>0</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-00000021" kind="Primitive" role="Primitive" guid="{4E61128F-8F2A-4a18-90A6-31C289E996E4}" relid="0x5" childrelidcntr="0x1">
+						<name>Ground</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>112,133</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="BlockType">
+							<value>Ground</value>
+						</attribute>
+						<attribute kind="Description">
+							<value></value>
+						</attribute>
+						<attribute kind="Name">
+							<value>Ground</value>
+						</attribute>
+						<attribute kind="Priority">
+							<value>0</value>
+						</attribute>
+						<attribute kind="SampleTime">
+							<value>0</value>
+						</attribute>
+						<attribute kind="Tag">
+							<value></value>
+						</attribute>
+						<attribute kind="UserData" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-00000022" kind="OutputPort" role="OutputPort" guid="{2022A715-9EEA-47d1-A19D-DDD6DBAAB022}" relid="0x1" childrelidcntr="0x1">
+							<name>Out_1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>582,190</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number">
+								<value>1</value>
+							</attribute>
+							<reference id="id-0067-00000004" kind="TypeBaseRef" role="TypeBaseRef" guid="{CF5A668D-383A-4e62-AE1D-0EC8406F8DE0}" relid="0x1" referred="id-0066-00000066">
+								<name>MdoubleC1C1M</name>
+								<attribute kind="MemberIndex" status="meta">
+									<value>0</value>
+								</attribute>
+							</reference>
+						</model>
+					</model>
+					<atom id="id-0066-0000001b" kind="Parameter" role="Parameter" guid="{BC8861EE-AF58-4a2f-852A-A8F528D18CEB}" relid="0x1">
+						<name>output_values</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>260,36</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>[10 50 30 20 40 10]</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000001c" kind="Parameter" role="Parameter" guid="{86D42946-76EE-446f-91D2-0F386F0C6697}" relid="0x2">
+						<name>sample_time</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>148,36</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>0.2</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000001d" kind="Parameter" role="Parameter" guid="{15A85160-30A3-46bd-99F1-954115D3DF58}" relid="0x3">
+						<name>time_values</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="DataflowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>43,36</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>[0 20 40 60 80 100]</value>
+						</attribute>
+					</atom>
+					<connection id="id-0068-0000000e" kind="Line" role="Line" guid="{742EAB75-48DF-4873-BC89-2FE41AC193BF}" relid="0x6">
+						<name></name>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="dst" target="id-0065-00000009"/>
+						<connpoint role="src" target="id-0065-00000022"/>
+					</connection>
+				</model>
+				<connection id="id-0068-00000001" kind="Line" role="Line" guid="{E3D16F30-DB12-41bf-B42F-44AFD66E9EF9}" relid="0x4">
+					<name></name>
+					<attribute kind="Name" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0065-00000002"/>
+					<connpoint role="dst" target="id-0065-00000006"/>
+				</connection>
+				<connection id="id-0068-00000002" kind="Line" role="Line" guid="{765B5CAD-599C-4f24-BFB3-BD8C5F289F6F}" relid="0x5">
+					<name></name>
+					<attribute kind="Name" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0065-00000003"/>
+					<connpoint role="src" target="id-0065-00000007"/>
+				</connection>
+				<connection id="id-0068-00000003" kind="Line" role="Line" guid="{B8D48437-021A-400a-956C-69A8B1DB7C6D}" relid="0x7">
+					<name></name>
+					<attribute kind="Name" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0065-00000005"/>
+					<connpoint role="src" target="id-0065-00000009"/>
+				</connection>
+			</model>
+		</folder>
+		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0xa" kind="Types" guid="{1F60DEA0-9F43-42db-A3F5-BE78AFAA85A7}">
+			<name>Types</name>
+			<atom id="id-0066-00000002" kind="Matrix" guid="{4B9DF700-D1EF-4eda-90BF-6F50C6934C05}" relid="0x2">
+				<name>MsingleC1C1M</name>
+				<attribute kind="Type">
+					<value>single</value>
+				</attribute>
+				<attribute kind="columns">
+					<value>1</value>
+				</attribute>
+				<attribute kind="rows">
+					<value>1</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000066" kind="Matrix" guid="{3483874C-7BBE-48d1-8EEF-B7473070BF05}" relid="0x5">
+				<name>MdoubleC1C1M</name>
+				<attribute kind="Type">
+					<value>double</value>
+				</attribute>
+				<attribute kind="columns">
+					<value>1</value>
+				</attribute>
+				<attribute kind="rows">
+					<value>1</value>
+				</attribute>
+			</atom>
+		</folder>
+		<folder id="id-006a-00000004" relid="0x3" childrelidcntr="0x0" kind="Stateflow" guid="{F05ED015-703B-455c-B262-099DE2A6874E}">
+			<name>Stateflow</name>
+		</folder>
+		<folder id="id-006a-00000005" relid="0x4" childrelidcntr="0x3" kind="DesignFolder" guid="{63983164-FB10-46b4-8834-9DC230044945}">
+			<name>Implementation</name>
+			<model id="id-0065-00000023" kind="Deployment" guid="{29AC00B3-68BA-4ed8-A01F-0BC50FADFB44}" relid="0x1" childrelidcntr="0x6">
+				<name>Deployment</name>
+				<model id="id-0065-0000002b" kind="TTTask" role="TTTask" guid="{D3731C5C-859B-4b1c-9FCB-D37776EDE78E}" relid="0x3" childrelidcntr="0x5">
+					<name>NavTask</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>202,230</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="TTExecTime">
+						<value>20ms</value>
+					</attribute>
+					<attribute kind="TTFreq">
+						<value>5Hz</value>
+					</attribute>
+					<attribute kind="TTSchedule">
+						<value>5</value>
+					</attribute>
+					<atom id="id-0066-0000006d" kind="TTMessage" role="TTMessage" guid="{3450043C-5862-40b2-A820-50E46231479B}" relid="0x3">
+						<name>NavMessage</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>534,205</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="MsgMetaData" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="MsgSize">
+							<value>4B</value>
+						</attribute>
+						<attribute kind="TTSchedule">
+							<value>100</value>
+						</attribute>
+					</atom>
+					<reference id="id-0067-0000001c" kind="Component" role="Component" guid="{4D171CD2-05A0-490a-AD61-6D89C29DDC33}" relid="0x1" referred="id-0067-00000019">
+						<name>Waypoint list / Interpolation</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>257,187</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="WCET" status="meta">
+							<value>Worst Case Exec Time (secs)</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-0000001d" kind="ChannelRef" role="ChannelRef" guid="{8D147C9B-4DC3-4bad-BED7-AA6A9A610194}" relid="0x2" referred="id-0066-0000006c">
+						<name>I2C</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>700,203</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<connection id="id-0068-00000015" kind="OutCommMapping" role="OutCommMapping" guid="{F5C3E212-376A-4935-8268-438B63973342}" relid="0x4">
+						<name>OutCommMapping</name>
+						<connpoint role="src" target="id-0065-00000009" refs="id-0067-0000001c id-0067-00000019"/>
+						<connpoint role="dst" target="id-0066-0000006d"/>
+					</connection>
+					<connection id="id-0068-00000016" kind="MsgAssignment" role="MsgAssignment" guid="{2D57F930-F833-404f-9B43-664C515E6B5A}" relid="0x5">
+						<name>MsgAssignment</name>
+						<connpoint role="src" target="id-0066-0000006d"/>
+						<connpoint role="dst" target="id-0067-0000001d"/>
+					</connection>
+				</model>
+				<model id="id-0065-0000002c" kind="TTTask" role="TTTask" guid="{EAFCA30C-C4B6-49e2-9DF1-396F38814F70}" relid="0x4" childrelidcntr="0x12">
+					<name>StabTask</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>499,233</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="TTExecTime">
+						<value>5ms</value>
+					</attribute>
+					<attribute kind="TTFreq">
+						<value>50Hz</value>
+					</attribute>
+					<attribute kind="TTSchedule">
+						<value>5, 25, 45, 65, 85, 105, 125, 145, 165, 185</value>
+					</attribute>
+					<atom id="id-0066-00000070" kind="TTMessage" role="TTMessage" guid="{44E1CE7E-8298-4fb6-A3FE-3165F86B8169}" relid="0xd">
+						<name>PosMessage</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>135,226</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="MsgMetaData" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="MsgSize">
+							<value>4B</value>
+						</attribute>
+						<attribute kind="TTSchedule" status="meta">
+							<value></value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000071" kind="TTMessage" role="TTMessage" guid="{AA496434-0228-449b-B0A3-FE3CA01F32D9}" relid="0xe">
+						<name>ForceMessage</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>478,142</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="MsgMetaData" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="MsgSize">
+							<value>4B</value>
+						</attribute>
+						<attribute kind="TTSchedule" status="meta">
+							<value></value>
+						</attribute>
+					</atom>
+					<reference id="id-0067-0000001e" kind="Component" role="Component" guid="{B684CDEC-E32F-45ad-B5C7-A7EEBEF865FF}" relid="0x1" referred="id-0067-00000018">
+						<name>PD Controller</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>299,124</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="WCET" status="meta">
+							<value>Worst Case Exec Time (secs)</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-0000001f" kind="MessageRef" role="MessageRef" guid="{BB347CBE-97E1-414f-865D-EFFE4ACF1968}" relid="0x3" referred="id-0066-0000006d">
+						<name>NavMessage</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>133,133</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000020" kind="ChannelRef" role="ChannelRef" guid="{D54E7F25-A920-422d-9BCB-04E8034B09EA}" relid="0x5" referred="id-0066-0000006b">
+						<name>I2C</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>42,133</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000022" kind="ChannelRef" role="ChannelRef" guid="{C7C17C3C-9AF8-4e41-A205-3C70C9CB084E}" relid="0x8" referred="id-0066-0000006a">
+						<name>UART_TX</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>630,140</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000023" kind="ChannelRef" role="ChannelRef" guid="{44F8A504-5EB7-46b6-8F0A-AE053D62D360}" relid="0x9" referred="id-0066-00000069">
+						<name>UART_RX</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>42,224</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<connection id="id-0068-00000017" kind="InCommMapping" role="InCommMapping" guid="{AA05C1B2-6B5E-47f5-9E75-D687677DDFF6}" relid="0x4">
+						<name>InCommMapping</name>
+						<connpoint role="dst" target="id-0065-00000005" refs="id-0067-0000001e id-0067-00000018"/>
+						<connpoint role="src" target="id-0067-0000001f"/>
+					</connection>
+					<connection id="id-0068-00000018" kind="MsgAssignment" role="MsgAssignment" guid="{3160E929-A3B1-4201-B34A-1A741AB55115}" relid="0x6">
+						<name>MsgAssignment</name>
+						<connpoint role="src" target="id-0067-0000001f"/>
+						<connpoint role="dst" target="id-0067-00000020"/>
+					</connection>
+					<connection id="id-0068-0000001b" kind="OutCommMapping" role="OutCommMapping" guid="{F7812476-398C-4ca8-BB15-C3C7FC6B0EF6}" relid="0xf">
+						<name>OutCommMapping</name>
+						<connpoint role="src" target="id-0065-00000007" refs="id-0067-0000001e id-0067-00000018"/>
+						<connpoint role="dst" target="id-0066-00000071"/>
+					</connection>
+					<connection id="id-0068-0000001c" kind="InCommMapping" role="InCommMapping" guid="{4F91DF78-B6C2-4d87-8769-B5CD118F3734}" relid="0x10">
+						<name>InCommMapping</name>
+						<connpoint role="dst" target="id-0065-00000006" refs="id-0067-0000001e id-0067-00000018"/>
+						<connpoint role="src" target="id-0066-00000070"/>
+					</connection>
+					<connection id="id-0068-0000001d" kind="MsgAssignment" role="MsgAssignment" guid="{861F7004-31D3-479e-9A71-4B8C81C3700B}" relid="0x11">
+						<name>MsgAssignment</name>
+						<connpoint role="src" target="id-0066-00000071"/>
+						<connpoint role="dst" target="id-0067-00000022"/>
+					</connection>
+					<connection id="id-0068-0000001e" kind="MsgAssignment" role="MsgAssignment" guid="{5B2CD632-3B13-4947-8E79-CDB0BB861C4E}" relid="0x12">
+						<name>MsgAssignment</name>
+						<connpoint role="src" target="id-0066-00000070"/>
+						<connpoint role="dst" target="id-0067-00000023"/>
+					</connection>
+				</model>
+				<reference id="id-0067-0000001a" kind="NodeRef" role="NodeRef" guid="{83E98EF4-7DD7-4b5f-877C-7C7A3705CED7}" relid="0x1" referred="id-0065-00000028">
+					<name>Gumstix</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>173,89</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000001b" kind="NodeRef" role="NodeRef" guid="{E1C12831-4B24-46ce-9FF6-BEFAC7095DA0}" relid="0x2" referred="id-0065-00000029">
+					<name>Robostix</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>467,89</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<connection id="id-0068-00000013" kind="TaskAssignment" role="TaskAssignment" guid="{397665C4-F357-42ba-B6BD-D5E4F4BE4053}" relid="0x5">
+					<name>TaskAssignment</name>
+					<connpoint role="src" target="id-0065-0000002b"/>
+					<connpoint role="dst" target="id-0067-0000001a"/>
+				</connection>
+				<connection id="id-0068-00000014" kind="TaskAssignment" role="TaskAssignment" guid="{9DA91C4A-9B61-4cbe-AAAF-05AF19003FC9}" relid="0x6">
+					<name>TaskAssignment</name>
+					<connpoint role="src" target="id-0065-0000002c"/>
+					<connpoint role="dst" target="id-0067-0000001b"/>
+				</connection>
+			</model>
+			<model id="id-0065-00000024" kind="System" guid="{59432123-5EF2-4d8d-AF87-DFDEC24058C8}" relid="0x2" childrelidcntr="0x8">
+				<name>Architecture</name>
+				<model id="id-0065-0000002d" kind="CCode" role="CCode" guid="{ACC1CC9E-0C35-4f11-9E43-00F0B863E5A6}" relid="0x6" childrelidcntr="0x2">
+					<name>UARTDriver</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>413,140</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Deadline" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Period" status="meta">
+						<value>0</value>
+					</attribute>
+					<model id="id-0065-0000002e" kind="COutputPort" role="COutputPort" guid="{2F33726F-2315-4636-9ACF-D9139642571F}" relid="0x1" childrelidcntr="0x0">
+						<name>Position</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>56,56</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+					<model id="id-0065-0000002f" kind="CInputPort" role="CInputPort" guid="{6E5E9A18-55FF-468a-9C86-ECCADA6367F0}" relid="0x2" childrelidcntr="0x0">
+						<name>Force</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>553,70</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+				</model>
+				<reference id="id-0067-00000018" kind="SubsystemRef" role="SubsystemRef" guid="{95F7B041-D9DF-45e1-A65E-CAD781C027FF}" relid="0x1" referred="id-0065-00000004">
+					<name>PD Controller</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>413,42</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Deadline" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Period">
+						<value>20000</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000019" kind="SubsystemRef" role="SubsystemRef" guid="{4211CC47-B26A-4044-900E-A1AE95BB4782}" relid="0x2" referred="id-0065-00000008">
+					<name>Waypoint list / Interpolation</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>147,35</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Deadline" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Period">
+						<value>200000</value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-0000000f" kind="Connector" role="Connector" guid="{77F304C9-1C1D-47ca-97D8-5222C8592C48}" relid="0x3">
+					<name>NextPosition</name>
+					<attribute kind="ConnectionType" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0065-00000005" refs="id-0067-00000018"/>
+					<connpoint role="src" target="id-0065-00000009" refs="id-0067-00000019"/>
+				</connection>
+				<connection id="id-0068-0000001f" kind="Connector" role="Connector" guid="{73385831-30B8-480c-AC2E-95C3621E9D4A}" relid="0x7">
+					<name>Connector</name>
+					<attribute kind="ConnectionType" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0065-00000007" refs="id-0067-00000018"/>
+					<connpoint role="dst" target="id-0065-0000002f"/>
+				</connection>
+				<connection id="id-0068-00000020" kind="Connector" role="Connector" guid="{5BE0309C-DB5D-4571-ACD8-3E836EAF8E30}" relid="0x8">
+					<name>Connector</name>
+					<attribute kind="ConnectionType" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0065-00000006" refs="id-0067-00000018"/>
+					<connpoint role="src" target="id-0065-0000002e"/>
+				</connection>
+			</model>
+			<model id="id-0065-00000027" kind="HardwareUnit" guid="{CCA64614-58EC-4733-B8E8-6339CC536E0D}" relid="0x3" childrelidcntr="0xa">
+				<name>Hardware</name>
+				<attribute kind="MetaData" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000028" kind="Node" role="Node" guid="{E8BC8E58-035F-42f3-886B-687AB077B4CB}" relid="0x1" childrelidcntr="0x2">
+					<name>Gumstix</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>147,87</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="CPU">
+						<value>PXA270</value>
+					</attribute>
+					<attribute kind="MetaData" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="RAM">
+						<value>64000</value>
+					</attribute>
+					<attribute kind="ROM">
+						<value>16000</value>
+					</attribute>
+					<attribute kind="Simulator" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Speed">
+						<value>400</value>
+					</attribute>
+					<atom id="id-0066-0000006c" kind="BChan" role="BChan" guid="{AA5E0921-B0DB-44b5-8123-57922361C598}" relid="0x1">
+						<name>I2C</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>590,79</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="InterruptNum" status="meta">
+							<value>-1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000072" kind="OS" role="OS" guid="{EE01C185-9C07-4f1a-BF16-CB6ED52C6A46}" relid="0x2">
+						<name>gumstix-FRODO</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>334,82</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ContextSwitchTime" status="meta">
+							<value>0s</value>
+						</attribute>
+						<attribute kind="RecvOverheadTime" status="meta">
+							<value>0s</value>
+						</attribute>
+						<attribute kind="SendOverheadTime" status="meta">
+							<value>0s</value>
+						</attribute>
+						<attribute kind="TickResolution">
+							<value>10ms</value>
+						</attribute>
+					</atom>
+				</model>
+				<model id="id-0065-00000029" kind="Node" role="Node" guid="{61A53FE6-FAD2-43a9-B057-E4B8EFE1F5A5}" relid="0x2" childrelidcntr="0x4">
+					<name>Robostix</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,87</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="CPU">
+						<value>ATmega128</value>
+					</attribute>
+					<attribute kind="MetaData" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="RAM">
+						<value>4</value>
+					</attribute>
+					<attribute kind="ROM">
+						<value>128</value>
+					</attribute>
+					<attribute kind="Simulator" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Speed">
+						<value>16</value>
+					</attribute>
+					<atom id="id-0066-00000069" kind="IChan" role="IChan" guid="{AE15E169-5965-4478-9196-1B727419413F}" relid="0x1">
+						<name>UART_RX</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>443,51</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="InterruptNum" status="meta">
+							<value>-1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000006a" kind="OChan" role="OChan" guid="{0ECCFB0F-9731-4703-B63B-DBF6E047894E}" relid="0x2">
+						<name>UART_TX</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>443,121</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="InterruptNum" status="meta">
+							<value>-1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000006b" kind="BChan" role="BChan" guid="{FCBDED96-22E2-47cc-88F3-9EBEB0FF8858}" relid="0x3">
+						<name>I2C</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>86,93</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="InterruptNum" status="meta">
+							<value>-1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000073" kind="OS" role="OS" guid="{6B35A99B-5F79-464c-86B4-F78A480FF1FF}" relid="0x4">
+						<name>robostix-FRODO</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>275,93</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ContextSwitchTime" status="meta">
+							<value>0s</value>
+						</attribute>
+						<attribute kind="RecvOverheadTime" status="meta">
+							<value>0s</value>
+						</attribute>
+						<attribute kind="SendOverheadTime" status="meta">
+							<value>0s</value>
+						</attribute>
+						<attribute kind="TickResolution" status="meta">
+							<value>1ms</value>
+						</attribute>
+					</atom>
+				</model>
+				<model id="id-0065-0000002a" kind="TTBus" role="TTBus" guid="{47D30E7D-0E06-46eb-BD5E-16D883ACD87C}" relid="0x7" childrelidcntr="0x0">
+					<name>TT_I2C</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>294,217</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DataRate">
+						<value>100000</value>
+					</attribute>
+					<attribute kind="Hyperperiod">
+						<value>0.2s</value>
+					</attribute>
+					<attribute kind="MetaData" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="MinFrameSize">
+						<value>1B</value>
+					</attribute>
+					<attribute kind="OverheadTime" status="meta">
+						<value>0s</value>
+					</attribute>
+					<attribute kind="SlotSize">
+						<value>1B</value>
+					</attribute>
+					<attribute kind="SwitchMemorySize" status="meta">
+						<value>80MB</value>
+					</attribute>
+					<attribute kind="TTSetupTime" status="meta">
+						<value>0s</value>
+					</attribute>
+				</model>
+				<connection id="id-0068-00000011" kind="Wire" role="Wire" guid="{4736A5E5-6D54-417e-8E39-AC5DC32D8E1D}" relid="0x9">
+					<name>Wire</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>n</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-0000002a"/>
+					<connpoint role="src" target="id-0066-0000006c"/>
+				</connection>
+				<connection id="id-0068-00000012" kind="Wire" role="Wire" guid="{CE5BD2C5-2DDB-4ad0-B803-F768B4EBE894}" relid="0xa">
+					<name>Wire</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>N</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-0000002a"/>
+					<connpoint role="dst" target="id-0066-0000006b"/>
+				</connection>
+			</model>
+		</folder>
+	</folder>
+</project>

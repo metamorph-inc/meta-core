@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{51ae4427-dd28-425d-aadd-15a90fe1741a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Models">
+      <UniqueIdentifier>{8eac035c-fba5-46e0-aad8-4768043e747a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\generated\ESM2SLC\generated\ESMoL\ESM2SLC.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\generated\ESM2SLC\generated\ESMoL\ESMoL.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\generated\ESM2SLC\generated\ESMoL\GenESM2SLC.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\generated\ESM2SLC\generated\ESMoL\GenESM2SLC_main.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\generated\ESM2SLC\generated\ESMoL\LINKS.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\generated\ESM2SLC\generated\ESMoL\SFC.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\ESM2SLC.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\ESM2SLC_xsd.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\ESMoL.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\ESMoL_xsd.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\LINKS.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\LINKS_xsd.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\SFC.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\ESM2SLC\generated\ESMoL\SFC_xsd.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="ESM2SLC.xme" />
+    <CustomBuild Include="..\..\..\generated\ESM2SLC\models\ESMoL\ESM2SLC.mga">
+      <Filter>Generated Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\generated\ESM2SLC\generated\ESMoL\GenESM2SLC.h">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\generated\ESM2SLC\models\ESMoL\Config.mga">
+      <Filter>Generated Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\generated\ESM2SLC\models\ESMoL\Udm\ESM2SLC.udm">
+      <Filter>Generated Models</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

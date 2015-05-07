@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{9dad0474-b0bf-4ec7-a177-7944e25b0054}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Misc">
+      <UniqueIdentifier>{3f4ca168-db77-4496-b0f2-77e70a51bc39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\NWModels">
+      <UniqueIdentifier>{1303043a-dd3e-4441-b99f-972dc5f166d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DiscNWModels">
+      <UniqueIdentifier>{1727bb7d-11a1-497a-a3bc-eaab9d3ad348}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\zProto">
+      <UniqueIdentifier>{2fb63c97-983a-46bc-bbbc-47a7ba1202ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DiscNWModels">
+      <UniqueIdentifier>{496f4728-b5d4-480f-9c00-632ba8d71156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NWModels">
+      <UniqueIdentifier>{2c0551fe-0a14-4187-93fe-d73d286ccf41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\zProto">
+      <UniqueIdentifier>{d187ac20-442b-4d99-9a2e-bb3ff80b506c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Util">
+      <UniqueIdentifier>{6510e191-4418-4730-ac00-4e79bb41cc2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Util">
+      <UniqueIdentifier>{dbfeadb7-6886-4aff-8c5d-df9aadf20324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{0a91e388-1be5-4fd4-bf60-db5e85f2bef5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SchedTool3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="front_end_tt\schedmodelLexer.c">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="front_end_tt\schedmodelParser.c">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="front_end_profile\schedprofilesLexer.c">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="front_end_profile\schedprofilesParser.c">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="front_end_tt\NWBuilder_tt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="front_end_profile\ProfBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscMsgTypes.cpp">
+      <Filter>Source Files\DiscNWModels</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscTaskTypes.cpp">
+      <Filter>Source Files\DiscNWModels</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscNWModel.cpp">
+      <Filter>Source Files\DiscNWModels</Filter>
+    </ClCompile>
+    <ClCompile Include="BusTypes.cpp">
+      <Filter>Source Files\NWModels</Filter>
+    </ClCompile>
+    <ClCompile Include="LatencyTypes.cpp">
+      <Filter>Source Files\NWModels</Filter>
+    </ClCompile>
+    <ClCompile Include="MsgTypes.cpp">
+      <Filter>Source Files\NWModels</Filter>
+    </ClCompile>
+    <ClCompile Include="NWModel.cpp">
+      <Filter>Source Files\NWModels</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskTypes.cpp">
+      <Filter>Source Files\NWModels</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtractSubgraph.cpp">
+      <Filter>Source Files\zProto</Filter>
+    </ClCompile>
+    <ClCompile Include="TestOrdering.cpp">
+      <Filter>Source Files\zProto</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigKeeper.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="ParseUtils.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpNWGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="front_end_tt\NWBuilder_tt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="front_end_tt\schedmodelLexer.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="front_end_tt\schedmodelParser.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="front_end_profile\schedprofilesLexer.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="front_end_profile\schedprofilesParser.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="front_end_profile\ProfBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BusTypes.h">
+      <Filter>Header Files\NWModels</Filter>
+    </ClInclude>
+    <ClInclude Include="LatencyTypes.h">
+      <Filter>Header Files\NWModels</Filter>
+    </ClInclude>
+    <ClInclude Include="NWModel.h">
+      <Filter>Header Files\NWModels</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskTypes.h">
+      <Filter>Header Files\NWModels</Filter>
+    </ClInclude>
+    <ClInclude Include="MsgTypes.h">
+      <Filter>Header Files\NWModels</Filter>
+    </ClInclude>
+    <ClInclude Include="DiscMsgTypes.h">
+      <Filter>Header Files\DiscNWModels</Filter>
+    </ClInclude>
+    <ClInclude Include="DiscNWModel.h">
+      <Filter>Header Files\DiscNWModels</Filter>
+    </ClInclude>
+    <ClInclude Include="DiscTaskTypes.h">
+      <Filter>Header Files\DiscNWModels</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtractSubgraph.h">
+      <Filter>Header Files\zProto</Filter>
+    </ClInclude>
+    <ClInclude Include="Siblings.h">
+      <Filter>Header Files\zProto</Filter>
+    </ClInclude>
+    <ClInclude Include="TestOrdering.h">
+      <Filter>Header Files\zProto</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigKeeper.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ParseUtils.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="PrintableElement.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="NamedElement.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpNWGraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.txt">
+      <Filter>Misc</Filter>
+    </None>
+  </ItemGroup>
+</Project>

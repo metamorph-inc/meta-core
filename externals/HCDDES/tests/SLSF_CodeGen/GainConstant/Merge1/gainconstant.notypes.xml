@@ -1,0 +1,73 @@
+<RootFolder name="Root Folder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="" name="TopLevel" Priority="0" position="" BlockType="" SampleTime="0.000000" Description="">
+			<System Tag="" _id="id195" Name="gainconstant" name="gainconstant" Priority="0" position="(14,14)" BlockType="Model" SampleTime="111.000000" _instances="id194" Description="">
+				<Line _id="id197" Name="" name="" position="(-1,-1)" _instances="id196" dstLine_end_="id1ca" srcLine_end_="id1ad"/>
+				<Line _id="id199" Name="" name="" position="(-1,-1)" _instances="id198" dstLine_end_="id19d" srcLine_end_="id1cc"/>
+				<Primitive Tag="" _id="id19b" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" position="(651,119)" BlockType="Terminator" SampleTime="0.000000" _instances="id19a" Description="" ExecutionTime="0">
+					<InputPort _id="id19d" name="" Number="1" srcLine="id199" position="(-1,-1)" _instances="id19c"/>
+				</Primitive>
+				<Primitive Tag="" _id="id19f" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" position="(217,119)" BlockType="Constant" SampleTime="0.000000" _instances="id19e" Description="" ExecutionTime="0">
+					<OutputPort _id="id1ad" name="" Number="1" dstLine="id197" position="(911,225)" _instances="id1ac"/>
+					<Parameter _id="id1a1" name="ConRadixGroup" Value="Use specified scaling" position="(64,64)" _instances="id1a0"/>
+					<Parameter _id="id1a3" name="OutDataType" Value="sfix(16)" position="(64,36)" _instances="id1a2"/>
+					<Parameter _id="id1a5" name="OutDataTypeMode" Value="Inherit from 'Constant value'" position="(64,8)" _instances="id1a4"/>
+					<Parameter _id="id1a7" name="OutScaling" Value="2^0" position="(8,36)" _instances="id1a6"/>
+					<Parameter _id="id1a9" name="Value" Value="[3 5 7]" position="(673,106)" _instances="id1a8"/>
+					<Parameter _id="id1ab" name="VectorParams1D" Value="off" position="(36,8)" _instances="id1aa"/>
+				</Primitive>
+				<Primitive Tag="" _id="id1b0" Name="Gain" name="Gain" Period="0" Deadline="0" Priority="0" position="(434,119)" BlockType="Gain" SampleTime="-1.000000" _instances="id1af" Description="" ExecutionTime="0">
+					<InputPort _id="id1ca" name="" Number="1" srcLine="id197" position="(15,162)" _instances="id1c9"/>
+					<OutputPort _id="id1cc" name="" Number="1" dstLine="id199" position="(876,267)" _instances="id1cb"/>
+					<Parameter _id="id1b2" name="Gain" Value="[ 1 2 ; 3 4 ; 5 6 ]" position="(680,162)" _instances="id1b1"/>
+					<Parameter _id="id1b4" name="LockScale" Value="off" position="(92,64)" _instances="id1b3"/>
+					<Parameter _id="id1b6" name="Multiplication" Value="Matrix(u*K)" position="(92,36)" _instances="id1b5"/>
+					<Parameter _id="id1b8" name="OutDataType" Value="sfix(16)" position="(92,8)" _instances="id1b7"/>
+					<Parameter _id="id1ba" name="OutDataTypeMode" Value="Inherit via internal rule" position="(36,64)" _instances="id1b9"/>
+					<Parameter _id="id1bc" name="OutScaling" Value="2^0" position="(8,64)" _instances="id1bb"/>
+					<Parameter _id="id1be" name="ParameterDataType" Value="sfix(16)" position="(64,64)" _instances="id1bd"/>
+					<Parameter _id="id1c0" name="ParameterDataTypeMode" Value="Inherit via internal rule" position="(64,36)" _instances="id1bf"/>
+					<Parameter _id="id1c2" name="ParameterScaling" Value="2^0" position="(64,8)" _instances="id1c1"/>
+					<Parameter _id="id1c4" name="ParameterScalingMode" Value="Best Precision: Matrix-wise" position="(8,36)" _instances="id1c3"/>
+					<Parameter _id="id1c6" name="RndMeth" Value="Floor" position="(36,36)" _instances="id1c5"/>
+					<Parameter _id="id1c8" name="SaturateOnIntegerOverflow" Value="off" position="(36,8)" _instances="id1c7"/>
+				</Primitive>
+			</System>
+			<System Tag="" _id="id194" Name="gainconstant" name="gainconstant" Priority="0" position="(14,14)" BlockType="Model" SampleTime="111.000000" _archetype="id195" Description="" _desynched_atts="position name">
+				<Line _id="id196" Name="" name="" position="(-1,-1)" _archetype="id197" dstLine_end_="id1c9" srcLine_end_="id1ac" _desynched_atts="position name" _real_archetype="false"/>
+				<Line _id="id198" Name="" name="" position="(-1,-1)" _archetype="id199" dstLine_end_="id19c" srcLine_end_="id1cb" _desynched_atts="position name" _real_archetype="false"/>
+				<Primitive Tag="" _id="id19a" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" position="(651,119)" BlockType="Terminator" SampleTime="0.000000" _archetype="id19b" Description="" ExecutionTime="0" _desynched_atts="position name" _real_archetype="false">
+					<InputPort _id="id19c" name="" Number="1" srcLine="id198" position="(-1,-1)" _archetype="id19d" _desynched_atts="position name" _real_archetype="false"/>
+				</Primitive>
+				<Primitive Tag="" _id="id19e" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" position="(217,119)" BlockType="Constant" SampleTime="0.000000" _archetype="id19f" Description="" ExecutionTime="0" _desynched_atts="position name" _real_archetype="false">
+					<OutputPort _id="id1ac" name="" Number="1" dstLine="id196" position="(911,225)" _archetype="id1ad" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1a0" name="ConRadixGroup" Value="Use specified scaling" position="(64,64)" _archetype="id1a1" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1a2" name="OutDataType" Value="sfix(16)" position="(64,36)" _archetype="id1a3" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1a4" name="OutDataTypeMode" Value="Inherit from 'Constant value'" position="(64,8)" _archetype="id1a5" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1a6" name="OutScaling" Value="2^0" position="(8,36)" _archetype="id1a7" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1a8" name="Value" Value="[6 4 2]" position="(673,106)" _archetype="id1a9" _desynched_atts="position name Value" _real_archetype="false"/>
+					<Parameter _id="id1aa" name="VectorParams1D" Value="off" position="(36,8)" _archetype="id1ab" _desynched_atts="position name" _real_archetype="false"/>
+				</Primitive>
+				<Primitive Tag="" _id="id1af" Name="Gain" name="Gain" Period="0" Deadline="0" Priority="0" position="(434,119)" BlockType="Gain" SampleTime="-1.000000" _archetype="id1b0" Description="" ExecutionTime="0" _desynched_atts="position name" _real_archetype="false">
+					<InputPort _id="id1c9" name="" Number="1" srcLine="id196" position="(15,162)" _archetype="id1ca" _desynched_atts="position name" _real_archetype="false"/>
+					<OutputPort _id="id1cb" name="" Number="1" dstLine="id198" position="(876,267)" _archetype="id1cc" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1b1" name="Gain" Value="[ 10 9 ; 8 7 ; 6 5 ]" position="(680,162)" _archetype="id1b2" _desynched_atts="position name Value" _real_archetype="false"/>
+					<Parameter _id="id1b3" name="LockScale" Value="off" position="(92,64)" _archetype="id1b4" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1b5" name="Multiplication" Value="Matrix(u*K)" position="(92,36)" _archetype="id1b6" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1b7" name="OutDataType" Value="sfix(16)" position="(92,8)" _archetype="id1b8" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1b9" name="OutDataTypeMode" Value="Inherit via internal rule" position="(36,64)" _archetype="id1ba" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1bb" name="OutScaling" Value="2^0" position="(8,64)" _archetype="id1bc" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1bd" name="ParameterDataType" Value="sfix(16)" position="(64,64)" _archetype="id1be" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1bf" name="ParameterDataTypeMode" Value="Inherit via internal rule" position="(64,36)" _archetype="id1c0" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1c1" name="ParameterScaling" Value="2^0" position="(64,8)" _archetype="id1c2" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1c3" name="ParameterScalingMode" Value="Best Precision: Matrix-wise" position="(8,36)" _archetype="id1c4" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1c5" name="RndMeth" Value="Floor" position="(36,36)" _archetype="id1c6" _desynched_atts="position name" _real_archetype="false"/>
+					<Parameter _id="id1c7" name="SaturateOnIntegerOverflow" Value="off" position="(36,8)" _archetype="id1c8" _desynched_atts="position name" _real_archetype="false"/>
+				</Primitive>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow"/>
+</RootFolder>
+
+

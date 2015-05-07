@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DDCF2E7A-CE89-4A2C-A852-755D83899337}</ProjectGuid>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="..\..\META.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>$(SolutionDir)\$(Platform)\bin\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>$(ProjectName)d</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <TypeLibraryName>.\ComponentLib.tlb</TypeLibraryName>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\Interfaces;$(GME_ROOT)\Gme\Interfaces;$(GME_ROOT)\bin;$(GME_ROOT)\Gme\Release;$(GME_ROOT)\Gme\Debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)/SDK/BON/Common;$(UDM_PATH)/include;$(GME_ROOT)/Interfaces;$(GME_ROOT)/Gme/Interfaces;$(GME_ROOT)\GME\Gme;.\include\GridCtrl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ForcedIncludeFiles>StdAfx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <ModuleDefinitionFile>Component.def</ModuleDefinitionFile>
+      <RegisterOutput>true</RegisterOutput>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;.\libx86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TypeLibraryName>.\ComponentLib.tlb</TypeLibraryName>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\Interfaces;$(GME_ROOT)\Gme\Interfaces;$(GME_ROOT)\bin;$(GME_ROOT)\Gme\Release;$(GME_ROOT)\Gme\Debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>.;.\include\GridCtrl;$(GME_ROOT)/SDK/BON/Common;$(UDM_PATH)/include;$(GME_ROOT)/Interfaces;$(GME_ROOT)/Gme/Interfaces;$(GME_ROOT)\GME\Gme;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ForcedIncludeFiles>StdAfx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <ModuleDefinitionFile>Component.def</ModuleDefinitionFile>
+      <RegisterOutput>true</RegisterOutput>
+      <AdditionalLibraryDirectories>.;.\libx64;$(UDM_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)/SDK/BON/Common;$(UDM_PATH)/include;$(GME_ROOT)/Interfaces;$(GME_ROOT)/Gme/Interfaces;$(GME_ROOT)\GME\Gme;.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;.\libx86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.;.\libx64;$(UDM_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;.\include;$(GME_ROOT)/SDK/BON/Common;$(UDM_PATH)/include;$(GME_ROOT)/Interfaces;$(GME_ROOT)/Gme/Interfaces;$(GME_ROOT)\GME\Gme;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.h" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.h" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComponentObj.h" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.h" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\GMECOM.H" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\targetver.h" />
+    <ClInclude Include="Boost_Hash_Ext.h" />
+    <ClInclude Include="CompatibleDataTypes.h" />
+    <ClInclude Include="ComponentConfig.h" />
+    <ClInclude Include="InterpreterMsg.h" />
+    <ClInclude Include="ModelHandler.h" />
+    <ClInclude Include="MyColors.h" />
+    <ClInclude Include="MyUdmUtil.h" />
+    <ClInclude Include="Notifier.h" />
+    <ClInclude Include="Observer.h" />
+    <ClInclude Include="RawComponent.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="string_utils.h" />
+    <ClInclude Include="UdmApp.h" />
+    <ClInclude Include="UdmConfig.h" />
+    <ClInclude Include="UdmConsole.h" />
+    <ClInclude Include="UdmFormatter.h" />
+    <ClInclude Include="UI.h" />
+    <ClInclude Include="UIComboBox.h" />
+    <ClInclude Include="UIConsole.h" />
+    <ClInclude Include="UIEdit.h" />
+    <ClInclude Include="UIGridCtrl.h" />
+    <ClInclude Include="UIListBox.h" />
+    <ClInclude Include="UIPropEditor.h" />
+    <ClInclude Include="UIPropEditorBar.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.cpp" />
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp" />
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentObj.cpp" />
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp" />
+    <ClCompile Include="..\..\generated\CyberComposition.cpp" />
+    <ClCompile Include="ModelHandler.cpp" />
+    <ClCompile Include="MyUdmUtil.cpp" />
+    <ClCompile Include="Notifier.cpp" />
+    <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="RawComponent.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UdmApp.cpp" />
+    <ClCompile Include="UdmConsole.cpp" />
+    <ClCompile Include="UdmFormatter.cpp" />
+    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UIComboBox.cpp" />
+    <ClCompile Include="UIConsole.cpp" />
+    <ClCompile Include="UIEdit.cpp" />
+    <ClCompile Include="UIGridCtrl.cpp" />
+    <ClCompile Include="UIListBox.cpp" />
+    <ClCompile Include="UIPropEditor.cpp" />
+    <ClCompile Include="UIPropEditorBar.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CompIcon.ico" />
+    <None Include="Component.def" />
+    <None Include="packages.config" />
+    <None Include="README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Component.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="$(GME_ROOT)\SDK\BON\Common\ComponentLib.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SignalFlowTableEditor\GridCtrl_src\GridCtrl.vcxproj">
+      <Project>{dede0743-d690-4fea-b93a-635eb05237df}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="..\nuget\boost.1.55.0.10\build\native\boost.targets" Condition="Exists('..\nuget\boost.1.55.0.10\build\native\boost.targets')" />
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="Component.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

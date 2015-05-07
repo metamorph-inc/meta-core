@@ -1,0 +1,1521 @@
+Model {
+  Name			  "comms_test_xpc"
+  Version		  7.3
+  MdlSubVersion		  0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.91"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SavedCharacterEncoding  "windows-1252"
+  SaveDefaultBlockParams  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  Created		  "Wed Mar 11 11:17:06 2009"
+  Creator		  "jporter"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "jporter"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Fri Nov 06 12:24:04 2009"
+  RTWModifiedTimeStamp	  0
+  ModelVersionFormat	  "1.%<AutoIncrement:91>"
+  ConfigurationManager	  "None"
+  SampleTimeColors	  on
+  SampleTimeAnnotations	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  on
+  ShowPortDataTypes	  on
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowSignalResolutionIcons on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  SimulationMode	  "normal"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  CovModelRefEnable	  "Off"
+  CovExternalEMLEnable	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  off
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.6.0"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.6.0"
+	  StartTime		  "0.0"
+	  StopTime		  "inf"
+	  AbsTol		  "auto"
+	  FixedStep		  "0.0001"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ZcThreshold		  "auto"
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "ode5"
+	  SolverName		  "ode5"
+	  ShapePreserveControl	  "DisableAll"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  ZeroCrossAlgorithm	  "Nonadaptive"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  on
+	  SampleTimeConstraint	  "Unconstrained"
+	  InsertRTBMode		  "Whenever possible"
+	  SignalSizeVariationType "Allow only fixed size"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.6.0"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  off
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveCompleteFinalSimState off
+	  SaveFormat		  "Array"
+	  SaveOutput		  off
+	  SaveState		  off
+	  SignalLogging		  off
+	  InspectSignalLogs	  off
+	  SaveTime		  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.6.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    6
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "PassReuseOutputArgsAs"
+	    Cell		    "PassReuseOutputArgsThreshold"
+	    PropName		    "DisabledProps"
+	  }
+	  BlockReduction	  off
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  off
+	  BufferReuse		  off
+	  EnhancedBackFolding	  off
+	  StrengthReduction	  off
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  off
+	  EnableMemcpy		  on
+	  MemcpyThreshold	  64
+	  PassReuseOutputArgsAs	  "Structure reference"
+	  ExpressionDepthLimit	  2147483647
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  off
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  EfficientMapNaN2IntZero on
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	  BufferReusableBoundary  on
+	  SimCompilerOptimization "Off"
+	  AccelVerboseBuild	  off
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.6.0"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  SignalRangeChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  SaveWithDisabledLinksMsg "warning"
+	  SaveWithParameterizedLinksMsg	"warning"
+	  CheckSSInitialOutputMsg on
+	  UnderspecifiedInitializationDetection	"Classic"
+	  MergeDetectMultiDrivingBlocksExec "none"
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "UseLocalSettings"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "error"
+	  MultiTaskCondExecSysMsg "error"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  ParameterTunabilityLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "Use local settings"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StateNameClashWarn	  "warning"
+	  StrictBusMsg		  "Warning"
+	  LoggingUnavailableSignals "error"
+	  BlockIODiagnostic	  "none"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.6.0"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Zero"
+	  ProdEndianess		  "LittleEndian"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Generic->32-bit x86 compatible"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.6.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  8
+	  Version		  "1.6.0"
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SimBlas		  on
+	  SimUseLocalCustomCode	  off
+	  SimBuildMode		  "sf_incremental_build"
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  9
+	  Version		  "1.6.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    7
+	    Cell		    "IncludeHyperlinkInReport"
+	    Cell		    "GenerateTraceInfo"
+	    Cell		    "GenerateTraceReport"
+	    Cell		    "GenerateTraceReportSl"
+	    Cell		    "GenerateTraceReportSf"
+	    Cell		    "GenerateTraceReportEml"
+	    Cell		    "TargetLang"
+	    PropName		    "DisabledProps"
+	  }
+	  SystemTargetFile	  "xpctarget.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  TemplateMakefile	  "xpc_default_tmf"
+	  Description		  "xPC Target"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ProcessScript		  "xpctarget_make_rtw_hook"
+	  ConfigAtBuild		  off
+	  RTWUseLocalCustomCode	  off
+	  RTWUseSimCustomCode	  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  IncludeERTFirstTime	  off
+	  GenerateTraceInfo	  off
+	  GenerateTraceReport	  off
+	  GenerateTraceReportSl	  off
+	  GenerateTraceReportSf	  off
+	  GenerateTraceReportEml  off
+	  GenerateCodeInfo	  off
+	  RTWCompilerOptimization "On"
+	  CheckMdlBeforeBuild	  "Off"
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      10
+	      Version		      "1.6.0"
+	      Array {
+		Type			"Cell"
+		Dimension		17
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		Cell			"CustomSymbolStrGlobalVar"
+		Cell			"CustomSymbolStrType"
+		Cell			"CustomSymbolStrField"
+		Cell			"CustomSymbolStrFcn"
+		Cell			"CustomSymbolStrBlkIO"
+		Cell			"CustomSymbolStrTmpVar"
+		Cell			"CustomSymbolStrMacro"
+		Cell			"IgnoreTestpoints"
+		PropName		"DisabledProps"
+	      }
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IgnoreTestpoints	      off
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      MangleLength	      1
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	      UseSimReservedNames     off
+	    }
+	    xpctarget.xpcTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      11
+	      Version		      "1.6.0"
+	      Array {
+		Type			"Cell"
+		Dimension		16
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"GenerateTestInterfaces"
+		Cell			"ModelStepFunctionPrototypeControlCompliant"
+		Cell			"CPPClassGenCompliant"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"PortableWordSizes"
+		PropName		"DisabledProps"
+	      }
+	      TargetFcnLib	      "ansi_tfl_table_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      TargetFunctionLibrary   "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      ERTMultiwordTypeDef     "System defined"
+	      ERTMultiwordLength      256
+	      MultiwordLength	      2048
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      ParMdlRefBuildCompliant off
+	      CompOptLevelCompliant   on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      ERTFirstTimeCompliant   off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      EnableShiftOperators    on
+	      ParenthesesLevel	      "Nominal"
+	      PortableWordSizes	      off
+	      ModelStepFunctionPrototypeControlCompliant off
+	      CPPClassGenCompliant    off
+	      AutosarCompliant	      off
+	      RL32ModeModifier	      "Real-Time"
+	      ExtMode		      on
+	      ExtModeMexFile	      "ext_xpc"
+	      ExtModeIntrfLevel	      "Level2 - Open"
+	      ExtModeArmWhenConnect   off
+	      RL32LogTETModifier      on
+	      RL32LogBufSizeModifier  "100000"
+	      RL32IRQSourceModifier   "Timer"
+	      xPCIRQSourceBoard	      "None/Other"
+	      xPCIOIRQSlot	      "-1"
+	      xpcDblBuff	      off
+	      xpcObjCom		      off
+	      xPCGenerateASAP2	      off
+	      xPCGenerateXML	      off
+	      RL32ObjectName	      "tg"
+	      xPCisDownloadable	      off
+	      xPCisDefaultEnv	      on
+	      xPCisModelTimeout	      on
+	      xPCModelTimeoutSecs     "5"
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      ExtraOptions	      "-aGenerateTraceInfo=0 -aIgnoreTestpoints=0 "
+      CurrentDlgPage	      "Solver"
+      ConfigPrmDlgPosition    " [ 280, 135, 1160, 765 ] "
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+    BlockRotation	    0
+    BlockMirror		    off
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    UseDisplayTextAsClickCallback off
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      SamplingMode	      "Sample based"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "fixdt(1,16,0)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Inherit from 'Constant value'"
+      LockScale		      off
+      SampleTime	      "inf"
+      FramePeriod	      "inf"
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Inherit via back propagation"
+      LockScale		      off
+      ConvertRealWorld	      "Real World Value (RWV)"
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      Ground
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      DataType		      "auto"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchByCopyingInsideSignal off
+      Interpolate	      on
+      DimensionsMode	      "auto"
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      DataType		      "auto"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      SourceOfInitialOutputValue "Dialog"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+      DimensionsMode	      "auto"
+    }
+    Block {
+      BlockType		      RateTransition
+      Integrity		      on
+      Deterministic	      on
+      X0		      "0"
+      OutPortSampleTimeOpt    "Specify"
+      OutPortSampleTimeMultiple	"1"
+      OutPortSampleTime	      "-1"
+    }
+    Block {
+      BlockType		      SignalGenerator
+      WaveForm		      "sine"
+      TimeSource	      "Use simulation time"
+      Amplitude		      "1"
+      Frequency		      "1"
+      Units		      "Hertz"
+      VectorParams1D	      on
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      "FromPortIcon"
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      CheckFcnCallInpInsideContextMsg off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Terminator
+    }
+    Block {
+      BlockType		      ZeroOrderHold
+      SampleTime	      "1"
+    }
+  }
+  System {
+    Name		    "comms_test_xpc"
+    Location		    [29, 99, 1160, 801]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      Constant
+      Name		      "Constant"
+      Position		      [1020, 479, 1090, 511]
+      BlockMirror	      on
+      Value		      "16909060"
+      OutDataTypeMode	      "uint32"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "uint32"
+      SampleTime	      "0.02"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant1"
+      Position		      [1025, 549, 1095, 581]
+      BlockMirror	      on
+      Value		      "84281096"
+      OutDataTypeMode	      "uint32"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "uint32"
+      SampleTime	      "0.02"
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      Name		      "Data Type Conversion1"
+      Position		      [275, 526, 315, 544]
+      BlockMirror	      on
+      ShowName		      off
+      OutDataTypeMode	      "uint8"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "uint8"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      Name		      "Data Type Conversion2"
+      Position		      [890, 517, 935, 543]
+      BlockMirror	      on
+      ShowName		      off
+      OutDataTypeMode	      "single"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "single"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      Name		      "Data Type Conversion3"
+      Position		      [670, 517, 715, 553]
+      BlockMirror	      on
+      ShowName		      off
+      OutDataTypeMode	      "uint16"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "uint16"
+      ConvertRealWorld	      "Stored Integer (SI)"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      Name		      "Data Type Conversion4"
+      Position		      [80, 445, 125, 465]
+      BlockMirror	      on
+      ShowName		      off
+      OutDataTypeMode	      "single"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "single"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      Name		      "Data Type Conversion6"
+      Position		      [175, 184, 220, 206]
+      ShowName		      off
+      OutDataTypeMode	      "double"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "double"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux"
+      Ports		      [1, 5]
+      Position		      [245, 356, 250, 524]
+      BlockMirror	      on
+      ShowName		      off
+      Outputs		      "5"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "ESC-100 F"
+      Ports		      [8, 8]
+      Position		      [500, 309, 580, 551]
+      BlockMirror	      on
+      SourceBlock	      "xpclib/RS232/Quatech/ESC-100/ESC-100 F"
+      SourceType	      "ESC-100 RS232 Send Receive"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      group		      "FIFO Setup"
+      port		      "8"
+      irqnum		      "10"
+      slot		      "-1"
+      baud1		      "57600"
+      parity1		      "None"
+      ndata1		      "8"
+      nstop1		      "1"
+      fifomode1		      "64 deep"
+      rlevel1		      "half full"
+      automode1		      off
+      xmtfifosize1	      "1024"
+      xmtdatatype1	      "count+16 bit uint"
+      rcvfifosize1	      "1024"
+      baud2		      "57600"
+      parity2		      "None"
+      ndata2		      "8"
+      nstop2		      "1"
+      fifomode2		      "64 deep"
+      rlevel2		      "half full"
+      automode2		      off
+      xmtfifosize2	      "1024"
+      xmtdatatype2	      "count+16 bit uint"
+      rcvfifosize2	      "1024"
+      baud3		      "57600"
+      parity3		      "None"
+      ndata3		      "8"
+      nstop3		      "1"
+      fifomode3		      "64 deep"
+      rlevel3		      "half full"
+      automode3		      off
+      xmtfifosize3	      "1024"
+      xmtdatatype3	      "count+16 bit uint"
+      rcvfifosize3	      "1024"
+      buad4		      "57600"
+      parity4		      "None"
+      ndata4		      "8"
+      nstop4		      "1"
+      fifomode4		      "64 deep"
+      rlevel4		      "half full"
+      automode4		      off
+      xmtfifosize4	      "1024"
+      xmtdatatype4	      "count+16 bit uint"
+      rcvfifosize4	      "1024"
+      baud5		      "57600"
+      parity5		      "None"
+      ndata5		      "8"
+      nstop5		      "1"
+      fifomode5		      "64 deep"
+      rlevel5		      "half full"
+      automode5		      off
+      xmtfifosize5	      "1024"
+      xmtdatatype5	      "count+16 bit uint"
+      rcvfifosize5	      "1024"
+      baud6		      "57600"
+      parity6		      "None"
+      ndata6		      "8"
+      nstop6		      "1"
+      fifomode6		      "64 deep"
+      rlevel6		      "half full"
+      automode6		      off
+      xmtfifosize6	      "1024"
+      xmtdatatype6	      "count+16 bit uint"
+      rcvfifosize6	      "1024"
+      baud7		      "57600"
+      parity7		      "None"
+      ndata7		      "8"
+      nstop7		      "1"
+      fifomode7		      "64 deep"
+      rlevel7		      "half full"
+      automode7		      off
+      xmtfifosize7	      "1024"
+      xmtdatatype7	      "count+16 bit uint"
+      rcvfifosize7	      "1024"
+      baud8		      "57600"
+      parity8		      "None"
+      ndata8		      "8"
+      nstop8		      "1"
+      fifomode8		      "64 deep"
+      rlevel8		      "half full"
+      automode8		      off
+      xmtfifosize8	      "1024"
+      xmtdatatype8	      "count+16 bit uint"
+      rcvfifosize8	      "1024"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "FIFO bin read"
+      Ports		      [1, 1]
+      Position		      [345, 508, 425, 562]
+      BlockMirror	      on
+      SourceBlock	      "xpclib/RS232/FIFO bin read "
+      SourceType	      "Asynchronous FIFO Block: reader"
+      header		      "{char([147])}"
+      lengths		      "[5]"
+      hold		      "Zero output if no new data"
+      enable		      off
+      maxsize		      "5"
+      outputtype	      "count+16 bit uint"
+      sampletime	      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Frame Sync"
+      Position		      [840, 440, 870, 470]
+      BlockMirror	      on
+      Value		      "147"
+      OutDataTypeMode	      "uint8"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "uint8"
+    }
+    Block {
+      BlockType		      Ground
+      Name		      "Ground"
+      Position		      [625, 315, 645, 335]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Ground
+      Name		      "Ground1"
+      Position		      [625, 345, 645, 365]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Ground
+      Name		      "Ground2"
+      Position		      [625, 375, 645, 395]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Ground
+      Name		      "Ground3"
+      Position		      [625, 405, 645, 425]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Ground
+      Name		      "Ground4"
+      Position		      [625, 435, 645, 455]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Ground
+      Name		      "Ground5"
+      Position		      [625, 465, 645, 485]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Ground
+      Name		      "Ground6"
+      Position		      [625, 495, 645, 515]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux"
+      Ports		      [6, 1]
+      Position		      [745, 400, 750, 615]
+      BlockMirror	      on
+      ShowName		      off
+      Inputs		      "6"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Pack "
+      Ports		      [4, 1]
+      Position		      [145, 421, 185, 474]
+      BlockMirror	      on
+      SourceBlock	      "xpcutilitieslib/Bit Packing "
+      SourceType	      "xpcbitpacking"
+      MaskBitPatterns	      "{[0:7], [8:15], [16:23], [24:31]}"
+      MaskPackDataType	      "single"
+      MaskPackDataSize	      "[1]"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Plant"
+      Ports		      [1, 1]
+      Position		      [465, 160, 580, 230]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"Plant"
+	Location		[619, 311, 1219, 642]
+	Open			on
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Torque"
+	  Position		  [80, 108, 110, 122]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [2, 1]
+	  Position		  [140, 106, 145, 144]
+	  ShowName		  off
+	  Inputs		  "2"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  SignalGenerator
+	  Name			  "Signal\nGenerator"
+	  Ports			  [0, 1]
+	  Position		  [300, 95, 330, 125]
+	  Frequency		  "1/30"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "angle"
+	  Position		  [430, 103, 460, 117]
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Signal\nGenerator"
+	  SrcPort		  1
+	  Points		  [55, 0]
+	  Branch {
+	    DstBlock		    "angle"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 100; -270, 0; 0, -75]
+	    DstBlock		    "Mux"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Torque"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      RateTransition
+      Name		      "Rate Transition"
+      Position		      [260, 174, 300, 216]
+    }
+    Block {
+      BlockType		      RateTransition
+      Name		      "Rate Transition1"
+      Position		      [645, 174, 685, 216]
+      OutPortSampleTimeOpt    "Inherit"
+      OutPortSampleTimeMultiple	"2"
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator"
+      Position		      [165, 360, 185, 380]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator2"
+      Position		      [440, 315, 460, 335]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator3"
+      Position		      [440, 345, 460, 365]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator4"
+      Position		      [440, 375, 460, 395]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator5"
+      Position		      [440, 405, 460, 425]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator6"
+      Position		      [440, 435, 460, 455]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator7"
+      Position		      [440, 465, 460, 485]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator8"
+      Position		      [440, 495, 460, 515]
+      BlockMirror	      on
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Unpack1"
+      Ports		      [1, 4]
+      Position		      [815, 505, 865, 555]
+      BlockMirror	      on
+      SourceBlock	      "xpcutilitieslib/Bit Unpacking "
+      SourceType	      "xpcbitpacking"
+      MaskBitPatterns	      "{[0:7], [8:15], [16:23], [24:31]}"
+      MaskPackDataType	      "single"
+      MaskPackDataSize	      "[1]"
+      MaskUnpackDataTypes     "{'uint8', 'uint8', 'uint8', 'uint8'}"
+      MaskUnpackDataSizes     "{[1], [1], [1], [1]}"
+      SignExtend	      off
+    }
+    Block {
+      BlockType		      ZeroOrderHold
+      Name		      "ZOHp"
+      Position		      [800, 180, 835, 210]
+      SampleTime	      "0.02"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "nbytes"
+      Position		      [790, 405, 820, 435]
+      BlockMirror	      on
+      Value		      "5"
+      OutDataTypeMode	      "uint8"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "uint8"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "position1"
+      Ports		      [1]
+      Position		      [810, 40, 900, 100]
+      SourceBlock	      "xpclib/Misc./Scope (xPC) "
+      SourceType	      "xpcscopeblock"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      scopeno		      "1"
+      scopetype		      "Target"
+      autostart		      on
+      viewmode		      "Graphical rolling"
+      formatstr		      "'%15.6f'"
+      grid		      on
+      ylimits		      "[-1.5,1.5]"
+      nosamples		      "8000"
+      noprepostsamples	      "0"
+      interleave	      "100"
+      triggermode	      "FreeRun"
+      triggersignal	      "1"
+      triggerlevel	      "0.0"
+      triggerslope	      "Either"
+      triggerscope	      "1"
+      triggersample	      "0"
+      filename		      "data.dat"
+      mode		      "Lazy"
+      writesize		      "512"
+      autorestart	      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "position2"
+      Ports		      [1]
+      Position		      [440, 55, 530, 115]
+      SourceBlock	      "xpclib/Misc./Scope (xPC) "
+      SourceType	      "xpcscopeblock"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      scopeno		      "2"
+      scopetype		      "Target"
+      autostart		      on
+      viewmode		      "Graphical rolling"
+      formatstr		      "'%15.6f'"
+      grid		      on
+      ylimits		      "[-1.5,1.5]"
+      nosamples		      "8000"
+      noprepostsamples	      "0"
+      interleave	      "100"
+      triggermode	      "FreeRun"
+      triggersignal	      "1"
+      triggerlevel	      "0.0"
+      triggerslope	      "Either"
+      triggerscope	      "1"
+      triggersample	      "0"
+      filename		      "data.dat"
+      mode		      "Lazy"
+      writesize		      "512"
+      autorestart	      off
+    }
+    Line {
+      SrcBlock		      "Rate Transition"
+      SrcPort		      1
+      Points		      [95, 0]
+      Branch {
+	DstBlock		"Plant"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -110]
+	DstBlock		"position2"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Plant"
+      SrcPort		      1
+      Points		      [30, 0]
+      Branch {
+	DstBlock		"Rate Transition1"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -125]
+	DstBlock		"position1"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "ZOHp"
+      SrcPort		      1
+      Points		      [130, 0; 0, 335]
+      DstBlock		      "Data Type Conversion2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Unpack1"
+      SrcPort		      4
+      Points		      [0, 50]
+      DstBlock		      "Mux"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "Unpack1"
+      SrcPort		      3
+      Points		      [-45, 0]
+      DstBlock		      "Mux"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Unpack1"
+      SrcPort		      2
+      DstBlock		      "Mux"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Unpack1"
+      SrcPort		      1
+      Points		      [0, -25]
+      DstBlock		      "Mux"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Frame Sync"
+      SrcPort		      1
+      DstBlock		      "Mux"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "nbytes"
+      SrcPort		      1
+      DstBlock		      "Mux"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Mux"
+      SrcPort		      1
+      DstBlock		      "Data Type Conversion3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      1
+      DstBlock		      "Terminator"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Pack "
+      SrcPort		      1
+      DstBlock		      "Data Type Conversion4"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Data Type Conversion1"
+      SrcPort		      1
+      Points		      [-5, 0]
+      DstBlock		      "Demux"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "ESC-100 F"
+      SrcPort		      1
+      DstBlock		      "Terminator2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "ESC-100 F"
+      SrcPort		      2
+      DstBlock		      "Terminator3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "ESC-100 F"
+      SrcPort		      3
+      DstBlock		      "Terminator4"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "ESC-100 F"
+      SrcPort		      4
+      DstBlock		      "Terminator5"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "ESC-100 F"
+      SrcPort		      5
+      DstBlock		      "Terminator6"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "ESC-100 F"
+      SrcPort		      6
+      DstBlock		      "Terminator7"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "ESC-100 F"
+      SrcPort		      7
+      DstBlock		      "Terminator8"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Ground"
+      SrcPort		      1
+      DstBlock		      "ESC-100 F"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Ground1"
+      SrcPort		      1
+      DstBlock		      "ESC-100 F"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Ground2"
+      SrcPort		      1
+      DstBlock		      "ESC-100 F"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Ground3"
+      SrcPort		      1
+      DstBlock		      "ESC-100 F"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Ground4"
+      SrcPort		      1
+      DstBlock		      "ESC-100 F"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Ground5"
+      SrcPort		      1
+      DstBlock		      "ESC-100 F"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "ESC-100 F"
+      SrcPort		      8
+      DstBlock		      "FIFO bin read"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "FIFO bin read"
+      SrcPort		      1
+      DstBlock		      "Data Type Conversion1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Rate Transition1"
+      SrcPort		      1
+      DstBlock		      "ZOHp"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Data Type Conversion6"
+      SrcPort		      1
+      DstBlock		      "Rate Transition"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Data Type Conversion4"
+      SrcPort		      1
+      Points		      [0, -260]
+      DstBlock		      "Data Type Conversion6"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      2
+      Points		      [0, 20]
+      DstBlock		      "Pack "
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      3
+      DstBlock		      "Pack "
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      4
+      Points		      [-5, 0; 0, -20]
+      DstBlock		      "Pack "
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      5
+      Points		      [-40, 0]
+      DstBlock		      "Pack "
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Data Type Conversion2"
+      SrcPort		      1
+      DstBlock		      "Unpack1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Ground6"
+      SrcPort		      1
+      DstBlock		      "ESC-100 F"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "Data Type Conversion3"
+      SrcPort		      1
+      DstBlock		      "ESC-100 F"
+      DstPort		      8
+    }
+  }
+}

@@ -1,0 +1,115 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="user_specified_execution_order" name="user_specified_execution_order" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="idb" Name="" dstLine_end_="id4" srcLine_end_="id8"/>
+			<Line _id="idc" Name="" dstLine_end_="id5" srcLine_end_="id9"/>
+			<Line _id="idd" Name="" dstLine_end_="id6" srcLine_end_="ida"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="idb">
+				<TypeBaseRef _id="id52" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id5" name="Out2" Number="2" srcLine="idc">
+				<TypeBaseRef _id="id4e" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id6" name="Out3" Number="3" srcLine="idd">
+				<TypeBaseRef _id="id56" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<System Tag="" Name="Chart" name="Chart" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<Line _id="id12" Name="" dstLine_end_="id13" srcLine_end_="id11"/>
+				<Line _id="id15" Name="" dstLine_end_="id16" srcLine_end_="id14"/>
+				<Line _id="id18" Name="" dstLine_end_="id8" srcLine_end_="id17"/>
+				<Line _id="id1a" Name="" dstLine_end_="id9" srcLine_end_="id19"/>
+				<Line _id="id1c" Name="" dstLine_end_="ida" srcLine_end_="id1b"/>
+				<Line _id="id1f" Name="" dstLine_end_="id20" srcLine_end_="id1e"/>
+				<OutputPort _id="id8" name="out1" Number="1" dstLine="idb" srcLine="id18">
+					<TypeBaseRef _id="id51" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<OutputPort _id="id9" name="out2" Number="2" dstLine="idc" srcLine="id1a">
+					<TypeBaseRef _id="id4d" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<OutputPort _id="ida" name="out3" Number="3" dstLine="idd" srcLine="id1c">
+					<TypeBaseRef _id="id55" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ExecuteAtInitialization" Value="off"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id16" name="In_1" Number="1" srcLine="id15">
+						<TypeBaseRef _id="id58" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+					<OutputPort _id="id1e" name="Out_1" Number="1" dstLine="id1f">
+						<TypeBaseRef _id="id5b" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="" Name="Ground" name="Ground" Period="0" Deadline="0" Priority="0" BlockType="Ground" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<OutputPort _id="id11" name="Out_1" Number="1" dstLine="id12">
+						<TypeBaseRef _id="id44" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function user_specified_execution_order 1" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id22" ref="id21" name="Chart"/>
+					<InputPort _id="id13" name="In_1" Number="1" srcLine="id12">
+						<TypeBaseRef _id="id45" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+					<OutputPort _id="id14" name="Out_1" Number="1" dstLine="id15">
+						<TypeBaseRef _id="id57" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<OutputPort _id="id17" name="Out_2" Number="2" dstLine="id18">
+						<TypeBaseRef _id="id50" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<OutputPort _id="id19" name="Out_3" Number="3" dstLine="id1a">
+						<TypeBaseRef _id="id4c" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<OutputPort _id="id1b" name="Out_4" Number="4" dstLine="id1c">
+						<TypeBaseRef _id="id54" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id20" name="In_1" Number="1" srcLine="id1f">
+						<TypeBaseRef _id="id5c" ref="id43" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+				</Primitive>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow">
+		<State Name="" name="TopLevel" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="AND_STATE">
+			<State _id="id21" Name="Chart" name="Chart" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="AND_STATE" referedbyConnectorRef="id22">
+				<Data Max="" Min="" Name="out1" Port="1" name="out1" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="-100" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="out2" Port="2" name="out2" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="-200" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="out3" Port="3" name="out3" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="-300" ArrayFirstIndex="0"/>
+				<State Name="M1" name="M1" Order="1" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+					<State _id="id26" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="out1=1;" DuringAction="" Decomposition="OR_STATE" dstTransition="id34 id35" srcTransition="id32"/>
+					<State _id="id27" Name="s2" name="s2" Order="0" ExitAction="" EnterAction="out1=2;" DuringAction="" Decomposition="OR_STATE" srcTransition="id34"/>
+					<State _id="id28" Name="s3" name="s3" Order="0" ExitAction="" EnterAction="out1=3;" DuringAction="" Decomposition="OR_STATE" srcTransition="id35"/>
+					<TransStart _id="id33" dstTransition="id32"/>
+					<Transition _id="id32" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id26" srcTransition_end_="id33"/>
+					<Transition _id="id34" name="" Guard="" Order="2" Action="" Trigger="" ConditionAction="" dstTransition_end_="id27" srcTransition_end_="id26"/>
+					<Transition _id="id35" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id28" srcTransition_end_="id26"/>
+				</State>
+				<State Name="M2" name="M2" Order="2" ExitAction="" EnterAction="" DuringAction="" Decomposition="AND_STATE">
+					<State Name="s1" name="s1" Order="2" ExitAction="" EnterAction="out2=1;" DuringAction="" Decomposition="OR_STATE"/>
+					<State Name="s2" name="s2" Order="3" ExitAction="" EnterAction="out2=2;" DuringAction="" Decomposition="OR_STATE"/>
+					<State Name="s3" name="s3" Order="1" ExitAction="" EnterAction="out2=3;" DuringAction="" Decomposition="OR_STATE"/>
+				</State>
+				<State Name="M3" name="M3" Order="3" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+					<State _id="id2c" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id36 id39" srcTransition="id37"/>
+					<State _id="id2d" Name="s2" name="s2" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id39"/>
+					<State _id="id2e" Name="s3" name="s3" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id36"/>
+					<TransStart _id="id38" dstTransition="id37"/>
+					<Transition _id="id36" name="" Guard="" Order="1" Action="out3=3;" Trigger="" ConditionAction="" dstTransition_end_="id2e" srcTransition_end_="id2c"/>
+					<Transition _id="id37" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id2c" srcTransition_end_="id38"/>
+					<Transition _id="id39" name="" Guard="" Order="2" Action="out3=2;" Trigger="" ConditionAction="" dstTransition_end_="id2d" srcTransition_end_="id2c"/>
+				</State>
+			</State>
+		</State>
+	</Stateflow>
+	<Types name="Types">
+		<Matrix _id="id43" Type="double" name="MdoubleC1C1M" rows="1" columns="1" referedbyTypeStructRef="id44 id45 id4c id4d id4e id50 id51 id52 id54 id55 id56 id57 id58 id5b id5c"/>
+	</Types>
+</RootFolder>
+
+

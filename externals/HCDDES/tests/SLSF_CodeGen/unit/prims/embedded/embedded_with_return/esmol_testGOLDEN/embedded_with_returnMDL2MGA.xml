@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="Newembedded_with_return00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="embedded_with_return" Period="0" Priority="0" SampleTime="0" Tag="" UserData="" name="embedded_with_return">
+          <Line Name="" _id="id7" dstLine_end_="id4" srcLine_end_="id6"/>
+          <OutputPort Number="1" _id="id4" name="Out1" srcLine="id7">
+            <TypeBaseRef MemberIndex="0" _id="idB" name="double" ref="id9"/>
+          </OutputPort>
+          <Primitive BlockType="Embedded" Description="" Name="Embedded&#xA;MATLAB Function" Priority="0" SampleTime="0" Tag="" UserData="" name="Embedded&#xA;MATLAB Function">
+            <OutputPort Number="1" _id="id6" dstLine="id7" name="y">
+              <TypeBaseRef MemberIndex="0" _id="idC" name="double" ref="id9"/>
+            </OutputPort>
+            <Parameter Value="function y = fcn()&amp;#x0a;%#eml&amp;#x0a;&amp;#x0a;if 1&amp;#x0a;    y = 1&amp;#x0a;    return&amp;#x0a;end&amp;#x0a;&amp;#x0a;y = 2&amp;#x0a;" name="Script"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow name="Stateflow"/>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types">
+    <Matrix Type="double" _id="id9" columns="1" name="double" referedbyTypeStructRef="idB idC" rows="1"/>
+  </Types>
+
+</RootFolder>

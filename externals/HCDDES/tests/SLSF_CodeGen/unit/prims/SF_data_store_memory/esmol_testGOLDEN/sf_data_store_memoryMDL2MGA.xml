@@ -1,0 +1,95 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="sf_data_store_memory" name="sf_data_store_memory" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id8" Name="" dstLine_end_="id4" srcLine_end_="id7"/>
+			<Line _id="idc" Name="" dstLine_end_="id5" srcLine_end_="idb"/>
+			<Line _id="idf" Name="" dstLine_end_="id10" srcLine_end_="ide"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id8"/>
+			<OutputPort _id="id5" name="Out2" Number="2" srcLine="idc"/>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="ide" name="Out_1" Number="1" dstLine="idf"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataTypeStr" Value="Inherit: Inherit from 'Constant value'"/>
+				<Parameter name="OutMax" Value="[]"/>
+				<Parameter name="OutMin" Value="[]"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="5"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Data Store
+Read" name="Data Store
+Read" Period="0" Deadline="0" Priority="0" BlockType="DataStoreRead" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="idb" name="Out_1" Number="1" dstLine="idc"/>
+				<Parameter name="DataStoreName" Value="VAR"/>
+			</Primitive>
+			<Primitive Tag="" Name="Data Store
+Write" name="Data Store
+Write" Period="0" Deadline="0" Priority="0" BlockType="DataStoreWrite" SampleTime="1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id10" name="In_1" Number="1" srcLine="idf"/>
+				<Parameter name="DataStoreName" Value="VAR"/>
+			</Primitive>
+			<Primitive Tag="" Name="mem_LastCmdTime2" name="mem_LastCmdTime2" Period="0" Deadline="0" Priority="0" BlockType="DataStoreMemory" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<Parameter name="DataStoreName" Value="VAR"/>
+				<Parameter name="InitialValue" Value="0"/>
+				<Parameter name="OutDataTypeStr" Value="double"/>
+				<Parameter name="OutMax" Value="[]"/>
+				<Parameter name="OutMin" Value="[]"/>
+				<Parameter name="RTWStateStorageClass" Value="Auto"/>
+				<Parameter name="RTWStateStorageTypeQualifier" Value=""/>
+				<Parameter name="ReadBeforeWriteMsg" Value="warning"/>
+				<Parameter name="ShowAdditionalParam" Value="off"/>
+				<Parameter name="SignalType" Value="real"/>
+				<Parameter name="StateMustResolveToSignalObject" Value="off"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+				<Parameter name="WriteAfterReadMsg" Value="warning"/>
+				<Parameter name="WriteAfterWriteMsg" Value="warning"/>
+			</Primitive>
+			<System Tag="" Name="Chart" name="Chart" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<Line _id="id15" Name="" dstLine_end_="id16" srcLine_end_="id14"/>
+				<Line _id="id18" Name="" dstLine_end_="id7" srcLine_end_="id17"/>
+				<Line _id="id1b" Name="" dstLine_end_="id1c" srcLine_end_="id1a"/>
+				<Line _id="id1f" Name="" dstLine_end_="id20" srcLine_end_="id1e"/>
+				<OutputPort _id="id7" name="OOO" Number="1" dstLine="id8" srcLine="id18"/>
+				<Parameter name="ExecuteAtInitialization" Value="off"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id16" name="In_1" Number="1" srcLine="id15"/>
+					<OutputPort _id="id1e" name="Out_1" Number="1" dstLine="id1f"/>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function sf_data_store_memory 1" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id22" ref="id21" name="Chart"/>
+					<InputPort _id="id1c" name="In_1" Number="1" srcLine="id1b"/>
+					<OutputPort _id="id14" name="Out_1" Number="1" dstLine="id15"/>
+					<OutputPort _id="id17" name="Out_2" Number="2" dstLine="id18"/>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Ground" name="Ground" Period="0" Deadline="0" Priority="0" BlockType="Ground" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<OutputPort _id="id1a" name="Out_1" Number="1" dstLine="id1b"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id20" name="In_1" Number="1" srcLine="id1f"/>
+				</Primitive>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow">
+		<State Name="" name="TopLevel" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+			<State _id="id21" Name="Chart" name="Chart" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" referedbyConnectorRef="id22">
+				<Data Max="" Min="" Name="value" Port="-1" name="value" Scope="LOCAL_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="VAR" Port="-2" name="VAR" Scope="STORE_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="OOO" Port="1" name="OOO" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="" ArrayFirstIndex="0"/>
+				<State _id="id23" Name="OOO0" name="OOO0" Order="0" ExitAction="" EnterAction="" DuringAction="OOO=0;value=value + 1;" Decomposition="OR_STATE" dstTransition="id2a" srcTransition="id28"/>
+				<State _id="id24" Name="OOO1" name="OOO1" Order="0" ExitAction="" EnterAction="OOO=1;" DuringAction="" Decomposition="OR_STATE" srcTransition="id2a"/>
+				<TransStart _id="id29" dstTransition="id28"/>
+				<Transition _id="id28" name="" Guard="" Order="1" Action="value = 0;" Trigger="" ConditionAction="" dstTransition_end_="id23" srcTransition_end_="id29"/>
+				<Transition _id="id2a" name="" Guard="value>VAR" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id24" srcTransition_end_="id23"/>
+			</State>
+		</State>
+	</Stateflow>
+</RootFolder>
+
+

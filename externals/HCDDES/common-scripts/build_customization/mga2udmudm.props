@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup
+    Condition="'$(mga2udmudm_RuleBeforeTargets)' == '' and '$(mga2udmudm_RuleAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <mga2udmudm_RuleBeforeTargets>CustomBuild</mga2udmudm_RuleBeforeTargets>
+    <mga2udmudm_RuleAfterTargets></mga2udmudm_RuleAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <mga2udmudm_RuleDependsOn
+      Condition="'$(ConfigurationType)' != 'Makefile'">_SelectedFiles;$(mga2udmudm_RuleDependsOn)</mga2udmudm_RuleDependsOn>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <mga2udmudm>
+      <MetaName></MetaName>
+      <OutDir>%(RelativeDir)</OutDir>
+      <CommandLineTemplate>cd &quot;%(mga2udmudm.OutDir)&quot; &amp;&amp; &quot;$(MSBuildThisFileDirectory)..\gmepy.exe&quot; mga2udmxml &quot;$(ProjectDir)%(Identity)&quot;</CommandLineTemplate>
+      <ExecutionDescription>mga2udmudm &quot;%(Identity)&quot;</ExecutionDescription>
+      <ShowOnlyRuleProperties>false</ShowOnlyRuleProperties>
+    </mga2udmudm>
+  </ItemDefinitionGroup>
+</Project>

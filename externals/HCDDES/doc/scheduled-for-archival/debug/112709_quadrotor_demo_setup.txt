@@ -1,0 +1,57 @@
+1. The generated code included lots of invalid fixed-point data types, so 
+   those had to be resolved by hand.
+
+   + The model needs a data type conversion inside the robostix block, but
+     outside the sensor convert, so the inputs show up with the right type.
+
+   + For now, fixed the discrepancies by hand.
+
+2. Removed #include<math.h> from the generated code.
+
+3. Added header fields for the serial input and output functions.
+
+4. The DataHandler position data message was not generated. 
+
+   + Replacing it (copied from Gumstix.c).
+
+5. The local message between the data handler and the inner loop has the
+   mis-matched fields problem.  Fixed that by hand as well.
+
+6. Turned the task stack up to 600 bytes for profiling.
+
+  + Times:
+  2424.25 us Start of loop
+  22507.44 us Next loop
+
+  82507.38 us Next loop
+  88622.13 us Start of sensor_convert
+  88681.31 us End of sensor_convert 
+  
+  95612.06 us Start of inner loop
+  96126.75 us End of inner loop
+
+  102507.44 us Next loop
+
+  + Stack: 
+  0x4DB - 0x467 = 0x74 (116 bytes) DataHandler
+  0x774 - 0x6E7 = 0x8D (141 bytes) InnerLoop
+
+7. Gumstix -- had to do the same kinds of things (bad types, updating the
+   bitbake file, translating generated doubles to single, etc...).
+
+8. A file with a very large filename appears to not have been generated:
+
+Ssignal1CsingleCsignal2CsingleCsignal3CsingleCsignal4CsingleCsignal5CsingleCsignal6CsingleCsignal7CsingleCsignal8CsingleCsignal9CsingleCsignal10CsingleCsignal11CsingleCsignal12CsingleS.h
+
+   + I created that one by hand and added it in, but it's worth noting.
+
+9. In gum_stix_sl.c, some of the variable declarations were created in the
+   wrong scope: Xe_sh_1, dX_1, Ve_sh_1, dV_1, etc... this is in 
+   sensor_fusion_main( ).
+
+10. Added -lm to link the math library in the gumstix bitbake file.
+
+11. Added a macro to define sign(x) and removed the function transpose()
+    by reversing the indices on a 3x3 matrix (so it was OK).  All in gumstix.
+
+

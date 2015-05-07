@@ -1,0 +1,34 @@
+To build this crazy monster:
+
+Dependencies
+Matlab >= 2008a
+UDM == 3.1.2
+GReAT == 1.6.1
+Java version compatible with ANTLR - Java 6 works
+Libraries in the 3rdparty directory
+
+VCP
+First, set a number of environment variables as follows (use your own paths as appropriate):
+set ANTLR_PATH=C:\src\3rdParty\antlr\2.7.7
+set ANTLR3_PATH=c:\src\3rdParty\antlr\3.0.1
+set BOOST_PATH=C:\src\3rdParty\boost-1_33_1
+set MATLAB_PATH=C:\Program Files\MATLAB\R2006a\
+set XERCES_PATH=C:\Program Files\ISIS\UDM\3rdparty\xerces-c_2_5_0
+set GECODE_PATH=c:\src\svn\HCDDES\3rdParty\gecode-2.2.0-bin
+set CTEMPLATE_PATH=c:\src\svn\HCDDES\3rdParty\ctemplate-0.94-static
+set VCP_PATH=c:\src\svn\HCDDES\trunk
+
+Generally, these will point to the top-level of the installed library.
+
+Open VCP.sln, choose Debug or Release, and invoke the build.  Binaries should
+end up in bin/.
+
+SchedTool
+From Scheduler/SchedTool (and assuming the environment variables are set as above),
+open SchedTool.sln.  The build should work from there.  Binaries will end up local to 
+the SchedTool subdirectory.
+
+TwoStage
+From Proto_CodeGen/TwoStage/MetaAdapter, open the solution file.  Invoking the
+build from the top should work.  Binaries end up local to the directory.
+

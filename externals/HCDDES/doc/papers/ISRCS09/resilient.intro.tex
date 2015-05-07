@@ -1,0 +1,62 @@
+\section{Introduction}
+\label{S:introduction}
+%Need an introduction here...
+%Gabor, Janos ... ?
+%Can we provide other examples for 'health indicators', 'defense optimization'
+The design of resilient control systems necessitates novel developments at the 
+intersection of computer science and control theory. The control of complex 
+dynamic systems is a well-studied area, but much less is known about how to 
+implement such control systems that are able to tolerate shortcomings of 
+non-ideal software and network-based implementation platforms. Additionally, not 
+only implementation side-effects have to be mitigated, but 
+also potential issues related to security of the control system. For instance, 
+if a network used in the control loop is under a denial-of-service attack, 
+we still need to maintain the quality of control for the plant. If the controller
+itself is compromised, we need to detach it from a plant and an alternative controller 
+must be brought on-line. In this paper we describe a control-theoretical framework based on 
+{\em passivity} principles. Passivity-based controllers are ideally suited for 
+high-confidence control systems that have infinite gain margins, thus possess a 
+great deal of robustness to uncertainty. 
+
+% Key idea:
+% Passivity based control principles provide a mathematically rigorous framework to
+% construct high-confidence control systems which have infinite gain margins, thus
+% possessing a great deal of robustness to uncertainty.  
+Passivity is a mathematical property of the controller implementation, and could 
+be realized in different ways. The approach described here applies to a large family 
+of physical systems  which can be described by both linear and non-linear system models
+\cite{haddad08:_nonlin_dynam_system_and_contr,
+  schaft99:_l2_gain_passiv_nonlin_contr,
+  ortega98:_passiv_based_contr_euler_lagran_system}, including
+systems which can be described by cascades of passive systems such as
+quad-rotor aircraft \cite{kottenstette08:_digit_passiv_attit_and_altit}.  Furthermore,
+the theory can be applied to networked control design
+\cite{antsaklis04:_special_issue_networ_contr_system,
+  baillieul07:_special_issue} including over wireless networks 
+\cite{kottenstette08:_wirel_digit_contr_of_contin}.
+
+For this paper we shall focus on the use of a structure called the
+{\em resilient power junction} ( a special type of power junction \cite{kottenstette08:_contr_of_multip_networ_passiv,
+  kottenstette09:_digit_contr_of_multip_discr} )
+to demonstrate how a passive physical system (in which its dynamics are
+described by ordinary differential equations) can be interconnected to
+multiple-redundant-passive-digital controllers while maintaining
+$L^m_2$-stability.  We shall discuss the conditions for the type of
+non-redundant controllers which can be tolerated if no detection
+scheme is used.  In addition we demonstrate how 
+potentially-destabilizing non-redundant controllers can be removed
+from the network when detection of the non-redundant controller
+occurs.
+
+Section~\ref{S:wave_variables} reviews wave 
+variables with which the power junction interacts with.
+Section~\ref{S:ps_ph} reviews the passive sampler and passive hold,
+which allow a continuous time plant to be interconnected to a
+digital control network.  Section~\ref{S:res_pj} introduces the
+resilient power junction (the main contribution to this paper).
+Section~\ref{S:stability} provides the main stability result which
+shows that $L^m_2$-stability can be maintained in spite of
+non-redundant controllers being introduced to the network.
+Section~\ref{S:experiments} provides simulated results when various types
+of non-redundant controllers are connected to the network.
+Section~\ref{S:conclusions} provides conclusions for this paper.

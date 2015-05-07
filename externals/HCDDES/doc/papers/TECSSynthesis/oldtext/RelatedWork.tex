@@ -1,0 +1,30 @@
+\section{Related Work}
+
+A number of projects seek to bring together tools and techniques for embedded control system design:
+
+\begin{itemize}
+
+\item AADL is a modeling language and standard for specifying deployments of control system 
+designs in data networks\cite{modeling:aadl_control_systems}.  AADL projects also include 
+integration with the Cheddar real-time scheduling tool\cite{sched:aadl_sched}.
+
+\item The Metropolis modeling framework\cite{modeling:metropolis} has similar goals, and 
+aims to give designers tools to create verifiable system models.  Metropolis integrates 
+with SystemC, the SPIN model-checking tool, and other tools for schedule and timing analysis. 
+
+\item The DECOS toolchain \cite{modeling:decos} combines a number of existing tools (e.g. the 
+TTech tools, SCADE from Esterel Technologies, and others) but the hardware platform modeling 
+and analysis aspects are not covered. 
+
+\item Topcased\cite{modeling:Topcased} is a large tool integration effort that centers around 
+the UML suite of software design languages.
+
+\end{itemize}
+
+Consistency of integrated tools is an issue for all of these efforts. We are creating a modeling 
+language to experiment with design decoupling techniques, rapid integration of heterogeneous tools, 
+and representation of formal semantics.  Many of the listed projects are too large to allow 
+experimentation with the semantics of the entire toolchain, and standardization does not favor 
+experimentation with syntax.  Due to its experimental nature some parts of our language and tool 
+infrastructure change very frequently.  As functionality expands we may seek integration with 
+existing tools as appropriate.

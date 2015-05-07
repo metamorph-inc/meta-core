@@ -1,0 +1,137 @@
+\documentclass[12pt]{article}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[dvipsnames,svgnames,table]{xcolor}
+\usepackage{graphicx}
+\usepackage{ulem}
+\usepackage[linktoc=none]{hyperref}
+\usepackage{alltt}
+
+% Needed by Maryam
+\usepackage{amsmath} 
+\usepackage{amssymb} 
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{subfigmat}
+
+
+%\author{Claire Tomlin, Christopher Brooks, UC Berkeley}
+\author{Lots of Folks, adapted from LaTeX code by Claire and Christopher}
+\title{Multi-University Research Initiative on High-Confidence Design for Distributed Embedded Systems}
+
+
+
+\makeatletter
+\newenvironment{indentation}[3]%
+	       {\par\setlength{\parindent}{#3}
+	         \setlength{\leftmargin}{#1}       \setlength{\rightmargin}{#2}%
+	         \advance\linewidth -\leftmargin       \advance\linewidth -\rightmargin%
+	         \advance\@totalleftmargin\leftmargin  \@setpar{{\@@par}}%
+	         \parshape 1\@totalleftmargin \linewidth\ignorespaces}{\par}%
+               \makeatother 
+
+               % new LaTeX commands
+               \newcommand{\styleAbstract}[1]{#1}
+               \newcommand{\styleAbstractChar}[1]{#1}
+               \newcommand{\styleAbstractCharOne}[1]{#1}
+               \newcommand{\styleAchievement}[1]{{\footnotesize \textsf{#1}}}
+               \newcommand{\styleBody}[1]{#1}
+               \newcommand{\styleBodyTextChar}[1]{#1}
+               \newcommand{\styleBulleted}[1]{#1}
+               \newcommand{\styleContributions}[1]{#1}
+               \newcommand{\stylepapertitle}[1]{#1}
+               \newcommand{\styleSubsubtopic}[1]{\textit{\uline{#1}}}
+               \newcommand{\styleSubtopic}[1]{\uline{#1}}
+               \newcommand{\styleTopic}[1]{\textbf{\textit{#1}}}
+               \newcommand{\styleTopicChar}[1]{\textbf{\textit{#1}}}
+
+               \begin{document}
+\input{ FrontPage }
+
+               \pagebreak{}
+
+               \tableofcontents
+
+               \pagebreak{}
+
+
+
+               \pagebreak
+
+               \section{High-Confidence Design for Distributed Embedded Systems (HCDDES) MURI}
+
+               The Multidisciplinary University Research Initiative
+               (MURI) project on High-Confidence Design for
+               Distributed Embedded Systems integrate verification,
+               validation, and test procedures throughout the complete
+               design, development and maintenance cycle, from
+               requirements capture to deployment and life cycle
+               updates. 
+               
+               This project was funded by the Air Force Office
+               of Scientific Research.  The project started with a kickoff meeting on August 7, 2006 and on August 31, 2011.
+
+The design of embedded systems is challenging for high-confidence aerospace systems, where technology leadership is the key to superiority. Next generation unmanned air vehicles (UAVs) and space vehicles (SVs) are complex systems of systems involving multiple synchronous and asynchronous processes in an architecture distributed across several processors both within a single UAV (SV) and across groups of UAVs (SVs). Additionally, autonomy, fault tolerance, and resource optimization require that mixed-criticality functions are resident on the same processors in this architecture. Guaranteeing the provably correct behavior of the overall embedded system is extremely difficult, especially with respect to timing constraints and their relationship to safety of the physical systems, and performance specifications associated with mission-level objectives. Traditional software engineering methods cannot solve these problems because they do not address properties key to the interaction of physical processes with software, such as timing, mixed criticality functions, and concurrent processes.
+
+%This project developed a comprehensive approach to the design of high-confidence complex embedded systems, that is, systems that are correct-by-construction, fault tolerant, secure, and degrade gracefully under fault conditions or information attack. Our approach integrates verification, validation, and test procedures throughout the complete design, development and maintenance cycle, from requirements capture to deployment and life cycle updates. This MURI project had the following research areas:
+
+%               \begin{enumerate}
+%               \item Hybrid and embedded systems theory.
+%               \item Model-based software design/verification.
+%               \item Composable Tool Architectures.
+%              \item Testing and Experimental Validation. 
+%               \end{enumerate}
+               
+%	      At Berkeley, the participating faculty were Claire Tomlin, S. Shankar Sastry and Edward A. Lee.
+	      
+%               This report contains Berkeley's year 5 input (key achievements, publications, management
+%               related data) in an overview style that lists the key
+%               results of the last year and during the project.
+
+\input{Objectives}
+
+
+              % \section{Status of Effort}
+	     
+               \section{Accomplishments and New Findings}
+
+               
+\input{HEST}
+%\input{ESDC}
+\input{MSV}
+\input{CTA}
+\input{TEV}
+
+\input{ People }
+
+\section{Interactions/Transitions}
+\input{Presentations}
+\input{Advising}
+\input{Transitions}
+\input{Discoveries}
+\input{Awards}
+                 \nocite{nk_pos_real_pass,nk_nl_ctrl_design,nk_resilient1,nk_resilient2,jp_online_stability,gh_truetime,ee_panecs}
+                 \nocite{jp_esmol,jp_incr_cycles1,jp_incr_cycles2}
+                 \nocite{HG_num_opt_ctrl,ss_coll_avoid,5509627,5399494,JG_hyb_sys_aerial,JD_conf_dyn_prog} 
+                 \nocite{Bhave:views,Kapinski:incr_bound_sys,Althoff:reachability,Bhave:consistency, PZ_smc}
+                 \nocite{hj_eff_sat,emc_model_checking,hj_craig_interp}
+                 \nocite{Clarke:smc,Zuliani:rare_event,ar_arch,ab_arch}
+                 \nocite{WB:10,WB:11,WB:09,MWB:11,MWB:10,MB:12,MB:10,WBIterBel:10,WBFastmpc:10,WBFastmpc:08,BPCPE:10}
+                 \nocite{jm_codegen_rt_conv_opt}
+
+                 \nocite{jp_tt_sched,jp_esmol_rtas,jp_rsp,js_state_feedback,az_map_fault,yx_ic_opt,js_q_design}
+                 \nocite{mz_genetic,sjk_l1_filtering,am_cutting_sets,hh_qr_helicopters,fl_mcil,ab_sf_ctrl}
+                 \nocite{jk_swmc_bisim,ad_param_synth,hm_polyhedra_widening,ap_diff_inv,emc_smc_dsm,yfc_dfa_comp}
+                 \nocite{ap_diff_inv_journal,hj_wlpa_rtl,xk_pass_cps,nk_pass_robust,nk_qr_tr,nk_act_sat}
+                 \nocite{nk_dig_token,nk_mult_cont,gk_mda_emb,an_mt_vf,an_mt_sc,gk_mt_gdc,gk_mic_cps,jg_dsl,gk_gmt}
+                 \nocite{sj_sensor,am_piecewise,dg_opt_image_seq,sj_gate_size,rp_fiber,zw_sdp_sens_net}
+                 \nocite{do_wireless_net,sjk_kern,js_affine_ctrl,kh_approx_geom,am_slow_light,sf_rtc,bl_prog_pret}
+                 \nocite{sf_aut_mapping_pret,Patel:EECS-2008-115,Zhou:EECS-2008-53,sprinkle_urban_challenge}
+                 \nocite{GonzalezGrtliTempletonBiermeyerSprinkleSastry08_TransitioningControlSensingTechnologiesFromFullyautonomous}
+                 \nocite{5350445,4739434,4739394,gh_qr_traj,mv_tmilp,mv_hybrid_coll_avoid}
+                 %\bibliographystyle{unsrt}
+                 \bibliographystyle{plainyr-rev}
+                 \bibliography{HCDDESMURIFinalReport}
+
+               \end{document}

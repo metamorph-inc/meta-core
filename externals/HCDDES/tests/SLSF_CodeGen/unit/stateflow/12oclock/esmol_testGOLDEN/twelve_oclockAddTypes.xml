@@ -1,0 +1,131 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="twelve_oclock" name="twelve_oclock" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id7" Name="" dstLine_end_="id4" srcLine_end_="id6"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id7">
+				<TypeBaseRef _id="id65" ref="id5c" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<System Tag="" Name="Chart" name="Chart" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<Line _id="idc" Name="" dstLine_end_="idd" srcLine_end_="idb"/>
+				<Line _id="idf" Name="" dstLine_end_="id10" srcLine_end_="ide"/>
+				<Line _id="id12" Name="" dstLine_end_="id6" srcLine_end_="id11"/>
+				<Line _id="id15" Name="" dstLine_end_="id16" srcLine_end_="id14"/>
+				<OutputPort _id="id6" name="out" Number="1" dstLine="id7" srcLine="id12">
+					<TypeBaseRef _id="id64" ref="id5c" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ExecuteAtInitialization" Value="off"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id10" name="In_1" Number="1" srcLine="idf">
+						<TypeBaseRef _id="id67" ref="id5c" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+					<OutputPort _id="id14" name="Out_1" Number="1" dstLine="id15">
+						<TypeBaseRef _id="id6a" ref="id5c" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="" Name="Ground" name="Ground" Period="0" Deadline="0" Priority="0" BlockType="Ground" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<OutputPort _id="idb" name="Out_1" Number="1" dstLine="idc">
+						<TypeBaseRef _id="id5d" ref="id5c" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function twelve_oclock 1" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id18" ref="id17" name="Chart"/>
+					<InputPort _id="idd" name="In_1" Number="1" srcLine="idc">
+						<TypeBaseRef _id="id5e" ref="id5c" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+					<OutputPort _id="ide" name="Out_1" Number="1" dstLine="idf">
+						<TypeBaseRef _id="id66" ref="id5c" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<OutputPort _id="id11" name="Out_2" Number="2" dstLine="id12">
+						<TypeBaseRef _id="id63" ref="id5c" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id16" name="In_1" Number="1" srcLine="id15">
+						<TypeBaseRef _id="id6b" ref="id5c" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+				</Primitive>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow">
+		<State Name="" name="TopLevel" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+			<State _id="id17" Name="Chart" name="Chart" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" referedbyConnectorRef="id18">
+				<Data Max="" Min="" Name="out" Port="1" name="out" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="-1" ArrayFirstIndex="0"/>
+				<State _id="id19" Name="s11122" name="s11122" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id3e"/>
+				<State _id="id1a" Name="s11111" name="s11111" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id4d"/>
+				<State _id="id1b" Name="s10000" name="s10000" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id41 id42" srcTransition="id3f"/>
+				<State _id="id1c" Name="s11000" name="s11000" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id43 id44" srcTransition="id41"/>
+				<State _id="id1d" Name="s12000" name="s12000" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id45 id46" srcTransition="id42"/>
+				<State _id="id1e" Name="s11100" name="s11100" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id4b id4c" srcTransition="id43"/>
+				<State _id="id1f" Name="s11200" name="s11200" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id51 id52" srcTransition="id44"/>
+				<State _id="id20" Name="s12100" name="s12100" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id49 id4a" srcTransition="id45"/>
+				<State _id="id21" Name="s12200" name="s12200" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id47 id48" srcTransition="id46"/>
+				<State _id="id22" Name="s12120" name="s12120" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id54 id58" srcTransition="id4a"/>
+				<State _id="id23" Name="s12110" name="s12110" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id3c id53" srcTransition="id49"/>
+				<State _id="id24" Name="s12210" name="s12210" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id55 id56" srcTransition="id47"/>
+				<State _id="id25" Name="s12220" name="s12220" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id3d id57" srcTransition="id48"/>
+				<State _id="id26" Name="s11121" name="s11121" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id4e"/>
+				<State _id="id27" Name="s11110" name="s11110" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id39 id4d" srcTransition="id4b"/>
+				<State _id="id28" Name="s11120" name="s11120" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id3e id4e" srcTransition="id4c"/>
+				<State _id="id29" Name="s11220" name="s11220" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id3b id50" srcTransition="id52"/>
+				<State _id="id2a" Name="s11210" name="s11210" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id3a id4f" srcTransition="id51"/>
+				<State _id="id2b" Name="s11112" name="s11112" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id39"/>
+				<State _id="id2c" Name="s11211" name="s11211" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id3a"/>
+				<State _id="id2d" Name="s11212" name="s11212" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id4f"/>
+				<State _id="id2e" Name="s11221" name="s11221" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id50"/>
+				<State _id="id2f" Name="s11222" name="s11222" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id3b"/>
+				<State _id="id30" Name="s12111" name="s12111" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id3c"/>
+				<State _id="id31" Name="s12112" name="s12112" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id53"/>
+				<State _id="id32" Name="s12121" name="s12121" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id58"/>
+				<State _id="id33" Name="s12122" name="s12122" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id54"/>
+				<State _id="id34" Name="s12211" name="s12211" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id55"/>
+				<State _id="id35" Name="s12212" name="s12212" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id56"/>
+				<State _id="id36" Name="s12221" name="s12221" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id3d"/>
+				<State _id="id37" Name="s12222" name="s12222" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" srcTransition="id57"/>
+				<TransStart _id="id40" dstTransition="id3f"/>
+				<Transition _id="id39" name="" Guard="" Order="2" Action="out=11112;" Trigger="" ConditionAction="" dstTransition_end_="id2b" srcTransition_end_="id27"/>
+				<Transition _id="id3a" name="" Guard="" Order="1" Action="out=11211;" Trigger="" ConditionAction="" dstTransition_end_="id2c" srcTransition_end_="id2a"/>
+				<Transition _id="id3b" name="" Guard="" Order="2" Action="out=11222;" Trigger="" ConditionAction="" dstTransition_end_="id2f" srcTransition_end_="id29"/>
+				<Transition _id="id3c" name="" Guard="" Order="1" Action="out=12111;" Trigger="" ConditionAction="" dstTransition_end_="id30" srcTransition_end_="id23"/>
+				<Transition _id="id3d" name="" Guard="" Order="1" Action="out=12221;" Trigger="" ConditionAction="" dstTransition_end_="id36" srcTransition_end_="id25"/>
+				<Transition _id="id3e" name="" Guard="" Order="2" Action="out=11122;" Trigger="" ConditionAction="" dstTransition_end_="id19" srcTransition_end_="id28"/>
+				<Transition _id="id3f" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id1b" srcTransition_end_="id40"/>
+				<Transition _id="id41" name="" Guard="" Order="2" Action="" Trigger="" ConditionAction="" dstTransition_end_="id1c" srcTransition_end_="id1b"/>
+				<Transition _id="id42" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id1d" srcTransition_end_="id1b"/>
+				<Transition _id="id43" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id1e" srcTransition_end_="id1c"/>
+				<Transition _id="id44" name="" Guard="" Order="2" Action="" Trigger="" ConditionAction="" dstTransition_end_="id1f" srcTransition_end_="id1c"/>
+				<Transition _id="id45" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id20" srcTransition_end_="id1d"/>
+				<Transition _id="id46" name="" Guard="" Order="2" Action="" Trigger="" ConditionAction="" dstTransition_end_="id21" srcTransition_end_="id1d"/>
+				<Transition _id="id47" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id24" srcTransition_end_="id21"/>
+				<Transition _id="id48" name="" Guard="" Order="2" Action="" Trigger="" ConditionAction="" dstTransition_end_="id25" srcTransition_end_="id21"/>
+				<Transition _id="id49" name="" Guard="" Order="2" Action="" Trigger="" ConditionAction="" dstTransition_end_="id23" srcTransition_end_="id20"/>
+				<Transition _id="id4a" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id22" srcTransition_end_="id20"/>
+				<Transition _id="id4b" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id27" srcTransition_end_="id1e"/>
+				<Transition _id="id4c" name="" Guard="" Order="2" Action="" Trigger="" ConditionAction="" dstTransition_end_="id28" srcTransition_end_="id1e"/>
+				<Transition _id="id4d" name="" Guard="" Order="1" Action="out=11111;" Trigger="" ConditionAction="" dstTransition_end_="id1a" srcTransition_end_="id27"/>
+				<Transition _id="id4e" name="" Guard="" Order="1" Action="out=11121;" Trigger="" ConditionAction="" dstTransition_end_="id26" srcTransition_end_="id28"/>
+				<Transition _id="id4f" name="" Guard="" Order="2" Action="out=11212;" Trigger="" ConditionAction="" dstTransition_end_="id2d" srcTransition_end_="id2a"/>
+				<Transition _id="id50" name="" Guard="" Order="1" Action="out=11221;" Trigger="" ConditionAction="" dstTransition_end_="id2e" srcTransition_end_="id29"/>
+				<Transition _id="id51" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id2a" srcTransition_end_="id1f"/>
+				<Transition _id="id52" name="" Guard="" Order="2" Action="" Trigger="" ConditionAction="" dstTransition_end_="id29" srcTransition_end_="id1f"/>
+				<Transition _id="id53" name="" Guard="" Order="2" Action="out=12112;" Trigger="" ConditionAction="" dstTransition_end_="id31" srcTransition_end_="id23"/>
+				<Transition _id="id54" name="" Guard="" Order="1" Action="out=12122;" Trigger="" ConditionAction="" dstTransition_end_="id33" srcTransition_end_="id22"/>
+				<Transition _id="id55" name="" Guard="" Order="1" Action="out=12211;" Trigger="" ConditionAction="" dstTransition_end_="id34" srcTransition_end_="id24"/>
+				<Transition _id="id56" name="" Guard="" Order="2" Action="out=12212;" Trigger="" ConditionAction="" dstTransition_end_="id35" srcTransition_end_="id24"/>
+				<Transition _id="id57" name="" Guard="" Order="2" Action="out=12222;" Trigger="" ConditionAction="" dstTransition_end_="id37" srcTransition_end_="id25"/>
+				<Transition _id="id58" name="" Guard="" Order="2" Action="out=12121;" Trigger="" ConditionAction="" dstTransition_end_="id32" srcTransition_end_="id22"/>
+			</State>
+		</State>
+	</Stateflow>
+	<Types name="Types">
+		<Matrix _id="id5c" Type="double" name="MdoubleC1C1M" rows="1" columns="1" referedbyTypeStructRef="id5d id5e id63 id64 id65 id66 id67 id6a id6b"/>
+	</Types>
+</RootFolder>
+
+

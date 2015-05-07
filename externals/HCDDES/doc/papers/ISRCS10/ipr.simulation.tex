@@ -1,0 +1,146 @@
+\section{Simulation Results}
+\label{S:simulations}
+In evaluating our proposed solution we shall take a closer look at
+system performance for the modified two tank process described in
+\cite{johnsen07:_inter_and_dampin_assig_passiv}.   Specifically we
+will compare our controller with the additional integrator and
+corresponding integrator anti-windup compensator to the original
+proportional feed-back controller presented in
+\cite{johnsen07:_inter_and_dampin_assig_passiv}.  We will see that the
+integrator is able to effectively compensate for both actuator
+degradation and flow-ratio uncertainty.  In addition the integrator
+anti-windup compensator works sufficiently well in prohibiting
+significant oscillatory behavior when operating at the systems
+limits.  Next we will compare IDA-PBC performance to the decentralized
+controllers presented in \cite{johansson00:_quadr_tank_proces} for
+both the minimum and non-minimum phase cases.  We will see that the
+IDA-PBC is both comparable for the minimum phase case while being
+vastly superior for the non-minimum phase case.
+\subsection{Two Tank Process}
+For the two tank process the system operating parameters are as
+follows: $A_1=50.3$ cm$^2$, $A_2=28.3$ cm$^2$, $a_1=.233$ cm$^2$, $a_2=.127$
+cm$^2$, $\gamma=.4$, $\delta_{\gamma}=.75$, $k_u=.75$, $u_{\min}=0$,
+$u_{\max}=100$, $x_1(0)=15$ cm, $x_2(0)=\left (
+  \frac{(1-\delta_{\gamma}\gamma)a_1}{a_2} \right )^2x_1(0)$, $T_s=1$
+second and $g=981$ cm/s$^2$.  Set-point trajectories for both the two
+tank and four tank processes are smoothed using a discrete-time filter
+which results from applying the bilinear transform to the
+corresponding continuous time-time filter model $H_{\traj}(s)=\frac{\omega_{\traj}^2}{s^2 +
+  2\zeta_{\traj}\omega_{\traj} s + \omega_{\traj}^2}$.  We compared
+our controller for the two tank process to the controller presented in  
+\cite{johnsen07:_inter_and_dampin_assig_passiv} which lacks
+the additional integrator term $x_{\mathsf{I}1}$ to compensate for
+model uncertainty.  Specifically $u=-[k_1,(1-\gamma)k_2]\hat{x} +
+a_1\sqrt{2gx_1^*}$ in which $k_1 = 10$ and  $k_2 = 1.01 \frac{A_2
+  k_1}{A_1 4} = 1.4206$.
+\begin{figure}
+  \centering
+  \includegraphics*[width=3.5in,height=2in, viewport=20 10 400 300]{figures/two_tank_x1}
+  \caption{Two tank process $x_1(t)$.}
+  \label{F:two_tank_x1}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics*[width=3.5in,height=2in, viewport=15 10 415 300]{figures/two_tank_x2_u}
+  \caption{Two tank process $x_2(t)$ and $u(t)$.}
+  \label{F:two_tank_x2}
+\end{figure}
+%\begin{figure}
+%  \centering
+%  \includegraphics*[width=3.5in,height=2in, viewport=20 10 400 300]{figures/two_tank_u}
+%  \caption{Pump flow command $u(t)$ for two tank process.}
+%  \label{F:two_tank_u}
+%\end{figure}
+\subsection{Four Tank Process}
+The reference for comparison is the decentralized controller (DC) used
+to control the four tank process \cite{johansson00:_quadr_tank_proces}.  Specifically two
+PI-controllers were used such that $U_l(s) = K_l \left ( 1 + \frac{1}{T_{il}}
+  s \right )(X_l^*(s)-X_l(s)),\ l\ \in\ \{1,2\}$ in which
+$(K_1=3.0,T_{i1}=30)$ and $(K_2=2.7,T_{i2}=40)$ for the minimum-phase
+case and $(K_1=1.5,T_{i1}=110)$
+and $(K_2=-.12,T_{i2}=220)$ for the \nonminimum-phase case.  The remaining parameters for the
+process are as follows: i) $A_1 = A_3 = 28$ cm$^2$,  $A_2 = A_4 = 32$
+cm$^2$, $a_1 = a_3 = 0.071$ cm$^2$, $a_2 = a_4 = 0.057$ cm$^2$,
+$u_{1\min} = u_{2\min} = 0$, $u_{1\max} = u_{2\max} = 100$, $k_u =
+0.8$; ii) either $\gamma_1 = 0.7$, $\gamma_2 = 0.6$, $x_1(0) = 12.4$ cm,
+$x_2(0) = 12.7$ cm, $x_3(0) = 1.8$ cm, and $x_4(0) = 1.4$ cm for the
+minimum-phase case or $\gamma_1 = 0.43$, $\gamma_2 = 0.34$, $x_1(0) =
+12.6$ cm, $x_2(0) = 13.0$ cm, $x_3(0) = 4.8$ cm, and $x_4(0) = 4.9$ cm
+for the \nonminimum\ phase case.
+
+For the minimum-phase example (Figs. \ref{F:four_tank_min_phase_x1} and 
+\ref{F:four_tank_min_phase_x2}) the IDA-PBC parameters are 
+$k_3 = 100$, $k_4 = 100$, $\epsilon_1 = 0.75$, $\epsilon_2 = 0.75$, 
+$\epsilon_{\mathsf{I}1} = 0.4$, $\epsilon_{\mathsf{I}2} = 0.4$,
+$T_s=0.1$ s.  For the \nonminimum-phase example
+(Figs. \ref{F:four_tank_nonmin_phase_x1} and
+\ref{F:four_tank_nonmin_phase_x2}) the IDA-PBC parameters are  
+$k_3 = 5$, $k_4 = 5$, $\epsilon_1 = 0.75$, $\epsilon_2 = 0.75$, 
+$\epsilon_{\mathsf{I}1} = 0.75$, $\epsilon_{\mathsf{I}2} = 0.75$.  In
+which the remaining controller coefficients are computed using the
+following relationships $k_{\mathsf{I}1} = \epsilon_{\mathsf{I}1}
+\frac{4}{A_1}$, $k_{\mathsf{I}2} = \epsilon_{\mathsf{I}2}
+\frac{4}{A_2}$, $k_1 = \epsilon_1 \frac{(4-k_{\mathsf{I}1} A_1)
+  k_3}{A_3}$ and $k_2 = \epsilon_2 \frac{(4-k_{\mathsf{I}2} A_2)
+  k_4}{A_4}$.
+% Table for the two cases
+%\begin{table*}[htb]
+%  \centering
+%     \begin{tabular}[width=2.5in]{@{\extracolsep{\fill}} | c | c | c | }
+%        \hline
+%        \multicolumn{3}{|c|}{Four Tank Controller Parameters} \\
+%        \hline
+%         & Min Phase & Non-min Phase \\
+%        \hline \hline
+%        $\gamma_1$ & 0.7 & 0.43 \\
+%        \hline
+%        $\gamma_2$ & 0.6 & 0.34 \\
+%        \hline
+%        $k_3$ & 100 & 5 \\
+%        \hline
+%        $k_4$ & 100 & 5 \\ 
+%        \hline
+%        $\epsilon_1$ & 0.75 & 0.75 \\
+%        \hline
+%        $\epsilon_2$ & 0.75 & 0.75 \\
+%        \hline
+%        $\epsilon_{\mathsf{I}1}$ & 0.4 & 0.75 \\
+%        \hline
+%        $\epsilon_{\mathsf{I}2}$ & 0.4 & 0.75 \\
+%        \hline
+%        $T_s$ & 0.1 s & 1 s \\
+%        \hline
+%        $x_1(0)$ & 12.6 & 12.6  \\
+%        \hline
+%        $x_2(0)$ & 12.7 &  13.0 \\
+%        \hline
+%        $x_3(0)$ & 1.8 & 1.8  \\
+%        \hline
+%        $x_4(0)$ & 1.4 &  1.4 \\
+%        \hline
+%     \end{tabular}
+%\end{table*}
+\begin{figure}
+  \centering
+  \includegraphics*[width=3.5in,height=2in, viewport=20 10 410 300]{figures/min_phase_x1_u1}
+  \caption{Minimum-phase four tank process $x_1(t),\ u_1(t)$.}
+  \label{F:four_tank_min_phase_x1}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics*[width=3.5in,height=2in, viewport=20 10 410 300]{figures/min_phase_x2_u2}
+  \caption{Minimum-phase four tank process $x_2(t),\ u_2(t)$.}
+ \label{F:four_tank_min_phase_x2}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics*[width=3.5in,height=2in, viewport=20 10 410 300]{figures/nonmin_phase_x1_u1}
+  \caption{\Nonminimum-phase four tank process $x_1(t),\ u_1(t)$.}
+  \label{F:four_tank_nonmin_phase_x1}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics*[width=3.5in,height=2in, viewport=20 10 410 300]{figures/nonmin_phase_x2_u2}
+  \caption{\Nonminimum-phase four tank process $x_2(t),\ u_2(t)$.}
+  \label{F:four_tank_nonmin_phase_x2}
+\end{figure}

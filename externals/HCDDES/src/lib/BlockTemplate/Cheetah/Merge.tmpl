@@ -1,0 +1,10 @@
+$block.setKeepStructs()#slurp
+#set $idx = 1
+if $inputs[ 0 ] == $idx
+    $output = $inputs[ $idx ]
+#for $inp in $inputs[2:]
+    #set $idx += 1
+elseif $inputs[ 0 ] == $idx
+    $output = $inputs[ $idx ]
+#end for
+end

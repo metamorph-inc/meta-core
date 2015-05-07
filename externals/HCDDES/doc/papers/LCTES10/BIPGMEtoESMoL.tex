@@ -1,0 +1,38 @@
+\section{BIP-GME to ESMoL Conversion}
+
+\label{section:trans}
+
+How we got the BIP model into ESMoL.
+
+Talk about adding environment and scheduling information.
+
+What assumptions need to be made?
+What parts of the model need to be updated by hand?
+What about platform timing information?
+
+Creating an appropriate syntactic transformation from BIP models to ESMoL models.
+
+Mapping BIP component interaction models to appropriate message transfer models
+for deployment, while preserving semantics.
+
+\subsection{Component based construction}
+A \textbf{port} $p$ is defined by the port identifier $p$, and the data variables associated with the port. \newline 
+An \textbf{atomic component} is a Petri net extended with data. It consists of a set of ports $P$ used for the synchronization with other components, a set of transitions $T$ and a set of local variables $X$. Transitions describe the behaviour of the component. They are represented as a labelled relation on the set of control locations $L$.
+
+Figure \ref{atom} shows an example of an atomic component with two ports $r_1$, $t_1$, a variable $x$, and two control locations $l_1$, $l_2$. At control location $l_1$, the transition labelled $t_1$ is possible. When an interaction through $t_1$ takes place, a random value is assigned for the variable $x$. This value is exported through the port $r_1$. From the control location $l_2$, the transition labelled $r_1$ can occur (the guard of the transition is true by default), the variable $x$ is eventually modified and the value of $x$ is printed.
+\begin{figure}[htbp]
+  \begin{center}
+        \input{images/atom.pdf_t}
+ \end{center}
+  \caption{An example of an atomic component in BIP} \label{atom}
+\end{figure}
+
+
+An \textbf{interaction} $a$ is defined by 1) $P$ a support set of ports 2) $G$ a guard, which is an arbitrary predicate on the variables of its ports, 3) $U$ an upward update function 4) $D$ a downward update function.\newline
+Synchronization through an interaction involves three steps: 1) The computation of the upward update function $U$ ; 2) Evaluation of the guard $G$ 3) The computation of the downward update function $D$. we note that we can define hierarchical interactions \cite{verif:bs08,verif:bs09}, however, we can flatten hierarchy~\cite{verif:bjs09}, and hence, we just consider a set of non-hierarchical interactions. \newline
+One can add \textbf{priorities} to reduce non-determinism whenever many interactions are enabled. Then the interaction with the higher priority would be chosen. These priorities can also be guarded.\newline
+A \textbf{Composite component} $C$ is defined from existing atomic, and from a set of interactions which are connected to the atomic components. We note that a composite component obtained by composition of a set of atomic components can be composed with other components in a hierarchical and incremental fashion using the same operational semantics. However, it is also possible to flatten a composite component and obtain a non-hierarchical one \cite{verif:bjs09}.
+
+
+
+

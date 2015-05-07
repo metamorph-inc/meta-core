@@ -1,0 +1,78 @@
+%-------------------------------------------------------------------------
+
+% SL_CodeGen functions, prototypes, datatype mapping to C, classes (instances), primitives and supported data types on signals (table?) (example SFC model and source code)
+% GReAT and other implementation details
+% SF_CodeGen how SL and SF "meet", functions and classes (instances)
+
+\subsubsection* {General Discussion}
+
+The main role of the code generators in the proposed toolchain is to transform the dataflow and statechart models into executable code
+on the selected hardware/software platform as it is described by the component and deployment aspects of the ECSL-DP model. Currently, different generators exist in the toolchain for the different parts of the model, and the final compilation and linking step combines the generated artifacts. The SDF and HFSM code generators are the key components of the code generation infrastructure, and they share their internal architectures and underlying technologies. Both tools are built using the GReAT engine \cite{isis:great}, and they employ graph rewriting rules on the dataflow and statechart models to transform them into an intermediate model-based representation of the executable code.  This approach has benefits. The heavyweight part of the code generation is decoupled from the concrete syntax of the platform language (in this case C or C++); consequently, it is remarkably straightforward to add support for additional procedural languages. Also, the model-based representation of the generated code (in the form of abstract syntax graphs) provides a clear and well-defined programmatic interface to the generated code for verification tools or other third party utilities.
+Although the proposed toolchain elements are built on strict and formal graph transformation foundations, the code generation infrastructure shows many similarities to the overall approach taken by the GNU Compiler Collection, which partitions the compiler workflow into front-end and back-end systems with the Register Transfer Language intermediate representation between these \cite{gcc}.
+
+\subsubsection* {Synchronous Dataflow code generator}
+
+The Synchronous Dataflow (SDF) code generator (\emph{SL\_CodeGen}) performs a topological sort on the input dataflow model before it executes the transformation rules which finally yield executable code. Signal paths become variables and dataflow blocks are transformed into functions. The code generator is prepared to handle many of primitive processing elements and automatically generates their implementation in the given context. The following Simulink blocks are supported currently: {\tt Product, MultiPortSwitch, Constant, Signum, Sum, ToWorkspace, Math, BusSelector, Mux, RelationalOperator, Demux, UnitDelay, Terminator, Gain, Saturate, MinMax, Switch, Ground, From, Goto, Abs}
+
+The internal architecture of the code generator makes it rather straightforward to add support for other blocks in the future. Scalars, vectors, matrices and structures are supported on the signal paths.
+
+\subsubsection*{Hierarchical Finite State Machine code generator}
+
+The Hierarchical Finite State Machine (HFSM) code generator processes imported (sub)models from Stateflow language. Thus, it follows the semantics of a subset of MATLAB/Stateflow \cite{mathworks:tools} as closely as possible while generating the executable implementation. It employs sequential evaluation semantics for state transitions. The transitions are evaluated on the state hierarchy with a depth-first search for active states. A state transition into a new state implicitly enters all of its parent states. Like in MATLAB/Stateflow, the code generator assigns three functions for each state: one for executing actions upon entering the state, another for the exit actions, and a third one for performing tasks while the state is active.
+
+\subsubsection{TTP code generator}
+The Time-Triggered Platform presented several challenges to the creation of code
+generators. It has intricate constraints on the task and message
+schedules, and the message schedules are not contained by the
+application code but by a special message descriptor file (MEDL), which
+is downloaded to the controller at startup. Due to the closed source
+model of the TTP software toolset, we faced an important decision in
+supporting this platform. We either had to replicate (some of) the
+functions of the TTP tools or somehow integrate them into our toolchain.
+For the first prototype the second approach seemed to be more
+reasonable. Each of the TTP tools provide a Python-based API for
+automating the design process. These APIs proved to be rich enough
+to integrate the tools into the prototype toolchain. The \emph{TTP
+Code Generator} is responsible for the following steps:\\
+\textbf{Glue code generation.} The deployment model of the ECSL-DP
+  language defines the tasks and the contained software
+  components. The software components refer to Simulink blocks
+  in the dataflow model. The TTP code generator is responsible
+  for generating the "body" of the time-triggered tasks that read
+  the input variables, invoke the functions generated
+  by the Simulink/Stateflow code generators, and update the
+  output variables in the communication controller. The
+  generated glue code is also responsible for the cluster
+  startup and the re-integration of tasks after failures.\\
+  \textbf{Message scheduling.} In parallel with the code generation
+  steps, the TTP code generator builds a Python script as an
+  input for the \emph{TTPplan} tool. The generated script
+  defines the global properties of the cluster, the messages,
+  their types and required frequencies, the nodes, and a default
+  cluster mode. The source of this information is the deployment
+  model.\\
+  \textbf{Task scheduling.} The code generator also builds Python
+  scripts for the \emph{TTPbuild} tool---one for each node. The
+  script defines the application level tasks (based on the
+  deployment model) with their worst case execution times and builds
+  the connection to the input and output messages.\\
+  \textbf{Compiler execution.} Finally, the TTP software tools are
+  executed with the generated script files. TTPplan generates
+  the message schedule (if the scheduling requirements can be
+  satisfied). TTPbuild customizes the MEDL for each node,
+  generates a configuration file for \emph{TTPos}---a real-time
+  embedded operating system running the cluster nodes---and generates the
+  source code for the fault-tolerant communication layer.
+  Provided that the previous steps succeeded, the TTP code
+  generator invokes the compiler on the generated source files
+  (Simulink/Stateflow code, TTP glue code, fault-tolerance layer,
+  and operating system configuration).\\
+
+\subsubsection*{Constraint-based scheduler}
+% What it does
+Commercial TTP tools provide deployment analysis and schedule generation capabilities subject to use on a particular hardware platform.  Our toolchain includes a more general schedule generation tool that can create time-triggered schedules for tasks and messages in a distributed system.  A GReAT transformation extracts the critical details from an ECSL-DP model and models them in a simple system description language called \emph{CSched}.  \emph{CSched} includes system description models, instance graph models, and constraint program models.  Once the system model is created using the graph transformation, the system and constraint models are automatically created by a model interpreter.  Constraint models are solved using the finite-domain constraint library Gecode \cite{gecode}.  Any feasible solution represents a valid schedule for all tasks and messages in the system. Constraint-based schedule generation has been shown to scale well to large problem sizes.  Schild and W\"urtz report successful scheduling of up to 3500 processes and messages, 1 million constraints, and a search space dimension of 6 million starting times \cite{sw:offlinescheduling}.
+
+% How it does it
+The difficulties of representing TTA scheduling problems as finite-domain constraint models lie in capturing the variations of order that can occur among the task and message instances and in attempting to optimize the orderings to satisfy specified latencies.  Schild and W\"urtz \cite{sw:offlinescheduling} describe a two-stage modeling technique for this problem: in the first stage, task and message dependencies are resolved and the resulting execution order is captured in constraints; in the second stage, the constraint space is searched to satisfy latency constraints within the established ordering.  Our approach simplifies this technique by using additional global serialization constraints to represent the families of task/message orderings in an attempt to reduce solution effort to a single stage.  This work is still in progress, but the tools do produce valid schedules for many configurations and are fully integrated into the toolchain.
+
+%-------------------------------------------------------------------------

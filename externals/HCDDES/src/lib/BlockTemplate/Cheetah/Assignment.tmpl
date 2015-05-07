@@ -1,0 +1,151 @@
+#from collections import deque
+#import re
+#
+#
+#set $portNo = 1
+#if $parameters.OutputInitialize == "Initialize using input port <Y0>"
+	#set $portNo = 2
+$output = $inputs[0]
+#end if
+#
+#set $uInput = $inputs[ $portNo - 1 ]
+#
+#set $space = " "
+#set $comma = ', '
+#set $indexOptions = $parameters.IndexOptions.value.split( ',' )
+#set $indices = $parameters.Indices.value.split( ',' )
+#set $oneIndexed = $parameters.IndexMode == "One-based"
+#
+#set $dimensions = $uInput.getAllDimensions()
+#set $loopVariables = []
+#set $indexVariables = deque()
+#set $indexExpressions = []
+#set $indent = ''
+#
+#for ( $indexOption, $indexes ) in $zip( $indexOptions, $indices )
+	#if $indexOption == "Index vector (dialog)"
+		#set $newIndexes = $re.compile( r'\d+' ).findall( $indexes )
+		#set $newIndexes = $map( lambda x: int( x ), $newIndexes )
+		#if $oneIndexed
+			#set $newIndexes = $map( lambda x: x - 1, $newIndexes )
+		#end if
+		#if $len( $newIndexes ) > 1
+			#set $indexVar = $block.createVariable(   "index", $Array(  $len( $newIndexes ), "int"  )   )
+$indexVar = [ $space.join(   $map(  lambda x: str( x ), $newIndexes  )   ) ]
+$indexVariables.append( $indexVar )#slurp
+		#end if
+	#end if
+#end for0
+#
+#for ( $indexOption, $indexes, $dimension ) in zip( $indexOptions, $indices, $dimensions )
+	#
+	#set $loopVar = $block.createVariable( "ix", "int" );
+	#
+	#if $indexOption == "Assign all"
+		#
+$loopVariables.append( $loopVar )#slurp
+$indexExpressions.append( $loopVar )#slurp
+${indent}$loopVar = 0
+${indent}while $loopVar < $dimension
+		#set $indent += '    '
+		#
+	#elif $indexOption == "Starting index (dialog)"
+		#
+		#set $startIndex = int( $indexes )
+		#if $oneIndexed
+			#set $startIndex -= 1
+		#end if
+		#
+		#if $dimension <= 1
+$indexExpressions.append(  str( $startIndex )  )#slurp
+		#else
+$loopVariables.append( $loopVar )#slurp
+$indexExpressions.append(  $loopVar + " + " + str( $startIndex )  )#slurp
+${indent}$loopVar = 0
+${indent}while $loopVar < $dimension
+			#set $indent += '    '
+		#end if
+		#
+	#elif $indexOption == "Starting index (port)"
+		#
+		#set $inp = $inputs[ $portNo ]
+		#set $portNo += 1
+		#
+		#set $varExpr = $inp.name
+		#if $oneIndexed
+			#set $varExpr += " - 1"
+		#end if
+		#
+		#if $dimension <= 1
+$indexExpressions.append( $varExpr )#slurp
+		#else
+$loopVariables.append( $loopVar )#slurp
+$indexExpressions.append(  $loopVar + " + " + $varExpr  )#slurp
+${indent}$loopVar = 0
+${indent}while $loopVar < $dimension
+			#set $indent += '    '
+		#end if
+		#
+	#elif $indexOption == "Index vector (dialog)"
+		#
+		#set $newIndexes = $re.compile( r'\d+' ).findall( $indexes )
+		#set $newIndexes = $map( lambda x: int( x ), $newIndexes )
+		#
+		#if $oneIndexed
+			#set $newIndexes = $map( lambda x: x - 1, $newIndexes )
+		#end if
+		#set $loopSize = $len( $newIndexes )
+		#
+		#if $loopSize <= 1
+$indexExpressions.append(  str( $newIndexes[ 0 ] )  )#slurp
+		#else
+$loopVariables.append( $loopVar )#slurp
+$indexExpressions.append( $indexVariables.popleft() + "( " + $loopVar + " )" )#slurp
+${indent}$loopVar = 0
+${indent}while $loopVar < $loopSize
+			#set $indent += '    '
+		#end if
+		#
+	#elif $indexOption == "Index vector (port)"
+		#
+		#set $inp = $inputs[ $portNo ]
+		#set $portNo += 1
+		#
+		#set $portDimensions = $inp.getDimensions()
+		#set $loopSize = 1 if len( $portDimensions ) == 0 else $portDimensions[ 0 ]
+		#
+		#set $varExpr = $inp.name
+		#
+		#if $loopSize <= 1
+			#if $oneIndexed
+				#set $varExpr += " - 1"
+			#end if
+$indexExpressions.append( $varExpr )#slurp
+		#else
+$loopVariables.append( $loopVar )#slurp
+			#set $varExpr += "( " + $loopVar + " )"
+			#if $oneIndexed
+				#set $varExpr += " - 1"
+			#end if
+$indexExpressions.append( $varExpr )#slurp
+${indent}$loopVar = 0
+${indent}while $loopVar < $loopSize
+			#set $indent += '    '
+		#end if
+		#
+	#end if
+#end for
+#
+#
+${indent}$output#slurp
+#if $loopVariables
+( $comma.join(   $map(  lambda x: str( x ), $indexExpressions  )   ) )#slurp
+#end if
+ = ${uInput}( $comma.join(  $map(  lambda x: str( x ), $loopVariables  )  ) )
+#
+$loopVariables.reverse()#slurp
+#for $loopVariable in $loopVariables
+${indent}$loopVariable = $loopVariable + 1
+	#set $indent = $indent[0:-4]
+${indent}end
+#end for

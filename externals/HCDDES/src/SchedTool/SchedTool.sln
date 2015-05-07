@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SchedTool", "SchedTool.vcxproj", "{DB95B81C-EB0A-4ABB-9843-12D0BD34C80A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SchedTester", "..\SchedTester\SchedTester.vcxproj", "{A979CD8B-CE89-4B50-B7E6-9FE7F30381B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5BD9D7B2-7C6D-4143-89A5-47B1693B4304}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB95B81C-EB0A-4ABB-9843-12D0BD34C80A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DB95B81C-EB0A-4ABB-9843-12D0BD34C80A}.Debug|Win32.Build.0 = Debug|Win32
+		{DB95B81C-EB0A-4ABB-9843-12D0BD34C80A}.Release|Win32.ActiveCfg = Release|Win32
+		{DB95B81C-EB0A-4ABB-9843-12D0BD34C80A}.Release|Win32.Build.0 = Release|Win32
+		{A979CD8B-CE89-4B50-B7E6-9FE7F30381B7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A979CD8B-CE89-4B50-B7E6-9FE7F30381B7}.Debug|Win32.Build.0 = Debug|Win32
+		{A979CD8B-CE89-4B50-B7E6-9FE7F30381B7}.Release|Win32.ActiveCfg = Release|Win32
+		{A979CD8B-CE89-4B50-B7E6-9FE7F30381B7}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

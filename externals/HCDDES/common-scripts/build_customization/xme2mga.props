@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup
+    Condition="'$(xme2mga_RuleBeforeTargets)' == '' and '$(xme2mga_RuleAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <xme2mga_RuleBeforeTargets>CustomBuild</xme2mga_RuleBeforeTargets>
+    <xme2mga_RuleAfterTargets></xme2mga_RuleAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <xme2mga_RuleDependsOn
+      Condition="'$(ConfigurationType)' != 'Makefile'">_SelectedFiles;$(xme2mga_RuleDependsOn)</xme2mga_RuleDependsOn>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <xme2mga>
+      <OutFile>%(RelativeDir)%(FileName).mga</OutFile>
+      <CommandLineTemplate>&quot;$(MSBuildThisFileDirectory)..\gmepy.exe&quot; xme2mga &quot;%(Identity)&quot; [OutFile]</CommandLineTemplate>
+      <ExecutionDescription>xme2mga &quot;%(Identity)&quot;</ExecutionDescription>
+      <ShowOnlyRuleProperties>false</ShowOnlyRuleProperties>
+    </xme2mga>
+  </ItemDefinitionGroup>
+</Project>

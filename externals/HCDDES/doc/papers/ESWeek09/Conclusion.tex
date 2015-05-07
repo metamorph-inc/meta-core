@@ -1,0 +1,21 @@
+%\newpage
+\section{Future Work}
+\label{conclusion}
+
+A number of interesting directions lie ahead:
+
+\subsection{Expanded Modeling and Semantics}
+
+Benveniste et al present an alternative model of computation which relaxes the strict synchrony assumptions of the TTA\cite{moc:ltta}.  The loosely time-triggered architecture (LTTA) guarantees deterministic distributed execution without full clock synchronization between processing nodes.  LTTA requires some local timing assumptions for tasks, but further decreases the coupling between timing requirements and functional requirements in the system design.  Constraint models for LTTA-compatible nodes and communications media could likely be integrated into the scheduler, for networks that mix these models of computation.
+
+\subsection{Solver Efficiency and Correctness}
+
+The original order-capturing approach presented in \cite{sched:offline} has merit.  Reformulating the search as an order search followed by a schedule-time search may lead to more efficient exploration of the search space as well as ensuring that feasible schedules are not missed in the search.  This is a form of symmetry breaking, which is commonly used in many scheduling solution techniques. 
+
+As mentioned previously, checking the effects of latency constraints may be performed operationally by simulating the effects of the schedule.  This is an area of particular interest for the scheduler and the tool suite it supports.
+
+\subsection{Unsatisfiable Core Extraction}
+
+Unsatisfiable core extraction techniques offer a way to get finer-grained feedback regarding infeasible schedules.  For example, if we have identified a particular processor with an infeasible task set, it would be useful to get a minimal set of timing constraints on that processor which could be adjusted to make the set satisfiable (e.g. by increasing the periods or decreasing time budgets).
+
+AMUSE\cite{sat:amuse} provides an algorithm for extracting minimally unsatisfiable cores, where minimal means a non-unique subset of clauses which could be satisfied by removing any single subclause.  Further, techniques based on SAT modulo theories (SMT) describe techniques for getting minimal unsat cores when including non-boolean formulas in the model\cite{sat:smtcore} (as in our case).  Implicit in this sort of extension is a careful consideration of decidability and expressiveness of the scheduling models.

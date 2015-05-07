@@ -1,0 +1,150 @@
+#from BlockTemplate import *
+#
+#set $NCDimensions = $NumeratorCoefficients.getDimensions()
+#set $NoNC = 1
+#if $NCDimensions
+	#set $NoNC = $NCDimensions[ 0 ]
+#end if
+#
+#set $DCDimensions = $DenominatorCoefficients.getDimensions()
+#set $NoDC = 1
+#if $DCDimensions
+	#set $NoDC = $DCDimensions[ 0 ]
+#end if
+#
+#if $NoDC == 1
+    #
+$output = $NumeratorCoefficients .* $input ./ $DenominatorCoefficients
+    #stop
+#end if
+#
+#set $NumeratorOffset = $NoDC - $NoNC
+#set $NoTerms = $NoDC - 1
+#
+#set $TermType = $Array( $NoTerms, $output.type )
+#set $NumeratorTerms = $block.createContextVariable( "NumeratorTerms", $TermType )
+#set $DenominatorTerms = $block.createContextVariable( "DenominatorTerms", $TermType )
+#
+#if $NoTerms == 1
+	#
+$output = ( #slurp
+	#
+	#if $NoNC == 1
+$NumeratorCoefficients .* $NumeratorTerms #slurp
+	#else
+${NumeratorCoefficients}( 0 ) .* $input + ${NumeratorCoefficients}( 1 ) .* $NumeratorTerms #slurp
+	#end if
+- ${DenominatorCoefficients}( 1 ) .* $DenominatorTerms ) / ${DenominatorCoefficients}( 0 )
+	#
+#elif $NoTerms <= 3
+	#
+$output = ( #slurp
+	#
+	#set $ix = 0
+	#if $NumeratorOffset == 0
+${NumeratorCoefficients}( 0 ) .* $input #slurp
+		#set $ix = 1
+	#end if
+	#
+	#if $NoNC == 1
+		#set $offset = $NoTerms - 1
+$NumeratorCoefficients .* ${NumeratorTerms}( $offset )#slurp
+	#else
+		#set $notFirst = $ix > 0
+		#for $jx in $range( $ix, $NoNC )
+			#set $offset = $jx - 1 + $NumeratorOffset
+			#if $notFirst
++ #slurp
+			#else
+				#set $notFirst = True
+			#end if
+${NumeratorCoefficients}( $jx ) .* ${NumeratorTerms}( $offset ) #slurp
+		#end for
+	#end if
+	#for $jx in $range( 1, $NoDC )
+		#set $offset = $jx - 1
+- ${DenominatorCoefficients}( $jx ) .* ${DenominatorTerms}( $offset )#slurp
+	#end for
+ ) ./ ${DenominatorCoefficients}( 0 )
+	#
+#else
+	#
+	#set $sum = $block.createVariable(  "sum", BasicType( "double" )  )
+	#set $ixLoopVar = $block.createVariable( "ix", BasicType( "int" )  )
+$sum = 0
+$ixLoopVar = 1
+while $ixLoopVar < $NoDC
+	$sum = $sum - ${DenominatorCoefficients}( $ixLoopVar ) .* ${DenominatorTerms}( $ixLoopVar - 1 )
+	$ixLoopVar = $ixLoopVar + 1
+end
+
+	#if $NoNC <= 4
+		#
+$output = ( #slurp
+		#
+		#if $NoNC == 1
+			#set $offset = $NoTerms - 1
+$NumeratorCoefficients .* ${NumeratorTerms}( $offset )#slurp
+		#else
+			#set $notFirst = False
+			#for $jx in $range( 0, $NoNC )
+				#set $offset = $jx - 1 + $NumeratorOffset
+				#if $notFirst
++ #slurp
+				#else
+					#set $notFirst = True
+				#end if
+${NumeratorCoefficients}( $jx ) .* ${NumeratorTerms}( $offset ) #slurp
+			#end for
+		#end if
++ $sum ) ./ ${DenominatorCoefficients}( 0 )
+	#
+	#else
+	#
+	#
+	#if $NumeratorOffset == 0
+$sum = $sum + ${NumeratorCoefficients}( 0 ) .* $input
+$ixLoopVar = 1
+	#else
+$ixLoopVar = 0
+	#end if
+while $ixLoopVar < $NoNC
+	$sum = $sum + ${NumeratorCoefficients}( $ixLoopVar ) .* ${NumeratorTerms}( $ixLoopVar#slurp
+	#if $NumeratorOffset == 0
+- 1#slurp
+	#elif $NumeratorOffset > 1
+		#set $offset = $NumeratorOffset - 1
+ + $offset#slurp
+	#end if
+ )
+	$ixLoopVar = $ixLoopVar + 1
+end
+
+$output = $sum ./ ${DenominatorCoefficients}( 0 )
+	#end if
+#end if
+#
+#if $NoTerms == 1
+$NumeratorTerms = $input
+$DenominatorTerms = $output
+	#stop
+#end if
+
+#if $NoTerms <= 4
+	#for $ix in $range( $NoTerms - 1, 0, -1 )
+		#set $rhsOffset = $ix - 1
+${NumeratorTerms}( $ix ) = ${NumeratorTerms}( $rhsOffset )
+${DenominatorTerms}( $ix ) = ${DenominatorTerms}( $rhsOffset )
+	#end for
+#else
+	#set $noShifts = $NoTerms - 1
+$ixLoopVar = $noShifts
+while $ixLoopVar > 0
+	${NumeratorTerms}( $ixLoopVar ) = ${NumeratorTerms}( $ixLoopVar - 1 )
+	${DenominatorTerms}( $ixLoopVar ) = ${DenominatorTerms}( $ixLoopVar - 1 )
+	$ixLoopVar = $ixLoopVar - 1
+end
+#end if
+
+${NumeratorTerms}( 0 ) = $input
+${DenominatorTerms}( 0 ) = $output

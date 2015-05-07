@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BB7D0D18-A80C-4DC7-ACD3-5721DB02B7C1}</ProjectGuid>
+    <RootNamespace>ESMoL</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\..\common-scripts\build_customization\meta2uml.props" />
+    <Import Project="..\..\..\common-scripts\build_customization\xme2mga.props" />
+    <Import Project="..\..\..\common-scripts\build_customization\mga2udmxml.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\generated\BIP\models\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\generated\BIP\models\</IntDir>
+    <meta2uml_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mga2udmxml</meta2uml_RuleBeforeTargets>
+    <meta2uml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xme2mga</meta2uml_RuleAfterTargets>
+    <meta2uml_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mga2udmxml</meta2uml_RuleBeforeTargets>
+    <meta2uml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xme2mga</meta2uml_RuleAfterTargets>
+    <mga2udmxml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">meta2uml</mga2udmxml_RuleAfterTargets>
+    <mga2udmxml_RuleAfterTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">meta2uml</mga2udmxml_RuleAfterTargets>
+    <xme2mga_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">meta2uml</xme2mga_RuleBeforeTargets>
+    <xme2mga_RuleBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">meta2uml</xme2mga_RuleBeforeTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <meta2uml Include="..\..\..\generated\BIP\models\BIP_Petri_nets.mga">
+      <FileType>Document</FileType>
+    </meta2uml>
+    <CustomBuild Include="..\..\..\generated\BIP\models\BIP_udm.xml">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">BIP_udm.xml -&gt; source</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mkdir "%(RootDir)%(Directory)\..\generated"
+cd "%(RootDir)%(Directory)\..\generated"
+"$(UDM_PATH)\bin\Udm.exe" -g -v "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\..\generated\BIP.cpp;%(RootDir)%(Directory)\..\generated\BIP.h;%(RootDir)%(Directory)\..\generated\BIP.xsd;%(RootDir)%(Directory)\..\generated\BIP_xsd.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">BIP_udm.xml -&gt; source</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mkdir "%(RootDir)%(Directory)\..\generated"
+cd "%(RootDir)%(Directory)\..\generated"
+"$(UDM_PATH)\bin\Udm.exe" -g -v "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\..\generated\BIP.cpp;%(RootDir)%(Directory)\..\generated\BIP.h;%(RootDir)%(Directory)\..\generated\BIP.xsd;%(RootDir)%(Directory)\..\generated\BIP_xsd.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <mga2udmxml Include="..\..\..\generated\BIP\models\BIP_Petri_nets_uml.mga">
+      <FileType>Document</FileType>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">BIP</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">BIP</MetaName>
+    </mga2udmxml>
+    <xme2mga Include="BIP_Petri_nets.xme">
+      <FileType>Document</FileType>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_PATH)\generated\BIP\models\BIP_Petri_nets.mga</OutFile>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_PATH)\generated\BIP\models\BIP_Petri_nets.mga</OutFile>
+    </xme2mga>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\generated\BIP\generated\BIP.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\generated\BIP\generated\BIP.h" />
+    <ClInclude Include="..\..\..\generated\BIP\generated\BIP_xsd.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\generated\BIP\generated\BIP.xsd" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\common-scripts\build_customization\meta2uml.targets" />
+    <Import Project="..\..\..\common-scripts\build_customization\xme2mga.targets" />
+    <Import Project="..\..\..\common-scripts\build_customization\mga2udmxml.targets" />
+  </ImportGroup>
+</Project>

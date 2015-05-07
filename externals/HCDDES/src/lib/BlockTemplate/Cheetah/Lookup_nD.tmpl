@@ -1,0 +1,765 @@
+##
+#import MatrixHelper
+#import CubicSpline
+#from LoopHelper import LoopHelper
+#import re
+#
+##
+## GET NUMBER OF INPUTS (I.E. NUMBER OF TABLE DIMENSIONS)
+##
+#
+#set $pythonNoInputs = $int(  $str( $parameters.NumberOfTableDimensions )  )
+#
+#
+##
+## GET LOOKUP TABLE OR SPLINE COEFFICIENTS
+##
+#
+#set $pythonTable = $MatrixHelper.parseMatlabMatrix(  $str( $parameters.Table )  )
+#set $pythonTableDimensions = $MatrixHelper.getDimensions( $pythonTable )
+#set $maxDim = $max( $pythonTableDimensions )
+#
+#
+#if $parameters.InterpMethod == "Cubic spline"
+	#
+	#set $pythonLastBreakpoints = $MatrixHelper.parseMatlabMatrix(   $str(  $parameters[ 'BreakpointsForDimension' + $str( $pythonNoInputs ) ]  )   )
+	#set $pythonInitialSplineCoefficientMatrix = $MatrixHelper.flatten2D(  $CubicSpline.getAllCoefficients( $pythonLastBreakpoints, $pythonTable )  )
+	#
+	#set $initialSplineCoefficientMatrix = $block.createContextVariable(   "initialSplineCoefficientMatrix", $Array(  $len( $pythonInitialSplineCoefficientMatrix ), $Array( 4, "double" )  )   )
+$initialSplineCoefficientMatrix.setInitialValue(  $MatrixHelper.printMatlabMatrix( $pythonInitialSplineCoefficientMatrix )  )#slurp
+	#
+#else
+	#
+	#set $table = $parameters.Table.placeInContext
+	#
+#end if
+#
+#
+##
+## EXTRA VARIABLES FOR SEARCH
+##
+#
+#if $parameters.IndexSearchMethod == "Binary search"
+	#set $lower = $block.createVariable( "lower", "int" );
+	#set $mid = $block.createVariable( "mid", "int" );
+#end if
+#
+#
+##
+## OPTIMIZATIONS FOR $pythonNoInputs == 1
+##
+#
+#if $pythonNoInputs == 1
+	#
+	#
+	##
+	## BREAKPOINTS
+	##
+	#
+	#set $pythonBreakpoints = $MatrixHelper.parseMatlabMatrix(  $str( $parameters.BreakpointsForDimension1 )  )
+	#
+	#set $breakpoints = $block.createContextVariable(  "breakpoints", $Array( $maxDim, "double" )  )
+$breakpoints.setInitialValue(  $str( $parameters.BreakpointsForDimension1 )  )#slurp
+	#
+	#
+	##
+	## MISCELLANEOUS VARIABLES
+	##
+	#
+	#set $maxDim_m1 = $maxDim - 1
+	#set $maxDim_m2 = $maxDim - 2
+	#
+	#set $index = $block.createVariable( "index", "int" )
+	#
+	#if $parameters.InterpMethod == "Cubic spline"
+		#
+		#set $value = $block.createVariable( "value", "double" )
+		#
+	#end if
+	#
+	#
+	##
+	## EVENLY-SPACED POINTS SEARCH METHOD
+	##
+	#
+	#if $parameters.IndexSearchMethod == "Evenly spaced points"
+		#
+		#set $pythonBreakpointDiff = $pythonBreakpoints[ 1 ] - $pythonBreakpoints[ 0 ]
+$index = floor(  ( $input - $pythonBreakpoints[ 0 ] ) / $pythonBreakpointDiff  )
+		#
+	#
+	##
+	## LINEAR SEARCH METHOD
+	##
+	#
+	#elif $parameters.IndexSearchMethod == "Linear search"
+		#
+$index = 0;
+while $index < $maxDim do
+    if $input < ${breakpoints}($index)
+        break;
+    end
+    $index = $index + 1;
+end
+$index = $index - 1
+		#
+	#
+	##
+	## BINARY SEARCH METHOD
+	##
+	#
+	#elif $parameters.IndexSearchMethod == "Binary search"
+		#
+$lower = 0;
+$index = $maxDim_m1;
+while $lower <= $index do
+    $mid = ($lower + $index) / 2;
+    if $input < ${breakpoints}($mid)
+        $index = $mid - 1;
+    elseif $input > ${breakpoints}($mid)
+        $lower = $mid + 1;
+    else
+        $index = $mid
+        break
+    end
+end
+		#
+	#end if
+
+	#if $parameters.InterpMethod == "Flat"
+		#
+if $index <= 0
+	$output = $pythonTable[0]
+elseif $index >= $maxDim_m1
+    $output = $pythonTable[-1]
+else
+    $output = ${table}( $index )
+end
+		#stop
+		#
+	#end if
+	#
+	#if $parameters.ExtrapMethod == "Clip"
+		#
+if $index < 0
+    $output = $pythonTable[0]
+elseif $index >= $maxDim_m1
+    $output = $pythonTable[-1]
+else
+		#
+		#
+	#end if
+	#
+	#if $parameters.InterpMethod == "Linear"
+		#
+		#if $parameters.ExtrapMethod == "Linear"
+			#
+if $index < 0
+			#
+			#set $pythonRatio = ( $pythonTable[ 1 ] - $pythonTable[ 0 ] ) / ( $pythonBreakpoints[ 1 ] - $pythonBreakpoints[ 0 ] )
+			#
+    $output = $pythonTable[ 0 ] + ( $input - $pythonBreakpoints[ 0 ] ) * $pythonRatio;
+elseif $index >= $maxDim_m1
+			#
+			#set $pythonRatio = ( $pythonTable[ -1 ] - $pythonTable[ -2 ] ) / ( $pythonBreakpoints[ -1 ] - $pythonBreakpoints[ -2 ] )
+			#
+    $output = $pythonTable[ -2 ] + ( $input - $pythonBreakpoints[ -2 ] ) * $pythonRatio;
+else
+			#
+		#end if
+    $output = ${table}( $index ) + (  ${table}( $index + 1 ) - ${table}( $index )  ) * ( $input - ${breakpoints}( $index ) ) / (  ${breakpoints}( $index + 1 ) - ${breakpoints}( $index )  );
+		#
+	#elif $parameters.InterpMethod == "Cubic spline"
+		#
+		#
+		#if $parameters.ExtrapMethod == "Linear"
+			#
+if $index < 0
+			#
+    $output = $pythonTable[ 0 ] + ( $input - $pythonBreakpoints[ 0 ] ) * $pythonInitialSplineCoefficientMatrix[0][1];
+elseif $index >= $maxDim_m1
+			#
+			#set $pythonBreakpointDiff = $pythonBreakpoints[-1] - $pythonBreakpoints[-2]
+			#set $pythonLastSlope = $pythonInitialSplineCoefficientMatrix[-1][1] + $pythonBreakpointDiff * ( 2 * $pythonInitialSplineCoefficientMatrix[-1][2] + $pythonBreakpointDiff * 3 * $pythonInitialSplineCoefficientMatrix[-1][3] )
+			#
+    $output = $pythonTable[ -1 ] + ( $input - $pythonBreakpoints[ -1 ] ) * $pythonLastSlope
+else
+			#
+		#elif $parameters.ExtrapMethod == "Cubic spline"
+			#
+if $index < 0
+    $value = (  $input - $pythonBreakpoints[ 0 ]  )
+    $output = (  ( $pythonInitialSplineCoefficientMatrix[ 0 ][ 3 ] * $value +  $pythonInitialSplineCoefficientMatrix[ 0 ][ 2 ] ) * $value + $pythonInitialSplineCoefficientMatrix[ 0 ][ 1 ]  ) * $value + $pythonInitialSplineCoefficientMatrix[ 0 ][ 0 ];
+elseif $index >= $maxDim_m1
+			#set $breakpointDiff = $pythonBreakpoints[ -1 ] - $pythonBreakpoints[ -2 ]
+    $value = (  $input - $pythonBreakpoints[ -2 ]  )
+    $output = (  ( $pythonInitialSplineCoefficientMatrix[ -1 ][ 3 ] * $value +  $pythonInitialSplineCoefficientMatrix[ -1 ][ 2 ] ) * $value + $pythonInitialSplineCoefficientMatrix[ -1 ][ 1 ]  ) * $value + $pythonInitialSplineCoefficientMatrix[ -1 ][ 0 ];
+else
+			#
+		#end if
+		#
+    $value = (  $input - ${breakpoints}( $index )  )
+    $output = (   (  ${initialSplineCoefficientMatrix}( $index, 3 ) * $value + ${initialSplineCoefficientMatrix}( $index, 2 )  ) * $value + ${initialSplineCoefficientMatrix}( $index, 1 )   ) * $value + ${initialSplineCoefficientMatrix}( $index, 0 )
+		#
+	#end if
+end
+
+	#
+	#stop
+	#
+#end if
+#
+##
+## END OF 1 INPUT OPTIMIZATION
+##
+#
+#
+##
+## FROM THIS POINT ONWARD, TABLE HAS 2 OR MORE DIMENSIONS
+##
+#
+#
+##
+## TABLE DIMENSIONS
+##
+#
+#set $tableDimensions = $block.createContextVariable(   "tableDimensions", $Array(  $len( $pythonTableDimensions ), "int"  )   )
+$tableDimensions.setInitialValue(  $MatrixHelper.printMatlabMatrix( $pythonTableDimensions )  )#slurp
+#
+#
+##
+## NORMALIZE INPUT VALUE ACCESS
+##
+#
+#if $parameters.UseOneInputPortForAllInputData == "off"
+	#set $proxyInputs = $block.createVariable(  "proxyInputs", $Array( $pythonNoInputs, "double" )  )
+	#for $idx in $range( 0, $pythonNoInputs )
+${proxyInputs}( $idx ) = $inputs[ $idx ]
+    #end for
+#else
+	#set $proxyInputs = $input
+#end if
+#
+#
+##
+## BREAKPOINTS
+##
+#
+#set $pythonBreakpoints = []
+#
+#for $idx in $range( 1, $pythonNoInputs + 1 )
+	#
+$pythonBreakpoints.append(    $MatrixHelper.parseMatlabMatrix(   $str(  $parameters[ 'BreakpointsForDimension' + str( $idx ) ]  )   )    )#slurp
+	#
+#end for
+#
+#set $breakpointsInit = "[ "
+#
+#set $first = True
+#for $idx in $range( 0, $pythonNoInputs )
+	#if $first
+		#set $first = False
+	#else
+		#set $breakpointsInit += "; "
+	#end if
+	#
+	#set $breakpointsInit += ' '.join(   $map( lambda x: str( x ), $pythonBreakpoints[ $idx ] ) + ['0'] * (  $maxDim - $len( $pythonBreakpoints[ $idx ] )  )   ) + " "
+#end for
+#
+#set $breakpointsInit += "]"
+#
+#set $breakpoints = $block.createContextVariable(   "breakpoints", $Array(  $pythonNoInputs, $Array( $maxDim, "double" )  )   )
+$breakpoints.setInitialValue( $breakpointsInit )#slurp
+#
+#
+##
+## EXTRAPOLATION FLAGS ARRAY
+##
+#
+## STATEMENT BELOW NEEDS THE PARENTHESES -- DO NOT SIMPLIFY!
+#set $useExtrapFlag = (   (  $str( $parameters.InterpMethod ) != "Flat"  ) and (  $str( $parameters.InterpMethod ) != $str( $parameters.ExtrapMethod )  )   )
+#
+#if $useExtrapFlag
+	#
+	#set $extrapFlag = $block.createVariable(  "extrapFlag", $Array( $pythonNoInputs, "int" )  )
+	#
+#end if
+#
+#
+##
+## FOR FINDING/STORING breakpoint INDEX(ES)
+##
+#
+#
+#set $index = $block.createVariable(  "index", $Array( $pythonNoInputs, "int" )  )
+#set $pos = $block.createVariable( "pos", "int" )
+#set $ix = $block.createVariable( "ix", "int" )
+#
+#
+$ix = 0
+while $ix < $pythonNoInputs do
+
+	##
+	## EMPLOY SEARCH METHODS
+	##
+	#
+	#if $parameters.IndexSearchMethod == "Evenly spaced points"
+		#
+    $pos = floor(  ( ${proxyInputs}($ix) - ${breakpoints}($ix,0) ) / ( ${breakpoints}($ix,1) - ${breakpoints}($ix,0) )  )
+		#
+	#elif $parameters.IndexSearchMethod == "Linear search"
+		#
+    $pos = 0;
+    while $pos < ${tableDimensions}($ix) do
+        if ${proxyInputs}($ix) < ${breakpoints}($ix,$pos)
+            break;
+        end
+        $pos = $pos + 1;
+    end
+    $pos = $pos - 1
+		#
+	#elif $parameters.IndexSearchMethod == "Binary search"
+		#
+    $lower = 0;
+    $pos = ${tableDimensions}($ix) - 1;
+    while $lower <= $pos do
+        $mid = ($lower + $pos) / 2;
+        if ${proxyInputs}($ix) < ${breakpoints}($ix,$mid)
+            $pos = $mid - 1;
+        elseif ${proxyInputs}($ix) > ${breakpoints}($ix,$mid)
+            $lower = $mid + 1;
+        else
+            $pos = $mid
+            break
+        end
+    end
+		#
+	#end if
+	#
+	##
+	## END OF SEARCH METHODS
+	##
+	#
+	#
+
+	#if $useExtrapFlag
+		#
+    ${extrapFlag}( $ix ) = 0
+
+		#
+	#end if
+	#
+    if $pos < 0
+        ${index}($ix) = 0
+	#if $parameters.InterpMethod == "Flat"
+		#
+    elseif $pos >= ${tableDimensions}($ix) - 1
+        ${index}($ix) = ${tableDimensions}($ix) - 1
+		#
+	#else
+		#
+		#if $useExtrapFlag
+        ${extrapFlag}($ix) = 1
+		#end if
+    elseif $pos >= ${tableDimensions}($ix) - 1
+        ${index}($ix) = ${tableDimensions}($ix) - 2
+		#if $useExtrapFlag
+        ${extrapFlag}($ix) = 2
+		#end if
+		#
+	#end if
+	#
+    else
+        ${index}($ix) = $pos
+    end
+
+    $ix = $ix + 1
+end
+#
+#
+##
+## INTERPOLATION/EXTRAPOLATION METHODS
+##
+#
+#if $parameters.InterpMethod == "Flat"
+	#
+$output = ${table}( ${index}(0)#slurp
+	#for $idx in $range( 1, $pythonNoInputs )
+, ${index}($idx)#slurp
+	#end for
+ )
+	#stop
+#end if
+#
+#
+#set $pythonHighestInputNo = $pythonNoInputs - 1
+#
+#if $parameters.InterpMethod == "Linear"
+	#
+	##
+	## $calcMatrix CONTAINS INTERMEDIATE RESULTS OF CALCULATIONS 
+	##
+	#
+	#set $pythonNoCalcMatrixPairs = 2**($pythonNoInputs - 1)
+	#
+	#set $calcMatrix = $block.createVariable(  "calcMatrix", $Array( $pythonNoCalcMatrixPairs*2, "double" )  )
+	#set $noCalcMatrixPairs = $block.createVariable( "noCalcMatrixPairs", "int" )
+$noCalcMatrixPairs = $pythonNoCalcMatrixPairs
+	#
+	#set $lh = LoopHelper( $block, [2] * $pythonNoInputs, '    ' )
+$ix = 0
+$lh.startLoops#slurp
+${lh.indent}${calcMatrix}( $ix ) = ${table}( ${index}(0) + $lh.loopVars[ 0 ]#slurp
+	#for $idx in $range( 1, $pythonNoInputs )
+, ${index}( $idx ) + $lh.loopVars[ $idx ]#slurp
+	#end for
+ )
+
+${lh.indent}$ix = $ix + 1
+$lh.endLoops#slurp
+
+	#
+	#set $ratio = $block.createVariable( "ratio", "double" ) 
+	#set $jx = $block.createVariable( "jx", "int" )
+	#
+	#set $indent = '' 
+$ix = $pythonHighestInputNo
+while $ix >= 0 do
+
+    $jx = 0
+	#if $useExtrapFlag
+		#
+		#set $indent = '    '
+    if ${extrapFlag}( $ix ) == 0
+		#
+	#end if
+	#
+${indent}    $ratio = (  ${proxyInputs}($ix) - ${breakpoints}( $ix,${index}($ix) )  ) / (  ${breakpoints}( $ix,${index}($ix) + 1 ) - ${breakpoints}( $ix,${index}($ix) )  )
+${indent}    while $jx < $noCalcMatrixPairs do
+${indent}        ${calcMatrix}( $jx ) = ${calcMatrix}( $jx * 2 ) + ( ${calcMatrix}( $jx * 2 + 1 ) - ${calcMatrix}( $jx * 2 ) ) * $ratio
+${indent}        $jx = $jx + 1
+${indent}    end
+	#
+	#if $parameters.ExtrapMethod == "Clip"
+		#
+    elseif ${extrapFlag}( $ix ) == 1
+        while $jx < $noCalcMatrixPairs
+            ${calcMatrix}( $jx ) = ${calcMatrix}( $jx * 2 )
+            $jx = $jx + 1
+        end
+    else
+        while $jx < $noCalcMatrixPairs
+            ${calcMatrix}( $jx ) = ${calcMatrix}( $jx * 2 + 1 )
+            $jx = $jx + 1
+        end
+    end
+		#
+	#end if
+    $noCalcMatrixPairs = $noCalcMatrixPairs / 2
+    $ix = $ix - 1
+end
+
+$output = ${calcMatrix}(0);
+
+	#stop
+	#
+#end if
+#
+#
+##
+## HERE, IT MUST BE THAT
+## $parameters.InterpMethod == "Cubic spline"
+#
+##
+## $initialSplineCoefficientMatrix IS A MATRIX CONTAINING PRE-COMPUTED CUBIC SPLINE COEFFICIENT SETS OVER THE LOWEST (I.E. LAST) DIMENSION OF THE TABLE
+##
+#
+#set $pythonProductOfHigherDims = $reduce( lambda x,y: x*y, $pythonTableDimensions[0:-1] )
+#
+#set $noSplineCoefSetsInLowestDim = $pythonTableDimensions[-1] - 1
+#
+#
+##
+## $calcMatrix CONTAINS INTERMEDIATE RESULTS OF CALCULATIONS 
+##
+#
+#set $calcMatrix = $block.createVariable(  "calcMatrix", $Array( $pythonProductOfHigherDims, "double" )  )
+#set $value = $block.createVariable( "value", "double" )
+#
+$pos = ${index}( $pythonHighestInputNo )
+$ix = 0
+#
+#set $indent = ''
+#if $useExtrapFlag
+	#
+	#set $indent = '    '
+if ${extrapFlag}( $pythonHighestInputNo ) == 0
+#end if
+${indent}$value = (  ${proxyInputs}( $pythonHighestInputNo ) - ${breakpoints}( $pythonHighestInputNo, $pos )  )
+${indent}while $ix < $pythonProductOfHigherDims do
+${indent}    ${calcMatrix}( $ix ) = (   (  ${initialSplineCoefficientMatrix}( $pos, 3 ) * $value + ${initialSplineCoefficientMatrix}( $pos, 2 )  ) * $value + ${initialSplineCoefficientMatrix}( $pos, 1 )   ) * $value + ${initialSplineCoefficientMatrix}( $pos, 0 )
+${indent}    $pos = $pos + $noSplineCoefSetsInLowestDim
+${indent}    $ix = $ix + 1
+${indent}end
+#
+#if $useExtrapFlag
+	#
+	#if $parameters.ExtrapMethod == "Clip"
+	#
+elseif ${extrapFlag}( $pythonHighestInputNo ) == 1
+    while $ix < $pythonProductOfHigherDims do
+        ${calcMatrix}( $ix ) = ${initialSplineCoefficientMatrix}( $pos, 0 )
+        $pos = $pos + $noSplineCoefSetsInLowestDim
+        $ix = $ix + 1
+    end
+else
+	#
+	#set $pythonValue = $pythonBreakpoints[ $pythonHighestInputNo ][ $pythonTableDimensions[-1] - 1 ] - $pythonBreakpoints[ $pythonHighestInputNo ][ $pythonTableDimensions[-1] - 2 ]
+	#
+    while $ix < $pythonProductOfHigherDims do
+        ${calcMatrix}( $ix ) = (   (  ${initialSplineCoefficientMatrix}( $pos, 3 ) * $pythonValue + ${initialSplineCoefficientMatrix}( $pos, 2 )  ) * $pythonValue + ${initialSplineCoefficientMatrix}( $pos, 1 )   ) * $pythonValue + ${initialSplineCoefficientMatrix}( $pos, 0 ) 
+        $pos = $pos + $noSplineCoefSetsInLowestDim
+        $ix = $ix + 1
+    end
+end
+	#
+	#elif $parameters.ExtrapMethod == "Linear"
+	#
+elseif ${extrapFlag}( $pythonHighestInputNo ) == 1
+    $value = ${proxyInputs}( $pythonHighestInputNo ) - $pythonBreakpoints[-1][0]
+    while $ix < $pythonProductOfHigherDims do
+        ${calcMatrix}( $ix ) = ${initialSplineCoefficientMatrix}( $pos, 0 ) + $value * ${initialSplineCoefficientMatrix}( $pos, 1 )
+        $pos = $pos + $noSplineCoefSetsInLowestDim
+        $ix = $ix + 1
+    end
+else
+    $value = ${proxyInputs}( $pythonHighestInputNo ) - $pythonBreakpoints[-1][-1]
+	#
+	#set $pythonBreakpointDiff = $pythonBreakpoints[-1][-1] - $pythonBreakpoints[-1][-2]
+	#
+    while $ix < $pythonProductOfHigherDims do
+        ${calcMatrix}( $ix ) = (   (  ${initialSplineCoefficientMatrix}( $pos, 3 ) * $pythonBreakpointDiff + ${initialSplineCoefficientMatrix}( $pos, 2 )  ) * $pythonBreakpointDiff + ${initialSplineCoefficientMatrix}( $pos, 1 )   ) * $pythonBreakpointDiff + ${initialSplineCoefficientMatrix}( $pos, 0 ) + $value * (   (  3 * ${initialSplineCoefficientMatrix}( $pos, 3 ) * $pythonBreakpointDiff + 2 * ${initialSplineCoefficientMatrix}( $pos, 2 )  ) * $pythonBreakpointDiff + ${initialSplineCoefficientMatrix}( $pos, 1 )  )
+        $pos = $pos + $noSplineCoefSetsInLowestDim
+        $ix = $ix + 1
+    end
+end
+	#
+	#end if
+	#
+#end if
+#
+#
+#set $maxHigherDim = $max( $pythonTableDimensions[0:$pythonHighestInputNo] )
+#
+##
+## SPLINE CALCULATION MATRICES
+##
+#
+#set $inputs_diff = $block.createVariable(  "inputs_diff", $Array( $maxHigherDim - 1, "double" )  )
+#set $values_diff = $block.createVariable(  "values_diff", $Array( $maxHigherDim - 1, "double" )  )
+#set $matrix_cprime = $block.createVariable(  "matrix_cprime", $Array( $maxHigherDim - 1, "double" )  )
+#set $matrix_dprime = $block.createVariable(  "matrix_dprime", $Array( $maxHigherDim - 1, "double" )  )
+#set $c_coef_p1 = $block.createVariable( "c_coef_p1", "double" );
+#set $c_coef = $block.createVariable( "c_coef", "double" );
+#
+#
+#if $pythonNoInputs == 2
+	#
+$pos = ${index}( 0 )
+	#
+	#set $indent = ''
+	#if $useExtrapFlag and not $parameters.ExtrapMethod == "Linear"
+		#
+		#set $indent = '    '
+		#
+if ${extrapFlag}( 0 ) == 0
+		#
+	#end if
+	#
+${indent}${inputs_diff}( 0 ) = ${breakpoints}(0,1) - ${breakpoints}(0,0)
+${indent}${values_diff}( 0 ) = ${calcMatrix}( 1 ) - ${calcMatrix}( 0 )
+${indent}${matrix_cprime}( 0 ) = 0;
+${indent}${matrix_dprime}( 0 ) = 0;
+
+${indent}$ix = 1
+#
+#set $pythonNoSplineCoefSetsInLowestDim = $pythonTableDimensions[0] - 1
+#
+${indent}while $ix < $pythonNoSplineCoefSetsInLowestDim do
+${indent}    ${inputs_diff}( $ix ) = ${breakpoints}( 0, $ix + 1 ) - ${breakpoints}( 0, $ix )
+${indent}    ${values_diff}( $ix ) = ${calcMatrix}( $ix + 1 ) - ${calcMatrix}( $ix )
+
+${indent}    ${matrix_cprime}( $ix ) = ${inputs_diff}( $ix ) / (   2.0 * (  ${inputs_diff}( $ix - 1 ) + ${inputs_diff}( $ix )  ) - ${matrix_cprime}( $ix - 1 ) * ${inputs_diff}( $ix - 1 )   );
+${indent}    ${matrix_dprime}( $ix ) = (   3.0 * (  ${values_diff}( $ix ) / ${inputs_diff}( $ix ) - ${values_diff}( $ix - 1 ) / ${inputs_diff}( $ix - 1 )  ) - ${matrix_dprime}( $ix - 1 ) * ${inputs_diff}( $ix - 1 )   ) / (   2.0 * (  ${inputs_diff}( $ix - 1 ) + ${inputs_diff}( $ix )  ) - ${matrix_cprime}( $ix - 1 ) * ${inputs_diff}( $ix - 1 )   );
+${indent}    $ix = $ix + 1
+${indent}end
+
+	#
+	#set $pythonHighestCoefIndex = $pythonTableDimensions[0] - 2
+	#
+${indent}$c_coef = 0
+
+${indent}$ix = $pythonHighestCoefIndex
+${indent}while $ix >= $pos
+${indent}    $c_coef_p1 = $c_coef
+${indent}	 $c_coef = ${matrix_dprime}( $ix ) - ${matrix_cprime}( $ix ) * $c_coef_p1
+${indent}	 $ix = $ix - 1
+${indent}end
+
+	#if $parameters.ExtrapMethod == "Linear"
+		#
+		#set $indent = '    '
+		#
+if ${extrapFlag}( 0 ) == 0
+		#
+	#end if
+	#
+${indent}$value = ${proxyInputs}( 0 ) - ${breakpoints}( 0, $pos );
+${indent}$output = (    (   ( $c_coef_p1 - $c_coef ) / (  3 * ${inputs_diff}( $pos )  ) * $value + $c_coef   ) * $value + ${values_diff}( $pos ) / ${inputs_diff}( $pos ) - ${inputs_diff}( $pos ) * ( $c_coef_p1 + 2 * $c_coef ) / 3.0    ) * $value + ${calcMatrix}( $pos );
+
+	#if $useExtrapFlag
+		#
+		#if $parameters.ExtrapMethod == "Clip"
+			#
+elseif ${extrapFlag}( 0 ) == 1
+    $output = ${calcMatrix}( 0 )
+else
+    $output = ${calcMatrix}( $pythonNoSplineCoefSetsInLowestDim );
+end
+			#
+		#else
+			#
+elseif ${extrapFlag}( 0 ) == 1
+    $value = ${proxyInputs}( 0 ) - ${breakpoints}( 0, 0 )
+    $output = ${calcMatrix}( 0 ) + (  ${values_diff}( 0 ) / ${inputs_diff}( 0 ) - ${inputs_diff}( 0 ) * ( $c_coef_p1 + 2 * $c_coef ) / 3.0  ) * $value
+else
+    $value = ${proxyInputs}( 0 ) - ${breakpoints}( 0, $pythonNoSplineCoefSetsInLowestDim )
+    $output = ${calcMatrix}( $pythonNoSplineCoefSetsInLowestDim ) + (  ${inputs_diff}( $pythonHighestCoefIndex ) * ( $c_coef_p1 - $c_coef ) + 2 * $c_coef * ${inputs_diff}( $pythonHighestCoefIndex ) + ${values_diff}( $pythonHighestCoefIndex ) / ${inputs_diff}( $pythonHighestCoefIndex ) - ${inputs_diff}( $pythonHighestCoefIndex ) * ( $c_coef_p1 + 2 * $c_coef ) / 3.0  ) * $value
+end
+			#
+		#end if
+		#
+	#end if
+
+	#
+	#stop
+	#
+#end if
+#
+#
+##
+## AT THIS POINT, $pythonNoInputs >= 3 and $parameters.InterpMethod == "Cubic spline"
+##
+#
+#set $productOfHigherDims = $block.createVariable( "productOfHigherDims", "int" )
+$productOfHigherDims = $pythonProductOfHigherDims
+#
+#set $pythonNextHighestInput = $pythonNoInputs - 2
+#set $jx = $block.createVariable( "jx", "int" )
+#set $kx = $block.createVariable( "kx", "int" )
+#set $calcMatrixBaseIndex = $block.createVariable( "calcMatrixBaseIndex", "int" )
+#
+$ix = $pythonNextHighestInput;
+while $ix >= 0 do
+
+    $pos = ${index}( $ix );
+
+    $calcMatrixBaseIndex = 0;
+    $productOfHigherDims = $productOfHigherDims / ${tableDimensions}( $ix );
+
+    $jx = 0
+    while $jx < ${tableDimensions}( $ix ) - 1 do
+        ${inputs_diff}( $jx ) = ${breakpoints}( $ix, $jx + 1 ) - ${breakpoints}( $ix, $jx )
+		$jx = $jx + 1
+    end
+
+	$jx = 0;
+#
+#set $indent = ''
+#if $useExtrapFlag and not $parameters.ExtrapMethod == "Linear"
+	#
+	#set $indent = '    '
+	#
+    if ${extrapFlag}( $ix ) == 0
+	#
+#end if
+#
+${indent}    while $jx < $productOfHigherDims do
+${indent}        ${values_diff}( 0 ) = ${calcMatrix}( $calcMatrixBaseIndex + 1 ) - ${calcMatrix}( $calcMatrixBaseIndex )
+${indent}        ${matrix_cprime}( 0 ) = 0;
+${indent}        ${matrix_dprime}( 0 ) = 0;
+
+${indent}        $kx = 1
+${indent}        while $kx < ${tableDimensions}( $ix ) - 1 do
+${indent}            ${values_diff}( $kx ) = ${calcMatrix}( $calcMatrixBaseIndex + $kx + 1 ) - ${calcMatrix}( $calcMatrixBaseIndex + $kx )
+${indent}            ${matrix_cprime}( $kx ) = ${inputs_diff}( $kx ) / (   2.0 * (  ${inputs_diff}( $kx - 1 ) + ${inputs_diff}( $kx )  ) - ${matrix_cprime}( $kx - 1 ) * ${inputs_diff}( $kx - 1 )   );
+${indent}            ${matrix_dprime}( $kx ) = (   3.0 * (  ${values_diff}( $kx ) / ${inputs_diff}( $kx ) - ${values_diff}( $kx - 1 ) / ${inputs_diff}( $kx - 1 )  ) - ${matrix_dprime}( $kx - 1 ) * ${inputs_diff}( $kx - 1 )   ) / (   2.0 * (  ${inputs_diff}( $kx - 1 ) + ${inputs_diff}( $kx )  ) - ${matrix_cprime}( $kx - 1 ) * ${inputs_diff}( $kx - 1 )   );
+${indent}            $kx = $kx + 1
+${indent}        end
+
+${indent}        $c_coef = 0
+
+${indent}        $kx = ${tableDimensions}( $ix ) - 2
+${indent}        while $kx >= $pos
+${indent}            $c_coef_p1 = $c_coef
+${indent}	         $c_coef = ${matrix_dprime}( $kx ) - ${matrix_cprime}( $kx ) * $c_coef_p1
+${indent}	         $kx = $kx - 1
+${indent}        end
+
+#if $parameters.ExtrapMethod == "Linear"
+	#
+	#set $indent = '    '
+	#
+        if ${extrapFlag}( $ix ) == 0
+	#
+#end if
+#
+${indent}        $value = ${proxyInputs}( $ix ) - ${breakpoints}( $ix, $pos );
+${indent}        ${calcMatrix}( $jx ) = (    (   ( $c_coef_p1 - $c_coef ) / (  3 * ${inputs_diff}( $pos )  ) * $value + $c_coef   ) * $value + ${values_diff}( $pos ) / ${inputs_diff}( $pos ) - ${inputs_diff}( $pos ) * ( $c_coef_p1 + 2 * $c_coef ) / 3.0    ) * $value + ${calcMatrix}( $calcMatrixBaseIndex + $pos );
+
+#if $useExtrapFlag
+	#
+	#if $parameters.ExtrapMethod == "Clip"
+		#
+            $calcMatrixBaseIndex = $calcMatrixBaseIndex + ${tableDimensions}( $ix )
+            $jx = $jx + 1
+        end
+    elseif ${extrapFlag}( $ix ) == 1
+        while $jx < $productOfHigherDims do
+            ${calcMatrix}( $jx ) = ${calcMatrix}( $calcMatrixBaseIndex )
+            $calcMatrixBaseIndex = $calcMatrixBaseIndex + ${tableDimensions}( $ix )
+            $jx = $jx + 1
+        end
+    else
+        while $jx < $productOfHigherDims do
+            ${calcMatrix}( $jx ) = ${calcMatrix}(  $calcMatrixBaseIndex + ${tableDimensions}( $ix ) - 1  );
+            $calcMatrixBaseIndex = $calcMatrixBaseIndex + ${tableDimensions}( $ix )
+			$jx = $jx + 1
+        end
+    end
+		#
+	#else
+		#
+        elseif ${extrapFlag}( $ix ) == 1
+            $value = ${proxyInputs}( $ix ) - ${breakpoints}( $ix, 0 )
+            ${calcMatrix}( $jx ) = ${calcMatrix}( $calcMatrixBaseIndex ) + (  ${values_diff}( 0 ) / ${inputs_diff}( 0 ) - ${inputs_diff}( 0 ) * ( $c_coef_p1 + 2 * $c_coef ) / 3.0  ) * $value
+        else
+            $value = ${proxyInputs}( $ix ) - ${breakpoints}(  $ix, ${tableDimensions}( $ix ) - 1  )
+            ${calcMatrix}( $jx ) = ${calcMatrix}(  $calcMatrixBaseIndex + ${tableDimensions}( $ix ) - 1  ) + (   ${inputs_diff}(  ${tableDimensions}( $ix ) - 2  ) * ( $c_coef_p1 - $c_coef ) + 2 * $c_coef * ${inputs_diff}(  ${tableDimensions}( $ix ) - 2  ) + ${values_diff}(  ${tableDimensions}( $ix ) - 2  ) / ${inputs_diff}(  ${tableDimensions}( $ix ) - 2  ) - ${inputs_diff}( ${tableDimensions}( $ix ) - 2 ) * ( $c_coef_p1 + 2 * $c_coef ) / 3.0  ) * $value
+        end
+		#
+        $calcMatrixBaseIndex = $calcMatrixBaseIndex + ${tableDimensions}( $ix )
+        $jx = $jx + 1
+    end
+	#end if
+	#
+#else
+        $calcMatrixBaseIndex = $calcMatrixBaseIndex + ${tableDimensions}( $ix )
+        $jx = $jx + 1
+    end
+#end if
+#
+    $ix = $ix - 1
+end
+
+$output = ${calcMatrix}( 0 )

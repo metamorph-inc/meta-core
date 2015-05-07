@@ -1,0 +1,48 @@
+<Project _id="id16" name="ProjectRoot" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" statementCount="4" statementIndex="0" xsi:noNamespaceSchemaLocation="SFC.xsd">
+	<BasicType te="id25 id2b id36" _id="id1a" name="double" statementIndex="1"/>
+	<BasicType _id="id3a" name="int" statementIndex="3"/>
+	<Program _id="id1d" filename="ground_sl" stateCount="0" numInstance="1" statementCount="1" statementIndex="2">
+		<Class _id="id1c" name="ground_27_class" statementCount="3" statementIndex="0">
+			<Function _id="id22" name="ground_27_main" scope="" argCount="2" returnType="void" statementCount="4" statementIndex="1">
+				<Arg dt="id21" _id="id23" ptr="true" ref="id38" name="context" size="1" type="" argIndex="0"/>
+				<Arg dt="id1a" _id="id25" ptr="true" ref="id3b" name="Out1_2" size="1" type="double" argIndex="2"/>
+				<LocalVar dt="id1a" _id="id2b" ref="id37" name="sig_0" size="1" type="double" scope="" initial="" statementIndex="0"/>
+				<UserCode _id="id42" expr="" statementIndex="1">
+					<BinaryExprs op="=" _id="id43">
+						<ArgDeclRef _id="id37" unres="" argdecl="id2b" __child_as="leftexpr"/>
+						<BinaryExprs op="." _id="id44" __child_as="rightexpr">
+							<ArgDeclRef _id="id38" unres="" argdecl="id23" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id39" unres="" argdecl="id36" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</BinaryExprs>
+				</UserCode>
+				<UserCode _id="id45" expr="" statementIndex="2">
+					<Str _id="id46" val="// WARNING: SL_CodeGen(.\SLPrims.cpp, line:1123): Terminator block: do nothing."/>
+				</UserCode>
+				<UserCode _id="id47" expr="" statementIndex="3">
+					<BinaryExprs op="=" _id="id48">
+						<ArgDeclRef _id="id3b" unres="" argdecl="id25" __child_as="leftexpr"/>
+						<Double _id="id49" val="0.000000" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+			</Function>
+			<Function _id="id3c" name="ground_27_init" scope="" argCount="1" returnType="void" statementCount="1" statementIndex="2">
+				<Arg dt="id21" _id="id3d" ptr="true" ref="id3e" name="context" size="1" type="" argIndex="0"/>
+				<UserCode _id="id40" expr="" statementIndex="0">
+					<BinaryExprs op="=" _id="id41">
+						<BinaryExprs op="." _id="id4a" __child_as="leftexpr">
+							<ArgDeclRef _id="id3e" unres="" argdecl="id3d" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id3f" unres="" argdecl="id36" __child_as="rightexpr"/>
+						</BinaryExprs>
+						<Double _id="id4b" val="1.000000" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+			</Function>
+			<Struct te="id23 id3d" _id="id21" name="ground_27_context" memberCount="1" statementIndex="0">
+				<LocalVar dt="id1a" _id="id36" ref="id39 id3f" name="Value54" size="1" type="" scope="" initial="" statementIndex="0"/>
+			</Struct>
+		</Class>
+	</Program>
+</Project>
+
+

@@ -1,0 +1,43 @@
+\newpage
+\section{Introduction}
+\label{introduction}
+
+%1. Motivation 
+
+The complexity of designing and implementing distributed embedded software for high-confidence (i.e. safety-critical) paradigms has emerged as one of the significant research challenges of our time.   The problems involved span numerous domains, which is further complicated by coupling across design concerns in those domains.  These challenges are well-documented\cite{prog:embsys,modeling:platform}.  Heterogeneous embedded systems design problems fall under the research areas of Cyber-Physical Systems (CPS) and networked control systems (NCS).
+
+In safety-critical systems distribution of functions to multiple processors can introduce nondeterministic behavior, complicating the formal analysis required to demonstrate correct function.  Time-triggered architectures\cite{timed:tta} (TTA) have emerged as a solution to these kinds of problems.  The TTA offers synchronous execution on distributed platforms subject to constraints on tasks (e.g., bounded execution times and logical execution time constraints) and on the platform itself (e.g. time-synchronized processing nodes and support for timed messaging).  TTA helps decouple functional design concerns from platform-specific timing concerns.
+
+TTA implementations rely on the computation of a global cyclic schedule for the entire system.  Commercial implementations offer tools for this purpose\cite{tools:tttech} as part of a larger tool suite including cluster design, configuration, and deployment tools.  More recently, the research community has spawned a number of projects using model-based development techniques to reconcile functional design techniques with software engineering techniques in embedded software development in high-confidence paradigms.  These tools aim to integrate design, verification, and testing under the same umbrella \cite{modeling:metropolis,modeling:aadl_control_systems,modeling:aces08}, incorporating behavioral models from physical systems, control designs, and implementation platforms \cite{tools:truetime,tools:ptolemy2}.  Supporting the workflows of embedded software design tool suites is an important concern for tool developers.
+
+%2. Problems
+
+Correct distributed execution in TTA hinges on computation of the schedule.  Prior results have shown that constraint logic programming (CLP) techniques can effectively compute schedules for time-triggered systems\cite{sched:offline}, and scale well to large problems.  We have identified two interesting problems when using CLP techniques in model-based workflows:
+
+\begin{enumerate}
+\item Modeling platform effects -- as timing details are known for processing nodes and communication media, they should be incorporated into the scheduling model.  However, overly detailed models can become a burden to create and validate.  Models should strike a balance between being overly conservative and being overly detailed.
+\item Lack of schedule analysis feedback for designers -- CLP solvers either return a valid schedule, or report infeasibility.  Designers need useful feedback regarding `pinch points' in the scheduling constraints in order to adjust timing parameters and determine the effects of timing changes on control designs.
+\end{enumerate}
+
+%3. Solution
+
+We have developed a prototype scheduling tool called ESched.  Esched is based on CLP techniques and includes features to address the problems listed above:
+
+\begin{enumerate}
+\item The ESched input file allows specification of network topology, functional tasks, and message dependencies.  These specifications include computational details relevant to the timing model (e.g. task periods and execution times, and message length) as well as platform timing information (e.g. OS scheduling quanta, bus data rates, and overhead parameters).  Specifications also include acceptable maximum latencies between pairs of tasks.
+\item Each task or message may be invoked or sent multiple times during a single hyperperiod. For schedule calculation, dependency models capture the relationship between invocations, or instances of tasks and messages.  We automatically compute instance dependency models, even for communication between tasks running at different rates.
+\item Esched translates instance models to constraint problems for solution, with improvements over previous techniques.
+\item The user can choose to solve the schedule only for partial models (i.e. subsets of the network topology) for troubleshooting infeasible schedules.
+\item To improve user feedback for infeasible schedules, we propose to use unsatisfiable core extraction techniques to identify minimal subsets of the constraints that are infeasible.  This experimental feature is a work in progress.
+\item Integration into a model-based tool suite used for designing time-triggered distributed embedded systems\cite{modeling:aces08}.
+\end{enumerate}
+
+%4. Contribution
+
+%Why is this significant?  Have we made the point already?
+%how is this new, better, different?  Have we already said that?
+
+
+%5. Paper Overview
+
+In section \ref{problemdetails} we present the problems in greater detail.  Section \ref{scheduling} presents the scheduling background as well as the details of our scheduling model.  Techniques for troubleshooting infeasible schedules appear in section \ref{troubleshooting}.  Section \ref{simulation} describes a method for testing the scheduler and discusses performance metrics.  Integration with the ESMoL modeling language and tools can be found in section \ref{integration}.  Related and future work are in sections \ref{relatedwork} and \ref{conclusion}, respectively.

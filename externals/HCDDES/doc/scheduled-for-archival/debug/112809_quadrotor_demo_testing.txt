@@ -1,0 +1,14 @@
+1.  The torque converter generated a zero matrix.  This is an effect of the
+    mask initialization bug that Harmon already fixed, but we had to port
+    the coefficients into the code by hand.
+
+2.  There were two other zero constants that had to be handled in the same
+    way.  They are the gains from the euler controller (inner loop).
+
+
+3. With actual input data (thrust to plant), the xPC is no longer keeping 
+   up.  Looking at alternatives...
+
+   + Turned on all of the optimizations available in Real-Time Workshop.
+   
+   + Ran all weekend with data only (signal generators - no dynamics).

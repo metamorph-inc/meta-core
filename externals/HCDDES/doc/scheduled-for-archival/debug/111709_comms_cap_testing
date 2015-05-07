@@ -1,0 +1,46 @@
+1. Looking for stack overflows.  Removed the UART handling code to let the 
+   tasks run.
+
+   + Gumstix is sending sync bytes too frequently on the I2C.
+   
+   + Upped the stack values to 400 bytes for the task code.  Currently no
+     overflows.  Still I2C problem.
+
+   + Datahandler execution is very long - around 4 ms.  Increased schedule.
+
+   + Real timing: DataHandler 4.7ms, InnerLoop 800us - put those in the model.
+
+   + Gumstix code: Why is the sync coming so early?  hp_len = 0;  set to 20
+     That ran for quite a while longer (< 3 seconds vs. < 1 second)
+
+   + Attempting to send values back on the UART.  Ran for 6 sec.  No data yet.
+     Bug in UART code -- uses starting pointer (pers) instead of current 
+     pointer (per) during initialization:
+     err_idx = UART_Init_WF(pers); -> err_idx = UART_Init_WF(per);
+
+     Data was moving out. 7 seconds of runtime!
+
+   + Trying to capture timing for data movement commands to and from the UART
+     (the memcpy part)
+     UART data out -- 24 us, IMU msg in -- 16 us, GPS msg in -- 28 us
+
+     Timing looks good so far... (CPU overload on the xPC)
+
+   + Next, trying more UART input data (from 9 bytes to 17 bytes)
+     Timing still looks good... (CPU overload on the xPC)
+     17->25:  timing still good... (CPU overload on the xPC)
+     25->37:  timing still good... (CPU overload on the xPC)
+     37->54:  hyperperiod is stretched (~24-25 ms), but everything runs
+              reduced GPS message rate to try to help the xPC a little bit
+              -- it still overloaded...
+     54->62 (the whole enchilada):  timing looks good so far...
+              reduced the fundamental sampling rate on the xPC to 200ms
+              No xPC overload so far...
+           Jitter is high, and the hyperperiod is stretched to nearly 30 ms
+
+   + Do we dare try the I2C?  Almost
+     Turned down the stack checking level to 1 to reduce overhead
+     Added code to the inner loop task to copy data through to the UART
+      to see if we get data. 
+ 
+     

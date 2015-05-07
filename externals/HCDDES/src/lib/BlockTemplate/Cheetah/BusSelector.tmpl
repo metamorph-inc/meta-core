@@ -1,0 +1,71 @@
+#import re
+#
+#
+#def transformInputSignals( $signal )
+	#set $retval = {}
+	#for $parentNo, ( $parent, $child ) in enumerate( $signal )
+		#set $retval[ $parent ] = (  $parentNo, $transformInputSignals( $child )  )
+	#end for
+	#return $retval
+	#
+#end def
+#
+## TURN A MATLAB CELL-EXPRESSION OF THE INPUT SIGNALS TO THE BusSelector
+## INTO A PYTHON DATA STRUCTURE
+#def pythonizeInputSignals( $inputSignals )
+	#
+	#if $inputSignals == "{}"
+		#return {}
+	#end if	#
+    #
+	#set $replacements = []
+$replacements.append( [ re.compile( r'(\w);\{' ),      lambda x: x.group(1) + ',[]],['  ] )#slurp
+$replacements.append( [ re.compile( r'\};\{' ),        '},['                            ] )#slurp
+$replacements.append( [ re.compile( r'\};(\w)' ),      lambda x: '},[' + x.group(1)     ] )#slurp
+$replacements.append( [ re.compile( r'\{(\w)' ),       lambda x: '[[' + x.group(1)      ] )#slurp
+$replacements.append( [ re.compile( r'\{' ),           ''                               ] )#slurp
+$replacements.append( [ re.compile( ';' ),             ',[]],['                         ] )#slurp
+$replacements.append( [ re.compile( r'(\w)\}' ),       lambda x: x.group(1) + ',[]]]'   ] )#slurp
+$replacements.append( [ re.compile( r'\}' ),           ']'                              ] )#slurp
+$replacements.append( [ re.compile( r'[A-Za-z_]\w*' ), lambda x: "'" + x.group(0) + "'" ] )#slurp
+	#
+    #for ( $pattern, $replacement ) in $replacements
+		#set $inputSignals = $pattern.sub( replacement, inputSignals )
+    #end for
+    #
+    #return $transformInputSignals(  $eval( $inputSignals )  )
+    #
+#end def
+#
+#def getDotExpr( $structVar, $inputSignals, $outputSignal )
+	#
+	#if len( $inputSignals ) == 0
+		#return ".".join( $outputSignal )
+	#end if
+	#
+	#set $retval = []
+	#
+	#for $signal in $outputSignal
+		#set $members = $structVar.getMembers()
+		#set ( $number, $children ) = $inputSignals[ $signal ]
+		#set $member = $members[ $number ]
+$retval.append( $member.name )#slurp
+		#set $structVar = $member
+		#set $inputSignals = $children
+	#end for
+	#
+	#return ".".join( $retval )
+	#
+#end def
+#
+$block.setKeepStructs()#slurp
+#
+#set $inputSignals = $pythonizeInputSignals( $parameters.InputSignals.value )
+#set $outputSignals = $map(  lambda x: x.split( "." ), $parameters.OutputSignals.value.split( "," )  )
+#
+#set $outputList = $map( lambda x: $output.name + "." + x.name, $output.getMembers() ) if $parameters.OutputAsBus == "on" else $outputs
+#
+#for ( $out, $outputSignal ) in $zip( $outputList, $outputSignals )
+$out = ${input}.$getDotExpr( $input, $inputSignals, $outputSignal )
+#end for
+#

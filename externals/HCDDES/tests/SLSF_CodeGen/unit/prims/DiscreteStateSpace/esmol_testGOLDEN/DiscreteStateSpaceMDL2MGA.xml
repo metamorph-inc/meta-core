@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="NewDiscreteStateSpace00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="DiscreteStateSpace" Period="0" Priority="0" SampleTime="0.00" Tag="" UserData="" name="DiscreteStateSpace">
+          <Line Name="" _id="idA" dstLine_end_="idB" srcLine_end_="id9"/>
+          <Line Name="" _id="idD" dstLine_end_="id4" srcLine_end_="idC"/>
+          <OutputPort Number="1" _id="id4" name="Out1" srcLine="idD"/>
+          <Primitive BlockType="Constant" Description="" Name="Constant" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Constant">
+            <OutputPort Number="1" _id="id9" dstLine="idA" name="Out_1"/>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit from 'Constant value'" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="5" name="Value"/>
+            <Parameter Value="on" name="VectorParams1D"/>
+          </Primitive>
+          <Primitive BlockType="DiscreteStateSpace" Description="" Name="Discrete State-Space" Priority="0" SampleTime="1.00" Tag="" UserData="" name="Discrete State-Space">
+            <InputPort Number="1" _id="idB" name="In_1" srcLine="idA"/>
+            <OutputPort Number="1" _id="idC" dstLine="idD" name="Out_1"/>
+            <Parameter Value="[0.99 1; -0.5 0.2]" name="A"/>
+            <Parameter Value="[0.2; 0.5]&#xA;" name="B"/>
+            <Parameter Value="[0.5 0.5]" name="C"/>
+            <Parameter Value="0" name="D"/>
+            <Parameter Value="Auto" name="RTWStateStorageClass"/>
+            <Parameter Value="" name="RTWStateStorageTypeQualifier"/>
+            <Parameter Value="" name="StateIdentifier"/>
+            <Parameter Value="off" name="StateMustResolveToSignalObject"/>
+            <Parameter Value="0" name="X0"/>
+          </Primitive>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow name="Stateflow"/>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types"/>
+
+</RootFolder>

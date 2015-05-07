@@ -1,0 +1,31 @@
+Resolution 100ns
+
+Proc CarDynamics 0Hz 0s 0s
+Comp InputHandler =200Hz 10us 
+Comp OutputHandler =200Hz 10us 
+Comp Acq =200Hz 1us 
+Comp Act =200Hz 1us 
+Msg InputHandler.InputMsg_in 1B CarDynamics/Acq CarDynamics/InputHandler 
+Msg OutputHandler.ActuationMsg_out 1B CarDynamics/OutputHandler CarDynamics/Act
+Msg InputHandler_0_OutputHandler_0 0B CarDynamics/InputHandler CarDynamics/OutputHandler 
+
+Proc Node1 0Hz 0s 0s
+Comp InstrumentCluster =200Hz 1.1us 
+
+Proc Node2 0Hz 0s 0s
+Comp HighLevelController =200Hz 300ns 
+
+Proc Node3 0Hz 0s 0s
+Comp LowLevelController =200Hz 1.7us 
+
+
+Bus TTBus 100Mb 2us CarDynamics Node1 Node2 Node3 
+Msg InstrumentCluster.HighLevelMsg 1B Node1/InstrumentCluster Node2/HighLevelController  Offset 1.8ms
+Msg HighLevelController.LowLevelMsg 1B Node2/HighLevelController Node3/LowLevelController  Offset 2.6ms
+Msg LowLevelController.InstrumentMsg 1B Node3/LowLevelController Node1/InstrumentCluster  Offset 3.4ms
+Msg InputHandler.InputMsg_out 1B CarDynamics/InputHandler Node1/InstrumentCluster  Offset 1ms
+Msg InstrumentCluster.ActuationMsg 1B Node1/InstrumentCluster CarDynamics/OutputHandler  Offset 4ms
+
+
+
+

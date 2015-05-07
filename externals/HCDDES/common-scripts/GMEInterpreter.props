@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup>
+    <Midl>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\Gme\$(Configuration);$(GME_ROOT)\Gme\Release;$(GME_ROOT)\Gme\Debug;$(GME_ROOT)\bin;$(GME_ROOT)\Interfaces;$(GME_ROOT)\Gme\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\SDK\BON\Common;$(GME_ROOT)\Interfaces;$(GME_ROOT)\Gme\Interfaces;$(GME_ROOT)\Gme\Gme;$(GME_ROOT)\GME\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>

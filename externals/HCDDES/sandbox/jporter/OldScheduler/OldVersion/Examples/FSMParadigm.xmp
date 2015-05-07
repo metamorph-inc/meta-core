@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE paradigm SYSTEM "edf.dtd">
+
+<paradigm name="FSMParadigm" guid="{A6C86D30-73C2-420A-8E20-0E2167CA0F2A}" cdate="Mon Oct 22 09:37:54 2007" mdate="Mon Oct 22 09:37:54 2007" >
+
+	<comment></comment>
+
+	<author></author>
+
+	<folder name = "RootFolder" metaref = "1000"  rootobjects = "FSM" >
+		<attrdef name="Expressions" metaref = "1011" valuetype = "string" defvalue = "">
+		</attrdef>
+		<attrdef name="Guard" metaref = "1002" valuetype = "string" defvalue = "">
+		</attrdef>
+		<connection name = "Transition" metaref = "1003" attributes = "Guard" >
+				<regnode name = "color" value ="0x000000"></regnode>
+				<regnode name = "dstStyle" value ="arrow"></regnode>
+				<regnode name = "srcStyle" value ="butt"></regnode>
+				<regnode name = "lineType" value ="solid"></regnode>
+			<connjoint>
+				<pointerspec name = "src">
+					<pointeritem desc = "State"></pointeritem>
+				</pointerspec>
+				<pointerspec name = "dst">
+					<pointeritem desc = "State"></pointeritem>
+				</pointerspec>
+			</connjoint>
+		</connection>
+		<model name = "FSM" metaref = "1004" >
+				<regnode name = "namePosition" value ="4"></regnode>
+			<role name = "State" metaref = "1005" kind = "State"></role>
+			<role name = "Transition" metaref = "1006" kind = "Transition"></role>
+			<aspect name = "Aspect" metaref = "1012" >
+				<part metaref = "1008" role = "State" primary = "yes" linked = "no"></part>
+				<part metaref = "1009" role = "Transition" primary = "yes" linked = "no"></part>
+			</aspect>
+		</model>
+		<model name = "State" metaref = "1010" attributes = "Expressions" >
+				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "decorator" value ="Mga.UMLDecorator"></regnode>
+			<aspect name = "Aspect" metaref = "1013" attributes = "Expressions" >
+			</aspect>
+		</model>
+	</folder>
+</paradigm>

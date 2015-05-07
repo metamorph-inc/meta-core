@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{1616A80C-CB48-4F67-8661-A5510065EA53}" cdate="Mon Apr 12 16:38:56 2010" mdate="Mon Apr 12 16:38:56 2010" version="" metaguid="{8CDEB84D-148F-4572-AC76-AEC831DB88EF}" metaversion="" metaname="BIP">
+	<name>Root</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x1" kind="RootFolder" guid="{7330db0f-4389-43e1-a137-7801ad42a8be}">
+		<name>Root</name>
+		<model id="id-0065-00000001" kind="Module" guid="{b4441676-38be-4c6b-8a10-63020f240add}" relid="0x1" childrelidcntr="0x4">
+			<name>Module</name>
+			<model id="id-0065-00000002" kind="PetriNet" role="PetriNet" guid="{1119fd0e-6e44-4f1d-8e20-e3cb4f86d55a}" relid="0x1" childrelidcntr="0xb">
+				<name>Component2</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="Aspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>98,98</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="action">
+					<value>x=0;
+
+</value>
+				</attribute>
+				<model id="id-0065-00000003" kind="State" role="State" guid="{91a49c86-2fc3-4758-b745-f57746ba4fe2}" relid="0x1" childrelidcntr="0x0">
+					<name>s2</name>
+					<attribute kind="InitialeState">
+						<value>false</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000004" kind="State" role="State" guid="{42afc829-4fad-4724-abd3-5cba24d4782b}" relid="0x2" childrelidcntr="0x0">
+					<name>s1</name>
+					<attribute kind="InitialeState">
+						<value>true</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000005" kind="Variable" role="Variable" guid="{dbafaa51-5425-463d-a79d-b012e2357e13}" relid="0x3" childrelidcntr="0x0">
+					<name>x</name>
+					<attribute kind="datatype">
+						<value>int</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000006" kind="Port" role="Port" guid="{5d0f7da8-9882-45cb-8a96-73092e475bb8}" relid="0x4" childrelidcntr="0x1">
+					<name>p1</name>
+					<attribute kind="export">
+						<value>true</value>
+					</attribute>
+					<reference id="id-0067-00000001" kind="VariableReference" role="VariableReference" guid="{20c49f44-b1c5-4c05-a4c9-b6daa4c069fa}" relid="0x1" referred="id-0065-00000005">
+						<name>x</name>
+						<attribute kind="callIndex" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+				</model>
+				<model id="id-0065-00000007" kind="Port" role="Port" guid="{7f8e0e7e-5b3a-48d0-97e0-7876651a73cd}" relid="0x5" childrelidcntr="0x1">
+					<name>p2</name>
+					<attribute kind="export">
+						<value>true</value>
+					</attribute>
+					<reference id="id-0067-00000002" kind="VariableReference" role="VariableReference" guid="{e23386ab-2432-4564-b199-344e616e2f2a}" relid="0x1" referred="id-0065-00000005">
+						<name>x</name>
+						<attribute kind="callIndex" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+				</model>
+				<model id="id-0065-00000008" kind="Transition" role="Transition" guid="{16a791f1-a6e8-4889-bad2-d69a9b24e884}" relid="0xa" childrelidcntr="0x0">
+					<name>p1</name>
+					<attribute kind="action">
+						<value>printf(&quot;Component2 Receive %d\n&quot;,x); x = x + 1;
+
+</value>
+					</attribute>
+					<attribute kind="guard">
+						<value>true</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000009" kind="Transition" role="Transition" guid="{cc730f78-51b4-4091-8187-e13235d7c377}" relid="0xb" childrelidcntr="0x0">
+					<name>p2</name>
+					<attribute kind="action">
+						<value>printf(&quot;Component2 Receive: %d\n&quot;,x);
+
+</value>
+					</attribute>
+					<attribute kind="guard">
+						<value>true</value>
+					</attribute>
+				</model>
+				<connection id="id-0068-00000001" kind="TransitionToState" role="TransitionToState" guid="{8736e02b-6c8c-45b5-8c47-483f070433bd}" relid="0x6">
+					<name>TransitionToState</name>
+					<connpoint role="dst" target="id-0065-00000003"/>
+					<connpoint role="src" target="id-0065-00000008"/>
+				</connection>
+				<connection id="id-0068-00000002" kind="TransitionToState" role="TransitionToState" guid="{aa3c2e9c-c361-4760-80d4-ef5378eff092}" relid="0x7">
+					<name>TransitionToState</name>
+					<connpoint role="dst" target="id-0065-00000004"/>
+					<connpoint role="src" target="id-0065-00000009"/>
+				</connection>
+				<connection id="id-0068-00000003" kind="StateToTransition" role="StateToTransition" guid="{841b683c-f677-47b9-9ad1-89675d38a80b}" relid="0x8">
+					<name>StateToTransition</name>
+					<connpoint role="src" target="id-0065-00000004"/>
+					<connpoint role="dst" target="id-0065-00000008"/>
+				</connection>
+				<connection id="id-0068-00000004" kind="StateToTransition" role="StateToTransition" guid="{68d99f2d-c2d9-4aca-9605-c6fecaa7c11f}" relid="0x9">
+					<name>StateToTransition</name>
+					<connpoint role="src" target="id-0065-00000003"/>
+					<connpoint role="dst" target="id-0065-00000009"/>
+				</connection>
+			</model>
+			<model id="id-0065-0000000a" kind="PetriNet" role="PetriNet" guid="{6ca88482-7452-488d-a3a2-6119591e8937}" relid="0x2" childrelidcntr="0xb">
+				<name>Component1</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="Aspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>14,14</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="action">
+					<value>x=0;
+
+</value>
+				</attribute>
+				<model id="id-0065-0000000b" kind="State" role="State" guid="{0fbd3b4f-2f5c-4c18-807f-33c9a4deb3e5}" relid="0x1" childrelidcntr="0x0">
+					<name>s2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>140,14</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialeState">
+						<value>false</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000000c" kind="State" role="State" guid="{921fd6b5-c147-4da8-92f4-a33b02638835}" relid="0x2" childrelidcntr="0x0">
+					<name>s1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>161,357</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="InitialeState">
+						<value>true</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000000d" kind="Variable" role="Variable" guid="{9d053ee5-c61e-4df2-98a7-fc5536066c35}" relid="0x3" childrelidcntr="0x0">
+					<name>x</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>336,364</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="datatype">
+						<value>int</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000000e" kind="Port" role="Port" guid="{cf65d20b-3934-4f9d-94ab-705444e91000}" relid="0x4" childrelidcntr="0x1">
+					<name>p2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>266,14</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="export">
+						<value>true</value>
+					</attribute>
+					<reference id="id-0067-00000003" kind="VariableReference" role="VariableReference" guid="{670f5e5d-a175-4ced-b136-1a75298aae72}" relid="0x1" referred="id-0065-0000000d">
+						<name>x</name>
+						<attribute kind="callIndex" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+				</model>
+				<model id="id-0065-0000000f" kind="Port" role="Port" guid="{c737ce05-e464-4f19-9060-6293c4583230}" relid="0x5" childrelidcntr="0x1">
+					<name>p1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>14,14</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="export">
+						<value>true</value>
+					</attribute>
+					<reference id="id-0067-00000004" kind="VariableReference" role="VariableReference" guid="{9a008e92-3454-48bd-9e9c-1acdebd1e745}" relid="0x1" referred="id-0065-0000000d">
+						<name>x</name>
+						<attribute kind="callIndex" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+				</model>
+				<model id="id-0065-00000010" kind="Transition" role="Transition" guid="{8e854435-e0d2-45e8-823d-5ba940ac77f2}" relid="0xa" childrelidcntr="0x0">
+					<name>p2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>63,210</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="action">
+						<value>printf(&quot;Component1 Receive: %d\n&quot;,x);
+
+</value>
+					</attribute>
+					<attribute kind="guard">
+						<value>true</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000011" kind="Transition" role="Transition" guid="{c01b8797-1bf2-4ece-b4b7-7c8381384f99}" relid="0xb" childrelidcntr="0x0">
+					<name>p1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>196,217</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="action">
+						<value>printf(&quot;Component1 Send %d\n&quot;,x);
+
+</value>
+					</attribute>
+					<attribute kind="guard">
+						<value>true</value>
+					</attribute>
+				</model>
+				<connection id="id-0068-00000005" kind="TransitionToState" role="TransitionToState" guid="{e35fa328-3502-4636-9968-0995d6b01f32}" relid="0x6">
+					<name>TransitionToState</name>
+					<connpoint role="dst" target="id-0065-0000000c"/>
+					<connpoint role="src" target="id-0065-00000010"/>
+				</connection>
+				<connection id="id-0068-00000006" kind="TransitionToState" role="TransitionToState" guid="{7d7aa762-6d80-4333-9409-a3eefab2c592}" relid="0x7">
+					<name>TransitionToState</name>
+					<connpoint role="dst" target="id-0065-0000000b"/>
+					<connpoint role="src" target="id-0065-00000011"/>
+				</connection>
+				<connection id="id-0068-00000007" kind="StateToTransition" role="StateToTransition" guid="{75a96561-cedd-4496-9289-83bbb1e1ff51}" relid="0x8">
+					<name>StateToTransition</name>
+					<connpoint role="src" target="id-0065-0000000b"/>
+					<connpoint role="dst" target="id-0065-00000010"/>
+				</connection>
+				<connection id="id-0068-00000008" kind="StateToTransition" role="StateToTransition" guid="{19ad9c1c-46a8-4e5c-88eb-ed00e138df33}" relid="0x9">
+					<name>StateToTransition</name>
+					<connpoint role="src" target="id-0065-0000000c"/>
+					<connpoint role="dst" target="id-0065-00000011"/>
+				</connection>
+			</model>
+			<connection id="id-0068-00000009" kind="Connector" role="Connector" guid="{4b22d585-b2cf-4733-bb9a-d75a49c68ee9}" relid="0x3">
+				<name>Conn1Comp1Comp2</name>
+				<connpoint role="dst" target="id-0065-00000006"/>
+				<connpoint role="src" target="id-0065-0000000f"/>
+			</connection>
+			<connection id="id-0068-0000000a" kind="Connector" role="Connector" guid="{0081e4d6-1ff8-4f33-a34c-355a8be382f2}" relid="0x4">
+				<name>Conn2Comp1Comp2</name>
+				<connpoint role="src" target="id-0065-00000007"/>
+				<connpoint role="dst" target="id-0065-0000000e"/>
+			</connection>
+		</model>
+	</folder>
+</project>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="Newembedded_with_structure00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="embedded_with_structure" Period="0" Priority="0" SampleTime="0" Tag="" UserData="" name="embedded_with_structure">
+          <Line Name="" _id="id8" dstLine_end_="id9" srcLine_end_="id7"/>
+          <Line Name="" _id="idC" dstLine_end_="idD" srcLine_end_="idB"/>
+          <Line Name="" _id="id10" dstLine_end_="id11" srcLine_end_="idF"/>
+          <Line Name="" _id="id16" dstLine_end_="id13" srcLine_end_="id15"/>
+          <Line Name="" _id="id17" dstLine_end_="id4" srcLine_end_="id14"/>
+          <OutputPort Number="1" _id="id4" name="Out1" srcLine="id17">
+            <TypeBaseRef MemberIndex="0" _id="id1B" name="double" ref="id19"/>
+          </OutputPort>
+          <Primitive BlockType="BusCreator" Description="" Name="Bus&#xA;Creator" Priority="0" SampleTime="0" Tag="" UserData="" name="Bus&#xA;Creator">
+            <InputPort Number="1" _id="id9" name="In_1" srcLine="id8">
+              <TypeBaseRef MemberIndex="0" _id="id33" name="double" ref="id19"/>
+            </InputPort>
+            <InputPort Number="2" _id="idD" name="In_2" srcLine="idC">
+              <TypeBaseRef MemberIndex="0" _id="id34" name="single" ref="id22"/>
+            </InputPort>
+            <InputPort Number="3" _id="id11" name="In_3" srcLine="id10">
+              <TypeBaseRef MemberIndex="0" _id="id35" name="uint32" ref="id26"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id15" dstLine="id16" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id32" name="bosecondary" ref="id28"/>
+            </OutputPort>
+            <Parameter Value="bar" name="DisplayOption"/>
+            <Parameter Value="3" name="Inputs"/>
+            <Parameter Value="on" name="NonVirtualBus"/>
+            <Parameter Value="Bus: bosecondary" name="OutDataTypeStr"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant" Priority="0" SampleTime="0" Tag="" UserData="" name="Constant">
+            <OutputPort Number="1" _id="id7" dstLine="id8" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id2A" name="double" ref="id19"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="double" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="1" name="Value"/>
+            <Parameter Value="on" name="VectorParams1D"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant1" Priority="0" SampleTime="0" Tag="" UserData="" name="Constant1">
+            <OutputPort Number="1" _id="idB" dstLine="idC" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id2C" name="single" ref="id22"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="single" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="2" name="Value"/>
+            <Parameter Value="on" name="VectorParams1D"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant2" Priority="0" SampleTime="0" Tag="" UserData="" name="Constant2">
+            <OutputPort Number="1" _id="idF" dstLine="id10" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id2e" name="uint32" ref="id26"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="uint32" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="3" name="Value"/>
+            <Parameter Value="on" name="VectorParams1D"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Embedded" Description="" Name="Embedded&#xA;MATLAB Function" Priority="0" SampleTime="0" Tag="" UserData="" name="Embedded&#xA;MATLAB Function">
+            <InputPort Number="1" _id="id13" name="u" srcLine="id16">
+              <TypeBaseRef MemberIndex="0" _id="id29" name="bosecondary" ref="id28"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id14" dstLine="id17" name="y">
+              <TypeBaseRef MemberIndex="0" _id="id30" name="double" ref="id19"/>
+            </OutputPort>
+            <Parameter Value="function y = fcn(u)&amp;#x0a;%#eml&amp;#x0a;&amp;#x0a;y = u.Pressure;" name="Script"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow name="Stateflow"/>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types">
+    <Matrix Type="double" _id="id19" columns="1" name="double" referedbyTypeStructRef="id1B id1F id2A id30 id33" rows="1"/>
+    <Matrix Type="single" _id="id22" columns="1" name="single" referedbyTypeStructRef="id23 id2C id34" rows="1"/>
+    <Matrix Type="uint32" _id="id26" columns="1" name="uint32" referedbyTypeStructRef="id27 id2e id35" rows="1"/>
+    <TypeStruct MemberCount="3" _id="id28" name="bosecondary" referedbyTypeStructRef="id29 id32">
+      <TypeBaseRef MemberIndex="0" _id="id1F" name="Pressure" ref="id19"/>
+      <TypeBaseRef MemberIndex="1" _id="id23" name="Temperature" ref="id22"/>
+      <TypeBaseRef MemberIndex="2" _id="id27" name="Volume" ref="id26"/>
+    </TypeStruct>
+  </Types>
+
+</RootFolder>

@@ -1,0 +1,48 @@
+<Project _id="id34" name="test_counter" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" statementCount="3" statementIndex="0" xsi:noNamespaceSchemaLocation="SFC.xsd">
+	<BasicType te="id4a id52" _id="id43" name="double" statementIndex="1"/>
+	<Program _id="id45" filename="test_counter_sl" stateCount="0" numInstance="1" statementCount="2" statementIndex="2">
+		<Class _id="id44" name="test_counter_54_class" statementCount="3" statementIndex="0">
+			<Function _id="id48" name="test_counter_54_main" scope="" argCount="2" returnType="void" statementCount="1" statementIndex="1">
+				<Arg dt="id47" _id="id49" ptr="true" ref="id58" name="context" size="1" type="" argIndex="0"/>
+				<Arg dt="id43" _id="id4a" ptr="true" ref="id56" name="Out1_2" size="1" type="double" argIndex="2"/>
+				<FunctionCall _id="id54" callee="id4f" argCount="2" libFuncName="Counter_main" statementIndex="0">
+					<ArgVal _id="id53" arg="id4e" val="0" argIndex="0">
+						<BinaryExprs op="." _id="id62">
+							<ArgDeclRef _id="id58" unres="" argdecl="id49" __child_as="leftexpr"/>
+							<ArgDeclRef _id="id59" unres="" argdecl="id57" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</ArgVal>
+					<ArgVal _id="id55" arg="id52" val="" argIndex="1">
+						<ArgDeclRef _id="id56" unres="" argdecl="id4a"/>
+					</ArgVal>
+				</FunctionCall>
+			</Function>
+			<Function _id="id5a" name="test_counter_54_init" scope="" argCount="1" returnType="void" statementCount="1" statementIndex="2">
+				<Arg dt="id47" _id="id5b" ptr="true" ref="id5e" name="context" size="1" type="" argIndex="0"/>
+				<FunctionCall _id="id60" callee="id5d" argCount="1" libFuncName="" statementIndex="0">
+					<ArgVal _id="id61" arg="id5c" val="" argIndex="0">
+						<BinaryExprs op="." _id="id63">
+							<ArgDeclRef _id="id5f" unres="" argdecl="id57" __child_as="rightexpr"/>
+							<ArgDeclRef _id="id5e" unres="" argdecl="id5b" __child_as="leftexpr"/>
+						</BinaryExprs>
+					</ArgVal>
+				</FunctionCall>
+			</Function>
+			<Struct te="id49 id5b" _id="id47" name="test_counter_54_context" memberCount="1" statementIndex="0">
+				<LocalVar dt="id4d" _id="id57" ref="id59 id5f" name="Counter_member0" size="1" type="" scope="" initial="" statementIndex="0"/>
+			</Struct>
+		</Class>
+		<Class _id="id46" name="Counter" statementCount="3" statementIndex="1">
+			<Function _id="id4f" name="Counter_main" scope="" caller="id54" argCount="2" returnType="void" statementCount="-1" statementIndex="1">
+				<Arg dt="id4d" _id="id4e" ptr="true" val="id53" name="context" size="1" type="" argIndex="0"/>
+				<Arg dt="id43" _id="id52" ptr="true" val="id55" name="ctr_1" size="1" type="" argIndex="1"/>
+			</Function>
+			<Function _id="id5d" name="Counter_init" scope="" caller="id60" argCount="1" returnType="void" statementCount="-1" statementIndex="2">
+				<Arg dt="id4d" _id="id5c" ptr="true" val="id61" name="context" size="1" type="" argIndex="0"/>
+			</Function>
+			<Struct te="id4e id57 id5c" _id="id4d" name="Counter_context" memberCount="-1" statementIndex="0"/>
+		</Class>
+	</Program>
+</Project>
+
+

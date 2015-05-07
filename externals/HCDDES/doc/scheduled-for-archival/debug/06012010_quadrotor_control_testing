@@ -1,0 +1,68 @@
+1. Testing out the controller.
+
+   First, dumped the error values and the gain scaling.  It's possible that the
+   gain values are backwards (wrong sign?).  Let's look at the quad integrator.
+
+   Those look OK.  Downstream are the pos/vel -> euler calculations and the
+   inner loop.  Cut those in half, and look at the error term going into the
+   inner loop to see if the values make sense.
+
+06/02/2010
+2. Looked at controller tuning with Nicholas this morning.  There was a 
+   problem with the initialization of one of the saturation blocks, so we 
+   fixed the code by hand.  Now it looks like we're getting values out of
+   bounds for the roll command from the outer loop. 
+
+   Tracking through the controller:
+   Right after saturation -- values are bad.
+   Right before saturation -- values are still bad.
+   Right before mux_euler --  
+
+06/03/2010
+   Mistake -- there was another write to copyval in the code.  
+   Starting again from the middle, using bisection:
+   Right before mux_euler -- the inputs look good here.
+   Right after the rotation matrix -- sin terms OK, cos terms bad
+     found a bug in the cos handler -- the theta_in variable was used to
+     get theta in range, but not used subsequently in the calculation :-(
+   Trying it again...  still bad.
+   Trying the built-in sin/cos to compare... those did better. 
+   Now we need to go back in the other direction --
+   Trying values after the rotation matrix...  OK
+   After the threshold... broken!
+   Try removing the threshold, and passing the values through... better.
+   
+   The strange sensor value scaling is due to the fact that the sensor blocks
+   do quantization, and then the sensor_convert block scales them back.  Put
+   a copy of sensor_convert before the traces are collected to get the proper
+   range.
+
+   Now we are down to something understandable -- all of the state variables
+   are OK except for height.  We register no thrust, so this makes sense. The
+   helicopter is in free fall.
+
+   The u_T thrust reference value is positive (as it should be), but nothing
+   is coming out of the inner loop.  Time to investigate.
+
+   All of the gains are set to zero.  That's not OK.
+   Set the gains by hand in u_T_u_torque_motor_thrust_init (from Mi),
+   euler_controller_init (K_e and K_o).  Coefficients in lead_motor_init 
+   look fine.  Still getting zeros out.
+
+   Checking the inputs to u_T_u_torque_motor_thrust_main... zeros from the
+   euler controller, and 1.226 from the thrust reference.  This is a 
+   mystery -- the thrust reference should produce a positive output value
+   now that the scaling matrix is non-zero.  What's wrong?
+
+6/4/2010
+   First look at the context structure -- is it being initialized correctly?
+   Do we have the right version of the code?  There are doubles in the 
+   context structure, and duplicate copies of the structures.  That did not 
+   fix it.
+
+   Checking data into the u_T_u_torque_motor_thrust command... OK
+   Checking the gain values (same function)... all of the gains are still zero!
+   Is the init function getting called? 
+   
+   All of the gains were typed as int, so their values were truncated.  Fixing
+   by hand...  fixed in both the robostix and gumstix. 

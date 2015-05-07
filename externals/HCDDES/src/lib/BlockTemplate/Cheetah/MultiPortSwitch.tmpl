@@ -1,0 +1,80 @@
+#import MatLabHelper
+#
+#if $len( $inputs ) == 2
+	#
+	#if $parameters.DataPortOrder == "Zero-based contiguous"
+		#
+$output = ${inputs[1]}( $inputs[0] )
+		#
+	#end if
+	#
+	#if $parameters.DataPortOrder == "One-based contiguous"
+		#
+$output = ${inputs[1]}( $inputs[0] - 1 )
+		#
+	#end if
+	#
+	#stop
+	#
+#end if
+#
+$block.setKeepStructs()#slurp
+#
+#
+#if $parameters.DataPortOrder == "One-based contiguous"
+	#
+	#set $indices = $range(  1, $len( $inputs )  )
+	#
+#elif $parameters.DataPortOrder == "Zero-based contiguous"
+	#
+	#set $indices = $range( 0, $len( $inputs ) - 1 )
+	#
+#else
+	#
+	#set $indices = $MatLabHelper.multiportSwitchParseSpecifiedIndices(  $str( $parameters.DataPortIndices )  )
+	#
+#end if
+#
+#
+#if $parameters.DataPortForDefault == "Last data port"
+	#set $indices = $indices[0:-1]
+#end if
+#
+#
+#set $idx = 1
+#set $first = True
+#for $item in $indices
+	#if $first
+		#set $first = False
+	#else
+else#slurp
+	#end if
+if #slurp
+	#if $isinstance( $item, $list )
+		#
+		#set $firstTest = True
+		#for $index in $item
+			#if $firstTest
+				#set $firstTest = False
+			#else
+ || #slurp
+			#end if
+$inputs[ 0 ] == $index#slurp
+		#end for
+
+		#
+	#else
+		#
+$inputs[ 0 ] == $item
+		#
+	#end if
+	#
+    $output = $inputs[ $idx ]
+	#
+	#set $idx += 1
+	#
+#end for
+#
+else
+    $output = $inputs[ $idx ]
+end

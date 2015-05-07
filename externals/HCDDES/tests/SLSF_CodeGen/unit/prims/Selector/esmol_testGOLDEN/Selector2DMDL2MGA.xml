@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <Dataflow name="Dataflow">
+    <Subsystem BlockType="Model" Deadline="0" Description="" Name="selector2D" Period="0" Priority="0" SampleTime="111.00" Tag="" UserData="" name="selector2D">
+      <Line Name="" _id="id11" dstLine_end_="id12" srcLine_end_="id10"/>
+      <Line Name="" _id="id14" dstLine_end_="id15" srcLine_end_="id13"/>
+      <Line Name="" _id="id18" dstLine_end_="id19" srcLine_end_="id17"/>
+      <Line Name="" _id="id1A" dstLine_end_="id1B" srcLine_end_="ide"/>
+      <Line Name="" _id="id1D" dstLine_end_="id1e" srcLine_end_="id1C"/>
+      <Line Name="" _id="id20" dstLine_end_="id4" srcLine_end_="id1F"/>
+      <Line Name="" _id="id23" dstLine_end_="id24" srcLine_end_="id22"/>
+      <Line Name="" _id="id26" dstLine_end_="id8" srcLine_end_="id25"/>
+      <Line Name="" _id="id28" dstLine_end_="id29" srcLine_end_="id17"/>
+      <Line Name="" _id="id2B" dstLine_end_="id7" srcLine_end_="id2A"/>
+      <OutputPort Number="1" _id="id4" name="Out1" srcLine="id20"/>
+      <OutputPort Number="2" _id="id7" name="Out2" srcLine="id2B"/>
+      <OutputPort Number="3" _id="id8" name="Out3" srcLine="id26"/>
+      <Primitive BlockType="Constant" Description="" Name="Constant" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Constant">
+        <OutputPort Number="1" _id="id17" dstLine="id18 id28" name="Out_1"/>
+        <Parameter Value="Use specified scaling" name="ConRadixGroup"/>
+        <Parameter Value="inf" name="FramePeriod"/>
+        <Parameter Value="sfix(16)" name="OutDataType"/>
+        <Parameter Value="Inherit from 'Constant value'" name="OutDataTypeMode"/>
+        <Parameter Value="2^0" name="OutScaling"/>
+        <Parameter Value="Sample based" name="SamplingMode"/>
+        <Parameter Value="[1 2 3 4 5 6 7 8 9;10 11 12 13 14 15 16 17 18;19 20 21 22 23 24 25 26 27;28 29 30 31 32 33 34 35 36;37 38 39 40 41 42 43 44 45;46 47 48 49 50 51 52 53 54;55 56 57 58 59 60 61 62 63;64 65 66 67 68 69 70 71 72;73 74 75 76 77 78 79 80 81]" name="Value"/>
+        <Parameter Value="off" name="VectorParams1D"/>
+      </Primitive>
+      <Primitive BlockType="Constant" Description="" Name="Constant2" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Constant2">
+        <OutputPort Number="1" _id="id1C" dstLine="id1D" name="Out_1"/>
+        <Parameter Value="Use specified scaling" name="ConRadixGroup"/>
+        <Parameter Value="inf" name="FramePeriod"/>
+        <Parameter Value="sfix(16)" name="OutDataType"/>
+        <Parameter Value="Inherit from 'Constant value'" name="OutDataTypeMode"/>
+        <Parameter Value="2^0" name="OutScaling"/>
+        <Parameter Value="Sample based" name="SamplingMode"/>
+        <Parameter Value="[0 2 4 6 8]" name="Value"/>
+        <Parameter Value="off" name="VectorParams1D"/>
+      </Primitive>
+      <Primitive BlockType="Constant" Description="" Name="Constant3" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Constant3">
+        <OutputPort Number="1" _id="id10" dstLine="id11" name="Out_1"/>
+        <Parameter Value="Use specified scaling" name="ConRadixGroup"/>
+        <Parameter Value="inf" name="FramePeriod"/>
+        <Parameter Value="sfix(16)" name="OutDataType"/>
+        <Parameter Value="Inherit from 'Constant value'" name="OutDataTypeMode"/>
+        <Parameter Value="2^0" name="OutScaling"/>
+        <Parameter Value="Sample based" name="SamplingMode"/>
+        <Parameter Value="[1 2 3]" name="Value"/>
+        <Parameter Value="off" name="VectorParams1D"/>
+      </Primitive>
+      <Primitive BlockType="Constant" Description="" Name="Constant4" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Constant4">
+        <OutputPort Number="1" _id="id13" dstLine="id14" name="Out_1"/>
+        <Parameter Value="Use specified scaling" name="ConRadixGroup"/>
+        <Parameter Value="inf" name="FramePeriod"/>
+        <Parameter Value="sfix(16)" name="OutDataType"/>
+        <Parameter Value="Inherit from 'Constant value'" name="OutDataTypeMode"/>
+        <Parameter Value="2^0" name="OutScaling"/>
+        <Parameter Value="Sample based" name="SamplingMode"/>
+        <Parameter Value="[10 11 12]" name="Value"/>
+        <Parameter Value="off" name="VectorParams1D"/>
+      </Primitive>
+      <Primitive BlockType="Mux" Description="" Name="Mux" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Mux">
+        <InputPort Number="1" _id="id12" name="In_1" srcLine="id11"/>
+        <InputPort Number="2" _id="id15" name="In_2" srcLine="id14"/>
+        <OutputPort Number="1" _id="id22" dstLine="id23" name="Out_1"/>
+        <Parameter Value="BusObject" name="BusObject"/>
+        <Parameter Value="bar" name="DisplayOption"/>
+        <Parameter Value="2" name="Inputs"/>
+        <Parameter Value="off" name="NonVirtualBus"/>
+        <Parameter Value="off" name="UseBusObject"/>
+      </Primitive>
+      <Primitive BlockType="Selector" Description="" Name="Selector" Priority="0" SampleTime="-1.00" Tag="" UserData="" name="Selector">
+        <InputPort Number="1" _id="id19" name="In_1" srcLine="id18"/>
+        <InputPort Number="2" _id="id1B" name="In_2" srcLine="id1A"/>
+        <InputPort Number="3" _id="id1e" name="In_3" srcLine="id1D"/>
+        <OutputPort Number="1" _id="id1F" dstLine="id20" name="Out_1"/>
+        <Parameter Value="Zero-based" name="IndexMode"/>
+        <Parameter Value="Starting index (port),Index vector (port)" name="IndexOptions"/>
+        <Parameter Value="[1 3],2" name="Indices"/>
+        <Parameter Value="3" name="InputPortWidth"/>
+        <Parameter Value="2" name="NumberOfDimensions"/>
+        <Parameter Value="3,5" name="OutputSizes"/>
+      </Primitive>
+      <Primitive BlockType="Selector" Description="" Name="Selector1" Priority="0" SampleTime="-1.00" Tag="" UserData="" name="Selector1">
+        <InputPort Number="1" _id="id24" name="In_1" srcLine="id23"/>
+        <OutputPort Number="1" _id="id25" dstLine="id26" name="Out_1"/>
+        <Parameter Value="One-based" name="IndexMode"/>
+        <Parameter Value="Index vector (dialog)" name="IndexOptions"/>
+        <Parameter Value="[1 3 4 5]" name="Indices"/>
+        <Parameter Value="-1" name="InputPortWidth"/>
+        <Parameter Value="1" name="NumberOfDimensions"/>
+        <Parameter Value="3" name="OutputSizes"/>
+      </Primitive>
+      <Primitive BlockType="Selector" Description="" Name="Selector2" Priority="0" SampleTime="-1.00" Tag="" UserData="" name="Selector2">
+        <InputPort Number="1" _id="id29" name="In_1" srcLine="id28"/>
+        <OutputPort Number="1" _id="id2A" dstLine="id2B" name="Out_1"/>
+        <Parameter Value="One-based" name="IndexMode"/>
+        <Parameter Value="Starting index (dialog),Select all" name="IndexOptions"/>
+        <Parameter Value="2,2" name="Indices"/>
+        <Parameter Value="3" name="InputPortWidth"/>
+        <Parameter Value="2" name="NumberOfDimensions"/>
+        <Parameter Value="1,5" name="OutputSizes"/>
+      </Primitive>
+      <Subsystem BlockType="SubSystem" Deadline="0" Description="" Name="Counter" Period="0" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Counter">
+        <Line Name="" _id="id30" dstLine_end_="id31" srcLine_end_="id2F"/>
+        <Line Name="" _id="id33" dstLine_end_="id34" srcLine_end_="id32"/>
+        <Line Name="" _id="id36" dstLine_end_="ide" srcLine_end_="id35"/>
+        <Line Name="" _id="id39" dstLine_end_="id3A" srcLine_end_="id38"/>
+        <OutputPort Number="1" _id="ide" dstLine="id1A" name="ctr" srcLine="id36"/>
+        <Parameter Value="off" name="ExecuteAtInitialization"/>
+        <Primitive BlockType="Demux" Description="" Name="Demux" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Demux">
+          <InputPort Number="1" _id="id34" name="In_1" srcLine="id33"/>
+          <OutputPort Number="1" _id="id38" dstLine="id39" name="Out_1"/>
+          <Parameter Value="off" name="BusSelectionMode"/>
+          <Parameter Value="none" name="DisplayOption"/>
+          <Parameter Value="1" name="Outputs"/>
+        </Primitive>
+        <Primitive BlockType="Ground" Description="" Name="Ground" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Ground">
+          <OutputPort Number="1" _id="id2F" dstLine="id30" name="Out_1"/>
+        </Primitive>
+        <Primitive BlockType="S-Function" Description="" Name="SFunction" Priority="0" SampleTime="0.00" Tag="Stateflow S-Function selector2D 1" UserData="" name="SFunction">
+          <ConnectorRef _id="id3C" name="Counter" ref="id3B"/>
+          <InputPort Number="1" _id="id31" name="In_1" srcLine="id30"/>
+          <OutputPort Number="1" _id="id32" dstLine="id33" name="Out_1"/>
+          <OutputPort Number="2" _id="id35" dstLine="id36" name="Out_2"/>
+          <Parameter Value="sf_sfun" name="FunctionName"/>
+          <Parameter Value="" name="Parameters"/>
+          <Parameter Value="''" name="SFunctionModules"/>
+        </Primitive>
+        <Primitive BlockType="Terminator" Description="" Name="Terminator" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Terminator">
+          <InputPort Number="1" _id="id3A" name="In_1" srcLine="id39"/>
+        </Primitive>
+      </Subsystem>
+    </Subsystem>
+  </Dataflow>
+
+  <Stateflow name="Stateflow">
+    <State Decomposition="OR_STATE" DuringAction="" EnterAction="" ExitAction="" Name="" Order="" name="TopLevel">
+      <State Decomposition="OR_STATE" DuringAction="" EnterAction="" ExitAction="" Name="Counter" Order="" _id="id3B" name="Counter" referedbyConnectorRef="id3C">
+        <Data ArrayFirstIndex="" ArraySize="" DataType="" Description="" InitialValue="1" Max="" Min="" Name="ctr" Port="1" Scope="OUTPUT_DATA" Units="" name="ctr">
+          <TypeBaseRef MemberIndex="0" _id="id41" name="MdoubleC1C1M" ref="id3F"/>
+        </Data>
+        <State Decomposition="OR_STATE" DuringAction="" EnterAction="" ExitAction="" Name="s1" Order="0" _id="id3D" dstTransition="id42 id45" name="s1" srcTransition="id42 id43 id45"/>
+        <TransStart _id="id44" dstTransition="id43"/>
+        <Transition Action="ctr = ctr+1;" ConditionAction="" Guard="ctr &lt; 4" Order="1" Trigger="" _id="id42" dstTransition_end_="id3D" name="" srcTransition_end_="id3D"/>
+        <Transition Action="" ConditionAction="" Guard="" Order="1" Trigger="" _id="id43" dstTransition_end_="id3D" name="" srcTransition_end_="id44"/>
+        <Transition Action="ctr = 0;" ConditionAction="" Guard="ctr >= 4" Order="2" Trigger="" _id="id45" dstTransition_end_="id3D" name="" srcTransition_end_="id3D"/>
+      </State>
+    </State>
+  </Stateflow>
+
+  <Types name="Types">
+    <Matrix Type="double" _id="id3F" columns="1" name="MdoubleC1C1M" referedbyTypeStructRef="id41" rows="1"/>
+  </Types>
+
+</RootFolder>

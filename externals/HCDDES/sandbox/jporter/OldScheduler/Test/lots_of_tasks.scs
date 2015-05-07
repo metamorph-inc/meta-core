@@ -1,0 +1,34 @@
+% An attempt to make lots of Comps for no particular reason
+% See how long it takes to schedule them all
+
+Resolution 100ns
+
+Proc A1 100MHz 50us 150us
+Comp T1 =20Hz 1us
+Comp T2 =1250Hz 1us
+Comp T3 =2000Hz 10ns
+
+Proc A2 100MHz 50us 150us
+Comp T1 =2500Hz 1us
+Comp T2 =1000Hz 1us
+
+Bus A12 10Mb 100us
+Msg MA12 2B A1/T1 A2/T2
+Msg MA21 4B A2/T1 A1/T2
+
+Proc B1 100MHz 50us 150us
+Comp T1 =2000Hz 1us
+Comp T2 =8000Hz 1us
+Comp T3 =2500Hz  1us
+
+Proc C1 100MHz 50us 150us
+Comp T1 =4000Hz 1us
+Comp T2 2000Hz 10ns
+
+Bus ABC 10Mb 100us
+Msg MAB1 4B B1/T1 A1/T1
+Msg MAB2 4B B1/T2 A2/T2
+Msg MBC1 4B B1/T3 C1/T1
+Msg MAC1 1B A1/T3 C1/T2
+
+

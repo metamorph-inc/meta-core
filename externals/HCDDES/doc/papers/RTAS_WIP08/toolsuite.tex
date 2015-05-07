@@ -1,0 +1,53 @@
+The domain of choice for this research is that of distributed and embedded control
+systems.  Accordingly, the formal MoC chosen is that of the Time-Triggered 
+Architecture (TTA) \cite{kopetz:2001-22a}.  Time-triggered systems provide a number
+of essential guarantees for safety-critical control systems designs.  In particular,
+the TTA provides precise timing for periodic tasks, distributed fault-tolerance,
+and replica determinism in redundant configurations.  These basic guarantees and
+their implementations constitute some of the important high-level component 
+services needed for our platform-based designs.  
+
+\SubSection{Software architecture specification}
+Simulink/Stateflow (SL/SF) models can be imported into a well-defined modeling format
+that allows for analysis, extension, and code generation.  Graphical modeling
+tools can read these models and perform software engineering design tasks.  
+The SL/SF models are embedded in software components with well-defined
+interfaces, and then mapped to well-defined distributed hardware models.
+
+\SubSection{Code generation}
+Model transfomations \cite{isis:great} can convert imported SL/SF models into a 
+model representing an abstract syntax tree (AST) for C code fragments.   
+Interpreters for the new AST model can create
+code or directly perform simple static analyses such as checking variable 
+initializations.  Generated C code is generic -- the tools currently support 
+execution on a hardware implementation of the TTA (hardware available from TTTech\cite{TTTech})
+or on a time-triggered virtual machine (VM) running on Linux (described below).
+
+\SubSection{Scheduling}
+Resource allocation in the TTA is controlled by a pre-generated cyclic schedule
+created from task specifications and their communication dependencies.  We have 
+created a simple schedule generation tool that uses the Gecode finite-domain constraint
+programming library to search for cyclic schedules that meet the specifications.
+Constraint models are an extension of earlier work in this area
+\cite{sw:offlinescheduling}.
+
+\SubSection{Modeling the execution platform}
+The chosen time-triggered model of computation has been formalized using the DEVS 
+formalism (Figure \ref{fig:devs_sys}) and simulated using the DEVS++ simulator \cite{DEVSpp}.  Simulation 
+results for a time-triggered triple modular redundancy experiment were consistent 
+with observed performance of a time-triggered implementation \cite{TK_TMR}.
+
+\begin{figure} [h]
+	\includegraphics[width=0.9\columnwidth]{DEVS_system}
+	\caption{DEVS models for time-triggered virtual machine}
+	\label{fig:devs_sys}
+\end{figure}
+
+\SubSection{Implementation of the execution platform}
+In addition to tests on available time-triggered hardware, we have 
+developed a portable time-triggered VM running on a networked cluster
+of processors running standard Linux.  The portability of the VM allows the direct 
+exploration of the capabilities and limitations of the 
+services provided by the underlying operating system, and the effects of those 
+limitations on the guarantees provided by the chosen MoC \cite{TK_TMR}.
+

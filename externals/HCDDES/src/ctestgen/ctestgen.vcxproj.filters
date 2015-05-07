@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{a75aed68-05d4-4763-b1b5-a46c9a79df36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Models">
+      <UniqueIdentifier>{e1244c6b-bb7c-4012-ae14-152e3f00fd53}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\generated\ctestgen\generated\ctest.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generated\ctestgen\generated\ctestgen.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generated\ctestgen\generated\ctestgen_main.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generated\ctestgen\generated\Links.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generated\ctestgen\generated\SFC.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\generated\ctestgen\generated\ctest.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\ctestgen\generated\ctest_xsd.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\ctestgen\generated\ctestgen.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\ctestgen\generated\Links.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\ctestgen\generated\Links_xsd.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\ctestgen\generated\SFC.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\ctestgen\generated\SFC_xsd.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\generated\ctestgen\models\Config.mga">
+      <Filter>Generated Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\generated\ctestgen\models\ctest.mga">
+      <Filter>Generated Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\generated\ctestgen\models\Udm\ctest.udm">
+      <Filter>Generated Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ctest.xme" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,27 @@
+Resolution 1ms
+
+Proc Gumstix 400MHz 0s 0s
+Comp OuterLoop =50Hz 1us
+Comp RefSocketHandler =50Hz 1us
+Comp EthernetIn =50Hz 1us
+Msg RefSocketHandler.PosRefSocketData 20B Gumstix/EthernetIn Gumstix/RefSocketHandler 
+Msg RefSocketHandler.Pos_Ref_msg 17B Gumstix/RefSocketHandler Gumstix/OuterLoop 
+
+Proc Robostix 16MHz 0s 0s
+Comp DataHandler =50Hz 4.7ms
+Comp InnerLoop =50Hz 800us
+Comp UARTIn =50Hz 1us
+Comp UARTOut =50Hz 1us
+Msg DataHandler.PL_IMU_GPS_msg 1B Robostix/UARTIn Robostix/DataHandler 
+Msg InnerLoop.Thrust_Cmd_msg 17B Robostix/InnerLoop Robostix/UARTOut
+Msg DataHandler.Att_Data_msg 25B Robostix/DataHandler Robostix/InnerLoop 
+
+
+Bus TTBus 100kb 1.3ms Gumstix Robostix 
+Sync TTBusSync 1.25ms 0s
+Msg DataHandler.Pos_Data_msg 49B Robostix/DataHandler Gumstix/OuterLoop 
+Msg OuterLoop.Att_Ref_msg 17B Gumstix/OuterLoop Robostix/InnerLoop 
+
+
+
+

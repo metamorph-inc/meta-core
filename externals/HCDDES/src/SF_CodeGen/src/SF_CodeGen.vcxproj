@@ -1,0 +1,463 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{65617691-93A8-4D5E-83E9-056DD02CA75E}</ProjectGuid>
+    <RootNamespace>SF_CodeGen</RootNamespace>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\..\common-scripts\build_customization\xme2mga.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)D</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)D</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_BIN)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(VCP_PATH)\$(PlatformName)\bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_BIN)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VCP_PATH)\$(PlatformName)\bin\</OutDir>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateManifest>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</EmbedManifest>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateManifest>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</EmbedManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <TypeLibraryName>.\Release/SF_CodeGen.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/Zm1400  %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\..\..\generated\SF_CodeGen\generated\ESMoL;./;..\..\..\include;$(ANTLR_PATH)\include;$(GREAT_PATH)/include;$(TEMP)\GReAT;$(UDM_PATH)/include;$(XERCES_PATH)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>GReATUtilsVC10.lib;RTTGeneratorVC10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;$$(ANTLR3_PATH)\lib;$(VCP_PATH)\lib;$(GREAT_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ProgramDatabaseFile>.\Release/SF_CodeGen.pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TypeLibraryName>.\Release/SF_CodeGen.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/Zm1400  %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\..\..\generated\SF_CodeGen\generated;./;..\..\..\include;$(ANTLR_PATH)\include;$(GREAT_PATH)/include;$(TEMP)\GReAT;$(UDM_PATH)/include;$(XERCES_PATH)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>GReATUtilsVC10.lib;RTTGeneratorVC10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;$$(ANTLR_PATH)\lib;$(ANTLR3_PATH)\lib;$(VCP_PATH)\lib;$(GREAT_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ProgramDatabaseFile>.\Release/SF_CodeGen.pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <TypeLibraryName>.\Debug/SF_CodeGen.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/Zm200  %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\generated\SF_CodeGen\generated\ESMoL;./;..\..\..\include;$(ANTLR_PATH)\include;$(GREAT_PATH)/include;$(TEMP)\GReAT;$(UDM_PATH)/include;$(XERCES_PATH)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UDM_DYNAMIC_LINKING;PRINT_INFO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <BrowseInformation>false</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>GReATUtilsVC10D.lib;RTTGeneratorVC10D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;$$(ANTLR3_PATH)\lib;$(VCP_PATH)\lib;$(GREAT_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TypeLibraryName>.\Debug/SF_CodeGen.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/Zm200  %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\generated\SF_CodeGen\generated;./;..\..\..\include;$(ANTLR_PATH)\include;$(GREAT_PATH)/include;$(TEMP)\GReAT;$(UDM_PATH)/include;$(XERCES_PATH)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UDM_DYNAMIC_LINKING;PRINT_INFO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>GReATUtilsVC10D.lib;RTTGeneratorVC10D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;$$(ANTLR_PATH)\lib;$(ANTLR3_PATH)\lib;$(VCP_PATH)\lib;$(GREAT_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ConfigKeeper.cpp" />
+    <ClCompile Include="GenESM2SFC_main_g.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</BrowseInformation>
+      <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BrowseInformation>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="SFManager.cpp" />
+    <ClCompile Include="SfuncCodeTemplate.cpp" />
+    <ClCompile Include="SFuncWrapperPrint.cpp" />
+    <ClCompile Include="VarResolve.cpp" />
+    <ClCompile Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\ESM2SFC.cpp" />
+    <ClCompile Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\ESMoL.cpp" />
+    <ClCompile Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\GenESM2SFC.cpp" />
+    <ClCompile Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\LINKS.cpp" />
+    <ClCompile Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\SFC.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\transroot.hpp" />
+    <ClInclude Include="ConfigKeeper.hpp" />
+    <ClInclude Include="GenESM2SFC_main_g.hpp" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="SFManager.hpp" />
+    <ClInclude Include="SfuncCodeTemplate.hpp" />
+    <ClInclude Include="SFuncWrapperPrint.h" />
+    <ClInclude Include="utils.h" />
+    <ClInclude Include="VarResolve.hpp" />
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\ESM2SFC.h" />
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\ESM2SFC_xsd.h" />
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\ESMoL.h" />
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\ESMoL_xsd.h" />
+    <CustomBuild Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\GenESM2SFC.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\..\bin\transrootd "%(FullPath)" TL "%(RootDir)%(Directory)\transroot.hpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\bin\transrootd "%(FullPath)" TL "%(RootDir)%(Directory)\transroot.hpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\..\bin\transroot "%(FullPath)" TL "%(RootDir)%(Directory)\transroot.hpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\bin\transroot "%(FullPath)" TL "%(RootDir)%(Directory)\transroot.hpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Executing "transrootd"</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Executing "transrootd"</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Executing "transroot"</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Executing "transroot"</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\transroot.hpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\transroot.hpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\transroot.hpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\transroot.hpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\LINKS.h" />
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\LINKS_xsd.h" />
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\SFC.h" />
+    <ClInclude Include="..\..\..\generated\SF_CodeGen\generated\ESMoL\SFC_xsd.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="sfunc_code_template.txt" />
+    <CustomBuild Include="..\..\..\generated\SF_CodeGen\models\ESMoL\Config.mga">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating CG files ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating CG files ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(GREAT_PATH)"\bin\CG.exe ..\..\generated\ESMoL\GenESM2SFC "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(GREAT_PATH)"\bin\CG.exe ..\generated\GenESM2SFC "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\..\..\generated\ESMoL\GenESM2SFC.h;%(RootDir)%(Directory)\..\..\generated\ESMoL\GenESM2SFC.cpp;%(RootDir)%(Directory)\..\..\generated\ESMoL\GenESM2SFC_main.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\..\generated\GenESM2SFC.h;%(RootDir)%(Directory)\..\generated\GenESM2SFC.cpp;%(RootDir)%(Directory)\..\generated\GenESM2SFC_main.cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating CG files ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating CG files ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(GREAT_PATH)"\bin\CG.exe ..\..\generated\ESMoL\GenESM2SFC "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(GREAT_PATH)"\bin\CG.exe ..\generated\GenESM2SFC "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\..\..\generated\ESMoL\GenESM2SFC.h;%(RootDir)%(Directory)\..\..\generated\ESMoL\GenESM2SFC.cpp;%(RootDir)%(Directory)\..\..\generated\ESMoL\GenESM2SFC_main.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\..\generated\GenESM2SFC.h;%(RootDir)%(Directory)\..\generated\GenESM2SFC.cpp;%(RootDir)%(Directory)\..\generated\GenESM2SFC_main.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\generated\SF_CodeGen\models\ESMoL\ESM2SFC.mga">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ESM2SFC.mga -&gt; Config.mga, ESM2SFC-gr.xml, Udm\ESM2SFC.udm</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ESM2SFC.mga -&gt; Config.mga, ESM2SFC-gr.xml, Udm\ESM2SFC.udm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(VCP_PATH)\common-scripts\gmepy.exe" RunGreatMasterInt  "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(VCP_PATH)\common-scripts\gmepy.exe" RunGreatMasterInt  "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\Config.mga;%(RootDir)%(Directory)\%(Filename)-gr.xml;%(RootDir)%(Directory)\Udm\%(Filename).udm;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\Config.mga;%(RootDir)%(Directory)\%(Filename)-gr.xml;%(RootDir)%(Directory)\Udm\%(Filename).udm;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ESM2SFC.mga -&gt; Config.mga, ESM2SFC-gr.xml, Udm\ESM2SFC.udm</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ESM2SFC.mga -&gt; Config.mga, ESM2SFC-gr.xml, Udm\ESM2SFC.udm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(VCP_PATH)\common-scripts\gmepy.exe" RunGreatMasterInt  "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(VCP_PATH)\common-scripts\gmepy.exe" RunGreatMasterInt  "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\Config.mga;%(RootDir)%(Directory)\%(Filename)-gr.xml;%(RootDir)%(Directory)\Udm\%(Filename).udm;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\Config.mga;%(RootDir)%(Directory)\%(Filename)-gr.xml;%(RootDir)%(Directory)\Udm\%(Filename).udm;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\generated\SF_CodeGen\models\ESMoL\Udm\ESM2SFC.udm">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">udm %(Filename).%(Extension) - Generating *.cpp and *.h files using "Udm -g" so that *.xsd are compiled into them directly</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">udm %(Filename).%(Extension) - Generating *.cpp and *.h files using "Udm -g" so that *.xsd are compiled into them directly</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mkdir "%(RootDir)%(Directory)"\..\..\..\generated\ESMoL
+cd "%(RootDir)%(Directory)"\..\..\..\generated\ESMoL
+"$(UDM_PATH)\bin\Udm.exe" -g "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mkdir "%(RootDir)%(Directory)"\..\..\generated
+cd "%(RootDir)%(Directory)"\..\..\generated
+"$(UDM_PATH)\bin\Udm.exe" -g "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL_xsd.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SFC.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SFC.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SFC.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SFC_xsd.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS_xsd.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC_xsd.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\..\..\generated\ESMoL.cpp;%(RootDir)%(Directory)\..\..\generated\ESMoL.h;%(RootDir)%(Directory)\..\..\generated\ESMoL.xsd;%(RootDir)%(Directory)\..\..\generated\ESMoL_xsd.h;%(RootDir)%(Directory)\..\..\generated\ESM2SFC.cpp;%(RootDir)%(Directory)\..\..\generated\ESM2SFC.h;%(RootDir)%(Directory)\..\..\generated\ESM2SFC.xsd;%(RootDir)%(Directory)\..\..\generated\ESM2SFC_xsd.h;%(RootDir)%(Directory)\..\..\generated\LINKS.cpp;%(RootDir)%(Directory)\..\..\generated\LINKS.h;%(RootDir)%(Directory)\..\..\generated\LINKS.xsd;%(RootDir)%(Directory)\..\..\generated\LINKS_xsd.h;%(RootDir)%(Directory)\..\..\generated\SFC.cpp;%(RootDir)%(Directory)\..\..\generated\SFC.h;%(RootDir)%(Directory)\..\..\generated\SFC.xsd;%(RootDir)%(Directory)\..\..\generated\SFC_xsd.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">udm %(Filename).%(Extension) - Generating *.cpp and *.h files using "Udm -g" so that *.xsd are compiled into them directly</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">udm %(Filename).%(Extension) - Generating *.cpp and *.h files using "Udm -g" so that *.xsd are compiled into them directly</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mkdir "%(RootDir)%(Directory)"\..\..\..\generated\ESMoL
+cd "%(RootDir)%(Directory)"\..\..\..\generated\ESMoL
+"$(UDM_PATH)\bin\Udm.exe" -g "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mkdir "%(RootDir)%(Directory)"\..\..\generated
+cd "%(RootDir)%(Directory)"\..\..\generated
+"$(UDM_PATH)\bin\Udm.exe" -g "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESMoL_xsd.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SFC.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SFC.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SFC.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\ESM2SFC_xsd.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\LINKS_xsd.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC.cpp;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC.h;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC.xsd;%(RootDir)%(Directory)\..\..\..\generated\ESMoL\SFC_xsd.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\..\..\generated\ESMoL.cpp;%(RootDir)%(Directory)\..\..\generated\ESMoL.h;%(RootDir)%(Directory)\..\..\generated\ESMoL.xsd;%(RootDir)%(Directory)\..\..\generated\ESMoL_xsd.h;%(RootDir)%(Directory)\..\..\generated\ESM2SFC.cpp;%(RootDir)%(Directory)\..\..\generated\ESM2SFC.h;%(RootDir)%(Directory)\..\..\generated\ESM2SFC.xsd;%(RootDir)%(Directory)\..\..\generated\ESM2SFC_xsd.h;%(RootDir)%(Directory)\..\..\generated\LINKS.cpp;%(RootDir)%(Directory)\..\..\generated\LINKS.h;%(RootDir)%(Directory)\..\..\generated\LINKS.xsd;%(RootDir)%(Directory)\..\..\generated\LINKS_xsd.h;%(RootDir)%(Directory)\..\..\generated\SFC.cpp;%(RootDir)%(Directory)\..\..\generated\SFC.h;%(RootDir)%(Directory)\..\..\generated\SFC.xsd;%(RootDir)%(Directory)\..\..\generated\SFC_xsd.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\models\ESM2SFC.xme">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ESM2SFC.xme -&gt; ESM2SFC.mga</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ESM2SFC.xme -&gt; ESM2SFC.mga</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mkdir ..\..\..\generated\SF_CodeGen\models\ESMoL
+"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" ..\..\..\generated\SF_CodeGen\models\ESMoL\ESM2SFC.mga UMLModelTransformer
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mkdir ..\..\..\generated\SF_CodeGen\models
+"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" ..\..\..\generated\SF_CodeGen\models\ESM2SFC.mga UMLModelTransformer
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../generated/SF_CodeGen/models/ESMoL/ESM2SFC.mga;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../../generated/SF_CodeGen/models/ESM2SFC.mga;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ESM2SFC.xme -&gt; ESM2SFC.mga</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ESM2SFC.xme -&gt; ESM2SFC.mga</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mkdir ..\..\..\generated\SF_CodeGen\models\ESMoL
+"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" ..\..\..\generated\SF_CodeGen\models\ESMoL\ESM2SFC.mga UMLModelTransformer
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mkdir ..\..\..\generated\SF_CodeGen\models
+"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" ..\..\..\generated\SF_CodeGen\models\ESM2SFC.mga UMLModelTransformer
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../../generated/SF_CodeGen/models/ESMoL/ESM2SFC.mga;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../../generated/SF_CodeGen/models/ESM2SFC.mga;%(Outputs)</Outputs>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\generated\SF_CodeGen\models\ESM2SFC.mga</OutFile>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\generated\SF_CodeGen\models\ESM2SFC.mga</OutFile>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\generated\SF_CodeGen\models\ESM2SFC.mga</OutFile>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\generated\SF_CodeGen\models\ESM2SFC.mga</OutFile>
+      <FileType>Document</FileType>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\lib\BExprMapTree\BExprMapTree.vcxproj">
+      <Project>{8f8c9016-c830-4bed-9676-f96246ff8308}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\..\lib\mfile2SFC\mfile2SFC.vcxproj">
+      <Project>{2b72f4cc-c4f7-47d3-ac06-31b67cef6cbb}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\..\lib\SFCPrint\SFCPrint.vcxproj">
+      <Project>{1a92a2b3-8cd0-4dc9-9b61-b67474d07456}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\..\lib\SFCUdmEngine\SFCUdmEngine.vcxproj">
+      <Project>{a6c033c3-ac95-4872-b8bd-9d0ec6761a69}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\..\lib\UdmBuilder\UdmBuilder.vcxproj">
+      <Project>{47e6f95b-668f-4963-b1c5-535c8e09d609}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\common-scripts\build_customization\xme2mga.targets" />
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="$(SolutionDir)\nuget\antlrC.3.1.3\build\native\antlrC.targets" Condition="Exists('$(SolutionDir)\nuget\antlrC.3.1.3\build\native\antlrC.targets')" />
+    <Import Project="$(SolutionDir)\nuget\antlrC-vc100.3.1.3\build\native\antlrC-vc100.targets" Condition="Exists('$(SolutionDir)\nuget\antlrC-vc100.3.1.3\build\native\antlrC-vc100.targets')" />
+    <Import Project="..\..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
+    <Import Project="..\..\..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets" Condition="Exists('..\..\..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets')" />
+    <Import Project="..\..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets" Condition="Exists('..\..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets')" />
+    <Import Project="..\..\..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets" Condition="Exists('..\..\..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets')" />
+    <Import Project="..\..\..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets" Condition="Exists('..\..\..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets')" />
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="SF_CodeGen.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

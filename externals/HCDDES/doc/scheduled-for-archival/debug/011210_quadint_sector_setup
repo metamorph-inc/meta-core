@@ -1,0 +1,40 @@
+0. The generated controller is providing some serious uptime, even with the new
+   double buffering code in place.
+
+   * We did have a problem with the header bytes for the UART.
+
+1. Having trouble with xPC -- it dies after 3 minutes or less, and goes 
+   unstable.
+
+   * Reduced the order of the simulator (ode4).  That buys some more time
+     (about 5-6 minutes total).
+
+2. Trying to inject known data and break the loop to test the data path
+   through the controller.
+
+   * No good so far -- the data looks good going in, but junk is coming back
+     from the inner loop controller.
+   * Need to send debug data back in the output message (temporarily break
+     the sector search path).
+
+3. Interesting -- if the xPC data quits at the wrong point, the internal UART 
+   counter will end up with a permanent offset.   The robostix has to be reset
+   completely in order to recover.
+
+4. Since the _c buffers were changed to arrays, the peripheral data structure
+   reference also had to be changed ( &datastruct_c -> datastruct_c ).
+
+5. We see a glitch every 15-20 seconds, and the data is rock solid otherwise.
+
+   * Try turning off the UART out message.  Ummm -- there's no way to see the
+     output.  How about a shorter message? No improvement.
+
+   * Looking for xPC data corruption -- all of the values on the wire look good.
+
+   * Trying the other field in the input message - do we see the same effect?
+     It's still there. 
+
+   * It seems to happen consistently when the UART input intersects with the
+     sync tick, specifically when the sync and the start of the input frame 
+     coincide.  This will require closer inspection.
+

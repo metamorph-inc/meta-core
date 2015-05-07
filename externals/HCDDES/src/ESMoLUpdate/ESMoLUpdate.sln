@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ESMoLUpdate", "ESMoLUpdate.vcxproj", "{FF033E37-6928-41C2-A537-5CF772C8D788}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ESMoL", "..\models\ESMoL\ESMoL.vcxproj", "{35EFA7D1-A834-4297-A597-6C76CC4FD399}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF033E37-6928-41C2-A537-5CF772C8D788}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FF033E37-6928-41C2-A537-5CF772C8D788}.Debug|Win32.Build.0 = Debug|Win32
+		{FF033E37-6928-41C2-A537-5CF772C8D788}.Release|Win32.ActiveCfg = Release|Win32
+		{FF033E37-6928-41C2-A537-5CF772C8D788}.Release|Win32.Build.0 = Release|Win32
+		{35EFA7D1-A834-4297-A597-6C76CC4FD399}.Debug|Win32.ActiveCfg = Debug|Win32
+		{35EFA7D1-A834-4297-A597-6C76CC4FD399}.Debug|Win32.Build.0 = Debug|Win32
+		{35EFA7D1-A834-4297-A597-6C76CC4FD399}.Release|Win32.ActiveCfg = Release|Win32
+		{35EFA7D1-A834-4297-A597-6C76CC4FD399}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

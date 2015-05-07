@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Semantics.xsd">
+
+  <Deployment id="0">
+    <Acquisition _id="id54" acquiredMsg="id3C" acquiringChannel="idF" acquiringTasks="id4A" id="0"/>
+    <Acquisition _id="id55" acquiredMsg="id3D" acquiringChannel="id8" acquiringTasks="id4C" id="0"/>
+    <Actuation _id="id53" actuatingChannel="id11" actuatingMsg="id3B" actuatingTask="id4B" id="0"/>
+    <BChan _id="id5" chanInterface="id6" channelListeners="id50" channelTransmitters="id51" config="" id="200000009" name="BChan_chan"/>
+    <BChan _id="idD" chanInterface="ide" channelListeners="id52" channelTransmitters="id4F" config="" id="200000015" name="BChan_chan"/>
+    <CommInterface _id="id6" commChannels="id5" commMedium="id7" config="" devicetype="none" id="200000009" integratedBy="id4" name="BChan_dev"/>
+    <CommInterface _id="ide" commChannels="idD" commMedium="id7" config="" devicetype="none" id="200000015" integratedBy="idC" name="BChan_dev"/>
+    <Component _id="id13" ccode="" cfiles="sensor_convert_sl.c" consumes="id15 id16 id17 id18 id19" generates="id1A id1B id1C id1D id1e id1F" hfiles="sensor_convert_sl.h" id="300000003" invokedBy="id4A" msubsystem="sensor_convert" name="DataHandler"/>
+    <Component _id="id20" ccode="" cfiles="inner_loop_sl.c" consumes="id21 id22 id23 id25" generates="id27" hfiles="inner_loop_sl.h" id="300000004" invokedBy="id4B" msubsystem="inner_loop" name="InnerLoop"/>
+    <Component _id="id28" ccode="" cfiles="gum_stix_sl.c" consumes="id29 id2A id2B id2C id2D id2e" generates="id2F id30" hfiles="gum_stix_sl.h" id="300000005" invokedBy="id49" msubsystem="gum_stix" name="OuterLoop"/>
+    <Component _id="id31" ccode="" cfiles="ref_data_sl.c" consumes="id33 id34" generates="id35 id36" hfiles="ref_data_sl.h" id="300000008" invokedBy="id4C" msubsystem="ref_data" name="ReferenceHandler"/>
+    <ExecInfo _id="id3e" executor="id49" name="OLExec">
+      <MaxDuration exectimesecs="0.0016"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.011" ticksched="11"/>
+    </ExecInfo>
+    <ExecInfo _id="id3F" executor="id4A" name="DHOLExec">
+      <MaxDuration exectimesecs="0.00019999999999999998"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.004" ticksched="4"/>
+    </ExecInfo>
+    <ExecInfo _id="id40" executor="id4B" name="ILExec">
+      <MaxDuration exectimesecs="0.0006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.016" ticksched="16"/>
+    </ExecInfo>
+    <ExecInfo _id="id41" executor="idF id10 id3C" name="PlantMsgExec">
+      <MaxDuration exectimesecs="1e-006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.003" ticksched="3"/>
+    </ExecInfo>
+    <ExecInfo _id="id42" executor="id38" name="AttDataMsgExec">
+      <MaxDuration exectimesecs="1e-006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id43" executor="id37" name="PosDataMsgExec">
+      <MaxDuration exectimesecs="0.00175"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.007" ticksched="7"/>
+    </ExecInfo>
+    <ExecInfo _id="id44" executor="id11 id12 id3B" name="ThrustMsgExec">
+      <MaxDuration exectimesecs="0.0011"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.017" ticksched="17"/>
+    </ExecInfo>
+    <ExecInfo _id="id45" executor="id39" name="AttRefMsgExec">
+      <MaxDuration exectimesecs="0.00075"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.013" ticksched="13"/>
+    </ExecInfo>
+    <ExecInfo _id="id46" executor="id3A" name="PosRefOutMsgExec">
+      <MaxDuration exectimesecs="1e-006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.009" ticksched=""/>
+    </ExecInfo>
+    <ExecInfo _id="id47" executor="id4C" name="RHExec">
+      <MaxDuration exectimesecs="0.001"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.005" ticksched="5"/>
+    </ExecInfo>
+    <ExecInfo _id="id48" executor="id8 id9 id3D" name="PosRefInMsgExec">
+      <MaxDuration exectimesecs="1e-006"/>
+      <SamplePeriod periodsecs="0.02"/>
+      <TTSchedule sched="0.003" ticksched="3"/>
+    </ExecInfo>
+    <IChan _id="id8" channelAcquisition="id55" config="" ichanDevice="id9" id="200000012" info="id48" name="SocketIChan"/>
+    <IChan _id="idF" channelAcquisition="id54" config="name=UART&#xA;way=IN&#xA;pin_number=0" ichanDevice="id10" id="200000014" info="id41" name="UARTIChan1"/>
+    <InputDevice _id="id9" config="" devicetype="" id="0" info="id48" inputChannels="id8" integratedBy="id4" name="EthernetIn"/>
+    <InputDevice _id="id10" config="" devicetype="" id="0" info="id41" inputChannels="idF" integratedBy="idC" name="UARTIn1"/>
+    <LocalDependency _id="id4D" depMsg="id3A" id="0" localDepNode="id4" localDepReceivingTasks="id49" localDepSendingTask="id4C"/>
+    <LocalDependency _id="id4e" depMsg="id38" id="0" localDepNode="idC" localDepReceivingTasks="id4B" localDepSendingTask="id4A"/>
+    <Msg _id="id37" carries="id1B id1D id1e id1F id29 id2A id2B id2C" id="0" info="id43" messagetype="Remote" msgListeners="id50" msgTransmitter="id4F" name="DataHandler.Pos_Data_msg" sizebytes="37"/>
+    <Msg _id="id38" carries="id1A id1C id22 id23" id="0" info="id42" messagetype="Local" msgDep="id4e" name="DataHandler.Att_Data_msg" sizebytes="25"/>
+    <Msg _id="id39" carries="id21 id25 id2F id30" id="0" info="id45" messagetype="Remote" msgListeners="id52" msgTransmitter="id51" name="OuterLoop.Att_Ref_msg" sizebytes="17"/>
+    <Msg _id="id3A" carries="id2D id2e id35 id36" id="0" info="id46" messagetype="Local" msgDep="id4D" name="ReferenceHandler.Pos_Ref_msg_out" sizebytes="17"/>
+    <Msg _id="id3B" carries="id27" id="0" info="id44" messagetype="Local" msgActuation="id53" name="InnerLoop.Thrust_Cmd_msg" sizebytes="17"/>
+    <Msg _id="id3C" carries="id15 id16 id17 id18 id19" id="0" info="id41" messagetype="Local" msgAcquisitions="id54" name="DataHandler.PL_Data" sizebytes="61"/>
+    <Msg _id="id3D" carries="id33 id34" id="0" info="id48" messagetype="Local" msgAcquisitions="id55" name="ReferenceHandler.Pos_Ref_msg" sizebytes="17"/>
+    <Node _id="id4" analog_inp_num="1" analog_outp_num="1" clockspeedhz="4e+008" ctxtswitchsecs="0" executes="id49 id4C" hyperperiodsecs="0.02" hyperperiodticks="20" id="100000037" integrates="id6 id9 idB" name="Gumstix" nodeLocalDeps="id4D" platformtype="PXA" pp_directives="" processormodel="PXA-255" rcvohdsecs="0" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <Node _id="idC" analog_inp_num="1" analog_outp_num="1" clockspeedhz="1.6e+007" ctxtswitchsecs="0" executes="id4B id4A" hyperperiodsecs="0.02" hyperperiodticks="20" id="100000038" integrates="ide id10 id12" name="Robostix" nodeLocalDeps="id4e" platformtype="AVR" pp_directives="" processormodel="ATmega128" rcvohdsecs="0" sndohdsecs="0" tickresolutionsecs="0.001"/>
+    <OChan _id="idA" config="" id="200000011" name="SocketOChan" ochanDevice="idB"/>
+    <OChan _id="id11" channelActuations="id53" config="name=UART&#xA;way=OUT&#xA;pin_number=0" id="200000013" info="id44" name="UARTOChan" ochanDevice="id12"/>
+    <OutputDevice _id="idB" config="" devicetype="" id="0" integratedBy="id4" name="EthernetOut" outputChannels="idA"/>
+    <OutputDevice _id="id12" config="" devicetype="" id="0" info="id44" integratedBy="idC" name="UARTOut" outputChannels="id11"/>
+    <Receives _id="id50" id="0" receivedMsg="id37" receivingChannel="id5" receivingTask="id49"/>
+    <Receives _id="id52" id="0" receivedMsg="id39" receivingChannel="idD" receivingTask="id4B"/>
+    <Signal _id="id15" callIndex="1" carriedBy="id3C" consumedBy="id13" id="100002372" isOfType="id14" msgIndex="1" name="DataHandler_euler_s"/>
+    <Signal _id="id16" callIndex="2" carriedBy="id3C" consumedBy="id13" id="100002373" isOfType="id14" msgIndex="2" name="DataHandler_Ab_s"/>
+    <Signal _id="id17" callIndex="3" carriedBy="id3C" consumedBy="id13" id="100002374" isOfType="id14" msgIndex="3" name="DataHandler_omega_s"/>
+    <Signal _id="id18" callIndex="4" carriedBy="id3C" consumedBy="id13" id="100002375" isOfType="id14" msgIndex="4" name="DataHandler_Xe_s"/>
+    <Signal _id="id19" callIndex="5" carriedBy="id3C" consumedBy="id13" id="100002376" isOfType="id14" msgIndex="5" name="DataHandler_Ve_s"/>
+    <Signal _id="id1A" callIndex="1" carriedBy="id38" generatedBy="id13" id="100002377" isOfType="id14" msgIndex="2" name="DataHandler_euler_il"/>
+    <Signal _id="id1B" callIndex="2" carriedBy="id37" generatedBy="id13" id="100002378" isOfType="id14" msgIndex="1" name="DataHandler_Ab"/>
+    <Signal _id="id1C" callIndex="3" carriedBy="id38" generatedBy="id13" id="100002379" isOfType="id14" msgIndex="1" name="DataHandler_omega"/>
+    <Signal _id="id1D" callIndex="4" carriedBy="id37" generatedBy="id13" id="100002380" isOfType="id14" msgIndex="2" name="DataHandler_Xe"/>
+    <Signal _id="id1e" callIndex="5" carriedBy="id37" generatedBy="id13" id="100002381" isOfType="id14" msgIndex="3" name="DataHandler_Ve"/>
+    <Signal _id="id1F" callIndex="6" carriedBy="id37" generatedBy="id13" id="100002382" isOfType="id14" msgIndex="4" name="DataHandler_euler_ol"/>
+    <Signal _id="id21" callIndex="1" carriedBy="id39" consumedBy="id20" id="100002301" isOfType="id14" msgIndex="1" name="InnerLoop_euler_s"/>
+    <Signal _id="id22" callIndex="2" carriedBy="id38" consumedBy="id20" id="100002302" isOfType="id14" msgIndex="2" name="DataHandler_euler_il"/>
+    <Signal _id="id23" callIndex="3" carriedBy="id38" consumedBy="id20" id="100002303" isOfType="id14" msgIndex="1" name="DataHandler_omega"/>
+    <Signal _id="id25" callIndex="4" carriedBy="id39" consumedBy="id20" id="100002304" isOfType="id24" msgIndex="2" name="InnerLoop_u_T"/>
+    <Signal _id="id27" callIndex="1" carriedBy="id3B" generatedBy="id20" id="100002305" isOfType="id26" msgIndex="1" name="InnerLoop_thrust"/>
+    <Signal _id="id29" callIndex="1" carriedBy="id37" consumedBy="id28" id="100001964" isOfType="id14" msgIndex="4" name="OuterLoop_euler"/>
+    <Signal _id="id2A" callIndex="2" carriedBy="id37" consumedBy="id28" id="100001965" isOfType="id14" msgIndex="1" name="OuterLoop_Ab"/>
+    <Signal _id="id2B" callIndex="3" carriedBy="id37" consumedBy="id28" id="100001966" isOfType="id14" msgIndex="2" name="OuterLoop_Xe"/>
+    <Signal _id="id2C" callIndex="4" carriedBy="id37" consumedBy="id28" id="100001967" isOfType="id14" msgIndex="3" name="OuterLoop_Ve"/>
+    <Signal _id="id2D" callIndex="5" carriedBy="id3A" consumedBy="id28" id="100001968" isOfType="id14" msgIndex="1" name="ReferenceHandler_Out1"/>
+    <Signal _id="id2e" callIndex="6" carriedBy="id3A" consumedBy="id28" id="100001969" isOfType="id24" msgIndex="2" name="ReferenceHandler_Out2"/>
+    <Signal _id="id2F" callIndex="1" carriedBy="id39" generatedBy="id28" id="100001970" isOfType="id24" msgIndex="2" name="OuterLoop_u_T"/>
+    <Signal _id="id30" callIndex="2" carriedBy="id39" generatedBy="id28" id="100001971" isOfType="id14" msgIndex="1" name="OuterLoop_u_euler"/>
+    <Signal _id="id33" callIndex="1" carriedBy="id3D" consumedBy="id31" id="100002271" isOfType="id32" msgIndex="1" name="ReferenceHandler_Xe_Ve_set"/>
+    <Signal _id="id34" callIndex="2" carriedBy="id3D" consumedBy="id31" id="100002272" isOfType="id24" msgIndex="2" name="ReferenceHandler_yaw_set"/>
+    <Signal _id="id35" callIndex="1" carriedBy="id3A" generatedBy="id31" id="100002273" isOfType="id14" msgIndex="1" name="ReferenceHandler_Out1"/>
+    <Signal _id="id36" callIndex="2" carriedBy="id3A" generatedBy="id31" id="100002274" isOfType="id24" msgIndex="2" name="ReferenceHandler_Out2"/>
+    <SignalType _id="id14" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A3floatA" name="A3floatA" rows="" signalsOfType="id15 id16 id17 id18 id19 id1A id1B id1C id1D id1e id1F id21 id22 id23 id29 id2A id2B id2C id2D id30 id35"/>
+    <SignalType _id="id24" columns="" ctypestr="" id="0" isStruct="false" mtypestr="float" name="float" rows="" signalsOfType="id25 id2e id2F id34 id36"/>
+    <SignalType _id="id26" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A4floatA" name="A4floatA" rows="" signalsOfType="id27"/>
+    <SignalType _id="id32" columns="" ctypestr="" id="0" isStruct="false" mtypestr="A6floatA" name="A6floatA" rows="" signalsOfType="id33"/>
+    <TTBus _id="id7" busslotbytes="512" dataratebps="4e+005" hyperperiodsecs="0.02" hyperperiodticks="20" id="100000036" interfaces="id6 ide" minframebytes="512" name="TTBus" setupsecs="0.0013000000000000002" switchmembytes="83886080"/>
+    <Task _id="id49" executedBy="id4" id="0" incomingData="id50" info="id3e" invokes="id28" localReceivingTaskDeps="id4D" name="OuterLoop" outboundData="id51"/>
+    <Task _id="id4A" executedBy="idC" id="0" info="id3F" invokes="id13" localSendingTaskDeps="id4e" name="DataHandler" outboundData="id4F" taskAcquisitions="id54"/>
+    <Task _id="id4B" executedBy="idC" id="0" incomingData="id52" info="id40" invokes="id20" localReceivingTaskDeps="id4e" name="InnerLoop" taskActuations="id53"/>
+    <Task _id="id4C" executedBy="id4" id="0" info="id47" invokes="id31" localSendingTaskDeps="id4D" name="ReferenceHandler" taskAcquisitions="id55"/>
+    <Transmits _id="id4F" id="0" sendingChan="idD" sendingTask="id4A" transmittedMsg="id37"/>
+    <Transmits _id="id51" id="0" sendingChan="id5" sendingTask="id49" transmittedMsg="id39"/>
+  </Deployment>
+
+</RootFolder>

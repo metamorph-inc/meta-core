@@ -1,0 +1,23 @@
+\section{Future Work and Conclusions}
+\label{section:conc}
+
+\subsection{Future Work}
+
+For the future, we would like to address a few things to advance the usefulness 
+of this technique:
+
+\begin{itemize}
+ \item Carefully evaluate numerical calculation effects for the sector analyzer implementation. Determine whether a fixed-point implementation is meaningful.
+ \item Empirically study the sensitivity of the sector bounds to data and parameter quantization on actual hardware and using a wider range of test models.
+ \item Compare sector results between TrueTime simulations and the actual platform.
+ \item Revisit the effects of link delays on the sector values, comparing with models which are more sensitive to delay effects.
+ \item Develop the relevant theory and assess the use of the sector analysis for switched and hybrid systems.
+\end{itemize}
+
+\subsection{Conclusions}
+
+We conclude that online sector analysis is a potentially useful technique for validation of 
+passive control systems software.  It seems able to detect quantization and sampling effects
+which could violate design assumptions in passive digital control systems. Further investigation 
+is required to better characterize its capability with respect to network delays.
+

@@ -1,0 +1,174 @@
+% RTAS Demo Abstract
+%
+\input{preamble.tex}
+
+\begin{document}
+
+\title{Demo Abstract: The ESMoL Modeling Language and Tools for Synthesizing and Simulating Real-Time Embedded Systems}
+
+\author{\IEEEauthorblockN{Joseph Porter, Zsolt Lattmann, Graham Hemingway,   
+Nagabhushan Mahadevan, Sandeep Neema, \\
+Harmon Nine, Nicholas Kottenstette, P\'{e}ter V\"{o}lgyesi, G\'{a}bor Karsai, and J\'{a}nos Sztipanovits}
+\IEEEauthorblockA{Institute for Software Integrated Systems \\
+Vanderbilt University\\
+Nashville, TN 37235, USA \\
+Email: jporter@isis.vanderbilt.edu\\
+Telephone: (615) 343--4641}
+}
+
+\maketitle
+
+\begin{abstract}
+High-confidence embedded real-time designs stretch the demands placed
+on design and development tools.  We will demonstrate the design and
+testing of an embedded control system built using the ESMoL modeling
+language and supporting tools.  ESMoL adds distributed deployment 
+concepts to Simulink designs, and integrates scheduling analysis as well
+as platform-specific simulation.  The testing system includes a simulated
+physical plant running in a hardware-in-the-loop configuration with the
+actual embedded controller.
+\end{abstract}
+
+\section{Introduction}
+
+Many classes of real-time embedded systems require assurance that 
+engineering designs and implementations are safe, secure, and correct.  
+Examples include software for medical devices, weapons control systems, 
+and aircraft flight control.  The time and effort (and consequently cost)
+of such assurance stands in contrast with the cost and schedule pressures
+of production engineering.
+
+The ESMoL (Embedded Systems Modeling Language) domain-specific modeling 
+language (DSML) provides user modeling constructs for designing 
+embedded systems -- including functional specifications in Simulink, 
+models for distributed computing platforms, and deployment models assigning 
+functions to tasks on computing nodes\cite{aces08}.  The language structure 
+and the supporting Model-Integrated Computing (MIC) tools \cite{mic:metaprog} 
+enable the integration of analysis tools to provide design assurance for use 
+in high-confidence designs.
+
+\begin{figure}[!b]
+\centering
+\includegraphics[width=0.9\columnwidth]{vdiagram}
+\caption{Embedded development workflow supported by the tools.}
+\label{fig:vdiagram}
+\end{figure}
+
+The development workflow supported by the tools is depicted in 
+Fig. \ref{fig:vdiagram}.  After the Requirements Specification 
+has been created, designers start with familiar tools like Simulink to
+design and simulate the functional control system (Control Design).  
+The Simulink design is imported into the modeling 
+environment, and then annotated with Software Architecture and Component 
+Design concepts.  Platform models (Hardware and System Architecture 
+Design) represent the hardware architecture.  Componentized functions 
+and signals are then assigned to tasks and messages deployed on the 
+hardware (Software Deployment). From the composed model we can perform 
+static real-time schedule determination and synthesize code for a distributed 
+platform -- assuming the platform provides clocked synchronous task execution 
+and time-triggered messaging services.  
+
+The tools currently support development for unmanned aerial vehicles,
+in particular the Starmac quadrotor helicopter \cite{HRWDJT04}.  The control
+architecture is based on a fast inner-loop controller for attitude (here simplified
+to angle) and a slower outer-loop controller for position (here simplified to a
+scalar value).  Our control technique is based on a composition of nested passive 
+(PD) controllers to stabilize a process modeled as a cascade of continuous-time 
+systems \cite[Fig.~1]{kottenstette08:_digit_passiv_attit_and_altit}.  
+
+\section{Tool Features and Progress}
+
+The enabling ideas (beyond the existing capabilities of model-based 
+development) are the integration of analysis and simulation tools to 
+provide meaningful feedback to designers as early as possible in the 
+development cycle, and a search for decoupling techniques which help 
+make required analyses tractible.  This demonstration will focus on 
+the first aspect of our work (integrated analysis and simulation early in the
+design cycle) for embedded software synthesized from models.  A detailed presentation 
+of the design philosophy, intended uses and features, and limitations 
+of the language and its tools is available in \cite{aces08}.  A few 
+features are noteworthy:
+
+\begin{enumerate}
+\item   The TrueTime
+toolkit \cite{TrueTime} extends Simulink with blocks for modeling 
+distributed platforms to simulate uncertainties due to distributed processing. 
+Our modeling tools allow resimulation of the design using TrueTime
+blocks synthesized from the deployment model.  A single design model targets both the 
+continuous-time platform simulation environment of TrueTime and the tasks in the 
+actual distributed system.  Platform-specific simulation exposes potentially
+destabilizing effects of communication delays before physical system construction.
+\item Platform communication delays are captured explicitly in the models.
+An integrated scheduling tool uses these timing parameters for analysis.  
+Computed schedules are fed back into the modeling environment for  
+TrueTime simulations and for the final physical deployment.  Designers can 
+iterate over possible component and plaform design alternatives and check 
+schedulability.
+\item In contrast to code generation tools like Real-Time workshop
+\cite{mathworks:tools} -- which generate code for individual processing 
+nodes -- ESMoL generates the task configuration code as well 
+as the communication glue code for the
+distributed platforms on which it runs.  The network may be
+a heterogeneous collection of processors and buses, as long as processing
+node and communication link types are supported by the code generators.
+\item The entire tool infrastructure has been built around a
+single abstract semantic model, greatly simplifying the process of 
+integrating additional analysis and synthesis tools.  This ensures
+that all integrated tools have a single, consistent view of the 
+modeling language semantics.
+\end{enumerate}
+
+Current development includes extension of the TrueTime simulation generator, 
+investigations into automated quantization of the digital controllers 
+(subject to safety constraints), and consideration of other tools for verification 
+of control properties and deadlocks.  In particular, integration of new
+tools will require expansion of the language to include
+specification of richer operational models.
+
+\section{Tool Demonstration}
+
+The demonstration will display the following aspects the ESMoL modeling 
+language and tools:
+
+\begin{enumerate}
+\item Synthesis of a Simulink control design from the GME modeling 
+environment \cite{mic:gme} to run on a simple distributed embedded processing
+system (Gumstix processor with an attached Robostix I/O processor
+\cite{gumstix}).
+\item Computation of a cyclic real-time schedule using the integrated 
+Gecode constraint solver\cite{gecode}\cite{sw:offlinescheduling}.
+\item Execution of the synthesized control functions on a portable 
+time-triggered virtual machine (FRODO\cite{RT_Thesis}) running on the 
+embedded hardware.
+\item Simulation of the control loops using a hardware-in-the-loop 
+(HIL) simulator communicating with the embedded system through a physical 
+interface.  The HIL simulator is a PC running the Mathworks' xPC target
+\cite{mathworks:tools}.  Fig. \ref{fig:sim_arch} shows the structure of
+the simulation system.
+\end{enumerate}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{sim_arch}
+\caption{Hardware-in-the-loop simulation architecture. The high-end
+PXA processor runs generic Linux, and the low-end AVR microcontroller runs FreeRTOS.
+The two communicate via an $I^2C$ bus using a lightweight time-triggered messaging
+protocol. Communication to the plant simulator PC occurs over multiple 
+high-speed serial lines.}
+\label{fig:sim_arch}
+\end{figure}
+
+\section*{Acknowledgment}
+
+This work is sponsored in part by the National Science Foundation 
+(grant NSF-CCF-0820088) and by the Air Force Office of Scientific 
+Research, USAF (grant/contract number FA9550-06-0312).  The views 
+and conclusions contained herein are those of the authors and 
+should not be interpreted as necessarily representing the official 
+policies or endorsements, either expressed or implied, of the Air 
+Force Office of Scientific Research or the U.S. Government.
+
+\bibliographystyle{IEEEtran}
+\bibliography{rtas_demo_2009}
+
+\end{document}

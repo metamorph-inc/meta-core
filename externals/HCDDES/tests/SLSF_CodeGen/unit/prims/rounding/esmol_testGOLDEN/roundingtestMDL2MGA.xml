@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="Newroundingtest00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="roundingtest" Period="0" Priority="0" SampleTime="0" Tag="" UserData="" name="roundingtest">
+          <Line Name="" _id="idB" dstLine_end_="idC" srcLine_end_="idA"/>
+          <Line Name="" _id="ide" dstLine_end_="id4" srcLine_end_="idD"/>
+          <Line Name="" _id="id10" dstLine_end_="id11" srcLine_end_="idA"/>
+          <Line Name="" _id="id13" dstLine_end_="id5" srcLine_end_="id12"/>
+          <Line Name="" _id="id15" dstLine_end_="id16" srcLine_end_="idA"/>
+          <Line Name="" _id="id18" dstLine_end_="id6" srcLine_end_="id17"/>
+          <Line Name="" _id="id1A" dstLine_end_="id1B" srcLine_end_="idA"/>
+          <Line Name="" _id="id1D" dstLine_end_="id7" srcLine_end_="id1C"/>
+          <OutputPort Number="1" _id="id4" name="Out1" srcLine="ide">
+            <TypeBaseRef MemberIndex="0" _id="id21" name="A2doubleA" ref="id20"/>
+          </OutputPort>
+          <OutputPort Number="2" _id="id5" name="Out2" srcLine="id13">
+            <TypeBaseRef MemberIndex="0" _id="id23" name="A2doubleA" ref="id20"/>
+          </OutputPort>
+          <OutputPort Number="3" _id="id6" name="Out3" srcLine="id18">
+            <TypeBaseRef MemberIndex="0" _id="id25" name="A2doubleA" ref="id20"/>
+          </OutputPort>
+          <OutputPort Number="4" _id="id7" name="Out4" srcLine="id1D">
+            <TypeBaseRef MemberIndex="0" _id="id27" name="A2doubleA" ref="id20"/>
+          </OutputPort>
+          <Primitive BlockType="Constant" Description="" Name="Constant" Priority="0" SampleTime="0" Tag="" UserData="" name="Constant">
+            <OutputPort Number="1" _id="idA" dstLine="idB id10 id15 id1A" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id28" name="A2doubleA" ref="id20"/>
+            </OutputPort>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit from 'Constant value'" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="[1.8 -1.8]" name="Value"/>
+            <Parameter Value="on" name="VectorParams1D"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Rounding" Description="" Name="Rounding&#xA;Function" Priority="0" SampleTime="-1" Tag="" UserData="" name="Rounding&#xA;Function">
+            <InputPort Number="1" _id="idC" name="In_1" srcLine="idB">
+              <TypeBaseRef MemberIndex="0" _id="id2A" name="A2doubleA" ref="id20"/>
+            </InputPort>
+            <OutputPort Number="1" _id="idD" dstLine="ide" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id2C" name="A2doubleA" ref="id20"/>
+            </OutputPort>
+            <Parameter Value="floor" name="Operator"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Rounding" Description="" Name="Rounding&#xA;Function1" Priority="0" SampleTime="-1" Tag="" UserData="" name="Rounding&#xA;Function1">
+            <InputPort Number="1" _id="id11" name="In_1" srcLine="id10">
+              <TypeBaseRef MemberIndex="0" _id="id2e" name="A2doubleA" ref="id20"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id12" dstLine="id13" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id30" name="A2doubleA" ref="id20"/>
+            </OutputPort>
+            <Parameter Value="ceil" name="Operator"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Rounding" Description="" Name="Rounding&#xA;Function2" Priority="0" SampleTime="-1" Tag="" UserData="" name="Rounding&#xA;Function2">
+            <InputPort Number="1" _id="id16" name="In_1" srcLine="id15">
+              <TypeBaseRef MemberIndex="0" _id="id32" name="A2doubleA" ref="id20"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id17" dstLine="id18" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id34" name="A2doubleA" ref="id20"/>
+            </OutputPort>
+            <Parameter Value="round" name="Operator"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Rounding" Description="" Name="Rounding&#xA;Function3" Priority="0" SampleTime="-1" Tag="" UserData="" name="Rounding&#xA;Function3">
+            <InputPort Number="1" _id="id1B" name="In_1" srcLine="id1A">
+              <TypeBaseRef MemberIndex="0" _id="id36" name="A2doubleA" ref="id20"/>
+            </InputPort>
+            <OutputPort Number="1" _id="id1C" dstLine="id1D" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id38" name="A2doubleA" ref="id20"/>
+            </OutputPort>
+            <Parameter Value="fix" name="Operator"/>
+            <Parameter Value="double" name="ParamDataTypeStr"/>
+          </Primitive>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow name="Stateflow"/>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types">
+    <Matrix Type="double" _id="id20" columns="1" name="A2doubleA" referedbyTypeStructRef="id21 id23 id25 id27 id28 id2A id2C id2e id30 id32 id34 id36 id38" rows="2"/>
+  </Types>
+
+</RootFolder>

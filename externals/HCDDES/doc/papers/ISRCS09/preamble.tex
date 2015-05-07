@@ -1,0 +1,281 @@
+\ifx\techreport\undefined
+\documentclass[10pt, conference, compsocconf]{IEEEtran}
+\else
+\documentclass[times,10pt]{article}
+\fi
+%\IEEEoverridecommandlockouts
+%\documentclass{acm_proc_article-sp}
+%NOTE for dissertation diable noinfo until ready to submit
+%nesc additions
+%\documentclass{svmult}
+%\usepackage{multicol}
+%nesc additions
+\usepackage{enumerate}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage{xspace}
+\usepackage{amssymb,amsmath}
+\interdisplaylinepenalty=2500
+\usepackage{cite}
+\ifx\pdfoutput\undefined
+  \message{NOT IN PDF MODE}
+  \usepackage{graphicx}
+\else
+  \message{UNCOMMENT if really IN PDF MODE}
+  \usepackage{graphicx}
+  %\usepackage[pdftex]{graphicx}
+\fi
+
+\ifx\pdfoutput\undefined
+  \message{NOT IN PDF MODE}
+  \usepackage[hypertex]{hyperref}
+\else
+  \message{UNCOMMENT if really IN PDF MODE}
+  \usepackage[hypertex]{hyperref}
+  %\usepackage[pdftex,hypertexnames=false]{hyperref}
+\fi
+
+%\usepackage{html}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{subfigure}
+
+%\usepackage{setspace}
+%\newtheorem{proof}{Proof}
+\newtheorem{remark}{Remark}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{notation}{Notation}
+\newtheorem{corollary}{Corollary}
+%\setlength {\topmargin} {0 mm}
+%\setlength {\headsep} {0 mm}
+%\setlength {\headheight} {0 in}
+%\setlength {\voffset} {0 mm}
+%\setlength {\oddsidemargin} {0 mm}
+%\setlength {\evensidemargin} {0 mm}
+%\setlength {\hoffset} {0 mm}
+%\setlength {\textwidth} {6.5 in}
+%\setlength {\textheight} {9 in}
+\newcommand{\MOAP}[0]{MOAP}
+\newcommand{\RAGOBOT}[0]{RAGOBOT}
+\newcommand{\Deluge}[0]{Deluge}
+\newcommand{\modules}[0]{{\it modules}}
+\newcommand{\networkingstderr}[0]{{\it networking standard error}}
+\newcommand{\networkingconfiguration}[0]{{\it networking configuration}}
+\newcommand{\controlstdin}[0]{{\it control standard input}}
+\newcommand{\controlstdio}[0]{{\it control standard input output}}
+\newcommand{\controlstdout}[0]{{\it control standard output}}
+\newcommand{\buildutilities}[0]{{\it build utilities}}
+\newcommand{\sosutilities}[0]{{\it sos utilities}}
+\newcommand{\freematmodpid}[0]{{\it FREEMAT\_MOD\_PID}}
+\newcommand{\sossrv}[0]{sossrv}
+\newcommand{\neclabsimrun}[0]{{\it \neclab\_\{sim,run\}}}
+\newcommand{\neclabsim}[0]{{\it \neclab\_sim}}
+\newcommand{\neclabrun}[0]{{\it \neclab\_run}}
+\newcommand{\GNU}[0]{GNU}
+\newcommand{\SOS}[0]{{\it SOS}}
+\newcommand{\GPS}[0]{GPS}
+\newcommand{\gps}[0]{gps}
+\newcommand{\loc}[0]{loc}
+\newcommand{\XYZ}[0]{XYZ}
+\newcommand{\LOC}[0]{LOC}
+\newcommand{\XML}[0]{XML}
+\newcommand{\moduled}[0]{moduled}
+\newcommand{\ps}[0]{ps}
+\newcommand{\proto}[0]{proto}
+\newcommand{\pc}[0]{pc}
+\newcommand{\pid}[0]{pid}
+\newcommand{\fifo}[0]{fifo}
+\newcommand{\makerules}[0]{makerules}
+\newcommand{\unix}[0]{unix}
+\newcommand{\Yale}[0]{Yale}
+\newcommand{\BLAS}[0]{BLAS}
+\newcommand{\ATLAS}[0]{ATLAS}
+\newcommand{\perl}[0]{perl}
+\newcommand{\avr}[0]{avr}
+\newcommand{\tmp}[0]{tmp}
+\newcommand{\src}[0]{src}
+\newcommand{\gcc}[0]{gcc}
+\newcommand{\GCC}[0]{GCC}
+\newcommand{\binutils}[0]{binutils}
+\newcommand{\libc}[0]{libc}
+\newcommand{\uisp}[0]{uisp}
+\newcommand{\tcl}[0]{tcl}
+\newcommand{\tk}[0]{tk}
+\newcommand{\python}[0]{python}
+\newcommand{\swig}[0]{SWIG}
+\newcommand{\pexpect}[0]{pexpect}
+\newcommand{\neclab}[0]{{\it neclab}}
+\newcommand{\CVShead}[0]{CVShead}
+\newcommand{\MICAbot}[0]{MICAbot}
+\newcommand{\moteLab}[0]{moteLab}
+\newcommand{\necroot}[0]{{\it necroot}}
+\newcommand{\localhost}[0]{HOST\_PC}
+\newcommand{\wnecs}[0]{{\it wnecs}}
+\newcommand{\Wnecs}[0]{{\it Wnecs}}
+\newcommand{\necs}[0]{{\it necs}}
+\newcommand{\necssh}[0]{necssh}
+\newcommand{\Necssh}[0]{Necssh}
+\newcommand{\MATLAB}[0]{MATLAB}
+\newcommand{\RTLinux}[0]{RTLinux}
+\newcommand{\Simulink}[0]{Simulink}
+\newcommand{\TrueTime}[0]{TrueTime}
+\newcommand{\FreeMat}[0]{FreeMat}
+\newcommand{\freematclient}[0]{{\it \FreeMat\ client}}
+\newcommand{\freematutilities}[0]{{\it \FreeMat\ utilities}}
+\newcommand{\API}[0]{API}
+\newcommand{\NESL}[0]{NESL}
+\newcommand{\Kepner}[0]{Kepner}
+\newcommand{\MPI}[0]{MPI}
+\newcommand{\TinyOS}[0]{{\it TinyOS}}
+\newcommand{\SOSROOT}[0]{SOSROOT}
+\newcommand{\NECLABROOT}[0]{NECLABROOT}
+\newcommand{\MatlabMPI}[0]{MatlabMPI}
+\newcommand{\Scilab}[0]{Scilab}
+\newcommand{\Wincon}[0]{Wincon}
+\newcommand{\DEC}[0]{DEC}
+\newcommand{\networkingsource}[0]{{\it networking source}}
+\newcommand{\networkingsink}[0]{{\it networking sink}}
+\newcommand{\networkingfilter}[0]{{\it networking filter}}
+\newcommand{\networkingmessagepipe}[0]{{\it networking message pipe}}
+\newcommand{\networkingmessagetype}[0]{{\it networking message type}}
+\newcommand{\controlmessagetype}[0]{{\it control message type}}
+\newcommand{\Intel}[0]{Intel}
+\newcommand{\Xerox}[0]{Xerox}
+\newcommand{\OpenBSD}[0]{OpenBSD}
+\newcommand{\NetBSD}[0]{NetBSD}
+\newcommand{\FreeBSD}[0]{FreeBSD}
+\newcommand{\Linux}[0]{Linux}
+\newcommand{\MICAt}[0]{MICA2}
+\newcommand{\MICAz}[0]{MICAz}
+\newcommand{\MICAtz}[0]{\MICAt\ and \MICAz}
+\newcommand{\MIB}[0]{MIB510}
+\newcommand{\Crossbow}[0]{Crossbow}
+\newcommand{\MultiQ}[0]{MultiQ}
+\newcommand{\necsshdaemon}[0]{necssh-daemon}
+\newcommand{\MNgateway}[0]{MICA2\_N\_gateway}
+\newcommand{\MNsensor}[0]{MICA2\_N\_sensor}
+\newcommand{\MNcontrollerA}[0]{MICA2\_N\_controller-A}
+\newcommand{\MNcontrollerB}[0]{MICA2\_N\_controller-B}
+\newcommand{\MNactuator}[0]{MICA2\_N\_actuator}
+\newcommand{\modd}[0]{modd}
+\newcommand{\gw}[0]{gw}
+\newcommand{\nconf}[0]{conf}
+\newcommand{\cmd}[0]{cmd}
+\newcommand{\dev}[0]{dev}
+\newcommand{\ttyS}[0]{ttyS}
+\newcommand{\serialport}[0]{/\dev/\ttyS0}
+\newcommand{\Atmel}[0]{Atmel}
+\newcommand{\ATmega}[0]{ATmega}
+\newcommand{\sosbase}[0]{sosbase}
+\newcommand{\sosbasepid}[0]{SOSBASE\_PID}
+%new macros for mtt_gov.tex
+\newcommand{\TWS}[0]{{\it TWS}}
+\newcommand{\MTT}[0]{{\it MTT}}
+\newcommand{\MHT}[0]{{\it MHT}}
+\newcommand{\Kalman}[0]{Kalman}
+\newcommand{\Nyquist}[0]{Nyquist}
+\newcommand{\JPDA}[0]{{\it JPDA}}
+\newcommand{\PDA}[0]{{\it PDA}}
+\newcommand{\NN}[0]{{\it NN}}
+\newcommand{\NLP}[0]{{\it NLP}}
+\newcommand{\MLAB}[0]{{\it MLAB}}
+\newcommand{\MCMCDA}[0]{{\it MCMCDA}}
+\newcommand{\JMPD}[0]{{\it JMPD}}
+\newcommand{\wsn}[0]{{\it wsn}}
+\newcommand{\MJLS}[0]{{\it MJLS}}
+\newcommand{\MSS}[0]{{\it MSS}}
+\newcommand{\EMSS}[0]{{\it EMSS}}
+\newcommand{\SSa}[0]{{\it SS}}
+\newcommand{\LMI}[0]{{\it LMI}}
+\newcommand{\UGAS}[0]{{\it UGAS}}
+\newcommand{\UGES}[0]{{\it UGES}}
+\newcommand{\TOD}[0]{{\it TOD}}
+\newcommand{\MATI}[0]{{\it MATI}}
+\newcommand{\ISS}[0]{{\it ISS}}
+\newcommand{\TCP}[0]{{\it TCP}}
+\newcommand{\TDMA}[0]{{\it TDMA}}
+\newcommand{\ALOHA}[0]{{\it ALOHA}}
+\newcommand{\MAC}[0]{{\it MAC}}
+\newcommand{\CSMA}[0]{{\it CSMA}}
+\newcommand{\MIMO}[0]{{\it MIMO}}
+\newcommand{\nstwo}[0]{{\it NS-2}}
+\newcommand{\Lyapunov}[0]{Lyapunov}
+\newcommand{\LTI}[0]{{\it LTI}}
+\newcommand{\UAV}[0]{{\it UAV}}
+\newcommand{\SA}[0]{{\it SA}}
+\newcommand{\SLAT}[0]{{\it SLAT}}
+\newcommand{\LaSLAT}[0]{{\it LaSLAT}}
+\newcommand{\EKF}[0]{{\it EKF}}
+\newcommand{\MCMC}[0]{{\it MCMC}}
+\newcommand{\MBP}[0]{{\it MBP}}
+\newcommand{\MAP}[0]{{\it MAP}}
+\def\pus{passive upsampler}
+\def\pds{passive downsampler}
+\def\PATRU{PATRU}
+\def\PDS{PDS}
+\def\PUS{PUS}
+\def\CSO{{\it CSO}}
+\def\SPR{{\it SPR}}
+\def\CSS{{\it CSS}}
+\def\EPA{{\it EPA}}
+\def\ILS{{\it ILS}}
+\def\BIBO{{\it BIBO}}
+\def\antistable{{\it anti-stable}}
+\def\wavevars{{\it wave variables}}
+\def\wavevar{{\it wave variable}}
+\def\Wavevars{{\it Wave variables}}
+\def\semistable{{\it semi-stable}}
+\def\asm{{\it asymptotic stability in the} $m^{th}$ {\it mean}}
+\def\telemanipulation{telemanipulation}
+\def\Telemanipulation{Telemanipulation}
+\def\TELEMANIPULATION{TELEMANIPULATION}
+\def\sop{{\it strictly-output passive}}
+\def\sopy{{\it strictly-output passivity}}
+\def\spr{{\it strictly-positive real}}
+\def\Passive{{\it Passive}}
+\def\passive{{\it passive}}
+\def\passivity{{\it passivity}}
+\def\sip{{\it strictly-input passive}}
+\def\sipy{{\it strictly-input passivity}}
+\def\paa{{\it parameter adaptation algorithms}}
+\def\adaptivecontrol{{\it adaptive control}}
+\def\els{{\it Euler-Lagrange Systems}}
+\def\IPESH{{\it IPESH}}
+\def\IPES{{\it IPES}}
+\def\ipes{{\it inner-product equivalent sampler}}
+\def\ipesh{{\it inner-product equivalent sample and hold}}
+\def\ipeusds{{\it inner-product equivalent up-sampler/ down-sampler}}
+\def\IPEUD{IPEUD}
+\def\PS{PS}
+\def\PH{PH}
+\def\LHS{LHS}
+\def\RHS{RHS}
+\def\PCH{{\it PCH}}
+\def\ZOH{{\it ZOH}}
+\def\CT{{\it CT}}
+\def\DT{{\it DT}}
+\def\Hamiltonian{{\it Hamiltonian}}
+\def\Schur{Schur}
+\def\supremum{supremum}
+%Math macros
+\def\bydefn{\stackrel{\triangle}{=}}
+\def\iff{iff}
+\DeclareMathOperator{\diag}{diag}
+\newcommand{\argmax}[1]{\hbox{\space \raise-2mm\hbox{$\max \atop #1$}
+    \space}}
+\newcommand{\argmin}[1]{\hbox{\space \raise-2mm\hbox{$\min \atop #1$}
+    \space}}
+\newcommand{\mlim}[2]{#1 \atop {\lim \atop #2}}
+\newcommand{\msup}[1]{\hbox{\space \raise-2mm\hbox{$\sup \atop #1$}
+    \space}}
+\newcommand{\innerprod}[2]{\langle #1,#2 \rangle}
+\newcommand{\eqn}[1]{(\ref{#1})}
+\newcommand{\norm}[2]{\|#1\|_{#2}}
+\newcommand{\twonorm}[1]{\norm{#1}{2}}
+\def\tr{^{\mathsf{T}}}
+\newcommand{\xovec}[1]{\begin{bmatrix}\hat{x}(#1)\\x(#1)\end{bmatrix}}
+\newcommand{\sgn}[1]{\mathtt{sgn}(#1)}

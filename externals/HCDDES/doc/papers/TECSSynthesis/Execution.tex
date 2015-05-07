@@ -1,0 +1,34 @@
+\section{Execution Environment}
+
+The tool suite includes a simple, portable time-triggered virtual machine\cite{timed:frodo} 
+which can run on generic Linux or FreeRTOS to implement timed execution of tasks and messages.  
+The virtual machine is a lightweight implementation of the time-triggered 
+architecture\cite{timed:tta} (see \cite{timed:frodo} for details).  Execution requires 
+configuration with the computed cyclic schedule.  Code generated for the virtual machine 
+conforms to a particular structure -- each task reads its input variables, invokes its 
+component functions, and writes its output variables.  Data structures describe the invocation 
+times of each task and any other necessary parameters.  The configuration also includes 
+time-triggered messaging.  Each message instance includes invocation time as well as local buffer 
+addresses where the virtual machine should store the computed cyclic schedule.  Code generated for 
+the virtual machine conforms to a particular structure -- each task reads its input variables, 
+invokes its component functions, and writes its output variables.  Data structures describe the 
+invocation times of each task and any other necessary parameters.  The configuration also includes 
+time-triggered messaging.  Each message instance includes invocation time as well as local buffer 
+addresses where the virtual machine should store data.
+
+%In terms of the behaviors specified in the modeling language, the calculated 
+% release times represent assumptions from the control design and the scheduling model.  
+The virtual machine enforces timing constraints to ensure correct execution. The passive 
+control design provides slack so that dynamic stability can tolerate imperfect execution 
+of the tasks.  The virtual machine must provide clock synchronization to preserve dependency 
+ordering and avoid collisions.
+
+The biggest limitations in our implementation are limited fault tolerance and lack of support 
+for executing multiple components in a task. Our virtual machine can detect local deadline 
+overruns, but at this stage it simply reports them.  We use a single master frame message 
+at the start of each hyperperiod to maintain synchronization, and so are not robust to 
+loss of synchronization.  Testing shows that we can constructively prevent some forms of 
+input and output data corruption, but have not yet performed the formal analysis of those 
+guards. The lack of support for multiple components in a task 
+is not a technical issue, rather we have not yet implemented the synchronous data flow 
+scheduling of those components.

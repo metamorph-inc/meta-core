@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{FFB73A98-250D-410E-931D-EB4453D1A184}" cdate="Tue Oct 09 16:27:45 2007" mdate="Tue Oct 09 16:27:45 2007" version="" metaguid="{FAFCFD9C-EA4D-4BEE-88E7-0DDA8F138201}" metaversion="" metaname="CSched">
+	<name>ClassExample</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x1" kind="RootFolder" guid="{FE82B6EB-EFDF-48b8-87CF-49BD02F25253}">
+		<name>ClassExample</name>
+		<model id="id-0065-00000001" kind="TTSystem" guid="{8787E3DE-1BC7-4a44-BE6E-B21D27021F4A}" relid="0x1" childrelidcntr="0xc">
+			<name>System</name>
+			<model id="id-0065-00000002" kind="Processor" role="Processor" guid="{FC0840AA-9129-410f-A27A-3AC82DCDA10D}" relid="0x1" childrelidcntr="0x3">
+				<name>P1</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="SystemAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>149,86</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<atom id="id-0066-00000001" kind="Task" role="Task" guid="{7BF880C3-02B2-48ef-847D-342A37BF93B4}" relid="0x1">
+					<name>Task1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>86,100</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Period">
+						<value>10</value>
+					</attribute>
+					<attribute kind="WCExecTime" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000002" kind="Task" role="Task" guid="{E52B41C7-CE0A-4db4-BC53-40AFB9E77D7E}" relid="0x2">
+					<name>Task2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>194,96</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Period">
+						<value>20</value>
+					</attribute>
+					<attribute kind="WCExecTime" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000003" kind="Task" role="Task" guid="{173180DF-16DC-4399-85F7-AD281BA42652}" relid="0x3">
+					<name>Task3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>292,96</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Period">
+						<value>25</value>
+					</attribute>
+					<attribute kind="WCExecTime" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-00000003" kind="Processor" role="Processor" guid="{4360FE1A-B5B7-4daf-A2DA-EB16DFCBB12E}" relid="0x2" childrelidcntr="0x1">
+				<name>P2</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="SystemAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>275,86</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<atom id="id-0066-00000004" kind="Task" role="Task" guid="{42868128-C96D-41ab-9EB3-F1C04153DFE2}" relid="0x1">
+					<name>Task4</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>103,103</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Period" status="meta">
+						<value>1</value>
+					</attribute>
+					<attribute kind="WCExecTime" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-00000006" kind="Bus" role="Bus" guid="{C3D28E99-A787-4f13-AF86-B1B07A08EDD4}" relid="0x5" childrelidcntr="0xd">
+				<name>Bus1</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="SystemAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>240,212</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Resolution" status="meta">
+					<value>0</value>
+				</attribute>
+				<atom id="id-0066-00000008" kind="Message" role="Message" guid="{19B71039-0C05-4282-81FC-52857B9530D1}" relid="0x6">
+					<name>Message1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>222,89</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="MsgLength">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000009" kind="Message" role="Message" guid="{B704BA42-EB1D-4abc-BC5A-14573CF0BA02}" relid="0x9">
+					<name>Message2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>467,89</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="MsgLength">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000001" kind="TaskRef" role="TaskRef" guid="{3575EC0E-1D4A-4c7a-B4ED-6FB7A6E3B0E6}" relid="0x1" referred="id-0066-00000001">
+					<name>Task1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>94,87</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-00000003" kind="TaskRef" role="TaskRef" guid="{C819D6E0-4FBA-4a9d-A864-32CFD50824AD}" relid="0x3" referred="id-0066-00000002">
+					<name>Task2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>591,87</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-00000004" kind="TaskRef" role="TaskRef" guid="{31D59141-3AB1-49cc-943E-7C9BF5BE4A44}" relid="0x4" referred="id-0066-00000004">
+					<name>Task4</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Aspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>346,87</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<connection id="id-0068-00000007" kind="Sender" role="Sender" guid="{CAF164B9-54CF-46c0-8F7E-97AF91EB3866}" relid="0x7">
+					<name>Sender</name>
+					<connpoint role="dst" target="id-0066-00000008"/>
+					<connpoint role="src" target="id-0067-00000001"/>
+				</connection>
+				<connection id="id-0068-00000008" kind="Receiver" role="Receiver" guid="{F0A8EB2F-66DB-48a1-B104-175C1ED1A473}" relid="0x8">
+					<name>Receiver</name>
+					<connpoint role="src" target="id-0066-00000008"/>
+					<connpoint role="dst" target="id-0067-00000004"/>
+				</connection>
+				<connection id="id-0068-00000009" kind="Sender" role="Sender" guid="{82159A9F-7AA1-4911-8785-3D26F026A614}" relid="0xa">
+					<name>Sender</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value></value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-00000009"/>
+					<connpoint role="src" target="id-0067-00000004"/>
+				</connection>
+				<connection id="id-0068-0000000a" kind="Receiver" role="Receiver" guid="{FCD9D809-5690-499e-9AD9-59A06CBC1071}" relid="0xb">
+					<name>Receiver</name>
+					<connpoint role="src" target="id-0066-00000009"/>
+					<connpoint role="dst" target="id-0067-00000003"/>
+				</connection>
+			</model>
+			<connection id="id-0068-00000001" kind="Link" role="Link" guid="{BD47A03B-C4F3-4b5e-B5BD-F838555988DC}" relid="0x7">
+				<name>Link</name>
+				<connpoint role="src" target="id-0065-00000002"/>
+				<connpoint role="dst" target="id-0065-00000006"/>
+			</connection>
+			<connection id="id-0068-00000002" kind="Link" role="Link" guid="{438335A7-FA26-4be1-9F88-89B63A0D5155}" relid="0x8">
+				<name>Link</name>
+				<connpoint role="src" target="id-0065-00000003"/>
+				<connpoint role="dst" target="id-0065-00000006"/>
+			</connection>
+		</model>
+	</folder>
+</project>

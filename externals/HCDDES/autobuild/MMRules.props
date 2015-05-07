@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup
+    Condition="'$(XME2MGABeforeTargets)' == '' and '$(XME2MGAAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <XME2MGABeforeTargets>Midl</XME2MGABeforeTargets>
+    <XME2MGAAfterTargets>CustomBuild</XME2MGAAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <XME2MGADependsOn
+      Condition="'$(ConfigurationType)' != 'Makefile'">_SelectedFiles;$(XME2MGADependsOn)</XME2MGADependsOn>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <XME2MGA>
+      <CommandLineTemplate>"$(UDM_PATH)\etc\CreateMGA.vbs" %(Filename)%(Extension) %(Filename).mga UMLModelTransformer</CommandLineTemplate>
+      <Outputs>%(RootDir)%(Directory)\%(Filename).mga</Outputs>
+    </XME2MGA>
+  </ItemDefinitionGroup>
+  <PropertyGroup
+    Condition="'$(CheetahBeforeTargets)' == '' and '$(CheetahAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <CheetahBeforeTargets>Midl</CheetahBeforeTargets>
+    <CheetahAfterTargets>CustomBuild</CheetahAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <CheetahDependsOn
+      Condition="'$(ConfigurationType)' != 'Makefile'">_SelectedFiles;$(CheetahDependsOn)</CheetahDependsOn>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Cheetah>
+      <CommandLineTemplate>$(MSBuildThisFileDirectory)CheetahWrapper compile [inputs] --flat --odir $(VCP_PATH)\generated\BlockTemplate\Python</CommandLineTemplate>
+      <Outputs>$(VCP_PATH)\generated\BlockTemplate\Python\%(Filename).py</Outputs>
+      <ExecutionDescription>%(Filename)%(Extension) -&gt; %(Filename).py</ExecutionDescription>
+    </Cheetah>
+  </ItemDefinitionGroup>
+</Project>

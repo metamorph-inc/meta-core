@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="Newsubsystem_onedatasource_twooutputs00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="subsystem_onedatasource_twooutputs" Period="0" Priority="0" SampleTime="0.00" Tag="" UserData="" name="subsystem_onedatasource_twooutputs">
+          <Line Name="" _id="idB" dstLine_end_="id4" srcLine_end_="id9"/>
+          <Line Name="" _id="idC" dstLine_end_="id7" srcLine_end_="idA"/>
+          <OutputPort Number="1" _id="id4" name="Out1" srcLine="idB">
+            <TypeBaseRef MemberIndex="0" _id="id22" name="MdoubleC1C1M" ref="id18"/>
+          </OutputPort>
+          <OutputPort Number="2" _id="id7" name="Out2" srcLine="idC">
+            <TypeBaseRef MemberIndex="0" _id="id24" name="MdoubleC1C1M" ref="id18"/>
+          </OutputPort>
+          <Subsystem BlockType="SubSystem" Deadline="0" Description="" Name="Subsystem" Period="0" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Subsystem">
+            <Line Name="" _id="idF" dstLine_end_="idA" srcLine_end_="ide"/>
+            <Line Name="" _id="id10" dstLine_end_="id9" srcLine_end_="ide"/>
+            <OutputPort Number="1" _id="id9" dstLine="idB" name="Out1" srcLine="id10">
+              <TypeBaseRef MemberIndex="0" _id="id21" name="MdoubleC1C1M" ref="id18"/>
+            </OutputPort>
+            <OutputPort Number="2" _id="idA" dstLine="idC" name="Out2" srcLine="idF">
+              <TypeBaseRef MemberIndex="0" _id="id23" name="MdoubleC1C1M" ref="id18"/>
+            </OutputPort>
+            <Parameter Value="" name="BlockChoice"/>
+            <Parameter Value="off" name="CheckFcnCallInpInsideContextMsg"/>
+            <Parameter Value="" name="ErrorFcn"/>
+            <Parameter Value="off" name="FunctionWithSeparateData"/>
+            <Parameter Value="on" name="IsSubsystemVirtual"/>
+            <Parameter Value="" name="MemberBlocks"/>
+            <Parameter Value="off" name="MinAlgLoopOccurrences"/>
+            <Parameter Value="ReadWrite" name="Permissions"/>
+            <Parameter Value="All" name="PermitHierarchicalResolution"/>
+            <Parameter Value="off" name="PropExecContextOutsideSubsystem"/>
+            <Parameter Value="" name="RTWFcnName"/>
+            <Parameter Value="Auto" name="RTWFcnNameOpts"/>
+            <Parameter Value="" name="RTWFileName"/>
+            <Parameter Value="Auto" name="RTWFileNameOpts"/>
+            <Parameter Value="Inherit from model" name="RTWMemSecDataConstants"/>
+            <Parameter Value="Inherit from model" name="RTWMemSecDataInternal"/>
+            <Parameter Value="Inherit from model" name="RTWMemSecDataParameters"/>
+            <Parameter Value="Inherit from model" name="RTWMemSecFuncExecute"/>
+            <Parameter Value="Inherit from model" name="RTWMemSecFuncInitTerm"/>
+            <Parameter Value="Auto" name="RTWSystemCode"/>
+            <Parameter Value="FromPortIcon" name="ShowPortLabels"/>
+            <Parameter Value="-1" name="SystemSampleTime"/>
+            <Parameter Value="" name="TemplateBlock"/>
+            <Parameter Value="off" name="TreatAsAtomicUnit"/>
+            <Primitive BlockType="Constant" Description="" Name="Constant" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Constant">
+              <OutputPort Number="1" _id="ide" dstLine="idF id10" name="Out_1">
+                <TypeBaseRef MemberIndex="0" _id="id1C" name="MdoubleC1C1M" ref="id18"/>
+              </OutputPort>
+              <Parameter Value="inf" name="FramePeriod"/>
+              <Parameter Value="off" name="LockScale"/>
+              <Parameter Value="Inherit: Inherit from 'Constant value'" name="OutDataTypeStr"/>
+              <Parameter Value="[]" name="OutMax"/>
+              <Parameter Value="[]" name="OutMin"/>
+              <Parameter Value="Sample based" name="SamplingMode"/>
+              <Parameter Value="1" name="Value"/>
+              <Parameter Value="on" name="VectorParams1D"/>
+            </Primitive>
+          </Subsystem>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow name="Stateflow"/>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types">
+    <Matrix Type="double" _id="id18" columns="1" name="MdoubleC1C1M" referedbyTypeStructRef="id1C id21 id22 id23 id24" rows="1"/>
+  </Types>
+
+</RootFolder>

@@ -1,0 +1,48 @@
+%\def\techreport{true}
+\input{preamble.tex}
+
+\begin{document}
+
+% paper title
+\ifx\techreport\undefined
+\title{\large Discrete-Time IDA-Passivity Based Control of Coupled Tank Processes Subject
+  To Actuator Saturation}
+\else
+\title{IDA-Passivity Based Control of Four-Tank System Subject
+  To Actuator Faults}
+\fi
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\authorblockN{Nicholas Kottenstette, Joseph Porter, Gabor Karsai, Janos Sztipanovits \authorrefmark{1} \\
+\authorrefmark{1}ISIS/Vanderbilt University}}
+\ifx\techreport\undefined
+\else
+\input{ipr.cover.tex}
+\fi
+
+% make the title area
+\ifx\techreport\undefined
+\maketitle
+\else
+{\small NOTICE: this is the author's version of a work that was accepted for
+publication in the $3^{\mathsf{rd}}$ International Symposium on
+Resilient Control Systems August 10-12, 2010 in Idaho Falls, Idaho
+(ISRCS 2010).  Changes resulting from the publishing process, such as
+peer review, editing, corrections, structural formatting, and other
+quality control mechanisms may not be reflected in this
+document. Changes may have been made to this work since it was
+submitted for publication.}\\
+\fi
+\input{ipr.abstract.tex}
+\input{ipr.intro.tex}
+\input{ipr.control.tex}
+\input{ipr.tanks.tex}
+\input{ipr.symbolic.tex}
+\input{ipr.simulation.tex}
+\input{ipr.conclusions.tex}
+\bibliographystyle{IEEEtran}
+\bibliography{ipr.bibliography}
+\appendices
+%\input{ipr.appendix.tex}
+\end{document}

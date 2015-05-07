@@ -1,0 +1,6 @@
+1. Difficulties with addTypes -- resolved by setting the types and sizes on all
+   input ports, and then running addTypes several times on the model.
+
+2. SL_CodeGen: apparently no problems
+
+3. Generated code: 

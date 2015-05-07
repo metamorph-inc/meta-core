@@ -1,0 +1,62 @@
+1. The problem with the gains stems from the way AddTypes represents the output
+   of a multiplexer.  The multiplexer output is a C structure, where the gain
+   block expects a matrix as input.  
+
+   Two possible workarounds:
+   1. Put a demux inline after the mux, with only a single output.  AddTypes
+      should then flatten the structure back into a matrix.
+   2. If that doesn't work, we can use block matrices and summation to do the
+      multiplexing.
+
+   Trying #1 now.  AddTypes complains that the dimensions are mismatched, but
+   Matlab is OK with them.  AddTypes is creating the wrong dimensions for the
+   demux outputs.  Going ahead with #2.
+
+   Option 2 is really painful in terms of creating the constant selection 
+   matrices...
+
+   Harmon came through -- if we explicitly specify the dimensions on each of 
+   the input ports, then AddTypes handles it just fine.
+
+2. Output data glitch log:
+
+14:09:55: 0.0 (falling) to 0.125
+14:17:00: 0.1 (rising) to 0.001
+14:17:26: -0.5 (rising) to -Inf(?)
+We don't have an accurate correlation, but the gumstix log recently reported
+an I2C error - it could have been around the time we saw the -Inf value.  The
+sytem seems to have recovered this time.
+14:25:00: 0.5 (rising) to 0.1
+Is there a correlation with glitches and missed deadlines on the gumstix?
+14:28:28: 0.0 (rising) to -0.1 (no deadline msg)
+14:35:42: 0.0 (falling) to 0.1 (no deadline msg)
+14:37:40 : -0.1 (falling) to 0.0 (no deadline msg)
+14:38:09 : 0.5 (falling) to Inf (no msg)
+14:40:00 Deadlock
+
+The glitches and the deadline/IO messages seem completely uncorrelated (at 
+least using eyeball logging).
+
+15:12:04 : 0.5 (rising) to 0.1
+15:12:50 : -0.1 (rising) to -0.5
+15:34:27 : -0.1 (rising) to -0.5
+15:49:00 : 0.0 (falling) to 0.1
+15:55:52 : -0.5 (rising) to -1.985
+16:18:53 : 0.5 (falling) to 1.985
+16:21:08 : -0.5 (rising) to -1.985
+16:28:22 : 0.5 (falling) to 1.985
+16:54:52 : -0.5 (falling) to -0.1
+
+3. Another observation: 
+   The send and receive ends of the UART are truly asynchronous, as the scope
+   shows them drift with respect to each other.  What happens when the transmit
+   and receive data transfers occupy the same time window?  Is it possible that
+   we could end up with corrupted data?  How would we track that one down?  This
+   may require another whiteboard formal methods session.
+
+
+
+The Inf-type values don't reach quite all the way to infinity (1.985).
+
+
+

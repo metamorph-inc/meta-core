@@ -1,0 +1,16 @@
+Hyperperiod 20 ms
+
+TT_I2CSync 0
+GS/OuterLoop_0 10
+
+TT_I2CSync 0
+RS/ADC_0 3
+RS/SerialIn_0 4
+RS/DataHandling_0 6
+RS/InnerLoop_0 11
+RS/SerialOut_0 16
+
+TT_I2CSync 0
+TT_I2C/OuterLoop.ang_ref_0 13
+TT_I2C/DataHandling.pos_msg_0 17
+

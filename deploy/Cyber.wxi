@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR_META"/>
+    <DirectoryRef Id="INSTALLDIR64_BIN"/>
+    <DirectoryRef Id="INSTALLDIR_META"/>
+    <DirectoryRef Id='ifv_model'>
+      <Directory Id='IFV_CyberControllers' Name='CyberControllers'/>
+    </DirectoryRef>
+
+    <ComponentGroup Id="Cyber">
+      <Component Directory="INSTALLDIR_BIN" Win64='no'>
+        <File Source="..\3rdParty\ctemplate-1.0\vsprojects\libctemplate\bin\libctemplate.dll"/>
+      </Component>
+      <Component Win64='no' Directory="INSTALLDIR_META">
+        <File Name="CyberComposition.mta" Source="..\generated\Cyber\models\CyberComposition.mta" />
+        <RegistryKey Root='HKLM' Key='Software\GME\Paradigms\CyberComposition'>
+          <RegistryValue Name='CurrentVersion' Type='string' Value='$(var.GUIDSTRCyberComposition)'/>
+          <RegistryValue Name='$(var.VERSIONSTRCyberComposition)' Type='string' Value='$(var.GUIDSTRCyberComposition)'/>
+          <RegistryKey Key='$(var.GUIDSTRCyberComposition)'>
+            <RegistryValue Name='ConnStr' Type='string' Value='MGA=[INSTALLDIR_META]CyberComposition.mta'/>
+          </RegistryKey>
+        </RegistryKey>
+        <RemoveRegistryKey Id='RemoveUserCyberComposition' Action='removeOnInstall' Root='HKCU' Key='Software\GME\Paradigms\CyberComposition' />
+      </Component>
+      <Component Win64='no' Directory="INSTALLDIR_META">
+        <File Source="..\generated\Cyber\models\CyberComposition_udm.xml" />
+      </Component>
+      <Component Win64='no' Directory="INSTALLDIR_META">
+        <File Source="..\generated\CyberComposition.xsd" />
+      </Component>
+      <Component Win64='no' Directory="INSTALLDIR_META">
+        <File Source="..\generated\CyberComposition_SignalFlow.xsd" />
+      </Component>
+      <Component Win64='no' Directory="INSTALLDIR_META">
+        <File Source="..\generated\CyberComposition_Simulink.xsd" />
+      </Component>
+      <Component Win64="no" Directory="INSTALLDIR_BIN">
+        <File Source="..\src\CyberModelUtil\bin\Release\CyberCS.dll"/>
+      </Component>
+      <Component Win64="no" Directory="INSTALLDIR_BIN">
+        <File Source="..\src\CyberModelUtil\bin\Release\CyberModelUtil.dll"/>
+      </Component>
+
+      <Component Directory='INSTALLDIR64_BIN' Win64='yes'>
+        <File Source='MDL2MGACyber.exe'/>
+      </Component>
+
+      <ComponentGroupRef Id='Cyber2SFC_CodeGen'/>
+      <ComponentGroupRef Id='Cyber2SLC_CodeGen'/>
+      <ComponentGroupRef Id='src_BlockTemplate_Python'/>
+      <ComponentGroupRef Id='generated_BlockTemplate_Python'/>
+      <ComponentGroupRef Id='CyberPortTypeChecker'/>
+      <ComponentGroupRef Id='CyberComponentExporter'/>
+
+    </ComponentGroup>
+  </Fragment>
+</Wix>

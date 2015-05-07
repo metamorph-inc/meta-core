@@ -1,0 +1,143 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="actions" name="actions" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id14" Name="" dstLine_end_="id5" srcLine_end_="ide"/>
+			<Line _id="id15" Name="" dstLine_end_="id6" srcLine_end_="idf"/>
+			<Line _id="id16" Name="" dstLine_end_="id7" srcLine_end_="id10"/>
+			<Line _id="id17" Name="" dstLine_end_="id8" srcLine_end_="id11"/>
+			<Line _id="id18" Name="" dstLine_end_="id9" srcLine_end_="id12"/>
+			<Line _id="id19" Name="" dstLine_end_="ida" srcLine_end_="id13"/>
+			<Line _id="id1c" Name="" dstLine_end_="idd" srcLine_end_="id1b"/>
+			<Line _id="id1f" Name="" dstLine_end_="id4" srcLine_end_="id1e"/>
+			<Line _id="id20" Name="" dstLine_end_="idc" srcLine_end_="id1e"/>
+			<OutputPort _id="id4" name="clock" Number="1" srcLine="id1f"/>
+			<OutputPort _id="id5" name="enter" Number="2" srcLine="id14"/>
+			<OutputPort _id="id6" name="during" Number="3" srcLine="id15"/>
+			<OutputPort _id="id7" name="exit" Number="4" srcLine="id16"/>
+			<OutputPort _id="id8" name="act_c" Number="5" srcLine="id17"/>
+			<OutputPort _id="id9" name="act_t" Number="6" srcLine="id18"/>
+			<OutputPort _id="ida" name="dbg" Number="7" srcLine="id19"/>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id1b" name="Out_1" Number="1" dstLine="id1c"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="1"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<System Tag="" Name="Chart" name="Chart" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<InputPort _id="idc" name="clock" Number="1" dstLine="id24" srcLine="id20"/>
+				<InputPort _id="idd" name="mode" Number="2" dstLine="id26" srcLine="id1c"/>
+				<Line _id="id24" Name="" dstLine_end_="id23" srcLine_end_="idc"/>
+				<Line _id="id26" Name="" dstLine_end_="id25" srcLine_end_="idd"/>
+				<Line _id="id28" Name="" dstLine_end_="id29" srcLine_end_="id27"/>
+				<Line _id="id2b" Name="" dstLine_end_="ide" srcLine_end_="id2a"/>
+				<Line _id="id2d" Name="" dstLine_end_="idf" srcLine_end_="id2c"/>
+				<Line _id="id2f" Name="" dstLine_end_="id10" srcLine_end_="id2e"/>
+				<Line _id="id31" Name="" dstLine_end_="id11" srcLine_end_="id30"/>
+				<Line _id="id33" Name="" dstLine_end_="id12" srcLine_end_="id32"/>
+				<Line _id="id35" Name="" dstLine_end_="id13" srcLine_end_="id34"/>
+				<Line _id="id38" Name="" dstLine_end_="id39" srcLine_end_="id37"/>
+				<OutputPort _id="ide" name="enter" Number="1" dstLine="id14" srcLine="id2b"/>
+				<OutputPort _id="idf" name="during" Number="2" dstLine="id15" srcLine="id2d"/>
+				<OutputPort _id="id10" name="exit" Number="3" dstLine="id16" srcLine="id2f"/>
+				<OutputPort _id="id11" name="act_c" Number="4" dstLine="id17" srcLine="id31"/>
+				<OutputPort _id="id12" name="act_t" Number="5" dstLine="id18" srcLine="id33"/>
+				<OutputPort _id="id13" name="dbg" Number="6" dstLine="id19" srcLine="id35"/>
+				<Parameter name="ExecuteAtInitialization" Value="off"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id29" name="In_1" Number="1" srcLine="id28"/>
+					<OutputPort _id="id37" name="Out_1" Number="1" dstLine="id38"/>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function actions 1" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id3b" ref="id3a" name="Chart"/>
+					<InputPort _id="id23" name="In_1" Number="1" srcLine="id24"/>
+					<InputPort _id="id25" name="In_2" Number="2" srcLine="id26"/>
+					<OutputPort _id="id27" name="Out_1" Number="1" dstLine="id28"/>
+					<OutputPort _id="id2a" name="Out_2" Number="2" dstLine="id2b"/>
+					<OutputPort _id="id2c" name="Out_3" Number="3" dstLine="id2d"/>
+					<OutputPort _id="id2e" name="Out_4" Number="4" dstLine="id2f"/>
+					<OutputPort _id="id30" name="Out_5" Number="5" dstLine="id31"/>
+					<OutputPort _id="id32" name="Out_6" Number="6" dstLine="id33"/>
+					<OutputPort _id="id34" name="Out_7" Number="7" dstLine="id35"/>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id39" name="In_1" Number="1" srcLine="id38"/>
+				</Primitive>
+			</System>
+			<System Tag="" Name="Counter" name="Counter" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<Line _id="id4c" Name="" dstLine_end_="id4d" srcLine_end_="id4b"/>
+				<Line _id="id4f" Name="" dstLine_end_="id50" srcLine_end_="id4e"/>
+				<Line _id="id52" Name="" dstLine_end_="id1e" srcLine_end_="id51"/>
+				<Line _id="id55" Name="" dstLine_end_="id56" srcLine_end_="id54"/>
+				<OutputPort _id="id1e" name="ctr" Number="1" dstLine="id1f id20" srcLine="id52"/>
+				<Parameter name="ExecuteAtInitialization" Value="on"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id50" name="In_1" Number="1" srcLine="id4f"/>
+					<OutputPort _id="id54" name="Out_1" Number="1" dstLine="id55"/>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="" Name="Ground" name="Ground" Period="0" Deadline="0" Priority="0" BlockType="Ground" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<OutputPort _id="id4b" name="Out_1" Number="1" dstLine="id4c"/>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function actions 2" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id58" ref="id57" name="Counter"/>
+					<InputPort _id="id4d" name="In_1" Number="1" srcLine="id4c"/>
+					<OutputPort _id="id4e" name="Out_1" Number="1" dstLine="id4f"/>
+					<OutputPort _id="id51" name="Out_2" Number="2" dstLine="id52"/>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id56" name="In_1" Number="1" srcLine="id55"/>
+				</Primitive>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow">
+		<State Name="" name="TopLevel" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="AND_STATE">
+			<State _id="id3a" Name="Chart" name="Chart" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="AND_STATE" referedbyConnectorRef="id3b">
+				<Data Max="" Min="" Name="clock" Port="1" name="clock" Scope="INPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="enter" Port="1" name="enter" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="-2" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="during" Port="2" name="during" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="-3" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="mode" Port="2" name="mode" Scope="INPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="exit" Port="3" name="exit" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="-4" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="act_c" Port="4" name="act_c" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="-5" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="act_t" Port="5" name="act_t" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="-6" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="dbg" Port="6" name="dbg" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="-7" ArrayFirstIndex="0"/>
+				<State Name="M1" name="M1" Order="1" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+					<State _id="id3d" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id5c" srcTransition="id5e"/>
+					<State _id="id3e" Name="s2" name="s2" Order="0" ExitAction="exit=2;" EnterAction="enter=2;" DuringAction="during=20+clock;" Decomposition="OR_STATE" dstTransition="id5d" srcTransition="id5c"/>
+					<State _id="id3f" Name="s3" name="s3" Order="0" ExitAction="exit=3;" EnterAction="enter=3;" DuringAction="during=30+clock;" Decomposition="OR_STATE" srcTransition="id5d"/>
+					<TransStart _id="id5f" dstTransition="id5e"/>
+					<Transition _id="id5c" name="" Guard="" Order="1" Action="act_t=122;" Trigger="" ConditionAction="act_c=122;" dstTransition_end_="id3e" srcTransition_end_="id3d"/>
+					<Transition _id="id5d" name="" Guard="clock >= 6" Order="1" Action="act_t=223;" Trigger="" ConditionAction="act_c=223;" dstTransition_end_="id3f" srcTransition_end_="id3e"/>
+					<Transition _id="id5e" name="" Guard="" Order="1" Action="act_t=21;" Trigger="" ConditionAction="act_c=21;" dstTransition_end_="id3d" srcTransition_end_="id5f"/>
+				</State>
+			</State>
+			<State _id="id57" Name="Counter" name="Counter" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" referedbyConnectorRef="id58">
+				<Data Max="" Min="" Name="ctr" Port="1" name="ctr" Scope="OUTPUT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="0" ArrayFirstIndex="0"/>
+				<Data Max="" Min="" Name="maxVal" Port="-2" name="maxVal" Scope="CONSTANT_DATA" Units="" DataType="double" ArraySize="0" Description="" InitialValue="999" ArrayFirstIndex="0"/>
+				<State _id="id59" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id62 id63" srcTransition="id60 id62 id63"/>
+				<TransStart _id="id61" dstTransition="id60"/>
+				<Transition _id="id60" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id59" srcTransition_end_="id61"/>
+				<Transition _id="id62" name="" Guard="ctr &lt; maxVal" Order="1" Action="ctr = ctr+1;" Trigger="" ConditionAction="" dstTransition_end_="id59" srcTransition_end_="id59"/>
+				<Transition _id="id63" name="" Guard="ctr >= maxVal" Order="2" Action="ctr = 0;" Trigger="" ConditionAction="" dstTransition_end_="id59" srcTransition_end_="id59"/>
+			</State>
+		</State>
+	</Stateflow>
+</RootFolder>
+
+

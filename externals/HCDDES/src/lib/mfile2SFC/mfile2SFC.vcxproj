@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2B72F4CC-C4F7-47D3-AC06-31B67CEF6CBB}</ProjectGuid>
+    <RootNamespace>mfile2SFC</RootNamespace>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\..\src\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_LIB)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VCP_PATH)\$(PlatformName)\lib\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_LIB)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(VCP_PATH)\$(PlatformName)\lib\</OutDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)D</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)D</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(UDM_PATH)\include;$(ANTLR3_PATH)\include;MFileParser;..\..\..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_SCL_SECURE_NO_WARNINGS;_DEBUG;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(UDM_PATH)\include;$(ANTLR3_PATH)\include;MFileParser;..\..\..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(UDM_PATH)\include;$(ANTLR3_PATH)\include;MFileParser;..\..\..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_SCL_SECURE_NO_WARNINGS;NDEBUG;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(UDM_PATH)\include;$(ANTLR3_PATH)\include;MFileParser;..\..\..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ColonExprReturn.cpp" />
+    <ClCompile Include="..\..\MatrixBuilder\EnhancedMatrix.cpp" />
+    <ClCompile Include="ExprReturn.cpp" />
+    <ClCompile Include="LitMatrixExprReturn.cpp" />
+    <ClCompile Include="MatrixExprReturn.cpp" />
+    <ClCompile Include="mfile2SFC.cpp" />
+    <ClCompile Include="MFileManager.cpp" />
+    <ClCompile Include="mfileScope.cpp" />
+    <ClCompile Include="ReferenceReturn.cpp" />
+    <ClCompile Include="RuleReturn.cpp" />
+    <ClCompile Include="ScopeSymbolTable.cpp" />
+    <ClCompile Include="SFCSymbolTable.cpp" />
+    <ClCompile Include="VarExprReturn.cpp" />
+    <ClCompile Include="VarMatrixExprReturn.cpp" />
+    <ClCompile Include="MFileParser\MatLab.c" />
+    <ClCompile Include="MFileParser\MatLabTokens.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\mfileScope.hpp" />
+    <ClInclude Include="..\..\..\include\RegexCommon.hpp" />
+    <ClInclude Include="..\..\..\include\ScopeSymbolTable.hpp" />
+    <ClInclude Include="..\..\..\include\SFCHelper.hpp" />
+    <ClInclude Include="ArgReturn.hpp" />
+    <ClInclude Include="ColonExprReturn.hpp" />
+    <ClInclude Include="..\include\EnhancedMatrix.hpp" />
+    <ClInclude Include="ExprReturn.hpp" />
+    <ClInclude Include="LitMatrixExprReturn.hpp" />
+    <ClInclude Include="MatrixExprReturn.hpp" />
+    <ClInclude Include="..\..\..\include\mfile2SFC.hpp" />
+    <ClInclude Include="MFileManager.hpp" />
+    <ClInclude Include="ReferenceReturn.hpp" />
+    <ClInclude Include="RuleReturn.hpp" />
+    <ClInclude Include="..\..\..\include\SFCSymbolTable.hpp" />
+    <ClInclude Include="..\include\SFCUdmEngine.hpp" />
+    <ClInclude Include="VarExprReturn.hpp" />
+    <ClInclude Include="VarMatrixExprReturn.hpp" />
+    <ClInclude Include="MFileParser\MatLab.h" />
+    <ClInclude Include="MFileParser\MatLabTokens.h" />
+    <ClInclude Include="..\..\..\include\SFC.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="MFileParser\MatLab.g">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) with Antlr3</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) with Antlr3</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">set PATH=%PATH%;%SYSTEMROOT%\SysNative
+java -classpath "$(ANTLR3_PATH)\lib\antlr-3.1.3.jar%3b$(ANTLR3_PATH)\lib\antlr-2.7.7.jar%3b$(ANTLR3_PATH)\lib\stringtemplate-3.1b1.jar" org.antlr.Tool -o MFileParser -lib MFileParser "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">set PATH=%PATH%;%SYSTEMROOT%\SysNative
+java -classpath "$(ANTLR3_PATH)\lib\antlr-3.1.3.jar%3b$(ANTLR3_PATH)\lib\antlr-2.7.7.jar%3b$(ANTLR3_PATH)\lib\stringtemplate-3.1b1.jar" org.antlr.Tool -o MFileParser -lib MFileParser "%(FullPath)"
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MFileParser/MatLabTokens.tokens;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MFileParser/MatLabTokens.tokens;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MFileParser/MatLab.h;MFileParser/MatLab.c;MFileParser/MatLab.tokens;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MFileParser/MatLab.h;MFileParser/MatLab.c;MFileParser/MatLab.tokens;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) with Antlr3</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) with Antlr3</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">set PATH=%PATH%;%SYSTEMROOT%\SysNative
+java -classpath "$(ANTLR3_PATH)\lib\antlr-3.1.3.jar%3b$(ANTLR3_PATH)\lib\antlr-2.7.7.jar%3b$(ANTLR3_PATH)\lib\stringtemplate-3.1b1.jar" org.antlr.Tool -o MFileParser -lib MFileParser "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">set PATH=%PATH%;%SYSTEMROOT%\SysNative
+java -classpath "$(ANTLR3_PATH)\lib\antlr-3.1.3.jar%3b$(ANTLR3_PATH)\lib\antlr-2.7.7.jar%3b$(ANTLR3_PATH)\lib\stringtemplate-3.1b1.jar" org.antlr.Tool -o MFileParser -lib MFileParser "%(FullPath)"
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MFileParser/MatLabTokens.tokens;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MFileParser/MatLabTokens.tokens;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MFileParser/MatLab.h;MFileParser/MatLab.c;MFileParser/MatLab.tokens;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MFileParser/MatLab.h;MFileParser/MatLab.c;MFileParser/MatLab.tokens;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="MFileParser\MatLabTokens.g">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) with Antlr3</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) with Antlr3</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">set PATH=%PATH%;%SYSTEMROOT%\SysNative
+java -classpath "$(ANTLR3_PATH)\lib\antlr-3.1.3.jar;$(ANTLR3_PATH)\lib\antlr-2.7.7.jar;$(ANTLR3_PATH)\lib\stringtemplate-3.1b1.jar" org.antlr.Tool -o MFileParser "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">set PATH=%PATH%;%SYSTEMROOT%\SysNative
+java -classpath "$(ANTLR3_PATH)\lib\antlr-3.1.3.jar;$(ANTLR3_PATH)\lib\antlr-2.7.7.jar;$(ANTLR3_PATH)\lib\stringtemplate-3.1b1.jar" org.antlr.Tool -o MFileParser "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MFileParser/MatLabTokens.c;MFileParser/MatLabTokens.tokens;MFileParser/MatLabTokens.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MFileParser/MatLabTokens.c;MFileParser/MatLabTokens.tokens;MFileParser/MatLabTokens.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) with Antlr3</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) with Antlr3</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">set PATH=%PATH%;%SYSTEMROOT%\SysNative
+java -classpath "$(ANTLR3_PATH)\lib\antlr-3.1.3.jar;$(ANTLR3_PATH)\lib\antlr-2.7.7.jar;$(ANTLR3_PATH)\lib\stringtemplate-3.1b1.jar" org.antlr.Tool -o MFileParser "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">set PATH=%PATH%;%SYSTEMROOT%\SysNative
+java -classpath "$(ANTLR3_PATH)\lib\antlr-3.1.3.jar;$(ANTLR3_PATH)\lib\antlr-2.7.7.jar;$(ANTLR3_PATH)\lib\stringtemplate-3.1b1.jar" org.antlr.Tool -o MFileParser "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MFileParser/MatLabTokens.c;MFileParser/MatLabTokens.tokens;MFileParser/MatLabTokens.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MFileParser/MatLabTokens.c;MFileParser/MatLabTokens.tokens;MFileParser/MatLabTokens.h;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\models\SFC\SFC.vcxproj">
+      <Project>{e4950023-ab75-4eef-8cd6-653be9290daa}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\SFCUdmEngine\SFCUdmEngine.vcxproj">
+      <Project>{a6c033c3-ac95-4872-b8bd-9d0ec6761a69}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\UdmBuilder\UdmBuilder.vcxproj">
+      <Project>{47e6f95b-668f-4963-b1c5-535c8e09d609}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="$(SolutionDir)\nuget\antlrC.3.1.3\build\native\antlrC.targets" Condition="Exists('$(SolutionDir)\nuget\antlrC.3.1.3\build\native\antlrC.targets')" />
+    <Import Project="..\..\..\nuget\boost.1.55.0.10\build\native\boost.targets" Condition="Exists('..\..\..\nuget\boost.1.55.0.10\build\native\boost.targets')" />
+  </ImportGroup>
+</Project>

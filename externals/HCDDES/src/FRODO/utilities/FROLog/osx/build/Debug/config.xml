@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FROLog>
+  <UDPChannel address="129.59.129.139" port="21212" />
+  <MessageType id="1" name="UDPSend_msg">
+	<Element name="pos_data" type="double" offset="0" />
+  </MessageType>
+  <Plot name="Plot #1" />
+  <DataTap name="tap1" path="UDPSend_msg.pos_data" />
+</FROLog>

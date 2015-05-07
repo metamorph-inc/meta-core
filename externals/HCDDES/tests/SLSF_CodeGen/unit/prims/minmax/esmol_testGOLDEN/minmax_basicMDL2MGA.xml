@@ -1,0 +1,63 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="minmax_basic" name="minmax_basic" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="ida" Name="" dstLine_end_="idb" srcLine_end_="id9"/>
+			<Line _id="idd" Name="" dstLine_end_="ide" srcLine_end_="idc"/>
+			<Line _id="id10" Name="" dstLine_end_="id11" srcLine_end_="idf"/>
+			<Line _id="id13" Name="" dstLine_end_="id4" srcLine_end_="id12"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id13"/>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id9" name="Out_1" Number="1" dstLine="ida"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[1 9]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant1" name="Constant1" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="idc" name="Out_1" Number="1" dstLine="idd"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[3 8 ]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant2" name="Constant2" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="idf" name="Out_1" Number="1" dstLine="id10"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="[7 4]"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="MinMax" name="MinMax" Period="0" Deadline="0" Priority="0" BlockType="MinMax" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="idb" name="In_1" Number="1" srcLine="ida"/>
+				<InputPort _id="ide" name="In_2" Number="2" srcLine="idd"/>
+				<InputPort _id="id11" name="In_3" Number="3" srcLine="id10"/>
+				<OutputPort _id="id12" name="Out_1" Number="1" dstLine="id13"/>
+				<Parameter name="Function" Value="min"/>
+				<Parameter name="InputSameDT" Value="off"/>
+				<Parameter name="Inputs" Value="3"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+				<Parameter name="ZeroCross" Value="on"/>
+			</Primitive>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow"/>
+</RootFolder>
+
+

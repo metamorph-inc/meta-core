@@ -314,6 +314,8 @@
       <ComponentRef Id='CyPhyML_udm.xml'/>
       <ComponentRef Id='CyPhyML.xsd'/>
 
+      <ComponentGroupRef Id='Cyber'/>
+
       <ComponentRef Id='CyPhyAddOn.dll'/>
 
       <ComponentRef Id='CyPhyFormulaEvaluator.dll'/>

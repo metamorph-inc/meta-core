@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B5975A43-64C7-4E8F-AF22-DD8AD19C9659}</ProjectGuid>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\externals\common-scripts\build_customization\mga2udmxml.props" />
+    <Import Project="..\..\externals\common-scripts\build_customization\udm.props" />
+    <Import Project="..\..\externals\common-scripts\build_customization\xme2mga.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\UdmDlld.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\UdmDll.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)D</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <udm_RuleAfterTargets>mga2udmxml</udm_RuleAfterTargets>
+    <mga2udmxml_RuleBeforeTargets>udm</mga2udmxml_RuleBeforeTargets>
+    <udm_RuleBeforeTargets>Compile</udm_RuleBeforeTargets>
+    <mga2udmxml_RuleAfterTargets>xme2mga</mga2udmxml_RuleAfterTargets>
+    <xme2mga_RuleBeforeTargets>mga2udmxml</xme2mga_RuleBeforeTargets>
+    <xme2mga_RuleAfterTargets>PreBuildEvent</xme2mga_RuleAfterTargets>
+    <CustomBuildAfterTargets>Build</CustomBuildAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <mga2udmxml_RuleBeforeTargets>udm</mga2udmxml_RuleBeforeTargets>
+    <mga2udmxml_RuleAfterTargets>xme2mga</mga2udmxml_RuleAfterTargets>
+    <udm_RuleBeforeTargets>Compile</udm_RuleBeforeTargets>
+    <udm_RuleAfterTargets>mga2udmxml</udm_RuleAfterTargets>
+    <xme2mga_RuleBeforeTargets>mga2udmxml</xme2mga_RuleBeforeTargets>
+    <xme2mga_RuleAfterTargets>PreBuildEvent</xme2mga_RuleAfterTargets>
+    <CustomBuildAfterTargets>Build</CustomBuildAfterTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <TypeLibraryName>.\ComponentLib.tlb</TypeLibraryName>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\Interfaces;$(GME_ROOT)\Gme\Interfaces;$(GME_ROOT)\bin;$(GME_ROOT)\Gme\Release;$(GME_ROOT)\Gme\Debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;.\SL_CodeGen;.\SL_CodeGen\FMI;..\Cyber2SFC_CodeGen;.\Cycles;..\..\3rdParty\ctemplate-1.0\src\windows;$(GME_ROOT)/SDK/BON/Common;$(UDM_PATH)/include;$(GME_ROOT)/Interfaces;$(GME_ROOT)/Gme/Interfaces;$(GME_ROOT)\GME\Gme;$(META_PATH)\externals\HCDDES\include;$(GREAT_PATH)/include;$(PYTHON_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;USE_CyberComposition;_DEBUG;_WINDOWS;_USRDLL;UDM_DYNAMIC_LINKING;PRINT_INFO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <ForcedIncludeFiles>StdAfx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <ModuleDefinitionFile>Component.def</ModuleDefinitionFile>
+      <RegisterOutput>false</RegisterOutput>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(GREAT_PATH)\lib;$(META_PATH)\externals\HCDDES\lib;$(PYTHON_HOME)\libs;..\..\3rdParty\ctemplate-1.0\vsprojects\libctemplate\bin;..\..\3rdParty\ctemplate-1.0\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Rpcrt4.lib;libctemplate-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <CustomBuildStep>
+      <Command>reg add HKCR\Wow6432Node\CLSID\{F4657AA7-5F12-4F02-B314-4375C7B503C2}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Message>ThreadingModel=Apartment</Message>
+      <Outputs>$(IntDir)Threadingmarker</Outputs>
+    </CustomBuildStep>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>
+      </Message>
+    </PreBuildEvent>
+    <udm>
+      <IntegrateXSD>true</IntegrateXSD>
+    </udm>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <TypeLibraryName>.\ComponentLib.tlb</TypeLibraryName>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <AdditionalIncludeDirectories>.;$(GME_ROOT)\Interfaces;$(GME_ROOT)\Gme\Interfaces;$(GME_ROOT)\bin;$(GME_ROOT)\Gme\Release;$(GME_ROOT)\Gme\Debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>.;.\SL_CodeGen;.\SL_CodeGen\FMI;..\Cyber2SFC_CodeGen;.\Cycles;..\..\3rdParty\ctemplate-1.0\src\windows;$(GME_ROOT)/SDK/BON/Common;$(UDM_PATH)/include;$(GME_ROOT)/Interfaces;$(GME_ROOT)/Gme/Interfaces;$(GME_ROOT)\GME\Gme;$(META_PATH)\externals\HCDDES\include;$(GREAT_PATH)/include;$(PYTHON_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;USE_CyberComposition;NDEBUG;_WINDOWS;_USRDLL;UDM_DYNAMIC_LINKING;PRINT_INFO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <ModuleDefinitionFile>Component.def</ModuleDefinitionFile>
+      <RegisterOutput>false</RegisterOutput>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(GREAT_PATH)\lib;$(META_PATH)\externals\HCDDES\lib;$(PYTHON_HOME)\libs;..\..\3rdParty\ctemplate-1.0\bin\;..\..\3rdParty\ctemplate-1.0\vsprojects\libctemplate\bin\;..\..\3rdParty\ctemplate-1.0\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Rpcrt4.lib;libctemplate.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <CustomBuildStep>
+      <Command>reg add HKCR\Wow6432Node\CLSID\{F4657AA7-5F12-4F02-B314-4375C7B503C2}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Message>ThreadingModel=Apartment</Message>
+      <Outputs>$(IntDir)Threadingmarker</Outputs>
+    </CustomBuildStep>
+    <PreBuildEvent>
+      <Command>xcopy /y/d/f "..\..\3rdParty\ctemplate-1.0\vsprojects\libctemplate\bin\libctemplate.dll" "$(OutDir)\"</Command>
+      <Message>
+      </Message>
+    </PreBuildEvent>
+    <udm>
+      <IntegrateXSD>true</IntegrateXSD>
+    </udm>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.h" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.h" />
+    <ClInclude Include="ComponentObj.h" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.h" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\GMECOM.H" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\targetver.h" />
+    <ClInclude Include="CGLog.h" />
+    <ClInclude Include="CGProgressDialog.h" />
+    <ClInclude Include="ComponentConfig.h" />
+    <ClInclude Include="Cycles\CycleGraphs.h" />
+    <ClInclude Include="Cycles\JohnsonsAlgorithm.h" />
+    <ClInclude Include="CyberCycles.h" />
+    <ClInclude Include="RawComponent.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="runSL_CodeGen.h" />
+    <ClInclude Include="SL_CodeGen\CommandExecutor.h" />
+    <ClInclude Include="SL_CodeGen\ConfigKeeper.hpp" />
+    <ClInclude Include="SL_CodeGen\Cyber2SLC-gr_cmptempl.h" />
+    <ClInclude Include="SL_CodeGen\Cyber2SLC-gr_userinc.h" />
+    <ClInclude Include="SL_CodeGen\Cyber2SLC.h" />
+    <ClInclude Include="SL_CodeGen\CyberComposition.h" />
+    <ClInclude Include="SL_CodeGen\FMI\FMI.h" />
+    <ClInclude Include="SL_CodeGen\FMUCodeGen.h" />
+    <ClInclude Include="SL_CodeGen\GenCyber2SLC.h" />
+    <ClInclude Include="SL_CodeGen\LINKS.h" />
+    <ClInclude Include="SL_CodeGen\ModelicaCodeGen.h" />
+    <ClInclude Include="SL_CodeGen\ModelicaTemplate.h" />
+    <ClInclude Include="SL_CodeGen\SFC.h" />
+    <ClInclude Include="SL_CodeGen\utils.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="string_utils.h" />
+    <ClInclude Include="UdmApp.h" />
+    <ClInclude Include="UdmConfig.h" />
+    <ClInclude Include="UdmConsole.h" />
+    <ClInclude Include="UdmFormatter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ComHelp.cpp" />
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp" />
+    <ClCompile Include="ComponentObj.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp" />
+    <ClCompile Include="CGLog.cpp" />
+    <ClCompile Include="CGProgressDialog.cpp" />
+    <ClCompile Include="CyberCycles.cpp" />
+    <ClCompile Include="RawComponent.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="runSL_CodeGen.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ClCompile Include="SL_CodeGen\CommandExecutor.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SL_CodeGen\ConfigKeeper.cpp" />
+    <ClCompile Include="SL_CodeGen\Cyber2SLC.cpp" />
+    <ClCompile Include="SL_CodeGen\CyberComposition.cpp" />
+    <ClCompile Include="SL_CodeGen\FMI\FMI.cpp" />
+    <ClCompile Include="SL_CodeGen\FMUCodeGen.cpp" />
+    <ClCompile Include="SL_CodeGen\GenCyber2SLC.cpp" />
+    <ClCompile Include="SL_CodeGen\LINKS.cpp" />
+    <ClCompile Include="SL_CodeGen\ModelicaCodeGen.cpp" />
+    <ClCompile Include="SL_CodeGen\SFC.cpp" />
+    <ClCompile Include="SL_CodeGen\utils.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UdmApp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UdmConsole.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UdmFormatter.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CompIcon.ico" />
+    <None Include="Component.def" />
+    <mga2udmxml Include="SL_CodeGen\FMI\FMI_uml.mga">
+      <FileType>Document</FileType>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">FMI</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">FMI</MetaName>
+    </mga2udmxml>
+    <None Include="packages.config" />
+    <udm Include="SL_CodeGen\FMI\FMI_udm.xml">
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">FMI</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">FMI</MetaName>
+      <IntegrateXSD Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IntegrateXSD>
+      <IntegrateXSD Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IntegrateXSD>
+    </udm>
+    <xme2mga Include="..\..\meta\FMI\FMI_uml.xme">
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">FMI</MetaName>
+      <MetaName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">FMI</MetaName>
+      <FileType>Document</FileType>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SL_CodeGen\FMI\%(FileName).mga</OutFile>
+      <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">SL_CodeGen\FMI\%(FileName).mga</OutFile>
+    </xme2mga>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Component.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="$(GME_ROOT)\SDK\BON\Common\ComponentLib.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\externals\HCDDES\src\lib\BExprMapTree\BExprMapTree.vcxproj">
+      <Project>{8f8c9016-c830-4bed-9676-f96246ff8308}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\externals\HCDDES\src\lib\BlockTemplate\BlockTemplate_Cyber.vcxproj">
+      <Project>{cce0fc0e-7843-4a85-b4d8-9752e92355d3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\externals\HCDDES\src\lib\mfile2SFC\mfile2SFC.vcxproj">
+      <Project>{2b72f4cc-c4f7-47d3-ac06-31b67cef6cbb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\externals\HCDDES\src\lib\SFCPrint\SFCPrint.vcxproj">
+      <Project>{1a92a2b3-8cd0-4dc9-9b61-b67474d07456}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\externals\HCDDES\src\lib\SFCUdmEngine\SFCUdmEngine.vcxproj">
+      <Project>{a6c033c3-ac95-4872-b8bd-9d0ec6761a69}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\externals\HCDDES\src\lib\UdmBuilder\UdmBuilder.vcxproj">
+      <Project>{47e6f95b-668f-4963-b1c5-535c8e09d609}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Cyber2SFC_CodeGen\CyPhy2SFC_CodeGen.vcxproj">
+      <Project>{94143676-7004-4cad-a74e-d2de0b713e26}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\externals\common-scripts\build_customization\mga2udmxml.targets" />
+    <Import Project="..\..\externals\common-scripts\build_customization\udm.targets" />
+    <Import Project="..\..\externals\common-scripts\build_customization\xme2mga.targets" />
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="..\nuget\boost.1.55.0.10\build\native\boost.targets" Condition="Exists('..\nuget\boost.1.55.0.10\build\native\boost.targets')" />
+    <Import Project="..\nuget\boost_graph-vc100.1.55.0.15\build\native\boost_graph-vc100.targets" Condition="Exists('..\nuget\boost_graph-vc100.1.55.0.15\build\native\boost_graph-vc100.targets')" />
+    <Import Project="..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets" Condition="Exists('..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets')" />
+    <Import Project="..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets" Condition="Exists('..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets')" />
+    <Import Project="..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets" Condition="Exists('..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets')" />
+    <Import Project="..\nuget\boost_python.1.55.0.10\build\native\boost_python.targets" Condition="Exists('..\nuget\boost_python.1.55.0.10\build\native\boost_python.targets')" />
+    <Import Project="..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets" Condition="Exists('..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets')" />
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="Component.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

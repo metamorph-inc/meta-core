@@ -1,0 +1,36 @@
+%\def\techreport{true}
+\input{preamble.tex}
+
+\begin{document}
+
+% paper title
+\ifx\techreport\undefined
+\title{A Passivity-Based Framework for Resilient Cyber Physical Systems}
+\else
+\title{A Passivity-Based Framework for Resilient Cyber Physical Systems}
+\fi
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\authorblockN{Nicholas Kottenstette, Gabor Karsai, Janos Sztipanovits \authorrefmark{1} \\
+\authorrefmark{1}ISIS/Vanderbilt University}}
+\ifx\techreport\undefined
+\else
+\input{resilient.cover.tex}
+\fi
+
+% make the title area
+\ifx\techreport\undefined
+\maketitle
+\fi
+
+\input{resilient.abstract.tex}
+\input{resilient.intro.tex}
+\input{resilient.control.tex}
+\input{resilient.experiment.tex}
+\input{resilient.conclusions.tex}
+\bibliographystyle{IEEEtran}
+\bibliography{resilient.bibliography}
+\appendices
+\input{resilient.appendix.tex}
+\end{document}

@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder _id="id3" name="Imported Models">
+    <ModelsFolder _id="id4" name="Newmultiportswitch_basic00000000">
+      <Dataflow _id="id5" name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="multiportswitch_basic" Period="0" Priority="0" RefId="ID0" SampleTime="-2" Tag="" UserData="" _id="id6" name="multiportswitch_basic">
+          <Line Name="" RefId="ID64" _id="id50" dstLine_end_="id1A" srcLine_end_="id4e"/>
+          <Line Name="" RefId="ID94" _id="id71" dstLine_end_="id6F" srcLine_end_="id2A"/>
+          <Line Name="" RefId="ID96" _id="id74" dstLine_end_="id72" srcLine_end_="id36"/>
+          <Line Name="" RefId="ID98" _id="id77" dstLine_end_="id75" srcLine_end_="id42"/>
+          <Line Name="" RefId="ID100" _id="id7A" dstLine_end_="id7" srcLine_end_="id78"/>
+          <Line Name="" RefId="ID117" _id="id8C" dstLine_end_="id8A" srcLine_end_="id1e"/>
+          <Line Name="" RefId="ID120" _id="id91" dstLine_end_="id9" srcLine_end_="id8F"/>
+          <Line Name="" RefId="ID138" _id="idA5" dstLine_end_="idA3" srcLine_end_="id2A"/>
+          <Line Name="" RefId="ID140" _id="idA8" dstLine_end_="idA6" srcLine_end_="id36"/>
+          <Line Name="" RefId="ID142" _id="idAB" dstLine_end_="idA9" srcLine_end_="id42"/>
+          <Line Name="" RefId="ID144" _id="idAe" dstLine_end_="idB" srcLine_end_="idAC"/>
+          <Line Name="" RefId="ID150" _id="idB5" dstLine_end_="idB3" srcLine_end_="id2A"/>
+          <Line Name="" RefId="ID152" _id="idB8" dstLine_end_="idB6" srcLine_end_="id36"/>
+          <Line Name="" RefId="ID154" _id="idBB" dstLine_end_="idB9" srcLine_end_="id42"/>
+          <Line Name="" RefId="ID156" _id="idBe" dstLine_end_="idBC" srcLine_end_="id5B"/>
+          <Line Name="" RefId="ID158" _id="idC1" dstLine_end_="id8D" srcLine_end_="idBF"/>
+          <Line Name="" RefId="ID161" _id="idC5" dstLine_end_="idA1" srcLine_end_="idC3"/>
+          <Line Name="" RefId="ID162" _id="idC6" dstLine_end_="id1C" srcLine_end_="idC3"/>
+          <Line Name="" RefId="ID163" _id="idC7" dstLine_end_="id6D" srcLine_end_="idC3"/>
+          <OutputPort Number="1" RefId="ID1" _id="id7" name="Out1" srcLine="id7A">
+            <TypeBaseRef MemberIndex="0" _id="id8" name="double" ref="idF6"/>
+          </OutputPort>
+          <OutputPort Number="2" RefId="ID2" _id="id9" name="Out2" srcLine="id91">
+            <TypeBaseRef MemberIndex="0" _id="idA" name="double" ref="idF6"/>
+          </OutputPort>
+          <OutputPort Number="3" RefId="ID3" _id="idB" name="Out3" srcLine="idAe">
+            <TypeBaseRef MemberIndex="0" _id="idC" name="double" ref="idF6"/>
+          </OutputPort>
+          <Primitive BlockType="Sum" Description="" Name="Add" Priority="0" RefId="ID4" SampleTime="1" Tag="" UserData="" _id="idD" name="Add">
+            <InputPort Number="1" RefId="ID17" _id="id1A" name="In_1" srcLine="id50">
+              <TypeBaseRef MemberIndex="0" _id="id1B" name="double" ref="idF6"/>
+            </InputPort>
+            <InputPort Number="2" RefId="ID18" _id="id1C" name="In_2" srcLine="idC6">
+              <TypeBaseRef MemberIndex="0" _id="id1D" name="double" ref="idF6"/>
+            </InputPort>
+            <OutputPort Number="1" RefId="ID19" _id="id1e" dstLine="id8C" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id1F" name="double" ref="idF6"/>
+            </OutputPort>
+            <Parameter RefId="ID5" Value="Inherit: Inherit via internal rule" _id="ide" name="AccumDataTypeStr"/>
+            <Parameter RefId="ID6" Value="1" _id="idF" name="CollapseDim"/>
+            <Parameter RefId="ID7" Value="All dimensions" _id="id10" name="CollapseMode"/>
+            <Parameter RefId="ID8" Value="rectangular" _id="id11" name="IconShape"/>
+            <Parameter RefId="ID9" Value="off" _id="id12" name="InputSameDT"/>
+            <Parameter RefId="ID10" Value="-+" _id="id13" name="Inputs"/>
+            <Parameter RefId="ID11" Value="off" _id="id14" name="LockScale"/>
+            <Parameter RefId="ID12" Value="Inherit: Inherit via internal rule" _id="id15" name="OutDataTypeStr"/>
+            <Parameter RefId="ID13" Value="[]" _id="id16" name="OutMax"/>
+            <Parameter RefId="ID14" Value="[]" _id="id17" name="OutMin"/>
+            <Parameter RefId="ID15" Value="Floor" _id="id18" name="RndMeth"/>
+            <Parameter RefId="ID16" Value="off" _id="id19" name="SaturateOnIntegerOverflow"/>
+            <Parameter RefId="ID20" Value="double" _id="id20" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant" Priority="0" RefId="ID21" SampleTime="1" Tag="" UserData="" _id="id21" name="Constant">
+            <OutputPort Number="1" RefId="ID30" _id="id2A" dstLine="id71 idA5 idB5" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id2B" name="double" ref="idF6"/>
+            </OutputPort>
+            <Parameter RefId="ID22" Value="inf" _id="id22" name="FramePeriod"/>
+            <Parameter RefId="ID23" Value="off" _id="id23" name="LockScale"/>
+            <Parameter RefId="ID24" Value="Inherit: Inherit from 'Constant value'" _id="id24" name="OutDataTypeStr"/>
+            <Parameter RefId="ID25" Value="[]" _id="id25" name="OutMax"/>
+            <Parameter RefId="ID26" Value="[]" _id="id26" name="OutMin"/>
+            <Parameter RefId="ID27" Value="Sample based" _id="id27" name="SamplingMode"/>
+            <Parameter RefId="ID28" Value="1" _id="id28" name="Value"/>
+            <Parameter RefId="ID29" Value="on" _id="id29" name="VectorParams1D"/>
+            <Parameter RefId="ID31" Value="double" _id="id2C" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant1" Priority="0" RefId="ID32" SampleTime="1" Tag="" UserData="" _id="id2D" name="Constant1">
+            <OutputPort Number="1" RefId="ID41" _id="id36" dstLine="id74 idA8 idB8" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id37" name="double" ref="idF6"/>
+            </OutputPort>
+            <Parameter RefId="ID33" Value="inf" _id="id2e" name="FramePeriod"/>
+            <Parameter RefId="ID34" Value="off" _id="id2F" name="LockScale"/>
+            <Parameter RefId="ID35" Value="Inherit: Inherit from 'Constant value'" _id="id30" name="OutDataTypeStr"/>
+            <Parameter RefId="ID36" Value="[]" _id="id31" name="OutMax"/>
+            <Parameter RefId="ID37" Value="[]" _id="id32" name="OutMin"/>
+            <Parameter RefId="ID38" Value="Sample based" _id="id33" name="SamplingMode"/>
+            <Parameter RefId="ID39" Value="2" _id="id34" name="Value"/>
+            <Parameter RefId="ID40" Value="on" _id="id35" name="VectorParams1D"/>
+            <Parameter RefId="ID42" Value="double" _id="id38" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant2" Priority="0" RefId="ID43" SampleTime="1" Tag="" UserData="" _id="id39" name="Constant2">
+            <OutputPort Number="1" RefId="ID52" _id="id42" dstLine="id77 idAB idBB" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id43" name="double" ref="idF6"/>
+            </OutputPort>
+            <Parameter RefId="ID44" Value="inf" _id="id3A" name="FramePeriod"/>
+            <Parameter RefId="ID45" Value="off" _id="id3B" name="LockScale"/>
+            <Parameter RefId="ID46" Value="Inherit: Inherit from 'Constant value'" _id="id3C" name="OutDataTypeStr"/>
+            <Parameter RefId="ID47" Value="[]" _id="id3D" name="OutMax"/>
+            <Parameter RefId="ID48" Value="[]" _id="id3e" name="OutMin"/>
+            <Parameter RefId="ID49" Value="Sample based" _id="id3F" name="SamplingMode"/>
+            <Parameter RefId="ID50" Value="3" _id="id40" name="Value"/>
+            <Parameter RefId="ID51" Value="on" _id="id41" name="VectorParams1D"/>
+            <Parameter RefId="ID53" Value="double" _id="id44" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant3" Priority="0" RefId="ID54" SampleTime="1" Tag="" UserData="" _id="id45" name="Constant3">
+            <OutputPort Number="1" RefId="ID63" _id="id4e" dstLine="id50" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id4F" name="double" ref="idF6"/>
+            </OutputPort>
+            <Parameter RefId="ID55" Value="inf" _id="id46" name="FramePeriod"/>
+            <Parameter RefId="ID56" Value="off" _id="id47" name="LockScale"/>
+            <Parameter RefId="ID57" Value="Inherit: Inherit from 'Constant value'" _id="id48" name="OutDataTypeStr"/>
+            <Parameter RefId="ID58" Value="[]" _id="id49" name="OutMax"/>
+            <Parameter RefId="ID59" Value="[]" _id="id4A" name="OutMin"/>
+            <Parameter RefId="ID60" Value="Sample based" _id="id4B" name="SamplingMode"/>
+            <Parameter RefId="ID61" Value="1" _id="id4C" name="Value"/>
+            <Parameter RefId="ID62" Value="on" _id="id4D" name="VectorParams1D"/>
+            <Parameter RefId="ID65" Value="double" _id="id51" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Constant" Description="" Name="Constant4" Priority="0" RefId="ID66" SampleTime="1" Tag="" UserData="" _id="id52" name="Constant4">
+            <OutputPort Number="1" RefId="ID75" _id="id5B" dstLine="idBe" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id5C" name="double" ref="idF6"/>
+            </OutputPort>
+            <Parameter RefId="ID67" Value="inf" _id="id53" name="FramePeriod"/>
+            <Parameter RefId="ID68" Value="off" _id="id54" name="LockScale"/>
+            <Parameter RefId="ID69" Value="Inherit: Inherit from 'Constant value'" _id="id55" name="OutDataTypeStr"/>
+            <Parameter RefId="ID70" Value="[]" _id="id56" name="OutMax"/>
+            <Parameter RefId="ID71" Value="[]" _id="id57" name="OutMin"/>
+            <Parameter RefId="ID72" Value="Sample based" _id="id58" name="SamplingMode"/>
+            <Parameter RefId="ID73" Value="4" _id="id59" name="Value"/>
+            <Parameter RefId="ID74" Value="on" _id="id5A" name="VectorParams1D"/>
+            <Parameter RefId="ID76" Value="double" _id="id5D" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="MultiPortSwitch" Description="" Name="Multiport&#xA;Switch" Priority="0" RefId="ID78" SampleTime="1" Tag="" UserData="" _id="id5F" name="Multiport&#xA;Switch">
+            <InputPort Number="1" RefId="ID92" _id="id6D" name="In_1" srcLine="idC7">
+              <TypeBaseRef MemberIndex="0" _id="id6e" name="double" ref="idF6"/>
+            </InputPort>
+            <InputPort Number="2" RefId="ID93" _id="id6F" name="In_2" srcLine="id71">
+              <TypeBaseRef MemberIndex="0" _id="id70" name="double" ref="idF6"/>
+            </InputPort>
+            <InputPort Number="3" RefId="ID95" _id="id72" name="In_3" srcLine="id74">
+              <TypeBaseRef MemberIndex="0" _id="id73" name="double" ref="idF6"/>
+            </InputPort>
+            <InputPort Number="4" RefId="ID97" _id="id75" name="In_4" srcLine="id77">
+              <TypeBaseRef MemberIndex="0" _id="id76" name="double" ref="idF6"/>
+            </InputPort>
+            <OutputPort Number="1" RefId="ID99" _id="id78" dstLine="id7A" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id79" name="double" ref="idF6"/>
+            </OutputPort>
+            <Parameter RefId="ID79" Value="off" _id="id60" name="AllowDiffInputSizes"/>
+            <Parameter RefId="ID80" Value="Last data port" _id="id61" name="DataPortForDefault"/>
+            <Parameter RefId="ID81" Value="{1,2,3}" _id="id62" name="DataPortIndices"/>
+            <Parameter RefId="ID82" Value="One-based contiguous" _id="id63" name="DataPortOrder"/>
+            <Parameter RefId="ID83" Value="None" _id="id64" name="DiagnosticForDefault"/>
+            <Parameter RefId="ID84" Value="off" _id="id65" name="InputSameDT"/>
+            <Parameter RefId="ID85" Value="3" _id="id66" name="Inputs"/>
+            <Parameter RefId="ID86" Value="off" _id="id67" name="LockScale"/>
+            <Parameter RefId="ID87" Value="Inherit: Inherit via internal rule" _id="id68" name="OutDataTypeStr"/>
+            <Parameter RefId="ID88" Value="[]" _id="id69" name="OutMax"/>
+            <Parameter RefId="ID89" Value="[]" _id="id6A" name="OutMin"/>
+            <Parameter RefId="ID90" Value="Floor" _id="id6B" name="RndMeth"/>
+            <Parameter RefId="ID91" Value="off" _id="id6C" name="SaturateOnIntegerOverflow"/>
+            <Parameter RefId="ID101" Value="double" _id="id7B" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="MultiPortSwitch" Description="" Name="Multiport&#xA;Switch1" Priority="0" RefId="ID102" SampleTime="1" Tag="" UserData="" _id="id7C" name="Multiport&#xA;Switch1">
+            <InputPort Number="1" RefId="ID116" _id="id8A" name="In_1" srcLine="id8C">
+              <TypeBaseRef MemberIndex="0" _id="id8B" name="double" ref="idF6"/>
+            </InputPort>
+            <InputPort Number="2" RefId="ID118" _id="id8D" name="In_2" srcLine="idC1">
+              <TypeBaseRef MemberIndex="0" _id="id8e" name="struct0" ref="idFe"/>
+            </InputPort>
+            <OutputPort Number="1" RefId="ID119" _id="id8F" dstLine="id91" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="id90" name="double" ref="idF6"/>
+            </OutputPort>
+            <Parameter RefId="ID103" Value="off" _id="id7D" name="AllowDiffInputSizes"/>
+            <Parameter RefId="ID104" Value="Last data port" _id="id7e" name="DataPortForDefault"/>
+            <Parameter RefId="ID105" Value="{1,2,3}" _id="id7F" name="DataPortIndices"/>
+            <Parameter RefId="ID106" Value="Zero-based contiguous" _id="id80" name="DataPortOrder"/>
+            <Parameter RefId="ID107" Value="Error" _id="id81" name="DiagnosticForDefault"/>
+            <Parameter RefId="ID108" Value="off" _id="id82" name="InputSameDT"/>
+            <Parameter RefId="ID109" Value="1" _id="id83" name="Inputs"/>
+            <Parameter RefId="ID110" Value="off" _id="id84" name="LockScale"/>
+            <Parameter RefId="ID111" Value="Inherit: Inherit via internal rule" _id="id85" name="OutDataTypeStr"/>
+            <Parameter RefId="ID112" Value="[]" _id="id86" name="OutMax"/>
+            <Parameter RefId="ID113" Value="[]" _id="id87" name="OutMin"/>
+            <Parameter RefId="ID114" Value="Floor" _id="id88" name="RndMeth"/>
+            <Parameter RefId="ID115" Value="off" _id="id89" name="SaturateOnIntegerOverflow"/>
+            <Parameter RefId="ID121" Value="double" _id="id92" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="MultiPortSwitch" Description="" Name="Multiport&#xA;Switch2" Priority="0" RefId="ID122" SampleTime="1" Tag="" UserData="" _id="id93" name="Multiport&#xA;Switch2">
+            <InputPort Number="1" RefId="ID136" _id="idA1" name="In_1" srcLine="idC5">
+              <TypeBaseRef MemberIndex="0" _id="idA2" name="double" ref="idF6"/>
+            </InputPort>
+            <InputPort Number="2" RefId="ID137" _id="idA3" name="In_2" srcLine="idA5">
+              <TypeBaseRef MemberIndex="0" _id="idA4" name="double" ref="idF6"/>
+            </InputPort>
+            <InputPort Number="3" RefId="ID139" _id="idA6" name="In_3" srcLine="idA8">
+              <TypeBaseRef MemberIndex="0" _id="idA7" name="double" ref="idF6"/>
+            </InputPort>
+            <InputPort Number="4" RefId="ID141" _id="idA9" name="In_4" srcLine="idAB">
+              <TypeBaseRef MemberIndex="0" _id="idAA" name="double" ref="idF6"/>
+            </InputPort>
+            <OutputPort Number="1" RefId="ID143" _id="idAC" dstLine="idAe" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="idAD" name="double" ref="idF6"/>
+            </OutputPort>
+            <Parameter RefId="ID123" Value="off" _id="id94" name="AllowDiffInputSizes"/>
+            <Parameter RefId="ID124" Value="Additional data port" _id="id95" name="DataPortForDefault"/>
+            <Parameter RefId="ID125" Value="{[2 1],3}" _id="id96" name="DataPortIndices"/>
+            <Parameter RefId="ID126" Value="Specify indices" _id="id97" name="DataPortOrder"/>
+            <Parameter RefId="ID127" Value="None" _id="id98" name="DiagnosticForDefault"/>
+            <Parameter RefId="ID128" Value="off" _id="id99" name="InputSameDT"/>
+            <Parameter RefId="ID129" Value="3" _id="id9A" name="Inputs"/>
+            <Parameter RefId="ID130" Value="off" _id="id9B" name="LockScale"/>
+            <Parameter RefId="ID131" Value="Inherit: Inherit via internal rule" _id="id9C" name="OutDataTypeStr"/>
+            <Parameter RefId="ID132" Value="[]" _id="id9D" name="OutMax"/>
+            <Parameter RefId="ID133" Value="[]" _id="id9e" name="OutMin"/>
+            <Parameter RefId="ID134" Value="Floor" _id="id9F" name="RndMeth"/>
+            <Parameter RefId="ID135" Value="off" _id="idA0" name="SaturateOnIntegerOverflow"/>
+            <Parameter RefId="ID145" Value="double" _id="idAF" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Primitive BlockType="Mux" Description="" Name="Mux" Priority="0" RefId="ID146" SampleTime="1" Tag="" UserData="" _id="idB0" name="Mux">
+            <InputPort Number="1" RefId="ID149" _id="idB3" name="In_1" srcLine="idB5">
+              <TypeBaseRef MemberIndex="0" _id="idB4" name="double" ref="idF6"/>
+            </InputPort>
+            <InputPort Number="2" RefId="ID151" _id="idB6" name="In_2" srcLine="idB8">
+              <TypeBaseRef MemberIndex="0" _id="idB7" name="double" ref="idF6"/>
+            </InputPort>
+            <InputPort Number="3" RefId="ID153" _id="idB9" name="In_3" srcLine="idBB">
+              <TypeBaseRef MemberIndex="0" _id="idBA" name="double" ref="idF6"/>
+            </InputPort>
+            <InputPort Number="4" RefId="ID155" _id="idBC" name="In_4" srcLine="idBe">
+              <TypeBaseRef MemberIndex="0" _id="idBD" name="double" ref="idF6"/>
+            </InputPort>
+            <OutputPort Number="1" RefId="ID157" _id="idBF" dstLine="idC1" name="Out_1">
+              <TypeBaseRef MemberIndex="0" _id="idC0" name="struct0" ref="idFe"/>
+            </OutputPort>
+            <Parameter RefId="ID147" Value="bar" _id="idB1" name="DisplayOption"/>
+            <Parameter RefId="ID148" Value="4" _id="idB2" name="Inputs"/>
+            <Parameter RefId="ID159" Value="double" _id="idC2" name="ParamDataTypeStr"/>
+          </Primitive>
+          <Subsystem BlockType="SubSystem" Deadline="0" Description="" Name="Counter" Period="0" Priority="0" RefId="ID77" SampleTime="1" Tag="" UserData="" _id="id5e" name="Counter">
+            <Line Name="" RefId="ID178" _id="idDA" dstLine_end_="idD8" srcLine_end_="idCF"/>
+            <Line Name="" RefId="ID184" _id="ide1" dstLine_end_="idDF" srcLine_end_="idD3"/>
+            <Line Name="" RefId="ID186" _id="ide4" dstLine_end_="idCD" srcLine_end_="ide2"/>
+            <Line Name="" RefId="ID188" _id="ide7" dstLine_end_="idC3" srcLine_end_="ide5"/>
+            <OutputPort Number="1" RefId="ID160" _id="idC3" dstLine="idC5 idC6 idC7" name="ctr" srcLine="ide7">
+              <TypeBaseRef MemberIndex="0" _id="idC4" name="double" ref="idF6"/>
+            </OutputPort>
+            <Parameter RefId="ID164" Value="double" _id="idC8" name="ParamDataTypeStr"/>
+            <Parameter RefId="ID190" Value="on" _id="ideD" name="ExecuteAtInitialization"/>
+            <Primitive BlockType="Demux" Description="" Name="Demux" Priority="0" RefId="ID165" SampleTime="1" Tag="" UserData="" _id="idC9" name="Demux">
+              <InputPort Number="1" RefId="ID169" _id="idCD" name="In_1" srcLine="ide4">
+                <TypeBaseRef MemberIndex="0" _id="idCe" name="double" ref="idF6"/>
+              </InputPort>
+              <OutputPort Number="1" RefId="ID170" _id="idCF" dstLine="idDA" name="Out_1">
+                <TypeBaseRef MemberIndex="0" _id="idD0" name="float" ref="idFD"/>
+              </OutputPort>
+              <Parameter RefId="ID166" Value="off" _id="idCA" name="BusSelectionMode"/>
+              <Parameter RefId="ID167" Value="none" _id="idCB" name="DisplayOption"/>
+              <Parameter RefId="ID168" Value="1" _id="idCC" name="Outputs"/>
+              <Parameter RefId="ID171" Value="double" _id="idD1" name="ParamDataTypeStr"/>
+            </Primitive>
+            <Primitive BlockType="Ground" Description="" Name="Ground" Priority="0" RefId="ID172" SampleTime="INF" Tag="" UserData="" _id="idD2" name="Ground">
+              <OutputPort Number="1" RefId="ID173" _id="idD3" dstLine="ide1" name="Out_1">
+                <TypeBaseRef MemberIndex="0" _id="idD4" name="double" ref="idF6"/>
+              </OutputPort>
+              <Parameter RefId="ID174" Value="double" _id="idD5" name="ParamDataTypeStr"/>
+            </Primitive>
+            <Primitive BlockType="S-Function" Description="" Name="SFunction" Priority="0" RefId="ID175" SampleTime="1" Tag="Stateflow S-Function multiportswitch_basicXmdl2mga 1" UserData="" _id="idD6" name="SFunction">
+              <ConnectorRef RefId="" _id="ideC" name="Counter" ref="ideB"/>
+              <InputPort Number="1" RefId="ID183" _id="idDF" name="In_1" srcLine="ide1">
+                <TypeBaseRef MemberIndex="0" _id="ide0" name="double" ref="idF6"/>
+              </InputPort>
+              <OutputPort Number="1" RefId="ID185" _id="ide2" dstLine="ide4" name="Out_1">
+                <TypeBaseRef MemberIndex="0" _id="ide3" name="double" ref="idF6"/>
+              </OutputPort>
+              <OutputPort Number="2" RefId="ID187" _id="ide5" dstLine="ide7" name="Out_2">
+                <TypeBaseRef MemberIndex="0" _id="ide6" name="double" ref="idF6"/>
+              </OutputPort>
+              <Parameter RefId="ID180" Value="sf_sfun" _id="idDC" name="FunctionName"/>
+              <Parameter RefId="ID181" Value="" _id="idDD" name="Parameters"/>
+              <Parameter RefId="ID182" Value="''" _id="idDe" name="SFunctionModules"/>
+              <Parameter RefId="ID189" Value="double" _id="ide8" name="ParamDataTypeStr"/>
+            </Primitive>
+            <Primitive BlockType="Terminator" Description="" Name="Terminator" Priority="0" RefId="ID176" SampleTime="1" Tag="" UserData="" _id="idD7" name="Terminator">
+              <InputPort Number="1" RefId="ID177" _id="idD8" name="In_1" srcLine="idDA">
+                <TypeBaseRef MemberIndex="0" _id="idD9" name="float" ref="idFD"/>
+              </InputPort>
+              <Parameter RefId="ID179" Value="double" _id="idDB" name="ParamDataTypeStr"/>
+            </Primitive>
+          </Subsystem>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow _id="ide9" name="Stateflow">
+        <State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="" ExitAction="" Methods="" Name="" Order="0" RefId="" _id="ideA" name="TopLevel">
+          <State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="" ExitAction="" Methods="" Name="Counter" Order="0" RefId="ID191" _id="ideB" name="Counter" referedbyConnectorRef="ideC">
+            <Data ArrayFirstIndex="" ArraySize="" DataType="" Description="" InitialValue="1" Max="" Min="" Name="ctr" Port="1" RefId="ID193" Scope="OUTPUT_DATA" Units="" _id="ideF" name="ctr">
+              <TypeBaseRef MemberIndex="0" _id="idF4" name="double" ref="idF6"/>
+            </Data>
+            <State Decomposition="OR_STATE" Description="" DuringAction="" EnterAction="" ExitAction="" Methods="" Name="s1" Order="0" RefId="ID192" _id="idee" dstTransition="idF2 idF3" name="s1" srcTransition="idF0 idF2 idF3"/>
+            <TransStart RefId="" _id="idF1" dstTransition="idF0"/>
+            <Transition Action="" ConditionAction="" Guard="" Order="1" RefId="ID194" Trigger="" _id="idF0" dstTransition_end_="idee" name="" srcTransition_end_="idF1"/>
+            <Transition Action="ctr = ctr+1;" ConditionAction="" Guard="ctr &lt; 4" Order="1" RefId="ID195" Trigger="" _id="idF2" dstTransition_end_="idee" name="" srcTransition_end_="idee"/>
+            <Transition Action="ctr = 1;" ConditionAction="" Guard="ctr >= 4" Order="2" RefId="ID196" Trigger="" _id="idF3" dstTransition_end_="idee" name="" srcTransition_end_="idee"/>
+          </State>
+        </State>
+      </Stateflow>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types _id="idF5" name="Types">
+    <Matrix Type="double" _id="idF6" columns="1" name="double" referedbyTypeStructRef="idF4 id8 idA idC idC4 id1B id1D id1F id2B id37 id43 id4F id5C id6e id70 id73 id76 id79 id8B id90 idA2 idA4 idA7 idAA idAD idD4 idB4 idB7 idBA idBD ide0 ide6 ide3 idCe idFF id100 id101 id102" rows="1"/>
+    <Matrix Type="float" _id="idFD" columns="1" name="float" referedbyTypeStructRef="idD0 idD9" rows="1"/>
+    <TypeStruct MemberCount="4" _id="idFe" name="struct0" referedbyTypeStructRef="idC0 id8e">
+      <TypeBaseRef MemberIndex="0" _id="idFF" name="signal1" ref="idF6"/>
+      <TypeBaseRef MemberIndex="1" _id="id100" name="signal2" ref="idF6"/>
+      <TypeBaseRef MemberIndex="2" _id="id101" name="signal3" ref="idF6"/>
+      <TypeBaseRef MemberIndex="3" _id="id102" name="signal4" ref="idF6"/>
+    </TypeStruct>
+  </Types>
+
+</RootFolder>

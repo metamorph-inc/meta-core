@@ -1,0 +1,59 @@
+project (Component): mfc {
+
+  Define_Custom(MIDL) {
+  	automatic            = 0
+  	command              = midl
+  	commandflags         = -win32 -I . -server none -client none
+  	source_pre_extension = _i,_p
+  	source_outputext     = .c
+  	header_outputext     = .h
+  	generic_outputext    = .tlb
+  	inputext             = .idl
+  }
+
+  MIDL_Files {
+  	gendir = .
+  	ComponentLib.idl
+  }
+
+  dllout = ./bin
+  includes += . \
+  $(GME_ROOT)/SDK/BON \
+  $(UDM_PATH)/include
+  libpaths += $(UDM_PATH)/lib
+  libs += xerces-c_2 zlib UdmBase UdmGme UdmUtil UdmDom Uml UdmDll
+  specific (vc6) {
+  includes += $(UDM_3RDPARTY_PATH)/3rdparty/stl 
+  }
+
+  specific (vc6,vc7,vc71,vc8,nmake) {
+  link_options += /DEF:Component.def 
+  }
+
+  Source_Files {
+    StdAfx.cpp
+    $(GME_ROOT)/SDK/BON/ComHelp.cpp
+    $(GME_ROOT)/SDK/BON/ComponentDll.cpp
+    ComponentLib.idl
+    $(GME_ROOT)/SDK/BON/ComponentObj.cpp
+ESMoL.cpp
+    Component.rc
+    Component.def
+    RawComponent.cpp
+    UdmApp.cpp
+  }
+
+  Header_Files {
+    ComponentConfig.h
+    RawComponent.h
+    Resource.h
+ESMoL.h
+    StdAfx.h
+    UdmApp.h
+    UdmConfig.h
+  }
+
+  Resource_Files {
+    CompIcon.ico
+  }
+}

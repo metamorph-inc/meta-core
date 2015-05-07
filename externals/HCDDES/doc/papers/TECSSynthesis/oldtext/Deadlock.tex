@@ -1,0 +1,34 @@
+\section{Future Work: Deadlock Analysis Using BIP}
+
+Deadlock analysis of a model in our tools requires consideration of both the control system 
+components and the inter-component communications controlled from within the virtual machine.  
+Analysis of the control system components (within tasks) is simplified as we assume a 
+synchronous dataflow execution paradigm. This guarantees deadlock free local execution as 
+long as the overall network is schedulable \cite{moc:sdf}.  Of greater interest is deadlock 
+analysis of the communications controllers and virtual machine execution when the control 
+components have passed a message off for transfer.
+
+The BIP \cite{verif:basu, verif:BIPFramework} tool chain includes facilities for performing 
+deadlock analysis on componentized models.  BIP (which stands for Behavior, Interaction, 
+Priority) is built upon the labeled transition system formalism for component behaviors, 
+allowing model checking with the IF Toolset  \cite{verif:IFToolset}. Interactions are used 
+to compose components and are able to maintain properties such as deadlock freedom, through 
+composition.  Priorities are applied between interactions to select from a group of enabled 
+transitions.
+
+The structure of the inter-component communications controllers and virtual machine do not 
+vary from one model to another -- their execution behavior is only altered by the schedule 
+data.  Once a valid schedule has been generated, the intermediate model contains all of the 
+information necessary to translate into an equivalent BIP model.  A model interpreter will 
+generate the BIP output from the semantic model using templatized BIP-component models 
+substituting scheduling information where necessary and creating interactions and priorities 
+between components as appropriate. Significant initial effort must go into creating the 
+templatized component models to accurately reflect the execution semantics of the communications 
+controllers and virtual machine.  This effort is the foundation upon which our BIP integration 
+is based.
+
+While we are in the early design stages of BIP integration, it already promises to be able to 
+faithfully capture the semantics of our models.  The LTS paradigm is a natural adaptation from 
+the approach taken in the design of much of the virtual machine, and the available interaction 
+structures are rich enough to represent our distributed environment. Additional parameters may 
+need to be added to the component templates if other types of analysis beyond deadlock are required.

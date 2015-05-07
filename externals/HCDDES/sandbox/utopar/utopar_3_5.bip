@@ -1,0 +1,458 @@
+model utopar
+  /*
+   *
+   * calling unit components
+   *
+   */
+
+  port type RequestPort(int x, int y)
+  port type EnterPort(int x, int y)
+
+  atomic type CallingUnit(int px, int py)
+    data int x = px // x coordinate of the calling unit
+    data int y = py // y coordinate of the calling unit
+    data int z = 0
+
+    export port RequestPort request(x, y) = request
+    export port EnterPort   enter(x, y)   = enter
+
+    place OCCUPIED, EMPTY
+    initial to EMPTY do {}
+    on request
+      from EMPTY to OCCUPIED
+      provided z <= 200 do z = z + 1;
+    on enter
+      from OCCUPIED to EMPTY
+  end
+
+
+
+  /*
+   * car components
+   *
+   */
+
+  {# 
+ 
+   int delta(int u, int du) { 
+     return (u < du) ? 1 : (u > du) ? -1 : 0; 
+   }
+ 
+  #}
+
+  port type AwakePort(int x, int y)
+  port type ExitPort
+  port type OpenPort(int x, int y)
+  port type ClosePort(int x, int y)
+  port type DeparturePort(int id, int x, int y, int dx, int dy)
+  port type ArrivalPort(int x, int y, bool e)
+  port type DestinationPort(int id, int x, int y, int dx, int dy) 
+  port type PosChangedPort(int x, int y, int s)
+
+  atomic type Car(int pM, int px, int py, int pid)
+    data int M = pM // the size 
+    data int x = px // x coordinate of the car
+    data int y = py // y coordinate of the car
+    data int dx = 0// x coordinate of the current destination, if any
+    data int dy = 0 // y coordinate of the current destination, if any
+    data int sx = 0// x step coordinate
+    data int sy = 0// y step coordinate
+    data int id = pid // car id, assume unique
+    data bool e = true // car empty or not
+ 
+    export port AwakePort awake(x,y) = awake
+    export port EnterPort enter(x,y) = enter
+    export port ExitPort exit()
+    export port OpenPort open(x,y) = open
+    export port ClosePort close(x,y) = close
+    export port DeparturePort departure(id,x,y,dx,dy) = departure
+    export port ArrivalPort arrival(x,y,e) = arrival
+    export port DestinationPort destination(id,x,y,dx,dy) = destination
+    export port PosChangedPort xposChanged(x,y,sx) = xposChanged
+    export port PosChangedPort yposChanged(x,y,sy) = yposChanged
+
+    place IDLE_EMPTY, RUN_EMPTY, SLEEP
+    place PREPARE_IDLE_EMPTY, PREPARE_IDLE_OCCUPIED
+    place IDLE_OCCUPIED, RUN_OCCUPIED
+    place PREPARE_RUN_OCCUPIED
+ 
+    initial to SLEEP do {}
+
+    on awake 
+      from SLEEP to IDLE_EMPTY
+
+    on departure 
+      from IDLE_EMPTY to RUN_EMPTY
+      do { sx = delta(x,dx); sy = delta(y,dy); }
+
+    on open 
+       from IDLE_EMPTY to PREPARE_IDLE_OCCUPIED
+
+    on xposChanged
+       from RUN_EMPTY to RUN_EMPTY
+       provided x != dx do x = x + sx;
+    on yposChanged
+       from RUN_EMPTY to RUN_EMPTY
+        provided y != dy do y = y + sy;
+    on arrival
+       from RUN_EMPTY to IDLE_EMPTY
+       provided (x == dx) && (y == dy)
+
+    on enter
+       from PREPARE_IDLE_OCCUPIED to IDLE_OCCUPIED
+       do { e = false; dx = ((x * 7) % M) + 1; dy = ((y * 11) % M) + 1; 
+         /* missing: choose destination here */ }
+
+    on destination
+       from IDLE_OCCUPIED to PREPARE_RUN_OCCUPIED
+
+    on exit
+       from IDLE_OCCUPIED to PREPARE_IDLE_EMPTY
+       do e = true;
+
+    on departure
+       from PREPARE_RUN_OCCUPIED to RUN_OCCUPIED
+       do { sx = delta(x,dx); sy = delta(y,dy); }
+
+    on xposChanged
+       from RUN_OCCUPIED to RUN_OCCUPIED
+       provided x != dx do x = x + sx;
+    on yposChanged
+       from RUN_OCCUPIED to RUN_OCCUPIED
+       provided y != dy do y = y + sy;
+    on arrival
+       from RUN_OCCUPIED to IDLE_OCCUPIED
+       provided (x == dx) && (y == dy) 
+       do { dx = ((x * 7) % M) + 1; dy = ((y * 11) % M) + 1; 
+         /*missing: choose destination here */ }
+
+    on close
+       from PREPARE_IDLE_EMPTY to IDLE_EMPTY
+
+  end
+
+/*
+ * Central Station Component
+ *
+ */
+
+header {#
+
+#include <assert.h>
+
+// warning: matrices are used from 1 to M
+
+const int Z = 20;
+
+typedef int matrix[Z][Z];
+#}
+
+
+{# 
+
+void initializeMatrix(matrix& m, const int v = 0) {
+        for(int i = 0; i < Z; i++)
+                for(int j = 0; j < Z; j++)
+                        m[i][j] = v;
+}
+
+void copyMatrix(matrix& m1, const matrix& m2) {
+    for(int i = 0; i < Z; i++)
+      for(int j = 0; j < Z; j++)
+        m1[i][j] = m2[i][j];
+}
+
+#}
+
+
+  port type InternalPort
+
+  atomic type CentralStation(int pn, int pm)
+    data int N = pn // the number of cars (less than Z)
+    data int M = pm // the number of calling units (less than Z)
+    data int x = 0 // x working coordinate
+    data int y = 0 // y working coordinate
+    data bool e // empty car flag 
+    data int sx // x step, on posChanged 
+    data int sy // y step, on posChanged
+    data int dx = 0 // x destination coordinate
+    data int dy = 0 // y destination coordinate
+    data matrix u // request status 
+    data matrix a // available car status
+    data matrix b // busy car status
+    data matrix m // moving car status
+    data int nu = 0 // number of active requests
+    data int na = 0 // number of available cars
+    data int id = -1 // car id
+
+    export port AwakePort awake(x,y) = awake // get cars into the system
+    export port OpenPort open(x,y) = open // issue opening commands to available cars
+    export port DeparturePort departure(id,x,y,dx,dy) = departure // issue departure commands to ready cars
+    export port PosChangedPort xposChanged(x,y,sx) = xposChanged // get notification about position of moving cars
+    export port PosChangedPort yposChanged(x,y,sy) = yposChanged // get notification about position of moving cars
+    export port ArrivalPort arrival(x,y,e) = arrival // get notification about cars reaching their destination
+    export port DestinationPort destination(id,x,y,dx,dy) = destination // get destination requests from passengers inside cars
+    export port ClosePort close(x,y) = close // get notification about passengers leaving the cars
+    export port RequestPort request(x,y) = request // get car requests from calling units
+
+   
+	// internal ports, be careful they have HIGHER priority than others
+    port InternalPort think() // internal, select the car to open or to move
+    port InternalPort init()  
+
+    place RUN , INITIAL
+    place DEPARTURE
+    place DECIDE
+    place DISPLAY
+
+    initial to INITIAL do {}
+
+    on init 
+      from INITIAL to RUN
+      do { initializeMatrix(u); 
+           initializeMatrix(a); 
+           initializeMatrix(b); 
+           initializeMatrix(m); }
+
+    on request 
+      from RUN to RUN
+      do {# u[x][y] = 1; nu = nu + 1; #}
+
+    on awake 
+      from RUN to RUN
+      do {# a[x][y] = a[x][y] + 1; na = na + 1; #}
+     
+    on close 
+      from RUN to RUN 
+      do {# b[x][y] = b[x][y] - 1; a[x][y] = a[x][y] + 1; na = na + 1; #}
+
+    on xposChanged 
+      from RUN to RUN
+      do {# m[x][y] = m[x][y]- 1; m[x+sx][y] = m[x+sx][y] + 1; #}
+    on yposChanged 
+      from RUN to RUN
+      do {# m[x][y] = m[x][y]- 1; m[x][y+sy] = m[x][y+sy] + 1; #}
+        
+    on arrival 
+      from RUN to RUN 
+      do {# m[x][y] = m[x][y] - 1; 
+      if (e) {a[x][y] = a[x][y] + 1; na = na + 1; } else { b[x][y] = b[x][y] + 1;} #}
+      
+    on destination 
+      from RUN to DEPARTURE
+  
+    on think 
+      from RUN to DECIDE 
+      provided (nu > 0) && (na > 0)
+      do 
+        // here is a simple allocation strategy:
+        // if exists i,j such that u[i][j]=1 && a[i][j]>0 then Open @ (i,j)
+        // otherwise, choose i,j,k,l such that u[i][j]=1 && a[k][l]>0 and 
+        // move from (k,l) to (i,j); 
+        
+        {#
+        x = 0; y = 0; dx = 0; dy = 0; id = -1;
+        // check to open
+        bool ok = false;
+        for(int i = 1; i <= M && !ok; i++)
+          for(int j = 1; j <= M && !ok; j++)
+            if (u[i][j] == 1 && a[i][j] > 0) {
+                x = i; 
+                y = j; 
+                ok = true;
+            }
+            
+         if (ok) {
+           // printf("\n\nopen at %d %d\n\n", x, y);
+         }
+         // if no opening possible, there must be a move anyway
+         else {
+            // choose a random request and a random car to move there
+	    int cu = 0, ca = 0;            
+            for(int i = 1; i <= M; i++)
+                for(int j = 1; j <= M; j++) {
+                     if (u[i][j] == 1) { 
+	                cu++; 
+                        if (random() % cu == 0) { dx = i; dy = j;} 
+                     }
+                     if (a[i][j] > 0) { 
+                        ca++; 
+                        if (random() % ca == 0) { x = i; y = j;} 
+                     }
+                }
+                // printf("\n\nmove de %d %d a %d %d\n\n", x, y, dx, dy);
+         }
+         #}
+
+    
+    on open 
+      from DECIDE to RUN
+      provided (x != 0) && (y != 0) && (dx == 0) && (dy == 0) 
+      do {# nu = nu - 1; na = na - 1;
+         u[x][y] = 0; a[x][y] = a[x][y] - 1; 
+         b[x][y] = b[x][y] + 1; #}
+
+    on departure
+      from DECIDE to RUN
+      provided  (x != 0) && (y != 0) && (dx != 0) && (dy != 0)
+      do {# a[x][y] = a[x][y] - 1; na = na - 1; 
+         m[x][y] = m[x][y] + 1; #}
+
+    on departure 
+      from DEPARTURE to RUN
+      do {# b[x][y] = b[x][y]-1; m[x][y] = m[x][y] + 1; #}
+  
+
+
+  end
+
+  /*
+   * Utopar system
+   *
+   */
+
+   connector type EnterConnector(EnterPort pu, EnterPort pc)
+     define pu pc
+     on pu pc provided pu.x == pc.x && pu.y == pc.y
+     end
+
+   connector type ExitConnector(ExitPort pc)
+     define pc
+     on pc 
+     end
+
+   connector type AwakeConnector(AwakePort pc, AwakePort ps)
+     define pc ps
+     on pc ps down { ps.x = pc.x; ps.y = pc.y; }
+     end
+
+   connector type OpenConnector(OpenPort pc, OpenPort ps)
+     define pc ps
+     on pc ps provided pc.x == ps.x && pc.y == ps.y
+     end
+
+   connector type CloseConnector(ClosePort pc, ClosePort ps)
+     define pc ps
+     on pc ps down { ps.x = pc.x;  ps.y = pc.y; }
+     end
+
+   connector type PosChangedConnector(PosChangedPort pc, PosChangedPort ps) 
+     define pc ps
+     on pc ps down { ps.x = pc.x; ps.y = pc.y; ps.s = pc.s; }
+     end
+
+   connector type DepartureConnector(DeparturePort pc, DeparturePort ps) 
+     define pc ps
+     on pc ps 
+       provided (pc.id == ps.id || (ps.id == -1 && pc.x == ps.x && pc.y == ps.y))
+       down { pc.dx = ps.dx; pc.dy = ps.dy; }
+     end
+
+   connector type ArrivalConnector(ArrivalPort pc, ArrivalPort ps) 
+     define pc ps
+     on pc ps down { ps.x = pc.x; ps.y = pc.y; ps.e = pc.e; }
+     end
+
+   connector type DestinationConnector(DestinationPort pc, DestinationPort ps) 
+     define pc ps
+     on pc ps down {ps.id = pc.id; ps.x = pc.x; ps.y = pc.y; ps.dx = pc.dx; ps.dy = pc.dy; }
+     end
+
+   connector type RequestConnector(RequestPort pu, RequestPort ps) 
+     define pu ps
+     on pu ps down { ps.x = pu.x; ps.y = pu.y; }
+     end
+
+   /*
+    *
+    *
+    *
+    */
+
+   compound type Utopar
+     component CallingUnit u00(1,1)
+     component CallingUnit u01(1,2)
+     component CallingUnit u02(1,3)
+     component CallingUnit u10(2,1)
+     component CallingUnit u11(2,2)
+     component CallingUnit u12(2,3)
+     component CallingUnit u20(3,1)
+     component CallingUnit u21(3,2)
+     component CallingUnit u22(3,3)
+
+     component Car c0(3, 1, 1 , 0)
+     component Car c1(3, 1, 1 , 1)
+
+     component CentralStation s(2, 3)
+
+    
+
+     connector EnterConnector enter000 (u00.enter , c0.enter)
+     connector EnterConnector enter010 (u01.enter , c0.enter)
+     connector EnterConnector enter020 (u02.enter , c0.enter)
+     connector EnterConnector enter001 (u00.enter , c1.enter)
+     connector EnterConnector enter011 (u01.enter , c1.enter)
+     connector EnterConnector enter021 (u02.enter , c1.enter)
+     connector EnterConnector enter100 (u10.enter , c0.enter)
+     connector EnterConnector enter110 (u11.enter , c0.enter)
+     connector EnterConnector enter120 (u12.enter , c0.enter)
+     connector EnterConnector enter101 (u10.enter , c1.enter)
+     connector EnterConnector enter111 (u11.enter , c1.enter)
+     connector EnterConnector enter121 (u12.enter , c1.enter)
+     connector EnterConnector enter200 (u20.enter , c0.enter)
+     connector EnterConnector enter210 (u21.enter , c0.enter)
+     connector EnterConnector enter220 (u22.enter , c0.enter)
+     connector EnterConnector enter201 (u20.enter , c1.enter)
+     connector EnterConnector enter211 (u21.enter , c1.enter)
+     connector EnterConnector enter221 (u22.enter , c1.enter)
+
+
+     connector ExitConnector exit0( c0.exit )
+     connector ExitConnector exit1( c1.exit )
+
+
+     connector AwakeConnector awake0 (c0.awake, s.awake)
+     connector AwakeConnector awake1 (c1.awake, s.awake)
+
+     connector OpenConnector open0 (c0.open, s.open)
+     connector OpenConnector open1 (c1.open, s.open)
+
+     connector CloseConnector close0 (c0.close, s.close)
+     connector CloseConnector close1 (c1.close, s.close)
+
+     connector PosChangedConnector xposchange0 (c0.xposChanged, s.xposChanged)
+     connector PosChangedConnector xposchange1 (c1.xposChanged, s.xposChanged)
+
+     connector PosChangedConnector yposchange0 (c0.yposChanged, s.yposChanged)
+     connector PosChangedConnector yposchange1 (c1.yposChanged, s.yposChanged)
+
+     connector DepartureConnector departure0 (c0.departure, s.departure)
+     connector DepartureConnector departure1 (c1.departure, s.departure)
+
+
+     connector ArrivalConnector arrival0 (c0.arrival, s.arrival)
+     connector ArrivalConnector arrival1 (c1.arrival, s.arrival)
+
+     connector DestinationConnector destination0 (c0.destination, s.destination)
+     connector DestinationConnector destination1 (c1.destination, s.destination)
+
+
+     connector RequestConnector request00 (u00.request, s.request)
+     connector RequestConnector request01 (u01.request, s.request)
+     connector RequestConnector request02 (u02.request, s.request)
+     connector RequestConnector request10 (u10.request, s.request)
+     connector RequestConnector request11 (u11.request, s.request)
+     connector RequestConnector request12 (u12.request, s.request)
+     connector RequestConnector request20 (u20.request, s.request)
+     connector RequestConnector request21 (u21.request, s.request)
+     connector RequestConnector request22 (u22.request, s.request)
+
+   end
+
+
+   component Utopar top
+
+
+
+
+end

@@ -1,0 +1,15 @@
+#import re
+#
+$block.setKeepStructs()#slurp
+$block.setOneIndexing()#slurp
+$block.setAcceptCSyntax()#slurp
+#
+$input.alias( 'u' )#slurp
+#
+#set $opTrans = { '!':'~', '\\&\\&':'&', '\\|\\|':'|', '(^|[^.])/':'\\1./', '(^|[^.])\\*':'\\1.*', '(^|[^.])\\^':'\\1.^' }
+#set $script = $parameters.Expr.value
+#for $pattern,$replacement in $opTrans.iteritems()
+    #set $patternRE = $re.compile( $pattern )
+    #set $script = $patternRE.sub( $replacement, $script )
+#end for
+$output = $script

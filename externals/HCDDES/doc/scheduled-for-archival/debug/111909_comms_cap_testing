@@ -1,0 +1,30 @@
+1. The most likely explanation is probably a timing issue.  Thinking about
+   possible timing scenarios that should insure good data transfers.
+
+   + Auditing timing for possible optimizations.
+
+   + First attempt -- squeeze down the schedule a bit.
+     The I2C transfers don't actually need the one-tick offset.  It might be a
+       little more flaky, but it seems to work pretty well overall.
+     If the I2C bombs out immediately and seems unrecoverable, use Sandeep's
+       trick and reload the drivers on the gumstix side.  That helped a lot.
+     The "1ms" tick is off limits. Scheduling something there seems to reliably
+       cause a crash.
+     Moved the final UART transfer into the hyperperiod, but it didn't help.
+     Changed the xPC model to show four different plots, and changed the
+       controller output to sample from all four of the different test points.
+     
+   + All of the data points are bad currently.
+     Reordering the schedule made the gumstix side behave better.
+     Turned off the stack checking to see if it affects timing.
+    
+   + Started to get some good data through, and so re-adjusted the schedule to
+     reduce timing overlap with the task execution.  Now data is going through,
+     but the gains are wrong.
+
+   + Fixed the gains -- the *2, *0.5 factors were missing, and the inner loop
+     scaling gain was 0.01 instead of 0.1.
+
+   + It seems to be working.
+   
+

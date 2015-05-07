@@ -1,0 +1,24 @@
+\section{Petri Net Components}
+
+\subsection{Component Code Generator Semantic Details}
+
+We interpret Petri net component execution as follows:
+
+\begin{enumerate}
+\item Initially all states marked as InitialeState start with a single token.
+\item The message updates the local variables referred to from within the port.  In order to fire a transition the guard must be true, and all source states for the transition must have a token.
+\item When the transition fires all source states have a token removed, and all target states will receive a new token.
+\item The attached action will be invoked.
+\item For sending transitions a message is sent containing the variable values.  This translates to either a synchronous invocation of another local component, or the transmission of a message to a remote component.
+\end{enumerate}
+
+The component code implements only the internals of the behavior.  The code implementing the interactions comes later, after we create a deployment model.   Each component will be run in a loop that continues with event invocations until no more transitions are available.  Then the initial states will be reset.
+
+Todo: Illustrate the semantics with an example (JP).
+
+\subsection{Code Generation using Google CTemplate}
+
+The Google CTemplate engine allows us to parameterize the component code generation process.  We currently have targets for C and C++.
+
+Todo: Show template code examples and describe the instantiation process.
+

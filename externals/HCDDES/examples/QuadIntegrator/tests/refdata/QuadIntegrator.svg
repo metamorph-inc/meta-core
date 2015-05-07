@@ -1,0 +1,210 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="20cm" height="25cm" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<title>Schedule for QuadIntegrator.xml</title>
+
+<defs>
+<marker id="Triangle" viewBox="0 0 15 15" refX="7" refY="7" 
+	markerUnits="strokeWidth" markerWidth="15" markerHeight="15" orient="auto">
+	<path d="M 0 0 L 0 14 L 7 7 z" fill="white" stroke="white" />
+</marker>
+</defs>
+
+<!-- ECMAScript to change the radius with each click -->
+<script type="text/ecmascript">
+    <![CDATA[
+  
+  function Highlight(evt) {
+    evt.target.setAttribute( "opacity", "1.0" );
+  }
+
+  function Unhighlight(evt) {
+    evt.target.setAttribute( "opacity", "0.8" );
+  }
+
+]]></script>
+
+
+  <!-- General Formatting --> 
+<text x="355" y="45" font-family="Tahoma" font-size="20" fill="black" text-anchor="middle">Schedule for QuadIntegrator.xml</text>
+<path d="M 1 55 h 670" fill="green" stroke="black" stroke-width="3" />
+
+<g id="MasterBlock" >
+<!-- Superblocks -->
+
+    <g id="RS_g" >
+        <rect x="10" y="70" rx="10" ry="10" width="650" 
+            height="385" fill="rgb(140,140,140)" stroke="black" stroke-width="1" opacity="0.6" />
+        <text x="15" y="90" font-family="Tahoma" font-size="20" fill="white">RS</text>
+
+        <text x="15" y="100" font-family="Tahoma" font-size="10" fill="white">(20.0ms)</text>
+
+
+        <!-- InnerLoop Trace Block -->
+        <g id="InnerLoop_g">
+            <text x="145" y="115" font-family="Tahoma" font-size="18" fill="black" text-anchor="end">InnerLoop</text>
+            <path d="M 150 150 h 500" stroke="black" stroke-width="1" />
+
+            <path d="M 150 75 v 75" stroke="black" stroke-width="1" />
+
+            <!-- Trace Instances -->
+
+            <g onmouseover="Highlight(evt);" onmouseout="Unhighlight(evt);" >
+                <rect x="398" y="122" rx="3" ry="3" width="47"
+                    height="25" fill="rgb(100,100,180)" stroke="black" stroke-width="1" opacity="0.8" />
+                <text x="400" y="138" font-family="Tahoma" font-size="10" fill="black"> 9.9</text>
+            </g>
+
+        </g>
+
+        <!-- DataHandling Trace Block -->
+        <g id="DataHandling_g">
+            <text x="145" y="190" font-family="Tahoma" font-size="18" fill="black" text-anchor="end">DataHandling</text>
+            <path d="M 150 225 h 500" stroke="black" stroke-width="1" />
+
+            <path d="M 150 150 v 75" stroke="black" stroke-width="1" />
+
+            <!-- Trace Instances -->
+
+            <g onmouseover="Highlight(evt);" onmouseout="Unhighlight(evt);" >
+                <rect x="264" y="197" rx="3" ry="3" width="45"
+                    height="25" fill="green" stroke="black" stroke-width="1" opacity="0.8" />
+                <text x="266" y="213" font-family="Tahoma" font-size="10" fill="black"> 4.6</text>
+            </g>
+
+        </g>
+
+        <!-- ADCChan Trace Block -->
+        <g id="ADCChan_g">
+            <text x="145" y="265" font-family="Tahoma" font-size="18" fill="black" text-anchor="end">ADCChan</text>
+            <path d="M 150 300 h 500" stroke="black" stroke-width="1" />
+
+            <path d="M 150 225 v 75" stroke="black" stroke-width="1" />
+
+            <!-- Trace Instances -->
+
+            <g onmouseover="Highlight(evt);" onmouseout="Unhighlight(evt);" >
+                <rect x="207" y="272" rx="3" ry="3" width="1"
+                    height="25" fill="grey" stroke="black" stroke-width="1" opacity="0.8" />
+                <text x="209" y="288" font-family="Tahoma" font-size="10" fill="black"> 2.3</text>
+            </g>
+
+        </g>
+
+        <!-- SerialIChan Trace Block -->
+        <g id="SerialIChan_g">
+            <text x="145" y="340" font-family="Tahoma" font-size="18" fill="black" text-anchor="end">SerialIChan</text>
+            <path d="M 150 375 h 500" stroke="black" stroke-width="1" />
+
+            <path d="M 150 300 v 75" stroke="black" stroke-width="1" />
+
+            <!-- Trace Instances -->
+
+            <g onmouseover="Highlight(evt);" onmouseout="Unhighlight(evt);" >
+                <rect x="207" y="347" rx="3" ry="3" width="25"
+                    height="25" fill="yellow" stroke="black" stroke-width="1" opacity="0.8" />
+                <text x="209" y="363" font-family="Tahoma" font-size="10" fill="black"> 2.3</text>
+            </g>
+
+        </g>
+
+        <!-- SerialOChan Trace Block -->
+        <g id="SerialOChan_g">
+            <text x="145" y="415" font-family="Tahoma" font-size="18" fill="black" text-anchor="end">SerialOChan</text>
+            <path d="M 150 450 h 500" stroke="black" stroke-width="1" />
+
+            <path d="M 150 375 v 75" stroke="black" stroke-width="1" />
+
+            <!-- Trace Instances -->
+
+            <g onmouseover="Highlight(evt);" onmouseout="Unhighlight(evt);" >
+                <rect x="535" y="422" rx="3" ry="3" width="25"
+                    height="25" fill="silver" stroke="black" stroke-width="1" opacity="0.8" />
+                <text x="537" y="438" font-family="Tahoma" font-size="10" fill="black">15.4</text>
+            </g>
+
+        </g>
+
+    </g>
+
+    <g id="GS_g" >
+        <rect x="10" y="465" rx="10" ry="10" width="650" 
+            height="85" fill="rgb(140,140,140)" stroke="black" stroke-width="1" opacity="0.6" />
+        <text x="15" y="485" font-family="Tahoma" font-size="20" fill="white">GS</text>
+
+        <text x="15" y="495" font-family="Tahoma" font-size="10" fill="white">(20.0ms)</text>
+
+
+        <!-- OuterLoop Trace Block -->
+        <g id="OuterLoop_g">
+            <text x="145" y="510" font-family="Tahoma" font-size="18" fill="black" text-anchor="end">OuterLoop</text>
+            <path d="M 150 545 h 500" stroke="black" stroke-width="1" />
+
+            <path d="M 150 470 v 75" stroke="black" stroke-width="1" />
+
+            <!-- Trace Instances -->
+
+            <g onmouseover="Highlight(evt);" onmouseout="Unhighlight(evt);" >
+                <rect x="396" y="517" rx="3" ry="3" width="6"
+                    height="25" fill="aqua" stroke="black" stroke-width="1" opacity="0.8" />
+                <text x="398" y="533" font-family="Tahoma" font-size="10" fill="black"> 9.9</text>
+            </g>
+
+        </g>
+
+    </g>
+
+    <g id="TT_I2C_g" >
+        <rect x="10" y="560" rx="10" ry="10" width="650" 
+            height="85" fill="rgb(140,140,140)" stroke="black" stroke-width="1" opacity="0.6" />
+        <text x="15" y="580" font-family="Tahoma" font-size="20" fill="white">TT_I2C</text>
+
+        <text x="15" y="590" font-family="Tahoma" font-size="10" fill="white">(20.0ms)</text>
+
+
+        <!--  Trace Block -->
+        <g id="_g">
+            <text x="145" y="605" font-family="Tahoma" font-size="18" fill="black" text-anchor="end"></text>
+            <path d="M 150 640 h 500" stroke="black" stroke-width="1" />
+
+            <path d="M 150 565 v 75" stroke="black" stroke-width="1" />
+
+            <!-- Trace Instances -->
+
+            <g onmouseover="Highlight(evt);" onmouseout="Unhighlight(evt);" >
+                <rect x="375" y="612" rx="3" ry="3" width="25"
+                    height="25" fill="teal" stroke="black" stroke-width="1" opacity="0.8" />
+                <text x="377" y="628" font-family="Tahoma" font-size="10" fill="black"> 9.0</text>
+            </g>
+
+            <g onmouseover="Highlight(evt);" onmouseout="Unhighlight(evt);" >
+                <rect x="424" y="612" rx="3" ry="3" width="25"
+                    height="25" fill="white" stroke="black" stroke-width="1" opacity="0.8" />
+                <text x="426" y="628" font-family="Tahoma" font-size="10" fill="black">11.0</text>
+            </g>
+
+        </g>
+
+    </g>
+
+</g>
+
+  <!-- Message Send/Receive Arrows -->
+
+
+
+<!-- Build the message key -->
+<text x="25" y="670" text-decoration="line-through" font-family="Tahoma" font-size="16" fill="black">Visualization Key</text>
+
+<rect x="25" y="675" width="25" height="25" fill="white" 
+      stroke="black" stroke-width="1" opacity="0.8" />
+<text x="55" y="692" font-family="Tahoma" font-size="12" fill="black">DataHandling.pos_msg</text>
+
+<rect x="25" y="705" width="25" height="25" fill="teal" 
+      stroke="black" stroke-width="1" opacity="0.8" />
+<text x="55" y="722" font-family="Tahoma" font-size="12" fill="black">OuterLoop.ang_ref</text>
+
+
+
+</svg>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GeneratedFiles">
+      <UniqueIdentifier>{26ca95b4-4720-454f-9cdf-298b31717795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Antlr">
+      <UniqueIdentifier>{54de0526-eeef-49e2-980c-895dcdaf14fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{c7e3fb32-f9fc-42a8-9327-f6995907d882}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BExpr\BExprParser.tokens">
+      <Filter>GeneratedFiles</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BExpr\BExprParserLexer.c">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="BExpr\BExprParserParser.c">
+      <Filter>GeneratedFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="BExprMapTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BExpr\BExprParserLexer.h">
+      <Filter>GeneratedFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="BExpr\BExprParserParser.h">
+      <Filter>GeneratedFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\BExprMapTree.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="BExpr\BExprParser.g">
+      <Filter>Antlr</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

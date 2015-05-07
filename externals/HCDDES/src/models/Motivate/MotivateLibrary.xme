@@ -1,0 +1,887 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{0A1B2D8D-F85F-4C53-A5E0-84FB27FDA410}" cdate="Tue Jul 14 14:00:27 2009" mdate="Tue Jul 14 14:00:27 2009" version="" metaguid="{5887587F-6708-42A1-9263-DCEB7A8815DA}" metaversion="0.5" metaname="Motivate">
+	<name>Root Folder</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x1" kind="RootFolder" guid="{010e9b25-99dd-4b06-b492-01bae576c090}">
+		<name>Root Folder</name>
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x2" kind="ProcessLibrary" guid="{f35d6f3e-7ba0-44e5-adb3-164c9a417942}">
+			<name>Basic Processes</name>
+			<model id="id-0065-00000001" kind="Process" guid="{ae27908b-b3e8-4b6e-badc-d81cae99448a}" relid="0x1" childrelidcntr="0x12">
+				<name>Import MDL</name>
+				<attribute kind="Ordering">
+					<value>1</value>
+				</attribute>
+				<attribute kind="RootDirectory">
+					<value>C:\Documents and Settings\Administrator\Desktop\FRED</value>
+				</attribute>
+				<model id="id-0065-00000002" kind="TemplateAction" role="TemplateAction" guid="{ae302802-3137-43ad-a3e4-c778fb593784}" relid="0x1" childrelidcntr="0x3">
+					<name>MDL2MGA</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>266,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="FragmentAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>294,224</value>
+							</regnode>
+						</regnode>
+						<regnode name="Sequencing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>119,49</value>
+							</regnode>
+						</regnode>
+						<regnode name="SequencingAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>326,228</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="FileBased" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="FileName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Isolate" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Language" status="meta">
+						<value>Python</value>
+					</attribute>
+					<attribute kind="TemplateCode">
+						<value>file = os.open(&quot;testfile.txt&quot;, os.O_CREAT)
+os.close( file )</value>
+					</attribute>
+					<model id="id-0065-00000006" kind="ParamPort" role="ParamPort" guid="{75f87113-d83e-4eed-977f-16a03eec8016}" relid="0x1" childrelidcntr="0x0">
+						<name>MDL_IN</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>32,172</value>
+								</regnode>
+							</regnode>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>32,123</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+					<model id="id-0065-00000007" kind="ParamPort" role="ParamPort" guid="{9816e90c-5b69-4028-8245-90cdc5e82c6a}" relid="0x2" childrelidcntr="0x0">
+						<name>ESMoL_OUT</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>613,172</value>
+								</regnode>
+							</regnode>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>494,116</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+					<model id="id-0065-00000008" kind="Constant" role="Constant" guid="{0f237554-80f2-48d7-92ee-4d498a01c4e7}" relid="0x3" childrelidcntr="0x0">
+						<name>DEBUG_AGAIN</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>354,368</value>
+								</regnode>
+							</regnode>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>263,263</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Type" status="meta">
+							<value>String</value>
+						</attribute>
+						<attribute kind="Value">
+							<value>-d</value>
+						</attribute>
+					</model>
+				</model>
+				<model id="id-0065-00000003" kind="TemplateAction" role="TemplateAction" guid="{06fea5ae-6110-4d6d-86d7-a10b2a9bd887}" relid="0x2" childrelidcntr="0x3">
+					<name>AddTypes</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>644,210</value>
+							</regnode>
+						</regnode>
+						<regnode name="FragmentAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>634,228</value>
+							</regnode>
+						</regnode>
+						<regnode name="Sequencing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>329,49</value>
+							</regnode>
+						</regnode>
+						<regnode name="SequencingAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>634,228</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="FileBased" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="FileName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Isolate" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Language" status="meta">
+						<value>Python</value>
+					</attribute>
+					<attribute kind="TemplateCode">
+						<value>os.system(&quot;bin\addTypes.exe {{ESMoL_IN}}&quot;)</value>
+					</attribute>
+					<model id="id-0065-00000009" kind="ParamPort" role="ParamPort" guid="{6b38c71a-90e9-465b-9b88-ac63719d6d15}" relid="0x1" childrelidcntr="0x0">
+						<name>ESMoL_IN</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Aspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>46,137</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+				</model>
+				<model id="id-0065-00000004" kind="Fragment" role="Fragment" guid="{d29d7371-fa67-40fb-a2a8-fc47ab77f0e4}" relid="0x3" childrelidcntr="0x0">
+					<name>quad_integrator_subsys.mdl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>88,214</value>
+							</regnode>
+						</regnode>
+						<regnode name="FragmentAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>144,228</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DateModified" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="FullPath" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000005" kind="Fragment" role="Fragment" guid="{376f70d6-195f-47ad-bdcb-d2deb68adf23}" relid="0x4" childrelidcntr="0x0">
+					<name>qint.mga</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>487,214</value>
+							</regnode>
+						</regnode>
+						<regnode name="FragmentAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>487,228</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DateModified" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="FullPath" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000000c" kind="Constant" role="Constant" guid="{e9c554aa-8931-4478-99cb-60a944b14285}" relid="0x5" childrelidcntr="0x0">
+					<name>DEBUG</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>284,382</value>
+							</regnode>
+						</regnode>
+						<regnode name="FragmentAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>494,508</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Type" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="Value">
+						<value>-d</value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000000d" kind="Viewer" role="Viewer" guid="{7d0bd0e2-fee7-4f74-a6b1-8789c7f64236}" relid="0xf" childrelidcntr="0x0">
+					<name>Matlab</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>88,74</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</model>
+				<model id="id-0065-0000000e" kind="Viewer" role="Viewer" guid="{c876fb9a-cb55-499d-a21f-a25c17afc0f2}" relid="0x10" childrelidcntr="0x0">
+					<name>GME</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>487,81</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</model>
+				<connection id="id-0068-00000001" kind="FragmentToPort" role="FragmentToPort" guid="{9d70b183-6baa-4264-880b-ce147f50365f}" relid="0x6">
+					<name>FragmentToPort</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000004"/>
+					<connpoint role="dst" target="id-0065-00000006"/>
+				</connection>
+				<connection id="id-0068-00000002" kind="FragmentToPort" role="FragmentToPort" guid="{913605d8-e38b-4515-845c-8efec214b456}" relid="0x7">
+					<name>FragmentToPort</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000005"/>
+					<connpoint role="dst" target="id-0065-00000009"/>
+				</connection>
+				<connection id="id-0068-00000003" kind="PortToFragment" role="PortToFragment" guid="{0fb9b888-0898-465c-b02f-a675e08ca9b5}" relid="0x8">
+					<name>PortToFragment</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000005"/>
+					<connpoint role="src" target="id-0065-00000007"/>
+				</connection>
+				<connection id="id-0068-00000004" kind="ActionSequence" role="ActionSequence" guid="{884c1df1-d1ed-493b-a4ae-65363d65154f}" relid="0x9">
+					<name>ActionSequence</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000002"/>
+					<connpoint role="dst" target="id-0065-00000003"/>
+				</connection>
+				<connection id="id-0068-00000005" kind="ViewerUseage" role="ViewerUseage" guid="{bf215140-ff48-4bd8-8823-9813527d975f}" relid="0x11">
+					<name>ViewerUseage</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000004"/>
+					<connpoint role="dst" target="id-0065-0000000d"/>
+				</connection>
+				<connection id="id-0068-00000006" kind="ViewerUseage" role="ViewerUseage" guid="{a1761706-04c1-4213-b31f-78797fb07caa}" relid="0x12">
+					<name>ViewerUseage</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000005"/>
+					<connpoint role="dst" target="id-0065-0000000e"/>
+				</connection>
+			</model>
+			<model id="id-0065-0000000f" kind="Process" guid="{c6c02f57-4196-490e-a8e0-5a488c8f722e}" relid="0x2" childrelidcntr="0x1c">
+				<name>Generate FRODO</name>
+				<attribute kind="Ordering">
+					<value>2</value>
+				</attribute>
+				<attribute kind="RootDirectory">
+					<value>C:\Documents and Settings\Administrator\Desktop\FRED</value>
+				</attribute>
+				<model id="id-0065-00000010" kind="Fragment" role="Fragment" guid="{74149218-30cc-4a2f-b76d-a7fb85ea41cf}" relid="0x1" childrelidcntr="0x0">
+					<name>qint.mga</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>88,221</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DateModified" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="FullPath" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000011" kind="TemplateAction" role="TemplateAction" guid="{81f7eedd-d273-4374-a0de-28a57196f174}" relid="0x2" childrelidcntr="0x2">
+					<name>Stage 1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>210,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="Sequencing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>81,354</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="FileBased" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="FileName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Isolate" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Language" status="meta">
+						<value>Python</value>
+					</attribute>
+					<attribute kind="TemplateCode" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000013" kind="ParamPort" role="ParamPort" guid="{6f5a5c21-f98f-4681-ad65-4fceb6b4b900}" relid="0x1" childrelidcntr="0x0">
+						<name>ESMoL_IN</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>53,144</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+					<model id="id-0065-00000014" kind="ParamPort" role="ParamPort" guid="{d546de2e-6cd3-4ce5-b204-cadbbd02ba68}" relid="0x2" childrelidcntr="0x0">
+						<name>ABSTRACT_OUT</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>473,137</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+				</model>
+				<model id="id-0065-00000012" kind="TemplateAction" role="TemplateAction" guid="{dc88a4a0-af43-4fb1-a182-afc91bf9f6e5}" relid="0x3" childrelidcntr="0x2">
+					<name>Functional Code Gen.</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>210,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="Sequencing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,235</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="FileBased" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="FileName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Isolate" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Language" status="meta">
+						<value>Python</value>
+					</attribute>
+					<attribute kind="TemplateCode" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000016" kind="ParamPort" role="ParamPort" guid="{364efee6-4f38-4546-a2bc-5691bd8b2a0c}" relid="0x1" childrelidcntr="0x0">
+						<name>ESMoL_IN</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>53,137</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+				</model>
+				<model id="id-0065-00000018" kind="Fragment" role="Fragment" guid="{9e5a49a9-83ab-4e95-b6eb-9e7b0c034711}" relid="0x7" childrelidcntr="0x0">
+					<name>qint_flat.xml</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>389,221</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DateModified" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="FullPath" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000019" kind="TemplateAction" role="TemplateAction" guid="{00892238-e11c-4276-b1a6-c5c459d64414}" relid="0x8" childrelidcntr="0x2">
+					<name>Stage 2 - Sched.</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>518,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="Sequencing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>347,354</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="FileBased" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="FileName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Isolate" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Language" status="meta">
+						<value>Python</value>
+					</attribute>
+					<attribute kind="TemplateCode" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-0000001a" kind="ParamPort" role="ParamPort" guid="{7f958627-83d3-4301-b25d-32e97a615543}" relid="0x1" childrelidcntr="0x0">
+						<name>ABSTRACT_IN</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>25,137</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+					<model id="id-0065-0000001b" kind="ParamPort" role="ParamPort" guid="{2d9a31a5-2cf7-4b21-8f8c-6d1854744907}" relid="0x2" childrelidcntr="0x0">
+						<name>SCHED_OUT</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>473,130</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+				</model>
+				<model id="id-0065-0000001c" kind="Fragment" role="Fragment" guid="{4eb9597f-ce55-47b9-bf8f-582edd14ba61}" relid="0x9" childrelidcntr="0x0">
+					<name>quad_sched.scs</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>697,221</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DateModified" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="FullPath" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000001d" kind="TemplateAction" role="TemplateAction" guid="{a5e28e28-2c9c-4ce4-9982-943579de38df}" relid="0xa" childrelidcntr="0x2">
+					<name>SchedTool</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>868,217</value>
+							</regnode>
+						</regnode>
+						<regnode name="Sequencing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>613,354</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="FileBased" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="FileName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Isolate" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Language" status="meta">
+						<value>Python</value>
+					</attribute>
+					<attribute kind="TemplateCode" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-0000001e" kind="ParamPort" role="ParamPort" guid="{b6734cc3-9cb4-44be-ba8a-17a158215b0c}" relid="0x1" childrelidcntr="0x0">
+						<name>SCS_IN</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>46,109</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+					<model id="id-0065-0000001f" kind="ParamPort" role="ParamPort" guid="{62d29779-8008-4ee9-83b1-1ad0c45da9e7}" relid="0x2" childrelidcntr="0x0">
+						<name>RSLT_OUT</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>487,109</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+				</model>
+				<model id="id-0065-00000020" kind="TemplateAction" role="TemplateAction" guid="{11edd14c-9a05-4c62-8701-4617f0067625}" relid="0xb" childrelidcntr="0x4">
+					<name>SchedResults</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>518,392</value>
+							</regnode>
+						</regnode>
+						<regnode name="Sequencing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>809,354</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="FileBased" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="FileName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Isolate" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Language" status="meta">
+						<value>Python</value>
+					</attribute>
+					<attribute kind="TemplateCode" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000021" kind="ParamPort" role="ParamPort" guid="{4aa894c8-8141-4f21-bd4c-aaf42a17953b}" relid="0x1" childrelidcntr="0x0">
+						<name>RSLT_IN</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>508,207</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+					<model id="id-0065-00000022" kind="ParamPort" role="ParamPort" guid="{f546edc9-e5d7-494b-b5e3-d1f5f85a4bdc}" relid="0x2" childrelidcntr="0x0">
+						<name>ABSTRACT_OUT</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>39,109</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+					<model id="id-0065-00000023" kind="ParamPort" role="ParamPort" guid="{c8111538-945b-467b-a2df-7c1e55941cba}" relid="0x3" childrelidcntr="0x0">
+						<name>ESMoL_OUT</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>39,340</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+					<model id="id-0065-00000024" kind="Constant" role="Constant" guid="{2bf2d2b5-c2e0-44e4-8b21-1f0745baa334}" relid="0x4" childrelidcntr="0x0">
+						<name>DEBUG</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>298,543</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Type" status="meta">
+							<value>String</value>
+						</attribute>
+						<attribute kind="Value" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+				</model>
+				<model id="id-0065-00000025" kind="TemplateAction" role="TemplateAction" guid="{8b4319ab-90a9-4e38-88be-71b970234fce}" relid="0xc" childrelidcntr="0x1">
+					<name>Stage 2 - FRODO</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>518,77</value>
+							</regnode>
+						</regnode>
+						<regnode name="Sequencing" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>998,354</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="FileBased" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="FileName" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Isolate" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Language" status="meta">
+						<value>Python</value>
+					</attribute>
+					<attribute kind="TemplateCode" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000026" kind="ParamPort" role="ParamPort" guid="{925139e7-9ec7-42e2-b65e-bbf00ee1ee1a}" relid="0x1" childrelidcntr="0x0">
+						<name>ABSTRACT_IN</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Definition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>67,172</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</model>
+				</model>
+				<model id="id-0065-00000027" kind="Fragment" role="Fragment" guid="{5a4b3c76-86d0-447d-96d6-ad0995a3792e}" relid="0x12" childrelidcntr="0x0">
+					<name>quad_sched.rslt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Definition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>893,396</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DateModified" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="FullPath" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<connection id="id-0068-00000007" kind="FragmentToPort" role="FragmentToPort" guid="{fc31e821-cc6c-49f1-99e2-d1219f4e803a}" relid="0x5">
+					<name>FragmentToPort</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>N</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000010"/>
+					<connpoint role="dst" target="id-0065-00000016"/>
+				</connection>
+				<connection id="id-0068-00000008" kind="FragmentToPort" role="FragmentToPort" guid="{927542ce-877d-4e38-9e43-44d3c05e0beb}" relid="0x6">
+					<name>FragmentToPort</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000010"/>
+					<connpoint role="dst" target="id-0065-00000013"/>
+				</connection>
+				<connection id="id-0068-00000009" kind="PortToFragment" role="PortToFragment" guid="{ec797d93-2520-4dc0-9b89-7eaf028ed2a3}" relid="0xd">
+					<name>PortToFragment</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000014"/>
+					<connpoint role="dst" target="id-0065-00000018"/>
+				</connection>
+				<connection id="id-0068-0000000a" kind="FragmentToPort" role="FragmentToPort" guid="{0cee9400-8b35-4aa4-8315-c32fadc4ef75}" relid="0xe">
+					<name>FragmentToPort</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000018"/>
+					<connpoint role="dst" target="id-0065-0000001a"/>
+				</connection>
+				<connection id="id-0068-0000000b" kind="FragmentToPort" role="FragmentToPort" guid="{6652ce82-eb94-4195-8bef-31e1c458520a}" relid="0xf">
+					<name>FragmentToPort</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>N</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000018"/>
+					<connpoint role="dst" target="id-0065-00000026"/>
+				</connection>
+				<connection id="id-0068-0000000c" kind="PortToFragment" role="PortToFragment" guid="{b7e82ad2-4a30-4c47-9414-d7c3049105a8}" relid="0x10">
+					<name>PortToFragment</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-0000001b"/>
+					<connpoint role="dst" target="id-0065-0000001c"/>
+				</connection>
+				<connection id="id-0068-0000000d" kind="FragmentToPort" role="FragmentToPort" guid="{28e638b3-396f-4cd3-a16a-f5eee172a7f4}" relid="0x11">
+					<name>FragmentToPort</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-0000001c"/>
+					<connpoint role="dst" target="id-0065-0000001e"/>
+				</connection>
+				<connection id="id-0068-0000000e" kind="PortToFragment" role="PortToFragment" guid="{12800c91-abb5-4db6-8b30-4be58116a0c9}" relid="0x13">
+					<name>PortToFragment</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>e</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-0000001f"/>
+					<connpoint role="dst" target="id-0065-00000027"/>
+				</connection>
+				<connection id="id-0068-0000000f" kind="FragmentToPort" role="FragmentToPort" guid="{34702099-0580-471d-9262-e3565c6dbdf3}" relid="0x14">
+					<name>FragmentToPort</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>W</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000021"/>
+					<connpoint role="src" target="id-0065-00000027"/>
+				</connection>
+				<connection id="id-0068-00000010" kind="PortToFragment" role="PortToFragment" guid="{42d2acea-188e-487e-95f2-2ea12932a73d}" relid="0x15">
+					<name>PortToFragment</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>s</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000018"/>
+					<connpoint role="src" target="id-0065-00000022"/>
+				</connection>
+				<connection id="id-0068-00000011" kind="PortToFragment" role="PortToFragment" guid="{8fe2c7fd-e7dc-4166-a3ec-89cf2b078801}" relid="0x16">
+					<name>PortToFragment</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>s</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000010"/>
+					<connpoint role="src" target="id-0065-00000023"/>
+				</connection>
+				<connection id="id-0068-00000012" kind="ActionSequence" role="ActionSequence" guid="{3286ed46-edad-4197-abc3-a628fa7b8a5d}" relid="0x17">
+					<name>ActionSequence</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000011"/>
+					<connpoint role="dst" target="id-0065-00000012"/>
+				</connection>
+				<connection id="id-0068-00000013" kind="ActionSequence" role="ActionSequence" guid="{c3320994-3185-48bb-b230-282f1fc3dffb}" relid="0x18">
+					<name>ActionSequence</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000011"/>
+					<connpoint role="dst" target="id-0065-00000019"/>
+				</connection>
+				<connection id="id-0068-00000015" kind="ActionSequence" role="ActionSequence" guid="{125920a8-ce38-4883-ae8d-4ffd8379386e}" relid="0x1a">
+					<name>ActionSequence</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000019"/>
+					<connpoint role="dst" target="id-0065-0000001d"/>
+				</connection>
+				<connection id="id-0068-00000016" kind="ActionSequence" role="ActionSequence" guid="{c2ec0817-ddfb-447b-b07a-de0d711d6ce6}" relid="0x1b">
+					<name>ActionSequence</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-0000001d"/>
+					<connpoint role="dst" target="id-0065-00000020"/>
+				</connection>
+				<connection id="id-0068-00000017" kind="ActionSequence" role="ActionSequence" guid="{b085d8e1-3758-4c72-9524-11d37b52e3c1}" relid="0x1c">
+					<name>ActionSequence</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000020"/>
+					<connpoint role="dst" target="id-0065-00000025"/>
+				</connection>
+			</model>
+		</folder>
+	</folder>
+</project>

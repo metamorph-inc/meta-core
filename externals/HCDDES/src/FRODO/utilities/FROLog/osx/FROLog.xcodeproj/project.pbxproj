@@ -1,0 +1,273 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		588130C41109FA1D00B08073 /* highres_timing.c in Sources */ = {isa = PBXBuildFile; fileRef = 588130C31109FA1D00B08073 /* highres_timing.c */; };
+		588130E8110A07D000B08073 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 588130E7110A07D000B08073 /* main.cpp */; };
+		588131B4110A1E5E00B08073 /* udp_listener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 588131B3110A1E5E00B08073 /* udp_listener.cpp */; };
+		58813239110A264E00B08073 /* FROLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58813238110A264E00B08073 /* FROLogger.cpp */; };
+		58813281110A28A600B08073 /* osx_platform.c in Sources */ = {isa = PBXBuildFile; fileRef = 58813280110A28A600B08073 /* osx_platform.c */; };
+		58813364110A334D00B08073 /* log_structures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58813363110A334D00B08073 /* log_structures.cpp */; };
+		58E0C7931108D95300B01F32 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58E0C7921108D95300B01F32 /* CoreServices.framework */; };
+		58E0C92F1108E82F00B01F32 /* libxerces-c.28.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 58E0C92E1108E82F00B01F32 /* libxerces-c.28.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8DD76FAF0486AB0100D96B5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		588130B91109F9EC00B08073 /* log_structures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = log_structures.h; path = ../log_structures.h; sourceTree = SOURCE_ROOT; };
+		588130BD1109FA0800B08073 /* error_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = error_handler.h; path = ../../../error_handler.h; sourceTree = SOURCE_ROOT; };
+		588130BE1109FA0800B08073 /* logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = logger.h; path = ../../../logger.h; sourceTree = SOURCE_ROOT; };
+		588130BF1109FA0800B08073 /* peripheral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = peripheral.h; path = ../../../peripheral.h; sourceTree = SOURCE_ROOT; };
+		588130C01109FA0800B08073 /* scheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scheduler.h; path = ../../../scheduler.h; sourceTree = SOURCE_ROOT; };
+		588130C11109FA0800B08073 /* udp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = udp.h; path = ../../../udp.h; sourceTree = SOURCE_ROOT; };
+		588130C21109FA1200B08073 /* highres_timing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = highres_timing.h; path = ../../../arch/highres_timing.h; sourceTree = SOURCE_ROOT; };
+		588130C31109FA1D00B08073 /* highres_timing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = highres_timing.c; path = ../../../arch/osx/highres_timing.c; sourceTree = SOURCE_ROOT; };
+		588130E7110A07D000B08073 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../main.cpp; sourceTree = SOURCE_ROOT; };
+		58813120110A0E2500B08073 /* FROLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FROLog.h; path = ../FROLog.h; sourceTree = SOURCE_ROOT; };
+		5881312B110A0ED600B08073 /* osx_platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = osx_platform.h; path = ../../../arch/osx/osx_platform.h; sourceTree = SOURCE_ROOT; };
+		588131B2110A1E5E00B08073 /* udp_listener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = udp_listener.h; path = ../udp_listener.h; sourceTree = SOURCE_ROOT; };
+		588131B3110A1E5E00B08073 /* udp_listener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = udp_listener.cpp; path = ../udp_listener.cpp; sourceTree = SOURCE_ROOT; };
+		58813238110A264E00B08073 /* FROLogger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FROLogger.cpp; path = ../FROLogger.cpp; sourceTree = SOURCE_ROOT; };
+		58813280110A28A600B08073 /* osx_platform.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = osx_platform.c; path = ../../../arch/osx/osx_platform.c; sourceTree = SOURCE_ROOT; };
+		58813363110A334D00B08073 /* log_structures.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = log_structures.cpp; path = ../log_structures.cpp; sourceTree = SOURCE_ROOT; };
+		58E0C7921108D95300B01F32 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		58E0C9221108E3D500B01F32 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = build/Debug/config.xml; sourceTree = "<group>"; };
+		58E0C92E1108E82F00B01F32 /* libxerces-c.28.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libxerces-c.28.dylib"; path = "usr/local/lib/libxerces-c.28.dylib"; sourceTree = SDKROOT; };
+		58EAC47B110DE9AE0056A521 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
+		8DD76FB20486AB0100D96B5E /* FROLog */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FROLog; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76FAD0486AB0100D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58E0C7931108D95300B01F32 /* CoreServices.framework in Frameworks */,
+				58E0C92F1108E82F00B01F32 /* libxerces-c.28.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* FROLog */ = {
+			isa = PBXGroup;
+			children = (
+				58E0C92E1108E82F00B01F32 /* libxerces-c.28.dylib */,
+				58E0C7921108D95300B01F32 /* CoreServices.framework */,
+				58E0C92D1108E7C900B01F32 /* Legacy */,
+				58E0C6931108D6B500B01F32 /* Headers */,
+				08FB7795FE84155DC02AAC07 /* Source */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+				58E0C9221108E3D500B01F32 /* config.xml */,
+			);
+			name = FROLog;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				58813238110A264E00B08073 /* FROLogger.cpp */,
+				58813363110A334D00B08073 /* log_structures.cpp */,
+				588130E7110A07D000B08073 /* main.cpp */,
+				588131B3110A1E5E00B08073 /* udp_listener.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DD76FB20486AB0100D96B5E /* FROLog */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		58E0C6931108D6B500B01F32 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				58813120110A0E2500B08073 /* FROLog.h */,
+				588130B91109F9EC00B08073 /* log_structures.h */,
+				58EAC47B110DE9AE0056A521 /* main.h */,
+				588131B2110A1E5E00B08073 /* udp_listener.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		58E0C92D1108E7C900B01F32 /* Legacy */ = {
+			isa = PBXGroup;
+			children = (
+				5881312B110A0ED600B08073 /* osx_platform.h */,
+				58813280110A28A600B08073 /* osx_platform.c */,
+				588130BD1109FA0800B08073 /* error_handler.h */,
+				588130C21109FA1200B08073 /* highres_timing.h */,
+				588130C31109FA1D00B08073 /* highres_timing.c */,
+				588130BE1109FA0800B08073 /* logger.h */,
+				588130BF1109FA0800B08073 /* peripheral.h */,
+				588130C01109FA0800B08073 /* scheduler.h */,
+				588130C11109FA0800B08073 /* udp.h */,
+			);
+			name = Legacy;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DD76FA90486AB0100D96B5E /* FROLog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB928508733DD80010E9CD /* Build configuration list for PBXNativeTarget "FROLog" */;
+			buildPhases = (
+				8DD76FAB0486AB0100D96B5E /* Sources */,
+				8DD76FAD0486AB0100D96B5E /* Frameworks */,
+				8DD76FAF0486AB0100D96B5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FROLog;
+			productInstallPath = "$(HOME)/bin";
+			productName = FROLog;
+			productReference = 8DD76FB20486AB0100D96B5E /* FROLog */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "FROLog" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* FROLog */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DD76FA90486AB0100D96B5E /* FROLog */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76FAB0486AB0100D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				588130C41109FA1D00B08073 /* highres_timing.c in Sources */,
+				588130E8110A07D000B08073 /* main.cpp in Sources */,
+				588131B4110A1E5E00B08073 /* udp_listener.cpp in Sources */,
+				58813239110A264E00B08073 /* FROLogger.cpp in Sources */,
+				58813281110A28A600B08073 /* osx_platform.c in Sources */,
+				58813364110A334D00B08073 /* log_structures.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB928608733DD80010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../plplot/plplot-build/src\"",
+				);
+				PRODUCT_NAME = FROLog;
+			};
+			name = Debug;
+		};
+		1DEB928708733DD80010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../plplot/plplot-build/src\"",
+				);
+				PRODUCT_NAME = FROLog;
+			};
+			name = Release;
+		};
+		1DEB928A08733DD80010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					../../../,
+				);
+				LIBRARY_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		1DEB928B08733DD80010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB928508733DD80010E9CD /* Build configuration list for PBXNativeTarget "FROLog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB928608733DD80010E9CD /* Debug */,
+				1DEB928708733DD80010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "FROLog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB928A08733DD80010E9CD /* Debug */,
+				1DEB928B08733DD80010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

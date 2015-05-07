@@ -1,0 +1,193 @@
+<Project _id="id24" name="embedded_with_delay" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" statementCount="9" statementIndex="0" xsi:noNamespaceSchemaLocation="SFC.xsd">
+	<Array dt="id35" te="id3c id3f id46" _id="id36" name="A3singleA" noelem="3" statementIndex="3"/>
+	<Array dt="id58" _id="id59" name="A2doubleA" noelem="2" statementIndex="7"/>
+	<Array dt="id58" te="id5b" _id="id5a" name="A3doubleA" noelem="3" statementIndex="8"/>
+	<BasicType te="id36         " _id="id35" name="single" statementIndex="2"/>
+	<BasicType te="id4a id61 id6f id7d" _id="id4b" name="int" statementIndex="5"/>
+	<BasicType te="id59 id5a   " _id="id58" name="double" statementIndex="6"/>
+	<Program _id="id38" filename="embedded_with_delay_sl" stateCount="0" numInstance="1" statementCount="1" statementIndex="4">
+		<Class _id="id37" name="embedded_with_delay_38_class" statementCount="3" statementIndex="0">
+			<Function _id="id3a" name="embedded_with_delay_38_main" scope="" argCount="2" returnType="void" statementCount="14" statementIndex="1">
+				<Arg dt="id39" _id="id3b" ptr="true" ref="id51 id73" name="context" size="1" type="" argIndex="0"/>
+				<Arg dt="id36" _id="id3c" ptr="true" ref="id65 id76" name="Out1_2" size="1" type="double" argIndex="2"/>
+				<IterativeBlock _id="id4d" statementCount="2" statementIndex="3">
+					<UserCode _id="id8a" expr="" __child_as="cond" statementIndex="0">
+						<BinaryExprs op="&lt;" _id="id8b">
+							<ArgDeclRef _id="id4e" unres="" argdecl="id4a" __child_as="leftexpr"/>
+							<Int _id="id8c" val="3" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</UserCode>
+					<UserCode _id="id88" expr="" __child_as="stmnt" statementIndex="0">
+						<BinaryExprs op="=" _id="id89">
+							<BinaryExprs op="[" _id="id8d" __child_as="leftexpr">
+								<ArgDeclRef _id="id4f" unres="" argdecl="id3f" __child_as="leftexpr"/>
+								<ArgDeclRef _id="id50" unres="" argdecl="id4a" __child_as="rightexpr"/>
+							</BinaryExprs>
+							<BinaryExprs op="." _id="id8e" __child_as="rightexpr">
+								<ArgDeclRef _id="id51" unres="" argdecl="id3b" __child_as="leftexpr"/>
+								<BinaryExprs op="[" _id="id8f" __child_as="rightexpr">
+									<ArgDeclRef _id="id52" unres="" argdecl="id46" __child_as="leftexpr"/>
+									<ArgDeclRef _id="id53" unres="" argdecl="id4a" __child_as="rightexpr"/>
+								</BinaryExprs>
+							</BinaryExprs>
+						</BinaryExprs>
+					</UserCode>
+					<UserCode _id="id90" expr="" __child_as="stmnt" statementIndex="1">
+						<UnaryExprs op="++" _id="id91">
+							<ArgDeclRef _id="id54" unres="" argdecl="id4a"/>
+						</UnaryExprs>
+					</UserCode>
+				</IterativeBlock>
+				<IterativeBlock _id="id63" statementCount="2" statementIndex="10">
+					<UserCode _id="ida6" expr="" __child_as="cond" statementIndex="0">
+						<BinaryExprs op="&lt;" _id="ida7">
+							<ArgDeclRef _id="id64" unres="" argdecl="id61" __child_as="leftexpr"/>
+							<Int _id="ida8" val="3" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</UserCode>
+					<UserCode _id="ida4" expr="" __child_as="stmnt" statementIndex="0">
+						<BinaryExprs op="=" _id="ida5">
+							<BinaryExprs op="[" _id="ida9" __child_as="leftexpr">
+								<ArgDeclRef _id="id65" unres="" argdecl="id3c" __child_as="leftexpr"/>
+								<ArgDeclRef _id="id66" unres="" argdecl="id61" __child_as="rightexpr"/>
+							</BinaryExprs>
+							<BinaryExprs op="+" _id="idaa" __child_as="rightexpr">
+								<BinaryExprs op="[" _id="idab" __child_as="leftexpr">
+									<ArgDeclRef _id="id67" unres="" argdecl="id3f" __child_as="leftexpr"/>
+									<ArgDeclRef _id="id68" unres="" argdecl="id61" __child_as="rightexpr"/>
+								</BinaryExprs>
+								<BinaryExprs op="[" _id="idac" __child_as="rightexpr">
+									<ArgDeclRef _id="id69" unres="" argdecl="id5b" __child_as="leftexpr"/>
+									<ArgDeclRef _id="id6a" unres="" argdecl="id61" __child_as="rightexpr"/>
+								</BinaryExprs>
+							</BinaryExprs>
+						</BinaryExprs>
+					</UserCode>
+					<UserCode _id="idad" expr="" __child_as="stmnt" statementIndex="1">
+						<UnaryExprs op="++" _id="idae">
+							<ArgDeclRef _id="id6b" unres="" argdecl="id61"/>
+						</UnaryExprs>
+					</UserCode>
+				</IterativeBlock>
+				<IterativeBlock _id="id71" statementCount="2" statementIndex="13">
+					<UserCode _id="idb4" expr="" __child_as="cond" statementIndex="0">
+						<BinaryExprs op="&lt;" _id="idb5">
+							<ArgDeclRef _id="id72" unres="" argdecl="id6f" __child_as="leftexpr"/>
+							<Int _id="idb6" val="3" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</UserCode>
+					<UserCode _id="idb2" expr="" __child_as="stmnt" statementIndex="0">
+						<BinaryExprs op="=" _id="idb3">
+							<BinaryExprs op="." _id="idb7" __child_as="leftexpr">
+								<ArgDeclRef _id="id73" unres="" argdecl="id3b" __child_as="leftexpr"/>
+								<BinaryExprs op="[" _id="idb8" __child_as="rightexpr">
+									<ArgDeclRef _id="id74" unres="" argdecl="id46" __child_as="leftexpr"/>
+									<ArgDeclRef _id="id75" unres="" argdecl="id6f" __child_as="rightexpr"/>
+								</BinaryExprs>
+							</BinaryExprs>
+							<BinaryExprs op="[" _id="idb9" __child_as="rightexpr">
+								<ArgDeclRef _id="id76" unres="" argdecl="id3c" __child_as="leftexpr"/>
+								<ArgDeclRef _id="id77" unres="" argdecl="id6f" __child_as="rightexpr"/>
+							</BinaryExprs>
+						</BinaryExprs>
+					</UserCode>
+					<UserCode _id="idba" expr="" __child_as="stmnt" statementIndex="1">
+						<UnaryExprs op="++" _id="idbb">
+							<ArgDeclRef _id="id78" unres="" argdecl="id6f"/>
+						</UnaryExprs>
+					</UserCode>
+				</IterativeBlock>
+				<LocalVar dt="id36" _id="id3f" ref="id4f id67" name="sig_0" size="1" type="double" scope="" initial="" statementIndex="0"/>
+				<LocalVar dt="id4b" _id="id4a" ref="id4c id4e id50 id53 id54" name="ix74" size="1" type="" scope="" initial="" statementIndex="1"/>
+				<LocalVar dt="id5a" _id="id5b" ref="id5c id5d id5e id69" name="result91" size="1" type="" scope="" initial="" statementIndex="4"/>
+				<LocalVar dt="id4b" _id="id61" ref="id62 id64 id66 id68 id6a id6b" name="ix97" size="1" type="" scope="" initial="" statementIndex="8"/>
+				<LocalVar dt="id4b" _id="id6f" ref="id70 id72 id75 id77 id78" name="ix111" size="1" type="" scope="" initial="" statementIndex="11"/>
+				<UserCode _id="id85" expr="" statementIndex="2">
+					<BinaryExprs op="=" _id="id86">
+						<ArgDeclRef _id="id4c" unres="" argdecl="id4a" __child_as="leftexpr"/>
+						<Int _id="id87" val="0" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+				<UserCode _id="id92" expr="" statementIndex="5">
+					<BinaryExprs op="=" _id="id93">
+						<BinaryExprs op="[" _id="id94" __child_as="leftexpr">
+							<ArgDeclRef _id="id5c" unres="" argdecl="id5b" __child_as="leftexpr"/>
+							<Int _id="id95" val="0" __child_as="rightexpr"/>
+						</BinaryExprs>
+						<Double _id="id96" val="1.000000" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+				<UserCode _id="id97" expr="" statementIndex="6">
+					<BinaryExprs op="=" _id="id98">
+						<BinaryExprs op="[" _id="id99" __child_as="leftexpr">
+							<ArgDeclRef _id="id5d" unres="" argdecl="id5b" __child_as="leftexpr"/>
+							<Int _id="id9a" val="1" __child_as="rightexpr"/>
+						</BinaryExprs>
+						<Double _id="id9b" val="2.000000" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+				<UserCode _id="id9c" expr="" statementIndex="7">
+					<BinaryExprs op="=" _id="id9d">
+						<BinaryExprs op="[" _id="id9e" __child_as="leftexpr">
+							<ArgDeclRef _id="id5e" unres="" argdecl="id5b" __child_as="leftexpr"/>
+							<Int _id="id9f" val="2" __child_as="rightexpr"/>
+						</BinaryExprs>
+						<Double _id="ida0" val="3.000000" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+				<UserCode _id="ida1" expr="" statementIndex="9">
+					<BinaryExprs op="=" _id="ida2">
+						<ArgDeclRef _id="id62" unres="" argdecl="id61" __child_as="leftexpr"/>
+						<Int _id="ida3" val="0" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+				<UserCode _id="idaf" expr="" statementIndex="12">
+					<BinaryExprs op="=" _id="idb0">
+						<ArgDeclRef _id="id70" unres="" argdecl="id6f" __child_as="leftexpr"/>
+						<Int _id="idb1" val="0" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+			</Function>
+			<Function _id="id79" name="embedded_with_delay_38_init" scope="" argCount="1" returnType="void" statementCount="3" statementIndex="2">
+				<Arg dt="id39" _id="id7a" ptr="true" ref="id81" name="context" size="1" type="" argIndex="0"/>
+				<IterativeBlock _id="id7f" statementCount="2" statementIndex="2">
+					<UserCode _id="idc1" expr="" __child_as="cond" statementIndex="0">
+						<BinaryExprs op="&lt;" _id="idc2">
+							<ArgDeclRef _id="id80" unres="" argdecl="id7d" __child_as="leftexpr"/>
+							<Int _id="idc3" val="3" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</UserCode>
+					<UserCode _id="idbf" expr="" __child_as="stmnt" statementIndex="0">
+						<BinaryExprs op="=" _id="idc0">
+							<BinaryExprs op="." _id="idc4" __child_as="leftexpr">
+								<ArgDeclRef _id="id81" unres="" argdecl="id7a" __child_as="leftexpr"/>
+								<BinaryExprs op="[" _id="idc5" __child_as="rightexpr">
+									<ArgDeclRef _id="id82" unres="" argdecl="id46" __child_as="leftexpr"/>
+									<ArgDeclRef _id="id83" unres="" argdecl="id7d" __child_as="rightexpr"/>
+								</BinaryExprs>
+							</BinaryExprs>
+							<Double _id="idc6" val="0.000000" __child_as="rightexpr"/>
+						</BinaryExprs>
+					</UserCode>
+					<UserCode _id="idc7" expr="" __child_as="stmnt" statementIndex="1">
+						<UnaryExprs op="++" _id="idc8">
+							<ArgDeclRef _id="id84" unres="" argdecl="id7d"/>
+						</UnaryExprs>
+					</UserCode>
+				</IterativeBlock>
+				<LocalVar dt="id4b" _id="id7d" ref="id7e id80 id83 id84" name="ix125" size="1" type="" scope="" initial="" statementIndex="0"/>
+				<UserCode _id="idbc" expr="" statementIndex="1">
+					<BinaryExprs op="=" _id="idbd">
+						<ArgDeclRef _id="id7e" unres="" argdecl="id7d" __child_as="leftexpr"/>
+						<Int _id="idbe" val="0" __child_as="rightexpr"/>
+					</BinaryExprs>
+				</UserCode>
+			</Function>
+			<Struct te="id3b id7a" _id="id39" name="embedded_with_delay_38_context" memberCount="1" statementIndex="0">
+				<LocalVar dt="id36" _id="id46" ref="id52 id74 id82" name="X070" size="1" type="" scope="" initial="" statementIndex="0"/>
+			</Struct>
+		</Class>
+	</Program>
+</Project>
+
+

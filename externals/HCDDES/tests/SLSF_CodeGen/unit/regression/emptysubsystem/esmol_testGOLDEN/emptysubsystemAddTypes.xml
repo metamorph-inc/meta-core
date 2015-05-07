@@ -1,0 +1,57 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="emptysubsystem" name="emptysubsystem" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id7" Name="" dstLine_end_="id4" srcLine_end_="id6"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id7">
+				<TypeBaseRef _id="ide" ref="idb" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id6" name="Out_1" Number="1" dstLine="id7">
+					<TypeBaseRef _id="idd" ref="idb" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="1"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<System Tag="" Name="Subsystem" name="Subsystem" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<Parameter name="BlockChoice" Value=""/>
+				<Parameter name="CheckFcnCallInpInsideContextMsg" Value="off"/>
+				<Parameter name="DataTypeOverride" Value="UseLocalSettings"/>
+				<Parameter name="ErrorFcn" Value=""/>
+				<Parameter name="FunctionWithSeparateData" Value="off"/>
+				<Parameter name="MemberBlocks" Value=""/>
+				<Parameter name="MinAlgLoopOccurrences" Value="off"/>
+				<Parameter name="MinMaxOverflowLogging" Value="UseLocalSettings"/>
+				<Parameter name="Permissions" Value="ReadWrite"/>
+				<Parameter name="PermitHierarchicalResolution" Value="All"/>
+				<Parameter name="PropExecContextOutsideSubsystem" Value="off"/>
+				<Parameter name="RTWFcnName" Value=""/>
+				<Parameter name="RTWFcnNameOpts" Value="Auto"/>
+				<Parameter name="RTWFileName" Value=""/>
+				<Parameter name="RTWFileNameOpts" Value="Auto"/>
+				<Parameter name="RTWMemSecDataConstants" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecDataInternal" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecDataParameters" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecFuncExecute" Value="Inherit from model"/>
+				<Parameter name="RTWMemSecFuncInitTerm" Value="Inherit from model"/>
+				<Parameter name="RTWSystemCode" Value="Auto"/>
+				<Parameter name="SCDConfigFcn" Value=""/>
+				<Parameter name="ShowPortLabels" Value="FromPortIcon"/>
+				<Parameter name="SystemSampleTime" Value="-1"/>
+				<Parameter name="TemplateBlock" Value=""/>
+				<Parameter name="TreatAsAtomicUnit" Value="off"/>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow"/>
+	<Types name="Types">
+		<Matrix _id="idb" Type="double" name="MdoubleC1C1M" rows="1" columns="1" referedbyTypeStructRef="idd ide"/>
+	</Types>
+</RootFolder>
+
+

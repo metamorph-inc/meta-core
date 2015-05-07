@@ -1,0 +1,36 @@
+\section{Results}
+
+There are three distinct results we present.
+
+\subsection{Schedulability}
+
+Here are some schedulability results.
+
+
+\subsection{FRODO Timing}
+
+FRODO is meant to be a highly portable platform.  As such, we have built versions of FRODO capable of running on a wide variety of underlying operating systems (OS).  For each OS we conduct a series of time-triggered assessments to determine the timing accuracy of the underlying OS and thus gain an understanding of expected performance should a model be deployed onto that OS.  For each OS a test is run that attempts to execute $>$100,000 tasks and message transfers, all on a strictly time-triggered basis.  During each execution the expected versus actual time is recorded.  Post-test analysis gives each platform a minimum, maximum, and average variance between the expected and actual times.  The results are shown in Table \ref{Table:FRODO_Platform_Timing}.
+
+\begin{table}[htb]
+\begin{center}
+\begin{tabular}{| r | c | c | c |}
+\hline
+& \bf{Min($\mu$s)} & \bf{Max($\mu$s) } & \bf{Avg($\mu$s)} \\ \hline
+OS X 10.6.4 & $<$1 & $<$1 & $<$1 \\ \hline
+Windows XP SP 3& 4747 & 7746 & 40 \\ \hline
+Linux 2.6.X & 35 & 44 & 32 \\ \hline
+FreeRTOS 5.X & 1 & 1 & 1 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{FRODO Host Platform Timing Results}
+\label{Table:FRODO_Platform_Timing}
+\end{table}
+
+The maximum timing variance is the most useful metric from this test.  The maximum variance provides a reasonable upper-bound for the amount of timing error we can expect for FRODO running on a given operating system.
+
+%What do we use the upper bound for???
+
+\subsection{Quadrotor Timing}
+
+Here are some example model results

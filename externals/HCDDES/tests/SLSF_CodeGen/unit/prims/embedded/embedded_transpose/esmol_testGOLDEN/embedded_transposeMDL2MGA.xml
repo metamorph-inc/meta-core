@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ESMoL.xsd">
+
+  <DesignFolder name="Imported Models">
+    <ModelsFolder name="Newembedded_transpose00000000">
+      <Dataflow name="Dataflow">
+        <Subsystem BlockType="Model" Deadline="0" Description="" Name="embedded_transpose" Period="0" Priority="0" SampleTime="0.00" Tag="" UserData="" name="embedded_transpose">
+          <Line Name="" _id="idA" dstLine_end_="id4" srcLine_end_="id9"/>
+          <Line Name="" _id="ide" dstLine_end_="idC" srcLine_end_="id9"/>
+          <Line Name="" _id="idF" dstLine_end_="id7" srcLine_end_="idD"/>
+          <OutputPort Number="1" _id="id4" name="Out1" srcLine="idA"/>
+          <OutputPort Number="2" _id="id7" name="Out2" srcLine="idF"/>
+          <Primitive BlockType="Constant" Description="" Name="Constant" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Constant">
+            <OutputPort Number="1" _id="id9" dstLine="idA ide" name="Out_1"/>
+            <Parameter Value="inf" name="FramePeriod"/>
+            <Parameter Value="off" name="LockScale"/>
+            <Parameter Value="Inherit: Inherit from 'Constant value'" name="OutDataTypeStr"/>
+            <Parameter Value="[]" name="OutMax"/>
+            <Parameter Value="[]" name="OutMin"/>
+            <Parameter Value="Sample based" name="SamplingMode"/>
+            <Parameter Value="[1 2 3;4 5 6;7 8 9]" name="Value"/>
+            <Parameter Value="off" name="VectorParams1D"/>
+          </Primitive>
+          <Primitive BlockType="Embedded" Description="" Name="Embedded&#xA;MATLAB Function" Priority="0" SampleTime="0.00" Tag="" UserData="" name="Embedded&#xA;MATLAB Function">
+            <InputPort Number="1" _id="idC" name="u" srcLine="ide"/>
+            <OutputPort Number="1" _id="idD" dstLine="idF" name="y"/>
+            <Parameter Value="function y = fcn(u)&amp;#x0a;%#eml&amp;#x0a;&amp;#x0a;y = transpose( u );" name="Script"/>
+          </Primitive>
+        </Subsystem>
+      </Dataflow>
+      <Stateflow name="Stateflow"/>
+    </ModelsFolder>
+  </DesignFolder>
+
+  <Types name="Types"/>
+
+</RootFolder>

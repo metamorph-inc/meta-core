@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VisualStudioToolFile
+	Name="Model Manipulation Rules"
+	Version="8.00"
+	>
+	<Rules>
+		<CustomBuildRule
+			Name="XME2MGA"
+			DisplayName="XME --&gt; MGA"
+			CommandLine="&quot;$(UDM_PATH)\etc\CreateMGA.vbs&quot; $(InputFileName) $(InputName).mga UMLModelTransformer"
+			Outputs="$(InputDir)\$(InputName).mga"
+			FileExtensions="*.xme"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Cheetah"
+			DisplayName="Cheetah"
+			CommandLine="$(PYTHON_HOME)\python.exe $(PYTHON_HOME)\Scripts\cheetah compile [inputs] --flat --odir $(VCP_PATH)\generated\BlockTemplate\Python"
+			Outputs="$(VCP_PATH)\generated\BlockTemplate\Python\$(InputName).py"
+			FileExtensions="*.tmpl"
+			ExecutionDescription="$(InputFileName) -&gt; $(InputName).py"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+	</Rules>
+</VisualStudioToolFile>

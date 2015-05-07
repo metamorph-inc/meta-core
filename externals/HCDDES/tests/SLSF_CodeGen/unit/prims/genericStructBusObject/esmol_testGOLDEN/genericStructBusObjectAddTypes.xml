@@ -1,0 +1,173 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="genericStructBusObject" name="genericStructBusObject" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="idc" Name="" dstLine_end_="id4" srcLine_end_="idb"/>
+			<Line _id="ide" Name="" dstLine_end_="id7" srcLine_end_="idd"/>
+			<Line _id="id10" Name="" dstLine_end_="id8" srcLine_end_="idf"/>
+			<Line _id="id13" Name="" dstLine_end_="id14" srcLine_end_="id12"/>
+			<Line _id="id17" Name="" dstLine_end_="id18" srcLine_end_="id16"/>
+			<Line _id="id1b" Name="" dstLine_end_="id1c" srcLine_end_="id1a"/>
+			<Line _id="id21" Name="" dstLine_end_="id1e" srcLine_end_="id20"/>
+			<Line _id="id22" Name="" dstLine_end_="id23" srcLine_end_="id1f"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="idc">
+				<TypeBaseRef _id="id7b" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id7" name="Out2" Number="2" srcLine="ide">
+				<TypeBaseRef _id="id7d" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<OutputPort _id="id8" name="Out3" Number="3" srcLine="id10">
+				<TypeBaseRef _id="id7f" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+			</OutputPort>
+			<Primitive Tag="" Name="Bus Creator" name="Bus Creator" Period="0" Deadline="0" Priority="0" BlockType="BusCreator" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id14" name="In_1" Number="1" srcLine="id13">
+					<TypeBaseRef _id="id5f" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<InputPort _id="id18" name="In_2" Number="2" srcLine="id17">
+					<TypeBaseRef _id="id62" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<InputPort _id="id1c" name="In_3" Number="3" srcLine="id1b">
+					<TypeBaseRef _id="id65" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="id20" name="Out_1" Number="1" dstLine="id21">
+					<TypeBaseRef _id="id71" ref="id3c" name="Smember0MdoubleC1C1MCmember1MdoubleC1C1MCmember2MdoubleC1C1MS" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="BusObject" Value="BusObject"/>
+				<Parameter name="DisplayOption" Value="bar"/>
+				<Parameter name="Inputs" Value="3"/>
+				<Parameter name="NonVirtualBus" Value="off"/>
+				<Parameter name="UseBusObject" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Bus Selector" name="Bus Selector" Period="0" Deadline="0" Priority="0" BlockType="BusSelector" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id23" name="In_1" Number="1" srcLine="id22">
+					<TypeBaseRef _id="id77" ref="id3c" name="ScoldMdoubleC1C1MChotMdoubleC1C1MCrainMdoubleC1C1MS" MemberIndex="0"/>
+				</InputPort>
+				<OutputPort _id="idb" name="Out_1" Number="1" dstLine="idc">
+					<TypeBaseRef _id="id7a" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<OutputPort _id="idd" name="Out_2" Number="2" dstLine="ide">
+					<TypeBaseRef _id="id7c" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<OutputPort _id="idf" name="Out_3" Number="3" dstLine="id10">
+					<TypeBaseRef _id="id7e" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="InputSignals" Value="{}"/>
+				<Parameter name="OutputAsBus" Value="off"/>
+				<Parameter name="OutputSignals" Value="hot,rain,cold"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id12" name="Out_1" Number="1" dstLine="id13">
+					<TypeBaseRef _id="id5e" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="double"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="30"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant1" name="Constant1" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id16" name="Out_1" Number="1" dstLine="id17">
+					<TypeBaseRef _id="id61" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="double"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="17"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant2" name="Constant2" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id1a" name="Out_1" Number="1" dstLine="id1b">
+					<TypeBaseRef _id="id64" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="double"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="-5"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<System Tag="" Name="Counter" name="Counter" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<InputPort _id="id1e" name="inputGSBO" Number="1" dstLine="id27" srcLine="id21">
+					<TypeBaseRef _id="id72" ref="id3c" name="Smember0MdoubleC1C1MCmember1MdoubleC1C1MCmember2MdoubleC1C1MS" MemberIndex="0"/>
+				</InputPort>
+				<Line _id="id27" Name="" dstLine_end_="id26" srcLine_end_="id1e"/>
+				<Line _id="id29" Name="" dstLine_end_="id2a" srcLine_end_="id28"/>
+				<Line _id="id2c" Name="" dstLine_end_="id1f" srcLine_end_="id2b"/>
+				<Line _id="id2f" Name="" dstLine_end_="id30" srcLine_end_="id2e"/>
+				<OutputPort _id="id1f" name="output" Number="1" dstLine="id22" srcLine="id2c">
+					<TypeBaseRef _id="id75" ref="id3c" name="gsbo" MemberIndex="0"/>
+				</OutputPort>
+				<Parameter name="ExecuteAtInitialization" Value="off"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id2a" name="In_1" Number="1" srcLine="id29">
+						<TypeBaseRef _id="id79" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+					<OutputPort _id="id2e" name="Out_1" Number="1" dstLine="id2f">
+						<TypeBaseRef _id="id81" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function genericStructBusObject 1" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id32" ref="id31" name="Counter"/>
+					<InputPort _id="id26" name="In_1" Number="1" srcLine="id27">
+						<TypeBaseRef _id="id73" ref="id3c" name="Smember0MdoubleC1C1MCmember1MdoubleC1C1MCmember2MdoubleC1C1MS" MemberIndex="0"/>
+					</InputPort>
+					<OutputPort _id="id28" name="Out_1" Number="1" dstLine="id29">
+						<TypeBaseRef _id="id78" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+					</OutputPort>
+					<OutputPort _id="id2b" name="Out_2" Number="2" dstLine="id2c">
+						<TypeBaseRef _id="id76" ref="id3c" name="ScoldMdoubleC1C1MChotMdoubleC1C1MCrainMdoubleC1C1MS" MemberIndex="0"/>
+					</OutputPort>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id30" name="In_1" Number="1" srcLine="id2f">
+						<TypeBaseRef _id="id82" ref="id35" name="MdoubleC1C1M" MemberIndex="0"/>
+					</InputPort>
+				</Primitive>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow">
+		<State Name="" name="TopLevel" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+			<State _id="id31" Name="Counter" name="Counter" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" referedbyConnectorRef="id32">
+				<Data Max="" Min="" Name="inputGSBO" Port="1" name="inputGSBO" Scope="INPUT_DATA" Units="" DataType="" ArraySize="" Description="" InitialValue="0" ArrayFirstIndex="">
+					<TypeBaseRef _id="id3d" ref="id3c" name="gsbo" MemberIndex="0"/>
+				</Data>
+				<Data Max="" Min="" Name="output" Port="1" name="output" Scope="OUTPUT_DATA" Units="" DataType="" ArraySize="" Description="" InitialValue="0" ArrayFirstIndex="">
+					<TypeBaseRef _id="id46" ref="id3c" name="gsbo" MemberIndex="0"/>
+				</Data>
+				<Data Max="" Min="" Name="ctr" Port="-3" name="ctr" Scope="LOCAL_DATA" Units="" DataType="" ArraySize="" Description="" InitialValue="" ArrayFirstIndex="">
+					<TypeBaseRef _id="id49" ref="id48" name="Muint32C1C1M" MemberIndex="0"/>
+				</Data>
+				<State _id="id33" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id4c id4d" srcTransition="id4a id4c id4d"/>
+				<TransStart _id="id4b" dstTransition="id4a"/>
+				<Transition _id="id4a" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id33" srcTransition_end_="id4b"/>
+				<Transition _id="id4c" name="" Guard="ctr &lt; 4" Order="1" Action="ctr = ctr+1; output.rain = inputGSBO.rain + ctr; output.hot = inputGSBO.hot - ctr; output.cold = inputGSBO.cold * ctr;" Trigger="" ConditionAction="" dstTransition_end_="id33" srcTransition_end_="id33"/>
+				<Transition _id="id4d" name="" Guard="ctr >= 4" Order="2" Action="ctr = 0; output.rain = 25; output.hot = 50; output.cold = -25" Trigger="" ConditionAction="" dstTransition_end_="id33" srcTransition_end_="id33"/>
+			</State>
+		</State>
+	</Stateflow>
+	<Types name="Types">
+		<Matrix _id="id35" Type="double" name="MdoubleC1C1M" rows="1" columns="1" referedbyTypeStructRef="id37 id39 id3b id5e id5f id61 id62 id64 id65 id78 id79 id7a id7b id7c id7d id7e id7f id81 id82"/>
+		<Matrix _id="id48" Type="uint32" name="Muint32C1C1M" rows="1" columns="1" referedbyTypeStructRef="id49"/>
+		<TypeStruct _id="id3c" name="ScoldMdoubleC1C1MChotMdoubleC1C1MCrainMdoubleC1C1MS" MemberCount="0" referedbyTypeStructRef="id3d id46 id75 id76 id77 id71 id72 id73">
+			<TypeBaseRef _id="id37" ref="id35" name="cold" MemberIndex="0"/>
+			<TypeBaseRef _id="id39" ref="id35" name="hot" MemberIndex="1"/>
+			<TypeBaseRef _id="id3b" ref="id35" name="rain" MemberIndex="2"/>
+		</TypeStruct>
+	</Types>
+</RootFolder>
+
+

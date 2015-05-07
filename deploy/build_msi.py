@@ -42,6 +42,7 @@ def get_nuget_packages():
     cad_packages = ElementTree.parse(r'CAD_Installs\packages.config')
     destination_files = [ r'CAD_Installs\Proe ISIS Extensions\bin\CADCreoParametricCreateAssembly.exe',
         r'CAD_Installs\Proe ISIS Extensions\0Readme - CreateAssembly.txt',
+        r'MDL2MGACyber.exe',
         r'CAD_Installs\Proe ISIS Extensions\bin\ExtractACM-XMLfromCreoModels.exe',
         r'CAD_Installs\Proe ISIS Extensions\bin\CADCreoParametricMetaLink.exe',
         ]
@@ -97,6 +98,8 @@ def build_msi():
     gen_dir_wxi.gen_dir_from_vc(r"..\models\MassSpringDamper",)
     gen_dir_wxi.gen_dir_from_vc(r"..\models\Validation",)
     gen_dir_wxi.gen_dir_from_vc(r"..\bin", diskId='3')
+    gen_dir_wxi.gen_dir_from_vc(r"..\externals\HCDDES\src\lib\BlockTemplate\Python", id='src_BlockTemplate_Python')
+    gen_dir_wxi.main(r"..\externals\HCDDES\generated\BlockTemplate\Python", id='generated_BlockTemplate_Python') # generated files, do not call gen_dir_from_vc for this
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\PCC\PCC",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\isis_meta\isis_meta",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\meta_nrmm\meta_nrmm",)
@@ -199,6 +202,9 @@ def build_msi():
     defines.append(('GUIDSTRCYPHYML', cyphy_versions[0]))
     defines.append(('VERSIONSTRCYPHYML', cyphy_versions[1]))
     
+    cyber_composition_versions = get_mta_versions(adjacent_file(r'..\generated\Cyber\models\CyberComposition.mta'))
+    defines.append(('GUIDSTRCyberComposition', cyber_composition_versions[0]))
+    defines.append(('VERSIONSTRCyberComposition', cyber_composition_versions[1]))
     
     version = '14.13.'
     if 'M' in svnversion:

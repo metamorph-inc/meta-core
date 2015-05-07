@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{283C36BE-FECA-1BAD-2242-99E75DFF3820}</ProjectGuid>
+    <RootNamespace>ctestgen</RootNamespace>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\VCP.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\VCP.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_BIN)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VCP_PATH)\$(PlatformName)\bin\</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_BIN)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(VCP_PATH)\$(PlatformName)\bin\</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)d</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;../../../generated/ctestgen/generated;../../include;$(UDM_PATH)\include;$(TEMP)\GReAT;$(XERCES_PATH)/include;$(GREAT_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_CONSOLE;UDM_DYNAMIC_LINKING;PRINT_INFO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(UDM_PATH)\include;$(GREAT_PATH)\tmp;$(GREAT_PATH)\etc;C:\mictes\hcddes\ctest\Udm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>GReATUtilsVC10D.lib;RTTGeneratorVC10D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)ctestgend.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;$(GREAT_PATH)\lib;..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;../../../generated/ctestgen/generated;../../include;$(UDM_PATH)\include;$(TEMP)\GReAT;$(XERCES_PATH)/include;$(GREAT_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_CONSOLE;UDM_DYNAMIC_LINKING;PRINT_INFO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(UDM_PATH)\include;$(GREAT_PATH)\tmp;$(GREAT_PATH)\etc;C:\mictes\hcddes\ctest\Udm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>GReATUtilsVC10D.lib;RTTGeneratorVC10D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)ctestgend.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;$(GREAT_PATH)\lib;..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <AdditionalIncludeDirectories>.;../../../generated/ctestgen/generated;../../include;$(UDM_PATH)\include;$(TEMP)\GReAT;$(XERCES_PATH)/include;$(GREAT_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_CONSOLE;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(UDM_PATH)\include;$(GREAT_PATH)\tmp;$(GREAT_PATH)\etc;C:\mictes\hcddes\ctest\Udm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>GReATUtilsVC10.lib;RTTGeneratorVC10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)ctestgen.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;$(GREAT_PATH)\lib;..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <AdditionalIncludeDirectories>.;../../../generated/ctestgen/generated;../../include;$(UDM_PATH)\include;$(TEMP)\GReAT;$(XERCES_PATH)/include;$(GREAT_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_CONSOLE;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;UDM_DYNAMIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(UDM_PATH)\include;$(GREAT_PATH)\tmp;$(GREAT_PATH)\etc;C:\mictes\hcddes\ctest\Udm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>GReATUtilsVC10.lib;RTTGeneratorVC10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)ctestgen.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(UDM_PATH)\lib;$(GREAT_PATH)\lib;..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\generated\ctestgen\generated\ctest.cpp" />
+    <ClCompile Include="..\..\generated\ctestgen\generated\ctestgen.cpp" />
+    <ClCompile Include="..\..\generated\ctestgen\generated\ctestgen_main.cpp" />
+    <ClCompile Include="..\..\generated\ctestgen\generated\Links.cpp" />
+    <ClCompile Include="..\..\generated\ctestgen\generated\SFC.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\generated\ctestgen\generated\ctest.h" />
+    <ClInclude Include="..\..\generated\ctestgen\generated\ctest_xsd.h" />
+    <ClInclude Include="..\..\generated\ctestgen\generated\ctestgen.h" />
+    <ClInclude Include="..\..\generated\ctestgen\generated\Links.h" />
+    <ClInclude Include="..\..\generated\ctestgen\generated\Links_xsd.h" />
+    <ClInclude Include="..\..\generated\ctestgen\generated\SFC.h" />
+    <ClInclude Include="..\..\generated\ctestgen\generated\SFC_xsd.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\generated\ctestgen\models\Config.mga">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating CG files ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating CG files ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(GREAT_PATH)"\bin\CG.exe "$(VCP_PATH)\generated\ctestgen\generated\ctestgen" "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(GREAT_PATH)"\bin\CG.exe "$(VCP_PATH)\generated\ctestgen\generated\ctestgen" "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\..\generated\ctestgen.h;%(RootDir)%(Directory)\..\generated\ctestgen.cpp;%(RootDir)%(Directory)\..\generated\ctestgen_main.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\..\generated\ctestgen.h;%(RootDir)%(Directory)\..\generated\ctestgen.cpp;%(RootDir)%(Directory)\..\generated\ctestgen_main.cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating CG files ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating CG files ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(GREAT_PATH)"\bin\CG.exe "$(VCP_PATH)\generated\ctestgen\generated\ctestgen" "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(GREAT_PATH)"\bin\CG.exe "$(VCP_PATH)\generated\ctestgen\generated\ctestgen" "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\..\generated\ctestgen.h;%(RootDir)%(Directory)\..\generated\ctestgen.cpp;%(RootDir)%(Directory)\..\generated\ctestgen_main.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\..\generated\ctestgen.h;%(RootDir)%(Directory)\..\generated\ctestgen.cpp;%(RootDir)%(Directory)\..\generated\ctestgen_main.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\generated\ctestgen\models\ctest.mga">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ctest.mga -&gt; Config.mga,ctest-gr.xml, Udm\ctest.udm</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ctest.mga -&gt; Config.mga,ctest-gr.xml, Udm\ctest.udm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(SolutionDir)\autobuild\RunGReATMasterInt.vbs" "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(SolutionDir)\autobuild\RunGReATMasterInt.vbs" "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\Config.mga;%(RootDir)%(Directory)\%(Filename)-gr.xml;%(RootDir)%(Directory)\Udm\%(Filename).udm;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\Config.mga;%(RootDir)%(Directory)\%(Filename)-gr.xml;%(RootDir)%(Directory)\Udm\%(Filename).udm;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ctest.mga -&gt; Config.mga,ctest-gr.xml, Udm\ctest.udm</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ctest.mga -&gt; Config.mga,ctest-gr.xml, Udm\ctest.udm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(SolutionDir)\autobuild\RunGReATMasterInt.vbs" "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(SolutionDir)\autobuild\RunGReATMasterInt.vbs" "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\Config.mga;%(RootDir)%(Directory)\%(Filename)-gr.xml;%(RootDir)%(Directory)\Udm\%(Filename).udm;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\Config.mga;%(RootDir)%(Directory)\%(Filename)-gr.xml;%(RootDir)%(Directory)\Udm\%(Filename).udm;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\generated\ctestgen\models\Udm\ctest.udm">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating *.cpp and *.h files using "Udm -g" so that *.xsd are compiled into them directly</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating *.cpp and *.h files using "Udm -g" so that *.xsd are compiled into them directly</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mkdir "%(RootDir)%(Directory)"\..\..\generated
+cd "%(RootDir)%(Directory)"\..\..\generated
+"$(UDM_PATH)\bin\Udm.exe" -g "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mkdir "%(RootDir)%(Directory)"\..\..\generated
+cd "%(RootDir)%(Directory)"\..\..\generated
+"$(UDM_PATH)\bin\Udm.exe" -g "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\..\..\generated\ctest.cpp;%(RootDir)%(Directory)\..\..\generated\ctest.h;%(RootDir)%(Directory)\..\..\generated\ctest.xsd;%(RootDir)%(Directory)\..\..\generated\ctest_xsd.h;%(RootDir)%(Directory)\..\..\generated\LINKS.cpp;%(RootDir)%(Directory)\..\..\generated\LINKS.h;%(RootDir)%(Directory)\..\..\generated\LINKS.xsd;%(RootDir)%(Directory)\..\..\generated\LINKS_xsd.h;%(RootDir)%(Directory)\..\..\generated\SFC.cpp;%(RootDir)%(Directory)\..\..\generated\SFC.h;%(RootDir)%(Directory)\..\..\generated\SFC.xsd;%(RootDir)%(Directory)\..\..\generated\SFC_xsd.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)\..\..\generated\ctest.cpp;%(RootDir)%(Directory)\..\..\generated\ctest.h;%(RootDir)%(Directory)\..\..\generated\ctest.xsd;%(RootDir)%(Directory)\..\..\generated\ctest_xsd.h;%(RootDir)%(Directory)\..\..\generated\LINKS.cpp;%(RootDir)%(Directory)\..\..\generated\LINKS.h;%(RootDir)%(Directory)\..\..\generated\LINKS.xsd;%(RootDir)%(Directory)\..\..\generated\LINKS_xsd.h;%(RootDir)%(Directory)\..\..\generated\SFC.cpp;%(RootDir)%(Directory)\..\..\generated\SFC.h;%(RootDir)%(Directory)\..\..\generated\SFC.xsd;%(RootDir)%(Directory)\..\..\generated\SFC_xsd.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating *.cpp and *.h files using "Udm -g" so that *.xsd are compiled into them directly</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating *.cpp and *.h files using "Udm -g" so that *.xsd are compiled into them directly</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mkdir "%(RootDir)%(Directory)"\..\..\generated
+cd "%(RootDir)%(Directory)"\..\..\generated
+"$(UDM_PATH)\bin\Udm.exe" -g "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mkdir "%(RootDir)%(Directory)"\..\..\generated
+cd "%(RootDir)%(Directory)"\..\..\generated
+"$(UDM_PATH)\bin\Udm.exe" -g "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\..\..\generated\ctest.cpp;%(RootDir)%(Directory)\..\..\generated\ctest.h;%(RootDir)%(Directory)\..\..\generated\ctest.xsd;%(RootDir)%(Directory)\..\..\generated\ctest_xsd.h;%(RootDir)%(Directory)\..\..\generated\LINKS.cpp;%(RootDir)%(Directory)\..\..\generated\LINKS.h;%(RootDir)%(Directory)\..\..\generated\LINKS.xsd;%(RootDir)%(Directory)\..\..\generated\LINKS_xsd.h;%(RootDir)%(Directory)\..\..\generated\SFC.cpp;%(RootDir)%(Directory)\..\..\generated\SFC.h;%(RootDir)%(Directory)\..\..\generated\SFC.xsd;%(RootDir)%(Directory)\..\..\generated\SFC_xsd.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)\..\..\generated\ctest.cpp;%(RootDir)%(Directory)\..\..\generated\ctest.h;%(RootDir)%(Directory)\..\..\generated\ctest.xsd;%(RootDir)%(Directory)\..\..\generated\ctest_xsd.h;%(RootDir)%(Directory)\..\..\generated\LINKS.cpp;%(RootDir)%(Directory)\..\..\generated\LINKS.h;%(RootDir)%(Directory)\..\..\generated\LINKS.xsd;%(RootDir)%(Directory)\..\..\generated\LINKS_xsd.h;%(RootDir)%(Directory)\..\..\generated\SFC.cpp;%(RootDir)%(Directory)\..\..\generated\SFC.h;%(RootDir)%(Directory)\..\..\generated\SFC.xsd;%(RootDir)%(Directory)\..\..\generated\SFC_xsd.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="ctest.xme">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ctest.xme -&gt; ctest.mga</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ctest.xme -&gt; ctest.mga</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mkdir ..\..\generated\ctestgen\models
+"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" ..\..\generated\ctestgen\models\%(Filename).mga UMLModelTransformer
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mkdir ..\..\generated\ctestgen\models
+"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" ..\..\generated\ctestgen\models\%(Filename).mga UMLModelTransformer
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../generated/ctestgen/models/ctest.mga;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../generated/ctestgen/models/ctest.mga;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ctest.xme -&gt; ctest.mga</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ctest.xme -&gt; ctest.mga</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mkdir ..\..\generated\ctestgen\models
+"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" ..\..\generated\ctestgen\models\%(Filename).mga UMLModelTransformer
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mkdir ..\..\generated\ctestgen\models
+"$(UDM_PATH)\etc\CreateMGA.vbs" "%(FullPath)" ..\..\generated\ctestgen\models\%(Filename).mga UMLModelTransformer
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../generated/ctestgen/models/ctest.mga;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../generated/ctestgen/models/ctest.mga;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lib\SFCUdmEngine\SFCUdmEngine.vcxproj">
+      <Project>{a6c033c3-ac95-4872-b8bd-9d0ec6761a69}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
+    <Import Project="..\..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets" Condition="Exists('..\..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets')" />
+  </ImportGroup>
+</Project>

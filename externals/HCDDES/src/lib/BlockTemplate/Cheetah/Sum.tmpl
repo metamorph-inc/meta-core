@@ -1,0 +1,33 @@
+#from Collapse import Collapse
+#if $len( $inputs ) == 1
+$Collapse().collapse( $block, $inputs, $outputs, $parameters, '+' )#slurp
+#else
+    #set $rawoperations = str( $parameters.Inputs )
+    #if $rawoperations.isdigit()
+        #set $rawoperations = '+' * int( $rawoperations )
+    #end if
+    #set $operations = "".join(  $rawoperations.split( "|" )  )
+    #set $lenOperations = $len( $operations )
+    #set $lenInputs = $len( $inputs )
+    #if $lenOperations != $lenInputs
+% WARNING: NUMBER OF OPERATIONS IN SUM BLOCK ( "$rawoperations" = $lenOperations operations ) DOES NOT MATCH NUMBER OF INPUTS ($lenInputs )
+        #if $lenOperations > $lenInputs
+            #set $operations = $operations[:$lenInputs]
+%          TRUNCATING OPERATIONS TO "$operations"
+        #else
+            #set $lenDiff = $lenInputs - $lenOperations
+%          THE LAST $lenDiff INPUTS WILL NOT BE INCLUDED IN THE SUM!!
+        #end if
+    #end if
+$output =#slurp
+    #set $index = 0
+    #set $notFirstOp = False
+    #for $operation in $operations
+        #if $notFirstOp or $operation == '-'
+ $operation#slurp
+        #end if
+ $inputs[ $index ]#slurp
+        #set $notFirstOp = True
+        #set $index += 1
+    #end for
+#end if

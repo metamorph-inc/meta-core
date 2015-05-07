@@ -1,0 +1,232 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="logic" name="logic" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="id12" Name="" dstLine_end_="id13" srcLine_end_="id10"/>
+			<Line _id="id16" Name="" dstLine_end_="id17" srcLine_end_="id15"/>
+			<Line _id="id19" Name="" dstLine_end_="id4" srcLine_end_="id18"/>
+			<Line _id="id1b" Name="" dstLine_end_="id1c" srcLine_end_="id15"/>
+			<Line _id="id1e" Name="" dstLine_end_="id7" srcLine_end_="id1d"/>
+			<Line _id="id20" Name="" dstLine_end_="id21" srcLine_end_="id15"/>
+			<Line _id="id23" Name="" dstLine_end_="id8" srcLine_end_="id22"/>
+			<Line _id="id25" Name="" dstLine_end_="id26" srcLine_end_="id15"/>
+			<Line _id="id28" Name="" dstLine_end_="id9" srcLine_end_="id27"/>
+			<Line _id="id2a" Name="" dstLine_end_="id2b" srcLine_end_="id15"/>
+			<Line _id="id2d" Name="" dstLine_end_="ida" srcLine_end_="id2c"/>
+			<Line _id="id30" Name="" dstLine_end_="idb" srcLine_end_="id2f"/>
+			<Line _id="id32" Name="" dstLine_end_="id33" srcLine_end_="id18"/>
+			<Line _id="id35" Name="" dstLine_end_="idc" srcLine_end_="id34"/>
+			<Line _id="id37" Name="" dstLine_end_="id38" srcLine_end_="id1d"/>
+			<Line _id="id39" Name="" dstLine_end_="id3a" srcLine_end_="id22"/>
+			<Line _id="id3c" Name="" dstLine_end_="idd" srcLine_end_="id3b"/>
+			<Line _id="id3e" Name="" dstLine_end_="id3f" srcLine_end_="id10"/>
+			<Line _id="id41" Name="" dstLine_end_="id42" srcLine_end_="id40"/>
+			<Line _id="id44" Name="" dstLine_end_="id45" srcLine_end_="id43"/>
+			<Line _id="id46" Name="" dstLine_end_="id47" srcLine_end_="id43"/>
+			<Line _id="id48" Name="" dstLine_end_="id49" srcLine_end_="id43"/>
+			<Line _id="id4a" Name="" dstLine_end_="id4b" srcLine_end_="id43"/>
+			<Line _id="id4c" Name="" dstLine_end_="id4d" srcLine_end_="id43"/>
+			<Line _id="id4e" Name="" dstLine_end_="id4f" srcLine_end_="id43"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id19"/>
+			<OutputPort _id="id7" name="Out2" Number="2" srcLine="id1e"/>
+			<OutputPort _id="id8" name="Out3" Number="3" srcLine="id23"/>
+			<OutputPort _id="id9" name="Out4" Number="4" srcLine="id28"/>
+			<OutputPort _id="ida" name="Out5" Number="5" srcLine="id2d"/>
+			<OutputPort _id="idb" name="Out6" Number="6" srcLine="id30"/>
+			<OutputPort _id="idc" name="Out7" Number="7" srcLine="id35"/>
+			<OutputPort _id="idd" name="Out8" Number="8" srcLine="id3c"/>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id40" name="Out_1" Number="1" dstLine="id41"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="2"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Gain" name="Gain" Period="0" Deadline="0" Priority="0" BlockType="Gain" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id13" name="In_1" Number="1" srcLine="id12"/>
+				<OutputPort _id="id15" name="Out_1" Number="1" dstLine="id16 id1b id20 id25 id2a"/>
+				<Parameter name="Gain" Value="0.5"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Multiplication" Value="Element-wise(K.*u)"/>
+				<Parameter name="OutDataType" Value="uint(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Specify via dialog"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="ParameterDataType" Value="sfix(16)"/>
+				<Parameter name="ParameterDataTypeMode" Value="Inherit via internal rule"/>
+				<Parameter name="ParameterScaling" Value="2^0"/>
+				<Parameter name="ParameterScalingMode" Value="Best Precision: Matrix-wise"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Logical
+Operator" name="Logical
+Operator" Period="0" Deadline="0" Priority="0" BlockType="Logic" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id17" name="In_1" Number="1" srcLine="id16"/>
+				<InputPort _id="id49" name="In_2" Number="2" srcLine="id48"/>
+				<OutputPort _id="id18" name="Out_1" Number="1" dstLine="id19 id32"/>
+				<Parameter name="AllPortsSameDT" Value="off"/>
+				<Parameter name="IconShape" Value="rectangular"/>
+				<Parameter name="Inputs" Value="2"/>
+				<Parameter name="LogicDataType" Value="uint(8)"/>
+				<Parameter name="Operator" Value="AND"/>
+				<Parameter name="OutDataTypeMode" Value="Boolean"/>
+			</Primitive>
+			<Primitive Tag="" Name="Logical
+Operator1" name="Logical
+Operator1" Period="0" Deadline="0" Priority="0" BlockType="Logic" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id1c" name="In_1" Number="1" srcLine="id1b"/>
+				<InputPort _id="id47" name="In_2" Number="2" srcLine="id46"/>
+				<OutputPort _id="id1d" name="Out_1" Number="1" dstLine="id1e id37"/>
+				<Parameter name="AllPortsSameDT" Value="off"/>
+				<Parameter name="IconShape" Value="rectangular"/>
+				<Parameter name="Inputs" Value="2"/>
+				<Parameter name="LogicDataType" Value="uint(8)"/>
+				<Parameter name="Operator" Value="OR"/>
+				<Parameter name="OutDataTypeMode" Value="Boolean"/>
+			</Primitive>
+			<Primitive Tag="" Name="Logical
+Operator2" name="Logical
+Operator2" Period="0" Deadline="0" Priority="0" BlockType="Logic" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id21" name="In_1" Number="1" srcLine="id20"/>
+				<InputPort _id="id45" name="In_2" Number="2" srcLine="id44"/>
+				<OutputPort _id="id22" name="Out_1" Number="1" dstLine="id23 id39"/>
+				<Parameter name="AllPortsSameDT" Value="off"/>
+				<Parameter name="IconShape" Value="rectangular"/>
+				<Parameter name="Inputs" Value="2"/>
+				<Parameter name="LogicDataType" Value="uint(8)"/>
+				<Parameter name="Operator" Value="NAND"/>
+				<Parameter name="OutDataTypeMode" Value="Boolean"/>
+			</Primitive>
+			<Primitive Tag="" Name="Logical
+Operator3" name="Logical
+Operator3" Period="0" Deadline="0" Priority="0" BlockType="Logic" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id26" name="In_1" Number="1" srcLine="id25"/>
+				<InputPort _id="id4b" name="In_2" Number="2" srcLine="id4a"/>
+				<OutputPort _id="id27" name="Out_1" Number="1" dstLine="id28"/>
+				<Parameter name="AllPortsSameDT" Value="off"/>
+				<Parameter name="IconShape" Value="rectangular"/>
+				<Parameter name="Inputs" Value="2"/>
+				<Parameter name="LogicDataType" Value="uint(8)"/>
+				<Parameter name="Operator" Value="NOR"/>
+				<Parameter name="OutDataTypeMode" Value="Boolean"/>
+			</Primitive>
+			<Primitive Tag="" Name="Logical
+Operator4" name="Logical
+Operator4" Period="0" Deadline="0" Priority="0" BlockType="Logic" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id2b" name="In_1" Number="1" srcLine="id2a"/>
+				<InputPort _id="id4d" name="In_2" Number="2" srcLine="id4c"/>
+				<OutputPort _id="id2c" name="Out_1" Number="1" dstLine="id2d"/>
+				<Parameter name="AllPortsSameDT" Value="off"/>
+				<Parameter name="IconShape" Value="rectangular"/>
+				<Parameter name="Inputs" Value="2"/>
+				<Parameter name="LogicDataType" Value="uint(8)"/>
+				<Parameter name="Operator" Value="XOR"/>
+				<Parameter name="OutDataTypeMode" Value="Boolean"/>
+			</Primitive>
+			<Primitive Tag="" Name="Logical
+Operator5" name="Logical
+Operator5" Period="0" Deadline="0" Priority="0" BlockType="Logic" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id4f" name="In_1" Number="1" srcLine="id4e"/>
+				<OutputPort _id="id2f" name="Out_1" Number="1" dstLine="id30"/>
+				<Parameter name="AllPortsSameDT" Value="off"/>
+				<Parameter name="IconShape" Value="rectangular"/>
+				<Parameter name="Inputs" Value="2"/>
+				<Parameter name="LogicDataType" Value="uint(8)"/>
+				<Parameter name="Operator" Value="NOT"/>
+				<Parameter name="OutDataTypeMode" Value="Boolean"/>
+			</Primitive>
+			<Primitive Tag="" Name="Logical
+Operator6" name="Logical
+Operator6" Period="0" Deadline="0" Priority="0" BlockType="Logic" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id33" name="In_1" Number="1" srcLine="id32"/>
+				<OutputPort _id="id34" name="Out_1" Number="1" dstLine="id35"/>
+				<Parameter name="AllPortsSameDT" Value="off"/>
+				<Parameter name="IconShape" Value="rectangular"/>
+				<Parameter name="Inputs" Value="2"/>
+				<Parameter name="LogicDataType" Value="uint(8)"/>
+				<Parameter name="Operator" Value="NOT"/>
+				<Parameter name="OutDataTypeMode" Value="Boolean"/>
+			</Primitive>
+			<Primitive Tag="" Name="Logical
+Operator7" name="Logical
+Operator7" Period="0" Deadline="0" Priority="0" BlockType="Logic" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id38" name="In_1" Number="1" srcLine="id37"/>
+				<InputPort _id="id3a" name="In_2" Number="2" srcLine="id39"/>
+				<OutputPort _id="id3b" name="Out_1" Number="1" dstLine="id3c"/>
+				<Parameter name="AllPortsSameDT" Value="off"/>
+				<Parameter name="IconShape" Value="rectangular"/>
+				<Parameter name="Inputs" Value="2"/>
+				<Parameter name="LogicDataType" Value="uint(8)"/>
+				<Parameter name="Operator" Value="XOR"/>
+				<Parameter name="OutDataTypeMode" Value="Boolean"/>
+			</Primitive>
+			<Primitive Tag="" Name="Math
+Function" name="Math
+Function" Period="0" Deadline="0" Priority="0" BlockType="Math" SampleTime="-1.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id3f" name="In_1" Number="1" srcLine="id3e"/>
+				<InputPort _id="id42" name="In_2" Number="2" srcLine="id41"/>
+				<OutputPort _id="id43" name="Out_1" Number="1" dstLine="id44 id46 id48 id4a id4c id4e"/>
+				<Parameter name="LockScale" Value="off"/>
+				<Parameter name="Operator" Value="mod"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Same as first input"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="OutputSignalType" Value="auto"/>
+				<Parameter name="RndMeth" Value="Floor"/>
+				<Parameter name="SaturateOnIntegerOverflow" Value="on"/>
+			</Primitive>
+			<System Tag="" Name="Counter" name="Counter" Priority="0" BlockType="SubSystem" SampleTime="0.000000" Description="">
+				<Line _id="id54" Name="" dstLine_end_="id55" srcLine_end_="id53"/>
+				<Line _id="id57" Name="" dstLine_end_="id58" srcLine_end_="id56"/>
+				<Line _id="id5a" Name="" dstLine_end_="id10" srcLine_end_="id59"/>
+				<Line _id="id5d" Name="" dstLine_end_="id5e" srcLine_end_="id5c"/>
+				<OutputPort _id="id10" name="ctr" Number="1" dstLine="id12 id3e" srcLine="id5a"/>
+				<Parameter name="ExecuteAtInitialization" Value="off"/>
+				<Primitive Tag="" Name="Demux" name="Demux" Period="0" Deadline="0" Priority="0" BlockType="Demux" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id58" name="In_1" Number="1" srcLine="id57"/>
+					<OutputPort _id="id5c" name="Out_1" Number="1" dstLine="id5d"/>
+					<Parameter name="BusSelectionMode" Value="off"/>
+					<Parameter name="DisplayOption" Value="none"/>
+					<Parameter name="Outputs" Value="1"/>
+				</Primitive>
+				<Primitive Tag="" Name="Ground" name="Ground" Period="0" Deadline="0" Priority="0" BlockType="Ground" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<OutputPort _id="id53" name="Out_1" Number="1" dstLine="id54"/>
+				</Primitive>
+				<Primitive Tag="Stateflow S-Function logic 1" Name="SFunction" name="SFunction" Period="0" Deadline="0" Priority="0" BlockType="S-Function" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<ConnectorRef _id="id60" ref="id5f" name="Counter"/>
+					<InputPort _id="id55" name="In_1" Number="1" srcLine="id54"/>
+					<OutputPort _id="id56" name="Out_1" Number="1" dstLine="id57"/>
+					<OutputPort _id="id59" name="Out_2" Number="2" dstLine="id5a"/>
+					<Parameter name="FunctionName" Value="sf_sfun"/>
+					<Parameter name="Parameters" Value=""/>
+					<Parameter name="SFunctionModules" Value="''"/>
+				</Primitive>
+				<Primitive Tag="" Name="Terminator" name="Terminator" Period="0" Deadline="0" Priority="0" BlockType="Terminator" SampleTime="0.000000" Description="" ExecutionTime="0">
+					<InputPort _id="id5e" name="In_1" Number="1" srcLine="id5d"/>
+				</Primitive>
+			</System>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow">
+		<State Name="" name="TopLevel" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE">
+			<State _id="id5f" Name="Counter" name="Counter" Order="" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" referedbyConnectorRef="id60">
+				<Data Max="" Min="" Name="ctr" Port="1" name="ctr" Scope="OUTPUT_DATA" Units="" DataType="" ArraySize="" Description="" InitialValue="1" ArrayFirstIndex="">
+					<TypeBaseRef _id="id65" ref="id63" name="MdoubleC1C1M" MemberIndex="0"/>
+				</Data>
+				<State _id="id61" Name="s1" name="s1" Order="0" ExitAction="" EnterAction="" DuringAction="" Decomposition="OR_STATE" dstTransition="id68 id69" srcTransition="id66 id68 id69"/>
+				<TransStart _id="id67" dstTransition="id66"/>
+				<Transition _id="id66" name="" Guard="" Order="1" Action="" Trigger="" ConditionAction="" dstTransition_end_="id61" srcTransition_end_="id67"/>
+				<Transition _id="id68" name="" Guard="ctr &lt; 3" Order="1" Action="ctr = ctr+1;" Trigger="" ConditionAction="" dstTransition_end_="id61" srcTransition_end_="id61"/>
+				<Transition _id="id69" name="" Guard="ctr >= 3" Order="2" Action="ctr = 0;" Trigger="" ConditionAction="" dstTransition_end_="id61" srcTransition_end_="id61"/>
+			</State>
+		</State>
+	</Stateflow>
+	<Types name="Types">
+		<Matrix _id="id63" Type="double" name="MdoubleC1C1M" rows="1" columns="1" referedbyTypeStructRef="id65"/>
+	</Types>
+</RootFolder>
+
+

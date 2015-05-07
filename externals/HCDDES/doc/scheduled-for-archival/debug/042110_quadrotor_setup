@@ -1,0 +1,40 @@
+Remember the questions we need to answer:
+
+1. Did the packages compile and install properly?
+2. Does the running system conform to the schedule?
+3. Does each component move data as expected?
+4. Is each component running only as long as expected?
+5. Are the data links working (timing, transfer time, values)?
+6. Do we get consistent end-to-end data flow?
+7. Does each component implement the specified function?
+8. Do the composed components implement the specified control function?
+9. Does the closed-loop system track properly?
+
+Today's procedure:
+
+0. Testing the dynamics first.  Changed the inner loop output to 'always 0',
+   and ran the quadrotor dynamics to see if we get 0 out as well.
+
+   Nothing at all on the output, and the controller crashed.
+   The I2C is consistently crashing.  Maybe we're back into the deadlock.
+
+   Observations and problems:
+
+   Timing check:  Timing is good when the UART input is off.  When it's on, 
+   we get trouble --
+
+   a. The "hope it stays synchronized" approach to UART data integrity is not
+   working with the large input message, as the switching indicator seems to 
+   be drifting a lot.
+
+     This seems to be a pretty big issue. Making the counter more robust is
+     not sufficient. The transfer seems to be losing bytes, and re-reading to
+     collect them doesn't seem to work.  This will require some thought...
+
+   b. The gumstix task at time 16 (I2C message back) seems to be missing 
+   frequently.
+
+  
+
+1. Added header bytes to the UART message structures.
+

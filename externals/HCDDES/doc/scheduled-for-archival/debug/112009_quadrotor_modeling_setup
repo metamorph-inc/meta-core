@@ -1,0 +1,68 @@
+Procedure for today:
+
+0. Already built the quadrotor xPC model last night, using the comms capacity
+   test model and the quadrotor_1 model.
+
+1. Update and rebuild the modeling tools to get all of the latest changes.
+
+2. Restructure the quadrotor model slightly --
+   In the robo_stix block, routed Xe and Ve through the sensor_convert block
+      (simple pass-through) so that the block could function as the data 
+      handler.
+
+   Grouped all of the inner loop control blocks into a single subsystem, and
+      removed extra scopes.  Also removed the sector search functions.
+
+   Did the same for the gumstix side.  Also encapsulated the blocks for 
+      formatting the input, so we can provide references internally.
+
+3. Import into the comms_test_capacity model using MDL2MGA.
+
+4. Redesigned the message structures to accomodate the new model.
+
+5. Running AddTypes to update the type links.  Forgot to set port sizes 
+   on all of the blocks.
+
+   + Updated the Simulink model, re-ran the import, updated the links, and
+     trying AddTypes again...
+
+6. Embedded Matlab blocks must also have their port sizes specified manually.
+
+   + Repeating the exercise.
+
+   + Simulink didn't store the port values.  Third time is the charm...
+
+   + Maybe the fourth time :-) The euler angles value needs to be copied into
+     two different messages, and the Simulink code won't know how to do that.
+     Also, we had to set the input port data types for the ref_data block, as
+     the back-propagation of types doesn't work if the input end doesn't have
+     a type.
+    
+   + Fifth time.  The data type conversion blocks needed to have an explicit
+     output type specified.
+
+   + #6 Isolated a bug in the multiplexer data type propagation.  Referred to 
+     Harmon.
+
+   + It's a very odd corner case.  In a simple model for reproducing the bug, 
+     I had to set the type of the output port by hand to MsingleC-1C1M.  Then
+     it would recreate the bug.  Removing that reference from my model seems to
+     have allowed AddTypes to complete.  Harmon says that I over-specified the
+     port types.  The Output ports should be left to the type "auto" whenever
+     possible.
+
+7. Quadrotor model design -- 
+
+   + Updated the links within the components.
+   + Updated dependencies
+   + Updated platform model (single input UART, no ADC)
+   + Updated execution/timing model
+
+8. SL_CodeGen did not like the zero order hold blocks, nor the loops in the
+   sensor fusion subsystem.
+
+   + Taking a look at the Simulink model to see what we can do about it. 
+     Zero-order holds are easy -- they have been moved out of the block.
+     
+
+

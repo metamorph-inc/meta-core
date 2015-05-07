@@ -1,0 +1,32 @@
+\section{Conclusions}
+\label{S:conclusions}
+In this paper we have described how a general technique: passivity,
+and a particular controller structure involving the resilient power
+junction can be used.  The resilient power junction operating under
+Assumption~\ref{A:resilient_pj} when interconnected to
+$\mathsf{m_c}-$redundant controllers and a single plant will always
+perform well under both denial-of-service attacks on individual
+controllers and degrade gracefully as additional \sop\ 'corrupted' digital
+controllers are introduced into the network.
+However, when introducing a highly-unstable controller into the network
+great care must be taken in order to identify and isolate the digital
+controller.  Assumption~\ref{A:resilient_pj} had to be made quite a
+bit-stricter in order to isolate these unstable controllers, in
+particular the time-delays and data-dropouts needed to be identical
+when transmitting controller wave variables to and from the
+power-junction.  This can be fairly easily satisfied on a
+real-time-operating system but more difficult over a network.  We did
+provide the important result, however, that controllers can be removed
+without either destabilizing the system and showed that they can still
+maintain uninterrupted performance.
+
+The theoretical framework presented gives a tool to the control
+engineer for building digital control systems that can survive, and
+even 'operate through' attacks, while maintaining the quality of
+control.  Naturally, there are critical points in the implementation
+(e.g. the realization of the resilient power junction) that needs to
+be created  with great care.  In any case, passivity-based approaches
+to controller design provide a promising direction for designing
+controllers that are significantly more robust than other techniques.
+As illustrated, mathematical proofs exist for their properties, and
+they could be widely applied to linear and non-linear systems alike.

@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CCE0FC0E-7843-4A85-B4D8-9752E92355D3}</ProjectGuid>
+    <RootNamespace>BlockTemplate_Cyber</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\..\src\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\..\autobuild\MMRules.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+    <Import Project="..\..\..\Python.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+    <Import Project="..\..\..\Python.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+    <Import Project="..\..\..\Python.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\VCP.props" />
+    <Import Project="..\..\..\Python.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCP_LIB)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\$(PlatformName)\lib\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCP_LIB)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\$(PlatformName)\lib\</OutDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)D</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)D</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(UDM_PATH)\include;$(PYTHON_HOME)\include;$(META_PATH)\src\Cyber2SLC_CodeGen\SL_CodeGen;..\..\..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UDM_DYNAMIC_LINKING;USE_CyberComposition;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(UDM_PATH)\include;$(PYTHON_HOME)\include;$(META_PATH)\src\Cyber2SLC_CodeGen\SL_CodeGen;..\..\..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UDM_DYNAMIC_LINKING;USE_CyberComposition;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(UDM_PATH)\include;$(PYTHON_HOME)\include;$(META_PATH)\src\Cyber2SLC_CodeGen\SL_CodeGen;..\..\..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;UDM_DYNAMIC_LINKING;USE_CyberComposition;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(UDM_PATH)\include;$(PYTHON_HOME)\include;$(META_PATH)\src\Cyber2SLC_CodeGen\SL_CodeGen;..\..\..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;UDM_DYNAMIC_LINKING;USE_CyberComposition;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\BlockTemplate.cpp" />
+    <ClCompile Include="src\BlockTemplateModule.cpp" />
+    <ClCompile Include="src\BlockTemplateModuleBase.cpp" />
+    <ClCompile Include="src\CodeGenerator.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\BlockTemplate.hpp" />
+    <ClInclude Include="..\..\..\include\BlockTemplateModule.hpp" />
+    <ClInclude Include="src\BlockTemplateModuleBase.hpp" />
+    <ClInclude Include="..\..\..\include\CodeGenerator.hpp" />
+    <ClInclude Include="..\..\..\include\ESMoLHelper.hpp" />
+    <ClInclude Include="..\..\..\include\SFCHelper.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\generated\BlockTemplate\Python\Abs.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Assignment.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\BusCreator.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\BusSelector.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Collapse.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Constant.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\DataStoreMemory.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\DataStoreRead.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\DataStoreWrite.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\DataTypeConversion.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Demux.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\DiscreteStateSpace.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\DiscreteTransferFcn.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\DiscreteZeroPole.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\DiscreteZFunction.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\DotProduct.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Embedded.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Fcn.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Gain.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Ground.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\If.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Logic.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Math.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Merge.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\MinMax.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\MultiPortSwitch.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Mux.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Product.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\RelationalOperator.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Rounding.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Saturate.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Selector.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\SFunction.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\SignalConversion.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Signum.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Sqrt.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Sum.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Switch.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\SwitchCase.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Terminator.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\ToWorkspace.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\Trigonometry.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\UnitDelay.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\UnitDelayPre.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\ZeroOrderHold.py" />
+    <None Include="..\..\..\generated\BlockTemplate\Python\RateTransition.py" />
+    <None Include="packages.config" />
+    <None Include="Python\ArrayCoordinator.py" />
+    <None Include="Python\ArrayDecomp.py" />
+    <None Include="Python\ArrayManager.py" />
+    <None Include="Python\BlockOperationManager.py" />
+    <None Include="Python\BusMemberDecomp.py" />
+    <None Include="Python\DataStore.py" />
+    <None Include="Python\GetCoefficients.py" />
+    <None Include="Python\LoopHelper.py" />
+    <None Include="Python\LoopVariables.py" />
+    <None Include="Python\MatLabHelper.py" />
+    <None Include="Python\NamedArray.py" />
+    <None Include="Python\NamedBusMember.py" />
+    <None Include="Python\StructToArray.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Cheetah Include="Cheetah\Abs.tmpl" />
+    <Cheetah Include="Cheetah\Assignment.tmpl" />
+    <Cheetah Include="Cheetah\BusCreator.tmpl" />
+    <Cheetah Include="Cheetah\BusSelector.tmpl" />
+    <Cheetah Include="Cheetah\Collapse.tmpl" />
+    <Cheetah Include="Cheetah\Constant.tmpl" />
+    <Cheetah Include="Cheetah\DataStoreMemory.tmpl" />
+    <Cheetah Include="Cheetah\DataStoreRead.tmpl" />
+    <Cheetah Include="Cheetah\DataStoreWrite.tmpl" />
+    <Cheetah Include="Cheetah\DataTypeConversion.tmpl" />
+    <Cheetah Include="Cheetah\Demux.tmpl" />
+    <Cheetah Include="Cheetah\DiscreteStateSpace.tmpl" />
+    <Cheetah Include="Cheetah\DiscreteTransferFcn.tmpl" />
+    <Cheetah Include="Cheetah\DiscreteZeroPole.tmpl" />
+    <Cheetah Include="Cheetah\DiscreteZFunction.tmpl" />
+    <Cheetah Include="Cheetah\DotProduct.tmpl" />
+    <Cheetah Include="Cheetah\Embedded.tmpl" />
+    <Cheetah Include="Cheetah\Fcn.tmpl" />
+    <Cheetah Include="Cheetah\Gain.tmpl" />
+    <Cheetah Include="Cheetah\Ground.tmpl" />
+    <Cheetah Include="Cheetah\If.tmpl" />
+    <Cheetah Include="Cheetah\Logic.tmpl" />
+    <Cheetah Include="Cheetah\Math.tmpl" />
+    <Cheetah Include="Cheetah\Merge.tmpl" />
+    <Cheetah Include="Cheetah\MinMax.tmpl" />
+    <Cheetah Include="Cheetah\MultiPortSwitch.tmpl" />
+    <Cheetah Include="Cheetah\Mux.tmpl" />
+    <Cheetah Include="Cheetah\Product.tmpl" />
+    <Cheetah Include="Cheetah\RelationalOperator.tmpl" />
+    <Cheetah Include="Cheetah\Rounding.tmpl" />
+    <Cheetah Include="Cheetah\Saturate.tmpl" />
+    <Cheetah Include="Cheetah\Selector.tmpl" />
+    <Cheetah Include="Cheetah\SFunction.tmpl" />
+    <Cheetah Include="Cheetah\SignalConversion.tmpl" />
+    <Cheetah Include="Cheetah\Signum.tmpl" />
+    <Cheetah Include="Cheetah\Sqrt.tmpl" />
+    <Cheetah Include="Cheetah\Sum.tmpl" />
+    <Cheetah Include="Cheetah\Switch.tmpl" />
+    <Cheetah Include="Cheetah\SwitchCase.tmpl" />
+    <Cheetah Include="Cheetah\Terminator.tmpl" />
+    <Cheetah Include="Cheetah\ToWorkspace.tmpl" />
+    <Cheetah Include="Cheetah\Trigonometry.tmpl" />
+    <Cheetah Include="Cheetah\UnitDelay.tmpl" />
+    <Cheetah Include="Cheetah\UnitDelayPre.tmpl" />
+    <Cheetah Include="Cheetah\ZeroOrderHold.tmpl" />
+    <Cheetah Include="Cheetah\RateTransition.tmpl" />
+    <Cheetah Include="Cheetah_new\Acos.tmpl" />
+    <Cheetah Include="Cheetah_new\Acosh.tmpl" />
+    <Cheetah Include="Cheetah_new\Add.tmpl" />
+    <Cheetah Include="Cheetah_new\And.tmpl" />
+    <Cheetah Include="Cheetah_new\Asin.tmpl" />
+    <Cheetah Include="Cheetah_new\Asinh.tmpl" />
+    <Cheetah Include="Cheetah_new\Atan.tmpl" />
+    <Cheetah Include="Cheetah_new\Atan2.tmpl" />
+    <Cheetah Include="Cheetah_new\Atanh.tmpl" />
+    <Cheetah Include="Cheetah_new\Ceil.tmpl" />
+    <Cheetah Include="Cheetah_new\conj.tmpl" />
+    <Cheetah Include="Cheetah_new\Cos.tmpl" />
+    <Cheetah Include="Cheetah_new\Cosh.tmpl" />
+    <Cheetah Include="Cheetah_new\Demultiplex2.tmpl" />
+    <Cheetah Include="Cheetah_new\Exp.tmpl" />
+    <Cheetah Include="Cheetah_new\Exp10.tmpl" />
+    <Cheetah Include="Cheetah_new\Fix.tmpl" />
+    <Cheetah Include="Cheetah_new\Floor.tmpl" />
+    <Cheetah Include="Cheetah_new\Greater.tmpl" />
+    <Cheetah Include="Cheetah_new\GreaterEqual.tmpl" />
+    <Cheetah Include="Cheetah_new\Hermitian.tmpl" />
+    <Cheetah Include="Cheetah_new\Hypot.tmpl" />
+    <Cheetah Include="Cheetah_new\isEqual.tmpl" />
+    <Cheetah Include="Cheetah_new\Less.tmpl" />
+    <Cheetah Include="Cheetah_new\LessEqual.tmpl" />
+    <Cheetah Include="Cheetah_new\Log.tmpl" />
+    <Cheetah Include="Cheetah_new\Log10.tmpl" />
+    <Cheetah Include="Cheetah_new\Max.tmpl" />
+    <Cheetah Include="Cheetah_new\Min.tmpl" />
+    <Cheetah Include="Cheetah_new\Mod.tmpl" />
+    <Cheetah Include="Cheetah_new\Multiplex2.tmpl" />
+    <Cheetah Include="Cheetah_new\Nand.tmpl" />
+    <Cheetah Include="Cheetah_new\Nor.tmpl" />
+    <Cheetah Include="Cheetah_new\Not.tmpl" />
+    <Cheetah Include="Cheetah_new\NotAtempted_Atan2.tmpl" />
+    <Cheetah Include="Cheetah_new\NotEquals.tmpl" />
+    <Cheetah Include="Cheetah_new\Nxor.tmpl" />
+    <Cheetah Include="Cheetah_new\Or.tmpl" />
+    <Cheetah Include="Cheetah_new\Power.tmpl" />
+    <Cheetah Include="Cheetah_new\Power2.tmpl" />
+    <Cheetah Include="Cheetah_new\Reciprical.tmpl" />
+    <Cheetah Include="Cheetah_new\Remainder.tmpl" />
+    <Cheetah Include="Cheetah_new\Round.tmpl" />
+    <Cheetah Include="Cheetah_new\Sign.tmpl" />
+    <Cheetah Include="Cheetah_new\Sin.tmpl" />
+    <Cheetah Include="Cheetah_new\SinCos.tmpl" />
+    <Cheetah Include="Cheetah_new\Sinh.tmpl" />
+    <Cheetah Include="Cheetah_new\Square.tmpl" />
+    <Cheetah Include="Cheetah_new\Tan.tmpl" />
+    <Cheetah Include="Cheetah_new\Tanh.tmpl" />
+    <Cheetah Include="Cheetah_new\Transpose.tmpl" />
+    <Cheetah Include="Cheetah_new\Xor.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\src\Cyber2SLC_CodeGen\UpdateCyber2SLC_udm.vcxproj">
+      <Project>{eb1b381c-6bea-43d2-8d56-3371814691ec}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\models\SFC\SFC.vcxproj">
+      <Project>{e4950023-ab75-4eef-8cd6-653be9290daa}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\autobuild\MMRules.targets" />
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="..\..\..\..\..\src\nuget\boost.1.55.0.10\build\native\boost.targets" Condition="Exists('..\..\..\..\..\src\nuget\boost.1.55.0.10\build\native\boost.targets')" />
+    <Import Project="..\..\..\..\..\src\nuget\boost_python.1.55.0.10\build\native\boost_python.targets" Condition="Exists('..\..\..\..\..\src\nuget\boost_python.1.55.0.10\build\native\boost_python.targets')" />
+  </ImportGroup>
+</Project>

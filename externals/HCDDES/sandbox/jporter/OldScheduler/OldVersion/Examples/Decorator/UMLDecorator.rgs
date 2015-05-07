@@ -1,0 +1,26 @@
+HKCR
+{
+	Mga.UMLDecorator.1 = s 'UMLDecorator Class'
+	{
+		CLSID = s '{26AC9143-6F73-4e6a-B942-F641B37F87B5}'
+	}
+	Mga.UMLDecorator = s 'UMLDecorator Class'
+	{
+		CLSID = s '{26AC9143-6F73-4e6a-B942-F641B37F87B5}' 
+		CurVer = s 'Mga.UMLDecorator.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {26AC9143-6F73-4e6a-B942-F641B37F87B5} = s 'UMLDecorator Class'
+		{
+			ProgID = s 'Mga.UMLDecorator.1'
+			VersionIndependentProgID = s 'Mga.UMLDecorator'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{4696E82A-ABFD-4b36-BC6B-4248CC56FD89}'
+		}
+	}
+}

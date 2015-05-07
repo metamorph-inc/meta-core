@@ -1,0 +1,88 @@
+% Quadrotor schedule with extras - incremental storage and parsing test 
+% After extras are added
+Problem QuadrotorIncrementalExtrasPostTest
+Resolution 1ms 
+
+Proc Gumstix 400MHz 0s 0s 
+TTask OuterLoop =50Hz 1.6ms 
+TTask ReferenceHandler =50Hz 1ms 
+PTask SensorDataCollector =10Hz 1.1ms
+SyncMsg TTBusSync
+Msg ReferenceHandler.Pos_Ref_msg_out 17B Gumstix/ReferenceHandler Gumstix/OuterLoop 
+
+Proc Robostix 16MHz 0s 0s 
+TTask DataHandler =50Hz 200us 
+TTask InnerLoop =50Hz 600us 
+PTask UARTIn1 =50Hz 1us 
+PTask UARTOut =50Hz 1.1ms 
+PTask Streaming =10Hz 1ms
+ATask WarningSensor <2Hz 1ms
+SyncMsg TTBusSync
+Msg DataHandler.PL_Data 61B Robostix/UARTIn1 Robostix/DataHandler 
+Msg InnerLoop.Thrust_Cmd_msg 17B Robostix/InnerLoop Robostix/UARTOut 
+Msg DataHandler.Att_Data_msg 25B Robostix/DataHandler Robostix/InnerLoop 
+
+TBus TTBus 100kb 1.3ms Gumstix Robostix 
+SyncMsg TTBusSync 1.25ms 0s 
+Msg DataHandler.Pos_Data_msg 37B Robostix/DataHandler Gumstix/OuterLoop 
+Msg OuterLoop.Att_Ref_msg 17B Gumstix/OuterLoop Robostix/InnerLoop 
+Msg Streaming.Audio_Data_msg 4B Robostix/Streaming Gumstix/SensorDatCollector
+Msg WarningSensor.Alert 10B Robostix/WarningSensor Gumstix/SensorDataCollector
+
+%%% DO NOT EDIT %%% ORIGINAL SPEC %%%
+Resolution 1ms 
+
+Proc Gumstix 400MHz 0s 0s 
+TTask OuterLoop =50Hz 1.6ms 
+TTask ReferenceHandler =50Hz 1ms 
+SyncMsg TBusSync
+Msg ReferenceHandler.Pos_Ref_msg_out 17B Gumstix/ReferenceHandler Gumstix/OuterLoop 
+
+Proc Robostix 16MHz 0s 0s 
+TTask DataHandler =50Hz 200us 
+TTask InnerLoop =50Hz 600us 
+PTask UARTIn1 =50Hz 1us 
+PTask UARTOut =50Hz 1.1ms 
+SyncMsg TBusSync
+Msg DataHandler.PL_Data 61B Robostix/UARTIn1 Robostix/DataHandler 
+Msg InnerLoop.Thrust_Cmd_msg 17B Robostix/InnerLoop Robostix/UARTOut 
+Msg DataHandler.Att_Data_msg 25B Robostix/DataHandler Robostix/InnerLoop 
+
+TBus TTBus 100kb 1.3ms Gumstix Robostix 
+SyncMsg TBusSync 1.25ms 0s 
+Msg DataHandler.Pos_Data_msg 37B Robostix/DataHandler Gumstix/OuterLoop 
+Msg OuterLoop.Att_Ref_msg 17B Gumstix/OuterLoop Robostix/InnerLoop
+
+%%% DO NOT EDIT %%% PROFILE DATA %%%
+
+Hyperperiod 20ms
+
+Profile Gumstix/TTask/P1
+Extensibility 10
+OuterLoop (12,14)
+ReferenceHandler (7,8)
+IFace Gumstix/PTask/P2
+
+Profile Gumstix/PTask/P2
+IFace Gumstix/ATask/P3
+
+Profile Gumstix/ATask/P3
+
+Profile Robostix/TTask/P4
+Extensibility 10
+DataHandler (9,10)
+InnerLoop (10,11)
+UARTIn1 (3,4)
+UARTOut (11,13)
+IFace Robostix/PTask/P5
+
+Profile Robostix/PTask/P5
+IFace Robostix/ATask/P6
+
+Profile Robostix/ATask/P6
+
+Profile TTBus/Msg/P7
+Extensibility 10
+DataHandler.Pos_Data_msg 3 (11,20)
+OuterLoop.Att_Ref_msg 3 (15,20)
+

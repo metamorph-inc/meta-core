@@ -1,0 +1,69 @@
+\section{Introduction}
+\label{S:introduction}
+%Need an introduction here...
+%Gabor, Janos ... ?
+%Can we provide other examples for 'health indicators', 'defense optimization'
+The design of resilient control systems necessitates novel developments at the 
+intersection of computer science and control theory.  The control of complex 
+dynamic systems is a well-studied area, but much less is known about how to 
+implement such control systems that are able to tolerate shortcomings of 
+non-ideal software and network-based implementation platforms. Additionally, 
+not 
+only implementation side-effects have to be mitigated, but 
+also potential issues related to security of the control system. For instance, 
+if an operator's interface is compromised, will the attacker be able to
+set control gains in such a manner so as to destabilize the system?
+If an actuator is degrading or has been compromised, will the operator
+be able to quickly identify and quantify such a system fault?
+Many processes are highly non-linear and quite difficult to control,
+as a result typical linear approximations are often made and the
+resulting ``safe'' operating range is quite narrow.  Interconnection
+damping assignment passivity based control (IDA-PBC) is an emerging
+method to systematically tackle the design of highly non-linear
+systems and derive intuitive control laws typically with many linear
+control-law elements and reasonable tuning gain ranges to allow an
+operator more flexibility in tuning a given system and to identify system
+degradation, all while being able to safely limit the operator from
+accidentally introducing destabilising gains.
+
+% Key idea:
+% Passivity based control principles provide a mathematically rigorous framework to
+% construct high-confidence control systems which have infinite gain margins, thus
+% possessing a great deal of robustness to uncertainty.  
+Passivity is a mathematical property of the controller implementation, and 
+could be realized in different ways. The approach described here applies to a 
+large family of physical systems  which can be described by both linear and 
+non-linear system models
+\cite{haddad08:_nonlin_dynam_system_and_contr,
+  schaft99:_l2_gain_passiv_nonlin_contr,
+  ortega98:_passiv_based_contr_euler_lagran_system}, including
+systems which can be described by cascades of passive systems such as
+quad-rotor aircraft
+\cite{kottenstette09:_digit_passiv_attit_and_altit}.  Most recently
+IDA-PBC has been shown to be effective in determining controllers which
+render non-minimum phase systems (which are typically very difficult
+to control) to be dissipative and asymptotically stable  
+\cite{doerfler09:_introd_to_inter_and_dampin, ramirez09:_contr_of_non_linear_proces}.
+
+A classic, but challenging control problem related to process control
+is the four tank process which can exhibit both
+minimum and \nonminimum-phase behavior by simply changing valve flow ratios
+\cite{johansson00:_quadr_tank_proces,
+  johnsen07:_inter_and_dampin_assig_passiv}.  In
+\cite{johnsen07:_inter_and_dampin_assig_passiv} it is first shown how
+to derive a proportional-IDA-PBC-law to control a less complex two tank
+process before deriving a control law for the four tank process.  We
+continue the study of the two tank process by introducing an integrator
+term to account for system uncertainty while introducing an integrator
+anti-windup compensator similar to that used to control thermal
+systems \cite{fu10:_feedb_therm_contr_for_real_time_system}.
+
+Section~\ref{S:control} provides an overview on IDA-PBC and an
+effective way to implement an anti-windup controller in order to
+improve system resilience.  Section~\ref{S:tanks} recalls the system
+dynamics used to model the flow for coupled tank systems in addition
+it includes the Hamiltonian chosen to generate our control laws.
+Section~\ref{S:simulations} provides simulated results demonstrating
+resilience to actuator degradation and improvement in reducing
+oscillations with anti-windup control.  Section~\ref{S:conclusions}
+provides conclusions for this paper.

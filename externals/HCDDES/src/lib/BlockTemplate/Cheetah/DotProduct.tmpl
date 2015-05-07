@@ -1,0 +1,14 @@
+#set $dimensions = $input.getDimensions()
+#if $len( $dimensions ) == 0
+$output = $inputs[0] .* $inputs[1]
+#else
+#set $product = $block.createVariable( "product", $input.type )
+$product = $inputs[0] .* $inputs[1]
+#set $ix = $block.createVariable( "ix", "int" )
+$output = 0
+$ix = 0
+while $ix < $dimensions[0]
+    $output = $output + ${product}( $ix )
+    $ix = $ix + 1
+end
+#end if

@@ -1,0 +1,42 @@
+#import re
+#
+$block.setKeepStructs()#slurp
+$block.setOneIndexing()#slurp
+#
+#set $script = $parameters.Script.value
+#set $script = $re.sub( '\.\.\.\s*&#x0a;', '', $script )
+#
+#set $scriptLines = $script.split( "&#x0a;" )
+#
+#set $functionStartRE = $re.compile( '^\s*function' );
+#while not $functionStartRE.search( $scriptLines[0] )
+#set $scriptLines = $scriptLines[1:]
+#end while
+#
+#set ( $outputHeader, $inputHeader ) = $scriptLines[0].split( '=', 2 )
+#set $scriptBody = "\n".join( scriptLines[1:] )
+#
+## GET INPUT ARGUMENTS
+#set $inputArgsRE = $re.compile( '\(([^,]*(?:,[^,]*)*)\)')
+#set $inputCSV = $inputArgsRE.search( $inputHeader ).group( 1 )
+#set $inputArgs = $map(  lambda s: s.strip(), $inputCSV.split( ',' )  ) if $inputCSV else []
+#
+## GET OUTPUT ARGUMENTS
+#set $outputArgsRE = $re.compile( '\[([^,]*(?:,[^,]*)*)\]' )
+#set $outputArgRE = $re.compile( 'function(.*)' )
+#set $outputArgs = []
+#if $outputHeader.find( '[' ) >= 0
+    #set $outputArgs = $map(  lambda s: s.strip(), $outputArgsRE.search( $outputHeader ).group( 1 ).split( ',' )  )
+#else
+    #set $outputArgs = [ $outputArgRE.search( $outputHeader ).group( 1 ).strip() ]
+#end if
+#
+#for $ix in $range(  0, $len( $inputArgs )  )
+$inputs[ $ix ].alias( $inputArgs[ $ix ] )#slurp
+#end for
+#
+#for $ix in $range(  0, $len( $outputArgs )  )
+$outputs[ $ix ].alias( $outputArgs[ $ix ] )#slurp
+#end for
+#
+$scriptBody

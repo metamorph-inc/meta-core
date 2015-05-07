@@ -1,0 +1,39 @@
+ 
+import "oaidl.idl";
+import "ocidl.idl";
+
+#include "DecoratorConfig.h"
+
+#define MAKE_STR(PAR) #PAR
+#define PATH3(X,Y) MAKE_STR(X##Y)
+#define PATH2(X,Y) PATH3(X,Y)
+#define PATH(NAME) PATH2(GME_INTERFACES_BASE,NAME)
+
+#include PATH(/InterfaceColl.h)
+#include PATH(/meta.idl)
+#include PATH(/mga.idl)
+#include PATH(/gme.idl)
+#include PATH(/MgaDecorator.idl)
+
+
+[
+	uuid(4696E82A-ABFD-4b36-BC6B-4248CC56FD89),
+	version(1.0),
+	helpstring("UMLDecoratorLib 1.0 Type Library")
+]
+library UMLDECORATORLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(26AC9143-6F73-4e6a-B942-F641B37F87B5),
+		helpstring("UMLDecorator Class")
+	]
+	coclass UMLDecorator
+	{
+		[default] interface IMgaDecorator;
+		interface IMgaVersionInfo;
+	};
+
+};

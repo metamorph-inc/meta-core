@@ -1,0 +1,4193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{E76D9DF7-0CBD-4CAC-A47F-815CC2E4B07C}" cdate="Wed Mar 09 12:36:32 2011" mdate="Wed Mar 09 12:36:32 2011" version="" metaguid="{25512DD0-7F8A-422C-A06E-F206E4695D15}" metaversion="" metaname="ESMoL">
+	<name>RootFolder</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x1" kind="RootFolder" guid="{e2305f15-fcaf-49ec-bebf-256c8f50dac4}">
+		<name>RootFolder</name>
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x1" kind="DesignFolder" guid="{7d1b6982-6d64-46d8-ac7b-b9c1c9a339b1}">
+			<name>Imported Models</name>
+			<folder id="id-006a-00000003" relid="0x1" childrelidcntr="0x1" kind="ModelsFolder" guid="{ea913ead-a49e-4faf-b3be-aa27ac9977cb}">
+				<name>TestMod</name>
+				<folder id="id-006a-00000004" relid="0x1" childrelidcntr="0x1" kind="Dataflow" guid="{8af3702a-74be-43aa-877d-86821004a26a}">
+					<name>Dataflow</name>
+					<model id="id-0065-00000001" kind="Subsystem" guid="{a4ca1ae6-9ea6-4e2e-b33f-f03db6c7197d}" relid="0x1" childrelidcntr="0x27">
+						<name>Subsys1</name>
+						<attribute kind="BlockType" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Deadline" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Name" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Period" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="Priority" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="SampleTime" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="Tag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="UserData" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-00000002" kind="Primitive" role="Primitive" guid="{a37ea757-7835-490a-9fec-78fcd97fde16}" relid="0x1" childrelidcntr="0x5">
+							<name>Primitive1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>175,119</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="BlockType" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Priority" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="SampleTime" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Tag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="UserData" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-0000000a" kind="InputPort" role="InputPort" guid="{d3869958-6189-44de-ab5f-95ef83e2fbf6}" relid="0x1" childrelidcntr="0x0">
+								<name>InputPort</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>57,99</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-0000000b" kind="OutputPort" role="OutputPort" guid="{8ac394fb-fed7-4c89-af9a-be3300e33d1c}" relid="0x2" childrelidcntr="0x0">
+								<name>OutputPort</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>575,106</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-0000000d" kind="OutputPort" role="OutputPort" guid="{83c0767d-4195-4607-b19d-baafec40eea9}" relid="0x4" childrelidcntr="0x0">
+								<name>OutputPort</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>589,225</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-0000000e" kind="InputPort" role="InputPort" guid="{d4c9f3cc-4f5a-48ef-8612-64fb9e2f3caa}" relid="0x5" childrelidcntr="0x0">
+								<name>InputPort</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>50,190</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+						</model>
+						<model id="id-0065-00000003" kind="Primitive" role="Primitive" guid="{80818452-c193-41fe-adf7-bde05d1f245d}" relid="0x2" childrelidcntr="0x4">
+							<name>Primitive2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>343,245</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="BlockType" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Priority" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="SampleTime" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Tag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="UserData" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-00000014" kind="InputPort" role="InputPort" guid="{4ec5edca-f8cb-403a-ae8f-5802f64e609e}" relid="0x1" childrelidcntr="0x0">
+								<name>InputPort</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>64,113</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000015" kind="InputPort" role="InputPort" guid="{2706c66b-da3a-4707-b1b3-03d5f70cc346}" relid="0x2" childrelidcntr="0x0">
+								<name>InputPort</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>57,253</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000016" kind="OutputPort" role="OutputPort" guid="{a5189738-cf61-4da6-9889-3a8adfaeadb8}" relid="0x3" childrelidcntr="0x0">
+								<name>OutputPort</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>526,120</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000017" kind="OutputPort" role="OutputPort" guid="{9c105906-d1f4-4917-8cc4-d4ee21001301}" relid="0x4" childrelidcntr="0x0">
+								<name>OutputPort</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>533,253</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+						</model>
+						<model id="id-0065-00000004" kind="Primitive" role="Primitive" guid="{f3be5a91-b641-4c0b-a912-f163abc9129c}" relid="0x3" childrelidcntr="0x3">
+							<name>Primitive3</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>343,385</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="BlockType" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Priority" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="SampleTime" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Tag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="UserData" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-00000018" kind="InputPort" role="InputPort" guid="{72ffef70-59fa-4c50-acca-5dd023339b7e}" relid="0x1" childrelidcntr="0x0">
+								<name>InputPort1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>29,211</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000019" kind="OutputPort" role="OutputPort" guid="{77549521-f06f-4894-9c38-5faf8765324f}" relid="0x2" childrelidcntr="0x0">
+								<name>OutputPort</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>533,218</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-0000007c" kind="InputPort" role="InputPort" guid="{50b3d1d9-98e0-49c1-8acd-05e5505854ea}" relid="0x3" childrelidcntr="0x0">
+								<name>InputPort2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>36,323</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+						</model>
+						<model id="id-0065-00000005" kind="InputPort" role="InputPort" guid="{0b2eb738-84f2-4114-985a-bd24a32790df}" relid="0x4" childrelidcntr="0x0">
+							<name>InputPort1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,85</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number" status="meta">
+								<value>0</value>
+							</attribute>
+						</model>
+						<model id="id-0065-00000006" kind="InputPort" role="InputPort" guid="{c80d4616-c51e-4cdd-b86f-a829c7462d76}" relid="0x5" childrelidcntr="0x0">
+							<name>InputPort2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>36,190</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number" status="meta">
+								<value>0</value>
+							</attribute>
+						</model>
+						<model id="id-0065-00000007" kind="OutputPort" role="OutputPort" guid="{844cc985-d31a-4092-a8e9-96f4211442c7}" relid="0x6" childrelidcntr="0x0">
+							<name>OutputPort1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>1002,71</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number" status="meta">
+								<value>0</value>
+							</attribute>
+						</model>
+						<model id="id-0065-00000008" kind="OutputPort" role="OutputPort" guid="{c0df0529-4ea1-45ee-a45f-e1d973ba5d60}" relid="0x7" childrelidcntr="0x0">
+							<name>OutputPort2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>1002,148</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number" status="meta">
+								<value>0</value>
+							</attribute>
+						</model>
+						<model id="id-0065-00000009" kind="Subsystem" role="Subsystem" guid="{8d4c1345-bc65-4171-9f4f-bb1352dc55cc}" relid="0x8" childrelidcntr="0x11">
+							<name>Subsystem1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>476,63</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="BlockType" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Deadline" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Period" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Priority" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="SampleTime" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Tag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="UserData" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-0000000f" kind="InputPort" role="InputPort" guid="{167c3cf8-bd00-4367-940e-ce50fcd6d13e}" relid="0x1" childrelidcntr="0x0">
+								<name>InputPort1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>148,50</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000010" kind="InputPort" role="InputPort" guid="{ff8a2753-21f9-418b-83f2-c3ff7331b07c}" relid="0x2" childrelidcntr="0x0">
+								<name>InputPort2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>148,239</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000012" kind="OutputPort" role="OutputPort" guid="{dc38575f-e517-452e-b29f-4fc6889ce82b}" relid="0x4" childrelidcntr="0x0">
+								<name>OutputPort1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>582,64</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000013" kind="OutputPort" role="OutputPort" guid="{7c07efab-8dd0-4ac7-ba4b-175cbd5747cf}" relid="0x5" childrelidcntr="0x0">
+								<name>OutputPort2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>582,246</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-0000001a" kind="InputPort" role="InputPort" guid="{77e17ed7-3125-4d25-896f-0dbd912e0750}" relid="0x6" childrelidcntr="0x0">
+								<name>InputPort3</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>148,372</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-0000001b" kind="OutputPort" role="OutputPort" guid="{16d83a04-5383-4a96-8b20-55df187a70dd}" relid="0x7" childrelidcntr="0x0">
+								<name>OutputPort3</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>589,372</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-0000002a" kind="Primitive" role="Primitive" guid="{e2f49a3f-032b-4666-8f13-9c8400f41112}" relid="0x8" childrelidcntr="0x4">
+								<name>Primitive2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>308,112</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-0000002b" kind="InputPort" role="InputPort" guid="{e99c7d9f-280f-427a-bd86-5efbe80a83f4}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>64,113</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-0000002c" kind="OutputPort" role="OutputPort" guid="{65c7549b-4292-48e7-b4ab-06d66161ff4f}" relid="0x4" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>533,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-0000002d" kind="InputPort" role="InputPort" guid="{1f6271fe-4655-4d59-8ba0-ebe6971b6174}" relid="0x2" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>57,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-0000002e" kind="OutputPort" role="OutputPort" guid="{c5d187da-f3a5-4e8a-9c0e-dd6854e4d1bf}" relid="0x3" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>526,120</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+							</model>
+							<model id="id-0065-0000002f" kind="Primitive" role="Primitive" guid="{9ae72d8e-3bcc-4dc7-be0a-246a29ac2cfd}" relid="0x9" childrelidcntr="0x2">
+								<name>Primitive3</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>329,350</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-00000030" kind="InputPort" role="InputPort" guid="{9a67465f-fa14-4157-8ca1-ce003f860187}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>29,211</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000031" kind="OutputPort" role="OutputPort" guid="{80af5283-f872-4dcb-a2bb-670a49fb9e3a}" relid="0x2" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>533,218</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+							</model>
+							<connection id="id-0068-00000015" kind="Line" role="Line" guid="{5222d0cd-aeac-49b0-88a6-0e669cae1066}" relid="0xc">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>E</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-0000001a"/>
+								<connpoint role="dst" target="id-0065-00000030"/>
+							</connection>
+							<connection id="id-0068-00000016" kind="Line" role="Line" guid="{5805d483-12c6-43f6-86e7-3176f323572a}" relid="0xd">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>w</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-0000001b"/>
+								<connpoint role="src" target="id-0065-00000031"/>
+							</connection>
+							<connection id="id-0068-00000017" kind="Line" role="Line" guid="{fb4b9fb9-9c4d-40c3-80b6-511ef311cb16}" relid="0xe">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>E</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-0000000f"/>
+								<connpoint role="dst" target="id-0065-0000002b"/>
+							</connection>
+							<connection id="id-0068-00000018" kind="Line" role="Line" guid="{9daf4566-f7c2-4a19-9c55-9f6494e94696}" relid="0xf">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>E</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-00000010"/>
+								<connpoint role="dst" target="id-0065-0000002d"/>
+							</connection>
+							<connection id="id-0068-00000019" kind="Line" role="Line" guid="{67aaba3a-0f94-4874-82f2-54f33b657226}" relid="0x10">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>w</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-00000012"/>
+								<connpoint role="src" target="id-0065-0000002e"/>
+							</connection>
+							<connection id="id-0068-0000001a" kind="Line" role="Line" guid="{c4408432-54cc-4f50-bde7-e6da38373dd4}" relid="0x11">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>w</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-00000013"/>
+								<connpoint role="src" target="id-0065-0000002c"/>
+							</connection>
+						</model>
+						<model id="id-0065-0000001c" kind="Subsystem" role="Subsystem" guid="{77fafb10-13ae-4a89-966b-9c6ce469d037}" relid="0x12" childrelidcntr="0x15">
+							<name>Subsystem2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>651,63</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="BlockType" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Deadline" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Period" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Priority" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="SampleTime" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Tag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="UserData" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-0000001d" kind="InputPort" role="InputPort" guid="{ff9fd0e7-12f5-40ec-b2d4-0e44073227f5}" relid="0x2" childrelidcntr="0x0">
+								<name>InputPort2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>148,239</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-0000001e" kind="InputPort" role="InputPort" guid="{986e67db-f8c9-4d91-bc34-bbf27a780d3c}" relid="0x1" childrelidcntr="0x0">
+								<name>InputPort1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>148,50</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-0000001f" kind="OutputPort" role="OutputPort" guid="{d8f384aa-2161-4ce4-8944-3d451306974d}" relid="0x4" childrelidcntr="0x0">
+								<name>OutputPort1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>582,64</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000020" kind="OutputPort" role="OutputPort" guid="{8b991b7f-3a45-4e91-8a6e-e9be50f37d21}" relid="0x5" childrelidcntr="0x0">
+								<name>OutputPort2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>582,239</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000021" kind="OutputPort" role="OutputPort" guid="{47b72851-34a3-4145-8551-f2508ce5ac5e}" relid="0x7" childrelidcntr="0x0">
+								<name>OutputPort3</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>589,372</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000022" kind="InputPort" role="InputPort" guid="{cb182f8b-8151-4fca-892a-b0dd4b621952}" relid="0x6" childrelidcntr="0x0">
+								<name>InputPort3</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>148,372</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000032" kind="Primitive" role="Primitive" guid="{55751a40-d933-4227-8cbe-1268aa0bc517}" relid="0x8" childrelidcntr="0x2">
+								<name>Primitive3</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>336,350</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-00000033" kind="InputPort" role="InputPort" guid="{b25a7259-cca2-446e-bfdd-f7ef49e438b1}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>29,211</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000034" kind="OutputPort" role="OutputPort" guid="{1dfd760c-c843-4ecc-8f62-9f847742c805}" relid="0x2" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>533,218</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+							</model>
+							<model id="id-0065-00000035" kind="Primitive" role="Primitive" guid="{e7bdfc37-443d-40e8-ab44-01fcf64f0454}" relid="0x9" childrelidcntr="0x4">
+								<name>Primitive2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>322,210</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-00000036" kind="InputPort" role="InputPort" guid="{da6af61a-e6aa-41a7-b5e1-cac467e0bba0}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>64,113</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000037" kind="OutputPort" role="OutputPort" guid="{e820dd65-1b40-4f03-bd8f-eb2a5017c25a}" relid="0x4" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>533,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000038" kind="InputPort" role="InputPort" guid="{69b89807-1d65-446d-ac5f-f45905e433a1}" relid="0x2" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>57,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000039" kind="OutputPort" role="OutputPort" guid="{6954b0fe-4e92-4ebd-9647-a37aa8810460}" relid="0x3" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>526,120</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+							</model>
+							<model id="id-0065-0000003a" kind="Primitive" role="Primitive" guid="{41435ead-be43-448b-87b5-c1cd8abf5c8f}" relid="0xa" childrelidcntr="0x5">
+								<name>Primitive1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>315,35</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-0000003b" kind="OutputPort" role="OutputPort" guid="{e027adea-79d0-4c58-93e1-91b49cf6215b}" relid="0x4" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>589,225</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-0000003c" kind="OutputPort" role="OutputPort" guid="{7c4d4e94-cfe5-4324-86c5-4c5d37c9c900}" relid="0x2" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>575,106</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-0000003d" kind="InputPort" role="InputPort" guid="{a2659cec-d0c1-4817-a161-7716acb200b1}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>57,99</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-0000003e" kind="InputPort" role="InputPort" guid="{33345e39-a1b3-4f4f-b2b1-63aacc9c9ee8}" relid="0x5" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>50,190</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+							</model>
+							<connection id="id-0068-0000001e" kind="Line" role="Line" guid="{bc958924-230d-405c-9a4a-020e246048da}" relid="0xe">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>E</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-00000022"/>
+								<connpoint role="dst" target="id-0065-00000033"/>
+							</connection>
+							<connection id="id-0068-0000001f" kind="Line" role="Line" guid="{82d3aac8-bc1d-477f-b135-42623d2bf23f}" relid="0xf">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>w</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-00000021"/>
+								<connpoint role="src" target="id-0065-00000034"/>
+							</connection>
+							<connection id="id-0068-00000020" kind="Line" role="Line" guid="{8b80b970-546a-4ebe-ae27-7661cef1c617}" relid="0x10">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>E</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-0000001e"/>
+								<connpoint role="dst" target="id-0065-0000003d"/>
+							</connection>
+							<connection id="id-0068-00000021" kind="Line" role="Line" guid="{53992b71-e3ec-4747-9a6d-62a8b5bd3c37}" relid="0x11">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-00000036"/>
+								<connpoint role="src" target="id-0065-0000003c"/>
+							</connection>
+							<connection id="id-0068-00000022" kind="Line" role="Line" guid="{1d0ea602-6543-4354-8a61-cc999ec109bb}" relid="0x12">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>w</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-00000020"/>
+								<connpoint role="src" target="id-0065-00000037"/>
+							</connection>
+							<connection id="id-0068-00000023" kind="Line" role="Line" guid="{c3f7a340-dd80-466f-9eb8-b355cc6a9817}" relid="0x13">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>E</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-0000001d"/>
+								<connpoint role="dst" target="id-0065-00000038"/>
+							</connection>
+							<connection id="id-0068-00000024" kind="Line" role="Line" guid="{562e4146-2d2d-40f2-8796-9d2ec3b30034}" relid="0x14">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-00000039"/>
+								<connpoint role="dst" target="id-0065-0000003e"/>
+							</connection>
+							<connection id="id-0068-00000025" kind="Line" role="Line" guid="{e3d62836-6362-42fc-ae01-1f7cff689b45}" relid="0x15">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>w</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-0000001f"/>
+								<connpoint role="src" target="id-0065-0000003b"/>
+							</connection>
+						</model>
+						<model id="id-0065-00000023" kind="Subsystem" role="Subsystem" guid="{e9b96813-89d3-4cda-8948-23babcb4f74b}" relid="0x13" childrelidcntr="0x1d">
+							<name>Subsystem3</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>812,63</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="BlockType" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Deadline" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Period" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Priority" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="SampleTime" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Tag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="UserData" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-00000024" kind="InputPort" role="InputPort" guid="{c9a03841-8db6-4a0f-9b93-44e23cc0fe73}" relid="0x1" childrelidcntr="0x0">
+								<name>InputPort1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>148,50</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000025" kind="InputPort" role="InputPort" guid="{52bfc880-6f25-4223-88b6-12ac36015418}" relid="0x2" childrelidcntr="0x0">
+								<name>InputPort2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>148,239</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000026" kind="OutputPort" role="OutputPort" guid="{baea6914-4209-48b2-9546-3b4a2b00de9a}" relid="0x4" childrelidcntr="0x0">
+								<name>OutputPort1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>610,50</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000027" kind="OutputPort" role="OutputPort" guid="{69de6deb-7dbc-465c-91ff-defff9f89820}" relid="0x5" childrelidcntr="0x0">
+								<name>OutputPort2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>603,239</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000028" kind="OutputPort" role="OutputPort" guid="{2eba59a8-495e-4b8c-91cc-413615824d3e}" relid="0x7" childrelidcntr="0x0">
+								<name>OutputPort3</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>596,372</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000029" kind="InputPort" role="InputPort" guid="{71bf39e4-f18c-4bb2-a095-43981f763d0b}" relid="0x6" childrelidcntr="0x0">
+								<name>InputPort3</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>148,379</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000042" kind="Primitive" role="Primitive" guid="{5a525477-7efa-4332-b9b2-ccb5c4a7d1ea}" relid="0x9" childrelidcntr="0x4">
+								<name>Primitive5</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>322,364</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-00000043" kind="InputPort" role="InputPort" guid="{4bfceb14-c18a-4980-bb8e-75f7e8a0f8d6}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>64,113</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000044" kind="OutputPort" role="OutputPort" guid="{d97b47b2-d1f0-48aa-8563-38e2229a3a59}" relid="0x4" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>533,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000045" kind="InputPort" role="InputPort" guid="{c2f1db21-5042-46c5-8455-c36832a14974}" relid="0x2" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>57,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000046" kind="OutputPort" role="OutputPort" guid="{9470708a-4a4b-4a87-b5e1-36d914ba70c2}" relid="0x3" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>526,120</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+							</model>
+							<model id="id-0065-00000047" kind="Primitive" role="Primitive" guid="{158f17a1-9d0e-4303-9dac-7613e1e2e70f}" relid="0xa" childrelidcntr="0x5">
+								<name>Primitive1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>252,35</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-00000048" kind="OutputPort" role="OutputPort" guid="{5a45c6a1-0cda-4ca3-b309-fdca5f122008}" relid="0x4" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>589,225</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000049" kind="OutputPort" role="OutputPort" guid="{8fe75de0-4cd4-48d1-a1aa-e6b681caca53}" relid="0x2" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>575,106</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-0000004a" kind="InputPort" role="InputPort" guid="{268414f5-fb62-44c1-a7f8-6a37fa8d671e}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>57,99</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-0000004b" kind="InputPort" role="InputPort" guid="{13481aa7-6e67-4998-8a85-abbd3883dab9}" relid="0x5" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>50,190</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+							</model>
+							<model id="id-0065-0000004c" kind="Primitive" role="Primitive" guid="{29b32f07-eac4-4547-8df5-61e473733aa6}" relid="0xf" childrelidcntr="0x4">
+								<name>Primitive3</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>252,224</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-0000004d" kind="OutputPort" role="OutputPort" guid="{dded229e-494f-4bb6-868d-ad608c4f7471}" relid="0x4" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>533,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-0000004e" kind="InputPort" role="InputPort" guid="{65bb2261-30c2-41f7-b028-f72a63bcada0}" relid="0x2" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>57,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-0000004f" kind="OutputPort" role="OutputPort" guid="{14566234-d57b-4eb4-ba00-8b5de20d01f7}" relid="0x3" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>526,120</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000050" kind="InputPort" role="InputPort" guid="{50e8e238-66c2-4e3e-b60d-76d33d617b0d}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>64,113</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+							</model>
+							<model id="id-0065-00000051" kind="Primitive" role="Primitive" guid="{0aa18f30-e01b-429b-8837-1f002d8c4f00}" relid="0x10" childrelidcntr="0x4">
+								<name>Primitive4</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>413,224</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-00000052" kind="OutputPort" role="OutputPort" guid="{328d594c-6311-4b97-a1a4-77d9b3c748fd}" relid="0x4" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>533,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000053" kind="InputPort" role="InputPort" guid="{d6670626-2b88-4035-80fe-14bb6dc04650}" relid="0x2" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>57,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000054" kind="OutputPort" role="OutputPort" guid="{5c17a9cb-d981-4b66-988d-e8fabf2ad11e}" relid="0x3" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>526,120</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000055" kind="InputPort" role="InputPort" guid="{2fd7a37c-d5b6-4be2-a329-9c538a8483bb}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>64,113</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+							</model>
+							<model id="id-0065-00000056" kind="Primitive" role="Primitive" guid="{047d4970-87c1-4e44-a072-51cb3fd121aa}" relid="0x11" childrelidcntr="0x4">
+								<name>Primitive2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>413,35</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-00000057" kind="OutputPort" role="OutputPort" guid="{facfb1f1-7c8d-40ae-971c-f01d0d57aeaf}" relid="0x4" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>533,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000058" kind="InputPort" role="InputPort" guid="{df2dde56-e29a-4be6-8bfd-d321ef610506}" relid="0x2" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>57,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000059" kind="OutputPort" role="OutputPort" guid="{daf99f18-a3c5-40b4-9429-1d318fd38f53}" relid="0x3" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>526,120</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-0000005a" kind="InputPort" role="InputPort" guid="{11a90721-32c7-4699-8c23-7ccc2d2c9004}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>64,113</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+							</model>
+							<connection id="id-0068-00000029" kind="Line" role="Line" guid="{a32b33b8-7f9a-425c-a8e4-b336c073627f}" relid="0xe">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>E</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-00000024"/>
+								<connpoint role="dst" target="id-0065-0000004a"/>
+							</connection>
+							<connection id="id-0068-0000002a" kind="Line" role="Line" guid="{649a22d4-6464-424a-9e9f-a9cfd79a4595}" relid="0x12">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>E</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-00000025"/>
+								<connpoint role="dst" target="id-0065-00000050"/>
+							</connection>
+							<connection id="id-0068-0000002b" kind="Line" role="Line" guid="{993dbcec-027c-4207-a6ad-87be5dfe29ff}" relid="0x13">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>w</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-00000027"/>
+								<connpoint role="src" target="id-0065-00000054"/>
+							</connection>
+							<connection id="id-0068-0000002c" kind="Line" role="Line" guid="{092d8ccf-75d9-48b4-8bf5-4cec2c0b2bb9}" relid="0x14">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>w</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-00000026"/>
+								<connpoint role="src" target="id-0065-00000059"/>
+							</connection>
+							<connection id="id-0068-0000002d" kind="Line" role="Line" guid="{9f30dfe9-963f-47db-a057-72d2e5fdd48b}" relid="0x15">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-00000049"/>
+								<connpoint role="dst" target="id-0065-00000058"/>
+							</connection>
+							<connection id="id-0068-0000002e" kind="Line" role="Line" guid="{c221d307-8184-400b-90c4-0a6ff39297f2}" relid="0x16">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-0000004e"/>
+								<connpoint role="src" target="id-0065-00000057"/>
+							</connection>
+							<connection id="id-0068-00000030" kind="Line" role="Line" guid="{94fef5d9-1294-45d4-a1eb-b02ac8b6f0e0}" relid="0x17">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>E</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-00000029"/>
+								<connpoint role="dst" target="id-0065-00000043"/>
+							</connection>
+							<connection id="id-0068-00000031" kind="Line" role="Line" guid="{489d8650-d6da-48a1-8d5a-bc4e94993859}" relid="0x18">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>w</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-00000028"/>
+								<connpoint role="src" target="id-0065-00000044"/>
+							</connection>
+							<connection id="id-0068-00000032" kind="Line" role="Line" guid="{37975e89-0c0e-43bc-b84e-936447caccdc}" relid="0x19">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-00000046"/>
+								<connpoint role="dst" target="id-0065-0000004b"/>
+							</connection>
+							<connection id="id-0068-00000033" kind="Line" role="Line" guid="{9ab46ef7-158a-4a2c-a504-9d606e3762a3}" relid="0x1a">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-00000045"/>
+								<connpoint role="src" target="id-0065-0000004d"/>
+							</connection>
+							<connection id="id-0068-00000034" kind="Line" role="Line" guid="{10b167ae-49d0-4e9e-b4cc-dede5fa73c09}" relid="0x1b">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-0000004f"/>
+								<connpoint role="dst" target="id-0065-0000005a"/>
+							</connection>
+							<connection id="id-0068-00000035" kind="Line" role="Line" guid="{83defccd-0ad3-4aa2-92f5-2cb886a3116e}" relid="0x1c">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-00000052"/>
+								<connpoint role="dst" target="id-0065-00000053"/>
+							</connection>
+							<connection id="id-0068-00000036" kind="Line" role="Line" guid="{87206107-9033-4c46-9c5e-84f7e5370632}" relid="0x1d">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-00000048"/>
+								<connpoint role="dst" target="id-0065-00000055"/>
+							</connection>
+						</model>
+						<model id="id-0065-0000005c" kind="Subsystem" role="Subsystem" guid="{7a7347b0-fdac-4d75-ad86-adc897747ab1}" relid="0x1e" childrelidcntr="0x2c">
+							<name>Subsystem4</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>637,252</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="BlockType" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Deadline" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Period" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Priority" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="SampleTime" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="Tag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="UserData" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-0000005d" kind="InputPort" role="InputPort" guid="{8f8fa488-a815-42a0-aa84-e8545fea6b70}" relid="0x1" childrelidcntr="0x0">
+								<name>InputPort1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>71,50</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-0000005e" kind="InputPort" role="InputPort" guid="{dd3544ff-14b4-4d44-a24d-6d9e968b21d5}" relid="0x2" childrelidcntr="0x0">
+								<name>InputPort2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>64,232</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-0000005f" kind="OutputPort" role="OutputPort" guid="{3b28a27e-a4b3-4b71-a950-ca85f95ac19e}" relid="0x4" childrelidcntr="0x0">
+								<name>OutputPort1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>610,50</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000060" kind="OutputPort" role="OutputPort" guid="{2d3bc9d3-2d83-4fa1-b623-023daae4d5c7}" relid="0x5" childrelidcntr="0x0">
+								<name>OutputPort2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>603,239</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000061" kind="OutputPort" role="OutputPort" guid="{097eb47c-899f-41af-976a-e84122526d40}" relid="0x7" childrelidcntr="0x0">
+								<name>OutputPort3</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>596,372</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000062" kind="InputPort" role="InputPort" guid="{362ba0d6-9b45-47f8-93bc-a281548334fa}" relid="0x6" childrelidcntr="0x0">
+								<name>InputPort3</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>64,372</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Number" status="meta">
+									<value>0</value>
+								</attribute>
+							</model>
+							<model id="id-0065-0000007f" kind="Subsystem" role="Subsystem" guid="{9847744b-113b-4a90-820b-59dce9f77200}" relid="0x1e" childrelidcntr="0x5">
+								<name>SubsystemA</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>259,28</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Deadline" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Period" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-00000080" kind="InputPort" role="InputPort" guid="{9ab6c45d-8e7d-4561-a26c-831bb71daac4}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>29,120</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000081" kind="OutputPort" role="OutputPort" guid="{97d7b4d6-2748-4278-8577-0bdff051c418}" relid="0x2" childrelidcntr="0x0">
+									<name>OutputPort</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>540,120</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-00000082" kind="Subsystem" role="Subsystem" guid="{13d7dd5f-5a7a-478b-ab63-ad1d11ee8f19}" relid="0x3" childrelidcntr="0x7">
+									<name>SubsystemAA</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>231,98</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="BlockType" status="meta">
+										<value></value>
+									</attribute>
+									<attribute kind="Deadline" status="meta">
+										<value>0</value>
+									</attribute>
+									<attribute kind="Description" status="meta">
+										<value></value>
+									</attribute>
+									<attribute kind="Name" status="meta">
+										<value></value>
+									</attribute>
+									<attribute kind="Period" status="meta">
+										<value>0</value>
+									</attribute>
+									<attribute kind="Priority" status="meta">
+										<value>0</value>
+									</attribute>
+									<attribute kind="SampleTime" status="meta">
+										<value>0</value>
+									</attribute>
+									<attribute kind="Tag" status="meta">
+										<value></value>
+									</attribute>
+									<attribute kind="UserData" status="meta">
+										<value></value>
+									</attribute>
+									<model id="id-0065-00000083" kind="InputPort" role="InputPort" guid="{7381bc08-69d3-491f-9fd1-bb1b168bbde8}" relid="0x1" childrelidcntr="0x0">
+										<name>InputPort</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="DataflowAspect" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>29,120</value>
+												</regnode>
+											</regnode>
+										</regnode>
+										<attribute kind="Number" status="meta">
+											<value>0</value>
+										</attribute>
+									</model>
+									<model id="id-0065-00000084" kind="OutputPort" role="OutputPort" guid="{db12f40d-66b8-4ed7-9712-ebc6e7492a54}" relid="0x2" childrelidcntr="0x0">
+										<name>OutputPort</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="DataflowAspect" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>540,120</value>
+												</regnode>
+											</regnode>
+										</regnode>
+										<attribute kind="Number" status="meta">
+											<value>0</value>
+										</attribute>
+									</model>
+									<model id="id-0065-00000085" kind="Subsystem" role="Subsystem" guid="{7d1de046-8182-41c6-97a2-a1d17ca4ab29}" relid="0x3" childrelidcntr="0x9">
+										<name>SubsystemAAA1</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="DataflowAspect" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>140,98</value>
+												</regnode>
+											</regnode>
+										</regnode>
+										<attribute kind="BlockType" status="meta">
+											<value></value>
+										</attribute>
+										<attribute kind="Deadline" status="meta">
+											<value>0</value>
+										</attribute>
+										<attribute kind="Description" status="meta">
+											<value></value>
+										</attribute>
+										<attribute kind="Name" status="meta">
+											<value></value>
+										</attribute>
+										<attribute kind="Period" status="meta">
+											<value>0</value>
+										</attribute>
+										<attribute kind="Priority" status="meta">
+											<value>0</value>
+										</attribute>
+										<attribute kind="SampleTime" status="meta">
+											<value>0</value>
+										</attribute>
+										<attribute kind="Tag" status="meta">
+											<value></value>
+										</attribute>
+										<attribute kind="UserData" status="meta">
+											<value></value>
+										</attribute>
+										<model id="id-0065-00000086" kind="InputPort" role="InputPort" guid="{0bdc59e6-9f81-4fd1-941e-d5734cbe406e}" relid="0x1" childrelidcntr="0x0">
+											<name>InputPort</name>
+											<regnode name="PartRegs" status="undefined">
+												<value></value>
+												<regnode name="DataflowAspect" status="undefined">
+													<value></value>
+													<regnode name="Position" isopaque="yes">
+														<value>29,134</value>
+													</regnode>
+												</regnode>
+											</regnode>
+											<attribute kind="Number" status="meta">
+												<value>0</value>
+											</attribute>
+										</model>
+										<model id="id-0065-00000087" kind="OutputPort" role="OutputPort" guid="{00e15b2e-5af6-453a-a13a-90cec470f6dc}" relid="0x2" childrelidcntr="0x0">
+											<name>OutputPort</name>
+											<regnode name="PartRegs" status="undefined">
+												<value></value>
+												<regnode name="DataflowAspect" status="undefined">
+													<value></value>
+													<regnode name="Position" isopaque="yes">
+														<value>540,148</value>
+													</regnode>
+												</regnode>
+											</regnode>
+											<attribute kind="Number" status="meta">
+												<value>0</value>
+											</attribute>
+										</model>
+										<model id="id-0065-00000088" kind="Subsystem" role="Subsystem" guid="{16bfe7b6-31c9-4e21-a982-3574d1b83189}" relid="0x3" childrelidcntr="0x9">
+											<name>SubsystemAAAA</name>
+											<regnode name="PartRegs" status="undefined">
+												<value></value>
+												<regnode name="DataflowAspect" status="undefined">
+													<value></value>
+													<regnode name="Position" isopaque="yes">
+														<value>231,119</value>
+													</regnode>
+												</regnode>
+											</regnode>
+											<attribute kind="BlockType" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="Deadline" status="meta">
+												<value>0</value>
+											</attribute>
+											<attribute kind="Description" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="Name" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="Period" status="meta">
+												<value>0</value>
+											</attribute>
+											<attribute kind="Priority" status="meta">
+												<value>0</value>
+											</attribute>
+											<attribute kind="SampleTime" status="meta">
+												<value>0</value>
+											</attribute>
+											<attribute kind="Tag" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="UserData" status="meta">
+												<value></value>
+											</attribute>
+											<model id="id-0065-00000089" kind="InputPort" role="InputPort" guid="{bc387bfd-1960-40fa-acc9-ff2caa570ffc}" relid="0x1" childrelidcntr="0x0">
+												<name>InputPort1</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>50,113</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="Number" status="meta">
+													<value>0</value>
+												</attribute>
+											</model>
+											<model id="id-0065-0000008a" kind="OutputPort" role="OutputPort" guid="{be5bf4fd-cd0e-4592-9f8f-c42cc0bce418}" relid="0x2" childrelidcntr="0x0">
+												<name>OutputPort2</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>540,239</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="Number" status="meta">
+													<value>0</value>
+												</attribute>
+											</model>
+											<model id="id-0065-000000a2" kind="InputPort" role="InputPort" guid="{ab560e41-053e-4e0b-9183-2ecc48845124}" relid="0x3" childrelidcntr="0x0">
+												<name>InputPort2</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>50,239</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="Number" status="meta">
+													<value>0</value>
+												</attribute>
+											</model>
+											<model id="id-0065-000000a3" kind="OutputPort" role="OutputPort" guid="{a387529f-446e-4bfa-9dea-02beb7de9434}" relid="0x4" childrelidcntr="0x0">
+												<name>OutputPort1</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>540,120</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="Number" status="meta">
+													<value>0</value>
+												</attribute>
+											</model>
+											<model id="id-0065-000000a4" kind="Subsystem" role="Subsystem" guid="{32de6be1-2861-4cc9-aa29-035f5fdf563c}" relid="0x5" childrelidcntr="0x9">
+												<name>SubsystemAAAAA</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>238,140</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="BlockType" status="meta">
+													<value></value>
+												</attribute>
+												<attribute kind="Deadline" status="meta">
+													<value>0</value>
+												</attribute>
+												<attribute kind="Description" status="meta">
+													<value></value>
+												</attribute>
+												<attribute kind="Name" status="meta">
+													<value></value>
+												</attribute>
+												<attribute kind="Period" status="meta">
+													<value>0</value>
+												</attribute>
+												<attribute kind="Priority" status="meta">
+													<value>0</value>
+												</attribute>
+												<attribute kind="SampleTime" status="meta">
+													<value>0</value>
+												</attribute>
+												<attribute kind="Tag" status="meta">
+													<value></value>
+												</attribute>
+												<attribute kind="UserData" status="meta">
+													<value></value>
+												</attribute>
+												<model id="id-0065-000000a5" kind="OutputPort" role="OutputPort" guid="{bd3db543-84c2-4283-bdff-be32c5ac4a8f}" relid="0x4" childrelidcntr="0x0">
+													<name>OutputPort1</name>
+													<regnode name="PartRegs" status="undefined">
+														<value></value>
+														<regnode name="DataflowAspect" status="undefined">
+															<value></value>
+															<regnode name="Position" isopaque="yes">
+																<value>540,120</value>
+															</regnode>
+														</regnode>
+													</regnode>
+													<attribute kind="Number" status="meta">
+														<value>0</value>
+													</attribute>
+												</model>
+												<model id="id-0065-000000a6" kind="InputPort" role="InputPort" guid="{4bdd188a-a054-4f76-8db5-7de0add0f87b}" relid="0x3" childrelidcntr="0x0">
+													<name>InputPort2</name>
+													<regnode name="PartRegs" status="undefined">
+														<value></value>
+														<regnode name="DataflowAspect" status="undefined">
+															<value></value>
+															<regnode name="Position" isopaque="yes">
+																<value>50,239</value>
+															</regnode>
+														</regnode>
+													</regnode>
+													<attribute kind="Number" status="meta">
+														<value>0</value>
+													</attribute>
+												</model>
+												<model id="id-0065-000000a7" kind="InputPort" role="InputPort" guid="{93bcf871-ac62-4051-a02e-d4d47f229d78}" relid="0x1" childrelidcntr="0x0">
+													<name>InputPort1</name>
+													<regnode name="PartRegs" status="undefined">
+														<value></value>
+														<regnode name="DataflowAspect" status="undefined">
+															<value></value>
+															<regnode name="Position" isopaque="yes">
+																<value>50,113</value>
+															</regnode>
+														</regnode>
+													</regnode>
+													<attribute kind="Number" status="meta">
+														<value>0</value>
+													</attribute>
+												</model>
+												<model id="id-0065-000000a8" kind="OutputPort" role="OutputPort" guid="{85ca8821-6f43-46b7-90e1-75458664206a}" relid="0x2" childrelidcntr="0x0">
+													<name>OutputPort2</name>
+													<regnode name="PartRegs" status="undefined">
+														<value></value>
+														<regnode name="DataflowAspect" status="undefined">
+															<value></value>
+															<regnode name="Position" isopaque="yes">
+																<value>540,239</value>
+															</regnode>
+														</regnode>
+													</regnode>
+													<attribute kind="Number" status="meta">
+														<value>0</value>
+													</attribute>
+												</model>
+												<model id="id-0065-000000ac" kind="Subsystem" role="Subsystem" guid="{545ae42d-abee-46e6-b372-fe3869bbc8ad}" relid="0x5" childrelidcntr="0xa">
+													<name>SubsystemAAAAA</name>
+													<regnode name="PartRegs" status="undefined">
+														<value></value>
+														<regnode name="DataflowAspect" status="undefined">
+															<value></value>
+															<regnode name="Position" isopaque="yes">
+																<value>238,140</value>
+															</regnode>
+														</regnode>
+													</regnode>
+													<attribute kind="BlockType" status="meta">
+														<value></value>
+													</attribute>
+													<attribute kind="Deadline" status="meta">
+														<value>0</value>
+													</attribute>
+													<attribute kind="Description" status="meta">
+														<value></value>
+													</attribute>
+													<attribute kind="Name" status="meta">
+														<value></value>
+													</attribute>
+													<attribute kind="Period" status="meta">
+														<value>0</value>
+													</attribute>
+													<attribute kind="Priority" status="meta">
+														<value>0</value>
+													</attribute>
+													<attribute kind="SampleTime" status="meta">
+														<value>0</value>
+													</attribute>
+													<attribute kind="Tag" status="meta">
+														<value></value>
+													</attribute>
+													<attribute kind="UserData" status="meta">
+														<value></value>
+													</attribute>
+													<model id="id-0065-000000ad" kind="OutputPort" role="OutputPort" guid="{24fc452e-da04-42eb-a73d-2b068ed919e2}" relid="0x4" childrelidcntr="0x0">
+														<name>OutputPort1</name>
+														<regnode name="PartRegs" status="undefined">
+															<value></value>
+															<regnode name="DataflowAspect" status="undefined">
+																<value></value>
+																<regnode name="Position" isopaque="yes">
+																	<value>540,113</value>
+																</regnode>
+															</regnode>
+														</regnode>
+														<attribute kind="Number" status="meta">
+															<value>0</value>
+														</attribute>
+													</model>
+													<model id="id-0065-000000ae" kind="OutputPort" role="OutputPort" guid="{9850c056-4875-4346-b9ad-0efd72caeb44}" relid="0x2" childrelidcntr="0x0">
+														<name>OutputPort2</name>
+														<regnode name="PartRegs" status="undefined">
+															<value></value>
+															<regnode name="DataflowAspect" status="undefined">
+																<value></value>
+																<regnode name="Position" isopaque="yes">
+																	<value>540,253</value>
+																</regnode>
+															</regnode>
+														</regnode>
+														<attribute kind="Number" status="meta">
+															<value>0</value>
+														</attribute>
+													</model>
+													<model id="id-0065-000000af" kind="InputPort" role="InputPort" guid="{4b22ffa3-f1b6-4e12-9c7f-f3117939eae8}" relid="0x1" childrelidcntr="0x0">
+														<name>InputPort1</name>
+														<regnode name="PartRegs" status="undefined">
+															<value></value>
+															<regnode name="DataflowAspect" status="undefined">
+																<value></value>
+																<regnode name="Position" isopaque="yes">
+																	<value>50,113</value>
+																</regnode>
+															</regnode>
+														</regnode>
+														<attribute kind="Number" status="meta">
+															<value>0</value>
+														</attribute>
+													</model>
+													<model id="id-0065-000000b0" kind="InputPort" role="InputPort" guid="{1766b412-777a-4d18-802e-9c2281e0d9b7}" relid="0x3" childrelidcntr="0x0">
+														<name>InputPort2</name>
+														<regnode name="PartRegs" status="undefined">
+															<value></value>
+															<regnode name="DataflowAspect" status="undefined">
+																<value></value>
+																<regnode name="Position" isopaque="yes">
+																	<value>50,253</value>
+																</regnode>
+															</regnode>
+														</regnode>
+														<attribute kind="Number" status="meta">
+															<value>0</value>
+														</attribute>
+													</model>
+													<model id="id-0065-000000b1" kind="Primitive" role="Primitive" guid="{c709131a-7879-4409-8982-5df79b3188d1}" relid="0x5" childrelidcntr="0x2">
+														<name>Primitive</name>
+														<regnode name="PartRegs" status="undefined">
+															<value></value>
+															<regnode name="DataflowAspect" status="undefined">
+																<value></value>
+																<regnode name="Position" isopaque="yes">
+																	<value>245,231</value>
+																</regnode>
+															</regnode>
+														</regnode>
+														<attribute kind="BlockType" status="meta">
+															<value></value>
+														</attribute>
+														<attribute kind="Description" status="meta">
+															<value></value>
+														</attribute>
+														<attribute kind="Name" status="meta">
+															<value></value>
+														</attribute>
+														<attribute kind="Priority" status="meta">
+															<value>0</value>
+														</attribute>
+														<attribute kind="SampleTime" status="meta">
+															<value>0</value>
+														</attribute>
+														<attribute kind="Tag" status="meta">
+															<value></value>
+														</attribute>
+														<attribute kind="UserData" status="meta">
+															<value></value>
+														</attribute>
+														<model id="id-0065-000000b2" kind="OutputPort" role="OutputPort" guid="{ab8f9d36-4f7c-4d75-b289-b893537a5889}" relid="0x2" childrelidcntr="0x0">
+															<name>OutputPort</name>
+															<regnode name="PartRegs" status="undefined">
+																<value></value>
+																<regnode name="DataflowAspect" status="undefined">
+																	<value></value>
+																	<regnode name="Position" isopaque="yes">
+																		<value>498,183</value>
+																	</regnode>
+																</regnode>
+															</regnode>
+															<attribute kind="Number" status="meta">
+																<value>0</value>
+															</attribute>
+														</model>
+														<model id="id-0065-000000b3" kind="InputPort" role="InputPort" guid="{3bd5bf60-c398-43ee-9067-ac64fa758c12}" relid="0x1" childrelidcntr="0x0">
+															<name>InputPort</name>
+															<regnode name="PartRegs" status="undefined">
+																<value></value>
+																<regnode name="DataflowAspect" status="undefined">
+																	<value></value>
+																	<regnode name="Position" isopaque="yes">
+																		<value>36,169</value>
+																	</regnode>
+																</regnode>
+															</regnode>
+															<attribute kind="Number" status="meta">
+																<value>0</value>
+															</attribute>
+														</model>
+													</model>
+													<model id="id-0065-000000b4" kind="Primitive" role="Primitive" guid="{add340e1-62be-44f4-ae8b-64f9293fa79f}" relid="0x6" childrelidcntr="0x2">
+														<name>Primitive</name>
+														<regnode name="PartRegs" status="undefined">
+															<value></value>
+															<regnode name="DataflowAspect" status="undefined">
+																<value></value>
+																<regnode name="Position" isopaque="yes">
+																	<value>238,91</value>
+																</regnode>
+															</regnode>
+														</regnode>
+														<attribute kind="BlockType" status="meta">
+															<value></value>
+														</attribute>
+														<attribute kind="Description" status="meta">
+															<value></value>
+														</attribute>
+														<attribute kind="Name" status="meta">
+															<value></value>
+														</attribute>
+														<attribute kind="Priority" status="meta">
+															<value>0</value>
+														</attribute>
+														<attribute kind="SampleTime" status="meta">
+															<value>0</value>
+														</attribute>
+														<attribute kind="Tag" status="meta">
+															<value></value>
+														</attribute>
+														<attribute kind="UserData" status="meta">
+															<value></value>
+														</attribute>
+														<model id="id-0065-000000b5" kind="OutputPort" role="OutputPort" guid="{1b4e9f11-11bd-4d61-84b1-c8e058552598}" relid="0x2" childrelidcntr="0x0">
+															<name>OutputPort</name>
+															<regnode name="PartRegs" status="undefined">
+																<value></value>
+																<regnode name="DataflowAspect" status="undefined">
+																	<value></value>
+																	<regnode name="Position" isopaque="yes">
+																		<value>498,183</value>
+																	</regnode>
+																</regnode>
+															</regnode>
+															<attribute kind="Number" status="meta">
+																<value>0</value>
+															</attribute>
+														</model>
+														<model id="id-0065-000000b6" kind="InputPort" role="InputPort" guid="{0e90b0d8-4c7e-4e68-ad98-275ae319a51c}" relid="0x1" childrelidcntr="0x0">
+															<name>InputPort</name>
+															<regnode name="PartRegs" status="undefined">
+																<value></value>
+																<regnode name="DataflowAspect" status="undefined">
+																	<value></value>
+																	<regnode name="Position" isopaque="yes">
+																		<value>36,169</value>
+																	</regnode>
+																</regnode>
+															</regnode>
+															<attribute kind="Number" status="meta">
+																<value>0</value>
+															</attribute>
+														</model>
+													</model>
+													<connection id="id-0068-0000006b" kind="Line" role="Line" guid="{9354e124-2707-4323-83f9-8917989123c6}" relid="0x7">
+														<name>Line</name>
+														<regnode name="autorouterPref" isopaque="yes">
+															<value>E</value>
+														</regnode>
+														<attribute kind="Name" status="meta">
+															<value></value>
+														</attribute>
+														<connpoint role="src" target="id-0065-000000af"/>
+														<connpoint role="dst" target="id-0065-000000b6"/>
+													</connection>
+													<connection id="id-0068-0000006c" kind="Line" role="Line" guid="{fbe5de97-b368-4b95-adf5-159e3991fa1a}" relid="0x8">
+														<name>Line</name>
+														<regnode name="autorouterPref" isopaque="yes">
+															<value>w</value>
+														</regnode>
+														<attribute kind="Name" status="meta">
+															<value></value>
+														</attribute>
+														<connpoint role="dst" target="id-0065-000000ad"/>
+														<connpoint role="src" target="id-0065-000000b5"/>
+													</connection>
+													<connection id="id-0068-0000006d" kind="Line" role="Line" guid="{74a86b8e-0519-4ef6-b875-b9c91b8f1184}" relid="0x9">
+														<name>Line</name>
+														<regnode name="autorouterPref" isopaque="yes">
+															<value>E</value>
+														</regnode>
+														<attribute kind="Name" status="meta">
+															<value></value>
+														</attribute>
+														<connpoint role="src" target="id-0065-000000b0"/>
+														<connpoint role="dst" target="id-0065-000000b3"/>
+													</connection>
+													<connection id="id-0068-0000006e" kind="Line" role="Line" guid="{c9eff87e-b34c-47af-aec0-196c1abbd106}" relid="0xa">
+														<name>Line</name>
+														<regnode name="autorouterPref" isopaque="yes">
+															<value>w</value>
+														</regnode>
+														<attribute kind="Name" status="meta">
+															<value></value>
+														</attribute>
+														<connpoint role="dst" target="id-0065-000000ae"/>
+														<connpoint role="src" target="id-0065-000000b2"/>
+													</connection>
+												</model>
+												<connection id="id-0068-00000067" kind="Line" role="Line" guid="{c3385273-cf49-402b-b8f0-a4b6b7dabde4}" relid="0x6">
+													<name>Line</name>
+													<regnode name="autorouterPref" isopaque="yes">
+														<value>E</value>
+													</regnode>
+													<attribute kind="Name" status="meta">
+														<value></value>
+													</attribute>
+													<connpoint role="src" target="id-0065-000000a7"/>
+													<connpoint role="dst" target="id-0065-000000af"/>
+												</connection>
+												<connection id="id-0068-00000068" kind="Line" role="Line" guid="{012b38a4-f1f4-43fe-af3e-9a476849135b}" relid="0x7">
+													<name>Line</name>
+													<regnode name="autorouterPref" isopaque="yes">
+														<value>E</value>
+													</regnode>
+													<attribute kind="Name" status="meta">
+														<value></value>
+													</attribute>
+													<connpoint role="src" target="id-0065-000000a6"/>
+													<connpoint role="dst" target="id-0065-000000b0"/>
+												</connection>
+												<connection id="id-0068-00000069" kind="Line" role="Line" guid="{65687f69-6bb0-4032-b900-7690aa87d137}" relid="0x8">
+													<name>Line</name>
+													<regnode name="autorouterPref" isopaque="yes">
+														<value>w</value>
+													</regnode>
+													<attribute kind="Name" status="meta">
+														<value></value>
+													</attribute>
+													<connpoint role="dst" target="id-0065-000000a5"/>
+													<connpoint role="src" target="id-0065-000000ad"/>
+												</connection>
+												<connection id="id-0068-0000006a" kind="Line" role="Line" guid="{d5dcfe16-bc91-4f06-b804-50163e78d8bf}" relid="0x9">
+													<name>Line</name>
+													<regnode name="autorouterPref" isopaque="yes">
+														<value>w</value>
+													</regnode>
+													<attribute kind="Name" status="meta">
+														<value></value>
+													</attribute>
+													<connpoint role="dst" target="id-0065-000000a8"/>
+													<connpoint role="src" target="id-0065-000000ae"/>
+												</connection>
+											</model>
+											<connection id="id-0068-00000061" kind="Line" role="Line" guid="{f36b5835-88a5-495b-9138-251b3e80aa1b}" relid="0x6">
+												<name>Line</name>
+												<regnode name="autorouterPref" isopaque="yes">
+													<value>E</value>
+												</regnode>
+												<attribute kind="Name" status="meta">
+													<value></value>
+												</attribute>
+												<connpoint role="src" target="id-0065-00000089"/>
+												<connpoint role="dst" target="id-0065-000000a7"/>
+											</connection>
+											<connection id="id-0068-00000062" kind="Line" role="Line" guid="{ac75db5b-9d02-413c-b589-4a402e81dc17}" relid="0x7">
+												<name>Line</name>
+												<regnode name="autorouterPref" isopaque="yes">
+													<value>w</value>
+												</regnode>
+												<attribute kind="Name" status="meta">
+													<value></value>
+												</attribute>
+												<connpoint role="dst" target="id-0065-0000008a"/>
+												<connpoint role="src" target="id-0065-000000a8"/>
+											</connection>
+											<connection id="id-0068-00000063" kind="Line" role="Line" guid="{d2e60b30-02f5-4893-a1ca-b79d5e1b2b4e}" relid="0x8">
+												<name>Line</name>
+												<regnode name="autorouterPref" isopaque="yes">
+													<value>w</value>
+												</regnode>
+												<attribute kind="Name" status="meta">
+													<value></value>
+												</attribute>
+												<connpoint role="dst" target="id-0065-000000a3"/>
+												<connpoint role="src" target="id-0065-000000a5"/>
+											</connection>
+											<connection id="id-0068-00000064" kind="Line" role="Line" guid="{0c610e06-9621-4ffa-8ea7-7dbdc622f51b}" relid="0x9">
+												<name>Line</name>
+												<regnode name="autorouterPref" isopaque="yes">
+													<value>E</value>
+												</regnode>
+												<attribute kind="Name" status="meta">
+													<value></value>
+												</attribute>
+												<connpoint role="src" target="id-0065-000000a2"/>
+												<connpoint role="dst" target="id-0065-000000a6"/>
+											</connection>
+										</model>
+										<model id="id-0065-000000a9" kind="Primitive" role="Primitive" guid="{90e330d0-8cd1-4162-a144-2e826741131c}" relid="0x7" childrelidcntr="0x2">
+											<name>Primitive</name>
+											<regnode name="PartRegs" status="undefined">
+												<value></value>
+												<regnode name="DataflowAspect" status="undefined">
+													<value></value>
+													<regnode name="Position" isopaque="yes">
+														<value>231,252</value>
+													</regnode>
+												</regnode>
+											</regnode>
+											<attribute kind="BlockType" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="Description" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="Name" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="Priority" status="meta">
+												<value>0</value>
+											</attribute>
+											<attribute kind="SampleTime" status="meta">
+												<value>0</value>
+											</attribute>
+											<attribute kind="Tag" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="UserData" status="meta">
+												<value></value>
+											</attribute>
+											<model id="id-0065-000000aa" kind="OutputPort" role="OutputPort" guid="{664c3495-ce57-44de-b316-0e814604e129}" relid="0x2" childrelidcntr="0x0">
+												<name>OutputPort</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>498,183</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="Number" status="meta">
+													<value>0</value>
+												</attribute>
+											</model>
+											<model id="id-0065-000000ab" kind="InputPort" role="InputPort" guid="{79d01a3f-014e-4b15-9ec3-32a44a907112}" relid="0x1" childrelidcntr="0x0">
+												<name>InputPort</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>36,169</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="Number" status="meta">
+													<value>0</value>
+												</attribute>
+											</model>
+										</model>
+										<connection id="id-0068-0000005e" kind="Line" role="Line" guid="{f2e81988-98c3-4917-be3f-fce83f667686}" relid="0x4">
+											<name>Line</name>
+											<regnode name="autorouterPref" isopaque="yes">
+												<value>E</value>
+											</regnode>
+											<attribute kind="Name" status="meta">
+												<value></value>
+											</attribute>
+											<connpoint role="src" target="id-0065-00000086"/>
+											<connpoint role="dst" target="id-0065-00000089"/>
+										</connection>
+										<connection id="id-0068-00000060" kind="Line" role="Line" guid="{7dba0211-7b65-44b6-a8ac-e150e2010a6d}" relid="0x6">
+											<name>Line</name>
+											<regnode name="autorouterPref" isopaque="yes">
+												<value>w</value>
+											</regnode>
+											<attribute kind="Name" status="meta">
+												<value></value>
+											</attribute>
+											<connpoint role="dst" target="id-0065-00000087"/>
+											<connpoint role="src" target="id-0065-0000008a"/>
+										</connection>
+										<connection id="id-0068-00000065" kind="Line" role="Line" guid="{de2a6da5-a351-4c48-b676-42732fdbc079}" relid="0x8">
+											<name>Line</name>
+											<attribute kind="Name" status="meta">
+												<value></value>
+											</attribute>
+											<connpoint role="src" target="id-0065-000000a3"/>
+											<connpoint role="dst" target="id-0065-000000ab"/>
+										</connection>
+										<connection id="id-0068-00000066" kind="Line" role="Line" guid="{0fbf254f-33bb-4ae4-b614-6624be954c74}" relid="0x9">
+											<name>Line</name>
+											<attribute kind="Name" status="meta">
+												<value></value>
+											</attribute>
+											<connpoint role="dst" target="id-0065-000000a2"/>
+											<connpoint role="src" target="id-0065-000000aa"/>
+										</connection>
+									</model>
+									<model id="id-0065-0000008b" kind="Subsystem" role="Subsystem" guid="{8dd8515a-1844-4f31-8ebe-821da297f57e}" relid="0x4" childrelidcntr="0x8">
+										<name>SubsystemBBB2</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="DataflowAspect" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>336,98</value>
+												</regnode>
+											</regnode>
+										</regnode>
+										<attribute kind="BlockType" status="meta">
+											<value></value>
+										</attribute>
+										<attribute kind="Deadline" status="meta">
+											<value>0</value>
+										</attribute>
+										<attribute kind="Description" status="meta">
+											<value></value>
+										</attribute>
+										<attribute kind="Name" status="meta">
+											<value></value>
+										</attribute>
+										<attribute kind="Period" status="meta">
+											<value>0</value>
+										</attribute>
+										<attribute kind="Priority" status="meta">
+											<value>0</value>
+										</attribute>
+										<attribute kind="SampleTime" status="meta">
+											<value>0</value>
+										</attribute>
+										<attribute kind="Tag" status="meta">
+											<value></value>
+										</attribute>
+										<attribute kind="UserData" status="meta">
+											<value></value>
+										</attribute>
+										<model id="id-0065-0000008c" kind="InputPort" role="InputPort" guid="{9be98d7f-bf17-4cc0-b0d3-6a0537b40553}" relid="0x1" childrelidcntr="0x0">
+											<name>InputPort</name>
+											<regnode name="PartRegs" status="undefined">
+												<value></value>
+												<regnode name="DataflowAspect" status="undefined">
+													<value></value>
+													<regnode name="Position" isopaque="yes">
+														<value>29,120</value>
+													</regnode>
+												</regnode>
+											</regnode>
+											<attribute kind="Number" status="meta">
+												<value>0</value>
+											</attribute>
+										</model>
+										<model id="id-0065-0000008d" kind="OutputPort" role="OutputPort" guid="{ec63765c-a15f-4241-9770-4328d1af5b90}" relid="0x2" childrelidcntr="0x0">
+											<name>OutputPort</name>
+											<regnode name="PartRegs" status="undefined">
+												<value></value>
+												<regnode name="DataflowAspect" status="undefined">
+													<value></value>
+													<regnode name="Position" isopaque="yes">
+														<value>540,120</value>
+													</regnode>
+												</regnode>
+											</regnode>
+											<attribute kind="Number" status="meta">
+												<value>0</value>
+											</attribute>
+										</model>
+										<model id="id-0065-0000008e" kind="Subsystem" role="Subsystem" guid="{56d9c67d-55bf-49d4-81e4-b2c17584fba7}" relid="0x3" childrelidcntr="0xb">
+											<name>SubsystemBBBB</name>
+											<regnode name="PartRegs" status="undefined">
+												<value></value>
+												<regnode name="DataflowAspect" status="undefined">
+													<value></value>
+													<regnode name="Position" isopaque="yes">
+														<value>231,98</value>
+													</regnode>
+												</regnode>
+											</regnode>
+											<attribute kind="BlockType" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="Deadline" status="meta">
+												<value>0</value>
+											</attribute>
+											<attribute kind="Description" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="Name" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="Period" status="meta">
+												<value>0</value>
+											</attribute>
+											<attribute kind="Priority" status="meta">
+												<value>0</value>
+											</attribute>
+											<attribute kind="SampleTime" status="meta">
+												<value>0</value>
+											</attribute>
+											<attribute kind="Tag" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="UserData" status="meta">
+												<value></value>
+											</attribute>
+											<model id="id-0065-0000008f" kind="Subsystem" role="Subsystem" guid="{a5953413-a0db-4a9d-8a83-c6097cad85e4}" relid="0x3" childrelidcntr="0x5">
+												<name>SubsystemBBBBB</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>210,98</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="BlockType" status="meta">
+													<value></value>
+												</attribute>
+												<attribute kind="Deadline" status="meta">
+													<value>0</value>
+												</attribute>
+												<attribute kind="Description" status="meta">
+													<value></value>
+												</attribute>
+												<attribute kind="Name" status="meta">
+													<value></value>
+												</attribute>
+												<attribute kind="Period" status="meta">
+													<value>0</value>
+												</attribute>
+												<attribute kind="Priority" status="meta">
+													<value>0</value>
+												</attribute>
+												<attribute kind="SampleTime" status="meta">
+													<value>0</value>
+												</attribute>
+												<attribute kind="Tag" status="meta">
+													<value></value>
+												</attribute>
+												<attribute kind="UserData" status="meta">
+													<value></value>
+												</attribute>
+												<model id="id-0065-00000090" kind="InputPort" role="InputPort" guid="{cb1b669e-4b58-42f8-889c-d686032dde1f}" relid="0x1" childrelidcntr="0x0">
+													<name>InputPort</name>
+													<regnode name="PartRegs" status="undefined">
+														<value></value>
+														<regnode name="DataflowAspect" status="undefined">
+															<value></value>
+															<regnode name="Position" isopaque="yes">
+																<value>29,120</value>
+															</regnode>
+														</regnode>
+													</regnode>
+													<attribute kind="Number" status="meta">
+														<value>0</value>
+													</attribute>
+												</model>
+												<model id="id-0065-00000091" kind="OutputPort" role="OutputPort" guid="{1d0620e9-7005-4066-b7f0-4b1be70f90f5}" relid="0x2" childrelidcntr="0x0">
+													<name>OutputPort</name>
+													<regnode name="PartRegs" status="undefined">
+														<value></value>
+														<regnode name="DataflowAspect" status="undefined">
+															<value></value>
+															<regnode name="Position" isopaque="yes">
+																<value>540,120</value>
+															</regnode>
+														</regnode>
+													</regnode>
+													<attribute kind="Number" status="meta">
+														<value>0</value>
+													</attribute>
+												</model>
+												<model id="id-0065-00000092" kind="Subsystem" role="Subsystem" guid="{9f19ddcd-887e-4fce-80bb-63a5521e3355}" relid="0x3" childrelidcntr="0x5">
+													<name>SubsystemBBBBBB</name>
+													<regnode name="PartRegs" status="undefined">
+														<value></value>
+														<regnode name="DataflowAspect" status="undefined">
+															<value></value>
+															<regnode name="Position" isopaque="yes">
+																<value>231,98</value>
+															</regnode>
+														</regnode>
+													</regnode>
+													<attribute kind="BlockType" status="meta">
+														<value></value>
+													</attribute>
+													<attribute kind="Deadline" status="meta">
+														<value>0</value>
+													</attribute>
+													<attribute kind="Description" status="meta">
+														<value></value>
+													</attribute>
+													<attribute kind="Name" status="meta">
+														<value></value>
+													</attribute>
+													<attribute kind="Period" status="meta">
+														<value>0</value>
+													</attribute>
+													<attribute kind="Priority" status="meta">
+														<value>0</value>
+													</attribute>
+													<attribute kind="SampleTime" status="meta">
+														<value>0</value>
+													</attribute>
+													<attribute kind="Tag" status="meta">
+														<value></value>
+													</attribute>
+													<attribute kind="UserData" status="meta">
+														<value></value>
+													</attribute>
+													<model id="id-0065-00000093" kind="InputPort" role="InputPort" guid="{41ac5c19-9008-42c0-80f0-f3600d2c6816}" relid="0x1" childrelidcntr="0x0">
+														<name>InputPort</name>
+														<regnode name="PartRegs" status="undefined">
+															<value></value>
+															<regnode name="DataflowAspect" status="undefined">
+																<value></value>
+																<regnode name="Position" isopaque="yes">
+																	<value>29,120</value>
+																</regnode>
+															</regnode>
+														</regnode>
+														<attribute kind="Number" status="meta">
+															<value>0</value>
+														</attribute>
+													</model>
+													<model id="id-0065-00000094" kind="OutputPort" role="OutputPort" guid="{ff9220e7-9252-4997-aa9a-20ab47c97f4c}" relid="0x2" childrelidcntr="0x0">
+														<name>OutputPort</name>
+														<regnode name="PartRegs" status="undefined">
+															<value></value>
+															<regnode name="DataflowAspect" status="undefined">
+																<value></value>
+																<regnode name="Position" isopaque="yes">
+																	<value>540,120</value>
+																</regnode>
+															</regnode>
+														</regnode>
+														<attribute kind="Number" status="meta">
+															<value>0</value>
+														</attribute>
+													</model>
+													<model id="id-0065-00000098" kind="Primitive" role="Primitive" guid="{907787dc-ae23-403a-a261-59951975646b}" relid="0x3" childrelidcntr="0x2">
+														<name>Primitive</name>
+														<regnode name="PartRegs" status="undefined">
+															<value></value>
+															<regnode name="DataflowAspect" status="undefined">
+																<value></value>
+																<regnode name="Position" isopaque="yes">
+																	<value>238,98</value>
+																</regnode>
+															</regnode>
+														</regnode>
+														<attribute kind="BlockType" status="meta">
+															<value></value>
+														</attribute>
+														<attribute kind="Description" status="meta">
+															<value></value>
+														</attribute>
+														<attribute kind="Name" status="meta">
+															<value></value>
+														</attribute>
+														<attribute kind="Priority" status="meta">
+															<value>0</value>
+														</attribute>
+														<attribute kind="SampleTime" status="meta">
+															<value>0</value>
+														</attribute>
+														<attribute kind="Tag" status="meta">
+															<value></value>
+														</attribute>
+														<attribute kind="UserData" status="meta">
+															<value></value>
+														</attribute>
+														<model id="id-0065-00000099" kind="InputPort" role="InputPort" guid="{c19abf16-1957-4cc7-a562-2fb0e9e71597}" relid="0x1" childrelidcntr="0x0">
+															<name>InputPort</name>
+															<regnode name="PartRegs" status="undefined">
+																<value></value>
+																<regnode name="DataflowAspect" status="undefined">
+																	<value></value>
+																	<regnode name="Position" isopaque="yes">
+																		<value>64,141</value>
+																	</regnode>
+																</regnode>
+															</regnode>
+															<attribute kind="Number" status="meta">
+																<value>0</value>
+															</attribute>
+														</model>
+														<model id="id-0065-0000009a" kind="OutputPort" role="OutputPort" guid="{af5394c5-c124-450a-a43e-9c66144d68d2}" relid="0x2" childrelidcntr="0x0">
+															<name>OutputPort</name>
+															<regnode name="PartRegs" status="undefined">
+																<value></value>
+																<regnode name="DataflowAspect" status="undefined">
+																	<value></value>
+																	<regnode name="Position" isopaque="yes">
+																		<value>575,155</value>
+																	</regnode>
+																</regnode>
+															</regnode>
+															<attribute kind="Number" status="meta">
+																<value>0</value>
+															</attribute>
+														</model>
+													</model>
+													<connection id="id-0068-00000056" kind="Line" role="Line" guid="{a5aa25fa-94c6-4ec7-81fb-9403a0b16212}" relid="0x4">
+														<name>Line</name>
+														<regnode name="autorouterPref" isopaque="yes">
+															<value>E</value>
+														</regnode>
+														<attribute kind="Name" status="meta">
+															<value></value>
+														</attribute>
+														<connpoint role="src" target="id-0065-00000093"/>
+														<connpoint role="dst" target="id-0065-00000099"/>
+													</connection>
+													<connection id="id-0068-00000057" kind="Line" role="Line" guid="{c6e8cf52-50de-4f03-87c3-366af83ffe01}" relid="0x5">
+														<name>Line</name>
+														<regnode name="autorouterPref" isopaque="yes">
+															<value>w</value>
+														</regnode>
+														<attribute kind="Name" status="meta">
+															<value></value>
+														</attribute>
+														<connpoint role="dst" target="id-0065-00000094"/>
+														<connpoint role="src" target="id-0065-0000009a"/>
+													</connection>
+												</model>
+												<connection id="id-0068-00000054" kind="Line" role="Line" guid="{facd2334-3633-4a71-acf5-474b5c0007b8}" relid="0x4">
+													<name>Line</name>
+													<regnode name="autorouterPref" isopaque="yes">
+														<value>E</value>
+													</regnode>
+													<attribute kind="Name" status="meta">
+														<value></value>
+													</attribute>
+													<connpoint role="src" target="id-0065-00000090"/>
+													<connpoint role="dst" target="id-0065-00000093"/>
+												</connection>
+												<connection id="id-0068-00000055" kind="Line" role="Line" guid="{806855cc-03ad-4ee7-b273-39bcbf2d5254}" relid="0x5">
+													<name>Line</name>
+													<regnode name="autorouterPref" isopaque="yes">
+														<value>w</value>
+													</regnode>
+													<attribute kind="Name" status="meta">
+														<value></value>
+													</attribute>
+													<connpoint role="dst" target="id-0065-00000091"/>
+													<connpoint role="src" target="id-0065-00000094"/>
+												</connection>
+											</model>
+											<model id="id-0065-00000095" kind="InputPort" role="InputPort" guid="{e2a82bf1-b2c7-4023-8644-70d46d886298}" relid="0x1" childrelidcntr="0x0">
+												<name>InputPort1</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>29,120</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="Number" status="meta">
+													<value>0</value>
+												</attribute>
+											</model>
+											<model id="id-0065-00000096" kind="OutputPort" role="OutputPort" guid="{b536ab8f-bf7a-417c-97a7-3ad0b0754310}" relid="0x2" childrelidcntr="0x0">
+												<name>OutputPort1</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>540,120</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="Number" status="meta">
+													<value>0</value>
+												</attribute>
+											</model>
+											<model id="id-0065-00000097" kind="OutputPort" role="OutputPort" guid="{48efeaf5-20ab-4c3f-86be-fce813b0b651}" relid="0x4" childrelidcntr="0x0">
+												<name>OutputPort2</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>540,211</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="Number" status="meta">
+													<value>0</value>
+												</attribute>
+											</model>
+											<model id="id-0065-0000009b" kind="Primitive" role="Primitive" guid="{65a31482-1ae2-488f-9be9-e3c46b4124f0}" relid="0x8" childrelidcntr="0x2">
+												<name>Primitive</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>217,224</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="BlockType" status="meta">
+													<value></value>
+												</attribute>
+												<attribute kind="Description" status="meta">
+													<value></value>
+												</attribute>
+												<attribute kind="Name" status="meta">
+													<value></value>
+												</attribute>
+												<attribute kind="Priority" status="meta">
+													<value>0</value>
+												</attribute>
+												<attribute kind="SampleTime" status="meta">
+													<value>0</value>
+												</attribute>
+												<attribute kind="Tag" status="meta">
+													<value></value>
+												</attribute>
+												<attribute kind="UserData" status="meta">
+													<value></value>
+												</attribute>
+												<model id="id-0065-0000009d" kind="InputPort" role="InputPort" guid="{5b02cdf5-c6d3-4160-b21b-a07763f9d4fd}" relid="0x1" childrelidcntr="0x0">
+													<name>InputPort</name>
+													<regnode name="PartRegs" status="undefined">
+														<value></value>
+														<regnode name="DataflowAspect" status="undefined">
+															<value></value>
+															<regnode name="Position" isopaque="yes">
+																<value>36,169</value>
+															</regnode>
+														</regnode>
+													</regnode>
+													<attribute kind="Number" status="meta">
+														<value>0</value>
+													</attribute>
+												</model>
+												<model id="id-0065-0000009e" kind="OutputPort" role="OutputPort" guid="{d8ec83e4-25cc-4167-9f74-467ff842a2b8}" relid="0x2" childrelidcntr="0x0">
+													<name>OutputPort</name>
+													<regnode name="PartRegs" status="undefined">
+														<value></value>
+														<regnode name="DataflowAspect" status="undefined">
+															<value></value>
+															<regnode name="Position" isopaque="yes">
+																<value>498,183</value>
+															</regnode>
+														</regnode>
+													</regnode>
+													<attribute kind="Number" status="meta">
+														<value>0</value>
+													</attribute>
+												</model>
+											</model>
+											<model id="id-0065-0000009c" kind="InputPort" role="InputPort" guid="{fbf05da4-5ba7-4fa0-8bdc-9d3c26a5f953}" relid="0x9" childrelidcntr="0x0">
+												<name>InputPort2</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>29,253</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="Number" status="meta">
+													<value>0</value>
+												</attribute>
+											</model>
+											<connection id="id-0068-00000052" kind="Line" role="Line" guid="{aa3521e6-e575-45a5-92cc-bf20c84da768}" relid="0x5">
+												<name>Line</name>
+												<regnode name="autorouterPref" isopaque="yes">
+													<value>E</value>
+												</regnode>
+												<attribute kind="Name" status="meta">
+													<value></value>
+												</attribute>
+												<connpoint role="dst" target="id-0065-00000090"/>
+												<connpoint role="src" target="id-0065-00000095"/>
+											</connection>
+											<connection id="id-0068-00000053" kind="Line" role="Line" guid="{c99db0b7-981e-4096-9051-4a932781cf83}" relid="0x6">
+												<name>Line</name>
+												<regnode name="autorouterPref" isopaque="yes">
+													<value>w</value>
+												</regnode>
+												<attribute kind="Name" status="meta">
+													<value></value>
+												</attribute>
+												<connpoint role="src" target="id-0065-00000091"/>
+												<connpoint role="dst" target="id-0065-00000096"/>
+											</connection>
+											<connection id="id-0068-00000059" kind="Line" role="Line" guid="{299602db-a674-4c89-b82c-ece208c9c11d}" relid="0xa">
+												<name>Line</name>
+												<regnode name="autorouterPref" isopaque="yes">
+													<value>E</value>
+												</regnode>
+												<attribute kind="Name" status="meta">
+													<value></value>
+												</attribute>
+												<connpoint role="src" target="id-0065-0000009c"/>
+												<connpoint role="dst" target="id-0065-0000009d"/>
+											</connection>
+											<connection id="id-0068-0000005a" kind="Line" role="Line" guid="{75b9fc6b-d1af-4c1d-8ba3-398d79792291}" relid="0xb">
+												<name>Line</name>
+												<regnode name="autorouterPref" isopaque="yes">
+													<value>w</value>
+												</regnode>
+												<attribute kind="Name" status="meta">
+													<value></value>
+												</attribute>
+												<connpoint role="dst" target="id-0065-00000097"/>
+												<connpoint role="src" target="id-0065-0000009e"/>
+											</connection>
+										</model>
+										<model id="id-0065-0000009f" kind="Primitive" role="Primitive" guid="{7f42120b-9e42-40a6-92e4-1cecd17e5fa3}" relid="0x5" childrelidcntr="0x2">
+											<name>Primitive</name>
+											<regnode name="PartRegs" status="undefined">
+												<value></value>
+												<regnode name="DataflowAspect" status="undefined">
+													<value></value>
+													<regnode name="Position" isopaque="yes">
+														<value>252,231</value>
+													</regnode>
+												</regnode>
+											</regnode>
+											<attribute kind="BlockType" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="Description" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="Name" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="Priority" status="meta">
+												<value>0</value>
+											</attribute>
+											<attribute kind="SampleTime" status="meta">
+												<value>0</value>
+											</attribute>
+											<attribute kind="Tag" status="meta">
+												<value></value>
+											</attribute>
+											<attribute kind="UserData" status="meta">
+												<value></value>
+											</attribute>
+											<model id="id-0065-000000a0" kind="InputPort" role="InputPort" guid="{357cc1d4-f34f-46cc-a76f-4090c38b7bb6}" relid="0x1" childrelidcntr="0x0">
+												<name>InputPort</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>36,169</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="Number" status="meta">
+													<value>0</value>
+												</attribute>
+											</model>
+											<model id="id-0065-000000a1" kind="OutputPort" role="OutputPort" guid="{cb5c1ef3-071f-417a-95da-7f8a12c6215b}" relid="0x2" childrelidcntr="0x0">
+												<name>OutputPort</name>
+												<regnode name="PartRegs" status="undefined">
+													<value></value>
+													<regnode name="DataflowAspect" status="undefined">
+														<value></value>
+														<regnode name="Position" isopaque="yes">
+															<value>498,183</value>
+														</regnode>
+													</regnode>
+												</regnode>
+												<attribute kind="Number" status="meta">
+													<value>0</value>
+												</attribute>
+											</model>
+										</model>
+										<connection id="id-0068-00000051" kind="Line" role="Line" guid="{fcc0bf4b-3e71-44e3-88a5-ff506ce02443}" relid="0x4">
+											<name>Line</name>
+											<regnode name="autorouterPref" isopaque="yes">
+												<value>E</value>
+											</regnode>
+											<attribute kind="Name" status="meta">
+												<value></value>
+											</attribute>
+											<connpoint role="src" target="id-0065-0000008c"/>
+											<connpoint role="dst" target="id-0065-00000095"/>
+										</connection>
+										<connection id="id-0068-0000005b" kind="Line" role="Line" guid="{9adfa742-d221-4df1-b411-b1e49fc00a1f}" relid="0x6">
+											<name>Line</name>
+											<attribute kind="Name" status="meta">
+												<value></value>
+											</attribute>
+											<connpoint role="src" target="id-0065-00000096"/>
+											<connpoint role="dst" target="id-0065-000000a0"/>
+										</connection>
+										<connection id="id-0068-0000005c" kind="Line" role="Line" guid="{8400d432-a5fe-47c8-98a9-090404b61d84}" relid="0x7">
+											<name>Line</name>
+											<attribute kind="Name" status="meta">
+												<value></value>
+											</attribute>
+											<connpoint role="dst" target="id-0065-0000009c"/>
+											<connpoint role="src" target="id-0065-000000a1"/>
+										</connection>
+										<connection id="id-0068-0000005d" kind="Line" role="Line" guid="{c6892bfa-9c89-4e2c-9b01-9ea529ecfb6c}" relid="0x8">
+											<name>Line</name>
+											<regnode name="autorouterPref" isopaque="yes">
+												<value>w</value>
+											</regnode>
+											<attribute kind="Name" status="meta">
+												<value></value>
+											</attribute>
+											<connpoint role="dst" target="id-0065-0000008d"/>
+											<connpoint role="src" target="id-0065-00000097"/>
+										</connection>
+									</model>
+									<connection id="id-0068-0000004e" kind="Line" role="Line" guid="{c78750c2-64ba-4e39-97fb-9d7319bace4c}" relid="0x5">
+										<name>Line</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>E</value>
+										</regnode>
+										<attribute kind="Name" status="meta">
+											<value></value>
+										</attribute>
+										<connpoint role="src" target="id-0065-00000083"/>
+										<connpoint role="dst" target="id-0065-00000086"/>
+									</connection>
+									<connection id="id-0068-0000004f" kind="Line" role="Line" guid="{72653b7c-ea43-41a6-9f8d-235df91546c6}" relid="0x6">
+										<name>Line</name>
+										<attribute kind="Name" status="meta">
+											<value></value>
+										</attribute>
+										<connpoint role="src" target="id-0065-00000087"/>
+										<connpoint role="dst" target="id-0065-0000008c"/>
+									</connection>
+									<connection id="id-0068-00000050" kind="Line" role="Line" guid="{61c82029-76ba-43df-b92a-4b6725d0b98e}" relid="0x7">
+										<name>Line</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>w</value>
+										</regnode>
+										<attribute kind="Name" status="meta">
+											<value></value>
+										</attribute>
+										<connpoint role="dst" target="id-0065-00000084"/>
+										<connpoint role="src" target="id-0065-0000008d"/>
+									</connection>
+								</model>
+								<connection id="id-0068-0000004c" kind="Line" role="Line" guid="{1cceb4e0-d1bb-4e90-9ab2-61ccc7ed12df}" relid="0x4">
+									<name>Line</name>
+									<regnode name="autorouterPref" isopaque="yes">
+										<value>E</value>
+									</regnode>
+									<attribute kind="Name" status="meta">
+										<value></value>
+									</attribute>
+									<connpoint role="src" target="id-0065-00000080"/>
+									<connpoint role="dst" target="id-0065-00000083"/>
+								</connection>
+								<connection id="id-0068-0000004d" kind="Line" role="Line" guid="{12554f2a-eed8-4515-b7f5-750991830171}" relid="0x5">
+									<name>Line</name>
+									<regnode name="autorouterPref" isopaque="yes">
+										<value>w</value>
+									</regnode>
+									<attribute kind="Name" status="meta">
+										<value></value>
+									</attribute>
+									<connpoint role="dst" target="id-0065-00000081"/>
+									<connpoint role="src" target="id-0065-00000084"/>
+								</connection>
+							</model>
+							<model id="id-0065-000000b7" kind="Primitive" role="Primitive" guid="{3f231f2d-dcbc-404c-aa71-49e60c3e2a7d}" relid="0x21" childrelidcntr="0x4">
+								<name>Primitive2</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>217,357</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-000000b8" kind="InputPort" role="InputPort" guid="{d202fc32-08be-4aea-8047-990ff6d3f9e4}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort1</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>64,113</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-000000b9" kind="OutputPort" role="OutputPort" guid="{7f003e5f-af8b-4261-965a-03562383a841}" relid="0x4" childrelidcntr="0x0">
+									<name>OutputPort2</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>533,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-000000ba" kind="InputPort" role="InputPort" guid="{42c10b06-77c3-4544-873e-35bb748f2dc2}" relid="0x2" childrelidcntr="0x0">
+									<name>InputPort2</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>57,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-000000bb" kind="OutputPort" role="OutputPort" guid="{212a0a47-cd3b-4d90-a247-e757aef92783}" relid="0x3" childrelidcntr="0x0">
+									<name>OutputPort1</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>526,120</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+							</model>
+							<model id="id-0065-000000bc" kind="Primitive" role="Primitive" guid="{9e7a4baf-be27-4d3f-8bb3-13704b065b55}" relid="0x22" childrelidcntr="0x5">
+								<name>Primitive1</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>217,210</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-000000bd" kind="InputPort" role="InputPort" guid="{5ebcab83-293c-4b68-9013-e8b61c9a5d4a}" relid="0x2" childrelidcntr="0x0">
+									<name>InputPort2</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>57,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-000000be" kind="OutputPort" role="OutputPort" guid="{924f4476-6efe-42c6-a573-c60135876cad}" relid="0x3" childrelidcntr="0x0">
+									<name>OutputPort1</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>526,120</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-000000bf" kind="InputPort" role="InputPort" guid="{bdf901e7-84d4-4844-8d92-953fe722894d}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort1</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>64,113</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-000000c0" kind="OutputPort" role="OutputPort" guid="{26ff14a8-d43c-4d97-9ed3-4ac333c63036}" relid="0x4" childrelidcntr="0x0">
+									<name>OutputPor2</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>533,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-000000c6" kind="InputPort" role="InputPort" guid="{fd652f50-ac12-425f-ae70-4f8430bbdeee}" relid="0x5" childrelidcntr="0x0">
+									<name>InputPort3</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>57,365</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+							</model>
+							<model id="id-0065-000000c1" kind="Primitive" role="Primitive" guid="{8090c346-d0eb-4937-9401-1d7cdfa03ec0}" relid="0x23" childrelidcntr="0x4">
+								<name>Primitive3</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="DataflowAspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>399,273</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="BlockType" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Description" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="Priority" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="SampleTime" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="Tag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="UserData" status="meta">
+									<value></value>
+								</attribute>
+								<model id="id-0065-000000c2" kind="InputPort" role="InputPort" guid="{c0c53232-01c9-4c3b-baf1-ed0f90a5d88c}" relid="0x2" childrelidcntr="0x0">
+									<name>InputPort2</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>57,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-000000c3" kind="OutputPort" role="OutputPort" guid="{15a1b4ac-eb43-4138-8eda-8b40f8ffc320}" relid="0x3" childrelidcntr="0x0">
+									<name>OutputPort1</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>526,120</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-000000c4" kind="InputPort" role="InputPort" guid="{f197bf98-6129-4466-83eb-a597fb96e214}" relid="0x1" childrelidcntr="0x0">
+									<name>InputPort1</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>64,113</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+								<model id="id-0065-000000c5" kind="OutputPort" role="OutputPort" guid="{f1dce0e2-6068-4e45-93b4-429dc9e0df87}" relid="0x4" childrelidcntr="0x0">
+									<name>OutputPort2</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="DataflowAspect" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>533,253</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="Number" status="meta">
+										<value>0</value>
+									</attribute>
+								</model>
+							</model>
+							<connection id="id-0068-0000004a" kind="Line" role="Line" guid="{f4e8888c-261f-401f-b14e-d2ef97ef1584}" relid="0x1f">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>E</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-0000005d"/>
+								<connpoint role="dst" target="id-0065-00000080"/>
+							</connection>
+							<connection id="id-0068-0000004b" kind="Line" role="Line" guid="{f924411c-2c64-4530-9454-01b7c63dcc5a}" relid="0x20">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>w</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-0000005f"/>
+								<connpoint role="src" target="id-0065-00000081"/>
+							</connection>
+							<connection id="id-0068-0000006f" kind="Line" role="Line" guid="{952bfd32-0ddd-47bd-8c64-e684e70b1773}" relid="0x24">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>w</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-00000060"/>
+								<connpoint role="src" target="id-0065-000000c3"/>
+							</connection>
+							<connection id="id-0068-00000070" kind="Line" role="Line" guid="{cf7947e1-3ede-4d77-8c40-c47b61b03272}" relid="0x25">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>w</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-00000061"/>
+								<connpoint role="src" target="id-0065-000000c5"/>
+							</connection>
+							<connection id="id-0068-00000071" kind="Line" role="Line" guid="{1487f802-38a5-4574-b3c3-fc2d119f4f55}" relid="0x26">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-000000c0"/>
+								<connpoint role="dst" target="id-0065-000000c4"/>
+							</connection>
+							<connection id="id-0068-00000072" kind="Line" role="Line" guid="{16ae18e7-4e09-49ee-af3a-900cd2132cf9}" relid="0x27">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-000000bb"/>
+								<connpoint role="dst" target="id-0065-000000c2"/>
+							</connection>
+							<connection id="id-0068-00000073" kind="Line" role="Line" guid="{20838f9b-878f-476d-9f17-0c9ead9381ac}" relid="0x28">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-000000b9"/>
+								<connpoint role="dst" target="id-0065-000000bf"/>
+							</connection>
+							<connection id="id-0068-00000074" kind="Line" role="Line" guid="{0901ace0-b0cf-442a-8a45-55a078fba222}" relid="0x29">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="dst" target="id-0065-000000ba"/>
+								<connpoint role="src" target="id-0065-000000be"/>
+							</connection>
+							<connection id="id-0068-00000075" kind="Line" role="Line" guid="{c6bdfc49-46e0-4db4-927b-1f0174030544}" relid="0x2a">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>E</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-0000005e"/>
+								<connpoint role="dst" target="id-0065-000000bd"/>
+							</connection>
+							<connection id="id-0068-00000077" kind="Line" role="Line" guid="{25e72a3c-13ba-40ec-a4b0-c229963cc02e}" relid="0x2b">
+								<name>Line</name>
+								<regnode name="autorouterPref" isopaque="yes">
+									<value>E</value>
+								</regnode>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-00000062"/>
+								<connpoint role="dst" target="id-0065-000000b8"/>
+							</connection>
+							<connection id="id-0068-00000078" kind="Line" role="Line" guid="{33f74841-c7e1-469a-b1a5-c76f1d56d3e6}" relid="0x2c">
+								<name>Line</name>
+								<attribute kind="Name" status="meta">
+									<value></value>
+								</attribute>
+								<connpoint role="src" target="id-0065-000000c5"/>
+								<connpoint role="dst" target="id-0065-000000c6"/>
+							</connection>
+						</model>
+						<model id="id-0065-0000007d" kind="OutputPort" role="OutputPort" guid="{4956bfd5-67e9-4a7b-8f0d-4b3489027ecb}" relid="0x23" childrelidcntr="0x0">
+							<name>OutputPort3</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>1002,232</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number" status="meta">
+								<value>0</value>
+							</attribute>
+						</model>
+						<model id="id-0065-0000007e" kind="OutputPort" role="OutputPort" guid="{fb0450f4-e359-4694-a59e-082c72fda9d0}" relid="0x24" childrelidcntr="0x0">
+							<name>OutputPort4</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="DataflowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>1002,309</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Number" status="meta">
+								<value>0</value>
+							</attribute>
+						</model>
+						<connection id="id-0068-00000001" kind="Line" role="Line" guid="{65624866-1c5b-4efe-9059-68260cf1c196}" relid="0x9">
+							<name>Line</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>E</value>
+							</regnode>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000005"/>
+							<connpoint role="dst" target="id-0065-0000000a"/>
+						</connection>
+						<connection id="id-0068-00000002" kind="Line" role="Line" guid="{e660a9f8-cd36-48d6-9b29-991c65157eaf}" relid="0xa">
+							<name>Line</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>E</value>
+							</regnode>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000006"/>
+							<connpoint role="dst" target="id-0065-0000000e"/>
+						</connection>
+						<connection id="id-0068-00000003" kind="Line" role="Line" guid="{56d3ec71-1d3c-4c32-90a9-27c227a0fa93}" relid="0xb">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-0000000d"/>
+							<connpoint role="dst" target="id-0065-00000014"/>
+						</connection>
+						<connection id="id-0068-00000004" kind="Line" role="Line" guid="{a94bb6b9-47db-409e-9f5d-3ebe59e2d8dc}" relid="0xc">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="dst" target="id-0065-00000010"/>
+							<connpoint role="src" target="id-0065-00000016"/>
+						</connection>
+						<connection id="id-0068-00000005" kind="Line" role="Line" guid="{406d8fdd-2cae-4669-8166-6103cf66c9ac}" relid="0xd">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-0000000b"/>
+							<connpoint role="dst" target="id-0065-0000000f"/>
+						</connection>
+						<connection id="id-0068-00000007" kind="Line" role="Line" guid="{93b6e323-ef96-455b-bbc3-f1e7283dd323}" relid="0xf">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000017"/>
+							<connpoint role="dst" target="id-0065-00000018"/>
+						</connection>
+						<connection id="id-0068-00000008" kind="Line" role="Line" guid="{9a92c427-5ead-40ea-a526-5a9d57c3821d}" relid="0x10">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="dst" target="id-0065-00000015"/>
+							<connpoint role="src" target="id-0065-00000019"/>
+						</connection>
+						<connection id="id-0068-0000000a" kind="Line" role="Line" guid="{4230e6f0-3cca-43c9-a894-1c90c73d8950}" relid="0x14">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000012"/>
+							<connpoint role="dst" target="id-0065-0000001e"/>
+						</connection>
+						<connection id="id-0068-0000000b" kind="Line" role="Line" guid="{7b58a2fb-09f4-498b-8019-6fc9f62b429f}" relid="0x15">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000013"/>
+							<connpoint role="dst" target="id-0065-0000001d"/>
+						</connection>
+						<connection id="id-0068-0000000c" kind="Line" role="Line" guid="{7882748a-b3ea-43be-b177-c89b513eaf21}" relid="0x16">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-0000001b"/>
+							<connpoint role="dst" target="id-0065-00000022"/>
+						</connection>
+						<connection id="id-0068-0000000d" kind="Line" role="Line" guid="{b027838a-462b-43f0-acff-db55624d246f}" relid="0x17">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-0000001f"/>
+							<connpoint role="dst" target="id-0065-00000024"/>
+						</connection>
+						<connection id="id-0068-0000000e" kind="Line" role="Line" guid="{6cc5bd1b-5d23-4811-8fcd-807735e22521}" relid="0x18">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000020"/>
+							<connpoint role="dst" target="id-0065-00000025"/>
+						</connection>
+						<connection id="id-0068-0000000f" kind="Line" role="Line" guid="{5a09739c-0beb-47b2-ba7c-a617ddcd05a6}" relid="0x19">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000021"/>
+							<connpoint role="dst" target="id-0065-00000029"/>
+						</connection>
+						<connection id="id-0068-00000010" kind="Line" role="Line" guid="{e00cd989-49e1-474d-b3c1-34d624d1b1aa}" relid="0x1a">
+							<name>Line</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>w</value>
+							</regnode>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="dst" target="id-0065-00000007"/>
+							<connpoint role="src" target="id-0065-00000026"/>
+						</connection>
+						<connection id="id-0068-00000011" kind="Line" role="Line" guid="{0b33f814-68df-4714-9faf-564e3ae96149}" relid="0x1b">
+							<name>Line</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>w</value>
+							</regnode>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="dst" target="id-0065-00000008"/>
+							<connpoint role="src" target="id-0065-00000027"/>
+						</connection>
+						<connection id="id-0068-00000012" kind="Line" role="Line" guid="{8b230f01-a27c-48fe-b4e5-0f4bf7e2ebc7}" relid="0x1c">
+							<name>Line</name>
+							<regnode name="customConnectionData" isopaque="yes">
+								<value>0,0,2,5,1,1,0,172,0,0</value>
+							</regnode>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="dst" target="id-0065-0000001a"/>
+							<connpoint role="src" target="id-0065-00000028"/>
+						</connection>
+						<connection id="id-0068-00000044" kind="Line" role="Line" guid="{d31032bd-545e-4fc1-9526-22220423792e}" relid="0x1f">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000016"/>
+							<connpoint role="dst" target="id-0065-0000005d"/>
+						</connection>
+						<connection id="id-0068-00000045" kind="Line" role="Line" guid="{f7b9df8c-87f9-4dc3-b6c2-d4c2310b13c6}" relid="0x20">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000017"/>
+							<connpoint role="dst" target="id-0065-0000005e"/>
+						</connection>
+						<connection id="id-0068-00000046" kind="Line" role="Line" guid="{e8354b23-e4c2-4198-885a-b1ee7b3dc924}" relid="0x21">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000019"/>
+							<connpoint role="dst" target="id-0065-00000062"/>
+						</connection>
+						<connection id="id-0068-00000047" kind="Line" role="Line" guid="{eeb52160-1512-4c24-8bf1-d006b073e40c}" relid="0x22">
+							<name>Line</name>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-0000005f"/>
+							<connpoint role="dst" target="id-0065-0000007c"/>
+						</connection>
+						<connection id="id-0068-00000048" kind="Line" role="Line" guid="{aa3bc82d-d385-455e-a0ac-3066e0c17c9b}" relid="0x25">
+							<name>Line</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>w</value>
+							</regnode>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000060"/>
+							<connpoint role="dst" target="id-0065-0000007d"/>
+						</connection>
+						<connection id="id-0068-00000049" kind="Line" role="Line" guid="{f4ba2147-98bd-409b-8a30-93bfdef9b77d}" relid="0x26">
+							<name>Line</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>w</value>
+							</regnode>
+							<attribute kind="Name" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-00000061"/>
+							<connpoint role="dst" target="id-0065-0000007e"/>
+						</connection>
+					</model>
+				</folder>
+			</folder>
+		</folder>
+	</folder>
+</project>

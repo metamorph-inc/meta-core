@@ -1,0 +1,19 @@
+Resolution 2us
+Proc A1 100MHz 50us 150us
+Comp T1 =1kHz 3.2ms
+Comp T2 >60Hz 3ms
+Comp T3 12kHz 1ms
+Comp T4 50kHz 5us
+
+Proc B1 320MHz 22us 84us
+Comp T1 =1kHz 10ms
+Comp T2 >50Hz 2ms
+
+Bus AB 50Mb 100us
+Msg M1 50B A1/T3 A1/T2 B1/T2
+Msg M2 4B  A1/T1 B1/T1
+Msg M3 1kB A1/T4 B1/T2
+
+Latency 100ms A1/T1 B1/T1
+Latency 50ms A1/T3 B1/T2
+

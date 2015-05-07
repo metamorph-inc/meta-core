@@ -1,0 +1,53 @@
+1. Graham identified a problem where local message type code is generated with
+   two fields -- essentially these are duplicate copies of the same field.  In
+   our case, the local message between the data handler and the inner loop gets
+   the data handler output in the first field.  Then the inner loop reads its
+   data from the second field (which remains empty).
+
+   + Re-trying the copy-through test with both tasks using the same field.
+     Getting data through, but it's mostly junk.
+
+   + Try turning on the I2C messages, and see what we get - tweaking the
+     schedule.
+
+   + This requires a lot of schedule tweaking, but the timing is still good,
+     even with the full message flow going.  Still no data, though...
+     The I2C messages take a little over 2ms, and the jitter is high.
+
+   + Reversed the transfer order of the messages on the bus, to hopefully see
+     more immediate results of putting the data through the outer loop. 
+
+     Whoops!  Need to keep the msg list in execution order. 
+
+   + Gumstix is still producing zeros -- the app_tasks_init was not being 
+     called, so the gain values in the OuterLoop context were all zero. Trying
+     again...
+
+   + Found a bug in the UART data handler code -- the joint input structure 
+     buffer is in the wrong place in the message structure.   That could lead 
+     to all kinds of bad behavior. Fixed.
+
+   + Now we're reading in the right values.  The current setup is to copy the
+     data from the local UART input buffers (not the raw receive buffers) and 
+     put it directly into the output buffer.  At this stage we are already 
+     seeing the data glitches.
+
+   + The DataHandler output data is garbage.  It looks like the init functions
+     are being called twice, but as they only contain static assigments that
+     shouldn't cause any trouble.  Both calls happen before the loop starts.
+
+   + The GPS message was imported after the DataHandler was called.  Fixed the
+     schedule.  Also zeroed out the incoming message buffer, and fixed the
+     attitude data message.  Constant transfers look good on the simulator.
+
+   + Now getting good data out of the data handler.  Next try tapping before
+     the Inner Loop.
+
+   + The data is way out in the weeds (off the scope).  Something is not right. 
+     The actual values are much bigger than 500,000,000.
+
+   + Tried skipping the intermediate buffer, but that didn't help.  The problem
+     seems to be in the inner loop code.  Stepping back through the inner loop
+     code to see the data at different stages.
+
+

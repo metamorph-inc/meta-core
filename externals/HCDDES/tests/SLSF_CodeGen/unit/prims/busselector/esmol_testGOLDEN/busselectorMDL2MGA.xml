@@ -1,0 +1,112 @@
+<RootFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ECSL_DP.xsd">
+	<Dataflow name="Dataflow">
+		<System Tag="" Name="busselector" name="busselector" Priority="0" BlockType="Model" SampleTime="111.000000" Description="">
+			<Line _id="ida" Name="" dstLine_end_="idb" srcLine_end_="id9"/>
+			<Line _id="ide" Name="" dstLine_end_="idf" srcLine_end_="idd"/>
+			<Line _id="id11" Name="" dstLine_end_="id4" srcLine_end_="id10"/>
+			<Line _id="id13" Name="" dstLine_end_="id5" srcLine_end_="id12"/>
+			<Line _id="id15" Name="" dstLine_end_="id6" srcLine_end_="id14"/>
+			<Line _id="id18" Name="" dstLine_end_="id19" srcLine_end_="id17"/>
+			<Line _id="id1c" Name="" dstLine_end_="id1d" srcLine_end_="id1b"/>
+			<Line _id="id20" Name="" dstLine_end_="id21" srcLine_end_="id1f"/>
+			<Line _id="id24" Name="" dstLine_end_="id25" srcLine_end_="id23"/>
+			<Line _id="id28" Name="" dstLine_end_="id29" srcLine_end_="id27"/>
+			<OutputPort _id="id4" name="Out1" Number="1" srcLine="id11"/>
+			<OutputPort _id="id5" name="Out2" Number="2" srcLine="id13"/>
+			<OutputPort _id="id6" name="Out3" Number="3" srcLine="id15"/>
+			<Primitive Tag="" Name="Bus
+Creator" name="Bus
+Creator" Period="0" Deadline="0" Priority="0" BlockType="BusCreator" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<InputPort _id="id19" name="In_1" Number="1" srcLine="id18"/>
+				<InputPort _id="id1d" name="In_2" Number="2" srcLine="id1c"/>
+				<InputPort _id="id21" name="In_3" Number="3" srcLine="id20"/>
+				<InputPort _id="id25" name="In_4" Number="4" srcLine="id24"/>
+				<InputPort _id="id29" name="In_5" Number="5" srcLine="id28"/>
+				<OutputPort _id="id9" name="Out_1" Number="1" dstLine="ida"/>
+				<Parameter name="BusObject" Value="BusObject"/>
+				<Parameter name="DisplayOption" Value="bar"/>
+				<Parameter name="Inputs" Value="5"/>
+				<Parameter name="NonVirtualBus" Value="off"/>
+				<Parameter name="UseBusObject" Value="off"/>
+			</Primitive>
+			<Primitive Tag="" Name="Bus
+Selector" name="Bus
+Selector" Period="0" Deadline="0" Priority="0" BlockType="BusSelector" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<InputPort _id="idb" name="In_1" Number="1" srcLine="ida"/>
+				<OutputPort _id="idd" name="Out_1" Number="1" dstLine="ide"/>
+				<Parameter name="InputSignals" Value="{signal1;signal2;signal3;signal4;signal5}"/>
+				<Parameter name="OutputAsBus" Value="on"/>
+				<Parameter name="OutputSignals" Value="signal2,signal1,signal3,signal5"/>
+			</Primitive>
+			<Primitive Tag="" Name="Bus
+Selector1" name="Bus
+Selector1" Period="0" Deadline="0" Priority="0" BlockType="BusSelector" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<InputPort _id="idf" name="In_1" Number="1" srcLine="ide"/>
+				<OutputPort _id="id10" name="Out_1" Number="1" dstLine="id11"/>
+				<OutputPort _id="id12" name="Out_2" Number="2" dstLine="id13"/>
+				<OutputPort _id="id14" name="Out_3" Number="3" dstLine="id15"/>
+				<Parameter name="InputSignals" Value="{signal2;signal1;signal3;signal5}"/>
+				<Parameter name="OutputAsBus" Value="off"/>
+				<Parameter name="OutputSignals" Value="signal2,signal1,signal3"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant" name="Constant" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id17" name="Out_1" Number="1" dstLine="id18"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="1"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant1" name="Constant1" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id1b" name="Out_1" Number="1" dstLine="id1c"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="2"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant2" name="Constant2" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id1f" name="Out_1" Number="1" dstLine="id20"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="3"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant3" name="Constant3" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id23" name="Out_1" Number="1" dstLine="id24"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="4"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+			<Primitive Tag="" Name="Constant4" name="Constant4" Period="0" Deadline="0" Priority="0" BlockType="Constant" SampleTime="0.000000" Description="" ExecutionTime="0">
+				<OutputPort _id="id27" name="Out_1" Number="1" dstLine="id28"/>
+				<Parameter name="ConRadixGroup" Value="Use specified scaling"/>
+				<Parameter name="FramePeriod" Value="inf"/>
+				<Parameter name="OutDataType" Value="sfix(16)"/>
+				<Parameter name="OutDataTypeMode" Value="Inherit from 'Constant value'"/>
+				<Parameter name="OutScaling" Value="2^0"/>
+				<Parameter name="SamplingMode" Value="Sample based"/>
+				<Parameter name="Value" Value="5"/>
+				<Parameter name="VectorParams1D" Value="on"/>
+			</Primitive>
+		</System>
+	</Dataflow>
+	<Stateflow name="Stateflow"/>
+</RootFolder>
+
+

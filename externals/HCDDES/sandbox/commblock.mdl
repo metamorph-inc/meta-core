@@ -1,0 +1,1938 @@
+Model {
+  Name			  "test"
+  Version		  7.0
+  MdlSubVersion		  0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.28"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SavedCharacterEncoding  "windows-1252"
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  on
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Wed Apr 09 12:17:32 2008"
+  Creator		  "jporter"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "jporter"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Mon Apr 14 12:58:36 2008"
+  RTWModifiedTimeStamp	  0
+  ModelVersionFormat	  "1.%<AutoIncrement:28>"
+  ConfigurationManager	  "None"
+  SimulationMode	  "normal"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  off
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.3.0"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.3.0"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "0.01"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "ode4"
+	  SolverName		  "ode4"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.3.0"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SignalLogging		  on
+	  InspectSignalLogs	  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    5
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.3.0"
+	  BlockReduction	  off
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  off
+	  BufferReuse		  off
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  off
+	  ExpressionDepthLimit	  2147483647
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  off
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	  BufferReusableBoundary  on
+	  SimCompilerOptimization "Off"
+	  AccelVerboseBuild	  off
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.3.0"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  SignalRangeChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  SaveWithDisabledLinksMsg "warning"
+	  SaveWithParameterizedLinksMsg	"warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "UseLocalSettings"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "error"
+	  MultiTaskCondExecSysMsg "error"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  ParameterTunabilityLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "Use local settings"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StateNameClashWarn	  "warning"
+	  StrictBusMsg		  "Warning"
+	  LoggingUnavailableSignals "error"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.3.0"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.3.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    2
+	    Cell		    "IncludeHyperlinkInReport"
+	    Cell		    "GenerateTraceInfo"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.3.0"
+	  SystemTargetFile	  "xpctarget.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  TemplateMakefile	  "xpc_default_tmf"
+	  Description		  "xPC Target"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ProcessScript		  "xpctarget_make_rtw_hook"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  IncludeERTFirstTime	  off
+	  GenerateTraceInfo	  off
+	  RTWCompilerOptimization "Off"
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		16
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		Cell			"CustomSymbolStrGlobalVar"
+		Cell			"CustomSymbolStrType"
+		Cell			"CustomSymbolStrField"
+		Cell			"CustomSymbolStrFcn"
+		Cell			"CustomSymbolStrBlkIO"
+		Cell			"CustomSymbolStrTmpVar"
+		Cell			"CustomSymbolStrMacro"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.3.0"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      MangleLength	      1
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    xpctarget.xpcTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		15
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"GenerateTestInterfaces"
+		Cell			"ModelStepFunctionPrototypeControlCompliant"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"PortableWordSizes"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.3.0"
+	      TargetFcnLib	      "ansi_tfl_table_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      CompOptLevelCompliant   off
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      EnableShiftOperators    on
+	      ParenthesesLevel	      "Nominal"
+	      PortableWordSizes	      off
+	      ModelStepFunctionPrototypeControlCompliant off
+	      RL32ModeModifier	      "Real-Time"
+	      ExtMode		      on
+	      ExtModeMexFile	      "ext_xpc"
+	      ExtModeIntrfLevel	      "Level2 - Open"
+	      ExtModeArmWhenConnect   off
+	      RL32LogTETModifier      on
+	      RL32LogBufSizeModifier  "100000"
+	      RL32IRQSourceModifier   "Timer"
+	      xPCIRQSourceBoard	      "None/Other"
+	      xPCIOIRQSlot	      "-1"
+	      xpcDblBuff	      off
+	      xpcObjCom		      off
+	      xPCGenerateASAP2	      off
+	      xPCGenerateXML	      off
+	      RL32ObjectName	      "commtest"
+	      xPCisDownloadable	      on
+	      xPCisDefaultEnv	      on
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      ExtraOptions	      "-aGenerateTraceInfo=0 "
+      CurrentDlgPage	      "Real-Time Workshop/xPC Target options"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Arial"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Clock
+      DisplayTime	      off
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParamMin		      "[]"
+      ParamMax		      "[]"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "fixdt(1,16,0)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "[]"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      DataType		      "auto"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchByCopyingInsideSignal off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      DataType		      "auto"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      RateTransition
+      Integrity		      on
+      Deterministic	      on
+      X0		      "0"
+      OutPortSampleTime	      "-1"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      SFunctionModules	      "''"
+      PortCounts	      "[]"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      "FromPortIcon"
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      CollapseMode	      "All dimensions"
+      CollapseDim	      "1"
+      InputSameDT	      on
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      SamplingMode	      "Sample based"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "fixdt(1,16,0)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "[]"
+      SampleTime	      "inf"
+      FramePeriod	      "inf"
+    }
+    Block {
+      BlockType		      Trigonometry
+      Operator		      "sin"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Arial"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    UseDisplayTextAsClickCallback off
+  }
+  LineDefaults {
+    FontName		    "Arial"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "test"
+    Location		    [84, 123, 1336, 840]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      Gain
+      Name		      "2pi*freq"
+      Position		      [175, 170, 205, 200]
+      Gain		      "2*pi"
+      ParameterDataTypeMode   "Inherit via internal rule"
+      ParameterDataType	      "sfix(16)"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "2pi*freq1"
+      Position		      [160, 250, 190, 280]
+      Gain		      "2*pi*5"
+      ParameterDataTypeMode   "Inherit via internal rule"
+      ParameterDataType	      "sfix(16)"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Altitude"
+      Position		      [270, 280, 300, 310]
+      Value		      "10"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Clock
+      Name		      "Clock"
+      Position		      [110, 175, 130, 195]
+      Decimation	      "1"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Scope (xPC) "
+      Ports		      [1]
+      Position		      [810, 345, 900, 405]
+      SourceBlock	      "xpclib/Misc./Scope (xPC) "
+      SourceType	      "xpcscopeblock"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      scopeno		      "1"
+      scopetype		      "Target"
+      autostart		      on
+      viewmode		      "Graphical redraw"
+      formatstr		      "'%15.6f'"
+      grid		      on
+      ylimits		      "[-12,12]"
+      nosamples		      "250"
+      noprepostsamples	      "0"
+      interleave	      "1"
+      triggermode	      "FreeRun"
+      triggersignal	      "1"
+      triggerlevel	      "0.0"
+      triggerslope	      "Either"
+      triggerscope	      "1"
+      triggersample	      "0"
+      filename		      "data.dat"
+      mode		      "Lazy"
+      writesize		      "512"
+      autorestart	      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Send"
+      Ports		      [1]
+      Position		      [810, 535, 890, 585]
+      SourceBlock	      "xpclib/UDP/Send"
+      SourceType	      "xpcudpbytesend"
+      ipAddress		      "129.59.129.186"
+      ipPort		      "9877"
+      localPort		      "-1"
+      sampletime	      "0.05"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "State_Vec_Out"
+      Ports		      [18, 2]
+      Position		      [595, 281, 750, 649]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      System {
+	Name			"State_Vec_Out"
+	Location		[292, 223, 1249, 859]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "XPosIn"
+	  Position		  [205, 148, 235, 162]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "YPosIn"
+	  Position		  [160, 183, 190, 197]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ZPosIn"
+	  Position		  [120, 213, 150, 227]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "XAngIn"
+	  Position		  [180, 348, 210, 362]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "YAngIn"
+	  Position		  [140, 378, 170, 392]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ZAngIn"
+	  Position		  [100, 408, 130, 422]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "XVelIn"
+	  Position		  [180, 453, 210, 467]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "YVelIn"
+	  Position		  [140, 483, 170, 497]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ZVelIn"
+	  Position		  [100, 513, 130, 527]
+	  Port			  "9"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "XAngVelIn"
+	  Position		  [180, 553, 210, 567]
+	  Port			  "10"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "YAngVelIn"
+	  Position		  [140, 588, 170, 602]
+	  Port			  "11"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ZAngVelIn"
+	  Position		  [100, 618, 130, 632]
+	  Port			  "12"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "XAccIn"
+	  Position		  [180, 653, 210, 667]
+	  Port			  "13"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "YAccIn"
+	  Position		  [140, 683, 170, 697]
+	  Port			  "14"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ZAccIn"
+	  Position		  [100, 718, 130, 732]
+	  Port			  "15"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "XPosIn1"
+	  Position		  [180, 758, 210, 772]
+	  Port			  "16"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "YPosIn1"
+	  Position		  [140, 793, 170, 807]
+	  Port			  "17"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ZPosIn1"
+	  Position		  [100, 828, 130, 842]
+	  Port			  "18"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "ID"
+	  Position		  [155, 50, 185, 80]
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [6, 1]
+	  Position		  [595, 151, 600, 209]
+	  ShowName		  off
+	  Inputs		  "6"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Pack"
+	  Ports			  [22, 1]
+	  Position		  [620, 248, 685, 532]
+	  SourceBlock		  "xpclib/UDP/Pack"
+	  SourceType		  "xpcany2byte"
+	  datatypes		  "{'uint32','uint32','uint32','uint32','single','single','single','single','single','single','single','single','single','single','single','single','single','single','single','single','single','single'}"
+	  byteAlign		  "4"
+	}
+	Block {
+	  BlockType		  RateTransition
+	  Name			  "Rate Transition"
+	  Position		  [725, 369, 765, 411]
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "XScaleAcc"
+	  Position		  [260, 645, 290, 675]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "XScaleAng"
+	  Position		  [260, 340, 290, 370]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "XScaleAngVel"
+	  Position		  [260, 545, 290, 575]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "XScalePos"
+	  Position		  [285, 140, 315, 170]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "XScalePos1"
+	  Position		  [260, 750, 290, 780]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "XScaleVel"
+	  Position		  [260, 445, 290, 475]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "YScaleAcc"
+	  Position		  [220, 675, 250, 705]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "YScaleAng"
+	  Position		  [220, 370, 250, 400]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "YScaleAngVel"
+	  Position		  [220, 580, 250, 610]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "YScalePos"
+	  Position		  [240, 175, 270, 205]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "YScalePos1"
+	  Position		  [220, 785, 250, 815]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "YScaleVel"
+	  Position		  [220, 475, 250, 505]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "ZScaleAcc"
+	  Position		  [180, 710, 210, 740]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "ZScaleAng"
+	  Position		  [180, 400, 210, 430]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "ZScaleAngVel"
+	  Position		  [180, 610, 210, 640]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "ZScalePos"
+	  Position		  [200, 205, 230, 235]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "ZScalePos1"
+	  Position		  [180, 820, 210, 850]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "ZScaleVel"
+	  Position		  [180, 505, 210, 535]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "msgtype"
+	  Position		  [355, 95, 385, 125]
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "size"
+	  Position		  [295, 70, 325, 100]
+	  Value			  "76"
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "PosAngOut"
+	  Position		  [725, 173, 755, 187]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "PackedData"
+	  Position		  [820, 383, 850, 397]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  "Pack"
+	  SrcPort		  1
+	  DstBlock		  "Rate Transition"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "XScaleAng"
+	  SrcPort		  1
+	  Points		  [215, 0]
+	  Branch {
+	    Points		    [0, -170]
+	    DstBlock		    "Mux"
+	    DstPort		    4
+	  }
+	  Branch {
+	    DstBlock		    "Pack"
+	    DstPort		    8
+	  }
+	}
+	Line {
+	  SrcBlock		  "YScaleAng"
+	  SrcPort		  1
+	  Points		  [265, 0; 0, -20]
+	  Branch {
+	    Points		    [0, -170]
+	    DstBlock		    "Mux"
+	    DstPort		    5
+	  }
+	  Branch {
+	    DstBlock		    "Pack"
+	    DstPort		    9
+	  }
+	}
+	Line {
+	  SrcBlock		  "ZScaleAng"
+	  SrcPort		  1
+	  Points		  [315, 0; 0, -40]
+	  Branch {
+	    Points		    [0, -170]
+	    DstBlock		    "Mux"
+	    DstPort		    6
+	  }
+	  Branch {
+	    DstBlock		    "Pack"
+	    DstPort		    10
+	  }
+	}
+	Line {
+	  SrcBlock		  "ID"
+	  SrcPort		  1
+	  Points		  [380, 0; 0, 220]
+	  DstBlock		  "Pack"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "size"
+	  SrcPort		  1
+	  Points		  [210, 0]
+	  Branch {
+	    Points		    [25, 0; 0, 210]
+	    DstBlock		    "Pack"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 230]
+	    DstBlock		    "Pack"
+	    DstPort		    4
+	  }
+	}
+	Line {
+	  SrcBlock		  "msgtype"
+	  SrcPort		  1
+	  Points		  [170, 0; 0, 195]
+	  DstBlock		  "Pack"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "XScaleVel"
+	  SrcPort		  1
+	  Points		  [240, 0; 0, -75]
+	  DstBlock		  "Pack"
+	  DstPort		  11
+	}
+	Line {
+	  SrcBlock		  "YScaleVel"
+	  SrcPort		  1
+	  Points		  [285, 0; 0, -95]
+	  DstBlock		  "Pack"
+	  DstPort		  12
+	}
+	Line {
+	  SrcBlock		  "ZScaleVel"
+	  SrcPort		  1
+	  Points		  [330, 0; 0, -115]
+	  DstBlock		  "Pack"
+	  DstPort		  13
+	}
+	Line {
+	  SrcBlock		  "XScaleAngVel"
+	  SrcPort		  1
+	  Points		  [255, 0; 0, -145]
+	  DstBlock		  "Pack"
+	  DstPort		  14
+	}
+	Line {
+	  SrcBlock		  "YScaleAngVel"
+	  SrcPort		  1
+	  Points		  [300, 0; 0, -170]
+	  DstBlock		  "Pack"
+	  DstPort		  15
+	}
+	Line {
+	  SrcBlock		  "ZScaleAngVel"
+	  SrcPort		  1
+	  Points		  [345, 0; 0, -190]
+	  DstBlock		  "Pack"
+	  DstPort		  16
+	}
+	Line {
+	  SrcBlock		  "XScaleAcc"
+	  SrcPort		  1
+	  Points		  [140, 0; 0, -215]
+	  DstBlock		  "Pack"
+	  DstPort		  17
+	}
+	Line {
+	  SrcBlock		  "YScaleAcc"
+	  SrcPort		  1
+	  Points		  [185, 0; 0, -235]
+	  DstBlock		  "Pack"
+	  DstPort		  18
+	}
+	Line {
+	  SrcBlock		  "ZScaleAcc"
+	  SrcPort		  1
+	  Points		  [230, 0; 0, -260]
+	  DstBlock		  "Pack"
+	  DstPort		  19
+	}
+	Line {
+	  SrcBlock		  "XScalePos1"
+	  SrcPort		  1
+	  Points		  [270, 0; 0, -290]
+	  DstBlock		  "Pack"
+	  DstPort		  20
+	}
+	Line {
+	  SrcBlock		  "YScalePos1"
+	  SrcPort		  1
+	  Points		  [315, 0; 0, -315]
+	  DstBlock		  "Pack"
+	  DstPort		  21
+	}
+	Line {
+	  SrcBlock		  "ZScalePos1"
+	  SrcPort		  1
+	  Points		  [0, -5; 360, 0; 0, -335]
+	  DstBlock		  "Pack"
+	  DstPort		  22
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "PosAngOut"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "XPosIn"
+	  SrcPort		  1
+	  DstBlock		  "XScalePos"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "YPosIn"
+	  SrcPort		  1
+	  DstBlock		  "YScalePos"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "ZPosIn"
+	  SrcPort		  1
+	  DstBlock		  "ZScalePos"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "XScalePos"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  Branch {
+	    DstBlock		    "Mux"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 170]
+	    DstBlock		    "Pack"
+	    DstPort		    5
+	  }
+	}
+	Line {
+	  SrcBlock		  "YScalePos"
+	  SrcPort		  1
+	  Points		  [55, 0]
+	  Branch {
+	    Points		    [30, 0; 0, -25]
+	    DstBlock		    "Mux"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 145]
+	    DstBlock		    "Pack"
+	    DstPort		    6
+	  }
+	}
+	Line {
+	  SrcBlock		  "ZScalePos"
+	  SrcPort		  1
+	  Points		  [85, 0]
+	  Branch {
+	    Points		    [50, 0; 0, -45]
+	    DstBlock		    "Mux"
+	    DstPort		    3
+	  }
+	  Branch {
+	    Points		    [0, 125]
+	    DstBlock		    "Pack"
+	    DstPort		    7
+	  }
+	}
+	Line {
+	  SrcBlock		  "XAngIn"
+	  SrcPort		  1
+	  DstBlock		  "XScaleAng"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "YAngIn"
+	  SrcPort		  1
+	  DstBlock		  "YScaleAng"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "ZAngIn"
+	  SrcPort		  1
+	  DstBlock		  "ZScaleAng"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "XVelIn"
+	  SrcPort		  1
+	  DstBlock		  "XScaleVel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "YVelIn"
+	  SrcPort		  1
+	  DstBlock		  "YScaleVel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "ZVelIn"
+	  SrcPort		  1
+	  DstBlock		  "ZScaleVel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "XAngVelIn"
+	  SrcPort		  1
+	  DstBlock		  "XScaleAngVel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "YAngVelIn"
+	  SrcPort		  1
+	  DstBlock		  "YScaleAngVel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "ZAngVelIn"
+	  SrcPort		  1
+	  DstBlock		  "ZScaleAngVel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "XAccIn"
+	  SrcPort		  1
+	  DstBlock		  "XScaleAcc"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "YAccIn"
+	  SrcPort		  1
+	  DstBlock		  "YScaleAcc"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "ZAccIn"
+	  SrcPort		  1
+	  DstBlock		  "ZScaleAcc"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "XPosIn1"
+	  SrcPort		  1
+	  DstBlock		  "XScalePos1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "YPosIn1"
+	  SrcPort		  1
+	  DstBlock		  "YScalePos1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "ZPosIn1"
+	  SrcPort		  1
+	  DstBlock		  "ZScalePos1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rate Transition"
+	  SrcPort		  1
+	  DstBlock		  "PackedData"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum"
+      Ports		      [2, 1]
+      Position		      [345, 255, 365, 275]
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|++"
+      CollapseMode	      "All dimensions"
+      InputSameDT	      off
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "xAccel"
+      Position		      [90, 560, 120, 590]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "xAngAccel"
+      Position		      [375, 580, 405, 610]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "xAngVel"
+      Position		      [90, 470, 120, 500]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "xAngle"
+      Position		      [110, 315, 140, 345]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "xVelocity"
+      Position		      [105, 390, 135, 420]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "xamp"
+      Position		      [320, 200, 350, 230]
+      Gain		      "5"
+      ParameterDataTypeMode   "double"
+      ParameterDataType	      "sfix(16)"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Trigonometry
+      Name		      "xval"
+      Ports		      [1, 1]
+      Position		      [265, 200, 295, 230]
+      Operator		      "cos"
+    }
+    Block {
+      BlockType		      Trigonometry
+      Name		      "xval1"
+      Ports		      [1, 1]
+      Position		      [215, 250, 245, 280]
+      Operator		      "cos"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "yAccel"
+      Position		      [135, 580, 165, 610]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "yAngAccel"
+      Position		      [440, 600, 470, 630]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "yAngVel"
+      Position		      [140, 490, 170, 520]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "yAngle"
+      Position		      [155, 335, 185, 365]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "yVelocity"
+      Position		      [155, 415, 185, 445]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "yamp"
+      Position		      [320, 150, 350, 180]
+      Gain		      "5"
+      ParameterDataTypeMode   "double"
+      ParameterDataType	      "sfix(16)"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Trigonometry
+      Name		      "yval"
+      Ports		      [1, 1]
+      Position		      [265, 150, 295, 180]
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "zAccel"
+      Position		      [185, 600, 215, 630]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "zAngAccel"
+      Position		      [505, 620, 535, 650]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "zAngVel"
+      Position		      [190, 515, 220, 545]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "zAngle"
+      Position		      [200, 355, 230, 385]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "zVelocity"
+      Position		      [205, 440, 235, 470]
+      Value		      "0"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Line {
+      SrcBlock		      "Clock"
+      SrcPort		      1
+      Points		      [10, 0]
+      Branch {
+	DstBlock		"2pi*freq"
+	DstPort			1
+      }
+      Branch {
+	DstBlock		"2pi*freq1"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "2pi*freq"
+      SrcPort		      1
+      Points		      [30, 0]
+      Branch {
+	Points			[0, -20]
+	DstBlock		"yval"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 30]
+	DstBlock		"xval"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "yval"
+      SrcPort		      1
+      DstBlock		      "yamp"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "xval"
+      SrcPort		      1
+      DstBlock		      "xamp"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "yamp"
+      SrcPort		      1
+      Points		      [225, 0]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "xamp"
+      SrcPort		      1
+      Points		      [225, 0]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "State_Vec_Out"
+      SrcPort		      1
+      DstBlock		      "Scope (xPC) "
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "State_Vec_Out"
+      SrcPort		      2
+      DstBlock		      "Send"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "xAngle"
+      SrcPort		      1
+      Points		      [305, 0; 0, 25]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "yAngle"
+      SrcPort		      1
+      Points		      [245, 0; 0, 25]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "zAngle"
+      SrcPort		      1
+      Points		      [195, 0; 0, 25]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "xVelocity"
+      SrcPort		      1
+      Points		      [440, 0]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "yVelocity"
+      SrcPort		      1
+      Points		      [390, 0]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      8
+    }
+    Line {
+      SrcBlock		      "zVelocity"
+      SrcPort		      1
+      DstBlock		      "State_Vec_Out"
+      DstPort		      9
+    }
+    Line {
+      SrcBlock		      "xAngVel"
+      SrcPort		      1
+      Points		      [455, 0]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      10
+    }
+    Line {
+      SrcBlock		      "yAngVel"
+      SrcPort		      1
+      Points		      [405, 0]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      11
+    }
+    Line {
+      SrcBlock		      "zAngVel"
+      SrcPort		      1
+      Points		      [355, 0]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      12
+    }
+    Line {
+      SrcBlock		      "xAccel"
+      SrcPort		      1
+      Points		      [140, 0; 0, -40]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      13
+    }
+    Line {
+      SrcBlock		      "yAccel"
+      SrcPort		      1
+      Points		      [105, 0; 0, -40]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      14
+    }
+    Line {
+      SrcBlock		      "zAccel"
+      SrcPort		      1
+      Points		      [65, 0; 0, -40]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      15
+    }
+    Line {
+      SrcBlock		      "xAngAccel"
+      SrcPort		      1
+      DstBlock		      "State_Vec_Out"
+      DstPort		      16
+    }
+    Line {
+      SrcBlock		      "yAngAccel"
+      SrcPort		      1
+      DstBlock		      "State_Vec_Out"
+      DstPort		      17
+    }
+    Line {
+      SrcBlock		      "zAngAccel"
+      SrcPort		      1
+      DstBlock		      "State_Vec_Out"
+      DstPort		      18
+    }
+    Line {
+      SrcBlock		      "2pi*freq1"
+      SrcPort		      1
+      DstBlock		      "xval1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Sum"
+      SrcPort		      1
+      Points		      [105, 0; 0, 70]
+      DstBlock		      "State_Vec_Out"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "xval1"
+      SrcPort		      1
+      DstBlock		      "Sum"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Altitude"
+      SrcPort		      1
+      Points		      [50, 0]
+      DstBlock		      "Sum"
+      DstPort		      2
+    }
+  }
+}

@@ -1,0 +1,44 @@
+1. Getting a good version of the quadrotor model.  
+
+   . Checked out a copy of the original quadrotor models (revision 2327).
+
+   . Started checking input ports to make sure their data types and sizes 
+     are specified:
+
+     - top-level input ports (i.e. top level of imported subsystems) should
+       have their data type and size explicitly specified.
+     - all output ports (i.e. imported subsystems and below) should have their
+       data type set to "Inherit: auto".
+
+   . We need to move to revision 2343.  Nicholas and I replaced some very hard
+     to follow conditional block structure with a simple embedded matlab block.
+
+   . Unfortunately beneficial changes are interspersed with hacks.  We don't 
+     have a clean version of the model with all of the right things.
+
+2. Model cleanup:
+
+   . Started with the latest version of the model, and compared block for block
+     from the original (r2327) model.   Bringing changes in from the older 
+     model as needed, since the newest one has some fairly large structural
+     differences:
+
+     - The new model has hard-coded values for the transfer function blocks.
+       Replaced with the original, which used variables whose values were 
+       supplied by the mask (inner_loop/lead_motor).
+ 
+     - Double-check the generated value for the gain matrix Mi
+       (inner_loop/u_T_u_torque_motor_thrust).  In previous versions it was 0.
+
+     - Set gum_stix/body_to_inertial/inertial_val_and_pos_est sample time 
+       to 0.02 (wrong in both models).
+
+     - Replaced the mux_euler embedded matlab block with the version from the
+       original (gum_stix/inertial_pos_controller).
+
+     - Restored the ones(3,1) call (gum_stix/inertial_pos_controller) in the
+       Embedded Matlab Function.  It had been changed to [1; 1; 1].
+
+     - Kept the new version of sensor fusion (gum_stix/sensor_fusion). 
+
+    
