@@ -9,6 +9,7 @@
 #include <varargs.h>
 #endif
 #include "bddint.h"
+#include <tchar.h>
 
 
 #if defined(__STDC__)
@@ -22,28 +23,28 @@ extern void exit();
 
 void
 #if defined(__STDC__)
-bdd_warning(char *message)
+bdd_warning(TCHAR *message)
 #else
 bdd_warning(message)
-     char *message;
+     TCHAR *message;
 #endif
 {
-  fprintf(stderr, "BDD library: warning: %s\n", message);
+  _ftprintf(stderr, _T("BDD library: warning: %s\n"), message);
 }
 
 
-extern void (*bdd_fatal_hook)(char *message);
+extern void (*bdd_fatal_hook)(TCHAR *message);
 
 /* bdd_fatal(message) prints an error message and exits. */
 void
 #if defined(__STDC__)
-bdd_fatal(char *message)
+bdd_fatal(TCHAR *message)
 #else
 bdd_fatal(message)
-     char *message;
+     TCHAR *message;
 #endif
 {
-  fprintf(stderr, "BDD library: error: %s\n", message);
+  _ftprintf(stderr, _T("BDD library: error: %s\n"), message);
   if (bdd_fatal_hook == NULL)
   {
 	assert(0);
@@ -87,7 +88,7 @@ bdd_check_arguments(va_alist)
 	if (!f)
 	  all_valid=0;
 	else if (BDD_REFS(f) == 0)
-	  bdd_fatal("bdd_check_arguments: argument has zero references");
+	  bdd_fatal(_T("bdd_check_arguments: argument has zero references"));
       }
       --count;
     }

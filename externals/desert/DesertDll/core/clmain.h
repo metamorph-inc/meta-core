@@ -96,14 +96,14 @@ public:
   ClData Eval(const CString& name);
   CBdd Eval(ClConstraint *constraint);
   CBdd Eval(ClFormula *formula);
-  bool Verify(ClConstraint *constraint, CCosmicList *dependency, CStringList *pdep, char*& errString);
-  const char *GetErrorString() const;
+  bool Verify(ClConstraint *constraint, CCosmicList *dependency, CStringList *pdep, TCHAR*& errString);
+  const TCHAR *GetErrorString() const;
   bool GetError();
   void SetError(bool err=true);
-  void SetError(bool err, const char* errString);
+  void SetError(bool err, const TCHAR* errString);
   CCosmic *UpdateDependency(CCosmic *obj);
   CCosmicList *UpdateDependency(CCosmicList *list);
-  CCosmic *UpdatePropertyDependency(CCosmic *obj, const char *prop);
+  CCosmic *UpdatePropertyDependency(CCosmic *obj, const TCHAR *prop);
 
 private:
   CCosmic *cosmic;
@@ -112,7 +112,7 @@ private:
   CStringList *propertyDependency;
   ClDataType type;
   bool errFlag;
-  char *errString;
+  TCHAR *errString;
   static CCosmicList dependencyList;
 };
 
@@ -176,7 +176,7 @@ inline
 ClData::
 ClData() : type(Undefined)
 {
-  ival = 0; dval = 0; sval = "";  bval = false;  cval = 0; clval = 0;
+  ival = 0; dval = 0; sval = _T("");  bval = false;  cval = 0; clval = 0;
 }
 
 inline
@@ -197,14 +197,14 @@ inline
 ClData::
 ClData(int v) : type(Integer), ival(v)
 {
-  dval = 0; sval = "";  bval = false;  cval = 0; clval = 0;
+  dval = 0; sval = _T("");  bval = false;  cval = 0; clval = 0;
 }
 
 inline
 ClData::
 ClData(double v) : type(Double), dval(v)
 {
-  ival = 0; sval = "";  bval = false;  cval = 0; clval = 0;
+  ival = 0; sval = _T("");  bval = false;  cval = 0; clval = 0;
 }
 
 inline
@@ -218,28 +218,28 @@ inline
 ClData::
 ClData(bool v) : type(Boolean), bval(v)
 {
-  ival = 0; dval = 0;  sval = "";  cval = 0; clval = 0;
+  ival = 0; dval = 0;  sval = _T("");  cval = 0; clval = 0;
 }
 
 inline
 ClData::
 ClData(CCosmic *v) : type(Cosmic), cval(v)
 {
-  ival = 0; dval = 0;  sval = "";  bval = false; clval = 0;
+  ival = 0; dval = 0;  sval = _T("");  bval = false; clval = 0;
 }
 
 inline
 ClData::
 ClData(CCosmicList *v) : type(CosmicList), clval(v)
 {
-  ival = 0; dval = 0;  sval = "";  bval = false; cval = 0;
+  ival = 0; dval = 0;  sval = _T("");  bval = false; cval = 0;
 }
 
 inline
 ClData::
 ClData(const CBdd& v) : type(Bdd), bdval(v)
 {
-  ival = 0; dval = 0;  sval = "";  bval = false; cval = 0;
+  ival = 0; dval = 0;  sval = _T("");  bval = false; cval = 0;
 }
 
 inline void
@@ -436,7 +436,7 @@ inline
 ClData::
 operator int() const
 {
-  ASSERT_EX( type == Integer, "ClData::operator int()", "type mismatch" );
+  ASSERT_EX( type == Integer, _T("ClData::operator int()"), _T("type mismatch") );
   return ival;
 }
 
@@ -444,7 +444,7 @@ inline
 ClData::
 operator double() const
 {
-  ASSERT_EX( type == Double, "ClData::operator double()", "type mismatch" );
+  ASSERT_EX( type == Double, _T("ClData::operator double()"), _T("type mismatch") );
   return dval;
 }
 
@@ -452,7 +452,7 @@ inline
 ClData::
 operator bool() const
 {
-  ASSERT_EX( type == Boolean, "ClData::operator bool()", "type mismatch" );
+  ASSERT_EX( type == Boolean, _T("ClData::operator bool()"), _T("type mismatch") );
   return bval;
 }
 
@@ -460,7 +460,7 @@ inline
 ClData::
 operator const CString&() const
 {
-  ASSERT_EX( type == String, "ClData::operator const CString&()", "type mismatch" );
+  ASSERT_EX( type == String, _T("ClData::operator const CString&()"), _T("type mismatch") );
   return sval;
 }
 
@@ -468,7 +468,7 @@ inline
 ClData::
 operator CCosmic*()
 {
-  ASSERT_EX( type == Cosmic, "ClData::operator CCosmic*()", "type mismatch" );
+  ASSERT_EX( type == Cosmic, _T("ClData::operator CCosmic*()"), _T("type mismatch") );
   return cval;
 }
 
@@ -476,7 +476,7 @@ inline
 ClData::
 operator const CCosmic*() const
 {
-  ASSERT_EX( type == Cosmic, "ClData::operator CCosmic*()", "type mismatch" );
+  ASSERT_EX( type == Cosmic, _T("ClData::operator CCosmic*()"), _T("type mismatch") );
   return cval;
 }
 
@@ -484,7 +484,7 @@ inline
 ClData::
 operator CCosmicList*()
 {
-  ASSERT_EX( type == CosmicList, "ClData::operator CCosmicList*()", "type mismatch" );
+  ASSERT_EX( type == CosmicList, _T("ClData::operator CCosmicList*()"), _T("type mismatch") );
   return clval;
 }
 
@@ -492,7 +492,7 @@ inline
 ClData::
 operator const CCosmicList*() const
 {
-  ASSERT_EX( type == CosmicList, "ClData::operator CCosmicList*()", "type mismatch" );
+  ASSERT_EX( type == CosmicList, _T("ClData::operator CCosmicList*()"), _T("type mismatch") );
   return clval;
 }
 
@@ -500,7 +500,7 @@ inline
 ClData::
 operator const CBdd&() const
 {
-  ASSERT_EX( type == Bdd, "ClData::operator const CBdd&()", "type mismatch" );
+  ASSERT_EX( type == Bdd, _T("ClData::operator const CBdd&()"), _T("type mismatch") );
   return bdval;
 }
 
@@ -591,7 +591,7 @@ inline
 ClContext::
 operator CCosmic*()
 {
-  ASSERT_EX( type == Cosmic, "ClContext::operator CCosmic*()", "type mismatch" );
+  ASSERT_EX( type == Cosmic, _T("ClContext::operator CCosmic*()"), _T("type mismatch") );
   return cosmic;
 }
 
@@ -599,7 +599,7 @@ inline
 ClContext::
 operator CCosmicList*()
 {
-  ASSERT_EX( type == Cosmic, "ClContext::operator CCosmic*()", "type mismatch" );
+  ASSERT_EX( type == Cosmic, _T("ClContext::operator CCosmic*()"), _T("type mismatch") );
   return cosmicList;
 }
 
@@ -617,7 +617,7 @@ operator ClDataType() const
   return type;
 }
 
-inline const char *
+inline const TCHAR *
 ClContext::
 GetErrorString() const
 {
@@ -640,11 +640,11 @@ SetError(bool err /* = true */)
 
 inline void
 ClContext::
-SetError(bool err, const char *string)
+SetError(bool err, const TCHAR *string)
 {
   errFlag = err;
   if (errString) free(errString);
-  errString = strdup(string);
+  errString = _tcsdup(string);
 }
 
 inline
@@ -695,8 +695,8 @@ do { \
     to=(CCosmicList *)from; \
     break; \
   default: \
-    throw new CDesertException("SWITCH_CONTEXT: no switch for from!");\
-    /*Warning("SWITCH_CONTEXT", "<%s:%d> no switch", __FILE__, __LINE__);*/ \
+    throw new CDesertException(_T("SWITCH_CONTEXT: no switch for from!"));\
+    /*Warning(_T("SWITCH_CONTEXT"), _T("<%s:%d> no switch"), __FILE__, __LINE__);*/ \
   } \
 } while(0);
 
@@ -713,8 +713,8 @@ do { \
     ClDecl *decl = pars ? pars->GetDeclarations() : 0;\
     if (bret = ((exprs && exprs->IsEmpty() || !exprs) && !decl)) break; \
   } \
-  /*context.SetError(true, "function argument error"); */\
-  throw new CDesertException(false, "CHECK_PARS_NODECL_ISEMPTY: function argument error: expected no arguments!");\
+  /*context.SetError(true, _T("function argument error")); */\
+  throw new CDesertException(false, _T("CHECK_PARS_NODECL_ISEMPTY: function argument error: expected no arguments!"));\
 } while(0);
 
 #define CHECK_PARS_NODECL_HASONEORNONE(context, pars, expr, bret) \
@@ -726,8 +726,8 @@ do { \
     expr = exprs && exprs->GetCount()>0 ? exprs->GetHead() : 0; \
     if (bret = ((exprs && exprs->GetCount()<=1 || !exprs) && !decl)) break; \
   } \
-  /*context.SetError(true, "function argument error"); */\
-  throw new CDesertException(false, "CHECK_PARS_NODECL_HASONEORNONE: function argument error: expected one or none arguments!");\
+  /*context.SetError(true, _T("function argument error")); */\
+  throw new CDesertException(false, _T("CHECK_PARS_NODECL_HASONEORNONE: function argument error: expected one or none arguments!"));\
 } while(0);
 
 #define CHECK_PARS_NODECL_HASONE(context, pars, expr, bret) \
@@ -739,8 +739,8 @@ do { \
     expr = exprs && exprs->GetCount()>0 ? exprs->GetHead() : 0; \
     if (bret = ((exprs && exprs->GetCount()==1 || !exprs) && !decl)) break; \
   } \
-  /*context.SetError(true, "function argument error");*/ \
-  throw new CDesertException(false, "CHECK_PARS_NODECL_HASONE: function argument error: expected one argument!");\
+  /*context.SetError(true, _T("function argument error"));*/ \
+  throw new CDesertException(false, _T("CHECK_PARS_NODECL_HASONE: function argument error: expected one argument!"));\
 } while(0);
 
 #define PREPARE_OBJ_CALL(context, obj, ret) \
@@ -748,8 +748,8 @@ do { \
   ret = ret && (ClDataType)context == Cosmic; \
   obj = ret ? (CCosmic *)context : 0; \
   if (ret && obj) break; \
-  /*context.SetError(true, "invalid context"); */\
-  throw new CDesertException(true, "PREPARE_OBJ_CALL: invalid context!");\
+  /*context.SetError(true, _T("invalid context")); */\
+  throw new CDesertException(true, _T("PREPARE_OBJ_CALL: invalid context!"));\
 } while(0);
 
 #endif // #ifndef CLMAIN_H

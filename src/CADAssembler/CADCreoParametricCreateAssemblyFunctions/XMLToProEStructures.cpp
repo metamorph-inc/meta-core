@@ -123,7 +123,10 @@ void stream_AssemblyTree( vector<AssemblyInterface::CADComponent>		&in_CADCompon
 					out_Stream << endl << in_Indent << "   FeatureGeometryType   " << std::string(ck->FeatureGeometryType());
 					out_Stream << endl << in_Indent << "   FeatureInterfaceType  " << std::string(ck->FeatureInterfaceType());
 					out_Stream << endl << in_Indent << "   FeatureAlignmentType  " << std::string(ck->FeatureAlignmentType());
-					out_Stream << endl << in_Indent << "   Guide                 " << std::string(ck->Guide());
+					if ( std::string(ck->Guide()).size() == 0 )
+						out_Stream << endl << in_Indent << "   Guide                 False";
+					else
+					    out_Stream << endl << in_Indent << "   Guide                 " << std::string(ck->Guide());
 			
 					vector<AssemblyInterface::ConstraintFeature> featureVector = ck->ConstraintFeature_kind_children();
 					for ( vector<AssemblyInterface::ConstraintFeature>::const_iterator cl = featureVector.begin(); cl != featureVector.end(); cl++ )
@@ -656,7 +659,8 @@ void PopulateMetricsInformation(	const vector<AssemblyInterface::Metrics> &in_Me
 			cADComputation.computationType =  ComputationType_enum(k.MetricType());
 			cADComputation.computationDimension = ComputationDimension_enum(k.RequestedValueType());
 			cADComputation.metricID = k.MetricID();
-			cADComputation.datumName = k.Details(); 
+			cADComputation.datumName = k.Details();
+			cADComputation.metricName = k.MetricName();
 			in_out_Metrics_ToInternalSturctures.push_back(cADComputation);			
 		}
 	}
@@ -856,12 +860,17 @@ void PopulateAnalyses (	 const AssemblyInterface::Analyses &in_Analyses_FromXML,
 		in_out_Analyses_CAD.analysesBlast.push_back(temp_AnalysisBlast);
 	}
 
-	////////////////////////////////////
-	// Interference Analysis
-	////////////////////////////////////
-	vector<AssemblyInterface::Interference> InterferenceVector = in_Analyses_FromXML.Interference_kind_children();
-	if ( InterferenceVector.size() > 0 ) in_out_Analyses_CAD.interference = true;
-
+	//////////////////////////////////////////////
+	// Interference Analysis, Deprecated Approach
+	//////////////////////////////////////////////
+	// 1/26/2015, Specifying an interference analysis via the following xml has been deprecated
+	//    <Interference AnalysisID="id-0065-00000054" _id="id99349157"/>
+	// Now an inference analyis is specified via
+	//    <Metric ComponentID="a57a4f72-263f-400a-964c-bc0148340328|1" Details="" MetricID="id-0067-0000044d" MetricType="InterferenceCount" RequestedValueType="Boolean" _id="id15599"/>	
+	
+	//vector<AssemblyInterface::Interference> InterferenceVector = in_Analyses_FromXML.Interference_kind_children();
+	//if ( InterferenceVector.size() > 0 ) in_out_Analyses_CAD.interference = true;
+	
 	////////////////////////////////////
 	// FEA Analysis
 	////////////////////////////////////

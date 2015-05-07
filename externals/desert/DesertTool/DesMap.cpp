@@ -11,6 +11,104 @@
 #include "Resource.h"
 #include "StatusDlg.h"
 
+// Udm uses utf-8 strings
+#ifdef _UNICODE
+typedef std::wstring tstring;
+CString utf82cstring(const char* input, int length)
+{
+    if (length == 0)
+        return CString();
+
+    // Fail if an invalid input character is encountered
+    const DWORD conversionFlags = MB_ERR_INVALID_CHARS;
+
+    const int utf16Length = ::MultiByteToWideChar(CP_UTF8, conversionFlags, input, length, NULL, 0);
+    if (utf16Length == 0)
+    {
+        DWORD error = ::GetLastError();
+
+        return CString();
+        //    (error == ERROR_NO_UNICODE_TRANSLATION) ? 
+        //        "Invalid UTF-8 sequence found in input string." :
+        //        "Can't get length of UTF-16 string (MultiByteToWideChar failed).");
+    }
+
+    CString ret;
+    wchar_t* buf = ret.GetBuffer(utf16Length);
+    
+    if (!::MultiByteToWideChar(CP_UTF8, 0, input, length, buf, utf16Length))
+    {
+        DWORD error = ::GetLastError();
+        ret.ReleaseBuffer(0);
+        return ret;
+    }
+
+    ret.ReleaseBuffer(utf16Length);
+    return ret;
+}
+
+
+CString utf82cstring(LPCSTR utf8) {
+    return utf82cstring(utf8, strlen(utf8));
+}
+
+CString utf82cstring(const std::string& utf8) {
+	return utf82cstring(utf8.c_str(), utf8.length());
+}
+
+std::string tstring2utf8(const wchar_t* input, int length) {
+    if (length == 0)
+        return std::string();
+
+	const int utf8Length = ::WideCharToMultiByte(CP_UTF8, 0, input, length, NULL, 0, NULL, NULL);
+    if (utf8Length == 0)
+    {
+        DWORD error = ::GetLastError();
+
+        return std::string();
+        //    (error == ERROR_NO_UNICODE_TRANSLATION) ? 
+        //        "Invalid UTF-8 sequence found in input string." :
+        //        "Can't get length of UTF-16 string (MultiByteToWideChar failed).");
+    }
+
+    char* buf = (char*)malloc(utf8Length);
+    
+	if (!::WideCharToMultiByte(CP_UTF8, 0, input, length, buf, utf8Length, NULL, NULL))
+    {
+        DWORD error = ::GetLastError();
+		free(buf);
+        return std::string();
+    }
+
+	std::string ret(buf, utf8Length);
+	free(buf);
+    return ret;
+}
+
+std::string tstring2utf8(const std::wstring& input) {
+	return tstring2utf8(input.c_str(), input.length());
+}
+
+std::string tstring2utf8(const CString& input) {
+	return tstring2utf8(static_cast<const wchar_t*>(input), input.GetLength());
+}
+
+#else
+typedef std::string tstring;
+CString utf82cstring(LPCSTR utf8) {
+    return CString(utf8);
+}
+
+CString utf82cstring(const std::string& utf8) {
+	return CString(utf8.c_str());
+}
+std::string tstring2utf8(const tstring& input) {
+	return std::string(static_cast<const char*>(input.c_str()));
+}
+std::string tstring2utf8(const CString& input) {
+	return std::string(static_cast<const char*>(input));
+}
+#endif
 
 using namespace DesertIface;
 
@@ -109,12 +207,12 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 		//
 		//create the space & the root element in the space
 		//
-		space =  CreateSpace(((string)sp.name()).c_str());
+		space = CreateSpace(utf82cstring(((string)sp.name()).c_str()));
 		//space =  CreateSpace(((string)sp.name()).c_str(), sp.id(), sp.externalID());
 		
 /*
 		parent = CreateElement(
-			((string)sp.name()).c_str(), 
+			((tstring)sp.name()).c_str(), 
 			space, 
 			decomposition, 
 			-1, 
@@ -123,7 +221,7 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 */
 				
 		parent = CreateElement(
-			((string)sp.name()).c_str(), 
+			utf82cstring(((string)sp.name()).c_str()),
 			space, 
 			decomposition, 
 			-1, 
@@ -189,7 +287,7 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 
 		//create new elenent
 		long new_parent = CreateElement(
-			((string)e.name()).c_str(),
+			utf82cstring(((string)e.name()).c_str()),
 			space,
 			decomposition,
 			parent,
@@ -330,7 +428,7 @@ bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_ma
 		}
 
 		long new_parent = CreateElement(
-			((string)mb.name()).c_str(),
+			utf82cstring(((string)mb.name()).c_str()),
 			cd_id, 
 			decomposition,
 			parent,
@@ -414,16 +512,16 @@ bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 				else cpfn = ((string)vp.CUSTName()).c_str();
 			
 				long vp_id = CreateVariableProperty(
-					((string)vp.name()).c_str(),	//const char *name, 
-					(LPCTSTR)cpfn,					//const char *cpfn
+					utf82cstring(((string)vp.name()).c_str()),	//const TCHAR *name, 
+					(LPCTSTR)cpfn,					//const TCHAR *cpfn
 					owner_id,						//long owner, 
 					domain_id );					//long domain);
 			
 				/*
 			
 				long vp_id = CreateVariableProperty(
-					((string)vp.name()).c_str(),	//const char *name, 
-					(LPCTSTR)cpfn,					//const char *cpfn
+					((string)vp.name()).c_str(),	//const TCHAR *name, 
+					(LPCTSTR)cpfn,					//const TCHAR *cpfn
 					owner_id,						//long owner, 
 					domain_id,						//long domain);
 					vp.id(),
@@ -445,7 +543,7 @@ bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 					if(currf.type()==CustomFormula::meta)
 					{
 						CustomFormula customf = CustomFormula::Cast(currf);
-						long pvp_id = createParametricVariableProperty(((string)vp.name()).c_str(), owner_id, ((string)customf.expression()).c_str());
+						long pvp_id = createParametricVariableProperty(utf82cstring(((string)vp.name()).c_str()), owner_id, utf82cstring(((string)customf.expression()).c_str()));
 						DoMap(vp, des_map, inv_des_map, pvp_id);
 						TRACE("Added VariableProperty: (name %s, owner: %d, domain: %d) :%d\n", 
 								((string)vp.name()).c_str(),
@@ -457,8 +555,8 @@ bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 						SimpleFormula simplef = SimpleFormula::Cast(currf);
 						CString cpfn = ((string)simplef.ComputationType()).c_str();
 						long vp_id = CreateVariableProperty(
-									((string)vp.name()).c_str(),	//const char *name, 
-									(LPCTSTR)cpfn,					//const char *cpfn
+							utf82cstring(((string)vp.name()).c_str()),	//const TCHAR *name, 
+									(LPCTSTR)cpfn,					//const TCHAR *cpfn
 									owner_id						//long owner, 
 									);					
 			
@@ -530,15 +628,15 @@ bool CreateConstantProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 
 			
 			long cp_id = CreateConstantProperty(
-				((string)cp.name()).c_str(),	//const char *name, 
-				(LPCTSTR)cpfn,					//const char *cpfn
+				utf82cstring((string)cp.name()),	//const TCHAR *name, 
+				(LPCTSTR)cpfn,					//const TCHAR *cpfn
 				owner_id,						//long owner, 
 				domain_id,						//long domain);
 				value);							//int value
 			/*
 			long cp_id = CreateConstantProperty(
-				((string)cp.name()).c_str(),	//const char *name, 
-				(LPCTSTR)cpfn,					//const char *cpfn
+				((string)cp.name()).c_str(),	//const TCHAR *name, 
+				(LPCTSTR)cpfn,					//const TCHAR *cpfn
 				owner_id,						//long owner, 
 				domain_id,						//long domain);
 				value,							//int value
@@ -625,7 +723,7 @@ bool CreateAssignments(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, UdmElem
 
 			//av_id = AddtoVariableProperty(prop_id, owner_id, value, d_id);
 			//av_id = AddtoVariableProperty(prop_id, ((string)av.name()).c_str(), owner_id, value, d_id, av.id(), av.externalID());
-			av_id = AddtoVariableProperty(prop_id, ((string)av_prop.name()).c_str(), owner_id, value, d_id);
+			av_id = AddtoVariableProperty(prop_id, utf82cstring((string)av_prop.name()), owner_id, value, d_id);
 			DoMap(av, des_map, inv_des_map,  av_id);
 
 
@@ -649,7 +747,7 @@ bool CreateDesertConstraintSet(ConstraintSet &cs, UdmDesertMap &des_map, DesertU
 
 	ASSERT(!ct_set.empty());
 	//create constraint set
-	cts_id = CreateConstraintSet(((string)cs.name()).c_str());
+	cts_id = CreateConstraintSet(utf82cstring((string)cs.name()));
 	DoMap(cs, des_map, inv_des_map, cts_id);
 
 
@@ -664,10 +762,10 @@ bool CreateDesertConstraintSet(ConstraintSet &cs, UdmDesertMap &des_map, DesertU
 
 		//create constraint
 		
-		long ct_id = CreateConstraint(((string)ct.name()).c_str(), 
+		long ct_id = CreateConstraint(utf82cstring((string)ct.name()),
 						cts_id, 
 						owner_id, 
-						((string)ct.expression()).c_str());
+						utf82cstring((string)ct.expression()));
 		/*
 		long ct_id = CreateConstraint(((string)ct.name()).c_str(), 
 						cts_id, 
@@ -749,7 +847,7 @@ bool CreateSimpleFormulas(DesertSystem &ds, UdmDesertMap& des_map, DesertUdmMap 
 					srcps[in_vp_id] = in_elem_id;					
 				}
 			
-				long sf_id = CreateSimpleFormula(((std::string)sf.ComputationType()).c_str(), srcps, dstps);
+				long sf_id = CreateSimpleFormula(utf82cstring((std::string)sf.ComputationType()), srcps, dstps);
 				DoMap(sf, des_map, inv_des_map,  sf_id);
 			}
 		}
@@ -768,7 +866,7 @@ bool CreateDesertFormulaSet(FormulaSet &fs, UdmDesertMap &des_map, DesertUdmMap 
 
 	ASSERT(!fomula_set.empty());
 	//create constraint set
-	fts_id = CreateFormulaSet(((string)fs.name()).c_str());
+	fts_id = CreateFormulaSet(utf82cstring((string)fs.name()));
 	DoMap(fs, des_map, inv_des_map, fts_id);
 
 
@@ -783,10 +881,10 @@ bool CreateDesertFormulaSet(FormulaSet &fs, UdmDesertMap &des_map, DesertUdmMap 
 
 		//create constraint
 		
-		long ft_id = CreateFormula(((string)ft.name()).c_str(), 
-						fts_id, 
-						owner_id, 
-						((string)ft.expression()).c_str());
+		long ft_id = CreateFormula(utf82cstring((string)ft.name()),
+			fts_id,
+			owner_id,
+			utf82cstring((string)ft.expression()));
 	
 		DoMap(ft, des_map, inv_des_map,  ft_id);
 
@@ -944,7 +1042,7 @@ bool CreateNaturalDomains(DesertSystem& ds, UdmDesertMap& des_map, DesertUdmMap 
 				nd = *(nd_iterator);
 				
 				long d_id = CreateNaturalDomain( 
-					(((string)nd.name()).c_str()),
+					utf82cstring(((string)nd.name())),
 					nd.maximum(),
 					nd.minimum());
 					
@@ -996,8 +1094,7 @@ bool CreateCustomDomains(DesertSystem& ds, UdmDesertMap& des_map, DesertUdmMap &
 				//create the custom domain 
 				//
 
-				long cd_id =  CreateCustomDomain(((string)cd.name()).c_str());
-				//long cd_id =  CreateCustomDomain(((string)cd.name()).c_str(), cd.id(), cd.externalID());
+				long cd_id = CreateCustomDomain(utf82cstring((string)cd.name()));
 		
 				//inserting custom domain in map
 				DoMap(cd,des_map, inv_des_map, cd_id);

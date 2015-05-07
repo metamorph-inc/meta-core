@@ -21,6 +21,9 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
+#define WIDE2(x) L##x
+#define WIDE1(x) WIDE2(x)
+static TCHAR WTHIS_FILE[] = WIDE1(__FILE__);
 static char THIS_FILE[] = __FILE__;
 #endif
 
@@ -35,13 +38,13 @@ IMPLEMENT_DYNAMIC(CDesertUi, CPropertySheet)
 CDesertUi::CDesertUi(UINT nIDCaption, CWnd* pParentWnd, UINT iSelectPage)
 	:CPropertySheet(nIDCaption, pParentWnd, iSelectPage)
 {
-  ASSERT_EX(false, "CDesertUi::CDesertUi", "constructor not implemented");
+  ASSERT_EX(false, _T("CDesertUi::CDesertUi"), _T("constructor not implemented"));
 }
 
 CDesertUi::CDesertUi(LPCTSTR pszCaption, CWnd* pParentWnd, UINT iSelectPage)
 	:CPropertySheet(pszCaption, pParentWnd, iSelectPage)
 {
-  ASSERT_EX(CManager::theInstance, "CDesertUi::CDesertUi", "CManager::theInstance IS null");
+  ASSERT_EX(CManager::theInstance, _T("CDesertUi::CDesertUi"), _T("CManager::theInstance IS null"));
 
   // create the image list
   theImageList = new CImageList;
@@ -49,7 +52,7 @@ CDesertUi::CDesertUi(LPCTSTR pszCaption, CWnd* pParentWnd, UINT iSelectPage)
 
   // create page window for constraints
   constraintWnd = new CDesertList();
-  ASSERT_EX(constraintWnd, "CDesertUi::CDesertUi", "new failed");
+  ASSERT_EX(constraintWnd, _T("CDesertUi::CDesertUi"), _T("new failed"));
   AddPage(constraintWnd);
 
   // create page windows for spaces
@@ -59,7 +62,7 @@ CDesertUi::CDesertUi(LPCTSTR pszCaption, CWnd* pParentWnd, UINT iSelectPage)
     while(pos)
     {
       CDesertTree *wnd = new CDesertTree(spaces.GetNext(pos));
-      ASSERT_EX(wnd, "CDesertUi::CDesertUi", "new failed");
+      ASSERT_EX(wnd, _T("CDesertUi::CDesertUi"), _T("new failed"));
       treeWnds.AddTail(wnd);
       AddPage(wnd);
     }
@@ -74,7 +77,7 @@ CDesertUi::CDesertUi(LPCTSTR pszCaption, CWnd* pParentWnd, UINT iSelectPage)
       CDynDomain *domain = domains.GetNext(pos);
       if (domain->GetType() != typeDynCustomDomain) continue;
       CDesertTree *wnd = new CDesertTree((CDynCustomDomain *)domain);
-      ASSERT_EX(wnd, "CDesertUi::CDesertUi", "new failed");
+      ASSERT_EX(wnd, _T("CDesertUi::CDesertUi"), _T("new failed"));
       treeWnds.AddTail(wnd);
       AddPage(wnd);
     }
@@ -127,7 +130,7 @@ void CDesertUi::OnFileExit()
 #endif
 }
 
-static char tabText[128];
+static TCHAR tabText[128];
 
 BOOL CDesertUi::OnInitDialog() 
 {
@@ -137,13 +140,13 @@ BOOL CDesertUi::OnInitDialog()
 
   // initialize the titles of the pages
   CTabCtrl *tabs = GetTabControl();
-  ASSERT_EX( tabs, "CDesertUi::OnInitDialog", "tab control in property sheet is null" );
+  ASSERT_EX( tabs, _T("CDesertUi::OnInitDialog"), _T("tab control in property sheet is null") );
   int index = 1;
   POSITION pos = treeWnds.GetHeadPosition();
   while(pos)
   {
     CDesertTree *wnd = treeWnds.GetNext(pos);
-    char *n = wnd->GetTitle();
+    TCHAR *n = wnd->GetTitle();
     TC_ITEM tab; tab.mask = TCIF_TEXT; tab.pszText = tabText; tab.cchTextMax = 128;
     if (tabs->GetItem(index, &tab)) { tab.mask = TCIF_TEXT; tab.pszText = n; tabs->SetItem(index, &tab); }
     index++;
@@ -157,7 +160,7 @@ BOOL CDesertUi::OnInitDialog()
 void CDesertUi::UpdateMenu()
 {
 	 //enabling/disabling navigation menu
-	ASSERT_EX(CManager::theInstance, "CDesertUi::Apply", "Manager is NULL");
+	ASSERT_EX(CManager::theInstance, _T("CDesertUi::Apply"), _T("Manager is NULL"));
   
 	CMenu * pui_menu=GetMenu()->GetSubMenu(2);
 	pui_menu->EnableMenuItem(ID_CONFIGURATIONS_GOBACK, CManager::theInstance->IsBackNavigable() ? MF_ENABLED:MF_GRAYED   );
@@ -171,7 +174,7 @@ void CDesertUi::UpdateMenu()
 
 void CDesertUi::UpdateContent()
 {
-	ASSERT_EX(CManager::theInstance, "CDesertUi::UpdateContent", "Invalid manager!");
+	ASSERT_EX(CManager::theInstance, _T("CDesertUi::UpdateContent"), _T("Invalid manager!"));
   // reset space pointer in tree windows after applying constraints
   POSITION pos, treeWndPos = treeWnds.GetHeadPosition();
 
@@ -222,7 +225,7 @@ INT_PTR CDesertUi::DoModal()
 {
 #ifdef DO_MY_MODAL
   CWnd *parent = AfxGetMainWnd();
-  // ASSERT_EX(parent, "CDesertUi::DoModal", "parent window is null");
+  // ASSERT_EX(parent, _T("CDesertUi::DoModal"), _T("parent window is null"));
   if (parent) parent->EnableWindow(FALSE);
   Create(parent);
   int res = RunModalLoop(MLF_NOIDLEMSG);
@@ -261,11 +264,11 @@ int CDesertUi::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 /////////////////////////////////////////////////////////////////////////////
 // CDesertList property page
-static char* columnHeadings[] = {
-  "Constraint",
-  "Category",
-  "Context",
-  "Expression",
+static TCHAR* columnHeadings[] = {
+  _T("Constraint"),
+  _T("Category"),
+  _T("Context"),
+  _T("Expression"),
   0
 };
 
@@ -318,8 +321,8 @@ CDesertList::
 FillSizeBox()
 {
 	CEdit *box = (CEdit *)GetDlgItem(IDC_DSP_REP_SZ);
-	ASSERT_EX( box, "CDesertDialog::FillSizeBox", "the ctrl is null");
-	ASSERT_EX( CManager::theInstance, "CDesertList::FillSizeBox", "manager not instantiated" );
+	ASSERT_EX( box, _T("CDesertDialog::FillSizeBox"), _T("the ctrl is null"));
+	ASSERT_EX( CManager::theInstance, _T("CDesertList::FillSizeBox"), _T("manager not instantiated") );
 	long dummy = 0;                       // we want the clocktime from the previous apply
 	
 	//make sure we invoke here the GetSizeInfo only when it's needed
@@ -337,9 +340,9 @@ FillSizeBox()
 	}
 	CString str;
 	if(actualCfgs == -2) {
-		str.Format("Design Space (Encoded): %3.2e        EncodingLength: %6d      Time (ms): %3d     No. of Cfgs: Design Space Too Large", dspSize, repSize, clockTime);
+		str.Format(_T("Design Space (Encoded): %3.2e        EncodingLength: %6d      Time (ms): %3d     No. of Cfgs: Design Space Too Large"), dspSize, repSize, clockTime);
 	} else {
-		str.Format("Design Space (Encoded): %3.2e        EncodingLength: %6d      Time (ms): %3d     No. of Cfgs: %7d", dspSize, repSize, clockTime,actualCfgs);
+		str.Format(_T("Design Space (Encoded): %3.2e        EncodingLength: %6d      Time (ms): %3d     No. of Cfgs: %7d"), dspSize, repSize, clockTime,actualCfgs);
 	}
 	box->SetWindowText(str);
 }
@@ -350,8 +353,8 @@ CDesertList::
 FillSizeBox1()
 {
   CEdit *box = (CEdit *)GetDlgItem(IDC_DSP_REP_SZ);
-  ASSERT_EX( box, "CDesertDialog::FillSizeBox1", "the ctrl is null");
-  CString str; str.Format("Design Space: %3.1e        Representation: %6d      Time (ms): %3d", dspSize, repSize, clockTime);
+  ASSERT_EX( box, _T("CDesertDialog::FillSizeBox1"), _T("the ctrl is null"));
+  CString str; str.Format(_T("Design Space: %3.1e        Representation: %6d      Time (ms): %3d"), dspSize, repSize, clockTime);
   box->SetWindowText(str);
 }
 
@@ -361,7 +364,7 @@ CDesertList::
 FillList()
 {
   CListCtrl *ctrl = (CListCtrl *)GetDlgItem(IDC_LIST);
-  ASSERT_EX( ctrl, "CDesertDialog::OnInitDialog", "the ctrl is null");
+  ASSERT_EX( ctrl, _T("CDesertDialog::OnInitDialog"), _T("the ctrl is null"));
   // set the image list
   if (CDesertUi::theImageList) ctrl->SetImageList(CDesertUi::theImageList, LVSIL_SMALL);
   // set the column headings
@@ -374,7 +377,7 @@ FillList()
       (int)(WTIMES*ctrl->GetStringWidth(columnHeadings[i])), // column width
       i                                 // the subitem asssociated with the column
       );
-    ASSERT_EX( ret>=0, "CDesertList::FillList", "InsertColumn in list failed" );
+    ASSERT_EX( ret>=0, _T("CDesertList::FillList"), _T("InsertColumn in list failed") );
   }
   // fill the list
   FillList(ctrl);
@@ -385,7 +388,7 @@ CDesertList::
 FillList(CListCtrl *list)
 {
   list->DeleteAllItems();
-  ASSERT_EX( CManager::theInstance, "CDesertList::FillList", "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, _T("CDesertList::FillList"), _T("manager not instantiated") );
   CDynConstraintSetList& consets = CManager::theInstance->GetConstraintSets();
   POSITION pos = consets.GetHeadPosition();
   while(pos)
@@ -408,13 +411,13 @@ FillList(CListCtrl *list, CDynConstraintSet *set)
 
 	//fill only not-implicit constraints
 	if (!static_cons->IsImplicit() && static_cons->IsValid())
-		FillList(list, cons, (const char *)*set);
+		FillList(list, cons, (const TCHAR *)*set);
   }
 }
 
 void
 CDesertList::
-FillList(CListCtrl *list, CDynConstraint *cons, const char *category)
+FillList(CListCtrl *list, CDynConstraint *cons, const TCHAR *category)
 {
   int ret, req, is;
   LV_ITEM item;
@@ -426,9 +429,9 @@ FillList(CListCtrl *list, CDynConstraint *cons, const char *category)
   item.lParam = (LPARAM)(long)cons;
 
   // first column is the name of the constraint
-  item.pszText = (LPSTR)(const char *)*cons;
+  item.pszText = (LPTSTR)(const TCHAR *)*cons;
   ret = list->InsertItem(&item);
-  ASSERT_EX( ret >= 0, "CDesertList::FillList", "InsertItem failed" );
+  ASSERT_EX( ret >= 0, _T("CDesertList::FillList"), _T("InsertItem failed") );
 
   // fix column width
   req = (int)(WTIMES*list->GetStringWidth(item.pszText));
@@ -442,9 +445,9 @@ FillList(CListCtrl *list, CDynConstraint *cons, const char *category)
 
   // second column is the category of the set
   item.iSubItem = 1;
-  item.pszText = (LPSTR)category;
+  item.pszText = (LPTSTR)category;
   ret = list->SetItem(&item);
-  ASSERT_EX( ret >= 0, "CDesertList::FillList", "SetItem failed" );
+  ASSERT_EX( ret >= 0, _T("CDesertList::FillList"), _T("SetItem failed") );
   
   // fix column width
   req = (int)(WTIMES*list->GetStringWidth(item.pszText));
@@ -452,13 +455,13 @@ FillList(CListCtrl *list, CDynConstraint *cons, const char *category)
   if ( is < req ) list->SetColumnWidth(1, req);
 
   CDynElement *ctx = cons->GetContext();
-  ASSERT_EX( ctx, "CDesertList::FillList", "constraint context is NULL" );
+  ASSERT_EX( ctx, _T("CDesertList::FillList"), _T("constraint context is NULL") );
 
   // third column is the context of the constraint
   item.iSubItem = 2;
-  item.pszText = (LPSTR)(const char *)*ctx;
+  item.pszText = (LPTSTR)(const TCHAR *)*ctx;
   ret = list->SetItem(&item);
-  ASSERT_EX( ret >= 0, "CDesertList::FillList", "SetItem failed" );
+  ASSERT_EX( ret >= 0, _T("CDesertList::FillList"), _T("SetItem failed") );
 
   // fix column width
   req = (int)(WTIMES*list->GetStringWidth(item.pszText));
@@ -469,9 +472,9 @@ FillList(CListCtrl *list, CDynConstraint *cons, const char *category)
 
   // forth column is the expression of the constraint
   item.iSubItem = 3;
-  item.pszText = (LPSTR)(const char *)expr;
+  item.pszText = (LPTSTR)(const TCHAR *)expr;
   ret = list->SetItem(&item);
-  ASSERT_EX( ret >= 0, "CDesertList::FillList", "SetItem failed" );
+  ASSERT_EX( ret >= 0, _T("CDesertList::FillList"), _T("SetItem failed") );
 
   // fix column width
   req = (int)(WTIMES*list->GetStringWidth(item.pszText));
@@ -507,7 +510,7 @@ void CDesertList::OnItemchangedList(NMHDR* hdr, LRESULT* result)
 void CDesertList::
 ApplyImpl()
 {
-	ASSERT_EX( CManager::theInstance, "CDesertList::Apply", "manager not instantiated" );
+	ASSERT_EX( CManager::theInstance, _T("CDesertList::Apply"), _T("manager not instantiated") );
 	
 	CManager::theInstance->GenerateNextHierarchy();
 	//create a new constraintset
@@ -562,10 +565,10 @@ CDesertList::
 Apply(bool checked)
 {
   // make sure to update the tree pages once you apply constraints
-  ASSERT_EX( CManager::theInstance, "CDesertList::Apply", "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, _T("CDesertList::Apply"), _T("manager not instantiated") );
 
   CListCtrl *ctrl = (CListCtrl *)GetDlgItem(IDC_LIST);
-  ASSERT_EX( ctrl, "CDesertList::Apply", "the ctrl is null");
+  ASSERT_EX( ctrl, _T("CDesertList::Apply"), _T("the ctrl is null"));
 
   // actually apply
   if(Apply(ctrl, checked))
@@ -578,10 +581,10 @@ Apply(bool checked)
 
 void CDesertList::UpdateContent()
 {
-  ASSERT_EX( CManager::theInstance, "CDesertList::Apply", "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, _T("CDesertList::Apply"), _T("manager not instantiated") );
 
   CListCtrl *ctrl = (CListCtrl *)GetDlgItem(IDC_LIST);
-  ASSERT_EX( ctrl, "CDesertList::UpdateContent", "the ctrl is null");
+  ASSERT_EX( ctrl, _T("CDesertList::UpdateContent"), _T("the ctrl is null"));
   // refill ctrl
   FillList(ctrl);
   FillSizeBox();
@@ -668,7 +671,7 @@ IMPLEMENT_DYNCREATE(CDesertTree, CPropertyPage)
 
 CDesertTree::CDesertTree() : CPropertyPage(CDesertTree::IDD)
 {
-  ASSERT_EX(false, "CDesertTree::CDesertTree", "this constructor not implemented");
+  ASSERT_EX(false, _T("CDesertTree::CDesertTree"), _T("this constructor not implemented"));
 	//{{AFX_DATA_INIT(CDesertTree)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
@@ -713,7 +716,7 @@ BOOL CDesertTree::OnInitDialog()
 {
   CPropertyPage::OnInitDialog();
   CTreeCtrl *tree = (CTreeCtrl *)GetDlgItem(IDC_TREE);
-  ASSERT_EX( tree, "CDesertTree::OnInitDialog", "tree is NULL");
+  ASSERT_EX( tree, _T("CDesertTree::OnInitDialog"), _T("tree is NULL"));
   // set the imagelist
   if (CDesertUi::theImageList) tree->SetImageList(CDesertUi::theImageList, LVSIL_SMALL);
 	
@@ -732,18 +735,18 @@ CDesertTree::
 FillBox()
 {
   CEdit *box = (CEdit *)GetDlgItem(IDC_SIZE_BOX);
-  ASSERT_EX( box, "CDesertTree::FillBox", "box is NULL");
+  ASSERT_EX( box, _T("CDesertTree::FillBox"), _T("box is NULL"));
   CString str;
   switch(coreType)
   {
   case coreSpace:
-    ASSERT_EX(coreObj.space, "CDesertTree::FillBox", "space is NULL");
-    str.Format("Size of the space = %2.2e", coreObj.space->ComputeSize());
+    ASSERT_EX(coreObj.space, _T("CDesertTree::FillBox"), _T("space is NULL"));
+    str.Format(_T("Size of the space = %2.2e"), coreObj.space->ComputeSize());
     break;
       
   case coreDomain:
-    ASSERT_EX(coreObj.domain, "CDesertTree::FillBox", "domain is NULL");
-    str.Format("Size of the space = %3d", coreObj.domain->GetSize());
+    ASSERT_EX(coreObj.domain, _T("CDesertTree::FillBox"), _T("domain is NULL"));
+    str.Format(_T("Size of the space = %3d"), coreObj.domain->GetSize());
     break;
   }
   box->SetWindowText(str);
@@ -754,13 +757,13 @@ CDesertTree::
 FillTree()
 {
   CTreeCtrl *tree = (CTreeCtrl *)GetDlgItem(IDC_TREE);
-  ASSERT_EX( tree, "CDesertTree::OnInitDialog", "tree is NULL");
+  ASSERT_EX( tree, _T("CDesertTree::OnInitDialog"), _T("tree is NULL"));
   tree->DeleteAllItems();
 
   switch(coreType)
   {
   case coreSpace:
-    ASSERT_EX(coreObj.space, "CDesertTree::FillTree", "space is NULL");
+    ASSERT_EX(coreObj.space, _T("CDesertTree::FillTree"), _T("space is NULL"));
     {
       CDynElementList& elements = coreObj.space->GetRootElements();
       FillTree(tree, elements);
@@ -768,7 +771,7 @@ FillTree()
     break;
       
   case coreDomain:
-    ASSERT_EX(coreObj.domain, "CDesertTree::FillTree", "domain is NULL");
+    ASSERT_EX(coreObj.domain, _T("CDesertTree::FillTree"), _T("domain is NULL"));
     {
     //  CDynElementList& elements = coreObj.domain->GetElements();
 	  CDynElementList& elements = coreObj.domain->GetRootElements();
@@ -806,7 +809,7 @@ void
 CDesertTree::
 Reset(CDynSpace *space)
 {
-  ASSERT_EX(coreType == coreSpace, "CDesertTree::Reset", "can not change type midway");
+  ASSERT_EX(coreType == coreSpace, _T("CDesertTree::Reset"), _T("can not change type midway"));
   coreObj.space = space;
   // if the page is active update it
 }
@@ -815,30 +818,30 @@ void
 CDesertTree::
 Reset(CDynCustomDomain *domain)
 {
-  ASSERT_EX(coreType == coreDomain, "CDesertTree::Reset", "can not change type midway");
+  ASSERT_EX(coreType == coreDomain, _T("CDesertTree::Reset"), _T("can not change type midway"));
   coreObj.domain = domain;
   // if the page is active update it
 }
 
-char *
+TCHAR *
 CDesertTree::
 GetTitle()
 {
   if (title) return title;
-  const char *ret = 0;
+  const TCHAR *ret = 0;
   switch(coreType)
   {
   case coreSpace:
-    ASSERT_EX(coreObj.space, "CDesertTree::FillTree", "space is NULL");
-    ret = (const char *)*(coreObj.space);
+    ASSERT_EX(coreObj.space, _T("CDesertTree::FillTree"), _T("space is NULL"));
+    ret = (const TCHAR *)*(coreObj.space);
     break;
       
   case coreDomain:
-    ASSERT_EX(coreObj.domain, "CDesertTree::FillTree", "domain is NULL");
-    ret = (const char *)*(coreObj.domain);
+    ASSERT_EX(coreObj.domain, _T("CDesertTree::FillTree"), _T("domain is NULL"));
+    ret = (const TCHAR *)*(coreObj.domain);
     break;
   }
-  return ret ? title = strdup(ret) : NULL;
+  return ret ? title = _tcsdup(ret) : NULL;
 }
 
 
@@ -846,9 +849,9 @@ void CDesertUi::OnConfigurationsGoback()
 {
 	// TODO: Add your command handler code here
 	
-	ASSERT_EX(CManager::theInstance,"CDesertUi::OnConfigurationsGoBack", "Manager is not present");
-	ASSERT_EX(CManager::theInstance->IsBackNavigable(),"CDesertUi::OnConfigurationsGoBack",
-		"Manager is not backnavigable!");
+	ASSERT_EX(CManager::theInstance,_T("CDesertUi::OnConfigurationsGoBack"), _T("Manager is not present"));
+	ASSERT_EX(CManager::theInstance->IsBackNavigable(),_T("CDesertUi::OnConfigurationsGoBack"),
+		_T("Manager is not backnavigable!"));
 	CManager::theInstance->NavigateBack();
 	constraintWnd->UpdateContent();
 	UpdateMenu();
@@ -858,9 +861,9 @@ void CDesertUi::OnConfigurationsGoback()
 void CDesertUi::OnConfigurationsGoforward() 
 {
 	// TODO: Add your command handler code here
-	ASSERT_EX(CManager::theInstance,"CDesertUi::OnConfigurationsGoForward", "Manager is not present");
-	ASSERT_EX(CManager::theInstance->IsForwardNavigable(),"CDesertUi::OnConfigurationsGoForward",
-		"Manager is not forward!");
+	ASSERT_EX(CManager::theInstance,_T("CDesertUi::OnConfigurationsGoForward"), _T("Manager is not present"));
+	ASSERT_EX(CManager::theInstance->IsForwardNavigable(),_T("CDesertUi::OnConfigurationsGoForward"),
+		_T("Manager is not forward!"));
 	CManager::theInstance->NavigateForward();
 	constraintWnd->UpdateContent();
 	UpdateMenu();

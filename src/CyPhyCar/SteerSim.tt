@@ -1,0 +1,35 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".txt" #>
+
+acar analysis full_vehicle step_steer submit  &
+   assembly = .<#=ModelName#>  &
+   output_prefix = "<#=OutputPrefix#>"  &
+   output_suffix = "<#=OutputPostfix#>"  &
+   end_time = <#=EndTime#>  &
+   number_of_steps = <#=NumSteps#>  &
+   steering_input = angle  &
+   start_value = 0  &
+   initial_steer_value = <#=SteerAngle#>  &
+   final_steer_value = <#=SteerAngle#>  &
+   duration = 1.0  &
+   road_data_file = "mdids://acar_shared/roads.tbl/2d_flat.rdf"  &
+   initial_velocity = <#=InitialVelocity#>  &
+   velocity_units = mile_hr  &
+   cruise_control = yes  &
+   gear_position = <#=GearPosition#>  &
+   qstatic_prephase = yes  &
+   analysis_mode = interactive  &
+   load_results = yes  &
+   log_file = yes  &
+   error_variable = .ACAR.variables.errorFlag
+
+<#+  
+public string ModelName {get;set;}
+public string OutputPrefix {get;set;}
+public string OutputPostfix {get;set;}
+public string EndTime {get;set;}
+public string NumSteps {get;set;}
+public string InitialVelocity {get;set;}
+public string SteerAngle {get;set;}
+public string GearPosition {get;set;}
+#>

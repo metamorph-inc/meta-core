@@ -215,6 +215,9 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 			}
 		}
 
+		if ( interferenceRun ) 
+			Validate_ComputationInterferenceCount_ThrowExceptionIfInvalid ( out_CADComponentAssemblies, out_CADComponentData_map);
+										
 
 		if ( UniquelyNameAllCADModelInstances  )
 		{
@@ -977,6 +980,31 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 
 			if ( interferenceRun )
 			{
+				std::vector<CADComputation>		interferenceCount_CADComputations;
+
+				RetrieveComputationOfAGivenType(	i->assemblyMetrics, 
+													COMPUTATION_INTERFERENCE_COUNT,
+													interferenceCount_CADComputations );
+
+				// At this point there should be one and only one CADComputation of type COMPUTATION_INTERFERENCE_COUNT.
+				// This was enforced via the function Validate_ComputationInterferenceCount_ThrowExceptionIfInvalid.
+				// Check again to prevent a bug from being introduced.
+				if ( interferenceCount_CADComputations.size() != 1 )
+				{
+					std::stringstream errorString;
+					errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
+								"For an interference analysis, there must be one and only one InterferenceCount CADComputationComponent." << std::endl <<
+								"Number of InterferenceCount Found: " << interferenceCount_CADComputations.size() << std::endl <<
+								"InterferenceCount CADComputationComponents: " << std::endl;
+								for each ( const CADComputation &k in interferenceCount_CADComputations )
+								{
+									errorString << "Referenced Model Name:        " << out_CADComponentData_map[k.componentID].name << std::endl;;
+									errorString << "Referenced Model ComponentID: " << k.componentID;
+									errorString << k;
+								}
+							throw isis::application_exception(errorString);		
+				}
+
 				if ( regenerationSucceeded_ForAllAssemblies && 
 					 out_CADComponentAssemblies.unassembledComponents.size() == 0 &&  
 					 out_CADComponentAssemblies.topLevelAssemblies.size() == 1)
@@ -988,7 +1016,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 					logcat_consoleandfile.infoStream() << "   Populating: " + InterferenceReport_PathAndFileName + ", Note: For large assemblies, this could take several minutes.";
 					try 
 					{
-						CreateInterferenceReport( InterferenceReport_PathAndFileName, i->assemblyComponentID, out_CADComponentData_map );
+						CreateInterferenceReport( InterferenceReport_PathAndFileName, i->assemblyComponentID, interferenceCount_CADComputations[0], out_CADComponentData_map );
 					}
 
 					catch ( isis::application_exception& ex )

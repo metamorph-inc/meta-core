@@ -1,7 +1,7 @@
 # .\_cad.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:462c18d5b89050fb1b7f8fca1e535af868009675
-# Generated 2014-10-29 10:43:04.550000 by PyXB version 1.2.3
+# Generated 2015-02-24 12:11:08.849000 by PyXB version 1.2.3
 # Namespace cad [xmlns:cad]
 
 import pyxb
@@ -13,7 +13,7 @@ import pyxb.utils.domutils
 import sys
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:455827f0-5f82-11e4-94dc-20c9d0878c2e')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:8174f98f-bc50-11e4-b7a1-001b2181d248')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.3'
@@ -22,8 +22,8 @@ if pyxb.__version__ != _PyXBVersion:
     raise pyxb.PyXBVersionError(_PyXBVersion)
 
 # Import bindings for namespaces imported into schema
-import pyxb.binding.datatypes
 import avm as _ImportedBinding__avm
+import pyxb.binding.datatypes
 
 # NOTE: All namespace declarations are reserved within the binding
 Namespace = pyxb.namespace.NamespaceForURI(u'cad', create_if_missing=True)

@@ -121,6 +121,7 @@ protected:
 
 
 	// 7-3-2012: CADParameter inside CADModel instead of Component
+	set<CyPhyML::CarParameter> m_carParameters;
 	set<CyPhyML::CADParameter> m_cadParameters;
 	set<CyPhyML::ManufacturingModelParameter> m_manufactureParameters;
 	set<CyPhyML::ModelicaParameter> m_modelicaParameters; 	// ZL 11/20/2013 support modelica parameters as value flow targets
@@ -128,6 +129,7 @@ protected:
 	map<string, CyPhyML::unit> m_unit_name_table;
 	void EvaluateCADParameters();
 	void EvaluateManufactureParameters();
+	void EvaluateCarParameters();
 
 	std::string NonRealValueFixture( CyPhyML::ValueFlowTarget &vft, std::string &value );
 

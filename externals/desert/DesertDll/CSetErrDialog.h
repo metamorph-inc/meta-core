@@ -18,7 +18,7 @@ public:
 
 	CCSetErrDialog(CWnd* pParent = NULL);   // standard constructor
 	
-	void AddError(const char * CSet, const char * c, const char * context, const char * err_str, const char * what);
+	void AddError(const TCHAR * CSet, const TCHAR * c, const TCHAR * context, const TCHAR * err_str, const TCHAR * what);
 	bool IsAlive()	{return alive;};
 // Dialog Data
 	//{{AFX_DATA(CCSetErrDialog)

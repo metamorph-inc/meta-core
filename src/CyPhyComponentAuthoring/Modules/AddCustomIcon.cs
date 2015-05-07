@@ -46,6 +46,8 @@ namespace CyPhyComponentAuthoring.Modules
             }
         }
 
+        [CyPhyComponentAuthoringInterpreter.CATDnD(Extension = ".ico")]
+        [CyPhyComponentAuthoringInterpreter.CATDnD(Extension = ".png")]
         public void AddCustomIcon(string IconFileSourcePath = null)
         {
             this.Logger = new CyPhyGUIs.GMELogger(CurrentProj, this.GetType().Name);

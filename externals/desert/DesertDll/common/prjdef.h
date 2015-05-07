@@ -9,8 +9,8 @@
 class CPrjDef
 {
 public:
-  bool Load(const char *fname);
-  void ParseLine(char *line);
+  bool Load(const TCHAR *fname);
+  void ParseLine(TCHAR *line);
   
   CString acsInstallPath;
   CString projectName;

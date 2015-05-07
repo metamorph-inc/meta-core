@@ -34,29 +34,29 @@ typedef enum STATUSID {
 
 typedef struct STATUSDEFS {
 	StatusID id;
-	const char * desc;
+	const TCHAR * desc;
 	short percent;
 } StatusDefinition;
 
 const StatusDefinition Stats[] = 
 {
-	{SD_INIT,	"Initializing",							0},
-	{SD_PARSE,	"Parsing XML",							5},
-	{SD_SPS,	"Creating spaces",						10},
-	{SD_ERS,	"Creating Element Relations",			30},
-	{SD_CTS,	"Creating constraints",					35},
-	{SD_NDS,	"Creating Natural Domains",				40},
-	{SD_CDS,	"Creating Custom Domains",				45},
-	{SD_MRS,	"Creating Member Relations",			50},		
-	{SD_VPS,	"Creating Variable Properties",			55},
-	{SD_CPS,	"Creating Constant Properties",			60},
-	{SD_ASS,	"Creating Assignments",					70},
-	{SD_PREAPPLY,	"Verify, Analysis constraints",		72},
-	{SD_APPLY,	"Apply constraints",					74},
-	{SD_GUI,	"Invoking Desert GUI",					75},
-	{SD_PREP,	"Prepare output",						80},
-	{SD_BACK,	"Writing output",						90},
-	{SD_FINIT,	"Done",									100},
+	{SD_INIT,	_T("Initializing"),							0},
+	{SD_PARSE,	_T("Parsing XML"),							5},
+	{SD_SPS,	_T("Creating spaces"),						10},
+	{SD_ERS,	_T("Creating Element Relations"),			30},
+	{SD_CTS,	_T("Creating constraints"),					35},
+	{SD_NDS,	_T("Creating Natural Domains"),				40},
+	{SD_CDS,	_T("Creating Custom Domains"),				45},
+	{SD_MRS,	_T("Creating Member Relations"),			50},		
+	{SD_VPS,	_T("Creating Variable Properties"),			55},
+	{SD_CPS,	_T("Creating Constant Properties"),			60},
+	{SD_ASS,	_T("Creating Assignments"),					70},
+	{SD_PREAPPLY,	_T("Verify, Analysis constraints"),		72},
+	{SD_APPLY,	_T("Apply constraints"),					74},
+	{SD_GUI,	_T("Invoking Desert GUI"),					75},
+	{SD_PREP,	_T("Prepare output"),						80},
+	{SD_BACK,	_T("Writing output"),						90},
+	{SD_FINIT,	_T("Done"),									100},
 	{SD_NULL,	NULL,									-1}
 };
 
@@ -118,9 +118,9 @@ public:
 					 CWnd* pParent, bool silent, long& configCount);
 	virtual ~CDesertStatusDlg();
 	void SetStatus(StatusID s_id);
-	void SetStatus(const char *info, int percent);
+	void SetStatus(const TCHAR *info, int percent);
 	unsigned long StepInState(short percentage);
-	unsigned long StepInState(short percentage, const char *desc);
+	unsigned long StepInState(short percentage, const TCHAR *desc);
 
 // Dialog Data
 	enum { IDD = IDD_DESERTSTATUSDLG };

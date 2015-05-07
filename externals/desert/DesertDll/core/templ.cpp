@@ -55,9 +55,9 @@ __FindEx(CTypedPtrList<CPtrList, T>& l, T& t, long i)
 
 
 template<class T> bool 
-__FindEx(CTypedPtrList<CPtrList, T>& l, T& t, const char *n)
+__FindEx(CTypedPtrList<CPtrList, T>& l, T& t, const TCHAR *n)
 /*
- * the members of the list must have an operator (const char *)
+ * the members of the list must have an operator (const TCHAR *)
  * all classes
  */
 {
@@ -65,7 +65,7 @@ __FindEx(CTypedPtrList<CPtrList, T>& l, T& t, const char *n)
   while(pos)
   {
     t = l.GetNext(pos);
-    if (strcmp(n, (const char *)*t) == 0) return true;
+    if (_tcscmp(n, (const TCHAR *)*t) == 0) return true;
   }
   t = 0;
   return false;
@@ -171,7 +171,7 @@ __RemoveEx(CTypedPtrList<CPtrList, T>& l, T t)
     l.RemoveAt(pos);
     return true;
   }
-  Warning( "::Remove", "Object <%s> not in list", (const char *)(*t));
+  Warning( _T("::Remove"), _T("Object <%s> not in list"), (const TCHAR *)(*t));
   return false;
 }
 
@@ -184,7 +184,7 @@ __RemoveEx(CTypedPtrList<CPtrList, T>& l, T& t, long i)
 
 template<class T>
 bool
-__RemoveEx(CTypedPtrList<CPtrList, T>& l, T& t, const char *n)
+__RemoveEx(CTypedPtrList<CPtrList, T>& l, T& t, const TCHAR *n)
 {
   return __FindEx(l, t, n) ? __RemoveEx(l, t) : false;
 }
@@ -198,7 +198,7 @@ __InsertEx(CTypedPtrList<CPtrList, T>& l, T t)
     l.AddTail(t);
     return true;
   }
-  Warning( "::Insert", "Object <%s> already in list",(const char *)(*t));
+  Warning( _T("::Insert"), _T("Object <%s> already in list"),(const TCHAR *)(*t));
   return false;
 }
 
@@ -265,27 +265,27 @@ __IsAncestorEx(T a, T b)
 #define CALL_FINDEX(a, b, c) {return __FindEx(a,b,c);}
 
 
-DESERT_API bool Find(CTypedPtrList<CPtrList, CCosmic*>& a, CCosmic*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CSpace*>& a, CSpace*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CElementContainer*>& a, CElementContainer*& b, const char * c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynElementContainer*>& a, CDynElementContainer*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CElement*>& a, CElement*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDomain*>& a, CDomain*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CConstraintSet*>& a, CConstraintSet*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CConstraint*>& a, CConstraint*& b, const char* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CCosmic*>& a, CCosmic*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CSpace*>& a, CSpace*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CElementContainer*>& a, CElementContainer*& b, const TCHAR * c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynElementContainer*>& a, CDynElementContainer*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CElement*>& a, CElement*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDomain*>& a, CDomain*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CConstraintSet*>& a, CConstraintSet*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CConstraint*>& a, CConstraint*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
 /////
-DESERT_API bool Find(CTypedPtrList<CPtrList, CFormulaSet*>& a, CFormulaSet*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CFormula*>& a, CFormula*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynFormulaSet*>& a, CDynFormulaSet*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynFormula*>& a, CDynFormula*& b, const char* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CFormulaSet*>& a, CFormulaSet*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CFormula*>& a, CFormula*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynFormulaSet*>& a, CDynFormulaSet*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynFormula*>& a, CDynFormula*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
 /////
-DESERT_API bool Find(CTypedPtrList<CPtrList, CProperty*>& a, CProperty*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynSpace*>& a, CDynSpace*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynElement*>& a, CDynElement*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynConstraint*>& a,  CDynConstraint*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynConstraintSet*>& a, CDynConstraintSet*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynProperty*>& a, CDynProperty*& b, const char* c) CALL_FINDEX(a, b, c);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynDomain*>& a, CDynDomain*& b, const char* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CProperty*>& a, CProperty*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynSpace*>& a, CDynSpace*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynElement*>& a, CDynElement*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynConstraint*>& a,  CDynConstraint*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynConstraintSet*>& a, CDynConstraintSet*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynProperty*>& a, CDynProperty*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynDomain*>& a, CDynDomain*& b, const TCHAR* c) CALL_FINDEX(a, b, c);
 
 
 DESERT_API bool Find(CTypedPtrList<CPtrList, CSpace*>& a, CSpace*& b, long c) CALL_FINDEX(a, b, c);
@@ -401,21 +401,21 @@ template CDynElement* FindElement<CDynSpace*>(CTypedPtrList<CPtrList, CDynSpace*
 template CDynElement* FindElement<CDynDomain*>(CTypedPtrList<CPtrList, CDynDomain*>&, const CElement*);
 
 
-template bool __FindEx<CCosmic*>(CTypedPtrList<CPtrList, CCosmic*>&, CCosmic*&, const char*);
-template bool __FindEx<CSpace*>(CTypedPtrList<CPtrList, CSpace*>&, CSpace*&, const char*);
-template bool __FindEx<CElementContainer*>(CTypedPtrList<CPtrList, CElementContainer*>&, CElementContainer*&, const char *);
-template bool __FindEx<CDynElementContainer*>(CTypedPtrList<CPtrList, CDynElementContainer*>&, CDynElementContainer*&, const char*);
-template bool __FindEx<CElement*>(CTypedPtrList<CPtrList, CElement*>&, CElement*&, const char*);
-template bool __FindEx<CDomain*>(CTypedPtrList<CPtrList, CDomain*>&, CDomain*&, const char*);
-template bool __FindEx<CConstraintSet*>(CTypedPtrList<CPtrList, CConstraintSet*>&, CConstraintSet*&, const char*);
-template bool __FindEx<CConstraint*>(CTypedPtrList<CPtrList, CConstraint*>&, CConstraint*&, const char*);
-template bool __FindEx<CProperty*>(CTypedPtrList<CPtrList, CProperty*>&, CProperty*&, const char*);
-template bool __FindEx<CDynSpace*>(CTypedPtrList<CPtrList, CDynSpace*>&, CDynSpace*&, const char*);
-template bool __FindEx<CDynElement*>(CTypedPtrList<CPtrList, CDynElement*>&, CDynElement*&, const char*);
-template bool __FindEx<CDynConstraint*>(CTypedPtrList<CPtrList, CDynConstraint*>&, CDynConstraint*&, const char*);
-template bool __FindEx<CDynConstraintSet*>(CTypedPtrList<CPtrList, CDynConstraintSet*>&, CDynConstraintSet*&, const char*);
-template bool __FindEx<CDynProperty*>(CTypedPtrList<CPtrList, CDynProperty*>&, CDynProperty*&, const char*);
-template bool __FindEx<CDynDomain*>(CTypedPtrList<CPtrList, CDynDomain*>&, CDynDomain*&, const char*);
+template bool __FindEx<CCosmic*>(CTypedPtrList<CPtrList, CCosmic*>&, CCosmic*&, const TCHAR*);
+template bool __FindEx<CSpace*>(CTypedPtrList<CPtrList, CSpace*>&, CSpace*&, const TCHAR*);
+template bool __FindEx<CElementContainer*>(CTypedPtrList<CPtrList, CElementContainer*>&, CElementContainer*&, const TCHAR *);
+template bool __FindEx<CDynElementContainer*>(CTypedPtrList<CPtrList, CDynElementContainer*>&, CDynElementContainer*&, const TCHAR*);
+template bool __FindEx<CElement*>(CTypedPtrList<CPtrList, CElement*>&, CElement*&, const TCHAR*);
+template bool __FindEx<CDomain*>(CTypedPtrList<CPtrList, CDomain*>&, CDomain*&, const TCHAR*);
+template bool __FindEx<CConstraintSet*>(CTypedPtrList<CPtrList, CConstraintSet*>&, CConstraintSet*&, const TCHAR*);
+template bool __FindEx<CConstraint*>(CTypedPtrList<CPtrList, CConstraint*>&, CConstraint*&, const TCHAR*);
+template bool __FindEx<CProperty*>(CTypedPtrList<CPtrList, CProperty*>&, CProperty*&, const TCHAR*);
+template bool __FindEx<CDynSpace*>(CTypedPtrList<CPtrList, CDynSpace*>&, CDynSpace*&, const TCHAR*);
+template bool __FindEx<CDynElement*>(CTypedPtrList<CPtrList, CDynElement*>&, CDynElement*&, const TCHAR*);
+template bool __FindEx<CDynConstraint*>(CTypedPtrList<CPtrList, CDynConstraint*>&, CDynConstraint*&, const TCHAR*);
+template bool __FindEx<CDynConstraintSet*>(CTypedPtrList<CPtrList, CDynConstraintSet*>&, CDynConstraintSet*&, const TCHAR*);
+template bool __FindEx<CDynProperty*>(CTypedPtrList<CPtrList, CDynProperty*>&, CDynProperty*&, const TCHAR*);
+template bool __FindEx<CDynDomain*>(CTypedPtrList<CPtrList, CDynDomain*>&, CDynDomain*&, const TCHAR*);
 
   
 template bool Find<CSpace*>(CTypedPtrList<CPtrList, CSpace*>&, CSpace*&, long);
@@ -488,20 +488,20 @@ DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynProperty*>& a, CDynProperty*&
 DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynRelation*>& a, CDynRelation*& b, long c)CALL_REMOVE_EX3;
 
 
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CSpace*>& a, CSpace*& b, const char* c)CALL_REMOVE_EX3;
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDomain*>& a, CDomain*& b, const char* c)CALL_REMOVE_EX3;
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CConstraintSet*>& a, CConstraintSet*& b, const char* c)CALL_REMOVE_EX3;
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CElement*>& a, CElement*& b, const char* c)CALL_REMOVE_EX3;
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CProperty*>& a, CProperty*& b, const char* c)CALL_REMOVE_EX3;
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CRelation*>& a, CRelation*& b, const char * c)CALL_REMOVE_EX3;
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CConstraint*>& a, CConstraint*& b, const char* c)CALL_REMOVE_EX3;
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynSpace*>& a, CDynSpace*& b, const char* c)CALL_REMOVE_EX3;
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynDomain*>& a, CDynDomain*& b, const char* c)CALL_REMOVE_EX3;
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynConstraintSet*>& a, CDynConstraintSet*& b, const char* c)CALL_REMOVE_EX3;
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynElement*>& a, CDynElement*& b, const char* c)CALL_REMOVE_EX3;
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynProperty*>& a, CDynProperty*& b, const char* c)CALL_REMOVE_EX3;
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynConstraint*>& a, CDynConstraint*& b, const char* c)CALL_REMOVE_EX3;
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynRelation*>& a, CDynRelation*& b, const char * c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CSpace*>& a, CSpace*& b, const TCHAR* c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDomain*>& a, CDomain*& b, const TCHAR* c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CConstraintSet*>& a, CConstraintSet*& b, const TCHAR* c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CElement*>& a, CElement*& b, const TCHAR* c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CProperty*>& a, CProperty*& b, const TCHAR* c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CRelation*>& a, CRelation*& b, const TCHAR * c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CConstraint*>& a, CConstraint*& b, const TCHAR* c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynSpace*>& a, CDynSpace*& b, const TCHAR* c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynDomain*>& a, CDynDomain*& b, const TCHAR* c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynConstraintSet*>& a, CDynConstraintSet*& b, const TCHAR* c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynElement*>& a, CDynElement*& b, const TCHAR* c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynProperty*>& a, CDynProperty*& b, const TCHAR* c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynConstraint*>& a, CDynConstraint*& b, const TCHAR* c)CALL_REMOVE_EX3;
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynRelation*>& a, CDynRelation*& b, const TCHAR * c)CALL_REMOVE_EX3;
 
 DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynFormulaSet*>& a, CDynFormulaSet*& b, long c)CALL_REMOVE_EX3;
 DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynFormula*>& a, CDynFormula*& b, long c)CALL_REMOVE_EX3;
@@ -579,18 +579,18 @@ template bool Remove<CDynConstraint*>(CTypedPtrList<CPtrList, CDynConstraint*>&,
 template bool Remove<CDynRelation*>(CTypedPtrList<CPtrList, CDynRelation*>&, CDynRelation*&, long);
 
 
-template bool Remove<CSpace*>(CTypedPtrList<CPtrList, CSpace*>&, CSpace*&, const char*);
-template bool Remove<CDomain*>(CTypedPtrList<CPtrList, CDomain*>&, CDomain*&, const char*);
-template bool Remove<CConstraintSet*>(CTypedPtrList<CPtrList, CConstraintSet*>&, CConstraintSet*&, const char*);
-template bool Remove<CElement*>(CTypedPtrList<CPtrList, CElement*>&, CElement*&, const char*);
-template bool Remove<CProperty*>(CTypedPtrList<CPtrList, CProperty*>&, CProperty*&, const char*);
-template bool Remove<CConstraint*>(CTypedPtrList<CPtrList, CConstraint*>&, CConstraint*&, const char*);
-template bool Remove<CDynSpace*>(CTypedPtrList<CPtrList, CDynSpace*>&, CDynSpace*&, const char*);
-template bool Remove<CDynDomain*>(CTypedPtrList<CPtrList, CDynDomain*>&, CDynDomain*&, const char*);
-template bool Remove<CDynConstraintSet*>(CTypedPtrList<CPtrList, CDynConstraintSet*>&, CDynConstraintSet*&, const char*);
-template bool Remove<CDynElement*>(CTypedPtrList<CPtrList, CDynElement*>&, CDynElement*&, const char*);
-template bool Remove<CDynProperty*>(CTypedPtrList<CPtrList, CDynProperty*>&, CDynProperty*&, const char*);
-template bool Remove<CDynConstraint*>(CTypedPtrList<CPtrList, CDynConstraint*>&, CDynConstraint*&, const char*);
+template bool Remove<CSpace*>(CTypedPtrList<CPtrList, CSpace*>&, CSpace*&, const TCHAR*);
+template bool Remove<CDomain*>(CTypedPtrList<CPtrList, CDomain*>&, CDomain*&, const TCHAR*);
+template bool Remove<CConstraintSet*>(CTypedPtrList<CPtrList, CConstraintSet*>&, CConstraintSet*&, const TCHAR*);
+template bool Remove<CElement*>(CTypedPtrList<CPtrList, CElement*>&, CElement*&, const TCHAR*);
+template bool Remove<CProperty*>(CTypedPtrList<CPtrList, CProperty*>&, CProperty*&, const TCHAR*);
+template bool Remove<CConstraint*>(CTypedPtrList<CPtrList, CConstraint*>&, CConstraint*&, const TCHAR*);
+template bool Remove<CDynSpace*>(CTypedPtrList<CPtrList, CDynSpace*>&, CDynSpace*&, const TCHAR*);
+template bool Remove<CDynDomain*>(CTypedPtrList<CPtrList, CDynDomain*>&, CDynDomain*&, const TCHAR*);
+template bool Remove<CDynConstraintSet*>(CTypedPtrList<CPtrList, CDynConstraintSet*>&, CDynConstraintSet*&, const TCHAR*);
+template bool Remove<CDynElement*>(CTypedPtrList<CPtrList, CDynElement*>&, CDynElement*&, const TCHAR*);
+template bool Remove<CDynProperty*>(CTypedPtrList<CPtrList, CDynProperty*>&, CDynProperty*&, const TCHAR*);
+template bool Remove<CDynConstraint*>(CTypedPtrList<CPtrList, CDynConstraint*>&, CDynConstraint*&, const TCHAR*);
 
 
 template bool Remove<CElement*>(CTypedPtrList<CPtrList, CElement*>&, CElement*);

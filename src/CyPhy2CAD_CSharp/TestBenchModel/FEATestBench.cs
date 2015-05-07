@@ -914,6 +914,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 metric.RequestedValueType = item.RequestedValueType;
                 metric.MetricType1 = item.ComputationType.ToString();
                 metric.Details = "";
+                metric.MetricName = item.MetricName;
                 metriclist.Add(metric);
             }
             if (metriclist.Any())
@@ -954,6 +955,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                         ptout.RequestedValueType = item.RequestedValueType;
                         ptout.Details = item.FeatureDatumName;
                         ptout.ComponentID = String.IsNullOrEmpty(item.ComponentID) ? "" : item.ComponentID;     // PointCoordinate metric is tied to a specific Component  
+                        ptout.MetricName = item.MetricName??"";
                         metriclist.Add(ptout);
                     }
                     else
@@ -964,6 +966,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                         metric.MetricType1 = item.ComputationType.ToString();
                         metric.RequestedValueType = item.RequestedValueType;
                         metric.ComponentID = assemblyRoot.ConfigurationID;
+                        metric.MetricName = item.MetricName??"";
                         metric.Details = "";
                         metriclist.Add(metric);
                     }

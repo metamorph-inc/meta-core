@@ -664,14 +664,18 @@
                 // Add all defined Parameters at the component-level
                 foreach (var cyPhyParameter in component.Children.ParameterCollection)
                 {
-                    var parameter_mo = new UnitParameter()
+                    // META-3622
+                    if (String.IsNullOrWhiteSpace(cyPhyParameter.Attributes.Dimension) || cyPhyParameter.Attributes.Dimension.Trim() == "1")
                     {
-                        Name = CodeGenerator.ParameterPrefix + cyPhyParameter.Name,
-                        Value = this.GetParameterModelicaValue(cyPhyParameter),
-                        Modifier = this.GetParameterModifier(cyPhyParameter)
-                    };
+                        var parameter_mo = new UnitParameter()
+                        {
+                            Name = CodeGenerator.ParameterPrefix + cyPhyParameter.Name,
+                            Value = this.GetParameterModelicaValue(cyPhyParameter),
+                            Modifier = this.GetParameterModifier(cyPhyParameter)
+                        };
 
-                    component_mo.CyPhyParameters.Add(parameter_mo);
+                        component_mo.CyPhyParameters.Add(parameter_mo);
+                    }
                 }
 
                 // Add all modelicaParameter from the ModelicaModel
@@ -1170,25 +1174,33 @@
             // ------- Parameters/Properties & Metrics ---------
             foreach (var defParameter in ca.Children.ParameterCollection)
             {
-                var parameter_mo = new UnitParameter()
+                // META-3622
+                if (String.IsNullOrWhiteSpace(defParameter.Attributes.Dimension) || defParameter.Attributes.Dimension.Trim() == "1")
                 {
-                    Name = defParameter.Name,
-                    Value = this.GetParameterModelicaValue(defParameter),
-                    Modifier = this.GetParameterModifier(defParameter)
-                };
+                    var parameter_mo = new UnitParameter()
+                    {
+                        Name = defParameter.Name,
+                        Value = this.GetParameterModelicaValue(defParameter),
+                        Modifier = this.GetParameterModifier(defParameter)
+                    };
 
-                componentAssembly_mo.Parameters.Add(parameter_mo);
+                    componentAssembly_mo.Parameters.Add(parameter_mo);
+                }
             }
 
             foreach (var defProperty in ca.Children.PropertyCollection)
             {
-                var parameter_mo = new UnitParameter()
+                // META-3622
+                if (String.IsNullOrWhiteSpace(defProperty.Attributes.Dimension) || defProperty.Attributes.Dimension.Trim() == "1")
                 {
-                    Name = defProperty.Name,
-                    Value = this.GetPropertyModelicaValue(defProperty, true)
-                };
+                    var parameter_mo = new UnitParameter()
+                    {
+                        Name = defProperty.Name,
+                        Value = this.GetPropertyModelicaValue(defProperty, true)
+                    };
 
-                componentAssembly_mo.Parameters.Add(parameter_mo);
+                    componentAssembly_mo.Parameters.Add(parameter_mo);
+                }
             }
 
             foreach (var metric in ca.Children.MetricCollection)
@@ -1560,11 +1572,15 @@
 
             foreach (var parameter in component.Children.ParameterCollection)
             {
-                var vf = parameter.SrcConnections.ValueFlowCollection.FirstOrDefault();
-                if (vf != null && vf.ParentContainer.ID == ca.ID)
+                // META-3622
+                if (String.IsNullOrWhiteSpace(parameter.Attributes.Dimension) || parameter.Attributes.Dimension.Trim() == "1")
                 {
-                    var parameter_mo = this.GetArgumentParameter(ca.ID, parameter, vf);
-                    componentInstance_mo.Parameters.Add(parameter_mo);
+                    var vf = parameter.SrcConnections.ValueFlowCollection.FirstOrDefault();
+                    if (vf != null && vf.ParentContainer.ID == ca.ID)
+                    {
+                        var parameter_mo = this.GetArgumentParameter(ca.ID, parameter, vf);
+                        componentInstance_mo.Parameters.Add(parameter_mo);
+                    }
                 }
             }
 

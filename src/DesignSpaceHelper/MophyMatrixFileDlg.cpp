@@ -39,7 +39,7 @@ void CMophyMatrixFileDlg::OnBnClickedOutputbtn()
 {
 	// TODO: Add your control notification handler code here
 	CString m_strFile = m_filepath;
-	CFileDialog fileDlg( TRUE, NULL, NULL, OFN_FILEMUSTEXIST, "Excel Files (*.csv)|*.csv|All Files (*.*)|*.*||", this);
+	CFileDialog fileDlg( TRUE, NULL, NULL, OFN_FILEMUSTEXIST, _T("Excel Files (*.csv)|*.csv|All Files (*.*)|*.*||"), this);
 	// Call DoModal
 	if ( fileDlg.DoModal() == IDOK)
 	{

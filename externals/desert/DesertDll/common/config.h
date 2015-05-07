@@ -23,7 +23,7 @@ private:
   CConfigurationRootList roots;
 
 public:
-  CConfigurationStore(const char *name);
+  CConfigurationStore(const TCHAR *name);
   virtual ~CConfigurationStore();
   CConfigurationRoot *CreateConfigurationRoot(long id);
 //  bool Store();
@@ -78,7 +78,7 @@ public:
 
 inline
 CConfigurationStore::
-CConfigurationStore(const char *n) : name(n)
+CConfigurationStore(const TCHAR *n) : name(n)
 {
 }
 

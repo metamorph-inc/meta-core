@@ -2,6 +2,7 @@
 
 
 #include "bddint.h"
+#include <tchar.h>
 
 
 static
@@ -140,7 +141,7 @@ bdd_compose(bddm, f, g, h)
       BDD_SETUP(g);
       if (bdd_type_aux(bddm, g) != BDD_TYPE_POSVAR)
 	{
-	  bdd_warning("bdd_compose: second argument is not a positive variable");
+	  bdd_warning(_T("bdd_compose: second argument is not a positive variable"));
 	  BDD_INCREFS(f);
 	  return (f);
 	}

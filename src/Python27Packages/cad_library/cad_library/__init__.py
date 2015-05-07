@@ -9,7 +9,7 @@ __author__ = __authors__[0]
 
 __credits__ = __authors__
 
-__version__ = "14.12"  # Versioning: http://www.python.org/dev/peps/pep-0386/
+__version__ = "14.13"  # Versioning: http://www.python.org/dev/peps/pep-0386/
 
 __maintainer__ = __author__
 __contact__ = __author__
@@ -35,3 +35,4 @@ from cad_library.cadapi import CalculixResults
 from cad_library.cadapi import Vec3
 from cad_library.cadapi import Mat4x4
 from cad_library.cadapi import ComponentData
+from cad_library.cadapi import CADMetrics

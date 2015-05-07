@@ -149,11 +149,31 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
             foreach (var item in testBench.Children.BallisticComputation2MetricCollection)
             {
-                CyPhy.BallisticComputationType cadcomputation = item.SrcEnds.BallisticComputationType;
-
                 TBComputation tbcomputation = new TBComputation();
+
+                if (item.SrcEnds.TotalIntersections != null)
+                {
+                    tbcomputation.ComputationType = TBComputation.Type.TOTALINTERSECTIONS;
+                }
+                else if (item.SrcEnds.TotalKills != null)
+                {
+                    tbcomputation.ComputationType = TBComputation.Type.TOTALKILLS;
+                }
+                else if (item.SrcEnds.TotalPerforations != null)
+                {
+                    tbcomputation.ComputationType = TBComputation.Type.TOTALPERFORATIONS;
+                }
+                else if (item.SrcEnds.TotalShots != null)
+                {
+                    tbcomputation.ComputationType = TBComputation.Type.TOTALSHOTS;
+                }
+                else
+                {
+                    Logger.Instance.AddLogMessage("Unknown Ballistic calculation: " + item.SrcEnd.Impl.Name, Severity.Error);
+                }
+
                 tbcomputation.MetricID = item.DstEnds.Metric.ID;
-                tbcomputation.ComputationType = TBComputation.Type.BLASTCOMPUTATION;
+                tbcomputation.MetricName = item.Name;
                 tbcomputation.RequestedValueType = "";
 
                 Computations.Add(tbcomputation);

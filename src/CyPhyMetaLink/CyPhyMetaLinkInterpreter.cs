@@ -638,7 +638,9 @@ namespace CyPhyMetaLink
             CyPhyMetaLink.SyncedComponentData cdata = new CyPhyMetaLink.SyncedComponentData()
             {
                 Type = SyncedComponentData.EditType.Design,
-                WorkingDir = Path.Combine(ProjectDirectory, workingDir)
+                WorkingDir = Path.Combine(ProjectDirectory, workingDir),
+                Id = topasm.Guid.ToString(),
+                InstanceId = (CyPhyMetaLinkAddon.IdCounter++).ToString()
             };
             if (!Directory.Exists(cdata.WorkingDir))
                 Directory.CreateDirectory(cdata.WorkingDir);
@@ -658,7 +660,7 @@ namespace CyPhyMetaLink
                 }
             }
 
-            propagateAddon.syncedComponents.Add(topasm.Guid.ToString(), cdata);
+            propagateAddon.syncedComponents.Add(cdata.Id, cdata);
 
             return topasm;
         }

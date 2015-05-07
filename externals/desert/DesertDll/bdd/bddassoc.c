@@ -2,7 +2,7 @@
 
 
 #include "bddint.h"
-
+#include <tchar.h>
 
 static
 int
@@ -41,7 +41,7 @@ check_assoc(bddm, assoc_info, pairs)
       {
 	if (bdd_type_aux(bddm, assoc_info[0]) != BDD_TYPE_POSVAR)
 	  {
-	    bdd_warning("check_assoc: first element in pair is not a positive variable");
+	    bdd_warning(_T("check_assoc: first element in pair is not a positive variable"));
 	    return (0);
 	  }
 	assoc_info+=2;
@@ -200,7 +200,7 @@ bdd_free_assoc(bddm, assoc_id)
 	  }
 	return;
       }
-  bdd_warning("bdd_free_assoc: no variable association with specified ID");
+  bdd_warning(_T("bdd_free_assoc: no variable association with specified ID"));
 }
 
 
@@ -323,7 +323,7 @@ bdd_assoc(bddm, assoc_id)
 	    bddm->curr_assoc= &p->va;
 	    return (old_assoc);
 	  }
-      bdd_warning("bdd_assoc: no variable association with specified ID");
+      bdd_warning(_T("bdd_assoc: no variable association with specified ID"));
     }
   bddm->curr_assoc_id= -1;
   bddm->curr_assoc= &bddm->temp_assoc;

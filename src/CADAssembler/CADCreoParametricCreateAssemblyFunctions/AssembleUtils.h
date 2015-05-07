@@ -21,6 +21,16 @@ namespace isis
 
 	bool IsAInterferenceRun( const CADAssemblies &in_CADAssemblies );
 
+	void Validate_ComputationInterferenceCount_ThrowExceptionIfInvalid (  
+											const CADAssemblies								&in_CADAssemblies,
+											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map)
+																throw (isis::application_exception);
+
+	void RetrieveComputationOfAGivenType( const std::list<CADComputation>	&in_AssemblyMetrics,
+										  e_ComputationType					in_ComputationType,
+										  std::vector<CADComputation>		&out_CADComputations );
+
+
 	void SetupLogFile( const std::string in_LogFileName, std::ofstream &in_out_LogFile ) throw (isis::application_exception);
 
 	// This function hase a side effect, it changed the current working directory, and the input parameter.
@@ -44,6 +54,13 @@ namespace isis
 							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
 							ProBoolean   in_bottom_up,
 							double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
+
+	void RetrieveTranformationMatrix_Assembly_to_Child (  
+							const ProSolid	   &in_assembly_model,
+							const list<int>	   &in_ChildComponentPaths, 
+							ProBoolean   in_bottom_up,
+							double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	const std::string	CouldNotFindManufacturingManifestError =

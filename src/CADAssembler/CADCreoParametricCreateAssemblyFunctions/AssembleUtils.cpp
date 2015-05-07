@@ -70,16 +70,79 @@ namespace isis
 		return false;
 	}
 
-	// If at lease one of the assemblies in in_CADAssemblies specifies cFDAnalysis == true, then return true.
+	// If at lease one of the assemblies in in_CADAssemblies specifies analysesCAD.interference == true, then return true.
 	bool IsAInterferenceRun( const CADAssemblies &in_CADAssemblies )
 	{
 		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
 				i !=  in_CADAssemblies.topLevelAssemblies.end();
 				++i)
 		{
-			if ( i->analysesCAD.interference ) return true;
+			// Old approach using assemblyMetrics now, if ( i->analysesCAD.interference ) return true;
+			for each (const CADComputation &j in i->assemblyMetrics) if ( j.computationType == COMPUTATION_INTERFERENCE_COUNT ) return true;
 		}
 		return false;
+	}
+
+	// Restrictions:
+	//	There can be at most one InterferenceCount computation.  
+	//	InterferenceCount must reference the top assembly.  Sub-assemblies are not supported at this time.
+	void Validate_ComputationInterferenceCount_ThrowExceptionIfInvalid (  
+											const CADAssemblies								&in_CADAssemblies,
+											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map)
+															throw (isis::application_exception)
+	{
+		for each ( const TopLevelAssemblyData &i in in_CADAssemblies.topLevelAssemblies)
+		{
+			int count = 0;
+			std::vector<CADComputation> interferenceCountReferencedComponents;
+			for each (const CADComputation &j in i.assemblyMetrics) 
+			{
+				if ( j.computationType == COMPUTATION_INTERFERENCE_COUNT )
+				{ 
+					++count;
+					interferenceCountReferencedComponents.push_back(j);
+					if ( j.componentID != i.assemblyComponentID )
+					{
+						std::stringstream errorString;
+						errorString <<	"Function - " << __FUNCTION__ << ", An " << std::endl <<
+										"InterferenceCount computation must always be for the top assembly. It cannot" << std::endl <<
+										"be for sub-assemblies.  Check the CyPhy model and verify that a CADComputationComponent that contains" << std::endl <<
+										"an InterferenceCount is not connected to a test-injection point other than the top assembly." << std::endl <<
+										"   Top Assembly Model Name:  " <<	 in_CADComponentData_map[i.assemblyComponentID].name << 
+										 j;
+										//"   InterferenceCount Referenced Model Name: " <<	 in_CADComponentData_map[j.componentID].name;
+						throw isis::application_exception(errorString);		
+					}
+				}
+
+			}
+			if ( count > 1 )
+			{
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
+							"There must be no more than one InterferenceCount CADComputationComponent within a CyPhy testbench." << std::endl <<
+							"Number of InterferenceCount Found: " << count << std::endl <<
+							"InterferenceCount CADComputationComponents: " << std::endl;
+							for each ( const CADComputation &k in interferenceCountReferencedComponents )
+							{
+								errorString << "Referenced Model Name:        " << in_CADComponentData_map[k.componentID].name << std::endl;;
+								errorString << "Referenced Model ComponentID: " << k.componentID;
+								errorString << k;
+							}
+				throw isis::application_exception(errorString);		
+			}
+		}
+	}
+
+
+	void RetrieveComputationOfAGivenType( const std::list<CADComputation>	&in_AssemblyMetrics,
+										  e_ComputationType					in_ComputationType,
+										  std::vector<CADComputation>		&out_CADComputations )
+	{
+		for each (const CADComputation &i in in_AssemblyMetrics)
+		{
+			if ( i.computationType == in_ComputationType ) out_CADComputations.push_back(i);
+		}
 	}
 
 /**
@@ -216,6 +279,7 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 							ProBoolean   in_bottom_up,
 							double out_TransformationMatrix[4][4] )  throw (isis::application_exception)
 {
+	/*
 	// Must get the path from the assembly to the child
 	ProIdTable	c_id_table;
 	int			c_id_table_size;
@@ -238,7 +302,43 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 										in_bottom_up,				// ProBoolean   bottom_up,
 										out_TransformationMatrix ); //ProMatrix    transformation);
 
+	*/
+	RetrieveTranformationMatrix_Assembly_to_Child (  
+							in_CADComponentData_map[in_AssemblyComponentID].modelHandle,
+							in_ChildComponentPaths, 
+							in_bottom_up,
+							out_TransformationMatrix ); 
+
+
 }
+
+
+void RetrieveTranformationMatrix_Assembly_to_Child (  
+							const ProSolid		&in_assembly_model,
+							const list<int>	   &in_ChildComponentPaths, 
+							ProBoolean   in_bottom_up,
+							double out_TransformationMatrix[4][4] )  throw (isis::application_exception)
+{
+	// Must get the path from the assembly to the child
+	ProIdTable	c_id_table;
+	int			c_id_table_size;
+
+	Populate_c_id_table( in_ChildComponentPaths, c_id_table, c_id_table_size );
+
+	ProAsmcomppath	comp_path;
+	isis::isis_ProAsmcomppathInit (	in_assembly_model,	//ProSolid   p_solid_handle
+									c_id_table,			// ProIdTable 
+									c_id_table_size,	// table_size 
+									&comp_path);		// ProAsmcomppath *p_handle
+
+
+	isis::isis_ProAsmcomppathTrfGet (	&comp_path, 				//	ProAsmcomppath *p_path,
+										in_bottom_up,				// ProBoolean   bottom_up,
+										out_TransformationMatrix ); //ProMatrix    transformation);
+
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1395,6 +1495,9 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 			case  isis::cad::CYLINDRICAL:
 				return CYLINDRICAL_JOINT;
 				break;
+			case  isis::cad::PLANAR:
+				return PLANAR_JOINT;
+				break;
 			case  isis::cad::FREE:
 				return FREE_JOINT;
 				break;
@@ -1742,7 +1845,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 					{
 										out_ReferencedComponentInstanceIDs.insert(componentInstanceID);
 
-					logcat_fileonly.infoStream() << "vvvvvvvvvv RetrieveReferencedComponentInstanceIDs, resolved_assem_constr_ref, componentInstanceID: " << componentInstanceID;
+					logcat_fileonly.infoStream() << "RetrieveReferencedComponentInstanceIDs, resolved_assem_constr_ref, componentInstanceID: " << componentInstanceID;
 					}
 				}
 
@@ -1760,6 +1863,196 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 					}
 				}
 			}			
+		}
+
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	struct RequiredGeometriesData
+	{
+		const std::vector<ProType>	geometries;
+		const int		geometryCount;
+		RequiredGeometriesData( const std::vector<ProType> in_Geometries, int in_GeometryCount) : geometries(in_Geometries), geometryCount(in_GeometryCount){};
+	};
+
+	// Verify that the geometries (e.g. surface, axis, point...) defined in in_ConstraintPairs (excluding constraints with guides)  
+	// exactly equal (no more no less) in_RequiredGeometries
+	bool GeometryMatchesJointType(	const std::vector<ConstraintPair>			&in_ConstraintPairs,
+									const std::vector<RequiredGeometriesData>	&in_RequiredGeometries)
+
+	{
+		int numberGeometries = in_RequiredGeometries.size();
+		std::vector<int> actualCounts(numberGeometries, 0);
+
+		int totalCountExpected = 0;
+		for each ( const RequiredGeometriesData &i in in_RequiredGeometries ) totalCountExpected += i.geometryCount;
+
+		int totalConstraintPairs_NonGuide_count = 0;
+
+		for each (  const ConstraintPair &i in in_ConstraintPairs) 
+		{
+			if ( !i.treatConstraintAsAGuide )
+			{
+				++totalConstraintPairs_NonGuide_count;
+				for ( int j = 0; j < numberGeometries; ++j)
+				{			
+					for each ( ProType k in in_RequiredGeometries[j].geometries)
+					{
+						if ( i.featureGeometryType == k )
+						{
+							++actualCounts[j];
+							break;
+						}
+					}
+				}
+			}
+		}  // END for
+
+		if ( totalConstraintPairs_NonGuide_count != totalCountExpected) return false;
+
+		for ( int i = 0; i < numberGeometries; ++i)
+		{
+			if ( actualCounts[i] != in_RequiredGeometries[i].geometryCount ) return false;
+		}
+
+		return true;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Creo Geometry Types Required for Creo Kinematic Joints:
+	//
+	// Creo Joint Type		Other Name			Creo Required Geometry
+	// ---------------		---------------		---------------------------------------
+	//	Pin					Revolute			Axis, Point or Plane
+	//	Cylinder			Cylindrical			Axis
+	//	Slider				Prismatic			Axis, Plane	
+	//	Planar									Plane (Note- Creo supports further restrictions (i.e. additional planes) but
+	//											we will assume the classical definition (3 degrees of freedom) of a planar constraint.  
+	//											Additional, planes/geometry will result in a user defined constraint.
+	//	Ball				Spherical			Point (Creo supports other geometry types, but we will only support a point)
+	//
+	//  Pre-Conditions:
+	//		in_ConstraintPairs could contain a guide, but the guide would be ignored. DO NOT call this function to determine if the constraints
+	//		including a guide represent a particular type joint.
+	//		
+	//		The order of in_ConstraintPairs is does not influence the output functions.  Elsewhere in this code, the proper sorting is applied.
+	//
+	//	Post-Conditions
+	//		If the geometry requirements in the above table are satisfied
+	//			returns the specific joint type (e.g. REVOLUTE_JOINT, SPHERICAL_JOINT, CYLINDRICAL_JOINT...)
+	//		else
+	//			return UNKNOWN_JOINT_TYPE
+	e_CADJointType AdjustJointTypeToCreoGeometryTypes( const std::vector<ConstraintPair> &in_ConstraintPairs,
+													   cad::JointType in_JointType )
+	{
+		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);	
+
+		int counter_1 = 0;
+		int counter_2 = 0;
+		std::vector<RequiredGeometriesData> requiredGeometries;
+		std::vector<ProType>	geometries;
+
+		switch ( in_JointType )
+		{
+			case  isis::cad::FIXED:
+				return FIXED_JOINT;
+				break;
+			case  isis::cad::REVOLUTE:
+				// Axis and ( plane or point)
+				geometries.push_back(PRO_AXIS);
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				geometries.clear();
+				geometries.push_back(PRO_SURFACE);
+				geometries.push_back(PRO_POINT);
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
+				{
+					return REVOLUTE_JOINT;
+				}
+				else
+				{
+					logcat_fileonly.infoStream() << "Due to constraint geometry not consisting of a axis and (plane or point), converted REVOLUTE joint type to UNKNOWN_JOINT_TYPE";
+					return UNKNOWN_JOINT_TYPE;
+				}
+				break;
+			case  isis::cad::UNIVERSAL:
+				return UNIVERSAL_JOINT;
+				break;
+			case  isis::cad::SPHERICAL:
+				// Requires one and only one point
+				geometries.push_back(PRO_POINT);
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
+				{
+					return SPHERICAL_JOINT;
+				}
+				else
+				{
+					logcat_fileonly.infoStream() << "Due to constraint geometry not consisting of a point, converted SPHERICAL joint type to UNKNOWN_JOINT_TYPE";
+					return UNKNOWN_JOINT_TYPE;
+				}
+				break;
+			case  isis::cad::PRISMATIC:
+				// Requires an axis and plane
+				geometries.push_back(PRO_AXIS);
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				geometries.clear();
+				geometries.push_back(PRO_SURFACE);
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
+				{
+					return PRISMATIC_JOINT;
+				}
+				else
+				{
+					logcat_fileonly.infoStream() << "Due to constraint geometry not consisting of an axis and plane, converted PRISMATIC joint type to UNKNOWN_JOINT_TYPE";
+					return UNKNOWN_JOINT_TYPE;
+				}
+				break;
+			case  isis::cad::CYLINDRICAL:
+				// Requires an axis
+				geometries.push_back(PRO_AXIS);
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
+				{
+					return CYLINDRICAL_JOINT;
+				}
+				else
+				{
+					logcat_fileonly.infoStream() << "Due to constraint geometry not consisting of an axis, converted CYLINDRICAL joint type to UNKNOWN_JOINT_TYPE";
+					return UNKNOWN_JOINT_TYPE;
+				}
+
+				break;
+			
+			case  isis::cad::PLANAR:
+				// Requires an plane
+				geometries.push_back(PRO_SURFACE);
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
+				{
+					return PLANAR_JOINT;
+				}
+				else
+				{
+					logcat_fileonly.infoStream() << "Due to constraint geometry not consisting of a plane, converted PLANAR joint type to UNKNOWN_JOINT_TYPE";
+					return UNKNOWN_JOINT_TYPE;
+				}
+				break;
+			case  isis::cad::FREE:
+				return FREE_JOINT;
+				break;
+			default:
+				logcat_fileonly.infoStream() << "Due to unknown joint type, set joint type to UNKNOWN_JOINT_TYPE";
+				return UNKNOWN_JOINT_TYPE;
 		}
 
 	}
@@ -1788,21 +2081,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 					if ( j->hasAGuideConstraint() )
 					{
 						if ( !j->computedJointData.junctiondDefined_withoutGuide )
-						{
-
-							/** For now, we will assume constraints with a guide result in a fixed joint
-							PopulateMap_with_JunctionInformation_SingleJunction( in_factory, 
-																				i,
-																				j->constraintPairs,
-																				j->computedJointData.junction_withguide,
-																				in_out_CADComponentData_map);
-
-
-						
-							j->computedJointData.jointType_withguide =  GetCADJointType(j->computedJointData.junction_withguide.joint_pair.first.type);
-							j->computedJointData.junctiondDefined_withGuide = true;
-
-							*/
+						{				
 							// Just set the values for now
 							j->computedJointData.jointType_withguide =  FIXED_JOINT;
 							j->computedJointData.junctiondDefined_withGuide = true;						
@@ -1815,7 +2094,10 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 																				constraintPairs_withoutGuide,
 																				j->computedJointData.junction_withoutguide,
 																				in_out_CADComponentData_map);
-							j->computedJointData.jointType_withoutguide =  GetCADJointType(j->computedJointData.junction_withoutguide.joint_pair.first.type);
+							// ttttt						
+							//j->computedJointData.jointType_withoutguide =  GetCADJointType(j->computedJointData.junction_withoutguide.joint_pair.first.type);
+							j->computedJointData.jointType_withoutguide =  AdjustJointTypeToCreoGeometryTypes(j->constraintPairs, j->computedJointData.junction_withoutguide.joint_pair.first.type);
+							// ttttt
 							j->computedJointData.coordinatesystem = i;
 							j->computedJointData.junctiondDefined_withoutGuide = true;
 							logcat_fileonly.infoStream() << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
@@ -1831,11 +2113,11 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 						j->computedJointData.junctiondDefined_withGuide = false;
 						j->computedJointData.coordinatesystem = i;
 						j->computedJointData.junctiondDefined_withoutGuide = true;
-						j->computedJointData.jointType_withoutguide =  GetCADJointType(j->computedJointData.junction_withoutguide.joint_pair.first.type);
+						//j->computedJointData.jointType_withoutguide = GetCADJointType(j->computedJointData.junction_withoutguide.joint_pair.first.type);
+						j->computedJointData.jointType_withoutguide =  AdjustJointTypeToCreoGeometryTypes(j->constraintPairs, j->computedJointData.junction_withoutguide.joint_pair.first.type);
 						logcat_fileonly.infoStream() << "   Constraint pairs do not have a guide.";
-						logcat_fileonly.infoStream() << "   bWithout guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
-					}
-					
+						logcat_fileonly.infoStream() << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
+					}	
 				}
 				else
 				{

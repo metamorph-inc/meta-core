@@ -129,7 +129,10 @@ namespace CyPhyGUIs
                 else if (textwriter is ConsoleTextWriter)
                 {
                     var consoleTextWriter = textwriter as ConsoleTextWriter;
-                    consoleTextWriter.WriteLine(type, message);
+                    if (type >= this.LoggingLevel)
+                    {
+                        consoleTextWriter.WriteLine(type, message);
+                    }
                 }
                 else
                 {

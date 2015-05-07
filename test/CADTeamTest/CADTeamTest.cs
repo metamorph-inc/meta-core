@@ -101,7 +101,7 @@ namespace CADTeamTest
             Assert.True(File.Exists(Path.Combine(OutputDir, generatedBallisticConfig)), "Failed to generate " + generatedBallisticConfig);
 
             new AsmXmlChecker(Path.Combine(OutputDir, generatedAsmFile))
-                .CheckNodes(new string[] { "Interference" })
+                
                 .CheckComponentAttribute("{f6cf014a-caeb-440a-b2b1-d700fe99e652}", "Representation", "BuyRep_Test")
                 .CheckComponentAttribute("{f4a87e6b-4ce4-46d9-92cc-28b19ee61399}", "Representation", "DefaultRep_Test")
                 .CheckComponentAttribute("{94353ed0-bf00-40d3-9d22-b14c70271460}", "Representation", "MakeRep_Test");
@@ -187,7 +187,6 @@ namespace CADTeamTest
             {
                 project.Close(true);
             }
-
         }
 
         #endregion

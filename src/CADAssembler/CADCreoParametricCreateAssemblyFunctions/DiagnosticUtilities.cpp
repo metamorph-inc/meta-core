@@ -23,7 +23,6 @@ void stream_PopulateOneConstraintInConstraintStructure(
 	ProDatumside in_added_model_datum_side,		// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
 	ProAsmcompConstrType	in_constraint_type, // enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
 	double		 in_offset_between_datums,		// This is only used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
-
 	ostream &out_Stream)
 {
 
@@ -43,6 +42,44 @@ void stream_PopulateOneConstraintInConstraintStructure(
 	out_Stream << std::endl << "ProDatumside  in_added_model_datum_side:  " <<	in_added_model_datum_side;
 	out_Stream << std::endl << "ProAsmcompConstrType  in_constraint_type: " <<	in_constraint_type;
 	out_Stream << std::endl << "double        in_offset_between_datums:   " <<	in_offset_between_datums;
+	
+//	out_Stream << std::endl << "ProAsmcompconstraint*	&out_constraints: " <<	out_constraints;
+
+}
+
+void stream_PopulateOneConstraintInConstraintStructure_2(
+	ProSolid	 *in_assembly_model,			// typedef struct sld_part* ProSolid;
+	const list<int>	 &in_base_model_path_list,
+	const list<int>	 &in_added_model_path_list,
+	ProType		 in_pro_datum_type,				// enum PRO_SURFACE, PRO_AXIS
+	const ProName		 in_base_model_datum_name,		// ASM_RIGHT, A_1..
+	ProDatumside in_base_model_datum_side,		// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
+	const ProName		 in_added_model_datum_name,		// RIGHT, A23 ..
+	ProDatumside in_added_model_datum_side,		// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
+	ProAsmcompConstrType	in_constraint_type, // enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
+	double		 in_offset_between_datums,		// This is only used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
+	bool		flip_orientation,
+	ostream &out_Stream)
+{
+
+	char temp_string[100];
+	out_Stream << std::endl << "ProSolid     in_assembly_model: " << *in_assembly_model;	
+
+	out_Stream << std::endl << "in_base_model_path_list, Feature IDs:";
+	for each ( int i in in_base_model_path_list)  out_Stream << " " << i;
+
+	out_Stream << std::endl << "in_added_model_path_list, Feature IDs:";
+	for each ( int i in in_added_model_path_list)  out_Stream << " " << i;
+
+	out_Stream << std::endl << "ProType       in_pro_datum_type:          " <<	in_pro_datum_type;
+	out_Stream << std::endl << "ProName       in_base_model_datum_name:   " <<	ProWstringToString(temp_string, (wchar_t *) in_base_model_datum_name);	
+	out_Stream << std::endl << "ProDatumside  in_base_model_datum_side:   " <<	in_base_model_datum_side;		
+	out_Stream << std::endl << "ProName       in_added_model_datum_name:  " <<	ProWstringToString(temp_string, (wchar_t *) in_added_model_datum_name);	
+	out_Stream << std::endl << "ProDatumside  in_added_model_datum_side:  " <<	in_added_model_datum_side;
+	out_Stream << std::endl << "ProAsmcompConstrType  in_constraint_type: " <<	in_constraint_type;
+	out_Stream << std::endl << "double        in_offset_between_datums:   " <<	in_offset_between_datums;
+	out_Stream << std::endl << "bool		  flip_orientation:			  " <<	flip_orientation;
+	
 //	out_Stream << std::endl << "ProAsmcompconstraint*	&out_constraints: " <<	out_constraints;
 
 }

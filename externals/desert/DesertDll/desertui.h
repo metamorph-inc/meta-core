@@ -123,7 +123,7 @@ private:
   void FillList();
   void FillList(CListCtrl *ctrl);
   void FillList(CListCtrl *ctrl, CDynConstraintSet *set);
-  void FillList(CListCtrl *ctrl, CDynConstraint *cons, const char *category);
+  void FillList(CListCtrl *ctrl, CDynConstraint *cons, const TCHAR *category);
   bool Apply(CListCtrl *ctrl, bool checked); // actually apply
   
 public:
@@ -173,7 +173,7 @@ public:
   CDesertTree(CDynCustomDomain *);
   void Reset(CDynSpace *);
   void Reset(CDynCustomDomain *);
-  char *GetTitle();
+  TCHAR *GetTitle();
 
 private:
   enum { coreSpace, coreDomain } coreType;
@@ -181,7 +181,7 @@ private:
     CDynSpace *space;
     CDynCustomDomain *domain;
   } coreObj;
-  char *title;
+  TCHAR *title;
   void FillTree();
   void FillBox();
   void FillTree(CTreeCtrl *tree, CDynElementList& elements, HTREEITEM item=TVI_ROOT);

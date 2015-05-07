@@ -22,9 +22,10 @@ namespace FEAKinematicTest
             public readonly string AdamsScript;
             public readonly string AdamsBat;
             public readonly string AbaqusBat;
-            public readonly string PythonBat;
+            public readonly string PythonExe;
             public readonly string FeaScript;
             public readonly string AbqPPScript;
+            public readonly string CADVerifyScript;
             public readonly string abaqus;
 
             public AssemblyAdamsFixture()
@@ -36,11 +37,12 @@ namespace FEAKinematicTest
                 abaqus = System.Environment.GetEnvironmentVariable("abaqus");
                 createAssemblyExe = Path.Combine(proeIsisExtensionsDir ?? "", "bin", "CADCreoParametricCreateAssembly.exe");
                 AdamsScript = Path.Combine(metapath ?? "", "bin", "CAD", "Adams", "CreateAdamsModel.py");
+                CADVerifyScript = Path.Combine(metapath ?? "", "bin", "CAD", "TestCADResults.py");
                 FeaScript = Path.Combine(metapath ?? "", "bin", "CAD", "Abaqus", "AbaqusMain.py");
                 AbqPPScript = Path.Combine(metapath ?? "", "bin", "CAD", "ABQ_CompletePostProcess.py");
                 AdamsBat = Path.Combine(adamsDir ?? "", "bin", "adams2013_2_x64.bat");
                 AbaqusBat = Path.Combine(abaquspath ?? "", "Commands", "abaqus.bat");
-                PythonBat = Path.Combine(Meta_Path ?? "", "bin", "Python27", "Scripts", "python.exe");
+                PythonExe = Path.Combine(Meta_Path ?? "", "bin", "Python27", "Scripts", "python.exe");
                 if (File.Exists(createAssemblyExe) == false)
                 {
                     throw new FileNotFoundException("CADCreoParametricCreateAssembly.exe is not installed.");
@@ -135,7 +137,6 @@ namespace FEAKinematicTest
             Assert.Equal(exitcode, 0);
             Assert.True(CADCreoTest.Cyphy2CADCreoTest.VerifyCADAssemblerLog(Path.Combine(OutputDir, "log", "cad-assembler.log")));
             Assert.True(File.Exists(Path.Combine(OutputDir, asmName)));
-            //Assert.True(File.Exists(Path.Combine(OutputDir, "PARASOLID", "SystemUnderTest_1_asm.x_t")));
             Assert.True(File.Exists(Path.Combine(OutputDir, "ComputedValues.xml")));
             Assert.True(File.Exists(Path.Combine(OutputDir, "CADAssembly_metrics.xml")));
             return OutputDir;
@@ -163,11 +164,14 @@ namespace FEAKinematicTest
             Assert.Equal(exitcode, 0);
             Assert.True(CADCreoTest.Cyphy2CADCreoTest.VerifyCADAssemblerLog(Path.Combine(OutputDir, "log", "cad-assembler.log")));
             Assert.True(File.Exists(Path.Combine(OutputDir, "systemundertest_1.asm.2")));
-            //Assert.True(File.Exists(Path.Combine(OutputDir, "PARASOLID", "SystemUnderTest_1_asm.x_t")));
             Assert.True(File.Exists(Path.Combine(OutputDir, "ComputedValues.xml")));
             Assert.True(File.Exists(Path.Combine(OutputDir, "CADAssembly_metrics.xml")));
 
-            Assert.True(RunProcess(fixture.PythonBat, "\""+fixture.AdamsScript+"\"", OutputDir, out exitcode));
+            Assert.True(RunProcess(fixture.PythonExe, "\"" + fixture.CADVerifyScript + "\"" + " " + Path.Combine(OutputDir, "CADAssembly_metrics.xml") + " " + Path.Combine(Path.GetDirectoryName(XmePath), "expected_results", "Kinematic_fourbar_metrics.xml"), OutputDir, out exitcode));
+
+            Assert.Equal(exitcode, 0);
+
+            Assert.True(RunProcess(fixture.PythonExe, "\""+fixture.AdamsScript+"\"", OutputDir, out exitcode));
 
             Assert.Equal(exitcode, 0);
             Assert.True(File.Exists(Path.Combine(OutputDir, "adams_output.cmd")));
@@ -178,7 +182,7 @@ namespace FEAKinematicTest
             Assert.True(System.IO.Directory.GetFiles(OutputDir, "*.lod", System.IO.SearchOption.TopDirectoryOnly).Length == 4);
         }
         #endregion
-
+        /*
         #region Standalone FEA (Deck-Based) tests
 
         [Fact]
@@ -781,7 +785,7 @@ namespace FEAKinematicTest
         }
 
         #endregion
-
+*/
         public void SetFixture(FEAKinematicTest.AssemblyAdamsFixture data)
         {
             this.fixture = data;

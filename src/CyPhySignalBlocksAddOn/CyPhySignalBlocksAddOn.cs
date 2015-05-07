@@ -32,10 +32,20 @@ namespace CyPhySignalBlocksAddOn
         private bool componentEnabled = true;
         private bool firstTime = false;
 
+        private System.Windows.Forms.Control control = new System.Windows.Forms.Control();
+
         private LibraryInfo QudtLibraryInfo;
         private LibraryInfo PortLibraryInfo;
         private LibraryInfo MaterialLibraryInfo;
         private LibraryInfo CADResourceLibraryInfo;
+        private LibraryInfo[] libInfos
+        {
+            get
+            {
+                return new LibraryInfo[] { this.QudtLibraryInfo, this.PortLibraryInfo, this.MaterialLibraryInfo, this.CADResourceLibraryInfo };
+            }
+        }
+
 
         private string metaPath;
         private List<string> libraryPaths = new List<string>();
@@ -43,8 +53,6 @@ namespace CyPhySignalBlocksAddOn
         private GMEConsole GMEConsole { get; set; }
         private MgaProject project;
 
-
-        private delegate void TimerLogicDelegate();
 
         // test code
         private class LibraryInfo
@@ -54,67 +62,44 @@ namespace CyPhySignalBlocksAddOn
             public string DisplayName { get { return displayName; } }
             private string mgaName;
             public string MgaName { get { return mgaName; } }
-            private LibraryTimer timer;
-            public void TimerGo()
-            {
-                timer.go();
-            }
-
-            public LibraryInfo(string mga, string display, TimerLogicDelegate f, IMgaProject project)
-            {
-                mgaName = mga;
-                displayName = display;
-                timer = new LibraryTimer(mgaName,
-                                         f,
-                                         project);
-            }
-        }
-
-        private class LibraryTimer
-        {
-
-            private string storeName;
-            public string Name { get { return storeName; } }
-            private bool setupTimer = false;
-            private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            private TimerLogicDelegate callback;
             private IMgaProject project;
+            private System.Windows.Forms.Control control;
+            Action callback;
 
-            public LibraryTimer(string name, TimerLogicDelegate f, IMgaProject project)
+            private void TimerGo()
             {
-                callback = f;
-                storeName = name;
-                this.project = project;
-            }
-
-            public void TimerEventProcessor(Object obj, EventArgs evtArgs)
-            {
+                if (attachedLibrary)
+                {
+                    return;
+                }
                 if ((project.ProjectStatus & 8) == 0) // if not in transaction
                 {
-                    timer.Stop();
+                    attachedLibrary = true;
                     callback();
                 }
             }
 
-            public void go()
+            public void Go()
             {
-                if (!setupTimer)
+                if (attachedLibrary == false)
                 {
-                    timer.Tick += new EventHandler(TimerEventProcessor);
-                    timer.Interval = 1;
-                    timer.Start();
-                    setupTimer = true;
+                    control.BeginInvoke((Action)TimerGo, null);
                 }
-                //else
-                //{
-                //timer.Enabled = true; // restart the timer -- unused right now because library refresh is not useful
-                //}
+            }
+
+            public LibraryInfo(string mga, string display, Action f, IMgaProject project, System.Windows.Forms.Control control)
+            {
+                mgaName = mga;
+                displayName = display;
+                this.callback = f;
+                this.project = project;
+                this.control = control;
             }
         }
 
         public CyPhySignalBlocksAddOnAddon()
         {
-
+            IntPtr handle = control.Handle; // If the handle has not yet been created, referencing this property will force the handle to be created.
         }
 
         // Event handlers for addons
@@ -123,6 +108,7 @@ namespace CyPhySignalBlocksAddOn
         {
             if (@event == globalevent_enum.GLOBALEVENT_CLOSE_PROJECT)
             {
+                //control.Dispose();
                 Marshal.FinalReleaseComObject(addon);
                 addon = null;
             }
@@ -142,16 +128,23 @@ namespace CyPhySignalBlocksAddOn
                 // Store all library path names that will be attached
                 // Nothing will be attached for these projects based on http://escher.isis.vanderbilt.edu/JIRA/browse/META-1559
                 // Don't attach QUDT or PortLib to themselves
-                libraryPaths.Add(Path.Combine(metaPath, QudtLibraryInfo.MgaName + ".mga"));
-                libraryPaths.Add(Path.Combine(metaPath, PortLibraryInfo.MgaName +  ".mga"));
-                libraryPaths.Add(Path.Combine(metaPath, MaterialLibraryInfo.MgaName + ".mga"));
-                libraryPaths.Add(Path.Combine(metaPath, CADResourceLibraryInfo.MgaName + ".mga"));
+                foreach (var libInfo in libInfos)
+                {
+                    libraryPaths.Add(Path.Combine(metaPath, libInfo.MgaName + ".mga"));
+                }
 
                 TriggerQudtRefreshIfNeeded();
             }
             if (@event == globalevent_enum.GLOBALEVENT_COMMIT_TRANSACTION)
             {
                 CollapseFoldersWithSameNames();
+                if (addon != null && firstTime)
+                {
+                    foreach (var info in libInfos)
+                    {
+                        info.Go();
+                    }
+                }
             }
 
             if (@event == globalevent_enum.APPEVENT_XML_IMPORT_END)
@@ -223,12 +216,11 @@ namespace CyPhySignalBlocksAddOn
 
         private void CollapseLibraries(MgaFolder mgaFolder)
         {
-            LibraryInfo[] infos = new LibraryInfo[] { this.QudtLibraryInfo, this.PortLibraryInfo, this.MaterialLibraryInfo, this.CADResourceLibraryInfo};
             var libraries = mgaFolder
                 .ChildFolders
                 .Cast<MgaFolder>()
                 .Where(x => string.IsNullOrEmpty(x.LibraryName) == false)
-                .GroupBy(lib => infos.Where(inf => lib.Name.Contains(inf.DisplayName)).FirstOrDefault())
+                .GroupBy(lib => libInfos.Where(inf => lib.Name.Contains(inf.DisplayName)).FirstOrDefault())
                 .ToList();
 
             foreach (IGrouping<LibraryInfo, MgaFolder> group in libraries.Where(gr => gr.Key != null))
@@ -389,24 +381,10 @@ namespace CyPhySignalBlocksAddOn
 
                 // META-1320: refactored some
                 // Run this on any event, but only once (if not already loaded)
-                if (!QudtLibraryInfo.attachedLibrary)   //if (!attachedQudtLibrary)
-                {
-                    QudtLibraryInfo.TimerGo();
-                }
-
-                if (!PortLibraryInfo.attachedLibrary)   //if (!attachedPortLibrary)
-                {
-                    PortLibraryInfo.TimerGo(); // portLibTimer.go();
-                }
-
-                if (!MaterialLibraryInfo.attachedLibrary)   // if (!attachedMaterialLibrary)
-                {
-                    MaterialLibraryInfo.TimerGo();
-                }
-                if (!CADResourceLibraryInfo.attachedLibrary)
-                {
-                    CADResourceLibraryInfo.TimerGo();
-                }
+                QudtLibraryInfo.Go();
+                PortLibraryInfo.Go(); // portLibTimer.go();
+                MaterialLibraryInfo.Go();
+                CADResourceLibraryInfo.Go();
 
                 firstTime = true;
             }
@@ -438,8 +416,7 @@ namespace CyPhySignalBlocksAddOn
         {
             string mgaPath = metaPath + "\\" + libraryInfo.MgaName + ".mga";
 
-            if (!libraryInfo.attachedLibrary &&
-                (project.ProjectStatus & PROJECT_STATUS_OPEN) == PROJECT_STATUS_OPEN)
+            if ((project.ProjectStatus & PROJECT_STATUS_OPEN) == PROJECT_STATUS_OPEN)
             {
                 if (!File.Exists(mgaPath))
                 {
@@ -535,11 +512,6 @@ namespace CyPhySignalBlocksAddOn
                 libraryInfo.attachedLibrary = true;
             }
         }
-        
-
-        #endregion
-
-        #region IMgaComponentEx Members
 
         private static Guid ConvertToGUID(object guidObj)
         {
@@ -551,6 +523,10 @@ namespace CyPhySignalBlocksAddOn
             return guid;
         }
         
+
+        #endregion
+
+        #region IMgaComponentEx Members        
 
         public void Initialize(MgaProject p)
         {
@@ -571,12 +547,12 @@ namespace CyPhySignalBlocksAddOn
             {
                 throw new ApplicationException(metaPath + " doesn't exist");
             }
-            //qudtTimer = new LibraryTimer("QudtTimer", new TimerLogicDelegate(QudtTimerHandler), project);
-            //portLibTimer = new LibraryTimer("PortLibTimer", new TimerLogicDelegate(PortLibTimerHandler), project);
-            QudtLibraryInfo = new LibraryInfo("CyPhyMLQudt", "UnitLibrary QUDT", new TimerLogicDelegate(QudtTimerHandler), project);
-            PortLibraryInfo = new LibraryInfo("CyPhy_PortLib", "PortLibrary CyPhy_PortLib", new TimerLogicDelegate(PortLibTimerHandler), project);        
-            MaterialLibraryInfo = new LibraryInfo("CyPhy_MaterialLib", "MaterialLibrary CyPhy_MaterialLib", new TimerLogicDelegate(MaterialLibTimerHandler), project);
-            CADResourceLibraryInfo = new LibraryInfo("CyPhy_CADResourceLib", "CADResourceLibrary", new TimerLogicDelegate(CADResourceLibTimerHandler), project);
+            //qudtTimer = new LibraryTimer("QudtTimer", new TimerLogicDelegate(QudtTimerHandler), project, control);
+            //portLibTimer = new LibraryTimer("PortLibTimer", new TimerLogicDelegate(PortLibTimerHandler), project, control);
+            QudtLibraryInfo = new LibraryInfo("CyPhyMLQudt", "UnitLibrary QUDT", new Action(QudtTimerHandler), project, control);
+            PortLibraryInfo = new LibraryInfo("CyPhy_PortLib", "PortLibrary CyPhy_PortLib", new Action(PortLibTimerHandler), project, control);
+            MaterialLibraryInfo = new LibraryInfo("CyPhy_MaterialLib", "MaterialLibrary CyPhy_MaterialLib", new Action(MaterialLibTimerHandler), project, control);
+            CADResourceLibraryInfo = new LibraryInfo("CyPhy_CADResourceLib", "CADResourceLibrary", new Action(CADResourceLibTimerHandler), project, control);
         }
 
         public void InvokeEx(MgaProject project, MgaFCO currentobj, MgaFCOs selectedobjs, int param)

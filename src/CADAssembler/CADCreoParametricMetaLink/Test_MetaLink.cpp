@@ -5,27 +5,27 @@
 namespace isis
 {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Test_CreateAssembly(   std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
-                            isis::MetaLinkAssemblyEditor &in_out_MetaLinkAssemblyEditor,
-                            std::string &out_ParentAssemblyInstanceID	)
-throw (isis::application_exception)
+void Test_CreateAssembly(std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
+                         isis::MetaLinkAssemblyEditor &in_out_MetaLinkAssemblyEditor,
+                         std::string &out_ParentAssemblyInstanceID)
+throw(isis::application_exception)
 {
 
     std::ifstream t("TwoPlates_Cad.xml");
     std::stringstream buffer;
     buffer << t.rdbuf();
 
-    in_out_MetaLinkAssemblyEditor.CreateAssembly( buffer.str() );
+    in_out_MetaLinkAssemblyEditor.CreateAssembly(buffer.str());
 
     out_ParentAssemblyInstanceID="3_1";
 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Test_AddComponentToAssembly(   const std::string &in_ParentAssemblyInstanceID,
-                                    std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
-                                    isis::MetaLinkAssemblyEditor &in_MetaLinkAssemblyEditor)
-throw (isis::application_exception)
+void Test_AddComponentToAssembly(const std::string &in_ParentAssemblyInstanceID,
+                                 std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
+                                 isis::MetaLinkAssemblyEditor &in_MetaLinkAssemblyEditor)
+throw(isis::application_exception)
 {
 
     //MetaLinkAssemblyEditor  metaLinkAssemblyEditor(
@@ -51,8 +51,7 @@ throw (isis::application_exception)
 
     // This is intended to work with C:\Temp\scratch\2013_06_27_Two_Plates
     std::vector<isis::CADCreateAssemblyError> errorList;
-    in_MetaLinkAssemblyEditor.AddComponentToAssembly (
-        "3_1",							// in_ParentAssemblyInstanceID
+    in_MetaLinkAssemblyEditor.AddComponentToAssembly(
         "new_comp_1", 					// in_ComponentInstanceID,
         "Plate_02",					// in_CreoModelName,
         PRO_MDL_PART,					// ProMdlType in_CreoModelType,
@@ -65,10 +64,10 @@ throw (isis::application_exception)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Test_ModifyParameters(  const std::string &in_ParentAssemblyInstanceID,
-                             std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
-                             isis::MetaLinkAssemblyEditor &in_MetaLinkAssemblyEditor)
-throw (isis::application_exception)
+void Test_ModifyParameters(const std::string &in_ParentAssemblyInstanceID,
+                           std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
+                           isis::MetaLinkAssemblyEditor &in_MetaLinkAssemblyEditor)
+throw(isis::application_exception)
 {
 
     //MetaLinkAssemblyEditor  metaLinkAssemblyEditor(
@@ -92,16 +91,16 @@ throw (isis::application_exception)
 
     // This is intended to work with C:\Temp\scratch\2013_06_27_Two_Plates
 
-    in_MetaLinkAssemblyEditor.ModifyParameters ( "6",cADParameters);
+    in_MetaLinkAssemblyEditor.ModifyParameters("6",cADParameters);
 
 
 }
 
 
-void Test_ConstrainComponent(  const std::string &in_ParentAssemblyInstanceID,
-                               std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
-                               isis::MetaLinkAssemblyEditor &in_MetaLinkAssemblyEditor)
-throw (isis::application_exception)
+void Test_ConstrainComponent(const std::string &in_ParentAssemblyInstanceID,
+                             std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
+                             isis::MetaLinkAssemblyEditor &in_MetaLinkAssemblyEditor)
+throw(isis::application_exception)
 {
 
 
@@ -159,7 +158,7 @@ throw (isis::application_exception)
 }
 
 void Test_AddSearchPaths(const std::list<std::string> &in_SearchPaths,
-                         isis::MetaLinkAssemblyEditor &in_MetaLinkAssemblyEditor ) throw (isis::application_exception)
+                         isis::MetaLinkAssemblyEditor &in_MetaLinkAssemblyEditor) throw(isis::application_exception)
 {
     in_MetaLinkAssemblyEditor.AddSearchPaths(in_SearchPaths);
 }

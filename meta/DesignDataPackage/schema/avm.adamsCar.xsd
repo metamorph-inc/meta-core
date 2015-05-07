@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:adamsCar="adamsCar" xmlns:avm="avm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="adamsCar" ecore:package="avm.adamsCar" targetNamespace="adamsCar">
+  <xsd:import namespace="avm" schemaLocation="avm.xsd"/>
+  <xsd:element ecore:ignore="true" name="AdamsCarModel" type="adamsCar:AdamsCarModel"/>
+  <xsd:element ecore:ignore="true" name="Parameter" type="adamsCar:Parameter"/>
+  <xsd:element ecore:ignore="true" name="FileReference" type="adamsCar:FileReference"/>
+  <xsd:complexType name="AdamsCarModel">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModel">
+        <xsd:sequence>
+          <xsd:element ecore:name="Parameter" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="Parameter" type="adamsCar:Parameter"/>
+          <xsd:element ecore:name="FileReference" ecore:resolveProxies="true" maxOccurs="unbounded" name="FileReference" type="adamsCar:FileReference"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Parameter">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModelParameter">
+        <xsd:sequence>
+          <xsd:element ecore:name="Value" ecore:resolveProxies="true" minOccurs="0" name="Value" type="avm:Value"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="ID" name="ID" type="xsd:ID" use="required"/>
+        <xsd:attribute ecore:name="Name" name="Name" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="FileReference">
+    <xsd:attribute ecore:name="ParameterSwap" ecore:reference="adamsCar:Parameter" name="ParameterSwap">
+      <xsd:simpleType>
+        <xsd:list itemType="xsd:anyURI"/>
+      </xsd:simpleType>
+    </xsd:attribute>
+    <xsd:attribute ecore:name="FileReferenceSwap" ecore:reference="adamsCar:FileReference" name="FileReferenceSwap">
+      <xsd:simpleType>
+        <xsd:list itemType="xsd:anyURI"/>
+      </xsd:simpleType>
+    </xsd:attribute>
+    <xsd:attribute ecore:name="FilePath" name="FilePath" type="xsd:string" use="required"/>
+    <xsd:attribute ecore:name="ID" name="ID" type="xsd:ID" use="required"/>
+    <xsd:attribute ecore:name="Name" name="Name" type="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:schema>

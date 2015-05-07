@@ -25,7 +25,7 @@ namespace CyPhyMasterInterpreter.Rules
             // ??? Any other type?
             // check workflow assumptions
 
-            this.m_details.AddRange(this.NoTestInjectionPoints());
+            this.m_details.AddRange(this.ValidateTestInjectionPoints());
         }
 
     }

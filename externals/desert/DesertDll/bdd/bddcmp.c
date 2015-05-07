@@ -2,7 +2,7 @@
 
 
 #include "bddint.h"
-
+#include <tchar.h>
 
 static
 int
@@ -106,7 +106,7 @@ bdd_compare(bddm, f, g, v)
       BDD_SETUP(v);
       if (bdd_type_aux(bddm, v) != BDD_TYPE_POSVAR)
 	{
-	  bdd_warning("bdd_compare: third argument is not a positive variable");
+	  bdd_warning(_T("bdd_compare: third argument is not a positive variable"));
 	  return (0);
 	}
       return (bdd_compare_step(bddm, f, g, BDD_INDEXINDEX(v), OP_CMPTO+BDD_INDEXINDEX(v)));

@@ -6,6 +6,7 @@
 
 
 #include <stdio.h>
+#include <wtypes.h>
 #include "mem/memuser.h"
 
 
@@ -104,7 +105,7 @@ extern DESERT_API void bdd_overflow_closure ARGS((bdd_manager, void (*) ARGS((bd
 extern DESERT_API void bdd_abort_closure ARGS((bdd_manager, void (*) ARGS((bdd_manager, pointer)), pointer));
 extern DESERT_API void bdd_stats ARGS((bdd_manager, FILE *));
 extern DESERT_API bdd_manager bdd_init ARGS((void));
-extern DESERT_API char *bdd_version ARGS((void));
+extern DESERT_API TCHAR *bdd_version ARGS((void));
 extern DESERT_API void bdd_quit ARGS((bdd_manager));
 
 
@@ -178,46 +179,46 @@ extern DESERT_API void bdd_function_profile_multiple ARGS((bdd_manager, bdd *, l
 /* Print routine declarations */
 
 #if defined(__STDC__)
-#define bdd_naming_fn_none ((char *(*)(bdd_manager, bdd, pointer))0)
-#define bdd_terminal_id_fn_none ((char *(*)(bdd_manager, INT_PTR, INT_PTR, pointer))0)
+#define bdd_naming_fn_none ((TCHAR *(*)(bdd_manager, bdd, pointer))0)
+#define bdd_terminal_id_fn_none ((TCHAR *(*)(bdd_manager, INT_PTR, INT_PTR, pointer))0)
 #else
-#define bdd_naming_fn_none ((char *(*)())0)
-#define bdd_terminal_id_fn_none ((char *(*)())0)
+#define bdd_naming_fn_none ((TCHAR *(*)())0)
+#define bdd_terminal_id_fn_none ((TCHAR *(*)())0)
 #endif
 
 extern DESERT_API void bdd_print_bdd ARGS((bdd_manager,
 				bdd,
-				char *(*) ARGS((bdd_manager, bdd, pointer)),
-				char *(*) ARGS((bdd_manager, INT_PTR, INT_PTR, pointer)),
+				TCHAR *(*) ARGS((bdd_manager, bdd, pointer)),
+				TCHAR *(*) ARGS((bdd_manager, INT_PTR, INT_PTR, pointer)),
 				pointer,
 				FILE *));
 extern DESERT_API void bdd_print_profile_aux ARGS((bdd_manager,
 					long *,
-					char *(*) ARGS((bdd_manager, bdd, pointer)),
+					TCHAR *(*) ARGS((bdd_manager, bdd, pointer)),
 					pointer,
 					int,
 					FILE *));
 extern DESERT_API void bdd_print_profile ARGS((bdd_manager,
 				    bdd,
-				    char *(*) ARGS((bdd_manager, bdd, pointer)),
+				    TCHAR *(*) ARGS((bdd_manager, bdd, pointer)),
 				    pointer,
 				    int,
 				    FILE *));
 extern DESERT_API void bdd_print_profile_multiple ARGS((bdd_manager,
 					     bdd *,
-					     char *(*) ARGS((bdd_manager, bdd, pointer)),
+					     TCHAR *(*) ARGS((bdd_manager, bdd, pointer)),
 					     pointer,
 					     int,
 					     FILE *));
 extern DESERT_API void bdd_print_function_profile ARGS((bdd_manager,
 					     bdd,
-					     char *(*) ARGS((bdd_manager, bdd, pointer)),
+					     TCHAR *(*) ARGS((bdd_manager, bdd, pointer)),
 					     pointer,
 					     int,
 					     FILE *));
 extern DESERT_API void bdd_print_function_profile_multiple ARGS((bdd_manager,
 						      bdd *,
-						      char *(*) ARGS((bdd_manager, bdd, pointer)),
+						      TCHAR *(*) ARGS((bdd_manager, bdd, pointer)),
 						      pointer,
 						      int,
 						      FILE *));

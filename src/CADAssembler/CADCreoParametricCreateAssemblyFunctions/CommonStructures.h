@@ -631,16 +631,17 @@ namespace isis
 		CADAnalysisComponent(): infiniteCycle(true) {}
 	};
 
-
+	
 
 	struct CADComputation
 	{
-		e_ComputationType		computationType;		// COMPUTATION_BOUNDING_BOX, COMPUTATION_CG, COMPUTATION_POINT, COMPUTATION_MASS, 
+		e_ComputationType		computationType;		// COMPUTATION_BOUNDING_BOX, COMPUTATION_CG, COMPUTATION_POINT, COMPUTATION_MASS, COMPUTATION_INTERFERENCE_COUNT, 
 														// COMPUTATION_COEFFICIENT_OF_DRAG, COMPUTATION_PLANE, COMPUTATION_FEA
 		e_ComputationSubType	computationSubType;		// COMPUTATION_SUBTYPE_GROUND, COMPUTATION_SUBTYPE_NONE
 		e_ComputationDimension	computationDimension;	// COMPUTATION_X_COORDINATE, COMPUTATION_Y_COORDINATE, COMPUTATION_Z_COORDINATE, COMPUTATION_VECTOR, COMPUTATION_SCALAR 
 		std::string				componentID;
 		std::string				metricID;
+		std::string				metricName;
 		MultiFormatString		datumName;   
 		//e_ComputationProcessing computationProcessing;
 
@@ -744,9 +745,14 @@ namespace isis
 		list<AnalysisBallistic> analysesBallistic;
 		list<AnalysisBlast> analysesBlast;
 		list<AnalysisCFD> analysesCFD;
-		bool interference;
+
+		// 1/26/2015, Indicating an interference analysis "bool interference;" been deprecated
+		// Now an inference analyis is specified via
+		//    std::list<CADComputation>
+		//bool interference;
 		//bool cFDAnalysis;   // zzzz is this needed?
-		CADAnalyses(): interference(false) {};
+		//CADAnalyses(): interference(false) {};
+
 	};
 
 	//struct BoundingBoxMetric_SingleComponent

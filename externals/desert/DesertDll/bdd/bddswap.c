@@ -2,6 +2,7 @@
 
 
 #include "bddint.h"
+#include <tchar.h>
 
 
 static
@@ -168,7 +169,7 @@ bdd_swap_vars(bddm, f, g, h)
       BDD_SETUP(h);
       if (bdd_type_aux(bddm, g) != BDD_TYPE_POSVAR || bdd_type_aux(bddm, h) != BDD_TYPE_POSVAR)
 	{
-	  bdd_warning("bdd_swap_vars: second and third arguments are not both positive variables");
+	  bdd_warning(_T("bdd_swap_vars: second and third arguments are not both positive variables"));
 	  BDD_INCREFS(f);
 	  return (f);
 	}

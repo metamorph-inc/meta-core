@@ -4,8 +4,6 @@ import subprocess
 import random
 import string
 import cad_library
-import shutil
-import Queue
 
 outputcmds = True
 

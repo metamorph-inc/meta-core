@@ -58,7 +58,7 @@ namespace JobManager
 
 
         public LocalPool(
-            int numCommandThread = 8,
+            int numCommandThread = 4,
             int numMatLabThread = 4,
             int numCADThread = 2)
         {

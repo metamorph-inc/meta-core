@@ -93,7 +93,7 @@ ProError extract_point_marker( ProGeomitem& in_geom_item, Marker& out_marker )
 	out_marker.locate = convert(location);
 	out_marker.joint_type = DATUM_POINT;
 
-	log << "marker point";
+	// log << "marker point";
 	return rc;
 }
 
@@ -319,7 +319,7 @@ ProError extract_csys_marker( ProGeomitem& in_geom_item, Marker& out_marker )
 	
 	out_marker.joint_type = DATUM_CSYS;
 
-	log << "marker csys";
+	// log << "marker csys";
 	return rc;
 }
 
@@ -349,7 +349,8 @@ Joint convert_datum(ProFeature& in_datum) {
 	}
 	switch( feat_type ) {
 	case PRO_FEAT_DATUM_POINT:
-		switch( rc = ProFeatureGeomitemVisit(&in_datum, PRO_AXIS, 
+		// R.O. Was 4/30/2015 switch( rc = ProFeatureGeomitemVisit(&in_datum, PRO_AXIS, 
+		switch( rc = ProFeatureGeomitemVisit(&in_datum, PRO_POINT, 
 			reinterpret_cast<ProGeomitemAction>(get_point_marker),
 			NULL, static_cast<ProAppData>(&marker) ) ) 
 		{

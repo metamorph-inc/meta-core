@@ -1016,6 +1016,106 @@ namespace isis_CADCommon
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	bool LinesCollinear(	const std::vector<Point_3D> &in_Line_1,
+							const std::vector<Point_3D> &in_Line_2,
+												double in_Precision ) throw (isis::application_exception)
+	{
+
+		if ( in_Line_1.size() == 0 )
+		{
+				std::stringstream errorString;
+				errorString <<
+					"Function - LinesCollinear, received in_Line vector, which does not have any elements.";
+				throw isis::application_exception(errorString.str());
+		}
+
+		if ( in_Line_1.size() != 2 )
+		{
+				std::stringstream errorString;
+				errorString <<
+					"Function - LinesCollinear, received in_Line vector, which does contain two points (i.e. start and end points of the line).";
+				throw isis::application_exception(errorString.str());
+		}
+
+		if ( in_Line_2.size() == 0 )
+		{
+				std::stringstream errorString;
+				errorString <<
+					"Function - LinesCollinear, received in_Line vector, which does not have any elements.";
+				throw isis::application_exception(errorString.str());
+		}
+
+		if ( in_Line_2.size() != 2 )
+		{
+				std::stringstream errorString;
+				errorString <<
+					"Function - LinesCollinear, received in_Line vector, which does contain two points (i.e. start and end points of the line).";
+				throw isis::application_exception(errorString.str());
+		}
+
+		// Detemine if the points defining line 2 are on line 1
+
+		double distance = isis_CADCommon::ShortestDistanceBetweenPointAndLine( in_Line_1, in_Line_2[0]  );
+
+		if  ( distance > in_Precision ) return false;
+
+		distance = isis_CADCommon::ShortestDistanceBetweenPointAndLine( in_Line_1, in_Line_2[1]  );
+
+		if  ( distance > in_Precision ) return false;
+				
+		return true;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	bool VectorsPointInTheSameDirection_3D(		const std::vector<double> &in_Vector_1,
+												const std::vector<double> &in_Vector_2,
+												double in_Precision ) throw (isis::application_exception)
+	{
+		if ( in_Vector_1.size() == 0 )
+		{
+				std::stringstream errorString;
+				errorString <<
+					"Function - VectorsPointInTheSameDirection_3D, received in_Vector_1 vector, which does not have any elements.";
+				throw isis::application_exception(errorString.str());
+		}
+
+		if ( in_Vector_1.size() != 3 )
+		{
+				std::stringstream errorString;
+				errorString <<
+					"Function - VectorsPointInTheSameDirection_3D, received in_Vector_1 vector, which does contain three values.";
+				throw isis::application_exception(errorString.str());
+		}
+
+		if ( in_Vector_2.size() == 0 )
+		{
+				std::stringstream errorString;
+				errorString <<
+					"Function - VectorsPointInTheSameDirection_3D, received in_Vector_2 vector, which does not have any elements.";
+				throw isis::application_exception(errorString.str());
+		}
+
+		if ( in_Vector_2.size() != 3 )
+		{
+				std::stringstream errorString;
+				errorString <<
+					"Function - VectorsPointInTheSameDirection_3D, received in_Vector_2 vector, which does contain three values.";
+				throw isis::application_exception(errorString.str());
+		}
+
+
+		std::vector<double> unit_vector_1 = UnitVector_3D( in_Vector_1 );
+		std::vector<double> unit_vector_2 = UnitVector_3D( in_Vector_2 );
+
+		if ( PointsAreEqual_3D( Point_3D( unit_vector_1[0], unit_vector_1[1], unit_vector_1[2] ), 
+								Point_3D( unit_vector_2[0], unit_vector_2[1], unit_vector_2[2] )))
+			return true;
+		else
+			return false;
+
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	bool ValueOnOrWithinRange(double in_Value, double in_StartRange, double in_EndRange, double in_Precision )
 	{
 		double startRange;

@@ -42,7 +42,7 @@ protected:
 public:
 	virtual ~CDynamicObj() ;
 	DESERT_API const CString& GetName() const;
-	DESERT_API operator const char *() const;
+	DESERT_API operator const TCHAR *() const;
 	DESERT_API CStaticObj *GetCore();
 };//eo class CDyamicObj
 
@@ -61,11 +61,11 @@ public:
 	DESERT_API virtual CDynElementList& GetRootElements();
 	DESERT_API virtual CDynElementList* GetRootElements(int);
 	DESERT_API virtual CDynElement *FindElement(long id);
-	DESERT_API virtual CDynElement *FindElement(const char *name);
+	DESERT_API virtual CDynElement *FindElement(const TCHAR *name);
 	DESERT_API virtual CDynElement *FindElement(const CElement *core);
 	virtual CDynElement *RemoveElement(CDynElement *e);
 	virtual CDynElement *RemoveElement(long id);
-	virtual CDynElement *RemoveElement(const char *name);
+	virtual CDynElement *RemoveElement(const TCHAR *name);
 	virtual ~CDynElementContainer();
 
 	
@@ -82,7 +82,7 @@ public:
 	
 	DESERT_API virtual CType GetType()					=	0;
 	DESERT_API virtual operator long() const			=	0;
-	DESERT_API virtual operator const char * () const	=	0;
+	DESERT_API virtual operator const TCHAR * () const	=	0;
 
 };//eo CDynElementContainer
 
@@ -115,14 +115,14 @@ public:
 	DESERT_API int FindEncodingLen();
 	int SetEncodingValue(int enc, int sb);
 	DESERT_API CBdd MaptoBdd(CBdd& parentEncoding, int props, ...);
-	DESERT_API int FindPropertyEncodingLen(const char *prop);
-	int SetPropertyEncodingValue(const char *prop, int sb);
+	DESERT_API int FindPropertyEncodingLen(const TCHAR *prop);
+	int SetPropertyEncodingValue(const TCHAR *prop, int sb);
 	DESERT_API int FindNonOrthElementCount();
 	bool Restrict(CBdd& res);
 
 	DESERT_API virtual CType GetType();
 	DESERT_API virtual operator long() const;
-	DESERT_API virtual operator const char * () const	;
+	DESERT_API virtual operator const TCHAR * () const	;
 };//CDynSpace
 
 
@@ -170,20 +170,20 @@ public:
 	DESERT_API operator CDecomposition() const;
 	DESERT_API long GetExternal() const;
 	DESERT_API CDynElement *FindChild(long id);
-	DESERT_API CDynElement *FindChild(const char *n);
+	DESERT_API CDynElement *FindChild(const TCHAR *n);
 	DESERT_API CDynElement *FindChild(const CElement *c);
 	CDynElement *RemoveChild(CDynElement *e);
 	CDynElement *RemoveChild(long id);
-	CDynElement *RemoveChild(const char *n);
+	CDynElement *RemoveChild(const TCHAR *n);
 	CDynElement *InsertChild(CDynElement *e);
 	DESERT_API CDynProperty *FindProperty(long i);
-	DESERT_API CDynProperty *FindProperty(const char *n);	
+	DESERT_API CDynProperty *FindProperty(const TCHAR *n);	
 	////
-	DESERT_API CDynFormula *FindFormula(const char *n);
+	DESERT_API CDynFormula *FindFormula(const TCHAR *n);
 	////
 	CDynProperty *RemoveProperty(CDynProperty *e);
 	CDynProperty *RemoveProperty(long i);
-	CDynProperty *RemoveProperty(const char *n);
+	CDynProperty *RemoveProperty(const TCHAR *n);
 	CDynProperty *InsertProperty(CDynProperty *e);
 	DESERT_API CDynRelation *FindRelation(long i);
 	CDynRelation *RemoveRelation(CDynRelation *e);
@@ -222,12 +222,12 @@ public:
 #else
 	ClData Eval(ClRelExpr::RelOp, double right) const;
 #endif
-	//DESERT_API void GetVectors(const char *prop, CUIntArray& vecList);
+	//DESERT_API void GetVectors(const TCHAR *prop, CUIntArray& vecList);
 
 	
 	void BuildConfiguration(BackIfaceFunctions::DBConfiguration *, CBdd& enc);
-	int FindPropertyEncodingLen(const char *prop);
-	int SetPropertyEncodingValue(const char *prop, int sb);
+	int FindPropertyEncodingLen(const TCHAR *prop);
+	int SetPropertyEncodingValue(const TCHAR *prop, int sb);
 	int FindNonOrthElementCount();
 	DESERT_API int GetCount() const;                 // recursively counts all the children under this element
 
@@ -238,7 +238,7 @@ public:
 	//
 
 	//11/30/2011 Added
-	ClData Eval(int limit, const char *prop, FunctionType fn) const;
+	ClData Eval(int limit, const TCHAR *prop, FunctionType fn) const;
 private:
 	void Complement(CDynElementList& list, CDynElementList& complement); // complement = children - list
 //	void AddToArray(int val, CUIntArray& array) const;
@@ -256,23 +256,23 @@ private:
 	CBdd PCMNone(int limit, ClRelExpr::RelOp op);
 
 
-	CBdd PCMAdd_0(int limit, const char *propName);
-	CBdd PCMMul_0(int limit, const char *propName);
-	CBdd PCMMin_0(int limit, const char *propName);
-	CBdd PCMMax_0(int limit, const char *propName);
-	CBdd PCMAmed_0(int limit, const char *propName);
-	CBdd PCMGmed_0(int limit, const char *propName);
-	CBdd PCMNop_0(int limit, const char *propName);
+	CBdd PCMAdd_0(int limit, const TCHAR *propName);
+	CBdd PCMMul_0(int limit, const TCHAR *propName);
+	CBdd PCMMin_0(int limit, const TCHAR *propName);
+	CBdd PCMMax_0(int limit, const TCHAR *propName);
+	CBdd PCMAmed_0(int limit, const TCHAR *propName);
+	CBdd PCMGmed_0(int limit, const TCHAR *propName);
+	CBdd PCMNop_0(int limit, const TCHAR *propName);
 
 	//PCM Functions - Custom Domains
 	CBdd PCMNop(const CCosmic * other);
-	CBdd PCMNop_0(const CCosmic * other, const char * propName);
+	CBdd PCMNop_0(const CCosmic * other, const TCHAR * propName);
 
-	CBdd PCMGen_0(int limit, const char *propName);
+	CBdd PCMGen_0(int limit, const TCHAR *propName);
 
-	CBdd PCMGen_decompAnd(int limit, const char *propName, FunctionType f);
-	CBdd PCMGen_decompOr(int limit, const char *propName, FunctionType f);
-	CBdd PCMGen_decompLeaf(int limit, const char *propName, FunctionType f);
+	CBdd PCMGen_decompAnd(int limit, const TCHAR *propName, FunctionType f);
+	CBdd PCMGen_decompOr(int limit, const TCHAR *propName, FunctionType f);
+	CBdd PCMGen_decompLeaf(int limit, const TCHAR *propName, FunctionType f);
 	CBdd PCMGen_SimpleFormula(int limit, CDynPropertyList &propList, FunctionType f);
 };
 
@@ -384,11 +384,11 @@ public:
 	DESERT_API virtual void Clone()										= 0;//{};
 	DESERT_API virtual void Clone(CDynDomain* from)						= 0;//{};		
 	DESERT_API virtual CDynElement *FindElement(long id);
-	DESERT_API virtual CDynElement *FindElement(const char *name);
+	DESERT_API virtual CDynElement *FindElement(const TCHAR *name);
 	DESERT_API virtual CDynElement *FindElement(const CElement *core);
 	virtual CDynElement *RemoveElement(CDynElement *elem);
 	virtual CDynElement *RemoveElement(long id);
-	virtual CDynElement *RemoveElement(const char *name);
+	virtual CDynElement *RemoveElement(const TCHAR *name);
 	virtual CDynElement *InsertElement(CDynElement *elem);
 	DESERT_API virtual bool IsAlive() const;
 	DESERT_API virtual int IndexElement(CDynElement *elem);
@@ -423,17 +423,17 @@ public:
 	virtual ~CDynCustomDomain();
 	DESERT_API int GetSize() const;
 	DESERT_API CDynElement *FindElement(long i);
-	DESERT_API CDynElement *FindElement(const char *n);
+	DESERT_API CDynElement *FindElement(const TCHAR *n);
 	DESERT_API CDynElement *FindElement(const CElement *c);
 	CDynElement *RemoveElement(CDynElement *e);
 	CDynElement *RemoveElement(long i);
-	CDynElement *RemoveElement(const char *n);
+	CDynElement *RemoveElement(const TCHAR *n);
 	CDynElement *InsertElement(CDynElement *e);
 	DESERT_API int IndexElement(CDynElement *elem);
 	DESERT_API virtual CStaticObj * GetCore();
 	DESERT_API virtual CType GetType();
 	DESERT_API virtual operator long() const;
-	DESERT_API virtual operator const char * () const;
+	DESERT_API virtual operator const TCHAR * () const;
 	DESERT_API virtual void Dump(FILE *f);
 	DESERT_API long GetExternal(CBdd& enc, int sv, int encLen);
 	DESERT_API CBdd GetEncoding(CDynElement *rangeElement, int sv, int encLen);
@@ -457,11 +457,11 @@ public:
   virtual ~CDynConstraintSet();
   DESERT_API CDynConstraintList& GetConstraints();
   DESERT_API CDynConstraint *FindConstraint(long i);
-  DESERT_API CDynConstraint *FindConstraint(const char *n);
+  DESERT_API CDynConstraint *FindConstraint(const TCHAR *n);
   DESERT_API CDynConstraint *FindConstraint(const CConstraint *c);
   CDynConstraint *RemoveConstraint(CDynConstraint *e);
   CDynConstraint *RemoveConstraint(long i);
-  CDynConstraint *RemoveConstraint(const char *n);
+  CDynConstraint *RemoveConstraint(const TCHAR *n);
   DESERT_API CDynConstraint *InsertConstraint(CDynConstraint *e);
   DESERT_API void RemoveAll();
   DESERT_API bool IsEmpty() const;
@@ -534,11 +534,11 @@ public:
   virtual ~CDynFormulaSet();
   DESERT_API CDynFormulaList& GetFormulas();
   DESERT_API CDynFormula *FindFormula(long i);
-  DESERT_API CDynFormula *FindFormula(const char *n);
+  DESERT_API CDynFormula *FindFormula(const TCHAR *n);
   DESERT_API CDynFormula *FindFormula(const CFormula *c);
   CDynFormula *RemoveFormula(CDynFormula *e);
   CDynFormula *RemoveFormula(long i);
-  CDynFormula *RemoveFormula(const char *n);
+  CDynFormula *RemoveFormula(const TCHAR *n);
   DESERT_API CDynFormula *InsertFormula(CDynFormula *e);
   DESERT_API void RemoveAll();
   DESERT_API bool IsEmpty() const;

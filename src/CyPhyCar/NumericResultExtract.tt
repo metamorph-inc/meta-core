@@ -1,0 +1,14 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".txt" #>
+
+numeric_results write  &
+   result_set_component_name = <#=Name#>  &
+   sort_by = by_time  &
+   order = ascending  &
+   write_to_terminal = off  &
+   file_name = "<#=FileName#>"
+
+<#+  
+public string Name {get;set;}
+public string FileName {get;set;}
+#>

@@ -30,7 +30,7 @@
 bool fp_except = false;
 extern "C" extern void fp_handler( int sig )
 {
-	Warning("fp_handler", "Floating point Exception");
+	Warning(_T("fp_handler"), _T("Floating point Exception"));
 	fp_except = true;
 }
 
@@ -39,17 +39,17 @@ CList<int, int> CManager::generations;
 CManager *CManager::theInstance=NULL;
 int CManager::unique=1;
 
-static char *setNames[] =
+static TCHAR *setNames[] =
 {
-  "Undef",
-  "UniSpace",
-  "BiSpace",
-  "UniDomain",
-  "SpaceDomain",
-  "BiSpaceDomain",
-  "BiDomain",
-  "SpaceBiDomain",
-  "BiSpaceBiDomain"
+  _T("Undef"),
+  _T("UniSpace"),
+  _T("BiSpace"),
+  _T("UniDomain"),
+  _T("SpaceDomain"),
+  _T("BiSpaceDomain"),
+  _T("BiDomain"),
+  _T("SpaceBiDomain"),
+  _T("BiSpaceBiDomain")
 };
 
 #define MAX_LONG (long)(1 << 30)
@@ -89,7 +89,7 @@ CManager::
   generations.RemoveAll();
 }
 
-CCosmicList* CManager::GetContainer(const char * ContainerName) 
+CCosmicList* CManager::GetContainer(const TCHAR * ContainerName) 
 {
 	CCosmicList *list = NULL;
 
@@ -143,7 +143,7 @@ CCosmicList* CManager::GetContainer(CString &ContainerName)
 long CManager::CreateSpace(CString &n)
 {
   CSpace *s = new CSpace(n);
-  ASSERT_EX( s != NULL, "CManager::Space", "new CSpace failed" );
+  ASSERT_EX( s != NULL, _T("CManager::Space"), _T("new CSpace failed") );
   baseSpaces.AddTail(s);
   baseContainers.AddTail(s);
   //create a containment function
@@ -152,7 +152,7 @@ long CManager::CreateSpace(CString &n)
   return *s;
 }
 
-long CManager::CreateSpace(const char *n)
+long CManager::CreateSpace(const TCHAR *n)
 {
 	CString cs= n;
   return CreateSpace( cs);
@@ -165,28 +165,28 @@ long CManager::CreateElement(CString &n, long s, short d, long p, long e)
 	bool ret;
   
 	//check for correct decomposition
-	//ASSERT_EX( d>=0 && d<=2, "CManager::CreateElement", "invalid decomposition" );
-	if (d < 0 || d >2) throw new CDesertException( "CManager::CreateElement(): invalid decompostion");
+	//ASSERT_EX( d>=0 && d<=2, _T("CManager::CreateElement"), _T("invalid decomposition") );
+	if (d < 0 || d >2) throw new CDesertException( _T("CManager::CreateElement(): invalid decompostion"));
   
 	//find conatiner
 	ret = Find(baseContainers, container, s);
   
-	//ASSERT_EX( ret, "CManager::Element", "Container (space _or_ domain) not found" );
-	if (!ret) throw new CDesertException("CManager::CreateElement(): Container space or domain not found!");
+	//ASSERT_EX( ret, _T("CManager::Element"), _T("Container (space _or_ domain) not found") );
+	if (!ret) throw new CDesertException(_T("CManager::CreateElement(): Container space or domain not found!"));
 
 	//check for alternatives in domains
-	//ASSERT_EX( container->GetType() != typeCustomDomain|| d<2, "CManager::CreateElement", "Alternatives not yet supported in Domains" );
+	//ASSERT_EX( container->GetType() != typeCustomDomain|| d<2, _T("CManager::CreateElement"), _T("Alternatives not yet supported in Domains") );
 	if ((container->GetType() == typeCustomDomain) && (d >=2))
-		throw new CDesertException("CManager::CreateElement(): Alternatives not yet supported in Domains!");
+		throw new CDesertException(_T("CManager::CreateElement(): Alternatives not yet supported in Domains!"));
 
 	//find parent
 	CElement *parent  = container->FindElement(p);
 	//create element
 	CElement * el =	new CElement(n, container, (CDecomposition)d,  parent, e);
 	//assertation if creation failed
-	//ASSERT_EX( el, "CManager::Element", "new CElement failed" );
+	//ASSERT_EX( el, _T("CManager::Element"), _T("new CElement failed") );
 	if (!el)
-		throw new CDesertException("CManager::CreateElement(): Create Element failed!");
+		throw new CDesertException(_T("CManager::CreateElement(): Create Element failed!"));
 	//insert into container
 	container->InsertElement(el);	
 	//insert into parent
@@ -196,7 +196,7 @@ long CManager::CreateElement(CString &n, long s, short d, long p, long e)
 }
 
 
-long CManager::CreateElement(const char *n, long s, short d, long p, long e)
+long CManager::CreateElement(const TCHAR *n, long s, short d, long p, long e)
 {
 	CString cs= n;
   return CreateElement(cs, s, d, p, e);
@@ -205,14 +205,14 @@ long CManager::CreateElement(const char *n, long s, short d, long p, long e)
 long CManager::CreateNaturalDomain(CString& n, int mx, int mn)
 {
   CDomain *d = new CNaturalDomain(n, mx, mn);
- // ASSERT_EX( d, "CManager::NaturalDomain", "new CNaturalDomain failed" );
+ // ASSERT_EX( d, _T("CManager::NaturalDomain"), _T("new CNaturalDomain failed") );
   if (!d)
-	  throw new CDesertException("CManager::NaturalDomain(): Create NaturalDomain failed!");
+	  throw new CDesertException(_T("CManager::NaturalDomain(): Create NaturalDomain failed!"));
   baseDomains.AddTail(d);
   return *d;
 }
 
-long CManager::CreateNaturalDomain(const char *n, int mx, int mn)
+long CManager::CreateNaturalDomain(const TCHAR *n, int mx, int mn)
 {
 	CString cs= n;
   return CreateNaturalDomain( cs, mx, mn );
@@ -222,9 +222,9 @@ long CManager::CreateNaturalDomain(const char *n, int mx, int mn)
 long CManager::CreateCustomDomain(CString& n)
 {
   CDomain *d = new CCustomDomain(n);
-//  ASSERT_EX( d, "CManager::CustomDomain", "new CCustomDomain failed" );
+//  ASSERT_EX( d, _T("CManager::CustomDomain"), _T("new CCustomDomain failed") );
   if (!d)
-	  throw new CDesertException("CManager::NaturalDomain(): Create CustomDomain failed!");
+	  throw new CDesertException(_T("CManager::NaturalDomain(): Create CustomDomain failed!"));
   baseDomains.AddTail(d);
   baseContainers.AddTail((CCustomDomain*)d);
   //Create a function for this customdomain
@@ -235,7 +235,7 @@ long CManager::CreateCustomDomain(CString& n)
 }
 
 
-long CManager::CreateCustomDomain(const char *n)
+long CManager::CreateCustomDomain(const TCHAR *n)
 {
 		CString cs= n;
   return CreateCustomDomain( cs );
@@ -249,22 +249,22 @@ long CManager::CreateConstantProperty(CString& n, CString& pcm_fn, long o, long 
   CDomain *domain = 0;
   bool ret = Find(baseDomains, domain, d);
 
-  //ASSERT_EX( ret, "CManager::ConstantProperty", "domain not found" );
+  //ASSERT_EX( ret, _T("CManager::ConstantProperty"), _T("domain not found") );
   if (!ret)
-	  throw new CDesertException("CManager::ConstantProperty(): domain not found!");
+	  throw new CDesertException(_T("CManager::ConstantProperty(): domain not found!"));
 
   CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
   if (!owner)
-	  throw new CDesertException("CManager::ConstantProperty(): owner not found!");
+	  throw new CDesertException(_T("CManager::ConstantProperty(): owner not found!"));
 	  
   
- // ASSERT_EX( owner, "CManager::ConstantProperty", "owner not found" );
+ // ASSERT_EX( owner, _T("CManager::ConstantProperty"), _T("owner not found") );
   
   CProperty *property = new CConstantProperty(n, pcm_fn, domain, owner, v);
   if (!property)
-	  throw new CDesertException("CManager::ConstantProperty(): Create Constant Property Failed!");
+	  throw new CDesertException(_T("CManager::ConstantProperty(): Create Constant Property Failed!"));
 
-  //ASSERT_EX( property, "CManager::ConstantProperty", "new CConstantProperty failed" );
+  //ASSERT_EX( property, _T("CManager::ConstantProperty"), _T("new CConstantProperty failed") );
   owner->InsertProperty(property);
   
   // Create a clfunction object for the built-in pcm functions
@@ -273,7 +273,7 @@ long CManager::CreateConstantProperty(CString& n, CString& pcm_fn, long o, long 
   return *property;
 }
 
-long CManager::CreateConstantProperty(const char *n, const char *pcm_fn, long o, long d, int v)
+long CManager::CreateConstantProperty(const TCHAR *n, const TCHAR *pcm_fn, long o, long d, int v)
 {
 		CString cs= n;
 		CString cs_pcm_fn= pcm_fn;
@@ -286,22 +286,22 @@ CreateVariableProperty(CString& n, CString& pcm_fn, long o, long d)
 {
   CDomain *domain = 0;
   bool ret = Find(baseDomains, domain, d);
-  //ASSERT_EX( ret, "CManager::VariableProperty", "domain not found" );
+  //ASSERT_EX( ret, _T("CManager::VariableProperty"), _T("domain not found") );
   if (!ret)
-	  throw new CDesertException("CManager::ConstantProperty(): domain not found!");
+	  throw new CDesertException(_T("CManager::ConstantProperty(): domain not found!"));
 
   
   CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
-  //ASSERT_EX( owner, "CManager::VariableProperty", "owner not found" );
+  //ASSERT_EX( owner, _T("CManager::VariableProperty"), _T("owner not found") );
    if (!owner)
-	  throw new CDesertException("CManager::ConstantProperty(): owner not found!");
+	  throw new CDesertException(_T("CManager::ConstantProperty(): owner not found!"));
 
   
   
   CProperty *property = new CVariableProperty(n, pcm_fn, domain, owner);
-  //ASSERT_EX( property, "CManager::VariableProperty", "new CVariableProperty failed" );
+  //ASSERT_EX( property, _T("CManager::VariableProperty"), _T("new CVariableProperty failed") );
 	if (!property)
-	  throw new CDesertException("CManager::ConstantProperty(): Create Constant Property Failed!");
+	  throw new CDesertException(_T("CManager::ConstantProperty(): Create Constant Property Failed!"));
 
   
   
@@ -313,7 +313,7 @@ CreateVariableProperty(CString& n, CString& pcm_fn, long o, long d)
   return *property;
 }
 
-long CManager::CreateVariableProperty(const char *n, const char *pcm_fn, long o, long d)
+long CManager::CreateVariableProperty(const TCHAR *n, const TCHAR *pcm_fn, long o, long d)
 {
 	CString cs= n;
 	CString cs_pcm_fn= pcm_fn;
@@ -325,39 +325,39 @@ CManager::
 CreateVariableProperty(CString& n, CString& pcm_fn, long o)
 {
   CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
-  //ASSERT_EX( owner, "CManager::VariableProperty", "owner not found" );
+  //ASSERT_EX( owner, _T("CManager::VariableProperty"), _T("owner not found") );
    if (!owner)
-	  throw new CDesertException("CManager::ConstantProperty(): owner not found!");
+	  throw new CDesertException(_T("CManager::ConstantProperty(): owner not found!"));
 
   CProperty *property = new CVariableProperty(n, pcm_fn, owner);
-  //ASSERT_EX( property, "CManager::VariableProperty", "new CVariableProperty failed" );
+  //ASSERT_EX( property, _T("CManager::VariableProperty"), _T("new CVariableProperty failed") );
 	if (!property)
-	  throw new CDesertException("CManager::ConstantProperty(): Create Constant Property Failed!");
+	  throw new CDesertException(_T("CManager::ConstantProperty(): Create Constant Property Failed!"));
 
   owner->InsertProperty(property);
-  ClFunction::CreatePCMFn(n, "PCM_ADD");
+  ClFunction::CreatePCMFn(n, _T("PCM_ADD"));
   return *property;
 }
 
-long CManager::CreateVariableProperty(const char *n, const char *pcm_fn, long o)
+long CManager::CreateVariableProperty(const TCHAR *n, const TCHAR *pcm_fn, long o)
 {
 	CString cs= n;
 	CString cs_pcm_fn= pcm_fn;
 	return CreateVariableProperty( cs, cs_pcm_fn, o);
 }
 
-long CManager::CreateParametricVariableProperty(const char *name, long o,  const char * text)
+long CManager::CreateParametricVariableProperty(const TCHAR *name, long o,  const TCHAR * text)
 {
 	CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
-  //ASSERT_EX( owner, "CManager::VariableProperty", "owner not found" );
+  //ASSERT_EX( owner, _T("CManager::VariableProperty"), _T("owner not found") );
    if (!owner)
-	  throw new CDesertException("CManager::CreateParametricVariableProperty(): owner not found!");
+	  throw new CDesertException(_T("CManager::CreateParametricVariableProperty(): owner not found!"));
 
    CFormula *formula = new CFormula(name, owner, text);
   
-  //ASSERT_EX( property, "CManager::VariableProperty", "new CVariableProperty failed" );
+  //ASSERT_EX( property, _T("CManager::VariableProperty"), _T("new CVariableProperty failed") );
 	if (!formula)
-	  throw new CDesertException("CManager::CreateParametricVariableProperty(): Create Formula Failed!");
+	  throw new CDesertException(_T("CManager::CreateParametricVariableProperty(): Create Formula Failed!"));
 
   
    bool ret = formula->Parse();
@@ -370,12 +370,12 @@ long CManager::CreateParametricVariableProperty(const char *name, long o,  const
   owner->InsertFormula(formula);
 
   CString cs= name;
-	CString cs_pcm_fn= "PCM_ADD";
+	CString cs_pcm_fn= _T("PCM_ADD");
 	 CProperty *prop = new CVariableProperty(cs, cs_pcm_fn, owner);
 	owner->InsertProperty(prop);
 
   // Create a clfunction object for the built-in pcm functions
-  ClFunction::CreatePCMFn(name, "PCM_ADD");
+  ClFunction::CreatePCMFn(name, _T("PCM_ADD"));
   return *prop;
 }
 
@@ -389,12 +389,12 @@ long CManager::CreateRelation(long c, long s, long d)
   {
     // context is a space element -- relations must also be between space element
     CElement *source = FindElement(baseSpaces, s);
-    //ASSERT_EX( source, "CManager::CreateRelation", "source not found" );
-	if (!source) throw new CDesertException("CManager::CreateRelation(): Relation source not found!");
+    //ASSERT_EX( source, _T("CManager::CreateRelation"), _T("source not found") );
+	if (!source) throw new CDesertException(_T("CManager::CreateRelation(): Relation source not found!"));
 
     CElement *destination = FindElement(baseSpaces, d);
-    //ASSERT_EX( destination, "CManager::CreateRelation", "destination not found" );
-	if (!destination) throw new CDesertException("CManager::CreateRelation(): Relation destination not found!");
+    //ASSERT_EX( destination, _T("CManager::CreateRelation"), _T("destination not found") );
+	if (!destination) throw new CDesertException(_T("CManager::CreateRelation(): Relation destination not found!"));
     
 	rel = new CRelation(sp_ctx, source, destination);
     
@@ -405,24 +405,24 @@ long CManager::CreateRelation(long c, long s, long d)
   {
     // context is a domain element -- relations must also be between domain elements
     CElement *source = FindElement(baseDomains, s);
-    //ASSERT_EX( source, "CManager::CreateRelation", "source not found" );
-	if (!source) throw new CDesertException("CManager::CreateRelation(): Relation source not found!");
+    //ASSERT_EX( source, _T("CManager::CreateRelation"), _T("source not found") );
+	if (!source) throw new CDesertException(_T("CManager::CreateRelation(): Relation source not found!"));
 
     CElement *destination = FindElement(baseDomains, d);
-    //ASSERT_EX( destination, "CManager::CreateRelation", "destination not found" );
-	if (!destination) throw new CDesertException("CManager::CreateRelation(): Relation destination not found!");
+    //ASSERT_EX( destination, _T("CManager::CreateRelation"), _T("destination not found") );
+	if (!destination) throw new CDesertException(_T("CManager::CreateRelation(): Relation destination not found!"));
 
     rel = new CRelation(dm_ctx, source, destination);
 
     dm_ctx->InsertRelation(rel);
   }
   else
-    //ASSERT_EX( false, "CManager::CreateRelation", "context not found" );
-	throw new CDesertException("CManager::CreateRelation(): context not found!");
+    //ASSERT_EX( false, _T("CManager::CreateRelation"), _T("context not found") );
+	throw new CDesertException(_T("CManager::CreateRelation(): context not found!"));
 
-  //ASSERT_EX( rel, "CManager::CreateRelation", "new failed" );
+  //ASSERT_EX( rel, _T("CManager::CreateRelation"), _T("new failed") );
   
-  if (!rel) throw new CDesertException("CManager::CreateRelation(): Create relation failed!");
+  if (!rel) throw new CDesertException(_T("CManager::CreateRelation(): Create relation failed!"));
 
   return *rel;
 }
@@ -430,17 +430,17 @@ long CManager::CreateRelation(long c, long s, long d)
 long CManager::CreateConstraintSet(CString& n)
 {
   CConstraintSet *s = new CConstraintSet(n);
- // ASSERT_EX( s, "CManager::ConstraintSet", "new CConstraintSet failed" );
+ // ASSERT_EX( s, _T("CManager::ConstraintSet"), _T("new CConstraintSet failed") );
 
   if (!s) throw new CDesertException();
   baseConstraintSets.AddTail(s);
   return *s;
 }
 
-long CManager::CreateConstraintSet(const char *n)
+long CManager::CreateConstraintSet(const TCHAR *n)
 {
   CConstraintSet *s = new CConstraintSet(n);
-  ASSERT_EX( s, "CManager::ConstraintSet", "new CConstraintSet failed" );
+  ASSERT_EX( s, _T("CManager::ConstraintSet"), _T("new CConstraintSet failed") );
   baseConstraintSets.AddTail(s);
   return *s;
 }
@@ -449,17 +449,17 @@ long CManager::CreateConstraintSet(const char *n)
 long CManager::CreateFormulaSet(CString& n)
 {
   CFormulaSet *s = new CFormulaSet(n);
- // ASSERT_EX( s, "CManager::ConstraintSet", "new CConstraintSet failed" );
+ // ASSERT_EX( s, _T("CManager::ConstraintSet"), _T("new CConstraintSet failed") );
 
   if (!s) throw new CDesertException();
   baseFormulaSets.AddTail(s);
   return *s;
 }
 
-long CManager::CreateFormulaSet(const char *n)
+long CManager::CreateFormulaSet(const TCHAR *n)
 {
   CFormulaSet *s = new CFormulaSet(n);
-  ASSERT_EX( s, "CManager::FormulaSet", "new CFormulaSet failed" );
+  ASSERT_EX( s, _T("CManager::FormulaSet"), _T("new CFormulaSet failed") );
   baseFormulaSets.AddTail(s);
   return *s;
 }
@@ -469,12 +469,12 @@ long CManager::CreateConstraint(CString& n, long s, long c, CString& t)
 {
   CConstraintSet *set = 0;
   bool ret = Find(baseConstraintSets, set, s);
-  ASSERT_EX( ret, "CManager::Constraint", "constraint set not found" );
+  ASSERT_EX( ret, _T("CManager::Constraint"), _T("constraint set not found") );
   CElement *context = FindElement(baseSpaces, c);
   if (!context) context = FindElement(baseDomains, c);
-  ASSERT_EX( context, "CManager::Constraint", "context not found" );
+  ASSERT_EX( context, _T("CManager::Constraint"), _T("context not found") );
   CConstraint *constraint = new CConstraint(n, set, context, t);
-  ASSERT_EX( constraint, "CManager::Constraint", "new CConstraint failed" );
+  ASSERT_EX( constraint, _T("CManager::Constraint"), _T("new CConstraint failed") );
   ret = constraint->Parse();
   if (!ret)
   {
@@ -487,7 +487,7 @@ long CManager::CreateConstraint(CString& n, long s, long c, CString& t)
 
 long
 CManager::
-CreateConstraint(const char *n, long s, long c, CString& t)
+CreateConstraint(const TCHAR *n, long s, long c, CString& t)
 {
 	CString cs= n;
 	return CreateConstraint( cs, s, c, t );
@@ -496,13 +496,13 @@ CreateConstraint(const char *n, long s, long c, CString& t)
 
 
 
-long CManager::CreateConstraint(CString& n, long s, long c, const char *t)
+long CManager::CreateConstraint(CString& n, long s, long c, const TCHAR *t)
 {
 		CString cs_t= t;
   return CreateConstraint( n, s, c, cs_t );
 }
 
-long CManager::CreateConstraint(const char *n, long s, long c, const char *t)
+long CManager::CreateConstraint(const TCHAR *n, long s, long c, const TCHAR *t)
 {
 	CString cs= n;
 	CString cs_t= t;
@@ -514,12 +514,12 @@ long CManager::CreateFormula(CString& n, long s, long c, CString& t)
 {
   CFormulaSet *set = 0;
   bool ret = Find(baseFormulaSets, set, s);
-  ASSERT_EX( ret, "CManager::Formula", "Formula set not found" );
+  ASSERT_EX( ret, _T("CManager::Formula"), _T("Formula set not found") );
   CElement *context = FindElement(baseSpaces, c);
   if (!context) context = FindElement(baseDomains, c);
-  ASSERT_EX( context, "CManager::Formula", "context not found" );
+  ASSERT_EX( context, _T("CManager::Formula"), _T("context not found") );
   CFormula *formula = new CFormula(n, set, context, t);
-  ASSERT_EX( formula, "CManager::Formula", "new CFormula failed" );
+  ASSERT_EX( formula, _T("CManager::Formula"), _T("new CFormula failed") );
 
   ret = formula->Parse();
   if (!ret)
@@ -531,19 +531,19 @@ long CManager::CreateFormula(CString& n, long s, long c, CString& t)
   return *formula;
 }
 
-long CManager::CreateFormula(const char *n, long s, long c, CString& t)
+long CManager::CreateFormula(const TCHAR *n, long s, long c, CString& t)
 {
 	CString cs= n;
 	return CreateFormula( cs, s, c, t );
 }
 
-long CManager::CreateFormula(CString& n, long s, long c, const char *t)
+long CManager::CreateFormula(CString& n, long s, long c, const TCHAR *t)
 {
 	CString cs_t= t;
 	return CreateFormula( n, s, c, cs_t );
 }
 
-long CManager::CreateFormula(const char *n, long s, long c, const char *t)
+long CManager::CreateFormula(const TCHAR *n, long s, long c, const TCHAR *t)
 {
 	CString cs= n;
 	CString cs_t= t;
@@ -551,28 +551,28 @@ long CManager::CreateFormula(const char *n, long s, long c, const char *t)
 }
 //////
 #ifndef DOUBLE_MTBDD
-long CManager::AddtoVariableProperty(const char *n, CString &name, long o, long v, long d)
+long CManager::AddtoVariableProperty(const TCHAR *n, CString &name, long o, long v, long d)
 {
 	CDomain *domain = 0;
 	bool ret = Find(baseDomains, domain, d);
-	//ASSERT_EX( ret, "CManager::AddToVariableProperty", "domain not found" );
-	if (!ret) throw new CDesertException("CManager::AddToVariableProperty(): domain not found" );
+	//ASSERT_EX( ret, _T("CManager::AddToVariableProperty"), _T("domain not found") );
+	if (!ret) throw new CDesertException(_T("CManager::AddToVariableProperty(): domain not found") );
 
 
 	CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements??? - they don't exist!                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-	//ASSERT_EX( owner, "CManager::AddToVariableProperty", "owner not found" );
-	if (!owner) throw new CDesertException("CManager::AddToVariableProperty(): owner not found");
+	//ASSERT_EX( owner, _T("CManager::AddToVariableProperty"), _T("owner not found") );
+	if (!owner) throw new CDesertException(_T("CManager::AddToVariableProperty(): owner not found"));
 	
 	CVariableProperty *property = (CVariableProperty *)owner->FindProperty(n);
-	//ASSERT_EX( property && property->IsType(typeVariableProperty), "CManager::AddToVariableProperty", "property not found" );
+	//ASSERT_EX( property && property->IsType(typeVariableProperty), _T("CManager::AddToVariableProperty"), _T("property not found") );
 	if (!property || !property->IsType(typeVariableProperty))
-		throw new CDesertException("CManager::AddToVariableProperty(): property not found");
+		throw new CDesertException(_T("CManager::AddToVariableProperty(): property not found"));
 	
 	CElement *value = domain->FindElement(v);
-	//ASSERT_EX( value || domain->IsType(typeNaturalDomain), "CManager::AddToVariableProperty", "value not found in domain and domain is not a natural domain" );
+	//ASSERT_EX( value || domain->IsType(typeNaturalDomain), _T("CManager::AddToVariableProperty"), _T("value not found in domain and domain is not a natural domain") );
 
 	if (!value && !domain->IsType(typeNaturalDomain))
-		throw new CDesertException("CManager::AddToVariableProperty(): Value not found in custom domain!");
+		throw new CDesertException(_T("CManager::AddToVariableProperty(): Value not found in custom domain!"));
 	
 	if (value)
 	return property->AddToRange(value, name);
@@ -584,22 +584,22 @@ long CManager::AddtoVariableProperty(long p, CString &name, long o, long v, long
 {
 	CDomain *domain = 0;
 	bool ret = Find(baseDomains, domain, d);
-	//ASSERT_EX( ret, "CManager::AddToVariableProperty", "domain not found" );
-	if (!ret) throw new CDesertException("CManager::AddToVariableProperty(): domain not found" );
+	//ASSERT_EX( ret, _T("CManager::AddToVariableProperty"), _T("domain not found") );
+	if (!ret) throw new CDesertException(_T("CManager::AddToVariableProperty(): domain not found") );
 
 	CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
-	//ASSERT_EX( owner, "CManager::AddToVariableProperty", "owner not found" );
-	if (!owner) throw new CDesertException("CManager::AddToVariableProperty(): owner not found");
+	//ASSERT_EX( owner, _T("CManager::AddToVariableProperty"), _T("owner not found") );
+	if (!owner) throw new CDesertException(_T("CManager::AddToVariableProperty(): owner not found"));
   
 	CVariableProperty *property = (CVariableProperty *)owner->FindProperty(p);
-	//ASSERT_EX( property && property->IsType(typeVariableProperty), "CManager::AddToVariableProperty", "property not found" );
+	//ASSERT_EX( property && property->IsType(typeVariableProperty), _T("CManager::AddToVariableProperty"), _T("property not found") );
 	if (!property || !property->IsType(typeVariableProperty))
-		throw new CDesertException("CManager::AddToVariableProperty(): property not found");
+		throw new CDesertException(_T("CManager::AddToVariableProperty(): property not found"));
 	
 	CElement *value = domain->FindElement(v);
-	//ASSERT_EX( value || domain->IsType(typeNaturalDomain), "CManager::AddToVariableProperty", "value not found in domain and domain is not a natural domain" );
+	//ASSERT_EX( value || domain->IsType(typeNaturalDomain), _T("CManager::AddToVariableProperty"), _T("value not found in domain and domain is not a natural domain") );
 	if (!value && !domain->IsType(typeNaturalDomain))
-		throw new CDesertException("CManager::AddToVariableProperty(): Value not found in custom domain!");
+		throw new CDesertException(_T("CManager::AddToVariableProperty(): Value not found in custom domain!"));
 	
   
   
@@ -610,40 +610,40 @@ long CManager::AddtoVariableProperty(long p, CString &name, long o, long v, long
 
 };
 
-long CManager::AddtoVariableProperty(const char *p, const char *n, long o, long v, long d)
+long CManager::AddtoVariableProperty(const TCHAR *p, const TCHAR *n, long o, long v, long d)
 {
 		CString cs= n;
 	return CManager::AddtoVariableProperty( p, cs,o, v, d);
 };
 
-long CManager::AddtoVariableProperty(long p, const char *n, long o, long v, long d)
+long CManager::AddtoVariableProperty(long p, const TCHAR *n, long o, long v, long d)
 {
 	CString cs= n;
 	return CManager::AddtoVariableProperty( p, cs, o, v, d);
 };
 #else
-long CManager::AddtoVariableProperty(const char *n, CString &name, long o, double v, long d)
+long CManager::AddtoVariableProperty(const TCHAR *n, CString &name, long o, double v, long d)
 {
 	CDomain *domain = 0;
 	bool ret = Find(baseDomains, domain, d);
-	//ASSERT_EX( ret, "CManager::AddToVariableProperty", "domain not found" );
-	if (!ret) throw new CDesertException("CManager::AddToVariableProperty(): domain not found" );
+	//ASSERT_EX( ret, _T("CManager::AddToVariableProperty"), _T("domain not found") );
+	if (!ret) throw new CDesertException(_T("CManager::AddToVariableProperty(): domain not found") );
 
 
 	CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements??? - they don't exist!                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-	//ASSERT_EX( owner, "CManager::AddToVariableProperty", "owner not found" );
-	if (!owner) throw new CDesertException("CManager::AddToVariableProperty(): owner not found");
+	//ASSERT_EX( owner, _T("CManager::AddToVariableProperty"), _T("owner not found") );
+	if (!owner) throw new CDesertException(_T("CManager::AddToVariableProperty(): owner not found"));
 	
 	CVariableProperty *property = (CVariableProperty *)owner->FindProperty(n);
-	//ASSERT_EX( property && property->IsType(typeVariableProperty), "CManager::AddToVariableProperty", "property not found" );
+	//ASSERT_EX( property && property->IsType(typeVariableProperty), _T("CManager::AddToVariableProperty"), _T("property not found") );
 	if (!property || !property->IsType(typeVariableProperty))
-		throw new CDesertException("CManager::AddToVariableProperty(): property not found");
+		throw new CDesertException(_T("CManager::AddToVariableProperty(): property not found"));
 
 	//CElement *value = domain->FindElement(v);
-	////ASSERT_EX( value || domain->IsType(typeNaturalDomain), "CManager::AddToVariableProperty", "value not found in domain and domain is not a natural domain" );
+	////ASSERT_EX( value || domain->IsType(typeNaturalDomain), _T("CManager::AddToVariableProperty"), _T("value not found in domain and domain is not a natural domain") );
 
 	//if (!value && !domain->IsType(typeNaturalDomain))
-	//	throw new CDesertException("CManager::AddToVariableProperty(): Value not found in custom domain!");
+	//	throw new CDesertException(_T("CManager::AddToVariableProperty(): Value not found in custom domain!"));
 	CElement *value = 0;
 	if(!domain->IsType(typeNaturalDomain))
 	{
@@ -652,7 +652,7 @@ long CManager::AddtoVariableProperty(const char *n, CString &name, long o, doubl
 		if(diff == 0)
 			value = domain->FindElement(lv);
 		if(!value)
-			throw new CDesertException("CManager::AddToVariableProperty(): Value not found in custom domain!");
+			throw new CDesertException(_T("CManager::AddToVariableProperty(): Value not found in custom domain!"));
 	}
 
 	if (value)
@@ -665,22 +665,22 @@ long CManager::AddtoVariableProperty(long p, CString &name, long o, double v, lo
 {
 	CDomain *domain = 0;
 	bool ret = Find(baseDomains, domain, d);
-	//ASSERT_EX( ret, "CManager::AddToVariableProperty", "domain not found" );
-	if (!ret) throw new CDesertException("CManager::AddToVariableProperty(): domain not found" );
+	//ASSERT_EX( ret, _T("CManager::AddToVariableProperty"), _T("domain not found") );
+	if (!ret) throw new CDesertException(_T("CManager::AddToVariableProperty(): domain not found") );
 
 	CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
-	//ASSERT_EX( owner, "CManager::AddToVariableProperty", "owner not found" );
-	if (!owner) throw new CDesertException("CManager::AddToVariableProperty(): owner not found");
+	//ASSERT_EX( owner, _T("CManager::AddToVariableProperty"), _T("owner not found") );
+	if (!owner) throw new CDesertException(_T("CManager::AddToVariableProperty(): owner not found"));
   
 	CVariableProperty *property = (CVariableProperty *)owner->FindProperty(p);
-	//ASSERT_EX( property && property->IsType(typeVariableProperty), "CManager::AddToVariableProperty", "property not found" );
+	//ASSERT_EX( property && property->IsType(typeVariableProperty), _T("CManager::AddToVariableProperty"), _T("property not found") );
 	if (!property || !property->IsType(typeVariableProperty))
-		throw new CDesertException("CManager::AddToVariableProperty(): property not found");
+		throw new CDesertException(_T("CManager::AddToVariableProperty(): property not found"));
 	
 	//CElement *value = domain->FindElement(v);
-	////ASSERT_EX( value || domain->IsType(typeNaturalDomain), "CManager::AddToVariableProperty", "value not found in domain and domain is not a natural domain" );
+	////ASSERT_EX( value || domain->IsType(typeNaturalDomain), _T("CManager::AddToVariableProperty"), _T("value not found in domain and domain is not a natural domain") );
 	//if (!value && !domain->IsType(typeNaturalDomain))
-	//	throw new CDesertException("CManager::AddToVariableProperty(): Value not found in custom domain!");
+	//	throw new CDesertException(_T("CManager::AddToVariableProperty(): Value not found in custom domain!"));
 	CElement *value = 0;
 	if(!domain->IsType(typeNaturalDomain))
 	{
@@ -689,7 +689,7 @@ long CManager::AddtoVariableProperty(long p, CString &name, long o, double v, lo
 		if(diff == 0)
 			value = domain->FindElement(lv);
 		if(!value)
-			throw new CDesertException("CManager::AddToVariableProperty(): Value not found in custom domain!");
+			throw new CDesertException(_T("CManager::AddToVariableProperty(): Value not found in custom domain!"));
 	}
 	
 	if (value)
@@ -699,13 +699,13 @@ long CManager::AddtoVariableProperty(long p, CString &name, long o, double v, lo
 
 };
 
-long CManager::AddtoVariableProperty(const char *p, const char *n, long o, double v, long d)
+long CManager::AddtoVariableProperty(const TCHAR *p, const TCHAR *n, long o, double v, long d)
 {
 	CString cs= n;
 	return CManager::AddtoVariableProperty( p, cs,o, v, d);
 };
 
-long CManager::AddtoVariableProperty(long p, const char *n, long o, double v, long d)
+long CManager::AddtoVariableProperty(long p, const TCHAR *n, long o, double v, long d)
 {
 	CString cs= n;
 	return CManager::AddtoVariableProperty( p, cs, o, v, d);
@@ -715,14 +715,14 @@ long CManager::AddtoVariableProperty(long p, const char *n, long o, double v, lo
 CProperty * CManager::GetProperty(long p, long o)
 {
 	CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
-	//ASSERT_EX( owner, "CManager::AddToVariableProperty", "owner not found" );
-	if (!owner) throw new CDesertException("CManager::AddToVariableProperty(): owner not found");
+	//ASSERT_EX( owner, _T("CManager::AddToVariableProperty"), _T("owner not found") );
+	if (!owner) throw new CDesertException(_T("CManager::AddToVariableProperty(): owner not found"));
   
 	CProperty *vp = (CProperty *)owner->FindProperty(p);
 	return vp;
 }
 
-long CManager::CreateSimpleFormula(const char *fnType, CMap<long, long, long, long> &srcProps, CMap<long, long, long, long> &dstProps)
+long CManager::CreateSimpleFormula(const TCHAR *fnType, CMap<long, long, long, long> &srcProps, CMap<long, long, long, long> &dstProps)
 {
 	CSimpleFormula *sf = new CSimpleFormula(fnType);
 	POSITION pos = srcProps.GetStartPosition();
@@ -747,25 +747,25 @@ long CManager::CreateSimpleFormula(const char *fnType, CMap<long, long, long, lo
 	return *sf;
 }
 
-long CManager::AddtoSimpleFormulaVariableProperty(long p, const char *n, long o, long sp, long so)
+long CManager::AddtoSimpleFormulaVariableProperty(long p, const TCHAR *n, long o, long sp, long so)
 {
 	CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
-	//ASSERT_EX( owner, "CManager::AddToVariableProperty", "owner not found" );
-	if (!owner) throw new CDesertException("CManager::AddToVariableProperty(): owner not found");
+	//ASSERT_EX( owner, _T("CManager::AddToVariableProperty"), _T("owner not found") );
+	if (!owner) throw new CDesertException(_T("CManager::AddToVariableProperty(): owner not found"));
   
 	CVariableProperty *vp = (CVariableProperty *)owner->FindProperty(p);
-	//ASSERT_EX( property && property->IsType(typeVariableProperty), "CManager::AddToVariableProperty", "property not found" );
+	//ASSERT_EX( property && property->IsType(typeVariableProperty), _T("CManager::AddToVariableProperty"), _T("property not found") );
 	if (!vp|| !vp->IsType(typeVariableProperty))
-		throw new CDesertException("CManager::AddToVariableProperty(): property not found");
+		throw new CDesertException(_T("CManager::AddToVariableProperty(): property not found"));
 
 	CElement *src_owner = FindElement(baseSpaces, so); // what about property of domain elements???
-	//ASSERT_EX( owner, "CManager::AddToVariableProperty", "owner not found" );
-	if (!src_owner) throw new CDesertException("CManager::AddToVariableProperty(): owner not found");
+	//ASSERT_EX( owner, _T("CManager::AddToVariableProperty"), _T("owner not found") );
+	if (!src_owner) throw new CDesertException(_T("CManager::AddToVariableProperty(): owner not found"));
   
 	CVariableProperty *src_vp = (CVariableProperty *)src_owner->FindProperty(sp);
-	//ASSERT_EX( property && property->IsType(typeVariableProperty), "CManager::AddToVariableProperty", "property not found" );
+	//ASSERT_EX( property && property->IsType(typeVariableProperty), _T("CManager::AddToVariableProperty"), _T("property not found") );
 	if (!src_vp|| !src_vp->IsType(typeVariableProperty))
-		throw new CDesertException("CManager::AddToVariableProperty(): property not found");
+		throw new CDesertException(_T("CManager::AddToVariableProperty(): property not found"));
 
 	vp->AddToPropertyList(src_vp);
 };
@@ -843,7 +843,7 @@ void CManager::SortConstraints()
 
 bool CManager::IsDone()
 {
-  Todo("CManager::IsDone", "implement this");
+  Todo(_T("CManager::IsDone"), _T("implement this"));
 //  return currentGeneration < 0 ? false : true;
   return generations.IsEmpty() ? false : true;
 }
@@ -856,8 +856,8 @@ bool CManager::HasGenerations()
 void CManager::ShowStats()
 {
   double size = ComputeSize();
-  printf("\n\nSize of the design space = %2.2e\n", size);
-  Todo("CManager::ShowStats", "stats on the active constraints etc.");
+  _tprintf(_T("\n\nSize of the design space = %2.2e\n"), size);
+  Todo(_T("CManager::ShowStats"), _T("stats on the active constraints etc."));
 }
 
 int CManager :: GetCurrStepsBack()
@@ -922,9 +922,9 @@ bool CManager :: IsForwardNavigable()
 void CManager :: NavigateBack()			
 {
 	//check
-	//ASSERT_EX(IsBackNavigable(), "CManager::NavigateBack()", "Manager is not backnavigable!");
+	//ASSERT_EX(IsBackNavigable(), _T("CManager::NavigateBack()"), _T("Manager is not backnavigable!"));
 	if (!IsBackNavigable())
-		throw new CDesertException("CManager::NavigateBack(): Manager is not backnavigable!");
+		throw new CDesertException(_T("CManager::NavigateBack(): Manager is not backnavigable!"));
 	
 
 	//we actually step two step backwards
@@ -939,7 +939,7 @@ void CManager :: NavigateBack()
 	int i = generations.GetPrev(currentGenerationPosition);
 	
 	if (!currentGenerationPosition)
-		throw new CDesertException("CManager::NavigateBack(): BackNavigation failed!");
+		throw new CDesertException(_T("CManager::NavigateBack(): BackNavigation failed!"));
 	
 	//force the refresh of the enconding length and compute time on the UI
 	ui_refresh_needed = true;
@@ -956,7 +956,7 @@ void CManager :: NavigateBack()
 	
 	
 	//check
-	//ASSERT_EX(currentGenerationPosition,"CManager::NavigateBack()", "BackNavigation failed");
+	//ASSERT_EX(currentGenerationPosition,_T("CManager::NavigateBack()"), _T("BackNavigation failed"));
 
 
 };
@@ -964,9 +964,9 @@ void CManager :: NavigateBack()
 void CManager :: NavigateForward()		
 {
 	//check
-	//ASSERT_EX(IsForwardNavigable(), "CManager::NavigateForward()", "Manager is not forward-navigable!");
+	//ASSERT_EX(IsForwardNavigable(), _T("CManager::NavigateForward()"), _T("Manager is not forward-navigable!"));
 	if (!IsForwardNavigable())
-		throw new CDesertException("CManager::NavigateForward(): Manager is not forward-navigable!");
+		throw new CDesertException(_T("CManager::NavigateForward(): Manager is not forward-navigable!"));
 
 	int i = generations.GetNext(currentGenerationPosition);
 	if(currentGenerationPosition)
@@ -975,9 +975,9 @@ void CManager :: NavigateForward()
 	ui_refresh_needed = true;
 
 	///check
-	//ASSERT_EX(currentGenerationPosition,"CManager::NavigateForward()", "ForwardNavigation failed");
+	//ASSERT_EX(currentGenerationPosition,_T("CManager::NavigateForward()"), _T("ForwardNavigation failed"));
 	if (!currentGenerationPosition)
-		throw new CDesertException("CManager::NavigateBack(): BackNavigation failed!");
+		throw new CDesertException(_T("CManager::NavigateBack(): BackNavigation failed!"));
 	
 };
 
@@ -988,9 +988,9 @@ void CManager::GenerateNextHierarchy()
 	if (generations.IsEmpty()) prev = -1;
 	else
 	{
-		//ASSERT_EX(currentGenerationPosition, "CManager::GenerateNextHierarchy", "current generation is NULL");
+		//ASSERT_EX(currentGenerationPosition, _T("CManager::GenerateNextHierarchy"), _T("current generation is NULL"));
 		if (!currentGenerationPosition)
-			throw new CDesertException("CManager::GenerateNextHierarchy(): current generation is NULL!");
+			throw new CDesertException(_T("CManager::GenerateNextHierarchy(): current generation is NULL!"));
 		prev = generations.GetAt(currentGenerationPosition) % MAX_GENERATIONS;
 	}
   
@@ -1206,7 +1206,7 @@ void CManager::GenerateNextHierarchy()
   }
 }
 
-void CManager::Dump(FILE *f, const char * comment)
+void CManager::Dump(FILE *f, const TCHAR * comment)
 {
 	if (!f) return;
 	GET_CURRENTGENERATION
@@ -1221,13 +1221,13 @@ void CManager::Dump(FILE *f, const char * comment)
 		//sorry for the var names -- I was kind-of angry
 		POSITION pos;
 
-		if (f) fprintf(f, "---->>begin of curr gen at %s<<----------------------------------------------------\n", comment);
+		if (f) _ftprintf(f, _T("---->>begin of curr gen at %s<<----------------------------------------------------\n"), comment);
 		
 		pos = domains.GetHeadPosition();
 		while(pos)
 		{
 			CDynDomain *fuck_domain = domains.GetNext(pos);
-			if(f)fprintf(f, " Domain element: %s at address: %x \n", fuck_domain->GetName(), fuck_domain);
+			if(f)_ftprintf(f, _T(" Domain element: %s at address: %x \n"), fuck_domain->GetName(), fuck_domain);
 			fuck_domain->Dump(f);
 		}
 
@@ -1235,7 +1235,7 @@ void CManager::Dump(FILE *f, const char * comment)
 		while(pos)
 		{
 			CDynSpace *fuck_space = spaces.GetNext(pos);
-			if(f)fprintf(f, " Space element: %s at address: %x \n", fuck_space->GetName(), fuck_space);
+			if(f)_ftprintf(f, _T(" Space element: %s at address: %x \n"), fuck_space->GetName(), fuck_space);
 			fuck_space->Dump(f);
 		}
 
@@ -1243,11 +1243,11 @@ void CManager::Dump(FILE *f, const char * comment)
 		while(pos)
 		{
 			CDynElementContainer *fuck_ec = containers.GetNext(pos);
-			fprintf(f, " Container element: at address: %x \n", fuck_ec);
+			_ftprintf(f, _T(" Container element: at address: %x \n"), fuck_ec);
 			fuck_ec->Dump(f);
 		}
 		
-		fprintf(f, "===========<<end of curr========================================================\n");
+		_ftprintf(f, _T("===========<<end of curr========================================================\n"));
 				
 
 	}
@@ -1265,7 +1265,7 @@ CDynConstraintSet* CManager::GetConstraintSet(ConstraintType t)
     while(pos)
     {
       CDynConstraintSet *set = consets.GetNext(pos);
-      if (strcmp(setNames[t], (const char *)*set) == 0)
+      if (_tcscmp(setNames[t], (const TCHAR *)*set) == 0)
         return set;
     }
   }
@@ -1385,7 +1385,7 @@ bool CManager::Prune(CDynConstraintSet *set, CDynElement *root, bool)
 #ifdef ENCODE_PROPERTY
   // this is property dependent -- treat accordingly
   int vectors = root->FindNonOrthElementCount();
-  int propEncodingLength = root->FindPropertyEncodingLen("latency");
+  int propEncodingLength = root->FindPropertyEncodingLen(_T("latency"));
   // the largest sum could be vectors*(2^propEncodingLen-1), so increment propEncodingLen
   // to hold that many more bits
   propEncodingLength += log2(vectors);
@@ -1400,12 +1400,12 @@ bool CManager::Prune(CDynConstraintSet *set, CDynElement *root, bool)
   // init bdd library
   int start = encodingLength;
   encodingLength += propEncodingLength*(vectors+3);
-  CBdd::Init(encodingLength, 1, "latency", start, propEncodingLength, vectors+3);
+  CBdd::Init(encodingLength, 1, _T("latency"), start, propEncodingLength, vectors+3);
 
   root->SetEncodingValue(0, 0);		// this sets the encoding value (fills bit strings)
-  root->SetPropertyEncodingValue("latency", 0); // this is setting the vector number of the property
+  root->SetPropertyEncodingValue(_T("latency"), 0); // this is setting the vector number of the property
 
-  CBdd config = root->MaptoBdd(CBdd::One(), 1, "latency"); // this tranlates the bit strings to bdd's and combines the bdds of all elements in the space alongwith the properties
+  CBdd config = root->MaptoBdd(CBdd::One(), 1, _T("latency")); // this tranlates the bit strings to bdd's and combines the bdds of all elements in the space alongwith the properties
   int size = config.size();
 
   CBdd cons = set->MaptoBdd();        // translate the constraints to bdd
@@ -1415,11 +1415,11 @@ bool CManager::Prune(CDynConstraintSet *set, CDynElement *root, bool)
 
 
   for (int i=vectors+2; i>=0; i--)
-    res = CBdd::QuantifyPropertyExistentially("latency", res, i);
+    res = CBdd::QuantifyPropertyExistentially(_T("latency"), res, i);
 #else
 
   int vectors = root->FindNonOrthElementCount();
-  int propEncodingLength = root->FindPropertyEncodingLen("latency");
+  int propEncodingLength = root->FindPropertyEncodingLen(_T("latency"));
   // the largest sum could be vectors*(2^propEncodingLen-1), so increment propEncodingLen
   // to hold that many more bits
   propEncodingLength += log2(vectors);
@@ -1462,7 +1462,7 @@ bool CManager::Prune(CDynConstraintSet *set, CDynSpaceList& spaces, bool)
   return false;
 }
 
-void * CManager::StoreConfigurations(const char *fname, std::string &errmsg)
+void * CManager::StoreConfigurations(const TCHAR *fname, tstring &errmsg)
 {
 //  if (currentGeneration < 0) GenerateNextHierarchy();
 	if (generations.IsEmpty()) GenerateNextHierarchy();
@@ -1471,10 +1471,10 @@ void * CManager::StoreConfigurations(const char *fname, std::string &errmsg)
 	if (spaceSize > MAX_CONFIGURATIONS)
 	if(designSpaceSize > MAX_CONFIGURATIONS)
 	{
-		char buffer[65];
-		_i64toa(spaceSize, buffer, 10);
-		errmsg = "Space is extremely large <"+(std::string)buffer+">.\n\Prune the space further before storing configurations";
-		Error("Process ", "Space is extremely large <%2.2e>.\n\Prune the space further before storing configurations",spaceSize);
+		TCHAR buffer[65];
+		_i64tot(spaceSize, buffer, 10);
+		errmsg = _T("Space is extremely large <")+(tstring)buffer+_T(">.\nPrune the space further before storing configurations");
+		Error(_T("Process "), _T("Space is extremely large <%2.2e>.\nPrune the space further before storing configurations"),spaceSize);
 		return NULL;
   }
 
@@ -1543,7 +1543,7 @@ void * CManager::StoreConfigurations(const char *fname, std::string &errmsg)
 		// we create a configuration object hierarchy that is used to serialize all configurations
 		// create a configuration store
 		//CConfigurationStore *cs = new CConfigurationStore(fname);
-		//ASSERT_EX(cs, "CManager::StoreConfigurations", "new failed");
+		//ASSERT_EX(cs, _T("CManager::StoreConfigurations"), _T("new failed"));
 
 		POSITION mPos = spaces.GetHeadPosition();
 	
@@ -1727,12 +1727,12 @@ void CManager:: BuildConfigurations(BackIfaceFunctions::DBConfigurations *config
     int *encVec = (int *)encVectors.GetNext(pos);
 
 //	int j = 0;
-//	FILE * debug = fopen("C:\\tmp\\bdd_debug.txt", "a");
-//	fprintf(debug, "\nencVec: %d; ", j++);
+//	FILE * debug = fopen(_T("C:\\tmp\\bdd_debug.txt"), _T("a"));
+//	_ftprintf(debug, _T("\nencVec: %d; "), j++);
 
 //	int i =0;
 //	while (i<encLen)
-//		if (debug) fprintf(debug, " %d,", encVec[i++]);
+//		if (debug) _ftprintf(debug, _T(" %d,"), encVec[i++]);
 //	fclose(debug);
 
 	
@@ -1800,7 +1800,7 @@ ClData CManager::Eval(const CCosmic *other) const
       break;
       
     default:
-      Todo("CDynElement::Eval", "Eval for unimplemented type %d", (int)(other->GetType()));
+      Todo(_T("CDynElement::Eval"), _T("Eval for unimplemented type %d"), (int)(other->GetType()));
     }
   }
   else
@@ -1878,7 +1878,7 @@ bool CManager::Profile(double& dspSize, long& repSize, long& encSize, long& cons
   {
     CDynSpace *space = spaces.GetNext(pos); 
     vectors += space->FindNonOrthElementCount();
-	propertyEncodingLength += space->FindPropertyEncodingLen("latency");
+	propertyEncodingLength += space->FindPropertyEncodingLen(_T("latency"));
   }
   propertyEncodingLength += log2(vectors);
   propertyVectors = vectors;
@@ -1939,7 +1939,7 @@ _int64 CManager:: GetDSSize()
 
 bool CManager::GetSizeInfo(double& dspSize, long& repSize, long& clockTime, CDynConstraintSet* toSet)
 {
-  TRACE( "CManager::GetSizeInfo \n" );
+  TRACE( _T("CManager::GetSizeInfo \n") );
 
   GET_CURRENTGENERATION
   
@@ -1956,7 +1956,7 @@ bool CManager::GetSizeInfo(double& dspSize, long& repSize, long& clockTime, CDyn
     encodingLength += space->FindEncodingLen();
   }
 
-  TRACE( "CManager::GetSizeInfo : encoding length = %d\n", encodingLength );
+  TRACE( _T("CManager::GetSizeInfo : encoding length = %d\n"), encodingLength );
 
   int vectors = 0;
   propertyEncodingLength = 0;
@@ -2136,7 +2136,7 @@ inline CDynSpace * CManager::FindSpace(CString& n)
 {
 	GET_CURRENTGENERATION
 	CDynSpace *s;
-	return Find( dynSpaces[currentGeneration], s, (const char *)n) ? s : 0;
+	return Find( dynSpaces[currentGeneration], s, (const TCHAR *)n) ? s : 0;
 }
 
 inline CDynDomain * CManager::FindDomain(const CDomain *c)
@@ -2150,7 +2150,7 @@ inline CDynDomain * CManager::FindDomain(CString& n)
 {
 	GET_CURRENTGENERATION
 	CDynDomain *d;
-	return Find( dynDomains[currentGeneration], d, (const char *)n) ? d : 0;
+	return Find( dynDomains[currentGeneration], d, (const TCHAR *)n) ? d : 0;
 }
 
 inline CDynConstraintSet * CManager::FindConstraintSet(const CConstraintSet *c)

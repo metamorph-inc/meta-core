@@ -2,6 +2,7 @@
 
 #include "bddint.h"
 #include <math.h>
+#include <tchar.h>
 
 /* mtbdd_transform_closure(bddm, canonical_fn, transform_fn, env) sets */
 /* the transformation for MTBDD terminal values for the "negative-output" */
@@ -158,7 +159,7 @@ DESERT_API mtbdd_terminal_value(bddm, f, value1, value2)
       BDD_SETUP(f);
       if (!BDD_IS_CONST(f))
 	{
-	  bdd_warning("mtbdd_terminal_data: argument is terminal node");
+	  bdd_warning(_T("mtbdd_terminal_data: argument is terminal node"));
 	  *value1=0;
 	  *value2=0;
 	  return;
@@ -1011,8 +1012,6 @@ mtbdd_threshold_step(bddm, f, l1, l2, op, eq)
   bdd temp1,temp2;
   bdd result;
 
-  double tmp;
-
   BDD_SETUP(f);
 
   /*
@@ -1143,7 +1142,7 @@ mtbdd_low_threshold_step(bddm, f, l1, l2, op, eq)
 {
   bdd temp1,temp2;
   bdd result;
-  double tmp,diff;
+  double diff;
   double ret_val;
 
   BDD_SETUP(f);

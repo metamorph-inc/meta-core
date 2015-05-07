@@ -130,8 +130,8 @@ namespace CyPhyMetaLink
                             type = datumKindsMap[datum.Impl.MetaBase.Name],
                             componentId = CyPhyMLClasses.Component.Cast(datum.ParentContainer.ParentContainer.Impl).Attributes.AVMID
                         }));
-                edit.topic.Add(edit.actions[0].payload.datums.Count > 0 ? ComponentUpdateTopic : CadAssemblyTopic);
-                edit.topic.Add(topicGuid);
+                SyncedComponentData cdata = syncedComponents[topicGuid];
+                edit.topic.Add(cdata.InstanceId);
                 bridgeClient.SendToMetaLinkBridge(edit);
             }
             catch (Exception e)
@@ -705,6 +705,7 @@ namespace CyPhyMetaLink
                
         }
 
+#if false
         /// <summary>
         /// A parameter has been modified
         /// </summary>
@@ -750,6 +751,7 @@ namespace CyPhyMetaLink
 
             }
         }       // end function
+#endif 
 
         private bool SendInterest(Action<MetaLinkProtobuf.Edit> noticeaction, params string[] topic)
         {
@@ -766,7 +768,7 @@ namespace CyPhyMetaLink
                 noticeActions.Add(message.guid, noticeaction);
             }
             string topicstr = String.Join("_", topic);
-            // MetaLink will send us the same message multiple times if we express interest multiple times
+            // The bridge will send us the same message multiple times if we express interest multiple times
             if (!interests.ContainsKey(topicstr))
             {
                 interests.Add(topicstr, 1);
@@ -780,7 +782,7 @@ namespace CyPhyMetaLink
             return false;
         }
 
-        private bool SendDisinterest(params string[] topic)
+        private bool SendDisinterest(bool removeInterest, params string[] topic)
         {
             MetaLinkProtobuf.Edit message = new MetaLinkProtobuf.Edit
             {
@@ -793,7 +795,11 @@ namespace CyPhyMetaLink
             string topicstr = String.Join("_", topic);
             if (interests.ContainsKey(topicstr))
             {
-                interests[topicstr]--;
+                if (!removeInterest)
+                    interests[topicstr]--;
+                else
+                    interests[topicstr] = 0;
+
                 if (interests[topicstr] == 0)
                 {
                     interests.Remove(topicstr);
@@ -809,16 +815,16 @@ namespace CyPhyMetaLink
             return false;
         }
 
-        private void SendComponentList()
+        private void SendComponentList(string instanceId)
         {
             MetaLinkProtobuf.Edit manifestMessage = new MetaLinkProtobuf.Edit
             {
                 editMode = Edit.EditMode.POST,
             };
-            manifestMessage.topic.Add(ComponentManifestTopic);
+            manifestMessage.topic.Add(instanceId);
             var manifestAction = new MetaLinkProtobuf.Action();
             manifestMessage.actions.Add(manifestAction);
-            manifestAction.actionMode = MetaLinkProtobuf.Action.ActionMode.INSERT;
+            manifestAction.actionMode = MetaLinkProtobuf.Action.ActionMode.REQUEST_COMPONENT_LIST;
             var rf = CyPhyMLClasses.RootFolder.GetRootFolder(addon.Project);
             Queue<CyPhyML.Components> componentsQueue = new Queue<CyPhyML.Components>();
             foreach (var childComponents in rf.Children.ComponentsCollection)
@@ -852,19 +858,18 @@ namespace CyPhyMetaLink
             bridgeClient.SendToMetaLinkBridge(manifestMessage);
         }
 
-        private void SendCadAssemblyXml(string assemblyGuid, bool clear)
+        private void SendCadAssemblyXml(string instanceId, string assemblyGuid, bool clear)
         {
-            SendCadAssemblyXml(designIdToCadAssemblyXml[assemblyGuid], assemblyGuid, clear);
+            SendCadAssemblyXml(instanceId, designIdToCadAssemblyXml[assemblyGuid], assemblyGuid, clear);
         }
 
-        private void SendCadAssemblyXml(string xml, string assemblyGuid, bool clear)
+        private void SendCadAssemblyXml(string instanceId, string xml, string assemblyGuid, bool clear)
         {
             MetaLinkProtobuf.Edit message = new MetaLinkProtobuf.Edit
             {
                 editMode = Edit.EditMode.POST,
             };
-            message.topic.Add(CadAssemblyTopic);
-            message.topic.Add(assemblyGuid);
+            message.topic.Add(instanceId);
             if (clear)
             {
                 message.actions.Add(new edu.vanderbilt.isis.meta.Action()
@@ -874,7 +879,7 @@ namespace CyPhyMetaLink
             }
             var action = new MetaLinkProtobuf.Action();
             message.actions.Add(action);
-            action.actionMode = MetaLinkProtobuf.Action.ActionMode.INSERT;
+            action.actionMode = MetaLinkProtobuf.Action.ActionMode.CREATE_CYPHY_DESIGN;
             MetaLinkProtobuf.Alien alien = new MetaLinkProtobuf.Alien();
             action.alien = alien;
             alien.encoded = Encoding.UTF8.GetBytes(xml);
@@ -914,7 +919,7 @@ namespace CyPhyMetaLink
 
 
         #region PROTOBUF
-
+#if false
         protected MetaLinkProtobuf.Edit ModifyCADParameterProtoBufMsg(string in_ComponentInstanceID,
                                                                    CADParameter in_CADParameter)
         {
@@ -958,7 +963,7 @@ namespace CyPhyMetaLink
 
             return Edit_msg;
         }
-
+#endif
         public MetaLinkProtobuf.Edit UpdateComponentNameProtoBufMsg(CyPhyML.ComponentRef componentRef, string newName)
         {
             MetaLinkProtobuf.CADComponentType Component_msg = new MetaLinkProtobuf.CADComponentType
@@ -972,7 +977,7 @@ namespace CyPhyMetaLink
 
             MetaLinkProtobuf.Action Action_msg = new MetaLinkProtobuf.Action
             {
-                actionMode = MetaLinkProtobuf.Action.ActionMode.UPDATE,
+                actionMode = MetaLinkProtobuf.Action.ActionMode.UPDATE_CYPHY_DESIGN,
                 payload = Payload_msg
             };
 
@@ -986,8 +991,9 @@ namespace CyPhyMetaLink
             Edit_msg.origin.Add(GMEOrigin);
 
             Edit_msg.actions.Add(Action_msg);
-            Edit_msg.topic.Add(CadAssemblyTopic);
-            Edit_msg.topic.Add(AssemblyID);
+
+            SyncedComponentData cdata = syncedComponents[componentRef.ParentContainer.Guid.ToString()];
+            Edit_msg.topic.Add(cdata.InstanceId);
 
             return Edit_msg;
         }
@@ -1074,7 +1080,7 @@ namespace CyPhyMetaLink
 
             MetaLinkProtobuf.Action Action_msg = new MetaLinkProtobuf.Action
             {
-                actionMode = MetaLinkProtobuf.Action.ActionMode.REPLACE,
+                actionMode = MetaLinkProtobuf.Action.ActionMode.ADD_COMPONENT_TO_CAD_DESIGN,
                 payload = Payload_msg
             };
 
@@ -1088,13 +1094,14 @@ namespace CyPhyMetaLink
             Edit_msg.origin.Add(GMEOrigin);
 
             Edit_msg.actions.Add(Action_msg);
-            Edit_msg.topic.Add(CadAssemblyTopic);
-            Edit_msg.topic.Add(AssemblyID);
+
+            SyncedComponentData cdata = syncedComponents[componentRef.ParentContainer.Guid.ToString()];
+            Edit_msg.topic.Add(cdata.InstanceId);
 
             return Edit_msg;
         }
 
-
+#if false
         protected MetaLinkProtobuf.Edit CreateAddConstraintProtoBufMsg(string in_ComponentInstanceID,
                                                                     List<Tuple<CyPhy2CAD_CSharp.DataRep.Datum, CyPhy2CAD_CSharp.DataRep.Datum>> constraintPairs)
         {
@@ -1150,6 +1157,7 @@ namespace CyPhyMetaLink
 
             return Edit_msg;
         }
+#endif
         #endregion
 
 

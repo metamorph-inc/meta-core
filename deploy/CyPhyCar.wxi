@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+  <DirectoryRef Id="INSTALLDIR_BIN" />
+</Fragment>
+<Fragment>
+<ComponentGroup Id="CyPhyCar">
+  <Component Id="CyPhyCar.dll" Directory="INSTALLDIR_BIN">
+    <File Id="CyPhyCar.dll" Name="CyPhyCar.dll" KeyPath="yes" Source="..\src\CyPhyCar\bin\Release\CyPhyCar.dll" />
+    <Class Id="{ADA21244-4E12-4A84-BCED-5FBBD5524282}" Context="InprocServer32" Description="MGA.Interpreter.CyPhyCar" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="MGA.Interpreter.CyPhyCar" Description="MGA.Interpreter.CyPhyCar" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{ADA21244-4E12-4A84-BCED-5FBBD5524282}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{ADA21244-4E12-4A84-BCED-5FBBD5524282}\InprocServer32" Name="Class" Value="CyPhyCar.CyPhyCarInterpreter" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{ADA21244-4E12-4A84-BCED-5FBBD5524282}\InprocServer32" Name="Assembly" Value="CyPhyCar, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{ADA21244-4E12-4A84-BCED-5FBBD5524282}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{ADA21244-4E12-4A84-BCED-5FBBD5524282}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyCar.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+    <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Interpreter.CyPhyCar'>
+      <RegistryValue Name='Description' Type='string' Value='CyPhyCar'/>
+      <RegistryValue Name='Icon' Type='string' Value='[#CyPhyCar.ico]'/>
+      <RegistryValue Name='Paradigm' Type='string' Value='CyPhyML'/>
+      <!-- RegistryValue Name='Tooltip' Type='string' Value='TOOLTIP_TEXT'/ -->
+      <RegistryValue Name='Type' Type='integer' Value='1'/>
+
+      <RegistryKey Key='Associated'>
+        <RegistryValue Name='CyPhyML' Type='string' Value=''/>
+      </RegistryKey>
+
+    </RegistryKey>
+    <Class Id="{DD1D90BE-CD1A-41BE-AF25-B325D067B33B}" Context="InprocServer32" Description="ISIS.META.CyPhyCarSettings" ThreadingModel="both" ForeignServer="mscoree.dll">
+      <ProgId Id="ISIS.META.CyPhyCarSettings" Description="ISIS.META.CyPhyCarSettings" />
+    </Class>
+    <RegistryValue Root="HKCR" Key="CLSID\{DD1D90BE-CD1A-41BE-AF25-B325D067B33B}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{DD1D90BE-CD1A-41BE-AF25-B325D067B33B}\InprocServer32" Name="Class" Value="CyPhyCar.CyPhyCarSettings" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{DD1D90BE-CD1A-41BE-AF25-B325D067B33B}\InprocServer32" Name="Assembly" Value="CyPhyCar, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{DD1D90BE-CD1A-41BE-AF25-B325D067B33B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{DD1D90BE-CD1A-41BE-AF25-B325D067B33B}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhyCar.dll]" Type="string" Action="write" />
+
+  </Component>
+  <Component Directory="INSTALLDIR_BIN">
+    <File Source="..\src\CyPhyCar/CyPhyCar.ico" />
+  </Component>
+</ComponentGroup>
+</Fragment>
+</Wix>

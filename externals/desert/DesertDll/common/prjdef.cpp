@@ -8,23 +8,23 @@
 #define RUN_DIR			"\\run"
 
 #define BUFLEN	1024
-static char lineBuffer[BUFLEN];
+static TCHAR lineBuffer[BUFLEN];
 
 void
-SetAcsInstallPath(CPrjDef *prj, const char *value)
+SetAcsInstallPath(CPrjDef *prj, const TCHAR *value)
 {
   prj->acsInstallPath = value;
   prj->interfacePath = prj->acsInstallPath + INTERFACE_DIR;
 }
 
 void
-SetProjectName(CPrjDef *prj, const char *value)
+SetProjectName(CPrjDef *prj, const TCHAR *value)
 {
   prj->projectName = value;
 }
 
 void
-SetProjectPath(CPrjDef *prj, const char *value)
+SetProjectPath(CPrjDef *prj, const TCHAR *value)
 {
   prj->projectPath = value;
   prj->swComponentPath = prj->projectPath + SW_COMP_DIR;
@@ -35,38 +35,38 @@ SetProjectPath(CPrjDef *prj, const char *value)
 
 struct _prjDeftag
 {
-  char *param;
-  void (*SetParam)(CPrjDef *prj, const char *value);
+  TCHAR *param;
+  void (*SetParam)(CPrjDef *prj, const TCHAR *value);
 } funcTable[] =
 {
-  { "ACS_Install_Path", SetAcsInstallPath },
-  { "Project_Name", SetProjectName },
-  { "Project_Path", SetProjectPath },
+  { _T("ACS_Install_Path"), SetAcsInstallPath },
+  { _T("Project_Name"), SetProjectName },
+  { _T("Project_Path"), SetProjectPath },
   { NULL, NULL }
 };
 
 
 bool
 CPrjDef::
-Load(const char *name)
+Load(const TCHAR *name)
 {
-  char *line = lineBuffer;
-  FILE *prjFile = fopen(name, "rt");
+  TCHAR *line = lineBuffer;
+  FILE *prjFile = _tfopen(name, _T("rt"));
   if (!prjFile)
   {
-    Warning("CPrjDef::Load", "Unable to open file <%s>. Using the default directory structure", name);
+    Warning(_T("CPrjDef::Load"), _T("Unable to open file <%s>. Using the default directory structure"), name);
     // set the defaults - assuming that we are running from models directory
-    acsInstallPath = "..";
-    interfacePath = ".";
-    projectName = "";
-    SetProjectPath(this, "..\\runtime");
+    acsInstallPath = _T("..");
+    interfacePath = _T(".");
+    projectName = _T("");
+    SetProjectPath(this, _T("..\\runtime"));
     return false;
   }
 
-  while(fgets(line, BUFLEN, prjFile))
+  while(_fgetts(line, BUFLEN, prjFile))
   {
     if (line[0] == '#') continue;
-    if (strlen(line) == 0) continue;
+    if (_tcslen(line) == 0) continue;
     ParseLine(line);
   }
   fclose(prjFile);
@@ -76,7 +76,7 @@ Load(const char *name)
 
 void
 CPrjDef::
-ParseLine(char *line)
+ParseLine(TCHAR *line)
 {
   CString param, value;
 
@@ -95,7 +95,7 @@ ParseLine(char *line)
 
   for (int i=0; funcTable[i].param; i++)
   {
-    if (0 == strcmp(funcTable[i].param, param))
+    if (0 == _tcscmp(funcTable[i].param, param))
     {
       (*funcTable[i].SetParam)(this, value);
       break;

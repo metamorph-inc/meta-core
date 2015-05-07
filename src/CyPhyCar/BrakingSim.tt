@@ -1,0 +1,38 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".txt" #>
+
+acar analysis full_vehicle brake_test submit  &
+   assembly = .<#=ModelName#>  &
+   output_prefix = "<#=OutputPrefix#>"  &
+   output_suffix = "<#=OutputPostfix#>"  &
+   end_time = <#=EndTime#>  &
+   number_of_steps = <#=NumSteps#>  &
+   analysis_mode = interactive  &
+   road_data_file = "mdids://acar_shared/roads.tbl/2d_flat.rdf"  &
+   initial_velocity = <#=InitialVelocity#>  &
+   velocity_units = mile_hr  &
+   start_value = <#=StartValue#>  &
+   final_brake = <#=FinalBrake#>  &
+   step_duration = <#=StepDuration#>  &
+   deceleration = 0.0  &
+   gear_position = <#=GearPosition#>  &
+   steering_input = straight  &
+   qstatic_prephase = yes  &
+   log_file = yes  &
+   load_results = yes  &
+   brief = off  &
+   minimum_velocity = 0.1  &
+   error_variable = .ACAR.variables.errorFlag
+
+<#+  
+public string ModelName {get;set;}
+public string OutputPrefix {get;set;}
+public string OutputPostfix {get;set;}
+public string EndTime {get;set;}
+public string NumSteps {get;set;}
+public string InitialVelocity {get;set;}
+public string StartValue {get;set;}
+public string FinalBrake {get;set;}
+public string StepDuration {get;set;}
+public string GearPosition {get;set;}
+#>

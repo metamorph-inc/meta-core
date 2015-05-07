@@ -183,9 +183,9 @@ DesertHelper::DesertHelper(const std::string &mgaFile, Udm::DataNetwork& cyphyDN
 {
 	std::string currPath = getPath(mgaFile, false);	
 	std::string logPath = currPath + "log\\";
-	CreateDirectory(logPath.c_str(), NULL);
+	CreateDirectoryA(logPath.c_str(), NULL);
 	currPath += "tmp\\";
-	CreateDirectory(currPath.c_str(), NULL);
+	CreateDirectoryA(currPath.c_str(), NULL);
 
 	std::string fileBase = dropExtension(dropPath(mgaFile));
 	
@@ -283,7 +283,7 @@ bool DesertHelper::runCyPhy2Desert()
 		s_dlg.Create(IDD_DESERTSTATUSDLG);
 		GetStatusDlg(&s_dlg);
 
-		s_dlg.SetStatus("Initializing",0);
+		s_dlg.SetStatus(_T("Initializing"),0);
 	}
 	
 	CyPhyML::RootFolder cyphy_rf = CyPhyML::RootFolder::Cast(cyphy_dn.GetRootObject());
@@ -293,7 +293,7 @@ bool DesertHelper::runCyPhy2Desert()
 	DesertIface::DesertSystem desert_top = DesertIface::DesertSystem::Cast(ds_dn->GetRootObject());
 	if (showGui)
 	{
-		s_dlg.SetStatus("Execute CyPhy2Desert", 40);
+		s_dlg.SetStatus(_T("Execute CyPhy2Desert"), 40);
 	}
 	/*if(startObj!=Udm::null && (Uml::IsDerivedFrom(startObj.type(), CyPhyML::DesignContainer::meta)))
 	{
@@ -351,12 +351,12 @@ bool DesertHelper::runCyPhy2Desert()
 		for(auto dg_it=CyPhy2Desert::invalidGroups.begin();dg_it!=CyPhy2Desert::invalidGroups.end();++dg_it)
 		{
 			CyPhyML::DecisionGroup dg = *dg_it;
-			std::string err = "DecisionGroup: <"+appendObjLink(dg) + "> contains the alternatives which do not match. ";
+			string err = "DecisionGroup: <"+appendObjLink(dg) + "> contains the alternatives which do not match. ";
 			info = info + (std::string)dg.name()+" ";
 			GMEConsole::Console::Error::writeLine(err);
 		}
 		info = info + "contain the Alternatives which do not match. \nDo you want to proceed(with ignoring the DecisionGroup constraint altogether)?";
-		if(AfxMessageBox(info.c_str(),MB_YESNO)==IDNO)
+		if(AfxMessageBox(utf82cstring(info), MB_YESNO) == IDNO)
 		{
 			if (showGui)
 			{
@@ -384,7 +384,7 @@ bool DesertHelper::runCyPhy2Desert()
 
 	if (showGui)
 	{
-		s_dlg.SetStatus("Execute CyPhy2Desert", 60);
+		s_dlg.SetStatus(_T("Execute CyPhy2Desert"), 60);
 	}
 	c2d.getCom2ElemMap(com2elemMap);
 	c2d.getConstraintMap(dcon2CyphyConMap);
@@ -392,7 +392,7 @@ bool DesertHelper::runCyPhy2Desert()
 	customParameters = c2d.getCustomParameters();
 	if (showGui)
 	{
-		s_dlg.SetStatus("Write out Desert XML file", 80);
+		s_dlg.SetStatus(_T("Write out Desert XML file"), 80);
 	}
 	
 	//build up the oldconstraintMap
@@ -691,7 +691,7 @@ void DesertHelper::runDesertFinit_1(const std::string &constraints, bool refresh
 		des_map.clear();
 		inv_des_map.clear();
 	//	desertlogFile = (std::string)ds.SystemName()+"_desert.log";
-		DesertInit(desertlogFile.c_str(), true);
+		DesertInit(utf82cstring(desertlogFile), true);
 		set<Space> spaces = ds.Space_kind_children();
 		set<Space>::iterator sp_iterator;
 
@@ -743,7 +743,7 @@ void DesertHelper::runDesertFinit_1(const std::string &constraints, bool refresh
 		if(!defaultConstraints.empty())
 		{
 			if(DesertFinit_preApply())
-				DesertFinit_Apply("");
+				DesertFinit_Apply(_T(""));
 			else
 				throw new CDesertException(CString("invalid Constraint"));
 		}
@@ -864,7 +864,12 @@ _int64 DesertHelper::getDesignSpaceSize()
 
 void DesertHelper::getAppliedConstraintSet(set<std::string> &consSet)
 {
-	getDesertAppliedConstraintSet(consSet);
+	std::set<tstring> newSet;
+	for each (auto s in consSet)
+	{
+		newSet.insert(tstring(utf82cstring(s)));
+	}
+	getDesertAppliedConstraintSet(newSet);
 }
 
 int DesertHelper::runDesert(const std::string &constraints)
@@ -1035,7 +1040,7 @@ void DesertHelper::exportModel_ex(set<int> cfgIds)
 			morphMatrixFinalize1();
 			if (showGui)
 			{
-				AfxMessageBox(exc.what());
+				AfxMessageBox(utf82cstring(exc.what()));
 				prgDlg.OnFinished();
 			}
 			throw;
@@ -1102,7 +1107,7 @@ void DesertHelper::exportModel_ForMorphMatrix(set<int> cfgIds)
 		}
 		catch(udm_exception &exc)
 		{
-			AfxMessageBox(exc.what());
+			AfxMessageBox(utf82cstring(exc.what()));
 			morphMatrixFinalize1();
 			prgDlg.OnFinished();
 			return;
@@ -1278,7 +1283,7 @@ void DesertHelper::makeConfigElemMap(const DesertIfaceBack::Configuration &confi
 
 bool DesertHelper::checkConstraints_1()
 {
-	bool valid = VerifyConstraints("applyAll");
+	bool valid = VerifyConstraints(_T("applyAll"));
 	desertFinit_2_fail = true;
 	return valid;
 }
@@ -1309,7 +1314,7 @@ bool DesertHelper::checkConstraints()
 	//DesertIfaceBack::DesertBackSystem dbs = DesertIfaceBack::DesertBackSystem::Cast(dbs_dn->GetRootObject());
 	//
 	
-	DesertInit(desertlogFile.c_str(), true);
+	DesertInit(utf82cstring(desertlogFile), true);
 	set<Space> spaces = ds.Space_kind_children();
 	set<Space>::iterator sp_iterator;
 
@@ -1361,7 +1366,7 @@ bool DesertHelper::checkConstraints()
 	//create assignments for VariableProperties
 	CreateAssignments(des_map, inv_des_map, elements, custom_members);
 
-	bool valid = VerifyConstraints("applyAll");
+	bool valid = VerifyConstraints(_T("applyAll"));
 	ds_dn_copy.CloseNoUpdate();
 	desertFinit_2_fail = true;
 	closeDesertManageInstace();

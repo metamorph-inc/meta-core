@@ -2,17 +2,11 @@
 #include "EventLoopMonitor.h"
 #include <ProCore.h>
 
-namespace isis {
-EventLoopMonitor::EventLoopMonitor() :
-    m_logcat( ::log4cpp::Category::getInstance(std::string("metalink.assembly.monitor")))
-{ }
-
+namespace isis
+{
 /**
 */
 
-void EventLoopMonitor::CreoEventLoop() {
-    ProEventProcess();
-}
 
 
 } // namespace isis

@@ -64,7 +64,7 @@ void CDSERootSelDialog::FillDSETree(CyPhyML::DesignSpace &cyphy_ds, HTREEITEM pa
 {
 	std::string iname = (std::string)cyphy_ds.name()+" [Folder]";
 
-	HTREEITEM dse_node = m_dstree.InsertItem((LPSTR)iname.c_str(), parent, TVI_LAST);
+	HTREEITEM dse_node = m_dstree.InsertItem(utf82cstring(iname), parent, TVI_LAST);
 	//m_dstree.SetItemState( dse_node, TVIS_BOLD, TVIS_BOLD ); //bold
 	dseTreeMap[dse_node] = cyphy_ds;
 
@@ -86,7 +86,7 @@ void CDSERootSelDialog::FillDSETree(CyPhyML::DesignSpace &cyphy_ds, HTREEITEM pa
 void CDSERootSelDialog::FillDSETree(CyPhyML::DesignContainer &cyphy_con, HTREEITEM parent)
 {
 	std::string iname = (std::string)cyphy_con.name() + " [" + (std::string)cyphy_con.ContainerType()+"]";
-	HTREEITEM dse_node = m_dstree.InsertItem((LPSTR)iname.c_str(), parent, TVI_LAST);
+	HTREEITEM dse_node = m_dstree.InsertItem(utf82cstring(iname.c_str()), parent, TVI_LAST);
 	dseTreeMap[dse_node] = cyphy_con;
 
 	set<CyPhyML::DesignEntity> entities = cyphy_con.DesignEntity_kind_children();

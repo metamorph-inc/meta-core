@@ -2,6 +2,7 @@
 
 
 #include "memint.h"
+#include <tchar.h>
 
 
 #define ALLOC_SIZE NICE_BLOCK_SIZE
@@ -124,7 +125,7 @@ mem_new_rec_mgr(size)
     size=sizeof(struct list_);
   size=ROUNDUP(size);
   if (size > ALLOC_SIZE-ROUNDUP(sizeof(struct list_)))
-    mem_fatal("mem_new_rec_mgr: record size too large");
+    mem_fatal(_T("mem_new_rec_mgr: record size too large"));
   mgr=(rec_mgr)mem_get_block((SIZE_T)sizeof(struct rec_mgr_));
   mgr->size=size;
   mgr->recs_per_block=(ALLOC_SIZE-ROUNDUP(sizeof(struct list_)))/size;

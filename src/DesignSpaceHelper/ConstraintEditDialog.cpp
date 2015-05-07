@@ -77,22 +77,22 @@ BOOL CConstraintEditDialog::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	// TODO:  Add extra initialization here
-	m_funclist.AddString("self");
-	m_funclist.AddString("children");
-	m_funclist.AddString("implementedBy");
-	m_funclist.AddString("parent");
-	m_funclist.AddString("project");
+	m_funclist.AddString(_T("self"));
+	m_funclist.AddString(_T("children"));
+	m_funclist.AddString(_T("implementedBy"));
+	m_funclist.AddString(_T("parent"));
+	m_funclist.AddString(_T("project"));
 	if(!dhelper_ptr) return TRUE;
 	set<std::string> nparams = dhelper_ptr->getNaturalParameters();
 	for(set<std::string>::iterator ni=nparams.begin();ni!=nparams.end();++ni)
 	{
-		m_funclist.AddString((*ni).c_str());
+		m_funclist.AddString(utf82cstring((*ni).c_str()));
 	}
 	set<std::string> cparams = dhelper_ptr->getCustomParameters();
 	for(set<std::string>::iterator ci=cparams.begin();ci!=cparams.end();++ci)
 	{
-		m_funclist.AddString((*ci).c_str());
-		std::string param = "project()."+(*ci)+"s";
+		m_funclist.AddString(utf82cstring((*ci).c_str()));
+		tstring param = _T("project().") + utf82cstring(*ci) + _T("s");
 		m_funclist.AddString(param.c_str());
 	}
 
@@ -133,11 +133,11 @@ void CConstraintEditDialog::insertFuncString()
 	int len = m_funclist.GetTextLen(cursel);
     m_funclist.GetText(cursel, selfun.GetBuffer(len+2) );
 	c_expredit.ReplaceSel(selfun);
-	if(selfun!="self" && selfun!="children")
-		c_expredit.ReplaceSel("()");
-	if(selfun=="children" || selfun=="project().Materials")
+	if(selfun!=_T("self") && selfun!=_T("children"))
+		c_expredit.ReplaceSel(_T("()"));
+	if(selfun==_T("children") || selfun==_T("project().Materials"))
 	{
-		c_expredit.ReplaceSel("(\"\")");
+		c_expredit.ReplaceSel(_T("(\"\")"));
 	}
 	c_expredit.SetFocus();
 }
@@ -160,7 +160,7 @@ void CConstraintEditDialog::OnBnClickedOk()
 	GetDlgItem(IDC_NAMEEDIT)->GetWindowText(m_name);
 	if(m_name.IsEmpty())
 	{
-		MessageBox("Please type in constraint name.", "Constraint Name Error", MB_ICONSTOP);
+		MessageBox(_T("Please type in constraint name."), _T("Constraint Name Error"), MB_ICONSTOP);
 		return;			
 	}
 

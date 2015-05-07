@@ -6,6 +6,7 @@
 
 #include <setjmp.h>
 #include <assert.h>
+#include <wtypes.h>
 
 
 #ifdef DESERT_EXPORTS
@@ -651,8 +652,8 @@ extern int bdd_compare_temp ARGS((bdd_manager, bdd, bdd, bdd));
 extern double bdd_satisfying_fraction_step ARGS((bdd_manager, bdd));
 extern void bdd_mark_shared_nodes ARGS((bdd_manager, bdd));
 extern void bdd_number_shared_nodes ARGS((bdd_manager, bdd, hash_table, long *));
-extern char *bdd_terminal_id ARGS((bdd_manager, bdd, char *(*) ARGS((bdd_manager, INT_PTR, INT_PTR, pointer)), pointer));
-extern char *bdd_var_name ARGS((bdd_manager, bdd, char *(*) ARGS((bdd_manager, bdd, pointer)), pointer));
+extern TCHAR *bdd_terminal_id ARGS((bdd_manager, bdd, TCHAR *(*) ARGS((bdd_manager, INT_PTR, INT_PTR, pointer)), pointer));
+extern TCHAR *bdd_var_name ARGS((bdd_manager, bdd, TCHAR *(*) ARGS((bdd_manager, bdd, pointer)), pointer));
 extern long bdd_find_block ARGS((block, long));
 extern void bdd_block_delta ARGS((block, long));
 extern void bdd_reorder_aux ARGS((bdd_manager));
@@ -727,8 +728,8 @@ extern void bdd_free_unique ARGS((bdd_manager));
 
 /* Error routines */
 
-extern void bdd_fatal ARGS((char *));
-extern void bdd_warning ARGS((char *));
+extern void bdd_fatal ARGS((TCHAR *));
+extern void bdd_warning ARGS((TCHAR *));
 
 
 /* >>> Hash table declarations */

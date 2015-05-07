@@ -670,4 +670,30 @@
       <eLiterals name="ESMoL" value="2"/>
     </eClassifiers>
   </eSubpackages>
+  <eSubpackages name="adamsCar" nsURI="adamsCar" nsPrefix="adamsCar">
+    <eClassifiers xsi:type="ecore:EClass" name="AdamsCarModel" eSuperTypes="#//DomainModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Parameter" upperBound="-1"
+          eType="#//adamsCar/Parameter" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="FileReference" lowerBound="1"
+          upperBound="-1" eType="#//adamsCar/FileReference" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//DomainModelParameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Value" eType="#//Value"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//ID"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FileReference">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ParameterSwap" upperBound="-1"
+          eType="#//adamsCar/Parameter"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="FileReferenceSwap" upperBound="-1"
+          eType="#//adamsCar/FileReference"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="FilePath" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//ID"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    </eClassifiers>
+  </eSubpackages>
 </ecore:EPackage>

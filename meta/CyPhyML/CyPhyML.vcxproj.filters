@@ -14,6 +14,9 @@
     <xme2mga Include="CyPhyML.xme">
       <Filter>XME</Filter>
     </xme2mga>
+    <xme2mga Include="CyPhyML-core.xme">
+      <Filter>XME</Filter>
+    </xme2mga>
   </ItemGroup>
   <ItemGroup>
     <mga2udmxml Include="..\..\generated\CyPhyML\models\CyPhyML_uml.mga">
@@ -27,6 +30,9 @@
   </ItemGroup>
   <ItemGroup>
     <meta2uml Include="..\..\generated\CyPhyML\models\CyPhyML.mga">
+      <Filter>Generated Models</Filter>
+    </meta2uml>
+    <meta2uml Include="..\..\generated\CyPhyML\models\CyPhyML-core.mga">
       <Filter>Generated Models</Filter>
     </meta2uml>
   </ItemGroup>

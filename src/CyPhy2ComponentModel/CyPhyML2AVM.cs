@@ -989,6 +989,73 @@ namespace CyPhyML2AVM {
             }
         }
 
+        private void createAVMCarModel(CyPhyML.CarModel cyPhyMLCarModel)
+        {
+            avm.adamsCar.AdamsCarModel carModel = new avm.adamsCar.AdamsCarModel();
+            carModel.Name = cyPhyMLCarModel.Name;
+            carModel.Author = cyPhyMLCarModel.Attributes.Author;
+            carModel.Notes = cyPhyMLCarModel.Attributes.Notes;
+            _avmComponent.DomainModel.Add(carModel);
+
+            SetLayoutData(carModel, cyPhyMLCarModel.Impl);
+            foreach (var fileref in cyPhyMLCarModel.Children.CarResourceCollection)
+            {
+                var acmFileRef = new avm.adamsCar.FileReference() { FilePath = fileref.Attributes.ResourcePath, ID = fileref.ID, Name = fileref.Name };
+                foreach (CyPhyML.ReferenceSwap refswapconn in fileref.SrcConnections.ReferenceSwapCollection)
+                {
+                    if (refswapconn.SrcEnds.CarResource!=null)
+                    {
+                        acmFileRef.FileReferenceSwap.Add(refswapconn.SrcEnds.CarResource.ID);
+                    }
+                }
+                foreach (var paramconn in fileref.SrcConnections.CarResourceParameterCollection)
+                {
+                    if (paramconn.SrcEnds.CarParameter != null)
+                    {
+                        acmFileRef.ParameterSwap.Add(paramconn.SrcEnds.CarParameter.ID);
+                    }
+                }
+                carModel.FileReference.Add(acmFileRef);
+            }
+            foreach (var p in cyPhyMLCarModel.Children.CarParameterCollection)
+            {
+                avm.adamsCar.Parameter avmCarParameter = new avm.adamsCar.Parameter();
+                carModel.Parameter.Add(avmCarParameter);
+
+                SetLayoutData(avmCarParameter, p.Impl);
+
+                _cyPhyMLAVMObjectMap.Add(p, avmCarParameter);
+                avmCarParameter.Name = p.Name;
+                avmCarParameter.ID = p.ID;
+
+                avmCarParameter.Value = new avm.Value()
+                {
+                    //DataType = d_CADParamType_to_AVMParamType[cyPhyMLCADParameter.Attributes.CADParameterType],
+                    DataTypeSpecified = false
+                };
+                if (p.SrcConnections.CarParameterPortMapCollection.Where(c => c.IsRefportConnection() == false).Count() > 0)
+                {
+
+                    avm.DerivedValue avmDerivedValue = new avm.DerivedValue();
+
+                    CyPhyML.ValueFlowTarget cyPhyMLValueFlowTarget = p.SrcConnections.CarParameterPortMapCollection.Where(c => c.IsRefportConnection() == false).First().SrcEnds.ValueFlowTarget;
+                    string id = ensureIDAttribute(cyPhyMLValueFlowTarget);
+                    avmDerivedValue.ValueSource = id;
+                    
+                    avmCarParameter.Value.ValueExpression = avmDerivedValue;
+                    
+
+                } else {
+                    avm.FixedValue avmFixedValue = new avm.FixedValue();
+                    avmFixedValue.Value = p.Attributes.Value;
+                    avmCarParameter.Value.ValueExpression = avmFixedValue;
+                }
+
+                if (p.Referred.unit != null)
+                    avmCarParameter.Value.Unit = p.Referred.unit.Attributes.Symbol;
+            }
+        }
+
         private void createAVMCADModel(CyPhyML.CADModel cyPhyMLCADModel) {
 
             avm.cad.CADModel avmCADModel = new avm.cad.CADModel()
@@ -1272,7 +1339,14 @@ namespace CyPhyML2AVM {
                 createAVMCADModel(cyPhyMLCADModel);
             }
 
-            foreach (CyPhyML.ManufacturingModel cyPhyMLManufacturingModel in cyPhyMLComponent.Children.ManufacturingModelCollection) {
+            foreach (CyPhyML.CarModel cyPhyMLCarModel in cyPhyMLComponent.Children.CarModelCollection)
+            {
+                _cyPhyMLDomainModelSet.Add(cyPhyMLCarModel);
+                createAVMCarModel(cyPhyMLCarModel);
+            }
+
+            foreach (CyPhyML.ManufacturingModel cyPhyMLManufacturingModel in cyPhyMLComponent.Children.ManufacturingModelCollection)
+            {
                 _cyPhyMLDomainModelSet.Add(cyPhyMLManufacturingModel);
                 createAVMManufacturingModel(cyPhyMLManufacturingModel);
             }

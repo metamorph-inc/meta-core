@@ -1,6 +1,7 @@
 
 """This module does blah blah."""
 import cad_library.cadMetrics_xml
+import cad_library.cadpostprocessing_xml
 import math
 
 PRECISION = 0.0001
@@ -36,9 +37,12 @@ class Vec3(object):
         """Constructor."""
         self.__data = data
 
+    def __len__(self):
+        return math.sqrt(sum([x ** 2 for x in self.__data]))
+
     def normalize(self):
         """Makes this vector unit-length."""
-        length = math.sqrt(sum([x ** 2 for x in self.__data]))
+        length = len(self)
         if length == 0:
             return self
         self.__data = [x / length for x in self.__data]
@@ -52,6 +56,9 @@ class Vec3(object):
     def __add__(self, other):
         """Adds 2 vectors."""
         return Vec3([self.__data[0] + other.__data[0], self.__data[1] + other.__data[1], self.__data[2] + other.__data[2]])
+
+    def __sub__(self, other):
+        return Vec3([self.__data[0] - other.__data[0], self.__data[1] - other.__data[1], self.__data[2] - other.__data[2]])
 
     def copy(self):
         """Returns a copy of this vector."""
@@ -78,12 +85,14 @@ class Vec3(object):
     def dotprod(self, other):
         return self[0]*other[0]+self[1]*other[1]+self[2]*other[2]
 
+    def angle(self, other):
+        return math.acos(self.dotprod(other)/(len(self)*len(other)))
+
     def mul(self, val):
         return Vec3([self[0]*val, self[1]*val, self[2]*val])
 
     def __str__(self):
         return '[' + str(self[0]) + ',' + str(self[1]) + ',' + str(self[2]) + ']'
-
 
 class Mat4x4(object):
     """Represents a 4x4 matrix (includes 3D translation and rotation)"""
@@ -143,6 +152,8 @@ class Mat4x4(object):
                 orientation[2] = 0
                 return Vec3(orientation)
 
+    def __cmp__(self, other):
+        return cmp(self.__data,other.__data)
 
 class CalculixResults(object):
     """Represents information about the Calculix results data."""
@@ -397,6 +408,45 @@ class AssemblyInfo(object):
             for compdata in jmdata.get_ComponentInstanceData():
                 self.componentsdict[compdata.get_ComponentInstanceID()].kinematic = False
 
+    def compare(self, other):
+        if cmp(self.root.cyphyid,other.root.cyphyid)!=0:
+            print 'Comparison root failed: ' + self.root.cyphyid + ' vs ' + other.root.cyphyid
+            return False
+        for x in self.componentsdict:
+            if x in other.componentsdict:
+                if cmp(self.componentsdict[x].localmatrix,other.componentsdict[x].localmatrix) != 0:
+                    return False
+            else:
+                return False
+        return True
+
+class CADMetrics(object):
+    def __init__(self):
+        self.metrics = {}
+        self.metricslist = []
+
+    def read_metrics_file(self, filename):
+        cadmetrics = cad_library.cadpostprocessing_xml.parse(filename)
+
+        for comp in cadmetrics.get_Component():
+            for m in comp.get_Metrics().get_Metric():
+                metric = CADMetric()
+                metric.id=m.get_MetricID()
+                metric.type=m.get_Type()
+                metric.metricname=m.get_MetricName()
+                if metric.type=="SCALAR":
+                    metric.value=float(m.get_ArrayValue())
+                elif metric.type=="VECTOR":
+                    metric.value = Vec3.parse(m.get_ArrayValue())
+                self.metrics[metric.metricname] = metric
+                self.metricslist.append(metric)
+
+class CADMetric(object):
+    def __init__(self):
+        self.type = ""
+        self.id = ""
+        self.value = None
+        self.metricname = None
 
 class JointData(object):
     """Represents data related to one joint."""

@@ -3,15 +3,15 @@
 #include "CreoMetaData.h"
 #include "ProSolid.h"
 #include "CommonStructures.h"
-#include "CreoPlugins\CreoExport.h"
+#include "CreoPlugins\CreoPluginFunctions.h"
 #include <ostream>
 #include <iomanip>
 
-static ProError FeatVisitId (ProFeature* p_feature, ProError status, ProAppData app_data)
+static ProError FeatVisitId(ProFeature* p_feature, ProError status, ProAppData app_data)
 {
     FeatVisitID* fid = (FeatVisitID*)app_data;
     ErrorDialogStr(std::to_string((long long)p_feature->id) + " " + std::to_string((long long)fid->id));
-    if (p_feature->id==fid->id)
+    if(p_feature->id==fid->id)
     {
         fid->result = p_feature;
     }
@@ -59,14 +59,20 @@ ProReference GetReference(ProElempathItem *path, ProElement elemTree)
     ProElempath elem_path;
     ProElempathAlloc(&elem_path);
     ProError err = ProElempathDataSet(elem_path, path, 3);
-    if (err != PRO_TK_NO_ERROR)
+    if(err != PRO_TK_NO_ERROR)
+    {
         ErrorDialogStr("Error in ProElempathDataSet:" + std::to_string((long long)err));
+    }
     err = ProElemtreeElementGet(elemTree, elem_path, &constr1);
-    if (err != PRO_TK_NO_ERROR)
+    if(err != PRO_TK_NO_ERROR)
+    {
         ErrorDialogStr("Error in ProElemtreeElementGet:" + std::to_string((long long)err));
+    }
     err = ProElementReferenceGet(constr1, 0, &ref1);
-    if (err != PRO_TK_NO_ERROR)
+    if(err != PRO_TK_NO_ERROR)
+    {
         ErrorDialogStr("Error in ProElementReferenceGet:" + std::to_string((long long)err));
+    }
     ProElempathFree(&elem_path);
     return ref1;
 }
@@ -85,12 +91,13 @@ void GetModelItemFromRef(ProReference ref, ProModelitem *item)
 void CreoMetaDataExporter::ProcessComponent(ProFeature* comp, ProAsmcomppath *comp_path, vector<ConstraintData>& cdatav)
 {
     ProElement elemTree;
-    ProFeatureElemtreeExtract (comp, comp_path, PRO_FEAT_EXTRACT_NO_OPTS, &elemTree );
+    ProFeatureElemtreeExtract(comp, comp_path, PRO_FEAT_EXTRACT_NO_OPTS, &elemTree);
 
     // Get constraint array
     ProElement* constraintarray;
 
-    ProElempathItem angle_path_items[] = {
+    ProElempathItem angle_path_items[] =
+    {
         {PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_CONSTRAINTS},
     };
 
@@ -105,9 +112,10 @@ void CreoMetaDataExporter::ProcessComponent(ProFeature* comp, ProAsmcomppath *co
 
     ProElementArrayGet(elemTree, contraints_elem_path, &constraintarray);
 
-    for (int i = 0; i < count; i++)
+    for(int i = 0; i < count; i++)
     {
-        ProElempathItem ref1_path_items[] = {
+        ProElempathItem ref1_path_items[] =
+        {
             {PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_CONSTRAINTS},
             {PRO_ELEM_PATH_ITEM_TYPE_INDEX, i},
             {PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_COMP_CONSTR_REF},
@@ -115,7 +123,8 @@ void CreoMetaDataExporter::ProcessComponent(ProFeature* comp, ProAsmcomppath *co
 
         ProReference ref1 = GetReference(ref1_path_items, elemTree);
 
-        ProElempathItem ref2_path_items[] = {
+        ProElempathItem ref2_path_items[] =
+        {
             {PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_CONSTRAINTS},
             {PRO_ELEM_PATH_ITEM_TYPE_INDEX, i},
             {PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_ASSEM_CONSTR_REF},
@@ -140,7 +149,7 @@ void CreoMetaDataExporter::ProcessComponent(ProFeature* comp, ProAsmcomppath *co
         ProReferenceAsmcomppathGet(ref1, &path);
         path.table_num--;
         const isis::CADComponentData *cdata1 = isis::GlobalModelData::Instance.GetComponentDataFromModel(path);
-        if (cdata1 != 0)
+        if(cdata1 != 0)
         {
             cdata.compid1 = cdata1->componentID;
         }
@@ -148,12 +157,13 @@ void CreoMetaDataExporter::ProcessComponent(ProFeature* comp, ProAsmcomppath *co
         ProReferenceAsmcomppathGet(ref2, &path);
         path.table_num--;
         const isis::CADComponentData *cdata2 = isis::GlobalModelData::Instance.GetComponentDataFromModel(path);
-        if (cdata2 != 0)
+        if(cdata2 != 0)
         {
             cdata.compid2 = cdata2->componentID;
         }
 
-        ProElempathItem attr_path_items[] = {
+        ProElempathItem attr_path_items[] =
+        {
             {PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_CONSTRAINTS},
             {PRO_ELEM_PATH_ITEM_TYPE_INDEX, i},
             {PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_CONSTR_ATTR},
@@ -163,14 +173,20 @@ void CreoMetaDataExporter::ProcessComponent(ProFeature* comp, ProAsmcomppath *co
         ProElempath elem_path;
         ProElempathAlloc(&elem_path);
         ProError err = ProElempathDataSet(elem_path, attr_path_items, 3);
-        if (err != PRO_TK_NO_ERROR)
+        if(err != PRO_TK_NO_ERROR)
+        {
             ErrorDialogStr("Error in ProElempathDataSet:" + std::to_string((long long)err));
+        }
         err = ProElemtreeElementGet(elemTree, elem_path, &attr);
-        if (err != PRO_TK_NO_ERROR)
+        if(err != PRO_TK_NO_ERROR)
+        {
             ErrorDialogStr("Error in ProElemtreeElementGet:" + std::to_string((long long)err));
+        }
         err = ProElementIntegerGet(attr, 0, &cdata.attr);
-        if (err != PRO_TK_NO_ERROR)
+        if(err != PRO_TK_NO_ERROR)
+        {
             ErrorDialogStr("Error in ProElementReferenceGet:" + std::to_string((long long)err));
+        }
         ProElempathFree(&elem_path);
 
         /*		ProMdl owner;
@@ -194,24 +210,24 @@ void CreoMetaDataExporter::ProcessComponent(ProFeature* comp, ProAsmcomppath *co
 
 void CreoMetaDataExporter::Export(std::string filename)
 {
-    Udm::SmartDataNetwork dn_CFDParameters (CreoMetaData::diagram);
+    Udm::SmartDataNetwork dn_CFDParameters(CreoMetaData::diagram);
 
     dn_CFDParameters.CreateNew(filename, "CreoMetaData", CreoMetaData::MetaData::meta);
     CreoMetaData::MetaData root = CreoMetaData::MetaData::Cast(dn_CFDParameters.GetRootObject());
 
-    for (map<std::string, isis::CADComponentData>::const_iterator it = isis::GlobalModelData::Instance.CadComponentData.begin(); it != isis::GlobalModelData::Instance.CadComponentData.end(); ++it)
+    for(map<std::string, isis::CADComponentData>::const_iterator it = isis::GlobalModelData::Instance.CadComponentData.begin(); it != isis::GlobalModelData::Instance.CadComponentData.end(); ++it)
     {
         ProMatrix m;
 
         ProIdTable c_id_table_added_model;
         int added_model_table_size;
-        isis::Populate_c_id_table( it->second.componentPaths, c_id_table_added_model, added_model_table_size );
+        isis::Populate_c_id_table(it->second.componentPaths, c_id_table_added_model, added_model_table_size);
 
         ProAsmcomppath	comp_path;
-        isis::isis_ProAsmcomppathInit (	(ProSolid)assembly,	//ProSolid   p_solid_handle
-                                        c_id_table_added_model,			// ProIdTable
-                                        added_model_table_size,			// table_size
-                                        &comp_path);					// ProAsmcomppath *p_handle
+        isis::isis_ProAsmcomppathInit((ProSolid)assembly,	//ProSolid   p_solid_handle
+                                      c_id_table_added_model,			// ProIdTable
+                                      added_model_table_size,			// table_size
+                                      &comp_path);					// ProAsmcomppath *p_handle
 
         ProAsmcomppathTrfGet(&comp_path, PRO_B_TRUE, m);
 
@@ -221,7 +237,7 @@ void CreoMetaDataExporter::Export(std::string filename)
 
         ProcessComponent((ProFeature*)&(it->second.assembledFeature), &comp_path, cdatav);
 
-        for each (ConstraintData d in cdatav)
+        for each(ConstraintData d in cdatav)
         {
             CreoMetaData::ConstraintData constraint = CreoMetaData::ConstraintData::Create(root);
             constraint.DatumName1() = d.dname1;
@@ -236,12 +252,15 @@ void CreoMetaDataExporter::Export(std::string filename)
         initpos.GUID() = it->first;
 
         ostringstream str;
-        for (int i = 0; i < 4; i++)
+        for(int i = 0; i < 4; i++)
         {
-            for (int j = 0; j < 4; j++)
+            for(int j = 0; j < 4; j++)
             {
                 str << setprecision(17) << m[i][j];
-                if (j != 3) str << " ";
+                if(j != 3)
+                {
+                    str << " ";
+                }
             }
             str << " ";
         }
@@ -251,7 +270,10 @@ void CreoMetaDataExporter::Export(std::string filename)
 
     }
 
-    if ( dn_CFDParameters.isOpen()) dn_CFDParameters.CloseWithUpdate();
+    if(dn_CFDParameters.isOpen())
+    {
+        dn_CFDParameters.CloseWithUpdate();
+    }
 
 }
 

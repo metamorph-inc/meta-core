@@ -454,11 +454,26 @@ namespace AVM2CyPhyML {
                 if( !_unitSymbolCyPhyMLUnitMap.ContainsKey( cyPhyMLUnit.Attributes.Abbreviation ) ) {
                     _unitSymbolCyPhyMLUnitMap.Add( cyPhyMLUnit.Attributes.Abbreviation, cyPhyMLUnit );
                 }
-                if (  !_unitSymbolCyPhyMLUnitMap.ContainsKey( cyPhyMLUnit.Attributes.Symbol )  ) {
-                    _unitSymbolCyPhyMLUnitMap.Add( cyPhyMLUnit.Attributes.Symbol, cyPhyMLUnit );
+                else if (cyPhyMLUnit is CyPhyML.conversion_based_unit) // Always prefer SI unit
+                {
+                    _unitSymbolCyPhyMLUnitMap[cyPhyMLUnit.Attributes.Abbreviation] = cyPhyMLUnit;
                 }
+
+                if (!_unitSymbolCyPhyMLUnitMap.ContainsKey(cyPhyMLUnit.Attributes.Symbol))
+                {
+                    _unitSymbolCyPhyMLUnitMap.Add(cyPhyMLUnit.Attributes.Symbol, cyPhyMLUnit);
+                }
+                else if (cyPhyMLUnit is CyPhyML.conversion_based_unit) // Always prefer SI unit
+                {
+                    _unitSymbolCyPhyMLUnitMap[cyPhyMLUnit.Attributes.Symbol] = cyPhyMLUnit;
+                }
+
                 if (  !_unitSymbolCyPhyMLUnitMap.ContainsKey( cyPhyMLUnit.Attributes.FullName )  ) {
                     _unitSymbolCyPhyMLUnitMap.Add( cyPhyMLUnit.Attributes.FullName, cyPhyMLUnit );
+                }
+                else if (cyPhyMLUnit is CyPhyML.conversion_based_unit) // Always prefer SI unit
+                {
+                    _unitSymbolCyPhyMLUnitMap[cyPhyMLUnit.Attributes.FullName] = cyPhyMLUnit;
                 }
             }
         }
@@ -732,6 +747,7 @@ namespace AVM2CyPhyML {
             {typeof(CyPhyMLClasses.CADParameterPortMap).Name, CyPhyMLClasses.CADParameterPortMap.Cast},
             {typeof(CyPhyMLClasses.ManufacturingParameterPortMap).Name, CyPhyMLClasses.ManufacturingParameterPortMap.Cast},
             {typeof(CyPhyMLClasses.PortComposition).Name, CyPhyMLClasses.PortComposition.Cast},
+            {typeof(CyPhyMLClasses.CarParameterPortMap).Name, CyPhyMLClasses.CarParameterPortMap.Cast},
             // TODO more kinds
         };
 
@@ -1121,7 +1137,12 @@ namespace AVM2CyPhyML {
                             if (!_avmCyPhyMLObjectMap.TryGetValue(avmOtherValueOwner, out cyPhyMLObjectSrc))
                                 continue;
 
-                            if (cyPhyMLObjectDst is CyPhyML.ModelicaParameter)
+                            if (cyPhyMLObjectDst is CyPhyML.CarParameter)
+                            {
+                                // CyPhyML.ModelicaParameter.SrcConnections.ModelicaParameterPortMapCollection
+                                makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.CarParameterPortMap).Name);
+                            } 
+                            else if (cyPhyMLObjectDst is CyPhyML.ModelicaParameter)
                             {
                                 // CyPhyML.ModelicaParameter.SrcConnections.ModelicaParameterPortMapCollection
                                 makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ModelicaParameterPortMap).Name);
@@ -1767,6 +1788,61 @@ namespace AVM2CyPhyML {
             return cyPhyMLCyberModel;
         }
 
+        private void process(avm.adamsCar.AdamsCarModel avmCarModel)
+        {
+            CyPhyML.CarModel cyphyMLCarModel = CyPhyMLClasses.CarModel.Create(_cyPhyMLComponent);
+            _avmCyPhyMLObjectMap.Add(avmCarModel, cyphyMLCarModel);
+            cyphyMLCarModel.Name = avmCarModel.Name;
+
+            Dictionary<String, ISIS.GME.Dsml.CyPhyML.Interfaces.CarParameter> carparams = new Dictionary<string, CyPhyML.CarParameter>();
+            Dictionary<String, ISIS.GME.Dsml.CyPhyML.Interfaces.CarResource> carresources = new Dictionary<string, CyPhyML.CarResource>();
+
+
+            foreach (var p in avmCarModel.Parameter)
+            {
+                CyPhyML.CarParameter cyPhyMLCarParameter = CyPhyMLClasses.CarParameter.Create(cyphyMLCarModel);
+
+                _avmCyPhyMLObjectMap.Add(p, cyPhyMLCarParameter);
+
+                registerValueNode(p.Value, p);
+
+                cyPhyMLCarParameter.Name = p.Name;
+                if (p.Value != null)
+                {
+                    cyPhyMLCarParameter.Attributes.Value = p.Value.ValueExpression.ToString();
+                }
+                carparams.Add(p.ID, cyPhyMLCarParameter);
+            }
+
+            foreach (var f in avmCarModel.FileReference)
+            {
+                CyPhyML.CarResource cyPhyMLCarResource = CyPhyMLClasses.CarResource.Create(cyphyMLCarModel);
+
+                _avmCyPhyMLObjectMap.Add(f, cyPhyMLCarResource);
+
+                cyPhyMLCarResource.Attributes.ResourcePath = f.FilePath;
+                cyPhyMLCarResource.Name = f.Name;
+
+                carresources.Add(f.ID, cyPhyMLCarResource);
+
+            }
+
+            foreach (var f in avmCarModel.FileReference)
+            {
+                foreach (var conn in f.ParameterSwap)
+                {
+                    if (conn.Length>1)
+                        CyPhyMLClasses.CarResourceParameter.Connect(carparams[conn], carresources[f.ID]);   
+                }
+                foreach (var conn in f.FileReferenceSwap)
+                {
+                    if (conn.Length>1)
+                        CyPhyMLClasses.ReferenceSwap.Connect(carresources[conn], carresources[f.ID]);
+                }
+            }
+
+        }
+
         private void process( avm.modelica.ModelicaModel avmModelicaModel ) {
 
 			CyPhyML.ModelicaModel cyPhyMLModelicaModel = CyPhyMLClasses.ModelicaModel.Create(_cyPhyMLComponent);
@@ -2203,6 +2279,12 @@ namespace AVM2CyPhyML {
 			foreach (avm.modelica.ModelicaModel avmModelicaModel in avmComponent.DomainModel.OfType<avm.modelica.ModelicaModel>()) {
 				process(avmModelicaModel);
 			}
+
+            foreach (avm.adamsCar.AdamsCarModel avmCarModel in avmComponent.DomainModel.OfType<avm.adamsCar.AdamsCarModel>())
+            {
+                process(avmCarModel);
+            }
+
 
             foreach (avm.cyber.CyberModel avmCyberModel in avmComponent.DomainModel.OfType<avm.cyber.CyberModel>()) {
                 process(avmCyberModel);

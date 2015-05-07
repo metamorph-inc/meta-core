@@ -15,6 +15,7 @@ import win32com.client
 from time import sleep # FIXME appears there are races...
 
 meta_path = os.path.dirname(os.path.abspath(__file__))
+_vs_version = "12.0" # do not use VS 2010 or earlier
 
 def allProjects(sln):
     '''get all projects in a DTE solution, even ones in solution folders'''
@@ -33,7 +34,7 @@ def allProjects(sln):
 
 
 def get_projs(rel_sln, platform="Win32"):
-    sln = win32com.client.DispatchEx("VisualStudio.Solution.11.0")
+    sln = win32com.client.DispatchEx("VisualStudio.Solution.%s" % _vs_version)
     # print win32com.client.DispatchEx("InterfaceEnum").Enum(sln)
     slnname = meta_path + "\\" + rel_sln
     assert os.path.isfile(slnname)
@@ -56,7 +57,7 @@ cybertools_projects, cybertools_configs = get_projs(r"src\Cyber-Tools.sln")
 dep_projects = set(desert_projects + cyber_projects + cybertools_projects)
 dep_configs = dict(desert_configs.items() + cyber_configs.items() + cybertools_configs.items())
 
-sln = win32com.client.DispatchEx("VisualStudio.Solution.11.0")
+sln = win32com.client.DispatchEx("VisualStudio.Solution.%s" % _vs_version)
 # print win32com.client.DispatchEx("InterfaceEnum").Enum(sln)
 sln.Open(meta_path + r"\src\CyPhyML.sln")
 sleep(3)
@@ -73,7 +74,7 @@ dep_projects = dep_projects2
 dep_projects_names = [proj.UniqueName for proj in dep_projects]
 
 sleep(2.5)
-sln.SaveAs(r"c:\Users\meta\Documents\META\src\CyPhyMLCombined.sln")
+sln.SaveAs(os.path.join(os.getcwd(), r"src\CyPhyMLCombined.sln"))
 
 for solutionConfiguration2 in sln.SolutionBuild.SolutionConfigurations:
     if solutionConfiguration2.Name == "Release" and solutionConfiguration2.PlatformName == "Mixed Platforms":
@@ -98,7 +99,7 @@ for vcxproj in map(os.path.basename, cyber_projects):
 
 # TODO: copy solution dependencies from dependent slns
 
-sln.SaveAs(r"c:\Users\meta\Documents\META\src\CyPhyMLCombined.sln")
+sln.SaveAs(os.path.join(os.getcwd(), r"src\CyPhyMLCombined.sln"))
 
 
 # .FullName > c:\....vcxproj 

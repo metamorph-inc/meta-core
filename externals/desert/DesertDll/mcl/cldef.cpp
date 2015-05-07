@@ -860,3 +860,18 @@ std::string ClNumber::getPrintString() const
 }
 
 
+bool ParseMCLString(char const *buf);
+bool ParseMCLString(wchar_t const *buf) {
+	return ParseMCLString(CStringA(buf));
+}
+
+char *GetMCLErrorMessage(void);
+#ifdef UNICODE
+wchar_t *GetMCLErrorMessageW(void) {
+	CString ret;
+	ret = GetMCLErrorMessage();
+	static wchar_t errmsg[100];
+	wcsncpy(errmsg, static_cast<const wchar_t*>(ret), sizeof(errmsg) / sizeof(errmsg[0]));
+	return errmsg;
+}
+#endif

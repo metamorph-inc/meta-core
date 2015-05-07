@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <Computations.h>
 #include <CADPostProcessingParameters.h>
 #include <CADAnalysisMetaData.h>
 #include <Metrics.h>
@@ -459,7 +460,8 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 					metricRoot = CADPostProcessingParameters::Metric::Create( metricsRoot );
 					metricRoot.MetricID() = j.metricID;
 					metricRoot.Type() = ComputationDimension_string(j.computationDimension);
-					metricRoot.Units() = temp_units;			
+					metricRoot.Units() = temp_units;
+					metricRoot.MetricName() = j.metricName;
 
 					std::vector<double> values;
 					double temp_value;
@@ -941,9 +943,21 @@ void CreateXMLFile_RequestedMetrics(
 	void CreateInterferenceReport( 
 						const	std::string									&in_PathAndFileName,
 						const	std::string									&in_ComponentInstanceID,
+						const   CADComputation								&in_CADComputation,
 						std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																	throw (isis::application_exception)
 	{
+		if ( in_ComponentInstanceID != in_CADComputation.componentID )
+		{
+			std::stringstream errorString;
+			errorString <<	"Function - " << __FUNCTION__  << std::endl <<
+							"in_ComponentInstanceID != in_CADComputation.componentID, these values must be equal. in_ComponentInstanceID refers" << std::endl <<
+							"to the top assembly and in_CADComputation.componentID must also refer to the top assembly." << std::endl <<
+							"   Top Assembly Model Name:   " <<	 in_CADComponentData_map[in_ComponentInstanceID].name    << std::endl <<
+							"   CADComputation Model Name: " <<  in_CADComponentData_map[in_CADComputation.componentID].name    << std::endl <<
+							in_CADComputation;
+		}
+
 
 		ofstream interferenceReport_file;
 		try 
@@ -967,15 +981,23 @@ void CreateXMLFile_RequestedMetrics(
 			int   n_intf_parts;
 			isis_ProArraySizeGet(interf_info_arr, &n_intf_parts);
 
+			interferenceReport_file << isis_CADCommon::GetDayMonthTimeYear();
+
+			interferenceReport_file << std::endl << "Assembly Name: " << 
+				(std::string)in_CADComponentData_map[in_ComponentInstanceID].name << "." << 
+				ProMdlType_string(in_CADComponentData_map[in_ComponentInstanceID].modelType);
+			// WARNING UpdateReportJson_CAD.py uses "MetricID:" and "InterferenceCount:".  Do NOT change these strings
+			// without updating UpdateReportJson_CAD.py
+			interferenceReport_file << std::endl << "MetricID: " << in_CADComputation.metricID; 
+			interferenceReport_file << std::endl << "InterferenceCount: " << n_intf_parts; 
+			interferenceReport_file << in_CADComputation;
+
 			if (n_intf_parts == 0)
 			{
-			
 				interferenceReport_file << "No interferences were detected.";
 				if ( interferenceReport_file.is_open() ) interferenceReport_file.close();
 				return;
 			}
-
-			interferenceReport_file << isis_CADCommon::GetDayMonthTimeYear() << std::endl;
 
 			interferenceReport_file << "Part 1 Name                     Part 2 Name                     Interference Volume (mm^3)";
 			interferenceReport_file << std::endl;

@@ -33,7 +33,7 @@
       Text="%(meta2uml.ExecutionDescription)" />
     <meta2uml
       Condition="'@(meta2uml)' != '' and '%(meta2uml.ExcludedFromBuild)' != 'true'"
-      CommandLineTemplate="%(meta2uml.CommandLineTemplate)"
+      CommandLineTemplate="%(meta2uml.CommandLineTemplate) %(meta2uml.RefreshLibs)"
       StandardErrorImportance="High"
       />
   </Target>

@@ -5,6 +5,13 @@
 #ifndef MANAGER_H
 #define MANAGER_H
 
+#include <string>
+#ifdef _UNICODE
+typedef std::wstring tstring;
+#else
+typedef std::string tstring;
+#endif
+
 #include "core/coredefs.h"
 #include "core/cosmic.h"
 #include "core/bddmain.h"
@@ -12,7 +19,7 @@
 
 #define MAX_GENERATIONS 32
 typedef CBdd (*fnptrPCMCust) (int, ClRelExpr::RelOp, CDynElement *);		// custom eval functions 
-#define ICS_NAME "Implicit Constraints"
+#define ICS_NAME _T("Implicit Constraints")
 
 #include <map>
 class CManager : public CCosmic
@@ -67,7 +74,7 @@ public:
 
 	//functions exported through the PCM interface
 
-	DESERT_API virtual CCosmicList* GetContainer(const char * ContainerName); 
+	DESERT_API virtual CCosmicList* GetContainer(const TCHAR * ContainerName); 
 	DESERT_API virtual CCosmicList* GetContainer(CString& ContainerName);
 	DESERT_API CSpace *FindSpace(long id);
 	DESERT_API CDomain *FindDomain(long id);
@@ -90,7 +97,7 @@ public:
 	DESERT_API CDynConstraintSet* GetConstraintSet(ConstraintType type);
 	DESERT_API CDynConstraintSetList& GetConstraintSets();
 	//debug function which dumps out the current generation to a file
-	DESERT_API void Dump(FILE *f, const char *comment);
+	DESERT_API void Dump(FILE *f, const TCHAR *comment);
 
 	
 
@@ -107,64 +114,64 @@ public:
 	//functions used by the user interface 
 	//to create the space
 	long CreateSpace(CString &name);
-	long CreateSpace(const char *name);
+	long CreateSpace(const TCHAR *name);
 
 
 	long CreateElement(CString &name, long space_or_domain, short decomp, long parent, long ext=0);
-	long CreateElement(const char *name, long space_or_domain, short decomp, long parent, long ext=0);
+	long CreateElement(const TCHAR *name, long space_or_domain, short decomp, long parent, long ext=0);
 
 	long CreateNaturalDomain(CString &name, int mx=0, int mn=0);
-	long CreateNaturalDomain(const char *name, int mx=0, int mn=0);
+	long CreateNaturalDomain(const TCHAR *name, int mx=0, int mn=0);
 
 	long CreateCustomDomain(CString &name);
-	long CreateCustomDomain(const char *name);
+	long CreateCustomDomain(const TCHAR *name);
 
 	long CreateConstantProperty(CString &name, CString& pcm_fn, long owner, long domain, int value);
-	long CreateConstantProperty(const char *name, const char *pcm_fn, long owner, long domain, int value);
+	long CreateConstantProperty(const TCHAR *name, const TCHAR *pcm_fn, long owner, long domain, int value);
 
 	long CreateVariableProperty(CString &name, CString& pcm_fn, long owner, long custom_or_natural_domain);
-	long CreateVariableProperty(const char *name, const char *pcm_fn, long owner, long custom_or_natural_domain);
+	long CreateVariableProperty(const TCHAR *name, const TCHAR *pcm_fn, long owner, long custom_or_natural_domain);
   
 	/////
 	//long CreateParametricVariableProperty(CString &name, long owner, CString& text);
-	long CreateParametricVariableProperty(const char *name, long owner,  const char *text);
+	long CreateParametricVariableProperty(const TCHAR *name, long owner,  const TCHAR *text);
 	long CreateVariableProperty(CString &name, CString& pcm_fn, long owner);
-	long CreateVariableProperty(const char *name, const char *pcm_fn, long owner);
+	long CreateVariableProperty(const TCHAR *name, const TCHAR *pcm_fn, long owner);
 	/////
   
 	long CreateRelation(long owner, long source, long destination);
 	long CreateConstraintSet(CString &name);
-	long CreateConstraintSet(const char *name);
+	long CreateConstraintSet(const TCHAR *name);
 
 	long CreateConstraint(CString& name, long constraintSet, long context, CString& text);
-	long CreateConstraint(const char *name, long constraintSet, long context, CString& text);
+	long CreateConstraint(const TCHAR *name, long constraintSet, long context, CString& text);
 
-	long CreateConstraint(CString& name, long constraintSet, long context, const char *text);
-	long CreateConstraint(const char *name, long constraintSet, long context, const char *text);
+	long CreateConstraint(CString& name, long constraintSet, long context, const TCHAR *text);
+	long CreateConstraint(const TCHAR *name, long constraintSet, long context, const TCHAR *text);
 
 #ifndef DOUBLE_MTBDD
-	long AddtoVariableProperty(const char *property, CString &name, long owner, long custom_member_or_natural_value, long custom_or_natural_domain);
+	long AddtoVariableProperty(const TCHAR *property, CString &name, long owner, long custom_member_or_natural_value, long custom_or_natural_domain);
 	long AddtoVariableProperty(long property, CString &name, long owner, long custom_member_or_natural_value, long custom_or_natural_domain);
-	long AddtoVariableProperty(const char *property, const char *name, long owner, long custom_member_or_natural_value, long custom_or_natural_domain);
-	long AddtoVariableProperty(long property, const char *name, long owner, long custom_member_or_natural_value, long custom_or_natural_domain);
+	long AddtoVariableProperty(const TCHAR *property, const TCHAR *name, long owner, long custom_member_or_natural_value, long custom_or_natural_domain);
+	long AddtoVariableProperty(long property, const TCHAR *name, long owner, long custom_member_or_natural_value, long custom_or_natural_domain);
 #else
-	long AddtoVariableProperty(const char *property, CString &name, long owner, double custom_member_or_natural_value, long custom_or_natural_domain);
+	long AddtoVariableProperty(const TCHAR *property, CString &name, long owner, double custom_member_or_natural_value, long custom_or_natural_domain);
 	long AddtoVariableProperty(long property, CString &name, long owner, double custom_member_or_natural_value, long custom_or_natural_domain);
-	long AddtoVariableProperty(const char *property, const char *name, long owner, double custom_member_or_natural_value, long custom_or_natural_domain);
-	long AddtoVariableProperty(long property, const char *name, long owner, double custom_member_or_natural_value, long custom_or_natural_domain);
+	long AddtoVariableProperty(const TCHAR *property, const TCHAR *name, long owner, double custom_member_or_natural_value, long custom_or_natural_domain);
+	long AddtoVariableProperty(long property, const TCHAR *name, long owner, double custom_member_or_natural_value, long custom_or_natural_domain);
 #endif
 
-	long AddtoSimpleFormulaVariableProperty(long property, const char *name, long owner, long srcProperty, long srcOwner);
-	long CreateSimpleFormula(const char *fnType, CMap<long, long, long, long> &srcProps, CMap<long, long, long, long> &dstProps);
+	long AddtoSimpleFormulaVariableProperty(long property, const TCHAR *name, long owner, long srcProperty, long srcOwner);
+	long CreateSimpleFormula(const TCHAR *fnType, CMap<long, long, long, long> &srcProps, CMap<long, long, long, long> &dstProps);
 /////
 	long CreateFormulaSet(CString &name);
-	long CreateFormulaSet(const char *name);
+	long CreateFormulaSet(const TCHAR *name);
 
 	long CreateFormula(CString& name, long constraintSet, long context, CString& text);
-	long CreateFormula(const char *name, long constraintSet, long context, CString& text);
+	long CreateFormula(const TCHAR *name, long constraintSet, long context, CString& text);
 
-	long CreateFormula(CString& name, long constraintSet, long context, const char *text);
-	long CreateFormula(const char *name, long constraintSet, long context, const char *text);
+	long CreateFormula(CString& name, long constraintSet, long context, const TCHAR *text);
+	long CreateFormula(const TCHAR *name, long constraintSet, long context, const TCHAR *text);
 /////
 
 
@@ -180,7 +187,7 @@ public:
 	void GenerateNextHierarchy();
 	bool Prune(CDynConstraintSet* set);
 	
-	void * StoreConfigurations(const char *fnamem, std::string &errmsg);
+	void * StoreConfigurations(const TCHAR *fnamem, tstring &errmsg);
 	bool HasGenerations();
 	long CalcRealNoOfConfigurations();
 
@@ -221,8 +228,8 @@ of the current generation index
 */
 
 #define GET_CURRENTGENERATION \
-	if (generations.IsEmpty()) throw new CDesertException( "CManager::GET_CURRENTGENERATION MACRO: invalid generation, no generations " );\
-	if (!currentGenerationPosition) throw new CDesertException("CManager::GET_CURRENTGENERATION MACRO: invalid current generation position " );\
+	if (generations.IsEmpty()) throw new CDesertException( _T("CManager::GET_CURRENTGENERATION MACRO: invalid generation, no generations " ));\
+	if (!currentGenerationPosition) throw new CDesertException(_T("CManager::GET_CURRENTGENERATION MACRO: invalid current generation position " ));\
 	int currentGeneration = generations.GetAt(currentGenerationPosition) % MAX_GENERATIONS;
 
 

@@ -25,10 +25,10 @@ write-host "`nVisual Studio 2010 Command Prompt variables set." -ForegroundColor
 # MSBuild.exe .\CADCreoParametricToolkitFunctions.sln /target:Rebuild /property:Configuration=Release /property:Platform=x64
 # popd
 
-pushd CADCreoParametricCreateAssembly
-MSBuild.exe .\CADCreoParametricCreateAssembly.sln /target:Rebuild /property:Configuration=Release /property:Platform=x64
-& 'C:\Program Files\PTC\Creo 2.0\Parametric\bin\protk_unlock.bat' ./x64/Release/CADCreoParametricCreateAssembly.exe
-copy-item ./x64/Release/CADCreoParametricCreateAssembly.exe $Env:PROE_ISIS_EXTENSIONS/bin/
-popd
+# pushd CADCreoParametricCreateAssembly
+# MSBuild.exe .\CADCreoParametricCreateAssembly.sln /target:Rebuild /property:Configuration=Release /property:Platform=x64
+# & 'C:\Program Files\PTC\Creo 2.0\Parametric\bin\protk_unlock.bat' ./x64/Release/CADCreoParametricCreateAssembly.exe
+# copy-item ./x64/Release/CADCreoParametricCreateAssembly.exe $Env:PROE_ISIS_EXTENSIONS/bin/
+# popd
 
 

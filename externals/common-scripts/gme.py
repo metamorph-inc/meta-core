@@ -275,16 +275,24 @@ def register_component(file, warn_on_tlb_error=None):
 
 
 # UDM functions
-def meta2uml(mgafile, umlfile=None):
+def meta2uml(mgafile, umlfile=None, refresh_str=None):
+    refresh=False
+    if refresh_str is None or refresh_str=='No' or refresh_str=='no' or refresh_str=='false' or refresh_str=='False':
+        refresh=False
+    elif refresh_str=='Yes' or refresh_str=='yes' or refresh_str=='true' or refresh_str=='True':
+        refresh=True
+
     '''Run MetaGME2Uml on an MetaGME .mga file'''
     if not os.path.isfile(mgafile):
         raise Exception("'" + mgafile + "' not found")
     
     # n.b. this uses the SxS config in gmepy-setup.py under gmepy.exe (but not gme.py)
-    with Project.open(mgafile) as project:
+    with Project.open(mgafile, refresh=refresh) as project:
         project.run_interpreter("MGA.Interpreter.MetaGME2Uml", None, None, 128)
         output_path = os.path.join(os.path.dirname(mgafile), project.project.RootFolder.Name + "_uml.mga")
         # project.project.Save("MGA=" + os.path.splitext(mgafile)[0] + "_after_MetaGME2Uml.mga")
+        project.commit_transaction()
+        project.project.Save("", True)
         project.project.Close(True)
     if umlfile and os.path.normcase(os.path.abspath(umlfile)) != os.path.normcase(os.path.abspath(output_path)):
         import shutil
@@ -358,7 +366,11 @@ OBJTYPE_CONNECTION = 4
 OBJTYPE_SET = 5
 OBJTYPE_FOLDER = 6
 def is_container(fco):
+    print fco.ObjType
     return fco.ObjType == OBJTYPE_MODEL or fco.ObjType == OBJTYPE_FOLDER
+
+def is_library(fco):
+    return fco.LibraryName!=""
 
 import tempfile
 class Project():
@@ -462,7 +474,8 @@ class Project():
         return p
 
     @staticmethod
-    def open(file, mga_to_save=None):
+    def open(file, mga_to_save=None, refresh=False):
+        print refresh
         if not os.path.isfile(file):
             raise Exception("'" + file + "' not found")
         extension = os.path.splitext(file)[1]
@@ -470,6 +483,13 @@ class Project():
         if extension == ".mga":
             mga = win32com.client.DispatchEx("Mga.MgaProject")
             mga.Open("MGA=" + file)
+            if refresh:
+                mga.BeginTransactionInNewTerr()
+                current = mga.RootFolder
+                libs = filter(is_library, current.ChildFolders)
+                for l in libs:
+                    l.RefreshLibrary(l.LibraryName)
+                mga.CommitTransaction()
             mga_to_save = file
         elif extension == ".xme":
             xme = win32com.client.DispatchEx("Mga.MgaParser")

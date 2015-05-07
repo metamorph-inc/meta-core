@@ -629,6 +629,9 @@ namespace AVM.DDP
 
             string currentDir = Environment.CurrentDirectory;
 
+            if (Directory.Exists(outputDirectory) == false)
+                Directory.CreateDirectory(outputDirectory);
+
             Directory.SetCurrentDirectory(outputDirectory);
 
             string avmProjFileName = Path.GetFullPath(Path.Combine(outputDirectory, "manifest.project.json"));
@@ -708,7 +711,7 @@ namespace AVM.DDP
                     // requ not found
                     string msg = "Requirement was not found.";
                     Trace.TraceWarning(msg);
-
+                    
                     // RESTORE THIS MESSAGE ONCE WE SWITCH TO USING GMELOGGER
                     // avmProj.infoTextWriter.WriteLine(msg);
                 }

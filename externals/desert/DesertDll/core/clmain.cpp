@@ -17,7 +17,18 @@ SKN<06.26.2002>   ClObjName::Eval Uncommented the throw exception when function 
 #include "BackIface.h"
 #include "core/manager.h"
 #include "core/dynamic.h"
-#include "muParser.h"
+
+#ifdef _UNICODE
+typedef std::wstring tstring;
+typedef std::wstringstream tstringstream;
+
+#else
+typedef std::string tstring;
+typedef std::stringstream tstringstream;
+#endif
+
+#include "muparser_wrapper.h"
+
 #include "bdd/bdd_math.h"
 
 
@@ -36,7 +47,7 @@ ClContext::ClContext(const ClContext& from) : cosmic(from.cosmic), cosmicList(fr
 {
 	type = from.type;
 	errFlag = from.errFlag;
-	errString = strdup(from.errString);
+	errString = _tcsdup(from.errString);
 	dependency = from.dependency;
 	propertyDependency = from.propertyDependency;
 }
@@ -87,7 +98,7 @@ CBdd ClContext::Eval(ClFormula *f)
 	return ret;
 }
 
-bool ClContext::Verify(ClConstraint *c, CCosmicList* dep, CStringList *pdep, char*& err)
+bool ClContext::Verify(ClConstraint *c, CCosmicList* dep, CStringList *pdep, TCHAR*& err)
 {
 
 	//ASSERT_EX( c && dep && cosmic && pdep, "ClContext::Verify",
@@ -158,7 +169,7 @@ CCosmicList * ClContext::UpdateDependency(CCosmicList *list)
   return list;
 }
 
-CCosmic * ClContext::UpdatePropertyDependency(CCosmic *obj, const char *prop)
+CCosmic * ClContext::UpdatePropertyDependency(CCosmic *obj, const TCHAR *prop)
 {
 	UpdateDependency(obj);
 	if (propertyDependency && !propertyDependency->Find(prop))
@@ -273,7 +284,7 @@ ClData ClFunction::Project(ClContext& c, ClCallPars *p)
 	}
 	if (!obj)
 	{
-		c.SetError(true, "ClFunction::Project(): invalid context");
+		c.SetError(true, _T("ClFunction::Project(): invalid context"));
 		//throw new CDesertException(false, "ClFunction::Project(ClContext& c, ClCallPars *p): Invalid context");
 		return obj;
 	}
@@ -304,14 +315,14 @@ ClData ClFunction::Children(ClContext& c, ClCallPars *p)
 	{
 		CCosmic *obj;
 		ClData val = parExp->Eval(c);
-		const CString& cname = (ClDataType)val == String ? (const CString &)val : CString("");
+		const CString& cname = (ClDataType)val == String ? (const CString &)val : CString(_T(""));
 		ret = list ? ::Find(*list, obj, cname) : false;
 		if (ret) return c.UpdateDependency(obj);
-		CString buf; buf.Format("ClFunction::Children : child <%s> not found", cname);
+		CString buf; buf.Format(_T("ClFunction::Children : child <%s> not found"), cname);
 
 		if (ctx_obj && ctx_obj->IsType(typeDynElement))
 		{
-		//	Warning("","Child \"%s\" not found in \"%s\"", cname, ((CDynElement *)ctx_obj)->GetName());
+		//	Warning(_T(""),"Child \"%s\" not found in \"%s\"", cname, ((CDynElement *)ctx_obj)->GetName());
 			throw new CDesertNoneElementException();
 		}
 
@@ -334,10 +345,10 @@ ClData ClFunction::Container(ClContext& c, ClCallPars *p)
 	if (parExp)
 	{
 		ClData val = parExp->Eval(c);
-		const CString& cname = (ClDataType)val == String ? (const CString &)val : CString("");
+		const CString& cname = (ClDataType)val == String ? (const CString &)val : CString(_T(""));
 		ret = list ? ::Find(*list, obj, cname) : false;
 		if (ret) return c.UpdateDependency(obj);
-		CString buf; buf.Format("ClFunction::Container element <%s> not found in container: <%s>", cname, (LPCTSTR)name);
+		CString buf; buf.Format(_T("ClFunction::Container element <%s> not found in container: <%s>"), cname, (LPCTSTR)name);
 		c.SetError(true, buf);
 		
 		//throw new CDesertException(false, buf);
@@ -454,42 +465,42 @@ ClData ClFunction::PCMOr(ClContext& c, ClCallPars *p)
 ClData ClConstraint::Eval(ClContext& c) const
 {
 	if (cpars && cpars->GetCount()>0)
-	Todo("ClConstraint::Eval", "<%s:%d> tbd skn cpars", __FILE__, __LINE__);
+	Todo(_T("ClConstraint::Eval"), _T("<%s:%d> tbd skn cpars"), __FILE__, __LINE__);
 	
 	if (!cexpr) 
-		throw new CDesertException("ClConstraint::Eval(ClContext& c) : cexpr is NULL!");
+		throw new CDesertException(_T("ClConstraint::Eval(ClContext& c) : cexpr is NULL!"));
 
-	//ASSERT_EX( cexpr, "ClConstraint::Eval", "cexpr is null" );
+	//ASSERT_EX( cexpr, _T("ClConstraint::Eval"), _T("cexpr is null") );
 	return cexpr->Eval(c);
 }
 
 ClData ClFormula::Eval(ClContext& c) const
 {
 	if (cpars && cpars->GetCount()>0)
-	Todo("ClConstraint::Eval", "<%s:%d> tbd skn cpars", __FILE__, __LINE__);
+	Todo(_T("ClConstraint::Eval"), _T("<%s:%d> tbd skn cpars"), __FILE__, __LINE__);
 	
 	if (!cexpr) 
-		throw new CDesertException("ClConstraint::Eval(ClContext& c) : cexpr is NULL!");
+		throw new CDesertException(_T("ClConstraint::Eval(ClContext& c) : cexpr is NULL!"));
 
-	//ASSERT_EX( cexpr, "ClConstraint::Eval", "cexpr is null" );
+	//ASSERT_EX( cexpr, _T("ClConstraint::Eval"), _T("cexpr is null") );
 	return cexpr->Eval(c);
 }
 
 ClData ClExpr::Eval(ClContext& c) const
 {
-	//ASSERT_EX( lexpr, "ClExpr::Eval", "lexpr is null" );
+	//ASSERT_EX( lexpr, _T("ClExpr::Eval"), _T("lexpr is null") );
 	if (!lexpr) 
-		throw new CDesertException("ClExpr::Eval(ClContext& c) : lexpr is NULL!");
+		throw new CDesertException(_T("ClExpr::Eval(ClContext& c) : lexpr is NULL!"));
 
 	return lexpr->Eval(c);
 }
 
 ClData ClLExpr::Eval(ClContext& c) const
 {
-	//ASSERT_EX( relExpr, "ClLExpr::Eval", "relExpr is null" );
+	//ASSERT_EX( relExpr, _T("ClLExpr::Eval"), _T("relExpr is null") );
 
 	if (!relExpr) 
-		throw new CDesertException("ClLExpr::Eval(ClContext& c) : relExpr is NULL!");
+		throw new CDesertException(_T("ClLExpr::Eval(ClContext& c) : relExpr is NULL!"));
 	
 	ClData left;
 	try{
@@ -507,9 +518,9 @@ ClData ClLExpr::Eval(ClContext& c) const
 
 ClData ClLExpr::Eval(ClContext&c, const ClData& preVal, LOp preOp) const
 {
-	//ASSERT_EX( relExpr, "ClLExpr::Eval", "relExpr is null" );
+	//ASSERT_EX( relExpr, _T("ClLExpr::Eval"), _T("relExpr is null") );
 	if (!relExpr) 
-		throw new CDesertException("ClLExpr::Eval(ClContext&c, const ClData& preVal, LOp preOp) : relExpr is NULL!");
+		throw new CDesertException(_T("ClLExpr::Eval(ClContext&c, const ClData& preVal, LOp preOp) : relExpr is NULL!"));
 
 	ClData right;
 	try{
@@ -531,8 +542,8 @@ ClData ClLExpr::Eval(const ClData& left, LOp op, const ClData& right) const
 
 	if ( (ClDataType)left != (ClDataType)right )
 	{
-		//Error( "ClLExpr::Eval", "a LOP b : a & b not of the same type" );
-		throw new CDesertException(false, "ClLExpr::Eval(): " "a LOP b : a & b not of the same type");
+		//Error( _T("ClLExpr::Eval"), _T("a LOP b : a & b not of the same type") );
+		throw new CDesertException(false, _T("ClLExpr::Eval(): ") _T("a LOP b : a & b not of the same type"));
 		return ClData();
 	}
 
@@ -543,17 +554,17 @@ ClData ClLExpr::Eval(const ClData& left, LOp op, const ClData& right) const
 	case Bdd:
 		return Eval((const CBdd&)left, op, (const CBdd&)right);
 	default:
-		//Error("ClLExpr::Eval", "invalid operands for a Logical Op");
-		throw new CDesertException(false, "ClLExpr::Eval(): " "invalid operands for a Logical Op");
+		//Error(_T("ClLExpr::Eval"), _T("invalid operands for a Logical Op"));
+		throw new CDesertException(false, _T("ClLExpr::Eval(): ") _T("invalid operands for a Logical Op"));
 		return ClData();
 	}
 }
 
 bool ClLExpr::Eval(bool left, LOp op, bool right) const
 {
-	//ASSERT_EX( op != noOp, "ClLExpr::Eval", "invalid operator" );
+	//ASSERT_EX( op != noOp, _T("ClLExpr::Eval"), _T("invalid operator") );
 	if (op == noOp)
-		throw new CDesertException("ClLExpr::Eval(bool left, LOp op, bool right) : invalid operator!");
+		throw new CDesertException(_T("ClLExpr::Eval(bool left, LOp op, bool right) : invalid operator!"));
 
 
 	switch(op)
@@ -572,9 +583,9 @@ bool ClLExpr::Eval(bool left, LOp op, bool right) const
 
 CBdd ClLExpr::Eval(const CBdd& left, LOp op, const CBdd& right) const
 {
-	//ASSERT_EX( op != noOp, "ClLExpr::Eval", "invalid operator" );
+	//ASSERT_EX( op != noOp, _T("ClLExpr::Eval"), _T("invalid operator") );
 	if (op == noOp)
-		throw new CDesertException("ClLExpr::Eval(const CBdd& left, LOp op, const CBdd& right) const : invalid operator!");
+		throw new CDesertException(_T("ClLExpr::Eval(const CBdd& left, LOp op, const CBdd& right) const : invalid operator!"));
 
 	switch(op)
 	{
@@ -593,9 +604,9 @@ CBdd ClLExpr::Eval(const CBdd& left, LOp op, const CBdd& right) const
 ClData ClIfExpr::Eval(ClContext& c) const
 {
 	if (!(condE && thenE))
-		throw new CDesertException("ClIfExpr::Eval(ClContext& c) const : condE or thenE is null!");
+		throw new CDesertException(_T("ClIfExpr::Eval(ClContext& c) const : condE or thenE is null!"));
 
-	//ASSERT_EX( condE && thenE, "ClIfExpr::Eval", "condE or thenE is null" );
+	//ASSERT_EX( condE && thenE, _T("ClIfExpr::Eval"), _T("condE or thenE is null") );
 	ClData cval, tval, eval; 
 	try{
 		cval = condE->Eval(c);
@@ -633,8 +644,8 @@ ClData ClIfExpr::Eval(const ClData& _cond, const ClData& _then, const ClData& _e
 {
 	if ( (ClDataType)_cond != (ClDataType)_then || ((ClDataType)_else != (ClDataType)_cond && (ClDataType)_else != Undefined) )
 	{
-		//Error("ClIfExpr::Eval", "if a then b else c : a/b/c not of the same type" );
-		throw new CDesertException(false, "ClIfExpr::Eval: if a then b else c : a/b/c not of the same type" );
+		//Error(_T("ClIfExpr::Eval"), _T("if a then b else c : a/b/c not of the same type") );
+		throw new CDesertException(false, _T("ClIfExpr::Eval: if a then b else c : a/b/c not of the same type") );
 		return ClData();
 	}
 
@@ -645,15 +656,15 @@ ClData ClIfExpr::Eval(const ClData& _cond, const ClData& _then, const ClData& _e
 	case Bdd:
 		return (ClDataType)_else == Undefined ? Eval((CBdd)_cond, (CBdd)_then) : Eval((CBdd)_cond, (CBdd)_then, (CBdd)_else);
 	default:
-		//Error("ClIfExpr::Eval", "invalid operands for an i-t-e");
-		throw new CDesertException(false, "ClIfExpr::Eval: invalid operands for an if-then-else!");
+		//Error(_T("ClIfExpr::Eval"), _T("invalid operands for an i-t-e"));
+		throw new CDesertException(false, _T("ClIfExpr::Eval: invalid operands for an if-then-else!"));
 	return ClData();
 	}
 }
 
 CBdd ClIfExpr::Eval(const CBdd& _if, const CBdd& _then) const
 {
-	Todo("ClIfExpr::Eval", "<%s:%d> implement this");
+	Todo(_T("ClIfExpr::Eval"), _T("<%s:%d> implement this"));
 	//return Eval(_if, _then, CBdd::Zero());
 	return CBdd::Implies(_if, _then);
 }
@@ -665,9 +676,9 @@ CBdd ClIfExpr::Eval(const CBdd& _if, const CBdd& _then, const CBdd& _else) const
 
 ClData ClRelExpr::Eval(ClContext& c) const
 {
-	//ASSERT_EX( addExpr, "ClRelExpr::Eval", "addExpr is null" );
+	//ASSERT_EX( addExpr, _T("ClRelExpr::Eval"), _T("addExpr is null") );
 	if (!addExpr)
-		throw new CDesertException("ClRelExpr::Eval(ClContext& c) const : addExpr is null!");
+		throw new CDesertException(_T("ClRelExpr::Eval(ClContext& c) const : addExpr is null!"));
 	
 	ClData left;
 	try{
@@ -716,7 +727,7 @@ ClData ClRelExpr::Eval(ClContext& c, const ClData& left, const ClData& right) co
 		case Bdd:
 			return Eval((const CBdd&)left, (const CBdd&)right);
 		default:
-			throw new CDesertException("ClRelExpr::Eval(): invalid operands for a Relational OP");
+			throw new CDesertException(_T("ClRelExpr::Eval(): invalid operands for a Relational OP"));
 		  return ClData();
 		}
 	}
@@ -737,7 +748,7 @@ ClData ClRelExpr::Eval(ClContext& c, const ClData& left, const ClData& right) co
 		case Bdd:		
 			return Eval((const CBdd&)lBdd, (const CBdd&)right);
 		default:
-			throw new CDesertException("ClRelExpr::Eval(): invalid operands for a Relational OP");
+			throw new CDesertException(_T("ClRelExpr::Eval(): invalid operands for a Relational OP"));
 			return ClData();
 		}
 	}
@@ -758,7 +769,7 @@ ClData ClRelExpr::Eval(ClContext& c, const ClData& left, const ClData& right) co
 		case Bdd:			
 			return Eval((const CBdd&)left, (const CBdd&)rBdd);
 		default:
-			throw new CDesertException("ClRelExpr::Eval(): invalid operands for a Relational OP");
+			throw new CDesertException(_T("ClRelExpr::Eval(): invalid operands for a Relational OP"));
 			return ClData();
 		}
 	}
@@ -777,7 +788,7 @@ ClData ClRelExpr::Eval(ClContext& c, const ClData& left, const ClData& right) co
 			break;
 		  //return ((CBdd)left).low_threshold((int)(double)right);
 		default:
-		  Error("ClRelExpr::Eval", "invalid operands for a Relational OP");
+		  Error(_T("ClRelExpr::Eval"), _T("invalid operands for a Relational OP"));
 			return ClData();
 		}
 #endif
@@ -825,8 +836,8 @@ ClData ClRelExpr::Eval(ClContext& c, const ClData& left, const ClData& right) co
 
 			default:
 			{
-				//ASSERT_EX(false, "CDynElement::PCMAdd()", " Operator unimplemented!");
-				throw new CDesertException("unknow error!");
+				//ASSERT_EX(false, _T("CDynElement::PCMAdd()"), _T(" Operator unimplemented!"));
+				throw new CDesertException(_T("unknow error!"));
 				return ret;
 			}
 		}
@@ -838,8 +849,8 @@ ClData ClRelExpr::Eval(ClContext& c, const ClData& left, const ClData& right) co
 	}
 	else
 	{
-		//Error( "ClRelExpr::Eval", "a ROP b : a & b not of the same type" );
-		throw new CDesertException("ClRelExpr::Eval(): a ROP b : a & b not of the same type");
+		//Error( _T("ClRelExpr::Eval"), _T("a ROP b : a & b not of the same type") );
+		throw new CDesertException(_T("ClRelExpr::Eval(): a ROP b : a & b not of the same type"));
 		return ClData(false);
 	}
 }
@@ -880,7 +891,7 @@ ClData ClRelExpr::Eval(const CBdd& left, double right) const
 
 		default:
 		{
-			throw new CDesertException("unknow error!");
+			throw new CDesertException(_T("unknow error!"));
 		}
 	}
 }
@@ -921,7 +932,7 @@ ClData ClRelExpr::Eval(double left, const CBdd& right) const
 
 		default:
 		{
-			throw new CDesertException("unknow error!");
+			throw new CDesertException(_T("unknow error!"));
 		}
 	}
 }
@@ -932,10 +943,10 @@ bool ClRelExpr::Eval(int left, int right) const
 bool ClRelExpr::Eval(double left, double right) const
 #endif
 {
-	//ASSERT_EX( relOp != noOp, "ClRelExpr::Eval", "invalid operator" );
+	//ASSERT_EX( relOp != noOp, _T("ClRelExpr::Eval"), _T("invalid operator") );
 
 	if (relOp == noOp)
-		throw new CDesertException("ClRelExpr::Eval(int left, int right): invalid operator");
+		throw new CDesertException(_T("ClRelExpr::Eval(int left, int right): invalid operator"));
 	
 	switch(relOp)
 	{
@@ -1006,8 +1017,8 @@ ClData ClRelExpr::Eval(const CBdd& left, const CBdd& right) const
 
 		default:
 		{
-			//ASSERT_EX(false, "CDynElement::PCMAdd()", " Operator unimplemented!");
-			throw new CDesertException("unknow error!");
+			//ASSERT_EX(false, _T("CDynElement::PCMAdd()"), _T(" Operator unimplemented!"));
+			throw new CDesertException(_T("unknow error!"));
 			return ret;
 		}
 	};
@@ -1017,15 +1028,15 @@ ClData ClRelExpr::Eval(const CBdd& left, const CBdd& right) const
 
 ClData ClRelExpr::Eval(const CCosmic *left, const CCosmic *right) const
 {
-	//ASSERT_EX( relOp == eqOp, "ClRelExpr::Eval", "invalid operator" );
+	//ASSERT_EX( relOp == eqOp, _T("ClRelExpr::Eval"), _T("invalid operator") );
 	//fatal error
 	if (relOp == noOp)
-		throw new CDesertException("ClRelExpr:: Eval(const CCosmic *left, const CCosmic *right: invalid operator");
+		throw new CDesertException(_T("ClRelExpr:: Eval(const CCosmic *left, const CCosmic *right: invalid operator"));
 	
 
 	//that's a user error!
 //	if (relOp != eqOp)
-//		throw new CDesertException(false, "ClRelExpr:: Eval(ClContext& c, const CCosmic *left, const CCosmic *right: invalid operator. The only suported operator on objects is the equality '=' operator!");
+//		throw new CDesertException(false, _T("ClRelExpr:: Eval(ClContext& c, const CCosmic *left, const CCosmic *right: invalid operator. The only suported operator on objects is the equality '=' operator!"));
 	
 
 	if (!left || !right)
@@ -1046,7 +1057,7 @@ ClData ClRelExpr::Eval(const CCosmic *left, const CCosmic *right) const
 			//catche the fatal BDD exception here and generate a non-fatal exception
 			e->Delete();
 			
-			throw new CDesertException(false, "ClRelExpr:: Eval(ClContext& c, const CCosmic *left, const CCosmic *right): At least one of the operands does not exists!");
+			throw new CDesertException(false, _T("ClRelExpr:: Eval(ClContext& c, const CCosmic *left, const CCosmic *right): At least one of the operands does not exists!"));
 		}
 
 		return ClData(one_bdd);
@@ -1100,9 +1111,9 @@ ClData ClRelExpr::Eval(ClContext& c, double left, const CCosmic *right) const
 
 ClData ClAddExpr::Eval(ClContext& c) const
 {
-	//ASSERT_EX( mulExpr, "ClAddExpr::Eval", "mulExpr is null" );
+	//ASSERT_EX( mulExpr, _T("ClAddExpr::Eval"), _T("mulExpr is null") );
 	if (!mulExpr)
-		throw new CDesertException("ClAddExpr::Eval(ClContext& c): mulExpr is NULL!");
+		throw new CDesertException(_T("ClAddExpr::Eval(ClContext& c): mulExpr is NULL!"));
 
 	ClData left;
 	try{
@@ -1124,9 +1135,9 @@ ClData ClAddExpr::Eval(ClContext& c) const
 
 ClData ClAddExpr::Eval(ClContext& c, const ClData& preVal, AddOp preOp) const
 {
-	//ASSERT_EX( mulExpr, "ClAddExpr::Eval", "mulExpr is null" );
+	//ASSERT_EX( mulExpr, _T("ClAddExpr::Eval"), _T("mulExpr is null") );
 	if (!mulExpr)
-		throw new CDesertException("ClAddExpr::Eval(ClContext& c, const ClData& preVal, AddOp preOp): mulExpr is NULL!");
+		throw new CDesertException(_T("ClAddExpr::Eval(ClContext& c, const ClData& preVal, AddOp preOp): mulExpr is NULL!"));
 	
 	ClData pre_val = preVal;
 	if(preOp != noOp && (ClDataType)pre_val == Cosmic)
@@ -1155,7 +1166,7 @@ ClData ClAddExpr::Eval(const ClData& left, AddOp op, const ClData& right) const
 {
 	 if((ClDataType)left==Boolean || (ClDataType)right==Boolean)
 	 {
-		throw new CDesertException("ClAddExpr::Eval(): invalid operands for ADDOP");
+		throw new CDesertException(_T("ClAddExpr::Eval(): invalid operands for ADDOP"));
 		return ClData();
 	 }
 	ClData lBdd, rBdd;
@@ -1175,12 +1186,12 @@ ClData ClAddExpr::Eval(const ClData& left, AddOp op, const ClData& right) const
 			else if((ClDataType)lBdd==Bdd && (ClDataType)rBdd==Bdd)
 				return Eval((const CBdd&)lBdd, op,  (const CBdd&)rBdd);
 			else
-				throw new CDesertException("ClAddExpr::Eval(): invalid operands for ADDOP");
+				throw new CDesertException(_T("ClAddExpr::Eval(): invalid operands for ADDOP"));
 				return ClData();
 		case Bdd:
 			return Eval((const CBdd&)left, op, (const CBdd&)right);
 		default:
-		  throw new CDesertException("ClAddExpr::Eval(): invalid operands for ADDOP");
+		  throw new CDesertException(_T("ClAddExpr::Eval(): invalid operands for ADDOP"));
 		  return ClData();
 		}
 	}
@@ -1195,7 +1206,7 @@ ClData ClAddExpr::Eval(const ClData& left, AddOp op, const ClData& right) const
 			else if((ClDataType)lBdd==Bdd)
 				return Eval((const CBdd&)lBdd, op, (int)right);
 			else
-				throw new CDesertException("ClAddExpr::Eval(): invalid operands for ADDOP");
+				throw new CDesertException(_T("ClAddExpr::Eval(): invalid operands for ADDOP"));
 				return ClData();
 		case Double:
 			if((ClDataType)lBdd==Cosmic)
@@ -1207,7 +1218,7 @@ ClData ClAddExpr::Eval(const ClData& left, AddOp op, const ClData& right) const
 				return Eval((const CBdd&)lBdd, op, (double)right);
 #endif
 			else
-				throw new CDesertException("ClAddExpr::Eval(): invalid operands for ADDOP");
+				throw new CDesertException(_T("ClAddExpr::Eval(): invalid operands for ADDOP"));
 				return ClData();
 		case Bdd:			
 			if((ClDataType)lBdd==Cosmic)
@@ -1215,10 +1226,10 @@ ClData ClAddExpr::Eval(const ClData& left, AddOp op, const ClData& right) const
 			else if((ClDataType)lBdd==Bdd)
 				return Eval((const CBdd&)lBdd, op, (const CBdd&)right);
 			else
-				throw new CDesertException("ClAddExpr::Eval(): invalid operands for ADDOP");
+				throw new CDesertException(_T("ClAddExpr::Eval(): invalid operands for ADDOP"));
 				return ClData();
 		default:
-			throw new CDesertException("ClAddExpr::Eval(): invalid operands for a ADDOP");
+			throw new CDesertException(_T("ClAddExpr::Eval(): invalid operands for a ADDOP"));
 			return ClData();
 		}
 	}
@@ -1233,7 +1244,7 @@ ClData ClAddExpr::Eval(const ClData& left, AddOp op, const ClData& right) const
 			else if((ClDataType)rBdd==Bdd)
 				return Eval((const CBdd&)left, op, (const CBdd&)rBdd);
 			else
-				throw new CDesertException("ClAddExpr::Eval(): invalid operands for ADDOP");
+				throw new CDesertException(_T("ClAddExpr::Eval(): invalid operands for ADDOP"));
 				return ClData();
 		case Double:
 			if((ClDataType)rBdd==Cosmic)
@@ -1245,10 +1256,10 @@ ClData ClAddExpr::Eval(const ClData& left, AddOp op, const ClData& right) const
 				return Eval((double)left, op, (const CBdd&)rBdd);
 #endif
 			else
-				throw new CDesertException("ClAddExpr::Eval(): invalid operands for ADDOP");
+				throw new CDesertException(_T("ClAddExpr::Eval(): invalid operands for ADDOP"));
 				return ClData();
 		default:
-			throw new CDesertException("ClAddExpr::Eval(): invalid operands for ADDOP");
+			throw new CDesertException(_T("ClAddExpr::Eval(): invalid operands for ADDOP"));
 			return ClData();
 		}
 	}
@@ -1266,7 +1277,7 @@ ClData ClAddExpr::Eval(const ClData& left, AddOp op, const ClData& right) const
 			return Eval((double)left, op, (const CBdd&)rBdd);
 #endif
 		default:
-			throw new CDesertException("ClAddExpr::Eval(): invalid operands for ADDOP");
+			throw new CDesertException(_T("ClAddExpr::Eval(): invalid operands for ADDOP"));
 			return ClData();
 		}
 	}
@@ -1286,13 +1297,13 @@ ClData ClAddExpr::Eval(const ClData& left, AddOp op, const ClData& right) const
 			return Eval((double)left, op, (double)right);
 #endif
 		default:
-			throw new CDesertException("ClAddExpr::Eval(): invalid operands for ADDOP");
+			throw new CDesertException(_T("ClAddExpr::Eval(): invalid operands for ADDOP"));
 			return ClData();
 		}
 	}
 	else
 	{	
-		throw new CDesertException("ClAddExpr::Eval(): a AddOP b : a & b not of the same type");
+		throw new CDesertException(_T("ClAddExpr::Eval(): a AddOP b : a & b not of the same type"));
 		return ClData(false);
 	}
 }
@@ -1300,7 +1311,7 @@ ClData ClAddExpr::Eval(const ClData& left, AddOp op, const ClData& right) const
 ClData ClAddExpr::Eval(const CCosmic *left,  AddOp op, const CCosmic *right) const
 {
 	if (op == noOp)
-		throw new CDesertException("ClAddExpr::Eval(const CCosmic *left, AddOp op, const CCosmic *right): invalid operator!");
+		throw new CDesertException(_T("ClAddExpr::Eval(const CCosmic *left, AddOp op, const CCosmic *right): invalid operator!"));
 
 	if (!left || !right)
 	{
@@ -1319,7 +1330,7 @@ ClData ClAddExpr::Eval(const CCosmic *left,  AddOp op, const CCosmic *right) con
 		{
 			//catche the fatal BDD exception here and generate a non-fatal exception
 			e->Delete();			
-			throw new CDesertException(false, "ClAddExpr::Eval(const CCosmic *left, AddOp op, const CCosmic *right): At least one of the operands does not exists!");
+			throw new CDesertException(false, _T("ClAddExpr::Eval(const CCosmic *left, AddOp op, const CCosmic *right): At least one of the operands does not exists!"));
 		}
 
 		return ClData(one_bdd);
@@ -1330,9 +1341,9 @@ ClData ClAddExpr::Eval(const CCosmic *left,  AddOp op, const CCosmic *right) con
 
 ClData ClAddExpr::Eval(const CBdd& left, AddOp op, const CBdd& right) const
 {
-	//ASSERT_EX( op != noOp, "ClLExpr::Eval", "invalid operator" );
+	//ASSERT_EX( op != noOp, _T("ClLExpr::Eval"), _T("invalid operator") );
 	if (op == noOp)
-		throw new CDesertException("ClAddExpr::Eval(const CBdd& left, AddOp op, const CBdd& right) const : invalid operator!");
+		throw new CDesertException(_T("ClAddExpr::Eval(const CBdd& left, AddOp op, const CBdd& right) const : invalid operator!"));
 
 	switch(op)
 	{
@@ -1350,9 +1361,9 @@ ClData ClAddExpr::Eval(const CBdd& left, AddOp op, int right) const
 ClData ClAddExpr::Eval(const CBdd& left, AddOp op, double right) const
 #endif
 {
-	//ASSERT_EX( op != noOp, "ClLExpr::Eval", "invalid operator" );
+	//ASSERT_EX( op != noOp, _T("ClLExpr::Eval"), _T("invalid operator") );
 	if (op == noOp)
-		throw new CDesertException("ClAddExpr::Eval(const CBdd& left, AddOp op, int right) const : invalid operator!");
+		throw new CDesertException(_T("ClAddExpr::Eval(const CBdd& left, AddOp op, int right) const : invalid operator!"));
 
 	switch(op)
 	{
@@ -1370,9 +1381,9 @@ ClData ClAddExpr::Eval(int left, AddOp op, const CBdd& right) const
 ClData ClAddExpr::Eval(double left, AddOp op, const CBdd& right) const
 #endif
 {
-	//ASSERT_EX( op != noOp, "ClLExpr::Eval", "invalid operator" );
+	//ASSERT_EX( op != noOp, _T("ClLExpr::Eval"), _T("invalid operator") );
 	if (op == noOp)
-		throw new CDesertException("ClAddExpr::Eval(int left, AddOp op, const CBdd& right) const : invalid operator!");
+		throw new CDesertException(_T("ClAddExpr::Eval(int left, AddOp op, const CBdd& right) const : invalid operator!"));
 
 	switch(op)
 	{
@@ -1393,9 +1404,9 @@ int ClAddExpr::Eval(int left, AddOp op, int right) const
 double ClAddExpr::Eval(double left, AddOp op, double right) const
 #endif
 {
-	//ASSERT_EX( op != noOp, "ClAddExpr::Eval", "invalid operator" );
+	//ASSERT_EX( op != noOp, _T("ClAddExpr::Eval"), _T("invalid operator") );
 	if (op == noOp)
-		throw new CDesertException("ClAddExpr::Eval(int left, AddOp op, int right): invalid operator!");
+		throw new CDesertException(_T("ClAddExpr::Eval(int left, AddOp op, int right): invalid operator!"));
 
 	switch(op)
 	{
@@ -1411,7 +1422,7 @@ double ClAddExpr::Eval(double left, AddOp op, double right) const
 ClData ClAddExpr::Eval(const CBdd& left,  AddOp op, const CCosmic *right) const
 {
 	if (op == noOp)
-		throw new CDesertException("ClAddExpr::Eval(const CBdd& left, AddOp op, const CCosmic *right): invalid operator!");
+		throw new CDesertException(_T("ClAddExpr::Eval(const CBdd& left, AddOp op, const CCosmic *right): invalid operator!"));
 	
 	if (!right)
 	{
@@ -1424,7 +1435,7 @@ ClData ClAddExpr::Eval(const CBdd& left,  AddOp op, const CCosmic *right) const
 		{
 			//catche the fatal BDD exception here and generate a non-fatal exception
 			e->Delete();			
-			throw new CDesertException(false, "ClAddExpr::Eval(const CBdd& left, AddOp op, const CCosmic *right):right operands does not exists!");
+			throw new CDesertException(false, _T("ClAddExpr::Eval(const CBdd& left, AddOp op, const CCosmic *right):right operands does not exists!"));
 		}
 
 		return ClData(one_bdd);
@@ -1435,10 +1446,10 @@ ClData ClAddExpr::Eval(const CBdd& left,  AddOp op, const CCosmic *right) const
 
 ClData ClMulExpr::Eval(ClContext& c) const
 {
-	//ASSERT_EX( unaExpr, "ClMulExpr::Eval", "unaExpr not null" );
+	//ASSERT_EX( unaExpr, _T("ClMulExpr::Eval"), _T("unaExpr not null") );
 
 	if (!unaExpr)
-		throw new CDesertException("ClMulExpr::Eval(ClContext& c): unaExpr is NULL!");
+		throw new CDesertException(_T("ClMulExpr::Eval(ClContext& c): unaExpr is NULL!"));
 
 	ClData left;
 	try{
@@ -1459,9 +1470,9 @@ ClData ClMulExpr::Eval(ClContext& c) const
 
 ClData ClMulExpr::Eval(ClContext& c, const ClData& preVal, MulOp preOp) const
 {
-//	ASSERT_EX( unaExpr, "ClMulExpr::Eval", "unaExpr not null" );
+//	ASSERT_EX( unaExpr, _T("ClMulExpr::Eval"), _T("unaExpr not null") );
 	if (!unaExpr)
-		throw new CDesertException("ClMulExpr::Eval(ClContext& c): unaExpr is NULL!");
+		throw new CDesertException(_T("ClMulExpr::Eval(ClContext& c): unaExpr is NULL!"));
 
 	ClData pre_val = preVal;
 	if(preOp != noOp && (ClDataType)pre_val == Cosmic)
@@ -1495,7 +1506,7 @@ ClData ClMulExpr::Eval(const ClData& left, MulOp op, const ClData& right) const
 {
 	if((ClDataType)left==Boolean || (ClDataType)right==Boolean)
 	 {
-		throw new CDesertException("ClMulExpr::Eval(): invalid operands for MULOP");
+		throw new CDesertException(_T("ClMulExpr::Eval(): invalid operands for MULOP"));
 		return ClData();
 	 }
 	ClData lBdd, rBdd;
@@ -1515,12 +1526,12 @@ ClData ClMulExpr::Eval(const ClData& left, MulOp op, const ClData& right) const
 			else if((ClDataType)lBdd==Bdd && (ClDataType)rBdd==Bdd)
 				return Eval((const CBdd&)lBdd, op,  (const CBdd&)rBdd);
 			else
-				throw new CDesertException("ClMulExpr::Eval(): invalid operands for MULOP");
+				throw new CDesertException(_T("ClMulExpr::Eval(): invalid operands for MULOP"));
 				return ClData();
 		case Bdd:
 			return Eval((const CBdd&)left, op, (const CBdd&)right);
 		default:
-		  throw new CDesertException("ClMulExpr::Eval(): invalid operands for MULOP");
+		  throw new CDesertException(_T("ClMulExpr::Eval(): invalid operands for MULOP"));
 		  return ClData();
 		}
 	}
@@ -1535,7 +1546,7 @@ ClData ClMulExpr::Eval(const ClData& left, MulOp op, const ClData& right) const
 			else if((ClDataType)lBdd==Bdd)
 				return Eval((const CBdd&)lBdd, op, (int)right);
 			else
-				throw new CDesertException("ClMulExpr::Eval(): invalid operands for MULOP");
+				throw new CDesertException(_T("ClMulExpr::Eval(): invalid operands for MULOP"));
 				return ClData();
 		case Double:
 			if((ClDataType)lBdd==Cosmic)
@@ -1547,7 +1558,7 @@ ClData ClMulExpr::Eval(const ClData& left, MulOp op, const ClData& right) const
 				return Eval((const CBdd&)lBdd, op, (double)right);
 #endif
 			else
-				throw new CDesertException("ClMulExpr::Eval(): invalid operands for MULOP");
+				throw new CDesertException(_T("ClMulExpr::Eval(): invalid operands for MULOP"));
 				return ClData();
 		case Bdd:			
 			if((ClDataType)lBdd==Cosmic)
@@ -1555,10 +1566,10 @@ ClData ClMulExpr::Eval(const ClData& left, MulOp op, const ClData& right) const
 			else if((ClDataType)lBdd==Bdd)
 				return Eval((const CBdd&)lBdd, op, (const CBdd&)right);
 			else
-				throw new CDesertException("ClMulExpr::Eval(): invalid operands for MULOP");
+				throw new CDesertException(_T("ClMulExpr::Eval(): invalid operands for MULOP"));
 				return ClData();
 		default:
-			throw new CDesertException("ClMulExpr::Eval(): invalid operands for MULOP");
+			throw new CDesertException(_T("ClMulExpr::Eval(): invalid operands for MULOP"));
 			return ClData();
 		}
 	}
@@ -1573,7 +1584,7 @@ ClData ClMulExpr::Eval(const ClData& left, MulOp op, const ClData& right) const
 			else if((ClDataType)rBdd==Bdd)
 				return Eval((const CBdd&)left, op, (const CBdd&)rBdd);
 			else
-				throw new CDesertException("ClMulExpr::Eval(): invalid operands for MULOP");
+				throw new CDesertException(_T("ClMulExpr::Eval(): invalid operands for MULOP"));
 				return ClData();
 		case Double:
 			if((ClDataType)rBdd==Cosmic)
@@ -1585,10 +1596,10 @@ ClData ClMulExpr::Eval(const ClData& left, MulOp op, const ClData& right) const
 				return Eval((double)left, op, (const CBdd&)rBdd);
 #endif
 			else
-				throw new CDesertException("ClMulExpr::Eval(): invalid operands for MULOP");
+				throw new CDesertException(_T("ClMulExpr::Eval(): invalid operands for MULOP"));
 				return ClData();
 		default:
-			throw new CDesertException("ClMulExpr::Eval(): invalid operands for MULOP");
+			throw new CDesertException(_T("ClMulExpr::Eval(): invalid operands for MULOP"));
 			return ClData();
 		}
 	}
@@ -1606,7 +1617,7 @@ ClData ClMulExpr::Eval(const ClData& left, MulOp op, const ClData& right) const
 			return Eval((double)left, op, (const CBdd&)rBdd);
 #endif
 		default:
-			throw new CDesertException("ClMulExpr::Eval(): invalid operands for MulOP");
+			throw new CDesertException(_T("ClMulExpr::Eval(): invalid operands for MulOP"));
 			return ClData();
 		}
 	}
@@ -1623,13 +1634,13 @@ ClData ClMulExpr::Eval(const ClData& left, MulOp op, const ClData& right) const
 			return Eval((double)left, op, (double)right);
 #endif
 		default:
-			throw new CDesertException("ClMulExpr::Eval(): invalid operands for MulOP");
+			throw new CDesertException(_T("ClMulExpr::Eval(): invalid operands for MulOP"));
 			return ClData();
 		}
 	}
 	else
 	{	
-		throw new CDesertException("ClMulExpr::Eval(): a MulOP b : a & b not of the same type");
+		throw new CDesertException(_T("ClMulExpr::Eval(): a MulOP b : a & b not of the same type"));
 		return ClData(false);
 	}
 }
@@ -1640,9 +1651,9 @@ int ClMulExpr::Eval(int left, MulOp op, int right) const
 double ClMulExpr::Eval(double left, MulOp op, double right) const
 #endif
 {
-	//ASSERT_EX( op != noOp, "ClMulExpr::Eval", "invalid operator" );
+	//ASSERT_EX( op != noOp, _T("ClMulExpr::Eval"), _T("invalid operator") );
 	if (op == noOp)
-		throw new CDesertException("ClMulExpr::Eval(double left, MulOp op, double right): invalid opertor");
+		throw new CDesertException(_T("ClMulExpr::Eval(double left, MulOp op, double right): invalid opertor"));
 	switch (op)
 	{
 	case starOp:
@@ -1660,7 +1671,7 @@ double ClMulExpr::Eval(double left, MulOp op, double right) const
 ClData ClMulExpr::Eval(const CCosmic *left,  MulOp op, const CCosmic *right) const
 {
 	if (op == noOp)
-		throw new CDesertException("ClAddExpr::Eval(const CCosmic *left, AddOp op, const CCosmic *right): invalid operator!");
+		throw new CDesertException(_T("ClAddExpr::Eval(const CCosmic *left, AddOp op, const CCosmic *right): invalid operator!"));
 	
 	if (!left || !right)
 	{
@@ -1679,7 +1690,7 @@ ClData ClMulExpr::Eval(const CCosmic *left,  MulOp op, const CCosmic *right) con
 		{
 			//catche the fatal BDD exception here and generate a non-fatal exception
 			e->Delete();			
-			throw new CDesertException(false, "ClAddExpr::Eval(const CCosmic *left, AddOp op, const CCosmic *right): At least one of the operands does not exists!");
+			throw new CDesertException(false, _T("ClAddExpr::Eval(const CCosmic *left, AddOp op, const CCosmic *right): At least one of the operands does not exists!"));
 		}
 
 		return ClData(one_bdd);
@@ -1691,7 +1702,7 @@ ClData ClMulExpr::Eval(const CCosmic *left,  MulOp op, const CCosmic *right) con
 ClData  ClMulExpr::Eval(const CBdd& left, MulOp op, const CCosmic *right) const
 {
 	if (op == noOp)
-		throw new CDesertException("ClMulExpr::Eval(const CBdd& left, AddOp op, const CCosmic *right): invalid operator!");
+		throw new CDesertException(_T("ClMulExpr::Eval(const CBdd& left, AddOp op, const CCosmic *right): invalid operator!"));
 	
 	if (!right)
 	{
@@ -1704,7 +1715,7 @@ ClData  ClMulExpr::Eval(const CBdd& left, MulOp op, const CCosmic *right) const
 		{
 			//catche the fatal BDD exception here and generate a non-fatal exception
 			e->Delete();			
-			throw new CDesertException(false, "ClMulExpr::Eval(const CBdd& left, AddOp op, const CCosmic *right):right operands does not exists!");
+			throw new CDesertException(false, _T("ClMulExpr::Eval(const CBdd& left, AddOp op, const CCosmic *right):right operands does not exists!"));
 		}
 
 		return ClData(one_bdd);
@@ -1715,9 +1726,9 @@ ClData  ClMulExpr::Eval(const CBdd& left, MulOp op, const CCosmic *right) const
 
 ClData ClMulExpr::Eval(const CBdd& left, MulOp op, const CBdd& right) const
 {
-	//ASSERT_EX( op != noOp, "ClLExpr::Eval", "invalid operator" );
+	//ASSERT_EX( op != noOp, _T("ClLExpr::Eval"), _T("invalid operator") );
 	if (op == noOp)
-		throw new CDesertException("ClMulExpr::Eval(const CBdd& left, MulOp op, const CBdd& right) const : invalid operator!");
+		throw new CDesertException(_T("ClMulExpr::Eval(const CBdd& left, MulOp op, const CBdd& right) const : invalid operator!"));
 
 	switch(op)
 	{
@@ -1735,9 +1746,9 @@ ClData ClMulExpr::Eval(const CBdd& left, MulOp op, int right) const
 ClData ClMulExpr::Eval(const CBdd& left, MulOp op, double right) const
 #endif
 {
-	//ASSERT_EX( op != noOp, "ClLExpr::Eval", "invalid operator" );
+	//ASSERT_EX( op != noOp, _T("ClLExpr::Eval"), _T("invalid operator") );
 	if (op == noOp)
-		throw new CDesertException("ClMulExpr::Eval(const CBdd& left, MulOp op, int right) const : invalid operator!");
+		throw new CDesertException(_T("ClMulExpr::Eval(const CBdd& left, MulOp op, int right) const : invalid operator!"));
 
 	switch(op)
 	{
@@ -1755,9 +1766,9 @@ ClData ClMulExpr::Eval(int left, MulOp op, const CBdd& right) const
 ClData ClMulExpr::Eval(double left, MulOp op, const CBdd& right) const
 #endif
 {
- 	//ASSERT_EX( op != noOp, "ClLExpr::Eval", "invalid operator" );
+ 	//ASSERT_EX( op != noOp, _T("ClLExpr::Eval"), _T("invalid operator") );
 	if (op == noOp)
-		throw new CDesertException("ClMulExpr::Eval(int left, MulOp op, const CBdd& right) : invalid operator!");
+		throw new CDesertException(_T("ClMulExpr::Eval(int left, MulOp op, const CBdd& right) : invalid operator!"));
 
 	switch(op)
 	{
@@ -1765,16 +1776,16 @@ ClData ClMulExpr::Eval(double left, MulOp op, const CBdd& right) const
 		return ClData(right * left);
 	case perOp:
 		return ((CBdd)right).devides_from(left);
-		//throw new CDesertException("ClMulExpr::Eval(int left, MulOp op, const CBdd& right): please rewrite the constraint");   //bug here
+		//throw new CDesertException(_T("ClMulExpr::Eval(int left, MulOp op, const CBdd& right): please rewrite the constraint"));   //bug here
 	}
 	return ClData(CBdd::Zero());
 }
 
 ClData ClUnaExpr::Eval(ClContext& c) const
 {
-	//ASSERT_EX( postfixExpr, "ClUnaExpr::Eval", "postfixExpr is null" );
+	//ASSERT_EX( postfixExpr, _T("ClUnaExpr::Eval"), _T("postfixExpr is null") );
 	if (!postfixExpr)
-		throw new CDesertException("ClUnaExpr::Eval(ClContext& c): postfixExpr is NULL!");
+		throw new CDesertException(_T("ClUnaExpr::Eval(ClContext& c): postfixExpr is NULL!"));
 	ClData right = postfixExpr->Eval(c);
 	//if ((ClDataType)right == Cosmic)
 	//	right = ((const CCosmic *)right)->Eval();
@@ -1802,10 +1813,10 @@ ClData ClUnaExpr::Eval(const ClData& right) const
 		else if((ClDataType)rightCosmicData == Bdd)
 			return Eval((const CBdd&) rightCosmicData);
 		else
-			throw new CDesertException("ClUnaExpr::Eval(const ClData&): invalid operands for Unary Op");
+			throw new CDesertException(_T("ClUnaExpr::Eval(const ClData&): invalid operands for Unary Op"));
 	default:
-		//Error("ClUnaExpr::Eval", "invalid operands for a Unary Op");
-		throw new CDesertException(false, "ClUnaExpr::Eval: invalid operands for a Unary Op");
+		//Error(_T("ClUnaExpr::Eval"), _T("invalid operands for a Unary Op"));
+		throw new CDesertException(false, _T("ClUnaExpr::Eval: invalid operands for a Unary Op"));
 		return ClData();
 	}
 }
@@ -1817,16 +1828,16 @@ double ClUnaExpr::Eval(int right) const
 
 double ClUnaExpr::Eval(double right) const
 {
-	//ASSERT_EX( unaOp == minOp, "ClUnaExpr::Eval", "invalid operator" );
+	//ASSERT_EX( unaOp == minOp, _T("ClUnaExpr::Eval"), _T("invalid operator") );
 	//fatal error
 	if (unaOp == noOp)
-		throw new CDesertException("ClUnaExpr::Eval(double right): invalid operator");
+		throw new CDesertException(_T("ClUnaExpr::Eval(double right): invalid operator"));
 
 
 	// Himanshu: 02/20/2012: Checking specifically for the use of notOp with doubles
 	//user error
 	if (unaOp == notOp)
-		throw new CDesertException(false, "ClUnaExpr::Eval(double right): invalid '!' operator used.");
+		throw new CDesertException(false, _T("ClUnaExpr::Eval(double right): invalid '!' operator used."));
 	else if(unaOp == minOp)
 		return -right;
 
@@ -1840,11 +1851,11 @@ double ClUnaExpr::applyUnaryMathFunc(double right) const
    switch(unaOp)
    {
    case noOp:
-	   throw new CDesertException(false, "ClUnaExpr::applyUnaryMathFunc(double): noOp should have already been handled in Eval().");
+	   throw new CDesertException(false, _T("ClUnaExpr::applyUnaryMathFunc(double): noOp should have already been handled in Eval()."));
    case notOp:
-	   throw new CDesertException(false, "ClUnaExpr::applyUnaryMathFunc(double): noOp should have already been handled in Eval().");
+	   throw new CDesertException(false, _T("ClUnaExpr::applyUnaryMathFunc(double): noOp should have already been handled in Eval()."));
    case minOp:
-	   throw new CDesertException(false, "ClUnaExpr::applyUnaryMathFunc(double): noOp should have already been handled in Eval().");
+	   throw new CDesertException(false, _T("ClUnaExpr::applyUnaryMathFunc(double): noOp should have already been handled in Eval()."));
    case sinOp:
 	   return mtbdd_call_muParser_math_function(right, bdd_sin);
    case cosOp:
@@ -1871,21 +1882,21 @@ double ClUnaExpr::applyUnaryMathFunc(double right) const
 	   return mtbdd_call_muParser_math_function(right, bdd_atanh);
    case log2Op:
 	   if(right<=0)
-		   throw new CDesertException(false, "log2() cannot take 0 and negative value.");
+		   throw new CDesertException(false, _T("log2() cannot take 0 and negative value."));
 	   return mtbdd_call_muParser_math_function(right, bdd_log2);
    case log10Op:
 	   if(right<=0)
-		   throw new CDesertException(false, "log10() cannot take 0 and negative value.");
+		   throw new CDesertException(false, _T("log10() cannot take 0 and negative value."));
 		return mtbdd_call_muParser_math_function(right, bdd_log10);
    case lnOp:
 	   if(right<=0)
-		   throw new CDesertException(false, "ln() cannot take 0 and negative value.");
+		   throw new CDesertException(false, _T("ln() cannot take 0 and negative value."));
 		return mtbdd_call_muParser_math_function(right, bdd_ln);
    case expOp:
 	   return mtbdd_call_muParser_math_function(right, bdd_exp);
    case sqrtOp:
 	   if(right<0)
-		   throw new CDesertException(false, "sqrt cannot take negative value.");
+		   throw new CDesertException(false, _T("sqrt cannot take negative value."));
 	  return mtbdd_call_muParser_math_function(right, bdd_sqrt);
    case signOp:
 	  return mtbdd_call_muParser_math_function(right, bdd_sign);
@@ -1894,35 +1905,35 @@ double ClUnaExpr::applyUnaryMathFunc(double right) const
    case absOp:
 	   return mtbdd_call_muParser_math_function(right, bdd_abs);
    default:
-	   throw new CDesertException("ClUnaExpr::applyUnaryMathFunc(double right): invalid math function used.");
+	   throw new CDesertException(_T("ClUnaExpr::applyUnaryMathFunc(double right): invalid math function used."));
    }
-	}catch(mu::Parser::exception_type &e)
+	}catch(const muparser_exception &e)
 	{
-		throw new CDesertException((e.GetMsg()).c_str());
+		throw new CDesertException(CString(e.what()));
 	}
 }
 
 bool ClUnaExpr::Eval(bool right) const
 {
-	//ASSERT_EX( unaOp == notOp, "ClUnaExpr::Eval", "invalid operator" );
+	//ASSERT_EX( unaOp == notOp, _T("ClUnaExpr::Eval"), _T("invalid operator") );
 	//fatal error!
 	if (unaOp == noOp)
-		throw new CDesertException("ClUnaExpr::Eval(bool right): invalid operator");
+		throw new CDesertException(_T("ClUnaExpr::Eval(bool right): invalid operator"));
 
 	//user error
 	if (unaOp != notOp)
-		throw new CDesertException(false, "ClUnaExpr::Eval(bool right): invalid operator. Only '!' operator is supported unary operator for bools.");
+		throw new CDesertException(false, _T("ClUnaExpr::Eval(bool right): invalid operator. Only '!' operator is supported unary operator for bools."));
 
 	return !right;
 }
 
 CBdd ClUnaExpr::Eval(const CBdd& right) const
 {
-	//ASSERT_EX( unaOp == notOp, "ClUnaExpr::Eval", "invalid operator" );
+	//ASSERT_EX( unaOp == notOp, _T("ClUnaExpr::Eval"), _T("invalid operator") );
 	
 	//fatal error
 	if (unaOp == noOp)
-		throw new CDesertException("ClUnaExpr::Eval(const CBdd& right): invalid operator");
+		throw new CDesertException(_T("ClUnaExpr::Eval(const CBdd& right): invalid operator"));
 
 	if (unaOp == notOp)
 		return !right;
@@ -1977,21 +1988,21 @@ CBdd ClUnaExpr::Eval(const CBdd& right) const
    case absOp:
 		return ClData(right.ApplyUnaryMathFunc(bdd_unary_math_function::bdd_abs));
    default:
-	   throw new CDesertException("ClUnaExpr::Eval(const CBdd&): Invalid math function used.");
+	   throw new CDesertException(_T("ClUnaExpr::Eval(const CBdd&): Invalid math function used."));
 	}
-   }catch(mu::Parser::exception_type &e)
+   }
+   catch (const muparser_exception &e)
    {
-	   std::string err = e.GetExpr() +": " +e.GetMsg();
-	   throw new CDesertException(err.c_str());
+	   throw new CDesertException(CString(e.what()));
    }
 }
 
 ClData ClPostfixExpr::Eval(ClContext& c) const
 {
-//	ASSERT_EX( primExpr, "ClPostfixExpr::Eval", "primExpr is null" );
+//	ASSERT_EX( primExpr, _T("ClPostfixExpr::Eval"), _T("primExpr is null") );
 
 	if (!primExpr)
-		throw new CDesertException("ClPostfixExpr::Eval(ClContext& c): primExpr is NULL!");
+		throw new CDesertException(_T("ClPostfixExpr::Eval(ClContext& c): primExpr is NULL!"));
 
 	ClData caller = primExpr->Eval(c);
 	if (call)
@@ -2009,49 +2020,49 @@ ClData ClPrimExpr::Eval(ClContext& c) const
 	switch(type)
 	{
 	case litCollType:
-		//ASSERT_EX( expr.litColl, "ClPrimExpr::Eval", "expr.litColl is null" );
+		//ASSERT_EX( expr.litColl, _T("ClPrimExpr::Eval"), _T("expr.litColl is null") );
 		if (!expr.litColl)
-			throw new CDesertException("ClPrimExpr::Eval(ClContext& c): expr.litColl is NULL!");
+			throw new CDesertException(_T("ClPrimExpr::Eval(ClContext& c): expr.litColl is NULL!"));
 
-		// Error( "ClPrimExpr::litColl", "<%s:%d> litColl not implemented", __FILE__, __LINE__);
+		// Error( _T("ClPrimExpr::litColl"), _T("<%s:%d> litColl not implemented"), __FILE__, __LINE__);
 		return ClData();
 
 
 	case litType:
-		//ASSERT_EX( expr.lit, "ClPrimExpr::Eval", "expr.lit is null" );
+		//ASSERT_EX( expr.lit, _T("ClPrimExpr::Eval"), _T("expr.lit is null") );
 		if (!expr.lit)
-			throw new CDesertException("ClPrimExpr::Eval(ClContext& c): expr.lit is NULL!");
+			throw new CDesertException(_T("ClPrimExpr::Eval(ClContext& c): expr.lit is NULL!"));
 
 		return expr.lit->Eval(c);
 
 	case objType:
-		//ASSERT_EX( expr.objCall.objName, "ClPrimExpr::Eval", "expr.objCall.objName is null" );
+		//ASSERT_EX( expr.objCall.objName, _T("ClPrimExpr::Eval"), _T("expr.objCall.objName is null") );
 		if (!expr.lit)
-			throw new CDesertException("ClPrimExpr::Eval(ClContext& c): expr.lit is NULL!");
+			throw new CDesertException(_T("ClPrimExpr::Eval(ClContext& c): expr.lit is NULL!"));
 
 		return expr.objCall.objName->Eval(c);
 
 	case objCallType:
-		//ASSERT_EX( expr.objCall.objName && expr.objCall.callPars, "ClPrimExpr::Eval",
-		//		   "expr.objCall.objName | expr.objCall.callPars is null" );
+		//ASSERT_EX( expr.objCall.objName && expr.objCall.callPars, _T("ClPrimExpr::Eval"),
+		//		   _T("expr.objCall.objName | expr.objCall.callPars is null") );
 		if (!expr.objCall.objName || !expr.objCall.callPars)
-			throw new CDesertException("ClPrimExpr::Eval(ClContext& c): either expr.objCall.objName and/or expr.objCall.callPars is/are NULL!");
+			throw new CDesertException(_T("ClPrimExpr::Eval(ClContext& c): either expr.objCall.objName and/or expr.objCall.callPars is/are NULL!"));
 
 
 		return expr.objCall.objName->Eval(c, expr.objCall.callPars);
 
 	case exprType:
-		//ASSERT_EX( expr.expr, "ClPrimExpr::Eval", "expr.expr is null" );
+		//ASSERT_EX( expr.expr, _T("ClPrimExpr::Eval"), _T("expr.expr is null") );
 
 		if (!expr.expr)
-			throw new CDesertException("ClPrimExpr::Eval(ClContext& c):  expr.expr is NULL!");
+			throw new CDesertException(_T("ClPrimExpr::Eval(ClContext& c):  expr.expr is NULL!"));
 
 		return expr.expr->Eval(c);
 
 	case ifExprType:
-		//ASSERT_EX( expr.ifExpr, "ClPrimExpr::Eval", "expr.ifExpr is null" );
+		//ASSERT_EX( expr.ifExpr, _T("ClPrimExpr::Eval"), _T("expr.ifExpr is null") );
 		if (!expr.ifExpr)
-			throw new CDesertException("ClPrimExpr::Eval(ClContext& c):  expr.ifExpr is NULL!");
+			throw new CDesertException(_T("ClPrimExpr::Eval(ClContext& c):  expr.ifExpr is NULL!"));
 
 		return expr.ifExpr->Eval(c);
 
@@ -2062,31 +2073,31 @@ ClData ClPrimExpr::Eval(ClContext& c) const
 
 ClData ClPostfixCall::Eval(ClContext& c) const
 {
-//	ASSERT_EX( call, "ClPostfixCall::Eval", "call is null" );
+//	ASSERT_EX( call, _T("ClPostfixCall::Eval"), _T("call is null") );
 	if (!call)
-		throw new CDesertException("ClPostfixCall::Eval(ClContext& c):  call is NULL!");
+		throw new CDesertException(_T("ClPostfixCall::Eval(ClContext& c):  call is NULL!"));
 
-	//ASSERT_EX( callOp != noOp, "ClPostfixCall::Eval", "invalid operator" );
+	//ASSERT_EX( callOp != noOp, _T("ClPostfixCall::Eval"), _T("invalid operator") );
 	if (callOp == noOp)
-		throw new CDesertException("ClPostfixCall::Eval(ClContext& c):  invalid operator!");
+		throw new CDesertException(_T("ClPostfixCall::Eval(ClContext& c):  invalid operator!"));
 
 	CString buf; 
 	switch (callOp)
 	{
 	case objCallOp:
 		if ( (ClDataType)c == Cosmic ) break;
-		buf.Format("ClPostfixCall::Eval(): a DOT b : a is not an object");
+		buf.Format(_T("ClPostfixCall::Eval(): a DOT b : a is not an object"));
 		c.SetError(true, buf);
 		//throw new CDesertException(false, buf);
 		return ClData();
 	case collCallOp:
 		if ( (ClDataType)c == CosmicList ) break;
-		buf.Format("ClPostfixCall::Eval(): a ARROW b : a is not a list");
+		buf.Format(_T("ClPostfixCall::Eval(): a ARROW b : a is not a list"));
 		c.SetError(true, buf);
 		//throw new CDesertException(false, buf);
 		return ClData();
 	case stdCallOp:
-		buf.Format( "ClPostfixCall::Eval <%s:%d> operation not implemented", __FILE__, __LINE__ );
+		buf.Format( _T("ClPostfixCall::Eval <%s:%d> operation not implemented"), __FILE__, __LINE__ );
 		c.SetError(true, buf);
 		//throw new CDesertException(false, buf);
 		return ClData();
@@ -2104,9 +2115,9 @@ ClData ClPostfixCall::Eval(ClContext& c) const
 
 ClData ClLit::Eval(ClContext& c) const
 {
-	//ASSERT_EX( type == strType || num, "ClLit::Eval", "num is null" );
+	//ASSERT_EX( type == strType || num, _T("ClLit::Eval"), _T("num is null") );
 	if (type != strType && !num)
-		throw new CDesertException("Eval(ClContext& c): num is NULL!");
+		throw new CDesertException(_T("Eval(ClContext& c): num is NULL!"));
 	return type == strType ? ClData(str) : ClData(num->Eval(c));
 }
 
@@ -2114,7 +2125,7 @@ ClData ClCall::Eval(ClContext& c) const
 {
 	ClFunction *fn = ClFunction::Find(name);
 	if (fn) return fn->Eval(c, pars);
-	CString buf; buf.Format("ClCall::Eval(): function <%s> not found", name);
+	CString buf; buf.Format(_T("ClCall::Eval(): function <%s> not found"), name);
 	c.SetError(true, buf);
 	throw new CDesertException(false, buf);
 	return ClData();
@@ -2127,9 +2138,9 @@ ClData ClObjName::Eval(ClContext& c) const
 
 ClData ClObjName::Eval(ClContext& c, ClCallPars* pars) const
 {
-//	ASSERT_EX( !selfP, "ClObjName::Eval", "objcall is self" );
+//	ASSERT_EX( !selfP, _T("ClObjName::Eval"), _T("objcall is self") );
 	if (selfP)
-		throw new CDesertException("ClObjName::Eval(): objcall is self");
+		throw new CDesertException(_T("ClObjName::Eval(): objcall is self"));
 	ClFunction *fn = ClFunction::Find(objName);
 	if (fn) 
 		return fn->Eval(c, pars);
@@ -2137,7 +2148,7 @@ ClData ClObjName::Eval(ClContext& c, ClCallPars* pars) const
 	{
 		
 	}
-	CString buf; buf.Format("ClCall::Eval : function <%s> not found", objName);
+	CString buf; buf.Format(_T("ClCall::Eval : function <%s> not found"), objName);
 	c.SetError(true, buf);
 	throw new CDesertException(false, buf);
 	return ClData();

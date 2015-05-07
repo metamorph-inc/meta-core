@@ -76,7 +76,10 @@ namespace CyPhyMetaLink
         private Dictionary<string, Action<MetaLinkProtobuf.Edit>> noticeActions = new Dictionary<string, Action<Edit>>();
 
         // The last guid the executable started with
-        private string LastStartedGuid;
+        private SyncedComponentData LastStartedInstance;
+
+        // Counter to assign instance IDs. Strictly increasing.
+        public static int IdCounter;
 
         private Process _metalinkBridge;
         public Process metalinkBridge
@@ -256,7 +259,7 @@ namespace CyPhyMetaLink
             }
 
             string logfile = Path.Combine(GetProjectDir(), "log", Path.ChangeExtension("MetaLink_CreoCreateAssembly_" + Path.GetRandomFileName(), "log"));
-            string arguments = String.Format("-v inform -g -s 127.0.0.1:15150 -w \"{0}\" -l \"{1}\" {2}", workingDir, logfile, exeparams);
+            string arguments = String.Format("-v debug -g -s 127.0.0.1:15150 -w \"{0}\" -l \"{1}\" {2}, -id {3}", workingDir, logfile, exeparams, syncedCompData.InstanceId);
             arguments += " -d " + guid;
 
             ProcessStartInfo info = new ProcessStartInfo()
@@ -324,7 +327,7 @@ namespace CyPhyMetaLink
                     }
                 }
             };
-            LastStartedGuid = guid;
+            LastStartedInstance = syncedCompData;
             createAssembly.Start();
             createAssembly.BeginOutputReadLine();
             createAssembly.BeginErrorReadLine();
@@ -338,32 +341,32 @@ namespace CyPhyMetaLink
         private void ExeStartupFailed()
         {
             // Unhighlight tree and remove item from synced components
-            if (LastStartedGuid != null)
+            if (LastStartedInstance != null)
             {
                 try
                 {
                     addon.Project.BeginTransactionInNewTerr();
-                    ISIS.GME.Common.Interfaces.Base model = CyphyMetaLinkUtils.GetComponentAssemblyByGuid(addon.Project, LastStartedGuid);
+                    ISIS.GME.Common.Interfaces.Base model = CyphyMetaLinkUtils.GetComponentAssemblyByGuid(addon.Project, LastStartedInstance.Id);
                     if (model == null)
                     {
-                        model = CyphyMetaLinkUtils.GetComponentByAvmId(addon.Project, LastStartedGuid);
-                        SendDisinterest(ComponentUpdateTopic, LastStartedGuid);
+                        model = CyphyMetaLinkUtils.GetComponentByAvmId(addon.Project, LastStartedInstance.Id);
+                        SendDisinterest(true, LastStartedInstance.InstanceId);
                     }
                     if (model != null)
                     {
                         AssemblyID = null;
                         HighlightInTree(model, 0);
-                        SendDisinterest(CadAssemblyTopic, LastStartedGuid);
+                        SendDisinterest(true, LastStartedInstance.InstanceId);
 
                     }
-                    syncedComponents.Remove(LastStartedGuid);
+                    syncedComponents.Remove(LastStartedInstance.Id);
                 }
                 finally
                 {
                     addon.Project.AbortTransaction();
                 }
             }
-            LastStartedGuid = null;
+            LastStartedInstance = null;
             ShowStartupDialog(false);
         }
 
@@ -386,10 +389,6 @@ namespace CyPhyMetaLink
         public bool EstablishConnection()
         {
             bool ret = bridgeClient.EstablishConnection(EditMessageReceived, ConnectionClosed);
-            if (ret)
-            {
-                SendInterest(null, ComponentCreateTopic);
-            }
             return ret;
         }
 
@@ -597,13 +596,11 @@ namespace CyPhyMetaLink
 
                 string CADAssembly = File.ReadAllText(Path.Combine(cadSettings.OutputDirectory, CyPhy2CAD_CSharp.TestBenchModel.TestBenchBase.CADAssemblyFile));
                 string designId = new Guid(currentobj.GetGuidDisp()).ToString("D");
-                SendInterest(null, CadAssemblyTopic, designId);
-                SendInterest(null, ComponentManifestTopic);
-                //SendComponentManifest();
-                SendInterest(null, ConnectTopic);
-                SendInterest(null, ResyncTopic, designId);
+                SendInterest(null, syncedCompData.InstanceId);
                 foreach (var comp in comps)
-                    SendInterest(null, ComponentUpdateTopic, comp.Attributes.AVMID);
+                {
+                  //  SendInterest(null, ComponentTopic, comp.Attributes.AVMID);
+                }
                 SaveCadAssemblyXml(CADAssembly, designId);
             }
             finally
@@ -641,15 +638,17 @@ namespace CyPhyMetaLink
 
         public void StartCreoEmpyMode()
         {
+            string tmpid = Guid.NewGuid().ToString();
             SyncedComponentData cdata = new SyncedComponentData()
             {
-                Type = SyncedComponentData.EditType.Component,
-                WorkingDir = GetProjectDir()
+                Type = SyncedComponentData.EditType.Empty,
+                WorkingDir = GetProjectDir(),
+                InstanceId = (IdCounter++).ToString(),
+                Id = tmpid
             };
-            string tmpid = Guid.NewGuid().ToString();
             syncedComponents.Add(tmpid, cdata);
             StartAssemblyExe(CreoOpenMode.OPEN_EMPTY, tmpid, false, "");
-            SendInterest(null, ComponentCreateTopic, tmpid);
+            SendInterest(null, cdata.InstanceId);
         }
 
         public void StartEditingComponent(CyPhyML.Component component, MgaFCO cadModel, bool createNewComponent)
@@ -720,25 +719,31 @@ namespace CyPhyMetaLink
 
             syncedCompData = new SyncedComponentData()
             {
-                Type = SyncedComponentData.EditType.Component
+                Type = SyncedComponentData.EditType.Component,
+                InstanceId = (IdCounter++).ToString(),
+                Id = avmid
             };
             syncedComponents.Add(avmid, syncedCompData);
 
-            if (!SendInterest(StartComponentEditAction, ComponentUpdateTopic, avmid))
-            {
-                StartComponentEdit(avmid, true);
-            }
-            SendInterest(null, ComponentAnalysisPointTopic, avmid);
+            SendInterest(StartComponentEditAction, syncedCompData.InstanceId);
         }
 
-        private Edit CreateComponentEditMessage(CyPhyML.Component component, CyPhyML.CADModel cadModel, bool clear = false)
+        private SyncedComponentData GetSyncedCompDataByInstanceId(string instanceid)
+        {
+            foreach (KeyValuePair<string,SyncedComponentData> p in syncedComponents)
+            {
+                if (p.Value.InstanceId == instanceid) return p.Value;
+            }
+            return null;
+        }
+
+        private Edit CreateComponentEditMessage(string instanceId, CyPhyML.Component component, CyPhyML.CADModel cadModel)
         {
             string cadModelRelativePath = "";
-            if (false == cadModel.TryGetResourcePath(out cadModelRelativePath)
-                || cadModelRelativePath == "")
+            if (false == cadModel.TryGetResourcePath(out cadModelRelativePath) || cadModelRelativePath == "")
             {
                 // TODO log
-                return null;
+                //return null;
             }
 
             var message = new Edit()
@@ -748,37 +753,36 @@ namespace CyPhyMetaLink
                 //sequence = 0,
             };
             message.origin.Add(GMEOrigin);
-            message.topic.Add(ComponentUpdateTopic);
-            message.topic.Add(component.Attributes.AVMID);
-            if (clear)
-            {
-                message.actions.Add(new edu.vanderbilt.isis.meta.Action() { actionMode = MetaLinkProtobuf.Action.ActionMode.CLEAR });
-            }
+            message.topic.Add(instanceId);
             edu.vanderbilt.isis.meta.Action action = new edu.vanderbilt.isis.meta.Action();
             message.actions.Add(action);
-            action.actionMode = MetaLinkProtobuf.Action.ActionMode.INSERT;
+            action.actionMode = MetaLinkProtobuf.Action.ActionMode.UPDATE_CAD_COMPONENT;
+            action.subjectID = component.Attributes.AVMID;
             action.environment.Add(new edu.vanderbilt.isis.meta.Environment()
             {
                 name = SearchPathStr,
             });
             AddSearchPathToEnvironment(component, action.environment[0]);
-            action.payload = new Payload();
-            CADComponentType cadComponent = new CADComponentType()
+            if (cadModelRelativePath.Length != 0)
             {
-                AvmComponentID = component.Attributes.AVMID,
-                CADModelID = CyphyMetaLinkUtils.GetResourceID(cadModel), // Using CADModelID to transport this information (the resource id)
-                Name = Path.GetFileNameWithoutExtension(cadModelRelativePath), // the partial creo file name (less .prt or .asm)
-                Type = (Path.GetExtension(cadModelRelativePath).EndsWith(".prt") || Path.GetExtension(cadModelRelativePath).EndsWith(".PRT"))?"PART":"ASSEMBLY"
-            };
-            foreach (var connector in component.Children.ConnectorCollection)
-            {
-                cadComponent.Connectors.Add(new ConnectorType() { ID = connector.Guid.ToString(), DisplayName = connector.Name });
+                action.payload = new Payload();
+                CADComponentType cadComponent = new CADComponentType()
+                {
+                    AvmComponentID = component.Attributes.AVMID,
+                    CADModelID = CyphyMetaLinkUtils.GetResourceID(cadModel), // Using CADModelID to transport this information (the resource id)
+                    Name = Path.GetFileNameWithoutExtension(cadModelRelativePath), // the partial creo file name (less .prt or .asm)
+                    Type = (Path.GetExtension(cadModelRelativePath).EndsWith(".prt") || Path.GetExtension(cadModelRelativePath).EndsWith(".PRT")) ? "PART" : "ASSEMBLY"
+                };
+                foreach (var connector in component.Children.ConnectorCollection)
+                {
+                    cadComponent.Connectors.Add(new ConnectorType() { ID = connector.Guid.ToString(), DisplayName = connector.Name });
+                }
+                foreach (var datum in cadModel.Children.CADDatumCollection)
+                {
+                    cadComponent.Datums.Add(new ConnectorDatumType() { ID = datum.Attributes.DatumName, DisplayName = datum.Name });
+                }
+                action.payload.components.Add(cadComponent);
             }
-            foreach (var datum in cadModel.Children.CADDatumCollection)
-            {
-                cadComponent.Datums.Add(new ConnectorDatumType() { ID = datum.Attributes.DatumName, DisplayName = datum.Name });
-            }
-            action.payload.components.Add(cadComponent);
             return message;
         }
 

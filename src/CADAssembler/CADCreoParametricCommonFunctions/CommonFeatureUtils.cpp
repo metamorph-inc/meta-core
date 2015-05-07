@@ -284,7 +284,7 @@ ProError user_action( ProFeature *feature, ProError status, ProAppData appdata)
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	std::ostream& operator<<( std::ostream & in_stream, const CreoConstraintDefinition &in_ConstrDef )
 	{
-		in_stream << "***** Constrain-Definition ******" << std::endl;
+		in_stream << "***** Constraint-Definition ******" << std::endl;
 		in_stream << "   component_constr_type: "		<< ProAsmcompConstrType_string(in_ConstrDef.component_constr_type) << std::endl;
 
 		ProModelitem modelItem;

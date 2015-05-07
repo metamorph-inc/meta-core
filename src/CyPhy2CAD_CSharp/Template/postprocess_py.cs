@@ -17,69 +17,12 @@ namespace CyPhy2CAD_CSharp.Template
     using System.Collections.Generic;
     
     
-    #line 1 "C:\Users\snyako\Desktop\META-13.17\src\CyPhy2CAD_CSharp\Template\postprocess_py.tt"
+    #line 1 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\postprocess_py.tt"
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "10.0.0.0")]
     public partial class postprocess_py : postprocess_pyBase
     {
-        #region ToString Helpers
-        /// <summary>
-        /// Utility class to produce culture-oriented representation of an object as a string.
-        /// </summary>
-        public class ToStringInstanceHelper
-        {
-            private System.IFormatProvider formatProviderField  = global::System.Globalization.CultureInfo.InvariantCulture;
-            /// <summary>
-            /// Gets or sets format provider to be used by ToStringWithCulture method.
-            /// </summary>
-            public System.IFormatProvider FormatProvider
-            {
-                get
-                {
-                    return this.formatProviderField ;
-                }
-                set
-                {
-                    if ((value != null))
-                    {
-                        this.formatProviderField  = value;
-                    }
-                }
-            }
-            /// <summary>
-            /// This is called from the compile/run appdomain to convert objects within an expression block to a string
-            /// </summary>
-            public string ToStringWithCulture(object objectToConvert)
-            {
-                if ((objectToConvert == null))
-                {
-                    throw new global::System.ArgumentNullException("objectToConvert");
-                }
-                System.Type t = objectToConvert.GetType();
-                System.Reflection.MethodInfo method = t.GetMethod("ToString", new System.Type[] {
-                            typeof(System.IFormatProvider)});
-                if ((method == null))
-                {
-                    return objectToConvert.ToString();
-                }
-                else
-                {
-                    return ((string)(method.Invoke(objectToConvert, new object[] {
-                                this.formatProviderField })));
-                }
-            }
-        }
-        private ToStringInstanceHelper toStringHelperField = new ToStringInstanceHelper();
-        public ToStringInstanceHelper ToStringHelper
-        {
-            get
-            {
-                return this.toStringHelperField;
-            }
-        }
-        #endregion
         public virtual string TransformText()
         {
-            this.GenerationEnvironment = null;
             this.Write(" \r\n");
             this.Write(@"import os
 import sys
@@ -124,7 +67,7 @@ def call_script(meta_python, scriptname, logger):
 if __name__ == '__main__':
     debuglogfile = r'log/");
             
-            #line 52 "C:\Users\snyako\Desktop\META-13.17\src\CyPhy2CAD_CSharp\Template\postprocess_py.tt"
+            #line 52 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\postprocess_py.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(CyPhy2CAD_CSharp.TestBenchModel.TestBenchBase.SanitizePythonRawString(LogName)));
             
             #line default
@@ -153,7 +96,7 @@ if __name__ == '__main__':
     if meta_python is not None:
     ");
             
-            #line 74 "C:\Users\snyako\Desktop\META-13.17\src\CyPhy2CAD_CSharp\Template\postprocess_py.tt"
+            #line 74 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\postprocess_py.tt"
  foreach (var name in ScriptNames)
     { 
             
@@ -161,25 +104,25 @@ if __name__ == '__main__':
             #line hidden
             this.Write("    if call_script(meta_python, r\'");
             
-            #line 76 "C:\Users\snyako\Desktop\META-13.17\src\CyPhy2CAD_CSharp\Template\postprocess_py.tt"
+            #line 76 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\postprocess_py.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(CyPhy2CAD_CSharp.TestBenchModel.TestBenchBase.SanitizePythonRawString(name)));
             
             #line default
             #line hidden
             this.Write("\', logger) > 0:\r\n    ");
             
-            #line 77 "C:\Users\snyako\Desktop\META-13.17\src\CyPhy2CAD_CSharp\Template\postprocess_py.tt"
+            #line 77 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\postprocess_py.tt"
   } 
             
             #line default
             #line hidden
-            this.Write("        logger.error(\'Can not find META Python Package!\')\r\n            errorcnt +" +
-                    "=1\r\n\r\n    if errorcnt > 0:\r\n        open(\'_FAILED.txt\', \'wb\').write(\'Script erro" +
-                    "r, for details see \' + debuglogfile)\r\n");
+            this.Write("        logger.error(\'Error during executing the postprocessing script!\')\r\n      " +
+                    "      errorcnt +=1\r\n\r\n    if errorcnt > 0:\r\n        open(\'_FAILED.txt\', \'wb\').wr" +
+                    "ite(\'Script error, for details see \' + debuglogfile)\r\n");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 83 "C:\Users\snyako\Desktop\META-13.17\src\CyPhy2CAD_CSharp\Template\postprocess_py.tt"
+        #line 83 "C:\Users\snyako.ISIS\Desktop\META\src\CyPhy2CAD_CSharp\Template\postprocess_py.tt"
   
 public List<string> ScriptNames {get;set;}
 public string LogName {get;set;}
@@ -400,6 +343,62 @@ public string LogName {get;set;}
         {
             this.indentLengths.Clear();
             this.currentIndentField = "";
+        }
+        #endregion
+        #region ToString Helpers
+        /// <summary>
+        /// Utility class to produce culture-oriented representation of an object as a string.
+        /// </summary>
+        public class ToStringInstanceHelper
+        {
+            private System.IFormatProvider formatProviderField  = global::System.Globalization.CultureInfo.InvariantCulture;
+            /// <summary>
+            /// Gets or sets format provider to be used by ToStringWithCulture method.
+            /// </summary>
+            public System.IFormatProvider FormatProvider
+            {
+                get
+                {
+                    return this.formatProviderField ;
+                }
+                set
+                {
+                    if ((value != null))
+                    {
+                        this.formatProviderField  = value;
+                    }
+                }
+            }
+            /// <summary>
+            /// This is called from the compile/run appdomain to convert objects within an expression block to a string
+            /// </summary>
+            public string ToStringWithCulture(object objectToConvert)
+            {
+                if ((objectToConvert == null))
+                {
+                    throw new global::System.ArgumentNullException("objectToConvert");
+                }
+                System.Type t = objectToConvert.GetType();
+                System.Reflection.MethodInfo method = t.GetMethod("ToString", new System.Type[] {
+                            typeof(System.IFormatProvider)});
+                if ((method == null))
+                {
+                    return objectToConvert.ToString();
+                }
+                else
+                {
+                    return ((string)(method.Invoke(objectToConvert, new object[] {
+                                this.formatProviderField })));
+                }
+            }
+        }
+        private ToStringInstanceHelper toStringHelperField = new ToStringInstanceHelper();
+        public ToStringInstanceHelper ToStringHelper
+        {
+            get
+            {
+                return this.toStringHelperField;
+            }
         }
         #endregion
     }

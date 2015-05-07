@@ -1627,21 +1627,6 @@ namespace MasterInterpreterTest.Projects
         [Fact]
         [Trait("Model", "MasterInterpreter")]
         [Trait("MasterInterpreter", "ContextCheckerFail")]
-        public void TestBench_HasTestInjectionPoint_Invalid()
-        {
-            //string outputDir = "TestBench_HasTestInjectionPoint_Invalid";
-            string objectAbsPath = "/@010_TestingContextChecker|kind=Testing|relpos=0/@TestBench|kind=Testing|relpos=0/@Invalid|kind=Testing|relpos=0/@HasTestInjectionPoint|kind=TestBench|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            // check context
-            var success = CyPhyMasterInterpreterRunner.RunContextCheck(mgaFile, objectAbsPath);
-
-            Assert.False(success, "CyPhyMasterInterpreter context checker should have failed, but did not.");
-        }
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "ContextCheckerFail")]
         public void TestBench_HasTestInjectionPointNullReference_Invalid()
         {
             //string outputDir = "TestBench_HasTestInjectionPointNullReference_Invalid";
@@ -1819,6 +1804,22 @@ namespace MasterInterpreterTest.Projects
 
             Assert.False(success, "CyPhyMasterInterpreter context checker should have failed, but did not.");
         }
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "ContextCheckerSuccess")]
+        public void TestBench_HasTestInjectionPoint_Valid()
+        {
+            //string outputDir = "TestBench_HasTestInjectionPoint_Valid";
+            string objectAbsPath = "/@010_TestingContextChecker|kind=Testing|relpos=0/@TestBench|kind=Testing|relpos=0/@Valid|kind=Testing|relpos=0/@HasTestInjectionPoint|kind=TestBench|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            // check context
+            var success = CyPhyMasterInterpreterRunner.RunContextCheck(mgaFile, objectAbsPath);
+
+            Assert.True(success, "CyPhyMasterInterpreter context checker should have succeeded, but did not.");
+        }
+
         [Fact]
         [Trait("Model", "MasterInterpreter")]
         [Trait("MasterInterpreter", "ContextCheckerSuccess")]
@@ -2701,873 +2702,12 @@ namespace MasterInterpreterTest.Projects
 
         [Fact]
         [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterFail")]
-        public void MI_10_TestBench_MSD_om_DS_postprocessing_Invalid_MassSpringDamper_cfg1()
-        {
-            //string outputDir = "MI_10_TestBench_MSD_om_DS_postprocessing_Invalid_MassSpringDamper_cfg1";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Dynamics|kind=Testing|relpos=0/@MustFail|kind=Testing|relpos=0/@MSD_om_DS_postprocessing_Invalid|kind=TestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.False(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterFail")]
-        public void MI_10_TestBench_MSD_om_DS_postprocessing_Invalid_MassSpringDamper_cfg4()
-        {
-            //string outputDir = "MI_10_TestBench_MSD_om_DS_postprocessing_Invalid_MassSpringDamper_cfg4";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Dynamics|kind=Testing|relpos=0/@MustFail|kind=Testing|relpos=0/@MSD_om_DS_postprocessing_Invalid|kind=TestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.False(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
         [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_TestBench_MSD_om_DS_MassSpringDamper_cfg1()
+        public void MI_10_TestBench_MSD_CAD_Valid_MSD_ComponentAssembly_Island()
         {
-            //string outputDir = "MI_10_TestBench_MSD_om_DS_MassSpringDamper_cfg1";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Dynamics|kind=Testing|relpos=0/@MSD_om_DS|kind=TestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_TestBench_MSD_om_DS_MassSpringDamper_cfg4()
-        {
-            //string outputDir = "MI_10_TestBench_MSD_om_DS_MassSpringDamper_cfg4";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Dynamics|kind=Testing|relpos=0/@MSD_om_DS|kind=TestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_TestBench_MSD_om_DS2_MassSpringDamper_cfg1()
-        {
-            //string outputDir = "MI_10_TestBench_MSD_om_DS2_MassSpringDamper_cfg1";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Dynamics|kind=Testing|relpos=0/@MSD_om_DS2|kind=TestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_TestBench_MSD_om_DS2_MassSpringDamper_cfg4()
-        {
-            //string outputDir = "MI_10_TestBench_MSD_om_DS2_MassSpringDamper_cfg4";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Dynamics|kind=Testing|relpos=0/@MSD_om_DS2|kind=TestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CFDTestBench_CFDTestBench_DS_Valid_MassSpringDamper_cfg1()
-        {
-            //string outputDir = "MI_10_CFDTestBench_CFDTestBench_DS_Valid_MassSpringDamper_cfg1";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@CFD|kind=Testing|relpos=0/@CFDTestBench_DS_Valid|kind=CFDTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CFDTestBench_CFDTestBench_DS_Valid_MassSpringDamper_cfg4()
-        {
-            //string outputDir = "MI_10_CFDTestBench_CFDTestBench_DS_Valid_MassSpringDamper_cfg4";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@CFD|kind=Testing|relpos=0/@CFDTestBench_DS_Valid|kind=CFDTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_StructuralFEATestBench_DS_Valid_MassSpringDamper_cfg1()
-        {
-            //string outputDir = "MI_10_CADTestBench_StructuralFEATestBench_DS_Valid_MassSpringDamper_cfg1";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@StructuralFEATestBench_DS_Valid|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_StructuralFEATestBench_DS_Valid_MassSpringDamper_cfg4()
-        {
-            //string outputDir = "MI_10_CADTestBench_StructuralFEATestBench_DS_Valid_MassSpringDamper_cfg4";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@StructuralFEATestBench_DS_Valid|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_ComponentRef_DS_DesignContainer_cfg1_Invalid_Generated()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_ComponentRef_DS_DesignContainer_cfg1_Invalid_Generated";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@FEA_ComponentRef_DS|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Invalid_Generated|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_ComponentRef_DS_cfg2()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_ComponentRef_DS_cfg2";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@FEA_ComponentRef_DS|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@DesignSpaceSrtucturalFEA|kind=DesignSpace|relpos=0/@DesignContainerStructuralFEA|kind=DesignContainer|relpos=0/@Exported-Configurations-at--11-15--11-59-11|kind=Configurations|relpos=0/@cfg2|kind=CWC|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_BlastTestBench_BlastTestBench_Predef_DS_Valid_MassSpringDamper_cfg1()
-        {
-            //string outputDir = "MI_10_BlastTestBench_BlastTestBench_Predef_DS_Valid_MassSpringDamper_cfg1";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Blast|kind=Testing|relpos=0/@BlastTestBench_Predef_DS_Valid|kind=BlastTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_BlastTestBench_BlastTestBench_Predef_DS_Valid_MassSpringDamper_cfg4()
-        {
-            //string outputDir = "MI_10_BlastTestBench_BlastTestBench_Predef_DS_Valid_MassSpringDamper_cfg4";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Blast|kind=Testing|relpos=0/@BlastTestBench_Predef_DS_Valid|kind=BlastTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_BlastTestBench_BlastTestBench_Custom_DS_Valid_MassSpringDamper_cfg1()
-        {
-            //string outputDir = "MI_10_BlastTestBench_BlastTestBench_Custom_DS_Valid_MassSpringDamper_cfg1";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Blast|kind=Testing|relpos=0/@BlastTestBench_Custom_DS_Valid|kind=BlastTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_BlastTestBench_BlastTestBench_Custom_DS_Valid_MassSpringDamper_cfg4()
-        {
-            //string outputDir = "MI_10_BlastTestBench_BlastTestBench_Custom_DS_Valid_MassSpringDamper_cfg4";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Blast|kind=Testing|relpos=0/@BlastTestBench_Custom_DS_Valid|kind=BlastTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_TestBench_MSD_CAD_DS_Valid_MassSpringDamper_cfg1()
-        {
-            //string outputDir = "MI_10_TestBench_MSD_CAD_DS_Valid_MassSpringDamper_cfg1";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@CAD|kind=Testing|relpos=0/@MSD_CAD_DS_Valid|kind=TestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_TestBench_MSD_CAD_DS_Valid_MassSpringDamper_cfg4()
-        {
-            //string outputDir = "MI_10_TestBench_MSD_CAD_DS_Valid_MassSpringDamper_cfg4";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@CAD|kind=Testing|relpos=0/@MSD_CAD_DS_Valid|kind=TestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_BallisticTestBench_BallisticTestBench_Custom_DS_Valid_MassSpringDamper_cfg1()
-        {
-            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_Custom_DS_Valid_MassSpringDamper_cfg1";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_Custom_DS_Valid|kind=BallisticTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_BallisticTestBench_BallisticTestBench_Custom_DS_Valid_MassSpringDamper_cfg4()
-        {
-            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_Custom_DS_Valid_MassSpringDamper_cfg4";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_Custom_DS_Valid|kind=BallisticTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_BallisticTestBench_BallisticTestBench_Predef_DS_Valid_MassSpringDamper_cfg1()
-        {
-            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_Predef_DS_Valid_MassSpringDamper_cfg1";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_Predef_DS_Valid|kind=BallisticTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_BallisticTestBench_BallisticTestBench_Predef_DS_Valid_MassSpringDamper_cfg4()
-        {
-            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_Predef_DS_Valid_MassSpringDamper_cfg4";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_Predef_DS_Valid|kind=BallisticTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_BallisticTestBench_BallisticTestBench_Predef_Valid_MSD_ComponentAssembly()
-        {
-            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_Predef_Valid_MSD_ComponentAssembly";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_Predef_Valid|kind=BallisticTestBench|relpos=0";
-            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_BallisticTestBench_BallisticTestBench_Custom_Valid_MSD_ComponentAssembly()
-        {
-            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_Custom_Valid_MSD_ComponentAssembly";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_Custom_Valid|kind=BallisticTestBench|relpos=0";
-            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterFail")]
-        public void MI_10_BallisticTestBench_BallisticTestBench_CriticalComponent_Invalid_MSD_ComponentAssembly()
-        {
-            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_CriticalComponent_Invalid_MSD_ComponentAssembly";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_CriticalComponent_Invalid|kind=BallisticTestBench|relpos=0";
-            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.False(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterFail")]
-        public void MI_10_BallisticTestBench_BallisticTestBench_BallisticTarget_Invalid_MSD_ComponentAssembly()
-        {
-            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_BallisticTarget_Invalid_MSD_ComponentAssembly";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_BallisticTarget_Invalid|kind=BallisticTestBench|relpos=0";
-            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.False(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_BlastTestBench_BlastTestBench_Predefined_Valid_MSD_ComponentAssembly()
-        {
-            //string outputDir = "MI_10_BlastTestBench_BlastTestBench_Predefined_Valid_MSD_ComponentAssembly";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@Blast|kind=Testing|relpos=0/@BlastTestBench_Predefined_Valid|kind=BlastTestBench|relpos=0";
-            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_BlastTestBench_BlastTestBench_Custom_Valid_MSD_ComponentAssembly()
-        {
-            //string outputDir = "MI_10_BlastTestBench_BlastTestBench_Custom_Valid_MSD_ComponentAssembly";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@Blast|kind=Testing|relpos=0/@BlastTestBench_Custom_Valid|kind=BlastTestBench|relpos=0";
-            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CFDTestBench_CFDTestBench_Valid_MSD_ComponentAssembly_Island()
-        {
-            //string outputDir = "MI_10_CFDTestBench_CFDTestBench_Valid_MSD_ComponentAssembly_Island";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@CFD|kind=Testing|relpos=0/@CFDTestBench_Valid|kind=CFDTestBench|relpos=0";
+            //string outputDir = "MI_10_TestBench_MSD_CAD_Valid_MSD_ComponentAssembly_Island";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@CAD|kind=Testing|relpos=0/@MSD_CAD_Valid|kind=TestBench|relpos=0";
             string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly_Island|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_DISPLACEMENT_DesignContainer_cfg1_Valid()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_DISPLACEMENT_DesignContainer_cfg1_Valid";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_DISPLACEMENT|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_PIN_DesignContainer_cfg1_Valid()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_PIN_DesignContainer_cfg1_Valid";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_PIN|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_DesignContainer_cfg1_Valid()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_DesignContainer_cfg1_Valid";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_BALL_DesignContainer_cfg1_Valid()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_BALL_DesignContainer_cfg1_Valid";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_BALL|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_FORCE_DesignContainer_cfg1_Valid()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_FORCE_DesignContainer_cfg1_Valid";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_FORCE|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_PRESS_DesignContainer_cfg1_Valid()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_PRESS_DesignContainer_cfg1_Valid";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_PRESS|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_ComponentRef_Config_2_DesignContainer_cfg1_Valid()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_ComponentRef_Config_2_DesignContainer_cfg1_Valid";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_ComponentRef_Config_2|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_BALL_2_DesignContainer_cfg1_Valid()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_BALL_2_DesignContainer_cfg1_Valid";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_BALL_2|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_ComponentRef_Config_DesignContainer_cfg1_Valid()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_ComponentRef_Config_DesignContainer_cfg1_Valid";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_ComponentRef_Config|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_StructuralFEATestBench_Valid_MSD_ComponentAssembly_Island()
-        {
-            //string outputDir = "MI_10_CADTestBench_StructuralFEATestBench_Valid_MSD_ComponentAssembly_Island";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@StructuralFEATestBench_Valid|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly_Island|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_PressureLoad_DesignContainer_cfg1_Valid()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_PressureLoad_DesignContainer_cfg1_Valid";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_PressureLoad|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_AlternativeTIP_Config_DesignContainer_cfg1_Valid()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_AlternativeTIP_Config_DesignContainer_cfg1_Valid";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@FEA_AlternativeTIP_Config|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
-                projectPath: mgaFile,
-                absPath: objectAbsPath,
-                configPath: configAbsPath,
-                postToJobManager: false,
-                keepTempModels: false);
-
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_CADTestBench_FEA_ComponentRef_Config_3Pt_Polygon_DesignContainer_cfg1_Valid()
-        {
-            //string outputDir = "MI_10_CADTestBench_FEA_ComponentRef_Config_3Pt_Polygon_DesignContainer_cfg1_Valid";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@FEA_ComponentRef_Config_3Pt_Polygon|kind=CADTestBench|relpos=0";
-            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
 
@@ -3626,11 +2766,872 @@ namespace MasterInterpreterTest.Projects
         [Fact]
         [Trait("Model", "MasterInterpreter")]
         [Trait("MasterInterpreter", "RunInterpreterSuccess")]
-        public void MI_10_TestBench_MSD_CAD_Valid_MSD_ComponentAssembly_Island()
+        public void MI_10_CADTestBench_FEA_ComponentRef_Config_DesignContainer_cfg1_Valid()
         {
-            //string outputDir = "MI_10_TestBench_MSD_CAD_Valid_MSD_ComponentAssembly_Island";
-            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@CAD|kind=Testing|relpos=0/@MSD_CAD_Valid|kind=TestBench|relpos=0";
+            //string outputDir = "MI_10_CADTestBench_FEA_ComponentRef_Config_DesignContainer_cfg1_Valid";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_ComponentRef_Config|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_BALL_2_DesignContainer_cfg1_Valid()
+        {
+            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_BALL_2_DesignContainer_cfg1_Valid";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_BALL_2|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_FEA_ComponentRef_Config_2_DesignContainer_cfg1_Valid()
+        {
+            //string outputDir = "MI_10_CADTestBench_FEA_ComponentRef_Config_2_DesignContainer_cfg1_Valid";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_ComponentRef_Config_2|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_PRESS_DesignContainer_cfg1_Valid()
+        {
+            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_PRESS_DesignContainer_cfg1_Valid";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_PRESS|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_FORCE_DesignContainer_cfg1_Valid()
+        {
+            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_FORCE_DesignContainer_cfg1_Valid";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_FORCE|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_BALL_DesignContainer_cfg1_Valid()
+        {
+            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_BALL_DesignContainer_cfg1_Valid";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_BALL|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_DesignContainer_cfg1_Valid()
+        {
+            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_DesignContainer_cfg1_Valid";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_PIN_DesignContainer_cfg1_Valid()
+        {
+            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_PIN_DesignContainer_cfg1_Valid";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_PIN|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_DISPLACEMENT_DesignContainer_cfg1_Valid()
+        {
+            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_DISPLACEMENT_DesignContainer_cfg1_Valid";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@MoreTesting|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_DISPLACEMENT|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_FEA_ComponentRef_Config_3Pt_Polygon_DesignContainer_cfg1_Valid()
+        {
+            //string outputDir = "MI_10_CADTestBench_FEA_ComponentRef_Config_3Pt_Polygon_DesignContainer_cfg1_Valid";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@FEA_ComponentRef_Config_3Pt_Polygon|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_FEA_AlternativeTIP_Config_DesignContainer_cfg1_Valid()
+        {
+            //string outputDir = "MI_10_CADTestBench_FEA_AlternativeTIP_Config_DesignContainer_cfg1_Valid";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@FEA_AlternativeTIP_Config|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_FEA_CompoundTIP_Config_PressureLoad_DesignContainer_cfg1_Valid()
+        {
+            //string outputDir = "MI_10_CADTestBench_FEA_CompoundTIP_Config_PressureLoad_DesignContainer_cfg1_Valid";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@FEA_CompoundTIP_Config_PressureLoad|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Valid|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_StructuralFEATestBench_Valid_MSD_ComponentAssembly_Island()
+        {
+            //string outputDir = "MI_10_CADTestBench_StructuralFEATestBench_Valid_MSD_ComponentAssembly_Island";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@StructuralFEATestBench_Valid|kind=CADTestBench|relpos=0";
             string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly_Island|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CFDTestBench_CFDTestBench_Valid_MSD_ComponentAssembly_Island()
+        {
+            //string outputDir = "MI_10_CFDTestBench_CFDTestBench_Valid_MSD_ComponentAssembly_Island";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@CFD|kind=Testing|relpos=0/@CFDTestBench_Valid|kind=CFDTestBench|relpos=0";
+            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly_Island|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_BlastTestBench_BlastTestBench_Custom_Valid_MSD_ComponentAssembly()
+        {
+            //string outputDir = "MI_10_BlastTestBench_BlastTestBench_Custom_Valid_MSD_ComponentAssembly";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@Blast|kind=Testing|relpos=0/@BlastTestBench_Custom_Valid|kind=BlastTestBench|relpos=0";
+            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_BlastTestBench_BlastTestBench_Predefined_Valid_MSD_ComponentAssembly()
+        {
+            //string outputDir = "MI_10_BlastTestBench_BlastTestBench_Predefined_Valid_MSD_ComponentAssembly";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@Blast|kind=Testing|relpos=0/@BlastTestBench_Predefined_Valid|kind=BlastTestBench|relpos=0";
+            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterFail")]
+        public void MI_10_BallisticTestBench_BallisticTestBench_BallisticTarget_Invalid_MSD_ComponentAssembly()
+        {
+            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_BallisticTarget_Invalid_MSD_ComponentAssembly";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_BallisticTarget_Invalid|kind=BallisticTestBench|relpos=0";
+            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.False(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterFail")]
+        public void MI_10_BallisticTestBench_BallisticTestBench_CriticalComponent_Invalid_MSD_ComponentAssembly()
+        {
+            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_CriticalComponent_Invalid_MSD_ComponentAssembly";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_CriticalComponent_Invalid|kind=BallisticTestBench|relpos=0";
+            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.False(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_BallisticTestBench_BallisticTestBench_Custom_Valid_MSD_ComponentAssembly()
+        {
+            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_Custom_Valid_MSD_ComponentAssembly";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_Custom_Valid|kind=BallisticTestBench|relpos=0";
+            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_BallisticTestBench_BallisticTestBench_Predef_Valid_MSD_ComponentAssembly()
+        {
+            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_Predef_Valid_MSD_ComponentAssembly";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@ComponentAssembly|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_Predef_Valid|kind=BallisticTestBench|relpos=0";
+            string configAbsPath = "/@31_MSDAssembly|kind=ComponentAssemblies|relpos=0/@MSD_ComponentAssembly|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_BallisticTestBench_BallisticTestBench_Predef_DS_Valid_MassSpringDamper_cfg4()
+        {
+            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_Predef_DS_Valid_MassSpringDamper_cfg4";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_Predef_DS_Valid|kind=BallisticTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_BallisticTestBench_BallisticTestBench_Predef_DS_Valid_MassSpringDamper_cfg1()
+        {
+            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_Predef_DS_Valid_MassSpringDamper_cfg1";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_Predef_DS_Valid|kind=BallisticTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_BallisticTestBench_BallisticTestBench_Custom_DS_Valid_MassSpringDamper_cfg4()
+        {
+            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_Custom_DS_Valid_MassSpringDamper_cfg4";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_Custom_DS_Valid|kind=BallisticTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_BallisticTestBench_BallisticTestBench_Custom_DS_Valid_MassSpringDamper_cfg1()
+        {
+            //string outputDir = "MI_10_BallisticTestBench_BallisticTestBench_Custom_DS_Valid_MassSpringDamper_cfg1";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Ballistics|kind=Testing|relpos=0/@BallisticTestBench_Custom_DS_Valid|kind=BallisticTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_TestBench_MSD_CAD_DS_Valid_MassSpringDamper_cfg4()
+        {
+            //string outputDir = "MI_10_TestBench_MSD_CAD_DS_Valid_MassSpringDamper_cfg4";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@CAD|kind=Testing|relpos=0/@MSD_CAD_DS_Valid|kind=TestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_TestBench_MSD_CAD_DS_Valid_MassSpringDamper_cfg1()
+        {
+            //string outputDir = "MI_10_TestBench_MSD_CAD_DS_Valid_MassSpringDamper_cfg1";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@CAD|kind=Testing|relpos=0/@MSD_CAD_DS_Valid|kind=TestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_BlastTestBench_BlastTestBench_Custom_DS_Valid_MassSpringDamper_cfg4()
+        {
+            //string outputDir = "MI_10_BlastTestBench_BlastTestBench_Custom_DS_Valid_MassSpringDamper_cfg4";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Blast|kind=Testing|relpos=0/@BlastTestBench_Custom_DS_Valid|kind=BlastTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_BlastTestBench_BlastTestBench_Custom_DS_Valid_MassSpringDamper_cfg1()
+        {
+            //string outputDir = "MI_10_BlastTestBench_BlastTestBench_Custom_DS_Valid_MassSpringDamper_cfg1";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Blast|kind=Testing|relpos=0/@BlastTestBench_Custom_DS_Valid|kind=BlastTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_BlastTestBench_BlastTestBench_Predef_DS_Valid_MassSpringDamper_cfg4()
+        {
+            //string outputDir = "MI_10_BlastTestBench_BlastTestBench_Predef_DS_Valid_MassSpringDamper_cfg4";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Blast|kind=Testing|relpos=0/@BlastTestBench_Predef_DS_Valid|kind=BlastTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_BlastTestBench_BlastTestBench_Predef_DS_Valid_MassSpringDamper_cfg1()
+        {
+            //string outputDir = "MI_10_BlastTestBench_BlastTestBench_Predef_DS_Valid_MassSpringDamper_cfg1";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Blast|kind=Testing|relpos=0/@BlastTestBench_Predef_DS_Valid|kind=BlastTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_FEA_ComponentRef_DS_cfg2()
+        {
+            //string outputDir = "MI_10_CADTestBench_FEA_ComponentRef_DS_cfg2";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@FEA_ComponentRef_DS|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@DesignSpaceSrtucturalFEA|kind=DesignSpace|relpos=0/@DesignContainerStructuralFEA|kind=DesignContainer|relpos=0/@Exported-Configurations-at--11-15--11-59-11|kind=Configurations|relpos=0/@cfg2|kind=CWC|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_FEA_ComponentRef_DS_DesignContainer_cfg1_Invalid_Generated()
+        {
+            //string outputDir = "MI_10_CADTestBench_FEA_ComponentRef_DS_DesignContainer_cfg1_Invalid_Generated";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@FEA_ComponentRef_DS|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations Structural FEA|kind=ComponentAssemblies|relpos=0/@DesignContainer|kind=ComponentAssemblies|relpos=0/@Configurations (11-15-2013  11:59:32)|kind=ComponentAssemblies|relpos=0/@DesignContainer_cfg1_Invalid_Generated|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_StructuralFEATestBench_DS_Valid_MassSpringDamper_cfg4()
+        {
+            //string outputDir = "MI_10_CADTestBench_StructuralFEATestBench_DS_Valid_MassSpringDamper_cfg4";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@StructuralFEATestBench_DS_Valid|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CADTestBench_StructuralFEATestBench_DS_Valid_MassSpringDamper_cfg1()
+        {
+            //string outputDir = "MI_10_CADTestBench_StructuralFEATestBench_DS_Valid_MassSpringDamper_cfg1";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@StructuralFEA|kind=Testing|relpos=0/@StructuralFEATestBench_DS_Valid|kind=CADTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CFDTestBench_CFDTestBench_DS_Valid_MassSpringDamper_cfg4()
+        {
+            //string outputDir = "MI_10_CFDTestBench_CFDTestBench_DS_Valid_MassSpringDamper_cfg4";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@CFD|kind=Testing|relpos=0/@CFDTestBench_DS_Valid|kind=CFDTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_CFDTestBench_CFDTestBench_DS_Valid_MassSpringDamper_cfg1()
+        {
+            //string outputDir = "MI_10_CFDTestBench_CFDTestBench_DS_Valid_MassSpringDamper_cfg1";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@CFD|kind=Testing|relpos=0/@CFDTestBench_DS_Valid|kind=CFDTestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterFail")]
+        public void MI_10_TestBench_MSD_om_DS_postprocessing_Invalid_MassSpringDamper_cfg4()
+        {
+            //string outputDir = "MI_10_TestBench_MSD_om_DS_postprocessing_Invalid_MassSpringDamper_cfg4";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Dynamics|kind=Testing|relpos=0/@MustFail|kind=Testing|relpos=0/@MSD_om_DS_postprocessing_Invalid|kind=TestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.False(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterFail")]
+        public void MI_10_TestBench_MSD_om_DS_postprocessing_Invalid_MassSpringDamper_cfg1()
+        {
+            //string outputDir = "MI_10_TestBench_MSD_om_DS_postprocessing_Invalid_MassSpringDamper_cfg1";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Dynamics|kind=Testing|relpos=0/@MustFail|kind=Testing|relpos=0/@MSD_om_DS_postprocessing_Invalid|kind=TestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.False(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_TestBench_MSD_om_DS2_MassSpringDamper_cfg4()
+        {
+            //string outputDir = "MI_10_TestBench_MSD_om_DS2_MassSpringDamper_cfg4";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Dynamics|kind=Testing|relpos=0/@MSD_om_DS2|kind=TestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_TestBench_MSD_om_DS2_MassSpringDamper_cfg1()
+        {
+            //string outputDir = "MI_10_TestBench_MSD_om_DS2_MassSpringDamper_cfg1";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Dynamics|kind=Testing|relpos=0/@MSD_om_DS2|kind=TestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_TestBench_MSD_om_DS_MassSpringDamper_cfg4()
+        {
+            //string outputDir = "MI_10_TestBench_MSD_om_DS_MassSpringDamper_cfg4";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Dynamics|kind=Testing|relpos=0/@MSD_om_DS|kind=TestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg4|kind=ComponentAssembly|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "MasterInterpreter")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MI_10_TestBench_MSD_om_DS_MassSpringDamper_cfg1()
+        {
+            //string outputDir = "MI_10_TestBench_MSD_om_DS_MassSpringDamper_cfg1";
+            string objectAbsPath = "/@TestBenches|kind=Testing|relpos=0/@DesignSpace|kind=Testing|relpos=0/@Dynamics|kind=Testing|relpos=0/@MSD_om_DS|kind=TestBench|relpos=0";
+            string configAbsPath = "/@Generated configurations|kind=ComponentAssemblies|relpos=0/@MassSpringDamper|kind=ComponentAssemblies|relpos=0/@Configurations (11-16-2013  14:05:10)|kind=ComponentAssemblies|relpos=0/@MassSpringDamper_cfg1|kind=ComponentAssembly|relpos=0";
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
 

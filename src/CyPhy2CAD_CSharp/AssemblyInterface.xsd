@@ -3,7 +3,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
  elementFormDefault="qualified" 
 >
-<!-- generated on Tue Oct 14 10:42:40 2014 -->
+<!-- generated on Tue Feb 17 11:50:19 2015 -->
 
 
 	<xsd:complexType name="LimitReferenceType">
@@ -724,6 +724,7 @@
 		<xsd:attribute name="RequestedValueType" type="xsd:string" use="required"/>
 		<xsd:attribute name="MetricID" type="xsd:string" use="required"/>
 		<xsd:attribute name="Details" type="xsd:string" use="required"/>
+		<xsd:attribute name="MetricName" type="xsd:string" default=""/>
 		<xsd:attribute name="_id" type="xsd:ID"/>
 		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
 		<xsd:attribute name="_derived" type="xsd:IDREFS"/>

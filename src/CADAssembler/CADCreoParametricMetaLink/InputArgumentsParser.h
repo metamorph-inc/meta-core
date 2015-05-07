@@ -52,8 +52,9 @@ const std::string LOG_VERBOSITY_ALERT = "alert";
 //  members are taken from the input arguments for the application and parsed in
 //  the ParseInputArguments function.
 //
-struct ProgramInputArguments
+class ProgramInputArguments
 {
+public:
     bool                graphicsModeOn;            // default false
     std::string         inputXmlFileName;          // could be the file name or the path and file name
     std::string         workingDirectory;          // could be the complete path or a relative path
@@ -65,17 +66,21 @@ struct ProgramInputArguments
     std::string         syncConnectionString;      // If this is populated, then synchronizeWithCyPhy must be true.
     std::string		   designID;				  // this is used by MetaLink to associate Creo session with a CyPhy Design
     std::string		   configPro;				  // name of file to concat after generated config.pro
+	std::string			instanceID;				  // ID of this Creo instance (used during communication with GME
 
     ProgramInputArguments(): graphicsModeOn(false),
-		logFileName("cad-assembler.log"), logVerbosity(log4cpp::Priority::INFO),
+		logFileName("cad-assembler.log"), logVerbosity(log4cpp::Priority::DEBUG),
         auxiliaryCADDirectory(""), synchronizeWithCyPhy(false), majorMode(MAJOR_MODE_DESIGN) {};
 
-    bool is_designMode();
-    bool is_componentMode();
-    bool is_passiveMode();
+    bool is_designMode() const;
+    bool is_componentMode() const;
+    bool is_passiveMode() const;
 
     // Allows us to print debug information for the class
     friend std::ostream& operator<<(std::ostream & in_stream, const ProgramInputArguments &in_args);
+
+    void ParseInputArguments(int                        in_argc,
+                             const char                 * const in_argv[]);
 };
 
 
@@ -126,18 +131,14 @@ struct ProgramInputArguments
 //           If no exceptions, return populated out_ProgramInputArguments
 //              If the file/directory names were enclosed in double-quotes, those double-quotes are removed and not preserved in the string
 //
-void ParseInputArguments(  int                        in_argc,
-                           const char                 * const in_argv[],
-                           ProgramInputArguments      &out_ProgramInputArguments );
+
+void CheckInputArguments(const ProgramInputArguments   &in_ProgramInputArguments);
 
 
-void CheckInputArguments ( const ProgramInputArguments   &in_ProgramInputArguments );
-
-
-void ThrowExecption_If_InvalidInputArguments(   int                        in_argc,
+void ThrowException_If_InvalidInputArguments(int                        in_argc,
         const char                 * const in_argv[],
         const ProgramInputArguments &in_ProgramInputArguments)
-throw (isis::application_exception);
+throw(isis::application_exception);
 
 
 }

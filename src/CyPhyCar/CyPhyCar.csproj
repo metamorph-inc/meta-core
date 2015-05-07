@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1DD44D27-98DE-431C-806A-928C97CAB593}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CyPhyCar</RootNamespace>
+    <AssemblyName>CyPhyCar</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>AssemblySignature.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ISIS.GME.Common, Version=1.0.4.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\externals\common-scripts\ISIS.GME.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\3rdParty\Json.NET\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="GME, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.MGA, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.MGA.Core, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+    <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccelSim.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccelSim.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AdamsCarFile.cs" />
+    <Compile Include="AdamsCarFileReplacement.cs" />
+    <Compile Include="BrakingSim.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BrakingSim.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ComponentConfig.cs" />
+    <Compile Include="ConstantSpeedSim.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConstantSpeedSim.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CyPhyCar.cs" />
+    <Compile Include="CyPhyCarSettings.cs" />
+    <Compile Include="NumericResultExtract.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NumericResultExtract.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Registrar.cs" />
+    <Compile Include="MgaGateway.cs" />
+    <Compile Include="GMEConsole.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="runCarSim_bat.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>runCarSim_bat.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SteerSim.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SteerSim.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TestBenchProcessor.cs" />
+    <Compile Include="DefaultCarAssembly.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DefaultCarAssembly.tt</DependentUpon>
+    </Compile>
+    <!--$ADDITIONALFILES$-->
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Component.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AssemblySignature.snk" />
+    <None Include="BrakingSim.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>BrakingSim.cs</LastGenOutput>
+    </None>
+    <None Include="ConstantSpeedSim.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>ConstantSpeedSim.cs</LastGenOutput>
+    </None>
+    <None Include="DefaultCarAssembly.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>DefaultCarAssembly.cs</LastGenOutput>
+    </None>
+    <None Include="AccelSim.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>AccelSim.cs</LastGenOutput>
+    </None>
+    <None Include="runCarSim_bat.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>runCarSim_bat.cs</LastGenOutput>
+    </None>
+    <None Include="NumericResultExtract.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>NumericResultExtract.cs</LastGenOutput>
+    </None>
+    <None Include="SteerSim.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SteerSim.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CyPhyElaborateCS\CyPhyElaborateCS.csproj">
+      <Project>{ABDA448D-4C24-4E96-93D8-B6E64DBB2F51}</Project>
+      <Name>CyPhyElaborateCS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyGUIs\CyPhyGUIs.csproj">
+      <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
+      <Name>CyPhyGUIs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyMLCS\CyPhyMLCS.csproj">
+      <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>
+      <Name>CyPhyMLCS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!--
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

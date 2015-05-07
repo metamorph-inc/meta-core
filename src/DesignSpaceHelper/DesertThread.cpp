@@ -79,7 +79,7 @@ void DesertThread::RunDesert()
 			if(DesertFinit_preApply())
 			{
 				m_notify->reportStatus(SD_APPLY);
-				DesertFinit_Apply(m_constraints.c_str());
+				DesertFinit_Apply(utf82cstring(m_constraints));
 				m_configCount = Desert_getRealNoOfConfigurations();
 			}
 			else

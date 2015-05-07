@@ -1,0 +1,8 @@
+{
+	"CarAnalysis" : {
+		"version": "00.01",
+		"outputDirectory": "output",
+		"runCommand": "run_car_analysis.cmd",
+		"requiredInterpreter": "MGA.Interpreter.CyPhy2CAD_CSharp"
+		}
+}

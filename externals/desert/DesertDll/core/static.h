@@ -34,8 +34,8 @@ protected:
 	DESERT_API CStaticObj(CString& n);
 	DESERT_API CStaticObj(CString& n, long id, long e_id);
 	
-	DESERT_API CStaticObj(const char* n);
-	DESERT_API CStaticObj(const char* n, long id, long e_id);
+	DESERT_API CStaticObj(const TCHAR* n);
+	DESERT_API CStaticObj(const TCHAR* n, long id, long e_id);
 
 
 
@@ -44,7 +44,7 @@ public:
 		Getters for name
 	*/
 	DESERT_API const CString& GetName() const;
-	DESERT_API operator const char *() const;
+	DESERT_API operator const TCHAR *() const;
 	/*
 		Getters for Ids
 	*/
@@ -80,21 +80,21 @@ public:
 		Element finders by id, name
 	*/
 	DESERT_API virtual CElement *FindElement(long i);
-	DESERT_API virtual CElement *FindElement(const char *n);
+	DESERT_API virtual CElement *FindElement(const TCHAR *n);
 	virtual CElement *RemoveElement(CElement *e);
 	virtual CElement *RemoveElement(long id);
-	virtual CElement *RemoveElement(const char *n);
+	virtual CElement *RemoveElement(const TCHAR *n);
 	virtual CElement *InsertElement(CElement *e);
 	virtual ~CElementContainer();
 	/*
 		Pure virtual functions:
 			- GetType() will return the type of the instances of derived classes
 			- operator long() will return the id of the instances of derived classes;
-			- operator const char * will return the name of the instances of derived classes;
+			- operator const TCHAR * will return the name of the instances of derived classes;
 	*/
 	virtual CType GetType()					=	0;
 	virtual operator long() const			=	0;
-	virtual operator const char * () const	=	0;
+	virtual operator const TCHAR * () const	=	0;
 };//eo class CElementContainer
 
 /*
@@ -110,10 +110,10 @@ public:
 		Construction
 	*/
 	DESERT_API CSpace(CString& n) ; 
-	CSpace(const char *n) ;
+	CSpace(const TCHAR *n) ;
 	
 	CSpace(CString &n, long id, long e_id) ;
-	CSpace(const char *n, long id, long e_id);
+	CSpace(const TCHAR *n, long id, long e_id);
 
 	virtual ~CSpace();
   
@@ -133,7 +133,7 @@ public:
 	*/
 	DESERT_API virtual CType GetType()	;
 	DESERT_API virtual operator long() const;
-	DESERT_API virtual operator const char * () const;
+	DESERT_API virtual operator const TCHAR * () const;
 
 };//eo class CSpace
 
@@ -161,9 +161,9 @@ public:
 		Construction of static elements:
 	*/
 	DESERT_API CElement(CString& n, CElementContainer *c, CDecomposition d, CElement *p, long e=0);
-	CElement(const char *n, CElementContainer *c, CDecomposition d, CElement *p, long e=0);
+	CElement(const TCHAR *n, CElementContainer *c, CDecomposition d, CElement *p, long e=0);
 	CElement(CString& n, CElementContainer *c, CDecomposition d, CElement *p, long id, long e_id);
-	CElement(const char *n, CElementContainer *c, CDecomposition d, CElement *p, long id, long e_id);
+	CElement(const TCHAR *n, CElementContainer *c, CDecomposition d, CElement *p, long id, long e_id);
 		
 	/*
 		Destruction of static elements
@@ -191,20 +191,20 @@ public:
 		Element find/remove/insert in the subtree rooted at this
 	*/
 	DESERT_API	CElement	*FindChild(long i);
-	DESERT_API	CElement	*FindChild(const char *n);
+	DESERT_API	CElement	*FindChild(const TCHAR *n);
 	CElement	*RemoveChild(CElement *e);
 	CElement	*RemoveChild(long i);
-	CElement	*RemoveChild(const char *n);
+	CElement	*RemoveChild(const TCHAR *n);
 	DESERT_API	CElement	*InsertChild(CElement *e);
 
 	/*
 		Property manipulation
 	*/
 	DESERT_API CProperty	*FindProperty(long i);
-	DESERT_API CProperty	*FindProperty(const char *n);
+	DESERT_API CProperty	*FindProperty(const TCHAR *n);
 	CProperty	*RemoveProperty(CProperty *e);
 	CProperty	*RemoveProperty(long i);
-	CProperty	*RemoveProperty(const char *n);
+	CProperty	*RemoveProperty(const TCHAR *n);
 	DESERT_API	CProperty	*InsertProperty(CProperty *e);
 	
 	DESERT_API	CFormula	*InsertFormula(CFormula *f);
@@ -237,18 +237,18 @@ class CAssignment : public CStaticObj
 
 public:
 	CAssignment(CElement * value, CString &name, long id, long e_id);
-	CAssignment(CElement * value, const char *name, long id, long e_id);
-	CAssignment(CElement * value, const char *name);
+	CAssignment(CElement * value, const TCHAR *name, long id, long e_id);
+	CAssignment(CElement * value, const TCHAR *name);
 	DESERT_API CElement * GetEValue();
 #ifndef DOUBLE_MTBDD
 	CAssignment(long value, CString &name, long id, long e_id);
-	CAssignment(long value, const char *name, long id, long e_id);
-	CAssignment(long value, const char *name);
+	CAssignment(long value, const TCHAR *name, long id, long e_id);
+	CAssignment(long value, const TCHAR *name);
 	DESERT_API long GetLValue();
 #else
 	CAssignment(double value, CString &name, long id, long e_id);
-	CAssignment(double value, const char *name, long id, long e_id);
-	CAssignment(double value, const char *name);
+	CAssignment(double value, const TCHAR *name, long id, long e_id);
+	CAssignment(double value, const TCHAR *name);
 	DESERT_API double GetLValue();
 #endif
 };
@@ -261,19 +261,19 @@ class CDomain : public CStaticObj
 {
 public:
   DESERT_API CDomain(CString& n);
-  DESERT_API CDomain(const char *n);
+  DESERT_API CDomain(const TCHAR *n);
   DESERT_API CDomain(CString& n, long id, long e_id);
-  DESERT_API CDomain(const char *n, long id, long e_id);
+  DESERT_API CDomain(const TCHAR *n, long id, long e_id);
   virtual ~CDomain();
 
 public:
 	virtual int GetSize() const = 0;
 	
 	DESERT_API virtual CElement *FindElement(long i);
-	DESERT_API virtual CElement *FindElement(const char *n);
+	DESERT_API virtual CElement *FindElement(const TCHAR *n);
 	DESERT_API virtual CElement *RemoveElement(CElement *e);
 	DESERT_API virtual CElement *RemoveElement(long i);
-	DESERT_API virtual CElement *RemoveElement(const char *n);
+	DESERT_API virtual CElement *RemoveElement(const TCHAR *n);
 	DESERT_API virtual CElement *InsertElement(CElement *e);
 
 };
@@ -287,9 +287,9 @@ protected:
 
 public:
 	DESERT_API CNaturalDomain(CString& name, int mx=1024, int mn=0) ;
-	CNaturalDomain(const char *name, int mx=1024, int mn=0);
+	CNaturalDomain(const TCHAR *name, int mx=1024, int mn=0);
 	CNaturalDomain(int id, int e_id, CString& name, int mx=1024, int mn=0) ;
-	CNaturalDomain( int id, int e_id, const char *name, int mx=1024, int mn=0);
+	CNaturalDomain( int id, int e_id, const TCHAR *name, int mx=1024, int mn=0);
 
 	virtual ~CNaturalDomain();
 
@@ -303,24 +303,24 @@ class  CCustomDomain : public CDomain, public CElementContainer
 {
 public:
 	DESERT_API CCustomDomain(CString& n);
-	CCustomDomain(const char *n);
+	CCustomDomain(const TCHAR *n);
 	CCustomDomain(CString& n, long id, long e_id);
-	CCustomDomain(const char *n, long id, long e_id);
+	CCustomDomain(const TCHAR *n, long id, long e_id);
 	virtual ~CCustomDomain();
   
 public:
 	int GetSize() const;
 
 	DESERT_API CElement *FindElement(long i);
-	DESERT_API CElement *FindElement(const char *n);
+	DESERT_API CElement *FindElement(const TCHAR *n);
 	CElement *RemoveElement(CElement *e);
 	CElement *RemoveElement(long i);
-	CElement *RemoveElement(const char *n);
+	CElement *RemoveElement(const TCHAR *n);
 	CElement *InsertElement(CElement *e);
 
 	virtual CType GetType();
 	virtual operator long () const;
-	virtual operator const char * () const;
+	virtual operator const TCHAR * () const;
 };//eo CCustomDomain
 
 
@@ -339,15 +339,15 @@ protected:
 	/*
 		Construction, destruction
 	*/
-	CProperty(const char *n, const char *p, CDomain *d, CElement *o);
-	CProperty(CString &n, const char *p, CDomain *d, CElement *o);	
-	CProperty(const char *n, const char *p, CDomain *d, CElement *o, long id, long e_id);
-	CProperty(CString &n, const char *p, CDomain *d, CElement *o, long id, long e_id);
+	CProperty(const TCHAR *n, const TCHAR *p, CDomain *d, CElement *o);
+	CProperty(CString &n, const TCHAR *p, CDomain *d, CElement *o);	
+	CProperty(const TCHAR *n, const TCHAR *p, CDomain *d, CElement *o, long id, long e_id);
+	CProperty(CString &n, const TCHAR *p, CDomain *d, CElement *o, long id, long e_id);
 	
-	CProperty(const char *n, const char *p,CElement *o);
-	CProperty(CString &n, const char *p, CElement *o);
-	CProperty(const char *n, const char *p, CElement *o, long id, long e_id);
-	CProperty(CString &n, const char *p, CElement *o, long id, long e_id);
+	CProperty(const TCHAR *n, const TCHAR *p,CElement *o);
+	CProperty(CString &n, const TCHAR *p, CElement *o);
+	CProperty(const TCHAR *n, const TCHAR *p, CElement *o, long id, long e_id);
+	CProperty(CString &n, const TCHAR *p, CElement *o, long id, long e_id);
 
 public:
 	virtual ~CProperty();
@@ -369,9 +369,9 @@ protected:
 
 public:
 	DESERT_API CConstantProperty(CString& n, CString& p, CDomain* d, CElement *o, int v);
-	CConstantProperty(const char *n, const char *p, CDomain* d, CElement *o, int v);
+	CConstantProperty(const TCHAR *n, const TCHAR *p, CDomain* d, CElement *o, int v);
 	CConstantProperty(CString& n, CString& p, CDomain* d, CElement *o, int v, long id, long e_id);
-	CConstantProperty(const char *n, const char *p, CDomain* d, CElement *o, int v, long id, long e_id);
+	CConstantProperty(const TCHAR *n, const TCHAR *p, CDomain* d, CElement *o, int v, long id, long e_id);
 	CConstantProperty::~CConstantProperty();
 
 public:
@@ -406,14 +406,14 @@ public:
 #endif
 
 	DESERT_API CVariableProperty(CString& n, CString& p, CDomain* d, CElement *o);
-	CVariableProperty(const char *n, const char *p, CDomain* d, CElement *o);
+	CVariableProperty(const TCHAR *n, const TCHAR *p, CDomain* d, CElement *o);
 	CVariableProperty(CString& n, CString& p, CDomain* d, CElement *o, long id, long e_id);
-	CVariableProperty(const char *n, const char *p, CDomain* d, CElement *o, long id, long e_id);
+	CVariableProperty(const TCHAR *n, const TCHAR *p, CDomain* d, CElement *o, long id, long e_id);
 
 	DESERT_API CVariableProperty(CString& n, CString& p, CElement *o);
-	CVariableProperty(const char *n, const char *p, CElement *o);
+	CVariableProperty(const TCHAR *n, const TCHAR *p, CElement *o);
 	CVariableProperty(CString& n, CString& p, CElement *o, long id, long e_id);
-	CVariableProperty(const char *n, const char *p, CElement *o, long id, long e_id);
+	CVariableProperty(const TCHAR *n, const TCHAR *p, CElement *o, long id, long e_id);
 
 	~CVariableProperty();
 
@@ -421,15 +421,15 @@ public:
 	double ComputeSize() const;
 
 	long AddToRange(CElement * element, CString &n);
-	long AddToRange(CElement * element, const char *n);	
+	long AddToRange(CElement * element, const TCHAR *n);	
 
 #ifndef DOUBLE_MTBDD
 	long AddToRange(long value, CString &n);
-	long AddToRange(long value, const char *n);
+	long AddToRange(long value, const TCHAR *n);
 	DESERT_API CIntegerList& GetNaturalRange();
 #else
 	long AddToRange(double value, CString &n);
-	long AddToRange(double value, const char *n);
+	long AddToRange(double value, const TCHAR *n);
 	DESERT_API CDoubleList& GetNaturalRange();
 #endif
 
@@ -449,18 +449,18 @@ protected:
 
 public:
 	DESERT_API CConstraintSet(CString &n);
-	DESERT_API CConstraintSet(const char *n);
+	DESERT_API CConstraintSet(const TCHAR *n);
 	CConstraintSet(CString &n, long id, long e_id);
-	CConstraintSet(const char *n, long id, long e_id);
+	CConstraintSet(const TCHAR *n, long id, long e_id);
 	~CConstraintSet();
 
 public:
 	DESERT_API CConstraintList& GetConstraints();
 	DESERT_API CConstraint *FindConstraint(long i);
-	DESERT_API CConstraint *FindConstraint(const char *n);
+	DESERT_API CConstraint *FindConstraint(const TCHAR *n);
 	CConstraint *RemoveConstraint(CConstraint *e);
 	CConstraint *RemoveConstraint(long i);
-	CConstraint *RemoveConstraint(const char *n);
+	CConstraint *RemoveConstraint(const TCHAR *n);
 	DESERT_API CConstraint *InsertConstraint(CConstraint *e);
 
 public:
@@ -492,14 +492,14 @@ private:
 
 public:
 	DESERT_API CConstraint(CString& n, CConstraintSet *s, CElement* c, CString& t);
-	CConstraint(const char *n, CConstraintSet *s, CElement* c, CString& t);
-	CConstraint(CString& n, CConstraintSet *s, CElement* c, const char *t);
-	CConstraint(const char *n, CConstraintSet *s, CElement* c, const char *t);
+	CConstraint(const TCHAR *n, CConstraintSet *s, CElement* c, CString& t);
+	CConstraint(CString& n, CConstraintSet *s, CElement* c, const TCHAR *t);
+	CConstraint(const TCHAR *n, CConstraintSet *s, CElement* c, const TCHAR *t);
 	CConstraint(CString& n, CConstraintSet *s, CElement* c, CString& t, long id, long e_id);
-	CConstraint::CConstraint(const char *n, CConstraintSet *s, CElement* c, CString& t, long id, long e_id);
-	CConstraint::CConstraint(CString& n, CConstraintSet *s, CElement* c, const char *t, long id, long e_id);
-	CConstraint::CConstraint(const char *n, CConstraintSet *s, CElement* c, const char *t, long id, long e_id);
-	DESERT_API CConstraint::CConstraint(const char *n, CElement* c, const char *t);
+	CConstraint::CConstraint(const TCHAR *n, CConstraintSet *s, CElement* c, CString& t, long id, long e_id);
+	CConstraint::CConstraint(CString& n, CConstraintSet *s, CElement* c, const TCHAR *t, long id, long e_id);
+	CConstraint::CConstraint(const TCHAR *n, CConstraintSet *s, CElement* c, const TCHAR *t, long id, long e_id);
+	DESERT_API CConstraint::CConstraint(const TCHAR *n, CElement* c, const TCHAR *t);
 	CConstraint::~CConstraint();
 
 public:
@@ -533,18 +533,18 @@ protected:
 
 public:
 	DESERT_API CFormulaSet(CString &n);
-	DESERT_API CFormulaSet(const char *n);
+	DESERT_API CFormulaSet(const TCHAR *n);
 	CFormulaSet(CString &n, long id, long e_id);
-	CFormulaSet(const char *n, long id, long e_id);
+	CFormulaSet(const TCHAR *n, long id, long e_id);
 	~CFormulaSet();
 
 public:
 	DESERT_API CFormulaList& GetFormulas();
 	DESERT_API CFormula *FindFormula(long i);
-	DESERT_API CFormula *FindFormula(const char *n);
+	DESERT_API CFormula *FindFormula(const TCHAR *n);
 	CFormula *RemoveFormula(CFormula *e);
 	CFormula *RemoveFormula(long i);
-	CFormula *RemoveFormula(const char *n);
+	CFormula *RemoveFormula(const TCHAR *n);
 	DESERT_API CFormula *InsertFormula(CFormula *e);
 };
 
@@ -557,14 +557,14 @@ protected:
   
 public:
 	DESERT_API CFormula(CString& n, CFormulaSet *s, CElement* c, CString& t);
-	CFormula(const char *n, CFormulaSet *s, CElement* c, CString& t);
-	CFormula(CString& n, CFormulaSet *s, CElement* c, const char *t);
-	CFormula(const char *n, CFormulaSet *s, CElement* c, const char *t);
+	CFormula(const TCHAR *n, CFormulaSet *s, CElement* c, CString& t);
+	CFormula(CString& n, CFormulaSet *s, CElement* c, const TCHAR *t);
+	CFormula(const TCHAR *n, CFormulaSet *s, CElement* c, const TCHAR *t);
 	CFormula(CString& n, CFormulaSet *s, CElement* c, CString& t, long id, long e_id);
-	CFormula::CFormula(const char *n, CFormulaSet *s, CElement* c, CString& t, long id, long e_id);
-	CFormula::CFormula(CString& n, CFormulaSet *s, CElement* c, const char *t, long id, long e_id);
-	CFormula::CFormula(const char *n, CFormulaSet *s, CElement* c, const char *t, long id, long e_id);
-	DESERT_API CFormula::CFormula(const char *n, CElement* c, const char *t);
+	CFormula::CFormula(const TCHAR *n, CFormulaSet *s, CElement* c, CString& t, long id, long e_id);
+	CFormula::CFormula(CString& n, CFormulaSet *s, CElement* c, const TCHAR *t, long id, long e_id);
+	CFormula::CFormula(const TCHAR *n, CFormulaSet *s, CElement* c, const TCHAR *t, long id, long e_id);
+	DESERT_API CFormula::CFormula(const TCHAR *n, CElement* c, const TCHAR *t);
 	CFormula::~CFormula();
 
 public:
@@ -606,7 +606,7 @@ protected:
 
 public:
 	DESERT_API CSimpleFormula();
-	DESERT_API CSimpleFormula(const char *fn);
+	DESERT_API CSimpleFormula(const TCHAR *fn);
 	~CSimpleFormula();
 	DESERT_API void InsertSourceProperty(CProperty *srcp);
 	DESERT_API void InsertDestinationProperty(CProperty *dstp);

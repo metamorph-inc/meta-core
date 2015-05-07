@@ -10,82 +10,6 @@
 // Generated from: AssemblyInterface.proto
 namespace edu.vanderbilt.isis.meta
 {
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AccelerationType")]
-  public partial class AccelerationType : global::ProtoBuf.IExtensible
-  {
-    public AccelerationType() {}
-    
-    private string _Units;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Units", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Units
-    {
-      get { return _Units; }
-      set { _Units = value; }
-    }
-    private double _x;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"x", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double x
-    {
-      get { return _x; }
-      set { _x = value; }
-    }
-    private double _y;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"y", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double y
-    {
-      get { return _y; }
-      set { _y = value; }
-    }
-    private double _z;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"z", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double z
-    {
-      get { return _z; }
-      set { _z = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AnalysesType")]
-  public partial class AnalysesType : global::ProtoBuf.IExtensible
-  {
-    public AnalysesType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.BallisticType> _Ballistic = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.BallisticType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"Ballistic", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.BallisticType> Ballistic
-    {
-      get { return _Ballistic; }
-    }
-  
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.FEAType> _FEA = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.FEAType>();
-    [global::ProtoBuf.ProtoMember(2, Name=@"FEA", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.FEAType> FEA
-    {
-      get { return _FEA; }
-    }
-  
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.InterferenceType> _Interference = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.InterferenceType>();
-    [global::ProtoBuf.ProtoMember(3, Name=@"Interference", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.InterferenceType> Interference
-    {
-      get { return _Interference; }
-    }
-  
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.ToleranceType> _Tolerance = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.ToleranceType>();
-    [global::ProtoBuf.ProtoMember(4, Name=@"Tolerance", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.ToleranceType> Tolerance
-    {
-      get { return _Tolerance; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AnalysisComponentsType")]
   public partial class AnalysisComponentsType : global::ProtoBuf.IExtensible
   {
@@ -96,69 +20,6 @@ namespace edu.vanderbilt.isis.meta
     public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.ComponentType> Component
     {
       get { return _Component; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AnalysisConstraintType")]
-  public partial class AnalysisConstraintType : global::ProtoBuf.IExtensible
-  {
-    public AnalysisConstraintType() {}
-    
-
-    private edu.vanderbilt.isis.meta.BallType _Ball = null;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"Ball", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.BallType Ball
-    {
-      get { return _Ball; }
-      set { _Ball = value; }
-    }
-
-    private edu.vanderbilt.isis.meta.DisplacementType _Displacement = null;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"Displacement", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.DisplacementType Displacement
-    {
-      get { return _Displacement; }
-      set { _Displacement = value; }
-    }
-
-    private edu.vanderbilt.isis.meta.GeometryType _Geometry = null;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"Geometry", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.GeometryType Geometry
-    {
-      get { return _Geometry; }
-      set { _Geometry = value; }
-    }
-
-    private edu.vanderbilt.isis.meta.PinType _Pin = null;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"Pin", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.PinType Pin
-    {
-      get { return _Pin; }
-      set { _Pin = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AnalysisConstraintsType")]
-  public partial class AnalysisConstraintsType : global::ProtoBuf.IExtensible
-  {
-    public AnalysisConstraintsType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.AnalysisConstraintType> _AnalysisConstraint = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.AnalysisConstraintType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"AnalysisConstraint", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.AnalysisConstraintType> AnalysisConstraint
-    {
-      get { return _AnalysisConstraint; }
     }
   
     private global::ProtoBuf.IExtension extensionObject;
@@ -187,13 +48,6 @@ namespace edu.vanderbilt.isis.meta
       get { return _DataExchange; }
       set { _DataExchange = value; }
     }
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MaterialsType> _Materials = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MaterialsType>();
-    [global::ProtoBuf.ProtoMember(3, Name=@"Materials", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MaterialsType> Materials
-    {
-      get { return _Materials; }
-    }
-  
 
     private edu.vanderbilt.isis.meta.UnassembledComponentsType _UnassembledComponents = null;
     [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"UnassembledComponents", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -228,15 +82,6 @@ namespace edu.vanderbilt.isis.meta
     public AssemblyType() {}
     
 
-    private edu.vanderbilt.isis.meta.AnalysesType _Analyses = null;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"Analyses", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.AnalysesType Analyses
-    {
-      get { return _Analyses; }
-      set { _Analyses = value; }
-    }
-
     private edu.vanderbilt.isis.meta.CADComponentType _CADComponent = null;
     [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"CADComponent", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
@@ -244,15 +89,6 @@ namespace edu.vanderbilt.isis.meta
     {
       get { return _CADComponent; }
       set { _CADComponent = value; }
-    }
-
-    private edu.vanderbilt.isis.meta.ComputationsType _Computations = null;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"Computations", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.ComputationsType Computations
-    {
-      get { return _Computations; }
-      set { _Computations = value; }
     }
     private edu.vanderbilt.isis.meta.PropertiesType _Properties;
     [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"Properties", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -273,116 +109,6 @@ namespace edu.vanderbilt.isis.meta
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AxialDisplacementType")]
-  public partial class AxialDisplacementType : global::ProtoBuf.IExtensible
-  {
-    public AxialDisplacementType() {}
-    
-    private string _Property;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Property", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Property
-    {
-      get { return _Property; }
-      set { _Property = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AxialRotationType")]
-  public partial class AxialRotationType : global::ProtoBuf.IExtensible
-  {
-    public AxialRotationType() {}
-    
-    private string _Property;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Property", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Property
-    {
-      get { return _Property; }
-      set { _Property = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"BallType")]
-  public partial class BallType : global::ProtoBuf.IExtensible
-  {
-    public BallType() {}
-    
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"BallisticType")]
-  public partial class BallisticType : global::ProtoBuf.IExtensible
-  {
-    public BallisticType() {}
-    
-
-    private edu.vanderbilt.isis.meta.ReferencePlaneType _ReferencePlane = null;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"ReferencePlane", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.ReferencePlaneType ReferencePlane
-    {
-      get { return _ReferencePlane; }
-      set { _ReferencePlane = value; }
-    }
-
-    private edu.vanderbilt.isis.meta.ShotlinesType _Shotlines = null;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"Shotlines", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.ShotlinesType Shotlines
-    {
-      get { return _Shotlines; }
-      set { _Shotlines = value; }
-    }
-    private string _AnalysisID;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"AnalysisID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string AnalysisID
-    {
-      get { return _AnalysisID; }
-      set { _AnalysisID = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"BoundingBoxType")]
-  public partial class BoundingBoxType : global::ProtoBuf.IExtensible
-  {
-    public BoundingBoxType() {}
-    
-    private string _ComponentID;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"ComponentID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ComponentID
-    {
-      get { return _ComponentID; }
-      set { _ComponentID = value; }
-    }
-    private string _MetricID;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"MetricID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string MetricID
-    {
-      get { return _MetricID; }
-      set { _MetricID = value; }
-    }
-    private string _RequestedValueType;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"RequestedValueType", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string RequestedValueType
-    {
-      get { return _RequestedValueType; }
-      set { _RequestedValueType = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CADComponentType")]
   public partial class CADComponentType : global::ProtoBuf.IExtensible
   {
@@ -395,22 +121,6 @@ namespace edu.vanderbilt.isis.meta
       get { return _CADComponent; }
     }
   
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.ConstraintType> _Constraint = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.ConstraintType>();
-    [global::ProtoBuf.ProtoMember(2, Name=@"Constraint", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.ConstraintType> Constraint
-    {
-      get { return _Constraint; }
-    }
-  
-
-    private edu.vanderbilt.isis.meta.KinematicConnectionsType _KinematicConnections = null;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"KinematicConnections", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.KinematicConnectionsType KinematicConnections
-    {
-      get { return _KinematicConnections; }
-      set { _KinematicConnections = value; }
-    }
 
     private edu.vanderbilt.isis.meta.ParametricParametersType _ParametricParameters = null;
     [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"ParametricParameters", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -560,51 +270,11 @@ namespace edu.vanderbilt.isis.meta
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CenterOfGravityType")]
-  public partial class CenterOfGravityType : global::ProtoBuf.IExtensible
-  {
-    public CenterOfGravityType() {}
-    
-    private string _ComponentID;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"ComponentID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ComponentID
-    {
-      get { return _ComponentID; }
-      set { _ComponentID = value; }
-    }
-    private string _MetricID;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"MetricID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string MetricID
-    {
-      get { return _MetricID; }
-      set { _MetricID = value; }
-    }
-    private string _RequestedValueType;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"RequestedValueType", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string RequestedValueType
-    {
-      get { return _RequestedValueType; }
-      set { _RequestedValueType = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ComponentType")]
   public partial class ComponentType : global::ProtoBuf.IExtensible
   {
     public ComponentType() {}
     
-
-    private edu.vanderbilt.isis.meta.MetricsType _Metrics = null;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"Metrics", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.MetricsType Metrics
-    {
-      get { return _Metrics; }
-      set { _Metrics = value; }
-    }
     private string _ComponentID;
     [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"ComponentID", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public string ComponentID
@@ -619,92 +289,6 @@ namespace edu.vanderbilt.isis.meta
       get { return _InfiniteCycle; }
       set { _InfiniteCycle = value; }
     }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ComputationsType")]
-  public partial class ComputationsType : global::ProtoBuf.IExtensible
-  {
-    public ComputationsType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.BoundingBoxType> _BoundingBox = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.BoundingBoxType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"BoundingBox", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.BoundingBoxType> BoundingBox
-    {
-      get { return _BoundingBox; }
-    }
-  
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.CenterOfGravityType> _CenterOfGravity = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.CenterOfGravityType>();
-    [global::ProtoBuf.ProtoMember(2, Name=@"CenterOfGravity", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.CenterOfGravityType> CenterOfGravity
-    {
-      get { return _CenterOfGravity; }
-    }
-  
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MassType> _Mass = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MassType>();
-    [global::ProtoBuf.ProtoMember(3, Name=@"Mass", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MassType> Mass
-    {
-      get { return _Mass; }
-    }
-  
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.PointCoordinatesType> _PointCoordinates = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.PointCoordinatesType>();
-    [global::ProtoBuf.ProtoMember(4, Name=@"PointCoordinates", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.PointCoordinatesType> PointCoordinates
-    {
-      get { return _PointCoordinates; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ConditionType")]
-  public partial class ConditionType : global::ProtoBuf.IExtensible
-  {
-    public ConditionType() {}
-    
-    private string _Name;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Name", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Name
-    {
-      get { return _Name; }
-      set { _Name = value; }
-    }
-    private string _Units;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"Units", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Units
-    {
-      get { return _Units; }
-      set { _Units = value; }
-    }
-    private double _Value;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"Value", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double Value
-    {
-      get { return _Value; }
-      set { _Value = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ConditionsType")]
-  public partial class ConditionsType : global::ProtoBuf.IExtensible
-  {
-    public ConditionsType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.ConditionType> _Condition = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.ConditionType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"Condition", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.ConditionType> Condition
-    {
-      get { return _Condition; }
-    }
-  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -894,113 +478,6 @@ namespace edu.vanderbilt.isis.meta
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"DisplacementType")]
-  public partial class DisplacementType : global::ProtoBuf.IExtensible
-  {
-    public DisplacementType() {}
-    
-    private edu.vanderbilt.isis.meta.RotationType _Rotation;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Rotation", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public edu.vanderbilt.isis.meta.RotationType Rotation
-    {
-      get { return _Rotation; }
-      set { _Rotation = value; }
-    }
-    private edu.vanderbilt.isis.meta.TranslationType _Translation;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"Translation", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public edu.vanderbilt.isis.meta.TranslationType Translation
-    {
-      get { return _Translation; }
-      set { _Translation = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"FEAType")]
-  public partial class FEAType : global::ProtoBuf.IExtensible
-  {
-    public FEAType() {}
-    
-
-    private edu.vanderbilt.isis.meta.AnalysisComponentsType _AnalysisComponents = null;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"AnalysisComponents", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.AnalysisComponentsType AnalysisComponents
-    {
-      get { return _AnalysisComponents; }
-      set { _AnalysisComponents = value; }
-    }
-
-    private edu.vanderbilt.isis.meta.AnalysisConstraintsType _AnalysisConstraints = null;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"AnalysisConstraints", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.AnalysisConstraintsType AnalysisConstraints
-    {
-      get { return _AnalysisConstraints; }
-      set { _AnalysisConstraints = value; }
-    }
-
-    private edu.vanderbilt.isis.meta.ConditionsType _Conditions = null;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"Conditions", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.ConditionsType Conditions
-    {
-      get { return _Conditions; }
-      set { _Conditions = value; }
-    }
-
-    private edu.vanderbilt.isis.meta.LoadsType _Loads = null;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"Loads", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.LoadsType Loads
-    {
-      get { return _Loads; }
-      set { _Loads = value; }
-    }
-
-    private edu.vanderbilt.isis.meta.PartInterfacesType _PartInterfaces = null;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"PartInterfaces", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.PartInterfacesType PartInterfaces
-    {
-      get { return _PartInterfaces; }
-      set { _PartInterfaces = value; }
-    }
-    private edu.vanderbilt.isis.meta.SolversType _Solvers;
-    [global::ProtoBuf.ProtoMember(6, IsRequired = true, Name=@"Solvers", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public edu.vanderbilt.isis.meta.SolversType Solvers
-    {
-      get { return _Solvers; }
-      set { _Solvers = value; }
-    }
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SurfaceTreatmentsType> _SurfaceTreatments = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SurfaceTreatmentsType>();
-    [global::ProtoBuf.ProtoMember(7, Name=@"SurfaceTreatments", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SurfaceTreatmentsType> SurfaceTreatments
-    {
-      get { return _SurfaceTreatments; }
-    }
-  
-    private string _AnalysisID;
-    [global::ProtoBuf.ProtoMember(8, IsRequired = true, Name=@"AnalysisID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string AnalysisID
-    {
-      get { return _AnalysisID; }
-      set { _AnalysisID = value; }
-    }
-    private string _Type;
-    [global::ProtoBuf.ProtoMember(9, IsRequired = true, Name=@"Type", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Type
-    {
-      get { return _Type; }
-      set { _Type = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"FeatureType")]
   public partial class FeatureType : global::ProtoBuf.IExtensible
   {
@@ -1084,120 +561,6 @@ namespace edu.vanderbilt.isis.meta
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"FixedType")]
-  public partial class FixedType : global::ProtoBuf.IExtensible
-  {
-    public FixedType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.KinematicFeatureType> _KinematicFeature = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.KinematicFeatureType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"KinematicFeature", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.KinematicFeatureType> KinematicFeature
-    {
-      get { return _KinematicFeature; }
-    }
-  
-    private double _CFM;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"CFM", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double CFM
-    {
-      get { return _CFM; }
-      set { _CFM = value; }
-    }
-    private string _ConnectedComponentID;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"ConnectedComponentID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ConnectedComponentID
-    {
-      get { return _ConnectedComponentID; }
-      set { _ConnectedComponentID = value; }
-    }
-    private string _ConnectionID;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"ConnectionID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ConnectionID
-    {
-      get { return _ConnectionID; }
-      set { _ConnectionID = value; }
-    }
-    private double _ERP;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"ERP", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double ERP
-    {
-      get { return _ERP; }
-      set { _ERP = value; }
-    }
-    private string _FeatureInterfaceType;
-    [global::ProtoBuf.ProtoMember(6, IsRequired = true, Name=@"FeatureInterfaceType", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string FeatureInterfaceType
-    {
-      get { return _FeatureInterfaceType; }
-      set { _FeatureInterfaceType = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ForceMomentType")]
-  public partial class ForceMomentType : global::ProtoBuf.IExtensible
-  {
-    public ForceMomentType() {}
-    
-    private edu.vanderbilt.isis.meta.ForceType _Force;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Force", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public edu.vanderbilt.isis.meta.ForceType Force
-    {
-      get { return _Force; }
-      set { _Force = value; }
-    }
-    private edu.vanderbilt.isis.meta.MomentType _Moment;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"Moment", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public edu.vanderbilt.isis.meta.MomentType Moment
-    {
-      get { return _Moment; }
-      set { _Moment = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ForceType")]
-  public partial class ForceType : global::ProtoBuf.IExtensible
-  {
-    public ForceType() {}
-    
-    private string _Units;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Units", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Units
-    {
-      get { return _Units; }
-      set { _Units = value; }
-    }
-    private double _x;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"x", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double x
-    {
-      get { return _x; }
-      set { _x = value; }
-    }
-    private double _y;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"y", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double y
-    {
-      get { return _y; }
-      set { _y = value; }
-    }
-    private double _z;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"z", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double z
-    {
-      get { return _z; }
-      set { _z = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"GeometryType")]
   public partial class GeometryType : global::ProtoBuf.IExtensible
   {
@@ -1210,358 +573,6 @@ namespace edu.vanderbilt.isis.meta
       get { return _Features; }
     }
   
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SetOperationType> _SetOperation = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SetOperationType>();
-    [global::ProtoBuf.ProtoMember(2, Name=@"SetOperation", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SetOperationType> SetOperation
-    {
-      get { return _SetOperation; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"InterferenceType")]
-  public partial class InterferenceType : global::ProtoBuf.IExtensible
-  {
-    public InterferenceType() {}
-    
-    private string _AnalysisID;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"AnalysisID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string AnalysisID
-    {
-      get { return _AnalysisID; }
-      set { _AnalysisID = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"KinematicConnectionsType")]
-  public partial class KinematicConnectionsType : global::ProtoBuf.IExtensible
-  {
-    public KinematicConnectionsType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.FixedType> _Fixed = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.FixedType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"Fixed", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.FixedType> Fixed
-    {
-      get { return _Fixed; }
-    }
-  
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.PrismaticType> _Prismatic = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.PrismaticType>();
-    [global::ProtoBuf.ProtoMember(2, Name=@"Prismatic", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.PrismaticType> Prismatic
-    {
-      get { return _Prismatic; }
-    }
-  
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.RevoluteType> _Revolute = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.RevoluteType>();
-    [global::ProtoBuf.ProtoMember(3, Name=@"Revolute", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.RevoluteType> Revolute
-    {
-      get { return _Revolute; }
-    }
-  
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SphericalType> _Spherical = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SphericalType>();
-    [global::ProtoBuf.ProtoMember(4, Name=@"Spherical", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SphericalType> Spherical
-    {
-      get { return _Spherical; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"KinematicFeatureType")]
-  public partial class KinematicFeatureType : global::ProtoBuf.IExtensible
-  {
-    public KinematicFeatureType() {}
-    
-    private string _ComponentID;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"ComponentID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ComponentID
-    {
-      get { return _ComponentID; }
-      set { _ComponentID = value; }
-    }
-    private string _DatumName;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"DatumName", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string DatumName
-    {
-      get { return _DatumName; }
-      set { _DatumName = value; }
-    }
-    private string _FeatureGeometryType;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"FeatureGeometryType", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string FeatureGeometryType
-    {
-      get { return _FeatureGeometryType; }
-      set { _FeatureGeometryType = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"LoadType")]
-  public partial class LoadType : global::ProtoBuf.IExtensible
-  {
-    public LoadType() {}
-    
-
-    private edu.vanderbilt.isis.meta.AccelerationType _Acceleration = null;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"Acceleration", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.AccelerationType Acceleration
-    {
-      get { return _Acceleration; }
-      set { _Acceleration = value; }
-    }
-
-    private edu.vanderbilt.isis.meta.ForceMomentType _ForceMoment = null;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"ForceMoment", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.ForceMomentType ForceMoment
-    {
-      get { return _ForceMoment; }
-      set { _ForceMoment = value; }
-    }
-
-    private edu.vanderbilt.isis.meta.GeometryType _Geometry = null;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"Geometry", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.GeometryType Geometry
-    {
-      get { return _Geometry; }
-      set { _Geometry = value; }
-    }
-
-    private edu.vanderbilt.isis.meta.PressureType _Pressure = null;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"Pressure", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.PressureType Pressure
-    {
-      get { return _Pressure; }
-      set { _Pressure = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"LoadsType")]
-  public partial class LoadsType : global::ProtoBuf.IExtensible
-  {
-    public LoadsType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.LoadType> _Load = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.LoadType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"Load", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.LoadType> Load
-    {
-      get { return _Load; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MassType")]
-  public partial class MassType : global::ProtoBuf.IExtensible
-  {
-    public MassType() {}
-    
-    private string _ComponentID;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"ComponentID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ComponentID
-    {
-      get { return _ComponentID; }
-      set { _ComponentID = value; }
-    }
-    private string _MetricID;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"MetricID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string MetricID
-    {
-      get { return _MetricID; }
-      set { _MetricID = value; }
-    }
-    private string _RequestedValueType;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"RequestedValueType", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string RequestedValueType
-    {
-      get { return _RequestedValueType; }
-      set { _RequestedValueType = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MaterialPropertyType")]
-  public partial class MaterialPropertyType : global::ProtoBuf.IExtensible
-  {
-    public MaterialPropertyType() {}
-    
-    private string _PropertyName;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"PropertyName", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string PropertyName
-    {
-      get { return _PropertyName; }
-      set { _PropertyName = value; }
-    }
-    private string _Units;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"Units", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Units
-    {
-      get { return _Units; }
-      set { _Units = value; }
-    }
-    private double _Value;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"Value", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double Value
-    {
-      get { return _Value; }
-      set { _Value = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MaterialType")]
-  public partial class MaterialType : global::ProtoBuf.IExtensible
-  {
-    public MaterialType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MaterialPropertyType> _MaterialProperty = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MaterialPropertyType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"MaterialProperty", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MaterialPropertyType> MaterialProperty
-    {
-      get { return _MaterialProperty; }
-    }
-  
-    private string _MaterialID;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"MaterialID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string MaterialID
-    {
-      get { return _MaterialID; }
-      set { _MaterialID = value; }
-    }
-    private string _MaterialName;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"MaterialName", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string MaterialName
-    {
-      get { return _MaterialName; }
-      set { _MaterialName = value; }
-    }
-    private string _Type;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"Type", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Type
-    {
-      get { return _Type; }
-      set { _Type = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MaterialsType")]
-  public partial class MaterialsType : global::ProtoBuf.IExtensible
-  {
-    public MaterialsType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MaterialType> _Material = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MaterialType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"Material", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MaterialType> Material
-    {
-      get { return _Material; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MetricType")]
-  public partial class MetricType : global::ProtoBuf.IExtensible
-  {
-    public MetricType() {}
-    
-    private string _ID;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"ID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ID
-    {
-      get { return _ID; }
-      set { _ID = value; }
-    }
-    private string _Type;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"Type", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Type
-    {
-      get { return _Type; }
-      set { _Type = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MetricsType")]
-  public partial class MetricsType : global::ProtoBuf.IExtensible
-  {
-    public MetricsType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MetricType> _Metric = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MetricType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"Metric", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.MetricType> Metric
-    {
-      get { return _Metric; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MomentType")]
-  public partial class MomentType : global::ProtoBuf.IExtensible
-  {
-    public MomentType() {}
-    
-    private string _Units;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Units", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Units
-    {
-      get { return _Units; }
-      set { _Units = value; }
-    }
-    private double _x;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"x", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double x
-    {
-      get { return _x; }
-      set { _x = value; }
-    }
-    private double _y;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"y", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double y
-    {
-      get { return _y; }
-      set { _y = value; }
-    }
-    private double _z;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"z", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double z
-    {
-      get { return _z; }
-      set { _z = value; }
-    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -1647,192 +658,6 @@ namespace edu.vanderbilt.isis.meta
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"PartInterfaceType")]
-  public partial class PartInterfaceType : global::ProtoBuf.IExtensible
-  {
-    public PartInterfaceType() {}
-    
-    private string _ComponentID_1;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"ComponentID_1", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ComponentID_1
-    {
-      get { return _ComponentID_1; }
-      set { _ComponentID_1 = value; }
-    }
-    private string _ComponentID_2;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"ComponentID_2", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ComponentID_2
-    {
-      get { return _ComponentID_2; }
-      set { _ComponentID_2 = value; }
-    }
-    private string _Type;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"Type", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Type
-    {
-      get { return _Type; }
-      set { _Type = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"PartInterfacesType")]
-  public partial class PartInterfacesType : global::ProtoBuf.IExtensible
-  {
-    public PartInterfacesType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.PartInterfaceType> _PartInterface = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.PartInterfaceType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"PartInterface", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.PartInterfaceType> PartInterface
-    {
-      get { return _PartInterface; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"PinType")]
-  public partial class PinType : global::ProtoBuf.IExtensible
-  {
-    public PinType() {}
-    
-    private edu.vanderbilt.isis.meta.AxialDisplacementType _AxialDisplacement;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"AxialDisplacement", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public edu.vanderbilt.isis.meta.AxialDisplacementType AxialDisplacement
-    {
-      get { return _AxialDisplacement; }
-      set { _AxialDisplacement = value; }
-    }
-    private edu.vanderbilt.isis.meta.AxialRotationType _AxialRotation;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"AxialRotation", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public edu.vanderbilt.isis.meta.AxialRotationType AxialRotation
-    {
-      get { return _AxialRotation; }
-      set { _AxialRotation = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"PointCoordinatesType")]
-  public partial class PointCoordinatesType : global::ProtoBuf.IExtensible
-  {
-    public PointCoordinatesType() {}
-    
-    private string _ComponentID;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"ComponentID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ComponentID
-    {
-      get { return _ComponentID; }
-      set { _ComponentID = value; }
-    }
-    private string _FeatureDatumName;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"FeatureDatumName", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string FeatureDatumName
-    {
-      get { return _FeatureDatumName; }
-      set { _FeatureDatumName = value; }
-    }
-    private string _MetricID;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"MetricID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string MetricID
-    {
-      get { return _MetricID; }
-      set { _MetricID = value; }
-    }
-    private string _RequestedValueType;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"RequestedValueType", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string RequestedValueType
-    {
-      get { return _RequestedValueType; }
-      set { _RequestedValueType = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"PressureType")]
-  public partial class PressureType : global::ProtoBuf.IExtensible
-  {
-    public PressureType() {}
-    
-    private string _Units;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Units", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Units
-    {
-      get { return _Units; }
-      set { _Units = value; }
-    }
-    private double _Value;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"Value", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double Value
-    {
-      get { return _Value; }
-      set { _Value = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"PrismaticType")]
-  public partial class PrismaticType : global::ProtoBuf.IExtensible
-  {
-    public PrismaticType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.KinematicFeatureType> _KinematicFeature = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.KinematicFeatureType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"KinematicFeature", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.KinematicFeatureType> KinematicFeature
-    {
-      get { return _KinematicFeature; }
-    }
-  
-    private double _CFM;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"CFM", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double CFM
-    {
-      get { return _CFM; }
-      set { _CFM = value; }
-    }
-    private string _ConnectedComponentID;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"ConnectedComponentID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ConnectedComponentID
-    {
-      get { return _ConnectedComponentID; }
-      set { _ConnectedComponentID = value; }
-    }
-    private string _ConnectionID;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"ConnectionID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ConnectionID
-    {
-      get { return _ConnectionID; }
-      set { _ConnectionID = value; }
-    }
-    private double _ERP;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"ERP", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double ERP
-    {
-      get { return _ERP; }
-      set { _ERP = value; }
-    }
-    private string _FeatureInterfaceType;
-    [global::ProtoBuf.ProtoMember(6, IsRequired = true, Name=@"FeatureInterfaceType", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string FeatureInterfaceType
-    {
-      get { return _FeatureInterfaceType; }
-      set { _FeatureInterfaceType = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"PropertiesType")]
   public partial class PropertiesType : global::ProtoBuf.IExtensible
   {
@@ -1852,113 +677,6 @@ namespace edu.vanderbilt.isis.meta
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ReferencePlaneType")]
-  public partial class ReferencePlaneType : global::ProtoBuf.IExtensible
-  {
-    public ReferencePlaneType() {}
-    
-    private string _Type;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Type", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Type
-    {
-      get { return _Type; }
-      set { _Type = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RevoluteType")]
-  public partial class RevoluteType : global::ProtoBuf.IExtensible
-  {
-    public RevoluteType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.KinematicFeatureType> _KinematicFeature = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.KinematicFeatureType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"KinematicFeature", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.KinematicFeatureType> KinematicFeature
-    {
-      get { return _KinematicFeature; }
-    }
-  
-    private double _CFM;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"CFM", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double CFM
-    {
-      get { return _CFM; }
-      set { _CFM = value; }
-    }
-    private string _ConnectedComponentID;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"ConnectedComponentID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ConnectedComponentID
-    {
-      get { return _ConnectedComponentID; }
-      set { _ConnectedComponentID = value; }
-    }
-    private string _ConnectionID;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"ConnectionID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ConnectionID
-    {
-      get { return _ConnectionID; }
-      set { _ConnectionID = value; }
-    }
-    private double _ERP;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"ERP", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double ERP
-    {
-      get { return _ERP; }
-      set { _ERP = value; }
-    }
-    private string _FeatureInterfaceType;
-    [global::ProtoBuf.ProtoMember(6, IsRequired = true, Name=@"FeatureInterfaceType", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string FeatureInterfaceType
-    {
-      get { return _FeatureInterfaceType; }
-      set { _FeatureInterfaceType = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RotationType")]
-  public partial class RotationType : global::ProtoBuf.IExtensible
-  {
-    public RotationType() {}
-    
-    private string _Units;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Units", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Units
-    {
-      get { return _Units; }
-      set { _Units = value; }
-    }
-    private string _x;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"x", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string x
-    {
-      get { return _x; }
-      set { _x = value; }
-    }
-    private string _y;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"y", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string y
-    {
-      get { return _y; }
-      set { _y = value; }
-    }
-    private string _z;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"z", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string z
-    {
-      get { return _z; }
-      set { _z = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"STEPFormatType")]
   public partial class STEPFormatType : global::ProtoBuf.IExtensible
   {
@@ -1970,299 +688,6 @@ namespace edu.vanderbilt.isis.meta
     {
       get { return _Name; }
       set { _Name = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SetOperationType")]
-  public partial class SetOperationType : global::ProtoBuf.IExtensible
-  {
-    public SetOperationType() {}
-    
-    private string _FeatureID;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"FeatureID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string FeatureID
-    {
-      get { return _FeatureID; }
-      set { _FeatureID = value; }
-    }
-    private string _Type;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"Type", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Type
-    {
-      get { return _Type; }
-      set { _Type = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ShotlineType")]
-  public partial class ShotlineType : global::ProtoBuf.IExtensible
-  {
-    public ShotlineType() {}
-    
-    private double _Azimuth;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Azimuth", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double Azimuth
-    {
-      get { return _Azimuth; }
-      set { _Azimuth = value; }
-    }
-    private string _BallisticThreatRef;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"BallisticThreatRef", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string BallisticThreatRef
-    {
-      get { return _BallisticThreatRef; }
-      set { _BallisticThreatRef = value; }
-    }
-    private string _ComponentID;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"ComponentID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ComponentID
-    {
-      get { return _ComponentID; }
-      set { _ComponentID = value; }
-    }
-    private string _DatumPoint;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"DatumPoint", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string DatumPoint
-    {
-      get { return _DatumPoint; }
-      set { _DatumPoint = value; }
-    }
-    private double _Elevation;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"Elevation", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double Elevation
-    {
-      get { return _Elevation; }
-      set { _Elevation = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ShotlinesType")]
-  public partial class ShotlinesType : global::ProtoBuf.IExtensible
-  {
-    public ShotlinesType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.ShotlineType> _Shotline = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.ShotlineType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"Shotline", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.ShotlineType> Shotline
-    {
-      get { return _Shotline; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SolverType")]
-  public partial class SolverType : global::ProtoBuf.IExtensible
-  {
-    public SolverType() {}
-    
-    private string _ElementShapeType;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"ElementShapeType", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ElementShapeType
-    {
-      get { return _ElementShapeType; }
-      set { _ElementShapeType = value; }
-    }
-    private string _MeshType;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"MeshType", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string MeshType
-    {
-      get { return _MeshType; }
-      set { _MeshType = value; }
-    }
-    private string _ShellElementType;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"ShellElementType", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ShellElementType
-    {
-      get { return _ShellElementType; }
-      set { _ShellElementType = value; }
-    }
-    private string _Type;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"Type", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Type
-    {
-      get { return _Type; }
-      set { _Type = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SolversType")]
-  public partial class SolversType : global::ProtoBuf.IExtensible
-  {
-    public SolversType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SolverType> _Solver = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SolverType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"Solver", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SolverType> Solver
-    {
-      get { return _Solver; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SphericalType")]
-  public partial class SphericalType : global::ProtoBuf.IExtensible
-  {
-    public SphericalType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.KinematicFeatureType> _KinematicFeature = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.KinematicFeatureType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"KinematicFeature", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.KinematicFeatureType> KinematicFeature
-    {
-      get { return _KinematicFeature; }
-    }
-  
-    private double _CFM;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"CFM", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double CFM
-    {
-      get { return _CFM; }
-      set { _CFM = value; }
-    }
-    private string _ConnectedComponentID;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"ConnectedComponentID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ConnectedComponentID
-    {
-      get { return _ConnectedComponentID; }
-      set { _ConnectedComponentID = value; }
-    }
-    private string _ConnectionID;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"ConnectionID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string ConnectionID
-    {
-      get { return _ConnectionID; }
-      set { _ConnectionID = value; }
-    }
-    private double _ERP;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"ERP", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public double ERP
-    {
-      get { return _ERP; }
-      set { _ERP = value; }
-    }
-    private string _FeatureInterfaceType;
-    [global::ProtoBuf.ProtoMember(6, IsRequired = true, Name=@"FeatureInterfaceType", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string FeatureInterfaceType
-    {
-      get { return _FeatureInterfaceType; }
-      set { _FeatureInterfaceType = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SurfaceTreatmentType")]
-  public partial class SurfaceTreatmentType : global::ProtoBuf.IExtensible
-  {
-    public SurfaceTreatmentType() {}
-    
-
-    private edu.vanderbilt.isis.meta.GeometryType _Geometry = null;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"Geometry", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.GeometryType Geometry
-    {
-      get { return _Geometry; }
-      set { _Geometry = value; }
-    }
-
-    private string _AdjoiningParts = "";
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"AdjoiningParts", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue("")]
-    public string AdjoiningParts
-    {
-      get { return _AdjoiningParts; }
-      set { _AdjoiningParts = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SurfaceTreatmentsType")]
-  public partial class SurfaceTreatmentsType : global::ProtoBuf.IExtensible
-  {
-    public SurfaceTreatmentsType() {}
-    
-    private readonly global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SurfaceTreatmentType> _SurfaceTreatment = new global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SurfaceTreatmentType>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"SurfaceTreatment", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<edu.vanderbilt.isis.meta.SurfaceTreatmentType> SurfaceTreatment
-    {
-      get { return _SurfaceTreatment; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ToleranceType")]
-  public partial class ToleranceType : global::ProtoBuf.IExtensible
-  {
-    public ToleranceType() {}
-    
-    private string _AnalysisID;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"AnalysisID", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string AnalysisID
-    {
-      get { return _AnalysisID; }
-      set { _AnalysisID = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"TranslationType")]
-  public partial class TranslationType : global::ProtoBuf.IExtensible
-  {
-    public TranslationType() {}
-    
-    private string _Units;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Units", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Units
-    {
-      get { return _Units; }
-      set { _Units = value; }
-    }
-    private string _x;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"x", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string x
-    {
-      get { return _x; }
-      set { _x = value; }
-    }
-    private string _y;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"y", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string y
-    {
-      get { return _y; }
-      set { _y = value; }
-    }
-    private string _z;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"z", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string z
-    {
-      get { return _z; }
-      set { _z = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -2458,20 +883,17 @@ namespace edu.vanderbilt.isis.meta
     }
   
 
-    private edu.vanderbilt.isis.meta.Interest _interest = null;
-    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"interest", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public edu.vanderbilt.isis.meta.Interest interest
+    private string _subjectID = "";
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"subjectID", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string subjectID
     {
-      get { return _interest; }
-      set { _interest = value; }
+      get { return _subjectID; }
+      set { _subjectID = value; }
     }
     [global::ProtoBuf.ProtoContract(Name=@"ActionMode")]
     public enum ActionMode
     {
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"DISCARD", Value=0)]
-      DISCARD = 0,
             
       [global::ProtoBuf.ProtoEnum(Name=@"INSERT", Value=1)]
       INSERT = 1,
@@ -2489,7 +911,52 @@ namespace edu.vanderbilt.isis.meta
       CLEAR = 5,
             
       [global::ProtoBuf.ProtoEnum(Name=@"SWITCH", Value=6)]
-      SWITCH = 6
+      SWITCH = 6,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"UPDATE_CAD_COMPONENT", Value=7)]
+      UPDATE_CAD_COMPONENT = 7,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"CREATE_CYPHY_COMPONENT", Value=8)]
+      CREATE_CYPHY_COMPONENT = 8,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"UPDATE_CYPHY_COMPONENT", Value=9)]
+      UPDATE_CYPHY_COMPONENT = 9,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"CREATE_ANALYSIS_POINTS", Value=10)]
+      CREATE_ANALYSIS_POINTS = 10,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ADD_COMPONENT_TO_CYPHY_DESIGN", Value=11)]
+      ADD_COMPONENT_TO_CYPHY_DESIGN = 11,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"SELECT_CYPHY_COMPONENT", Value=12)]
+      SELECT_CYPHY_COMPONENT = 12,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"REMOVE_CYPHY_DESIGN_COMPONENT", Value=13)]
+      REMOVE_CYPHY_DESIGN_COMPONENT = 13,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"REQUEST_COMPONENT_LIST", Value=14)]
+      REQUEST_COMPONENT_LIST = 14,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RESYNC", Value=15)]
+      RESYNC = 15,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ADD_CONNECTOR_TO_COMPONENT", Value=16)]
+      ADD_CONNECTOR_TO_COMPONENT = 16,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"CREATE_CYPHY_DESIGN", Value=17)]
+      CREATE_CYPHY_DESIGN = 17,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"UPDATE_CYPHY_DESIGN", Value=18)]
+      UPDATE_CYPHY_DESIGN = 18,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ADD_COMPONENT_TO_CAD_DESIGN", Value=19)]
+      ADD_COMPONENT_TO_CAD_DESIGN = 19,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"CONSTRAIN_COMPONENTS_CAD", Value=20)]
+      CONSTRAIN_COMPONENTS_CAD = 20,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"CONNECT_COMPONENTS_CYPHY", Value=21)]
+      CONNECT_COMPONENTS_CYPHY = 21
     }
   
     private global::ProtoBuf.IExtension extensionObject;
@@ -2714,29 +1181,20 @@ namespace edu.vanderbilt.isis.meta
     public enum NoticeMode
     {
             
-      [global::ProtoBuf.ProtoEnum(Name=@"BACK", Value=0)]
-      BACK = 0,
+      [global::ProtoBuf.ProtoEnum(Name=@"ACK", Value=0)]
+      ACK = 0,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"ACK", Value=1)]
-      ACK = 1,
+      [global::ProtoBuf.ProtoEnum(Name=@"DONE", Value=1)]
+      DONE = 1,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"DONE", Value=2)]
-      DONE = 2,
+      [global::ProtoBuf.ProtoEnum(Name=@"WARN", Value=3)]
+      WARN = 3,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"INFO", Value=3)]
-      INFO = 3,
+      [global::ProtoBuf.ProtoEnum(Name=@"FAULT", Value=4)]
+      FAULT = 4,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"WARN", Value=4)]
-      WARN = 4,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"FAULT", Value=5)]
-      FAULT = 5,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"REJECT", Value=6)]
-      REJECT = 6,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"FAIL", Value=7)]
-      FAIL = 7
+      [global::ProtoBuf.ProtoEnum(Name=@"FAIL", Value=6)]
+      FAIL = 6
     }
   
     private global::ProtoBuf.IExtension extensionObject;

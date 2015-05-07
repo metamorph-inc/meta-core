@@ -199,8 +199,9 @@ class OpenModelica(ToolBase):
             # Add %OPENMODELICAHOME%\MinGW\bin to environment variables
             env_var_mingw = os.path.join(os.getenv('OPENMODELICAHOME'), 'mingw', 'bin')
             my_env = os.environ
-            my_env["PATH"] += os.pathsep + env_var_mingw
-
+            # META-3623 make sure this path gets resolved first (prepend rather than append).
+            my_env["PATH"] = env_var_mingw + os.pathsep + my_env["PATH"]
+            log.debug('Added "{0}" to beginning of env var PATH.'.format(env_var_mingw))
             command = 'mingw32-make.exe -f {0}.makefile'.format(self.short_name)
 
             # compile the c-code

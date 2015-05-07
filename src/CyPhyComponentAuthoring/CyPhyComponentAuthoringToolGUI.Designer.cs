@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CyPhyComponentAuthoringToolGUI));
             this.tableLayoutPanel0 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel0.SuspendLayout();
@@ -68,8 +69,11 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(624, 51);
             this.Controls.Add(this.tableLayoutPanel0);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CyPhyComponentAuthoringToolGUI";
             this.Text = "Component Authoring Tool (CAT)";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.CyPhyComponentAuthoringToolGUI_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.CyPhyComponentAuthoringToolGUI_DragEnter);
             this.tableLayoutPanel0.ResumeLayout(false);
             this.tableLayoutPanel0.PerformLayout();
             this.ResumeLayout(false);

@@ -2,6 +2,7 @@
 
 
 #include "bddint.h"
+#include <tchar.h>
 
 DESERT_API int bdd_and_step_count=0;
 
@@ -161,9 +162,9 @@ bdd_new_var(bddm, index)
   bdd var;
 
   if (bddm->vars == BDD_MAX_INDEXINDEX)
-    bdd_fatal("bdd_new_var: no more indexes");
+    bdd_fatal(_T("bdd_new_var: no more indexes"));
   if (index > bddm->vars)
-    bdd_fatal("bdd_new_var: index out of range");
+    bdd_fatal(_T("bdd_new_var: index out of range"));
   if (bddm->vars == bddm->maxvars)
     {
       /* Expand indexing tables and variable associations. */
@@ -270,7 +271,7 @@ bdd_new_var_before(bddm, var)
       BDD_SETUP(var);
       if (bdd_type_aux(bddm, var) != BDD_TYPE_POSVAR)
 	{
-	  bdd_warning("bdd_new_var_before: argument is not a positive variable");
+	  bdd_warning(_T("bdd_new_var_before: argument is not a positive variable"));
 	  if (BDD_IS_CONST(var))
 	    return (bdd_new_var_last(bddm));
 	}
@@ -297,7 +298,7 @@ bdd_new_var_after(bddm, var)
       BDD_SETUP(var);
       if (bdd_type_aux(bddm, var) != BDD_TYPE_POSVAR)
 	{
-	  bdd_warning("bdd_new_var_after: argument is not a positive variable");
+	  bdd_warning(_T("bdd_new_var_after: argument is not a positive variable"));
 	  if (BDD_IS_CONST(var))
 	    return (bdd_new_var_last(bddm));
 	}
@@ -777,7 +778,7 @@ bdd_if(bddm, f)
       BDD_SETUP(f);
       if (BDD_IS_CONST(f))
 	{
-	  bdd_warning("bdd_if: argument is a constant");
+	  bdd_warning(_T("bdd_if: argument is a constant"));
 	  return (f);
 	}
       FIREWALL(bddm);
@@ -849,7 +850,7 @@ bdd_then(bddm, f)
       BDD_SETUP(f);
       if (BDD_IS_CONST(f))
 	{
-	  bdd_warning("bdd_then: argument is a constant");
+	  bdd_warning(_T("bdd_then: argument is a constant"));
 	  return (f);
 	}
       f=BDD_THEN(f);
@@ -876,7 +877,7 @@ bdd_else(bddm, f)
       BDD_SETUP(f);
       if (BDD_IS_CONST(f))
 	{
-	  bdd_warning("bdd_else: argument is a constant");
+	  bdd_warning(_T("bdd_else: argument is a constant"));
 	  return (f);
 	}
       f=BDD_ELSE(f);
@@ -1078,7 +1079,7 @@ bdd_free(bddm, f)
     {
       BDD_SETUP(f);
       if (BDD_REFS(f) == 0)
-	bdd_fatal("bdd_free: attempt to free node with zero references");
+	bdd_fatal(_T("bdd_free: attempt to free node with zero references"));
       else
 	BDD_DECREFS(f);
     }
@@ -1220,14 +1221,14 @@ bdd_abort_closure(bddm, abort_fn, abort_env)
 }
 
 
-char *
+TCHAR *
 #if defined(__STDC__)
 bdd_version(void)
 #else
 bdd_version()
 #endif
 {
-  return ("1.0");
+  return (_T("1.0"));
 }
 
 
@@ -1391,7 +1392,7 @@ bdd_init()
   bddm->one->mark=0;
   bddm->zero=BDD_NOT(bddm->one);
   if (sizeof(double) > 2*sizeof(long))
-    bdd_warning("bdd_init: portability problem for bdd_satisfying_fraction");
+    bdd_warning(_T("bdd_init: portability problem for bdd_satisfying_fraction"));
   return (bddm);
 }
 

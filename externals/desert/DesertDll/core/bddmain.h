@@ -25,7 +25,7 @@ class DESERT_API CBdd
 public:
   static void Init(int len, int props, ...);
   static void Finit();
-  static void ModifyProperty(const char *name, int X, int Y, int Z);
+  static void ModifyProperty(const TCHAR *name, int X, int Y, int Z);
   static CBdd One(void);
   static CBdd Zero(void);
   static CBdd ArithZero(void);          // mtbdd 0 terminal
@@ -37,7 +37,7 @@ public:
   static CBdd QuantifyExistentially(CBdd func, int startVar, int encLen);
   static CBdd Encode(int *e, int b, int n);
   static CBdd Encode(CVIndex e[], int l);
-  //static CBdd EncodeProperty(const char *name, int idx, int val);
+  //static CBdd EncodeProperty(const TCHAR *name, int idx, int val);
 #ifndef DOUBLE_MTBDD
   static CBdd EncodeArith(int val);     // return the mtbdd terminal with this value
   static CBdd Sum(const CBdd& f,  const CBdd& g, long limit);		// return the sum with threshold this to operand; do not modify either this or operand
@@ -54,25 +54,25 @@ public:
  
 
  
-  static CBdd QuantifyPropertyExistentially(const char *name, CBdd func, int idx);
+  static CBdd QuantifyPropertyExistentially(const TCHAR *name, CBdd func, int idx);
   static int  Satisfy(CBdd& b, CPtrList& encVectors);
   static void ExpandDontCare(int *enc, int cur, CPtrList& encVectors);
 
 public:
   // generate bdd for z_vec = y_vec + x_vec
-  //static CBdd EqProperty(const char *name, int z_idx, int y_idx, int x_idx);
+  //static CBdd EqProperty(const TCHAR *name, int z_idx, int y_idx, int x_idx);
   // generate bdd for z_vec > y_vec + x_vec
-  //static CBdd GtProperty(const char *name, int z_idx, int y_idx, int x_idx);
+  //static CBdd GtProperty(const TCHAR *name, int z_idx, int y_idx, int x_idx);
 
 
 private:
-  //static int FindProperty(const char *name);
+  //static int FindProperty(const TCHAR *name);
   static bdd_manager  manager;
   static bdd *vars;
   static int length;
   // stuff for encoding properties (cost, latency, resource etc)
  /* static struct property {
-    char *name;			// name of the property
+    TCHAR *name;			// name of the property
     int start;			// start bdd var
     int X,Y,Z;			// 3-d grid
   } properties[MAX_PROPERTIES];
@@ -133,12 +133,12 @@ public:
 private:
   bdd core;
 public:
-  void dump(const char * comment) 
+  void dump(const TCHAR * comment) 
   {
 	  FILE * fn = fopen("c:\\tmp\\bdd_debug.txt", "a");
 	  if (fn)
 	  {
-		  fprintf(fn, "--------\n%s\n--------------\n", comment);
+		  _ftprintf(fn, _T("--------\n%s\n--------------\n"), comment);
 		  bdd_print_bdd(manager, core, NULL, NULL, NULL,fn);
 		  fclose(fn);
 	  }
@@ -157,25 +157,25 @@ public:
 
 inline CBdd CBdd::One()
 {
-	MANAGER_CHECK("CBdd::One()");
+	MANAGER_CHECK(_T("CBdd::One()"));
 	return CBdd(bdd_one(manager));
 }
 
 inline CBdd CBdd::Zero()
 {
-	MANAGER_CHECK("CBdd::Zero()");
+	MANAGER_CHECK(_T("CBdd::Zero()"));
 	return CBdd(bdd_zero(manager));
 }
 
 inline CBdd CBdd::ArithZero()
 {
-	MANAGER_CHECK("CBdd::ArithZero()");
+	MANAGER_CHECK(_T("CBdd::ArithZero()"));
 	return CBdd(mtbdd_get_terminal(manager, 0, 0));
 }
 
 inline CBdd CBdd::ArithOne()
 {
-	MANAGER_CHECK("CBdd::ArithOne()");
+	MANAGER_CHECK(_T("CBdd::ArithOne()"));
 #ifndef DOUBLE_MTBDD
 	return CBdd(mtbdd_get_terminal(manager, 0, -1));
 #else
@@ -187,7 +187,7 @@ inline CBdd CBdd::ArithOne()
 inline CBdd CBdd::EncodeArith(int val)
 {
 
-	MANAGER_CHECK("CBdd::EncodeArith()");
+	MANAGER_CHECK(_T("CBdd::EncodeArith()"));
 #if 1 //ndef NEGATIVE_MTBDD
 	return (val == 1) ?
 		CBdd(mtbdd_get_terminal(manager, 0, -1)) :
@@ -200,7 +200,7 @@ inline CBdd CBdd::EncodeArith(int val)
 #else
 inline CBdd CBdd::EncodeArith(double val)
 {
-	MANAGER_CHECK("CBdd::EncodeArith()");
+	MANAGER_CHECK(_T("CBdd::EncodeArith()"));
 	/*if(val==1)
 		return CBdd(mtbdd_get_terminal(manager, 0, -1));*/
 	
@@ -221,19 +221,19 @@ inline CBdd CBdd::EncodeArith(double val)
 
 inline CBdd CBdd::Mtbdd_Ite(const CBdd& b, const CBdd& m)
 {
-	MANAGER_CHECK("CBdd::Mtbdd_Ite()");
+	MANAGER_CHECK(_T("CBdd::Mtbdd_Ite()"));
 	return CBdd(mtbdd_ite(manager, b.core, m.core, bdd_zero(manager)));
 }
 
 inline CBdd CBdd::IfThenElse(const CBdd& _if, const CBdd& _then, const CBdd& _else)
 {
-	MANAGER_CHECK("CBdd::IfThenElse()");
+	MANAGER_CHECK(_T("CBdd::IfThenElse()"));
 	return CBdd(bdd_ite(manager, _if.core, _then.core, _else.core));
 }
 
 inline CBdd CBdd::Implies(const CBdd& l, const CBdd& r)
 {
-	MANAGER_CHECK("CBdd::Implies()");
+	MANAGER_CHECK(_T("CBdd::Implies()"));
   
 	CBdd temp = bdd_not(manager, l.core);
 	
@@ -245,7 +245,7 @@ inline CBdd CBdd::Implies(const CBdd& l, const CBdd& r)
 
 inline CBdd CBdd::Xor(const CBdd& l, const CBdd& r)
 {
-	MANAGER_CHECK("CBdd::Xor()");
+	MANAGER_CHECK(_T("CBdd::Xor()"));
 	return CBdd(bdd_xor(manager, l.core, r.core));
 }
 
@@ -259,7 +259,7 @@ inline CBdd &CBdd::operator= (const CBdd& from)			{core = from.core;  return *th
 
 inline CBdd CBdd::operator&& (const CBdd& arg) const
 {
-	MANAGER_CHECK("CBdd::operator&&()");
+	MANAGER_CHECK(_T("CBdd::operator&&()"));
 	return CBdd( bdd_and(manager, core, arg.core) );
 }
 
@@ -273,14 +273,14 @@ extern "C" extern int mtbdd_threshold_step_count;
 inline CBdd CBdd::operator|| (const CBdd& arg) const
 {
 	bdd_and_step_count = 0;
-	MANAGER_CHECK("CBdd::operator||()");
+	MANAGER_CHECK(_T("CBdd::operator||()"));
 	CBdd ret = CBdd( bdd_or(manager, core, arg.core) );
 	return ret;
 }
 
 inline CBdd CBdd::operator! () const
 {
-	MANAGER_CHECK("CBdd::operator!()");
+	MANAGER_CHECK(_T("CBdd::operator!()"));
 	return CBdd( bdd_not(manager, core) );
 }
 
@@ -290,12 +290,12 @@ inline CBdd CBdd::operator/ (const long value) const
 inline CBdd CBdd::operator/ (const double value) const
 #endif
 {
-	MANAGER_CHECK("CBdd::operator/()");
+	MANAGER_CHECK(_T("CBdd::operator/()"));
  
 	bdd temp = mtbdd_divby(manager, core, 0, value);
-	//BDD_FAILED("CBdd::operator/()");
+	//BDD_FAILED(_T("CBdd::operator/()"));
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
+		throw new CDesertException(_T("Operation returned null."));
 
 	CBdd ret = CBdd( temp );
 	return ret;
@@ -307,11 +307,11 @@ inline CBdd CBdd::operator^ (const long value) const
 inline CBdd CBdd::operator^ (const double value) const
 #endif
 {
-	MANAGER_CHECK("CBdd::operator^()");
+	MANAGER_CHECK(_T("CBdd::operator^()"));
  	bdd temp = mtbdd_rootby(manager, core, 0, value);
-	//BDD_FAILED("CBdd::operator^()");
+	//BDD_FAILED(_T("CBdd::operator^()"));
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
+		throw new CDesertException(_T("Operation returned null."));
 
 	CBdd ret = CBdd( temp );
   
@@ -324,11 +324,11 @@ inline CBdd CBdd::operator+ (const long value) const
 inline CBdd CBdd::operator+ (const double value) const
 #endif
 {
-	MANAGER_CHECK("CBdd::operator+()");
+	MANAGER_CHECK(_T("CBdd::operator+()"));
 	bdd temp = mtbdd_sumby(manager, core, 0, value);
-//	BDD_FAILED("CBdd::operator+()");
+//	BDD_FAILED(_T("CBdd::operator+()"));
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
+		throw new CDesertException(_T("Operation returned null."));
 
 	CBdd ret = CBdd( temp );
   
@@ -341,10 +341,10 @@ inline CBdd CBdd::operator- (const long value) const
 inline CBdd CBdd::operator- (const double value) const
 #endif
 {
-	MANAGER_CHECK("CBdd::operator-()");
+	MANAGER_CHECK(_T("CBdd::operator-()"));
  	bdd temp = mtbdd_subby(manager, core, 0, value);
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
+		throw new CDesertException(_T("Operation returned null."));
 
 	CBdd ret = CBdd( temp );
   
@@ -357,12 +357,12 @@ inline CBdd CBdd::operator* (const long value) const
 inline CBdd CBdd::operator* (const double value) const
 #endif
 {
-	MANAGER_CHECK("CBdd::operator*()");
+	MANAGER_CHECK(_T("CBdd::operator*()"));
   
 	bdd temp = mtbdd_mulby(manager, core, 0, value);
-//	BDD_FAILED("CBdd::operator*()");
+//	BDD_FAILED(_T("CBdd::operator*()"));
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
+		throw new CDesertException(_T("Operation returned null."));
 
 	CBdd ret = CBdd( temp );
 	return ret;
@@ -371,12 +371,12 @@ inline CBdd CBdd::operator* (const double value) const
 // Himanshu: Applies unary math function to the current Bdd terminal
 inline CBdd CBdd::ApplyUnaryMathFunc(bdd_unary_math_function mathFunc) const
 {
-	MANAGER_CHECK("CBdd::UnaryMathFunc()");
+	MANAGER_CHECK(_T("CBdd::UnaryMathFunc()"));
 
 	bdd temp = mtbdd_apply_unary_math_function(manager, core, mathFunc);
-//	BDD_FAILED("CBdd::UnaryMathFunc()");
+//	BDD_FAILED(_T("CBdd::UnaryMathFunc()"));
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
+		throw new CDesertException(_T("Operation returned null."));
 	CBdd ret = CBdd( temp );
   
 	return ret;
@@ -384,11 +384,11 @@ inline CBdd CBdd::ApplyUnaryMathFunc(bdd_unary_math_function mathFunc) const
 
 inline CBdd CBdd::operator+ (const CBdd& arg) const
 {
-	MANAGER_CHECK("CBdd::operator+()");
+	MANAGER_CHECK(_T("CBdd::operator+()"));
   
 	bdd temp = mtbdd_sum(manager, core, arg.core);
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
+		throw new CDesertException(_T("Operation returned null."));
 
 	CBdd ret = CBdd( temp );
 	return ret;
@@ -396,12 +396,12 @@ inline CBdd CBdd::operator+ (const CBdd& arg) const
 
 inline CBdd CBdd::operator- (const CBdd& arg) const
 {
-	MANAGER_CHECK("CBdd::operator-()");
+	MANAGER_CHECK(_T("CBdd::operator-()"));
   
 	bdd temp = mtbdd_sub(manager, core, arg.core);
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
-	//BDD_FAILED("CBdd::operator-()");
+		throw new CDesertException(_T("Operation returned null."));
+	//BDD_FAILED(_T("CBdd::operator-()"));
 
 	CBdd ret = CBdd( temp );
 	return ret;
@@ -409,12 +409,12 @@ inline CBdd CBdd::operator- (const CBdd& arg) const
 
 inline CBdd CBdd::operator* (const CBdd& arg) const
 {
-	MANAGER_CHECK("CBdd::operator*()");
+	MANAGER_CHECK(_T("CBdd::operator*()"));
  
 	bdd temp = mtbdd_mul(manager, core, arg.core);
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
-//	BDD_FAILED("CBdd::operator*()");
+		throw new CDesertException(_T("Operation returned null."));
+//	BDD_FAILED(_T("CBdd::operator*()"));
  
 	CBdd ret = CBdd( temp );
   
@@ -423,12 +423,12 @@ inline CBdd CBdd::operator* (const CBdd& arg) const
 
 inline CBdd CBdd::operator/ (const CBdd& arg) const
 {
-	MANAGER_CHECK("CBdd::operator/()");
+	MANAGER_CHECK(_T("CBdd::operator/()"));
  
 	bdd temp = mtbdd_div(manager, core, arg.core);
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
-//	BDD_FAILED("CBdd::operator/()");
+		throw new CDesertException(_T("Operation returned null."));
+//	BDD_FAILED(_T("CBdd::operator/()"));
  
 	CBdd ret = CBdd( temp );
   
@@ -441,7 +441,7 @@ inline CBdd CBdd::Sum(const CBdd& f,  const CBdd& g, long limit)
 inline CBdd CBdd::Sum(const CBdd& f,  const CBdd& g, double limit)
 #endif
 {
-	MANAGER_CHECK("CBdd::Sum()");
+	MANAGER_CHECK(_T("CBdd::Sum()"));
 
 	static unsigned long cache_op_code_add = 1;
 	static CMap<int, int, unsigned long, unsigned long> op_code_map;
@@ -456,9 +456,9 @@ inline CBdd CBdd::Sum(const CBdd& f,  const CBdd& g, double limit)
 
 	bdd temp = mtbdd_sum_thresh(manager, f.core, g.core, 0, limit, op_code );
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");	
+		throw new CDesertException(_T("Operation returned null."));	
 	
-	//BDD_FAILED("CBdd::Sum()");
+	//BDD_FAILED(_T("CBdd::Sum()"));
 	CBdd ret = CBdd( temp );
 	return ret;
 
@@ -470,7 +470,7 @@ inline CBdd CBdd::Mul(const CBdd& f, const CBdd& g, long limit)
 inline CBdd CBdd::Mul(const CBdd& f, const CBdd& g, double limit)
 #endif
 {
-	MANAGER_CHECK("CBdd::Mul()");
+	MANAGER_CHECK(_T("CBdd::Mul()"));
 
 	static unsigned long cache_op_code_add = 1;
 	static CMap<int, int, unsigned long, unsigned long> op_code_map;
@@ -485,9 +485,9 @@ inline CBdd CBdd::Mul(const CBdd& f, const CBdd& g, double limit)
 
 	bdd temp = mtbdd_mul_thresh(manager, f.core, g.core, 0, limit, op_code);
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
+		throw new CDesertException(_T("Operation returned null."));
 
-//	BDD_FAILED("CBdd::Mul()");
+//	BDD_FAILED(_T("CBdd::Mul()"));
 	CBdd ret = CBdd( temp );
   
 	return ret;
@@ -496,10 +496,10 @@ inline CBdd CBdd::Mul(const CBdd& f, const CBdd& g, double limit)
 
 inline CBdd CBdd::Max(const CBdd& f, const CBdd& g)
 {
-	MANAGER_CHECK("CBdd::Max()");
+	MANAGER_CHECK(_T("CBdd::Max()"));
 	bdd temp = mtbdd_max(manager, f.core, g.core);
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
+		throw new CDesertException(_T("Operation returned null."));
 	return CBdd(temp);
 //	return CBdd( mtbdd_max(manager, f.core, g.core) );
 }
@@ -507,10 +507,10 @@ inline CBdd CBdd::Max(const CBdd& f, const CBdd& g)
 
 inline CBdd CBdd::Min(const CBdd& f, const CBdd& g)
 {
-	MANAGER_CHECK("CBdd::Min()");
+	MANAGER_CHECK(_T("CBdd::Min()"));
 	bdd temp = mtbdd_min(manager, f.core, g.core);
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
+		throw new CDesertException(_T("Operation returned null."));
 	return CBdd(temp);
 //	return CBdd( mtbdd_min(manager, f.core, g.core) );
 }
@@ -518,13 +518,13 @@ inline CBdd CBdd::Min(const CBdd& f, const CBdd& g)
 
 inline bool CBdd::operator!= (const CBdd& arg) const
 {
-	MANAGER_CHECK("CBdd::operator!=()");
+	MANAGER_CHECK(_T("CBdd::operator!=()"));
 	return (core != arg.core);
 }
 
 inline bool CBdd::operator== (const CBdd& arg) const
 {
-	MANAGER_CHECK("CBdd::operator==()");
+	MANAGER_CHECK(_T("CBdd::operator==()"));
 	return (core == arg.core);
 }
 
@@ -536,13 +536,13 @@ inline CBdd::operator bdd()
 
 inline int CBdd::size()
 {
-	MANAGER_CHECK("CBdd::size()");
+	MANAGER_CHECK(_T("CBdd::size()"));
 	return bdd_size( manager, core, 0 );
 }
 
 inline double CBdd::sat_fract()
 {
-	MANAGER_CHECK("CBdd::sat_fract()");
+	MANAGER_CHECK(_T("CBdd::sat_fract()"));
 	return bdd_satisfying_fraction( manager, core );
 }
 
@@ -552,7 +552,7 @@ inline CBdd CBdd::threshold(int limit, bool eq)
 inline CBdd CBdd::threshold(double limit, bool eq)
 #endif
 {
-	MANAGER_CHECK("CBdd::threshold()");
+	MANAGER_CHECK(_T("CBdd::threshold()"));
 
 	static unsigned long cache_op_code_add = 1;
 #ifndef DOUBLE_MTBDD
@@ -578,7 +578,7 @@ inline CBdd CBdd::low_threshold(int limit, bool eq)
 inline CBdd CBdd::low_threshold(double limit,bool eq)
 #endif
 {
-	MANAGER_CHECK("CBdd::low_threshold()");
+	MANAGER_CHECK(_T("CBdd::low_threshold()"));
  	
 	static unsigned long cache_op_code_add = 1;
 #ifndef DOUBLE_MTBDD
@@ -606,7 +606,7 @@ inline CBdd CBdd::equals_to(int limit)
 inline CBdd CBdd::equals_to(double limit)
 #endif
 {
-	MANAGER_CHECK("CBdd::equals_to()");
+	MANAGER_CHECK(_T("CBdd::equals_to()"));
 
 	static unsigned long cache_op_code_add = 1;
 #ifndef DOUBLE_MTBDD
@@ -633,7 +633,7 @@ inline CBdd CBdd::not_equals_to(int limit)
 inline CBdd CBdd::not_equals_to(double limit)
 #endif
 {
-	MANAGER_CHECK("CBdd::not_equals_to()");
+	MANAGER_CHECK(_T("CBdd::not_equals_to()"));
 
 	static unsigned long cache_op_code_add = 1;
 #ifndef DOUBLE_MTBDD
@@ -662,7 +662,7 @@ inline CBdd CBdd::devides_from(const double value)
 {
 	bdd temp = mtbdd_div_from(manager, core, 0, value);
 	if(temp==(bdd)0)		
-		throw new CDesertException("Operation returned null.");
+		throw new CDesertException(_T("Operation returned null."));
 
 	CBdd ret = CBdd( temp );
 	return ret;

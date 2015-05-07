@@ -3,6 +3,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerCommandArguments>-g -s 127.0.0.1:15152 -v inform -i CADAssembly.xml -w . -o faillevel=0</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerWorkingDirectory>..\..\..\models\MBD\MetaLink_0621112859</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>c:\Users\snyako.ISIS\Desktop\Oshkosh\CyPhy_Models\ConventionalVehicle\MetaLink_0312094453</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
 </Project>

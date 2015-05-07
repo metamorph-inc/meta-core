@@ -5,16 +5,31 @@ using System.Text;
 using System.IO;
 using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
+using GME.MGA;
 
 namespace CyPhy2CAD_CSharp.TestBenchModel
 {
-
+    /*
+    public class CarComputation
+    {
+        public enum ComputationType
+        {
+            TURNRADIUS,
+            TOPSPEED,
+            ACCEL0_60,
+        }
+        public ComputationType Type;
+        public Dictionary<String, String> Parameters = new Dictionary<string, string>();
+        public string Metric;
+    }
+    */
     public class TestBench : TestBenchBase
     {
         // list of assemblies
         // stuff from test bench: analysis point, cadcomputation, metrics
 
         public List<string> PostProcessScripts { get; set; }
+        //public List<CarComputation> CarComputations = new List<CarComputation>();
 
         public TestBench(CyPhy2CADSettings cadSetting,
                          string outputdir,
@@ -33,6 +48,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 testBench = CyPhyClasses.TestBench.Cast(testBenchBase.Impl);
             base.TraverseTestBench(testBenchBase);   //AnalysisID = testBench.ID;
 
+            
             // CADComputations Metrics
             foreach (var conn in testBench.Children.CADComputation2MetricCollection)
             {
@@ -50,7 +66,12 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                     tbcomputation.RequestedValueType = (cadcomputation as CyPhy.BoundingBox).Attributes.CADComputationRequestedValue.ToString();
                     tbcomputation.ComputationType = TBComputation.Type.BOUNDINGBOX;
                 }
-                else // Mass
+                else if (cadcomputation is CyPhy.InterferenceCount)
+                {
+                    tbcomputation.RequestedValueType = "Scalar";
+                    tbcomputation.ComputationType = TBComputation.Type.INTERFERENCECOUNT;
+                }
+                else if (cadcomputation is CyPhy.Mass)
                 {
                     tbcomputation.RequestedValueType = "Scalar";
                     tbcomputation.ComputationType = TBComputation.Type.MASS;
@@ -89,6 +110,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                         tbcomputation.RequestedValueType = "Vector";
                         tbcomputation.FeatureDatumName = (traverser.portsFound.First() as CyPhy.Point).Attributes.DatumName;
                         tbcomputation.ComponentID = CyPhyClasses.Component.Cast(traverser.portsFound.First().ParentContainer.ParentContainer.Impl).Attributes.InstanceGUID;
+                        tbcomputation.MetricName = metric.Name;
                         Computations.Add(tbcomputation);
                     }
                 }
@@ -127,6 +149,43 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             return false;
         }
 
+        public override void GenerateRunBat()
+        {
+            Template.run_bat searchmeta = new Template.run_bat()
+            {
+                Automation = IsAutomated,
+                XMLFileName = "CADAssembly",
+                AdditionalOptions = CADOptions ?? "",
+                Assembler = "CREO",
+                Analyzer = "NONE",
+                Mesher = "NONE"
+            };
+            /*string domaintool = "";
+            foreach (var carcomp in CarComputations){
+                string inputs="";
+                foreach (KeyValuePair<string,string> i in carcomp.Parameters)
+                {
+                    if (i.Key == "torque_curve")
+                    {
+                        using (StreamWriter writer = new StreamWriter(Path.Combine(OutputDirectory, "torque_curve.txt")))
+                        {
+                            writer.WriteLine(i.Value);
+                        }
+                    }
+                    else
+                    {
+                        inputs += i.Key + "=" + i.Value + ";";
+                    }
+                }
+                domaintool += "\"%MetaPath%\\bin\\Python27\\Scripts\\Python.exe\" \"%MetaPath%\\bin\\CAD\\CarCalculators.py\" -calc " + carcomp.Type.ToString().ToLower() + " -inputs " + inputs + " -metric " + carcomp.Metric + "\n";
+            }
+            searchmeta.CallDomainTool = domaintool;*/
+            using (StreamWriter writer = new StreamWriter(Path.Combine(OutputDirectory, "runCADJob.bat")))
+            {
+                writer.WriteLine(searchmeta.TransformText());
+            }
+        }
+
         // main function for generating output files
         public override bool GenerateOutputFiles()
         {
@@ -144,8 +203,27 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public override void GenerateCADXMLOutput()
         {
             CAD.AssembliesType assembliesoutroot = cadDataContainer.ToCADXMLOutput(this);
-            if ((Computations.Any() || InterferenceCheck) && assembliesoutroot.Assembly.Length > 0)
+            if (ProcessingInstructions.Count != 0)
+            {
+                CAD.ProcessingInstructionsType instr = new CAD.ProcessingInstructionsType();
+                CAD.ProcessingInstructionType[] instructions = new CAD.ProcessingInstructionType[ProcessingInstructions.Count];
+                int j = 0;
+                foreach (var i in ProcessingInstructions)
+                {
+                    instructions[j] = new CAD.ProcessingInstructionType();
+                    instructions[j].Primary = i.Key;
+                    instructions[j].Secondary = i.Value;
+                }
+                instr.ProcessingInstruction = instructions;
+                assembliesoutroot.ProcessingInstructions = instr;
+            }
+            // R.O. 1/26/2015, InterferenceCheck deprecated. Now interference check is specified by adding a InterferenceCount to
+            // a CADComputationComponent
+            //if ((Computations.Any() || InterferenceCheck) && assembliesoutroot.Assembly.Length > 0)
+            if (Computations.Any() && assembliesoutroot.Assembly.Length > 0)
+            {
                 AddAnalysisToXMLOutput(assembliesoutroot.Assembly[0]);
+            }
             AddDataExchangeFormatToXMLOutput(assembliesoutroot);
             assembliesoutroot.SerializeToFile(Path.Combine(OutputDirectory, TestBenchBase.CADAssemblyFile));
         }
@@ -175,6 +253,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                         ptout.MetricType1 = item.ComputationType.ToString();
                         ptout.RequestedValueType = item.RequestedValueType;
                         ptout.Details = item.FeatureDatumName;
+                        ptout.MetricName = item.MetricName;
                         ptout.ComponentID = String.IsNullOrEmpty(item.ComponentID) ? "" : item.ComponentID;     // PointCoordinate metric is tied to a specific Component  
                         metriclist.Add(ptout);
                     }
@@ -186,6 +265,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                         metric.MetricType1 = item.ComputationType.ToString();
                         metric.RequestedValueType = item.RequestedValueType;
                         metric.ComponentID = assemblyRoot.ConfigurationID;
+                        metric.MetricName = item.MetricName;
                         metric.Details = "";
                         metriclist.Add(metric);
                     }

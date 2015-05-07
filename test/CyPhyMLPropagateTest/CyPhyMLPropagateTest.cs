@@ -17,6 +17,7 @@ using CyPhyML = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyMLClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using System.Xml.XPath;
 using System.Xml;
+using CyPhyMetaLink;
 
 namespace CyPhyPropagateTest
 {
@@ -72,14 +73,12 @@ namespace CyPhyPropagateTest
         }
 
         [Fact]
-        // Update existing AVM component - a new resource has been added
+        // Update existing AVM component - an existing resource has been replaced
         public void TestUpdateComponentReplaceResource()
         {
             SetupTest();
 
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.CadAssemblyTopic, testAssemblyId);
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentManifestTopic);
-            WaitToReceiveMessage();
+            SendInterest("0");
             WaitToReceiveMessage();
 
             RunCyPhyMLSync(
@@ -89,8 +88,8 @@ namespace CyPhyPropagateTest
                     {
                         interpreter.MgaGateway.PerformInTransaction(() =>
                             testCompGuid = (string)((MgaModel)project.RootFolder.ObjectByPath[testComponentPath]).GetAttributeByNameDisp("AVMID"));
-                        SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentUpdateTopic, testCompGuid);
-                        WaitToReceiveMessage();
+                        //SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentTopic, testCompGuid);
+                        //WaitToReceiveMessage();
                     }
 
                     // TODO propagate.StartEditingComponent
@@ -101,11 +100,11 @@ namespace CyPhyPropagateTest
                         };
                         msg.mode.Add(Edit.EditMode.POST);
                         msg.origin.Add(origin);
-                        msg.topic.Add(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentUpdateTopic);
-                        msg.topic.Add(testCompGuid);
+                        msg.topic.Add("0");
 
                         msg.actions.Add(new edu.vanderbilt.isis.meta.Action());
-                        msg.actions[0].actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.UPDATE;
+                        msg.actions[0].subjectID = testCompGuid;
+                        msg.actions[0].actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.UPDATE_CYPHY_COMPONENT;
                         msg.actions[0].alien = new Alien();
                         msg.actions[0].alien.encodingMode = Alien.EncodingMode.XML;
                         msg.actions[0].alien.encoded = Encoding.UTF8.GetBytes(
@@ -113,6 +112,7 @@ namespace CyPhyPropagateTest
                             new Dictionary<string, string>() { 
                             { "test.asm", Path.Combine(TestModelDir, "") },
                             }));
+                        msg.actions[0].subjectID = testCompGuid;
                         propagate.EditMessageReceived(msg);
                         Application.DoEvents();
 
@@ -136,9 +136,7 @@ namespace CyPhyPropagateTest
         {
             SetupTest();
 
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.CadAssemblyTopic, testAssemblyId);
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentManifestTopic);
-            WaitToReceiveMessage();
+            SendInterest("0");
             WaitToReceiveMessage();
 
             RunCyPhyMLSync(
@@ -148,8 +146,6 @@ namespace CyPhyPropagateTest
                     {
                         interpreter.MgaGateway.PerformInTransaction(() =>
                             testCompGuid = (string)((MgaModel)project.RootFolder.ObjectByPath[testComponentPath]).GetAttributeByNameDisp("AVMID"));
-                        SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentUpdateTopic, testCompGuid);
-                        WaitToReceiveMessage();
                     }
 
                     // TODO propagate.StartEditingComponent
@@ -160,11 +156,10 @@ namespace CyPhyPropagateTest
                         };
                         msg.mode.Add(Edit.EditMode.POST);
                         msg.origin.Add(origin);
-                        msg.topic.Add(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentUpdateTopic);
-                        msg.topic.Add(testCompGuid);
+                        msg.topic.Add("0");
 
                         msg.actions.Add(new edu.vanderbilt.isis.meta.Action());
-                        msg.actions[0].actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.UPDATE;
+                        msg.actions[0].actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.UPDATE_CYPHY_COMPONENT;
                         msg.actions[0].alien = new Alien();
                         msg.actions[0].alien.encodingMode = Alien.EncodingMode.XML;
                         msg.actions[0].alien.encoded = Encoding.UTF8.GetBytes(
@@ -173,6 +168,7 @@ namespace CyPhyPropagateTest
                             { "DAMPER.PRT", Path.Combine(TestModelDir, "components\\Damper_2\\AVM.Component-50ec54a86e6cc33768468c31v2\\CADXXX\\") },
                             { "test.asm", Path.Combine(TestModelDir, "") }
                             }));
+                        msg.actions[0].subjectID = testCompGuid;
                         propagate.EditMessageReceived(msg);
                         Application.DoEvents();
 
@@ -195,9 +191,7 @@ namespace CyPhyPropagateTest
         {
             SetupTest();
 
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.CadAssemblyTopic, testAssemblyId);
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentManifestTopic);
-            WaitToReceiveMessage();
+            SendInterest("0");
             WaitToReceiveMessage();
 
             RunCyPhyMLSync(
@@ -207,8 +201,6 @@ namespace CyPhyPropagateTest
                     {
                         interpreter.MgaGateway.PerformInTransaction(() =>
                             testCompGuid = (string)((MgaModel)project.RootFolder.ObjectByPath[testComponentPath]).GetAttributeByNameDisp("AVMID"));
-                        SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentUpdateTopic, testCompGuid);
-                        WaitToReceiveMessage();
                     }
 
                     // TODO propagate.StartEditingComponent
@@ -219,14 +211,14 @@ namespace CyPhyPropagateTest
                         };
                         msg.mode.Add(Edit.EditMode.POST);
                         msg.origin.Add(origin);
-                        msg.topic.Add(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentUpdateTopic);
-                        msg.topic.Add(testCompGuid);
+                        msg.topic.Add("0");
 
                         msg.actions.Add(new edu.vanderbilt.isis.meta.Action());
-                        msg.actions[0].actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.UPDATE;
+                        msg.actions[0].actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.UPDATE_CYPHY_COMPONENT;
                         msg.actions[0].alien = new Alien();
                         msg.actions[0].alien.encodingMode = Alien.EncodingMode.XML;
                         msg.actions[0].alien.encoded = Encoding.UTF8.GetBytes(PrepareComponentUpdateXml(Path.Combine(TestModelDir, @"UpdateComponentData.xml"), new Dictionary<string, string>() { { "DAMPER.PRT", Path.Combine(TestModelDir, "components\\Damper_2\\AVM.Component-50ec54a86e6cc33768468c31v2\\CADXXX\\") } }));
+                        msg.actions[0].subjectID = testCompGuid;
                         propagate.EditMessageReceived(msg);
                         Application.DoEvents();
 
@@ -259,10 +251,11 @@ namespace CyPhyPropagateTest
             {
                 throw new TimeoutException();
             }
+            System.Console.WriteLine("aa");
         }
 
         [Fact]
-        // Create AVM component from scractch
+        // Create AVM component from scratch
         void TestCreateComponent()
         {
             SetupTest();
@@ -277,10 +270,10 @@ namespace CyPhyPropagateTest
                         };
                         msg.mode.Add(Edit.EditMode.POST);
                         msg.origin.Add(origin);
-                        msg.topic.Add(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentCreateTopic);
+                        msg.topic.Add("0");
 
                         msg.actions.Add(new edu.vanderbilt.isis.meta.Action());
-                        msg.actions[0].actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.UPDATE;
+                        msg.actions[0].actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.CREATE_CYPHY_COMPONENT;
                         msg.actions[0].alien = new Alien();
                         msg.actions[0].alien.encodingMode = Alien.EncodingMode.XML;
                         msg.actions[0].alien.encoded = Encoding.UTF8.GetBytes(File.ReadAllText(Path.Combine(TestModelDir,"CreateComponentData.xml")));
@@ -308,9 +301,7 @@ namespace CyPhyPropagateTest
         {
             SetupTest();
 
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.CadAssemblyTopic, testAssemblyId);
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.ResyncTopic, testAssemblyId);
-            WaitToReceiveMessage();
+            SendInterest(CyPhyMetaLinkAddon.IdCounter.ToString());
             WaitToReceiveMessage();
 
             RunCyPhyMLSync(
@@ -358,9 +349,7 @@ namespace CyPhyPropagateTest
         {
             SetupTest();
 
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.CadAssemblyTopic, testAssemblyId);
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.ResyncTopic, testAssemblyId);
-            WaitToReceiveMessage();
+            SendInterest(CyPhyMetaLinkAddon.IdCounter.ToString());
             WaitToReceiveMessage();
 
             RunCyPhyMLSync(
@@ -398,6 +387,9 @@ namespace CyPhyPropagateTest
                     Xunit.Assert.Equal(1,
                         this.receivedMessages.Where(
                             msg => msg.actions.Any(a => a.actionMode == edu.vanderbilt.isis.meta.Action.ActionMode.CLEAR)).Count());
+                    Xunit.Assert.Equal(1,
+                        this.receivedMessages.Where(
+                            msg => msg.actions.Any(a => a.actionMode == edu.vanderbilt.isis.meta.Action.ActionMode.CREATE_CYPHY_DESIGN)).Count());
                 }
             );
         }
@@ -418,11 +410,11 @@ namespace CyPhyPropagateTest
                         };
                         msg.mode.Add(Edit.EditMode.POST);
                         msg.origin.Add(origin);
-                        msg.topic.Add(CyPhyMetaLink.CyPhyMetaLinkAddon.CadAssemblyTopic);
-                        msg.topic.Add(testAssemblyId);
+                        msg.topic.Add("0");
                         edu.vanderbilt.isis.meta.Action action = new edu.vanderbilt.isis.meta.Action()
                         {
-                            actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.INSERT,
+                            actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.ADD_COMPONENT_TO_CYPHY_DESIGN,
+                            subjectID = testAssemblyId,
                             payload = new Payload()
                         };
                         action.payload.components.Add(new CADComponentType()
@@ -470,11 +462,10 @@ namespace CyPhyPropagateTest
                         };
                         msg.mode.Add(Edit.EditMode.POST);
                         msg.origin.Add(origin);
-                        msg.topic.Add(CyPhyMetaLink.CyPhyMetaLinkAddon.CadAssemblyTopic);
-                        msg.topic.Add(testAssemblyId);
+                        msg.topic.Add("0");
                         edu.vanderbilt.isis.meta.Action action = new edu.vanderbilt.isis.meta.Action()
                         {
-                            actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.SELECT,
+                            actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.SELECT_CYPHY_COMPONENT,
                             payload = new Payload()
                         };
                         action.payload.components.Add(new CADComponentType()
@@ -515,11 +506,11 @@ namespace CyPhyPropagateTest
                         };
                         msg.mode.Add(Edit.EditMode.POST);
                         msg.origin.Add(origin);
-                        msg.topic.Add(CyPhyMetaLink.CyPhyMetaLinkAddon.CadAssemblyTopic);
-                        msg.topic.Add(testAssemblyId);
+                        msg.topic.Add("0");
                         edu.vanderbilt.isis.meta.Action action = new edu.vanderbilt.isis.meta.Action()
                         {
-                            actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.DISCARD,
+                            actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.REMOVE_CYPHY_DESIGN_COMPONENT,
+                            subjectID = testAssemblyId,
                             payload = new Payload()
                         };
                         action.payload.components.Add(new CADComponentType()
@@ -546,7 +537,7 @@ namespace CyPhyPropagateTest
             );
         }
 
-        //[Fact]
+        [Fact]
         // Remove multiple components from design
         void TestRemoveComponents()
         {
@@ -562,11 +553,11 @@ namespace CyPhyPropagateTest
                         };
                         msg.mode.Add(Edit.EditMode.POST);
                         msg.origin.Add(origin);
-                        msg.topic.Add(CyPhyMetaLink.CyPhyMetaLinkAddon.CadAssemblyTopic);
-                        msg.topic.Add(testAssemblyId);
+                        msg.topic.Add("0");
                         edu.vanderbilt.isis.meta.Action action = new edu.vanderbilt.isis.meta.Action()
                         {
-                            actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.INSERT,
+                            actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.REMOVE_CYPHY_DESIGN_COMPONENT,
+                            subjectID = testAssemblyId,
                             payload = new Payload()
                         };
                         action.payload.components.Add(new CADComponentType()
@@ -607,7 +598,7 @@ namespace CyPhyPropagateTest
                 Edit interest = new Edit();
                 interest.mode.Add(Edit.EditMode.INTEREST);
                 interest.origin.Add(origin);
-                interest.topic.Add(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentManifestTopic);
+                interest.topic.Add("0");
                 testingClient.SendToMetaLinkBridge(interest);
             } 
             
@@ -617,11 +608,15 @@ namespace CyPhyPropagateTest
                     {
                         Edit msg = new Edit()
                         {
-                            editMode = Edit.EditMode.INTEREST,
+                            editMode = Edit.EditMode.POST,
                         };
-                        msg.mode.Add(Edit.EditMode.INTEREST);
+                        msg.mode.Add(Edit.EditMode.POST);
                         msg.origin.Add(origin);
-                        msg.topic.Add(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentManifestTopic);
+                        msg.topic.Add("0");
+                        msg.actions.Add(new edu.vanderbilt.isis.meta.Action()
+                        {
+                            actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.REQUEST_COMPONENT_LIST
+                        });
 
                         this.receivedMessages.Clear();
                         propagate.EditMessageReceived(msg);
@@ -643,7 +638,7 @@ namespace CyPhyPropagateTest
         }
 
         [Fact]
-        // Insert something into a Component
+        // Create a connector in a component
         void TestInsertIntoComponent()
         {
             SetupTest();
@@ -655,11 +650,10 @@ namespace CyPhyPropagateTest
                         Edit msg = new Edit();
                         msg.mode.Add(Edit.EditMode.POST);
                         msg.origin.Add(origin);
-                        msg.topic.Add(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentUpdateTopic);
-                        msg.topic.Add(testAVMId);
+                        msg.topic.Add("0");
                         msg.actions.Add(new edu.vanderbilt.isis.meta.Action()
                         {
-                            actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.INSERT,
+                            actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.ADD_CONNECTOR_TO_COMPONENT,
                             payload = new Payload()
                         });
                         msg.actions[0].payload.connectors.Add(new ConnectorType()
@@ -681,6 +675,7 @@ namespace CyPhyPropagateTest
                             DisplayName = "COMMON_AXIS",
                             ID = "COMMON_AXIS"
                         });
+                        msg.actions[0].subjectID = testAVMId;
                         
 
                         propagate.EditMessageReceived(msg);
@@ -717,11 +712,12 @@ namespace CyPhyPropagateTest
                         Edit msg = new Edit();
                         msg.mode.Add(Edit.EditMode.POST);
                         msg.origin.Add(origin);
-                        msg.topic.Add(CyPhyMetaLink.CyPhyMetaLinkAddon.ConnectTopic);
+                        msg.topic.Add("0");
                         msg.actions.Add(new edu.vanderbilt.isis.meta.Action()
                         {
                             payload = new Payload()
                         });
+                        msg.actions[0].actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.CONNECT_COMPONENTS_CYPHY;
                         msg.actions[0].payload.components.Add(new CADComponentType()
                         {
                             ComponentID = testAssemblyId
@@ -734,6 +730,7 @@ namespace CyPhyPropagateTest
                         {
                             ComponentID = springInstanceGuid
                         });
+                        //msg.actions[0].subjectID = testAVMId;
 
 
                         propagate.EditMessageReceived(msg);
@@ -756,62 +753,7 @@ namespace CyPhyPropagateTest
                 }
             );
         }
-        /*
-        static void GenerateAssemblies(CyPhyML.ComponentAssemblies rootfolder, CyPhyML.ComponentAssembly assembly, int level, CyPhyML.Component leaf)
-        {
-            if (level <= 3)
-            {
-                System.Console.Out.WriteLine(level);
-                for (int i = 0; i < 5; i++)
-                {
-                    CyPhyML.ComponentRef cref = CyPhyMLClasses.ComponentRef.Create(assembly);
-                    CyPhyML.ComponentAssembly childassembly = CyPhyMLClasses.ComponentAssembly.Create(rootfolder);
-                    if (level < 3)
-                    {
-                        cref.Referred.ComponentAssembly = childassembly;
-                        GenerateAssemblies(rootfolder, childassembly, level + 1, leaf);
-                    }
-                    else
-                    {
-                        cref.Referred.Component = leaf;
-                    }
-                }
-            }
-        }
-         */
 
-        //[Fact]
-        // Elaborator performance test
-        /*
-        void TestElaborator()
-        {
-            SetupTest();
-
-            RunCyPhyMLSync(
-                (project, propagate, interpreter) =>
-                {
-                    project.BeginTransactionInNewTerr(transactiontype_enum.TRANSACTION_NON_NESTED);
-                    CyPhyML.ComponentAssembly assembly = CyPhyMLClasses.ComponentAssembly.Cast(GetTestAssembly(project));
-                    var imported = project.RootFolder.GetObjectByPathDisp("/@Imported_Components");
-                    var damper = imported.ChildObjects.Cast<IMgaObject>().Where(o => o.Name == "Damper_2").First();
-                    GenerateAssemblies(assembly.ParentContainer as CyPhyML.ComponentAssemblies, assembly, 0, CyPhyMLClasses.Component.Cast(damper));
-
-
-                    Type t = Type.GetTypeFromProgID("MGA.Interpreter.CyPhyElaborateCS"); 
-                    IMgaComponentEx elaborator = Activator.CreateInstance(t) as IMgaComponentEx;
-                    DateTime t1 = DateTime.Now;
-                    elaborator.Initialize(project);
-                    elaborator.ComponentParameter["automated_expand"] = "true";
-                    elaborator.ComponentParameter["console_messages"] = "off";
-                    elaborator.InvokeEx(project, GetTestAssembly(project), (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs")), 0);
-                    TimeSpan t2 = DateTime.Now - t1;
-                    System.Console.Out.WriteLine("Elaborator time: " + t2.TotalMilliseconds);
-
-                    project.AbortTransaction();
-                }
-            );
-        }
-        */
         [Fact]
         // Running CAD flattener on the assembly
         void TestCadFlattener()
@@ -856,11 +798,6 @@ namespace CyPhyPropagateTest
         {
             SetupTest();
 
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.CadAssemblyTopic, testAssemblyHierarchy_2Id);
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.ResyncTopic, testAssemblyHierarchy_2Id);
-            WaitToReceiveMessage();
-            WaitToReceiveMessage();
-
             RunCyPhyMLSync(
                 (project, propagate, interpreter) =>
                 {
@@ -896,10 +833,10 @@ namespace CyPhyPropagateTest
                     var msg = new Edit();
                     msg.mode.Add(Edit.EditMode.POST);
                     msg.origin.Add(origin);
-                    msg.topic.AddRange(new string[] { CyPhyMetaLink.CyPhyMetaLinkAddon.CadAssemblyTopic, 
-                        testAssemblyHierarchy_2Id });
+                    msg.topic.Add((CyPhyMetaLinkAddon.IdCounter-1).ToString());
                     var action = new edu.vanderbilt.isis.meta.Action();
-                    action.actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.DISCARD;
+                    action.actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.REMOVE_CYPHY_DESIGN_COMPONENT;
+                    action.subjectID = testAssemblyHierarchy_2Id;
                     action.payload = new Payload();
                     action.payload.components.Add(new CADComponentType()
                     {
@@ -933,9 +870,7 @@ namespace CyPhyPropagateTest
             // TODO: this needs to be rewritten
             SetupTest();
 
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.CadAssemblyTopic, testAssemblyId);
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.ResyncTopic, testAssemblyId);
-            WaitToReceiveMessage();
+            SendInterest("0");
             WaitToReceiveMessage();
 
             RunCyPhyMLSync(
@@ -990,11 +925,9 @@ namespace CyPhyPropagateTest
                         connectMsg = new Edit();
                         connectMsg.mode.Add(Edit.EditMode.POST);
                         connectMsg.origin.Add(origin);
-                        connectMsg.topic.AddRange(new string[] { CyPhyMetaLink.CyPhyMetaLinkAddon.ConnectTopic, 
-                        //    hullAndHookHierarchy_2_AssemblyId
-                        });
+                        connectMsg.topic.Add("0");
                         var action = new edu.vanderbilt.isis.meta.Action();
-                        action.actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.DISCARD;
+                        action.actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.REMOVE_CYPHY_DESIGN_COMPONENT;
                         action.payload = new Payload();
                         action.payload.components.Add(new CADComponentType()
                         {
@@ -1041,14 +974,12 @@ namespace CyPhyPropagateTest
             );
         }
 
-        [Fact]
+        //[Fact]
         public void TestCopyComponent()
         {
             SetupTest();
 
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.CadAssemblyTopic, testAssemblyId);
-            SendInterest(CyPhyMetaLink.CyPhyMetaLinkAddon.ComponentManifestTopic);
-            WaitToReceiveMessage();
+            SendInterest("0");
             WaitToReceiveMessage();
 
             RunCyPhyMLSync(

@@ -50,24 +50,23 @@ For an example using this <b>handler</h> object see "meta-link-main.cpp".
 #include "EventLoopMonitor.h"
 /* */
 
-namespace isis {
-extern const std::string CAD_ASSEMBLY_TOPIC;
-extern const std::string CAD_COMPONENT_TOPIC;
+namespace isis
+{
 
-class MetaLinkHandler {
+class MetaLinkHandler
+{
 public:
 
     MetaLinkHandler(isis::MetaLinkAssemblyEditor::Pointer assembler_ptr,
                     boost::asio::io_service& io_service,
                     std::string host,
                     std::string service,
-                    const std::string &in_MajorMode,
+                    const std::string &in_InstanceID,
                     const std::string &in_TargetID,
-                    EventLoopMonitor &in_proToolkitMonitor);
+                    boost::mutex &in_events_mutex);
 
     boost::atomic<bool> m_ready;
     boost::atomic<int> m_sequence;
-    EventLoopMonitor &m_proToolkitMonitor;
     queue<isis::EditPointer> m_eventQueue;
 
     /**
@@ -83,16 +82,17 @@ public:
     bool process(isis::EditPointer edit_ptr);
     bool processEdit(isis::EditPointer edit_ptr);
 
-    //void connect(boost::asio::io_service& io_service, std::string host, std::string service);
     void disconnect();
 
     void interrupt();
 
-    void send(const EditPointer edit) {
+    void send(const EditPointer edit)
+    {
         m_client.send(edit);
     }
 
-    void change_m_operator(const std::string str) {
+    void change_m_operator(const std::string str)
+    {
         m_operator = str;
     }
 
@@ -102,14 +102,15 @@ public:
 
     typedef ComponentRepeated::iterator ComponentIterator;
 
-    bool send_LocateSelectedRequest( const isis::MetaLinkMode &in_MajorMode , const std::string &in_TargetID );
+    bool send_LocateSelectedRequest(const std::string &in_MajorMode , const std::string &in_TargetID);
 
-	// Debug method for command-line assembly creation
-	void CreateAssembly(std::string xmlfile);
+    // Debug method for command-line assembly creation
+    void CreateAssembly(std::string xmlfile);
 
 private:
     ::log4cpp::Category& m_logcat;
 
+    boost::mutex &m_events_mutex;
     isis::BridgeClient m_client;
     boost::thread m_network_thread;
     std::string m_operator;
@@ -118,27 +119,26 @@ private:
 
     isis::MetaLinkAssemblyEditor::Pointer m_assembler;
 
-    bool MetaLinkHandler::process_PassivePost( isis::EditPointer edit);
+    //bool MetaLinkHandler::process_PassivePost(isis::EditPointer edit);
 
     bool process_AssemblyDesignPost(isis::EditPointer edit_ptr);
-    bool process_AssemblyDesignPost_select( isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action, std::string in_AssemblyTopic, std::string in_AssemblyInstanceId );
-    bool process_AssemblyDesignPost_insert( isis::EditPointer edit, int actionIx, meta::Action *action, std::string assemblyTopic, std::string assemblyInstanceId );
-    bool process_AssemblyDesignPost_clear( isis::EditPointer edit, int actionIx, meta::Action *action, std::string assemblyTopic, std::string assemblyInstanceId );
-    bool process_AssemblyDesignPost_update( isis::EditPointer edit,  int actionIx, meta::Action *action, std::string assemblyTopic, std::string assemblyInstanceId);
-    meta::Notice process_ComponentAdded( const std::string &in_AssemblyInstanceID, meta::CADComponentType &in_component) throw (isis::application_exception);
-    meta::Notice process_ComponentModified( const std::string &in_AssemblyInstanceID, meta::CADComponentType &in_component) throw (isis::application_exception);
-    meta::Notice process_ConstraintAdded( const std::string &in_AssemblyInstanceID, meta::ConstraintType &in_constraint ) throw (isis::application_exception);
-    meta::Notice process_ParametersModified( const std::string &in_AssemblyInstanceID, meta::ParametricParametersType &in_parameter ) throw (isis::application_exception);
-    meta::Notice process_CreateAssembly(const std::string &in_AssemblyXML) 	throw (isis::application_exception);
+    bool process_AssemblyDesignPost_select(isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action);
+    bool process_AssemblyDesignPost_insert(isis::EditPointer edit, int actionIx, meta::Action *action);
+    bool process_AssemblyDesignPost_clear(isis::EditPointer edit, int actionIx, meta::Action *action);
+    bool process_AssemblyDesignPost_update(isis::EditPointer edit,  int actionIx, meta::Action *action);
+    meta::Notice process_ComponentAdded(meta::CADComponentType &in_component) throw (isis::application_exception);
+    meta::Notice process_ComponentModified( meta::CADComponentType &in_component) throw (isis::application_exception);
+    meta::Notice process_ConstraintAdded(meta::ConstraintType &in_constraint) throw (isis::application_exception);
+    meta::Notice process_ParametersModified(meta::ParametricParametersType &in_parameter) throw (isis::application_exception);
+    meta::Notice process_CreateAssembly(const std::string &in_AssemblyXML) 	throw(isis::application_exception);
 
-    bool process_AvmComponentPost(isis::EditPointer edit_ptr);
-    bool process_AvmComponentPost_select( isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action, std::string in_MainTopic, std::string in_AvmComponentId);
-    bool process_AvmComponentPost_insert( isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action, std::string in_MainTopic, std::string in_AvmComponentId );
-    bool process_AvmComponentPost_clear( isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action, std::string in_MainTopic, std::string in_AvmComponentId );
-    meta::Notice process_AvmComponentInitialize( const std::string &in_ComponentInstanceID, meta::CADComponentType &in_component) throw (isis::application_exception);
+    bool process_AvmComponentPost_select(isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action);
+    bool process_AvmComponentPost_insert(isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action);
+    bool process_AvmComponentPost_clear(isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action);
+    meta::Notice process_AvmComponentInitialize(const std::string &in_ComponentInstanceID, meta::CADComponentType &in_component) throw (isis::application_exception);
 
     // If in_SearchPaths.size() == 0 then no action taken.
-    meta::Notice process_SearchPaths(const std::list<std::string> &in_SearchPaths)throw (isis::application_exception);
+    meta::Notice process_SearchPaths(const std::list<std::string> &in_SearchPaths) throw (isis::application_exception);
 
     // helper method (should probably make an implementatation class to carry these
     void upsertComponent(isis::EditPointer edit, meta::Payload& payload);

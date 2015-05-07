@@ -95,6 +95,9 @@ def recurseTree(componentNodes, gComponentList, adams, odbName):
                     allowable_stress_levels.MECHANICAL_INFINITE_CYCLES_INDICATOR,
                     mtrl[componentMaterial.lower()],
                     aComponentData.Allowables)
+				# The material library properties are in Pa. The FEA run would be in N, mm, MPa.
+				# Must convert the allowables to MPa; otherwise, the factor of safety would be wrong.
+                allowable_stress_levels.convert_allowables_from_Pa_to_MPa(aComponentData.Allowables)					
         else:
             # Get direct descending children (in adams asm is treated as merged part)
             if gConfigurationID == cID:

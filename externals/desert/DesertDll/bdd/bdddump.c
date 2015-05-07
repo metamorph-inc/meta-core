@@ -2,6 +2,7 @@
 
 
 #include "bddint.h"
+#include <tchar.h>
 
 
 #define MAGIC_COOKIE 0x5e02f795l
@@ -134,7 +135,7 @@ bdd_dump_bdd_step(bddm, f, fp, h, normalized_indexes, index_size, node_number_si
 	}
       break;
     default:
-      bdd_fatal("bdd_dump_bdd_step: unknown type returned by bdd_type");
+      bdd_fatal(_T("bdd_dump_bdd_step: unknown type returned by bdd_type"));
     }
 }
 
@@ -167,7 +168,7 @@ bdd_dump_bdd(bddm, f, vars, fp)
       for (i=0; vars[i]; ++i)
 	if (bdd_type(bddm, vars[i]) != BDD_TYPE_POSVAR)
 	  {
-	    bdd_warning("bdd_dump_bdd: support is not all positive variables");
+	    bdd_warning(_T("bdd_dump_bdd: support is not all positive variables"));
 	    return (0);
 	  }
       normalized_indexes=(bdd_index_type *)mem_get_block((SIZE_T)(bddm->vars*sizeof(bdd_index_type)));
@@ -179,7 +180,7 @@ bdd_dump_bdd(bddm, f, vars, fp)
 	  v_index=BDD_INDEX(bddm, var);
 	  if (normalized_indexes[v_index] != BDD_MAX_INDEX)
 	    {
-	      bdd_warning("bdd_dump_bdd: variables duplicated in support");
+	      bdd_warning(_T("bdd_dump_bdd: variables duplicated in support"));
 	      mem_free_block((pointer)normalized_indexes);
 	      return (0);
 	    }
@@ -194,7 +195,7 @@ bdd_dump_bdd(bddm, f, vars, fp)
 	  BDD_SETUP(var);
 	  if (normalized_indexes[BDD_INDEX(bddm, var)] == BDD_MAX_INDEX)
 	    {
-	      bdd_warning("bdd_dump_bdd: incomplete support specified");
+	      bdd_warning(_T("bdd_dump_bdd: incomplete support specified"));
 	      ok=0;
 	    }
 	}
@@ -216,7 +217,7 @@ bdd_dump_bdd(bddm, f, vars, fp)
 		    return (0);
 		  }
 		else
-		  bdd_fatal("bdd_dump_bdd: got unexpected retcode");
+		  bdd_fatal(_T("bdd_dump_bdd: got unexpected retcode"));
 		);
       index_size=bytes_needed(number_vars+1);
       bdd_mark_shared_nodes(bddm, f);
@@ -417,7 +418,7 @@ bdd_undump_bdd(bddm, vars, fp, error)
   for (i=0; vars[i]; ++i)
     if (bdd_type(bddm, vars[i]) != BDD_TYPE_POSVAR)
       {
-	bdd_warning("bdd_undump_bdd: support is not all positive variables");
+	bdd_warning(_T("bdd_undump_bdd: support is not all positive variables"));
 	return ((bdd)0);
       }
   if (read(error, sizeof(long), fp) != MAGIC_COOKIE)

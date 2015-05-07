@@ -10,7 +10,7 @@
 
 void usage( const std::string &programName );
 
-int main( int argc, char *argv[] ) {
+int main( int argc, TCHAR *argv[] ) {
 
 	try {
 
@@ -46,11 +46,11 @@ int main( int argc, char *argv[] ) {
 		}
 
 		Udm::SmartDataNetwork compareFromSmartDataNetwork( DesertIfaceBack::diagram );
-		compareFromSmartDataNetwork.OpenExisting( compareFromFilename, "DesertIfaceBack.xsd", Udm_VS10::CHANGES_LOST_DEFAULT );
+		compareFromSmartDataNetwork.OpenExisting( compareFromFilename, "DesertIfaceBack.xsd", Udm::CHANGES_LOST_DEFAULT );
 		DesertIfaceBack::DesertBackSystem compareFromDesertBackSystem = DesertIfaceBack::DesertBackSystem::Cast( compareFromSmartDataNetwork.GetRootObject() );
 
 		Udm::SmartDataNetwork compareToSmartDataNetwork( DesertIfaceBack::diagram );
-		compareToSmartDataNetwork.OpenExisting( compareToFilename, "DesertIfaceBack.xsd", Udm_VS10::CHANGES_LOST_DEFAULT );
+		compareToSmartDataNetwork.OpenExisting( compareToFilename, "DesertIfaceBack.xsd", Udm::CHANGES_LOST_DEFAULT );
 		DesertIfaceBack::DesertBackSystem compareToDesertBackSystem = DesertIfaceBack::DesertBackSystem::Cast( compareToSmartDataNetwork.GetRootObject() );
 
 		return DesertBackSystem::compare( compareFromDesertBackSystem, compareToDesertBackSystem ) ? 0 : 1;

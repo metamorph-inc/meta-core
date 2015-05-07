@@ -36,6 +36,8 @@ namespace GME.MGA
             string basename;
             string version;
             parser.GetXMLInfo(xmePath, out paradigm, out paradigmVersion, out paradigmGuid, out basename, out version);
+
+            parser = new MgaParser();
             MgaProject project = new MgaProject();
             MgaResolver resolver = new MgaResolver();
             resolver.IsInteractive = false;

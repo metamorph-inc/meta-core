@@ -47,6 +47,7 @@ namespace isis
 bool ApplyModelConstraints( 
 			cad::CadFactoryAbstract				&	in_factory,
 			ProSolid							*in_assembly_model,
+			const std::string					&in_AssemblyComponentID,
 			const std::list<std::string>		&in_ComponentIDsToBeConstrained,  
 			bool								in_AllowUnconstrainedModels,
 			std::map<string, isis::CADComponentData>	&in_CADComponentData_map,

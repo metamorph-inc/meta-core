@@ -23,6 +23,7 @@
             this.BallisticTestBenchMeta = rootMeta.RootFolder.DefinedFCOByName["BallisticTestBench", true].MetaRef;
             this.CFDTestBenchMeta = rootMeta.RootFolder.DefinedFCOByName["CFDTestBench", true].MetaRef;
             this.KinematicTestBenchMeta = rootMeta.RootFolder.DefinedFCOByName["KinematicTestBench", true].MetaRef;
+            this.CarTestBenchMeta = rootMeta.RootFolder.DefinedFCOByName["CarTestBench", true].MetaRef;
 
             this.ComponentMeta = rootMeta.RootFolder.DefinedFCOByName["Component", true].MetaRef;
             this.ComponentRefMeta = rootMeta.RootFolder.DefinedFCOByName["ComponentRef", true].MetaRef;
@@ -54,6 +55,11 @@
         /// </summary>
         public int BlastTestBenchMeta { get; private set; }
 
+        /// <summary>
+        /// Gets MetaRef id of CarTestBench
+        /// </summary>
+        public int CarTestBenchMeta { get; private set; }
+        
         /// <summary>
         /// Gets MetaRef id of BallisticTestBench
         /// </summary>

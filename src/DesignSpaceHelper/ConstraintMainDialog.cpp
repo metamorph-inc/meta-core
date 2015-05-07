@@ -88,11 +88,11 @@ BOOL CConstraintMainDialog::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	// TODO:  Add extra initialization here
-	m_listctrl.InsertColumn(0, _T (""), LVCFMT_LEFT, (int)(WTIMES*m_listctrl.GetStringWidth("")),0);
-	m_listctrl.InsertColumn(1,_T ("Constraint"), LVCFMT_LEFT, (int)(WTIMES*m_listctrl.GetStringWidth("Constraint")),1);
-	m_listctrl.InsertColumn(2, _T("Context"), LVCFMT_LEFT, (int)(WTIMES*m_listctrl.GetStringWidth("Context")),2);
-	m_listctrl.InsertColumn(3, _T("Type"), LVCFMT_LEFT, (int)(WTIMES*m_listctrl.GetStringWidth("Type")),3);
-	m_listctrl.InsertColumn(4, _T("Domain"), LVCFMT_LEFT, (int)(WTIMES*m_listctrl.GetStringWidth("Domains")),3);
+	m_listctrl.InsertColumn(0, _T (""), LVCFMT_LEFT, (int)(WTIMES*m_listctrl.GetStringWidth(_T(""))),0);
+	m_listctrl.InsertColumn(1,_T ("Constraint"), LVCFMT_LEFT, (int)(WTIMES*m_listctrl.GetStringWidth(_T("Constraint"))),1);
+	m_listctrl.InsertColumn(2, _T("Context"), LVCFMT_LEFT, (int)(WTIMES*m_listctrl.GetStringWidth(_T("Context"))),2);
+	m_listctrl.InsertColumn(3, _T("Type"), LVCFMT_LEFT, (int)(WTIMES*m_listctrl.GetStringWidth(_T("Type"))),3);
+	m_listctrl.InsertColumn(4, _T("Domain"), LVCFMT_LEFT, (int)(WTIMES*m_listctrl.GetStringWidth(_T("Domains"))),3);
 	ListView_SetExtendedListViewStyle(m_listctrl.m_hWnd,LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP);
 	m_listctrl.SetColumnNum(5);
 	m_listctrl.initHeadListCtr(false);
@@ -105,52 +105,52 @@ BOOL CConstraintMainDialog::OnInitDialog()
 	   return TRUE;
 	}
 
-	if (!m_pToolTip->AddTool(&m_btEdit,"Select a constraint and edit"))
+	if (!m_pToolTip->AddTool(&m_btEdit,_T("Select a constraint and edit")))
 	{
 	   TRACE("Unable to add Edit button to the tooltip\n");
 	}
 
-	if (!m_pToolTip->AddTool(&m_btValidate,"Validate all constraints"))
+	if (!m_pToolTip->AddTool(&m_btValidate,_T("Validate all constraints")))
 	{
 	   TRACE("Unable to add Validate button to the tooltip\n");
 	}
 
-	if (!m_pToolTip->AddTool(&m_btCommit,"Save all changes of the constraints"))
+	if (!m_pToolTip->AddTool(&m_btCommit,_T("Save all changes of the constraints")))
 	{
 	   TRACE("Unable to add Save button to the tooltip\n");
 	}
 
-	if (!m_pToolTip->AddTool(&m_btRestart,"Start the designSpace exploration without constraint applied"))
+	if (!m_pToolTip->AddTool(&m_btRestart,_T("Start the designSpace exploration without constraint applied")))
 	{
 	   TRACE("Unable to add Restart button to the tooltip\n");
 	}
 
-	if (!m_pToolTip->AddTool(&m_btApply,"Apply selected constraints or none to Desert"))
+	if (!m_pToolTip->AddTool(&m_btApply,_T("Apply selected constraints or none to Desert")))
 	{
 	   TRACE("Unable to add Apply button to the tooltip\n");
 	}
 
-	if (!m_pToolTip->AddTool(&m_btApplyAll,"Apply all constraints to Desert"))
+	if (!m_pToolTip->AddTool(&m_btApplyAll,_T("Apply all constraints to Desert")))
 	{
 	   TRACE("Unable to add ApplyAll button to the tooltip\n");
 	}
 
-	if (!m_pToolTip->AddTool(&m_btSelect,"View and prune/down-select design space"))
+	if (!m_pToolTip->AddTool(&m_btSelect,_T("View and prune/down-select design space")))
 	{
 	   TRACE("Unable to add View/Select button to the tooltip\n");
 	}
 
-	if (!m_pToolTip->AddTool(&m_btBack,"Go back configurations"))
+	if (!m_pToolTip->AddTool(&m_btBack,_T("Go back configurations")))
 	{
 	   TRACE("Unable to add Go Back Configurations button to the tooltip\n");
 	}
 
-	if (!m_pToolTip->AddTool(&m_btForward,"Go forward configurations"))
+	if (!m_pToolTip->AddTool(&m_btForward,_T("Go forward configurations")))
 	{
 	   TRACE("Unable to add Go forward configurations button to the tooltip\n");
 	}
 	
-	if (!m_pToolTip->AddTool(&m_btGenCfgs,"Show the configurations"))
+	if (!m_pToolTip->AddTool(&m_btGenCfgs,_T("Show the configurations")))
 	{
 	   TRACE("Unable to add Show the configurations button to the tooltip\n");
 	}
@@ -298,12 +298,12 @@ void CConstraintMainDialog::FillList(int index,const std::string &cons_name, con
 	//// first column is the name of the constraint
 	//item.pszText = (LPSTR)cons_name.c_str();
 	//ret = m_listctrl.InsertItem(&item);
-	(void)m_listctrl.AddItem(index, "",(LPSTR)cons_name.c_str(), (LPSTR)cons_context.c_str(), (LPSTR)cons_type.c_str(), (LPSTR)cons_domain.c_str());
+	(void)m_listctrl.AddItem(index, _T(""), utf82cstring(cons_name), utf82cstring(cons_context), utf82cstring(cons_type), utf82cstring(cons_domain));
 	
 	m_listctrl.SetColumnWidth(0,35);
 
 	// fix column width
-	req = (int)(WTIMES*m_listctrl.GetStringWidth((LPSTR)cons_name.c_str()));
+	req = (int)(WTIMES*m_listctrl.GetStringWidth(utf82cstring(cons_name)));
 	is = m_listctrl.GetColumnWidth(1);
 	if ( is < req ) m_listctrl.SetColumnWidth(1, req);
 
@@ -318,7 +318,7 @@ void CConstraintMainDialog::FillList(int index,const std::string &cons_name, con
 	//ret = m_listctrl.SetItem(&item);
 	//
 	// fix column width
-	req = (int)(WTIMES*m_listctrl.GetStringWidth((LPSTR)cons_context.c_str()));
+	req = (int)(WTIMES*m_listctrl.GetStringWidth(utf82cstring(cons_context)));
 	is = m_listctrl.GetColumnWidth(2);
 	if ( is < req ) m_listctrl.SetColumnWidth(2, req);
 
@@ -328,12 +328,12 @@ void CConstraintMainDialog::FillList(int index,const std::string &cons_name, con
 	//ret = m_listctrl.SetItem(&item);
 
 	// fix column width
-	req = (int)(WTIMES*m_listctrl.GetStringWidth((LPSTR)cons_type.c_str()));
+	req = (int)(WTIMES*m_listctrl.GetStringWidth(utf82cstring(cons_type)));
 	is = m_listctrl.GetColumnWidth(3);
 	if ( is < req ) m_listctrl.SetColumnWidth(3, req);
 
 	// fix column width
-	req = (int)(WTIMES*m_listctrl.GetStringWidth((LPSTR)cons_domain.c_str()));
+	req = (int)(WTIMES*m_listctrl.GetStringWidth(utf82cstring(cons_domain)));
 	is = m_listctrl.GetColumnWidth(4);
 	if ( is < req ) m_listctrl.SetColumnWidth(4, req);
 }
@@ -346,7 +346,7 @@ void CConstraintMainDialog::OnInfoTip(NMHDR *pNMHDR, LRESULT *pResult)
 	int i = m_listctrl.GetItemID(pInfoTip->iItem);
 	map<int, std::string>::iterator pos = constraintExprMap.find(i);
 	if(pos!=constraintExprMap.end())
-		pInfoTip->pszText = (LPSTR)(constraintExprMap[i].c_str());
+		pInfoTip->pszText = const_cast<LPTSTR>(static_cast<LPCTSTR>(utf82cstring(constraintExprMap[i].c_str())));
 }
 
 void CConstraintMainDialog::OnBnClickedEditbtn()
@@ -371,10 +371,10 @@ void CConstraintMainDialog::OnBnClickedEditbtn()
 	{
 		//update the constraint name and expression
 		m_listctrl.SetItemText(sel,1,editdlg.m_name);
-		constraintExprMap[con_index] = (LPCTSTR)editdlg.m_expression;
+		constraintExprMap[con_index] = tstring2utf8(editdlg.m_expression);
 
 		//update the desertIface file
-		dhelper_ptr->updateConstraint(con_index, (LPCTSTR)editdlg.m_name, (LPCTSTR)editdlg.m_expression);
+		dhelper_ptr->updateConstraint(con_index, tstring2utf8(editdlg.m_name), tstring2utf8(editdlg.m_expression));
 //		m_listctrl.SetCheck(sel);
 	}
 	//refresh_needed = true;
@@ -494,7 +494,7 @@ void CConstraintMainDialog::OnBnClickedValidatebtn()
 {
 	// TODO: Add your control notification handler code here
 	if(dhelper_ptr->checkConstraints())
-		AfxMessageBox("The constraints are valid.");
+		AfxMessageBox(_T("The constraints are valid."));
 	initConstraints();
 	FillSizeBox();
 }
@@ -537,15 +537,15 @@ void CConstraintMainDialog::FillSizeBox()
 {
 	dspSize = dhelper_ptr->getRealConfigCount();
 	// dspSize = dhelper_ptr->getDesignSpaceSize();
-	 char buffer[65];
-	_i64toa(dspSize, buffer, 10);
-	std::string str = "Current no. of configurations: ";
+	TCHAR buffer[65];
+	_i64tot(dspSize, buffer, 10);
+	tstring str = _T("Current no. of configurations: ");
 	if(dspSize == -1) {
-		str += "Not calculated yet";
+		str += _T("Not calculated yet");
 	} else if(dspSize == -2) {
-		str += "Design Space Too Large";
+		str += _T("Design Space Too Large");
 	} else {
-		str += (std::string) buffer;
+		str += (tstring) buffer;
 	}
 //	dhelper_ptr->getDesignSpaceSize(dspSize, repSize);
 //	CString str; str.Format("Design Space (Encoded): %3.2e        EncodingLength: %6d", dspSize, repSize);
@@ -584,7 +584,7 @@ void CConstraintMainDialog::generateConfig()
 {
 	if(dspSize == -2) 
 	{
-		if(IDNO==AfxMessageBox("The configurations cannot be shown due to the too large design space.\nPlease apply constraints or use View/Select for further pruning/down-selecting.\n\nDo you want to proceed?",  MB_ICONQUESTION |MB_YESNO |MB_DEFBUTTON2))
+		if(IDNO==AfxMessageBox(_T("The configurations cannot be shown due to the too large design space.\nPlease apply constraints or use View/Select for further pruning/down-selecting.\n\nDo you want to proceed?"),  MB_ICONQUESTION |MB_YESNO |MB_DEFBUTTON2))
 			return;
 	} 
 
@@ -599,7 +599,7 @@ void CConstraintMainDialog::generateConfig()
 	int ret = dhelper_ptr->runDesertFinit_2();
 	if(ret<=0) {
 		if(ret==0)
-			AfxMessageBox("There is no configuration generated.");
+			AfxMessageBox(_T("There is no configuration generated."));
 		set<int> emptyListOfConstraints;
 		dhelper_ptr->applyConstraints(emptyListOfConstraints, true);
 		FillSizeBox();
@@ -721,51 +721,51 @@ void CConstraintMainDialog::FillFilter()
 	m_filterlist.SetExtendedStyle(LVS_EX_CHECKBOXES |LVS_ALIGNTOP);
 	
 	POINT pt, pt0;
-	m_filterlist.InsertItem(0,"All");
+	m_filterlist.InsertItem(0,_T("All"));
 	m_filterlist.GetItemPosition(0, &pt0);
 	pt = pt0;
 
 	int nItem = 1;
-	std::string preStr = "All";
+	tstring preStr = _T("All");
 	set<std::string> domains = dhelper_ptr->getDomainSet();
 	if(domains.find("Visual Constraints")!=domains.end())
 	{
-		m_filterlist.InsertItem(nItem,"Visual Constraints");
-		pt.x = pt.x+ (int)(m_filterlist.GetStringWidth((LPSTR)preStr.c_str()))+50;
+		m_filterlist.InsertItem(nItem,_T("Visual Constraints"));
+		pt.x = pt.x+ (int)(m_filterlist.GetStringWidth(preStr.c_str()))+50;
 		m_filterlist.SetItemPosition(nItem, pt);
 		nItem++;
 		domains.erase("Visual Constraints");
-		preStr = "Visual Constraints";
+		preStr = _T("Visual Constraints");
 	}
 
 	if(domains.find("Property Constraints")!=domains.end())
 	{
-		m_filterlist.InsertItem(nItem,"Property Constraints");
-		pt.x = pt.x+ (int)(m_filterlist.GetStringWidth((LPSTR)preStr.c_str()))+50;
+		m_filterlist.InsertItem(nItem,_T("Property Constraints"));
+		pt.x = pt.x+ (int)(m_filterlist.GetStringWidth(preStr.c_str()))+50;
 		m_filterlist.SetItemPosition(nItem, pt);
 		nItem++;
 		domains.erase("Property Constraints");
-		preStr = "Property Constraints";
+		preStr = _T("Property Constraints");
 	}
 
 	if(domains.find("Parameter Constraints")!=domains.end())
 	{
-		m_filterlist.InsertItem(nItem,"Parameter Constraints");
-		pt.x = pt.x+ (int)(m_filterlist.GetStringWidth((LPSTR)preStr.c_str()))+50;
+		m_filterlist.InsertItem(nItem,_T("Parameter Constraints"));
+		pt.x = pt.x+ (int)(m_filterlist.GetStringWidth(preStr.c_str()))+50;
 		m_filterlist.SetItemPosition(nItem, pt);
 		nItem++;
 		domains.erase("Parameter Constraints");
-		preStr = "Parameter Constraints";
+		preStr = _T("Parameter Constraints");
 	}
 
 	if(domains.find("OCL")!=domains.end())
 	{
-		m_filterlist.InsertItem(nItem,"OCL");
-		pt.x = pt.x+ (int)(m_filterlist.GetStringWidth((LPSTR)preStr.c_str()))+50;
+		m_filterlist.InsertItem(nItem,_T("OCL"));
+		pt.x = pt.x+ (int)(m_filterlist.GetStringWidth(preStr.c_str()))+50;
 		m_filterlist.SetItemPosition(nItem, pt);
 		nItem++;
 		domains.erase("OCL");
-		preStr = "";
+		preStr = _T("");
 	}
 
 	pt.y += 20;
@@ -779,14 +779,14 @@ void CConstraintMainDialog::FillFilter()
 			row = 0;
 		}
 		std::string domain = *it;
-		m_filterlist.InsertItem(nItem,domain.c_str());
+		m_filterlist.InsertItem(nItem, utf82cstring(domain));
 		if(row==0)
 			pt.x = pt0.x;
 		else
-			pt.x = pt.x+ (int)(m_filterlist.GetStringWidth((LPSTR)preStr.c_str()))+50;
+			pt.x = pt.x+ (int)(m_filterlist.GetStringWidth(preStr.c_str()))+50;
 		m_filterlist.SetItemPosition(nItem, pt);
 		nItem++;
-		preStr = domain;
+		preStr = utf82cstring(domain);
 		row++;
 	}
 	int nFilters = m_filterlist.GetItemCount();
@@ -838,7 +838,7 @@ void CConstraintMainDialog::setDomainCheck(int nItem, bool check)
 		else if(i==nItem && m_filterlist.GetCheck(i))
 			continue;
 
-		std::string domain = m_filterlist.GetItemText(i, 0); 
+		std::string domain = tstring2utf8(m_filterlist.GetItemText(i, 0));
 		set<int> conlist = dhelper_ptr->getDesertConstraintlist(domain);
 		for(int j=0; j<nCons; j++)
 		{
@@ -881,7 +881,7 @@ void CConstraintMainDialog::OnNMClickFilterlist(NMHDR *pNMHDR, LRESULT *pResult)
      if(hitinfo.flags != LVHT_ONITEMSTATEICON)
           return; // Didn't click on an icon
 
-	std::string domain = m_filterlist.GetItemText(nItem, 0);	
+	std::string domain = tstring2utf8(m_filterlist.GetItemText(nItem, 0));
 	bool bchecked;
 	if(m_filterlist.GetItemState(nItem,LVIS_SELECTED) != LVIS_SELECTED) {
 		bchecked = m_filterlist.GetCheck(nItem);

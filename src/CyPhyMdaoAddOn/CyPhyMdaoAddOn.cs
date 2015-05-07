@@ -90,9 +90,12 @@ namespace CyPhyMdaoAddOn
 
             if ((eventMask & uOBJEVENT_CREATED) != 0)
             {
+                if (subject.IsLibObject || subject.IsWritable == false)
+                    return;
                 if (subject.MetaBase.Name == "TestBenchRef")
                 {
                     // set the port label lenght 0
+                    // FIXME: why not just change it in the meta?
                     (subject as MgaFCO).RegistryValue["portLabelLength"] = "0";
                     if (subject as MgaReference != null)
                     {

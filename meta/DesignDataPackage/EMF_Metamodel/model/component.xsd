@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xsd:schema xmlns:avm="avm" xmlns:cyber="cyber" xmlns:cad="cad" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:manufacturing="manufacturing" xmlns:modelica="modelica" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="component" ecore:package="component" targetNamespace="component">
+<xsd:schema xmlns:adamsCar="adamsCar" xmlns:avm="avm" xmlns:cad="cad" xmlns:cyber="cyber" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:manufacturing="manufacturing" xmlns:modelica="modelica" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="component" ecore:package="component" targetNamespace="component">
   <xsd:import namespace="avm" schemaLocation="avm.xsd"/>
   <xsd:import namespace="modelica" schemaLocation="avm.modelica.xsd"/>
   <xsd:import namespace="cad" schemaLocation="avm.cad.xsd"/>
   <xsd:import namespace="manufacturing" schemaLocation="avm.manufacturing.xsd"/>
   <xsd:import namespace="cyber" schemaLocation="avm.cyber.xsd"/>
+  <xsd:import namespace="adamsCar" schemaLocation="avm.adamsCar.xsd"/>
   <xsd:element name="Component" type="avm:Component"/>
   <xsd:element name="ModelicaModel" type="modelica:ModelicaModel"/>
   <xsd:element name="CADModel" type="cad:CADModel"/>
   <xsd:element name="ManufacturingModel" type="manufacturing:ManufacturingModel"/>
   <xsd:element name="CyberModel" type="cyber:CyberModel"/>
+  <xsd:element name="AdamsCarModel" type="adamsCar:AdamsCarModel"/>
   <xsd:element name="Design" type="avm:Design"/>
 </xsd:schema>

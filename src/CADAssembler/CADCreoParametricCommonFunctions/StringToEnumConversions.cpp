@@ -1793,6 +1793,7 @@ namespace isis
 	 e_ComputationType ComputationType_enum( const string &in_ComputationType_string )
 																throw (isis::application_exception)
 	 {
+		  
 		  std::string ComputationType_string = ConvertToUpperCase(in_ComputationType_string);
 
 		  if ( ComputationType_string.compare("BOUNDINGBOX") == 0 )  return COMPUTATION_BOUNDING_BOX;
@@ -1801,6 +1802,7 @@ namespace isis
 		  else if ( ComputationType_string.compare("POINT") == 0 )	  return COMPUTATION_POINT;
 		  else if ( ComputationType_string.compare("POINTCOORDINATES") == 0 )	  return COMPUTATION_POINT;
 		  else if ( ComputationType_string.compare("MASS") == 0 )	  return COMPUTATION_MASS;
+		  else if ( ComputationType_string.compare("INTERFERENCECOUNT") == 0 )	  return COMPUTATION_INTERFERENCE_COUNT;
 		  else if ( ComputationType_string.compare("COEFFICIENTOFDRAG") == 0 )	  return COMPUTATION_COEFFICIENT_OF_DRAG;
 		  else if ( ComputationType_string.compare("PLANE") == 0 )	  return COMPUTATION_PLANE;
 		  else	if ( ComputationType_string.compare("MISES") == 0 )  return COMPUTATION_STRESS_MISES;
@@ -1841,6 +1843,9 @@ namespace isis
 				break;
 			case COMPUTATION_MASS:
 				return "Mass";
+				break;
+			case COMPUTATION_INTERFERENCE_COUNT:
+				return "InterferencCount";
 				break;
 			case COMPUTATION_COEFFICIENT_OF_DRAG:
 				return "CoefficientOfDrag";
@@ -1952,6 +1957,7 @@ namespace isis
 		  else if ( ComputationDimension_string.compare("Z_COORDINATE") == 0 )	  return COMPUTATION_Z_COORDINATE;
 		  else if ( ComputationDimension_string.compare("VECTOR") == 0 )	      return COMPUTATION_VECTOR;
 		  else if ( ComputationDimension_string.compare("SCALAR") == 0 )	      return COMPUTATION_SCALAR;
+		  else if ( ComputationDimension_string.compare("BOOLEAN") == 0 )	      return COMPUTATION_BOOLEAN;
 		  else if ( ComputationDimension_string.compare("POINTS") == 0 )	      return COMPUTATION_POINTS;
 		  //Assume an empty string means Scalar
 		  else if ( ComputationDimension_string.compare("") == 0 )	      return COMPUTATION_DIMENSION_NONE;
@@ -1980,6 +1986,9 @@ namespace isis
 				break;
 			case COMPUTATION_SCALAR:
 				return "SCALAR";
+				break;
+			case COMPUTATION_BOOLEAN:
+				return "BOOLEAN";
 				break;
 			case COMPUTATION_POINTS:
 				return "POINTS";
@@ -2386,6 +2395,7 @@ namespace isis
 	  else if ( CADJointType_string.compare("SPHERICAL") == 0 )		return SPHERICAL_JOINT;
 	  else if ( CADJointType_string.compare("PRISMATIC") == 0 )		return PRISMATIC_JOINT;
 	  else if ( CADJointType_string.compare("CYLINDRICAL") == 0 )	return CYLINDRICAL_JOINT;
+	  else if ( CADJointType_string.compare("PLANAR") == 0 )		return PLANAR_JOINT;	  
 	  else if ( CADJointType_string.compare("FREE") == 0 )			return FREE_JOINT;
 	  else if ( CADJointType_string.compare("UNKNOWN") == 0 )		return UNKNOWN_JOINT_TYPE;
 	  
@@ -2415,6 +2425,9 @@ namespace isis
 				break;
 			case CYLINDRICAL_JOINT:
 				return "CYLINDRICAL";
+				break;
+			case PLANAR_JOINT:
+				return "PLANAR";
 				break;
 			case FREE_JOINT:
 				return "FREE";

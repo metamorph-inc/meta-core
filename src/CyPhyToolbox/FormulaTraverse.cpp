@@ -108,7 +108,7 @@ void NewTraverser::Traverse(const Udm::Object &udmObject)
 				this->FindRootNodes(assembly, m_rootNodes);
 			}
 
-			if (!m_rootNodes.empty() || !m_cadParameters.empty() || !m_manufactureParameters.empty() || !m_modelicaParameters.empty())
+			if (!m_rootNodes.empty() || !m_cadParameters.empty() || !m_manufactureParameters.empty() || !m_modelicaParameters.empty() || !m_carParameters.empty())
 			{
 				FindLeafNodes(m_rootNodes, leafNodes);
 			//	PrintNodes(m_rootNodes, "Root");
@@ -132,6 +132,7 @@ void NewTraverser::Traverse(const Udm::Object &udmObject)
 		EvaluateCADParameters();
 		EvaluateManufactureParameters();
 		EvaluateModelicaParameters();
+		EvaluateCarParameters();
 	}
 
 }
@@ -151,6 +152,17 @@ void NewTraverser::FindRootNodes(const CyPhyML::Component &component, set<CyPhyM
 		if (this->IsRootNode(vft))
 			nodes.insert(vft);
 	}
+
+	// *************************
+	set<CyPhyML::CarModel> carModel_Set = component.CarModel_kind_children();
+	for (set<CyPhyML::CarModel>::const_iterator ci = carModel_Set.begin(); ci != carModel_Set.end(); ci++)
+	{
+		set<CyPhyML::CarParameter> carParam = ci->CarParameter_kind_children();
+		for (set<CyPhyML::CarParameter>::const_iterator di = carParam.begin(); di != carParam.end(); di++)
+			m_carParameters.insert(*di);
+	}
+	// *************************
+
 
 	set<CyPhyML::CADModel> cadModel_Set = component.CADModel_kind_children();
 	for (set<CyPhyML::CADModel>::const_iterator ci = cadModel_Set.begin(); ci != cadModel_Set.end(); ci++)
@@ -1476,6 +1488,102 @@ void NewTraverser::PrintNodes(set<CyPhyML::ValueFlowTarget>& leafNodes, string t
 	for (set<CyPhyML::ValueFlowTarget>::const_iterator ci = leafNodes.begin(); ci != leafNodes.end(); ci++)
 	{
 		GMEConsole::Console::writeLine(GMEConsole::Formatter::MakeObjectHyperlink(UdmGme::UdmId2GmeId(ci->uniqueId()), *ci), MSG_INFO);
+	}
+}
+void NewTraverser::EvaluateCarParameters()
+{
+	for (set<CyPhyML::CarParameter>::const_iterator ci = m_carParameters.begin(); ci != m_carParameters.end(); ci++)
+	{
+		set<CyPhyML::CarParameterPortMap> portMap_Set = ci->srcCarParameterPortMap();
+
+		if (!portMap_Set.empty())
+		{
+			UnitUtil::ValueUnitRep myVURep;
+			UnitUtil::ValueUnitRep incomingVURep;
+
+			CyPhyML::ParamPropTarget unitRef = ci->ref();
+			
+			bool nullUnitRef = (unitRef == Udm::null);
+
+			if (!nullUnitRef && IsDerivedFrom(unitRef.type(), CyPhyML::unit::meta))		// TODO: 12/20/11 Auto-assigning unit	//if (IsDerivedFrom(unitRef.type(), CyPhyML::unit::meta))
+			{
+				// only CyPhyML::unit is supported right now
+				myVURep.cyphyRef = CyPhyML::unit::Cast(unitRef);
+				unitUtil.ConvertToSIEquivalent(CyPhyML::unit::Cast(unitRef), 1, myVURep.unitRep);
+			}
+
+
+			if (portMap_Set.size() > 1)
+			{
+				string message = "FormulaEvaluator - CarParameter has >1 incoming portMap connection [" + ci->getPath2("/", false) + "]";
+				GMEConsole::Console::writeLine(message, MSG_ERROR);
+				throw udm_exception(message);
+			}
+
+			double value = 0;
+			CyPhyML::ValueFlowTarget vft = portMap_Set.begin()->srcCarParameterPortMap_end();
+			map<long, UnitUtil::ValueUnitRep>::iterator di = m_convertedValueFlowTargets_SIMap.find(vft.uniqueId());
+			if (di != m_convertedValueFlowTargets_SIMap.end())
+			{
+				incomingVURep = di->second;
+			}
+			else
+			{
+				if (   IsDerivedFrom(vft.type(), CyPhyML::HasDescriptionAndGUID::meta)
+					|| IsDerivedFrom(vft.type(), CyPhyML::Constant::meta))
+				{
+					EvaluatePPC(vft, incomingVURep);
+				}
+				else
+				{
+					string message = "FormulaEvaluator: CarParameter can not be directly connected to a formula [" + ci->getPath2("/", false) + "]";
+					GMEConsole::Console::writeLine(message, MSG_ERROR);
+					throw udm_exception(message);
+				}
+			}
+			
+			if (nullUnitRef)
+			{
+				// The unit ref of the ModelicaParameter is null.
+				// What we will do is find the unit of the source ValueFlowTarget,
+				// and set the unit ref to that, and also use the "actual value" as a value to match.
+				if (incomingVURep.cyphyRef != Udm::null)
+				{
+					if (CyPhyML::CarParameter::Cast(ci->Archetype()) != Udm::null)
+						CyPhyML::CarParameter::Cast(ci->Archetype()).ref() = incomingVURep.cyphyRef;
+					else
+						ci->ref() = incomingVURep.cyphyRef;
+				}
+
+				string tmp;
+				to_string(tmp, incomingVURep.actualValue);
+
+				ci->Value() = NonRealValueFixture(vft,tmp);
+			}
+			else
+			{
+				if (incomingVURep.cyphyRef == Udm::null)
+				{
+					string message ="FormulaEvaluator - CarParameter that references a unit must be connected to a value flow target that references a unit [" + ci->getPath2("/", false) + "]";
+					GMEConsole::Console::writeLine(message, MSG_ERROR);
+					throw udm_exception(message);
+				}
+
+				if (myVURep.unitRep == incomingVURep.unitRep)
+				{
+					string tmp;
+					to_string(tmp, unitUtil.ConvertFromSIEquivalent(myVURep.cyphyRef, incomingVURep.siValue));
+					
+					ci->Value() = NonRealValueFixture(vft,tmp);					
+				}
+				else
+				{
+					string message = "FormulaEvaluator - CarParameter's unit is incompatible with incoming value flow target's unit [" + ci->getPath2("/", false) + "]";
+					GMEConsole::Console::writeLine(message, MSG_ERROR);
+					throw udm_exception(message);
+				}
+			}
+		}
 	}
 }
 

@@ -220,19 +220,19 @@ class CDesertException : public CException
 {
 	DECLARE_DYNAMIC(CDesertException)
 	bool fatal;
-	char *what;
-	char *constraint_name;
+	TCHAR *what;
+	TCHAR *constraint_name;
 
 public:
 //	MY_DECLARE_DYNAMIC(CDesertException)
 
 	DESERT_API CDesertException();			
 	DESERT_API CDesertException(bool _fatal);
-	DESERT_API CDesertException(const char * _what);
-	DESERT_API CDesertException(const char * _what, const char * _name);
+	DESERT_API CDesertException(const TCHAR * _what);
+	DESERT_API CDesertException(const TCHAR * _what, const TCHAR * _name);
 	DESERT_API CDesertException(const CString _what);
 	DESERT_API CDesertException(const CString _what, const CString _name);
-	DESERT_API CDesertException(bool _fatal, const char * _what);
+	DESERT_API CDesertException(bool _fatal, const TCHAR * _what);
 	DESERT_API CDesertException(bool _fatal, const CString _what);
 	DESERT_API BOOL GetErrorMessage( LPTSTR lpszError, UINT nMaxError, PUINT pnHelpContext = NULL)	;
 	DESERT_API CString GetErrorMessage();
@@ -244,9 +244,9 @@ public:
 class CDesertNoneElementException : public CDesertException
 {
 	DECLARE_DYNAMIC(CDesertNoneElementException)
-	char *element;
+	TCHAR *element;
 public:
 	DESERT_API CDesertNoneElementException();
-	DESERT_API CDesertNoneElementException(const char * _what);
+	DESERT_API CDesertNoneElementException(const TCHAR * _what);
 };
 #endif // #ifndef DEFS_H

@@ -18,7 +18,7 @@ void isis_ProMdlRetrieve_WithDescriptiveErrorMsg(
     const ProFamilyName name,
     ProMdlType    type,
     ProMdl       *p_handle)
-throw (isis::application_exception);
+throw(isis::application_exception);
 
 void isis_ProModelitemByNameInit_WithDescriptiveErrorMsg(
     // Added Arguments
@@ -29,13 +29,13 @@ void isis_ProModelitemByNameInit_WithDescriptiveErrorMsg(
     ProMdl         mdl,
     ProType        type,
     const ProName        name,
-    ProModelitem*  p_item )
+    ProModelitem*  p_item)
 throw(isis::application_exception);
 
 void isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(
     const std::string									&in_ComponentID,
     std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
-    ProMassProperty*									mass_prop )
+    ProMassProperty*									mass_prop)
 throw(isis::application_exception);
 } // end namespace isis
 

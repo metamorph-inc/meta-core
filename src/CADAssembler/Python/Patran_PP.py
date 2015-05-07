@@ -62,7 +62,10 @@ if (not os.path.exists(args.RequestedMetrics)):
 with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0, _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
         META_PATH = _winreg.QueryValueEx(key, 'META_PATH')[0]
         ppDir = os.path.join(META_PATH, 'bin', 'CAD')
-with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE,  r'Software\Wow6432Node\MSC.Software Corporation\Patran x64\20.0.0', \
+with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE,  r'Software\Wow6432Node\MSC.Software Corporation\Patran x64\Latest', \
+                     0, _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
+        LATES_PATRAN_VERSION = _winreg.QueryValueEx(key, '')[0]	
+with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE,  r'Software\Wow6432Node\MSC.Software Corporation\Patran x64\\' + LATES_PATRAN_VERSION, \
                      0, _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
         PATRAN_PATH = _winreg.QueryValueEx(key, 'Path')[0]
 

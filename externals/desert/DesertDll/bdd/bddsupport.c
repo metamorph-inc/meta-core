@@ -2,6 +2,7 @@
 
 
 #include "bddint.h"
+#include <tchar.h>
 
 
 static
@@ -51,7 +52,7 @@ bdd_depends_on(bddm, f, var)
       BDD_SETUP(var);
       if (bdd_type_aux(bddm, var) != BDD_TYPE_POSVAR)
 	{
-	  bdd_warning("bdd_depends_on: second argument is not a positive variable");
+	  bdd_warning(_T("bdd_depends_on: second argument is not a positive variable"));
 	  if (BDD_IS_CONST(var))
 	    return (1);
 	}

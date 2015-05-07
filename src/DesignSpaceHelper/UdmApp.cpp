@@ -67,7 +67,7 @@ void CUdmApp::UdmMain(
 					 long param,
 					bool applyConstraintsInNoninteractiveMode)						// Parameters
 {	
-	DesertHelper dhelper((LPCTSTR)mgaPath, *p_backend, focusObject);
+	DesertHelper dhelper(tstring2utf8(mgaPath), *p_backend, focusObject);
 	if(focusObject!=Udm::null && (Uml::IsDerivedFrom(focusObject.type(), CyPhyML::DesignContainer::meta)))
 	{
 		CyPhyML::DesignContainer focusRootDC = CyPhyML::DesignContainer::Cast(focusObject);

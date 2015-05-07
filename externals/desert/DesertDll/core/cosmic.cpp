@@ -16,7 +16,7 @@ CCosmic *
 CCosmic::
 Project()
 {
-  ASSERT_EX( CManager::theInstance, "CCosmic::Project", "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, _T("CCosmic::Project"), _T("manager not instantiated") );
   return (CCosmic *)CManager::theInstance;
 }
 
@@ -24,7 +24,7 @@ CCosmic *
 CCosmic::
 SystemMode()
 {
-  ASSERT_EX( CManager::theInstance, "CCosmic::Project", "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, _T("CCosmic::Project"), _T("manager not instantiated") );
   return (CCosmic *)CManager::theInstance;
 }
 
@@ -35,14 +35,14 @@ CCosmic::
 CCosmic() : type(typeCosmic)
 {
   id = CCosmicCount++;
-  // Info( "CCosmic::CCosmic()", "Object %d coming up", id);
+  // Info( _T("CCosmic::CCosmic()"), _T("Object %d coming up"), id);
 }
 
 inline
 CCosmic::
 ~CCosmic()
 {
-  // Info( "CCosmic::~CCosmic()", "Object %d going down", id);
+  // Info( _T("CCosmic::~CCosmic()"), _T("Object %d going down"), id);
 }
 
 inline
@@ -83,9 +83,9 @@ GetID() const
 
 inline
 CCosmic::
-operator const char*() const
+operator const TCHAR*() const
 {
-  return "";
+  return _T("");
 }
 
 inline CCosmic *

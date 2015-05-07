@@ -11,6 +11,9 @@
 #ifdef _DEBUG
 //#define new DEBUG_NEW
 #undef THIS_FILE
+#define WIDE2(x) L##x
+#define WIDE1(x) WIDE2(x)
+static TCHAR WTHIS_FILE[] = WIDE1(__FILE__);
 static char THIS_FILE[] = __FILE__;
 #endif
 
@@ -82,7 +85,7 @@ CDesertApp theApp;
 CString projectName;
 
 DLL_DECL void 
-DesertInit(const char *prjName, bool append)
+DesertInit(const TCHAR *prjName, bool append)
 {
 	if(CManager::theInstance)
 	{
@@ -90,28 +93,28 @@ DesertInit(const char *prjName, bool append)
 		CManager::theInstance = NULL;
 	}
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-	ASSERT_EX( CManager::theInstance == NULL, "CoreInit", "CManager::theInstance is NOT null");
+	ASSERT_EX( CManager::theInstance == NULL, _T("CoreInit"), _T("CManager::theInstance is NOT null"));
 	CManager::theInstance = new CManager();
 	CManager::unique = 1;
 	projectName = prjName;
 
 	// Start error logging
-	CString log = projectName + "_desert.log";
+	CString log = projectName + _T("_desert.log");
 	StartLogging(log, append);
 }
 
-int GroupRunWithinMultirun(const char* groupName, const char* constraintsToApply)
+int GroupRunWithinMultirun(const TCHAR* groupName, const TCHAR* constraintsToApply)
 {
 	CStringList cNames;
-	bool applyAll = strncmp(constraintsToApply, "applyAll", 8) == 0;
+	bool applyAll = _tcsncmp(constraintsToApply, _T("applyAll"), 8) == 0;
 	if (!applyAll)
 	{
-		char *cons = strdup(constraintsToApply);
-		char *cName = strtok( cons, ":" );
+		TCHAR *cons = _tcsdup(constraintsToApply);
+		TCHAR *cName = _tcstok( cons, _T(":") );
 		while(cName)
 		{
 			cNames.AddTail( cName );
-			cName = strtok( NULL, ":" );
+			cName = _tcstok( NULL, _T(":") );
 		}
 	}
 	CDynConstraintSet *set = new CDynConstraintSet(0);
@@ -131,7 +134,7 @@ int GroupRunWithinMultirun(const char* groupName, const char* constraintsToApply
 			  
 			if (applyAll || cNames.Find(nm))
 			{
-				Info("DesertFinit", "Applying Constraint: %s", nm);
+				Info(_T("DesertFinit"), _T("Applying Constraint: %s"), nm);
 				cur->SetApplied();
 				set->InsertConstraint(cur);
 			}
@@ -157,7 +160,7 @@ int GroupRunWithinMultirun(const char* groupName, const char* constraintsToApply
 		throw e;
 	}
 	  
-	Info("DesertFinit", "Design Space Size Info: %f %d %d", dspSize, repSize, clockTime);
+	Info(_T("DesertFinit"), _T("Design Space Size Info: %f %d %d"), dspSize, repSize, clockTime);
 	set->RemoveAll();
 	delete set;
 
@@ -165,8 +168,8 @@ int GroupRunWithinMultirun(const char* groupName, const char* constraintsToApply
 	try
 	{
 		numCfgs = CManager::theInstance->CalcRealNoOfConfigurations();
-		Info("DesertFinitMultirun", "For constraint group: %s with constraints:\r\n\t%s\r\n\tDesign Space Size Info: %f %d %d", groupName, constraintsToApply, dspSize, repSize, clockTime);
-		Info("DesertFinitMultirun", "No. of configurations with last set of constraints is %d", numCfgs);
+		Info(_T("DesertFinitMultirun"), _T("For constraint group: %s with constraints:\r\n\t%s\r\n\tDesign Space Size Info: %f %d %d"), groupName, constraintsToApply, dspSize, repSize, clockTime);
+		Info(_T("DesertFinitMultirun"), _T("No. of configurations with last set of constraints is %d"), numCfgs);
 	}
 	catch(CDesertException *e)
 	{
@@ -180,21 +183,21 @@ int GroupRunWithinMultirun(const char* groupName, const char* constraintsToApply
 }
 
 DLL_DECL void
-DesertFinitWithMultirun_Pre(int numConsGroups, char ** consGroupNames, char** consGroups)
+DesertFinitWithMultirun_Pre(int numConsGroups, TCHAR ** consGroupNames, TCHAR** consGroups)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, "CoreInit", "CManager::theInstance IS null");
+  ASSERT_EX( CManager::theInstance, _T("CoreInit"), _T("CManager::theInstance IS null"));
  
   for(int i=0; i<numConsGroups; i++) {
-	  Info("DesertFinitWithMultirun", "Constraint Group: %s\r\n\tConstraints: %s", consGroupNames[i], consGroups[i]);
+	  Info(_T("DesertFinitWithMultirun"), _T("Constraint Group: %s\r\n\tConstraints: %s"), consGroupNames[i], consGroups[i]);
   }
 }
 
 DLL_DECL int
-DesertFinitWithMultirun_Exec(bool noError, const char* prjName, char * consGroupName, char* consGroups)
+DesertFinitWithMultirun_Exec(bool noError, const TCHAR* prjName, TCHAR * consGroupName, TCHAR* consGroups)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, "CoreInit", "CManager::theInstance IS null");
+  ASSERT_EX( CManager::theInstance, _T("CoreInit"), _T("CManager::theInstance IS null"));
  
   CCSetErrDialog cse_dialog;
   CManager::theInstance->VerifyConstraints(&cse_dialog);
@@ -216,19 +219,19 @@ DesertFinitWithMultirun_Post()
   delete CManager::theInstance;
   CManager::theInstance = NULL;
 
-  Info("DesertFinit", "Generated Configurations");
+  Info(_T("DesertFinit"), _T("Generated Configurations"));
 
   // stop logging
   StopLogging();
 }
 
 DLL_DECL void *
-DesertFinit(bool noError, bool isSilent, const char *applyConstraints)
+DesertFinit(bool noError, bool isSilent, const TCHAR *applyConstraints)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, "CoreInit", "CManager::theInstance IS null");
+  ASSERT_EX( CManager::theInstance, _T("CoreInit"), _T("CManager::theInstance IS null"));
  
-  Info("DesertFinit", "Constraint List: %s", applyConstraints);
+  Info(_T("DesertFinit"), _T("Constraint List: %s"), applyConstraints);
   CCSetErrDialog cse_dialog;
 
   CManager::theInstance->VerifyConstraints(&cse_dialog);
@@ -250,20 +253,20 @@ DesertFinit(bool noError, bool isSilent, const char *applyConstraints)
 		if (CManager::theInstance->HasConstraints() )
 		{
 			if(isSilent && !applyConstraints) {
-				applyConstraints = "";
+				applyConstraints = _T("");
 			}
 		if (applyConstraints)
 		{
 			CStringList cNames;
-			bool applyAll = strncmp(applyConstraints, "applyAll", 8) == 0;
+			bool applyAll = _tcsncmp(applyConstraints, _T("applyAll"), 8) == 0;
 			if (!applyAll)
 			{
-				char *cons = strdup(applyConstraints);
-				char *cName = strtok( cons, ":" );
+				TCHAR *cons = _tcsdup(applyConstraints);
+				TCHAR *cName = _tcstok( cons, _T(":") );
 				while(cName)
 				{
 					cNames.AddTail( cName );
-					cName = strtok( NULL, ":" );
+					cName = _tcstok( NULL, _T(":") );
 				}
 			}
 			CDynConstraintSet *set = new CDynConstraintSet(0);
@@ -283,7 +286,7 @@ DesertFinit(bool noError, bool isSilent, const char *applyConstraints)
 
 					if (applyAll || cNames.Find(nm))
 					{
-						Info("DesertFinit", "Applying Constraint: %s", nm);
+						Info(_T("DesertFinit"), _T("Applying Constraint: %s"), nm);
 						cur->SetApplied();
 						set->InsertConstraint(cur);
 					}
@@ -306,22 +309,22 @@ DesertFinit(bool noError, bool isSilent, const char *applyConstraints)
 				StopLogging();
 				throw e;
 			}
-			Info("DesertFinit", "Design Space Size Info: %f %d %d", dspSize, repSize, clockTime);
+			Info(_T("DesertFinit"), _T("Design Space Size Info: %f %d %d"), dspSize, repSize, clockTime);
 			set->RemoveAll();
 			delete set;
 		}
 		else
 		{
 			if(!isSilent) {
-				CDesertUi ui("Design Space Exploration Tool");  
+				CDesertUi ui(_T("Design Space Exploration Tool"));  
 				ui.DoModal(); // launch the ui
 			}
 		}
 	}
 			//#ifdef DO_STORE_CONFIGURATIONS
     // dump the configurations
-	CString fname = projectName + ".cfg";
-	 std::string errmsg;
+	CString fname = projectName + _T(".cfg");
+	 tstring errmsg;
 	 try{
 		retval = CManager::theInstance->StoreConfigurations(fname, errmsg);
 	 }
@@ -339,7 +342,7 @@ DesertFinit(bool noError, bool isSilent, const char *applyConstraints)
   delete CManager::theInstance;
   CManager::theInstance = NULL;
 
-  Info("DesertFinit", "Generated Configurations");
+  Info(_T("DesertFinit"), _T("Generated Configurations"));
 
   // stop logging
   StopLogging();
@@ -347,123 +350,123 @@ DesertFinit(bool noError, bool isSilent, const char *applyConstraints)
 }
 
 DLL_DECL long
-CreateSpace(const char *n)
+CreateSpace(const TCHAR *n)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateSpace(n);
 }
 
 
 
 DLL_DECL long
-CreateElement(const char *n, long s, short d, long p, long e)
+CreateElement(const TCHAR *n, long s, short d, long p, long e)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateElement(n, s, d, p, e);
 }
 /*
 DLL_DECL long
-CreateElement(const char *n, long s, short d, long p,  long id, long e_id)
+CreateElement(const TCHAR *n, long s, short d, long p,  long id, long e_id)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateElement(n, s, d, p, id, e_id);
 }*/
 
 
 DLL_DECL long
-CreateNaturalDomain(const char *n, int mx, int mn)
+CreateNaturalDomain(const TCHAR *n, int mx, int mn)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateNaturalDomain(n, mx, mn);
 }
 
 
 /*
 DLL_DECL long
-CreateNaturalDomain(const char *n, int mx, int mn, long id, long e_id)
+CreateNaturalDomain(const TCHAR *n, int mx, int mn, long id, long e_id)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateNaturalDomain(id, e_id, n, mx, mn);
 }*/
 
 DLL_DECL long
-CreateCustomDomain(const char *n)
+CreateCustomDomain(const TCHAR *n)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateCustomDomain(n);
 }
 /*
 DLL_DECL long
-CreateCustomDomain(const char *n, long id, long e_id)
+CreateCustomDomain(const TCHAR *n, long id, long e_id)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateCustomDomain(n, id, e_id);
 }*/
 
 #ifdef __OLD_INTERFACE
 DLL_DECL long
-CreateElement(const char *n, long d, long e)
+CreateElement(const TCHAR *n, long d, long e)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateElement(n, d, e);
 }
 #endif
 
 DLL_DECL long
-CreateConstantProperty(const char *n, const char *pcm_fn, long o, long d, int v)
+CreateConstantProperty(const TCHAR *n, const TCHAR *pcm_fn, long o, long d, int v)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateConstantProperty(n, pcm_fn, o, d, v);
 }
 
 /*
 DLL_DECL long
-CreateConstantProperty(const char *n, const char *pcm_fn, long o, long d, int v, long id, long e_id)
+CreateConstantProperty(const TCHAR *n, const TCHAR *pcm_fn, long o, long d, int v, long id, long e_id)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateConstantProperty(n, pcm_fn, o, d, v, id, e_id);
 }
 
 */
 DLL_DECL long
-CreateVariableProperty(const char *n, const char *pcm_fn, long o, long d)
+CreateVariableProperty(const TCHAR *n, const TCHAR *pcm_fn, long o, long d)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateVariableProperty(n, pcm_fn, o, d);
 }
 
 DLL_DECL long
-CreateVariableProperty(const char *n, const char *pcm_fn, long o)
+CreateVariableProperty(const TCHAR *n, const TCHAR *pcm_fn, long o)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateVariableProperty(n, pcm_fn, o);
 }
 
 DLL_DECL long 
-createParametricVariableProperty(const char *name, long owner, const char *text)
+createParametricVariableProperty(const TCHAR *name, long owner, const TCHAR *text)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateParametricVariableProperty(name, owner, text);
 }
 /*
 DLL_DECL long
-CreateVariableProperty(const char *n, const char *pcm_fn, long o, long d, long id, long e_id)
+CreateVariableProperty(const TCHAR *n, const TCHAR *pcm_fn, long o, long d, long id, long e_id)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateVariableProperty(n, pcm_fn, o, d, id, e_id);
 }
 */
@@ -472,7 +475,7 @@ DLL_DECL long
 CreateRelation(long c, long s, long d)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateRelation(c, s, d);
 }
 
@@ -481,52 +484,52 @@ DLL_DECL long
 CreateRelation(long c, long s, long d, long id, long e_id)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateRelation(c, s, d, id, e_id);
 }
 */
 
 
 DLL_DECL long
-CreateConstraintSet(const char *n)
+CreateConstraintSet(const TCHAR *n)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateConstraintSet(n);
 }
 
 /*
 DLL_DECL long
-CreateConstraintSet(const char *n, long id, long e_id)
+CreateConstraintSet(const TCHAR *n, long id, long e_id)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateConstraintSet(n, id, e_id);
 }
 */
 
 DLL_DECL long
-CreateConstraint(const char *n, long cs, long c, const char *t)
+CreateConstraint(const TCHAR *n, long cs, long c, const TCHAR *t)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateConstraint(n, cs, c, t);
 }
 
 /*
 DLL_DECL long
-CreateConstraint(const char *n, long cs, long c, const char *t, long id, long e_id)
+CreateConstraint(const TCHAR *n, long cs, long c, const TCHAR *t, long id, long e_id)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateConstraint(n, cs, c, t, id, e_id);
 }
 
 DLL_DECL long
-AddtoVariableProperty(const char *n, long o, long v, long d)
+AddtoVariableProperty(const TCHAR *n, long o, long v, long d)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->AddtoVariableProperty(n, o, v, d);
 }
 
@@ -534,57 +537,57 @@ DLL_DECL long
 AddtoVariableProperty(long p, long o, long v, long d)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->AddtoVariableProperty(p, o, v, d);
 }*/
 
 #ifndef DOUBLE_MTBDD
 DLL_DECL long
-AddtoVariableProperty(const char *n, const char * name, long o, long v, long d)
+AddtoVariableProperty(const TCHAR *n, const TCHAR * name, long o, long v, long d)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->AddtoVariableProperty(n, name, o, v, d);
 }
 
 DLL_DECL long
-AddtoVariableProperty(long p, const char * name, long o, long v, long d)
+AddtoVariableProperty(long p, const TCHAR * name, long o, long v, long d)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->AddtoVariableProperty(p, name, o, v, d);
 }
 #else
 DLL_DECL long
-AddtoVariableProperty(const char *n, const char * name, long o, double v, long d)
+AddtoVariableProperty(const TCHAR *n, const TCHAR * name, long o, double v, long d)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->AddtoVariableProperty(n, name, o, v, d);
 }
 
 DLL_DECL long
-AddtoVariableProperty(long p, const char * name, long o, double v, long d)
+AddtoVariableProperty(long p, const TCHAR * name, long o, double v, long d)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->AddtoVariableProperty(p, name, o, v, d);
 }
 #endif
 
 DLL_DECL long
-AddtoSimpleFormulaVariableProperty(long p, const char *n, long o, long sp, long so)
+AddtoSimpleFormulaVariableProperty(long p, const TCHAR *n, long o, long sp, long so)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-	ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+	ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
 	return CManager::theInstance->AddtoSimpleFormulaVariableProperty(p, n, o, sp, so);
 }
 
 DLL_DECL long 
-CreateSimpleFormula(const char *pcfn, std::map<long, long> &srcProps, std::map<long, long> &dstProps)
+CreateSimpleFormula(const TCHAR *pcfn, std::map<long, long> &srcProps, std::map<long, long> &dstProps)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-	ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+	ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
 	CMap<long, long, long, long> sprops, dprops;
 	std::map<long, long>::iterator pos;
 	for(pos=srcProps.begin();pos!=srcProps.end();++pos)
@@ -598,10 +601,10 @@ CreateSimpleFormula(const char *pcfn, std::map<long, long> &srcProps, std::map<l
 	return CManager::theInstance->CreateSimpleFormula(pcfn,sprops, dprops);
 }
 
-DLL_DECL bool VerifyConstraints(const char *applyConstraints)
+DLL_DECL bool VerifyConstraints(const TCHAR *applyConstraints)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, "CoreInit", "CManager::theInstance IS null");
+  ASSERT_EX( CManager::theInstance, _T("CoreInit"), _T("CManager::theInstance IS null"));
  
   CCSetErrDialog cse_dialog;
 
@@ -615,10 +618,10 @@ DLL_DECL bool VerifyConstraints(const char *applyConstraints)
 }
 
 DLL_DECL void *
-DesertFinitNoGui(bool noError,bool noGui,const char *applyConstraints)
+DesertFinitNoGui(bool noError,bool noGui,const TCHAR *applyConstraints)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, "CoreInit", "CManager::theInstance IS null");
+  ASSERT_EX( CManager::theInstance, _T("CoreInit"), _T("CManager::theInstance IS null"));
  
   CCSetErrDialog cse_dialog;
 
@@ -640,15 +643,15 @@ DesertFinitNoGui(bool noError,bool noGui,const char *applyConstraints)
 		if (applyConstraints)
 		{
 			CStringList cNames;
-			bool applyAll = strncmp(applyConstraints, "applyAll", 8) == 0;
+			bool applyAll = _tcsncmp(applyConstraints, _T("applyAll"), 8) == 0;
 			if (!applyAll)
 			{
-				char *cons = strdup(applyConstraints);
-				char *cName = strtok( cons, ":" );
+				TCHAR *cons = _tcsdup(applyConstraints);
+				TCHAR *cName = _tcstok( cons, _T(":") );
 				while(cName)
 				{
 					cNames.AddTail( cName );
-					cName = strtok( NULL, ":" );
+					cName = _tcstok( NULL, _T(":") );
 				}
 			}
 			CDynConstraintSet *set = new CDynConstraintSet(0);
@@ -668,7 +671,7 @@ DesertFinitNoGui(bool noError,bool noGui,const char *applyConstraints)
 
 					if (applyAll || cNames.Find(nm))
 					{
-						Info("DesertFinit", "Applying Constraint: %s", nm);
+						Info(_T("DesertFinit"), _T("Applying Constraint: %s"), nm);
 						cur->SetApplied();
 						set->InsertConstraint(cur);
 					}
@@ -691,7 +694,7 @@ DesertFinitNoGui(bool noError,bool noGui,const char *applyConstraints)
 				throw e;
 			}
 			CManager::theInstance->GenerateNextHierarchy();
-			Info("DesertFinit", "Design Space Size Info: %f %d %d", dspSize, repSize, clockTime);
+			Info(_T("DesertFinit"), _T("Design Space Size Info: %f %d %d"), dspSize, repSize, clockTime);
 			set->RemoveAll();
 			delete set;
 		}
@@ -699,8 +702,8 @@ DesertFinitNoGui(bool noError,bool noGui,const char *applyConstraints)
 //	CManager::theInstance->
 //#ifdef DO_STORE_CONFIGURATIONS
     // dump the configurations
-    CString fname = projectName + ".cfg";
-	std::string errmsg;
+    CString fname = projectName + _T(".cfg");
+	tstring errmsg;
 	try{
 		retval = CManager::theInstance->StoreConfigurations(fname, errmsg);
 	 }
@@ -718,7 +721,7 @@ DesertFinitNoGui(bool noError,bool noGui,const char *applyConstraints)
   delete CManager::theInstance;
   CManager::theInstance = NULL;
 
-  Info("DesertFinit", "Generated Configurations");
+  Info(_T("DesertFinit"), _T("Generated Configurations"));
 
   // stop logging
   StopLogging();
@@ -729,7 +732,7 @@ DLL_DECL bool
 DesertFinit_preApply()
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, "CoreInit", "CManager::theInstance IS null");
+  ASSERT_EX( CManager::theInstance, _T("CoreInit"), _T("CManager::theInstance IS null"));
  
   CCSetErrDialog cse_dialog;
 
@@ -749,7 +752,7 @@ DesertFinit_preApply()
 }
 
 DLL_DECL void 
-DesertFinit_Apply(const char *applyConstraints)
+DesertFinit_Apply(const TCHAR *applyConstraints)
 {
 	CManager::theInstance->AnalyseConstraints();
 	CManager::theInstance->GenerateNextHierarchy();
@@ -759,15 +762,15 @@ DesertFinit_Apply(const char *applyConstraints)
 		if (applyConstraints)
 		{
 			CStringList cNames;
-			bool applyAll = strncmp(applyConstraints, "applyAll", 8) == 0;
+			bool applyAll = _tcsncmp(applyConstraints, _T("applyAll"), 8) == 0;
 			if (!applyAll)
 			{
-				char *cons = strdup(applyConstraints);
-				char *cName = strtok( cons, ":" );
+				TCHAR *cons = _tcsdup(applyConstraints);
+				TCHAR *cName = _tcstok( cons, _T(":") );
 				while(cName)
 				{
 					cNames.AddTail( cName );
-					cName = strtok( NULL, ":" );
+					cName = _tcstok( NULL, _T(":") );
 				}
 				if(cNames.IsEmpty()) return;
 			}
@@ -789,7 +792,7 @@ DesertFinit_Apply(const char *applyConstraints)
 
 					if (applyAll || cNames.Find(nm))
 					{
-						Info("DesertFinit", "Applying Constraint: %s", nm);
+						Info(_T("DesertFinit"), _T("Applying Constraint: %s"), nm);
 						cur->SetApplied();
 						set->InsertConstraint(cur);
 					}
@@ -810,7 +813,7 @@ DesertFinit_Apply(const char *applyConstraints)
 				throw e;
 			}
 
-		//	Info("DesertFinit", "Design Space Size Info: %f %d %d", dspSize, repSize, clockTime);
+		//	Info(_T("DesertFinit"), _T("Design Space Size Info: %f %d %d"), dspSize, repSize, clockTime);
 			CManager::theInstance->GenerateNextHierarchy();
 			set->RemoveAll();
 			delete set;
@@ -822,8 +825,8 @@ DLL_DECL void *
 DesertFinit_postApply()
 { 
 	void * retval = NULL; 
-	CString fname("");
-	std::string errmsg;
+	CString fname(_T(""));
+	tstring errmsg;
 	try{
 		retval = CManager::theInstance->StoreConfigurations(fname, errmsg);
 	 }
@@ -865,37 +868,37 @@ Desert_getRealNoOfConfigurations()
 DLL_DECL void 
 Desert_goBack()
 {
-	ASSERT_EX(CManager::theInstance,"CManaget->NavigateBack", "Manager is not present");
-	ASSERT_EX(CManager::theInstance->IsBackNavigable(),"CManaget->NavigateBack",
-		"Manager is not back!");
+	ASSERT_EX(CManager::theInstance,_T("CManaget->NavigateBack"), _T("Manager is not present"));
+	ASSERT_EX(CManager::theInstance->IsBackNavigable(),_T("CManaget->NavigateBack"),
+		_T("Manager is not back!"));
 	CManager::theInstance->NavigateBack();
 }
 
 DLL_DECL void 
 Desert_goForward()
 {
-	ASSERT_EX(CManager::theInstance,"CManaget->NavigateForward", "Manager is not present");
-	ASSERT_EX(CManager::theInstance->IsForwardNavigable(),"CManaget->NavigateForward",
-		"Manager is not forward!");
+	ASSERT_EX(CManager::theInstance,_T("CManaget->NavigateForward"), _T("Manager is not present"));
+	ASSERT_EX(CManager::theInstance->IsForwardNavigable(),_T("CManaget->NavigateForward"),
+		_T("Manager is not forward!"));
 	CManager::theInstance->NavigateForward();
 }
 
 DLL_DECL bool 
 isDesertBackNavigable()
 {
-	ASSERT_EX(CManager::theInstance, "Check BackNavigable", "Manager is NULL");
+	ASSERT_EX(CManager::theInstance, _T("Check BackNavigable"), _T("Manager is NULL"));
   	return CManager::theInstance->IsBackNavigable();
 }
 
 DLL_DECL bool 
 isDesertForwardNavigable()
 {
-	ASSERT_EX(CManager::theInstance, "Check ForwardNavigable", "Manager is NULL");
+	ASSERT_EX(CManager::theInstance, _T("Check ForwardNavigable"), _T("Manager is NULL"));
 	return CManager::theInstance->IsForwardNavigable();
 }
 
 DLL_DECL void 
-getDesertAppliedConstraintSet(std::set<std::string> &consSet)
+getDesertAppliedConstraintSet(std::set<tstring> &consSet)
 {
 	if(CManager::theInstance->HasGenerations()) {
 		CDynConstraintSetList& consets = CManager::theInstance->GetConstraintSets();
@@ -913,7 +916,7 @@ getDesertAppliedConstraintSet(std::set<std::string> &consSet)
 				//fill only not-implicit constraints
 				//if (!static_cons->IsImplicit())
 				{
-					consSet.insert((const char *)*cons);
+					consSet.insert((const TCHAR *)*cons);
 				}
 			}
 		}
@@ -923,7 +926,7 @@ getDesertAppliedConstraintSet(std::set<std::string> &consSet)
 DLL_DECL _int64 
 getDesertSize()
 {
-	ASSERT_EX( CManager::theInstance, "get Desert DesignSpace Size Info", "manager not instantiated" );
+	ASSERT_EX( CManager::theInstance, _T("get Desert DesignSpace Size Info"), _T("manager not instantiated") );
 	long dummy = 0;                       // we want the clocktime from the previous apply
 	
 	if (CManager::theInstance->ui_refresh_needed)
@@ -945,18 +948,18 @@ getDesertSize()
 
 ////for Formula
 DLL_DECL long
-CreateFormulaSet(const char *n)
+CreateFormulaSet(const TCHAR *n)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateFormulaSet(n);
 }
 
 DLL_DECL long
-CreateFormula(const char *n, long cs, long c, const char *t)
+CreateFormula(const TCHAR *n, long cs, long c, const TCHAR *t)
 {
   AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, __FILE__, "manager not instantiated" );
+  ASSERT_EX( CManager::theInstance, WTHIS_FILE, _T("manager not instantiated") );
   return CManager::theInstance->CreateFormula(n, cs, c, t);
 }
 
@@ -967,7 +970,7 @@ closeDesertLogFile()
 }
 
 DLL_DECL bool 
-VerifyConstraint(const char *constraint)
+VerifyConstraint(const TCHAR *constraint)
 {
 	bool ret = true;
     if (!CManager::theInstance->HasConstraints())
@@ -1006,11 +1009,11 @@ VerifyConstraint(const char *constraint)
 	return ret;
 }
 
-void ThrowDesertException(char *message)
+void ThrowDesertException(TCHAR *message)
 {
 	throw new CDesertException(true, message);
 }
 
 extern "C" {
-void (*bdd_fatal_hook)(char *message) = ThrowDesertException;
+void (*bdd_fatal_hook)(TCHAR *message) = ThrowDesertException;
 }

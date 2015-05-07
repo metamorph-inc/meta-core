@@ -72,6 +72,7 @@ namespace isis {
 		* A dummy edit needs to be added to the out-bound queue to get it to unblock.
 		*/
 		void disconnect() {
+			m_socket.close();
 			this->m_ready = false;
 		}
 

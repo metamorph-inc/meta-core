@@ -87,7 +87,7 @@ protected:
 	BOOL m_bSortAscending;
 	BOOL m_showInfoTip;
 
-	WCHAR* m_pwchTip;
+	CString m_pwchTip;
 
 	//{{AFX_MSG(CSortListCtrl)
 	afx_msg void OnColumnClick(NMHDR* pNMHDR, LRESULT* pResult);

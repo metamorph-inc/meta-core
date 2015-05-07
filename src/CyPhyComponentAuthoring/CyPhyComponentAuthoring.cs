@@ -10,6 +10,7 @@ using GME.MGA.Core;
 using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using System.Drawing;
+using System.IO;
 
 namespace CyPhyComponentAuthoring
 {
@@ -129,12 +130,29 @@ namespace CyPhyComponentAuthoring
             return true;
         }
 
+        Dictionary<string, Tuple<Type, MethodInfo>> dictofCATDnDMethods = new Dictionary<string, Tuple<Type, MethodInfo>>();
+        void DragNDropHandler(string filename)
+        {
+            Tuple<Type, MethodInfo> method;
+            if (dictofCATDnDMethods.TryGetValue(Path.GetExtension(filename), out method))
+            {
+                CATModule newinst = CreateCATModule(method.Item1);
+
+                method.Item2.Invoke(newinst, new object[] { filename });
+
+                GMEConsole console = GMEConsole.CreateFromProject(this.StashProject);
+                console.Info.WriteLine("Processed " + filename);
+                Marshal.ReleaseComObject(console.gme);
+            }
+        }
+
+
         public void PopulateDialogBox(bool testonly = false)
         {
             List<Tuple<CATName, Type, MethodInfo>> listofCATmethods = new List<Tuple<CATName, Type, MethodInfo>>();
 
             // create the dialog box
-            using (CyPhyComponentAuthoringToolGUI CATgut = new CyPhyComponentAuthoringToolGUI())
+            using (CyPhyComponentAuthoringToolGUI CATgut = new CyPhyComponentAuthoringToolGUI(DragNDropHandler))
             {
                 // get the current assembly
                 Assembly thisAssembly = Assembly.GetExecutingAssembly();
@@ -165,6 +183,11 @@ namespace CyPhyComponentAuthoring
                             foreach (CATName attr in meth.GetCustomAttributes(typeof(CATName), true))
                             {
                                 listofCATmethods.Add(new Tuple<CATName, Type, MethodInfo>(attr, classtype, meth));
+                            }
+
+                            foreach (CATDnD attr in meth.GetCustomAttributes(typeof(CATDnD), true))
+                            {
+                                dictofCATDnDMethods.Add(attr.Extension.ToLowerInvariant(), new Tuple<Type, MethodInfo>(classtype, meth));
                             }
                         }
                     }
@@ -241,19 +264,11 @@ namespace CyPhyComponentAuthoring
             }
             else
             {
-                // create a new CATModule class instance 
-                CATModule newinst = Activator.CreateInstance(classtype) as CATModule;
+                CATModule newinst = CreateCATModule(classtype);
                 if (newinst == null)
                 {
-                    // problem
-                    this.Logger.WriteFailed("Unable to create a new CATModule class instance. CreateInstance call failed.");
                     return;
                 }
-
-                // set the current component for use by the new class instance
-                newinst.SetCurrentComp(StashCurrentComponent);
-                newinst.CurrentProj = StashProject;
-                newinst.CurrentObj = StashCurrentObj;
 
                 // create a delegate for the dialog button to call to invoke the method
                 handler = Delegate.CreateDelegate(ev.EventHandlerType, newinst, meth);
@@ -288,6 +303,25 @@ namespace CyPhyComponentAuthoring
             CATgut.tableLayoutPanel0.Controls.Add(new_mini_table, 1, ++CATgut.tableLayoutPanel0.RowCount);
         }
 
+        private CATModule CreateCATModule(Type classtype)
+        {
+            // create a new CATModule class instance 
+            CATModule newinst = Activator.CreateInstance(classtype) as CATModule;
+            if (newinst == null)
+            {
+                // problem
+                this.Logger.WriteFailed("Unable to create a new CATModule class instance. CreateInstance call failed.");
+                return null;
+            }
+
+            // set the current component for use by the new class instance
+            newinst.SetCurrentComp(StashCurrentComponent);
+            newinst.CurrentProj = StashProject;
+            newinst.CurrentObj = StashCurrentObj;
+
+            return newinst;
+        }
+
         // Classes which contain one or more CAT methods should apply this attribute with the bool set to true
         [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
         public class IsCATModule : System.Attribute
@@ -311,6 +345,12 @@ namespace CyPhyComponentAuthoring
             public string NameVal;
             public string DescriptionVal;
             public Role RoleVal;
+        }
+
+        [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+        public class CATDnD : System.Attribute
+        {
+            public string Extension;
         }
 
         #region IMgaComponentEx Members

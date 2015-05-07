@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AvmXmlSerializer.cs" />
+    <Compile Include="generated\avm.adamsCar.designer.cs" />
     <Compile Include="generated\avm.cad.designer.cs" />
     <Compile Include="generated\avm.designer.cs" />
     <Compile Include="generated\avm.manufacturing.designer.cs" />
@@ -71,6 +72,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\schema\avm.adamsCar.xsd">
+      <Link>avm.adamsCar.xsd</Link>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Assembly.snk" />
   </ItemGroup>
   <ItemGroup />

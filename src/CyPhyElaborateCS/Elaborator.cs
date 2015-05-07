@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using GME.MGA;
+    using System.Runtime.InteropServices;
 
     /// <summary>
     /// Represents a type of elaborator. Use the <see cref="GetElaborator"/> to create an instance of an elaborator based on
@@ -108,7 +109,8 @@
                 subject.MetaBase.MetaRef == factory.BlastTestBenchMeta ||
                 subject.MetaBase.MetaRef == factory.BallisticTestBenchMeta ||
                 subject.MetaBase.MetaRef == factory.CFDTestBenchMeta ||
-                subject.MetaBase.MetaRef == factory.KinematicTestBenchMeta)
+                subject.MetaBase.MetaRef == factory.KinematicTestBenchMeta ||
+                subject.MetaBase.MetaRef == factory.CarTestBenchMeta)
             {
                 elaborator = new TestBenchTypeElaborator(subject);
             }
@@ -366,7 +368,7 @@
                 }
             }
 
-            // switch connections
+            // switch connections to refport children
             foreach (MgaConnPoint connPoint in reference.UsedByConns)
             {
                 var connection = connPoint.Owner as IMgaSimpleConnection;
@@ -403,6 +405,75 @@
                     // create an empty array for the connection references
                     MgaFCOs emptyArray = (MgaFCOs)Activator.CreateInstance(Elaborator.MgaFCOsType);
                     connection.SetDst(emptyArray, newEndPoint);
+                }
+            }
+
+            // switch connections to original reference object itself
+            foreach (MgaConnPoint connPoint in reference.PartOfConns)
+            {
+                var connection = connPoint.Owner as IMgaSimpleConnection;
+
+                if (connPoint.ConnRole == "src")
+                {
+                    // create an empty array for the connection references
+                    MgaFCOs emptyArray = (MgaFCOs)Activator.CreateInstance(Elaborator.MgaFCOsType);
+                    try
+                    {
+                        connection.SetSrc(emptyArray, copiedObj);
+                    }
+                    catch (COMException ex)
+                    {
+                        if (ex.Message.Contains("Illegal connection") &&
+                            ex.Message.Contains("meta violation"))
+                        {
+                            var refID = reference.ID;
+                            while (Traceability.ContainsKey(refID))
+                            {
+                                refID = Traceability[refID];
+                            }
+
+                            Logger.WriteWarning("<a href=\"mga:{0}\">{1}</a>'s referred type ({2}) isn't a legal SRC target for {3} connections. Skipping re-creation of this connection.",
+                                                refID,
+                                                reference.Name,
+                                                reference.Referred.MetaBase.Name,
+                                                connection.MetaBase.Name);
+                        }
+                        else
+                        {
+                            throw ex;
+                        }
+                    }
+                }
+                else if (connPoint.ConnRole == "dst")
+                {
+                    // create an empty array for the connection references
+                    MgaFCOs emptyArray = (MgaFCOs)Activator.CreateInstance(Elaborator.MgaFCOsType);
+                    try
+                    {
+                        connection.SetDst(emptyArray, copiedObj);
+                    }
+                    catch (COMException ex)
+                    {
+                        if (ex.Message.Contains("Illegal connection") &&
+                            ex.Message.Contains("meta violation"))
+                        {
+                            var refID = reference.ID;
+                            while (Traceability.ContainsKey(refID))
+                            {
+                                refID = Traceability[refID];
+                            }
+
+                            Logger.WriteWarning("<a href=\"mga:{0}\">{1}</a>'s referred type ({2}) isn't a legal DST target for {3} connections. Skipping re-creation of this connection.",
+                                                refID,
+                                                reference.Name,
+                                                reference.Referred.MetaBase.Name,
+                                                connection.MetaBase.Name);
+                        }
+                        else
+                        {
+                            throw ex;
+                        }
+                    }
                 }
             }
 

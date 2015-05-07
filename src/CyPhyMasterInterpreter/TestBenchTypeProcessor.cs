@@ -21,6 +21,7 @@ namespace CyPhyMasterInterpreter
             typeof(CyPhy.BlastTestBench).Name,
             typeof(CyPhy.CADTestBench).Name,
             typeof(CyPhy.KinematicTestBench).Name,
+            typeof(CyPhy.CarTestBench).Name,
             typeof(CyPhy.CFDTestBench).Name,
         };
 

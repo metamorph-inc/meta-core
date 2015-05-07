@@ -2,7 +2,7 @@
 
 
 #include "bddint.h"
-
+#include <tchar.h>
 
 void
 #if defined(__STDC__)
@@ -56,22 +56,22 @@ bdd_number_shared_nodes(bddm, f, h, next)
 }
 
 
-static char default_terminal_id[]="terminal XXXXXXXXXX XXXXXXXXXX";
-static char default_var_name[]="var.XXXXXXXXXX";
+static TCHAR default_terminal_id[]= _T("terminal XXXXXXXXXX XXXXXXXXXX");
+static TCHAR default_var_name[]=_T("var.XXXXXXXXXX");
 
 
-char *
+TCHAR *
 #if defined(__STDC__)
-bdd_terminal_id(bdd_manager bddm, bdd f, char *(*terminal_id_fn)(bdd_manager, INT_PTR, INT_PTR, pointer), pointer env)
+bdd_terminal_id(bdd_manager bddm, bdd f, TCHAR *(*terminal_id_fn)(bdd_manager, INT_PTR, INT_PTR, pointer), pointer env)
 #else
 bdd_terminal_id(bddm, f, terminal_id_fn, env)
      bdd_manager bddm;
      bdd f;
-     char *(*terminal_id_fn)();
+     TCHAR *(*terminal_id_fn)();
      pointer env;
 #endif
 {
-  char *id;
+  TCHAR *id;
   INT_PTR v1, v2;
 
   mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
@@ -82,28 +82,28 @@ bdd_terminal_id(bddm, f, terminal_id_fn, env)
   if (!id)
     {
       if (f == BDD_ONE(bddm))
-	return ("1");
+	return (_T("1"));
       if (f == BDD_ZERO(bddm))
-	return ("0");
-      sprintf(default_terminal_id, "terminal %ld %ld", (long)v1, (long)v2);
+	return (_T("0"));
+	  _sntprintf(default_terminal_id, _countof(default_terminal_id), _T("terminal %ld %ld"), (long)v1, (long)v2);
       id=default_terminal_id;
     }
   return (id);
 }
 
 
-char *
+TCHAR *
 #if defined(__STDC__)
-bdd_var_name(bdd_manager bddm, bdd v, char *(*var_naming_fn)(bdd_manager, bdd, pointer), pointer env)
+bdd_var_name(bdd_manager bddm, bdd v, TCHAR *(*var_naming_fn)(bdd_manager, bdd, pointer), pointer env)
 #else
 bdd_var_name(bddm, v, var_naming_fn, env)
      bdd_manager bddm;
      bdd v;
-     char *(*var_naming_fn)();
+     TCHAR *(*var_naming_fn)();
      pointer env;
 #endif
 {
-  char *name;
+  TCHAR *name;
 
   if (var_naming_fn)
     name=(*var_naming_fn)(bddm, v, env);
@@ -112,7 +112,7 @@ bdd_var_name(bddm, v, var_naming_fn, env)
   if (!name)
     {
       BDD_SETUP(v);
-      sprintf(default_var_name, "var.%d", BDD_INDEX(bddm, v));
+	  _sntprintf(default_var_name, _countof(default_var_name), _T("var.%d"), BDD_INDEX(bddm, v));
       name=default_var_name;
     }
   return (name);

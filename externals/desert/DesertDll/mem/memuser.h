@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
+#include <wtypes.h>
 
 #if defined(__STDC__)
 #define ARGS(args) args
@@ -68,7 +69,7 @@ extern pointer mem_resize_block ARGS((pointer, SIZE_T));
 extern void mem_copy ARGS((pointer, pointer, SIZE_T));
 extern void mem_zero ARGS((pointer, SIZE_T));
 extern SIZE_T mem_allocation ARGS((void));
-extern char *mem_version ARGS((void));
+extern TCHAR *mem_version ARGS((void));
 
 
 /* Record manager routines */

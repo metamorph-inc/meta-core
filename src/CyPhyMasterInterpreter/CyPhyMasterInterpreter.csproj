@@ -202,6 +202,7 @@
     <Compile Include="Rules\ContextChecker.cs" />
     <Compile Include="Rules\ContextCheckerException.cs" />
     <Compile Include="Rules\ContextCheckerResult.cs" />
+    <Compile Include="Rules\CarTestBenchChecker.cs" />
     <Compile Include="Rules\KinematicTestBenchChecker.cs" />
     <Compile Include="Rules\ParametricExplorationChecker.cs" />
     <Compile Include="Rules\StructuralFEATestBenchChecker.cs" />

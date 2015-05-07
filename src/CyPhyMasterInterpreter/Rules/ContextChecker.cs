@@ -240,6 +240,10 @@ namespace CyPhyMasterInterpreter.Rules
             {
                 contextChecker = new ParametricExplorationChecker(CyPhyClasses.ParametricExploration.Cast(context));
             }
+            else if (context.MetaBase.Name == typeof(CyPhy.CarTestBench).Name)
+            {
+                contextChecker = new CarTestBenchChecker(CyPhyClasses.CarTestBench.Cast(context));
+            }
             else
             {
                 throw new ArgumentOutOfRangeException(string.Format("Given context is {0}, which is not supported. Try to run it on a test bench, PET or SoT.", context.Meta.Name));

@@ -19,7 +19,7 @@ ConfigKeeper::ConfigKeeper( void ) : _desc( "Allowed options" ), _hidden( "Hidde
 	_posDesc.add( "compareFrom", 1 ).add( "compareTo", 1 );
 }
 
-bool ConfigKeeper::processCommandLineArguments( int argc, char *argv[] ) {
+bool ConfigKeeper::processCommandLineArguments( int argc, TCHAR *argv[] ) {
 	// Try to parse command line options
 	try {
 		boost::program_options::store(

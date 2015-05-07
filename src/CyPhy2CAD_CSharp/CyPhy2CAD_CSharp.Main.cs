@@ -233,7 +233,7 @@ namespace CyPhy2CAD_CSharp
 
             // generate testbench_manifest.json if it does not exist
             
-            if (!File.Exists(Path.Combine(outputDir, "testbench_manifest.json")))
+            if (true/*!File.Exists(Path.Combine(outputDir, "testbench_manifest.json"))*/)
             {
                 AVM.DDP.MetaTBManifest tbManifest = new AVM.DDP.MetaTBManifest();
                 tbManifest.MakeManifest(testBench,

@@ -73,20 +73,20 @@ BOOL CConstraintAddDialog::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	// TODO:  Add extra initialization here
-	m_funclist.AddString("self");
-	m_funclist.AddString("children");
-	m_funclist.AddString("implementedBy");
-	m_funclist.AddString("parent");
-	m_funclist.AddString("project");
-	m_funclist.AddString("Weight");
-	m_funclist.AddString("Volume");
-	m_funclist.AddString("Cost");
-	m_funclist.AddString("Input_Power");
-	m_funclist.AddString("Output_Power");
-	m_funclist.AddString("Range");
-	m_funclist.AddString("V_Cruise");
-	m_funclist.AddString("Material");
-	m_funclist.AddString("project().Materials");
+	m_funclist.AddString(_T("self"));
+	m_funclist.AddString(_T("children"));
+	m_funclist.AddString(_T("implementedBy"));
+	m_funclist.AddString(_T("parent"));
+	m_funclist.AddString(_T("project"));
+	m_funclist.AddString(_T("Weight"));
+	m_funclist.AddString(_T("Volume"));
+	m_funclist.AddString(_T("Cost"));
+	m_funclist.AddString(_T("Input_Power"));
+	m_funclist.AddString(_T("Output_Power"));
+	m_funclist.AddString(_T("Range"));
+	m_funclist.AddString(_T("V_Cruise"));
+	m_funclist.AddString(_T("Material"));
+	m_funclist.AddString(_T("project().Materials"));
 	
 	FillDesignSpaceTree();
 
@@ -122,11 +122,11 @@ void CConstraintAddDialog::InsertFuncString()
 	int len = m_funclist.GetTextLen(cursel);
     m_funclist.GetText(cursel, selfun.GetBuffer(len+2) );
 	c_expredit.ReplaceSel(selfun);
-	if(selfun!="self" && selfun!="children")
-		c_expredit.ReplaceSel("()");
-	if(selfun=="children"|| selfun=="project().Materials")
+	if(selfun!=_T("self") && selfun!=_T("children"))
+		c_expredit.ReplaceSel(_T("()"));
+	if(selfun==_T("children")|| selfun==_T("project().Materials"))
 	{
-		c_expredit.ReplaceSel("(\"\")");
+		c_expredit.ReplaceSel(_T("(\"\")"));
 	}
 	c_expredit.SetFocus();
 }
@@ -157,7 +157,7 @@ void CConstraintAddDialog::FillDesignSpaceTree()
 	tvInsert.hParent = NULL;
 	tvInsert.hInsertAfter = NULL;
 	tvInsert.item.mask = TVIF_TEXT;
-	tvInsert.item.pszText = "DesignSpace";
+	tvInsert.item.pszText = _T("DesignSpace");
 	HTREEITEM tree_root = m_spacetree.InsertItem(&tvInsert);
 	
 	set<DesertIface::Element> elems = space.Element_kind_children();
@@ -168,7 +168,7 @@ void CConstraintAddDialog::FillDesignSpaceTree()
 		if(elemType=="Compound" || elemType=="Alternative" || elemType=="Optional")
 			iname.append(" ["+elemType+"]");
 
-		HTREEITEM elem_node = m_spacetree.InsertItem((LPSTR)iname.c_str(), tree_root, TVI_LAST);
+		HTREEITEM elem_node = m_spacetree.InsertItem(utf82cstring(iname), tree_root, TVI_LAST);
 		spaceTreeMap[elem_node]=(*i).externalID();
 		if(dhelper_ptr->isFocusObject((*i).externalID()))
 		{		
@@ -193,7 +193,7 @@ void CConstraintAddDialog::FillDesignSpaceTree(DesertIface::Element &elem, HTREE
 		std::string elemType = dhelper_ptr->getCyPhyObjType((*i).externalID());
 		if(elemType=="Mandatory" || elemType=="Alternative" || elemType=="Optional")
 			iname.append(" ["+elemType+"]");
-		HTREEITEM elem_node = m_spacetree.InsertItem((LPSTR)iname.c_str(),parent, TVI_LAST);
+		HTREEITEM elem_node = m_spacetree.InsertItem(utf82cstring(iname),parent, TVI_LAST);
 		spaceTreeMap[elem_node]=(*i).externalID();
 		if(dhelper_ptr->isFocusObject((*i).externalID()))
 		{
@@ -228,12 +228,12 @@ void CConstraintAddDialog::OnBnClickedOk()
 		std::string fobjtype = dhelper_ptr->getCyPhyObjType((*pos).second);			
 		if(fobjtype == "NullObj")
 		{
-			MessageBox("The selected object is null. Please seelct a Compound/Alternative/Optional component.", "Constraint Context Error", MB_ICONSTOP);
+			MessageBox(_T("The selected object is null. Please seelct a Compound/Alternative/Optional component."), _T("Constraint Context Error"), MB_ICONSTOP);
 			return;
 		}
 		if(fobjtype != "Mandatory" && fobjtype != "Alternative" && fobjtype != "Optional")
 		{
-			MessageBox("Constraint can only be added into a Mandatory/Alternative/Optional component.", "Constraint Context Error", MB_ICONSTOP);
+			MessageBox(_T("Constraint can only be added into a Mandatory/Alternative/Optional component."), _T("Constraint Context Error"), MB_ICONSTOP);
 			return;
 		}
 	}
@@ -243,7 +243,7 @@ void CConstraintAddDialog::OnBnClickedOk()
 
 	if(m_name.IsEmpty())
 	{
-		MessageBox("Please type in constraint name.", "Constraint Name Error", MB_ICONSTOP);
+		MessageBox(_T("Please type in constraint name."), _T("Constraint Name Error"), MB_ICONSTOP);
 		return;			
 	}
 

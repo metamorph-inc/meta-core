@@ -18,6 +18,11 @@
         </Category.DisplayName>
       </Category>
     </Rule.Categories>
+	<BoolProperty
+	  Name="RefreshLibs"
+	  Category="General"
+	  DisplayName="Refresh libraries"
+	  Visible="true"/>
     <StringProperty
       Name="OutFile"
       Category="General"

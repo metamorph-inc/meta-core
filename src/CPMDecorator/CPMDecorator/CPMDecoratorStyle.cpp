@@ -138,7 +138,6 @@ void CPMDecoratorStyle::RenderParameter()
 			AddLabel("]");
 
 	}
-
 }
 
 void CPMDecoratorStyle::RenderValueUnit()
@@ -158,6 +157,16 @@ void CPMDecoratorStyle::AddInternalParts() {
 	m_pBasePart->NewInternalPartRow();
 	switch (m_cpmType) 
 	{
+		case Type::carparameter_type:
+			{
+				AddLabel("CarParam", 0, PARAM_TEXT_COLOR);
+				AddSpacer(5);
+				AddInternalPart(NewCPMNamePart(CPM_FONT_BOLD_INDEX));
+				AddLabel(": ");
+				AddAttributePart(CPM_PARAMETER_VALUE_ATTR);
+				AddCPMUnitsPart(CPM_FONT_ITALICS_INDEX);
+				break;
+			}
 		case Type::parameter_type:
 			{
 				RenderParameter();

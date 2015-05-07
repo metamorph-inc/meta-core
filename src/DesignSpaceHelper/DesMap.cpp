@@ -109,7 +109,7 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 		//
 		//create the space & the root element in the space
 		//
-		space =  CreateSpace(((string)sp.name()).c_str());
+		space =  CreateSpace(utf82cstring((string)sp.name()));
 		//space =  CreateSpace(((string)sp.name()).c_str(), sp.id(), sp.externalID());
 		
 /*
@@ -123,7 +123,7 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 */
 				
 		parent = CreateElement(
-			((string)sp.name()).c_str(), 
+			utf82cstring((string)sp.name()),
 			space, 
 			decomposition, 
 			-1, 
@@ -189,7 +189,7 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 
 		//create new elenent
 		long new_parent = CreateElement(
-			((string)e.name()).c_str(),
+			utf82cstring((string)e.name()),
 			space,
 			decomposition,
 			parent,
@@ -330,7 +330,7 @@ bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_ma
 		}
 
 		long new_parent = CreateElement(
-			((string)mb.name()).c_str(),
+			utf82cstring((string)mb.name()),
 			cd_id, 
 			decomposition,
 			parent,
@@ -415,7 +415,7 @@ bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 				else cpfn = ((string)vp.CUSTName()).c_str();
 			
 				long vp_id = CreateVariableProperty(
-					((string)vp.name()).c_str(),	//const char *name, 
+					utf82cstring((string)vp.name()),	//const char *name, 
 					(LPCTSTR)cpfn,					//const char *cpfn
 					owner_id,						//long owner, 
 					domain_id );					//long domain);
@@ -446,7 +446,7 @@ bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 					if(currf.type()==CustomFormula::meta)
 					{
 						CustomFormula customf = CustomFormula::Cast(currf);
-						long pvp_id = createParametricVariableProperty(((string)vp.name()).c_str(), owner_id, ((string)customf.expression()).c_str());
+						long pvp_id = createParametricVariableProperty(utf82cstring((string)vp.name()), owner_id, utf82cstring((string)customf.expression()));
 						DoMap(vp, des_map, inv_des_map, pvp_id);
 						TRACE("Added VariableProperty: (name %s, owner: %d, domain: %d) :%d\n", 
 								((string)vp.name()).c_str(),
@@ -458,7 +458,7 @@ bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 						SimpleFormula simplef = SimpleFormula::Cast(currf);
 						CString cpfn = ((string)simplef.ComputationType()).c_str();
 						long vp_id = CreateVariableProperty(
-									((string)vp.name()).c_str(),	//const char *name, 
+							utf82cstring((string)vp.name()),	//const char *name, 
 									(LPCTSTR)cpfn,					//const char *cpfn
 									owner_id						//long owner, 
 									);					
@@ -531,8 +531,8 @@ bool CreateConstantProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 
 			
 				long cp_id = CreateConstantProperty(
-				((string)cp.name()).c_str(),	//const char *name, 
-				cpfn.c_str(),					//const char *cpfn
+					utf82cstring((string)cp.name()),	//const char *name, 
+					utf82cstring(cpfn),					//const char *cpfn
 				owner_id,						//long owner, 
 				domain_id,						//long domain);
 				value);							//int value
@@ -623,7 +623,7 @@ bool CreateAssignments(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, UdmElem
 
 			//av_id = AddtoVariableProperty(prop_id, owner_id, value, d_id);
 			//av_id = AddtoVariableProperty(prop_id, ((string)av.name()).c_str(), owner_id, value, d_id, av.id(), av.externalID());
-			av_id = AddtoVariableProperty(prop_id, ((string)av_prop.name()).c_str(), owner_id, value, d_id);
+			av_id = AddtoVariableProperty(prop_id, utf82cstring((string)av_prop.name()), owner_id, value, d_id);
 			DoMap(av, des_map, inv_des_map,  av_id);
 		};//eo for(vp_i)
 		//progress bar indication
@@ -649,7 +649,7 @@ bool CreateDesertConstraintSet(ConstraintSet &cs, UdmDesertMap &des_map, DesertU
 
 	ASSERT(!ct_set.empty());
 	//create constraint set
-	cts_id = CreateConstraintSet(((string)cs.name()).c_str());
+	cts_id = CreateConstraintSet(utf82cstring((string)cs.name()));
 	DoMap(cs, des_map, inv_des_map, cts_id);
 
 
@@ -665,10 +665,10 @@ bool CreateDesertConstraintSet(ConstraintSet &cs, UdmDesertMap &des_map, DesertU
 
 		//create constraint
 		
-		long ct_id = CreateConstraint(((string)ct.name()).c_str(), 
+		long ct_id = CreateConstraint(utf82cstring((string)ct.name()),
 						cts_id, 
 						owner_id, 
-						((string)ct.expression()).c_str());
+						utf82cstring((string)ct.expression()));
 		/*
 		long ct_id = CreateConstraint(((string)ct.name()).c_str(), 
 						cts_id, 
@@ -838,7 +838,7 @@ bool CreateNaturalDomains(DesertSystem& ds, UdmDesertMap& des_map, DesertUdmMap 
 				nd = *(nd_iterator);
 				
 				long d_id = CreateNaturalDomain( 
-					(((string)nd.name()).c_str()),
+					utf82cstring((string)nd.name()),
 					nd.maximum(),
 					nd.minimum());
 					
@@ -890,7 +890,7 @@ bool CreateCustomDomains(DesertSystem& ds, UdmDesertMap& des_map, DesertUdmMap &
 				//create the custom domain 
 				//
 
-				long cd_id =  CreateCustomDomain(((string)cd.name()).c_str());
+				long cd_id = CreateCustomDomain(utf82cstring((string)cd.name()));
 				//long cd_id =  CreateCustomDomain(((string)cd.name()).c_str(), cd.id(), cd.externalID());
 		
 				//inserting custom domain in map
@@ -938,7 +938,7 @@ bool CreateSimpleFormulas(DesertSystem &ds, UdmDesertMap& des_map, DesertUdmMap 
 				if(in_vps.empty())
 				{
 					std::string err = "There is no source VariableProperty for SimpleFormula: "+(std::string)sf.name();
-					throw new CDesertException(err.c_str());
+					throw new CDesertException(utf82cstring(err));
 				}
 				for(vp_it=in_vps.begin();vp_it!=in_vps.end();++vp_it)
 				{
@@ -951,7 +951,7 @@ bool CreateSimpleFormulas(DesertSystem &ds, UdmDesertMap& des_map, DesertUdmMap 
 					srcps[in_vp_id] = in_elem_id;					
 				}
 			
-				long sf_id = CreateSimpleFormula(((std::string)sf.ComputationType()).c_str(), srcps, dstps);
+				long sf_id = CreateSimpleFormula(utf82cstring((std::string)sf.ComputationType()), srcps, dstps);
 				DoMap(sf, des_map, inv_des_map,  sf_id);
 			}
 		}

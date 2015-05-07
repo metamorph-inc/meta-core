@@ -92,7 +92,7 @@ TPUT_API CBdd DoPathTput(int& maxSize, int limit,  CDynElement *p_this)
         //CBdd tmp = l1.GetNext(pos)->Tput_0(maxSize, limit);
 		  CBdd tmp = PCM_Eval_tput_0(maxSize, limit, l1.GetNext(pos));
 
-		// printf("%s: a_sz=%d b_sz=%d\n",(const char *)(*this), tmp.size(), r.size());
+		// printf("%s: a_sz=%d b_sz=%d\n",(const TCHAR *)(*this), tmp.size(), r.size());
 		  r = CBdd::Min(r,tmp);
         sz = r.size();
 		// printf("a+b_sz=%d\n", sz);
@@ -221,7 +221,7 @@ TPUT_API CBdd PCM_Eval_tput_0(int& maxSize, int limit, CDynElement * p_this)
     break;
 
   case decompLeaf:
-    prop = ((CDynElement*)p_this)->FindProperty("tput");
+    prop = ((CDynElement*)p_this)->FindProperty(_T("tput"));
    // ret = prop ? prop->MaptoBdd( encoding ) : CBdd::One();
 	 ret = prop ? prop->MapValuetoBdd( encoding ) : CBdd::One();
     break;

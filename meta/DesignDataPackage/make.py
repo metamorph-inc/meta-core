@@ -66,6 +66,7 @@ def make():
             call_xsd2code(abspath_Xsd2Code, 'avm.manufacturing.xsd')
             call_xsd2code(abspath_Xsd2Code, 'avm.modelica.xsd')
             call_xsd2code(abspath_Xsd2Code, 'avm.cyber.xsd')
+            call_xsd2code(abspath_Xsd2Code, 'avm.adamsCar.xsd')
 
             for cs in glob.glob('*.cs'):
                 shutil.copy2(cs, os.path.join('..', 'lib', 'csharp', 'XSD2CSharp', 'generated'))
@@ -96,11 +97,13 @@ def make():
     os.makedirs(os.path.join(path_pylib, 'avm', 'cad'))
     os.makedirs(os.path.join(path_pylib, 'avm', 'manufacturing'))
     os.makedirs(os.path.join(path_pylib, 'avm', 'cyber'))
+    os.makedirs(os.path.join(path_pylib, 'avm', 'adamsCar'))
     os.makedirs(os.path.join(path_pylib, 'iFAB'))
 
     # Copy files to library structure
     shutil.copy2(os.path.join(path_schema, '_avm.py'), os.path.join(path_pylib, 'avm', '__init__.py'))
     shutil.copy2(os.path.join(path_schema, '_modelica.py'), os.path.join(path_pylib, 'avm', 'modelica', '__init__.py'))
+    shutil.copy2(os.path.join(path_schema, '_adamsCar.py'), os.path.join(path_pylib, 'avm', 'adamsCar', '__init__.py'))
     shutil.copy2(os.path.join(path_schema, '_cad.py'), os.path.join(path_pylib, 'avm', 'cad', '__init__.py'))
     shutil.copy2(os.path.join(path_schema, '_manufacturing.py'),
                  os.path.join(path_pylib, 'avm', 'manufacturing', '__init__.py'))

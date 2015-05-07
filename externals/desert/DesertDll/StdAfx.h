@@ -3,14 +3,16 @@
 //      are changed infrequently
 //
 
-#if !defined(AFX_STDAFX_H__DC43D02D_061D_11D2_BBB3_0040051F7117__INCLUDED_)
-#define AFX_STDAFX_H__DC43D02D_061D_11D2_BBB3_0040051F7117__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
+
+#include <string>
+#ifdef _UNICODE
+typedef std::wstring tstring;
+#else
+typedef std::string tstring;
+#endif
 
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
@@ -39,4 +41,3 @@
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Developer Studio will insert additional declarations immediately before the previous line.
 
-#endif // !defined(AFX_STDAFX_H__DC43D02D_061D_11D2_BBB3_0040051F7117__INCLUDED_)

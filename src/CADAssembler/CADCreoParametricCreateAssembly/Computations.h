@@ -88,6 +88,7 @@ namespace isis
 	void CreateInterferenceReport( 
 						const	std::string									&in_PathAndFileName,
 						const	std::string									&in_ComponentInstanceID,
+						const   CADComputation								&in_CADComputation,
 						std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																	throw (isis::application_exception);
 

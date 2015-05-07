@@ -143,7 +143,7 @@ BOOL CSortListCtrl::SetHeadings( const CString& strHeadings )
 		if( iSemiColon == -1 )
 			iSemiColon = strHeadings.GetLength();
 
-		const int iWidth = atoi( strHeadings.Mid( iStart, iSemiColon - iStart ) );
+		const int iWidth = _ttoi( strHeadings.Mid( iStart, iSemiColon - iStart ) );
 		
 		iStart = iSemiColon + 1;
 
@@ -233,8 +233,8 @@ int NumberCompare( LPCTSTR pszNumber1, LPCTSTR pszNumber2 )
 	ASSERT_VALID_STRING( pszNumber1 );
 	ASSERT_VALID_STRING( pszNumber2 );
 
-	const int iNumber1 = atoi( pszNumber1 );
-	const int iNumber2 = atoi( pszNumber2 );
+	const int iNumber1 = _ttoi( pszNumber1 );
+	const int iNumber2 = _ttoi( pszNumber2 );
 
 	if( iNumber1 < iNumber2 )
 		return -1;
@@ -457,9 +457,7 @@ BOOL CSortListCtrl::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	if(!m_pwchTip)      
 		  delete m_pwchTip;
 
-	m_pwchTip = new WCHAR[tooltip.GetLength()+1];    
-	mbstowcs(m_pwchTip, tooltip, tooltip.GetLength());   
-	m_pwchTip[tooltip.GetLength()] = 0; // end of text   
+	m_pwchTip = tooltip;
 
 	//get the maxwidth for the tooltip
 	int maxwidth = 0;
@@ -476,7 +474,7 @@ BOOL CSortListCtrl::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 		maxwidth =  tmp.GetLength();
 	
 	::SendMessage(pNMHDR->hwndFrom, TTM_SETMAXTIPWIDTH, 0, maxwidth*6);
-	pTTTW->lpszText = (WCHAR*)m_pwchTip;
+	pTTTW->lpszText = const_cast<LPTSTR>((const WCHAR*)m_pwchTip);
 	
 	// If wanting to display a tooltip which is longer than 80 characters,
 	// then one must allocate the needed text-buffer instead of using szText,

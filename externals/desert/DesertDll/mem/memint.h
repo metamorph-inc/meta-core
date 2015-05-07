@@ -9,11 +9,15 @@
 #include "memuser.h"
 
 #include <stdlib.h>
+#include <wtypes.h>
 
 #include <crtdbg.h>
 
 #ifdef _DEBUG
 #undef THIS_FILE
+#define WIDE2(x) L##x
+#define WIDE1(x) WIDE2(x)
+static TCHAR WTHIS_FILE[] = WIDE1(__FILE__);
 static char THIS_FILE[] = __FILE__;
 #define malloc(sz) _malloc_dbg((sz), _NORMAL_BLOCK, THIS_FILE, __LINE__)
 #define free(ptr) _free_dbg((ptr), _NORMAL_BLOCK)
@@ -44,22 +48,22 @@ extern void *realloc(void *, unsigned long);
 #define FREE(p) (free((void *)(p)))
 #define REALLOC(p, size) ((pointer)realloc((void *)(p), (unsigned long)(size)))
 #else
-extern char *malloc();
+extern TCHAR *malloc();
 extern void free();
-extern char *realloc();
+extern TCHAR *realloc();
 #define MALLOC(size) ((pointer)malloc((int)(size)))
-#define FREE(p) (free((char *)(p)))
-#define REALLOC(p, size) ((pointer)realloc((char *)(p), (int)(size)))
+#define FREE(p) (free((TCHAR *)(p)))
+#define REALLOC(p, size) ((pointer)realloc((TCHAR *)(p), (int)(size)))
 #endif
 #else
 #ifdef WIN32
 #define SBRK(size) ((pointer)malloc((int)(size)))
 #else
 #if defined(__STDC__)
-extern char *sbrk(int);
+extern TCHAR *sbrk(int);
 #define SBRK(size) ((pointer)sbrk((int)(size)))
 #else
-extern char *sbrk();
+extern TCHAR *sbrk();
 #define SBRK(size) ((pointer)sbrk((int)(size)))
 #endif
 #endif
@@ -69,15 +73,15 @@ extern char *sbrk();
 /* bcopy or memcpy. */
 
 #if defined(__STDC__)
-extern void *memcpy(void *, const void *, unsigned long);
-extern void *memset(void *, int, unsigned long);
+//extern void *memcpy(void *, const void *, size_t);
+//extern void *memset(void *, int, size_t);
 #define MEM_COPY(dest, src, size) (void)memcpy((void *)(dest), (const void *)(src), (unsigned long)(size))
 #define MEM_ZERO(ptr, size) (void)memset((void *)(ptr), 0, (unsigned long)(size))
 #else
 extern void bcopy();
 extern void bzero();
-#define MEM_COPY(dest, src, size) bcopy((char *)(src), (char *)(dest), (int)(size))
-#define MEM_ZERO(ptr, size) bzero((char *)(ptr), (int)(size))
+#define MEM_COPY(dest, src, size) bcopy((TCHAR *)(src), (TCHAR *)(dest), (int)(size))
+#define MEM_ZERO(ptr, size) bzero((TCHAR *)(ptr), (int)(size))
 #endif
 
 
@@ -120,7 +124,7 @@ typedef struct block_ *block;
 #define NICE_BLOCK_SIZE ((SIZE_T)4096-ROUNDUP(sizeof(struct block_)))
 
 
-extern void mem_fatal ARGS((char *));
+extern void mem_fatal ARGS((TCHAR *));
 
 // tbd skn
 extern void mem_quit ARGS((void));

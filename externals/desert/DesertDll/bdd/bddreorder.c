@@ -2,6 +2,7 @@
 
 
 #include "bddint.h"
+#include <tchar.h>
 
 
 static
@@ -124,7 +125,7 @@ bdd_exchange_aux(bddm, f, next_indexindex)
 	decrefs(f2);
       }
     else
-      bdd_fatal("bdd_exchange_aux: how did this happen?");
+      bdd_fatal(_T("bdd_exchange_aux: how did this happen?"));
   }
 }
 
@@ -433,12 +434,12 @@ bdd_reorder_window3(bddm, b, i)
 static
 void
 #if defined(__STDC__)
-bdd_reorder_stable_window3_aux(bdd_manager bddm, block b, char *levels)
+bdd_reorder_stable_window3_aux(bdd_manager bddm, block b, TCHAR *levels)
 #else
 bdd_reorder_stable_window3_aux(bddm, b, levels)
      bdd_manager bddm;
      block b;
-     char *levels;
+     TCHAR *levels;
 #endif
 {
   long i;
@@ -500,9 +501,9 @@ bdd_reorder_stable_window3(bddm)
      bdd_manager bddm;
 #endif
 {
-  char *levels;
+  TCHAR *levels;
 
-  levels=(char *)mem_get_block(bddm->vars*sizeof(char));
+  levels=(TCHAR *)mem_get_block(bddm->vars*sizeof(TCHAR));
   bdd_reorder_stable_window3_aux(bddm, bddm->super_block, levels);
   mem_free_block((pointer)levels);
 }
@@ -795,7 +796,7 @@ bdd_nuke_internal_references(bddm)
 		  f= &g->next;
 		}
 	      else
-		bdd_fatal("bdd_nuke_internal_references: what happened?");
+		bdd_fatal(_T("bdd_nuke_internal_references: what happened?"));
 	    }
 	}
     }

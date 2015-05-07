@@ -10,7 +10,6 @@
   <Target Name="CheckEnv" DependsOnTargets="CheckEnvGme;CheckEnvUdm">
     <Error Text="DESERT_PATH='$(DESERT_PATH)' doesn't exist" Condition="!Exists('$(DESERT_PATH)')"/>
     <Error Text="META_PATH='$(META_PATH)' doesn't exist" Condition="!Exists('$(META_PATH)')"/>
-    <Error Text="THIRDPARTY_PATH='$(THIRDPARTY_PATH)' doesn't exist" Condition="!Exists('$(THIRDPARTY_PATH)')"/>
   </Target>
 
   <Target Name="Desert" DependsOnTargets="CheckEnv">
@@ -20,7 +19,7 @@
     <PropertyGroup>
       <DesertPlatform Condition="'$(Platform)'!='x64'">Win32</DesertPlatform>
     </PropertyGroup>
-    <MSBuild Projects="externals/desert/desertVS2010.sln" Properties="Configuration=$(Configuration);Platform=$(DesertPlatform)" Targets="Build"/>
+    <MSBuild Projects="externals/desert/desertVS2010.sln" Properties="Configuration=$(Configuration)Unicode;Platform=$(DesertPlatform)" Targets="Build"/>
   </Target>
 
   <Target Name="CyPhyML" DependsOnTargets="CheckEnv;Desert">

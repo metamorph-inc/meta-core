@@ -2,6 +2,7 @@
 
 
 #include "bddint.h"
+#include <tchar.h>
 
 
 #define HASH1(d1) ((INT_PTR)d1)
@@ -686,7 +687,7 @@ bdd_cache_functions(bddm, args, gc_fn, purge_fn, return_fn, flush_fn)
   else
     {
       rehash_fn=0;
-      bdd_fatal("bdd_cache_functions: illegal number of cache arguments");
+      bdd_fatal(_T("bdd_cache_functions: illegal number of cache arguments"));
     }
   for (i=CACHE_TYPE_USER1; i < CACHE_TYPE_USER1+USER_ENTRY_TYPES; ++i)
     if (!bddm->op_cache.rehash_fn[i])
@@ -732,7 +733,7 @@ bdd_free_cache_tag(bddm, tag)
   if (tag < CACHE_TYPE_USER1 ||
       tag >= CACHE_TYPE_USER1+USER_ENTRY_TYPES ||
       !bddm->op_cache.rehash_fn[tag])
-    bdd_fatal("bdd_free_cache_tag: attempt to free unallocated tag");
+    bdd_fatal(_T("bdd_free_cache_tag: attempt to free unallocated tag"));
   bdd_flush_cache(bddm, bdd_flush_tag, (pointer)tag);
   bddm->op_cache.rehash_fn[tag]=0;
   bddm->op_cache.gc_fn[tag]=0;

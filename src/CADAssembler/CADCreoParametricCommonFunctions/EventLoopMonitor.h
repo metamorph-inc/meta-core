@@ -7,11 +7,8 @@
 namespace isis {
 class EventLoopMonitor {
 public:
-	boost::mutex m_mutex;
-	log4cpp::Category& m_logcat;
+	
 
-	EventLoopMonitor();
-    void CreoEventLoop();
 
 };
 }

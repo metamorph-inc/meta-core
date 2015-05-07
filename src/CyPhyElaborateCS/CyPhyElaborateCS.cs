@@ -416,7 +416,7 @@ namespace CyPhyElaborateCS
                 if (this.Logger == null)
                 {
                     this.Logger = new CyPhyGUIs.GMELogger(project, this.ComponentName);
-                    this.Logger.GMEConsoleLoggingLevel = this.Convert(param) == ComponentStartMode.GME_SILENT_MODE ?
+                    this.Logger.LoggingLevel = this.Logger.GMEConsoleLoggingLevel = this.Convert(param) == ComponentStartMode.GME_SILENT_MODE ?
                         CyPhyGUIs.SmartLogger.MessageType_enum.Warning :
                         CyPhyGUIs.SmartLogger.MessageType_enum.Info;
                     shouldDisposeLogger = true;

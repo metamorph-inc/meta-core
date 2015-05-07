@@ -3,84 +3,92 @@
 */
 
 #include "core/bddmain.h"
-#include "muParser.h"
+
+#include "muparser_wrapper.h"
+
+#include <string>
+#ifdef _UNICODE
+typedef std::wstring tstring;
+typedef std::wstringstream tstringstream;
+#else
+typedef std::string tstring;
+typedef std::stringstream tstringstream;
+#endif
 
 
 extern "C"
 double mtbdd_call_muParser_math_function(double to, bdd_unary_math_function math_function)
 {
-   mu::Parser parser;
-   parser.ResetLocale();
-   std::string expression;
-   std::stringstream expressionStr;
+   tstring expression;
+   tstringstream expressionStr;
    switch(math_function)
    {
    case bdd_sin:
-	   expressionStr << "sin(" << to << ")";
+	   expressionStr << _T("sin(") << to << _T(")");
 	   break;
    case bdd_cos:
-	   expressionStr << "cos(" << to << ")";
+	   expressionStr << _T("cos(") << to << _T(")");
 	   break;
    case bdd_tan:
-	   expressionStr << "tan(" << to << ")";
+	   expressionStr << _T("tan(") << to << _T(")");
 	   break;
    case bdd_asin:
-	   expressionStr << "asin(" << to << ")";
+	   expressionStr << _T("asin(") << to << _T(")");
 	   break;
    case bdd_acos:
-	   expressionStr << "acos(" << to << ")";
+	   expressionStr << _T("acos(") << to << _T(")");
 	   break;
    case bdd_atan:
-	   expressionStr << "atan(" << to << ")";
+	   expressionStr << _T("atan(") << to << _T(")");
 	   break;
    case bdd_sinh:
-	   expressionStr << "sinh(" << to << ")";
+	   expressionStr << _T("sinh(") << to << _T(")");
 	   break;
    case bdd_cosh:
-	   expressionStr << "cosh(" << to << ")";
+	   expressionStr << _T("cosh(") << to << _T(")");
 	   break;
    case bdd_tanh:
-	   expressionStr << "tanh(" << to << ")";
+	   expressionStr << _T("tanh(") << to << _T(")");
 	   break;
    case bdd_asinh:
-	   expressionStr << "asinh(" << to << ")";
+	   expressionStr << _T("asinh(") << to << _T(")");
 	   break;
    case bdd_acosh:
-	   expressionStr << "acosh(" << to << ")";
+	   expressionStr << _T("acosh(") << to << _T(")");
 	   break;
    case bdd_atanh:
-	   expressionStr << "atanh(" << to << ")";
+	   expressionStr << _T("atanh(") << to << _T(")");
 	   break;
    case bdd_log2:
-	   expressionStr << "log2(" << to << ")";
+	   expressionStr << _T("log2(") << to << _T(")");
 	   break;
    case bdd_log10:
-	   expressionStr << "log10(" << to << ")";
+	   expressionStr << _T("log10(") << to << _T(")");
 	   break;
    case bdd_ln:
-	   expressionStr << "ln(" << to << ")";
+	   expressionStr << _T("ln(") << to << _T(")");
 	   break;
    case bdd_exp:
-	   expressionStr << "exp(" << to << ")";
+	   expressionStr << _T("exp(") << to << _T(")");
 	   break;
    case bdd_sqrt:
-	   expressionStr << "sqrt(" << to << ")";
+	   expressionStr << _T("sqrt(") << to << _T(")");
 	   break;
    case bdd_sign:
-	   expressionStr << "sign(" << to << ")";
+	   expressionStr << _T("sign(") << to << _T(")");
 	   break;
    case bdd_rint:
-	   expressionStr << "rint(" << to << ")";
+	   expressionStr << _T("rint(") << to << _T(")");
 	   break;
    case bdd_abs:
-	   expressionStr << "abs(" << to << ")";
+	   expressionStr << _T("abs(") << to << _T(")");
 	   break;
    default:
 	   break;
    }
    expression = expressionStr.str();
-   parser.SetExpr(expression);
-  return parser.Eval();
+
+   return muParserSetAndEval(expression);
 }
 
 extern "C"
@@ -95,7 +103,7 @@ int call_muParser_math_function(double arg, double *ret, bdd_unary_math_function
 	try{
 		*ret = mtbdd_call_muParser_math_function(arg, math_function);
 	}
-	catch(mu::Parser::exception_type &e)
+	catch(std::exception &e)
 	{
 		return 1;
 	}

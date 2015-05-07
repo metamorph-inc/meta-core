@@ -76,8 +76,6 @@ message Edit {
 */
 message Action {
     enum ActionMode {
-      /** do whatever is needed to discard the named items */
-      DISCARD = 0;
       /** insert new or update all the fields */
       INSERT = 1;
       /** replace an existing with the new */
@@ -90,9 +88,43 @@ message Action {
       CLEAR = 5;
       /** switch to a different mode of operation */
       SWITCH = 6;
+	  
+	  /* New actions. They ought to supersede the above */
+	  /* Open a brand new or update the existing component in CAD. */
+	  UPDATE_CAD_COMPONENT = 7; 
+	  /* Create a new CyPhy component. */
+	  CREATE_CYPHY_COMPONENT = 8; 
+	  /* Update the component in CyPhy with new information from CAD. */
+	  UPDATE_CYPHY_COMPONENT = 9;
+	  /* Create analysis point(s). */
+	  CREATE_ANALYSIS_POINTS = 10;
+	  /* Add a new component to a design. */
+	  ADD_COMPONENT_TO_CYPHY_DESIGN = 11;
+	  /* Select a component (in GME) */
+	  SELECT_CYPHY_COMPONENT = 12;
+	  /* Remove a component from a design (in Cyphy) */
+	  REMOVE_CYPHY_DESIGN_COMPONENT = 13;
+	  /* Request a list of components (from Cyphy) */
+	  REQUEST_COMPONENT_LIST = 14;
+	  /* Resync a design */
+	  RESYNC = 15;
+	  /* Creates a connector in an existing component */
+	  ADD_CONNECTOR_TO_COMPONENT = 16;
+	  /* Opens a brand new or changes an existing design. */
+	  CREATE_CYPHY_DESIGN = 17;
+	  /* Opens a brand new or changes an existing design. */
+	  UPDATE_CYPHY_DESIGN = 18;
+	  /* Add a new component to a design open in CAD. */
+	  ADD_COMPONENT_TO_CAD_DESIGN = 19;
+	  /* Create constraint (in CAD). */
+	  CONSTRAIN_COMPONENTS_CAD = 20;
+	  /* Create constraint (in Cyphy). */
+	  CONNECT_COMPONENTS_CYPHY = 21;
+	  
     }
     required ActionMode actionMode = 1 [default=REPLACE];
     optional string guid = 2;
+	
 
     optional Alien alien = 3;
 
@@ -102,7 +134,10 @@ message Action {
     repeated Notice notices = 6;
     repeated ComponentManifestNode manifest = 7;
 
-    optional Interest interest = 8;
+    /*optional Interest interest = 8;*/
+	
+	/* ID of the Action's subject. This is context-dependent, can be AVMID, DesignID, DatumName, etc. */
+	optional string subjectID = 9;
 }
 
 /**
@@ -169,24 +204,18 @@ message Environment {
 */
 message Notice {
     enum NoticeMode {
-      /** the bridge received your post and has acknowledged it */
-      BACK = 0;
       /** what you asked for was received */
-      ACK = 1;
+      ACK = 0;
       /** what you asked for was completed */
-      DONE = 2;
-      /** something interesting happened */
-      INFO = 3;
+      DONE = 1;
       /** there was a problem but the model is still consistent (probably) */
-      WARN = 4;
+      WARN = 3;
       /** there was a severe problem but it "worked" */
-      FAULT = 5;
-      /** no part of the request was performed */
-      REJECT = 6;
+      FAULT = 4;
       /** the target model was probably damaged */
-      FAIL = 7;
+      FAIL = 6;
     }
-    required NoticeMode noticeMode = 1 [default=BACK];
+    required NoticeMode noticeMode = 1 [default=ACK];
     /** the unique identifier */
     optional string id = 2;
     /** intended for reading by a human */

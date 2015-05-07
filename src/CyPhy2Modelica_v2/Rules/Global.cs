@@ -155,7 +155,21 @@ namespace CyPhy2Modelica_v2.Rules
                         return result;
                     }
                 }
+                // META-3622
+                if (property.ParentContainer is CyPhy.ComponentAssembly)
+                {
+                    if (String.IsNullOrWhiteSpace(property.Attributes.Dimension) == false && property.Attributes.Dimension.Trim() != "1")
+                    {
+                        var feedback = new GenericRuleFeedback()
+                        {
+                            FeedbackType = FeedbackTypes.Warning,
+                            Message = "Property has Dimension != 1 - it will not be generated."
+                        };
 
+                        feedback.InvolvedObjectsByRole.Add(property.Impl as IMgaFCO);
+                        result.Add(feedback);
+                    }
+                }
                 var vf = property.SrcConnections.ValueFlowCollection.FirstOrDefault();
                 if (vf != null)
                 {
@@ -229,6 +243,21 @@ namespace CyPhy2Modelica_v2.Rules
                     if (component.Children.ModelicaModelCollection.Any() == false)
                     {
                         return result;
+                    }
+                }
+                // META-3622
+                if (parameter.ParentContainer is CyPhy.Component || parameter.ParentContainer is CyPhy.ComponentAssembly)
+                {
+                    if (String.IsNullOrWhiteSpace(parameter.Attributes.Dimension) == false && parameter.Attributes.Dimension.Trim() != "1")
+                    {
+                        var feedback = new GenericRuleFeedback()
+                        {
+                            FeedbackType = FeedbackTypes.Warning,
+                            Message = "Parameter has Dimension != 1 - it will not be generated. This will break mapped value flow chains."
+                        };
+
+                        feedback.InvolvedObjectsByRole.Add(parameter.Impl as IMgaFCO);
+                        result.Add(feedback);
                     }
                 }
                 var range = parameter.Attributes.Range.Trim().TrimStart('[').TrimEnd(']').Trim();

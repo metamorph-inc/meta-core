@@ -5,14 +5,14 @@
 #include "common/error.h"
 #include "time.h"
 
-static const char *logName="error.log";
+static const TCHAR *logName=_T("error.log");
 
 static FILE *log=0;
 static bool touchLog=false;
-static char buf[1024];
+static TCHAR buf[1024];
 
-static void Log(const char *msg, const char *loc, int level);
-static void Display(const char *msg, const char *loc, int level);
+static void Log(const TCHAR *msg, const TCHAR *loc, int level);
+static void Display(const TCHAR *msg, const TCHAR *loc, int level);
 static void AbortHandler(int level);
 
 static CErrorLevel ignoreLevel = cError;
@@ -34,21 +34,21 @@ void SetAbortLevel(CErrorLevel level)
   abortLevel = level;
 }
 
-void StartLogging(const char *n, bool append)
+void StartLogging(const TCHAR *n, bool append)
 {
   if (n) logName = n;
   if(!append)
-	log = fopen(logName, "w");
+	log = _tfopen(logName, _T("w"));
   else
   {
-	log = fopen(logName, "a");
+	log = _tfopen(logName, _T("a"));
 
-	char currtime[128];
+	TCHAR currtime[128];
 	time_t now = time(0);
 	struct tm* tm = localtime(&now);
-	sprintf(currtime,"%02d-%02d-%04d  %02d:%02d:%02d", (tm->tm_mon + 1), tm->tm_mday, (tm->tm_year+1900), tm->tm_hour, tm->tm_min, tm->tm_sec);
+	_sntprintf(currtime, _countof(currtime), _T("%02d-%02d-%04d  %02d:%02d:%02d"), (tm->tm_mon + 1), tm->tm_mday, (tm->tm_year+1900), tm->tm_hour, tm->tm_min, tm->tm_sec);
 
-	fprintf(log, "\n=====Run Desert at %s======\n", currtime);
+	_ftprintf(log, _T("\n=====Run Desert at %s======\n"), currtime);
   }
 }
 
@@ -60,56 +60,56 @@ void StopLogging(void)
     fclose(log);
     log = 0;
   }
-  if (!touchLog) _unlink(logName);
+  if (!touchLog) _tunlink(logName);
 }
 
-void Todo(const char *loc, const char *fmt, ...)
+void Todo(const TCHAR *loc, const TCHAR *fmt, ...)
 {
   va_list ap;
   va_start(ap, fmt);
-  vsprintf(buf, fmt, ap);
+  _vsntprintf(buf, _countof(buf), fmt, ap);
   va_end(ap);
 
   Log(buf, loc, cTodo);
 }
 
-void Info(const char *loc, const char *fmt, ...)
+void Info(const TCHAR *loc, const TCHAR *fmt, ...)
 {
   va_list ap;
   va_start(ap, fmt);
-  vsprintf(buf, fmt, ap);
+  _vsntprintf(buf, _countof(buf), fmt, ap);
   va_end(ap);
 
   Log(buf, loc, cInfo);
 }
 
-void Warning(const char *loc, const char *fmt, ...)
+void Warning(const TCHAR *loc, const TCHAR *fmt, ...)
 {
   va_list ap;
   va_start(ap, fmt);
-  vsprintf(buf, fmt, ap);
+  _vsntprintf(buf, _countof(buf), fmt, ap);
   va_end(ap);
 
   Log(buf, loc, cWarning);
   Display(buf, loc, cWarning);
 }
 
-void Error(const char *loc, const char *fmt, ...)
+void Error(const TCHAR *loc, const TCHAR *fmt, ...)
 {
   va_list ap;
   va_start(ap, fmt);
-  vsprintf(buf, fmt, ap);
+  _vsntprintf(buf, _countof(buf), fmt, ap);
   va_end(ap);
 
   Log(buf, loc, cError);
   Display(buf, loc, cError);
 }
 
-void Fatal(const char *loc, const char *fmt, ...)
+void Fatal(const TCHAR *loc, const TCHAR *fmt, ...)
 {
   va_list ap;
   va_start(ap, fmt);
-  vsprintf(buf, fmt, ap);
+  _vsntprintf(buf, _countof(buf), fmt, ap);
   va_end(ap);
 
   Log(buf, loc, cFatal);
@@ -117,7 +117,7 @@ void Fatal(const char *loc, const char *fmt, ...)
   AbortHandler(cFatal);
 }
 
-static void Log(const char *msg, const char *loc, int level)
+static void Log(const TCHAR *msg, const TCHAR *loc, int level)
 {
   if (!log) return;
   touchLog = true;
@@ -125,22 +125,22 @@ static void Log(const char *msg, const char *loc, int level)
   switch(level)
   {
   case cTodo:
-    fprintf(log, "Todo:<%s>: %s\n", loc, msg);
+    _ftprintf(log, _T("Todo:<%s>: %s\n"), loc, msg);
     break;
   case cInfo:
-    fprintf(log, "Info:<%s>: %s\n", loc, msg);
+    _ftprintf(log, _T("Info:<%s>: %s\n"), loc, msg);
     break;
   case cWarning:
-    fprintf(log, "Warning:<%s>: %s\n", loc, msg);
+    _ftprintf(log, _T("Warning:<%s>: %s\n"), loc, msg);
     break;
   case cError:
-    fprintf(log, "Error:<%s>: %s\n", loc, msg);
+    _ftprintf(log, _T("Error:<%s>: %s\n"), loc, msg);
     break;
   case cFatal:
-    fprintf(log, "Fatal:<%s>: %s\n", loc, msg);
+    _ftprintf(log, _T("Fatal:<%s>: %s\n"), loc, msg);
     break;
   default:
-    fprintf(log, "Unknown:<%s>: %s\n", loc, msg);
+    _ftprintf(log, _T("Unknown:<%s>: %s\n"), loc, msg);
   }
 }
 
@@ -159,7 +159,7 @@ void AbortHandler(int level)
   abort();
 }
 
-static void Display(const char *msg, const char *loc, int level)
+static void Display(const TCHAR *msg, const TCHAR *loc, int level)
 {
   if (level < ignoreLevel) return;
 
@@ -167,7 +167,7 @@ static void Display(const char *msg, const char *loc, int level)
   if (app)
   {
     CString str;
-    str.Format("%s\n%s", msg, loc);
+    str.Format(_T("%s\n%s"), msg, loc);
     AfxMessageBox(str, (level > cWarning) ? MB_OK | MB_ICONSTOP : MB_OK);
   }
   else
@@ -175,16 +175,16 @@ static void Display(const char *msg, const char *loc, int level)
     switch(level)
     {
     case cWarning:
-      fprintf(stderr, "Warning:<%s>: %s\n", loc, msg);
+      _ftprintf(stderr, _T("Warning:<%s>: %s\n"), loc, msg);
       break;
     case cError:
-      fprintf(stderr, "Error:<%s>: %s\n", loc, msg);
+      _ftprintf(stderr, _T("Error:<%s>: %s\n"), loc, msg);
       break;
     case cFatal:
-      fprintf(stderr, "Fatal:<%s>: %s\n", loc, msg);
+      _ftprintf(stderr, _T("Fatal:<%s>: %s\n"), loc, msg);
       break;
     default:
-      fprintf(stderr, "Unknown:<%s>: %s\n", loc, msg);
+      _ftprintf(stderr, _T("Unknown:<%s>: %s\n"), loc, msg);
     }
   }
 }

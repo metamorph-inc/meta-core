@@ -10,7 +10,7 @@ CConfigurationStore::
 CreateConfigurationRoot(long id)
 {
   CConfigurationRoot *root = new CConfigurationRoot(id);
-  ASSERT_EX(root, "CConfigurationStore::CreateConfigurationRoot", "new failed");
+  ASSERT_EX(root, _T("CConfigurationStore::CreateConfigurationRoot"), _T("new failed"));
   roots.AddTail(root);
   return root;
 }
@@ -26,7 +26,7 @@ CreateConfigurationRoot(long id)
 //    ar.Close();
 //    file.Close();
 //  } CATCH_ALL(e) {
-//    Error("CConfigurationStore::Store", "Exception: Unable to open file <%s>", name);
+//    Error(_T("CConfigurationStore::Store"), _T("Exception: Unable to open file <%s>"), name);
 //    return false;
 //  } END_CATCH_ALL;
 //  return true;
@@ -43,7 +43,7 @@ CreateConfigurationRoot(long id)
 //    ar.Close();
 //    file.Close();
 //  } CATCH_ALL(e) {
-//    Error("CConfigurationStore::Load", "Exception: Unable to open file <%s>", name);
+//    Error(_T("CConfigurationStore::Load"), _T("Exception: Unable to open file <%s>"), name);
 //    return false;
 //  } END_CATCH_ALL;
 //  return true;
@@ -91,7 +91,7 @@ CConfigurationRoot::
 CreateConfiguration()
 {
   CConfiguration *cfg = new CConfiguration(this);
-  ASSERT_EX(cfg, "CConfigurationRoot::CreateConfiguration", "new failed");
+  ASSERT_EX(cfg, _T("CConfigurationRoot::CreateConfiguration"), _T("new failed"));
   configurations.AddTail(cfg);
   return cfg;
 }
@@ -124,7 +124,7 @@ CConfiguration::
 CreateComponent(long id, long assTo)
 {
   CComponent *comp = new CComponent(id, assTo);
-  ASSERT_EX(comp, "CConfiguration::CreateComponent", "new failed");
+  ASSERT_EX(comp, _T("CConfiguration::CreateComponent"), _T("new failed"));
   components.AddTail(comp);
   return comp;
 }

@@ -1055,6 +1055,7 @@ return joint_type_name_map[in_JointType]
 */
 std::string JointType_string ( JointType in_JointType)
 {
+
 	switch ( in_JointType )
 	{
 		case  COMPOSITE:

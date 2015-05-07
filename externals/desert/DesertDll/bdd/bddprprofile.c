@@ -3,17 +3,18 @@
 
 #include "bddint.h"
 #include <string.h>
+#include <tchar.h>
 
-static char profile_width[]="XXXXXXXXX";
+static TCHAR profile_width[]=_T("XXXXXXXXX");
 
 
 static
 void
 #if defined(__STDC__)
-chars(char c, int n, FILE *fp)
+chars(TCHAR c, int n, FILE *fp)
 #else
 chars(c, n, fp)
-     char c;
+     TCHAR c;
      int n;
      FILE *fp;
 #endif
@@ -34,7 +35,7 @@ void
 #if defined(__STDC__)
 bdd_print_profile_aux(bdd_manager bddm,
 		      long *level_counts,
-		      char *(*var_naming_fn)(bdd_manager, bdd, pointer),
+		      TCHAR *(*var_naming_fn)(bdd_manager, bdd, pointer),
 		      pointer env,
 		      int line_length,
 		      FILE *fp)
@@ -42,7 +43,7 @@ bdd_print_profile_aux(bdd_manager bddm,
 bdd_print_profile_aux(bddm, level_counts, var_naming_fn, env, line_length, fp)
      bdd_manager bddm;
      long *level_counts;
-     char *(*var_naming_fn)();
+     TCHAR *(*var_naming_fn)();
      pointer env;
      int line_length;
      FILE *fp;
@@ -50,7 +51,7 @@ bdd_print_profile_aux(bddm, level_counts, var_naming_fn, env, line_length, fp)
 {
   long i, n;
   int l;
-  char *name;
+  TCHAR *name;
   int max_prefix_len;
   int max_profile_width;
   int histogram_column;
@@ -66,8 +67,8 @@ bdd_print_profile_aux(bddm, level_counts, var_naming_fn, env, line_length, fp)
   for (i=0; i < n; ++i)
     if (level_counts[i])
       {
-	sprintf(profile_width, "%d", level_counts[i]);
-	l=strlen(bdd_var_name(bddm, bddm->variables[bddm->indexindexes[i]], var_naming_fn, env))+strlen(profile_width);
+	_sntprintf(profile_width, _countof(profile_width), _T("%d"), level_counts[i]);
+	l=_tcslen(bdd_var_name(bddm, bddm->variables[bddm->indexindexes[i]], var_naming_fn, env))+_tcslen(profile_width);
 	if (l > max_prefix_len)
 	  max_prefix_len=l;
 	if (level_counts[i] > max_profile_width)
@@ -86,19 +87,19 @@ bdd_print_profile_aux(bddm, level_counts, var_naming_fn, env, line_length, fp)
     if (level_counts[i])
       {
 	name=bdd_var_name(bddm, bddm->variables[bddm->indexindexes[i]], var_naming_fn, env);
-	fputs(name, fp);
+	_fputts(name, fp);
 	fputc(':', fp);
-	sprintf(profile_width, "%d", level_counts[i]);
-	chars(' ', (int)(max_prefix_len-strlen(name)-strlen(profile_width)+1), fp);
-	fputs(profile_width, fp);
+	_sntprintf(profile_width, _countof(profile_width), _T("%d"), level_counts[i]);
+	chars(' ', (int)(max_prefix_len-_tcslen(name)-_tcslen(profile_width)+1), fp);
+	_fputts(profile_width, fp);
 	fputc(' ', fp);
 	chars('#', level_counts[i]/profile_scale, fp);
 	fputc('\n', fp);
       }
   fputs("leaf:", fp);
-  sprintf(profile_width, "%d", level_counts[n]);
-  chars(' ', (int)(max_prefix_len-4-strlen(profile_width)+1), fp);
-  fputs(profile_width, fp);
+  _sntprintf(profile_width, _countof(profile_width), _T("%d"), level_counts[n]);
+  chars(' ', (int)(max_prefix_len-4-_tcslen(profile_width)+1), fp);
+  _fputts(profile_width, fp);
   fputc(' ', fp);
   chars('#', level_counts[n]/profile_scale, fp);
   fputc('\n', fp);
@@ -114,7 +115,7 @@ void
 #if defined(__STDC__)
 bdd_print_profile(bdd_manager bddm,
 		  bdd f,
-		  char *(*var_naming_fn)(bdd_manager, bdd, pointer),
+		  TCHAR *(*var_naming_fn)(bdd_manager, bdd, pointer),
 		  pointer env,
 		  int line_length,
 		  FILE *fp)
@@ -122,7 +123,7 @@ bdd_print_profile(bdd_manager bddm,
 bdd_print_profile(bddm, f, var_naming_fn, env, line_length, fp)
      bdd_manager bddm;
      bdd f;
-     char *(*var_naming_fn)();
+     TCHAR *(*var_naming_fn)();
      pointer env;
      int line_length;
      FILE *fp;
@@ -149,7 +150,7 @@ void
 #if defined(__STDC__)
 bdd_print_profile_multiple(bdd_manager bddm,
 			   bdd* fs,
-			   char *(*var_naming_fn)(bdd_manager, bdd, pointer),
+			   TCHAR *(*var_naming_fn)(bdd_manager, bdd, pointer),
 			   pointer env,
 			   int line_length,
 			   FILE *fp)
@@ -157,7 +158,7 @@ bdd_print_profile_multiple(bdd_manager bddm,
 bdd_print_profile_multiple(bddm, fs, var_naming_fn, env, line_length, fp)
      bdd_manager bddm;
      bdd *fs;
-     char *(*var_naming_fn)();
+     TCHAR *(*var_naming_fn)();
      pointer env;
      int line_length;
      FILE *fp;
@@ -180,7 +181,7 @@ void
 #if defined(__STDC__)
 bdd_print_function_profile(bdd_manager bddm,
 			   bdd f,
-			   char *(*var_naming_fn)(bdd_manager, bdd, pointer),
+			   TCHAR *(*var_naming_fn)(bdd_manager, bdd, pointer),
 			   pointer env,
 			   int line_length,
 			   FILE *fp)
@@ -188,7 +189,7 @@ bdd_print_function_profile(bdd_manager bddm,
 bdd_print_function_profile(bddm, f, var_naming_fn, env, line_length, fp)
      bdd_manager bddm;
      bdd f;
-     char *(*var_naming_fn)();
+     TCHAR *(*var_naming_fn)();
      pointer env;
      int line_length;
      FILE *fp;
@@ -215,7 +216,7 @@ void
 #if defined(__STDC__)
 bdd_print_function_profile_multiple(bdd_manager bddm,
 				    bdd* fs,
-				    char *(*var_naming_fn)(bdd_manager, bdd, pointer),
+				    TCHAR *(*var_naming_fn)(bdd_manager, bdd, pointer),
 				    pointer env,
 				    int line_length,
 				    FILE *fp)
@@ -223,7 +224,7 @@ bdd_print_function_profile_multiple(bdd_manager bddm,
 bdd_print_function_profile_multiple(bddm, fs, var_naming_fn, env, line_length, fp)
      bdd_manager bddm;
      bdd* fs;
-     char *(*var_naming_fn)();
+     TCHAR *(*var_naming_fn)();
      pointer env;
      int line_length;
      FILE *fp;

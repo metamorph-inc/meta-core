@@ -973,6 +973,8 @@ namespace CAD {
         
         private string detailsField;
         
+        private string metricNameField;
+        
         private string _idField;
         
         private string _archetypeField;
@@ -1043,6 +1045,17 @@ namespace CAD {
             }
             set {
                 this.detailsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string MetricName {
+            get {
+                return this.metricNameField;
+            }
+            set {
+                this.metricNameField = value;
             }
         }
         

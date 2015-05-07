@@ -21,7 +21,6 @@ typedef const pair<long const, DesertBase > DesertUdmMapItem;
 
 
 
-
 typedef set<DesertIface::Element> UdmElementSet;
 typedef set<DesertIface::Member> UdmMemberSet;
 

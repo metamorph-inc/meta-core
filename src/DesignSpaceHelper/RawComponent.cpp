@@ -52,9 +52,6 @@ STDMETHODIMP RawComponent::Invoke(IMgaProject* gme, IMgaFCOs *models, long param
 	CComVariant parval = param;
 	return InvokeEx(gme, focus, selected, parvar);
 #else
-	if(interactive) {
-		AfxMessageBox("This component does not support the obsolete invoke mechanism");
-	}
 	return E_MGA_NOT_SUPPORTED;
 #endif
 }
@@ -287,9 +284,6 @@ HRESULT RawComponent::Main(IMgaProject *project,  IMgaFCO *currentobj, bool appl
 // GME currently does not use this function
 // you only need to implement it if other invokation mechanisms are used
 STDMETHODIMP RawComponent::ObjectsInvokeEx( IMgaProject *project,  IMgaObject *currentobj,  IMgaObjects *selectedobjs,  long param) {
-	if(interactive) {
-		AfxMessageBox("Tho ObjectsInvoke method is not implemented");
-	}
 	return E_MGA_NOT_SUPPORTED;
 }
 

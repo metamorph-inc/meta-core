@@ -535,7 +535,7 @@ void Add_Subassemblies_and_Parts(
 			in_CADComponentData_map[*itr].componentPaths.push_back((assembled_feat_handle).id);
 			in_CADComponentData_map[*itr].addedToAssemblyOrdinal =	in_out_addedToAssemblyOrdinal++;
 
-			logcat_consoleandfile.infoStream() <<  "   Assembly: " << in_ParentName << "   Added: "  << ModelNameWithSuffix; 
+			logcat_consoleandfile.infoStream() <<  "   Assembly: " << in_ParentName << "   Added Model: "  << ModelNameWithSuffix; 
 			logcat_fileonly.infoStream() << "       Added Model  componentInstanceID:   " <<  in_CADComponentData_map[*itr].componentID;
 			logcat_fileonly.infoStream() << "       Added Model  parentComponentID:     " <<  in_CADComponentData_map[*itr].parentComponentID;
 			logcat_fileonly.infoStream() << "       Added Model  p_model:               " <<  in_CADComponentData_map[*itr].p_model; 
@@ -671,6 +671,7 @@ void For_SizeToFit_ComponentsWithDependentsPresentAtThisLevel_AddAndConstrain(
 			// Can constrain this SIZE_TO_FIT component
 			isis::ApplyModelConstraints( in_factory,
 											&in_CADComponentData_map[in_AssemblyComponentID].modelHandle, //ProSolid	 in_assembly_model,
+											in_AssemblyComponentID,
 											Single_SIZE_TO_FIT_Component,
 											in_AllowUnconstrainedModels,
 											in_CADComponentData_map, 
@@ -983,6 +984,7 @@ void AssembleCADComponent(
 
 	bool fail = isis::ApplyModelConstraints( in_factory,
 									(ProSolid*)&p_asm, //ProSolid	 in_assembly_model,
+									in_AssemblyComponentID,
 									SortedComponents,
 									in_AllowUnconstrainedModels,
 									in_CADComponentData_map,
@@ -1046,6 +1048,15 @@ void AssembleCADComponent(
 		}
 
 		if ( !out_RegenerationSucceeded )  // try to regenerate a fifth time
+		{
+			out_RegenerationSucceeded = true;
+			RegenerateModel(	(ProSolid)p_asm,
+								in_CADComponentData_map[in_AssemblyComponentID].name,
+								in_CADComponentData_map[in_AssemblyComponentID].componentID,
+								out_RegenerationSucceeded);
+		}
+
+		if ( !out_RegenerationSucceeded )  // try to regenerate a sixth time
 		{
 			out_RegenerationSucceeded = true;
 			RegenerateModel(	(ProSolid)p_asm,

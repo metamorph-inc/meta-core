@@ -202,6 +202,21 @@ namespace CyPhyMasterInterpreter.Rules
         /// <para><remarks>Execute within transaction.</remarks></para>
         /// </summary>
         /// <returns>Checker results.</returns>
+        protected IEnumerable<ContextCheckerResult> ValidateTestInjectionPoints()
+        {
+            List<ContextCheckerResult> result = new List<ContextCheckerResult>();
+            foreach (var tip in this.testBench.Children.TestInjectionPointCollection)
+            {
+                result.AddRange(this.ValidateTestInjectionPoint(tip.Impl as GME.MGA.MgaReference));
+            }
+            return result;
+        }
+            
+        /// <summary>
+        /// TODO: description what we check...
+        /// <para><remarks>Execute within transaction.</remarks></para>
+        /// </summary>
+        /// <returns>Checker results.</returns>
         protected IEnumerable<ContextCheckerResult> NoTestInjectionPoints()
         {
             List<ContextCheckerResult> results = new List<ContextCheckerResult>();

@@ -97,7 +97,7 @@ void protobuf_AssignDesc_MetaLinkMsg_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Action, environment_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Action, notices_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Action, manifest_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Action, interest_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Action, subjectid_),
   };
   Action_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -309,7 +309,7 @@ void protobuf_AddDesc_MetaLinkMsg_2eproto() {
     " .edu.vanderbilt.isis.meta.Notice\0221\n\007act"
     "ions\030\025 \003(\0132 .edu.vanderbilt.isis.meta.Ac"
     "tion\"\?\n\010EditMode\022\014\n\010INTEREST\020\001\022\017\n\013DISINT"
-    "EREST\020\002\022\010\n\004POST\020\003\022\n\n\006NOTICE\020\004\"\217\004\n\006Action"
+    "EREST\020\002\022\010\n\004POST\020\003\022\n\n\006NOTICE\020\004\"\207\007\n\006Action"
     "\022H\n\nactionMode\030\001 \002(\0162+.edu.vanderbilt.is"
     "is.meta.Action.ActionMode:\007REPLACE\022\014\n\004gu"
     "id\030\002 \001(\t\022.\n\005alien\030\003 \001(\0132\037.edu.vanderbilt"
@@ -319,38 +319,47 @@ void protobuf_AddDesc_MetaLinkMsg_2eproto() {
     "ironment\0221\n\007notices\030\006 \003(\0132 .edu.vanderbi"
     "lt.isis.meta.Notice\022A\n\010manifest\030\007 \003(\0132/."
     "edu.vanderbilt.isis.meta.ComponentManife"
-    "stNode\0224\n\010interest\030\010 \001(\0132\".edu.vanderbil"
-    "t.isis.meta.Interest\"a\n\nActionMode\022\013\n\007DI"
-    "SCARD\020\000\022\n\n\006INSERT\020\001\022\013\n\007REPLACE\020\002\022\n\n\006UPDA"
-    "TE\020\003\022\n\n\006SELECT\020\004\022\t\n\005CLEAR\020\005\022\n\n\006SWITCH\020\006\""
-    "&\n\010Interest\022\r\n\005topic\030\001 \003(\t\022\013\n\003uid\030\002 \003(\t\""
-    "\204\001\n\005Alien\022G\n\014encodingMode\030\001 \002(\0162,.edu.va"
-    "nderbilt.isis.meta.Alien.EncodingMode:\003X"
-    "ML\022\017\n\007encoded\030\002 \002(\014\"!\n\014EncodingMode\022\007\n\003X"
-    "ML\020\001\022\010\n\004JSON\020\002\"\200\003\n\007Payload\022<\n\nassemblies"
-    "\030\001 \001(\0132(.edu.vanderbilt.isis.meta.Assemb"
-    "liesType\022>\n\ncomponents\030\002 \003(\0132*.edu.vande"
-    "rbilt.isis.meta.CADComponentType\022=\n\013cons"
-    "traints\030\003 \003(\0132(.edu.vanderbilt.isis.meta"
-    ".ConstraintType\022F\n\nparameters\030\004 \003(\01322.ed"
-    "u.vanderbilt.isis.meta.ParametricParamet"
-    "ersType\0223\n\006datums\030\005 \003(\0132#.edu.vanderbilt"
-    ".isis.meta.DatumType\022;\n\nconnectors\030\006 \003(\013"
-    "2\'.edu.vanderbilt.isis.meta.ConnectorTyp"
-    "e\"<\n\tDatumType\022\023\n\013componentId\030\001 \001(\t\022\014\n\004t"
-    "ype\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\"*\n\013Environment\022\014"
-    "\n\004name\030\001 \002(\t\022\r\n\005value\030\002 \003(\t\"\326\001\n\006Notice\022E"
-    "\n\nnoticeMode\030\001 \002(\0162+.edu.vanderbilt.isis"
-    ".meta.Notice.NoticeMode:\004BACK\022\n\n\002id\030\002 \001("
-    "\t\022\013\n\003msg\030\003 \001(\t\022\014\n\004code\030\004 \001(\014\"^\n\nNoticeMo"
-    "de\022\010\n\004BACK\020\000\022\007\n\003ACK\020\001\022\010\n\004DONE\020\002\022\010\n\004INFO\020"
-    "\003\022\010\n\004WARN\020\004\022\t\n\005FAULT\020\005\022\n\n\006REJECT\020\006\022\010\n\004FA"
-    "IL\020\007\"\340\001\n\025ComponentManifestNode\022U\n\010nodeMo"
-    "de\030\001 \002(\01628.edu.vanderbilt.isis.meta.Comp"
-    "onentManifestNode.NodeMode:\tCOMPONENT\022\014\n"
-    "\004guid\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\022\025\n\rcyphyParent"
-    "Id\030\004 \001(\t\022\026\n\016componentGroup\030\005 \003(\t\"%\n\010Node"
-    "Mode\022\n\n\006FOLDER\020\000\022\r\n\tCOMPONENT\020\001", 2071);
+    "stNode\022\021\n\tsubjectID\030\t \001(\t\"\373\003\n\nActionMode"
+    "\022\n\n\006INSERT\020\001\022\013\n\007REPLACE\020\002\022\n\n\006UPDATE\020\003\022\n\n"
+    "\006SELECT\020\004\022\t\n\005CLEAR\020\005\022\n\n\006SWITCH\020\006\022\030\n\024UPDA"
+    "TE_CAD_COMPONENT\020\007\022\032\n\026CREATE_CYPHY_COMPO"
+    "NENT\020\010\022\032\n\026UPDATE_CYPHY_COMPONENT\020\t\022\032\n\026CR"
+    "EATE_ANALYSIS_POINTS\020\n\022!\n\035ADD_COMPONENT_"
+    "TO_CYPHY_DESIGN\020\013\022\032\n\026SELECT_CYPHY_COMPON"
+    "ENT\020\014\022!\n\035REMOVE_CYPHY_DESIGN_COMPONENT\020\r"
+    "\022\032\n\026REQUEST_COMPONENT_LIST\020\016\022\n\n\006RESYNC\020\017"
+    "\022\036\n\032ADD_CONNECTOR_TO_COMPONENT\020\020\022\027\n\023CREA"
+    "TE_CYPHY_DESIGN\020\021\022\027\n\023UPDATE_CYPHY_DESIGN"
+    "\020\022\022\037\n\033ADD_COMPONENT_TO_CAD_DESIGN\020\023\022\034\n\030C"
+    "ONSTRAIN_COMPONENTS_CAD\020\024\022\034\n\030CONNECT_COM"
+    "PONENTS_CYPHY\020\025\"&\n\010Interest\022\r\n\005topic\030\001 \003"
+    "(\t\022\013\n\003uid\030\002 \003(\t\"\204\001\n\005Alien\022G\n\014encodingMod"
+    "e\030\001 \002(\0162,.edu.vanderbilt.isis.meta.Alien"
+    ".EncodingMode:\003XML\022\017\n\007encoded\030\002 \002(\014\"!\n\014E"
+    "ncodingMode\022\007\n\003XML\020\001\022\010\n\004JSON\020\002\"\200\003\n\007Paylo"
+    "ad\022<\n\nassemblies\030\001 \001(\0132(.edu.vanderbilt."
+    "isis.meta.AssembliesType\022>\n\ncomponents\030\002"
+    " \003(\0132*.edu.vanderbilt.isis.meta.CADCompo"
+    "nentType\022=\n\013constraints\030\003 \003(\0132(.edu.vand"
+    "erbilt.isis.meta.ConstraintType\022F\n\nparam"
+    "eters\030\004 \003(\01322.edu.vanderbilt.isis.meta.P"
+    "arametricParametersType\0223\n\006datums\030\005 \003(\0132"
+    "#.edu.vanderbilt.isis.meta.DatumType\022;\n\n"
+    "connectors\030\006 \003(\0132\'.edu.vanderbilt.isis.m"
+    "eta.ConnectorType\"<\n\tDatumType\022\023\n\013compon"
+    "entId\030\001 \001(\t\022\014\n\004type\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\""
+    "*\n\013Environment\022\014\n\004name\030\001 \002(\t\022\r\n\005value\030\002 "
+    "\003(\t\"\265\001\n\006Notice\022D\n\nnoticeMode\030\001 \002(\0162+.edu"
+    ".vanderbilt.isis.meta.Notice.NoticeMode:"
+    "\003ACK\022\n\n\002id\030\002 \001(\t\022\013\n\003msg\030\003 \001(\t\022\014\n\004code\030\004 "
+    "\001(\014\">\n\nNoticeMode\022\007\n\003ACK\020\000\022\010\n\004DONE\020\001\022\010\n\004"
+    "WARN\020\003\022\t\n\005FAULT\020\004\022\010\n\004FAIL\020\006\"\340\001\n\025Componen"
+    "tManifestNode\022U\n\010nodeMode\030\001 \002(\01628.edu.va"
+    "nderbilt.isis.meta.ComponentManifestNode"
+    ".NodeMode:\tCOMPONENT\022\014\n\004guid\030\002 \001(\t\022\014\n\004na"
+    "me\030\003 \001(\t\022\025\n\rcyphyParentId\030\004 \001(\t\022\026\n\016compo"
+    "nentGroup\030\005 \003(\t\"%\n\010NodeMode\022\n\n\006FOLDER\020\000\022"
+    "\r\n\tCOMPONENT\020\001", 2414);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "MetaLinkMsg.proto", &protobuf_RegisterTypes);
   Edit::default_instance_ = new Edit();
@@ -963,13 +972,27 @@ const ::google::protobuf::EnumDescriptor* Action_ActionMode_descriptor() {
 }
 bool Action_ActionMode_IsValid(int value) {
   switch(value) {
-    case 0:
     case 1:
     case 2:
     case 3:
     case 4:
     case 5:
     case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 17:
+    case 18:
+    case 19:
+    case 20:
+    case 21:
       return true;
     default:
       return false;
@@ -977,13 +1000,27 @@ bool Action_ActionMode_IsValid(int value) {
 }
 
 #ifndef _MSC_VER
-const Action_ActionMode Action::DISCARD;
 const Action_ActionMode Action::INSERT;
 const Action_ActionMode Action::REPLACE;
 const Action_ActionMode Action::UPDATE;
 const Action_ActionMode Action::SELECT;
 const Action_ActionMode Action::CLEAR;
 const Action_ActionMode Action::SWITCH;
+const Action_ActionMode Action::UPDATE_CAD_COMPONENT;
+const Action_ActionMode Action::CREATE_CYPHY_COMPONENT;
+const Action_ActionMode Action::UPDATE_CYPHY_COMPONENT;
+const Action_ActionMode Action::CREATE_ANALYSIS_POINTS;
+const Action_ActionMode Action::ADD_COMPONENT_TO_CYPHY_DESIGN;
+const Action_ActionMode Action::SELECT_CYPHY_COMPONENT;
+const Action_ActionMode Action::REMOVE_CYPHY_DESIGN_COMPONENT;
+const Action_ActionMode Action::REQUEST_COMPONENT_LIST;
+const Action_ActionMode Action::RESYNC;
+const Action_ActionMode Action::ADD_CONNECTOR_TO_COMPONENT;
+const Action_ActionMode Action::CREATE_CYPHY_DESIGN;
+const Action_ActionMode Action::UPDATE_CYPHY_DESIGN;
+const Action_ActionMode Action::ADD_COMPONENT_TO_CAD_DESIGN;
+const Action_ActionMode Action::CONSTRAIN_COMPONENTS_CAD;
+const Action_ActionMode Action::CONNECT_COMPONENTS_CYPHY;
 const Action_ActionMode Action::ActionMode_MIN;
 const Action_ActionMode Action::ActionMode_MAX;
 const int Action::ActionMode_ARRAYSIZE;
@@ -996,7 +1033,7 @@ const int Action::kPayloadFieldNumber;
 const int Action::kEnvironmentFieldNumber;
 const int Action::kNoticesFieldNumber;
 const int Action::kManifestFieldNumber;
-const int Action::kInterestFieldNumber;
+const int Action::kSubjectIDFieldNumber;
 #endif  // !_MSC_VER
 
 Action::Action()
@@ -1007,7 +1044,6 @@ Action::Action()
 void Action::InitAsDefaultInstance() {
   alien_ = const_cast< ::edu::vanderbilt::isis::meta::Alien*>(&::edu::vanderbilt::isis::meta::Alien::default_instance());
   payload_ = const_cast< ::edu::vanderbilt::isis::meta::Payload*>(&::edu::vanderbilt::isis::meta::Payload::default_instance());
-  interest_ = const_cast< ::edu::vanderbilt::isis::meta::Interest*>(&::edu::vanderbilt::isis::meta::Interest::default_instance());
 }
 
 Action::Action(const Action& from)
@@ -1022,7 +1058,7 @@ void Action::SharedCtor() {
   guid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   alien_ = NULL;
   payload_ = NULL;
-  interest_ = NULL;
+  subjectid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1034,10 +1070,12 @@ void Action::SharedDtor() {
   if (guid_ != &::google::protobuf::internal::kEmptyString) {
     delete guid_;
   }
+  if (subjectid_ != &::google::protobuf::internal::kEmptyString) {
+    delete subjectid_;
+  }
   if (this != default_instance_) {
     delete alien_;
     delete payload_;
-    delete interest_;
   }
 }
 
@@ -1076,8 +1114,10 @@ void Action::Clear() {
     if (has_payload()) {
       if (payload_ != NULL) payload_->::edu::vanderbilt::isis::meta::Payload::Clear();
     }
-    if (has_interest()) {
-      if (interest_ != NULL) interest_->::edu::vanderbilt::isis::meta::Interest::Clear();
+    if (has_subjectid()) {
+      if (subjectid_ != &::google::protobuf::internal::kEmptyString) {
+        subjectid_->clear();
+      }
     }
   }
   environment_.Clear();
@@ -1199,17 +1239,20 @@ bool Action::MergePartialFromCodedStream(
           goto handle_uninterpreted;
         }
         if (input->ExpectTag(58)) goto parse_manifest;
-        if (input->ExpectTag(66)) goto parse_interest;
+        if (input->ExpectTag(74)) goto parse_subjectID;
         break;
       }
 
-      // optional .edu.vanderbilt.isis.meta.Interest interest = 8;
-      case 8: {
+      // optional string subjectID = 9;
+      case 9: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_interest:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_interest()));
+         parse_subjectID:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_subjectid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+            this->subjectid().data(), this->subjectid().length(),
+            ::google::protobuf::internal::WireFormat::PARSE);
         } else {
           goto handle_uninterpreted;
         }
@@ -1280,10 +1323,13 @@ void Action::SerializeWithCachedSizes(
       7, this->manifest(i), output);
   }
 
-  // optional .edu.vanderbilt.isis.meta.Interest interest = 8;
-  if (has_interest()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      8, this->interest(), output);
+  // optional string subjectID = 9;
+  if (has_subjectid()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->subjectid().data(), this->subjectid().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      9, this->subjectid(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -1345,11 +1391,14 @@ void Action::SerializeWithCachedSizes(
         7, this->manifest(i), target);
   }
 
-  // optional .edu.vanderbilt.isis.meta.Interest interest = 8;
-  if (has_interest()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        8, this->interest(), target);
+  // optional string subjectID = 9;
+  if (has_subjectid()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->subjectid().data(), this->subjectid().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        9, this->subjectid(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -1390,11 +1439,11 @@ int Action::ByteSize() const {
           this->payload());
     }
 
-    // optional .edu.vanderbilt.isis.meta.Interest interest = 8;
-    if (has_interest()) {
+    // optional string subjectID = 9;
+    if (has_subjectid()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->interest());
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->subjectid());
     }
 
   }
@@ -1463,8 +1512,8 @@ void Action::MergeFrom(const Action& from) {
     if (from.has_payload()) {
       mutable_payload()->::edu::vanderbilt::isis::meta::Payload::MergeFrom(from.payload());
     }
-    if (from.has_interest()) {
-      mutable_interest()->::edu::vanderbilt::isis::meta::Interest::MergeFrom(from.interest());
+    if (from.has_subjectid()) {
+      set_subjectid(from.subjectid());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -1512,7 +1561,7 @@ void Action::Swap(Action* other) {
     environment_.Swap(&other->environment_);
     notices_.Swap(&other->notices_);
     manifest_.Swap(&other->manifest_);
-    std::swap(interest_, other->interest_);
+    std::swap(subjectid_, other->subjectid_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
@@ -3122,12 +3171,9 @@ bool Notice_NoticeMode_IsValid(int value) {
   switch(value) {
     case 0:
     case 1:
-    case 2:
     case 3:
     case 4:
-    case 5:
     case 6:
-    case 7:
       return true;
     default:
       return false;
@@ -3135,13 +3181,10 @@ bool Notice_NoticeMode_IsValid(int value) {
 }
 
 #ifndef _MSC_VER
-const Notice_NoticeMode Notice::BACK;
 const Notice_NoticeMode Notice::ACK;
 const Notice_NoticeMode Notice::DONE;
-const Notice_NoticeMode Notice::INFO;
 const Notice_NoticeMode Notice::WARN;
 const Notice_NoticeMode Notice::FAULT;
-const Notice_NoticeMode Notice::REJECT;
 const Notice_NoticeMode Notice::FAIL;
 const Notice_NoticeMode Notice::NoticeMode_MIN;
 const Notice_NoticeMode Notice::NoticeMode_MAX;
@@ -3245,7 +3288,7 @@ bool Notice::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required .edu.vanderbilt.isis.meta.Notice.NoticeMode noticeMode = 1 [default = BACK];
+      // required .edu.vanderbilt.isis.meta.Notice.NoticeMode noticeMode = 1 [default = ACK];
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
@@ -3331,7 +3374,7 @@ bool Notice::MergePartialFromCodedStream(
 
 void Notice::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required .edu.vanderbilt.isis.meta.Notice.NoticeMode noticeMode = 1 [default = BACK];
+  // required .edu.vanderbilt.isis.meta.Notice.NoticeMode noticeMode = 1 [default = ACK];
   if (has_noticemode()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       1, this->noticemode(), output);
@@ -3369,7 +3412,7 @@ void Notice::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Notice::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required .edu.vanderbilt.isis.meta.Notice.NoticeMode noticeMode = 1 [default = BACK];
+  // required .edu.vanderbilt.isis.meta.Notice.NoticeMode noticeMode = 1 [default = ACK];
   if (has_noticemode()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       1, this->noticemode(), target);
@@ -3413,7 +3456,7 @@ int Notice::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required .edu.vanderbilt.isis.meta.Notice.NoticeMode noticeMode = 1 [default = BACK];
+    // required .edu.vanderbilt.isis.meta.Notice.NoticeMode noticeMode = 1 [default = ACK];
     if (has_noticemode()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->noticemode());

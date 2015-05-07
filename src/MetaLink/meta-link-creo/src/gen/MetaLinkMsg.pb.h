@@ -70,17 +70,31 @@ inline bool Edit_EditMode_Parse(
     Edit_EditMode_descriptor(), name, value);
 }
 enum Action_ActionMode {
-  Action_ActionMode_DISCARD = 0,
   Action_ActionMode_INSERT = 1,
   Action_ActionMode_REPLACE = 2,
   Action_ActionMode_UPDATE = 3,
   Action_ActionMode_SELECT = 4,
   Action_ActionMode_CLEAR = 5,
-  Action_ActionMode_SWITCH = 6
+  Action_ActionMode_SWITCH = 6,
+  Action_ActionMode_UPDATE_CAD_COMPONENT = 7,
+  Action_ActionMode_CREATE_CYPHY_COMPONENT = 8,
+  Action_ActionMode_UPDATE_CYPHY_COMPONENT = 9,
+  Action_ActionMode_CREATE_ANALYSIS_POINTS = 10,
+  Action_ActionMode_ADD_COMPONENT_TO_CYPHY_DESIGN = 11,
+  Action_ActionMode_SELECT_CYPHY_COMPONENT = 12,
+  Action_ActionMode_REMOVE_CYPHY_DESIGN_COMPONENT = 13,
+  Action_ActionMode_REQUEST_COMPONENT_LIST = 14,
+  Action_ActionMode_RESYNC = 15,
+  Action_ActionMode_ADD_CONNECTOR_TO_COMPONENT = 16,
+  Action_ActionMode_CREATE_CYPHY_DESIGN = 17,
+  Action_ActionMode_UPDATE_CYPHY_DESIGN = 18,
+  Action_ActionMode_ADD_COMPONENT_TO_CAD_DESIGN = 19,
+  Action_ActionMode_CONSTRAIN_COMPONENTS_CAD = 20,
+  Action_ActionMode_CONNECT_COMPONENTS_CYPHY = 21
 };
 bool Action_ActionMode_IsValid(int value);
-const Action_ActionMode Action_ActionMode_ActionMode_MIN = Action_ActionMode_DISCARD;
-const Action_ActionMode Action_ActionMode_ActionMode_MAX = Action_ActionMode_SWITCH;
+const Action_ActionMode Action_ActionMode_ActionMode_MIN = Action_ActionMode_INSERT;
+const Action_ActionMode Action_ActionMode_ActionMode_MAX = Action_ActionMode_CONNECT_COMPONENTS_CYPHY;
 const int Action_ActionMode_ActionMode_ARRAYSIZE = Action_ActionMode_ActionMode_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* Action_ActionMode_descriptor();
@@ -113,17 +127,14 @@ inline bool Alien_EncodingMode_Parse(
     Alien_EncodingMode_descriptor(), name, value);
 }
 enum Notice_NoticeMode {
-  Notice_NoticeMode_BACK = 0,
-  Notice_NoticeMode_ACK = 1,
-  Notice_NoticeMode_DONE = 2,
-  Notice_NoticeMode_INFO = 3,
-  Notice_NoticeMode_WARN = 4,
-  Notice_NoticeMode_FAULT = 5,
-  Notice_NoticeMode_REJECT = 6,
-  Notice_NoticeMode_FAIL = 7
+  Notice_NoticeMode_ACK = 0,
+  Notice_NoticeMode_DONE = 1,
+  Notice_NoticeMode_WARN = 3,
+  Notice_NoticeMode_FAULT = 4,
+  Notice_NoticeMode_FAIL = 6
 };
 bool Notice_NoticeMode_IsValid(int value);
-const Notice_NoticeMode Notice_NoticeMode_NoticeMode_MIN = Notice_NoticeMode_BACK;
+const Notice_NoticeMode Notice_NoticeMode_NoticeMode_MIN = Notice_NoticeMode_ACK;
 const Notice_NoticeMode Notice_NoticeMode_NoticeMode_MAX = Notice_NoticeMode_FAIL;
 const int Notice_NoticeMode_NoticeMode_ARRAYSIZE = Notice_NoticeMode_NoticeMode_MAX + 1;
 
@@ -415,13 +426,27 @@ class Action : public ::google::protobuf::Message {
   // nested types ----------------------------------------------------
 
   typedef Action_ActionMode ActionMode;
-  static const ActionMode DISCARD = Action_ActionMode_DISCARD;
   static const ActionMode INSERT = Action_ActionMode_INSERT;
   static const ActionMode REPLACE = Action_ActionMode_REPLACE;
   static const ActionMode UPDATE = Action_ActionMode_UPDATE;
   static const ActionMode SELECT = Action_ActionMode_SELECT;
   static const ActionMode CLEAR = Action_ActionMode_CLEAR;
   static const ActionMode SWITCH = Action_ActionMode_SWITCH;
+  static const ActionMode UPDATE_CAD_COMPONENT = Action_ActionMode_UPDATE_CAD_COMPONENT;
+  static const ActionMode CREATE_CYPHY_COMPONENT = Action_ActionMode_CREATE_CYPHY_COMPONENT;
+  static const ActionMode UPDATE_CYPHY_COMPONENT = Action_ActionMode_UPDATE_CYPHY_COMPONENT;
+  static const ActionMode CREATE_ANALYSIS_POINTS = Action_ActionMode_CREATE_ANALYSIS_POINTS;
+  static const ActionMode ADD_COMPONENT_TO_CYPHY_DESIGN = Action_ActionMode_ADD_COMPONENT_TO_CYPHY_DESIGN;
+  static const ActionMode SELECT_CYPHY_COMPONENT = Action_ActionMode_SELECT_CYPHY_COMPONENT;
+  static const ActionMode REMOVE_CYPHY_DESIGN_COMPONENT = Action_ActionMode_REMOVE_CYPHY_DESIGN_COMPONENT;
+  static const ActionMode REQUEST_COMPONENT_LIST = Action_ActionMode_REQUEST_COMPONENT_LIST;
+  static const ActionMode RESYNC = Action_ActionMode_RESYNC;
+  static const ActionMode ADD_CONNECTOR_TO_COMPONENT = Action_ActionMode_ADD_CONNECTOR_TO_COMPONENT;
+  static const ActionMode CREATE_CYPHY_DESIGN = Action_ActionMode_CREATE_CYPHY_DESIGN;
+  static const ActionMode UPDATE_CYPHY_DESIGN = Action_ActionMode_UPDATE_CYPHY_DESIGN;
+  static const ActionMode ADD_COMPONENT_TO_CAD_DESIGN = Action_ActionMode_ADD_COMPONENT_TO_CAD_DESIGN;
+  static const ActionMode CONSTRAIN_COMPONENTS_CAD = Action_ActionMode_CONSTRAIN_COMPONENTS_CAD;
+  static const ActionMode CONNECT_COMPONENTS_CYPHY = Action_ActionMode_CONNECT_COMPONENTS_CYPHY;
   static inline bool ActionMode_IsValid(int value) {
     return Action_ActionMode_IsValid(value);
   }
@@ -518,14 +543,17 @@ class Action : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedPtrField< ::edu::vanderbilt::isis::meta::ComponentManifestNode >*
       mutable_manifest();
 
-  // optional .edu.vanderbilt.isis.meta.Interest interest = 8;
-  inline bool has_interest() const;
-  inline void clear_interest();
-  static const int kInterestFieldNumber = 8;
-  inline const ::edu::vanderbilt::isis::meta::Interest& interest() const;
-  inline ::edu::vanderbilt::isis::meta::Interest* mutable_interest();
-  inline ::edu::vanderbilt::isis::meta::Interest* release_interest();
-  inline void set_allocated_interest(::edu::vanderbilt::isis::meta::Interest* interest);
+  // optional string subjectID = 9;
+  inline bool has_subjectid() const;
+  inline void clear_subjectid();
+  static const int kSubjectIDFieldNumber = 9;
+  inline const ::std::string& subjectid() const;
+  inline void set_subjectid(const ::std::string& value);
+  inline void set_subjectid(const char* value);
+  inline void set_subjectid(const char* value, size_t size);
+  inline ::std::string* mutable_subjectid();
+  inline ::std::string* release_subjectid();
+  inline void set_allocated_subjectid(::std::string* subjectid);
 
   // @@protoc_insertion_point(class_scope:edu.vanderbilt.isis.meta.Action)
  private:
@@ -537,8 +565,8 @@ class Action : public ::google::protobuf::Message {
   inline void clear_has_alien();
   inline void set_has_payload();
   inline void clear_has_payload();
-  inline void set_has_interest();
-  inline void clear_has_interest();
+  inline void set_has_subjectid();
+  inline void clear_has_subjectid();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -548,7 +576,7 @@ class Action : public ::google::protobuf::Message {
   ::google::protobuf::RepeatedPtrField< ::edu::vanderbilt::isis::meta::Environment > environment_;
   ::google::protobuf::RepeatedPtrField< ::edu::vanderbilt::isis::meta::Notice > notices_;
   ::google::protobuf::RepeatedPtrField< ::edu::vanderbilt::isis::meta::ComponentManifestNode > manifest_;
-  ::edu::vanderbilt::isis::meta::Interest* interest_;
+  ::std::string* subjectid_;
   int actionmode_;
 
   mutable int _cached_size_;
@@ -1213,13 +1241,10 @@ class Notice : public ::google::protobuf::Message {
   // nested types ----------------------------------------------------
 
   typedef Notice_NoticeMode NoticeMode;
-  static const NoticeMode BACK = Notice_NoticeMode_BACK;
   static const NoticeMode ACK = Notice_NoticeMode_ACK;
   static const NoticeMode DONE = Notice_NoticeMode_DONE;
-  static const NoticeMode INFO = Notice_NoticeMode_INFO;
   static const NoticeMode WARN = Notice_NoticeMode_WARN;
   static const NoticeMode FAULT = Notice_NoticeMode_FAULT;
-  static const NoticeMode REJECT = Notice_NoticeMode_REJECT;
   static const NoticeMode FAIL = Notice_NoticeMode_FAIL;
   static inline bool NoticeMode_IsValid(int value) {
     return Notice_NoticeMode_IsValid(value);
@@ -1244,7 +1269,7 @@ class Notice : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required .edu.vanderbilt.isis.meta.Notice.NoticeMode noticeMode = 1 [default = BACK];
+  // required .edu.vanderbilt.isis.meta.Notice.NoticeMode noticeMode = 1 [default = ACK];
   inline bool has_noticemode() const;
   inline void clear_noticemode();
   static const int kNoticeModeFieldNumber = 1;
@@ -2018,41 +2043,73 @@ Action::mutable_manifest() {
   return &manifest_;
 }
 
-// optional .edu.vanderbilt.isis.meta.Interest interest = 8;
-inline bool Action::has_interest() const {
+// optional string subjectID = 9;
+inline bool Action::has_subjectid() const {
   return (_has_bits_[0] & 0x00000080u) != 0;
 }
-inline void Action::set_has_interest() {
+inline void Action::set_has_subjectid() {
   _has_bits_[0] |= 0x00000080u;
 }
-inline void Action::clear_has_interest() {
+inline void Action::clear_has_subjectid() {
   _has_bits_[0] &= ~0x00000080u;
 }
-inline void Action::clear_interest() {
-  if (interest_ != NULL) interest_->::edu::vanderbilt::isis::meta::Interest::Clear();
-  clear_has_interest();
+inline void Action::clear_subjectid() {
+  if (subjectid_ != &::google::protobuf::internal::kEmptyString) {
+    subjectid_->clear();
+  }
+  clear_has_subjectid();
 }
-inline const ::edu::vanderbilt::isis::meta::Interest& Action::interest() const {
-  return interest_ != NULL ? *interest_ : *default_instance_->interest_;
+inline const ::std::string& Action::subjectid() const {
+  return *subjectid_;
 }
-inline ::edu::vanderbilt::isis::meta::Interest* Action::mutable_interest() {
-  set_has_interest();
-  if (interest_ == NULL) interest_ = new ::edu::vanderbilt::isis::meta::Interest;
-  return interest_;
+inline void Action::set_subjectid(const ::std::string& value) {
+  set_has_subjectid();
+  if (subjectid_ == &::google::protobuf::internal::kEmptyString) {
+    subjectid_ = new ::std::string;
+  }
+  subjectid_->assign(value);
 }
-inline ::edu::vanderbilt::isis::meta::Interest* Action::release_interest() {
-  clear_has_interest();
-  ::edu::vanderbilt::isis::meta::Interest* temp = interest_;
-  interest_ = NULL;
-  return temp;
+inline void Action::set_subjectid(const char* value) {
+  set_has_subjectid();
+  if (subjectid_ == &::google::protobuf::internal::kEmptyString) {
+    subjectid_ = new ::std::string;
+  }
+  subjectid_->assign(value);
 }
-inline void Action::set_allocated_interest(::edu::vanderbilt::isis::meta::Interest* interest) {
-  delete interest_;
-  interest_ = interest;
-  if (interest) {
-    set_has_interest();
+inline void Action::set_subjectid(const char* value, size_t size) {
+  set_has_subjectid();
+  if (subjectid_ == &::google::protobuf::internal::kEmptyString) {
+    subjectid_ = new ::std::string;
+  }
+  subjectid_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Action::mutable_subjectid() {
+  set_has_subjectid();
+  if (subjectid_ == &::google::protobuf::internal::kEmptyString) {
+    subjectid_ = new ::std::string;
+  }
+  return subjectid_;
+}
+inline ::std::string* Action::release_subjectid() {
+  clear_has_subjectid();
+  if (subjectid_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
   } else {
-    clear_has_interest();
+    ::std::string* temp = subjectid_;
+    subjectid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void Action::set_allocated_subjectid(::std::string* subjectid) {
+  if (subjectid_ != &::google::protobuf::internal::kEmptyString) {
+    delete subjectid_;
+  }
+  if (subjectid) {
+    set_has_subjectid();
+    subjectid_ = subjectid;
+  } else {
+    clear_has_subjectid();
+    subjectid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   }
 }
 
@@ -2748,7 +2805,7 @@ Environment::mutable_value() {
 
 // Notice
 
-// required .edu.vanderbilt.isis.meta.Notice.NoticeMode noticeMode = 1 [default = BACK];
+// required .edu.vanderbilt.isis.meta.Notice.NoticeMode noticeMode = 1 [default = ACK];
 inline bool Notice::has_noticemode() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }

@@ -459,6 +459,14 @@ namespace isis_CADCommon
 												const Point_3D				&in_Point,
 												double in_Tolerance = DEFAULT_TOLERANCE ) throw (isis::application_exception);
 
+	bool LinesCollinear(	const std::vector<Point_3D> &in_Line_1,
+							const std::vector<Point_3D> &in_Line_2,
+							double in_Tolerance = DEFAULT_TOLERANCE ) throw (isis::application_exception);
+
+
+	bool VectorsPointInTheSameDirection_3D(		const std::vector<double> &in_Vector_1,
+												const std::vector<double> &in_Vector_2,
+												double in_Tolerance = DEFAULT_TOLERANCE ) throw (isis::application_exception);
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////

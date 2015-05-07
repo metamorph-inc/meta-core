@@ -82,7 +82,7 @@ def generate_wxi(src, output_filename=None, id=None, diskId=None):
 
 
 def main(analysis_tools_dir, diskId=None):
-    directories = [os.path.join(analysis_tools_dir, name) for name in os.listdir(analysis_tools_dir) if os.path.isdir(os.path.join(analysis_tools_dir, name)) and not name == '.svn']
+    directories = [os.path.join(analysis_tools_dir, name) for name in os.listdir(analysis_tools_dir) if os.path.isdir(os.path.join(analysis_tools_dir, name)) and name not in ('.svn', 'images')]
     tools = []
     for tool_dir in directories:
         (name, tool_id) = generate_wxi(tool_dir, diskId=diskId)

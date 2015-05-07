@@ -45,6 +45,7 @@
 #define	 CPM_PARAMETER_OBJ				"Parameter"
 #define	 CPM_PROPERTY_OBJ				"Property"
 #define	 CPM_METRIC_OBJ					"Metric"
+#define	 CPM_CARPARAMETER_OBJ			"CarParameter"
 
 #define	 CPM_THERMAL_PORT_OBJ			"ThermalPowerPort"
 #define	 CPM_HYDROLIC_PORT_OBJ			"HydraulicPowerPort"
@@ -82,6 +83,7 @@ typedef enum {
   designentityref_type,
   parameter_type,
   property_type,
+  carparameter_type,
   metric_type,
   thermal_type,
   hydrolic_type,

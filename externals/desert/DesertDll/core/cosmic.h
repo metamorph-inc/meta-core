@@ -32,7 +32,7 @@ public:
   long GetID() const;
   
 public:
-  virtual operator const char*() const;
+  virtual operator const TCHAR*() const;
   CCosmic* Project();
   CCosmic* SystemMode();
   virtual CCosmic* Parent();
@@ -44,7 +44,7 @@ public:
   //virtual CCosmicList* Modes();
   //virtual CCosmicList* Processes();
   //This generic function will be used
-  virtual CCosmicList* GetContainer(const char *) {return NULL;};
+  virtual CCosmicList* GetContainer(const TCHAR *) {return NULL;};
   virtual CCosmicList* GetContainer(CString &) {return NULL;};
 
   virtual ClData Eval(const CCosmic*) const;

@@ -28,7 +28,7 @@ CHANGE LOG
 inline CDynamicObj::CDynamicObj() :CCosmic()
 { 
 	type = typeDynamic;  
-	ASSERT_EX( false, "CDynamicObj::CDynamicObj()", "No core" );
+	ASSERT_EX( false, _T("CDynamicObj::CDynamicObj()"), _T("No core") );
 };
 
 inline CDynamicObj::CDynamicObj(CStaticObj *core)
@@ -39,7 +39,7 @@ inline CDynamicObj::CDynamicObj(CStaticObj *core)
 
 inline CDynamicObj::~CDynamicObj() {};
 inline const CString& CDynamicObj::GetName() const	{return core->GetName();};
-inline CDynamicObj::operator const char *() const	{return (const char *)*core;};
+inline CDynamicObj::operator const TCHAR *() const	{return (const TCHAR *)*core;};
 inline CStaticObj *CDynamicObj::GetCore()			{return core;};
 
 
@@ -53,11 +53,11 @@ inline CDynElementList& CDynElementContainer::GetElements()				{return elements;
 inline CDynElementList& CDynElementContainer::GetRootElements()				{return rootElements;};
 inline CDynElementList* CDynElementContainer::GetRootElements(int)			{return &rootElements;};
 inline CDynElement* CDynElementContainer::FindElement(long id)				{CDynElement *ret;  return Find(elements, ret, id) ? ret : 0;};
-inline CDynElement* CDynElementContainer::FindElement(const char *name)		{CDynElement *ret;  return Find(elements, ret, name) ? ret : 0;};
+inline CDynElement* CDynElementContainer::FindElement(const TCHAR *name)		{CDynElement *ret;  return Find(elements, ret, name) ? ret : 0;};
 inline CDynElement* CDynElementContainer::FindElement(const CElement *core)	{CDynElement *ret;  return Find(elements, ret, core) ? ret : 0;};
 inline CDynElement*	CDynElementContainer::RemoveElement(CDynElement *e)		{Remove(rootElements, e);  return Remove(elements, e) ? e : 0;};
 inline CDynElement* CDynElementContainer::RemoveElement(long id)				{CDynElement *e;  Remove(rootElements, e, id);  return Remove(elements, e, id) ? e : 0;};
-inline CDynElement* CDynElementContainer::RemoveElement(const char *name)	{CDynElement *e;  Remove(rootElements, e, name);  return Remove(elements, e, name) ? e : 0;};
+inline CDynElement* CDynElementContainer::RemoveElement(const TCHAR *name)	{CDynElement *e;  Remove(rootElements, e, name);  return Remove(elements, e, name) ? e : 0;};
 inline CDynElementContainer::~CDynElementContainer()							{Destroy(elements);};
 
 inline CDynElement* CDynElementContainer::InsertElement(CDynElement *e)
@@ -162,7 +162,7 @@ inline CStaticObj * CDynSpace::GetCore()							{return this->core;};
 
 inline CType CDynSpace::GetType()					{return CDynamicObj::GetType();				};
 inline  CDynSpace::operator long() const			{return CDynamicObj::operator long();		};
-inline  CDynSpace::operator const char * () const	{return CDynamicObj::operator const char *();};
+inline  CDynSpace::operator const TCHAR * () const	{return CDynamicObj::operator const TCHAR *();};
 
 
 double CDynSpace::ComputeSize()
@@ -217,7 +217,7 @@ CBdd CDynSpace::MaptoBdd(CBdd& parentEnc, int props, ...)
   va_list ap;
   va_start(ap, props);
 
-  TRACE( "CDynSpace::MaptoBdd : space %s : encval %d : startvar %d : encLen %d  \n",
+  TRACE( _T("CDynSpace::MaptoBdd : space %s : encval %d : startvar %d : encLen %d  \n"),
          GetName(), encodingVal, startVar, encodingLen );
 
   CBdd baseEnc = CBdd::Encode(encodingVal, startVar, encodingLen);
@@ -264,7 +264,7 @@ int CDynSpace::FindNonOrthElementCount()
   return ret;
 }
 
-int CDynSpace::FindPropertyEncodingLen(const char *n)
+int CDynSpace::FindPropertyEncodingLen(const TCHAR *n)
 {
   int ret = 0;
   POSITION pos = rootElements.GetHeadPosition();
@@ -278,7 +278,7 @@ int CDynSpace::FindPropertyEncodingLen(const char *n)
   return ret;
 }
 
-int CDynSpace::SetPropertyEncodingValue(const char *n, int sv)
+int CDynSpace::SetPropertyEncodingValue(const TCHAR *n, int sv)
 {
   int ret=0;
   startPropertyVec[n] = (void *)sv;
@@ -337,8 +337,8 @@ CDynProperty *CDynProperty::Make(CProperty *org, CDynDomain *dmn, CDynElement *o
 		dup = new CDynVariableProperty((CVariableProperty *)org, own);
     break;
   default:
-    //ASSERT_EX( false, "CDynProperty::Make", "bad property type" );
-	 throw new CDesertException("CDynProperty::Make(): bad property type");
+    //ASSERT_EX( false, _T("CDynProperty::Make"), _T("bad property type") );
+	 throw new CDesertException(_T("CDynProperty::Make(): bad property type"));
   }
   return dup;
 }
@@ -362,7 +362,7 @@ CBdd CDynConstantProperty::MaptoBdd(CBdd& parentEnc)
   int val=0;
   CConstantProperty *core = (CConstantProperty *)(this->core);
   core->GetValue(val);
-  return // CBdd::EncodeProperty((const char *)*core, vector, val);
+  return // CBdd::EncodeProperty((const TCHAR *)*core, vector, val);
   CBdd::EncodeArith(val);
 }
 
@@ -445,26 +445,26 @@ void CDynVariableProperty::Dump(FILE *f)
 {
 	if (f && domain->GetType() == typeDynCustomDomain)
 	{
-		fprintf(f, "Variableproperty on Custom Domain: %s at address %x core address: %x\n", GetName(), this, core);
+		_ftprintf(f, _T("Variableproperty on Custom Domain: %s at address %x core address: %x\n"), GetName(), this, core);
 		POSITION pos = range.GetHeadPosition();
 		while(pos)
 		{
 			CDynElement * p = range.GetNext(pos);
-			fprintf(f,"%x(%x):", p, p->GetCore());
+			_ftprintf(f,_T("%x(%x):"), p, p->GetCore());
 		}
-		fprintf(f, "\n");
+		_ftprintf(f, _T("\n"));
 	}
 
 	if (f && domain->GetType() == typeDynNaturalDomain)
 	{
-		fprintf(f, "Variableproperty on Natural Domain: %s at address %x core address: %x\n", GetName(), this, core);
+		_ftprintf(f, _T("Variableproperty on Natural Domain: %s at address %x core address: %x\n"), GetName(), this, core);
 #ifndef DOUBLE_MTBDD
 		CIntegerList &il = GetNaturalRange();
 		POSITION pos = il.GetHeadPosition();
 		while(pos)
 		{
 			int i  = il.GetNext(pos);
-			fprintf(f,"%d:", i);
+			_ftprintf(f,_T("%d:"), i);
 		}
 #else
 		CDoubleList &il = GetNaturalRange();
@@ -472,10 +472,10 @@ void CDynVariableProperty::Dump(FILE *f)
 		while(pos)
 		{
 			int i  = il.GetNext(pos);
-			fprintf(f,"%f:", i);
+			_ftprintf(f,_T("%f:"), i);
 		}
 #endif
-		fprintf(f, "\n");
+		_ftprintf(f, _T("\n"));
 	}
 
 	
@@ -498,9 +498,9 @@ CDynVariableProperty(CVariableProperty *c, CDynDomain* d, CDynElement *o)
 			CDynElement *dre = d->FindElement(sre);
 		 
 			if (!dre)
-			 throw new CDesertException("CDynVariableProperty::CDynVariableProperty(): range element not found in dyn domain");
+			 throw new CDesertException(_T("CDynVariableProperty::CDynVariableProperty(): range element not found in dyn domain"));
 		 
-			//ASSERT_EX(dre, "CDynVariableProperty::CDynVariableProperty", "range element not found in dyn domain");
+			//ASSERT_EX(dre, _T("CDynVariableProperty::CDynVariableProperty"), _T("range element not found in dyn domain"));
 		 
 		 range.AddTail(dre);
 		}
@@ -567,7 +567,7 @@ CBdd CDynVariableProperty:: MapValuetoBdd(CBdd& parentEnc)
 {
 	//ASSERT(((CVariableProperty *)core)->IsNatural() );
 	if(!((CVariableProperty *)core)->IsNatural())
-		throw new CDesertException("CDynVariableProperty::MapValuetoBdd(): The value is not natural number");
+		throw new CDesertException(_T("CDynVariableProperty::MapValuetoBdd(): The value is not natural number"));
 
 	CBdd ret;  
 #ifndef DOUBLE_MTBDD
@@ -693,7 +693,7 @@ void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguratio
 		CAssignmentList * ass_l = NULL;
 		//ASSERT does not evaluate in release version!!!
 		if (!((CVariableProperty*)core)->range_lmap.Lookup(assignedTo, ass_l))
-			throw new CDesertException("CDynVariableProperty::BuildConfiguration(): List lookup failed!");
+			throw new CDesertException(_T("CDynVariableProperty::BuildConfiguration(): List lookup failed!"));
 
 
 		POSITION mPos = ass_l->GetHeadPosition();
@@ -751,10 +751,10 @@ void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguratio
 					//CBdd r = CBdd::Mtbdd_Ite( CBdd::Encode(i++, startVar, encodingLen), CBdd::EncodeArith(value));
 					
 					CBdd r = CBdd::Encode(i++, startVar, encodingLen);
-				//	TRACE("%s:testing if %d is ok at position %d\n", value, i-1, core->GetName());
-				//	TRACE("value in range[%d]: %d\n", i, value);
+				//	TRACE(_T("%s:testing if %d is ok at position %d\n"), value, i-1, core->GetName());
+				//	TRACE(_T("value in range[%d]: %d\n"), i, value);
 					if (zero == (r && enc)) continue;
-				//	TRACE("%s: %d is ok at encoding: %d, in configuration number:%d\n", (LPCTSTR)core->GetName(), value, i-1, cfg->id);
+				//	TRACE(_T("%s: %d is ok at encoding: %d, in configuration number:%d\n"), (LPCTSTR)core->GetName(), value, i-1, cfg->id);
 					
 					//value is present in the configuration
 					assignedTo = value;
@@ -763,7 +763,7 @@ void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguratio
 					//we should insert all the elements in the list instead of just one
 					CAssignmentList * ass_l = NULL;
 					if (!((CVariableProperty*)core)->natural_range_lmap.Lookup(value, ass_l))
-						throw new CDesertException("CDynVariableProperty::BuildConfiguration(): List lookup failed!");
+						throw new CDesertException(_T("CDynVariableProperty::BuildConfiguration(): List lookup failed!"));
 
 					//ASSERT(ass_l);
 
@@ -773,7 +773,7 @@ void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguratio
 						ass = ass_l->GetNext(mPos);
 						//ASSERT(ass);
 						if (!ass)
-							throw new CDesertException("CDynVariableProperty::BuildConfiguration(): Got NULL element if the assignent list!");
+							throw new CDesertException(_T("CDynVariableProperty::BuildConfiguration(): Got NULL element if the assignent list!"));
 						cfg->assignments.AddTail((long)(*ass));
 					}
 
@@ -810,13 +810,13 @@ GetEncoding(CDynElement *rangeElement)
 	  debug = range.GetHead();
 //	  debugname = debug->GetName();
 //	  rangename = rangeElement->GetName();
-	  TRACE("rangeElement: %s(%x)\n", rangeElement->GetName(), rangeElement);
-	  TRACE("debug: %s(%x)\n", debug->GetName(), debug);
+	  TRACE(_T("rangeElement: %s(%x)\n"), rangeElement->GetName(), rangeElement);
+	  TRACE(_T("debug: %s(%x)\n"), debug->GetName(), debug);
     if (rangeElement != range.GetHead())
-   //   Error("CDynVariableProperty::GetEncoding", "this node is already assigned to a different resource");
+   //   Error(_T("CDynVariableProperty::GetEncoding"), _T("this node is already assigned to a different resource"));
    ret = CBdd::Zero();
     else
-      Warning("CDynVariableProperty::GetEncoding", "assignment constraint is redundant - node already assigned");
+      Warning(_T("CDynVariableProperty::GetEncoding"), _T("assignment constraint is redundant - node already assigned"));
     break;
 
   default:
@@ -830,7 +830,7 @@ GetEncoding(CDynElement *rangeElement)
       i++;
     }
     if (i>=range.GetCount())
-      Error("CDynVariableProperty::GetEncoding", "invalid constraint - this resource can not be assigned to this resource");
+      Error(_T("CDynVariableProperty::GetEncoding"), _T("invalid constraint - this resource can not be assigned to this resource"));
     else
       ret = CBdd::Encode(i, startVar, encodingLen);
   }
@@ -860,16 +860,16 @@ inline CDynDomain::CDynDomain(CDomain *core): CDynamicObj(core)
 inline CDynDomain::~CDynDomain()								{};
 
 
-inline int CDynDomain::GetSize() const									{Warning( "CDynDomain::GetSize", "shoud not be here" );  return 0;}
+inline int CDynDomain::GetSize() const									{Warning( _T("CDynDomain::GetSize"), _T("shoud not be here") );  return 0;}
 inline CDynElement *CDynDomain::FindElement(long id)					{return 0;};
-inline CDynElement *CDynDomain::FindElement(const char *name)			{return 0;};
+inline CDynElement *CDynDomain::FindElement(const TCHAR *name)			{return 0;};
 inline CDynElement *CDynDomain::FindElement(const CElement *core)		{return 0;};
 inline CDynElement *CDynDomain::RemoveElement(CDynElement *elem)		{return 0;};
 inline CDynElement *CDynDomain::RemoveElement(long id)					{return 0;};
-inline CDynElement *CDynDomain::RemoveElement(const char *name)			{return 0;};
+inline CDynElement *CDynDomain::RemoveElement(const TCHAR *name)			{return 0;};
 inline CDynElement *CDynDomain::InsertElement(CDynElement *elem)		{return 0;};
 
-inline bool CDynDomain::IsAlive() const									{Todo("CDynDomain::IsAlive", "who me??");  return true;};
+inline bool CDynDomain::IsAlive() const									{Todo(_T("CDynDomain::IsAlive"), _T("who me??"));  return true;};
 inline int CDynDomain::IndexElement(CDynElement *elem)					{return -1;};
 
 
@@ -885,8 +885,8 @@ CDynDomain * CDynDomain::Make(CDomain *org)
     dup = new CDynCustomDomain((CCustomDomain *)org);
     break;
   default:
-    //ASSERT_EX( false, "CDynDomain::Make", "bad property type" );
-	  throw new CDesertException("CDynDomain::Make(): bad property type");
+    //ASSERT_EX( false, _T("CDynDomain::Make"), _T("bad property type") );
+	  throw new CDesertException(_T("CDynDomain::Make(): bad property type"));
   }
   return dup;
 }
@@ -951,17 +951,17 @@ inline int CDynCustomDomain::GetSize() const
 }
 
 inline CDynElement * CDynCustomDomain::FindElement(long i)				{return CDynElementContainer::FindElement(i);}
-inline CDynElement * CDynCustomDomain::FindElement(const char *n)		{return CDynElementContainer::FindElement(n);}
+inline CDynElement * CDynCustomDomain::FindElement(const TCHAR *n)		{return CDynElementContainer::FindElement(n);}
 inline CDynElement * CDynCustomDomain::FindElement(const CElement *c)	{return CDynElementContainer::FindElement(c);}
 inline CDynElement * CDynCustomDomain::RemoveElement(CDynElement *e)	{return CDynElementContainer::RemoveElement(e);}
 inline CDynElement * CDynCustomDomain::RemoveElement(long i)			{return CDynElementContainer::RemoveElement(i);}
-inline CDynElement * CDynCustomDomain::RemoveElement(const char *n)		{return CDynElementContainer::RemoveElement(n);}
+inline CDynElement * CDynCustomDomain::RemoveElement(const TCHAR *n)		{return CDynElementContainer::RemoveElement(n);}
 inline CDynElement * CDynCustomDomain::InsertElement(CDynElement *e)	{return CDynElementContainer::InsertElement(e);}
 inline int CDynCustomDomain::IndexElement(CDynElement *elem)			{return Index(elements, elem);};
 inline CStaticObj * CDynCustomDomain::GetCore()							{return this->core;}; 
 inline CType CDynCustomDomain::GetType()								{return CDynamicObj::GetType();				};
 inline CDynCustomDomain::operator long() const							{return CDynamicObj::operator long();		};
-inline CDynCustomDomain::operator const char * () const					{return CDynamicObj::operator const char *();};
+inline CDynCustomDomain::operator const TCHAR * () const					{return CDynamicObj::operator const TCHAR *();};
 inline void CDynCustomDomain::Dump(FILE *f)								{CDynElementContainer::Dump(f);};
 
 void CDynCustomDomain::Clone()
@@ -973,7 +973,7 @@ void CDynCustomDomain::Clone(CDynDomain *from)
 {
 	//ASSERT(from->GetCore()->GetType() == typeCustomDomain);
 	if (from->GetCore()->GetType() != typeCustomDomain)
-		throw new CDesertException("CDynCustomDomain::Clone(CDynDomain *from): Expected CustomDomain here!");
+		throw new CDesertException(_T("CDynCustomDomain::Clone(CDynDomain *from): Expected CustomDomain here!"));
 	CDynElementContainer::Clone( (CDynCustomDomain*) from);
 }
 
@@ -1012,9 +1012,9 @@ CBdd CDynCustomDomain::GetEncoding(CDynElement *rangeElement, int sv, int encLen
     ret = CBdd::Encode(i, sv, encLen);
     return ret;
   }
-  //ASSERT_EX(false, "CDynVariableProperty::GetEncoding", "resource not found in the domain");
+  //ASSERT_EX(false, _T("CDynVariableProperty::GetEncoding"), _T("resource not found in the domain"));
 
-  throw new CDesertException("CDynVariableProperty::GetEncoding(): resource not found in the domain");
+  throw new CDesertException(_T("CDynVariableProperty::GetEncoding(): resource not found in the domain"));
   return CBdd::One();
 }
 	
@@ -1037,11 +1037,11 @@ inline CDynConstraintSet* CDynConstraintSet::Make(CDynConstraintSet *f)		{return
 inline CDynConstraintSet::~CDynConstraintSet()									{Destroy(constraints);};
 inline CDynConstraintList& CDynConstraintSet::GetConstraints()					{return constraints;}
 inline CDynConstraint * CDynConstraintSet::FindConstraint(long i)				{CDynConstraint *ret;  return Find(constraints, ret, i) ? ret : 0;}
-inline CDynConstraint * CDynConstraintSet::FindConstraint(const char *n)		{CDynConstraint *ret;  return Find(constraints, ret, n) ? ret : 0;}
+inline CDynConstraint * CDynConstraintSet::FindConstraint(const TCHAR *n)		{CDynConstraint *ret;  return Find(constraints, ret, n) ? ret : 0;}
 inline CDynConstraint * CDynConstraintSet::FindConstraint(const CConstraint *c)	{CDynConstraint *ret;  return Find(constraints, ret, c) ? ret : 0;};
 inline CDynConstraint * CDynConstraintSet::RemoveConstraint(CDynConstraint *e)	{return Remove(constraints, e) ? e : 0;}
 inline CDynConstraint * CDynConstraintSet::RemoveConstraint(long i)				{CDynConstraint *e;  return Remove(constraints, e, i) ? e : 0;}
-inline CDynConstraint * CDynConstraintSet::RemoveConstraint(const char *n)		{CDynConstraint *e;  return Remove(constraints, e, n) ? e : 0;};
+inline CDynConstraint * CDynConstraintSet::RemoveConstraint(const TCHAR *n)		{CDynConstraint *e;  return Remove(constraints, e, n) ? e : 0;};
 inline CDynConstraint * CDynConstraintSet::InsertConstraint(CDynConstraint *e)	{return Insert(constraints, e) ? e : 0;}
 
 inline void CDynConstraintSet::RemoveAll()										{constraints.RemoveAll();};
@@ -1051,12 +1051,12 @@ inline bool CDynConstraintSet::IsAlive() const									{return alive;};
 
 void CDynConstraintSet::Clone()
 {
- // ASSERT_EX( core, "CDynConstraintSet::Clone", "core is NULL" );
+ // ASSERT_EX( core, _T("CDynConstraintSet::Clone"), _T("core is NULL") );
   
-	if (!core) throw new CDesertException("CDynConstraintSet::Clone: core is NULL" );
+	if (!core) throw new CDesertException(_T("CDynConstraintSet::Clone: core is NULL") );
 
-  //ASSERT_EX( CManager::theInstance, "CDynElement::Clone", "manager not instantiated" );
-	DYN_MANAGER_CHECK("CDynConstraintSet::Clone");
+  //ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
+	DYN_MANAGER_CHECK(_T("CDynConstraintSet::Clone"));
   CConstraintList& list = ((CConstraintSet *)core)->GetConstraints();
   POSITION pos = list.GetHeadPosition();
   while(pos)
@@ -1071,9 +1071,9 @@ void CDynConstraintSet::Clone()
 
 void CDynConstraintSet::Clone(CDynConstraintSet *from)
 {
-//  ASSERT_EX( CManager::theInstance, "CDynElement::Clone", "manager not instantiated" );
+//  ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
 
-	DYN_MANAGER_CHECK("CDynConstraint::Clone()");
+	DYN_MANAGER_CHECK(_T("CDynConstraint::Clone()"));
   CDynConstraintList& list = from->GetConstraints();
   POSITION pos = list.GetHeadPosition();
   while(pos)
@@ -1183,9 +1183,9 @@ CBdd CDynConstraint::MaptoBdd()
 	  int debugHere = 1;
 	  // Himanshu: Always return Bdd::One() when a constraint fails
 	  this->SetInvalid();
-	  CString err("Constraint: <");
+	  CString err(_T("Constraint: <"));
 	  err.Append(this->GetName());
-	  err.Append("> fails to be evaluated.\r");
+	  err.Append(_T("> fails to be evaluated.\r"));
 	  err.Append(e->GetErrorMessage());
 	  e->Delete();
 	
@@ -1197,17 +1197,17 @@ CBdd CDynConstraint::MaptoBdd()
 
 void CDynConstraint::FillDependency(CDynamicObjList& dep)
 {
-//  ASSERT_EX( CManager::theInstance, "CDynElement::Clone", "manager not instantiated" );
+//  ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
 	
-	DYN_MANAGER_CHECK("CDynConstraint::Restrict()");
+	DYN_MANAGER_CHECK(_T("CDynConstraint::Restrict()"));
 	
   CConstraint *core = (CConstraint *)(this->core);
   if (core->GetConstraintType() ==  typeUniSpace)
   {
     CCosmic *root = core->GetRoot();
-    //ASSERT_EX( root, "CDynConstraint::FillDependency", "root is null" );
+    //ASSERT_EX( root, _T("CDynConstraint::FillDependency"), _T("root is null") );
 	if (!root)
-		throw new CDesertException("CDynConstraint::FillDependency: root is Null");
+		throw new CDesertException(_T("CDynConstraint::FillDependency: root is Null"));
     if (root->GetType() == typeElement)
     {
       CDynElement *elem = CManager::theInstance->FindElement((CElement *)root);
@@ -1229,15 +1229,15 @@ void CDynConstraint::FillDependency(CDynamicObjList& dep)
       CDynamicObj *spc = CManager::theInstance->FindSpace(spaces.GetNext(pos));
       if (!dep.Find(spc)) dep.AddTail(spc);
     }
-    Todo("CDynConstraint::FillDependency", "what about domains in the dependency?");
+    Todo(_T("CDynConstraint::FillDependency"), _T("what about domains in the dependency?"));
   }
 }
 
 bool CDynConstraint::Restrict()
 {
-//  ASSERT_EX( CManager::theInstance, "CDynElement::Clone", "manager not instantiated" );
+//  ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
 
-	DYN_MANAGER_CHECK("CDynConstraint::Restrict()");
+	DYN_MANAGER_CHECK(_T("CDynConstraint::Restrict()"));
 
   CConstraint *core = (CConstraint *)(this->core);
   CCosmicList& dependency = core->GetDependency();
@@ -1303,18 +1303,18 @@ inline CDecomposition CDynElement::GetDecomposition() const				{return ((CElemen
 inline CDynElement::operator CDecomposition() const						{return (CDecomposition)*((CElement *)core);};
 inline long CDynElement::GetExternal() const							{return ((CElement *)core)->GetExternal();};
 inline CDynElement * CDynElement::FindChild(long id)						{CDynElement *e;  return Find(children, e, id) ? e : 0;};
-inline CDynElement * CDynElement::FindChild(const char *n)				{CDynElement *e;  return Find(children, e, n) ? e : 0;};
+inline CDynElement * CDynElement::FindChild(const TCHAR *n)				{CDynElement *e;  return Find(children, e, n) ? e : 0;};
 inline CDynElement * CDynElement::FindChild(const CElement *c)			{CDynElement *e;  return Find(children, e, c) ? e : 0;};
 inline CDynElement * CDynElement::RemoveChild(CDynElement *e)			{return Remove(children, e) ? e : 0;};
 inline CDynElement * CDynElement::RemoveChild(long id)					{CDynElement *e;  return Remove(children, e, id) ? e : 0;};
-inline CDynElement * CDynElement::RemoveChild(const char *n)				{CDynElement *e;  return Remove(children, e, n) ? e : 0;};
+inline CDynElement * CDynElement::RemoveChild(const TCHAR *n)				{CDynElement *e;  return Remove(children, e, n) ? e : 0;};
 inline CDynElement * CDynElement::InsertChild(CDynElement *e)			{return Insert(children, e) ? e : 0;};
 inline CDynProperty * CDynElement::FindProperty(long i)					{CDynProperty *e;  return Find(properties, e, id) ? e : 0;};
-inline CDynProperty * CDynElement::FindProperty(const char *n)			{CDynProperty *e;  return Find(properties, e, n) ? e : 0;}
-inline CDynFormula * CDynElement::FindFormula(const char *n)			{CDynFormula *e;  return Find(formulas, e, n) ? e : 0;}
+inline CDynProperty * CDynElement::FindProperty(const TCHAR *n)			{CDynProperty *e;  return Find(properties, e, n) ? e : 0;}
+inline CDynFormula * CDynElement::FindFormula(const TCHAR *n)			{CDynFormula *e;  return Find(formulas, e, n) ? e : 0;}
 inline CDynProperty * CDynElement::RemoveProperty(CDynProperty *e)		{return Remove(properties, e) ? e : 0;};
 inline CDynProperty * CDynElement::RemoveProperty(long i)				{CDynProperty *e;  return Remove(properties, e, i) ? e : 0;};
-inline CDynProperty * CDynElement::RemoveProperty(const char *n)			{CDynProperty *e;  return Remove(properties, e, n) ? e : 0;};
+inline CDynProperty * CDynElement::RemoveProperty(const TCHAR *n)			{CDynProperty *e;  return Remove(properties, e, n) ? e : 0;};
 inline CDynProperty * CDynElement::InsertProperty(CDynProperty *e)		{return Insert(properties, e) ? e : 0;};
 inline CDynRelation * CDynElement::FindRelation(long i)					{CDynRelation *e;  return Find(relations, e, i) ? e : 0;};
 inline CDynRelation * CDynElement::RemoveRelation(CDynRelation *e)		{return Remove(relations, e) ? e : 0;}	;
@@ -1362,15 +1362,15 @@ double CDynElement::ComputeSize()
     while(pos) ret += children.GetNext(pos)->ComputeSize();
     if (ret==0)
     {
-      Warning("CDynElement::ComputeSize", "OR decomposed element <%s> has no child",
-              (const char *)*this);
+      Warning(_T("CDynElement::ComputeSize"), _T("OR decomposed element <%s> has no child"),
+              (const TCHAR *)*this);
       ret=1;                            // empty template
     }
     break;
 
   case decompLeaf:
     // include the resource property in space size
-/*    property = FindProperty("resource");
+/*    property = FindProperty(_T("resource"));
 	  ret = property ? property->ComputeSize() : 1;
 	*/
 	  CDynVariableProperty * property;
@@ -1434,7 +1434,7 @@ int CDynElement::FindEncodingLen()
   case decompLeaf:
     // we incorporate the resource property in the leafs encoding
     /*
-	property = FindProperty("resource");
+	property = FindProperty(_T("resource"));
     resourceEncodingLen = ret = property ? property->FindEncodingLen() : 0;
 	*/
     {
@@ -1517,7 +1517,7 @@ int CDynElement::SetEncodingValue(int enc, int sb)
   case decompLeaf:
     // encode the resource property
 	  /*
-    property = FindProperty("resource");
+    property = FindProperty(_T("resource"));
     ret += property ? property->SetEncodingValue(startVar+ret, resourceEncodingLen) : 0;
 	*/
 	{
@@ -1595,7 +1595,7 @@ CBdd CDynElement::MaptoBdd(CBdd& parentEnc, int props, ...)
 CBdd CDynElement::MaptoBdd_0(CBdd& parentEnc, int props, va_list ap)
 {
   
-  TRACE( "CDynElement::MaptoBdd_0 : element %s : encval %d : startvar %d : encLen %d  \n",
+  TRACE( _T("CDynElement::MaptoBdd_0 : element %s : encval %d : startvar %d : encLen %d  \n"),
          GetName(), encodingVal, startVar, encodingLen );
 
 
@@ -1649,10 +1649,10 @@ CBdd CDynElement::MaptoBdd_0(CBdd& parentEnc, int props, va_list ap)
 
 void CDynElement::Dump(FILE *f)
 {
-//	ASSERT_EX( CManager::theInstance, "CDynElement::Clone", "manager not instantiated" );
-	DYN_MANAGER_CHECK("CDynElement::Dump()");
+//	ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
+	DYN_MANAGER_CHECK(_T("CDynElement::Dump()"));
 
-	if (f) fprintf(f, " Element: %s at address %x; core address: %x\n", GetName(), this, GetCore());
+	if (f) _ftprintf(f, _T(" Element: %s at address %x; core address: %x\n"), GetName(), this, GetCore());
 	
 	POSITION pos = properties.GetHeadPosition();
 	while(pos) properties.GetNext(pos)->Dump(f);
@@ -1663,8 +1663,8 @@ void CDynElement::Dump(FILE *f)
 
 void CDynElement::Clone()
 {
-  //ASSERT_EX( CManager::theInstance, "CDynElement::Clone", "manager not instantiated" );
-	DYN_MANAGER_CHECK("CDynElement::Clone()");
+  //ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
+	DYN_MANAGER_CHECK(_T("CDynElement::Clone()"));
   if (space || domain)
   { // create children
     CElementList& list = ((CElement *)core)->GetChildren();
@@ -1726,8 +1726,8 @@ void CDynElement::Clone()
 
 void CDynElement::Clone(CDynElement *from)
 {
-  //ASSERT_EX( CManager::theInstance, "CDynElement::Clone", "manager not instantiated" );
-	DYN_MANAGER_CHECK("CDynElement::Clone(CDynElement *from)");
+  //ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
+	DYN_MANAGER_CHECK(_T("CDynElement::Clone(CDynElement *from)"));
 
   //if (space && !domain)
   if (space || domain)
@@ -1818,7 +1818,7 @@ bool CDynElement::Restrict(CBdd& res)
 		break;
 
 	case decompOr:
-		Info("CDynElement::Restrict", "is possible that parent is alive while none of the children is alive?");
+		Info(_T("CDynElement::Restrict"), _T("is possible that parent is alive while none of the children is alive?"));
 		pos = children.GetHeadPosition();
 		while(pos) children.GetNext(pos)->Restrict(res);
 		break;
@@ -1829,7 +1829,7 @@ bool CDynElement::Restrict(CBdd& res)
 		
 	}
 
-	TRACE("%s: sv: %d, len:%d, val: %d\n", (LPCTSTR)this->GetName(), this->startVar, this->encodingLen, this->encodingVal);
+	TRACE(_T("%s: sv: %d, len:%d, val: %d\n"), (LPCTSTR)this->GetName(), this->startVar, this->encodingLen, this->encodingVal);
 	return alive;
 }
 
@@ -1875,9 +1875,9 @@ void CDynElement::BuildConfiguration(BackIfaceFunctions::DBConfiguration *cfg, C
 
   case decompLeaf:
 /*
-    CDynVariableProperty *property = (CDynVariableProperty *)FindProperty("resource");
+    CDynVariableProperty *property = (CDynVariableProperty *)FindProperty(_T("resource"));
     if (property) property->BuildConfiguration(cfg, enc, GetExternal());
-    else Error("CDynElement::BuildConfiguration", "property resource not found");
+    else Error(_T("CDynElement::BuildConfiguration"), _T("property resource not found"));
 	*/
 	  CDynVariableProperty * property;
 	  POSITION mPos = properties.GetHeadPosition();
@@ -1928,7 +1928,7 @@ ClData CDynElement::Eval(const CCosmic *other) const
       break;
       
     default:
-      Todo("CDynElement::Eval", "Eval for unimplemented type %d", (int)(other->GetType()));
+      Todo(_T("CDynElement::Eval"), _T("Eval for unimplemented type %d"), (int)(other->GetType()));
     }
 
     switch(funcType)
@@ -1945,7 +1945,7 @@ ClData CDynElement::Eval(const CCosmic *other) const
 		ret = ((CDynElement *)this)->PCMNop(other);
 		break;
     default:
-		Warning("CDynElement::Eval", "Function Type %d not implemented", funcType);
+		Warning(_T("CDynElement::Eval"), _T("Function Type %d not implemented"), funcType);
 		break;
     }
   }
@@ -1989,7 +1989,7 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, const CCosmic *other) const
 				break;
       
 			default:
-				Todo("CDynElement::Eval", "Eval for unimplemented type %d", (int)(other->GetType()));
+				Todo(_T("CDynElement::Eval"), _T("Eval for unimplemented type %d"), (int)(other->GetType()));
 		}
 
 
@@ -2040,8 +2040,8 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, const CCosmic *other) const
 
 			default:
 			{
-				//ASSERT_EX(false, "CDynElement::PCMAdd()", " Operator unimplemented!");
-				throw new CDesertException("unknow error!");
+				//ASSERT_EX(false, _T("CDynElement::PCMAdd()"), _T(" Operator unimplemented!"));
+				throw new CDesertException(_T("unknow error!"));
 				return ret;
 			}
 		};
@@ -2072,7 +2072,7 @@ ClData CDynElement::Eval(ClAddExpr::AddOp op, const CCosmic *other) const
 				break;
       
 			default:
-				Todo("CDynElement::Eval", "Eval for unimplemented type %d", (int)(other->GetType()));
+				Todo(_T("CDynElement::Eval"), _T("Eval for unimplemented type %d"), (int)(other->GetType()));
 		}
 
 		if(funcType==funcPCMNop || funcType==funcPCMNone)
@@ -2147,7 +2147,7 @@ ClData CDynElement::Eval(ClMulExpr::MulOp op, const CCosmic *other) const
 				break;
       
 			default:
-				Todo("CDynElement::Eval", "Eval for unimplemented type %d", (int)(other->GetType()));
+				Todo(_T("CDynElement::Eval"), _T("Eval for unimplemented type %d"), (int)(other->GetType()));
 		}
 
 		if(funcType==funcPCMNop || funcType==funcPCMNone)
@@ -2180,9 +2180,9 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, int right) const
 ClData CDynElement::Eval(ClRelExpr::RelOp op, double right) const
 #endif
 {
-  //ASSERT_EX( CManager::theInstance, "CDynElement::Clone", "manager not instantiated" );
+  //ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
 	
-	DYN_MANAGER_CHECK("CDynElement::Eval(ClRelExpr::RelOp op, int right)");	
+	DYN_MANAGER_CHECK(_T("CDynElement::Eval(ClRelExpr::RelOp op, int right)"));	
 	CBdd ret = CBdd::One();
 
 	switch(funcType)
@@ -2227,7 +2227,7 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, double right) const
 			break;
   
 		default:
-			Warning("CDynElement::Eval", "Eval a Rel Expr of an unimplemented function type %d for property %s",
+			Warning(_T("CDynElement::Eval"), _T("Eval a Rel Expr of an unimplemented function type %d for property %s"),
 				funcType, funcProperty);
 			break;
 	}
@@ -2240,7 +2240,7 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, double right) const
 
 void
 CDynElement::
-GetVectors(const char* name, CUIntArray& vecList)
+GetVectors(const TCHAR* name, CUIntArray& vecList)
 {
   POSITION pos;
   CDynProperty *prop = 0;
@@ -2327,8 +2327,8 @@ CBdd CDynElement::PCMMin(int limit, ClRelExpr::RelOp op)
 
 	default:
 	{
-		//ASSERT_EX(false, "CDynElement::PCMMin()", " Operator unimplemented!");
-		throw new CDesertException("CDynElement::PCMMin():: Operator unimplemented!");
+		//ASSERT_EX(false, _T("CDynElement::PCMMin()"), _T(" Operator unimplemented!"));
+		throw new CDesertException(_T("CDynElement::PCMMin():: Operator unimplemented!"));
 		return ret;
 	}
   };
@@ -2388,8 +2388,8 @@ CBdd CDynElement::PCMMax(int limit, ClRelExpr::RelOp op)
 
 	default:
 	{
-	//	ASSERT_EX(false, "CDynElement::PCMMax()", " Operator unimplemented!");
-		throw new CDesertException("CDynElement::PCMMax():: Operator unimplemented!");
+	//	ASSERT_EX(false, _T("CDynElement::PCMMax()"), _T(" Operator unimplemented!"));
+		throw new CDesertException(_T("CDynElement::PCMMax():: Operator unimplemented!"));
 		return ret;
 	}
   };
@@ -2450,8 +2450,8 @@ CBdd CDynElement::PCMAmed(int limit, ClRelExpr::RelOp op)
 
 	default:
 	{
-	//	ASSERT_EX(false, "CDynElement::PCMAmed()", " Operator unimplemented!");
-		throw new CDesertException("CDynElement::PCMAmed():: Operator unimplemented!");
+	//	ASSERT_EX(false, _T("CDynElement::PCMAmed()"), _T(" Operator unimplemented!"));
+		throw new CDesertException(_T("CDynElement::PCMAmed():: Operator unimplemented!"));
 		return ret;
 	}
   };
@@ -2511,8 +2511,8 @@ CBdd CDynElement::PCMGmed(int limit, ClRelExpr::RelOp op)
 
 	default:
 	{
-		//ASSERT_EX(false, "CDynElement::PCMGmed()", " Operator unimplemented!");
-		throw new CDesertException("CDynElement::PCMGmed():: Operator unimplemented!");
+		//ASSERT_EX(false, _T("CDynElement::PCMGmed()"), _T(" Operator unimplemented!"));
+		throw new CDesertException(_T("CDynElement::PCMGmed():: Operator unimplemented!"));
 		return ret;
 	}
   };
@@ -2576,8 +2576,8 @@ CBdd CDynElement::PCMMul(int limit, ClRelExpr::RelOp op)
 
 	default:
 	{
-		//ASSERT_EX(false, "CDynElement::PCMAdd()", " Operator unimplemented!");
-		throw new CDesertException("CDynElement::PCMMul():: Operator unimplemented!");
+		//ASSERT_EX(false, _T("CDynElement::PCMAdd()"), _T(" Operator unimplemented!"));
+		throw new CDesertException(_T("CDynElement::PCMMul():: Operator unimplemented!"));
 		return ret;
 	}
   };
@@ -2601,25 +2601,26 @@ fnptrPCMCust CManager::GetPCMCustomFunction(CString &propName)
 	if (fnPCMtable.Lookup(propName, PCMfn)) return (fnptrPCMCust)PCMfn;
 	
 	//Not found, find the Dll and the function
-	CString dll_name, eval_fn;
+	CString dll_name;
+	CStringA eval_fn;
 
 #ifdef _DEBUG
-	dll_name = "PCM_" + propName +"D.dll";
+	dll_name = _T("PCM_") + propName +_T("D.dll");
 #else
-	dll_name = "PCM_" + propName + ".dll";
+	dll_name = _T("PCM_") + propName + _T(".dll");
 
 #endif
 	
 	HMODULE dll_module = LoadLibrary(dll_name);
 
 	if (!dll_module)
-		throw new CDesertException(CString(" Failed to load: ") + dll_name);
+		throw new CDesertException(CString(_T(" Failed to load: ")) + dll_name);
 
 	eval_fn = "PCM_Eval_" + propName;
-	PCMfn = (fnptrPCMCust)GetProcAddress(dll_module, (LPCTSTR)eval_fn);
+	PCMfn = (fnptrPCMCust)GetProcAddress(dll_module, eval_fn);
 
 	if (!PCMfn)
-		throw new CDesertException(CString(" Failed to locate function: ") + eval_fn);
+		throw new CDesertException(CString(_T(" Failed to locate function: ")) + CString(eval_fn));
 
 	//cache it
 
@@ -2680,8 +2681,8 @@ CBdd CDynElement::PCMAdd(int limit, ClRelExpr::RelOp op)
 
 	default:
 	{
-		//ASSERT_EX(false, "CDynElement::PCMAdd()", " Operator unimplemented!");
-		throw new CDesertException("CDynElement::PCMAdd():: Operator unimplemented!");
+		//ASSERT_EX(false, _T("CDynElement::PCMAdd()"), _T(" Operator unimplemented!"));
+		throw new CDesertException(_T("CDynElement::PCMAdd():: Operator unimplemented!"));
 		return ret;
 	}
   };
@@ -2689,7 +2690,7 @@ CBdd CDynElement::PCMAdd(int limit, ClRelExpr::RelOp op)
   
 }
 
-CBdd CDynElement::PCMNop_0(const CCosmic * other, const char * propName)
+CBdd CDynElement::PCMNop_0(const CCosmic * other, const TCHAR * propName)
 {
 	CDynProperty *prop;
 	CDynVariableProperty *vprop;
@@ -2725,7 +2726,7 @@ CBdd CDynElement::PCMNop_0(const CCosmic * other, const char * propName)
 		} else vprop = NULL;
 
 		if (other->GetType() != typeDynElement)
-			throw new CDesertException("PCMNop_0(): Unimplemented operation, expected other to be of type typeDynElement");
+			throw new CDesertException(_T("PCMNop_0(): Unimplemented operation, expected other to be of type typeDynElement"));
 
 		obj = (CDynElement*) other;
 		
@@ -2751,7 +2752,7 @@ CBdd CDynElement::PCMNone(int limit, ClRelExpr::RelOp op)
 	{
 	case decompAnd:
 	case decompOr:
-		throw new CDesertException("CDynElement::PCMNone():: PCMNone should be evaluated only at leaf nodes!");
+		throw new CDesertException(_T("CDynElement::PCMNone():: PCMNone should be evaluated only at leaf nodes!"));
 		break;
 
 	case decompLeaf:
@@ -2810,8 +2811,8 @@ CBdd CDynElement::PCMNone(int limit, ClRelExpr::RelOp op)
 
 		default:
 		{
-			//ASSERT_EX(false, "CDynElement::PCMAdd()", " Operator unimplemented!");
-			throw new CDesertException("CDynElement::PCMAdd():: Operator unimplemented!");
+			//ASSERT_EX(false, _T("CDynElement::PCMAdd()"), _T(" Operator unimplemented!"));
+			throw new CDesertException(_T("CDynElement::PCMAdd():: Operator unimplemented!"));
 			return ret;
 		}
 	};
@@ -2886,8 +2887,8 @@ CBdd CDynElement::PCMNop(int limit, ClRelExpr::RelOp op)
 
 	default:
 	{
-		//ASSERT_EX(false, "CDynElement::PCMAdd()", " Operator unimplemented!");
-		throw new CDesertException("CDynElement::PCMNop():: Operator unimplemented!");
+		//ASSERT_EX(false, _T("CDynElement::PCMAdd()"), _T(" Operator unimplemented!"));
+		throw new CDesertException(_T("CDynElement::PCMNop():: Operator unimplemented!"));
 		return ret;
 	}
   };
@@ -2896,7 +2897,7 @@ CBdd CDynElement::PCMNop(int limit, ClRelExpr::RelOp op)
 }
 
 
-CBdd CDynElement::PCMNop_0(int limit, const char *propName)
+CBdd CDynElement::PCMNop_0(int limit, const TCHAR *propName)
 {
 	CDynProperty *prop;
 	int propVal = 0;
@@ -2934,7 +2935,7 @@ CBdd CDynElement::PCMNop_0(int limit, const char *propName)
 
 CBdd
 CDynElement::
-PCMAdd_0(int limit, const char *propName)
+PCMAdd_0(int limit, const TCHAR *propName)
 {
   CDynProperty *prop;
   CDynFormula *formu;
@@ -2997,7 +2998,7 @@ PCMAdd_0(int limit, const char *propName)
 
 CBdd
 CDynElement::
-PCMGmed_0(int limit, const char *propName)
+PCMGmed_0(int limit, const TCHAR *propName)
 {
   CDynProperty *prop;
   CDynFormula *formu;
@@ -3058,7 +3059,7 @@ PCMGmed_0(int limit, const char *propName)
 
 CBdd
 CDynElement::
-PCMAmed_0(int limit, const char *propName)
+PCMAmed_0(int limit, const TCHAR *propName)
 {
   CDynProperty *prop;
   CDynFormula *formu;
@@ -3118,7 +3119,7 @@ PCMAmed_0(int limit, const char *propName)
 
 CBdd
 CDynElement::
-PCMMax_0(int limit, const char *propName)
+PCMMax_0(int limit, const TCHAR *propName)
 {
   CDynProperty *prop;
   CDynFormula *formu;
@@ -3176,7 +3177,7 @@ PCMMax_0(int limit, const char *propName)
 
 CBdd
 CDynElement::
-PCMMin_0(int limit, const char *propName)
+PCMMin_0(int limit, const TCHAR *propName)
 {
   CDynProperty *prop;
   CDynFormula *formu;
@@ -3234,7 +3235,7 @@ PCMMin_0(int limit, const char *propName)
 
 CBdd
 CDynElement::
-PCMMul_0(int limit, const char *propName)
+PCMMul_0(int limit, const TCHAR *propName)
 {
   CDynProperty *prop;
   int propVal = 0;
@@ -3411,7 +3412,7 @@ NotRedundant(int *enc)
       val |= enc[i];
     }
 
-    CDynProperty *property = FindProperty("resource");
+    CDynProperty *property = FindProperty(_T("resource"));
     if (property && (property->ComputeSize() <= val)) return false;
 	*/
   }
@@ -3457,7 +3458,7 @@ int CDynElement::FindNonOrthElementCount()
   return ret;
 }
 
-int CDynElement::FindPropertyEncodingLen(const char *n)
+int CDynElement::FindPropertyEncodingLen(const TCHAR *n)
 {
   if((CDecomposition)*this == decompLeaf)
   {
@@ -3477,7 +3478,7 @@ int CDynElement::FindPropertyEncodingLen(const char *n)
   return ret;
 }
 
-int CDynElement::SetPropertyEncodingValue(const char *n, int sv)
+int CDynElement::SetPropertyEncodingValue(const TCHAR *n, int sv)
 {
   int ret=0;
   CDynProperty *p=0;
@@ -3532,7 +3533,7 @@ inline CCosmic *CDynElement::Domain(){  return domain;}
 
 CBdd
 CDynElement::
-PCMGen_0(int limit, const char *propName)
+PCMGen_0(int limit, const TCHAR *propName)
 {
 	CBdd ret = CBdd::One();
 	
@@ -3576,7 +3577,7 @@ PCMGen_0(int limit, const char *propName)
 			{
 			case decompAnd:
 			case decompOr:
-				//throw new CDesertException("CDynElement::PCMNone():: PCMNone should be evaluated only at leaf nodes!");
+				//throw new CDesertException(_T("CDynElement::PCMNone():: PCMNone should be evaluated only at leaf nodes!"));
 				break;
 
 			case decompLeaf:
@@ -3598,14 +3599,14 @@ PCMGen_0(int limit, const char *propName)
 		break;
 		}
 	default:
-		Warning("CDynElement::Eval", "Eval a Rel Expr of an unimplemented function type %d for property %s", funcType, funcProperty);
+		Warning(_T("CDynElement::Eval"), _T("Eval a Rel Expr of an unimplemented function type %d for property %s"), funcType, funcProperty);
 		break;
   }
   return ClData(ret);
 }
 
 //Added 11/30/2011
-ClData CDynElement::Eval(int limit, const char *propName, FunctionType fn) const
+ClData CDynElement::Eval(int limit, const TCHAR *propName, FunctionType fn) const
 {
 	CBdd ret = CBdd::One();
 	CDynFormula *formu = ((CDynElement*)this)->FindFormula(propName);
@@ -3709,7 +3710,7 @@ CBdd CDynElement::PCMGen_SimpleFormula(int limit,CDynPropertyList &propList, Fun
 	return ret;
 }
 
-CBdd CDynElement::PCMGen_decompAnd(int limit, const char *propName, FunctionType fn)
+CBdd CDynElement::PCMGen_decompAnd(int limit, const TCHAR *propName, FunctionType fn)
 {
 	CBdd ret = CBdd::ArithZero();
 	
@@ -3769,7 +3770,7 @@ CBdd CDynElement::PCMGen_decompAnd(int limit, const char *propName, FunctionType
 	return ret;
 }
 
-CBdd CDynElement::PCMGen_decompOr(int limit, const char *propName, FunctionType fn)
+CBdd CDynElement::PCMGen_decompOr(int limit, const TCHAR *propName, FunctionType fn)
 {
 	CBdd ret = CBdd::ArithZero();
 
@@ -3789,7 +3790,7 @@ CBdd CDynElement::PCMGen_decompOr(int limit, const char *propName, FunctionType 
 	return ret;
 }
 
-CBdd CDynElement::PCMGen_decompLeaf(int limit, const char *propName, FunctionType fn)
+CBdd CDynElement::PCMGen_decompLeaf(int limit, const TCHAR *propName, FunctionType fn)
 {
 	CBdd ret;
 	CDynProperty *prop = FindProperty(propName);
@@ -3852,7 +3853,7 @@ ClData CDynElement::Eval() const
 			{
 			case decompAnd:
 			case decompOr:
-				//throw new CDesertException("CDynElement::PCMNone():: PCMNone should be evaluated only at leaf nodes!");
+				//throw new CDesertException(_T("CDynElement::PCMNone():: PCMNone should be evaluated only at leaf nodes!"));
 				break;
 
 			case decompLeaf:
@@ -3874,7 +3875,7 @@ ClData CDynElement::Eval() const
 		break;
 		}
 	default:
-		Warning("CDynElement::Eval", "Eval a Rel Expr of an unimplemented function type %d for property %s", funcType, funcProperty);
+		Warning(_T("CDynElement::Eval"), _T("Eval a Rel Expr of an unimplemented function type %d for property %s"), funcType, funcProperty);
 		break;
   }
   return ClData(ret);
@@ -3896,11 +3897,11 @@ inline CDynFormulaSet* CDynFormulaSet::Make(CDynFormulaSet *f)		{return f->IsAli
 inline CDynFormulaSet::~CDynFormulaSet()									{Destroy(formulas);};
 inline CDynFormulaList& CDynFormulaSet::GetFormulas()					{return formulas;}
 inline CDynFormula * CDynFormulaSet::FindFormula(long i)				{CDynFormula *ret;  return Find(formulas, ret, i) ? ret : 0;}
-inline CDynFormula * CDynFormulaSet::FindFormula(const char *n)		{CDynFormula *ret;  return Find(formulas, ret, n) ? ret : 0;}
+inline CDynFormula * CDynFormulaSet::FindFormula(const TCHAR *n)		{CDynFormula *ret;  return Find(formulas, ret, n) ? ret : 0;}
 inline CDynFormula * CDynFormulaSet::FindFormula(const CFormula *c)	{CDynFormula *ret;  return Find(formulas, ret, c) ? ret : 0;};
 inline CDynFormula * CDynFormulaSet::RemoveFormula(CDynFormula *e)	{return Remove(formulas, e) ? e : 0;}
 inline CDynFormula * CDynFormulaSet::RemoveFormula(long i)				{CDynFormula *e;  return Remove(formulas, e, i) ? e : 0;}
-inline CDynFormula * CDynFormulaSet::RemoveFormula(const char *n)		{CDynFormula *e;  return Remove(formulas, e, n) ? e : 0;};
+inline CDynFormula * CDynFormulaSet::RemoveFormula(const TCHAR *n)		{CDynFormula *e;  return Remove(formulas, e, n) ? e : 0;};
 inline CDynFormula * CDynFormulaSet::InsertFormula(CDynFormula *e)	{return Insert(formulas, e) ? e : 0;}
 
 inline void CDynFormulaSet::RemoveAll()										{formulas.RemoveAll();};
@@ -3910,12 +3911,12 @@ inline bool CDynFormulaSet::IsAlive() const									{return alive;};
 
 void CDynFormulaSet::Clone()
 {
- // ASSERT_EX( core, "CDynConstraintSet::Clone", "core is NULL" );
+ // ASSERT_EX( core, _T("CDynConstraintSet::Clone"), _T("core is NULL") );
   
-	if (!core) throw new CDesertException("CDynFormulaSet::Clone: core is NULL" );
+	if (!core) throw new CDesertException(_T("CDynFormulaSet::Clone: core is NULL") );
 
-  //ASSERT_EX( CManager::theInstance, "CDynElement::Clone", "manager not instantiated" );
-	DYN_MANAGER_CHECK("CDynFormulaSet::Clone");
+  //ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
+	DYN_MANAGER_CHECK(_T("CDynFormulaSet::Clone"));
   CFormulaList& list = ((CFormulaSet *)core)->GetFormulas();
   POSITION pos = list.GetHeadPosition();
   while(pos)
@@ -3930,9 +3931,9 @@ void CDynFormulaSet::Clone()
 
 void CDynFormulaSet::Clone(CDynFormulaSet *from)
 {
-//  ASSERT_EX( CManager::theInstance, "CDynElement::Clone", "manager not instantiated" );
+//  ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
 
-	DYN_MANAGER_CHECK("CDynFormula::Clone()");
+	DYN_MANAGER_CHECK(_T("CDynFormula::Clone()"));
   CDynFormulaList& list = from->GetFormulas();
   POSITION pos = list.GetHeadPosition();
   while(pos)
@@ -4029,9 +4030,9 @@ CBdd CDynFormula::MaptoBdd()
   } catch (CDesertException *e) {
 	  int debugHere = 1;
 	  // Himanshu: Always return Bdd::One() when a constraint fails
-	  CString err("Formula: <");
+	  CString err(_T("Formula: <"));
 	  err.Append(this->GetName());
-	  err.Append("> fails to be evaluated.\r");
+	  err.Append(_T("> fails to be evaluated.\r"));
 	  err.Append(e->GetErrorMessage());
 	  e->Delete();
 	  throw new CDesertException(err);
@@ -4042,17 +4043,17 @@ CBdd CDynFormula::MaptoBdd()
 
 void CDynFormula::FillDependency(CDynamicObjList& dep)
 {
-//  ASSERT_EX( CManager::theInstance, "CDynElement::Clone", "manager not instantiated" );
+//  ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
 	
-	DYN_MANAGER_CHECK("CDynFormula::Restrict()");
+	DYN_MANAGER_CHECK(_T("CDynFormula::Restrict()"));
 	
   CFormula *core = (CFormula *)(this->core);
   if (core->GetConstraintType() ==  typeUniSpace)
   {
     CCosmic *root = core->GetRoot();
-    //ASSERT_EX( root, "CDynConstraint::FillDependency", "root is null" );
+    //ASSERT_EX( root, _T("CDynConstraint::FillDependency"), _T("root is null") );
 	if (!root)
-		throw new CDesertException("CDynFormula::FillDependency: root is Null");
+		throw new CDesertException(_T("CDynFormula::FillDependency: root is Null"));
     if (root->GetType() == typeElement)
     {
       CDynElement *elem = CManager::theInstance->FindElement((CElement *)root);
@@ -4074,15 +4075,15 @@ void CDynFormula::FillDependency(CDynamicObjList& dep)
       CDynamicObj *spc = CManager::theInstance->FindSpace(spaces.GetNext(pos));
       if (!dep.Find(spc)) dep.AddTail(spc);
     }
-    Todo("CDynFormula::FillDependency", "what about domains in the dependency?");
+    Todo(_T("CDynFormula::FillDependency"), _T("what about domains in the dependency?"));
   }
 }
 
 bool CDynFormula::Restrict()
 {
-//  ASSERT_EX( CManager::theInstance, "CDynElement::Clone", "manager not instantiated" );
+//  ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
 
-	DYN_MANAGER_CHECK("CDynFormula::Restrict()");
+	DYN_MANAGER_CHECK(_T("CDynFormula::Restrict()"));
 
   CFormula *core = (CFormula *)(this->core);
   CCosmicList& dependency = core->GetDependency();
@@ -4131,8 +4132,8 @@ CDynFormula *CDynFormula::Make(CFormula *org, CDynElement *own)
     dup = new CDynFormula((CFormula *)org, own);
     break;
   default:
-    //ASSERT_EX( false, "CDynProperty::Make", "bad property type" );
-	 throw new CDesertException("CDynFormula::Make(): bad property type");
+    //ASSERT_EX( false, _T("CDynProperty::Make"), _T("bad property type") );
+	 throw new CDesertException(_T("CDynFormula::Make(): bad property type"));
   }
   return dup;
 }

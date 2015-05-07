@@ -8,7 +8,9 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
+#define WIDE2(x) L##x
+#define WIDE1(x) WIDE2(x)
+static TCHAR THIS_FILE[] = WIDE1(__FILE__);
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
@@ -69,7 +71,7 @@ BOOL CCSetErrDialog::OnInitDialog()
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-void CCSetErrDialog::AddError(const char * CSet, const char * c, const char * context, const char * err_str, const char * what) 
+void CCSetErrDialog::AddError(const TCHAR * CSet, const TCHAR * c, const TCHAR * context, const TCHAR * err_str, const TCHAR * what) 
 {
 //	int i = 1;
 	CString formatter;
@@ -77,36 +79,36 @@ void CCSetErrDialog::AddError(const char * CSet, const char * c, const char * co
 	{
 		alive = true;
 		
-		formatter.Format("---Errored Constraint No: %d----------\r\n", errId);
+		formatter.Format(_T("---Errored Constraint No: %d----------\r\n"), errId);
 		m_strErrCts += formatter;
 
 		if (CSet)
 		{
-			formatter.Format("Constraint Set: %s\r\n", CSet);
+			formatter.Format(_T("Constraint Set: %s\r\n"), CSet);
 			m_strErrCts += formatter;
 		}
 
 		if (c)
 		{
-			formatter.Format("Constraint: %s\r\n", c);
+			formatter.Format(_T("Constraint: %s\r\n"), c);
 			m_strErrCts += formatter;
 		}
 
 		if (context)
 		{
-			formatter.Format("Context: %s\r\n", context);
+			formatter.Format(_T("Context: %s\r\n"), context);
 			m_strErrCts += formatter;
 		}
 
 		if (err_str)
 		{
-			formatter.Format("Context Error: %s\r\n", err_str);
+			formatter.Format(_T("Context Error: %s\r\n"), err_str);
 			m_strErrCts += formatter;
 		}
 
 		if (what)
 		{
-			formatter.Format("Exception: %s\r\n", what);
+			formatter.Format(_T("Exception: %s\r\n"), what);
 			m_strErrCts += formatter;
 		}
 

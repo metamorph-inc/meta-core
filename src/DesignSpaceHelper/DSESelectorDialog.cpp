@@ -64,14 +64,14 @@ void CDSESelectorDialog::FillCfgTree()
 	tvInsert.hParent = NULL;
 	tvInsert.hInsertAfter = NULL;
 	tvInsert.item.mask = TVIF_TEXT;
-	tvInsert.item.pszText = "DesignSpace";
+	tvInsert.item.pszText = _T("DesignSpace");
 	m_dseTreeRootItem = m_dsetree.InsertItem(&tvInsert);
 	
 	set<DesertIface::Element> elems = space.Element_kind_children();
 	for(set<DesertIface::Element>::iterator i=elems.begin();i!=elems.end();++i)
 	{
 		iname = (*i).name();
-		HTREEITEM elem_node = m_dsetree.InsertItem((LPSTR)iname.c_str(), m_dseTreeRootItem, TVI_LAST);
+		HTREEITEM elem_node = m_dsetree.InsertItem(utf82cstring(iname), m_dseTreeRootItem, TVI_LAST);
 		FillCfgTree(DesertIface::Element(*i), elem_node);
 		m_dsetree.SortChildren(elem_node);
 		m_dsetree.Expand(elem_node,TVE_EXPAND);
@@ -101,7 +101,7 @@ void CDSESelectorDialog::FillCfgTree(DesertIface::Element &elem, HTREEITEM paren
 					iname+=" [Alternative]";
 			}
 		}
-		HTREEITEM elem_node = m_dsetree.InsertItem((LPSTR)iname.c_str(),parent, TVI_LAST);
+		HTREEITEM elem_node = m_dsetree.InsertItem(utf82cstring(iname.c_str()), parent, TVI_LAST);
 		FillCfgTree(DesertIface::Element(*i),elem_node);
 		m_dsetree.SortChildren(elem_node);
 	//	m_dsetree.Expand(elem_node,TVE_EXPAND);

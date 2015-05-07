@@ -8,6 +8,7 @@
 #include <vector>
 #include <set>
 #include <ctype.h>
+#include <tchar.h>
 
 
 /***************************************************************************************/
@@ -60,7 +61,7 @@ public:
 		return configKeeper;
 	}
 
-	bool processCommandLineArguments( int argc, char *argv[] );
+	bool processCommandLineArguments( int argc, TCHAR *argv[] );
 
 	std::string getStringValue( const std::string &name ) { return _variablesMap[ name ].as< std::string >(); }
 	std::vector< std::string > getStringVector( const std::string &name ) {

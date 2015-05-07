@@ -2,6 +2,7 @@
 
 
 #include "bddint.h"
+#include <tchar.h>
 
 
 static
@@ -159,7 +160,7 @@ bdd_cofactor(bddm, f, c)
     {
       if (c == BDD_ZERO(bddm))
 	{
-	  bdd_warning("bdd_cofactor: second argument is false");
+	  bdd_warning(_T("bdd_cofactor: second argument is false"));
 	  return (BDD_ONE(bddm));
 	}
       FIREWALL(bddm);

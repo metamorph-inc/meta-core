@@ -161,10 +161,9 @@
   <ItemGroup>
     <ClCompile Include="AssemblyEditingViaLink.cpp" />
     <ClCompile Include="CreoMetaDataExporter.cpp" />
-    <ClCompile Include="CreoPlugins\CreoExport.cpp" />
-    <ClCompile Include="CreoPlugins\CreoExportComponent.cpp" />
-    <ClCompile Include="CreoPlugins\CreoSelectComponent.cpp" />
-    <ClCompile Include="EventLoopMonitor.cpp" />
+    <ClCompile Include="CreoPlugins\CreoPluginFunctions.cpp" />
+    <ClCompile Include="CreoPlugins\CreoPlugins.cpp" />
+    <ClCompile Include="CreoPlugins\CreoSelectComponentPlugin.cpp" />
     <ClCompile Include="GlobalModelData.cpp" />
     <ClCompile Include="InputArgumentsParser.cpp" />
     <ClCompile Include="MetaLinkHandler.cpp" />
@@ -175,12 +174,10 @@
     <ClCompile Include="Test_MetaLink.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\CADCreoParametricCommonFunctions\EventLoopMonitor.h" />
     <ClInclude Include="AssemblyEditingViaLink.h" />
     <ClInclude Include="CreoMetaDataExporter.h" />
-    <ClInclude Include="CreoPlugins\CreoExport.h" />
+    <ClInclude Include="CreoPlugins\CreoPluginFunctions.h" />
     <ClInclude Include="CreoPlugins\CreoPlugins.h" />
-    <ClInclude Include="DatumInfo.h" />
     <ClInclude Include="GlobalModelData.h" />
     <ClInclude Include="InputArgumentsParser.h" />
     <ClInclude Include="MetaLinkHandler.h" />

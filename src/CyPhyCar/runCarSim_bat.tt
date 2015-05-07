@@ -1,0 +1,22 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".txt" #>
+
+FOR /F "skip=2 tokens=2,*" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO set MetaPath=%%B
+
+if not exist %ADAMS_PATH%bin\adams2014_x64.bat goto :ERROR_SECTION
+
+:ADAMS_FOUND
+call %ADAMS_PATH%bin\adams2014_x64.bat acar ru-st b adams_car.cmd
+call %ADAMS_PATH%bin\adams2014_x64.bat aview ru-st b adams_view.cmd
+
+"%MetaPath%\bin\Python27\Scripts\Python.exe" "%MetaPath%\bin\CAD\CarPostProcessor.py"
+
+goto :OK
+
+:ERROR_SECTION
+@echo off
+echo Error: Adams is not installed or ADAMS_PATH environment variable is not set. >> _FAILED.txt
+set ERROR_CODE=2
+set ERROR_MSG=\"Error: Adams is not installed or ADAMS_PATH environment variable is not set.\"
+
+:OK

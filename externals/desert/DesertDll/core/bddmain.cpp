@@ -86,7 +86,7 @@ CBdd CBdd::Encode(CVIndex enc[], int len)
   {
     if (enc[i].index >= length)
     {
-      Error("CBddManager::m_encode", "index (%d) >= length (%d)", enc[i].index, length);
+      Error(_T("CBddManager::m_encode"), _T("index (%d) >= length (%d)"), enc[i].index, length);
       break;
     }
     if(enc[i].val == 1) ret = bdd_and(manager, ret, vars[enc[i].index] );

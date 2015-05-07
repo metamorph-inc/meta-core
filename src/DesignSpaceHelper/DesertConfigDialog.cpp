@@ -156,9 +156,9 @@ void CDesertConfigDialog::FillCfgList()
 	m_cfglist.TurnOffToolTip();
 	CRect rect;
 	m_cfglist.GetClientRect(&rect);
-	m_cfglist.InsertColumn(0, _T (""), LVCFMT_LEFT, (int)(WTIMES*m_cfglist.GetStringWidth(" ")),0);
-	m_cfglist.InsertColumn(1, _T("Cfg.No."), LVCFMT_LEFT, (int)(WTIMES*m_cfglist.GetStringWidth("Cfg.No.")),1);
-	m_cfglist.InsertColumn(2, _T("Cfg.Id."), LVCFMT_LEFT, (int)(WTIMES*m_cfglist.GetStringWidth("Cfg.Id.")),2);
+	m_cfglist.InsertColumn(0, _T (""), LVCFMT_LEFT, (int)(WTIMES*m_cfglist.GetStringWidth(_T(" "))),0);
+	m_cfglist.InsertColumn(1, _T("Cfg.No."), LVCFMT_LEFT, (int)(WTIMES*m_cfglist.GetStringWidth(_T("Cfg.No."))),1);
+	m_cfglist.InsertColumn(2, _T("Cfg.Id."), LVCFMT_LEFT, (int)(WTIMES*m_cfglist.GetStringWidth(_T("Cfg.Id."))),2);
 	//ListView_SetExtendedListViewStyle(m_cfglist.m_hWnd, LVS_EX_CHECKBOXES|LVS_EDITLABELS);
 	//m_cfglist.SetExtendedStyle(LVS_EX_CHECKBOXES|LVS_EDITLABELS|LVS_EX_FULLROWSELECT );
 	ListView_SetExtendedListViewStyle(m_cfglist.m_hWnd,LVS_EX_CHECKBOXES | LVS_EDITLABELS | LVS_EX_FULLROWSELECT);
@@ -178,9 +178,9 @@ void CDesertConfigDialog::FillCfgList()
 
 			item.lParam = 0;
 			item.iItem = i;
-			(void)m_cfglist.AddItem(i, "",(LPSTR)no.c_str(), (LPSTR)id.c_str());
+			(void)m_cfglist.AddItem(i, _T(""), utf82cstring(no), utf82cstring(id));
 			// fix column width
-			req = (int)(WTIMES*m_cfglist.GetStringWidth((LPSTR)id.c_str()));
+			req = (int)(WTIMES*m_cfglist.GetStringWidth(utf82cstring(id.c_str())));
 			is = m_cfglist.GetColumnWidth(2);
 			if ( is < req ) m_cfglist.SetColumnWidth(2, req);
 		}
@@ -199,7 +199,7 @@ void CDesertConfigDialog::FillCfgTree()
 	tvInsert.hParent = NULL;
 	tvInsert.hInsertAfter = NULL;
 	tvInsert.item.mask = TVIF_TEXT;
-	tvInsert.item.pszText = "DesignSpace";
+	tvInsert.item.pszText = _T("DesignSpace");
 	m_cfgTreeRootItem = m_cfgtree.InsertItem(&tvInsert);
 //	m_cfgtree.SetItemState( m_cfgTreeRootItem, TVIS_BOLD, TVIS_BOLD ); //bold
 //	m_cfgtree.SetItemState( cfg_root, 0, TVIS_BOLD );  //unbold
@@ -209,7 +209,7 @@ void CDesertConfigDialog::FillCfgTree()
 	{
 		if(!dhelper_ptr->isElementExist((*i).externalID())) continue;
 		iname = (*i).name();
-		HTREEITEM elem_node = m_cfgtree.InsertItem((LPSTR)iname.c_str(), m_cfgTreeRootItem, TVI_LAST);
+		HTREEITEM elem_node = m_cfgtree.InsertItem(utf82cstring(iname), m_cfgTreeRootItem, TVI_LAST);
 		FillCfgTree(DesertIface::Element(*i), elem_node);
 		m_cfgtree.SortChildren(elem_node);
 		m_cfgtree.Expand(elem_node,TVE_EXPAND);
@@ -256,7 +256,7 @@ void CDesertConfigDialog::FillCfgTree(DesertIface::Element &elem, HTREEITEM pare
 				}
 			}
 		}
-		HTREEITEM elem_node = m_cfgtree.InsertItem((LPSTR)iname.c_str(),parent, TVI_LAST);
+		HTREEITEM elem_node = m_cfgtree.InsertItem(utf82cstring(iname), parent, TVI_LAST);
 		FillCfgTree(DesertIface::Element(*i),elem_node);
 		m_cfgtree.SortChildren(elem_node);
 		m_cfgtree.Expand(elem_node,TVE_EXPAND);
@@ -768,7 +768,7 @@ void CDesertConfigDialog::OnBnClickedCyPhy2MorphMatrix()
 								   IID_IDispatch, (void**)&exceldispatch);
 				if(FAILED(hRes))
 				{
-					MessageBox("Failed to create Excel Application Object");
+					MessageBox(_T("Failed to create Excel Application Object"));
 					return;
 				}
 
@@ -778,7 +778,7 @@ void CDesertConfigDialog::OnBnClickedCyPhy2MorphMatrix()
          
 				if(FAILED(hRes))
 				{
-					MessageBox("Failed to access Excel Application Methods");
+					MessageBox(_T("Failed to access Excel Application Methods"));
 					return;
 				}
          
@@ -795,7 +795,7 @@ void CDesertConfigDialog::OnBnClickedCyPhy2MorphMatrix()
          
 				if(FAILED(hRes))
 				{
-					MessageBox("Failed to access Excel Application Methods");
+					MessageBox(_T("Failed to access Excel Application Methods"));
 					exceldispatch->Release();
 					return;
 				}
@@ -846,10 +846,11 @@ void CDesertConfigDialog::OnBnClickedMorphMatrix2CyPhy()
 
 void CDesertConfigDialog::updateSize(int checkedSize)
 {
-	char cnt_buff[10];
-	_itoa(checkedSize, cnt_buff, 10);
-	std::string info = "Total Configurations: \t"+cfgSizeInfo+"\r\nChecked Configurations: \t"+(std::string)cnt_buff;
-	m_cfgsize.SetWindowText(info.c_str());
+	TCHAR cnt_buff[16];
+	_itot(checkedSize, cnt_buff, _countof(cnt_buff));
+	CString info = _T("Total Configurations: \t");
+	info += utf82cstring(cfgSizeInfo) + _T("\r\nChecked Configurations: \t") + cnt_buff;
+	m_cfgsize.SetWindowText(info);
 }
 
 
@@ -885,7 +886,7 @@ void CDesertConfigDialog::OnLvnEndlabeleditCfglist(NMHDR *pNMHDR, LRESULT *pResu
       //... let's put it in the list! 
 		// AfxMessageBox(CString("In OnLvnEndlabeleditCfglist, pszText is NOT null"));
 	   m_cfglist.SetItemText(pDispInfo->item.iItem, 2, pDispInfo->item.pszText);
-	   dhelper_ptr->updateCfgId2NameMap(pDispInfo->item.iItem+1, pDispInfo->item.pszText);
+	   dhelper_ptr->updateCfgId2NameMap(pDispInfo->item.iItem+1, tstring2utf8(pDispInfo->item.pszText));
    } else {
 	   // AfxMessageBox(CString("In OnLvnEndlabeleditCfglist, pszText is NULL"));
 	   // m_cfglist.SetItemText(pDispInfo->item.iItem, 2, pDispInfo->item.pszText);

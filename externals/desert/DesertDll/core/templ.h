@@ -10,7 +10,7 @@
 /*
 template<class T> bool Remove(CTypedPtrList<CPtrList, T>& list, T toremove);
 template<class T> bool Remove(CTypedPtrList<CPtrList, T>& list, T& ret, long id);
-template<class T> bool Remove(CTypedPtrList<CPtrList, T>& list, T& ret, const char *name);
+template<class T> bool Remove(CTypedPtrList<CPtrList, T>& list, T& ret, const TCHAR *name);
 template<class T> bool Insert(CTypedPtrList<CPtrList, T>& list, T toinsert);
 
 template<class T> int  Index(CTypedPtrList<CPtrList, T>& list, T tofind);
@@ -43,32 +43,32 @@ template<class T> bool IsAncestor(T ancestor, T me);
 
 
 /*
-template<class T> bool __Find(CTypedPtrList<CPtrList, T>& list, T& ret, const char *name);
+template<class T> bool __Find(CTypedPtrList<CPtrList, T>& list, T& ret, const TCHAR *name);
 template<class T> bool __Find(CTypedPtrList<CPtrList, T>& list, T& ret, long id);
 template<class T> bool __Find(CTypedPtrList<CPtrList, T>& list, T& ret, const CStaticObj *core);
 */
 
-DESERT_API bool Find(CTypedPtrList<CPtrList, CCosmic*>&, CCosmic*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CSpace*>&, CSpace*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CElementContainer*>&, CElementContainer*&, const char *);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynElementContainer*>&, CDynElementContainer*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CElement*>&, CElement*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDomain*>&, CDomain*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CConstraintSet*>&, CConstraintSet*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CConstraint*>&, CConstraint*&, const char*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CCosmic*>&, CCosmic*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CSpace*>&, CSpace*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CElementContainer*>&, CElementContainer*&, const TCHAR *);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynElementContainer*>&, CDynElementContainer*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CElement*>&, CElement*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDomain*>&, CDomain*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CConstraintSet*>&, CConstraintSet*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CConstraint*>&, CConstraint*&, const TCHAR*);
 /////
-DESERT_API bool Find(CTypedPtrList<CPtrList, CFormulaSet*>&, CFormulaSet*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CFormula*>&, CFormula*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynFormulaSet*>&, CDynFormulaSet*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynFormula*>&, CDynFormula*&, const char*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CFormulaSet*>&, CFormulaSet*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CFormula*>&, CFormula*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynFormulaSet*>&, CDynFormulaSet*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynFormula*>&, CDynFormula*&, const TCHAR*);
 /////
-DESERT_API bool Find(CTypedPtrList<CPtrList, CProperty*>&, CProperty*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynSpace*>&, CDynSpace*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynElement*>&, CDynElement*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynConstraint*>&, CDynConstraint*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynConstraintSet*>&, CDynConstraintSet*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynProperty*>&, CDynProperty*&, const char*);
-DESERT_API bool Find(CTypedPtrList<CPtrList, CDynDomain*>&, CDynDomain*&, const char*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CProperty*>&, CProperty*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynSpace*>&, CDynSpace*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynElement*>&, CDynElement*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynConstraint*>&, CDynConstraint*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynConstraintSet*>&, CDynConstraintSet*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynProperty*>&, CDynProperty*&, const TCHAR*);
+DESERT_API bool Find(CTypedPtrList<CPtrList, CDynDomain*>&, CDynDomain*&, const TCHAR*);
 
 
 
@@ -169,29 +169,29 @@ DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynRelation*>&, CDynRelation*&, 
 ////////
 DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynFormulaSet*>&, CDynFormulaSet*&, long);
 DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynFormula*>&, CDynFormula*&, long);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynFormulaSet*>&, CDynFormulaSet*&, const char*);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynFormula*>&, CDynFormula*&, const char*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynFormulaSet*>&, CDynFormulaSet*&, const TCHAR*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynFormula*>&, CDynFormula*&, const TCHAR*);
 DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynFormulaSet*>&, CDynFormulaSet*);
 DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynFormula*>&, CDynFormula*);
 /////////
 
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CSpace*>&, CSpace*&, const char*);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDomain*>&, CDomain*&, const char*);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CConstraintSet*>&, CConstraintSet*&, const char*);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CElement*>&, CElement*&, const char*);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CProperty*>&, CProperty*&, const char*);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CRelation*>&, CRelation*&, const char*);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CConstraint*>&, CConstraint*&, const char*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CSpace*>&, CSpace*&, const TCHAR*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDomain*>&, CDomain*&, const TCHAR*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CConstraintSet*>&, CConstraintSet*&, const TCHAR*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CElement*>&, CElement*&, const TCHAR*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CProperty*>&, CProperty*&, const TCHAR*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CRelation*>&, CRelation*&, const TCHAR*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CConstraint*>&, CConstraint*&, const TCHAR*);
 /////
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CFormula*>&, CFormula*&, const char*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CFormula*>&, CFormula*&, const TCHAR*);
 /////
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynSpace*>&, CDynSpace*&, const char*);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynDomain*>&, CDynDomain*&, const char*);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynConstraintSet*>&, CDynConstraintSet*&, const char*);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynElement*>&, CDynElement*&, const char*);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynProperty*>&, CDynProperty*&, const char*);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynRelation*>&, CDynRelation*&, const char*);
-DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynConstraint*>&, CDynConstraint*&, const char*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynSpace*>&, CDynSpace*&, const TCHAR*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynDomain*>&, CDynDomain*&, const TCHAR*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynConstraintSet*>&, CDynConstraintSet*&, const TCHAR*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynElement*>&, CDynElement*&, const TCHAR*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynProperty*>&, CDynProperty*&, const TCHAR*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynRelation*>&, CDynRelation*&, const TCHAR*);
+DESERT_API bool Remove(CTypedPtrList<CPtrList, CDynConstraint*>&, CDynConstraint*&, const TCHAR*);
 
 
 DESERT_API bool Remove(CTypedPtrList<CPtrList, CSpace*>&, CSpace*);

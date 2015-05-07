@@ -83,6 +83,12 @@ namespace CyPhyPET
                         this.testBenchType = "formula";
                         this.SimpleCalculation();
                         break;
+
+                    case "MGA.Interpreter.CyphyCar":
+                        // TODO: Generate testbench_manifest.json
+                        this.testBenchType = "car";
+                        this.SimpleCalculation();
+                        break;
                 }
             }
             else if (this.testBench is CyPhy.CADTestBench)
@@ -103,6 +109,11 @@ namespace CyPhyPET
             else if (this.testBench is CyPhy.CFDTestBench)
             {
                 this.testBenchType = "cfd";
+                this.TemplateTestBench();
+            }
+            else if (this.testBench is CyPhy.CarTestBench)
+            {
+                this.testBenchType = "car";
                 this.TemplateTestBench();
             }
 

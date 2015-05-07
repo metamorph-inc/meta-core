@@ -51,5 +51,47 @@ namespace DynamicsTeamTest.Projects
 
             Assert.False(result, "CyPhy2Modelica_v2 should have failed, but did not.");
         }
+
+        [Fact]
+        [Trait("Model", "RISimpleFormula")]
+        [Trait("CyPhy2Modelica", "RISimpleFormula")]
+        public void NonScalarParamsProps_ParamCA()
+        {
+            string outputDir = "NonScalarParamsProps_ParamCA";
+            string testBenchPath = "/@Testing/@NonScalarParamsProps/@ParamCA";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            bool result = CyPhy2ModelicaRunner.Run(outputDir, mgaFile, testBenchPath);
+
+            Assert.True(result, "CyPhy2Modelica_v2 failed.");
+        }
+
+        [Fact]
+        [Trait("Model", "RISimpleFormula")]
+        [Trait("CyPhy2Modelica", "RISimpleFormula")]
+        public void NonScalarParamsProps_ParamComponent()
+        {
+            string outputDir = "NonScalarParamsProps_ParamComponent";
+            string testBenchPath = "/@Testing/@NonScalarParamsProps/@ParamComponent";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            bool result = CyPhy2ModelicaRunner.Run(outputDir, mgaFile, testBenchPath);
+
+            Assert.True(result, "CyPhy2Modelica_v2 failed.");
+        }
+
+        [Fact]
+        [Trait("Model", "RISimpleFormula")]
+        [Trait("CyPhy2Modelica", "RISimpleFormula")]
+        public void NonScalarParamsProps_PropCA()
+        {
+            string outputDir = "NonScalarParamsProps_PropCA";
+            string testBenchPath = "/@Testing/@NonScalarParamsProps/@PropCA";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            bool result = CyPhy2ModelicaRunner.Run(outputDir, mgaFile, testBenchPath);
+
+            Assert.True(result, "CyPhy2Modelica_v2 failed.");
+        }
     }
 }

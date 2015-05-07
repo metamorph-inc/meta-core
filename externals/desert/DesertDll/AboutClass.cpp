@@ -8,7 +8,9 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
+#define WIDE2(x) L##x
+#define WIDE1(x) WIDE2(x)
+static TCHAR THIS_FILE[] = WIDE1(__FILE__);
 #endif
 
 /////////////////////////////////////////////////////////////////////////////

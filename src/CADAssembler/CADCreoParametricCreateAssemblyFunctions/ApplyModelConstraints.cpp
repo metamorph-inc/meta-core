@@ -12,6 +12,7 @@
 #include "ProMessage.h"
 #include "AssemblyOptions.h"
 #include "DatumRefResolver.h"
+#include "GraphicsFunctions.h"
 
 /*
 Notes:
@@ -74,11 +75,43 @@ struct ContraintFeatureDefinition
 	ProName					added_model_datum_name;	// RIGHT, A23 ..
 	ProDatumside			added_model_datum_side;	// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
 	ProAsmcompConstrType	constraint_type;		// enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
-	double					offset_between_datums;	// This is only used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
+	double					offset_between_datums;	// This is currently not used; would only be used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
+
 	int						setID;
 	e_CADTreatConstraintAsAGuide treatConstraintAsAGuide;
 
-	ContraintFeatureDefinition(): treatConstraintAsAGuide(CAD_TREAT_CONSTRAINT_AS_A_GUIDE_FALSE){};
+	ContraintFeatureDefinition(): treatConstraintAsAGuide(CAD_TREAT_CONSTRAINT_AS_A_GUIDE_FALSE) {};
+};
+
+
+struct ContraintFeatureDefinition_2
+{
+	ProMdl					p_base_model;
+	std::string				base_model_component_instance_ID;
+	MultiFormatString		base_model_name;
+	ProMdlType				base_model_type;
+
+	ProMdl					p_added_model;
+	std::string				added_model_component_instance_ID;
+	MultiFormatString		added_model_name;
+	ProMdlType				added_model_type;
+
+	list<int>				base_model_path_list;   // list of Creo feature IDs leading to the part/assembly
+	list<int>				added_model_path_list;  // list of Creo feature IDs leading to the part/assembly
+	ProType					pro_datum_type;			// enum PRO_SURFACE, PRO_AXIS
+	ProName					base_model_datum_name;	// ASM_RIGHT, A_1..
+	ProDatumside			base_model_datum_side;	// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
+	ProName					added_model_datum_name;	// RIGHT, A23 ..
+	ProDatumside			added_model_datum_side;	// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
+	ProAsmcompConstrType	constraint_type;		// enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
+	double					offset_between_datums;	// This is currently not used; would only be used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
+	bool					flip_orientation;		// This applies to axes and would be set if the initial constraint 
+													// resulted in an insolvent constraint. For example, if the start and end points of two
+													// axes (i.e. base and added axes) resulted in a vectors pointing int the opposited directions,
+													// then flip_orientation would be set to true.
+	e_CADTreatConstraintAsAGuide treatConstraintAsAGuide;
+
+	ContraintFeatureDefinition_2(): treatConstraintAsAGuide(CAD_TREAT_CONSTRAINT_AS_A_GUIDE_FALSE), flip_orientation(false){};
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,9 +131,217 @@ struct PerSetConstraintDefinition
 								hasAGuideConstraint(false),
 								jointType_withguide(UNKNOWN_JOINT_TYPE) {};
 };
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void SortOrderBasedOnJointType( e_CADJointType			in_JointType,
+								std::vector<ProType>	&out_SortOrder_vector )
+{
+	out_SortOrder_vector.clear();
 
+	switch ( in_JointType )
+	{
+		case FIXED_JOINT:  // Rigid in Creo
+			out_SortOrder_vector.push_back(PRO_CSYS);
+			out_SortOrder_vector.push_back(PRO_SURFACE);
+			out_SortOrder_vector.push_back(PRO_POINT);
+			out_SortOrder_vector.push_back(PRO_AXIS);
+		break;
+
+		case REVOLUTE_JOINT:  // Pin constraint in Creo
+			out_SortOrder_vector.push_back(PRO_AXIS);  // There would always be at least one axis
+			out_SortOrder_vector.push_back(PRO_SURFACE);
+			out_SortOrder_vector.push_back(PRO_POINT);
+		break;
+
+		case UNIVERSAL_JOINT:
+			// Creo Does not have a universal joint
+			// Normally this would require three parts, see http://en.wikipedia.org/wiki/Universal_joint
+			out_SortOrder_vector.push_back(PRO_AXIS);
+			out_SortOrder_vector.push_back(PRO_POINT);
+			out_SortOrder_vector.push_back(PRO_SURFACE);
+			out_SortOrder_vector.push_back(PRO_CSYS);
+		break;
+
+		case SPHERICAL_JOINT:  // Ball in Creo
+			out_SortOrder_vector.push_back(PRO_POINT);
+		break;
+
+		case PRISMATIC_JOINT: // Slider in Creo
+			out_SortOrder_vector.push_back(PRO_AXIS);  // Could be a plane and axis
+			out_SortOrder_vector.push_back(PRO_SURFACE); // Could be two orthoganal planes
+
+		break;
+		case CYLINDRICAL_JOINT:  // Cylinder in Creo
+			out_SortOrder_vector.push_back(PRO_AXIS);
+		break;
+
+		case PLANAR_JOINT:  // Planar in Creo
+			out_SortOrder_vector.push_back(PRO_SURFACE);
+		break;
+
+		case UNKNOWN_JOINT_TYPE:
+			out_SortOrder_vector.push_back(PRO_CSYS);
+			out_SortOrder_vector.push_back(PRO_SURFACE);
+			out_SortOrder_vector.push_back(PRO_AXIS);
+			out_SortOrder_vector.push_back(PRO_POINT);
+		break;
+		
+		default:
+			out_SortOrder_vector.push_back(PRO_CSYS);
+			out_SortOrder_vector.push_back(PRO_SURFACE);
+			out_SortOrder_vector.push_back(PRO_AXIS);
+			out_SortOrder_vector.push_back(PRO_POINT);
+	}
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class PerSetConstraintDefinition_2
+{
+	public:
+			PerSetConstraintDefinition_2();
+
+			void			set_JointType_withoutguide( e_CADJointType in_JointType_withoutguide );
+			e_CADJointType	get_JointType_withoutguide() const;
+			
+			void			set_HasAGuideConstraint( bool in_HasAGuideConstraint );
+			bool			get_HasAGuideConstraint() const;
+
+			void			set_JointType_withguide( e_CADJointType in_JointType_withguide );
+			e_CADJointType	get_JointType_withguide() const;
+
+			void				set_JointMotionLimits( const InputJoint &in_JointMotionLimits);
+			const InputJoint&	get_JointMotionLimits() const;
+
+			void			add_ContraintFeatureDefinition (const ContraintFeatureDefinition_2 &in_ContraintFeatureDefinition );
+
+			const ContraintFeatureDefinition_2&	get_ContraintFeatureDefinition_const ( int in_ConstraintID ) const
+																							throw (isis::application_exception);
+
+			ContraintFeatureDefinition_2&	get_ContraintFeatureDefinition ( int in_ConstraintID ) 
+																			throw (isis::application_exception);
+
+			std::vector<ContraintFeatureDefinition_2>::const_iterator begin_ContraintFeatureDefinitions() const;
+			std::vector<ContraintFeatureDefinition_2>::const_iterator end_ContraintFeatureDefinitions()   const;
+
+			int				get_NumberOfConstraintFeatures() const;
+
+			// Note - The following function will add to out_DatumTypesUsedByConstraintFeatures.  It is the caller's
+			//        responsibility to clear out_DatumTypesUsedByConstraintFeatures before calling if only the 
+			//		  DatumTypes from this one instance are needed.
+			void		    get_DatumTypesUsedByConstraintFeatures ( std::set<ProType> &out_DatumTypesUsedByConstraintFeatures) const;
+			
+	private:
+		e_CADJointType								jointType_withoutguide;
+
+		bool										hasAGuideConstraint;
+		e_CADJointType								jointType_withguide;
+
+		std::vector<ContraintFeatureDefinition_2>	contraintFeatureDefinitions;
+
+		InputJoint									jointMotionLimits;
+
+		std::vector<int>							sortedConstraintIDs;
+ };
+
+PerSetConstraintDefinition_2::PerSetConstraintDefinition_2() :  
+									jointType_withoutguide(UNKNOWN_JOINT_TYPE), 
+									hasAGuideConstraint(false),
+									jointType_withguide(UNKNOWN_JOINT_TYPE) {};
+
+
+void PerSetConstraintDefinition_2::set_JointType_withoutguide( e_CADJointType in_JointType_withoutguide ) 
+{ 
+	jointType_withoutguide = in_JointType_withoutguide;
+}
+
+e_CADJointType PerSetConstraintDefinition_2::get_JointType_withoutguide() const 
+{ 
+	return jointType_withoutguide; 
+}
+
+void PerSetConstraintDefinition_2::set_HasAGuideConstraint( bool in_HasAGuideConstraint )
+{ 
+	hasAGuideConstraint = in_HasAGuideConstraint;
+}
+
+bool PerSetConstraintDefinition_2::get_HasAGuideConstraint() const 
+{
+	return hasAGuideConstraint;
+}
+
+void PerSetConstraintDefinition_2::set_JointType_withguide( e_CADJointType in_JointType_withguide ) 
+{ 
+	jointType_withguide= in_JointType_withguide;
+}
+
+e_CADJointType PerSetConstraintDefinition_2::get_JointType_withguide() const 
+{ 
+	return jointType_withguide; 
+}
+
+void PerSetConstraintDefinition_2::set_JointMotionLimits( const InputJoint & in_JointMotionLimits) 
+{ 
+	jointMotionLimits = in_JointMotionLimits;
+}
+
+const InputJoint& PerSetConstraintDefinition_2::get_JointMotionLimits() const 
+{ 
+	return jointMotionLimits; 
+}
+
+void PerSetConstraintDefinition_2::add_ContraintFeatureDefinition (const ContraintFeatureDefinition_2 &in_ContraintFeatureDefinition )
+{ 
+	contraintFeatureDefinitions.push_back( in_ContraintFeatureDefinition ); 
+}
+
+const ContraintFeatureDefinition_2&	PerSetConstraintDefinition_2::get_ContraintFeatureDefinition_const ( int in_ConstraintID ) const
+																					throw (isis::application_exception)
+{
+	if ( in_ConstraintID < 0  || in_ConstraintID >= contraintFeatureDefinitions.size() )
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an out-of-range in_ConstraintID" << std::endl <<
+			"  in_ConstraintID: " << in_ConstraintID << std::endl <<
+			"  Allowed Range:   " << "0 to " <<  contraintFeatureDefinitions.size() -1;
+		throw isis::application_exception("C04002",errorString.str());			
+	}
+	return contraintFeatureDefinitions[in_ConstraintID];
+}
+
+ContraintFeatureDefinition_2&	PerSetConstraintDefinition_2::get_ContraintFeatureDefinition ( int in_ConstraintID ) 
+																					throw (isis::application_exception)
+{
+	if ( in_ConstraintID < 0  || in_ConstraintID >= contraintFeatureDefinitions.size() )
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an out-of-range in_ConstraintID" << std::endl <<
+			"  in_ConstraintID: " << in_ConstraintID << std::endl <<
+			"  Allowed Range:   " << "0 to " <<  contraintFeatureDefinitions.size() -1;
+		throw isis::application_exception("C04002",errorString.str());			
+	}
+	return contraintFeatureDefinitions[in_ConstraintID];
+}
+
+
+std::vector<ContraintFeatureDefinition_2>::const_iterator PerSetConstraintDefinition_2::begin_ContraintFeatureDefinitions() const 
+{ 
+	return  contraintFeatureDefinitions.begin(); 
+}
+
+std::vector<ContraintFeatureDefinition_2>::const_iterator PerSetConstraintDefinition_2::end_ContraintFeatureDefinitions()   const 
+{ 
+	return  contraintFeatureDefinitions.end(); 
+}
+
+int	PerSetConstraintDefinition_2::get_NumberOfConstraintFeatures() const
+{
+	return contraintFeatureDefinitions.size();
+}
+
+void PerSetConstraintDefinition_2::get_DatumTypesUsedByConstraintFeatures ( std::set<ProType> &out_DatumTypesUsedByConstraintFeatures) const
+{
+	for each ( const ContraintFeatureDefinition_2 &i in contraintFeatureDefinitions )
+		out_DatumTypesUsedByConstraintFeatures.insert(i.pro_datum_type);
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool ContainsAGuide(const std::vector<ContraintFeatureDefinition> &in_ContraintFeatureDefinitions  )
 {
 	for (std::vector<ContraintFeatureDefinition>::const_iterator i = in_ContraintFeatureDefinitions.begin(); i != in_ContraintFeatureDefinitions.end(); ++i)
@@ -448,6 +689,39 @@ void Add_PRO_E_COMPONENT_SET(	ProElement out_sets_elem,
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void RetrieveProSelectionForGeometry(  
+			const ProSolid				&in_TopAssemblyModel,		// Used as the starting point of model_path_list
+			const list<int>				&in_model_path_list,		// Used to locate the model in the assembly containing the geometry
+			const std::string			&in_component_instance_ID,	// Used for logging error messages
+			const MultiFormatString		&in_model_name,				// Used for logging error messages
+			ProMdlType					in_model_type,				// Used for logging error messages
+			ProType					    in_pro_geometry_type,		// Identifies the geometry type, e.g. Datum
+			const ProName				in_pro_geometry_name,		// Geometry Name, e.g. Datum Name
+			ProSelection				&out_pro_selection)			// Returned pro_selection
+{
+	ProAsmcomppath	comp_path;
+	isis::Retrieve_ProAsmcomppath_WithExceptions(in_TopAssemblyModel, in_model_path_list, comp_path);
+
+	ProMdl		 model_containing_datum;		// typedef void* ProMdl
+	isis::isis_ProAsmcomppathMdlGet( &comp_path, &model_containing_datum);
+
+	ProModelitem  model_datum;
+
+	isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (	in_component_instance_ID, // Added arguments for logging
+																in_model_name, 
+																in_model_type,   
+																//in_ContraintDef.p_base_model, //base_model, // Original arguments
+																model_containing_datum, //base_model, // Original arguments
+																in_pro_geometry_type, 
+																in_pro_geometry_name, 
+																&model_datum);  
+
+	
+	ValidatePathAndModelItem_ThrowExceptionIfInvalid(comp_path, model_datum);
+	isis::isis_ProSelectionAlloc(&comp_path, &model_datum, &out_pro_selection);
+
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // This function has memory leaks.  Should fix.
 void Add_PRO_E_COMPONENT_CONSTRAINT( ProElement &out_constrs_elem, 
 									const ContraintFeatureDefinition &in_ContraintDef, 
@@ -472,7 +746,6 @@ void Add_PRO_E_COMPONENT_CONSTRAINT( ProElement &out_constrs_elem,
 						in_ContraintDef.added_model_datum_side,		// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
 						in_ContraintDef.constraint_type,				// enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
 						in_ContraintDef.offset_between_datums,		// This is only used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
-					
 						str);
 			
 			logcat_fileonly.infoStream() << str.str();
@@ -534,9 +807,9 @@ void Add_PRO_E_COMPONENT_CONSTRAINT( ProElement &out_constrs_elem,
 
 		//	Find the assembly datum 
 		ProModelitem  base_model_datum;
-		isis::MultiFormatString  temp_string(in_ContraintDef.base_model_datum_name);
-
+		//isis::MultiFormatString  temp_string(in_ContraintDef.base_model_datum_name);
 		//std::cout << std::endl << "+++ Base model datum name: " << temp_string << std::endl;
+
 		isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (	in_ContraintDef.base_model_component_instance_ID, // Added arguments
 																	in_ContraintDef.base_model_name, 
 																	in_ContraintDef.base_model_type,   
@@ -549,7 +822,7 @@ void Add_PRO_E_COMPONENT_CONSTRAINT( ProElement &out_constrs_elem,
 		//	Find the component datum
 		ProModelitem  add_model_datum;
 
-		temp_string = in_ContraintDef.added_model_datum_name;
+		//temp_string = in_ContraintDef.added_model_datum_name;
 		//std::cout << std::endl << "+++ Added model datum name: " << temp_string << std::endl;
 
 		isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (	in_ContraintDef.added_model_component_instance_ID, // Added arguments
@@ -657,9 +930,240 @@ void Add_PRO_E_COMPONENT_CONSTRAINT( ProElement &out_constrs_elem,
 		
 }
 
-// This function is certainly very inefficient
+ProAsmcompConstrType Flip_MateToAlign_or_AlignToMate ( ProAsmcompConstrType in_ConstraintType)
+{
+	switch ( in_ConstraintType)
+	{
+		case PRO_ASM_MATE:
+			return PRO_ASM_ALIGN;
+			break;
+		case PRO_ASM_ALIGN:
+			return PRO_ASM_MATE;
+			break;
+		default:
+			return in_ConstraintType;
+	}
+}
+
+
+void Add_PRO_E_COMPONENT_CONSTRAINT_2(	ProElement &out_constrs_elem, 
+										const ContraintFeatureDefinition_2 &in_ContraintDef, 
+										ProSolid &in_TopAssemblyModel,
+										int setidx )
+														throw (isis::application_exception)
+{
+
+		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+
+		std::stringstream str;
+		logcat_fileonly.infoStream() << "Add_PRO_E_COMPONENT_CONSTRAINT >>>>>>>>>>>>>>>";
+		//logcat_fileonly.infoStream() << "\n**** Axis Constraint Index: " <<  counter << "  ******";
+		stream_PopulateOneConstraintInConstraintStructure_2(
+						&in_TopAssemblyModel,	// typedef struct sld_part* ProSolid;
+						in_ContraintDef.base_model_path_list,		
+						in_ContraintDef.added_model_path_list,
+						in_ContraintDef.pro_datum_type,				// enum PRO_SURFACE, PRO_AXIS
+						in_ContraintDef.base_model_datum_name,		// ASM_RIGHT, A_1..
+						in_ContraintDef.base_model_datum_side,		// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
+						in_ContraintDef.added_model_datum_name,		// RIGHT, A23 ..
+						in_ContraintDef.added_model_datum_side,		// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
+						in_ContraintDef.constraint_type,				// enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
+						in_ContraintDef.offset_between_datums,		// This is only used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
+						in_ContraintDef.flip_orientation,
+						str);
+			
+			logcat_fileonly.infoStream() << str.str();
+
+
+			logcat_fileonly.infoStream();
+		///////////////////////////////////
+		// Add PRO_E_COMPONENT_CONSTRAINT
+		//////////////////////////////////
+		ProElement comp_constr_elem;
+
+		isis::isis_ProElementAlloc (PRO_E_COMPONENT_CONSTRAINT, &comp_constr_elem);  
+		isis::isis_ProElemtreeElementAdd (out_constrs_elem, NULL, comp_constr_elem);
+
+		///////////////////////////////////
+		// Add PRO_E_COMPONENT_CONSTR_TYPE
+		///////////////////////////////////
+		// From proasmcomp.h
+		// PRO_E_COMPONENT_CONSTR_TYPE           Type           PRO_VALUE_TYPE_INT       See ProAsmcompConstrType
+		//
+		//   Constraint Type     Valid Reference Types
+		//   ---------------------------------------------------------------------
+		//   PRO_ASM_MATE          PRO_SURFACE (Plane, Cone, Torus, Cylinder)
+		//   PRO_ASM_MATE_OFF      PRO_SURFACE (Plane)
+		//   PRO_ASM_ALIGN         PRO_POINT, PRO_AXIS, PRO_SURFACE (Plane)
+		//   PRO_ASM_ALIGN_OFF     PRO_POINT, PRO_AXIS, PRO_SURFACE (Plane)
+		//   PRO_ASM_INSERT        PRO_SURFACE (Cylinder, Cone, Torus)
+		//   PRO_ASM_ORIENT        PRO_SURFACE (Plane), PRO_CSYS
+		//	 PRO_ASM_CSYS          PRO_CSYS
+
+		ProElemId elemid;
+		ProValueData value_data;
+		elemid = PRO_E_COMPONENT_CONSTR_TYPE;
+		value_data.type = PRO_VALUE_TYPE_INT;
+		ProAsmcompConstrType constrtype = in_ContraintDef.constraint_type;
+		switch ( in_ContraintDef.pro_datum_type  )
+		{
+			case PRO_SURFACE:
+				 constrtype = in_ContraintDef.constraint_type;
+					break;
+			case PRO_POINT:
+				constrtype = PRO_ASM_ALIGN;
+				break;
+
+			case PRO_AXIS:
+				constrtype = PRO_ASM_ALIGN;
+				break;
+
+			case PRO_CSYS:
+				constrtype = PRO_ASM_CSYS;
+				break;
+			default:
+				constrtype = PRO_ASM_ALIGN;
+		}
+
+		value_data.v.i = constrtype;
+		ProElement constr1_type_elem;
+		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem,&value_data, &constr1_type_elem);
+
+		/////////////////////////////////////////
+		// Add PRO_E_COMPONENT_COMP_CONSTR_REF
+		/////////////////////////////////////////
+	
+		ProSelection base_model_select;
+		ProSelection added_model_select;
+
+		RetrieveProSelectionForGeometry(in_TopAssemblyModel,					// Used as the starting point of model_path_list
+										in_ContraintDef.base_model_path_list,	// Used to locate the model in the assembly containing the geometry
+										in_ContraintDef.base_model_component_instance_ID,	// Used for logging error messages
+										in_ContraintDef.base_model_name,		// Used for logging error messages
+										in_ContraintDef.base_model_type,		// Used for logging error messages
+										in_ContraintDef.pro_datum_type,			// Identifies the geometry type, e.g. Datum
+										in_ContraintDef.base_model_datum_name,	// Geometry Name, e.g. Datum Name
+										base_model_select);						// Returned pro_selection
+
+		RetrieveProSelectionForGeometry(in_TopAssemblyModel,					// Used as the starting point of model_path_list
+										in_ContraintDef.added_model_path_list,	// Used to locate the model in the assembly containing the geometry
+										in_ContraintDef.added_model_component_instance_ID,	// Used for logging error messages
+										in_ContraintDef.added_model_name,		// Used for logging error messages
+										in_ContraintDef.added_model_type,		// Used for logging error messages
+										in_ContraintDef.pro_datum_type,			// Identifies the geometry type, e.g. Datum
+										in_ContraintDef.added_model_datum_name,	// Geometry Name, e.g. Datum Name
+										added_model_select);					// Returned pro_selection
+
+		//////////////////////////////////////
+		// Add PRO_E_COMPONENT_COMP_CONSTR_REF
+		//////////////////////////////////////
+		elemid = PRO_E_COMPONENT_COMP_CONSTR_REF ;
+		value_data.type = PRO_VALUE_TYPE_SELECTION;
+		value_data.v.r =  added_model_select;
+		ProElement comp_const1_Ref_elem;
+		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem,&value_data, &comp_const1_Ref_elem);
+
+		//////////////////////////////////////
+		// Add PRO_E_COMPONENT_ASSEM_CONSTR_REF
+		//////////////////////////////////////
+		elemid = PRO_E_COMPONENT_ASSEM_CONSTR_REF;
+		value_data.type = PRO_VALUE_TYPE_SELECTION;
+		value_data.v.r =  base_model_select;
+		ProElement asm_const2_Ref_elem;
+		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem,&value_data, &asm_const2_Ref_elem);
+
+		ProConnectionFlipState flipState = PRO_ASM_FLIP_UNDEFINED;
+
+		pro_datum_side datumSide = PRO_DATUM_SIDE_YELLOW;
+
+		if ( in_ContraintDef.pro_datum_type == PRO_SURFACE )
+		{
+			if ( in_ContraintDef.base_model_datum_side == PRO_DATUM_SIDE_YELLOW )
+			{
+				datumSide =  PRO_DATUM_SIDE_YELLOW;
+				logcat_fileonly.infoStream() << "PRO_E_COMPONENT_ASSM_ORIENT:              PRO_DATUM_SIDE_YELLOW";
+			}
+			else
+			{
+				datumSide =  PRO_DATUM_SIDE_RED;
+				logcat_fileonly.infoStream() << "PRO_E_COMPONENT_ASSM_ORIENT:              PRO_DATUM_SIDE_RED";
+			}
+		}
+
+		elemid = PRO_E_COMPONENT_ASSM_ORIENT ;
+		value_data.type = PRO_VALUE_TYPE_INT;
+		if (in_ContraintDef.pro_datum_type == PRO_SURFACE )
+			value_data.v.i = datumSide;
+		else
+			value_data.v.i = flipState; 
+		ProElement base_model_datum_side_elem;
+		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem, &value_data, &base_model_datum_side_elem);
+
+		////////////////////////////////////////
+		// Add a PRO_E_COMPONENT_COMP_ORIENT 
+		////////////////////////////////////////
+
+		if ( in_ContraintDef.pro_datum_type == PRO_SURFACE )
+		{
+			if ( in_ContraintDef.added_model_datum_side == PRO_DATUM_SIDE_YELLOW )
+			{
+				datumSide =  PRO_DATUM_SIDE_YELLOW;
+				logcat_fileonly.infoStream() << "PRO_E_COMPONENT_COMP_ORIENT:              PRO_DATUM_SIDE_YELLOW";
+			}
+			else
+			{
+				datumSide =  PRO_DATUM_SIDE_RED;
+				logcat_fileonly.infoStream() << "PRO_E_COMPONENT_COMP_ORIENT:              PRO_DATUM_SIDE_RED";
+			}
+		}
+
+		elemid = PRO_E_COMPONENT_COMP_ORIENT ;
+		value_data.type = PRO_VALUE_TYPE_INT;
+		//value_data.v.i = ((in_JointType ==  REVOLUTE_JOINT || in_JointType == PRISMATIC_JOINT)&&!guide)?flip:in_ContraintDef.added_model_datum_side; 
+		if (in_ContraintDef.pro_datum_type == PRO_SURFACE )
+			value_data.v.i = datumSide;
+		else
+			value_data.v.i = flipState; 
+		ProElement added_model_datum_side_elem;
+		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem, &value_data, &added_model_datum_side_elem);
+
+		////////////////////////////////////////
+		// Add a PRO_E_COMPONENT_CONSTR_SET_ID 
+		////////////////////////////////////////
+		elemid = PRO_E_COMPONENT_CONSTR_SET_ID ;
+		value_data.type = PRO_VALUE_TYPE_INT;
+		value_data.v.i = setidx; // ?????The set Ids are the index into the array of sets.  Therefore, if setID==1, then this 
+													//  would be the first entry in the set array and would be at offset 0;
+
+		ProElement comp_constr_set_id;
+		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem,&value_data, &comp_constr_set_id);
+
+		////////////////////////////////////////
+		// Add a PRO_E_COMPONENT_CONSTR_ATTR 
+		////////////////////////////////////////		
+		// PRO_E_COMPONENT_CONSTR_ATTR applies to only axes
+		if (in_ContraintDef.flip_orientation )   // Would only be set for axes
+		{
+			flipState = PRO_ASM_FLIPPED;
+			logcat_fileonly.infoStream() << "PRO_E_COMPONENT_CONSTR_ATTR:              PRO_ASM_FLIPPED";
+		}
+		else
+		{
+			flipState = PRO_ASM_FLIP_UNDEFINED;
+			// This doesn't work flipState = PRO_ASM_NOT_FLIPPED;
+			logcat_fileonly.infoStream() << "PRO_E_COMPONENT_CONSTR_ATTR:              PRO_ASM_FLIP_UNDEFINED";
+		}
+
+		elemid = PRO_E_COMPONENT_CONSTR_ATTR;
+		value_data.type = PRO_VALUE_TYPE_INT;
+		value_data.v.i = flipState;
+		ProElement comp_constr_attr;
+		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem,&value_data, &comp_constr_attr);		
+}
+
 void SetupRotationLimits(ProSolid parentAssembly, const std::vector<ContraintFeatureDefinition> &constraintdefs, ProElement sets_elem_tree, int setid, const InputJoint& joint)
 {
+
 		const InputJoint::LimitRef *base_limitrefs;
 		const InputJoint::LimitRef *added_limitrefs;
 
@@ -694,6 +1198,7 @@ void SetupRotationLimits(ProSolid parentAssembly, const std::vector<ContraintFea
 		ProElempath   setPath;
 		isis::isis_ProElempathAlloc (&setPath);			
 		isis::isis_ProElempathDataSet (setPath, set_path, 2);
+
 		isis::isis_ProElemtreeElementGet (sets_elem_tree, setPath, &set_elem);
 
 		ProReference comp_ref;
@@ -720,9 +1225,9 @@ void SetupRotationLimits(ProSolid parentAssembly, const std::vector<ContraintFea
 
 
 		ProError err = ProReferenceSet(asm_ref, &base_comp_path, &base_model_item);
-		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("crap");
+		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("Error: ProReferenceSet, in Function: SetupRotationLimits");
 		err = ProReferenceSet(comp_ref, &added_comp_path, &added_model_item);
-		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("crap");
+		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("Error: ProReferenceSet, in Function: SetupRotationLimits_2");
 
 		//logcat_fileonly.warnStream() << "Setting rotation limits on: " << constraintdefs[0].base_model_component_instance_ID << ", " << constraintdefs[0].added_model_component_instance_ID;
 
@@ -733,10 +1238,94 @@ void SetupRotationLimits(ProSolid parentAssembly, const std::vector<ContraintFea
 		//ProReferenceFree(&asm_ref);
 		//ProElempathFree(&setPath);
 
-		//ProElemtreeWrite(sets_elem_tree, PRO_ELEMTREE_XML, L"crap.xml");
+		//ProElemtreeWrite(sets_elem_tree, PRO_ELEMTREE_XML, L"SetupRotationLimits_2.xml");
 }
 
-// This function is certainly very inefficient
+void SetupRotationLimits_2(	ProSolid parentAssembly, 
+							const ContraintFeatureDefinition_2 &constraintdef, 
+							ProElement sets_elem_tree, 
+							int in_SetID_index, 
+							const InputJoint& joint)
+{
+
+		const InputJoint::LimitRef *base_limitrefs;
+		const InputJoint::LimitRef *added_limitrefs;
+
+		if (joint.RotationLimitRefs_This[InputJoint::DEFAULT].ComponentID == constraintdef.base_model_component_instance_ID &&
+			joint.RotationLimitRefs_Other[InputJoint::DEFAULT].ComponentID == constraintdef.added_model_component_instance_ID)
+		{
+			base_limitrefs = joint.RotationLimitRefs_This;
+			added_limitrefs = joint.RotationLimitRefs_Other;
+		}
+		else if (joint.RotationLimitRefs_Other[InputJoint::DEFAULT].ComponentID == constraintdef.base_model_component_instance_ID &&
+			     joint.RotationLimitRefs_This[InputJoint::DEFAULT].ComponentID == constraintdef.added_model_component_instance_ID)
+		{
+			base_limitrefs = joint.RotationLimitRefs_Other;
+			added_limitrefs = joint.RotationLimitRefs_This;
+		}
+		else
+		{
+			// This joint is not between these components
+			return;
+		}
+
+		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+
+
+	//logcat_fileonly.errorStream() << constraintdefs[0].ToString();
+		ProElempathItem set_path[] = 
+			{{PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_SETS},
+			{PRO_ELEM_PATH_ITEM_TYPE_INDEX, in_SetID_index}};
+
+		// Get PRO_E_COMPONENT_SETS 
+		ProElement set_elem;
+		ProElempath   setPath;
+		isis::isis_ProElempathAlloc (&setPath);			
+		isis::isis_ProElempathDataSet (setPath, set_path, 2);
+
+		isis::isis_ProElemtreeElementGet (sets_elem_tree, setPath, &set_elem);
+
+		ProReference comp_ref;
+		ProReference asm_ref;
+
+		ProReferenceAlloc(&comp_ref);
+		ProReferenceAlloc(&asm_ref);
+
+		ProAsmcomppath	base_comp_path;
+		isis::Retrieve_ProAsmcomppath_WithExceptions(parentAssembly, constraintdef.base_model_path_list, base_comp_path);
+
+		ProAsmcomppath	added_comp_path;
+		isis::Retrieve_ProAsmcomppath_WithExceptions(parentAssembly, constraintdef.added_model_path_list, added_comp_path);
+
+		ProModelitem base_model_item;
+		ProModelitem added_model_item;
+
+
+		MultiFormatString featurename_base(base_limitrefs[InputJoint::DEFAULT].FeatureName);
+		MultiFormatString featurename_added(added_limitrefs[InputJoint::DEFAULT].FeatureName);
+
+		isis_ProModelitemByNameInit(constraintdef.p_base_model, base_limitrefs[InputJoint::DEFAULT].FeatureType, featurename_base, &base_model_item);
+		isis_ProModelitemByNameInit(constraintdef.p_added_model, added_limitrefs[InputJoint::DEFAULT].FeatureType, featurename_added, &added_model_item);
+
+
+		ProError err = ProReferenceSet(asm_ref, &base_comp_path, &base_model_item);
+		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("Error: ProReferenceSet, in Function: SetupRotationLimits_2");
+		err = ProReferenceSet(comp_ref, &added_comp_path, &added_model_item);
+		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("Error: ProReferenceSet, in Function: SetupRotationLimits_2");
+
+		//logcat_fileonly.warnStream() << "Setting rotation limits on: " << constraintdefs[0].base_model_component_instance_ID << ", " << constraintdefs[0].added_model_component_instance_ID;
+
+		Set_Limits_On_Set(set_elem, comp_ref, asm_ref, joint, joint.RotationLimits);
+
+		// I don't know what can be freed
+		//ProReferenceFree(&comp_ref);
+		//ProReferenceFree(&asm_ref);
+		//ProElempathFree(&setPath);
+
+		//ProElemtreeWrite(sets_elem_tree, PRO_ELEMTREE_XML, L"SetupRotationLimits_2.xml");
+}
+
+
 void SetupTranslationLimits(ProSolid parentAssembly, const std::vector<ContraintFeatureDefinition> &constraintdefs, ProElement sets_elem_tree, int setid, const InputJoint& joint)
 {
 		const InputJoint::LimitRef *base_limitrefs;
@@ -798,9 +1387,9 @@ void SetupTranslationLimits(ProSolid parentAssembly, const std::vector<Contraint
 
 
 		ProError err = ProReferenceSet(asm_ref, &base_comp_path, &base_model_item);
-		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("crap");
+		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("Error: ProReferenceSet, in Function: SetupTranslationLimits");
 		err = ProReferenceSet(comp_ref, &added_comp_path, &added_model_item);
-		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("crap");
+		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("Error: ProReferenceSet, in Function: SetupTranslationLimits");
 
 		//logcat_fileonly.warnStream() << "Setting translation limits on: " << constraintdefs[0].base_model_component_instance_ID << ", " << constraintdefs[0].added_model_component_instance_ID;
 
@@ -811,7 +1400,88 @@ void SetupTranslationLimits(ProSolid parentAssembly, const std::vector<Contraint
 		//ProReferenceFree(&asm_ref);
 		//ProElempathFree(&setPath);
 
-		//ProElemtreeWrite(sets_elem_tree, PRO_ELEMTREE_XML, L"crap.xml");
+		//ProElemtreeWrite(sets_elem_tree, PRO_ELEMTREE_XML, L"SetupTranslationLimits.xml");
+}
+
+void SetupTranslationLimits_2(	ProSolid parentAssembly, 
+								const ContraintFeatureDefinition_2 &constraintdef, 
+								ProElement sets_elem_tree, 
+								int in_SetID_index,     // if the setID == 1, then in_SetID_index = 0
+								const InputJoint& joint )
+{
+		const InputJoint::LimitRef *base_limitrefs;
+		const InputJoint::LimitRef *added_limitrefs;
+
+		if (joint.TranslationLimitRefs_This[InputJoint::DEFAULT].ComponentID == constraintdef.base_model_component_instance_ID &&
+			joint.TranslationLimitRefs_Other[InputJoint::DEFAULT].ComponentID == constraintdef.added_model_component_instance_ID)
+		{
+			base_limitrefs = joint.TranslationLimitRefs_This;
+			added_limitrefs = joint.TranslationLimitRefs_Other;
+		}
+		else if (joint.TranslationLimitRefs_Other[InputJoint::DEFAULT].ComponentID == constraintdef.base_model_component_instance_ID &&
+			     joint.TranslationLimitRefs_This[InputJoint::DEFAULT].ComponentID == constraintdef.added_model_component_instance_ID)
+		{
+			base_limitrefs = joint.TranslationLimitRefs_Other;
+			added_limitrefs = joint.TranslationLimitRefs_This;
+		}
+		else
+		{
+			// This joint is not between these components
+			return;
+		}
+
+		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+
+
+	//logcat_fileonly.errorStream() << constraintdef.ToString();
+		ProElempathItem set_path[] = 
+			{{PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_SETS},
+			{PRO_ELEM_PATH_ITEM_TYPE_INDEX, in_SetID_index}};
+
+		// Get PRO_E_COMPONENT_SETS 
+		ProElement set_elem;
+		ProElempath   setPath;
+		isis::isis_ProElempathAlloc (&setPath);			
+		isis::isis_ProElempathDataSet (setPath, set_path, 2);
+		isis::isis_ProElemtreeElementGet (sets_elem_tree, setPath, &set_elem);
+
+		ProReference comp_ref;
+		ProReference asm_ref;
+
+		ProReferenceAlloc(&comp_ref);
+		ProReferenceAlloc(&asm_ref);
+
+		ProAsmcomppath	base_comp_path;
+		isis::Retrieve_ProAsmcomppath_WithExceptions(parentAssembly, constraintdef.base_model_path_list, base_comp_path);
+
+		ProAsmcomppath	added_comp_path;
+		isis::Retrieve_ProAsmcomppath_WithExceptions(parentAssembly, constraintdef.added_model_path_list, added_comp_path);
+
+		ProModelitem base_model_item;
+		ProModelitem added_model_item;
+
+		MultiFormatString featurename_base(base_limitrefs[InputJoint::DEFAULT].FeatureName);
+		MultiFormatString featurename_added(added_limitrefs[InputJoint::DEFAULT].FeatureName);
+
+		isis_ProModelitemByNameInit(constraintdef.p_base_model, base_limitrefs[InputJoint::DEFAULT].FeatureType, featurename_base, &base_model_item);
+		isis_ProModelitemByNameInit(constraintdef.p_added_model, added_limitrefs[InputJoint::DEFAULT].FeatureType, featurename_added, &added_model_item);
+
+
+		ProError err = ProReferenceSet(asm_ref, &base_comp_path, &base_model_item);
+		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("Error: ProReferenceSet, in Function: SetupTranslationLimits_2");
+		err = ProReferenceSet(comp_ref, &added_comp_path, &added_model_item);
+		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("Error: ProReferenceSet, in Function: SetupTranslationLimits_2");
+
+		//logcat_fileonly.warnStream() << "Setting translation limits on: " << constraintdef.base_model_component_instance_ID << ", " << constraintdef.added_model_component_instance_ID;
+
+		Set_Limits_On_Set(set_elem, comp_ref, asm_ref, joint, joint.TranslationLimits);
+
+		// I don't know what can be freed
+		//ProReferenceFree(&comp_ref);
+		//ProReferenceFree(&asm_ref);
+		//ProElempathFree(&setPath);
+
+		//ProElemtreeWrite(sets_elem_tree, PRO_ELEMTREE_XML, L"SetupTranslationLimits.xml");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1076,7 +1746,12 @@ void SetConstraints (	ProSolid									&in_TopAssembly,
 	ProSolidRegenerationstatusGet((ProSolid)(in_TopAssembly), &s);
 
 	if (s == PRO_SOLID_FAILED_REGENERATION)
-		out_Warnings = "WARNING, Function SetConstraints - Feature redefine failed. Open the Creo assembly along with the log file to locate the problem.  ComponentInstanceID: " + in_ComponentID + "  Model Name: " + (std::string)in_CADComponentData_map[in_ComponentID].name;
+		out_Warnings =	"WARNING, Function SetConstraints - Redefined feature failed to regenerate.  " + 
+						std::string("\nIn some cases multiple regenerations are necessary to successfully regenerate.  In other cases, ") +
+						"\nthe regeneration fails because constraints are malformed.  Open the Creo assembly and try to regenerate" +
+						"\nthe component interactively. If the component will not regenerate interactively, then the problem is " +
+						"\nprobably caused by malformed constraints." +
+						"\n   ComponentInstanceID: " + in_ComponentID + "  Model Name: " + (std::string)in_CADComponentData_map[in_ComponentID].name;
 
 	isis::isis_ProArrayFree( (ProArray*) &opts);
 
@@ -1133,6 +1808,504 @@ void SetConstraints (	ProSolid									&in_TopAssembly,
 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+struct ConstraintOrder
+{
+	// ConstraintOrder expresses a sorted orthogonal view of std::vector<PerSetConstraintDefinition_2> perSetConstraintDefinitions, 
+	// wherein the orthogonal view sorts PerSetConstraintDefinition_2s and within a PerSetConstraintDefinition_2s sorts the 
+	// constraint features.
+
+	// ConstraintOrder is an odering of the following two items:
+	//	1) std::vector<PerSetConstraintDefinition_2> perSetConstraintDefinitions
+	//	2) PerSetConstraintDefinition_2.contraintFeatureDefinitions;  i.e. std::vector<ContraintFeatureDefinition_2>	contraintFeatureDefinitions;
+	//
+	//	The first item is ordered by ConstraintOrder.constraintDefinitionOrder
+	//	The second item is ordered by constraintFeatureOrder_map
+	//
+	//  Example mapping constraintDefinitionOrder[0] points to perSetConstraintDefinitions[2]
+	//	constraintDefinitionOrder			perSetConstraintDefinitions
+	//			2	----------------					0
+	//			0					|					1
+	//			1					|-------------->	2
+	std::vector<int> constraintDefinitionOrder;  // Order of  const std::vector<PerSetConstraintDefinition_2> perSetConstraintDefinitions
+
+	// Key (i.e. first):	int in perSetConstraintDefinitions  e.g. 2
+	// Second:				Vector of IDs, wherein IDs are to PerSetConstraintDefinition_2.contraintFeatureDefinitions.  
+	//						The IDs are offsets (starting with 0 ) to a vector of contraintFeatureDefinitions
+	std::map<int, std::vector<int>> constraintFeatureOrder_map;  
+
+	const std::vector<int> getFeatureIDs( int constraintDefinitionID) const
+	{
+		std::map<int, std::vector<int>>::const_iterator &i = constraintFeatureOrder_map.find(constraintDefinitionID);
+
+		if ( i == constraintFeatureOrder_map.end() )
+		{
+			std::stringstream errorString;
+			errorString << "Function - " << __FUNCTION__ << ",constraintFeatureOrder_map does not contain constraintDefinitionID: " << constraintDefinitionID;
+			throw isis::application_exception("C04002",errorString.str());		
+		}
+		else
+		{
+			return i->second;
+		}
+	}
+};
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+std::ostream& operator<<(std::ostream& output, const ConstraintOrder &in_ConstraintOrder)
+{
+	output << 
+		"ConstraintOrder: " << std::endl <<
+		"   constraintDefinitionOrder:";
+		for each ( int i in in_ConstraintOrder.constraintDefinitionOrder ) output << " " << i;
+		output << std::endl <<
+		"   constraintFeatureOrder_map:";
+		for each ( const std::pair<int, std::vector<int>> i in in_ConstraintOrder.constraintFeatureOrder_map )
+		{  
+			output << std::endl <<
+				"      constraintDefinitionOrder index: " << i.first;
+			for each ( int j in i.second )
+			{
+				output << std::endl <<
+				"         featureOrder index: " << j;
+			}
+		}
+	return output;
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void ValidateConstraintOrder_ThrowExceptionIfInvalid(	const std::string									&in_CallingFunction,
+														const ConstraintOrder								&in_ConstraintOrder,
+														const std::vector<PerSetConstraintDefinition_2>		&in_PerSetConstraintDefinitions )
+																					throw (isis::application_exception)
+{
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// in_ConstraintOrder has indexes into in_PerSetConstraintDefinitions.  
+	//		in_ConstraintOrder.constraintDefinitionOrder  to-index-into  in_PerSetConstraintDefinitions
+	//		in_ConstraintOrder.constraintFeatureOrder	  to-index-into   the features in PerSetConstraintDefinition_2	
+	// Therefore, we must make sure that the indexes are not out of range; otherwise a memory violation would occur.
+	//////////////////////////////////////////////////////////////////
+	// Verify in_ConstraintOrder.constraintDefinitionOrder is in Range
+	//////////////////////////////////////////////////////////////////
+	for each ( int i in in_ConstraintOrder.constraintDefinitionOrder )
+	{
+		if (  i < 0 ||  i >=  in_PerSetConstraintDefinitions.size())
+		{
+			std::stringstream errorString;
+			errorString << "Function - " << __FUNCTION__ << "(Invoked by: " << in_CallingFunction << "), was passed an out-of-range index into in_PerSetConstraintDefinitions" << std::endl <<
+			"  Index:           " << i << std::endl <<
+			"  Allowed Range:   " << "0 to " <<  in_PerSetConstraintDefinitions.size() - 1;
+			throw isis::application_exception("C04002",errorString.str());		
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////
+	// Verify in_ConstraintOrder.constraintFeatureOrder is in Range
+	//////////////////////////////////////////////////////////////////
+	for each ( int i in in_ConstraintOrder.constraintDefinitionOrder )
+	{
+		const PerSetConstraintDefinition_2 &pSCD = in_PerSetConstraintDefinitions[i];
+
+		for each (  int j in in_ConstraintOrder.getFeatureIDs(i) )
+		{	
+			if (  j < 0 ||  j >=  pSCD.get_NumberOfConstraintFeatures())
+			{
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << "(Invoked by: " << in_CallingFunction << "), was passed an out-of-range index into in_PerSetConstraintDefinitions[0] Constraint Features" << std::endl <<
+				"  Index:           " << j << std::endl <<
+				"  Allowed Range:   " << "0 to " <<  pSCD.get_NumberOfConstraintFeatures() - 1;
+				throw isis::application_exception("C04002",errorString.str());	
+			}
+		}
+	}
+
+	//////////////////////////////////////////////////////////////
+	// Verify that each constraint has geometry features defined
+	//////////////////////////////////////////////////////////////
+	for each ( int i in in_ConstraintOrder.constraintDefinitionOrder )
+	{
+		const PerSetConstraintDefinition_2 &pSCD = in_PerSetConstraintDefinitions[i];
+		for each ( const int &j in in_ConstraintOrder.getFeatureIDs(i) )
+		{	
+			if ( pSCD.get_NumberOfConstraintFeatures() == 0 )
+			{
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << "(Invoked by: " << in_CallingFunction << "), was passed a constraint with no features defined.";
+				throw isis::application_exception("C04002",errorString.str());	
+			}
+		}
+	}
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Description:
+//		Add constraints to the feature tree for in_ComponentID.  in_ConstraintOrder lists the constraints and constraint features
+//		that will be used to constrain the model. This list may be a subset of the constraints and constraint features listed
+//		in in_PerSetConstraintDefinitions.  
+// Pre-Conditions:
+//		The feature tree for in_CADComponentData_map[in_ComponentID] must NOT contain any constraints.  It is assumed that
+//		we are starting with a feature tree that only contains 
+//			<PRO_E_FEATURE_TYPE
+//			<PRO_E_COMPONENT_MODEL
+//			<PRO_E_COMPONENT_INIT_POS
+//			The other fields should not be set
+//		
+//		in_TopAssembly must point to the top-most assembly.  This is not necessarily the parent of in_ComponentID.
+//		in_ComponentID must be the model that this function constrains.
+//
+//		if ( !in_TreatAsAUserDefinedJoint and in_PerSetConstraintDefinitions[i] defines  REVOLUTE_JOINT/PRISMATIC_JOINT joint)
+//			in_ConstraintOrder must define the features in the order required for the REVOLUTE_JOINT/PRISMATIC_JOINT
+//			e.g. REVOLUTE_JOINT axis first, PRISMATIC_JOINT axis first
+//
+// Post-Conditions
+//		Complete feature tree with 
+//			Constraint sets set with the name Set1, Set2, ... where the integer is started at 1 and incremented.
+//			Internal to the Creo constraint-feature sets are numbered starting with 0.  This means than the set named Set1 would
+//			have an internal ID of 0. The internal ID is actuall an offset into an array, so the integers must be 
+//			consective.
+//			Constraints set per the list of constraints and constraint features listed in in_ConstraintOrder.  
+//
+//		If an error occurs, isis::application_exception would be thrown.
+void SetConstraints_2 (	
+		ProSolid											&in_TopAssembly, 
+		const std::string									&in_ComponentID, 
+		std::map<string, isis::CADComponentData>			&in_CADComponentData_map, 
+		const ConstraintOrder								&in_ConstraintOrder,
+		const std::vector<PerSetConstraintDefinition_2>		&in_PerSetConstraintDefinitions,
+		bool												in_TreatAsAUserDefinedJoint,  // if true, will not make the constraint set a kinematic
+																						  // constraint set even if the constraints actually
+																						  // define a kinematic joint. 
+		std::string											&out_Warnings )
+																		throw (isis::application_exception)
+{
+	ProAsmcompconstraint *proAsmcompconstraint_dummy_not_used = NULL;
+	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+
+	////////////////////////////////////////////////////
+	// Verfify in_PerSetConstraintDefinitions not empty
+	////////////////////////////////////////////////////
+	if ( in_PerSetConstraintDefinitions.size() == 0 )
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an empty in_PerSetConstraintDefinitions.";
+		throw isis::application_exception("C04002",errorString.str());		
+	}
+
+	ValidateConstraintOrder_ThrowExceptionIfInvalid(__FUNCTION__, in_ConstraintOrder, in_PerSetConstraintDefinitions);
+
+	logcat_fileonly.infoStream() << __FUNCTION__ << ", ConstraintOrder";
+	logcat_fileonly.infoStream() << in_ConstraintOrder;
+
+	logcat_fileonly.infoStream() << "";
+	logcat_fileonly.infoStream() << "********** Begin SetConstraints, Constraint Definitions  ***************";
+	
+	int constraint_counter = 0;
+
+	/////////////////////////////////////
+	// Log Constraint Information
+	/////////////////////////////////////
+	logcat_fileonly.infoStream();
+	logcat_fileonly.infoStream() << "constraintDefinitionOrder: ";
+	for each ( int i in in_ConstraintOrder.constraintDefinitionOrder) logcat_fileonly.infoStream() << "   " << i;
+	logcat_fileonly.infoStream() << "constraintFeatureOrder: ";
+
+	for each ( const std::pair<int, std::vector<int>>  &i in in_ConstraintOrder.constraintFeatureOrder_map )
+			for each ( int j in i.second ) logcat_fileonly.infoStream()  << "   constraintDefinitionID" << i.first <<  ", constraintFeatureID: " << j;
+
+
+	int setID_index = 0;  // This is not the setID. It is an index into an array of setIDs.  The first index is always 0;
+
+	for each ( int i in in_ConstraintOrder.constraintDefinitionOrder )
+	{
+		const PerSetConstraintDefinition_2 &pSCD = in_PerSetConstraintDefinitions[i];
+		logcat_fileonly.infoStream() << "constraintDefinition, order ID: " << i;
+
+		logcat_fileonly.infoStream();
+		logcat_fileonly.infoStream() << "\n**** Constraint Index: " <<  constraint_counter << "  ******";
+		//logcat_fileonly.infoStream() << "setID:                   " <<  pSCD.get_SetID();
+		logcat_fileonly.infoStream() << "setID:                   " <<  setID_index;
+		logcat_fileonly.infoStream() << "hasAGuideConstraint:     " <<  pSCD.get_HasAGuideConstraint();
+		logcat_fileonly.infoStream() << "jointType_withoutguide:  " <<  CADJointType_string(pSCD.get_JointType_withoutguide());
+		logcat_fileonly.infoStream() << "jointType_withguide:     " <<  CADJointType_string(pSCD.get_JointType_withguide());
+
+		for each ( const int &j in in_ConstraintOrder.getFeatureIDs(i) )
+		{
+
+			const ContraintFeatureDefinition_2 &cFD = pSCD.get_ContraintFeatureDefinition_const(j);
+	
+			std::stringstream str;
+			stream_PopulateOneConstraintInConstraintStructure(
+							&in_TopAssembly,	// typedef struct sld_part* ProSolid;
+							cFD.base_model_path_list,		
+							cFD.added_model_path_list,
+							cFD.pro_datum_type,			// enum PRO_SURFACE, PRO_AXIS
+							cFD.base_model_datum_name,		// ASM_RIGHT, A_1..
+							cFD.base_model_datum_side,		// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
+							cFD.added_model_datum_name,	// RIGHT, A23 ..
+							cFD.added_model_datum_side,	// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
+							cFD.constraint_type,			// enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
+							cFD.offset_between_datums,		// This is only used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
+							str);
+			
+				logcat_fileonly.infoStream() << str.str();
+				logcat_fileonly.infoStream() << "TreatAsAUserDefinedJoint (in_SET_USER_DEFINED_TYPE): " << in_TreatAsAUserDefinedJoint;
+				logcat_fileonly.infoStream();
+				++constraint_counter;
+		}
+		++setID_index;
+	}
+
+
+
+	ProElemId elemid;
+	ProElement elem_tree;
+	ProValueData value_data;	
+
+	/////////////////////////////////////////
+	// Setup the path to the parent assembly
+	/////////////////////////////////////////
+	ProAsmcomppath	assembly_comp_path;
+	Retrieve_ProAsmcomppath_WithExceptions(in_TopAssembly, in_CADComponentData_map[in_ComponentID].componentPaths, assembly_comp_path);
+
+	////////////////////////////////
+	// Extract PRO_E_FEATURE_TREE
+	////////////////////////////////
+	isis::isis_ProElementAlloc(PRO_E_FEATURE_TREE, &elem_tree);
+
+	isis::isis_ProFeatureElemtreeExtract (	&in_CADComponentData_map[in_ComponentID].assembledFeature,
+											&assembly_comp_path,
+											PRO_FEAT_EXTRACT_NO_OPTS,
+											&elem_tree );
+	
+	//std::string featureTreeFileName_narrow = in_CADComponentData_map[in_ComponentID].name;
+	//featureTreeFileName_narrow += "_1.xml";
+	// For family table names, replace <>  e.g. Chassis_8_Wheel<Chassis> would become Chassis_8_Wheel_Chassis_
+	//boost::replace_all(featureTreeFileName_narrow, "<", "_");
+	//boost::replace_all(featureTreeFileName_narrow, ">", "_");
+	//isis::MultiFormatString  featureTreeFileName_multi( featureTreeFileName_narrow);
+	//isis::isis_ProElemtreeWrite(elem_tree, PRO_ELEMTREE_XML, (wchar_t*)(const wchar_t*)featureTreeFileName_multi);	
+
+	////////////////////////////////
+	// Add Sets 
+	////////////////////////////////
+
+	// Get PRO_E_COMPONENT_SETS 
+	ProElement sets_elem;
+	ProElempathItem sets_path_Item[] = {{PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_SETS}};
+	ProElempath   setsPath;
+	isis::isis_ProElempathAlloc (&setsPath);			
+	isis::isis_ProElempathDataSet (setsPath, sets_path_Item, 1);
+
+	isis::isis_ProElemtreeElementGet (elem_tree, setsPath, &sets_elem);
+
+	setID_index = 0;
+
+	for each ( int i in in_ConstraintOrder.constraintDefinitionOrder )
+	{
+		const PerSetConstraintDefinition_2 &pSCD = in_PerSetConstraintDefinitions[i];
+		//std::string SetName_narrorw = "Set" + std::to_string((long long) pSCD.get_SetID());
+		std::string SetName_narrorw = "Set" + std::to_string((long long) setID_index + 1);
+		MultiFormatString SetName_multi(SetName_narrorw);
+
+		ProAsmcompSetType setType;
+		if ( in_TreatAsAUserDefinedJoint )
+		{
+			setType = PRO_ASM_SET_USER_DEFINED_TYPE;
+			Add_PRO_E_COMPONENT_SET( sets_elem, SetName_multi, setID_index, setType );
+		}
+		else
+		{			
+			switch ( pSCD.get_JointType_withoutguide() )
+			{
+				case FIXED_JOINT:
+					setType = PRO_ASM_SET_TYPE_FIXED;
+					break;
+				case REVOLUTE_JOINT:
+					setType = PRO_ASM_SET_TYPE_PIN;
+					break;
+				case UNIVERSAL_JOINT:
+					setType = PRO_ASM_SET_USER_DEFINED_TYPE; // ?? Creo has support for universal joint, investigate how to accomplish this
+					break;
+				case SPHERICAL_JOINT:
+					setType = PRO_ASM_SET_TYPE_BALL;
+					break;
+				case PRISMATIC_JOINT:
+					setType = PRO_ASM_SET_TYPE_SLIDER;  
+					break;
+				case CYLINDRICAL_JOINT:
+					setType = PRO_ASM_SET_TYPE_CYLINDRICAL;
+					break;
+				case PLANAR_JOINT:
+					setType = PRO_ASM_SET_TYPE_PLANAR;
+					break;
+				case FREE_JOINT:
+					setType = PRO_ASM_SET_USER_DEFINED_TYPE;  // ?? Creo has a PRO_ASM_SET_TYPE_6DOF, should this be used
+					break;
+				case UNKNOWN_JOINT_TYPE:
+					setType = PRO_ASM_SET_USER_DEFINED_TYPE;
+					break;
+				default:
+					setType = PRO_ASM_SET_USER_DEFINED_TYPE;
+			}
+
+			Add_PRO_E_COMPONENT_SET( sets_elem, SetName_multi, setID_index, setType );
+
+			//InputJoint& inputJoint = in_CADComponentData_map[in_ComponentID].constraintDef.constraints[setID_index].inputJoint;		
+			const InputJoint& inputJoint = pSCD.get_JointMotionLimits();	
+
+
+			// Setup rotation/translation limits
+			if (pSCD.get_JointType_withoutguide() == REVOLUTE_JOINT && inputJoint.Type == REVOLUTE_JOINT)
+			{
+				const ContraintFeatureDefinition_2 &firstConstraintFeatureDef =  pSCD.get_ContraintFeatureDefinition_const(in_ConstraintOrder.getFeatureIDs(i)[0]);
+				if (inputJoint.RotationLimits[InputJoint::DEFAULT].Provided && inputJoint.RotationLimitRefs_This[InputJoint::DEFAULT].Provided && inputJoint.RotationLimitRefs_Other[InputJoint::DEFAULT].Provided)
+					SetupRotationLimits_2(in_TopAssembly, firstConstraintFeatureDef, elem_tree, setID_index, inputJoint);
+					//SetupRotationLimits_2(in_TopAssembly, pSCD, elem_tree, setID_index, inputJoint);
+			}
+		
+			// ?? why prismatic 
+			if (pSCD.get_JointType_withoutguide() == PRISMATIC_JOINT && inputJoint.Type == PRISMATIC_JOINT)
+			{
+				const ContraintFeatureDefinition_2 &firstConstraintFeatureDef =  pSCD.get_ContraintFeatureDefinition_const(in_ConstraintOrder.getFeatureIDs(i)[0]);
+				if (inputJoint.TranslationLimits[InputJoint::DEFAULT].Provided && inputJoint.TranslationLimitRefs_This[InputJoint::DEFAULT].Provided && inputJoint.TranslationLimitRefs_Other[InputJoint::DEFAULT].Provided)
+					SetupTranslationLimits_2(in_TopAssembly, firstConstraintFeatureDef, elem_tree, setID_index, inputJoint);
+			}
+			
+
+		} // END else  if ( in_TreatAsAUserDefinedJoint )
+		++setID_index;
+	}
+
+	// ttt March 29
+
+	///////////////////////////////////////
+	// Get PRO_E_COMPONENT_CONSTRAINTS
+	///////////////////////////////////////
+	ProElement constrs_elem;
+	ProElempathItem constrs_path_Item[] = {{PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_CONSTRAINTS}};
+	ProElempath   constrsPath;
+	isis::isis_ProElempathAlloc (&constrsPath);			
+	isis::isis_ProElempathDataSet (constrsPath, constrs_path_Item, 1);
+	isis::isis_ProElemtreeElementGet (elem_tree, constrsPath, &constrs_elem);
+
+	setID_index = 0;  
+
+	for each ( int i in in_ConstraintOrder.constraintDefinitionOrder )
+	{
+		const PerSetConstraintDefinition_2 &pSCD = in_PerSetConstraintDefinitions[i];
+
+		for each ( int j in in_ConstraintOrder.getFeatureIDs(i) )
+		{
+			logcat_fileonly.infoStream() << "";
+			logcat_fileonly.infoStream() << "Add_PRO_E_COMPONENT_CONSTRAINT, Model Name: " << in_CADComponentData_map[in_ComponentID].name <<
+				" ComponentID: " << in_ComponentID;
+			Add_PRO_E_COMPONENT_CONSTRAINT_2( constrs_elem, pSCD.get_ContraintFeatureDefinition_const(j), in_TopAssembly, setID_index);
+		}
+		++setID_index;
+	}
+
+	/*
+	// DEBUG DEBUG
+	string featureTreeFileName_narrow = (string)in_CADComponentData_map[in_ComponentID].name+"_1.xml";
+	MultiFormatString featureTreeFileName_multi = (string)featureTreeFileName_narrow;
+	ProElemtreeWrite(elem_tree, PRO_ELEMTREE_XML, (wchar_t*)(const wchar_t*)featureTreeFileName_multi);
+	// DEBUG DEBUG
+	*/
+	///////////////////////////////////////////////////////
+	// Commit the element tree
+	///////////////////////////////////////////////////////
+
+	ProFeatureCreateOptions *opts;  
+	isis::isis_ProArrayAlloc(2, sizeof (ProFeatureCreateOptions), 1, (ProArray*) &opts);
+	opts[0] = PRO_FEAT_CR_DEFINE_MISS_ELEMS;   
+	opts[1] = PRO_FEAT_CR_FIX_MODEL_ON_FAIL;
+
+	//isis::isis_ProArrayAlloc(1, sizeof (ProFeatureCreateOptions), 1, (ProArray*) &opts);
+	//opts[0] = PRO_FEAT_CR_DEFINE_MISS_ELEMS;   
+
+	ProErrorlist p_errors;
+
+	int flags = 0;
+
+	isis::isis_ProFeatureWithoptionsRedefine(
+				// &assembly_comp_path,
+				NULL,  
+				&in_CADComponentData_map[in_ComponentID].assembledFeature,
+				elem_tree,
+				opts,
+				//PRO_REGEN_NO_FLAGS,
+				PRO_REGEN_FORCE_REGEN,
+				//PRO_REGEN_UPDATE_INSTS,
+				&p_errors);
+
+	// Verify if regeneration succeeded
+	ProSolidRegenerationStatus s;
+	ProSolidRegenerationstatusGet((ProSolid)(in_TopAssembly), &s);
+
+	if (s == PRO_SOLID_FAILED_REGENERATION)
+		out_Warnings =	"WARNING, Function SetConstraints - Redefined feature failed to regenerate.  " + 
+						std::string("\n   In some cases multiple regenerations are necessary to successfully regenerate.  In other cases, ") +
+						"\n   the regeneration fails because constraints are malformed.  Open the Creo assembly and try to regenerate" +
+						"\n   the component interactively. If the component will not regenerate interactively, then the problem is " +
+						"\n   probably caused by malformed constraints." +
+						"\n      ComponentInstanceID: " + in_ComponentID + "  Model Name: " + (std::string)in_CADComponentData_map[in_ComponentID].name;
+
+	isis::isis_ProArrayFree( (ProArray*) &opts);
+
+
+	/*
+	// DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG 
+	isis::isis_ProFeatureElemtreeExtract (	&in_CADComponentData_map[in_ComponentID].assembledFeature,
+											&assembly_comp_path,
+											PRO_FEAT_EXTRACT_NO_OPTS,
+											&elem_tree );
+
+	featureTreeFileName_narrow = (string)in_CADComponentData_map[in_ComponentID].name+"_2.xml";
+	featureTreeFileName_multi = (string)featureTreeFileName_narrow;
+	isis::isis_ProElemtreeWrite(elem_tree, PRO_ELEMTREE_XML, (wchar_t*)(const wchar_t*)featureTreeFileName_multi);
+	// DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG 	
+
+	//ProElement elem_tree_2;
+
+	//isis::isis_ProElementAlloc(PRO_E_FEATURE_TREE, &elem_tree_2);
+
+	//isis::isis_ProFeatureElemtreeExtract (	&in_CADComponentData_map[in_ComponentID].assembledFeature,
+	//										&assembly_comp_path,
+	//										PRO_FEAT_EXTRACT_NO_OPTS,
+	//										&elem_tree_2 );
+
+	//featureTreeFileName_narrow = (string)in_CADComponentData_map[in_ComponentID].name;
+	//featureTreeFileName_narrow += "_5.xml";
+	// For family table names, replace <>  e.g. Chassis_8_Wheel<Chassis> Chassis_8_Wheel_Chassis_
+	//boost::replace_all(featureTreeFileName_narrow, "<", "_");
+	//boost::replace_all(featureTreeFileName_narrow, ">", "_");
+	//featureTreeFileName_multi = (string)featureTreeFileName_narrow;
+	//isis::isis_ProElemtreeWrite(elem_tree_2, PRO_ELEMTREE_XML, (wchar_t*)(const wchar_t*)featureTreeFileName_multi);
+
+	/*
+	ProSelection	mdl_sel;
+	ProModelitem	modelitem;
+	
+	isis::isis_ProMdlToModelitem(ParentAssemblyModel, &modelitem);
+	std::cout << std::endl << "+++++++++++++++++++++++++++++++++++ Point 16";
+	isis::isis_ProSelectionAlloc(NULL, &modelitem, &mdl_sel);
+	std::cout << std::endl << "+++++++++++++++++++++++++++++++++++ Point 17";
+	opts[0] = PRO_FEAT_CR_DEFINE_MISS_ELEMS;
+	ProFeature Feature;
+	isis::isis_ProFeatureWithoptionsCreate (mdl_sel,
+                                 elem_tree_2,
+                                 opts,
+                                 PRO_REGEN_NO_FLAGS, 
+								 &Feature,
+                                 &p_errors );
+	std::cout << std::endl << "+++++++++++++++++++++++++++++++++++ Point 18";
+	*/
+	// Free allocated objects
+	//isis::isis_ProElementFree(&elem_tree);
+	////isis::isis_ProElempathFree (&setsPath);
+	//isis::isis_ProElempathFree (&constrsPath);
+	
+	//for each ( ProElement* i in allocatedElements) isis::isis_ProElementFree(i);
+
+}
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 void Apply_CADDatum_ModelConstraints_Via_FeatureTree(	const std::string &in_ComponentID,
@@ -2202,7 +3375,919 @@ static void CollectResolveInfo(ProSolid in_TopAssemblyModel, const std::map<stri
 
 }
 */
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//	Description:
+//		This function populates out_PerSetConstraintDefinitions with the constraint information organized per 
+//		constraint set.  A constraint set is a separate grouping of constraints within a Creo constraint definition.  
+//		A major role of this function is to determine if the particular constraint feature is associated with the 
+//		base_model or added_model. The base_model is a model that is already in the assembly.  The added_model would be 
+//		constrained to the base_model.  Sometimes the base_model would be the parent assembly, which is the case 
+//		for the first model added to the assembly. For other cases, the base_model would be a model already in the 
+//		assembly.
+//		See Note 1 (i.e. Reference [1]) at the top of this file for more details about the added/base models.
+// Pre-Conditions
+//		in_ComponentID must be a valid ComponentID in in_CADComponentData_map
+// Post-Conditons
+//		if exception
+//			then
+//				isis::application_exception will be thrown.
+//			else
+//				if in_ConstraintDefinition.constraints.size() == 0
+//					then
+//						out_PerSetConstraintDefinitions will be empty
+//					else
+//						out_PerSetConstraintDefinitions will be populated.
+void Populate_PerSetConstraintDefinitions( 
+				const std::string								&in_ComponentID,		
+				const ConstraintDefinition						&in_ConstraintDefinition,
+				std::map<string, isis::CADComponentData>		&in_CADComponentData_map,
+				std::vector<PerSetConstraintDefinition_2>		&out_PerSetConstraintDefinitions) throw (isis::application_exception)
+{
+		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+		logcat_fileonly.infoStream() << "";
+
+		out_PerSetConstraintDefinitions.clear();
+
+		ProAsmcomp		added_model_assembled_feature;
+
+		const isis::CADComponentData &ComponentAssembledInfo_temp = in_CADComponentData_map[in_ComponentID];
+		added_model_assembled_feature = ComponentAssembledInfo_temp.assembledFeature;
+
+		for (	std::vector<ConstraintData>::const_iterator j(in_ConstraintDefinition.constraints.begin());
+				j != in_ConstraintDefinition.constraints.end();
+				++j )
+		{		
+			PerSetConstraintDefinition_2 perSetConDef;
+
+			perSetConDef.set_JointType_withoutguide(j->computedJointData.jointType_withoutguide);
+			perSetConDef.set_HasAGuideConstraint(j->hasAGuideConstraint());
+			perSetConDef.set_JointType_withguide( j->computedJointData.jointType_withguide);
+			perSetConDef.set_JointMotionLimits(j->inputJoint);
+
+			//ProAsmcomp	 base_model_assembled_feature;	
+			list<int>  base_model_path_list;
+			list<int>  added_model_path_list;
+				
+	   		for (	std::vector<ConstraintPair>::const_iterator k(j->constraintPairs.begin());
+					k != j->constraintPairs.end();
+					++k )
+			{
+				ProAsmcompConstrType constraint_type = k->featureAlignmentType;
+
+				ProType	 pro_datum_type =  k->featureGeometryType;	
+
+				//ProName		 base_model_datum_name;	 // ASM_RIGHT, A_1..
+				MultiFormatString base_model_datum_name(PRO_NAME_SIZE - 1);  // ASM_RIGHT, A_1..
+				std::string		  base_model_component_instance_ID;
+				ProDatumside base_model_datum_side;	 // enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
+						
+
+				//ProName		 added_model_datum_name; // RIGHT, A23 ..
+				MultiFormatString		 added_model_datum_name(PRO_NAME_SIZE - 1);  // ASM_RIGHT, A_1..
+				std::string				added_model_component_instance_ID;
+				ProDatumside added_model_datum_side; // enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE	
+
+				bool added_model_defined = false;
+				bool base_model_defined = false;
+				string added_model_constraint_feature_component_ID;
+				string base_model_constraint_feature_component_ID;
+				logcat_fileonly.infoStream() << "";
+
+				std::string constraintFeature_From_To = "      ";
+				for (	std::vector<ConstraintFeature>::const_iterator l(k->constraintFeatures.begin());
+						l != k->constraintFeatures.end();
+						++l )
+				{												
+					// See Note 1 (i.e. Reference [1]) at the top of this file for an explanation of the following if statement.
+						
+					if ( !added_model_defined  && 
+							( l->componentInstanceID == in_ComponentID || ComponentIDChildOf( l->componentInstanceID, in_ComponentID, in_CADComponentData_map ) )
+							) 
+					{   // treat as added model constraint							
+						added_model_path_list = in_CADComponentData_map[l->componentInstanceID].componentPaths;
+						// Note:l->featureName is enforced by XMLToProEStructures.cpp(SetConstraintAttributes)
+						//	    to be no more than 31 characters.		
+						added_model_component_instance_ID = l->componentInstanceID;
+						added_model_datum_name = l->featureName;
+						added_model_datum_side = l->featureOrientationType;
+						added_model_defined = true;
+						added_model_constraint_feature_component_ID = l->componentInstanceID;
+						constraintFeature_From_To += (std::string)in_CADComponentData_map[l->componentInstanceID].name + "::" + (std::string)l->featureName;
+						if (!base_model_defined)
+						{ 
+							constraintFeature_From_To += " --> ";
+						}
+					}
+					else
+					{	// constraint features on a component in the assembly.
+						base_model_path_list = in_CADComponentData_map[l->componentInstanceID].componentPaths;
+						// Note:l->featureName is enforced by XMLToProEStructures.cpp(SetConstraintAttributes)
+						//	    to be no more than 31 characters.		
+						base_model_component_instance_ID = l->componentInstanceID;
+						base_model_datum_name = l->featureName;
+						base_model_datum_side = l->featureOrientationType;
+						base_model_defined = true;
+						base_model_constraint_feature_component_ID = l->componentInstanceID;
+						constraintFeature_From_To += (std::string)in_CADComponentData_map[l->componentInstanceID].name + "::" + (std::string)l->featureName;
+						if (!added_model_defined) 
+						{ 
+							constraintFeature_From_To += " --> ";
+						}
+					}		
+					
+				}
+				logcat_consoleandfile.infoStream() << constraintFeature_From_To;
+
+				if ( !base_model_defined || !added_model_defined)
+				{
+
+					string err_str = "Erroneous constraint pair.  Assembled Component Instance ID: " + in_ComponentID + 
+										" Constraint Feature Component IDs: " + added_model_constraint_feature_component_ID +
+										", " + base_model_constraint_feature_component_ID;
+					throw isis::application_exception(err_str.c_str());  
+				}
+				
+				double offset_between_datums = 0;
+				if ( k->constraintOffsetPresent )
+				{	
+					offset_between_datums = k->constraintOffset.value;
+					logcat_fileonly.infoStream() << "      ConstraintOffset Value:               " <<  k->constraintOffset.value;
+					logcat_fileonly.infoStream() << "      ConstraintOffset OffsetAlignmentType: " <<  ProAsmcompConstrType_string( k->constraintOffset.offsetAlignmentType );
+					if ( k->constraintOffset.unitsPresent )
+					{
+						logcat_fileonly.infoStream() << "      ConstraintOffset Units Type:          " << CADUnitsDistance_string( k->constraintOffset.units );
+					}
+				}				
+				
+				ContraintFeatureDefinition_2 cFDef;
+
+				cFDef.p_base_model =						(ProMdl)in_CADComponentData_map[base_model_component_instance_ID].modelHandle;
+				cFDef.base_model_name =						in_CADComponentData_map[base_model_component_instance_ID].name;
+				cFDef.base_model_type =						in_CADComponentData_map[base_model_component_instance_ID].modelType;
+				cFDef.base_model_component_instance_ID =	base_model_component_instance_ID;
+
+				cFDef.added_model_name =					in_CADComponentData_map[added_model_component_instance_ID].name;
+				cFDef.added_model_type =					in_CADComponentData_map[added_model_component_instance_ID].modelType;
+				cFDef.added_model_component_instance_ID =	added_model_component_instance_ID;
+
+				cFDef.p_added_model =						(ProMdl)in_CADComponentData_map[added_model_component_instance_ID].modelHandle;
+				cFDef.base_model_path_list		= base_model_path_list;			// list of Creo feature IDs leading to the part/assembly
+				cFDef.added_model_path_list		= added_model_path_list;		// list of Creo feature IDs  leading to the part/assembly
+				cFDef.pro_datum_type			= pro_datum_type;				// enum PRO_SURFACE, PRO_AXIS
+				wcscpy_s(cFDef.base_model_datum_name,base_model_datum_name);		// ASM_RIGHT, A_1..
+				cFDef.base_model_datum_side		= base_model_datum_side;		// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
+				wcscpy_s(cFDef.added_model_datum_name, added_model_datum_name);	// RIGHT, A23 ..
+				cFDef.added_model_datum_side	= added_model_datum_side;		// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
+				cFDef.constraint_type			= constraint_type;				// enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
+				cFDef.offset_between_datums		= offset_between_datums;	 
+
+				cFDef.treatConstraintAsAGuide =  k->treatConstraintAsAGuide;
+
+				perSetConDef.add_ContraintFeatureDefinition(cFDef);					
+
+			}  // END for (std::vector<ConstraintPair>::const_iterator k(j->constraintPairs.begin());
+			out_PerSetConstraintDefinitions.push_back(perSetConDef);
+
+		} // END for ( std::vector<ConstraintData>::iterator j(in_ConstraintDefinition.constraints.begin());
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Description:
+//  This function sorts the constraint features in the order defined by in_SortOrderList.  For example, if in_SortOrderList 
+//  contained PRO_CSYS and PRO_POINT, then coordinate systems and datum planes indexes would appear first in 
+//  out_ConstraintFeatureOrder_indexes.  The indexes are interger offsets, starting with 0, into the feature definitions 
+//  in in_perSetConstraintDefinitions.
+//
+// Pre-Conditions
+//	None
+// Post-Conditions
+//	if in_SortOrderList.size() == 0 
+//		then
+//			begin/end_SortedConstraintIDs would return the IDs in the order of
+//			begin/end_ContraintFeatureDefinitions 
+//		else
+//			begin/end_SortedConstraintIDs would return the IDs in the order
+//			specified by in_SortOrderList
+//		
+//	Notes:
+//		1) in_SortOrderList does not need to contain all of the ProTypes(PRO_POINT, PRO_SURFACE, 
+//		PRO_CSYS, and PRO_AXIS) used to constrain models.  For example, if SortOrderList only contained 
+//		PRO_AXIS, then any PRO_AXIS types would appear first in the 
+//		begin/end_SortedConstraintIDs followed by the other types in their original order.
+//		2) Calling sort a second time will overwirte the previously sorted data
+//		3) if in_IncludeGuides == False then constraint features designated as a guide would be excluded.
+
+void SortConstraintFeatures( const PerSetConstraintDefinition_2		&in_perSetConstraintDefinitions,
+							 const std::vector<ProType>				&in_SortOrderList,
+							 bool									in_IncludeGuides,
+							 std::vector<int>						&out_ConstraintFeatureOrder_indexes )
+{
+	out_ConstraintFeatureOrder_indexes.clear();
+    std::set<int> usedIndexes;
+
+	for each ( const ProType &i in in_SortOrderList )
+	{
+		int constraintFeatureIndex = 0;
+		for (	std::vector<ContraintFeatureDefinition_2>::const_iterator j =  in_perSetConstraintDefinitions.begin_ContraintFeatureDefinitions();
+				j != in_perSetConstraintDefinitions.end_ContraintFeatureDefinitions();
+				++j )
+		{
+			if (j->pro_datum_type == i) 
+			{
+				if ( in_IncludeGuides || j->treatConstraintAsAGuide == CAD_TREAT_CONSTRAINT_AS_A_GUIDE_FALSE )
+				{
+					if ( usedIndexes.find(constraintFeatureIndex) == usedIndexes.end() )
+					{
+						usedIndexes.insert(constraintFeatureIndex);
+						out_ConstraintFeatureOrder_indexes.push_back(constraintFeatureIndex);
+					}
+				}
+			}
+			++constraintFeatureIndex;
+		}	
+	} 
+
+	// in_SortOrderList may not have contained all the types (e.g. surfact, point, csys...)
+	// Must add to contraintFeatureDefinitions any skipped entries
+	int constraintFeatureIndex = 0;
+	for (	std::vector<ContraintFeatureDefinition_2>::const_iterator j =  in_perSetConstraintDefinitions.begin_ContraintFeatureDefinitions();
+			j != in_perSetConstraintDefinitions.end_ContraintFeatureDefinitions();
+			++j )
+	{
+		if ( usedIndexes.find(constraintFeatureIndex) == usedIndexes.end() )
+		{
+			if ( in_IncludeGuides || j->treatConstraintAsAGuide == CAD_TREAT_CONSTRAINT_AS_A_GUIDE_FALSE )
+			{
+				out_ConstraintFeatureOrder_indexes.push_back(constraintFeatureIndex);
+			}
+		}
+		++constraintFeatureIndex;
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//	See "struct ConstraintOrder" for an explanation of the contents of out_ConstraintOrder
+//	See SortConstraintFeatures(...) for an explanation of how features are sorted
+//	out_ConstraintOrder.constraintDefinitionOrder is the order of PerSetConstraintDefinition_2
+//		PerSetConstraintDefinition_2s are sorted as follows:
+//			if in_ConstraintSetsWithGuidesFirst 
+//				then
+//					guide constraint features come first, if multiple guide constraints the guide constraints with the most feature would appear first.
+//					next would be the no-guide constraints with the constraints with the most features first.
+//				else
+//					the constraints (without regard to guide status) with the constraints with the most features first.
+//
+//	Notes:
+//		1.	This sort routine maintains the order of the CADAssembly.xml file for the case where multiple constraints have the
+//			same number of features.
+//		2.	in_ConstraintSetsWithGuidesFirst is independent of in_IncludeGuideFeactures.  For example, if a constraint had
+//			guides and in_ConstraintSetsWithGuidesFirst == true, then that constraint would be first in the sort order even
+//			though the feature(s) labeled as guide would not be included if in_IncludeGuideFeactures == false.
+//		3.	This function empties the contents of out_ConstraintOrder before adding new content.
+void ComputeConstraintSortOrder (	
+	const std::vector<std::vector<ProType>>			&in_SortOrderLists,   // There is a seperate sort order list for each constraint set
+	bool											in_ConstraintSetsWithGuidesFirst,
+	bool											in_IncludeGuideFeactures,
+	const std::vector<PerSetConstraintDefinition_2>	&in_perSetConstraintDefinitions, 
+	ConstraintOrder									&out_ConstraintOrder )
+{
+	if ( in_SortOrderLists.size() != in_perSetConstraintDefinitions.size() )
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed asortOrderLists of a different size than in_perSetConstraintDefinitions";
+			throw isis::application_exception(errorString.str()); 
+	}
+
+	out_ConstraintOrder.constraintDefinitionOrder.clear();
+	out_ConstraintOrder.constraintFeatureOrder_map.clear();
+
+	// Sort based on constraints with the largest numbers of features first.
+	// If the number of features are equal, the sort order should be the order of
+	// CADAssembly.xml.  This is extremely important because in the future a 
+	// particular order may be dictated by CyPhy.
+	
+	std::multimap<int,int> withGuide_NumberFeatures_perSetConstraintDefinitionIndex_map;
+	std::multimap<int,int> withOutGuide_NumberFeatures_perSetConstraintDefinitionIndex_map;
+	std::multimap<int,int> all_NumberFeatures_perSetConstraintDefinitionIndex_map;
+	
+	// Use offset to make the map key negative.  When iterating forward though the map
+	// the negative numbers will assure that the original order in the CADAssembly.xml would
+	// be maintained for the constraints with a equal number of features.  In other words,
+	// if there are two constraints each with two features, the constraint that appears first in
+	// CADAssembly.xml would appear first.
+	const int offset = -1000;
+	
+	for ( int i = 0; i < in_perSetConstraintDefinitions.size(); ++i )
+	{
+		int numberFeatures = in_perSetConstraintDefinitions[i].get_NumberOfConstraintFeatures();
+		all_NumberFeatures_perSetConstraintDefinitionIndex_map.insert(std::pair<int,int>(numberFeatures + offset, i));
+		if ( in_perSetConstraintDefinitions[i].get_HasAGuideConstraint() )
+			withGuide_NumberFeatures_perSetConstraintDefinitionIndex_map.insert(std::pair<int,int>(numberFeatures + offset, i));
+		else
+			withOutGuide_NumberFeatures_perSetConstraintDefinitionIndex_map.insert(std::pair<int,int>(numberFeatures + offset, i));
+	}
+
+	std::multimap<int,int>::const_iterator fit;
+	if ( in_ConstraintSetsWithGuidesFirst )
+	{	
+		for (fit =  withGuide_NumberFeatures_perSetConstraintDefinitionIndex_map.begin(); 
+			 fit != withGuide_NumberFeatures_perSetConstraintDefinitionIndex_map.end(); ++fit)
+				out_ConstraintOrder.constraintDefinitionOrder.push_back(fit->second);
+
+		for (fit =  withOutGuide_NumberFeatures_perSetConstraintDefinitionIndex_map.begin(); 
+			 fit != withOutGuide_NumberFeatures_perSetConstraintDefinitionIndex_map.end(); ++fit)
+				out_ConstraintOrder.constraintDefinitionOrder.push_back(fit->second);
+	}
+	else
+	{
+		for (fit =  all_NumberFeatures_perSetConstraintDefinitionIndex_map.begin(); 
+			 fit != all_NumberFeatures_perSetConstraintDefinitionIndex_map.end(); ++fit)
+				out_ConstraintOrder.constraintDefinitionOrder.push_back(fit->second);
+	}	
+
+	for each ( int i in out_ConstraintOrder.constraintDefinitionOrder )
+	{
+		const PerSetConstraintDefinition_2 &pSCD = in_perSetConstraintDefinitions[i];
+		std::vector<int> constraintFeatureOrder_indexes;
+
+		SortConstraintFeatures( pSCD, in_SortOrderLists[i], in_IncludeGuideFeactures, constraintFeatureOrder_indexes );
+
+		out_ConstraintOrder.constraintFeatureOrder_map[i] = constraintFeatureOrder_indexes;
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+// This function was in-work, not tested,  KEEP if in the future an incremental approach was needed
+bool incrementColumnFirst(	int in_Max_i,  int in_Max_j,
+							int &in_out_i, int &in_out_j )
+{
+	// Increment j first
+	if ( in_out_j < in_Max_j )
+	{
+		++in_out_j;
+		return true;
+	}
+	else
+	{
+		if ( in_out_i < in_Max_i)
+		{
+			++in_out_i;
+			in_out_j = 0;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+// This function was in-work, not tested,  KEEP if in the future an incremental approach was needed
+void BuildIncrementalConstraintOrder( 	
+	const std::vector<PerSetConstraintDefinition_2>	in_perSetConstraintDefinitions,
+	const ConstraintOrder							&in_ConstraintOrder_Complete,
+	ConstraintOrder									&in_out_ConstraintOrder_temp,
+	bool											&out_Done_NoMore_Constraints_Features )
+{
+	int max_i = in_perSetConstraintDefinitions.size() - 1;
+	int cur_i = in_out_ConstraintOrder_temp.constraintDefinitionOrder.size() - 1;
+	int max_j = in_ConstraintOrder_Complete.getFeatureIDs(cur_i).size() - 1;
+	int cur_j = in_out_ConstraintOrder_temp.getFeatureIDs(cur_i).size() - 1;
+
+	bool temp_found_axis_dummy = true;
+
+	int cur_i_temp = cur_i;
+	int cur_j_temp = cur_j;
+
+	if ( incrementColumnFirst( max_i, max_j, cur_i_temp, cur_j_temp ))
+	{
+		if ( temp_found_axis_dummy )
+		{
+			if ( cur_i_temp != cur_i )
+			{
+				// i incremeted
+				in_out_ConstraintOrder_temp.constraintDefinitionOrder.push_back(in_ConstraintOrder_Complete.constraintDefinitionOrder[cur_i_temp]);
+				std::vector<int> temp_vec;
+				std::vector<int> complete_vec = in_ConstraintOrder_Complete.getFeatureIDs(cur_i_temp);
+				if ( complete_vec.size() < 1 )
+				{
+					std::stringstream errorString;
+					errorString << "Function - " << __FUNCTION__ << ", in_ConstraintOrder_Complete.getFeatureIDs returned 0 feature IDs." << std::endl <<
+						           "A constraint must have at least one feature.";
+					throw isis::application_exception("C04002",errorString.str());	
+				}
+				temp_vec.push_back(complete_vec[0]);
+				cur_i = cur_i_temp;
+				cur_j = 0;
+				max_j = in_ConstraintOrder_Complete.getFeatureIDs(cur_i).size() - 1;
+
+			}
+			else
+			{
+				// j incremented
+			}
+
+		}
+	}
+	else
+	{
+		out_Done_NoMore_Constraints_Features = true;
+	}
+
+
+	in_out_ConstraintOrder_temp.constraintDefinitionOrder.clear();
+	in_out_ConstraintOrder_temp.constraintFeatureOrder_map.clear();
+	
+	int constraintDefinition_index = 0;
+	int constraintFeature_index = 0;
+
+	int current_constraintDefinition_index = in_out_ConstraintOrder_temp.constraintDefinitionOrder.size() - 1;
+	int currernt_constraintFeature_index =   in_out_ConstraintOrder_temp.constraintFeatureOrder.size() - 1;
+
+
+
+	for each ( int i in in_ConstraintOrder_Complete.constraintDefinitionOrder )
+	{
+		const PerSetConstraintDefinition_2 &pSCD = in_perSetConstraintDefinitions[i];
+		if (  in_out_ConstraintOrder_temp.constraintDefinitionOrder.size() ) 
+
+		for each ( int j in in_ConstraintOrder_Complete.constraintFeatureOrder )
+		{
+			const ContraintFeatureDefinition_2 &cFD = pSCD.get_ContraintFeatureDefinition_const(j);
+
+		}
+	}
+
+}
+*/
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void CheckAxesAlignments_FlipOrientationIndicatorAsNecessary( 
+										const ProSolid								&in_assembly_model,
+										const std::string							&in_ComponentID,
+										const MultiFormatString						&in_model_name,		
+										ProMdlType									in_model_type,
+										const ConstraintOrder						&in_ConstraintOrder,
+										std::vector<PerSetConstraintDefinition_2>	&in_out_PerSetConstraintDefinitions )
+{
+
+	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+
+	for each ( int i in in_ConstraintOrder.constraintDefinitionOrder )
+	{
+		 PerSetConstraintDefinition_2 &pSCD = in_out_PerSetConstraintDefinitions[i];
+
+		for each ( const int &j in in_ConstraintOrder.getFeatureIDs(i) )
+		{
+			const ContraintFeatureDefinition_2 &cFD = pSCD.get_ContraintFeatureDefinition_const(j);
+			if ( cFD.pro_datum_type == PRO_AXIS )
+			{
+				ProSelection axis_added_model_select;
+				RetrieveProSelectionForGeometry(in_assembly_model,			// Used as the starting point of model_path_list
+												cFD.added_model_path_list,	// Used to locate the model in the assembly containing the geometry
+												cFD.added_model_component_instance_ID,				// Used for logging error messages
+												cFD.added_model_name,				// Used for logging error messages
+												cFD.added_model_type,				// Used for logging error messages
+												cFD.pro_datum_type,			// Identifies the geometry type, e.g. Datum
+												cFD.added_model_datum_name,	// Geometry Name, e.g. Datum Name
+												axis_added_model_select);	// Returned pro_selection
+
+				ProSelection axis_base_model_select;
+				RetrieveProSelectionForGeometry(in_assembly_model,			// Used as the starting point of model_path_list
+												cFD.base_model_path_list,	// Used to locate the model in the assembly containing the geometry
+												cFD.base_model_component_instance_ID,	// Used for logging error messages
+												cFD.base_model_name,				// Used for logging error messages
+												cFD.base_model_type,				// Used for logging error messages
+												cFD.pro_datum_type,			// Identifies the geometry type, e.g. Datum
+												cFD.base_model_datum_name,	// Geometry Name, e.g. Datum Name
+												axis_base_model_select);	// Returned pro_selection
+
+
+				isis::cad::Joint  joint_added_model;
+				isis::cad::Joint  joint_base_model;
+					
+			
+				joint_added_model =	isis::cad::creo::extract_marker( axis_added_model_select );
+				joint_base_model =	isis::cad::creo::extract_marker( axis_base_model_select );
+
+				// The following coordinates are int the added model coordinate system
+				double added_axis_origin_x = joint_added_model.location.get_e1();
+				double added_axis_origin_y = joint_added_model.location.get_e2();
+				double added_axis_origin_z = joint_added_model.location.get_e3();
+
+				double added_axis_offset_x = joint_added_model.orientation.get_e1();
+				double added_axis_offset_y = joint_added_model.orientation.get_e2();
+				double added_axis_offset_z = joint_added_model.orientation.get_e3();
+
+				// The following coordinates are int the added model coordinate system
+				double base_axis_origin_x = joint_base_model.location.get_e1();
+				double base_axis_origin_y = joint_base_model.location.get_e2();
+				double base_axis_origin_z = joint_base_model.location.get_e3();
+
+				double base_axis_offset_x = joint_base_model.orientation.get_e1();
+				double base_axis_offset_y = joint_base_model.orientation.get_e2();
+				double base_axis_offset_z = joint_base_model.orientation.get_e3();
+
+
+				double   matrixBuffer_added[4][4];
+				double   matrixBuffer_base[4][4];
+
+				RetrieveTranformationMatrix_Assembly_to_Child ( in_assembly_model,  
+																cFD.added_model_path_list,
+																PRO_B_FALSE,  // bottom up = False
+																//PRO_B_TRUE,  // bottom up = True, Changed this 8/8/2013, V1.4.6
+																matrixBuffer_added );
+
+				RetrieveTranformationMatrix_Assembly_to_Child ( in_assembly_model,  
+																cFD.base_model_path_list,
+																PRO_B_FALSE,  // bottom up = False
+																//PRO_B_TRUE,  // bottom up = True, Changed this 8/8/2013, V1.4.6
+																matrixBuffer_base );
+
+
+				isis_CADCommon::TransformationMatrix  			transformationMatrix_added;
+				isis_CADCommon::TransformationMatrix  			transformationMatrix_base;
+
+				std::vector<double> offset_added;
+				offset_added.push_back( matrixBuffer_added[3][0] );
+				offset_added.push_back( matrixBuffer_added[3][1] );
+				offset_added.push_back( matrixBuffer_added[3][2] );
+
+				double rotation_added[3][3];
+
+				for ( int ii = 0; ii < 3; ++ii )
+					for ( int jj = 0; jj < 3; ++jj ) rotation_added[ii][jj] = matrixBuffer_added[ii][jj];
+					
+				transformationMatrix_added.setTransformationMatrix(	rotation_added, offset_added );
+
+				std::vector<double> offset_base;
+				offset_base.push_back( matrixBuffer_base[3][0] );
+				offset_base.push_back( matrixBuffer_base[3][1] );
+				offset_base.push_back( matrixBuffer_base[3][2] );
+
+				double rotation_base[3][3];
+
+				for ( int ii = 0; ii < 3; ++ii )
+					for ( int jj = 0; jj < 3; ++jj ) rotation_base[ii][jj] = matrixBuffer_base[ii][jj];
+					
+				transformationMatrix_base.setTransformationMatrix(rotation_base, offset_base );
+
+
+				std::vector<isis_CADCommon::Point_3D> line_added;
+
+				line_added.push_back(isis_CADCommon::Point_3D(
+					transformationMatrix_added.getTransformedCoordinates(
+										isis_CADCommon::Point_3D(	added_axis_origin_x,
+																	added_axis_origin_y,
+																	added_axis_origin_z))));
+				
+				
+				line_added.push_back(isis_CADCommon::Point_3D(	
+						transformationMatrix_added.getTransformedCoordinates(
+										isis_CADCommon::Point_3D(	added_axis_origin_x + added_axis_offset_x,
+																	added_axis_origin_y + added_axis_offset_y,
+																	added_axis_origin_z + added_axis_offset_z))));
+
+				std::vector<isis_CADCommon::Point_3D> line_base;
+			
+				line_base.push_back(isis_CADCommon::Point_3D(
+							transformationMatrix_base.getTransformedCoordinates(
+								isis_CADCommon::Point_3D(	base_axis_origin_x,
+															base_axis_origin_y,
+															base_axis_origin_z))));
+
+
+				line_base.push_back(isis_CADCommon::Point_3D(	
+						transformationMatrix_base.getTransformedCoordinates(
+										isis_CADCommon::Point_3D(	base_axis_origin_x + base_axis_offset_x,
+																	base_axis_origin_y + base_axis_offset_y,
+																	base_axis_origin_z + base_axis_offset_z))));
+	
+
+				// Detemine if the points defining  added axis points are on the line formed by the base axis
+
+				if ( !isis_CADCommon::LinesCollinear(line_base, line_added ))
+				{
+					// two axes are not colinear.  There must be something ill formed about the other constraints.  The user must correct 
+					// this either by changing the CyPhy model or by changine the CAD models 
+					logcat_consoleandfile.warnStream() << "Function - " << __FUNCTION__ << ", WARNING, Found constrained axes that were not collinear.";
+					logcat_consoleandfile.warnStream() << "    base_model_component_instance_ID:  " << cFD.base_model_component_instance_ID;
+					logcat_consoleandfile.warnStream() << "    base_model_name:                   " << cFD.base_model_name;
+					logcat_consoleandfile.warnStream() << "    base_model_datum_name:             " << isis::MultiFormatString(cFD.base_model_datum_name);
+					logcat_consoleandfile.warnStream() << "    Line start point and end point:";
+					for each ( const isis_CADCommon::Point_3D &pt in line_base )  logcat_consoleandfile.warnStream() << "        " << pt;
+					logcat_consoleandfile.warnStream() << "    added_model_component_instance_ID: " << cFD.added_model_component_instance_ID;
+					logcat_consoleandfile.warnStream() << "    added_model_name:                  " << cFD.added_model_name;
+					logcat_consoleandfile.warnStream() << "    added_model_datum_name:            " <<  isis::MultiFormatString(cFD.added_model_datum_name);
+					logcat_consoleandfile.warnStream() << "    Line start point and end point:";
+					for each ( const isis_CADCommon::Point_3D &pt in line_added ) logcat_consoleandfile.warnStream() << "        " << pt;
+					logcat_consoleandfile.warnStream() << "    If two axes are constrained together, they should be collinear.  Non-collinear axes are ";
+					logcat_consoleandfile.warnStream() << "    usually due to other constraints making it impossible to align the axes.  Open the CAD ";
+					logcat_consoleandfile.warnStream() << "    assembly and inspect the constraints for the model listed above to identify the problem. ";
+					logcat_consoleandfile.warnStream() << "    Also, open the CyPhy model or  CADAssembly.xml and check if this component has a guide.";
+					logcat_consoleandfile.warnStream() << "    Ill placed guides can cause axes to not align.  This condition should be corrected before "; 
+					logcat_consoleandfile.warnStream() << "    proceeding.";
+					continue;  
+				}
+
+				// Axes form collinear lines
+				// Now check if unit vectors point in the same direction
+
+				std::vector<double> vector_base_model;
+				vector_base_model.push_back(line_base[1].x  - line_base[0].x );
+				vector_base_model.push_back(line_base[1].y  - line_base[0].y );
+				vector_base_model.push_back(line_base[1].z  - line_base[0].z );
+
+				std::vector<double> vector_added_model;
+				vector_added_model.push_back(line_added[1].x  - line_added[0].x );
+				vector_added_model.push_back(line_added[1].y  - line_added[0].y );
+				vector_added_model.push_back(line_added[1].z  - line_added[0].z );
+
+				if ( !isis_CADCommon::VectorsPointInTheSameDirection_3D( vector_base_model, vector_added_model))
+				{
+					// The unit vectors are pointing in the opposite directions.
+					// Must set flip_orientation
+					ContraintFeatureDefinition_2 &cFD_mutable = pSCD.get_ContraintFeatureDefinition(j);
+					cFD_mutable.flip_orientation = true;
+					logcat_fileonly.infoStream() << "**** Axis Flipped  ****"; 
+					logcat_fileonly.infoStream() << "    base_model_component_instance_ID:  " << cFD.base_model_component_instance_ID;
+					logcat_fileonly.infoStream() << "    base_model_name:                   " << cFD.base_model_name;
+					logcat_fileonly.infoStream() << "    base_model_datum_name:             " << isis::MultiFormatString(cFD.base_model_datum_name);
+					logcat_fileonly.infoStream() << "    Line start point and end point:";
+					for each ( const isis_CADCommon::Point_3D &pt in line_base )  logcat_fileonly.infoStream() << "        " << pt;
+					logcat_fileonly.infoStream() << "    added_model_component_instance_ID: " << cFD.added_model_component_instance_ID;
+					logcat_fileonly.infoStream() << "    added_model_name:                  " << cFD.added_model_name;
+					logcat_fileonly.infoStream() << "    Line start point and end point:";
+					logcat_fileonly.infoStream() << "    added_model_datum_name:            " <<  isis::MultiFormatString(cFD.added_model_datum_name);
+					for each ( const isis_CADCommon::Point_3D &pt in line_added ) logcat_fileonly.infoStream() << "        " << pt;
+				}			
+			}
+		}
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool Apply_CADDatum_ModelConstraints_2( 
+				cad::CadFactoryAbstract						&in_factory,
+				ProSolid									&in_assembly_model,   // This ProSolid is modified by this function.
+																				  // The modification is to add constraints to the assembly
+																				  // to position a part or sub-assembly.
+				const std::string							&in_AssemblyComponentID,
+				const std::string							&in_ComponentID,		
+				const ConstraintDefinition					&in_ConstraintDefinition,
+				std::map<string, isis::CADComponentData>	&in_CADComponentData_map )
+													throw (isis::application_exception)
+{
+
+	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+
+	bool stop = false;
+
+	// First need to determine the joint type (e.g. Fixed, Revolute, Prismatic)
+	std::vector<std::string>			listOfComponentIDsInTheAssembly;
+	listOfComponentIDsInTheAssembly.push_back(in_ComponentID);
+	PopulateMap_with_Junctions_per_InputXMLConstraints(	in_factory,
+													listOfComponentIDsInTheAssembly, 
+													in_CADComponentData_map );
+		
+	std::vector<PerSetConstraintDefinition_2>     perSetConstraintDefinitions;
+
+	Populate_PerSetConstraintDefinitions(	in_ComponentID,		
+											in_ConstraintDefinition,
+											in_CADComponentData_map,
+											perSetConstraintDefinitions );
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// Application of the Constraints to Correct Axis Orientation
+	// This applies to:
+	//		get_JointType_withoutguide() ==  REVOLUTE_JOINT || CYLINDRICAL_JOINT || PRISMATIC_JOINT
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Specify sort an order that would reveal if the axes are/are-not oriented properly.
+	// Axes have a start and end point and when aligning axes the start and end points must 
+	// be oriented in the same direction.  At least this is true for the joint types
+	// REVOLUTE_JOINT || CYLINDRICAL_JOINT || PRISMATIC_JOINT
+	// For other joint types (e.g. fixed) Creo seems to be tollerant of a datum planes that
+	// defines the orientation and orthogonal axes that may/may-not be aligned.  
+
+	std::vector<std::vector<ProType>>	sortOrderLists;
+	std::vector<ProType> sortOrderList;
+	sortOrderList.push_back(PRO_CSYS);
+	sortOrderList.push_back(PRO_SURFACE);	// If a plane should be flipped, it is the user's responsibilty.
+											// The user can change the CyPhy model or the CAD model to flip a plane.
+	sortOrderList.push_back(PRO_POINT);
+	sortOrderList.push_back(PRO_AXIS);		// Axis last so that we can determine if it should be flipped
+
+	// Need a constraint order for each constraint set.  In this case, they are identical for all constraint sets.
+	for (int i = 0; i < perSetConstraintDefinitions.size(); ++ i ) sortOrderLists.push_back(sortOrderList);
+
+	// A complete constraint definition could be composed of multiple constraint sets.
+	// For example, a link in a four-bar mechanism could be constrained on one end
+	// with a constraint set and on the other end with a different constraint set.
+	// We need to apply the constraint sets with guides.  This is necessary for 
+	// PRISMATIC_JOINT joints because the guide would flip the part to the correct
+	// orientation along the axis.  For REVOLUTE_JOINT and CYLINDRICAL_JOINT joints,
+	// the guide would be for clocking purposes and would not be instrumental in 
+	// determining the axis orientation and thus would have no adverse impact on 
+	// determining the axis orientation.
+
+	ConstraintOrder constraintOrder;
+	ComputeConstraintSortOrder (	sortOrderLists,
+									true, //	in_ConstraintSetsWithGuidesFirst, always set this to true even if in_IncludeGuideFeactures == false
+										  //	This is because the constraints including guides are applied first, then removed, and then 
+										  //	the constraints without guides are applied.  The order must be the same for both cases for
+										  //	the flip state to be correct.
+									true, //	in_IncludeGuideFeactures,
+									perSetConstraintDefinitions,
+									constraintOrder );
+
+	ConstraintOrder constraintOrder_temp = constraintOrder;
+
+	for each ( int i in constraintOrder.constraintDefinitionOrder )
+	{
+		// We need to apply all PerSetConstraintDefinitions individually.  This is necessary because for the case
+		// where a component was constrained on two ends, the axes on both ends were not line up based on the initial
+		// regeneration. To determine if an axis should be flipped, the axes must be collinear.
+
+		// Note - For REVOLUTE_JOINT, CYLINDRICAL_JOINT, and PRISMATIC_JOINT joints, the first constraint (not using the guide)
+		//        will always be an axis.  It is critical that the axis is oriented properly.  For other types of joints,
+		//		  the axis orientation is not critical because the axis would be constrained last and the previous 
+		//		  constraints would have already dictated the orientation.
+
+		constraintOrder_temp.constraintDefinitionOrder.clear();
+		constraintOrder_temp.constraintDefinitionOrder.push_back(i);
+
+		const PerSetConstraintDefinition_2 &pSCD = perSetConstraintDefinitions[i];
+
+		if ( pSCD.get_JointType_withoutguide() ==  REVOLUTE_JOINT ||
+			 pSCD.get_JointType_withoutguide() ==  CYLINDRICAL_JOINT ||
+			 pSCD.get_JointType_withoutguide() ==  PRISMATIC_JOINT )
+			
+		{
+			std::string warnings;
+			SetConstraints_2 (	
+					in_assembly_model, 
+					in_ComponentID, 
+					in_CADComponentData_map, 
+					constraintOrder_temp,
+					perSetConstraintDefinitions,
+					true,	// Treat as a user-defined joint  
+						warnings );
+
+			isis::isis_ProAsmcompRegenerate( &in_CADComponentData_map[in_ComponentID].assembledFeature, PRO_B_TRUE);
+			
+			// The following isis_ProSolidRegenerate is required.  The axes would not be collinear without this regeneration.
+			try
+			{
+				isis::isis_ProSolidRegenerate (in_assembly_model, PRO_REGEN_UPDATE_ASSEMBLY_ONLY);
+			}
+			catch (...)
+			{
+				logcat_consoleandfile.warnStream() << "WARNING - Assembly failed to regenerate in PRO_REGEN_UPDATE_ASSEMBLY_ONLY mode.";
+				logcat_consoleandfile.warnStream() << "   Error caused by Assembly Name: " << in_CADComponentData_map[in_AssemblyComponentID].name << "  ComponentID: " + in_AssemblyComponentID + ".";
+			}
+
+
+			CheckAxesAlignments_FlipOrientationIndicatorAsNecessary( 
+											in_assembly_model,
+											in_ComponentID,
+											in_CADComponentData_map[in_ComponentID].name,		
+											in_CADComponentData_map[in_ComponentID].modelType,
+											constraintOrder_temp,
+											perSetConstraintDefinitions );
+	
+			// Delete the constraints
+			isis::isis_ProAsmcompConstrRemove (	&in_CADComponentData_map[in_ComponentID].assembledFeature, -1 );
+		}
+	}
+
+	ProMatrix    position;
+	//////////////////////////////////////////////////////////////
+	// Application of the Constraints to Correct Axis Orientation
+	//////////////////////////////////////////////////////////////
+
+	bool hasAGuideConstraint = false;
+	for each (  const PerSetConstraintDefinition_2 &i in perSetConstraintDefinitions )
+		if ( i.get_HasAGuideConstraint()) hasAGuideConstraint=true;
+
+	if ( hasAGuideConstraint )
+	{
+		std::vector<std::vector<ProType>>	sortOrderLists;
+		std::vector<ProType> sortOrderList;
+		sortOrderList.push_back(PRO_SURFACE);	// A plane would be a guide.  Apply planes first.
+		sortOrderList.push_back(PRO_CSYS);
+		sortOrderList.push_back(PRO_POINT);
+		sortOrderList.push_back(PRO_AXIS);		
+
+		// Need a constraint order for each constraint set.  In this case, they are identical for all constraint sets.
+		for (int i = 0; i < perSetConstraintDefinitions.size(); ++ i ) sortOrderLists.push_back(sortOrderList);
+
+		ConstraintOrder constraintOrder;
+		ComputeConstraintSortOrder (sortOrderLists,
+									true,	//	in_ConstraintSetsWithGuidesFirst, always set this to true even if in_IncludeGuideFeactures == false
+											//	This is because the constraints including guides are applied first, then removed, and then 
+											//	the constraints without guides are applied.  The order must be the same for both cases for
+											//	the flip state to be correct.
+									true,	//	in_IncludeGuideFeactures,
+									perSetConstraintDefinitions,
+									constraintOrder );
+		std::string warnings;
+		SetConstraints_2 (	
+				in_assembly_model, 
+				in_ComponentID, 
+				in_CADComponentData_map, 
+				constraintOrder,
+				perSetConstraintDefinitions,
+				true,	// Treat as a user-defined joint  
+				warnings );
+
+		if ( warnings.size() > 0 )
+		{
+			if (isis::AssemblyOptions::GetInstance().FailLevel == isis::AssemblyOptions::FEATURE_REDEF)
+			{
+				logcat_consoleandfile.errorStream() << warnings;
+				return true;
+			} 
+			else 
+			{
+						logcat_consoleandfile.warnStream() << warnings;
+			}
+		}
+
+		isis::isis_ProAsmcompPositionGet (&in_CADComponentData_map[in_ComponentID].assembledFeature, position);
+		// Delete the constraints
+		isis::isis_ProAsmcompConstrRemove (	&in_CADComponentData_map[in_ComponentID].assembledFeature, -1 );
+
+	} // END if ( hasAGuideConstraint )
+
+	/////////////////////////////////////////
+	// Final Application of the Constraints
+	/////////////////////////////////////////
+
+	sortOrderLists.clear();
+
+	for each (  const PerSetConstraintDefinition_2 &i in perSetConstraintDefinitions )
+	{
+		std::vector<ProType> sortOrderList;
+		SortOrderBasedOnJointType( i.get_JointType_withoutguide(), sortOrderList );
+		sortOrderLists.push_back(sortOrderList);
+	}
+
+	ComputeConstraintSortOrder (sortOrderLists,
+								true,	//	in_ConstraintSetsWithGuidesFirst, always set this to true even if in_IncludeGuideFeactures == false
+										//	This is because the constraints including guides are applied first, then removed, and then 
+										//	the constraints without guides are applied.  The order must be the same for both cases for
+										//	the flip state to be correct.
+								false,	//	in_IncludeGuideFeactures,
+								perSetConstraintDefinitions,
+								constraintOrder );
+	std::string warnings;
+	SetConstraints_2 (	
+			in_assembly_model, 
+			in_ComponentID, 
+			in_CADComponentData_map, 
+			constraintOrder,
+			perSetConstraintDefinitions,
+			false,	// Treat as a user-defined joint  
+			warnings );
+
+	
+	if ( warnings.size() > 0 )
+	{
+		if (isis::AssemblyOptions::GetInstance().FailLevel == isis::AssemblyOptions::FEATURE_REDEF)
+		{
+			logcat_consoleandfile.errorStream() << warnings;
+			return true;
+		} 
+		else 
+		{
+					logcat_consoleandfile.warnStream() << warnings;
+		}
+	}
+
+	/////////////////////////////
+	// Apply the Initial Position
+	/////////////////////////////
+	if (hasAGuideConstraint )
+	{
+		ProAsmcomppath	comp_path;
+		ProIdTable	c_id_table;
+		int			c_id_table_size;
+					
+		Populate_c_id_table(in_CADComponentData_map[in_ComponentID].componentPaths, c_id_table, c_id_table_size );
+				
+		isis::isis_ProAsmcomppathInit (in_CADComponentData_map[in_ComponentID].modelHandle,	//ProSolid   p_solid_handle
+							c_id_table,			// ProIdTable 
+							c_id_table_size,	// table_size 
+							&comp_path);		// ProAsmcomppath *p_handle
+
+		isis::isis_ProAsmcompPositionSet (&comp_path, &in_CADComponentData_map[in_ComponentID].assembledFeature,  position);	
+	}
+
+	return stop;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 Description:
 -----------
@@ -2274,14 +4359,10 @@ bool Apply_CADDatum_ModelConstraints(
 				cad::CadFactoryAbstract						&in_factory,
 				ProSolid									&in_assembly_model,
 				const std::string							&in_ComponentID,		
-				ConstraintDefinition					&in_ConstraintDefinition,
+				ConstraintDefinition						&in_ConstraintDefinition,
 				std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
-				bool										in_IgnoreGuides )
-
-										throw (isis::application_exception)
+				bool										in_IgnoreGuides ) throw (isis::application_exception)
 {
-
-
 			// First need to determine the joint type (e.g. Fixed, Revolute, Prismatic)
 			std::vector<std::string>			listOfComponentIDsInTheAssembly;
 			listOfComponentIDsInTheAssembly.push_back(in_ComponentID);
@@ -2314,7 +4395,7 @@ bool Apply_CADDatum_ModelConstraints(
 
 			std::list<int> removeConstraintIndexes; 
 
-			cad::IAssembler& assembler = in_factory.get_assembler();
+			//cad::IAssembler& assembler = in_factory.get_assembler();
 
 			std::vector<PerSetConstraintDefinition> perSetConstraintDefinitions;
 
@@ -2976,8 +5057,9 @@ void ApplyModelConstraints(
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool ApplyModelConstraints( 
-			cad::CadFactoryAbstract				&in_factory,
+			cad::CadFactoryAbstract						&in_factory,
 			ProSolid									*in_assembly_model,
+			const std::string							&in_AssemblyComponentID,
 			const std::list<std::string>				&in_ComponentIDsToBeConstrained, 
 			bool										in_AllowUnconstrainedModels,
 			std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
@@ -3016,12 +5098,18 @@ bool ApplyModelConstraints(
 			try
 			{
 
-				bool stop = Apply_CADDatum_ModelConstraints(	in_factory, 
+				//bool stop = Apply_CADDatum_ModelConstraints(	in_factory, 
+				//									*in_assembly_model,
+				//									*i,
+				//									in_CADComponentData_map[*i].constraintDef, 
+				//									in_CADComponentData_map,
+				//									in_IgnoreGuides);	
+				bool stop = Apply_CADDatum_ModelConstraints_2(	in_factory, 
 													*in_assembly_model,
+													in_AssemblyComponentID,
 													*i,
 													in_CADComponentData_map[*i].constraintDef, 
-													in_CADComponentData_map,
-													in_IgnoreGuides);		
+													in_CADComponentData_map );		
 				if (stop)
 				{
 					fail = true;

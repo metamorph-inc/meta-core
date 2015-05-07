@@ -428,6 +428,8 @@ namespace Decor {
 			return Type::software_type;
 		} else if (type == "Documentation") {
 			return Type::documentation_type;
+		} else if (type == CPM_CARPARAMETER_OBJ){
+			return Type::carparameter_type;
 		}
 
 

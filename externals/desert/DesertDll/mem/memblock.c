@@ -2,9 +2,11 @@
 
 
 #include "memint.h"
+#include <wtypes.h>
+#include <tchar.h>
 
 #if defined(__STDC__)
-extern void exit(int);
+//extern void exit(int);
 #else
 extern void exit();
 #endif
@@ -46,16 +48,16 @@ mem_zero(ptr, size)
 }
 
 
-extern void (*bdd_fatal_hook)(char *message);
+extern void (*bdd_fatal_hook)(TCHAR *message);
 
 /* mem_fatal(message) prints an error message and exits. */
 
 void
 #if defined(__STDC__)
-mem_fatal(char *message)
+mem_fatal(TCHAR *message)
 #else
 mem_fatal(message)
-     char *message;
+     TCHAR *message;
 #endif
 {
   fprintf(stderr, "Memory management library: error: %s\n", message);
@@ -82,16 +84,6 @@ mem_allocation()
   return (block_allocation);
 }
 
-
-char *
-#if defined(__STDC__)
-mem_version(void)
-#else
-mem_version()
-#endif
-{
-  return ("1.0");
-}
 
 /******************************************************************/
 /* This code used if we're going to do our own memory management. */
@@ -143,7 +135,7 @@ block_size_index(size)
   if (size < 1)
     return (-1);
   if (size > MAX_SIZE)
-    mem_fatal("block_size_index: block size too large");
+    mem_fatal(_T("block_size_index: block size too large"));
   else
     size+=HEADER_SIZE;
   return (ceiling_log_2(size));
@@ -335,7 +327,7 @@ mem_get_block(size)
 			new_seg=0;
 		sbrk_ret=(pointer)SBRK(alloc_size);
 		if (sbrk_ret == (pointer)-1)
-			mem_fatal("mem_get_block: allocation failed");
+			mem_fatal(_T("mem_get_block: allocation failed"));
 		block_allocation+=alloc_size;
 		if (new_seg)
 		{
@@ -380,9 +372,9 @@ mem_free_block(p)
     return;
   b=(block)((INT_PTR)p-HEADER_SIZE);
   if (!b->used)
-    mem_fatal("mem_free_block: block not in use");
+    mem_fatal(_T("mem_free_block: block not in use"));
   if (b->size_index < 0 || b->size_index > MAX_SIZE_INDEX)
-    mem_fatal("mem_free_block: invalid block header");
+    mem_fatal(_T("mem_free_block: invalid block header"));
   merge_and_free(b);
 }
 
@@ -410,9 +402,9 @@ mem_resize_block(p, new_size)
     return (mem_get_block(new_size));
   b=(block)((INT_PTR)p-HEADER_SIZE);
   if (!b->used)
-    mem_fatal("mem_resize_block: block not in use");
+    mem_fatal(_T("mem_resize_block: block not in use"));
   if (b->size_index < 0 || b->size_index > MAX_SIZE_INDEX)
-    mem_fatal("mem_resize_block: invalid block header");
+    mem_fatal(_T("mem_resize_block: invalid block header"));
   if ((new_size_index=block_size_index(new_size)) < 0)
     {
       mem_free_block(p);
@@ -467,7 +459,7 @@ mem_get_block(size)
   result = (void *)((unsigned long)((unsigned long)p + 0x08) & 0xFFFFFFFF8);
 
   if (!result)
-    mem_fatal("mem_get_block: allocation failed (USE_MALLOC_FREE defined)");
+    mem_fatal(_T("mem_get_block: allocation failed (USE_MALLOC_FREE defined)"));
 
   printf("result = %x\n", result);
   
@@ -479,7 +471,7 @@ mem_get_block(size)
 */
   if((unsigned long)result & 0x07)  {
 	printf("result = %x\n", result);
-    mem_fatal("mem_get_block: not aligned on 8 byte boundry");
+    mem_fatal(_T("mem_get_block: not aligned on 8 byte boundry"));
   }
 #endif
   return (result);
@@ -530,7 +522,7 @@ mem_resize_block(p, new_size)
   result = mem_get_block(new_size);
 
   if (!result)
-    mem_fatal("mem_resize_block: allocation failed (USE_MALLOC_FREE defined)");
+    mem_fatal(_T("mem_resize_block: allocation failed (USE_MALLOC_FREE defined)"));
 
   /*mem_copy(result, p, old_size);
 */
@@ -540,7 +532,7 @@ mem_resize_block(p, new_size)
 
   if((unsigned long)result & 0x07)  {
 	printf("result = %x\n", result);
-    mem_fatal("mem_resize_block: not aligned on 8 byte boundry");
+    mem_fatal(_T("mem_resize_block: not aligned on 8 byte boundry"));
   }
 #endif
   return (result);

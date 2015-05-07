@@ -73,10 +73,10 @@ static int argc = 0;
 /////////////////////////////////////////////////////////////////////////////
 // CDesertToolApp initialization
 
-std::string stripQuotes( const std::string& expr) {
+tstring stripQuotes( const tstring& expr) {
 	if ( expr.empty())
 		return expr;
-	std::string copyexpr= expr;
+	tstring copyexpr= expr;
 	if ( copyexpr[ 0] == '\"')
 		copyexpr.erase(0, 1);
 	if ( copyexpr.empty())
@@ -86,28 +86,28 @@ std::string stripQuotes( const std::string& expr) {
 	return copyexpr;
 }
 
-std::string trimSpaces(std::string inStr)
+tstring trimSpaces(tstring inStr)
 {
-	std::string outStr = inStr;
-    std::stringstream trimmer;
+	tstring outStr = inStr;
+    tstringstream trimmer;
     trimmer << outStr;
     outStr.clear();
     trimmer >> outStr;
 	return outStr;
 }
 
-std::vector<std::string> splitConstraints(std::string _allCons)
+std::vector<tstring> splitConstraints(tstring _allCons)
 {
-    std::string allCons = trimSpaces(_allCons);
+    tstring allCons = trimSpaces(_allCons);
     
-	std::vector<std::string> splittedCons;
+	std::vector<tstring> splittedCons;
 	std::size_t lastColonPos = 0;
-	std::size_t nextColonPos = allCons.find(":");
-	while(nextColonPos != std::string::npos) {
+	std::size_t nextColonPos = allCons.find(_T(":"));
+	while(nextColonPos != std::wstring::npos) {
 		splittedCons.push_back(allCons.substr(lastColonPos,nextColonPos-lastColonPos));
 
 		lastColonPos = nextColonPos + 1;
-		nextColonPos = allCons.find(":", lastColonPos);
+		nextColonPos = allCons.find(_T(":"), lastColonPos);
 	}
 	if(!allCons.empty()) {
 	    // Add the last one
@@ -122,7 +122,7 @@ void ReInitializeManager(DesertSystem* ds, UdmDesertMap* des_map, DesertUdmMap *
 		des_map->clear();
 		inv_des_map->clear();
 	//	desertlogFile = (std::string)ds.SystemName()+"_desert.log";
-		DesertInit( ((string) ds->SystemName()).c_str());
+		DesertInit(CString(((string) ds->SystemName()).c_str()));
 		set<Space> spaces = ds->Space_kind_children();
 		set<Space>::iterator sp_iterator;
 
@@ -188,9 +188,9 @@ BOOL CDesertToolApp::InitInstance()
 
 	//this hack is offered gratiously by our very talented grad. student, Tihamer Levendovszky)
 
-	SetRegistryKey("ISIS");
+	SetRegistryKey(_T("ISIS"));
 	CString str(m_pszHelpFilePath);
-	WriteProfileString("Data","Path", str.Left(str.GetLength()-3) +CString("exe"));
+	WriteProfileString(_T("Data"),_T("Path"), str.Left(str.GetLength()-3) +CString(_T("exe")));
 
 	//end of the hack offered by our very gifted, talented, and I could continue... grad student
 
@@ -203,47 +203,47 @@ BOOL CDesertToolApp::InitInstance()
 	bool isSilent= false;
 	bool multiRun = false;
 	CString consList;
-	char** consGroupNames = NULL;
-	char** consGroups = NULL;
+	TCHAR** consGroupNames = NULL;
+	TCHAR** consGroups = NULL;
 	int numConsGroups = 0;
-	char input_file[_MAX_PATH];
-	char output_file[_MAX_PATH];
-	std::string desert_config_info_file = "";
+	TCHAR input_file[_MAX_PATH];
+	TCHAR output_file[_MAX_PATH];
+	tstring desert_config_info_file = _T("");
 	FILE* fdDcif = 0;
 	
-	static char szFilterUDM[] = "XML Backend Files (*.xml)|*.xml|MEM Backend Files (*.mem)|*.mem|MGA Backend Files (*.mga)|*.mga|All Files (*.*)|*.*||";
+	static TCHAR szFilterUDM[] = _T("XML Backend Files (*.xml)|*.xml|MEM Backend Files (*.mem)|*.mem|MGA Backend Files (*.mga)|*.mga|All Files (*.*)|*.*||");
 	
 	bool hasInputFile = false;
 	bool hasOutputFile = false;
 	
 	if (m_lpCmdLine)
 	{
-		if (strlen(m_lpCmdLine))
+		if (_tcslen(m_lpCmdLine))
 		{
-			if (strstr(m_lpCmdLine, "/?") || strstr(m_lpCmdLine, "/help") || strstr(m_lpCmdLine, "--help") || strstr(m_lpCmdLine, "/h"))
+			if (_tcsstr(m_lpCmdLine, _T("/?")) || _tcsstr(m_lpCmdLine, _T("/help")) || _tcsstr(m_lpCmdLine, _T("--help")) || _tcsstr(m_lpCmdLine, _T("/h")))
 			{
-				CString usage("Usage: deserttool.exe [<DesertInput xml>] [/o <Output Filename>] [/c \"constraint1:constraint2\"] [/m \"__CG__GroupA:constraint1:constraint2:__CG__GroupB:constraint1:constraint3\"\r\n\r\nArgument details:\r\n");
-				usage.Append("DesertInput xml: input desert xml file\r\n");
-				usage.Append("/c \"constraint1 : constraint2\": apply the constraint list directly without GUI shown up\r\n");
-				usage.Append("/c \"applyAll\": apply all constraints directly without GUI shown up\r\n");
-				usage.Append("/c \"none\": does not apply any constraint and computes total no. of configurations, without GUI shown up\r\n");
-				usage.Append("/m : when used calls desert process for \"none\", \"applyAll\", and all given constraint groups (with names using '__CG__' prefix) one by one, without GUI shown up\r\n");
+				CString usage(_T("Usage: deserttool.exe [<DesertInput xml>] [/o <Output Filename>] [/c \"constraint1:constraint2\"] [/m \"__CG__GroupA:constraint1:constraint2:__CG__GroupB:constraint1:constraint3\"\r\n\r\nArgument details:\r\n"));
+				usage.Append(_T("DesertInput xml: input desert xml file\r\n"));
+				usage.Append(_T("/c \"constraint1 : constraint2\": apply the constraint list directly without GUI shown up\r\n"));
+				usage.Append(_T("/c \"applyAll\": apply all constraints directly without GUI shown up\r\n"));
+				usage.Append(_T("/c \"none\": does not apply any constraint and computes total no. of configurations, without GUI shown up\r\n"));
+				usage.Append(_T("/m : when used calls desert process for \"none\", \"applyAll\", and all given constraint groups (with names using '__CG__' prefix) one by one, without GUI shown up\r\n"));
 				std::cout << usage;
 				AfxMessageBox(usage,MB_ICONINFORMATION);
 				return TRUE;
 			}
-			if (strstr(m_lpCmdLine, ".xml") || strstr(m_lpCmdLine, ".mem") || strstr(m_lpCmdLine, ".mga")  
-				|| strstr(m_lpCmdLine, ".XML") || strstr(m_lpCmdLine, ".MEM") || strstr(m_lpCmdLine, ".MGA"))
+			if (_tcsstr(m_lpCmdLine, _T(".xml")) || _tcsstr(m_lpCmdLine, _T(".mem")) || _tcsstr(m_lpCmdLine, _T(".mga"))  
+				|| _tcsstr(m_lpCmdLine, _T(".XML")) || _tcsstr(m_lpCmdLine, _T(".MEM")) || _tcsstr(m_lpCmdLine, _T(".MGA")))
 			{
 				CWzdCommandLineInfo cmdInfo;
 				ParseCommandLine(cmdInfo);
 
 				//seems to be a valid file name
 				command_arg_ok = true;
-				strcpy(input_file, cmdInfo.desert_file);				
+				_tcscpy(input_file, cmdInfo.desert_file);				
 				hasInputFile = !(cmdInfo.desert_file).IsEmpty();
 
-				strcpy(output_file, cmdInfo.desert_output_file);
+				_tcscpy(output_file, cmdInfo.desert_output_file);
 				hasOutputFile = !(cmdInfo.desert_output_file).IsEmpty();
 				
 				isSilent = cmdInfo.silent;
@@ -254,34 +254,34 @@ BOOL CDesertToolApp::InitInstance()
 					int ncgs = cmdInfo.consGroupNames.GetCount();
 					numConsGroups = ncgs;
 					if(ncgs > 0) {
-						consGroupNames = new char* [ncgs];
-						consGroups = new char* [ncgs];
+						consGroupNames = new TCHAR* [ncgs];
+						consGroups = new TCHAR* [ncgs];
 					}
 					POSITION p1 = cmdInfo.consGroupNames.GetHeadPosition();
 					int cIdx = 0;
 					while (p1 != NULL) {
 						CString s = cmdInfo.consGroupNames.GetNext(p1);
-						consGroupNames[cIdx++] = strdup(s);
+						consGroupNames[cIdx++] = _tcsdup(s);
 					}
 
 					POSITION p2 = cmdInfo.consGroups.GetHeadPosition();
 					cIdx = 0;
 					while (p2 != NULL) {
 						CString s = cmdInfo.consGroups.GetNext(p2);
-						consGroups[cIdx++] = strdup(s);
+						consGroups[cIdx++] = _tcsdup(s);
 					}
 
 					multiRun = true;
 					isSilent = true;
 				}
 			}
-		}//eo if (strlen(m_lpCmdLine))
+		}//eo if (_tcslen(m_lpCmdLine))
 	}//eo if (m_lpCmdLine)
 	
 	if (!command_arg_ok && !hasInputFile)
 	{
 		CFileDialog Open(	TRUE,									//construct a file open dialog
-							"xml",									//default file name extension
+							_T("xml"),									//default file name extension
 							NULL,									//default file name
 							OFN_FILEMUSTEXIST |OFN_HIDEREADONLY ,	//default behaviour
 							szFilterUDM,							//no filter
@@ -289,7 +289,7 @@ BOOL CDesertToolApp::InitInstance()
 							);
 		if (Open.DoModal() == IDOK)
 		{
-			strcpy(input_file, Open.GetPathName());
+			_tcscpy(input_file, Open.GetPathName());
 		} 
 		else 
 		{
@@ -298,37 +298,37 @@ BOOL CDesertToolApp::InitInstance()
 		}
 	}
 	
-	std::string infile= stripQuotes( input_file);
+	tstring infile= stripQuotes( input_file);
 	infile.copy( input_file, infile.length(), 0);
 	input_file[ infile.length()]= 0;
 
 	// If output_file name is given, use it, else tack an _back at the end
 	// (i.e., output has the same name, but sufxed by _back.[xml|mga|mem])
 	if(hasOutputFile) {
-		std::string outFile = stripQuotes( output_file );
+		tstring outFile = stripQuotes( output_file );
 		outFile.copy( output_file, outFile.length(), 0);
 		output_file[ outFile.length() ] = 0;
 
-		std::string strOutFName = output_file;
+		tstring strOutFName = output_file;
 		std::size_t dotPos = strOutFName.find_last_of('.');
 		if(dotPos != std::string::npos) {
-			desert_config_info_file = strOutFName.substr(0, dotPos) + "_configs.xml";
+			desert_config_info_file = strOutFName.substr(0, dotPos) + _T("_configs.xml");
 		} else {
-			desert_config_info_file = strOutFName + "_configs.xml";
+			desert_config_info_file = strOutFName + _T("_configs.xml");
 		}
-		fdDcif = fopen(desert_config_info_file.c_str(), "w+");
+		fdDcif = _tfopen(desert_config_info_file.c_str(), _T("w+"));
 	}
 	else {
-		strncpy(output_file, input_file, strlen(input_file)-4);
-		*(output_file+strlen(input_file)-4)='\0';
+		_tcsncpy(output_file, input_file, _tcslen(input_file)-4);
+		*(output_file+_tcslen(input_file)-4)='\0';
 
 		desert_config_info_file = output_file;
-		desert_config_info_file += "_configs.xml";
-		fdDcif = fopen(desert_config_info_file.c_str(), "w+");
+		desert_config_info_file += _T("_configs.xml");
+		fdDcif = _tfopen(desert_config_info_file.c_str(), _T("w+"));
 	
-		if (strstr(input_file, ".xml") || strstr(input_file, ".XML")) strcat(output_file, "_back.xml");
-		if (strstr(input_file, ".mem") || strstr(input_file, ".MEM")) strcat(output_file, "_back.mem");
-		if (strstr(input_file, ".mga") || strstr(input_file, ".MGA")) strcat(output_file, "_back.mga");
+		if (_tcsstr(input_file, _T(".xml")) || _tcsstr(input_file, _T(".XML"))) _tcscat(output_file, _T("_back.xml"));
+		if (_tcsstr(input_file, _T(".mem")) || _tcsstr(input_file, _T(".MEM"))) _tcscat(output_file, _T("_back.mem"));
+		if (_tcsstr(input_file, _T(".mga")) || _tcsstr(input_file, _T(".MGA"))) _tcscat(output_file, _T("_back.mga"));
 	}
 
 	if (!cancel_input)
@@ -346,9 +346,9 @@ BOOL CDesertToolApp::InitInstance()
 			s_dlg.SetStatus(SD_INIT);
 			s_dlg.SetStatus(SD_PARSE);
 
-			nw.OpenExisting(input_file,"", 	Udm::CHANGES_PERSIST_ALWAYS);
+			nw.OpenExisting(std::string(CStringA(input_file)), "", Udm::CHANGES_PERSIST_ALWAYS);
 			ds = DesertSystem::Cast(nw.GetRootObject());
-			DesertInit( ((string)ds.SystemName()).c_str());
+			DesertInit(CString(((std::string)ds.SystemName()).c_str()));
 			
 			s_dlg.SetStatus(SD_SPS);
 			//spaces, elements
@@ -430,13 +430,13 @@ BOOL CDesertToolApp::InitInstance()
 				DesertFinitWithMultirun_Pre(numConsGroups, consGroupNames, consGroups);
 
 				// First run with no constraints applied
-				int numCfgs = DesertFinitWithMultirun_Exec(true, ((std::string) ds.SystemName()).c_str(), "NONE", "");
+				int numCfgs = DesertFinitWithMultirun_Exec(true, CString(((std::string) ds.SystemName()).c_str()), _T("NONE"), _T(""));
 				std::cout << "Group: NONE\tConfigs: " << numCfgs << std::endl;
 				fprintf(fdDcif, "\t<None NumConfigs=\"%d\"/>\n", numCfgs);
 				ReInitializeManager(&ds, &des_map, &inv_des_map);
 
 				// Next run with all constraints applied
-				numCfgs = DesertFinitWithMultirun_Exec(true, ((std::string) ds.SystemName()).c_str(), "ALL", "applyAll");
+				numCfgs = DesertFinitWithMultirun_Exec(true, CString(((std::string) ds.SystemName()).c_str()), _T("ALL"), _T("applyAll"));
 				std::cout << "Group: NONE\tConfigs: " << numCfgs << std::endl;
 				fprintf(fdDcif, "\t<All NumConfigs=\"%d\"/>\n", numCfgs);
 				ReInitializeManager(&ds, &des_map, &inv_des_map);
@@ -444,13 +444,13 @@ BOOL CDesertToolApp::InitInstance()
 				// Next run for all groups
 				fprintf(fdDcif, "\t<Groups>\n");
 				for(int j=0; j<numConsGroups; j++) {
-					numCfgs = DesertFinitWithMultirun_Exec(true, ((std::string) ds.SystemName()).c_str(), consGroupNames[j], consGroups[j]);
+					numCfgs = DesertFinitWithMultirun_Exec(true, CString(((std::string) ds.SystemName()).c_str()), consGroupNames[j], consGroups[j]);
 
 					std::cout << "Group: NONE\tConfigs: " << numCfgs << std::endl;
-					fprintf(fdDcif, "\t\t<Group Name=\"%s\" NumConfigs=\"%d\">\n", consGroupNames[j], numCfgs);
-					std::vector<std::string> splittedCons = splitConstraints(consGroups[j]);
-					for(std::vector<std::string>::iterator conIt = splittedCons.begin(); conIt != splittedCons.end(); ++conIt)
-						fprintf(fdDcif, "\t\t\t<Constraint Name=\"%s\"/>\n", *conIt);
+					fprintf(fdDcif, "\t\t<Group Name=\"%S\" NumConfigs=\"%d\">\n", consGroupNames[j], numCfgs);
+					std::vector<tstring> splittedCons = splitConstraints(consGroups[j]);
+					for(std::vector<tstring>::iterator conIt = splittedCons.begin(); conIt != splittedCons.end(); ++conIt)
+						fprintf(fdDcif, "\t\t\t<Constraint Name=\"%S\"/>\n", conIt->c_str());
 					fprintf(fdDcif, "\t\t</Group>\n");
 
 					if(j<numConsGroups) {
@@ -471,16 +471,16 @@ BOOL CDesertToolApp::InitInstance()
 				DBConfigurations * confs = (DBConfigurations * )DesertFinit(true, isSilent, consList == "" ? NULL : (LPCTSTR)consList);
 				int numCfgs = (confs) ? confs->GetCount() : 0;
 				
-				std::string strConsList = trimSpaces(std::string(consList));
-				if(strConsList.length() == 0 || strConsList.compare("None") == 0 || strConsList.compare("none") == 0) {
+				tstring strConsList = trimSpaces(tstring(consList));
+				if(strConsList.length() == 0 || strConsList.compare(_T("None")) == 0 || strConsList.compare(_T("none")) == 0) {
 					fprintf(fdDcif, "\t<None NumConfigs=\"%d\"/>\n", numCfgs);
-				} else if(strConsList.compare("applyAll") == 0) {
+				} else if(strConsList.compare(_T("applyAll")) == 0) {
 					fprintf(fdDcif, "\t<All NumConfigs=\"%d\"/>\n", numCfgs);
 				} else {
 					fprintf(fdDcif, "\t<ConstraintSet NumConfigs=\"%d\">\n", numCfgs);
-					std::vector<std::string> allStrCons = splitConstraints(strConsList);
-					for(std::vector<std::string>::iterator strCIt = allStrCons.begin(); strCIt != allStrCons.end(); ++strCIt)
-						fprintf(fdDcif, "\t\t<Constraint Name=\"%s\"/>\n", *strCIt);
+					std::vector<tstring> allStrCons = splitConstraints(strConsList);
+					for(std::vector<tstring>::iterator strCIt = allStrCons.begin(); strCIt != allStrCons.end(); ++strCIt)
+						fprintf(fdDcif, "\t\t<Constraint Name=\"%S\"/>\n", strCIt->c_str());
 					fprintf(fdDcif, "\t</ConstraintSet>\n");
 				}
 				std::cout << "Configs: " << numCfgs << std::endl;
@@ -493,7 +493,7 @@ BOOL CDesertToolApp::InitInstance()
 					{
 						CFileDialog SaveAs(
 								FALSE,									//construct a file open dialog
-								"xml",									//default file name extension
+								_T("xml"),									//default file name extension
 								output_file,							//default file name
 								OFN_HIDEREADONLY ,						//default behaviour
 								szFilterUDM,							//no filter
@@ -501,7 +501,7 @@ BOOL CDesertToolApp::InitInstance()
 								);
 						if (SaveAs.DoModal() == IDOK)
 						{
-							strcpy(output_file, SaveAs.GetPathName());
+							_tcscpy(output_file, SaveAs.GetPathName());
 						}
 							else cancel_output = true;
 
@@ -514,7 +514,7 @@ BOOL CDesertToolApp::InitInstance()
 						DesertIfaceBack::DesertBackSystem dbs;
 						bw.CreateNew(
 							//(LPCTSTR)SaveAs.GetFileName(), 
-							output_file,
+							std::string(CStringA(output_file)),
 							"DesertIfaceBack",	
 							DesertIfaceBack::DesertBackSystem::meta,
 							Udm::CHANGES_PERSIST_ALWAYS);	
@@ -567,8 +567,9 @@ BOOL CDesertToolApp::InitInstance()
 							{
 								//create configuration
 								DesertIfaceBack::Configuration dib_conf = DesertIfaceBack::Configuration::Create(dbs);
-								CString s;s.Format("Conf. no: %d", config->id);
-								dib_conf.name() = (LPCTSTR)s;
+								CString s;
+								s.Format(_T("Conf. no: %d"), config->id);
+								dib_conf.name() = static_cast<LPCSTR>(CStringA(s));
 								dib_conf.id() = config->id;
 							
 
@@ -700,7 +701,7 @@ void CWzdCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag,
 	argc++;
     CString sArg(pszParam);
 
-	int n = atoi((LPCTSTR)sArg);
+	int n = _ttoi((LPCTSTR)sArg);
 	if(!outputFileNeedsToBeRead &&
 		(sArg.Right(4) == ".xml" || sArg.Right(4) == ".mem" || sArg.Right(4) == ".mga"
 			|| sArg.Right(4) == ".XML" || sArg.Right(4) == ".MEM" || sArg.Right(4) == ".MGA")
@@ -735,36 +736,36 @@ void CWzdCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag,
 	}
 	else if(multiRun)
 	{
-		const char *ccstrConsGroups = (LPCTSTR) sArg;
-		std::string strConsGroups = strdup(ccstrConsGroups);
+		const TCHAR *ccstrConsGroups = (LPCTSTR) sArg;
+		tstring strConsGroups = ccstrConsGroups;
 		bool consGrpSpecError = false;
 
-		std::string groupName = "";
-		std::string constraintGroup = "";
-		std::size_t posPrevGrpStart = strConsGroups.find("__CG__");
+		tstring groupName = _T("");
+		tstring constraintGroup = _T("");
+		std::size_t posPrevGrpStart = strConsGroups.find(_T("__CG__"));
 		std::size_t posPrevGrpEnd = 0;
-		if(posPrevGrpStart != string::npos) {
-			posPrevGrpEnd = strConsGroups.find(":");
-			if(posPrevGrpEnd != string::npos) {
+		if(posPrevGrpStart != tstring::npos) {
+			posPrevGrpEnd = strConsGroups.find(_T(":"));
+			if(posPrevGrpEnd != tstring::npos) {
 				groupName = strConsGroups.substr(posPrevGrpStart + 6, posPrevGrpEnd - posPrevGrpStart - 6);
 			} else {
 				consGrpSpecError = true;
 			}
 		}
-		std::size_t posNextGrpStart = strConsGroups.find("__CG__", posPrevGrpEnd);
-		while(!consGrpSpecError && posNextGrpStart != string::npos) {
+		std::size_t posNextGrpStart = strConsGroups.find(_T("__CG__"), posPrevGrpEnd);
+		while(!consGrpSpecError && posNextGrpStart != tstring::npos) {
 			constraintGroup = strConsGroups.substr(posPrevGrpEnd + 1, posNextGrpStart - 1 - posPrevGrpEnd - 1);
 			CString gn = groupName.c_str();
 			consGroupNames.AddTail(gn);
 			CString cg = constraintGroup.c_str();
 			consGroups.AddTail(cg);
 
-			std::size_t posNextGrpEnd = strConsGroups.find(":", posNextGrpStart);
+			std::size_t posNextGrpEnd = strConsGroups.find(_T(":"), posNextGrpStart);
 			if(posNextGrpEnd != string::npos) {
 				groupName = strConsGroups.substr(posNextGrpStart + 6, posNextGrpEnd - posNextGrpStart - 6);
 				posPrevGrpStart = posNextGrpStart;
 				posPrevGrpEnd = posNextGrpEnd;
-				posNextGrpStart = strConsGroups.find("__CG__", posNextGrpEnd);
+				posNextGrpStart = strConsGroups.find(_T("__CG__"), posNextGrpEnd);
 			} else {
 				consGrpSpecError = true;
 			}

@@ -21,9 +21,9 @@ public:
     //		object created from this class
     // Post-Conditions:
     //		Instantiated Object
-    MetaLinkAssemblyEditor( cad::CadFactoryAbstract::ptr in_cadfactory,
-                            const isis::ProgramInputArguments              &in_ProgramInputArguments,
-                            std::map<std::string, isis::CADComponentData> &in_CADComponentData_map);
+    MetaLinkAssemblyEditor(cad::CadFactoryAbstract::ptr in_cadfactory,
+                           const isis::ProgramInputArguments              &in_ProgramInputArguments,
+                           std::map<std::string, isis::CADComponentData> &in_CADComponentData_map);
 
     // Description:
     //      De-Select (remove highlight) for all objects
@@ -39,11 +39,10 @@ public:
     //
     // Post-Conditions:
     //
-    void SelectComponentOfAssembly (
-        const std::string				&in_ParentAssemblyInstanceId,
+    void SelectComponentOfAssembly(
         const std::string 				&in_ComponentInstanceId,
         std::vector<isis::CADCreateAssemblyError> &out_ErrorList)
-    throw (isis::application_exception);
+    throw(isis::application_exception);
 
     // Description:
     //      Select (highlight) the object referenced by the identifier
@@ -51,12 +50,11 @@ public:
     //
     // Post-Conditions:
     //
-    void SelectDatumOfComponent (
-        const std::string 				&in_AvmComponentId,
+    void SelectDatumOfComponent(
         const std::string               &in_FeatureGeometryType,
         const std::string 				&in_DatumName,
         std::vector<isis::CADCreateAssemblyError> &out_ErrorList)
-    throw (isis::application_exception);
+    throw(isis::application_exception);
 
     // Description:
     //      Locate a component instance in an assembly design
@@ -66,7 +64,7 @@ public:
     // Post-Conditions:
     //
     std::string LocateComponentOfAssembly(std::vector<isis::CADCreateAssemblyError> &out_ErrorList)
-    throw (isis::application_exception);
+    throw(isis::application_exception);
 
     // Description:
     //      Locate a datum in an AVM component
@@ -76,7 +74,7 @@ public:
     // Post-Conditions:
     //
     std::string LocateDatumOfComponent(std::vector<isis::CADCreateAssemblyError> &out_ErrorList)
-    throw (isis::application_exception);
+    throw(isis::application_exception);
 
     // Description:
     //		Add a component (i.e. part/assembly) to the in_ParentAssemblyInstanceID assembly
@@ -100,8 +98,7 @@ public:
     //		If no exceptions, then in_CreoModelName-in_CreoModelType would have been successfully added to
     //		the in_ParentAssemblyInstanceID assembly and cADComponentData_map updated to reflect that
     //		in_ComponentInstanceID is now part of the active Creo assembly.
-    void AddComponentToAssembly (
-        const std::string				&in_ParentAssemblyInstanceID,
+    void AddComponentToAssembly(
         const std::string 				&in_ComponentInstanceID,
         const std::string 				&in_CreoModelName,
         ProMdlType						in_CreoModelType,
@@ -111,46 +108,46 @@ public:
         const std::vector<CADParameter>	&in_CADParameters,
         std::vector<isis::CADCreateAssemblyError> &out_ErrorList,
         std::vector<isis::CADComponentConnector> &in_ConnectorList)
-    throw (isis::application_exception);
+    throw(isis::application_exception);
 
     // Needs Contract
-    void ConstrainComponent (	const std::string					&in_ConstraintComponentInstanceID,
-                                const std::vector< ConstraintPair>  &in_ConstraintPairs )
-    throw (isis::application_exception);
+    void ConstrainComponent(const std::string					&in_ConstraintComponentInstanceID,
+                            const std::vector< ConstraintPair>  &in_ConstraintPairs)
+    throw(isis::application_exception);
 
     // Update component name
-    void UpdateComponentName ( const std::string  &in_ComponentInstanceID,
-                               const std::string &newName) throw (isis::application_exception);
+    void UpdateComponentName(const std::string  &in_ComponentInstanceID,
+                             const std::string &newName) throw(isis::application_exception);
 
     // Needs Contract
-    void ModifyParameters (  const std::string  &in_ComponentInstanceID,
-                             const std::vector<CADParameter> &in_Parameters) throw (isis::application_exception);
+    void ModifyParameters(const std::string  &in_ComponentInstanceID,
+                          const std::vector<CADParameter> &in_Parameters) throw(isis::application_exception);
 
     // This should be called only once per design ID
-    void CreateAssembly(  const std::string  &in_AssemblyXMLString ) throw (isis::application_exception);
+    void CreateAssembly(const std::string  &in_AssemblyXMLString) throw(isis::application_exception);
 
     // This should be called to clear out a design
-    bool MetaLinkAssemblyEditor::Clear()  throw (isis::application_exception);
+    bool MetaLinkAssemblyEditor::Clear()  throw(isis::application_exception);
 
     // if in_SearchPaths.size(0) == 0, then no action would be taken. An exception would not be thrown
-    void AddSearchPaths(const std::list<std::string> &in_SearchPaths) throw (isis::application_exception);
+    void AddSearchPaths(const std::list<std::string> &in_SearchPaths) throw(isis::application_exception);
 
 
     // Called to initialize an avm component
-    void InitAvmComponent(  const std::string in_AvmComponentID, const std::string creoModelName,
-                            const std::string  creoAvmComponentName, const ProMdlType creoModelType ) throw (isis::application_exception);
+    void InitAvmComponent(const std::string in_AvmComponentID, const std::string creoModelName,
+                          const std::string  creoAvmComponentName, const ProMdlType creoModelType) throw(isis::application_exception);
 
     // May be called repeatedly to change a component via CyPhy
-    void UpdateAvmComponentViaXML(  const std::string  &in_AssemblyXMLString ) throw (isis::application_exception);
+    void UpdateAvmComponentViaXML(const std::string  &in_AssemblyXMLString) throw(isis::application_exception);
 
     // Deselect all selected items
     void UnHighlightAll();
 
     // Select a part/assembly
-    void HighlightPart( const std::string ID );
+    void HighlightPart(const std::string ID);
 
     // Select a datum
-    void HighlightDatum( const std::string parentID, const std::string datumName );
+    void HighlightDatum(const std::string parentID, const std::string datumName);
 
 private:
     ::log4cpp::Category& m_logcat;
@@ -168,21 +165,21 @@ private:
     std::set<std::string>							searchPaths;
     ProMdl                                          m_AvmComponentModel;
 
-	int												m_addedToAssemblyOrdinal;
+    int												m_addedToAssemblyOrdinal;
 
 
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CreateAssemblyViaString(	cad::CadFactoryAbstract				&in_factory,
-                                const isis::ProgramInputArguments				&in_ProgramInputArguments,
-                                const std::string								&in_XMLInputFile_String,
-                                unsigned int									&in_out_UniqueNameIndex,
-                                const std::string								&in_DesingID,
-                                isis::CADAssemblies								&out_CADComponentAssemblies,
-                                std::map<std::string, isis::CADComponentData>	&out_CADComponentData_map,
-                                std::vector<CADCreateAssemblyError>				&errorList)
-throw (isis::application_exception);
+void CreateAssemblyViaString(cad::CadFactoryAbstract				&in_factory,
+                             const isis::ProgramInputArguments				&in_ProgramInputArguments,
+                             const std::string								&in_XMLInputFile_String,
+                             unsigned int									&in_out_UniqueNameIndex,
+                             const std::string								&in_DesingID,
+                             isis::CADAssemblies								&out_CADComponentAssemblies,
+                             std::map<std::string, isis::CADComponentData>	&out_CADComponentData_map,
+                             std::vector<CADCreateAssemblyError>				&errorList)
+throw(isis::application_exception);
 
 } // END namespace isis
 

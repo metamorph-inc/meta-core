@@ -1,7 +1,7 @@
 Title: 	  CADCreoParametricCreateAssembly.exe (Creo Parametric)
 	  assemble_ptc.exe (Pro/E) no longer supported
 
-Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.4.58.0
+Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.4.60.0
 Pro/E 		 	assemble_ptc.exe Version: v1.0.008  // Not supported as of Jan. 2012
 
 Supported Creo Versions: Creo 2.x, no other versions currently supported
@@ -836,6 +836,38 @@ v1.4.57.0 10/14/2014	Added support for deck-based thermal.  This is sufficient f
 v1.4.58.0 10/30/2014    Added support for volumetric heat generation (QVOL Nastran Card).  For convection, changed the source
 			of the external temperature to the value in the following CADAssembly.xml entry:
  			<ThermalElement LoadType="AmbientTemperature" Value="243.99" Unit="C" _id="id112">.  R.O.
+			
+v1.4.59.0 04/10/2015	Added support for InterferenceCount CADComputationComponent.  This entailed changing the format
+			of CADAssembly_interference.txt to have the string "InterferenceCount: ??", where ?? would be
+			the number of interferences.  Also, modified UpdateReportJson_CAD.py to read 
+			CADAssembly_interference.txt, if it exists, and update testbench_manifest.json.
+			Corrected an unit error in ComputedMetricsSummary.py.  The stress allowables were in PA
+			and should have been in MPa. R.O.
+			Added CarTestBench and interperter CyPhyCar. S.N.
+
+
+v1.4.60.0 05/01/2015	Modified ApplyModelConstraints.cpp to be a general constraint solution.  Supported FIXED_JOINT
+ 			and kinematic joints (REVOLUTE_JOINT, SPHERICAL_JOINT, PRISMATIC_JOINT, CYLINDRICAL_JOINT,
+			and PLANAR_JOINT). 
+			There are many geometry constructs that could be used to define kinematic joints; however, 
+			Creo only supports a subset of those geometries.   For example, a point on a plane defines 
+			a revolute joint, but Creo does not support that set of geometries for defining a revolute 
+			joint.  Creo supports an axis and a plane/point to define a revolute joint.  The following 
+			table shows the constructs supported by Creo and thus supported by this program. R.O.
+
+ 			Creo Joint Type	Other Name		Creo Required Geometry
+ 			---------------	---------------		---------------------------------------
+			Pin		Revolute		Axis, Point or Plane
+			Cylinder	Cylindrical		Axis
+			Slider		Prismatic		Axis, Plane	
+			Planar		Planar			Plane (Note- Creo supports further
+								restrictions (i.e. additional planes) but
+								we will assume the classical definition
+								(3 degrees of freedom) of a planar constraint.
+								Additional, planes/geometry will result in a
+								user defined constraint.
+			Ball		Spherical		Point (Creo supports other geometry types,
+								but we will only support a point.) 		
 			
 
 Known Defects

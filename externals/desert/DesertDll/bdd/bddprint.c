@@ -2,15 +2,16 @@
 
 
 #include "bddint.h"
+#include <tchar.h>
 
 
 static
 void
 #if defined(__STDC__)
-chars(char c, int n, FILE *fp)
+chars(TCHAR c, int n, FILE *fp)
 #else
 chars(c, n, fp)
-     char c;
+     TCHAR c;
      int n;
      FILE *fp;
 #endif
@@ -27,20 +28,20 @@ void
 #if defined(__STDC__)
 bdd_print_top_var(bdd_manager bddm,
 		  bdd f,
-		  char *(*var_naming_fn)(bdd_manager, bdd, pointer),
+		  TCHAR *(*var_naming_fn)(bdd_manager, bdd, pointer),
 		  pointer env,
 		  FILE *fp)
 #else
 bdd_print_top_var(bddm, f, var_naming_fn, env, fp)
      bdd_manager bddm;
      bdd f;
-     char *(*var_naming_fn)();
+     TCHAR *(*var_naming_fn)();
      pointer env;
      FILE *fp;
 #endif
 {
   BDD_SETUP(f);
-  fputs(bdd_var_name(bddm, BDD_IF(bddm, f), var_naming_fn, env), fp);
+  _fputts(bdd_var_name(bddm, BDD_IF(bddm, f), var_naming_fn, env), fp);
   fputc('\n', fp);
 }
 
@@ -50,8 +51,8 @@ void
 #if defined(__STDC__)
 bdd_print_bdd_step(bdd_manager bddm,
 		   bdd f,
-		   char *(*var_naming_fn)(bdd_manager, bdd, pointer),
-		   char *(*terminal_id_fn)(bdd_manager, INT_PTR, INT_PTR, pointer),
+		   TCHAR *(*var_naming_fn)(bdd_manager, bdd, pointer),
+		   TCHAR *(*terminal_id_fn)(bdd_manager, INT_PTR, INT_PTR, pointer),
 		   pointer env,
 		   FILE *fp,
 		   hash_table h,
@@ -60,8 +61,8 @@ bdd_print_bdd_step(bdd_manager bddm,
 bdd_print_bdd_step(bddm, f, var_naming_fn, terminal_id_fn, env, fp, h, indentation)
      bdd_manager bddm;
      bdd f;
-     char *(*var_naming_fn)();
-     char *(*terminal_id_fn)();
+     TCHAR *(*var_naming_fn)();
+     TCHAR *(*terminal_id_fn)();
      pointer env;
      FILE *fp;
      hash_table h;
@@ -78,7 +79,7 @@ bdd_print_bdd_step(bddm, f, var_naming_fn, terminal_id_fn, env, fp, h, indentati
     case BDD_TYPE_ZERO:
     case BDD_TYPE_ONE:
     case BDD_TYPE_CONSTANT:
-      fputs(bdd_terminal_id(bddm, f, terminal_id_fn, env), fp);
+      _fputts(bdd_terminal_id(bddm, f, terminal_id_fn, env), fp);
       fputc('\n', fp);
       break;
     case BDD_TYPE_NEGVAR:
@@ -122,7 +123,7 @@ bdd_print_bdd_step(bddm, f, var_naming_fn, terminal_id_fn, env, fp, h, indentati
 	}
       break;
     default:
-      bdd_fatal("bdd_print_bdd_step: unknown type returned by bdd_type");
+      bdd_fatal(_T("bdd_print_bdd_step: unknown type returned by bdd_type"));
     }
 }
 
@@ -142,16 +143,16 @@ void
 #if defined(__STDC__)
 bdd_print_bdd(bdd_manager bddm,
 	      bdd f,
-	      char *(*var_naming_fn)(bdd_manager, bdd, pointer),
-	      char *(*terminal_id_fn)(bdd_manager, INT_PTR, INT_PTR, pointer),
+	      TCHAR *(*var_naming_fn)(bdd_manager, bdd, pointer),
+	      TCHAR *(*terminal_id_fn)(bdd_manager, INT_PTR, INT_PTR, pointer),
 	      pointer env,
 	      FILE *fp)
 #else
 bdd_print_bdd(bddm, f, var_naming_fn, terminal_id_fn, env, fp)
      bdd_manager bddm;
      bdd f;
-     char *(*var_naming_fn)();
-     char *(*terminal_id_fn)();
+     TCHAR *(*var_naming_fn)();
+     TCHAR *(*terminal_id_fn)();
      pointer env;
      FILE *fp;
 #endif

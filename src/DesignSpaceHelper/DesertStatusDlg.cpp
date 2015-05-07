@@ -153,7 +153,7 @@ void CDesertStatusDlg::SetStatus(StatusID s_id)
 	}
 };
 
-void CDesertStatusDlg::SetStatus(const char *desc, int percent)
+void CDesertStatusDlg::SetStatus(const TCHAR *desc, int percent)
 {
 	if(m_cancel) return;
 
@@ -194,7 +194,7 @@ unsigned long CDesertStatusDlg::StepInState(short p)
 	return new_tick;
 };
 
-unsigned long CDesertStatusDlg::StepInState(short p, const char *desc)
+unsigned long CDesertStatusDlg::StepInState(short p, const TCHAR *desc)
 {
 	ASSERT( status != SD_FINIT);
 	ASSERT( p <= 100 && p >= 0);

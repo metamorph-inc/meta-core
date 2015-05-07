@@ -20,6 +20,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             CENTEROFGRAVITY,
             POINTCOORDINATES,
             MASS,
+            INTERFERENCECOUNT,
             COEFFICIENTOFDRAG,
             PLANE,
             VONMISESSTRESS,
@@ -44,6 +45,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public string FeatureDatumName;
         public string ComponentID;
         public string Details;
+        public string MetricName;
     }
 
     public class TestBenchBase
@@ -71,13 +73,16 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public bool MetaLink    { get; set; } // true if Meta-Link invoked the intepreter
         public List<TBComputation> Computations { get; set; }
         public string AnalysisID { get; set; }
+        public List<KeyValuePair<String, String>> ProcessingInstructions = new List<KeyValuePair<string, string>>();
 
         // Which CAD model representation to use in each case?
         protected string MakeRep { get; set; }
         protected string BuyRep { get; set; }
         protected string DefaultRep { get; set; }
 
-        public bool InterferenceCheck { get; set; } // Adds an analysis type (only for CAD tets benches)
+        // R.O. 1/26/2015, InterferenceCheck deprecated. Now interference check is specified by adding a InterferenceCount to
+        // a CADComputationComponent
+        //public bool InterferenceCheck { get; set; } // Adds an analysis type (only for CAD test benches)
         public string CADOptions { get; set; } // Additional options for the CAD executable (CAD only)
 
         public bool CopySTL { get; set; }
@@ -154,14 +159,22 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             DefaultRep = GetParameterValue(testBench, "DEFAULT_REP");
             BuyRep = GetParameterValue(testBench, "BUY_REP");
 
-            var interference = testBench.Children.ParameterCollection.Where(p => p.Name == "INTERFERENCE_CHECK");
-            if (interference.Any())
+            foreach (var param in testBench.Children.ParameterCollection.Where(p => p.Name == "PROCESSINGINSTRUCTION"))
             {
-                if (interference.First().Attributes.Value == "1")
-                {
-                    InterferenceCheck = true;
-                }
+                string[] paramarr = param.Attributes.Value.Split(',');
+                ProcessingInstructions.Add(new KeyValuePair<string, string>(paramarr[0], paramarr.Length > 1 ? paramarr[1] : ""));
             }
+
+            // R.O. 1/26/2015, InterferenceCheck deprecated. Now interference check is specified by adding a InterferenceCount to
+            // a CADComputationComponent
+            //var interference = testBench.Children.ParameterCollection.Where(p => p.Name == "INTERFERENCE_CHECK");
+            //if (interference.Any())
+            //{
+            //   if (interference.First().Attributes.Value == "1")
+            //  {
+            //       InterferenceCheck = true;
+            //   }
+            //}
 
             // snyako@isis.vanderbilt.edu: Collect additional CAD executable parameters from the assembly
             if (testBench.Children.TopLevelSystemUnderTestCollection.Any())
@@ -313,6 +326,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 metric.RequestedValueType = "Scalar";
                 metric.MetricType1 = item.ComputationType.ToString();
                 metric.Details = "";
+                metric.MetricName = item.MetricName ?? "";
                 metriclist.Add(metric);
             }
 
@@ -445,14 +459,17 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
         protected virtual void AddAnalysisToXMLOutput(CAD.AssemblyType assembly)
         {
-            if (InterferenceCheck)
-            {
-                CAD.AnalysesType cadanalysis = GetCADAnalysis(assembly);
-                CAD.InterferenceType intfanalysis = new CAD.InterferenceType();
-                intfanalysis._id = UtilityHelpers.MakeUdmID();
-                intfanalysis.AnalysisID = AnalysisID;
-                cadanalysis.Interference = new CAD.InterferenceType[] { intfanalysis };
-            }
+
+            // R.O. 1/26/2015, InterferenceCheck deprecated. Now interference check is specified by adding a InterferenceCount to
+            // a CADComputationComponent
+            //if (InterferenceCheck)
+            //{
+            //    CAD.AnalysesType cadanalysis = GetCADAnalysis(assembly);
+            //    CAD.InterferenceType intfanalysis = new CAD.InterferenceType();
+            //    intfanalysis._id = UtilityHelpers.MakeUdmID();
+            //    intfanalysis.AnalysisID = AnalysisID;
+            //    cadanalysis.Interference = new CAD.InterferenceType[] { intfanalysis };
+            //}
         }
 
         public void GenerateProcessingScripts(List<string> ScriptPaths, bool preProcess = false)

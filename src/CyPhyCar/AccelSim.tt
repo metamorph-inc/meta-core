@@ -1,0 +1,41 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".txt" #>
+
+acar analysis full_vehicle acceleration_test submit  &
+   assembly = .<#=ModelName#>  &
+   output_prefix = "<#=OutputPrefix#>"  &
+   output_suffix = "<#=OutputPostfix#>"  &
+   end_time = <#=EndTime#>  &
+   number_of_steps = <#=NumSteps#>  &
+   analysis_mode = interactive  &
+   road_data_file = "mdids://<#=RoadData#>"  &
+   initial_velocity = <#=InitialVelocity#>  &
+   velocity_units = mile_hr  &
+   start_time = <#=StartTime#>  &
+   final_throttle = <#=FinalThrottle#>  &
+   step_duration = <#=StepDuration#>  &
+   acceleration = <#=Acceleration#>  &
+   gear_position = <#=GearPosition#>  &
+   steering_input = straight  &
+   shift_gears = <#=ShiftGears#>  &
+   qstatic_prephase = yes  &
+   log_file = yes  &
+   load_results = yes  &
+   brief = off  &
+   error_variable = .ACAR.variables.errorFlag
+
+<#+  
+public string ModelName {get;set;}
+public string OutputPrefix {get;set;}
+public string OutputPostfix {get;set;}
+public string EndTime {get;set;}
+public string NumSteps {get;set;}
+public string InitialVelocity {get;set;}
+public string StartTime {get;set;}
+public string FinalThrottle {get;set;}
+public string StepDuration {get;set;}
+public string Acceleration {get;set;}
+public string GearPosition {get;set;}
+public string ShiftGears {get;set;}
+public string RoadData {get;set;}
+#>

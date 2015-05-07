@@ -3,6 +3,7 @@
 #define NO_FREES
 
 #include "bddint.h"
+#include <tchar.h>
 
 /* JASON - I'm using regular malloc's and free's here */
 /* no real reason to use their get_mem_block() */
@@ -66,7 +67,7 @@ bdd_satisfy(bddm, f)
     {
       if (f == BDD_ZERO(bddm))
 	{
-	  bdd_warning("bdd_satisfy: argument is false");
+	  bdd_warning(_T("bdd_satisfy: argument is false"));
 	  return (f);
 	}
       FIREWALL(bddm);
@@ -161,7 +162,7 @@ bdd_satisfy_support(bddm, f)
     {
       if (f == BDD_ZERO(bddm))
 	{
-	  bdd_warning("bdd_satisfy_support: argument is false");
+	  bdd_warning(_T("bdd_satisfy_support: argument is false"));
 	  return (f);
 	}
       support=(bdd_indexindex_type *)mem_get_block((bddm->vars+1)*sizeof(bdd));
@@ -275,7 +276,7 @@ void bdd_sat_f_step_mat(bdd_manager bddm, bdd f, int *a, int len,
   c = (int *)malloc(sizeof(int)*(num_vars+1));
 
   if( (b==NULL) || (c==NULL) ) {
-	 bdd_fatal("bdd_sat_f_mat(): Malloc failed.\n");
+	 bdd_fatal(_T("bdd_sat_f_mat(): Malloc failed.\n"));
   }
 
   for(i=0; i<(num_vars+1); i++) {
@@ -349,7 +350,7 @@ void bdd_sat_f_step_mat(bdd_manager bddm, bdd f, int *a, int len,
         return;
       }
       else {
-        bdd_fatal("Error in bdd_sat_f_mat().\n");
+        bdd_fatal(_T("Error in bdd_sat_f_mat().\n"));
       }
   }
 
@@ -437,7 +438,7 @@ void bdd_sat_f_mat(bdd_manager bddm, bdd f, int begin_var_index, int end_var_ind
     if(size_of_a_list > 0) {
        a = (int *)malloc(sizeof(int)*size_of_a_list);
        if( a == NULL ) {
-         bdd_fatal("bdd_sat_f_mat(): Malloc failed.\n");
+         bdd_fatal(_T("bdd_sat_f_mat(): Malloc failed.\n"));
        }
        for(i=0; i<size_of_a_list; i++) {
          a[i]=-1;
@@ -479,7 +480,7 @@ void bdd_sat_f_step(bdd_manager bddm, bdd f, int *a, int len,
   c = (int *)malloc(sizeof(int)*(num_vars+1));
 
   if( (b==NULL) || (c==NULL) ) {
-     bdd_fatal("bdd_sat_f_mat(): Malloc failed.\n");
+     bdd_fatal(_T("bdd_sat_f_mat(): Malloc failed.\n"));
   }
 
   for(i=0; i<(num_vars+1); i++) {
@@ -541,7 +542,7 @@ void bdd_sat_f_step(bdd_manager bddm, bdd f, int *a, int len,
         return;
       }
       else {
-        bdd_fatal("Error in bdd_sat_f().\n");
+        bdd_fatal(_T("Error in bdd_sat_f().\n"));
       }
   }
 
@@ -616,7 +617,7 @@ void bdd_sat_f(bdd_manager bddm, bdd f, int begin_var_index, int end_var_index)
     if(size_of_a_list > 0) {
        a = (int *)malloc(sizeof(int)*size_of_a_list);
        if( a == NULL ) {
-         bdd_fatal("bdd_sat_f(): Malloc failed.\n");
+         bdd_fatal(_T("bdd_sat_f(): Malloc failed.\n"));
        }
        for(i=0; i<size_of_a_list; i++) {
          a[i]=-1;

@@ -164,6 +164,7 @@ namespace CyPhyPropagateTest
                             Assert.Contains("MGA.Addon.CyPhyMLPropagate", project.AddOnComponents.Cast<IMgaComponentEx>().Select(x => x.ComponentProgID));
                             CyPhyMetaLink.CyPhyMetaLinkAddon propagate = (CyPhyMetaLink.CyPhyMetaLinkAddon)project.AddOnComponents.Cast<IMgaComponent>().Where(comp => comp is CyPhyMetaLink.CyPhyMetaLinkAddon).FirstOrDefault();
                             CyPhyMetaLink.CyPhyMetalinkInterpreter interpreter = new CyPhyMetaLink.CyPhyMetalinkInterpreter();
+                            propagate.TestMode = true;
                             interpreter.GMEConsole = GME.CSharp.GMEConsole.CreateFromProject(project);
                             interpreter.MgaGateway = new MgaGateway(project);
 
@@ -262,7 +263,7 @@ namespace CyPhyPropagateTest
             listener.Start();
             SocketQueue.port = ((IPEndPoint)listener.LocalEndpoint).Port;
             listener.Stop();
-            
+
 
             ProcessStartInfo info = new ProcessStartInfo()
             {
@@ -340,14 +341,15 @@ namespace CyPhyPropagateTest
             receivedMessages = new List<Edit>();
             receivedMessagesQueue = new System.Collections.Concurrent.BlockingCollection<Edit>(new ConcurrentQueue<Edit>());
             testingClient.EstablishConnection(msg =>
-            {
-                lock (receivedMessages)
                 {
-                    receivedMessages.Add(msg);
-                }
-                receivedMessagesQueue.Add(msg);
-            }, connectionClosed: exc => KillMetaLink()
-                );
+                    lock (receivedMessages)
+                    {
+                        receivedMessages.Add(msg);
+                    }
+                    receivedMessagesQueue.Add(msg);
+                },
+                connectionClosed: exc => KillMetaLink()
+            );
         }
 
         protected void WaitForAllMetaLinkMessages()

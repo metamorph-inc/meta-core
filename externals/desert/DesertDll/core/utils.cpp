@@ -72,45 +72,45 @@ IMPLEMENT_DYNAMIC(CDesertException, CException)
 
 inline CDesertException::CDesertException()						{fatal = true;		what = NULL;};			
 inline CDesertException::CDesertException(bool _fatal)			{fatal = _fatal;	what = NULL;};
-inline CDesertException::CDesertException(const char * _what)	{fatal = true;		if (_what) what = new char[strlen(_what)+1];strcpy(what, _what);};
-inline CDesertException::CDesertException(const char * _what, const char * _name)	
+inline CDesertException::CDesertException(const TCHAR * _what)	{fatal = true;		if (_what) what = new TCHAR[_tcslen(_what)+1];_tcscpy(what, _what);};
+inline CDesertException::CDesertException(const TCHAR * _what, const TCHAR * _name)	
 {	
 	fatal = true;		
 	if (_what) 
 	{
-		what = new char[strlen(_what)+1];
-		strcpy(what, _what); 
+		what = new TCHAR[_tcslen(_what)+1];
+		_tcscpy(what, _what); 
 	}
 	if(_name) 
 	{
-		constraint_name=new char[strlen(_name)+1];
-		strcpy(constraint_name, _name);
+		constraint_name=new TCHAR[_tcslen(_name)+1];
+		_tcscpy(constraint_name, _name);
 	}
 };
 
-inline CDesertException::CDesertException(const CString _what)	{fatal = true;		if (_what.GetLength()) what = new char[_what.GetLength()+1];strcpy(what, (LPCTSTR)_what);};
+inline CDesertException::CDesertException(const CString _what)	{fatal = true;		if (_what.GetLength()) what = new TCHAR[_what.GetLength()+1];_tcscpy(what, (LPCTSTR)_what);};
 inline CDesertException::CDesertException(const CString _what, const CString _name)	
 {	
 	fatal = true;		
 	if (_what.GetLength()) 
 	{
-		what = new char[_what.GetLength()+1];
-		strcpy(what, (LPCTSTR)_what);
+		what = new TCHAR[_what.GetLength()+1];
+		_tcscpy(what, (LPCTSTR)_what);
 	}
 	if(_name) 
 	{
-		constraint_name=new char[_name.GetLength()+1];
-		strcpy(constraint_name, (LPCTSTR)_name);
+		constraint_name=new TCHAR[_name.GetLength()+1];
+		_tcscpy(constraint_name, (LPCTSTR)_name);
 	}
 };
-inline CDesertException::CDesertException(bool _fatal, const char * _what)	{fatal = _fatal;	if (_what) what = new char[strlen(_what)+1];strcpy(what, _what);};
-inline CDesertException::CDesertException(bool _fatal, const CString _what)	{fatal = _fatal;	if (_what.GetLength()) what = new char[_what.GetLength()+1];strcpy(what, (LPCTSTR)_what);};
+inline CDesertException::CDesertException(bool _fatal, const TCHAR * _what)	{fatal = _fatal;	if (_what) what = new TCHAR[_tcslen(_what)+1];_tcscpy(what, _what);};
+inline CDesertException::CDesertException(bool _fatal, const CString _what)	{fatal = _fatal;	if (_what.GetLength()) what = new TCHAR[_what.GetLength()+1];_tcscpy(what, (LPCTSTR)_what);};
 
 inline BOOL CDesertException::GetErrorMessage( LPTSTR lpszError, UINT nMaxError, PUINT pnHelpContext)	
 {
 	if (what) 
 	{
-		strncpy(lpszError, what, nMaxError);
+		_tcsncpy(lpszError, what, nMaxError);
 		return true;
 	}
 	return false;
@@ -139,7 +139,7 @@ inline CDesertException::~CDesertException()					{if (what) delete[] what;};
 
 IMPLEMENT_DYNAMIC(CDesertNoneElementException, CDesertException)
 inline  CDesertNoneElementException::CDesertNoneElementException()						{fatal = true;		what = NULL;};	
-inline CDesertNoneElementException::CDesertNoneElementException(const char * _what)	{fatal = true;		if (_what) what = new char[strlen(_what)+1];strcpy(what, _what);strcpy(element,_what);};
+inline CDesertNoneElementException::CDesertNoneElementException(const TCHAR * _what)	{fatal = true;		if (_what) what = new TCHAR[_tcslen(_what)+1];_tcscpy(what, _what);_tcscpy(element,_what);};
 
 
 

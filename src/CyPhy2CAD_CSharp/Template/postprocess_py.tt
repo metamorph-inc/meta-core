@@ -75,7 +75,7 @@ if __name__ == '__main__':
     { #>
     if call_script(meta_python, r'<#= CyPhy2CAD_CSharp.TestBenchModel.TestBenchBase.SanitizePythonRawString(name) #>', logger) > 0:
     <#  } #>
-        logger.error('Can not find META Python Package!')
+        logger.error('Error during executing the postprocessing script!')
             errorcnt +=1
 
     if errorcnt > 0:

@@ -68,7 +68,7 @@ GetPath(int idx, CDynElementList& list)
   if (idx >= paths.GetCount()) return;
 
   POSITION pos = paths.FindIndex(idx);
-  ASSERT_EX( pos!=0, "CDiGraph::GetPath", "pos is NULL" );
+  ASSERT_EX( pos!=0, _T("CDiGraph::GetPath"), _T("pos is NULL") );
 
   CGraphPath *path = paths.GetAt(pos);
   CGraphNodeList& nodes = path->GetNodes();
@@ -297,7 +297,7 @@ CGraphPath::GetNodes()
 inline  void
 CGraphPath::AddNode(CGraphNode *node)
 {
-  ASSERT_EX ( !nodes.Find(node), "CGraphPath::AddNode", "!! LOOP !!" );
+  ASSERT_EX ( !nodes.Find(node), _T("CGraphPath::AddNode"), _T("!! LOOP !!") );
   nodes.AddHead(node);
 }
 

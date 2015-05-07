@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{B256281C-46D2-46BE-A2CD-E3A11A7360A9}" cdate="Fri Aug 23 17:36:38 2013" mdate="Fri Aug 23 17:36:38 2013" version="v1.0.0.5" metaguid="{1913C77F-2986-4DA3-BD61-02F6C19FD44E}" metaversion="" metaname="UML">
+<project guid="{DD822627-E268-49D9-8189-045DA249DD71}" cdate="Tue Feb 17 11:42:26 2015" mdate="Tue Feb 17 11:42:26 2015" version="v1.0.0.5" metaguid="{1913C77F-2986-4DA3-BD61-02F6C19FD44E}" metaversion="" metaname="UML">
 	<name>CADPostProcess</name>
 	<comment>v1.0.0.5 - Changed Metric::Value to ArrayValue[0..*] to reflect vector.</comment>
 	<author></author>
@@ -172,7 +172,8 @@ Units: String[1]</value>
 Type: String[1]
 DataFormat: String[1]
 ArrayValue: Real[0..*]
-Units: String[1]</value>
+Units: String[1]
+MetricName: String=&quot;&quot;</value>
 					</attribute>
 					<attribute kind="IsAbstract" status="meta">
 						<value>false</value>
