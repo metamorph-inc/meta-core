@@ -205,6 +205,7 @@ namespace isis
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		// Get Subkeys of in_StartingKeyPath\1.0   could be 1.1, 2.0 ...
 		/////////////////////////////////////////////////////////////////////////////////////////////
+		subKeys_vec.clear();
 		RetrieveRegistryListOfSubkeys( hKey, subKeys_vec );
 
 		if ( subKeys_vec.size() == 0 )
@@ -336,8 +337,22 @@ namespace isis
 			std::string creoParametricInstallPath;
 			std::string creoParametricCommMsgExe;
 			
-			try // Creo 2.0
+			try // Creo 3.0
 			{   
+				std::string in_StartingKeyPath = "SOFTWARE\\Wow6432Node\\PTC\\PTC Creo Parametric";
+				std::vector<std::string>	supportedVersionPrefixes;
+				std::string					supportedVersionString_ForErrorMsg = "3.x";  // e.g. 1.x, 2.x, or 3.x  
+				supportedVersionPrefixes.push_back("3.");  // 
+				isis::RetrieveFromRegistryCreoInstallLocations( in_StartingKeyPath,
+																supportedVersionPrefixes,
+																supportedVersionString_ForErrorMsg,
+																creoParametricInstallPath, 
+																creoParametricCommMsgExe );
+			}
+			catch ( isis::application_exception& ex_Creo_3 )
+			{
+				try // Creo 2.0
+				{
 				std::string in_StartingKeyPath = "SOFTWARE\\Wow6432Node\\PTC\\Creo Parametric";
 				std::vector<std::string>	supportedVersionPrefixes;
 				std::string					supportedVersionString_ForErrorMsg = "2.x";  // e.g. 1.x, 2.x, or 3.x  
@@ -347,29 +362,14 @@ namespace isis
 																supportedVersionString_ForErrorMsg,
 																creoParametricInstallPath, 
 																creoParametricCommMsgExe );
-
-			}
-			catch ( isis::application_exception& ex_Creo_2 )
-			{
-				try 
-				{
-					std::string in_StartingKeyPath = "SOFTWARE\\PTC\\Creo Parametric";
-					std::vector<std::string>	supportedVersionPrefixes;
-					std::string					supportedVersionString_ForErrorMsg = "1.x";  // e.g. 1.x, 2.x, or 3.x  
-					supportedVersionPrefixes.push_back("1.");  
-					isis::RetrieveFromRegistryCreoInstallLocations( in_StartingKeyPath,
-															supportedVersionPrefixes,
-															supportedVersionString_ForErrorMsg,
-															creoParametricInstallPath, 
-															creoParametricCommMsgExe );
 				}
-				catch ( isis::application_exception& ex_Creo_1 )
+				catch ( isis::application_exception& ex_Creo_2 )
 				{
 					std::stringstream errorString;
 					errorString <<
-							"Could not find an installation of Creo 2.0 or Creo 1.0, "
-							<< std::endl << ex_Creo_2.what() 
-							<< std::endl << ex_Creo_1.what(); 
+							"Could not find an installation of Creo 3.0 or Creo 2.0, "
+							<< std::endl << ex_Creo_3.what() 
+							<< std::endl << ex_Creo_2.what(); 
 							throw isis::application_exception(errorString.str());
 				}
 			}	

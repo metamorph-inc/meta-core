@@ -1,7 +1,7 @@
 Title: 	  CADCreoParametricCreateAssembly.exe (Creo Parametric)
 	  assemble_ptc.exe (Pro/E) no longer supported
 
-Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.4.60.0
+Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.5.00.0
 Pro/E 		 	assemble_ptc.exe Version: v1.0.008  // Not supported as of Jan. 2012
 
 Supported Creo Versions: Creo 2.x, no other versions currently supported
@@ -869,6 +869,10 @@ v1.4.60.0 05/01/2015	Modified ApplyModelConstraints.cpp to be a general constrai
 			Ball		Spherical		Point (Creo supports other geometry types,
 								but we will only support a point.) 		
 			
+
+
+v1.5.00.0 05/06/2015	Support Creo 3.0.  Previous to this change Creo 2.0 and 1.0 were supported.  With this
+			change Creo 3.0 and 2.0 are supported.  Creo 1.0 is no longer supported.
 
 Known Defects
 -------------
