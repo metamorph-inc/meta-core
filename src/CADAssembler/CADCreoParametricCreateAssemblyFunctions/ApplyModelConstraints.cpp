@@ -1004,24 +1004,70 @@ void Add_PRO_E_COMPONENT_CONSTRAINT_2(	ProElement &out_constrs_elem,
 		elemid = PRO_E_COMPONENT_CONSTR_TYPE;
 		value_data.type = PRO_VALUE_TYPE_INT;
 		ProAsmcompConstrType constrtype = in_ContraintDef.constraint_type;
+		ProConnectionFlipState flipState = PRO_ASM_FLIP_UNDEFINED;
+
 		switch ( in_ContraintDef.pro_datum_type  )
 		{
 			case PRO_SURFACE:
-				 constrtype = in_ContraintDef.constraint_type;
-					break;
+				// Mate/Align	Side	Side	Should Be
+				//	Mate		A		A		Mate A A
+				//	Mate		A		B		Algin A A
+				//	Mate		B		B		Mate A A
+				//	Align		A		A		Align A A
+				//	Align		A		B		Mate A A
+				//	Align		B		B		Align A A
+				// PRO_E_COMPONENT_COMP_ORIENT/ASSM_ORIENT should both be PRO_ASM_NOT_FLIPPED.
+				if ( in_ContraintDef.constraint_type == PRO_ASM_MATE )
+				{
+					if ( in_ContraintDef.base_model_datum_side == in_ContraintDef.added_model_datum_side ) 
+						constrtype = PRO_ASM_MATE;
+					else
+						constrtype = PRO_ASM_ALIGN;
+				}
+				else
+				{
+					if ( in_ContraintDef.base_model_datum_side == in_ContraintDef.added_model_datum_side ) 
+						constrtype = PRO_ASM_ALIGN;
+					else
+						constrtype = PRO_ASM_MATE;
+
+				}
+
+				flipState = PRO_ASM_NOT_FLIPPED;
+
+				break;
 			case PRO_POINT:
-				constrtype = PRO_ASM_ALIGN;
+				constrtype = PRO_ASM_ALIGN;   // 6/19/2015 Correct, PRO_E_COMPONENT_COMP_ORIENT/ASSM_ORIENT should both be PRO_ASM_FLIPPED 
+											  // PRO_ASM_FLIPPED does not make sense, but this was derived by dumping feature trees.
+											  // PRO_ASM_FLIPPED is probably ignored
+				flipState = PRO_ASM_FLIPPED;
 				break;
 
 			case PRO_AXIS:
-				constrtype = PRO_ASM_ALIGN;
+				constrtype = PRO_ASM_ALIGN;  // 6/19/2015 Correct, PRO_E_COMPONENT_COMP_ORIENT/ASSM_ORIENT should both be either
+											 // PRO_ASM_NOT_FLIPPED or PRO_ASM_FLIPPED.  If PRO_ASM_FLIPPED this means the axes should 
+											 // be poiting in the opposite direction
+				if (in_ContraintDef.flip_orientation )   // Would only be set for axes
+				{
+					flipState = PRO_ASM_FLIPPED;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_E_COMPONENT_CONSTR_ATTR:              PRO_ASM_FLIPPED";
+				}
+				else
+				{
+					flipState = PRO_ASM_NOT_FLIPPED;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_E_COMPONENT_CONSTR_ATTR:              PRO_ASM_NOT_FLIPPED";
+				}
 				break;
 
 			case PRO_CSYS:
-				constrtype = PRO_ASM_CSYS;
+				constrtype = PRO_ASM_CSYS; // 6/19/2015 Correct, PRO_E_COMPONENT_COMP_ORIENT/ASSM_ORIENT should both be PRO_ASM_FLIPPED 
+											  // PRO_ASM_FLIPPED does not make sense, but this was derived by dumping feature trees.
+											  // PRO_ASM_FLIPPED is probably ignored
+				flipState = PRO_ASM_FLIPPED;
 				break;
 			default:
 				constrtype = PRO_ASM_ALIGN;
+				flipState = PRO_ASM_NOT_FLIPPED;
 		}
 
 		value_data.v.i = constrtype;
@@ -1070,31 +1116,10 @@ void Add_PRO_E_COMPONENT_CONSTRAINT_2(	ProElement &out_constrs_elem,
 		value_data.v.r =  base_model_select;
 		ProElement asm_const2_Ref_elem;
 		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem,&value_data, &asm_const2_Ref_elem);
-
-		ProConnectionFlipState flipState = PRO_ASM_FLIP_UNDEFINED;
-
-		pro_datum_side datumSide = PRO_DATUM_SIDE_YELLOW;
-
-		if ( in_ContraintDef.pro_datum_type == PRO_SURFACE )
-		{
-			if ( in_ContraintDef.base_model_datum_side == PRO_DATUM_SIDE_YELLOW )
-			{
-				datumSide =  PRO_DATUM_SIDE_YELLOW;
-				isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_E_COMPONENT_ASSM_ORIENT:              PRO_DATUM_SIDE_YELLOW";
-			}
-			else
-			{
-				datumSide =  PRO_DATUM_SIDE_RED;
-				isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_E_COMPONENT_ASSM_ORIENT:              PRO_DATUM_SIDE_RED";
-			}
-		}
-
+	
 		elemid = PRO_E_COMPONENT_ASSM_ORIENT ;
 		value_data.type = PRO_VALUE_TYPE_INT;
-		if (in_ContraintDef.pro_datum_type == PRO_SURFACE )
-			value_data.v.i = datumSide;
-		else
-			value_data.v.i = flipState; 
+		value_data.v.i = flipState; 
 		ProElement base_model_datum_side_elem;
 		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem, &value_data, &base_model_datum_side_elem);
 
@@ -1102,27 +1127,9 @@ void Add_PRO_E_COMPONENT_CONSTRAINT_2(	ProElement &out_constrs_elem,
 		// Add a PRO_E_COMPONENT_COMP_ORIENT 
 		////////////////////////////////////////
 
-		if ( in_ContraintDef.pro_datum_type == PRO_SURFACE )
-		{
-			if ( in_ContraintDef.added_model_datum_side == PRO_DATUM_SIDE_YELLOW )
-			{
-				datumSide =  PRO_DATUM_SIDE_YELLOW;
-				isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_E_COMPONENT_COMP_ORIENT:              PRO_DATUM_SIDE_YELLOW";
-			}
-			else
-			{
-				datumSide =  PRO_DATUM_SIDE_RED;
-				isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_E_COMPONENT_COMP_ORIENT:              PRO_DATUM_SIDE_RED";
-			}
-		}
-
 		elemid = PRO_E_COMPONENT_COMP_ORIENT ;
 		value_data.type = PRO_VALUE_TYPE_INT;
-		//value_data.v.i = ((in_JointType ==  REVOLUTE_JOINT || in_JointType == PRISMATIC_JOINT)&&!guide)?flip:in_ContraintDef.added_model_datum_side; 
-		if (in_ContraintDef.pro_datum_type == PRO_SURFACE )
-			value_data.v.i = datumSide;
-		else
-			value_data.v.i = flipState; 
+		value_data.v.i = flipState; 
 		ProElement added_model_datum_side_elem;
 		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem, &value_data, &added_model_datum_side_elem);
 
@@ -1137,25 +1144,9 @@ void Add_PRO_E_COMPONENT_CONSTRAINT_2(	ProElement &out_constrs_elem,
 		ProElement comp_constr_set_id;
 		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem,&value_data, &comp_constr_set_id);
 
-		////////////////////////////////////////
-		// Add a PRO_E_COMPONENT_CONSTR_ATTR 
-		////////////////////////////////////////		
-		// PRO_E_COMPONENT_CONSTR_ATTR applies to only axes
-		if (in_ContraintDef.flip_orientation )   // Would only be set for axes
-		{
-			flipState = PRO_ASM_FLIPPED;
-			isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_E_COMPONENT_CONSTR_ATTR:              PRO_ASM_FLIPPED";
-		}
-		else
-		{
-			flipState = PRO_ASM_FLIP_UNDEFINED;
-			// This doesn't work flipState = PRO_ASM_NOT_FLIPPED;
-			isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_E_COMPONENT_CONSTR_ATTR:              PRO_ASM_FLIP_UNDEFINED";
-		}
-
 		elemid = PRO_E_COMPONENT_CONSTR_ATTR;
 		value_data.type = PRO_VALUE_TYPE_INT;
-		value_data.v.i = flipState;
+		value_data.v.i = 0;
 		ProElement comp_constr_attr;
 		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem,&value_data, &comp_constr_attr);		
 }
@@ -2259,7 +2250,7 @@ void SetConstraints_2 (
 	featureTreeFileName_multi = (string)featureTreeFileName_narrow;
 	isis::isis_ProElemtreeWrite(elem_tree, PRO_ELEMTREE_XML, (wchar_t*)(const wchar_t*)featureTreeFileName_multi);
 	// DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG 	
-
+	*/
 	//ProElement elem_tree_2;
 
 	//isis::isis_ProElementAlloc(PRO_E_FEATURE_TREE, &elem_tree_2);

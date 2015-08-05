@@ -239,6 +239,38 @@ void LogStateWhenSortingFailed(	const std::string	&in_ParentName,
 
 }
 /////////////////////////////////////////////////////////////////////////////////////
+void SearchForAComponentsThatDependOnMultipleAddedComponents(	
+						const std::list<std::string>			&in_CandidateComponents,
+						const std::set<std::string>				&in_ExistingComponents,
+						std::map<std::string, CADComponentData> &in_ComponentAssembledInfo,
+						bool									&out_ComponentFound,
+						std::string								&out_FoundComponentID )
+{
+	out_ComponentFound = false;
+	int maxDependsOnCountFound = 0;
+
+	// First look for a component with a guide
+	for ( std::list<std::string>::const_iterator itr = in_CandidateComponents.begin(); itr != in_CandidateComponents.end(); ++itr )
+	{
+		int dependsOnCount = in_ComponentAssembledInfo[*itr].dependsOn.size();
+
+		if ( dependsOnCount > 1 &&  dependsOnCount > maxDependsOnCountFound  )
+		{			
+			std::set<std::string> Existing_temp = in_ExistingComponents;
+			AddSubordinateComponentIDsToSet( *itr, in_ComponentAssembledInfo, Existing_temp );
+
+			if ( AinB( in_ComponentAssembledInfo[*itr].dependsOn, Existing_temp ) )
+			{
+				maxDependsOnCountFound = dependsOnCount;
+				// found suitbale candidate 
+				out_FoundComponentID = *itr;
+				out_ComponentFound = true;
+			}
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
 void SearchForAComponentsThatOnlyDependsOnAddedComponents(	
 						const std::list<std::string>			&in_CandidateComponents,
 						const std::set<std::string>				&in_ExistingComponents,
@@ -298,15 +330,25 @@ void SortCADComponents ( const std::string	&in_ParentName,
 		bool FoundComponent = false;
 		std::string FoundComponentID;
 												 
+		// First look for components that depend on multiple existing components
+		SearchForAComponentsThatDependOnMultipleAddedComponents(	Components,
+																	Existing,
+																	in_ComponentAssembledInfo,
+																	FoundComponent,
+																	FoundComponentID );
 
-		// First look for a component with a guide
 
-		SearchForAComponentsThatOnlyDependsOnAddedComponents(	Components,
-																Existing,
-																true,  // Only search for components that have a guide constraint
-																in_ComponentAssembledInfo,
-																FoundComponent,
-																FoundComponentID );
+		// Second look for a component with a guide
+		if ( !FoundComponent )
+		{
+			SearchForAComponentsThatOnlyDependsOnAddedComponents(	Components,
+																	Existing,
+																	true,  // Only search for components that have a guide constraint
+																	in_ComponentAssembledInfo,
+																	FoundComponent,
+																	FoundComponentID );
+		}
+
 		/*
 		for ( std::list<std::string>::const_iterator itr = Components.begin(); itr != Components.end(); ++itr )
 		{
@@ -334,6 +376,7 @@ void SortCADComponents ( const std::string	&in_ParentName,
 			}
 		}
 		*/
+		// Third look for components with/without a guide
 		if ( !FoundComponent )
 		{
 			SearchForAComponentsThatOnlyDependsOnAddedComponents(	Components,

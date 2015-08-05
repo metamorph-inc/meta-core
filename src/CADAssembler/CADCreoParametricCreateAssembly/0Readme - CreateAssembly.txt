@@ -1,7 +1,7 @@
 Title: 	  CADCreoParametricCreateAssembly.exe (Creo Parametric)
 	  assemble_ptc.exe (Pro/E) no longer supported
 
-Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.5.02.0
+Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.5.3.0
 Pro/E 		 	assemble_ptc.exe Version: v1.0.008  // Not supported as of Jan. 2012
 
 Supported Creo Versions: Creo 2.x, no other versions currently supported
@@ -874,9 +874,9 @@ v1.4.60.0 05/01/2015	Modified ApplyModelConstraints.cpp to be a general constrai
 v1.5.00.0 05/06/2015	Support Creo 3.0.  Previous to this change Creo 2.0 and 1.0 were supported.  With this
 			change Creo 3.0 and 2.0 are supported.  Creo 1.0 is no longer supported. R.O.
 
-+v1.5.01.0 06/03/2015	Switched from log4cpp to Boost loging. R.O. 
+v1.5.1.0 06/03/2015	Switched from log4cpp to Boost loging. R.O. 
  
-v1.5.01.0 06/15/2015	Corrections so the NuGet would work on the build server.  With this change, 
+v1.5.2.0 06/15/2015	Corrections so the NuGet would work on the build server.  With this change, 
 			the following boost libraries are used:
    				"boost" version="1.55.0.16" 
   				"boost_atomic-vc100" version="1.55.0.15" 
@@ -890,6 +890,32 @@ v1.5.01.0 06/15/2015	Corrections so the NuGet would work on the build server.  W
   				"boost_log_setup-vc100" version="1.55.0.15" 
   				"boost_log-vc100" version="1.55.0.15"     
     			R.O.
+
+v1.5.3.0 06/25/2015	Modify the sorting (order that models are added to the assembly and constrained in 
+			the assembly) to give precedence to models that are constrained to more than one
+		        other models.
+					       * *E* *
+					      *
+					     C
+					    *
+				     * *B* *
+				    *     *
+				   A   D
+				  *  *	 
+				 *				
+			As an example of why this change is needed, consider models A, B, C, D, E; 
+			wherein, B is connected to A via a revolute joint, C is connected to B via a 
+			revolute joint, D is connected to A and B via revolute joints, and E is 
+			connected to C via a revolute joint.  If E has a guide that positions it 
+			relative to C, then E should be added after D.  This is because applying D probably 
+			moves/rotates C and would invalidate the guide that positions E.  The solution 
+			is to fix the position of C by applying D before E is added/constrained.
+
+			Made corrections to how constraints are applied such that the resulting constraint
+			feature trees would agree with feature trees dumped from constraints created via the UI.
+			See the following document for more information.
+			https://svn.isis.vanderbilt.edu/META/sandbox/rowens/Documents/Creo%20Constraint-Feature-Tree%20Contents%20to%20Toolkit%20Constructs.docx
+			R.O.
 
 Known Defects
 -------------
