@@ -1324,7 +1324,8 @@ void Tests::NastranDeck_test()
 
 		}
 
-		catch ( isis::application_exception &ex )
+		//catch ( isis::application_exception &ex )
+		catch ( isis::application_exception &)
 		{
 			CPPUNIT_ASSERT(false);
 

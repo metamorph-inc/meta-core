@@ -1,7 +1,7 @@
 Title: 	  CADCreoParametricCreateAssembly.exe (Creo Parametric)
 	  assemble_ptc.exe (Pro/E) no longer supported
 
-Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.5.01.0
+Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.5.02.0
 Pro/E 		 	assemble_ptc.exe Version: v1.0.008  // Not supported as of Jan. 2012
 
 Supported Creo Versions: Creo 2.x, no other versions currently supported
@@ -872,9 +872,24 @@ v1.4.60.0 05/01/2015	Modified ApplyModelConstraints.cpp to be a general constrai
 
 
 v1.5.00.0 05/06/2015	Support Creo 3.0.  Previous to this change Creo 2.0 and 1.0 were supported.  With this
-			change Creo 3.0 and 2.0 are supported.  Creo 1.0 is no longer supported.
+			change Creo 3.0 and 2.0 are supported.  Creo 1.0 is no longer supported. R.O.
 
-v1.5.01.0 06/03/2015	Switched from log4cpp to Boost loging.
++v1.5.01.0 06/03/2015	Switched from log4cpp to Boost loging. R.O. 
+ 
+v1.5.01.0 06/15/2015	Corrections so the NuGet would work on the build server.  With this change, 
+			the following boost libraries are used:
+   				"boost" version="1.55.0.16" 
+  				"boost_atomic-vc100" version="1.55.0.15" 
+  				"boost_chrono-vc100" version="1.55.0.15" 
+  				"boost_date_time-vc100" version="1.55.0.15" 
+  				"boost_filesystem-vc100" version="1.55.0.15" 
+  				"boost_program_options-vc100" version="1.55.0.15" 
+  				"boost_regex-vc100" version="1.55.0.15" 
+  				"boost_system-vc100" version="1.55.0.15" 
+  				"boost_thread-vc100" version="1.55.0.15" 
+  				"boost_log_setup-vc100" version="1.55.0.15" 
+  				"boost_log-vc100" version="1.55.0.15"     
+    			R.O.
 
 Known Defects
 -------------
