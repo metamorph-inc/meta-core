@@ -333,7 +333,7 @@ namespace CyPhy2DesignInterchange
             return dm;
         }
 
-        private static void AddAssemblyRoot(Design dm, DesignPrimitivesWrapper wrapper)
+        private void AddAssemblyRoot(Design dm, DesignPrimitivesWrapper wrapper)
         {
             HashSet<CyPhy.ReferenceCoordinateSystem> visitedRCS = new HashSet<CyPhy.ReferenceCoordinateSystem>();
             Queue<CyPhy.ReferenceCoordinateSystem> todoRCS = new Queue<CyPhy.ReferenceCoordinateSystem>();
