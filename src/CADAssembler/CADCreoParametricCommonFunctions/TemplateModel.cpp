@@ -1,10 +1,11 @@
 
 #include <TemplateModel.h>
-#include <log4cpp/Category.hh>
+
 #include "CommonDefinitions.h"
 #include <ProMdlUnits.h>
 #include <ProUtil.h>
 #include <ProWstring.h>
+#include "LoggerBoost.h"
 
 namespace isis {
 namespace creo {
@@ -14,17 +15,17 @@ bool make_solid_templated( ProSolid& in_original, ProSolid& out_template )
 {
 	ProError rc;
 	char pro_str[128];
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
 	
 	ProUnitsystem original_system;
 	switch( rc = ProMdlPrincipalunitsystemGet(in_original, &original_system) ) {
 	case PRO_TK_NO_ERROR: break;
 	case PRO_TK_BAD_INPUTS:
-		log_cf.errorStream() 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) 
 			<< "failed getting the principal unit-system.";
 		break;
 	default:
-		log_cf.errorStream() 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) 
 			<< "could not aquire the unit system = " << rc;
 		return false;
 	}
@@ -34,7 +35,7 @@ bool make_solid_templated( ProSolid& in_original, ProSolid& out_template )
 		PRO_UNITTYPE_MASS, &original_mass_unit) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.errorStream() << "could not collect unit systems = " << rc;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not collect unit systems = " << rc;
 		return false;
 	}
 	*/
@@ -44,7 +45,7 @@ bool make_solid_templated( ProSolid& in_original, ProSolid& out_template )
 	switch( rc = ProMdlUnitsystemsCollect( out_template, &template_systems) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.errorStream() << "could not collect unit systems = " << rc;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not collect unit systems = " << rc;
 		return false;
 	}
 	ProUnitsystem template_system;
@@ -64,12 +65,12 @@ bool make_solid_templated( ProSolid& in_original, ProSolid& out_template )
 		PRO_VALUE_UNUSED) ) {
 	case PRO_TK_NO_ERROR: break;
 	case PRO_TK_BAD_INPUTS:
-		log_cf.errorStream() 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) 
 			<< "could not set the units in the shrinkwrap : "
 			<< ProWstringToString(pro_str, template_system.name);
 		break;
 	default:
-		log_cf.errorStream() 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) 
 			<< "could not set units in shinkwrap = "
 			<< rc;
 		return false;

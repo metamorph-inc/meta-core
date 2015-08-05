@@ -90,10 +90,7 @@
 #include "InputArgumentsParser.h"
 #include <MiscellaneousFunctions.h>
 #include <sstream>
-#include <log4cpp/PropertyConfigurator.hh>
-#include <log4cpp/BasicConfigurator.hh>
-#include <log4cpp/PatternLayout.hh>
-#include <log4cpp/FileAppender.hh>
+#include "LoggerBoost.h"
 
 #include <boost/asio.hpp>
 //#include <boost/bind.hpp>
@@ -105,9 +102,9 @@
 #include <boost/atomic.hpp>
 #include <boost/filesystem.hpp>
 
-void SetupLogging(std::string logfilename)
+void SetupLogging(const std::string &in_Logfilename, isis_LogSeverityLevel in_LogSeverityLevel)
 {
-	std::string logfilenamepath = "log\\"+logfilename;
+	std::string logfilenamepath = "log\\"+ in_Logfilename;
 
 	if (!isis_CADCommon::DirectoryExists("log"))
 	{
@@ -116,37 +113,8 @@ void SetupLogging(std::string logfilename)
 
 	isis::isis_DeleteFile(logfilenamepath);
 
-	// Appender for logging to the console
-	log4cpp::Appender *consoleappender1 = new log4cpp::OstreamAppender("console", &std::cout);
-	consoleappender1->setLayout(new log4cpp::PatternLayout());
+	init_logging_boost(	false, false, in_LogSeverityLevel, isis_INFO, logfilenamepath);
 
-	// Appender for logging to the console
-	log4cpp::Appender *consoleappender2 = new log4cpp::OstreamAppender("console", &std::cout);
-	consoleappender2->setLayout(new log4cpp::PatternLayout());
-
-	// Appender for logging to the log file
-	log4cpp::Appender *fileappender1 = new log4cpp::FileAppender("logfile", logfilenamepath);
-	fileappender1->setLayout(new log4cpp::PatternLayout());
-
-	// Appender for logging to the log file
-	log4cpp::Appender *fileappender2 = new log4cpp::FileAppender("logfile", logfilenamepath);
-	fileappender2->setLayout(new log4cpp::PatternLayout());
-
-	// Category for logging only to the log file
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	logcat_fileonly.setPriority(log4cpp::Priority::INFO);
-	logcat_fileonly.addAppender(fileappender1);
-
-	// Category for logging both to the log file and to the console
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
-	logcat_consoleandfile.setPriority(log4cpp::Priority::INFO);
-	logcat_consoleandfile.addAppender(consoleappender1);
-	logcat_consoleandfile.addAppender(fileappender2);
-
-	// Category for logging both to the log file and to the console
-	log4cpp::Category& logcat_consoleonly = log4cpp::Category::getInstance(LOGCAT_CONSOLEONLY);
-	logcat_consoleonly.setPriority(log4cpp::Priority::INFO);
-	logcat_consoleonly.addAppender(consoleappender2);
 }
 
 int main( int argc, char *argv[] )
@@ -180,12 +148,10 @@ int main( int argc, char *argv[] )
 		isis::ParseInputArguments(argc, argv, programInputArguments);
 		isis::ThrowExecption_If_InvalidInputArguments(argc, argv, programInputArguments);
 
-		SetupLogging(programInputArguments.logFileName);
+		SetupLogging(programInputArguments.logFileName, programInputArguments.logVerbosity);
 
-		// In case of exception we need to know if log4cpp is available
-		Logging_Set_Up = true;
-
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		// In case of exception we need to know if  logging is available
+		Logging_Set_Up = true;	
 
 
 		// Must get the complete path to the working directory.  This is necessary because when
@@ -207,11 +173,11 @@ int main( int argc, char *argv[] )
 
 		programName_Version_TimeStamp += isis_CADCommon::GetDayMonthTimeYear();
 		
-		logcat_fileonly.infoStream() << programName_Version_TimeStamp;
+		isis_LOG(lg, isis_FILE, isis_INFO) << programName_Version_TimeStamp;
 
-		logcat_fileonly.infoStream() << "";
-		logcat_fileonly.infoStream() << "Notes: " << log4cpp::eol
-		  << "   1. The \"Component Instance ID\"s in this file equate to ComponentInstanceIDs in CyPhy."  << log4cpp::eol
+		isis_LOG(lg, isis_FILE, isis_INFO) << "";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "Notes: " << isis_EOL
+		  << "   1. The \"Component Instance ID\"s in this file equate to ComponentInstanceIDs in CyPhy."  << isis_EOL
 		  << "   2. To map \"Component Instance ID\"s in this file to AVM-IDs, see .\\log\\CyPhy2CAD.log.";
 		
 		//return 0;
@@ -222,10 +188,10 @@ int main( int argc, char *argv[] )
 		// Log input line and parameters
 		std::ostringstream inputLine;
 		for ( int i = 0; i < argc; ++i) inputLine << argv[i] << std::string(" ");
-		logcat_fileonly.infoStream() << "";
-		logcat_fileonly.infoStream() 
-			<< "************** Begin Input Line *****************" << log4cpp::eol 
-		  << inputLine.str() << log4cpp::eol
+		isis_LOG(lg, isis_FILE, isis_INFO) << "";
+		isis_LOG(lg, isis_FILE, isis_INFO) 
+			<< "************** Begin Input Line *****************" << isis_EOL 
+		  << inputLine.str() << isis_EOL
 	      << "************** End Input Line *****************" ;
 		  
 
@@ -236,13 +202,13 @@ int main( int argc, char *argv[] )
 			errorString << "WORKING_DIR string too long.  Maximum allowed number of characters: "  << PRO_PATH_SIZE - 1 << " WORKING_DIR string: " << workingDir;
 					throw isis::application_exception(errorString);
 		}
-		logcat_fileonly.infoStream() << "";
-		logcat_fileonly.infoStream() 
-		  <<  log4cpp::eol << "************** Begin Directory Settings *****************"
-		  <<  log4cpp::eol << "workingDir:                    "	<< workingDir
-		  <<  log4cpp::eol << "inputXmlFileName:              "	<< programInputArguments.inputXmlFileName
-		  <<  log4cpp::eol << "logFileName:                   "	<< programInputArguments.logFileName
-		  <<  log4cpp::eol << "*************** End Directory Settings *****************";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "";
+		isis_LOG(lg, isis_FILE, isis_INFO) 
+		  <<  isis_EOL << "************** Begin Directory Settings *****************"
+		  <<  isis_EOL << "workingDir:                    "	<< workingDir
+		  <<  isis_EOL << "inputXmlFileName:              "	<< programInputArguments.inputXmlFileName
+		  <<  isis_EOL << "logFileName:                   "	<< programInputArguments.logFileName
+		  <<  isis_EOL << "*************** End Directory Settings *****************";
 		 
 		bool graphicsModeOn = false;
 		bool creoExceptInputFromThisProgramAndCreoUI = false;
@@ -315,8 +281,8 @@ int main( int argc, char *argv[] )
 
 		if (Logging_Set_Up)
 		{
-			log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
-			logcat_consoleandfile.errorStream() << exceptionErrorStringStream.str();
+			
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << exceptionErrorStringStream.str();
 		}
 		else
 		{
@@ -347,8 +313,6 @@ int main( int argc, char *argv[] )
 	}
 
     ::boost::filesystem::current_path(original_directory);
-
-	log4cpp::Category::shutdown();
 
 	exit(ExitCode);
 }

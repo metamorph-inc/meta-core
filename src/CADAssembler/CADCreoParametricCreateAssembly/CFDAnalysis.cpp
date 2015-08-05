@@ -37,7 +37,7 @@ namespace isis
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																	throw (isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 		Udm::SmartDataNetwork dn_CFDParameters ( CADPostProcessingParameters::diagram );
 		dn_CFDParameters.CreateNew( in_PathAndFileName, "CADPostProcessingParameters", CADPostProcessingParameters::Components::meta);
@@ -82,7 +82,7 @@ namespace isis
 				std::stringstream errorString;
 				errorString <<	"Function CreateXMLFile_ComputedValues_CFD, was invoked but in_CADAssemblies does not contain any CFD computations.";
 				throw isis::application_exception(errorString.str());
-				//logcat.infoStream() << "Point 11-4";
+				//logcat.info() << "Point 11-4";
 			}
 
 			///////////////////////////
@@ -146,9 +146,7 @@ namespace isis
 		void analyze(const CFD_Fidelity in_fidelity);
 
 	private:
-		log4cpp::Category& m_logcat_fileonly;
-		log4cpp::Category& m_logcat_consoleandfile;
-
+	
 		void analyze_v0();
 		void analyze_v1();
 
@@ -201,25 +199,25 @@ namespace isis
 			throw isis::application_exception(errorString.str());
 		}
 		
-		m_logcat_consoleandfile.infoStream() << "";
-		m_logcat_consoleandfile.infoStream() << "Creating Hydrostatics File v01";	
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "Creating Hydrostatics File v01";	
 
-		m_logcat_fileonly.infoStream() << log4cpp::eol
-			<< "hydrostaticsFile_PathAndFileName: "  << log4cpp::eol
-			<< "       " << m_hydrostaticsFile_PathAndFileName << log4cpp::eol
-			<< "Fluid_Density:           "  << m_Fluid_Density << log4cpp::eol
-			<< "waterLine_Height_zAxis:  "  << m_WaterLine_Height_zAxis << log4cpp::eol
-			<< "referenceArea:           "  << m_ReferenceArea << log4cpp::eol
-			<< "displacedVolume:         "  << m_DisplacedVolume << log4cpp::eol
-			<< "hydrostaticVolume:       "  << m_HydrostaticVolume << log4cpp::eol
-			<< "rightingMomentArm:       "  << m_RightingMomentArm << log4cpp::eol
-			<< "cG_x:                    "  << m_CG_x << log4cpp::eol
-			<< "cG_y:                    "  << m_CG_y << log4cpp::eol
-			<< "cG_z:                    "  << m_CG_z << log4cpp::eol
-			<< "cB_x:                    "  << m_CB_x << log4cpp::eol
-			<< "cB_y:                    "  << m_CB_y << log4cpp::eol
-			<< "cB_z:                    "  << m_CB_z << log4cpp::eol
-			<< "xsec: (size)             "  << m_xsection_area.size() << log4cpp::eol
+		isis_LOG(lg, isis_FILE, isis_INFO) << isis_EOL
+			<< "hydrostaticsFile_PathAndFileName: "  << isis_EOL
+			<< "       " << m_hydrostaticsFile_PathAndFileName << isis_EOL
+			<< "Fluid_Density:           "  << m_Fluid_Density << isis_EOL
+			<< "waterLine_Height_zAxis:  "  << m_WaterLine_Height_zAxis << isis_EOL
+			<< "referenceArea:           "  << m_ReferenceArea << isis_EOL
+			<< "displacedVolume:         "  << m_DisplacedVolume << isis_EOL
+			<< "hydrostaticVolume:       "  << m_HydrostaticVolume << isis_EOL
+			<< "rightingMomentArm:       "  << m_RightingMomentArm << isis_EOL
+			<< "cG_x:                    "  << m_CG_x << isis_EOL
+			<< "cG_y:                    "  << m_CG_y << isis_EOL
+			<< "cG_z:                    "  << m_CG_z << isis_EOL
+			<< "cB_x:                    "  << m_CB_x << isis_EOL
+			<< "cB_y:                    "  << m_CB_y << isis_EOL
+			<< "cB_z:                    "  << m_CB_z << isis_EOL
+			<< "xsec: (size)             "  << m_xsection_area.size() << isis_EOL
 		;
 
 		isis_CADCommon::UpdateHydrostaticsJsonFile( m_hydrostaticsFile_PathAndFileName,
@@ -275,17 +273,17 @@ namespace isis
 		// Compute Waterline Information
 		//////////////////////////////////////
 
-		m_logcat_fileonly.infoStream() << log4cpp::eol 
-			<< "HydrostaticComputations, v0" << log4cpp::eol
-			<< " Inputs:" << log4cpp::eol	
-			<< "   boundingBox: " << log4cpp::eol
-			<< "      OffsetToStartOfBoundingBox_zCoordinate = " << boundingBox_OffsetToStartOfBoundingBox_zCoordinate << log4cpp::eol
-			<< "      Height_zAxis =                           " << boundingBox_Height_zAxis << log4cpp::eol
-			<< "      Width_yAxis =                            " << boundingBox_Width_yAxis << log4cpp::eol
-			<< "      Length_xAxis =                           " << boundingBox_Length_xAxis << log4cpp::eol
-			<< "   assembly_Mass =                             " << m_Assembly_Mass << log4cpp::eol
-			<< "   Fluid_Density =                             " << m_Fluid_Density << log4cpp::eol
-			<< log4cpp::eol;
+		isis_LOG(lg, isis_FILE, isis_INFO) << isis_EOL 
+			<< "HydrostaticComputations, v0" << isis_EOL
+			<< " Inputs:" << isis_EOL	
+			<< "   boundingBox: " << isis_EOL
+			<< "      OffsetToStartOfBoundingBox_zCoordinate = " << boundingBox_OffsetToStartOfBoundingBox_zCoordinate << isis_EOL
+			<< "      Height_zAxis =                           " << boundingBox_Height_zAxis << isis_EOL
+			<< "      Width_yAxis =                            " << boundingBox_Width_yAxis << isis_EOL
+			<< "      Length_xAxis =                           " << boundingBox_Length_xAxis << isis_EOL
+			<< "   assembly_Mass =                             " << m_Assembly_Mass << isis_EOL
+			<< "   Fluid_Density =                             " << m_Fluid_Density << isis_EOL
+			<< isis_EOL;
 
 		///////////////////////////////////////////////////////////////
 		// Check the entries that could cause a divide by zero error.
@@ -339,8 +337,8 @@ namespace isis
 	The current model is then evaluated.
 	*/
 	void CFD_Analyzer::analyze_v1()	{
-		m_logcat_fileonly.infoStream() << log4cpp::eol 
-			<< "HydrostaticComputations, v1" << log4cpp::eol;	
+		isis_LOG(lg, isis_FILE, isis_INFO) << isis_EOL 
+			<< "HydrostaticComputations, v1" << isis_EOL;	
 
 		isis::hydrostatic::ExteriorShell ex_shell("default");
 		isis::hydrostatic::PolatedSpace::ptr hydrostatic;
@@ -352,14 +350,14 @@ namespace isis
 		switch( rc = ex_shell.create_shrinkwrap(hydro_shell_name) ) {
 		case PRO_TK_NO_ERROR: break;
 		default:
-			// m_logcat_fileonly.infoStream() << "   Fluid_Density:                                       " << m_Fluid_Density;
-			m_logcat_consoleandfile.errorStream() << "could not construct hydrostatic-shell";
+			// isis_LOG(lg, isis_FILE, isis_INFO) << "   Fluid_Density:                                       " << m_Fluid_Density;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not construct hydrostatic-shell";
 			return;
 		}
 		// ex_shell.set_name(hydro_shell_name);
 		// ex_shell.activate_model( hydro_shell_name );
 		if (! ex_shell.has_wrapped_solid()) {
-			m_logcat_consoleandfile.errorStream() << "could not load/activate hydrostatic-shell";
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not load/activate hydrostatic-shell";
 			return;
 		}
 		ex_shell.set_current_solid_to_wrapped();
@@ -416,8 +414,8 @@ namespace isis
 		const isis::TopLevelAssemblyData					&in_TopLevelAssemblyData,
 		std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 					throw (isis::application_exception) 
-	:	m_logcat_fileonly(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
-		m_logcat_consoleandfile(log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE)),
+	:	//m_fileLogger(isis_FILE_CHANNEL),
+		//m_fileAndConsoleLogger(isis_FILE_AND_CONSOLE_CHANNEL),
 		m_ProeIsisExtensionsDir(in_ProeIsisExtensionsDir), m_WorkingDirectory(in_WorkingDirectory),
 		m_hydrostaticsFile_fileNameOnly("hydrostatics.json"),
 		m_hydrostaticsFile_PathAndFileName(in_WorkingDirectory + "\\" + m_hydrostaticsFile_fileNameOnly),
@@ -430,10 +428,10 @@ namespace isis
 	{ 
 		ProError rc;
 		std::stringstream errorString;
-		m_logcat_fileonly.infoStream()
-			<< " extensions dir = " << m_ProeIsisExtensionsDir << log4cpp::eol
-			<< " working dir = " << m_WorkingDirectory << log4cpp::eol
-			<< " working path = " << m_hydrostaticsFile_PathAndFileName << log4cpp::eol
+		isis_LOG(lg, isis_FILE, isis_INFO)
+			<< " extensions dir = " << m_ProeIsisExtensionsDir << isis_EOL
+			<< " working dir = " << m_WorkingDirectory << isis_EOL
+			<< " working path = " << m_hydrostaticsFile_PathAndFileName << isis_EOL
 			;
 
 		if (! ::boost::filesystem::exists(m_ProeIsisExtensionsDir) ) {
@@ -449,7 +447,7 @@ namespace isis
 	*/
 	void CFD_Analyzer::analyze( const CFD_Fidelity in_fidelity )	{
 		std::stringstream errorString;
-		m_logcat_fileonly.infoStream() << "fidelity = " << in_fidelity;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "fidelity = " << in_fidelity;
 
 		//////////////////////////////////////////////////////////////////////////////
 		// If there is a hydrostatics.json in the current working dir, must delete it
@@ -493,7 +491,7 @@ namespace isis
 		{
 			// This is a CFD run that does not use the Waterline/Hydrostatic information; therefore, there is not need to update the
 			// Hydrostatic json file with the waterline information.
-			m_logcat_consoleandfile.infoStream() 
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) 
 				<< "\n\nThe CFD analysis does not use Hydrostatic/Wateline information; "
 				<< "therefore, the " << m_hydrostaticsFile_fileNameOnly << " file will not be updated.";
 			return;
@@ -508,7 +506,7 @@ namespace isis
 		else if (  fluidMaterial == "SALT" )
 			m_Fluid_Density =  0.000001035; // kg/mm^3	
 		else {
-			m_logcat_fileonly.errorStream() << "\nWARNING, CFD fluid material not set to FRESH or Salt, assuming SALT.  "
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "\nWARNING, CFD fluid material not set to FRESH or Salt, assuming SALT.  "
 				<< "Actual setting: " << fluidMaterial;
 			m_Fluid_Density =  0.000001035; // kg/mm^3	
 		}
@@ -536,7 +534,7 @@ namespace isis
 
 		// Compute displaced volume.
 		m_DisplacedVolume = m_Assembly_Mass / m_Fluid_Density;
-		m_logcat_consoleandfile.infoStream() 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) 
 			<< " hydrostatic analysis: fidelity = " << in_fidelity;
 
 		switch( in_fidelity ) {
@@ -547,11 +545,11 @@ namespace isis
 			analyze_v1();
 			break;
 		default:
-			m_logcat_consoleandfile.errorStream() << "unrecognized fidelity level " << in_fidelity;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "unrecognized fidelity level " << in_fidelity;
 		}
 	
 		UpdateHydrostaticsJson();
-		m_logcat_consoleandfile.infoStream() << "   Created:    " << m_hydrostaticsFile_PathAndFileName;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Created:    " << m_hydrostaticsFile_PathAndFileName;
 	} 
 	
 	////////////////////////////////////////

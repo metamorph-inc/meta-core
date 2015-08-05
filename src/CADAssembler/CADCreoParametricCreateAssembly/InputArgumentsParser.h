@@ -1,5 +1,5 @@
-#ifndef INPUT_ARGUMENT_SPARSER_H
-#define INPUT_ARGUMENT_SPARSER_H
+#ifndef INPUT_ARGUMENTS_PARSER_H
+#define INPUT_ARGUMENTS_PARSER_H
 
 // File: ParseInputArguments.h
 // Author: Kevin Zeillmann
@@ -11,6 +11,7 @@
 #include <boost/algorithm/string.hpp>
 
 #include <iostream>
+#include "LoggerBoost.h"
 
 
 // Taken from the files on the META SVN
@@ -60,7 +61,8 @@ struct ProgramInputArguments
        std::string         inputXmlFileName;          // could be the file name or the path and file name
        std::string         workingDirectory;          // could be the complete path or a relative path
        std::string         logFileName;               // could be the file name or the path and file name
-	   log4cpp::Priority::PriorityLevel   logVerbosity;  // the log level for the root log category
+	   //log4cpp::Priority::PriorityLevel   logVerbosity;  // the log level for the root log category
+	   isis_LogSeverityLevel	   logVerbosity;
        std::string         logConfigFile;             // the file name for the log configuration 
        bool                promptBeforeExiting;       // default false
 	   std::string         auxiliaryCADDirectory;     // empty string by default - could be complete path or relative path
@@ -70,7 +72,7 @@ struct ProgramInputArguments
 	   std::string		   designID;				  // this is used by MetaLink to associate Creo session with a CyPhy Design 
  
        ProgramInputArguments(): graphicsModeOn(false), promptBeforeExiting(false), 
-		   logFileName("cad-assembler.log"), logVerbosity(log4cpp::Priority::WARN), logConfigFile(""),
+		   logFileName("cad-assembler.log"), logVerbosity(isis_INFO), logConfigFile(""),
 		   auxiliaryCADDirectory(""), synchronizeWithCyPhy(false), majorMode(MAJOR_MODE_DESIGN) {};
 
 	   bool is_designMode();

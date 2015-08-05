@@ -5,8 +5,7 @@
 #include <ParametricParameters.h>
 #include "CommonDefinitions.h"
 #include <map>
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
+#include "LoggerBoost.h"
 
 
 namespace isis
@@ -17,7 +16,7 @@ void ApplyParametricParameters( std::list<std::string>                          
 							   std::vector<isis::CADCreateAssemblyError>		&out_ErrorList)
 																		throw (isis::application_exception)
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
 	for ( std::list<std::string>::const_iterator t = in_ComponentIDs.begin(); t != in_ComponentIDs.end(); ++t )
 	{
@@ -33,12 +32,12 @@ void ApplyParametricParameters( std::list<std::string>                          
 			p != cadata->parametricParameters.end();
 			++ p )
 			{
-				logcat_fileonly.infoStream() << "Set Component Parameter: ";
-				logcat_fileonly.infoStream() << "   ModelNameWithSuffix: " << ModelNameWithSuffix;
-				logcat_fileonly.infoStream() << "   in_CADComponentData_map[*t].p_model: " << cadata->p_model;
-				logcat_fileonly.infoStream() << "    p->name:   " <<	p->name;
-				logcat_fileonly.infoStream() << "    p->type:   " <<	CADParameterType_string(p->type);
-				logcat_fileonly.infoStream() << "    p->value:  " <<	p->value;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Set Component Parameter: ";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   ModelNameWithSuffix: " << ModelNameWithSuffix;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[*t].p_model: " << cadata->p_model;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "    p->name:   " <<	p->name;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "    p->type:   " <<	CADParameterType_string(p->type);
+				isis_LOG(lg, isis_FILE, isis_INFO) << "    p->value:  " <<	p->value;
 				try 
 				{
 					SetParametricParameter( ModelNameWithSuffix, cadata->p_model, p->name, p->type, p->value);

@@ -4,13 +4,14 @@
 
 
 #include <map>
+#include <vector>
 #include <boost/smart_ptr/shared_ptr.hpp>
 
 #include "e3ga.h"
 #include <boost/assign/list_of.hpp>
 
 #include "CommonDefinitions.h"
-#include <log4cpp/Category.hh>
+#include "LoggerBoost.h"
 
 namespace isis {
 namespace cad {
@@ -61,7 +62,8 @@ std::ostream& operator<<( std::ostream& out, JointType& that );
 
 class Joint {
 public:
-	log4cpp::Category& log_cf;
+	//log4cpp::Category& log_cf;
+
 	static double const PI;
 
 	typedef ::boost::shared_ptr<Joint> ptr;
@@ -83,7 +85,7 @@ public:
 public:
 
 	Joint()
-		: log_cf(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
+		: // log_cf(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
 		type(FREE), location(), 
 		orientation(), rotation(0.0),
 		composite(0)
@@ -91,14 +93,14 @@ public:
 	}
 
 	Joint(const Joint& that )
-		: log_cf(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
+		:// log_cf(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
 		type(that.type), location(that.location), 
 		orientation(that.orientation), rotation(that.rotation),
 		composite(that.composite)
 	{}
 
 	Joint(const Joint& major, const Joint& minor )
-		: log_cf(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
+		:// log_cf(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
 		type(COMPOSITE), location(major.location), 
 		orientation(major.orientation), rotation(major.rotation),
 		composite(2)
@@ -115,7 +117,7 @@ public:
 	Joint(const JointType in_type, const e3ga::vector in_location,
 		const e3ga::vector in_orientation, const double in_rotation,
 		const Joint major, const Joint minor)
-		: log_cf(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
+		: // log_cf(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)), 
 		type(in_type), location(in_location), 
 		orientation(in_orientation), rotation(in_rotation),
 		composite(2)
@@ -127,7 +129,7 @@ public:
 	Joint(const JointType in_type, const e3ga::vector in_location,
 		const e3ga::vector in_orientation, const double in_rotation,
 		int)
-		: log_cf(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
+		: //log_cf(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)), 
 		type(in_type), location(in_location), 
 		orientation(in_orientation), rotation(in_rotation),
 		composite(0)

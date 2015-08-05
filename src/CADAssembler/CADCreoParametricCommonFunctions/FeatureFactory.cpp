@@ -2,8 +2,7 @@
 #include "FeatureFactory.h"
 
 #include <CommonDefinitions.h>
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
+#include "LoggerBoost.h"
 
 #include "Selector.h"
 
@@ -26,6 +25,7 @@
 #include <UtilPtc.h>
 #include <ProModelitem.h>
 #include <ProDtmCsys.h>
+#include <sstream>
 
 #define PRO_VALUE_TYPE_NIL static_cast<ProValueDataType>(-1)
 
@@ -37,22 +37,22 @@ namespace create {
 
 ProError make_feature( ProFeature& out_feature, ProSelection in_selection, ElemTreeData* in_datum_array, int in_datum_array_size ) {
 	ProError status;
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 	
 	ProElement datum_element_tree;
 	switch( status = ProUtilElemtreeCreate( in_datum_array, in_datum_array_size, 
 		 NULL, &datum_element_tree) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.errorStream() << "could not create  datum element tree";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not create  datum element tree";
 		return PRO_TK_GENERAL_ERROR;
 	}
 #if DEBUG
 	switch( status = ProUtilElemtreePrint(datum_element_tree, PRO_TEST_INFO_WINDOW, NULL) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.errorStream() << "could not print datum element tree " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not print datum element tree " << status;
 		return PRO_TK_GENERAL_ERROR;
 	}
 #endif
@@ -80,22 +80,22 @@ ProError make_feature( ProFeature& out_feature, ProSelection in_selection, ElemT
 	{
 	case PRO_TK_NO_ERROR: break;
 	case PRO_TK_BAD_INPUTS:
-		log_cf.errorStream() << "datum failed: One or more of the input arguments are invalid.";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "datum failed: One or more of the input arguments are invalid.";
 		return PRO_TK_GENERAL_ERROR;
 	case PRO_TK_GENERAL_ERROR:
 		// ProUtilElemtreePrint(out_str, tree);
 		ProUtilFeatErrsSerialize(out_str, &datum_error_list);
-		log_cf.errorStream() << "the feature was not created: " << out_str.str();
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "the feature was not created: " << out_str.str();
 		return PRO_TK_GENERAL_ERROR;
 	default:
-		log_cf.errorStream() << "failed to make datum feature: " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "failed to make datum feature: " << status;
 		return PRO_TK_GENERAL_ERROR;
 	}
 
 	switch( ProArrayFree( (ProArray*)(&datum_opts) ) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.errorStream() << "failed to free options";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "failed to free options";
 		return PRO_TK_GENERAL_ERROR;
 	}
 	return PRO_TK_NO_ERROR;
@@ -128,8 +128,8 @@ FEATURE_TREE   (COMPOUND)
 ProError Csys_default_fail( ProFeature& out_feature, ProMdl in_model, ProSelection in_selection, 
 	std::string in_name ) 
 {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProName datum_name;
 	ProError status;
@@ -156,7 +156,7 @@ ProError Csys_default_fail( ProFeature& out_feature, ProMdl in_model, ProSelecti
 	switch( status = make_feature( out_feature, in_selection, datum_array, sizeof(datum_array)/sizeof(ElemTreeData ) )) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.errorStream() << "could not create default csys feature " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not create default csys feature " << status;
 	}
 	return PRO_TK_NO_ERROR;
 }
@@ -164,8 +164,8 @@ ProError Csys_default_fail( ProFeature& out_feature, ProMdl in_model, ProSelecti
 ProError Csys_default( ProFeature& out_feature, ProMdl in_model, ProSelection in_selection, 
 	std::string in_name ) 
 { 
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProError err;
 	ProElement rootElement;
@@ -231,8 +231,8 @@ FEATURE_TREE   (COMPOUND)
 ProError Point( ProFeature& out_feature, ProMdl in_model, ProSelection in_selection, 
 	std::string in_name,  ProFeature in_csys, Pro3dPnt in_coords ) 
 {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProError status;
 	Selector default_csys_selector( in_model, in_csys, PRO_CSYS );
@@ -248,7 +248,7 @@ ProError Point( ProFeature& out_feature, ProMdl in_model, ProSelection in_select
 	pt_name_data.type = PRO_VALUE_TYPE_WSTRING;
 	pt_name_data.v.w = ProStringToWstring( pt_name, const_cast<char*>(in_name.c_str()) );
 
-	log_f.infoStream() << "coordinates: " 
+	isis_LOG(lg, isis_FILE, isis_INFO) << "coordinates: " 
 		<< " x = " << in_coords[0] << " y = " << in_coords[1] << " z = " << in_coords[2];
 	ProValueData coord_x_data;
 	coord_x_data.type = PRO_VALUE_TYPE_DOUBLE;
@@ -281,7 +281,7 @@ ProError Point( ProFeature& out_feature, ProMdl in_model, ProSelection in_select
 	switch( status = make_feature( out_feature, in_selection, datum_array, sizeof(datum_array)/sizeof(ElemTreeData ) )) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.errorStream() << "could not create base datum plane feature " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not create base datum plane feature " << status;
 	}
 	return PRO_TK_NO_ERROR;
 }
@@ -313,8 +313,8 @@ type = PRO_DTMPLN_DEF_X
 ProError Plane( ProFeature& out_feature, ProMdl in_model, ProSelection in_selection, 
 	std::string in_name, ProDtmplnConstrType in_type ) 
 {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProName name;
 	ProError status;
@@ -335,7 +335,7 @@ ProError Plane( ProFeature& out_feature, ProMdl in_model, ProSelection in_select
 	switch( status = make_feature( out_feature, in_selection, datum_array, sizeof(datum_array)/sizeof(ElemTreeData ) )) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.errorStream() << "could not create base datum plane feature " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not create base datum plane feature " << status;
 	}
 	return PRO_TK_NO_ERROR;
 }
@@ -360,8 +360,8 @@ FEATURE_TREE   (COMPOUND)
 ProError Axis( ProFeature& out_feature, ProMdl in_model, ProSelection in_selection, 
 	std::string in_name, ProFeature in_datum_plane_a, ProFeature in_datum_plane_b ) 
 {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProName name;
 	ProError status;
@@ -396,10 +396,10 @@ ProError Axis( ProFeature& out_feature, ProMdl in_model, ProSelection in_selecti
 		switch( status = make_feature( out_feature, in_selection, datum_array, sizeof(datum_array)/sizeof(ElemTreeData ) )) {
 		case PRO_TK_NO_ERROR: break;
 		default:
-			log_cf.errorStream() << "could not create 2-plane axis feature " << status;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not create 2-plane axis feature " << status;
 		}
 	} catch (std::runtime_error ex) {
-		log_cf.errorStream() << "could not select the datum plane surface " << ex.what();
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not select the datum plane surface " << ex.what();
 	    return PRO_TK_GENERAL_ERROR;
 	}
 	return PRO_TK_NO_ERROR;
@@ -437,8 +437,8 @@ ProError Plane_Pivot( ProFeature& out_feature, ProMdl in_model, ProSelection in_
 	std::string in_name, ProFeature in_datum_axis, ProFeature in_datum_plane, 
 	double in_angle ) 
 {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProName name;
 	ProError status;
@@ -479,10 +479,10 @@ ProError Plane_Pivot( ProFeature& out_feature, ProMdl in_model, ProSelection in_
 		switch( status = make_feature( out_feature, in_selection, datum_array, sizeof(datum_array)/sizeof(ElemTreeData ) )) {
 		case PRO_TK_NO_ERROR: break;
 		default:
-			log_cf.errorStream() << "could not create pivot-plane feature " << status;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not create pivot-plane feature " << status;
 		}
 	} catch (std::runtime_error ex) {
-		log_cf.errorStream() << "could not select a datum " << ex.what();
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not select a datum " << ex.what();
 	    return PRO_TK_GENERAL_ERROR;
 	}
 	return PRO_TK_NO_ERROR;
@@ -491,8 +491,8 @@ ProError Plane_Pivot( ProFeature& out_feature, ProMdl in_model, ProSelection in_
 ProError Plane_Offset( ProFeature& out_feature, ProMdl in_model, ProSelection in_selection, 
 	std::string in_name, ProDtmplnFlipDir in_flip_dir, ProFeature in_datum_plane, double in_depth ) 
 {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProName name;
 	ProError status;
@@ -527,10 +527,10 @@ ProError Plane_Offset( ProFeature& out_feature, ProMdl in_model, ProSelection in
 		switch( status = make_feature( out_feature, in_selection, datum_array, sizeof(datum_array)/sizeof(ElemTreeData ) )) {
 		case PRO_TK_NO_ERROR: break;
 		default:
-			log_cf.errorStream() << "could not create pivot-plane feature " << status;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not create pivot-plane feature " << status;
 		}
 	} catch (std::runtime_error ex) {
-		log_cf.errorStream() << "could not select the surface " << ex.what();
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not select the surface " << ex.what();
 	    return PRO_TK_GENERAL_ERROR;
 	}
 	return PRO_TK_NO_ERROR;
@@ -545,8 +545,8 @@ The feature is redefined with the revised element tree.
 */
 ProError Plane_Angle_adjust( ProSelection in_selection, ProFeature in_datum_plane, double in_angle ) 
 {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProError status;
 	 
@@ -555,7 +555,7 @@ ProError Plane_Angle_adjust( ProSelection in_selection, ProFeature in_datum_plan
 	switch( status = ProFeatureElemtreeExtract( &in_datum_plane, NULL, opts, &angle_elem_tree ) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.errorStream() << "could not extract tree " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not extract tree " << status;
 		return PRO_TK_GENERAL_ERROR;
 	}
 	ProElempathItem angle_path_items[] = {
@@ -570,23 +570,23 @@ ProError Plane_Angle_adjust( ProSelection in_selection, ProFeature in_datum_plan
 	switch( status = ProElemtreeElementGet( angle_elem_tree, angle_elem_path, &angle_elem ) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.errorStream() << "could not extract angle tree " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not extract angle tree " << status;
 		return PRO_TK_GENERAL_ERROR;
 	}
 	double current_depth;
 	switch( status = ProElementDoubleGet( angle_elem, NULL, &current_depth ) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:	
-		log_cf.errorStream() << "could not get angle " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not get angle " << status;
 		return PRO_TK_GENERAL_ERROR;
 	}
 #ifdef TRACE_ITERATION
-	log_cf.errorStream() << "current angle " << current_depth;
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "current angle " << current_depth;
 #endif
 	switch( status = ProElementDoubleSet( angle_elem, in_angle) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:	
-		log_cf.errorStream() << "could not set angle " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not set angle " << status;
 		return PRO_TK_GENERAL_ERROR;
 	}
 
@@ -614,7 +614,7 @@ ProError Plane_Angle_adjust( ProSelection in_selection, ProFeature in_datum_plan
 		{
 		case PRO_TK_NO_ERROR: break;
 		case PRO_TK_BAD_INPUTS:
-			log_cf.errorStream() << "one or more of the input arguments are invalid.";
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "one or more of the input arguments are invalid.";
 			ProUtilFeatErrsWrite("datum feature: ", PRO_TK_GENERAL_ERROR, angle_elem_tree, &datum_error_list);
 			break;
 		}
@@ -632,8 +632,8 @@ The feature is redefined with the revised element tree.
 */
 ProError Plane_Offset_adjust( ProSelection in_selection, ProFeature in_datum_plane, double in_depth ) 
 {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProError status;
 	 
@@ -642,7 +642,7 @@ ProError Plane_Offset_adjust( ProSelection in_selection, ProFeature in_datum_pla
 	switch( status = ProFeatureElemtreeExtract( &in_datum_plane, NULL, opts, &offset_elem_tree ) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.errorStream() << "could not extract tree " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not extract tree " << status;
 		return PRO_TK_GENERAL_ERROR;
 	}
 	ProElempathItem offset_path_items[] = {
@@ -657,23 +657,23 @@ ProError Plane_Offset_adjust( ProSelection in_selection, ProFeature in_datum_pla
 	switch( status = ProElemtreeElementGet( offset_elem_tree, offset_elem_path, &offset_elem ) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.errorStream() << "could not extract tree " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not extract tree " << status;
 		return PRO_TK_GENERAL_ERROR;
 	}
 	double current_depth;
 	switch( status = ProElementDoubleGet( offset_elem, NULL, &current_depth ) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:	
-		log_cf.errorStream() << "could not get offset " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not get offset " << status;
 		return PRO_TK_GENERAL_ERROR;
 	}
 #ifdef TRACE_ITERATION
-	log_f.infoStream() << "current depth " << current_depth;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "current depth " << current_depth;
 #endif
 	switch( status = ProElementDoubleSet( offset_elem, in_depth ) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:	
-		log_cf.errorStream() << "could not set offset " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not set offset " << status;
 		return PRO_TK_GENERAL_ERROR;
 	}
 
@@ -701,7 +701,7 @@ ProError Plane_Offset_adjust( ProSelection in_selection, ProFeature in_datum_pla
 		{
 		case PRO_TK_NO_ERROR: break;
 		case PRO_TK_BAD_INPUTS:
-			log_cf.errorStream() << "one or more of the input arguments are invalid.";
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "one or more of the input arguments are invalid.";
 			ProUtilFeatErrsWrite("datum feature: ", PRO_TK_GENERAL_ERROR, offset_elem_tree, &datum_error_list);
 			break;
 		}
@@ -723,8 +723,8 @@ FEATURE_TREE   (COMPOUND)
 ProError Solidify_Truncate( ProFeature& out_feature, ProMdl in_model, ProSelection in_selection, 
 	std::string in_name, ProFeature in_datum_plane ) 
 {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProName name;
 	ProError status;
@@ -755,23 +755,23 @@ ProError Solidify_Truncate( ProFeature& out_feature, ProMdl in_model, ProSelecti
 			{
 				ProModelitem quilt_item;
 				ProSelectionModelitemGet( quilt_value.v.r, &quilt_item );
-				log_cf.errorStream() << "could not create truncated-solid: "
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not create truncated-solid: "
 					<< " datum-id = " << in_datum_plane.id
 					<< " geom-id = " << quilt_item.id;
-//				log_cf.errorStream() << "model "
+//				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "model "
 				switch( status = ProMdlSave(in_model) ) {
 				case PRO_TK_NO_ERROR: break;
 				default:
-					log_cf.errorStream() << "could not save model [" << status << "] ";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not save model [" << status << "] ";
 				}
 			}
 			break;
 		default:
-			log_cf.errorStream() << "could not create truncated-solid [" << status << "] "
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not create truncated-solid [" << status << "] "
 				<< quilt_value.v.r << " fid: " << in_datum_plane.id;
 		}
 	} catch (std::runtime_error ex) {
-		log_cf.errorStream() << "could not select the datum plane surface";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not select the datum plane surface";
 	    return PRO_TK_GENERAL_ERROR;
 	}
 	return PRO_TK_NO_ERROR;
@@ -781,15 +781,15 @@ ProError Solidify_Truncate( ProFeature& out_feature, ProMdl in_model, ProSelecti
 Get the cut surface produced by the solidify-truncate.
 */
 ProError Plane_SurfaceGet( ProSurface& out_surface, ProFeature* in_dpf, ProSurface* out_surf ) {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProError status = PRO_TK_NO_ERROR;
 
 	// switch( status = ProFeatureGet( &in_datum_plane_a, &surface_a ) ) {
 	// case PRO_TK_NO_ERROR: break;
 	// default:
-	// 	log_cf.errorStream() << "could not get surface for datum plane" << status;
+	// 	isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not get surface for datum plane" << status;
 	// 	return PRO_TK_GENERAL_ERROR;
 	// }
 	// ProElementReferenceSet();

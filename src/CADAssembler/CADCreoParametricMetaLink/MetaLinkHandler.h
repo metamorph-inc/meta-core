@@ -44,7 +44,7 @@ For an example using this <b>handler</h> object see "meta-link-main.cpp".
 
 #include <boost/atomic.hpp>
 #include <boost/thread/mutex.hpp>
-#include <log4cpp/Category.hh>
+#include "LoggerBoost.h"
 
 #include "gen/MetaLinkMsg.pb.h"
 #include "EventLoopMonitor.h"
@@ -108,7 +108,7 @@ public:
     void CreateAssembly(std::string xmlfile);
 
 private:
-    ::log4cpp::Category& m_logcat;
+   // ::log4cpp::Category& m_logcat;
 
     boost::mutex &m_events_mutex;
     isis::BridgeClient m_client;

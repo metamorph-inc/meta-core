@@ -42,7 +42,6 @@ namespace hydrostatic {
 
 ProError select_cutting_plane_filter (ProGeomitem* geom_item, ProAppData  app_data) 
 {
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
 	
 	ProSurface* surface = reinterpret_cast<ProSurface*>(app_data);
 
@@ -51,29 +50,29 @@ ProError select_cutting_plane_filter (ProGeomitem* geom_item, ProAppData  app_da
 	switch( rc = ProGeomitemToSurface (geom_item, surface) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.warnStream() << "no surface on geometry";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "no surface on geometry";
 		return PRO_TK_CONTINUE;
 	}
 	switch( rc = ProSurfaceTypeGet (*surface, &surface_type) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.warnStream() << "surface type unknown";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "surface type unknown";
 		return PRO_TK_CONTINUE;
 	}
 	switch(surface_type) {
 	case PRO_SRF_PLANE: break;
 	default:
-		log_cf.warnStream() << "could not get surface for cut plane";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "could not get surface for cut plane";
 		return PRO_TK_CONTINUE;
 	}
 	int plane_id;
 	switch( rc = ProSurfaceIdGet (*surface, &plane_id) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.warnStream() << "not a surface";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "not a surface";
 		return PRO_TK_CONTINUE;
 	}
-	log_cf.infoStream() << "cut plane: "
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "cut plane: "
 		<< " owner = " << geom_item->owner
 		<< " id = " << plane_id;
 	return PRO_TK_NO_ERROR;
@@ -95,7 +94,6 @@ ProError select_cutting_plane_id_action (ProGeomitem* geom_item,
 
 ProError select_cutting_plane_id_filter (ProGeomitem* geom_item, ProAppData  app_data) 
 {
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
 	
 	int* plane_id = reinterpret_cast<int*>(app_data);
 
@@ -105,28 +103,28 @@ ProError select_cutting_plane_id_filter (ProGeomitem* geom_item, ProAppData  app
 	switch( rc = ProGeomitemToSurface (geom_item, &surface) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.warnStream() << "no surface on geometry";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "no surface on geometry";
 		return PRO_TK_CONTINUE;
 	}
 	switch( rc = ProSurfaceTypeGet (surface, &surface_type) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.warnStream() << "surface type unknown";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "surface type unknown";
 		return PRO_TK_CONTINUE;
 	}
 	switch(surface_type) {
 	case PRO_SRF_PLANE: break;
 	default:
-		log_cf.warnStream() << "could not get surface for cut plane";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "could not get surface for cut plane";
 		return PRO_TK_CONTINUE;
 	}
 	switch( rc = ProSurfaceIdGet (surface, plane_id) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log_cf.warnStream() << "not a surface";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "not a surface";
 		return PRO_TK_CONTINUE;
 	}
-	log_cf.infoStream() << "cut plane owner = " << geom_item->owner;
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "cut plane owner = " << geom_item->owner;
 	return PRO_TK_NO_ERROR;
 }
 
@@ -152,8 +150,8 @@ std::ostream& operator<< (std::ostream& out_stream, const Result& result) {
 
 /** */
 ExteriorShell::ExteriorShell(const ::std::string name) 
-		: m_log_f(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
-		m_log_cf(log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE)),
+		:// m_log_f(isis_FILE_CHANNEL),
+		//m_log_cf(isis_FILE_AND_CONSOLE_CHANNEL),
 		m_name(name), m_path(), m_working_solid(NULL), m_wrapped_solid(NULL),
 		m_long_orient(AXIS_X_POSITIVE), m_vert_orient(AXIS_Y_POSITIVE),
 		m_depth_axis(), m_heel_axis(), m_trim_axis(),
@@ -183,39 +181,39 @@ ProError ExteriorShell::create_shrinkwrap( std::string in_name ) {
 	switch(status = ProShrinkwrapoptionsAlloc (PRO_SWCREATE_FACETED_SOLID, &options) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		m_log_cf.errorStream() << "could not preallocate the options" ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not preallocate the options" ;
 		return PRO_TK_GENERAL_ERROR;
 	}
 	switch(status = ProShrinkwrapoptionsAutoholefillingSet (options, PRO_B_TRUE) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		m_log_cf.errorStream() << "could not preallocate the auto-hole-filling option" ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not preallocate the auto-hole-filling option" ;
 		return PRO_TK_GENERAL_ERROR;
 	}
 	switch( status = ProShrinkwrapoptionsQualitySet(options, 2 ) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		m_log_cf.errorStream() << "could not set quality option" ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not set quality option" ;
 		return PRO_TK_GENERAL_ERROR;
 	}
 
 	switch( status = ProShrinkwrapoptionsIgnoresmallsurfsSet( options, PRO_B_FALSE, 20.0) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		m_log_cf.errorStream() << "could not set ignore-smaller-surfaces option" ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not set ignore-smaller-surfaces option" ;
 		return PRO_TK_GENERAL_ERROR;
 	}
 
 	switch( status = ProShrinkwrapoptionsFacetedformatSet (options, PRO_SWFACETED_PART) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		m_log_cf.errorStream() << "could not set faceted-format option" ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not set faceted-format option" ;
 		return PRO_TK_GENERAL_ERROR;
 	}
 	switch( status = ProShrinkwrapoptionsAssignmasspropsSet(options, PRO_B_FALSE) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		m_log_cf.errorStream() << "could not set assign-mass-props option" ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not set assign-mass-props option" ;
 		return PRO_TK_GENERAL_ERROR;
 	}
 
@@ -224,10 +222,10 @@ ProError ExteriorShell::create_shrinkwrap( std::string in_name ) {
 	switch( status = ProMdlTypeGet( model, &type ) ) {
 	case PRO_TK_NO_ERROR: break;
 	case PRO_TK_BAD_INPUTS:
-		m_log_cf.errorStream() << "the input argument is invalid: model = " << model;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "the input argument is invalid: model = " << model;
 		return PRO_TK_GENERAL_ERROR;
 	default:
-		m_log_cf.errorStream() << "could not obtain model type: status = " << status ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not obtain model type: status = " << status ;
 		return PRO_TK_GENERAL_ERROR;
 	}
 	switch( type ) {
@@ -235,7 +233,7 @@ ProError ExteriorShell::create_shrinkwrap( std::string in_name ) {
 	case PRO_MDL_ASSEMBLY:
 		break;
 	default:
-		m_log_cf.errorStream() << "not an appropriate model " << type ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "not an appropriate model " << type ;
 		return PRO_TK_GENERAL_ERROR;
 	}
 	ProSolid solid = static_cast<ProSolid>(model);
@@ -246,21 +244,21 @@ ProError ExteriorShell::create_shrinkwrap( std::string in_name ) {
 	switch( status = ProSolidCreate(name, PRO_PART, &m_wrapped_solid) ) {
 	case PRO_TK_NO_ERROR: break;
 	case PRO_TK_BAD_INPUTS:
-		m_log_cf.errorStream() 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) 
 			<< "one or more of the input arguments are invalid. "
 			<< ProWstringToString(pro_str, name);
 		break;
 	case PRO_TK_E_FOUND:
-		m_log_cf.errorStream()
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR)
 			<< "an object of the specified name and type already exists: "
 			<< ProWstringToString(pro_str, name);
 		break;
 	case PRO_TK_GENERAL_ERROR:
-		m_log_cf.errorStream()
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR)
 			<< "the object could not be created, generally.";
 		break;
 	default:
-		m_log_cf.errorStream() << "could not create a new solid = "
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not create a new solid = "
 			<< status;
 		return PRO_TK_GENERAL_ERROR;
 	}
@@ -269,18 +267,18 @@ ProError ExteriorShell::create_shrinkwrap( std::string in_name ) {
 	switch( status = ProSolidShrinkwrapCreate (solid, m_wrapped_solid, NULL, options)) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		m_log_cf.errorStream() << "could not create and export the shrinkwrap file" ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not create and export the shrinkwrap file" ;
 		return PRO_TK_GENERAL_ERROR;
 	}
 
 	switch( status = ProShrinkwrapoptionsFree (options)) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		m_log_cf.errorStream() << "could not free the options" ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not free the options" ;
 		return PRO_TK_GENERAL_ERROR;
 	}
 
-	m_log_f.infoStream() << "successfully created shrinkwrap part: "
+	isis_LOG(lg, isis_FILE, isis_INFO) << "successfully created shrinkwrap part: "
 		<< name ;
 
 	return PRO_TK_NO_ERROR;
@@ -312,8 +310,6 @@ The tool used for cutting the body at the waterline.
 
 class Cutter {
 private:
-	log4cpp::Category& m_log_f;
-	log4cpp::Category& m_log_cf;
 
 	ProSolid m_total_solid;
 	ProModelitem m_total_model_item;
@@ -351,13 +347,13 @@ public:
 	bool m_debug_retain_datums;
 
 	Cutter(ProSolid in_solid, Orientation in_long, Orientation in_vert) 
-		: m_log_f(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
-		  m_log_cf(log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE)),
+		: //m_log_f(isis_FILE_CHANNEL),
+		  //m_log_cf(isis_FILE_AND_CONSOLE_CHANNEL),
 		  m_total_solid(in_solid), m_debug_retain_datums(false),
 		  m_long_orient(in_long), m_vert_orient(in_vert) 
 	 {
 		 if (m_long_orient == m_vert_orient) {
-			 m_log_cf.errorStream() << "inconsistent orientations" ;
+			 isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "inconsistent orientations" ;
 			 throw std::runtime_error("inconsistent orientations");
 		 }
 		ProError status;
@@ -366,14 +362,14 @@ public:
 		switch( status = ProMdlToModelitem(m_total_solid, &m_total_model_item) ) {
 		case PRO_TK_NO_ERROR: break;
 		default:  
-			m_log_cf.errorStream() << "no currently active model item" ;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "no currently active model item" ;
 			return; // PRO_TK_GENERAL_ERROR; 
 		} 
 
 		switch( status = ProSelectionAlloc(NULL, &m_total_model_item, &m_total_selection) ) {
 		case PRO_TK_NO_ERROR: break;
 		default: 
-			m_log_cf.errorStream() << "no top level selection obtained" ;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "no top level selection obtained" ;
 			return; // PRO_TK_GENERAL_ERROR; 
 		}
 
@@ -426,31 +422,31 @@ public:
 	
 			case PRO_TK_NO_ERROR: break;
 			case PRO_TK_BAD_INPUTS:
-				m_log_cf.errorStream() << "the solid handle is invalid " ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "the solid handle is invalid " ;
 				return; // PRO_TK_GENERAL_ERROR; 
 			case PRO_TK_E_NOT_FOUND: 
-				m_log_cf.errorStream() << "the specified coordinate system was not found. " ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "the specified coordinate system was not found. " ;
 				return; // PRO_TK_GENERAL_ERROR; 
 			case PRO_TK_GENERAL_ERROR: 
-				m_log_cf.errorStream() << "a general error occurred and the function failed. " ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "a general error occurred and the function failed. " ;
 				return; // PRO_TK_GENERAL_ERROR; 
 			default:
-				m_log_cf.errorStream() << "could not extract the mass property " << status ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not extract the mass property " << status ;
 				return; // PRO_TK_GENERAL_ERROR; 
 			} 
 			m_total_volume = m_total_mass_prop.volume;
 			m_total_cob = m_total_mass_prop.center_of_gravity; 
-			m_log_f.infoStream() << "total-volume: " << m_total_volume ;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "total-volume: " << m_total_volume ;
 		}
 			
 		cf::create::Csys_default( m_csys_feature, m_total_solid, m_total_selection, "DEFAULT_CSYS" );
 		m_feat_ids.push_back(m_csys_feature.id);
-		m_log_f.infoStream() << "created global coordinate system feature = " << m_csys_feature.id ;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "created global coordinate system feature = " << m_csys_feature.id ;
 
 		cf::create::Point( m_cob_pnt_feature, m_total_solid, m_total_selection, "COB_DTM_PNT",
 			m_csys_feature, m_total_cob );
 		m_feat_ids.push_back(m_cob_pnt_feature.id);
-		m_log_f.infoStream() << "created center-of-bouyancy feature = " << m_cob_pnt_feature.id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "created center-of-bouyancy feature = " << m_cob_pnt_feature.id;
 			
 		cf::create::Plane( m_x_pln_feature, m_total_solid, m_total_selection, "X_DTM_PLN", PRO_DTMPLN_DEF_X );
 		m_feat_ids.push_back(m_x_pln_feature.id);
@@ -460,7 +456,7 @@ public:
 
 		cf::create::Plane( m_z_pln_feature, m_total_solid, m_total_selection, "Z_DTM_PLN", PRO_DTMPLN_DEF_Z );
 		m_feat_ids.push_back(m_z_pln_feature.id);
-		m_log_f.infoStream() << "created global coordinate datum plane features: "
+		isis_LOG(lg, isis_FILE, isis_INFO) << "created global coordinate datum plane features: "
 			<< " x = " << m_x_pln_feature.id 
 			<< " y = " << m_y_pln_feature.id 
 			<< " z = " << m_z_pln_feature.id;
@@ -483,7 +479,7 @@ public:
 				cross_pln = &m_z_pln_feature;
 				break;
 			default:
-				m_log_cf.errorStream() << "inconsistent axies" ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "inconsistent axies" ;
 			}
 
 			switch( m_vert_orient ) {
@@ -500,7 +496,7 @@ public:
 				horiz_pln = &m_z_pln_feature;
 				break;
 			default:
-				m_log_cf.errorStream() << "inconsistent axies" ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "inconsistent axies" ;
 			}
 			// the cross plane is the unused plane
 			if (cross_pln == &m_x_pln_feature) {
@@ -521,38 +517,38 @@ public:
 		cf::create::Axis( m_trim_axis_feature, m_total_solid, m_total_selection, 
 			"TRIM_DTM_AXIS", *cross_pln, *horiz_pln );
 		m_feat_ids.push_back(m_trim_axis_feature.id);
-		m_log_f.infoStream() << "created trim datum axis feature = " << m_trim_axis_feature.id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "created trim datum axis feature = " << m_trim_axis_feature.id;
 
 		cf::create::Plane_Pivot( m_trim_pln_feature, m_total_solid, m_total_selection, 
 			"TRIM_DTM_PLN", m_trim_axis_feature, *horiz_pln, 0.0 );
 		m_feat_ids.push_back(m_trim_pln_feature.id);
-		m_log_f.infoStream() << "created trim datum plane feature = " << m_trim_pln_feature.id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "created trim datum plane feature = " << m_trim_pln_feature.id;
 
 		cf::create::Axis( m_heel_axis_feature, m_total_solid, m_total_selection, 
 			"HEEL_DTM_AXIS", m_trim_pln_feature, *keel_pln );
 		m_feat_ids.push_back(m_heel_axis_feature.id);
-		m_log_f.infoStream() << "created heel datum axis feature = " << m_heel_axis_feature.id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "created heel datum axis feature = " << m_heel_axis_feature.id;
 
 		cf::create::Plane_Pivot( m_heel_pln_feature, m_total_solid, m_total_selection, 
 			"HEEL_DTM_PLN", m_heel_axis_feature, m_trim_pln_feature, 0.0 );
 		m_feat_ids.push_back(m_heel_pln_feature.id);
-		m_log_f.infoStream() << "created heel datum plane feature = " << m_heel_pln_feature.id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "created heel datum plane feature = " << m_heel_pln_feature.id;
 
 		cf::create::Plane_Offset( m_depth_pln_feature, m_total_solid, m_total_selection, 
 			"DEPTH_DTM_PLN", depth_flip, m_heel_pln_feature, 0.0 );
 		m_feat_ids.push_back(m_depth_pln_feature.id);
-		m_log_f.infoStream() << "created depth datum plane feature = " << m_depth_pln_feature.id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "created depth datum plane feature = " << m_depth_pln_feature.id;
 
 		switch( status = ProSolidRegenerate( m_total_solid, PRO_REGEN_NO_FLAGS ) ) {
 		case PRO_TK_NO_ERROR: break;
 		default:
-			m_log_cf.errorStream() << "could not regenerate status = " << status;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not regenerate status = " << status;
 		}
 
 		cf::create::Solidify_Truncate( m_truncate_sld_feature, m_total_solid, m_total_selection, 
 			"TRUNC_SLD", m_depth_pln_feature );
 		m_feat_ids.push_back(m_truncate_sld_feature.id);
-		m_log_f.infoStream() << "created submerged datum solid feature = " << m_truncate_sld_feature.id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "created submerged datum solid feature = " << m_truncate_sld_feature.id;
 
 	}
 
@@ -577,24 +573,24 @@ public:
 		switch( status = ProSolidRegenerate(m_total_solid, PRO_REGEN_NO_FLAGS) ) {
 		case PRO_TK_NO_ERROR: break;
 		case PRO_TK_UNATTACHED_FEATS:
-			m_log_cf.errorStream() << "unattached features were detected, "
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "unattached features were detected, "
 				<< "but there was no regeneration failure" ;
 			throw std::runtime_error("general TK ERROR");
 		case PRO_TK_REGEN_AGAIN:
-			m_log_cf.errorStream() << "the model is too complex to regenerate the first time" ;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "the model is too complex to regenerate the first time" ;
 			throw std::runtime_error("general TK ERROR");
       	case PRO_TK_GENERAL_ERROR:
-			m_log_cf.errorStream() << "failure in regeneration" ;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "failure in regeneration" ;
 			throw std::runtime_error("general TK ERROR");
       	case PRO_TK_BAD_INPUTS:
-			m_log_cf.errorStream() << "incompatible flags used." ;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "incompatible flags used." ;
 			throw std::runtime_error("general TK ERROR");
       	case PRO_TK_BAD_CONTEXT:
-			m_log_cf.errorStream() << "invalid regen flags and/or combination of regeneration flags"
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "invalid regen flags and/or combination of regeneration flags"
 				<< "if mixed with PRO_REGEN_FORCE_REGEN." ;
 			throw std::runtime_error("general TK ERROR");
 		default:
-			m_log_cf.errorStream() << "could not regen the solid" << status ;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not regen the solid" << status ;
 			throw std::runtime_error("general TK ERROR");
 		} 
 	}
@@ -696,7 +692,7 @@ public:
 		char wipName[64];
 		const volume_type limit_volume = m_total_volume * in_tolerance;
 
-		m_log_f.infoStream() << "parameters " << '\n'
+		isis_LOG(lg, isis_FILE, isis_INFO) << "parameters " << '\n'
 			<< "  displacement [" << in_displacement <<  "] " << '\n'
 			<< "  heel-angle [" << in_heel_angle << "] " << '\n'
 			<< "  trim-angle [" << in_trim_angle << "] " << '\n'
@@ -704,7 +700,7 @@ public:
 		volume_type goal_volume = in_displacement;
 						
 		if (m_total_volume < goal_volume) {
-			m_log_cf.errorStream() 
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) 
 				<< "no solution volume: total = " << m_total_volume 
 				<< " < " << " goal = " << goal_volume ;
 			return PRO_TK_GENERAL_ERROR;
@@ -713,14 +709,14 @@ public:
 		switch( status = cf::create::Plane_Angle_adjust(m_total_selection, m_heel_pln_feature, in_heel_angle) ) {
 		case PRO_TK_NO_ERROR: break;
 		default:
-			m_log_cf.errorStream() << "could not adjust the trim " << status ;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not adjust the trim " << status ;
 			return PRO_TK_GENERAL_ERROR;
 		}
 
 		switch( status = cf::create::Plane_Angle_adjust(m_total_selection, m_trim_pln_feature, in_trim_angle) ) {
 		case PRO_TK_NO_ERROR: break;
 		default:
-			m_log_cf.errorStream() << "could not adjust the trim " << status ;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not adjust the trim " << status ;
 			return PRO_TK_GENERAL_ERROR;
 		}
 
@@ -746,21 +742,21 @@ public:
 			switch( status = ProGeomitemDistanceEval(*work_point, *work_plane, &candidate_cob_depth ) ) {
 			case PRO_TK_NO_ERROR: break;
 			default:
-				m_log_cf.errorStream() << "could not acquire the cob depth " << status ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not acquire the cob depth " << status ;
 			}
 			switch( status = cf::create::Plane_Offset_adjust(m_total_selection, m_depth_pln_feature, candidate_cob_depth) ) {
 			case PRO_TK_NO_ERROR: break;
 			default:
-				m_log_cf.errorStream() << "could not adjust the depth " << status ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not adjust the depth " << status ;
 			}
 			cf::Selector cob_plane(m_total_solid, m_depth_pln_feature, PRO_SURFACE);
 		    double test_cob_depth;
 			switch( status = ProGeomitemDistanceEval(*work_point, *work_plane, &test_cob_depth ) ) {
 			case PRO_TK_NO_ERROR: break;
 			default:
-				m_log_cf.errorStream() << "could not acquire the test cob depth " << status ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not acquire the test cob depth " << status ;
 			}
-			m_log_f.infoStream() << "cob depth [ " << candidate_cob_depth << " : " << test_cob_depth << " ]" ;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "cob depth [ " << candidate_cob_depth << " : " << test_cob_depth << " ]" ;
 			cob_depth = candidate_cob_depth * ((candidate_cob_depth < test_cob_depth) ? -1.0 : 1.0);
 		}
 
@@ -771,38 +767,38 @@ public:
 		bool has_more_work = true;
 		for ( int nx=0; has_more_work; ++nx ) {
 			if (nx > max_steps) {
-				m_log_cf.warnStream() << "maximum number of steps exceeded " << nx ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "maximum number of steps exceeded " << nx ;
 				break;
 			}
 
 #ifdef TRACE_ITERATION
-			m_log_f.infoStream() << '\n' 
+			isis_LOG(lg, isis_FILE, isis_INFO) << '\n' 
 				<< "search: step[" << nx << "] "<< " depth=" << midpoint_depth ;
 #endif
 			switch( status = cf::create::Plane_Offset_adjust(m_total_selection, m_depth_pln_feature, midpoint_depth) ) {
 			case PRO_TK_NO_ERROR: break;
 			default:
-				m_log_cf.warnStream() << "could not adjust the depth " << status ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "could not adjust the depth " << status ;
 			}
 
 			ProSolidRegenerationStatus regen_status;
 			switch(status = ProSolidRegenerationstatusGet(m_total_solid, &regen_status) ) {
 			case PRO_TK_NO_ERROR: break;
 			case PRO_TK_BAD_INPUTS:
-				m_log_cf.errorStream() << "the solid handle is invalid " ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "the solid handle is invalid " ;
 				return PRO_TK_GENERAL_ERROR; 
 			}
 
 			switch( regen_status ) {
 			case PRO_SOLID_FAILED_REGENERATION:
-				m_log_cf.warnStream() << "the cut missed (due to a regeneration error): " << midpoint_depth ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "the cut missed (due to a regeneration error): " << midpoint_depth ;
 				//********* FAILURE *****************
 		        has_more_work = false;
 				continue;
 			case PRO_SOLID_REGENERATED:
 				break;
 			default:
-				m_log_cf.errorStream() << "the cut regeneration failed: " << regen_status ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "the cut regeneration failed: " << regen_status ;
 				return PRO_TK_GENERAL_ERROR; 
 			}
 
@@ -810,21 +806,21 @@ public:
 			switch( status = ProSolidMassPropertyGet(m_total_solid, default_csys_name, &work_mass_properties) ) {
 			case PRO_TK_NO_ERROR: break;
 			case PRO_TK_BAD_INPUTS:
-				m_log_cf.errorStream() << "the solid handle is invalid " ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "the solid handle is invalid " ;
 				return PRO_TK_GENERAL_ERROR; 
 			case PRO_TK_E_NOT_FOUND: 
-				m_log_cf.errorStream() << "the specified coordinate system was not found. " ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "the specified coordinate system was not found. " ;
 				return PRO_TK_GENERAL_ERROR; 
 			case PRO_TK_GENERAL_ERROR: 
-				m_log_cf.errorStream() << "a general error occurred and the function failed. " ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "a general error occurred and the function failed. " ;
 				return PRO_TK_GENERAL_ERROR; 
 			default:
-				m_log_cf.errorStream() << "could not acquire the properties of the wetted volume " << status ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not acquire the properties of the wetted volume " << status ;
 				return PRO_TK_GENERAL_ERROR; 
 			} 
 			double midpoint_volume = work_mass_properties.volume - goal_volume;
 			if ( midpoint_volume + goal_volume + limit_volume > m_total_volume ) {
-				m_log_f.infoStream() << "the cut missed (by volume) at depth: " << midpoint_depth ;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "the cut missed (by volume) at depth: " << midpoint_depth ;
 				switch( boost::math::sign( midpoint_depth - last_successful_depth )) {
 				case -1: lower_depth = midpoint_depth; 
 				    midpoint_depth = (midpoint_depth + last_successful_depth) / 2.0;
@@ -833,7 +829,7 @@ public:
 				    midpoint_depth = (midpoint_depth + last_successful_depth) / 2.0;
 					break;
 				default:
-					m_log_cf.errorStream() << "what???" ;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "what???" ;
 					midpoint_depth = 0.0 - midpoint_depth;
 				}
 				continue;
@@ -852,8 +848,8 @@ public:
 				midpoint_volume, midpoint_depth); 
 
 #ifdef TRACE_ITERATION
-			m_log_f.infoStream() << "depth:  \t[" << lower_depth  << " \t: " << midpoint_depth  << " \t: " << upper_depth  << "\t]" ;
-			m_log_f.infoStream() << "volume: \t[" << lower_volume << " \t: " << midpoint_volume << " \t: " << upper_volume << "\t]" ;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "depth:  \t[" << lower_depth  << " \t: " << midpoint_depth  << " \t: " << upper_depth  << "\t]" ;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "volume: \t[" << lower_volume << " \t: " << midpoint_volume << " \t: " << upper_volume << "\t]" ;
 #endif
 		}	
 
@@ -863,10 +859,10 @@ public:
 		// extract results for the target displacement:heel:trim values 
 		{ // volume 
 			out_result.volume = work_mass_properties.volume;
-			m_log_f.infoStream() << "volume: " << out_result.volume << " goal=" << goal_volume ;	
+			isis_LOG(lg, isis_FILE, isis_INFO) << "volume: " << out_result.volume << " goal=" << goal_volume ;	
 		}
 		{ // target depth
-			m_log_f.infoStream() << "depth: " << midpoint_depth ;					
+			isis_LOG(lg, isis_FILE, isis_INFO) << "depth: " << midpoint_depth ;					
 			out_result.depth = midpoint_depth;
 		}
 		{ // center of buoyancy
@@ -875,7 +871,7 @@ public:
 			out_result.cob(0) = cob_pfc[0];
 			out_result.cob(1) = cob_pfc[1];
 			out_result.cob(2) = cob_pfc[2];
-			m_log_f.infoStream() << "cob: " << out_result.cob ;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "cob: " << out_result.cob ;
 		}
 		Pro3dPnt points[2];
 		{
@@ -896,7 +892,7 @@ public:
 			{
 			case PRO_TK_NO_ERROR: break;
 			default:
-			    m_log_cf.errorStream() << "could not compute the solid outline: " ;
+			    isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not compute the solid outline: " ;
 			} 
 		}
 		{ // wetted area
@@ -908,10 +904,10 @@ public:
 			{
 			case PRO_TK_NO_ERROR: break;
 			case PRO_TK_BAD_INPUTS:
-				m_log_cf.warnStream() << "one or more arguments was invalid.";
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "one or more arguments was invalid.";
 				break;
 			default:
-				m_log_cf.warnStream() 
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) 
 					<< "the action function returned a value other than PRO_TK_NO_ERROR and visiting stopped. " 
 					<< status;
 			} 
@@ -919,7 +915,7 @@ public:
 			switch( status = ProSurfaceAreaEval(cut_surface, &cut_area) ) {
 			case PRO_TK_NO_ERROR: break;
 			default:
-				m_log_cf.warnStream() 
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) 
 					<< "the surface area could not be determined. " 
 					<< status;
 			}
@@ -944,10 +940,10 @@ public:
 				{
 				case PRO_TK_NO_ERROR: break;
 				case PRO_TK_BAD_INPUTS:
-					m_log_cf.warnStream() << "one or more arguments was invalid.";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "one or more arguments was invalid.";
 					break;
 				default:
-					m_log_cf.warnStream() 
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) 
 						<< "the action function returned a value other than PRO_TK_NO_ERROR and visiting stopped. " 
 						<< status;
 				} 
@@ -970,22 +966,22 @@ public:
 				{
 				case PRO_TK_NO_ERROR: break;
 				case PRO_TK_E_FOUND: 
-					m_log_cf.warnStream() 
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) 
 						<< "cross section already exists with name = " 
 						<< ProWstringToString(wipName, xsec_name);
 					break;
 				case PRO_TK_BAD_INPUTS:
-					m_log_cf.warnStream() 
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) 
 						<< "invalid input parameter(s) to create parallel cross section: "
 						<< " owner = " << solid_owner
 						<< " section-name = " << xsec_name
 						<< " plane-id = " << plane_id;
 					break;
 				case PRO_TK_GENERAL_ERROR:
-					m_log_cf.warnStream() << "failed to create cross section.";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "failed to create cross section.";
 					break;
 				default:
-					m_log_cf.errorStream() << "could not create the un-wetted x-section: " << status;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not create the un-wetted x-section: " << status;
 				}
 
 				ProName csys_name = L"DEFAULT_CSYS";
@@ -993,14 +989,14 @@ public:
 				switch( status = ProXsecMassPropertyCompute(&xsec, csys_name, &xsec_prop) ) {
 				case PRO_TK_NO_ERROR: break;
 				case PRO_TK_BAD_INPUTS:
-					m_log_cf.warnStream() << "invalid input parameter(s) for mass prop: "
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "invalid input parameter(s) for mass prop: "
 						<< " csys-name = " << ProWstringToString(wipName, csys_name);
 					break;
 				case PRO_TK_GENERAL_ERROR:
-					m_log_cf.warnStream() << "failed to compute cross section.";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "failed to compute cross section.";
 					break;
 				default:
-					m_log_cf.errorStream() << "could not compute the un-wetted x-section: " << status;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not compute the un-wetted x-section: " << status;
 				}
 				out_result.xsection_area.push_back( 
 					std::make_pair<double,double>(cut_distance, xsec_prop.surface_area) );
@@ -1010,12 +1006,12 @@ public:
 					// switch( status = ProXsecFeatureGet(&xsec, &xfeat) ) {
 					// case PRO_TK_NO_ERROR: break;
 					// default:
-					// 	m_log_cf.errorStream() << "could not get the un_wetted x-feature: " << status;
+					// 	isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not get the un_wetted x-feature: " << status;
 					// }
 					switch( status = ProXsecDelete( &xsec ) ) {
 					case PRO_TK_NO_ERROR: break;
 					default:
-						m_log_cf.errorStream() << "could not delete the un_wetted x-section: " << status;
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not delete the un_wetted x-section: " << status;
 					}
 					// const int num_feature_delete_opts = 1;
 					// ProFeatureDeleteOptions feature_delete_opts[num_feature_delete_opts]; 
@@ -1025,14 +1021,14 @@ public:
 					// {
 					// case PRO_TK_NO_ERROR: break;
 					// case PRO_TK_BAD_INPUTS:
-					// 	m_log_cf.errorStream() << "bad inputs to delete the un_wetted x-feature" 
+					// 	isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "bad inputs to delete the un_wetted x-feature" 
 					// 		<< feat_ids;
 					// 	break;
 					// case PRO_TK_GENERAL_ERROR:
-					// 	m_log_cf.errorStream() << "general error deleting the un_wetted x-feature" 
+					// 	isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "general error deleting the un_wetted x-feature" 
 					// 	break;
 					// default:
-					// 	m_log_cf.errorStream() << "could not delete the un_wetted x-feature: " << status;
+					// 	isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not delete the un_wetted x-feature: " << status;
 					// }
 				}
 			}
@@ -1057,7 +1053,7 @@ public:
 			switch( status = cf::create::Plane_Angle_adjust(m_total_selection, m_heel_pln_feature, *heel_it) ) {
 			case PRO_TK_NO_ERROR: break;
 			default:
-				m_log_cf.errorStream() << "could not adjust the heel " << status ;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not adjust the heel " << status ;
 				continue;
 			}
 
@@ -1068,7 +1064,7 @@ public:
 				switch( status = cf::create::Plane_Angle_adjust(m_total_selection, m_trim_pln_feature, *trim_it) ) {
 				case PRO_TK_NO_ERROR: break;
 				default:
-					m_log_cf.errorStream() << "could not adjust the trim " << status ;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not adjust the trim " << status ;
 					continue;
 				}
 
@@ -1076,7 +1072,7 @@ public:
 				int depth_ix = 0;
 				for (depth_it = in_depth.begin();  depth_it != in_depth.end(); ++depth_it, ++depth_ix)
 				{
-					m_log_f.infoStream() << "parameters " << '\n'
+					isis_LOG(lg, isis_FILE, isis_INFO) << "parameters " << '\n'
 						<< "  heel  [" << heel_ix << "] " << *heel_it << '\n'
 						<< "  trim  [" << trim_ix <<  "] " << *trim_it << '\n'
 						<< "  depth [" << depth_ix <<  "] " << *depth_it << '\n'
@@ -1085,7 +1081,7 @@ public:
 					switch( status = cf::create::Plane_Offset_adjust(m_total_selection, m_depth_pln_feature, *depth_it) ) {
 					case PRO_TK_NO_ERROR: break;
 					default:
-						m_log_cf.errorStream() << "could not adjust the depth " << status ;
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not adjust the depth " << status ;
 					}
 
 					ProMassProperty work_mass_properties;
@@ -1093,16 +1089,16 @@ public:
 					switch( status = ProSolidMassPropertyGet(m_total_solid, default_csys_name, &work_mass_properties) ) {
 					case PRO_TK_NO_ERROR: break;
 					case PRO_TK_BAD_INPUTS:
-						m_log_cf.errorStream() << "the solid handle is invalid " ;
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "the solid handle is invalid " ;
 						return PRO_TK_GENERAL_ERROR; 
 					case PRO_TK_E_NOT_FOUND: 
-						m_log_cf.errorStream() << "the specified coordinate system was not found. " ;
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "the specified coordinate system was not found. " ;
 						return PRO_TK_GENERAL_ERROR; 
 					case PRO_TK_GENERAL_ERROR: 
-						m_log_cf.errorStream() << "- A general error occurred and the function failed. " ;
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "- A general error occurred and the function failed. " ;
 						return PRO_TK_GENERAL_ERROR; 
 					default:
-						m_log_cf.errorStream() << "could not acquire the properties of the wetted volume " << status ;
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not acquire the properties of the wetted volume " << status ;
 						return PRO_TK_GENERAL_ERROR; 
 					} 
 
@@ -1110,7 +1106,7 @@ public:
 					Result result;
 					{ // volume 
 						result.volume = work_mass_properties.volume;
-						m_log_f.infoStream() << "volume: " << result.volume ;	
+						isis_LOG(lg, isis_FILE, isis_INFO) << "volume: " << result.volume ;	
 					}
 					{ // target depth
 						result.depth = *depth_it;
@@ -1121,7 +1117,7 @@ public:
 						result.cob(0) = cob_pfc[0];
 						result.cob(1) = cob_pfc[1];
 						result.cob(2) =  cob_pfc[2];
-						m_log_f.infoStream() << "cob: " << result.cob ;
+						isis_LOG(lg, isis_FILE, isis_INFO) << "cob: " << result.cob ;
 					}
 					{ // wetted area
 						double area = work_mass_properties.surface_area;
@@ -1155,7 +1151,7 @@ ProError ExteriorShell::glom_working_solid() {
 	switch( status = ProMdlCurrentGet(&model) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:  
-		m_log_cf.warnStream() << "could not get-current-model" ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "could not get-current-model" ;
 		return PRO_TK_GENERAL_ERROR; 
 	} 
 	m_working_solid = static_cast<ProSolid>(model);
@@ -1168,7 +1164,7 @@ ProError ExteriorShell::glom_wrapped_solid( ) {
 	switch( status = ProMdlCurrentGet(&model) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:  
-		m_log_cf.warnStream() << "could not get-current-model" ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "could not get-current-model" ;
 		return PRO_TK_GENERAL_ERROR; 
 	} 
 	m_wrapped_solid = static_cast<ProSolid>(model);
@@ -1180,22 +1176,22 @@ ProError ExteriorShell::set_current_solid(ProSolid in_solid) {
 	switch( status = ProMdlDisplay(in_solid) ) {
 	case PRO_TK_NO_ERROR: break;
 	case PRO_TK_INVALID_PTR:
-		m_log_cf.errorStream() 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) 
 			<< "the specified model is not in memory.";
 		return PRO_TK_GENERAL_ERROR;
 	case PRO_TK_E_NOT_FOUND:
-		m_log_cf.errorStream() 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) 
 			<< "the <i>model</i> is NULL, there is no current object";
 		return PRO_TK_GENERAL_ERROR;
 	case PRO_TK_GENERAL_ERROR:
-		m_log_cf.errorStream() 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) 
 			<< "there was a general error and the function failed.";
 		return PRO_TK_GENERAL_ERROR;
 	case PRO_TK_INVALID_TYPE:
-		m_log_cf.errorStream() 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) 
 			<< "you specified an invalid model type.";
 	default:
-		m_log_cf.errorStream() 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) 
 			<< "could not load model " << status;
 		return PRO_TK_GENERAL_ERROR;
 	}
@@ -1225,22 +1221,22 @@ ProError ExteriorShell::activate_model( std::string in_name, ProMdlType in_model
 	ProStringToWstring(model_name, const_cast<char*>(in_name.c_str())); 
 	ProMdl model;
 
-	m_log_cf.infoStream() 
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) 
 		<< " name: " << model_name << " type: " << in_model_type ;
 	switch( status = ProMdlRetrieve(model_name, in_model_type, &model) ) {
 	case PRO_TK_NO_ERROR: break;
 	case  PRO_TK_BAD_INPUTS:
-		m_log_cf.errorStream() << "one or more of the input arguments are invalid. " 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "one or more of the input arguments are invalid. " 
 			<< " name: " << model_name << " type: " << in_model_type ;
         return PRO_TK_GENERAL_ERROR;
 	case PRO_TK_E_NOT_FOUND:
-		m_log_cf.errorStream() << "no retrievable model was not found in the current directory." ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "no retrievable model was not found in the current directory." ;
         return PRO_TK_GENERAL_ERROR;
 	case PRO_TK_NO_PERMISSION:
-		m_log_cf.errorStream() << "retrieve does not have permission to operate on this model." ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "retrieve does not have permission to operate on this model." ;
         return PRO_TK_GENERAL_ERROR;
 	default:
-		m_log_cf.errorStream() << "could not load model " << status << " " << in_name ;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not load model " << status << " " << in_name ;
 		return PRO_TK_GENERAL_ERROR;
 	}
 	m_working_solid = static_cast<ProSolid>(model);

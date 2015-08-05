@@ -66,6 +66,7 @@ std::ostream& operator<<( std::ostream& out, JointType& that ) {
 	return out;
 }
 
+/*
 log4cpp::CategoryStream& operator<<(log4cpp::CategoryStream& out, const JointType& that) {
 	if (joint_type_name_map.count(that) == 1) {
 		out << joint_type_name_map[that];
@@ -77,15 +78,40 @@ log4cpp::CategoryStream& operator<<(log4cpp::CategoryStream& out, const JointTyp
 	}
 	return out;
 }
+*/
+
+/*  zzz fix this
+isis::isisLogger& operator<<(isis::isisLogger& out, const JointType& that) {
+	if (joint_type_name_map.count(that) == 1) {
+		out << joint_type_name_map[that];
+	} else 
+	if (joint_type_code_map.count(that) == 1) {
+		out << "<" << joint_type_code_map[that] << ">";
+	} else {
+		out << "[" << static_cast<int>(that) << "]";
+	}
+	return out;
+}
+*/
 
 std::ostream& operator<<(std::ostream& out, e3ga::vector& that) {
 	out << " [ " << that.c_str() << " ] ";
 	return out;
 }
+/*
 log4cpp::CategoryStream& operator<<(log4cpp::CategoryStream& out, const e3ga::vector& that) {
 	out << " [ " << that.c_str() << " ] ";
 	return out;
 }
+*/
+
+/* R.O. Not using this anymore.  Replaced with the equivalent code of " [ " << that.c_str() << " ] "
+isis::isisLogger& operator<<(isis::isisLogger& out, const e3ga::vector& that) {
+	out << " [ " << that.c_str() << " ] ";
+	return out;
+}
+*/
+
 
 std::ostream& operator<<( std::ostream& out, Joint& that ) {
 	out << " locate = [" << that.location.toString() << "] "
@@ -94,6 +120,8 @@ std::ostream& operator<<( std::ostream& out, Joint& that ) {
 		<< " type = " << static_cast<JointType>(that.type);
 	return out;
 }
+
+/*
 log4cpp::CategoryStream& operator<<(log4cpp::CategoryStream& out, const Joint& that) {
 	out << " locate = [" << that.location.toString() << "] "
 		<< " orient = [" << that.orientation.toString() << "] "
@@ -101,6 +129,17 @@ log4cpp::CategoryStream& operator<<(log4cpp::CategoryStream& out, const Joint& t
 		<< " type = " << static_cast<JointType>(that.type);
 	return out;
 }
+*/
+
+/* use that.toString operator that calls std::ostream& operator<<( std::ostream& out, Joint& that )
+isis::isisLogger& operator<<(isis::isisLogger& out, const Joint& that) {
+	out << " locate = [" << that.location.toString() << "] "
+		<< " orient = [" << that.orientation.toString() << "] "
+		<< " rotate = " << that.rotation / TAU << " turn "
+		<< " type = " << static_cast<JointType>(that.type);
+	return out;
+}
+*/
 
 std::string Joint::toString() {
 	std::ostringstream ss;
@@ -204,9 +243,13 @@ Fuse two planes (xxi):
 </ul>
 */
 Joint meld_xxi_xxi(const Joint& major, const Joint& minor) {
-	log4cpp::CategoryStream& log = major.log_cf.infoStream();
-	log4cpp::CategoryStream& log_debug = major.log_cf.debugStream();
-	log << "meld_xxi_xxi";
+	//log4cpp::CategoryStream& log = major.log_cf.infoStream();
+	//log4cpp::CategoryStream& log_debug = major.log_cf.debugStream();
+	//log << "meld_xxi_xxi";
+
+	// 
+
+	isis_LOG(lg, isis_FILE, isis_INFO) << "meld_xxi_xxi";
 
 	e3ga::vector b1 = major.orientation;
 	e3ga::vector b2 = minor.orientation;
@@ -234,11 +277,12 @@ Joint meld_xxi_xxi(const Joint& major, const Joint& minor) {
 
 	double p1 = b1 % x1;
 	double p2 = b2 % x2;
-	log_debug << "hessians = " << log4cpp::eol
-		<< "-<p>" << " = " << "<n>" << " . " << "<x>" << log4cpp::eol
-		<< "-" << p1 << " = " << b1 << " . " << x1 << log4cpp::eol
-		<< "-" << p2 << " = " << b2 << " . " << x2;
 
+	isis_LOG(lg, isis_FILE, isis_DEBUG) << "hessians = " << isis_EOL
+		<< "-<p>" << " = " << "<n>" << " . " << "<x>" << isis_EOL
+		<< "-" << p1 << " = " << " [ " << b1.c_str() << " ] " << " . " << " [ " <<  x1.c_str() << " ] " << isis_EOL
+		<< "-" << p2 << " = " << " [ " << b2.c_str() << " ] " << " . " << " [ " <<  x2.c_str() << " ] ";
+	
 	double p3 = orient % x1;
 	e3ga::vector pd(e3ga::vector::coord_e1_e2_e3, p1,p2,p3);
 
@@ -250,7 +294,7 @@ Joint meld_xxi_xxi(const Joint& major, const Joint& minor) {
 		norm(b1 ^ b2 ^ p3)/denom);
 
 	Joint result(PRISMATIC, locate, orient, 0.0, major, minor);
-	log << result;
+	isis_LOG(lg, isis_FILE, isis_INFO) << result.toString();
 	return result;
 }
 
@@ -262,8 +306,12 @@ Merging a plane (xxi) and spherical (iii) constraint resulting in:
 http://mathworld.wolfram.com/Point-PlaneDistance.html
 */
 Joint meld_xxi_iii(const Joint& plane, const Joint& ball, const bool flip = false) {
-	log4cpp::CategoryStream& log = plane.log_cf.infoStream();
-	log << (flip ? "meld_iii_xxi" : "meld_xxi_iii");
+	//log4cpp::CategoryStream& log = plane.log_cf.infoStream();
+
+	// 
+	
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_iii_xxi" : "meld_xxi_iii");
+
 
 	e3ga::vector x1 = plane.location;
 	e3ga::vector x2 = ball.location;
@@ -299,8 +347,10 @@ merging a revolute (ooi) and a plane (xxi) constraint may result in:
 </ul>
 */
 Joint meld_ooi_xxi(const Joint& pin, const Joint& plane, const bool flip = false) {
-	log4cpp::CategoryStream& log = pin.log_cf.infoStream();
-	log << (flip ? "meld_xxi_ooi" : "meld_ooi_xxi");
+	//log4cpp::CategoryStream& log = pin.log_cf.infoStream();
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_xxi_ooi" : "meld_ooi_xxi");
 
 	e3ga::vector x1 = plane.location;
 	e3ga::vector x2 = pin.location;
@@ -329,8 +379,11 @@ Merging a plane (xxi) and an axix (oof) constraint may result in:
 </ul>
 */
 Joint meld_xxi_oof(const Joint& plane, const Joint& axis, const bool flip = false) {
-	log4cpp::CategoryStream& log = plane.log_cf.infoStream();
-	log << (flip ? "meld_oof_xxi" : "meld_xxi_oof");
+	//log4cpp::CategoryStream& log = plane.log_cf.infoStream();
+
+	// 
+	
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_oof_xxi" : "meld_xxi_oof");
 
 	e3ga::vector x1 = axis.location;
 
@@ -397,9 +450,13 @@ merging a pair of revolute (ooi) joints may result in:
 </ul>
 */
 Joint meld_ooi_ooi( const Joint& major, const Joint& minor) {
-	log4cpp::CategoryStream& log = major.log_cf.infoStream();
-	log << "meld_ooi_ooi";
-	major.log_cf.infoStream() << "meld_ooi_ooi" ;
+	//log4cpp::CategoryStream& log = major.log_cf.infoStream();
+	//log << "meld_ooi_ooi";
+	//major.log_cf.infoStream() << "meld_ooi_ooi" ;
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << "meld_ooi_ooi";
+
 	// Are the axies parallel?
 	e3ga::vector b1 = e3ga::unit(major.orientation);
 	e3ga::vector b2 = e3ga::unit(minor.orientation);
@@ -433,8 +490,12 @@ merging a pair of cylinderical (oof) joints may result in:
 </ul>
 */
 Joint meld_oof_oof(const Joint& major, const Joint& minor) {
-	log4cpp::CategoryStream& log = major.log_cf.infoStream();
-	log << "meld_oof_oof";
+	//log4cpp::CategoryStream& log = major.log_cf.infoStream();
+	//log << "meld_oof_oof";
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << "meld_oof_oof";
+
 	// Are the axies parallel?
 	e3ga::vector b1 = e3ga::unit(major.orientation);
 	e3ga::vector b2 = e3ga::unit(minor.orientation);
@@ -477,8 +538,12 @@ merging a revolute (ooi) and a universal (oii) joint:
 </ul>
 */
 Joint meld_ooi_oii(const Joint& pin, const Joint& universal, const bool flip = false) {
-	log4cpp::CategoryStream& log = pin.log_cf.infoStream();
-	log << (flip ? "meld_oii_ooi" : "meld_ooi_oii");
+	//log4cpp::CategoryStream& log = pin.log_cf.infoStream();
+	//log << (flip ? "meld_oii_ooi" : "meld_ooi_oii");
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_oii_ooi" : "meld_ooi_oii");
+
 	return pin.make_composite(universal);
 }
 Joint meld_oii_ooi(const Joint& universal, const Joint& pin) {
@@ -493,8 +558,11 @@ merging a pair of prismatic (oox) joints may result in:
 </ul>
 */
 Joint meld_oox_oox(const Joint& major, const Joint& minor) {
-	log4cpp::CategoryStream& log = major.log_cf.infoStream();
-	log << "meld_oox_oox";
+	//log4cpp::CategoryStream& log = major.log_cf.infoStream();
+	//log << "meld_oox_oox";
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) <<  "meld_oox_oox";
 
 	e3ga::vector b1 = e3ga::unit(major.orientation);
 	e3ga::vector b2 = e3ga::unit(minor.orientation);
@@ -516,8 +584,11 @@ merging a revolute (ooi) and a spherical (iii) constraint results in:
 </ul>
 */
 Joint meld_ooi_iii(const Joint& pin, const Joint& ball, const bool flip = false) {
-	log4cpp::CategoryStream& log = pin.log_cf.infoStream();
-	log << (flip ? "meld_iii_ooi" : "meld_ooi_iii");
+	//log4cpp::CategoryStream& log = pin.log_cf.infoStream();
+	//log << (flip ? "meld_iii_ooi" : "meld_ooi_iii");
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_iii_ooi" : "meld_ooi_iii");
 
 	e3ga::vector x1 = pin.location;
 	e3ga::vector x2 = ball.location;
@@ -539,8 +610,11 @@ merging a revolute (ooi) and a universal (oii) constraint results in:
 </ul>
 */
 Joint meld_oof_oii(const Joint& axis, const Joint& universal, const bool flip = false) {
-	log4cpp::CategoryStream& log = axis.log_cf.infoStream();
-	log << (flip ? "meld_oii_oof" : "meld_oof_oii");
+	//log4cpp::CategoryStream& log = axis.log_cf.infoStream();
+	//log << (flip ? "meld_oii_oof" : "meld_oof_oii");
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) <<  (flip ? "meld_oii_oof" : "meld_oof_oii");
 
 	return axis.make_composite(universal);
 }
@@ -555,8 +629,12 @@ merging a revolute (ooi) and a prismatic (oox) constraint results in:
 </ul>
 */
 Joint meld_ooi_oox(const Joint& pin, const Joint& slider, const bool flip = false) {
-	log4cpp::CategoryStream& log = pin.log_cf.infoStream();
-	log << (flip ? "meld_oox_ooi" : "meld_ooi_oox");
+	//log4cpp::CategoryStream& log = pin.log_cf.infoStream();
+	//log << (flip ? "meld_oox_ooi" : "meld_ooi_oox");
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_oox_ooi" : "meld_ooi_oox");
+
 	Joint result(FIXED, 
 		pin.location, pin.orientation, pin.rotation,
 		pin, slider);
@@ -575,8 +653,11 @@ merging a revolute (ooi) and an axis (oof) may result in:
 In order to be revolute the axes must be coincident.
 */
 Joint meld_ooi_oof(const Joint& pin, const Joint& axis, const bool flip = false) {
-	log4cpp::CategoryStream& log = pin.log_cf.infoStream();
-	log << (flip ? "meld_oof_ooi" : "meld_ooi_oof");
+	//log4cpp::CategoryStream& log = pin.log_cf.infoStream();
+	//log << (flip ? "meld_oof_ooi" : "meld_ooi_oof");
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_oof_ooi" : "meld_ooi_oof");
 
 	e3ga::vector b1 = e3ga::unit(axis.orientation);
 	e3ga::vector b2 = e3ga::unit(pin.orientation);
@@ -621,8 +702,12 @@ merging two spherical (iii) joints may result in...
 </ul>
 */
 Joint meld_iii_iii(const Joint& major, const Joint& minor) {
-	log4cpp::CategoryStream& log = major.log_cf.infoStream();
-	log << "meld_iii_iii";
+	//log4cpp::CategoryStream& log = major.log_cf.infoStream();
+	//log << "meld_iii_iii";
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) <<  "meld_iii_iii";
+
 	return major.make_composite(minor);
 }
 
@@ -633,8 +718,12 @@ merging a pair of universal (oii) joints:
 </ul>
 */
 Joint meld_oii_oii(const Joint& major, const Joint& minor) {
-	log4cpp::CategoryStream& log = major.log_cf.infoStream();
-	log << "meld_oii_oii";
+	//log4cpp::CategoryStream& log = major.log_cf.infoStream();
+	//log << "meld_oii_oii";
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << "meld_oii_oii";
+
 	return major.make_composite(minor);
 }
 
@@ -645,8 +734,11 @@ merging a universal (oii) and spherical (iii) constraint may result in:
 </ul>
 */
 Joint meld_oii_iii(const Joint& universal, const Joint& ball, const bool flip = false) {
-	log4cpp::CategoryStream& log = universal.log_cf.infoStream();
-	log << (flip ? "meld_iii_oii" : "meld_oii_iii");
+	//log4cpp::CategoryStream& log = universal.log_cf.infoStream();
+	//log << (flip ? "meld_iii_oii" : "meld_oii_iii");
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_iii_oii" : "meld_oii_iii");
 	return universal.make_composite(ball);
 }
 Joint meld_iii_oii(const Joint& ball, const Joint& universal) {
@@ -660,8 +752,12 @@ merging a universal (oii) and prismatic (oox) constraint may result in:
 </ul>
 */
 Joint meld_oii_oox(const Joint& universal, const Joint& slider, const bool flip = false) {
-	log4cpp::CategoryStream& log = universal.log_cf.infoStream();
-	log << (flip ? "meld_oox_oii" : "meld_oii_oox");
+	//log4cpp::CategoryStream& log = universal.log_cf.infoStream();
+	//log << (flip ? "meld_oox_oii" : "meld_oii_oox");
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_oox_oii" : "meld_oii_oox");
+
 	return universal.make_composite(slider);
 }
 Joint meld_oox_oii(const Joint& slider, const Joint& universal) {
@@ -675,8 +771,12 @@ merging a universal (oii) and planar (xxi) constraint may result in:
 </ul>
 */
 Joint meld_oii_xxi(const Joint& universal, const Joint& planar, const bool flip = false) {
-	log4cpp::CategoryStream& log = universal.log_cf.infoStream();
-	log << (flip ? "meld_xxi_oii" : "meld_oii_xxi");
+	//log4cpp::CategoryStream& log = universal.log_cf.infoStream();
+	//log << (flip ? "meld_xxi_oii" : "meld_oii_xxi");
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_xxi_oii" : "meld_oii_xxi");
+
 	return universal.make_composite(planar);
 }
 Joint meld_xxi_oii(const Joint& planar, const Joint& universal) {
@@ -690,8 +790,11 @@ merging a spherical (iii) and prismatic (oox) constraint may result in:
 </ul>
 */
 Joint meld_iii_oox(const Joint& ball, const Joint& slider, const bool flip = false) {
-	log4cpp::CategoryStream& log = ball.log_cf.infoStream();
-	log << (flip ? "meld_oox_iii" : "meld_iii_oox");
+	//log4cpp::CategoryStream& log = ball.log_cf.infoStream();
+	//log << (flip ? "meld_oox_iii" : "meld_iii_oox");
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_oox_iii" : "meld_iii_oox");
 
 	return ball.make_composite(slider);
 }
@@ -706,8 +809,11 @@ merging a spherical (iii) and cylindrical (oof) constraint may result in:
 </ul>
 */
 Joint meld_iii_oof(const Joint& ball, const Joint& axis, const bool flip = false) {
-	log4cpp::CategoryStream& log = ball.log_cf.infoStream();
-	log << (flip ? "meld_oof_iii" : "meld_iii_oof");
+	//log4cpp::CategoryStream& log = ball.log_cf.infoStream();
+	//log << (flip ? "meld_oof_iii" : "meld_iii_oof");
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_oof_iii" : "meld_iii_oof");
 
 	return ball.make_composite(axis);
 }
@@ -723,8 +829,11 @@ merging a prismatic (oox) and planar (xxi) constraint may result in:
 </ul>
 */
 Joint meld_oox_xxi(const Joint& slider, const Joint& planar, const bool flip = false) {
-	log4cpp::CategoryStream& log = slider.log_cf.infoStream();
-	log << (flip ? "meld_xxi_oox" : "meld_oox_xxi");
+	//log4cpp::CategoryStream& log = slider.log_cf.infoStream();
+	//log << (flip ? "meld_xxi_oox" : "meld_oox_xxi");
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_xxi_oox" : "meld_oox_xxi");
 
 	    // the basis vector for the slider 
     e3ga::vector w = e3ga::unit(slider.orientation);
@@ -793,8 +902,11 @@ When they define a fixed joint, the locating point is on the
 axis of the prismatic joint.
 */
 Joint meld_oox_oof(const Joint& slider, const Joint& axis, const bool flip = false) {
-	log4cpp::CategoryStream& log = slider.log_cf.infoStream();
-	log << (flip ? "meld_oof_oox" : "meld_oox_oof");
+	//log4cpp::CategoryStream& log = slider.log_cf.infoStream();
+	//log << (flip ? "meld_oof_oox" : "meld_oox_oof");
+
+	// 
+	isis_LOG(lg, isis_FILE, isis_INFO) << (flip ? "meld_oof_oox" : "meld_oox_oof");
 
 	e3ga::vector u = e3ga::unit(slider.orientation);
 	e3ga::vector v = e3ga::unit(axis.orientation);
@@ -838,16 +950,18 @@ so take care that the major type is greater
 than the minor type.
 */
 Joint Joint::meld(const Joint& that) const {
-	log4cpp::CategoryStream& log = log_cf.infoStream();
+	//log4cpp::CategoryStream& log = log_cf.infoStream();
+
+	// 
 
 	switch( that.type ) {
 	case FIXED: 
-		log << "meld_" 
+		isis_LOG(lg, isis_FILE, isis_INFO) << "meld_" 
 			<< joint_type_code_map[that.type]
 			<< "_ooo";
 		return that;
 	case FREE: 
-		log << "meld_" 
+		isis_LOG(lg, isis_FILE, isis_INFO) << "meld_" 
 			<< joint_type_code_map[this->type]
 			<< "_fff";
 		return *this;
@@ -855,11 +969,11 @@ Joint Joint::meld(const Joint& that) const {
 
 	switch( this->type ) {
 	case FIXED:
-		log << "meld_ooo_" 
+		isis_LOG(lg, isis_FILE, isis_INFO) << "meld_ooo_" 
 			<< joint_type_code_map[this->type];
 		return *this;
 	case FREE:
-		log << "meld_fff_" 
+		isis_LOG(lg, isis_FILE, isis_INFO) << "meld_fff_" 
 			<< joint_type_code_map[that.type];
 		return that;
 	case REVOLUTE:
@@ -987,14 +1101,17 @@ Joint::pair_t infer_joint_pair(std::vector<Joint::pair_t> joints) {
 	for each ( Joint::pair_t joint_pair in joints ) {
 		initial.first = initial.first.meld(joint_pair.first);
 		initial.second = initial.second.meld(joint_pair.second);
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		//
 
-		logcat_fileonly.debugStream() << "initial.first.type:    " << JointType_string(initial.first.type);
-		logcat_fileonly.debugStream() << "initial.first.location:" << initial.first.location.c_str_e20();
-		logcat_fileonly.debugStream() << "initial.first.orientation:" << initial.first.orientation.c_str_e20();
-		logcat_fileonly.debugStream() << "initial.second.type:   " << JointType_string(initial.second.type);
-		logcat_fileonly.debugStream() << "initial.second.location:" << initial.second.location.c_str_e20();
-		logcat_fileonly.debugStream() << "initial.second.orientation:" << initial.second.orientation.c_str_e20();
+		// 
+
+
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "initial.first.type:    " << JointType_string(initial.first.type);
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "initial.first.location:" << initial.first.location.c_str_e20();
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "initial.first.orientation:" << initial.first.orientation.c_str_e20();
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "initial.second.type:   " << JointType_string(initial.second.type);
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "initial.second.location:" << initial.second.location.c_str_e20();
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "initial.second.orientation:" << initial.second.orientation.c_str_e20();
 	}
 	return initial;
 }

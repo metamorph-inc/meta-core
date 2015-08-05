@@ -56,7 +56,7 @@ void ExportRasterImage(	const std::string									&in_AssemblyComponentID,
 						std::map<string, isis::CADComponentData>			&in_CADComponentData_map )
 																	throw (isis::application_exception)
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
 	ProMdl     p_asm;
 	wchar_t  AssemblyName[ISIS_CHAR_BUFFER_LENGTH];
@@ -74,7 +74,7 @@ void ExportRasterImage(	const std::string									&in_AssemblyComponentID,
     int            window_id;
 	isis::isis_ProWindowCurrentGet(&window_id);
 
-	logcat_fileonly.infoStream() << "@@@@@@@@@@@@@@@ Writing tiff file";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "@@@@@@@@@@@@@@@ Writing tiff file";
 	wchar_t  OutFileName_wide[ISIS_CHAR_BUFFER_LENGTH];
 
 	string OutfileName = (const std::string&)in_CADComponentData_map[in_AssemblyComponentID].name + ".tif";
@@ -100,7 +100,7 @@ void ExportDataExchangeFiles_STEP(
 																	throw (isis::application_exception)
 {
 	ProMdl     p_Model;
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
 
 	//////////////////////
 	// Retrieve Model
@@ -259,7 +259,7 @@ void ExportDataExchangeFiles_STEP(
 
 			if ( in_LogProgress )
 			{
-				logcat_consoleandfile.infoStream() << "   Created " << outDirName << " STEP file(s) for "  << in_ModelName;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Created " << outDirName << " STEP file(s) for "  << in_ModelName;
 			}
 		} // END if ( i.dataExchangeFormat == DATA_EXCHANGE_FORMAT_STEP )
 	}  // END 	for each ( DataExchangeSpecification i in in_DataExchangeSpecifications )
@@ -284,7 +284,7 @@ void ExportDataExchangeFiles_Stereolithography_or_Inventor(
 																	throw (isis::application_exception)
 {
 	ProMdl     p_Model;
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
 
 	//////////////////////
 	// Retrieve Model
@@ -422,7 +422,7 @@ void ExportDataExchangeFiles_Stereolithography_or_Inventor(
 
 			if ( in_LogProgress )
 			{
-				logcat_consoleandfile.infoStream() << "   Created " << outDirName << " file(s) for "  << in_ModelName;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Created " << outDirName << " file(s) for "  << in_ModelName;
 			}
 		} // END if ( i.dataExchangeFormat == DATA_EXCHANGE_FORMAT_STEP )
 	}  // END 	for each ( DataExchangeSpecification i in in_DataExchangeSpecifications )
@@ -449,7 +449,7 @@ void ExportDataExchangeFiles_Parasolid(
 																	throw (isis::application_exception)
 {
 	ProMdl     p_Model;
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
 
 	//////////////////////
 	// Retrieve Model
@@ -509,7 +509,7 @@ void ExportDataExchangeFiles_Parasolid(
 
 		if ( in_LogProgress )
 		{
-			logcat_consoleandfile.infoStream() << "   Created " << outDirName << " file(s) for "  << in_ModelName;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Created " << outDirName << " file(s) for "  << in_ModelName;
 		}
 
 

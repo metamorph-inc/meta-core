@@ -1,8 +1,7 @@
 #include "XMLToProEStructures.h"
 #include "DiagnosticUtilities.h"
 #include <iostream>
-#include <log4cpp/Category.hh>
-#include <log4cpp/FileAppender.hh>
+#include "LoggerBoost.h"
 #include "CommonDefinitions.h"
 
 #ifndef ISIS_VERSION_NUMBER_H
@@ -23,9 +22,7 @@
 #include <string>
 #include <sstream>
 
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
-
+#include "LoggerBoost.h"
 
 #define ISIS_CYPHY_2_CAD_DLL_MIN_VERSION_FUNCTIONS "1.2.0.0"
 
@@ -637,7 +634,7 @@ void PopulateGeometry ( const AssemblyInterface::Geometry &in_XML_Geometry, Anal
 void PopulateMetricsInformation(	const vector<AssemblyInterface::Metrics> &in_Metrics_FromXMLFile,
 									list<CADComputation> &in_out_Metrics_ToInternalSturctures )
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
 	for each ( const AssemblyInterface::Metrics j in in_Metrics_FromXMLFile)
 	{
@@ -649,7 +646,7 @@ void PopulateMetricsInformation(	const vector<AssemblyInterface::Metrics> &in_Me
 			std::string ComputationType_temp = isis::ConvertToUpperCase(k.MetricType());		
 			if ( ComputationType_temp ==  "MODES"  ||  ComputationType_temp ==  "DYNAMICS" ) 
 			{
-				logcat_fileonly.warnStream() << "WARNING: Computation type " << std::string(k.MetricType()) << " ignored.  This type is currently not supported.";
+				isis_LOG(lg, isis_FILE, isis_WARN) << "WARNING: Computation type " << std::string(k.MetricType()) << " ignored.  This type is currently not supported.";
 				continue;
 			}
 
@@ -668,17 +665,17 @@ void PopulateMetricsInformation(	const vector<AssemblyInterface::Metrics> &in_Me
 //////////////////////////////////////////////////////////////////////////////////////////////////////		
 void Log_MetricsInformation_SingleMetricType( const vector<AssemblyInterface::Metrics> &in_Metrics_FromXMLFile )
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 	for each ( const AssemblyInterface::Metrics j in in_Metrics_FromXMLFile)
 	{
 		vector<AssemblyInterface::Metric> metric = j.Metric_kind_children();
 		for each ( const AssemblyInterface::Metric k in metric)
 		{
-			logcat_fileonly.infoStream() <<  "   ComponentID:        " << std::string( k.ComponentID());
-			logcat_fileonly.infoStream() <<  "   MetricID:           " << std::string(k.MetricID());
-			logcat_fileonly.infoStream() <<  "   MetricType:         " << std::string(k.MetricType());
-			logcat_fileonly.infoStream() <<  "   RequestedValueType: " << std::string(k.RequestedValueType());
-			logcat_fileonly.infoStream() <<  "   Details:            " << std::string(k.Details());	
+			isis_LOG(lg, isis_FILE, isis_INFO) <<  "   ComponentID:        " << std::string( k.ComponentID());
+			isis_LOG(lg, isis_FILE, isis_INFO) <<  "   MetricID:           " << std::string(k.MetricID());
+			isis_LOG(lg, isis_FILE, isis_INFO) <<  "   MetricType:         " << std::string(k.MetricType());
+			isis_LOG(lg, isis_FILE, isis_INFO) <<  "   RequestedValueType: " << std::string(k.RequestedValueType());
+			isis_LOG(lg, isis_FILE, isis_INFO) <<  "   Details:            " << std::string(k.Details());	
 		}
 	}
 }
@@ -686,14 +683,14 @@ void Log_MetricsInformation_SingleMetricType( const vector<AssemblyInterface::Me
 
 void Log_MetricsInformation_AllMetricTypes( const vector<AssemblyInterface::Analyses> &in_AnalysesVector )
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 	// Log Metrics
-	logcat_fileonly.infoStream() << "Begin Metrics Information:";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "Begin Metrics Information:";
 
 	for each ( AssemblyInterface::Analyses i in in_AnalysesVector )
 	{
 		// Static
-		logcat_fileonly.infoStream() << "Metrics Static Information:";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "Metrics Static Information:";
 		vector<AssemblyInterface::Static> staticVector = i.Static_kind_children();
 		for each ( AssemblyInterface::Static j in staticVector ) 
 		{
@@ -701,7 +698,7 @@ void Log_MetricsInformation_AllMetricTypes( const vector<AssemblyInterface::Anal
 			Log_MetricsInformation_SingleMetricType( metricsVector );
 		}
 		// Ballistic
-		logcat_fileonly.infoStream() << "Metrics Ballistic Information:";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "Metrics Ballistic Information:";
 		vector<AssemblyInterface::Ballistic> BallisticVector = i.Ballistic_kind_children();
 		for each ( AssemblyInterface::Ballistic j in BallisticVector ) 
 		{
@@ -709,7 +706,7 @@ void Log_MetricsInformation_AllMetricTypes( const vector<AssemblyInterface::Anal
 			Log_MetricsInformation_SingleMetricType(	metricsVector );
 		}
 		// Blast
-		logcat_fileonly.infoStream() << "Metrics Blast Information:";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "Metrics Blast Information:";
 		vector<AssemblyInterface::Blast> blastVector = i.Blast_kind_children();
 		for each ( AssemblyInterface::Blast j in blastVector ) 
 		{
@@ -717,7 +714,7 @@ void Log_MetricsInformation_AllMetricTypes( const vector<AssemblyInterface::Anal
 			Log_MetricsInformation_SingleMetricType(	metricsVector );
 		}
 		// CFD
-		logcat_fileonly.infoStream() << "Metrics CFD Information:";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "Metrics CFD Information:";
 		vector<AssemblyInterface::CFD> cFDVector = i.CFD_kind_children();
 		for each ( AssemblyInterface::CFD j in cFDVector ) 
 		{
@@ -725,7 +722,7 @@ void Log_MetricsInformation_AllMetricTypes( const vector<AssemblyInterface::Anal
 			Log_MetricsInformation_SingleMetricType(	metricsVector );
 		}
 	}
-	logcat_fileonly.infoStream() << "End Metrics Information";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "End Metrics Information";
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////						
 void PopulateAnalyses (	 const AssemblyInterface::Analyses &in_Analyses_FromXML,
@@ -1583,7 +1580,7 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 {
 		try
 		{
-			log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+			
 			Udm::SmartDataNetwork ai(AssemblyInterface::diagram);
 			
 			if ( in_InputFormat == XML_DEFINED_BY_FILE )
@@ -1662,27 +1659,27 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 				vector<AssemblyInterface::CADComponent> cadComponentVector = ci->CADComponent_kind_children();
 				if ( cadComponentVector.size() > 0)
 				{
-					logcat_fileonly.infoStream() << "";
-					logcat_fileonly.infoStream() << "******* Begin XML Tree Assembly Table of Contents (Name ComponentID) **********";
-					logcat_fileonly.infoStream()  << "Assembly Configuration ID: " << std::string(ci->ConfigurationID());
+					isis_LOG(lg, isis_FILE, isis_INFO) << "";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "******* Begin XML Tree Assembly Table of Contents (Name ComponentID) **********";
+					isis_LOG(lg, isis_FILE, isis_INFO)  << "Assembly Configuration ID: " << std::string(ci->ConfigurationID());
 				
 					std::stringstream str;
 					stream_IndentedAssemblyTree( 
 										cadComponentVector, 
 										str);
-					logcat_fileonly.infoStream() << str.str();
-					logcat_fileonly.infoStream() << "******* End XML Tree Assembly Table of Contents  (Name ComponentID) ***********";
+					isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
+					isis_LOG(lg, isis_FILE, isis_INFO) << "******* End XML Tree Assembly Table of Contents  (Name ComponentID) ***********";
 
-					logcat_fileonly.infoStream() << "";
-					logcat_fileonly.infoStream() << "************** Begin Entire Assembly XML Tree (Detailed Info) *****************";
-					logcat_fileonly.infoStream() << "Assembly Configuration ID: " << std::string(ci->ConfigurationID());
+					isis_LOG(lg, isis_FILE, isis_INFO) << "";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Entire Assembly XML Tree (Detailed Info) *****************";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Assembly Configuration ID: " << std::string(ci->ConfigurationID());
 					str.clear();
 					stream_AssemblyTree(  
 									cadComponentVector, 
 									str,
 									"Root");
-					logcat_fileonly.infoStream() << str.str();
-					logcat_fileonly.infoStream() << "*************** End XML Entire Assembly Tree (Detailed Info) ******************";		
+					isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
+					isis_LOG(lg, isis_FILE, isis_INFO) << "*************** End XML Entire Assembly Tree (Detailed Info) ******************";		
 				}
 
 				///////////////////////////////////
@@ -1692,15 +1689,15 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 				Log_MetricsInformation_AllMetricTypes( analysesVector);  // All analyses types (i.e. Static, Blast, Ballistic, CFD)
 
 			}
-			logcat_fileonly.infoStream() << "**************************** End Computations  ********************************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "**************************** End Computations  ********************************";
 		
 
 			/////////////////////////////////////////////
 			// Populate ProcessingInstructions Structures
 			/////////////////////////////////////////////
 
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** Begin XML Tree (Data Exchange) *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin XML Tree (Data Exchange) *****************";
 			vector<AssemblyInterface::ProcessingInstructions> processingInstructionsVector = Assemblies_ptr.ProcessingInstructions_kind_children();
 
 			for ( vector<AssemblyInterface::ProcessingInstructions>::const_iterator pr_insts(processingInstructionsVector.begin());
@@ -1724,8 +1721,8 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 			// Populate Data Exchange Structures
 			//////////////////////////////////////
 
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** Begin XML Tree (Data Exchange) *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin XML Tree (Data Exchange) *****************";
 			vector<AssemblyInterface::DataExchange> dataExchangeVector = Assemblies_ptr.DataExchange_kind_children();
 
 			for ( vector<AssemblyInterface::DataExchange>::const_iterator de(dataExchangeVector.begin());
@@ -1742,7 +1739,7 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 																isis::DataExchangeFormat_enum( "STEP" ),
 																isis::DataExchangeVersion_enum( step->Name() ));
 
-					logcat_fileonly.infoStream() << "Step  Format: " << std::string(step->Name());
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Step  Format: " << std::string(step->Name());
 
 					out_CADComponentAssemblies.DataExchangeSpecifications.push_back(tempDataExchangeSpec);
 				}			
@@ -1759,7 +1756,7 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 																isis::DataExchangeFormat_enum(  nsf->FormatType() ), // STEP, STEREOLITHOGRAPHY,  INVENTOR, PARASOLID
 																isis::DataExchangeVersion_enum(  nsf->FormatSubType() ));   // This could be Null/Binary/ASCII/STEP-Formats
 
-					logcat_fileonly.infoStream() << "NonSTEPFormat  Format: " << std::string(nsf->FormatType());
+					isis_LOG(lg, isis_FILE, isis_INFO) << "NonSTEPFormat  Format: " << std::string(nsf->FormatType());
 
 					out_CADComponentAssemblies.DataExchangeSpecifications.push_back(tempDataExchangeSpec);
 				}			
@@ -1774,19 +1771,19 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 					  ++nsf )
 				{
 					out_CADComponentAssemblies.dataExchangeSpecialInstruction.push_back(DataExchangeSpecialInstruction_enum(nsf->Instruction()));			
-					logcat_fileonly.infoStream() << "SpecialDataFormatInstruction  Format: " << std::string(nsf->Instruction());				
+					isis_LOG(lg, isis_FILE, isis_INFO) << "SpecialDataFormatInstruction  Format: " << std::string(nsf->Instruction());				
 				}			
 			}
 
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** End XML Tree (Data Exchange) *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** End XML Tree (Data Exchange) *****************";
 	
 			//////////////////////////////////////////////
 			// Populate Unassembled Components Structures
 			/////////////////////////////////////////////
 			
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** Begin XML Tree (Unassembled Components) *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin XML Tree (Unassembled Components) *****************";
 			vector<AssemblyInterface::UnassembledComponents> unAssembledCompVector = Assemblies_ptr.UnassembledComponents_kind_children();
 
 			for ( vector<AssemblyInterface::UnassembledComponents>::const_iterator unac(unAssembledCompVector.begin());
@@ -1806,33 +1803,33 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 															cadComp->Representation(),
 															cadComp->ComponentID()));
 
-					logcat_fileonly.infoStream() << "UnAssembledComponent, Name: " << std::string(cadComp->Name()) << "  Type: " << std::string(cadComp->Type()) << "  Component Instance ID: " << std::string(cadComp->ComponentID());
+					isis_LOG(lg, isis_FILE, isis_INFO) << "UnAssembledComponent, Name: " << std::string(cadComp->Name()) << "  Type: " << std::string(cadComp->Type()) << "  Component Instance ID: " << std::string(cadComp->ComponentID());
 				}			
 			}
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** End XML Tree (Unassembled Components) *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** End XML Tree (Unassembled Components) *****************";
 			
 			//////////////////////////////////////////
 			// Log Data Exchange Internal Structures
 			//////////////////////////////////////////
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** Begin Data Exchange Internal Structures ***************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Data Exchange Internal Structures ***************";
 			for ( std::list<DataExchangeSpecification>::const_iterator dei(out_CADComponentAssemblies.DataExchangeSpecifications.begin());
 				  dei != out_CADComponentAssemblies.DataExchangeSpecifications.end();
 				  ++dei )
 			{
-				logcat_fileonly.infoStream() << isis::DataExchangeFormat_string(dei->dataExchangeFormat) << "  " << 
+				isis_LOG(lg, isis_FILE, isis_INFO) << isis::DataExchangeFormat_string(dei->dataExchangeFormat) << "  " << 
 					    isis::DataExchangeVersion_string(dei->dataExchangeVersion);
 			}
 
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** End Data Exchange Internal Structures ***************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Data Exchange Internal Structures ***************";
 
 			//////////////////////////////////////////
 			// MetaLinkData
 			//////////////////////////////////////////
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** Begin MetaLinkData ***************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin MetaLinkData ***************";
 			vector<AssemblyInterface::Assembly> assemblyCompVector = Assemblies_ptr.Assembly_kind_children();
 			for (std::vector<AssemblyInterface::Assembly>::const_iterator it = assemblyCompVector.begin(); it !=assemblyCompVector.end(); ++it)
 			{
@@ -1865,11 +1862,11 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 									connector.datums.push_back(datum);
 								}
 								data.connectors.push_back(connector);
-								//logcat.warnStream() << "Connector added. Component: " << (std::string)id << "Connector: " << connector.id;
+								//isis_LOG(lg, isis_FILE, isis_WARN) << "Connector added. Component: " << (std::string)id << "Connector: " << connector.id;
 							}
 						} catch (std::out_of_range &ex)
 						{
-							logcat_fileonly.warnStream() << "FromXMLFile_PopulateCADComponentAssemblyAndMap(): Component not found in map, id:" << (std::string)it->ID();
+							isis_LOG(lg, isis_FILE, isis_WARN) << "FromXMLFile_PopulateCADComponentAssemblyAndMap(): Component not found in map, id:" << (std::string)it->ID();
 						}
 
 					}
@@ -1880,7 +1877,7 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 
 			}
 
-			logcat_fileonly.infoStream() << "************** End MetaLinkData ***************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** End MetaLinkData ***************";
 
 			if ( ai.isOpen()) ai.CloseNoUpdate();
 

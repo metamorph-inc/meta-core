@@ -146,7 +146,9 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="CADCreoParametricCommonFunctions_make" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CADSoftwareEnvirUtils.h" />
@@ -203,11 +205,6 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-    <Import Project="..\..\nuget\log4cpp.redist.1.1.0.2\build\native\log4cpp.redist.targets" Condition="Exists('..\..\nuget\log4cpp.redist.1.1.0.2\build\native\log4cpp.redist.targets')" />
-    <Import Project="..\..\nuget\log4cpp.1.1.0.2\build\native\log4cpp.targets" Condition="Exists('..\..\nuget\log4cpp.1.1.0.2\build\native\log4cpp.targets')" />
-    <Import Project="..\..\nuget\log4cpp.1.1.0.3\build\native\log4cpp.targets" Condition="Exists('..\..\nuget\log4cpp.1.1.0.3\build\native\log4cpp.targets')" />
-    <Import Project="..\..\nuget\log4cpp-vc100.redist.1.1.0.3\build\native\log4cpp-vc100.redist.targets" Condition="Exists('..\..\nuget\log4cpp-vc100.redist.1.1.0.3\build\native\log4cpp-vc100.redist.targets')" />
-    <Import Project="..\..\nuget\log4cpp-vc100.1.1.0.3\build\native\log4cpp-vc100.targets" Condition="Exists('..\..\nuget\log4cpp-vc100.1.1.0.3\build\native\log4cpp-vc100.targets')" />
     <Import Project="..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
   </ImportGroup>
 </Project>

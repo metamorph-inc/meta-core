@@ -3,8 +3,7 @@
 #include <CreoErrorCodes.h>
 #include <MultiFormatString.h>
 #include <StringToEnumConversions.h>
-#include <log4cpp/Category.hh>
-#include <log4cpp/FileAppender.hh>
+#include "LoggerBoost.h"
 #include "CommonDefinitions.h"
 
 // extern "C" FILE* PTApplsUnicodeFopen(const char *filename, const char *mode);
@@ -1316,13 +1315,13 @@ namespace isis
 
 		if ( err != PRO_TK_NO_ERROR ) 
 		{
-			log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-			logcat_fileonly.errorStream() << "p_errors->error_number: " << p_errors->error_number;
+			
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_number: " << p_errors->error_number;
 			for (int i = 0; i < p_errors->error_number; ++i )
 			{
-				logcat_fileonly.errorStream() << "p_errors->error_list[0].error: "<< p_errors->error_list[0].error;
-				logcat_fileonly.errorStream() << "p_errors->error_list[0].err_item_id: "<< p_errors->error_list[0].err_item_id;
-				logcat_fileonly.errorStream() << "p_errors->error_list[0].err_item_type: "<< p_errors->error_list[0].err_item_type;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].error: "<< p_errors->error_list[0].error;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].err_item_id: "<< p_errors->error_list[0].err_item_id;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].err_item_type: "<< p_errors->error_list[0].err_item_type;
 			}
 
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
@@ -1348,13 +1347,13 @@ namespace isis
 
 		if ( err != PRO_TK_NO_ERROR || p_errors->error_number != 0) 
 		{
-			log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-			logcat_fileonly.errorStream() << "p_errors->error_number: " << p_errors->error_number;
+			
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_number: " << p_errors->error_number;
 			for (int i = 0; i < p_errors->error_number; ++i )
 			{
-				logcat_fileonly.errorStream() << "p_errors->error_list[0].error: "<< p_errors->error_list[0].error;
-				logcat_fileonly.errorStream() << "p_errors->error_list[0].err_item_id: "<< p_errors->error_list[0].err_item_id;
-				logcat_fileonly.errorStream() << "p_errors->error_list[0].err_item_type: "<< p_errors->error_list[0].err_item_type;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].error: "<< p_errors->error_list[0].error;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].err_item_id: "<< p_errors->error_list[0].err_item_id;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].err_item_type: "<< p_errors->error_list[0].err_item_type;
 			}
 
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
@@ -1511,11 +1510,11 @@ namespace isis
 	ProError isis_ProDirectoryChange(  ProPath path )
 										throw(isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 		ProError status ;
 		switch ( status = ProDirectoryChange ( path ) ) {
 		case PRO_TK_NO_ERROR: 
-			logcat_fileonly.infoStream() << "The function successfully changed the directory.";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "The function successfully changed the directory.";
 			break;
 		case PRO_TK_BAD_INPUTS:
 			{

@@ -90,21 +90,21 @@ ProError DoSelectDatum()
 
 ProError DoSelect()
 {
-    log4cpp::Category& logcat = ::log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-    logcat.warnStream()
+    
+    isis_LOG(lg, isis_FILE, isis_WARN)
             << "selection in mode: " << isis::GlobalModelData::Instance.mode;
 
     switch(isis::GlobalModelData::Instance.mode)
     {
     case isis::UNDEFINEDMODE:
-        logcat.warn("select/locate is undefined in current mode");
+         isis_LOG(lg, isis_FILE, isis_WARN) << "select/locate is undefined in current mode";
         return PRO_TK_NOT_IMPLEMENTED;
     case isis::COMPONENTEDIT:
         return DoSelectDatum();
     case isis::DESIGNEDIT:
         return DoSelectComponent();
     default:
-        logcat.warnStream()
+        isis_LOG(lg, isis_FILE, isis_WARN)
                 << "select/locate is undefined in current mode "
                 << isis::GlobalModelData::Instance.mode;
         return PRO_TK_NOT_IMPLEMENTED;
@@ -118,7 +118,7 @@ PURPOSE  : Pro/DEVELOP standard initialize
 \*====================================================================*/
 ProError SetupCreoSelectPlugin()
 {
-    log4cpp::Category& logcat = ::log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+    
     ProError status;
     uiCmdCmdId	cmd_id_select;
 
@@ -130,13 +130,13 @@ ProError SetupCreoSelectPlugin()
     case PRO_TK_NO_ERROR:
         break;
     case PRO_TK_BAD_INPUTS:
-        logcat.warnStream() << "One or more input arguments was invalid.";
+        isis_LOG(lg, isis_FILE, isis_WARN) << "One or more input arguments was invalid.";
         return PRO_TK_BAD_INPUTS;
     case PRO_TK_E_NOT_FOUND:
-        logcat.warnStream() << "The message file was not found.";
+        isis_LOG(lg, isis_FILE, isis_WARN) << "The message file was not found.";
         return PRO_TK_E_NOT_FOUND;
     case PRO_TK_MSG_NOT_FOUND:
-        logcat.warnStream() << "One or more messages was not found in the message file.";
+        isis_LOG(lg, isis_FILE, isis_WARN) << "One or more messages was not found in the message file.";
         return PRO_TK_MSG_NOT_FOUND;
     }
     switch(status = ProCmdIconSet(cmd_id_select, "isis_select.png"))
@@ -144,16 +144,16 @@ ProError SetupCreoSelectPlugin()
     case  PRO_TK_NO_ERROR:
         break;
     case PRO_TK_BAD_INPUTS:
-        logcat.warn("The input arguments were invalid.");
+         isis_LOG(lg, isis_FILE, isis_WARN) << "The input arguments were invalid.";
         return PRO_TK_BAD_INPUTS;
     case PRO_TK_E_NOT_FOUND:
-        logcat.warn("The icon file was not found.");
+         isis_LOG(lg, isis_FILE, isis_WARN) << "The icon file was not found.";
         return PRO_TK_E_NOT_FOUND;
     case PRO_TK_INVALID_FILE:
-        logcat.warn("The file specified was not a Creo Parametric .BIF file or a custom .GIF file.");
+         isis_LOG(lg, isis_FILE, isis_WARN) << "The file specified was not a Creo Parametric .BIF file or a custom .GIF file.";
         return PRO_TK_INVALID_FILE;
     default:
-        logcat.warn("The file specified was not of required format.");
+         isis_LOG(lg, isis_FILE, isis_WARN) << "The file specified was not of required format.";
         return status;
     }
 

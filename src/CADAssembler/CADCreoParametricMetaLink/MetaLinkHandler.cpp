@@ -25,7 +25,7 @@ namespace isis
 		const std::string &in_InstanceID,
 		const std::string &in_TargetID,
 		boost::mutex &in_events_mutex):
-	m_logcat(::log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
+		//m_logcat(::log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
 		m_operator(CAD_OPERATOR), m_sequence(1), m_ready(false),
 		m_assembler(assembler_ptr), m_target_id(in_TargetID),
 		m_client(io_service, host, service,
@@ -58,10 +58,10 @@ namespace isis
 		std::string component_guid = m_assembler->LocateComponentOfAssembly(errorList);
 		if(component_guid.empty())
 		{
-			m_logcat.warnStream() << "MetaLinkHandler::send_LocateSelectedRequest(): empty component guid";
+			isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::send_LocateSelectedRequest(): empty component guid";
 			return false;
 		}
-		m_logcat.debugStream() << "MetaLinkHandler::send_LocateSelectedRequest(): component guid: " << component_guid;
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::send_LocateSelectedRequest(): component guid: " << component_guid;
 
 		isis::EditPointer editPtr(new meta::Edit());
 		editPtr->add_mode(meta::Edit_EditMode_POST);
@@ -98,7 +98,7 @@ namespace isis
 			
 		editPtr->add_origin(m_operator);
 
-		m_logcat.debugStream() << "MetaLinkHandler::send_LocateSelectedRequest(): posting locate request";
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::send_LocateSelectedRequest(): posting locate request";
 		m_client.send(editPtr);
 		return true;
 	}
@@ -108,7 +108,7 @@ namespace isis
 	*/
 	bool  MetaLinkHandler::interest(isis::BridgeClient* client, const std::string &in_InstanceID, const std::string &in_TargetID)
 	{
-		m_logcat.infoStream() << "MetaLinkHandler::interest(): " << in_InstanceID << ::log4cpp::eol;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "MetaLinkHandler::interest(): " << in_InstanceID << isis_EOL;
 
 		isis::EditPointer editPtr(new meta::Edit());
 		editPtr->add_mode(meta::Edit_EditMode_INTEREST);
@@ -122,7 +122,7 @@ namespace isis
 
 		// 8/9/2013 try leaving out zzzz editPtr->set_sequence(m_sequence++);  sequence number should't be needed for an interest
 
-		m_logcat.debugStream() << "MetaLinkHandler::interest(): posting interest";
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::interest(): posting interest";
 		client->send(editPtr);
 
 		m_ready = true;
@@ -144,7 +144,7 @@ namespace isis
 
 	bool MetaLinkHandler::processEdit(isis::EditPointer edit)
 	{
-		m_logcat.debugStream() << "MetaLinkHandler::processEdit()";
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::processEdit()";
 		std::string baseTopic = edit->topic(0);
 		meta::Edit_EditMode mode = edit->mode(edit->mode_size()-1);
 
@@ -154,23 +154,23 @@ namespace isis
 			return process_AssemblyDesignPost(edit);
 				// a passive post must specify the "origin" correctly.
 //				return process_PassivePost(edit);
-			m_logcat.warnStream() << "MetaLinkHandler::processEdit(): unknown topic " << baseTopic;
+			isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::processEdit(): unknown topic " << baseTopic;
 			break;
 
 		case meta::Edit_EditMode_DISINTEREST:
-			m_logcat.warnStream() << "MetaLinkHandler::processEdit(): ignoring DISINTEREST";
+			isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::processEdit(): ignoring DISINTEREST";
 			break;
 
 		case meta::Edit_EditMode_INTEREST:
-			m_logcat.warnStream() << "MetaLinkHandler::processEdit(): ignoring INTEREST";
+			isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::processEdit(): ignoring INTEREST";
 			break;
 
 		case meta::Edit_EditMode_NOTICE:
-			m_logcat.warnStream() << "MetaLinkHandler::processEdit(): ignoring NOTICE:" << edit->notices(0).msg();
+			isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::processEdit(): ignoring NOTICE:" << edit->notices(0).msg();
 			break;
 
 		default:
-			m_logcat.warnStream() << "MetaLinkHandler::processEdit(): ignoring " << mode;
+			isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::processEdit(): ignoring " << mode;
 		}
 
 		return false;
@@ -197,7 +197,7 @@ namespace isis
 		// 0 field indicates CAD passive topic
 		if(edit->topic_size() < 1)
 		{
-			m_logcat.warnStream() << "MetaLinkHandler::process_PassivePost(): insufficient topic for passive, topic size: " << edit->topic_size();
+			isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::process_PassivePost(): insufficient topic for passive, topic size: " << edit->topic_size();
 			return false;
 		}
 		// std::string passiveTopic = edit->topic(0);
@@ -216,29 +216,29 @@ namespace isis
 			meta::Action* action = edit->mutable_actions(actionIx);
 			if(! action->has_actionmode())
 			{
-				m_logcat.warnStream() << "MetaLinkHandler::process_PassivePost():no action mode specified";
+				isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::process_PassivePost():no action mode specified";
 				continue;
 			}
 			if(action->actionmode() != meta::Action_ActionMode_SWITCH)
 			{
-				m_logcat.warnStream() << "MetaLinkHandler::process_PassivePost(): wrong action mode specified, action mode: " << action->actionmode();
+				isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::process_PassivePost(): wrong action mode specified, action mode: " << action->actionmode();
 				continue;
 			}
 
 			/*if(! action->has_interest())
 			{
-				m_logcat.warnStream() << "MetaLinkHandler::process_PassivePost(): switch action has no interest";
+				isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::process_PassivePost(): switch action has no interest";
 				continue;
 			}
 			meta::Interest interest = action->interest();
 			if(interest.topic_size() < 1)
 			{
-				m_logcat.warnStream() << "MetaLinkHandler::process_PassivePost(): switch action has no topic";
+				isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::process_PassivePost(): switch action has no topic";
 				continue;
 			}
 			if(interest.uid_size() < 1)
 			{
-				m_logcat.warnStream() << "MetaLinkHandler::process_PassivePost(): switch action has no identifier";
+				isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::process_PassivePost(): switch action has no identifier";
 				continue;
 			}
 
@@ -249,7 +249,7 @@ namespace isis
 
 			editPtr->add_topic(interest.uid(0));
 
-			m_logcat.debugStream() << "MetaLinkHandler::process_PassivePost(): posting interest";
+			isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_PassivePost(): posting interest";
 			m_client.send(editPtr);*/
 		}
 		return true;
@@ -258,14 +258,14 @@ namespace isis
 
 		bool MetaLinkHandler::process_AvmComponentPost_select(isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action)
 		{
-			m_logcat.debugStream() << "MetaLinkHandler::process_AvmComponentPost_select()";
+			isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_AvmComponentPost_select()";
 			bool exp = false;
 			/**
 			* Handle selecting the datums.
 			*/
 			if(! in_Action->has_payload())
 			{
-				m_logcat.warnStream() << "missing payload on select";
+				isis_LOG(lg, isis_FILE, isis_WARN) << "missing payload on select";
 				return false;
 			}
 			meta::Payload payload = in_Action->payload();
@@ -293,7 +293,7 @@ namespace isis
 
 		bool MetaLinkHandler::process_AvmComponentPost_insert(isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action)
 		{
-			m_logcat.debugStream() << "MetaLinkHandler::process_AvmComponentPost_insert()";
+			isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_AvmComponentPost_insert()";
 			/**
 			* Handle setting the environment.
 			*/
@@ -315,7 +315,7 @@ namespace isis
 						ProError err = ProDirectoryChange(const_cast<wchar_t*>((const wchar_t*)newDir));
 						if(err != PRO_TK_NO_ERROR)
 						{
-							m_logcat.warnStream() << "Unable to set new working directory to " << newDir;
+							isis_LOG(lg, isis_FILE, isis_WARN) << "Unable to set new working directory to " << newDir;
 						}
 					}
 				}
@@ -335,14 +335,14 @@ namespace isis
 					m_assembler->UpdateAvmComponentViaXML(payloadBytes);
 					break;
 				case  meta::Alien_EncodingMode_JSON:
-					m_logcat.warnStream() << "no JSON messages recognized for topic ";
+					isis_LOG(lg, isis_FILE, isis_WARN) << "no JSON messages recognized for topic ";
 					break;
 
 				default:
 					/** Print the edit */
 					std::string display;
 					pb::TextFormat::PrintToString(alien, &display);
-					m_logcat.infoStream() << "alien payload [" << in_ActionIx << "]\n" << display;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "alien payload [" << in_ActionIx << "]\n" << display;
 				}
 			}
 
@@ -361,7 +361,7 @@ namespace isis
 			}
 			else
 			{
-				m_logcat.debugStream()<< "MetaLinkHandler::process_AvmComponentPost_insert(): No payload, assuming component without existing CAD part.";
+				isis_LOG(lg, isis_FILE, isis_DEBUG)<< "MetaLinkHandler::process_AvmComponentPost_insert(): No payload, assuming component without existing CAD part.";
 				GlobalModelData::Instance.ComponentEdit.avmId = in_Action->subjectid();
 				isis::GlobalModelData::Instance.mode = isis::COMPONENTEDIT;
 			}
@@ -374,7 +374,7 @@ namespace isis
 		*/
 		bool MetaLinkHandler::process_AssemblyDesignPost(isis::EditPointer edit)
 		{
-			m_logcat.debugStream() << "MetaLinkHandler::process_AssemblyDesignPost()";
+			isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_AssemblyDesignPost()";
 
 			/**
 			* The origin and sequence together provide data for NACK
@@ -457,7 +457,7 @@ namespace isis
 					error = process_AvmComponentPost_insert(edit, actionIx, action);
 					break;
 				default:
-					m_logcat.warnStream() << "MetaLinkHandler::process_AvmComponentPost() no explicit process for the action type: " << action->actionmode() << " [" << __FILE__ << ": " << __LINE__ << "]";
+					isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::process_AvmComponentPost() no explicit process for the action type: " << action->actionmode() << " [" << __FILE__ << ": " << __LINE__ << "]";
 				}
 
 			}
@@ -493,13 +493,13 @@ namespace isis
 	*/
 	bool MetaLinkHandler::process_AssemblyDesignPost_select(isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action)
 	{
-		m_logcat.debugStream() << "MetaLinkHandler::process_AssemblyDesignPost_select()";
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_AssemblyDesignPost_select()";
 		/**
 		* Handle selecting the datums.
 		*/
 		if(! in_Action->has_payload())
 		{
-			m_logcat.infoStream() << "missing payload on select";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "missing payload on select";
 			return false;
 		}
 		meta::Payload payload = in_Action->payload();
@@ -517,7 +517,7 @@ namespace isis
 			}
 			catch(isis::application_exception &ex)
 			{
-				m_logcat.warnStream()
+				isis_LOG(lg, isis_FILE, isis_WARN)
 					<< "Couldn't select component: " << componentInstanceId;
 			}
 		}
@@ -526,7 +526,7 @@ namespace isis
 	//////////////////////////////////////////////
 	bool MetaLinkHandler::process_AssemblyDesignPost_insert(isis::EditPointer edit, int actionIx, meta::Action *action)
 	{
-		m_logcat.debugStream() << "MetaLinkHandler::process_AssemblyDesignPost_insert()";
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_AssemblyDesignPost_insert()";
 		bool exp = false;
 		/**
 		* Handle setting the environment.
@@ -565,14 +565,14 @@ namespace isis
 					break;
 				}
 			case  meta::Alien_EncodingMode_JSON:
-				m_logcat.warnStream() << "no JSON messages recognized for topic ";
+				isis_LOG(lg, isis_FILE, isis_WARN) << "no JSON messages recognized for topic ";
 				break;
 
 			default:
 				/** Print the edit */
 				std::string display;
 				pb::TextFormat::PrintToString(alien, &display);
-				m_logcat.warnStream() << "alien payload [" << actionIx << "]\n" << display;
+				isis_LOG(lg, isis_FILE, isis_WARN) << "alien payload [" << actionIx << "]\n" << display;
 			}
 		}
 
@@ -623,7 +623,7 @@ namespace isis
 	// This currently only handles name change
 	bool MetaLinkHandler::process_AssemblyDesignPost_update(isis::EditPointer edit,  int actionIx, meta::Action *action)
 	{
-		m_logcat.debugStream() << "MetaLinkHandler::process_AssemblyDesignPost_update()";
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_AssemblyDesignPost_update()";
 		bool exp = false;
 		try
 		{
@@ -648,7 +648,7 @@ namespace isis
 		}
 		catch(isis::application_exception& ex)
 		{
-			m_logcat.errorStream() << "ERROR, Function: MetaLinkHandler::process_AssemblyDesignPost_update,  application_exception: " << ex;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_AssemblyDesignPost_update,  application_exception: " << ex;
 		}
 		return false;
 	}
@@ -656,7 +656,7 @@ namespace isis
 	//////////////////////////////////////////////
 	bool MetaLinkHandler::process_AssemblyDesignPost_clear(isis::EditPointer edit,  int actionIx, meta::Action *action)
 	{
-		m_logcat.debugStream() << "MetaLinkHandler::process_AssemblyDesignPost_clear()";
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_AssemblyDesignPost_clear()";
 		bool exp = false;
 		try
 		{
@@ -664,7 +664,7 @@ namespace isis
 		}
 		catch(isis::application_exception& ex)
 		{
-			m_logcat.errorStream() << "ERROR, Function: MetaLinkHandler::process_AssemblyDesignPost_clear,  application_exception: " << ex;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_AssemblyDesignPost_clear,  application_exception: " << ex;
 		}
 		return false;
 	}
@@ -679,7 +679,7 @@ namespace isis
 		}
 		catch(isis::application_exception& ex)
 		{
-			m_logcat.errorStream() << "ERROR, Function: MetaLinkHandler::process_AssemblyDesignPost_clear,  application_exception: " << ex;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_AssemblyDesignPost_clear,  application_exception: " << ex;
 		}
 		return false;
 	}
@@ -688,7 +688,7 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	meta::Notice MetaLinkHandler::process_ComponentModified(meta::CADComponentType &in_component) throw(isis::application_exception)
 	{
-		m_logcat.debugStream() << "MetaLinkHandler::process_ComponentModified()";
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_ComponentModified()";
 
 		try
 		{
@@ -713,20 +713,20 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	meta::Notice MetaLinkHandler::process_ComponentAdded(meta::CADComponentType &in_component) throw(isis::application_exception)
 	{
-		m_logcat.infoStream() << "MetaLinkHandler::process_ComponentAdded()";
-		m_logcat.infoStream() << "**************** Begin Recieved Message Add Component **********************";
-		m_logcat.infoStream() << "************ Begin Message Content *********************";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "MetaLinkHandler::process_ComponentAdded()";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "**************** Begin Recieved Message Add Component **********************";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "************ Begin Message Content *********************";
 
-		m_logcat.infoStream() << "Received a component added message, component name:  " << in_component.name();
+		isis_LOG(lg, isis_FILE, isis_INFO) << "Received a component added message, component name:  " << in_component.name();
 
 		try
 		{
-			m_logcat.warnStream()	<< ::log4cpp::eol << "MetaLinkHandler::process_ComponentAdded. Received message:"
-				<< ::log4cpp::eol << "component.componentid():                "	<<	in_component.componentid()
-				<< ::log4cpp::eol << "component.name():                       "	<<  in_component.name()
-				<< ::log4cpp::eol << "component.type():                       "  <<  in_component.type()
-				<< ::log4cpp::eol << "component.materialid()                  "  <<  in_component.materialid()
-				<< ::log4cpp::eol << "component.specialinstruction()          "  <<  in_component.specialinstruction();
+			isis_LOG(lg, isis_FILE, isis_WARN)	<< isis_EOL << "MetaLinkHandler::process_ComponentAdded. Received message:"
+				<< isis_EOL << "component.componentid():                "	<<	in_component.componentid()
+				<< isis_EOL << "component.name():                       "	<<  in_component.name()
+				<< isis_EOL << "component.type():                       "  <<  in_component.type()
+				<< isis_EOL << "component.materialid()                  "  <<  in_component.materialid()
+				<< isis_EOL << "component.specialinstruction()          "  <<  in_component.specialinstruction();
 
 			const std::string					creoModelName =			in_component.name();
 			const std::string					componentInstanceID =	in_component.componentid();
@@ -737,7 +737,7 @@ namespace isis
 			if(componentInstanceID.size() == 0)
 			{
 				// A message without a componentInstanceID should be ignored.
-				m_logcat.warnStream()
+				isis_LOG(lg, isis_FILE, isis_WARN)
 					<< "MetaLinkHandler::process_ComponentAdded. Received a message with a null componentid. Ignoring the message.";
 				meta::Notice notice;
 				notice.set_noticemode(meta::Notice_NoticeMode_DONE);
@@ -762,10 +762,10 @@ namespace isis
 					meta::CADParameterType parameter = parameters.Get(jx);
 					isis::CADParameter cADParameter;
 
-					m_logcat.warnStream() << "Parameter: ";
-					m_logcat.warnStream() << "   parameter.name():       " << parameter.name();
-					m_logcat.warnStream() << "   parameter.type():       " << parameter.type();
-					m_logcat.warnStream() << "   parameter.value():      " << parameter.value();
+					isis_LOG(lg, isis_FILE, isis_WARN) << "Parameter: ";
+					isis_LOG(lg, isis_FILE, isis_WARN) << "   parameter.name():       " << parameter.name();
+					isis_LOG(lg, isis_FILE, isis_WARN) << "   parameter.type():       " << parameter.type();
+					isis_LOG(lg, isis_FILE, isis_WARN) << "   parameter.value():      " << parameter.value();
 
 					cADParameter.name =		parameter.name();
 					cADParameter.type =		isis::CADParameterType_enum(parameter.type());
@@ -775,7 +775,7 @@ namespace isis
 			}
 			else
 			{
-				m_logcat.infoStream() << "No parameters";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "No parameters";
 			}
 
 			// Add connectors belonging to this component
@@ -789,8 +789,8 @@ namespace isis
 				connectorlist.push_back(connector);
 			}
 
-			m_logcat.warnStream() << "************** End Message Content *********************";
-			m_logcat.warnStream() << "****************** End Recieved Message Add Component **********************";
+			isis_LOG(lg, isis_FILE, isis_WARN) << "************** End Message Content *********************";
+			isis_LOG(lg, isis_FILE, isis_WARN) << "****************** End Recieved Message Add Component **********************";
 			std::vector<isis::CADCreateAssemblyError> errorList;
 			m_assembler->AddComponentToAssembly(
 				componentInstanceID,
@@ -808,7 +808,7 @@ namespace isis
 		catch(isis::application_exception& ex)
 		{
 			ex.setComponentInfo(in_component.name());
-			m_logcat.errorStream() << "ERROR, Function: MetaLinkHandler::process_ComponentAdded, application exception : " << ex;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_ComponentAdded, application exception : " << ex;
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			if(stricmp(ex.get_error_code(), "C00000") != 0)
@@ -825,7 +825,7 @@ namespace isis
 		}
 		catch(std::exception& ex)
 		{
-			m_logcat.errorStream() << "ERROR, Function: MetaLinkHandler::process_ComponentAdded, std::exception : " << ex.what();
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_ComponentAdded, std::exception : " << ex.what();
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			notice.set_msg(ex.what());
@@ -835,7 +835,7 @@ namespace isis
 		}
 		catch(...)
 		{
-			m_logcat.errorStream() << "ERROR: Function: MetaLinkHandler::process_ComponentAdded, caught exception (...).  Please report the error to the help desk.";
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR: Function: MetaLinkHandler::process_ComponentAdded, caught exception (...).  Please report the error to the help desk.";
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			notice.set_msg("Unknown exception.");
@@ -853,16 +853,16 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	meta::Notice MetaLinkHandler::process_ConstraintAdded(meta::ConstraintType  &in_constraints) throw(isis::application_exception)
 	{
-		m_logcat.infoStream() << "MetaLinkHandler::process_ConstraintAdded()";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "MetaLinkHandler::process_ConstraintAdded()";
 		try
 		{
-			m_logcat.infoStream() << "**************** Begin Recieved Message Constraints **********************";
-			m_logcat.infoStream() << "************ Begin Message Content *********************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "**************** Begin Recieved Message Constraints **********************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************ Begin Message Content *********************";
 
 			std::string componentInstanceID = in_constraints.componentid();
 
-			m_logcat.infoStream() << "componentInstanceID: " << componentInstanceID;
-			m_logcat.infoStream() << "Received a constraint added message, component instance ID:  " << componentInstanceID;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "componentInstanceID: " << componentInstanceID;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "Received a constraint added message, component instance ID:  " << componentInstanceID;
 
 			::google::protobuf::RepeatedPtrField< ::edu::vanderbilt::isis::meta::PairType > contraintPairs = in_constraints.pair();
 
@@ -874,10 +874,10 @@ namespace isis
 
 				isis::ConstraintPair  creoConstraintPair;
 
-				m_logcat.infoStream()
+				isis_LOG(lg, isis_FILE, isis_INFO)
 					<< "contraintPair.featurealignmenttype(): " <<	 contraintPair.featurealignmenttype()
-					<< ::log4cpp::eol << "contraintPair.featuregeometrytype():  " <<	contraintPair.featuregeometrytype()
-					<< ::log4cpp::eol << "contraintPair.featureinterfacetype(): " <<	contraintPair.featureinterfacetype();
+					<< isis_EOL << "contraintPair.featuregeometrytype():  " <<	contraintPair.featuregeometrytype()
+					<< isis_EOL << "contraintPair.featureinterfacetype(): " <<	contraintPair.featureinterfacetype();
 
 				creoConstraintPair.featureAlignmentType = isis::ProAsmcompConstrType_enum(contraintPair.featurealignmenttype());
 				creoConstraintPair.featureGeometryType  = isis::FeatureGeometryType_enum(contraintPair.featuregeometrytype());
@@ -886,15 +886,15 @@ namespace isis
 				edu::vanderbilt::isis::meta::ConstraintFeatureType constraintFeature_A = contraintPair.constraintfeaturea();
 				edu::vanderbilt::isis::meta::ConstraintFeatureType constraintFeature_B = contraintPair.constraintfeatureb();
 
-				m_logcat.infoStream()
+				isis_LOG(lg, isis_FILE, isis_INFO)
 					<< "constraintFeature_A.componentid(): "				<< constraintFeature_A.componentid()
-					<< ::log4cpp::eol << "constraintFeature_A.featurename(): "				<< constraintFeature_A.featurename()
-					<< ::log4cpp::eol << "constraintFeature_A.featureorientationtype(): "	<< constraintFeature_A.featureorientationtype();
+					<< isis_EOL << "constraintFeature_A.featurename(): "				<< constraintFeature_A.featurename()
+					<< isis_EOL << "constraintFeature_A.featureorientationtype(): "	<< constraintFeature_A.featureorientationtype();
 
-				m_logcat.infoStream()
+				isis_LOG(lg, isis_FILE, isis_INFO)
 					<< "constraintFeature_B.componentid(): "				<< constraintFeature_B.componentid()
-					<< ::log4cpp::eol << "constraintFeature_B.featurename(): "				<< constraintFeature_B.featurename()
-					<< ::log4cpp::eol << "constraintFeature_B.featureorientationtype(): "	<< constraintFeature_B.featureorientationtype();
+					<< isis_EOL << "constraintFeature_B.featurename(): "				<< constraintFeature_B.featurename()
+					<< isis_EOL << "constraintFeature_B.featureorientationtype(): "	<< constraintFeature_B.featureorientationtype();
 
 				isis::ConstraintFeature  creoConstraintFeature_A;
 				creoConstraintFeature_A.componentInstanceID	 =  constraintFeature_A.componentid();
@@ -911,15 +911,15 @@ namespace isis
 				creoConstraintPairs.push_back(creoConstraintPair);
 
 			}
-			m_logcat.infoStream() << "************** End Message Content *********************"
-				<< ::log4cpp::eol << "****************** End Recieved Message Constraints **********************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Message Content *********************"
+				<< isis_EOL << "****************** End Recieved Message Constraints **********************";
 			m_assembler->ConstrainComponent(componentInstanceID, creoConstraintPairs);
 
 		}  // END Try
 		catch(isis::application_exception& ex)
 		{
 			ex.setComponentInfo(in_constraints.componentid());
-			m_logcat.errorStream() << "ERROR, Function: MetaLinkHandler::process_ConstraintAdded,  " << ex;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_ConstraintAdded,  " << ex;
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			if(stricmp(ex.get_error_code(), "C00000") != 0)
@@ -936,7 +936,7 @@ namespace isis
 		}
 		catch(std::exception& ex)
 		{
-			m_logcat.errorStream() << "ERROR, Function: MetaLinkHandler::process_ConstraintAdded,  " << ex.what();
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_ConstraintAdded,  " << ex.what();
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			notice.set_msg(ex.what());
@@ -946,7 +946,7 @@ namespace isis
 		}
 		catch(...)
 		{
-			m_logcat.errorStream() << "ERROR: Function: MetaLinkHandler::process_ConstraintAdded caught exception (...).  Please report the error to the help desk.";
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR: Function: MetaLinkHandler::process_ConstraintAdded caught exception (...).  Please report the error to the help desk.";
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			notice.set_msg("Unknown exception.");
@@ -964,12 +964,12 @@ namespace isis
 
 	meta::Notice MetaLinkHandler::process_ParametersModified(meta::ParametricParametersType &in_parameters) throw(isis::application_exception)
 	{
-		m_logcat.debugStream() << "MetaLinkHandler::process_ParametersModified()";
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_ParametersModified()";
 		try
 		{
-			m_logcat.infoStream()
-				<< ::log4cpp::eol << "**************** Begin Recieved Message Parameters **********************"
-				<< ::log4cpp::eol << "************ Begin Message Content *********************";
+			isis_LOG(lg, isis_FILE, isis_INFO)
+				<< isis_EOL << "**************** Begin Recieved Message Parameters **********************"
+				<< isis_EOL << "************ Begin Message Content *********************";
 
 			std::string componentInstanceID = in_parameters.componentid();
 
@@ -979,15 +979,15 @@ namespace isis
 
 			isis::CADParameter creoParameter;
 
-			m_logcat.infoStream() << "componentInstanceID: " << componentInstanceID
-				<< ::log4cpp::eol << "Received a parameter modified message, component instance ID:  " << componentInstanceID;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "componentInstanceID: " << componentInstanceID
+				<< isis_EOL << "Received a parameter modified message, component instance ID:  " << componentInstanceID;
 
 			for(int iy=0; iy < cADParameters.size(); ++iy)
 			{
 				meta::CADParameterType parameter = cADParameters.Get(iy);
-				m_logcat.infoStream()  << "parameter.name():  " << parameter.name()
-					<< ::log4cpp::eol << "parameter.value(): " << parameter.value()
-					<< ::log4cpp::eol << "parameter.type():  " <<  isis::CADParameterType_enum(parameter.type());
+				isis_LOG(lg, isis_FILE, isis_INFO)  << "parameter.name():  " << parameter.name()
+					<< isis_EOL << "parameter.value(): " << parameter.value()
+					<< isis_EOL << "parameter.type():  " <<  isis::CADParameterType_enum(parameter.type());
 
 				creoParameter.name = parameter.name();
 				creoParameter.value = parameter.value();
@@ -995,14 +995,14 @@ namespace isis
 
 				creoParameters.push_back(creoParameter);
 			}
-			m_logcat.infoStream() << "************** End Message Content *********************";
-			m_logcat.infoStream() << "****************** End Recieved Message Parameters **********************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Message Content *********************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "****************** End Recieved Message Parameters **********************";
 			m_assembler->ModifyParameters(componentInstanceID, creoParameters);
 		} // END try
 		catch(isis::application_exception& ex)
 		{
 			ex.setComponentInfo(in_parameters.componentid());
-			m_logcat.errorStream() << "ERROR, Function: MetaLinkHandler::process_ParametersModified,  " << ex;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_ParametersModified,  " << ex;
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			if(stricmp(ex.get_error_code(), "C00000") != 0)
@@ -1019,7 +1019,7 @@ namespace isis
 		}
 		catch(std::exception& ex)
 		{
-			m_logcat.errorStream() << "ERROR, Function: MetaLinkHandler::process_ParametersModified,  " << ex.what();
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_ParametersModified,  " << ex.what();
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			notice.set_msg(ex.what());
@@ -1029,7 +1029,7 @@ namespace isis
 		}
 		catch(...)
 		{
-			m_logcat.errorStream() << "ERROR: Function: MetaLinkHandler::process_ParametersModified caught exception (...).  Please report the error to the help desk.";
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR: Function: MetaLinkHandler::process_ParametersModified caught exception (...).  Please report the error to the help desk.";
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			notice.set_msg("Unknown exception.");
@@ -1047,7 +1047,7 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	meta::Notice MetaLinkHandler::process_CreateAssembly(const std::string &in_AssemblyXML) throw(isis::application_exception)
 	{
-		m_logcat.debugStream() << "MetaLinkHandler::process_CreateAssembly()";
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_CreateAssembly()";
 		try
 		{
 			m_assembler->CreateAssembly(in_AssemblyXML);
@@ -1055,7 +1055,7 @@ namespace isis
 		catch(isis::application_exception& ex)
 		{
 			isis::GlobalModelData::Instance.mode = UNDEFINEDMODE;
-			m_logcat.errorStream()  << "ERROR, Function: MetaLinkHandler::process_CreateAssembly,  application_exception: " << ex;
+			isis_LOG(lg, isis_FILE, isis_ERROR)  << "ERROR, Function: MetaLinkHandler::process_CreateAssembly,  application_exception: " << ex;
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			if(stricmp(ex.get_error_code(), "C00000") != 0)
@@ -1072,7 +1072,7 @@ namespace isis
 		}
 		catch(std::exception& ex)
 		{
-			m_logcat.errorStream() << "ERROR, Function: MetaLinkHandler::process_CreateAssembly,  std::exception: " << ex.what();
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_CreateAssembly,  std::exception: " << ex.what();
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			notice.set_msg(ex.what());
@@ -1082,7 +1082,7 @@ namespace isis
 		}
 		catch(...)
 		{
-			m_logcat.errorStream()  << "ERROR: Function: MetaLinkHandler::process_CreateAssembly : caught exception (...).  Please report the error to the help desk.";
+			isis_LOG(lg, isis_FILE, isis_ERROR)  << "ERROR: Function: MetaLinkHandler::process_CreateAssembly : caught exception (...).  Please report the error to the help desk.";
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			notice.set_msg("Unknown exception.");
@@ -1101,10 +1101,10 @@ namespace isis
 	// If in_SearchPaths.size() == 0 then no action taken.
 	meta::Notice MetaLinkHandler::process_SearchPaths(const std::list<std::string> &in_SearchPaths)throw(isis::application_exception)
 	{
-		m_logcat.debugStream() << "MetaLinkAssemblyEditor::process_SearchPaths()";
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkAssemblyEditor::process_SearchPaths()";
 		if(in_SearchPaths.size() == 0)
 		{
-			m_logcat.warnStream()  << "Function MetaLinkHandler::process_SearchPaths received an empty in_SearchPaths.";
+			isis_LOG(lg, isis_FILE, isis_WARN)  << "Function MetaLinkHandler::process_SearchPaths received an empty in_SearchPaths.";
 		}
 
 		try
@@ -1113,7 +1113,7 @@ namespace isis
 		}
 		catch(isis::application_exception& ex)
 		{
-			m_logcat.errorStream() << "ERROR, Function: MetaLinkHandler::process_SearchPaths, application exception " << ex;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_SearchPaths, application exception " << ex;
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			if(stricmp(ex.get_error_code(), "C00000") != 0)
@@ -1130,7 +1130,7 @@ namespace isis
 		}
 		catch(std::exception& ex)
 		{
-			m_logcat.errorStream() << "ERROR, Function: MetaLinkHandler::process_SearchPaths, std::exception " << ex.what() << ::log4cpp::eol;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_SearchPaths, std::exception " << ex.what() << isis_EOL;
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			notice.set_msg(ex.what());
@@ -1139,7 +1139,7 @@ namespace isis
 		}
 		catch(...)
 		{
-			m_logcat.errorStream() << "ERROR: Function: MetaLinkHandler::process_SearchPaths, caught exception(...). " << "Please report the error to the help desk." << ::log4cpp::eol;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR: Function: MetaLinkHandler::process_SearchPaths, caught exception(...). " << "Please report the error to the help desk." << isis_EOL;
 			meta::Notice notice;
 			notice.set_noticemode(meta::Notice_NoticeMode_FAULT);
 			notice.set_msg("Unknown exception.");
@@ -1156,7 +1156,7 @@ namespace isis
 	// Set the CyPhy name of the datums for a component
 	static ProError DatumNameVisit(ProFeature* p_feature, ProError status, ProAppData app_data)
 	{
-		log4cpp::Category& logcat = ::log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 		map<string,string> *datumnamemap = (map<string,string>*)app_data;
 		ProFeattype type;
 		ProFeatureTypeGet(p_feature, &type);
@@ -1185,7 +1185,7 @@ namespace isis
 				ProError err = ProParameterCreate(p_feature, const_cast<wchar_t*>(wstring(CYPHY_NAME.begin(),CYPHY_NAME.end()).c_str()), &v, &param);
 				if(err != PRO_TK_NO_ERROR && err != PRO_TK_E_FOUND)
 				{
-					logcat.warnStream() << "Can't set CYPHY_NAME for " << datumname << ", error: " << err;
+					isis_LOG(lg, isis_FILE, isis_WARN) << "Can't set CYPHY_NAME for " << datumname << ", error: " << err;
 
 				}
 				else if(err == PRO_TK_E_FOUND)
@@ -1193,14 +1193,14 @@ namespace isis
 					err = ProParameterInit(p_feature, const_cast<wchar_t*>(wstring(CYPHY_NAME.begin(),CYPHY_NAME.end()).c_str()), &param);
 					if(err != PRO_TK_NO_ERROR)
 					{
-						logcat.warnStream() << "Can't set CYPHY_NAME for " << datumname << ", error: " << err;
+						isis_LOG(lg, isis_FILE, isis_WARN) << "Can't set CYPHY_NAME for " << datumname << ", error: " << err;
 					}
 					else
 					{
 						err = ProParameterValueSet(&param, &v);
 						if(err != PRO_TK_NO_ERROR)
 						{
-							logcat.warnStream() << "Can't set CYPHY_NAME for " << datumname << ", error: " << err;
+							isis_LOG(lg, isis_FILE, isis_WARN) << "Can't set CYPHY_NAME for " << datumname << ", error: " << err;
 						}
 					}
 				}
@@ -1213,26 +1213,26 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	meta::Notice MetaLinkHandler::process_AvmComponentInitialize(const string& in_AvmComponentID, meta::CADComponentType &in_component) throw (isis::application_exception)
 	{
-		m_logcat.infoStream()  << "**************** Begin Recieved Message Init AVM Component **********************";
-		m_logcat.infoStream()  << "************ Begin Message Content *********************";
+		isis_LOG(lg, isis_FILE, isis_INFO)  << "**************** Begin Recieved Message Init AVM Component **********************";
+		isis_LOG(lg, isis_FILE, isis_INFO)  << "************ Begin Message Content *********************";
 
-		m_logcat.infoStream()  << "Received an AVM component init message, name:  " << in_component.name();
+		isis_LOG(lg, isis_FILE, isis_INFO)  << "Received an AVM component init message, name:  " << in_component.name();
 
 		try
 		{
-			m_logcat.infoStream()	<< ::log4cpp::eol << "MetaLinkHandler::defineComponent. Received message:"
-				<< ::log4cpp::eol << "AVM componentInstanceId:        "  <<  in_AvmComponentID
-				// << ::log4cpp::eol << "component.model():              "	<<  in_component.model()
-				<< ::log4cpp::eol << "component.name():               "	<<  in_component.name()
-				<< ::log4cpp::eol << "component.type():               "  <<  in_component.type()
-				<< ::log4cpp::eol;
+			isis_LOG(lg, isis_FILE, isis_INFO)	<< isis_EOL << "MetaLinkHandler::defineComponent. Received message:"
+				<< isis_EOL << "AVM componentInstanceId:        "  <<  in_AvmComponentID
+				// << isis_EOL << "component.model():              "	<<  in_component.model()
+				<< isis_EOL << "component.name():               "	<<  in_component.name()
+				<< isis_EOL << "component.type():               "  <<  in_component.type()
+				<< isis_EOL;
 
 			const std::string					creoModelName; //  =	        in_component.model()
 			const std::string					creoAvmComponentName =	in_component.name();
 			ProMdlType							creoModelType =			isis::ProMdlType_enum(in_component.type());
 
-			m_logcat.infoStream() << "************** End Message Content *********************";
-			m_logcat.infoStream() << "****************** End Received Message Init Component **********************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Message Content *********************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "****************** End Received Message Init Component **********************";
 
 			m_assembler->InitAvmComponent(in_AvmComponentID, creoModelName, creoAvmComponentName, creoModelType);
 			GlobalModelData::Instance.ComponentEdit.resourceId = in_component.cadmodelid();
@@ -1263,17 +1263,17 @@ namespace isis
 			{
 			case PRO_TK_NO_ERROR:
 				{
-					m_logcat.infoStream() << "ProTreetoolRefresh(): Successfully refreshed model tree.";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "ProTreetoolRefresh(): Successfully refreshed model tree.";
 					break;
 				}
 			case PRO_TK_BAD_INPUTS:
 				{
-					m_logcat.warnStream() << "ProTreetoolRefresh(): Invalid model for UI tree refresh.";
+					isis_LOG(lg, isis_FILE, isis_WARN) << "ProTreetoolRefresh(): Invalid model for UI tree refresh.";
 					break;
 				}
 			case PRO_TK_E_NOT_FOUND:
 				{
-					m_logcat.warnStream() << "ProTreetoolRefresh(): Model tree is not present for UI tree refresh.";
+					isis_LOG(lg, isis_FILE, isis_WARN) << "ProTreetoolRefresh(): Model tree is not present for UI tree refresh.";
 					break;
 				}
 			}

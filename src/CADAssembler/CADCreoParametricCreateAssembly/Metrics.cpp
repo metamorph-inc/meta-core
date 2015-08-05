@@ -300,7 +300,7 @@ void Populate_Single_MetricComponent(
 			CADMetrics::MetricComponents										&out_metricComponentsRoot )
 																						throw (isis::application_exception)
 {
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
 	
 	if ( !in_CADComponentData_map[in_ComponentID].massProperties.massProperties_RetrievalInvoked )
 	{
@@ -653,7 +653,7 @@ void PopulateJoints_for_SingleComponent(
 			CADMetrics::Joints													&out_jointsRoot )
 																						throw (isis::application_exception)
 {
-	log4cpp::Category& logcat = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
 
 	if ( in_CADComponentData_map[in_ComponentID].constraintDef.constraints.size() == 0  ) return;  // No constraints and therefore no joints
@@ -697,7 +697,7 @@ void PopulateJoints_for_SingleComponent(
 		// to assemblies are not of interest.
 		if ( constrainedToComponentInstanceIDs.size() == 0 )
 		{
-			logcat.warnStream() << "Component was not constrained to a part. This is usually due to the first component added to an assembly would only be constrained to the assembly and thus not constrained to a part. " + in_ComponentID;
+			isis_LOG(lg, isis_FILE, isis_WARN) << "Component was not constrained to a part. This is usually due to the first component added to an assembly would only be constrained to the assembly and thus not constrained to a part. " + in_ComponentID;
 			continue;  
 		}
 
@@ -716,7 +716,7 @@ void PopulateJoints_for_SingleComponent(
 		if (in_CADComponentData_map[jointRoot.AssembledComponentInstanceID()].modelType == PRO_MDL_ASSEMBLY && 
 			in_CADComponentData_map[jointRoot.AssembledComponentInstanceID()].specialInstruction == CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT )
 		{
-			logcat.warnStream() << "Only parts and assemblies without CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT appear in joints: " << (string)jointRoot.AssembledComponentInstanceID();
+			isis_LOG(lg, isis_FILE, isis_WARN) << "Only parts and assemblies without CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT appear in joints: " << (string)jointRoot.AssembledComponentInstanceID();
 			continue;
 		}
 
@@ -1051,10 +1051,10 @@ void Log_Anomalies(	const std::map<int, MetricsDefined>	&in_MetricID_to_Anomalie
 					const std::string					&in_MeticsOutputXML_PathAndFileName,
 						  std::map<int, std::string>	&in_MetricID_ModelName_map)
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 	if (in_MetricID_to_Anomalies_map.size() > 0 )
 	{
-		logcat_fileonly.warnStream() << "";
+		isis_LOG(lg, isis_FILE, isis_WARN) << "";
 	}
 
 	for each ( std::pair<int, MetricsDefined>  i in in_MetricID_to_Anomalies_map )
@@ -1064,10 +1064,10 @@ void Log_Anomalies(	const std::map<int, MetricsDefined>	&in_MetricID_to_Anomalie
 		MetricsNotDefinedErrors(i.second, errorStrings);
 
 		for each (std::string j in errorStrings ) 
-			logcat_fileonly.warnStream() << METRICS_FILE_ERROR_string << ", Metric ID: " << i.first << "  Model Name: " <<  setiosflags(ios::left) << std::setw(35) <<in_MetricID_ModelName_map[i.first]  << " Error: " << j;
+			isis_LOG(lg, isis_FILE, isis_WARN) << METRICS_FILE_ERROR_string << ", Metric ID: " << i.first << "  Model Name: " <<  setiosflags(ios::left) << std::setw(35) <<in_MetricID_ModelName_map[i.first]  << " Error: " << j;
 	}
 	if (in_MetricID_to_Anomalies_map.size() > 0 ) 
-		logcat_fileonly.warnStream() << "For a mapping of Metric ID to Component ID, see " << in_MeticsOutputXML_PathAndFileName;
+		isis_LOG(lg, isis_FILE, isis_WARN) << "For a mapping of Metric ID to Component ID, see " << in_MeticsOutputXML_PathAndFileName;
 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1080,30 +1080,30 @@ void OutputCADMetricsToXML_Driver(
 							const std::string								&in_LogFile_PathAndFileName )
 							throw (isis::application_exception, std::exception)
 {
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-		log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+		
+		
 
 		isis::IfFileExists_DeleteFile( in_MeticsOutputXML_PathAndFileName);
 
 		if ( in_regenerationSucceeded_ForAllAssemblies )
 		{
-			logcat_consoleandfile.infoStream() << "";
-			logcat_consoleandfile.infoStream() << "Creating Metrics File";	
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "Creating Metrics File";	
 			
 			bool metricsErrorOccurred;
 			isis::OutputCADMetricsToXML(in_CADAssemblies, in_CADComponentData_map,  in_MeticsOutputXML_PathAndFileName, in_OutputJoints, metricsErrorOccurred);
-			logcat_consoleandfile.infoStream() << "   Created: " + in_MeticsOutputXML_PathAndFileName;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Created: " + in_MeticsOutputXML_PathAndFileName;
 
 			if ( metricsErrorOccurred )
 			{
-				logcat_consoleandfile.errorStream() << "   Error(s) occurred when creating the metrics file.  To view the errors, search on" << log4cpp::eol << 
-										  "   " << isis::METRICS_FILE_ERROR_string <<" in "<< in_LogFile_PathAndFileName << ".  The errors are listed at the end of this file." << log4cpp::eol <<
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "   Error(s) occurred when creating the metrics file.  To view the errors, search on" << isis_EOL << 
+										  "   " << isis::METRICS_FILE_ERROR_string <<" in "<< in_LogFile_PathAndFileName << ".  The errors are listed at the end of this file." << isis_EOL <<
 										  "   Also, the errors are listed in the \"Anomalies\" section of " << in_MeticsOutputXML_PathAndFileName << ".";
 			}
 		}
 		else
 		{		
-			logcat_consoleandfile.errorStream() << "Metrics File - Did NOT create a metrics file because the attempts to regenerate the assembly failed.";	
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "Metrics File - Did NOT create a metrics file because the attempts to regenerate the assembly failed.";	
 		}
 
 }

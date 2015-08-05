@@ -141,8 +141,8 @@ std::string GlobalModelData::GetGuidFromModel(const ProAsmcomppath &in_CompPath)
 
         std::list<int> asmPath = it->second.componentPaths;
         int prefix_length = isPrefixMatch(candidate.componentPaths, in_CompPath.comp_id_table);
-        // isis::GlobalModelData::Instance.m_logcat.warnStream()
-        //	<< " prefix: " << prefix_length << log4cpp::eol
+        // isis::GlobalModelData::Instance.m_isis_LOG(lg, isis_FILE, isis_WARN)
+        //	<< " prefix: " << prefix_length << isis_EOL
         //	<< "candidate: " << candidate.componentID;
         if(prefix_length <= best_length)
         {

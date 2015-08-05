@@ -13,7 +13,7 @@
 #include <iostream>
 
 #include <boost/atomic.hpp>
-#include <log4cpp/Category.hh>
+#include "LoggerBoost.h"
 
 #include "gen/MetaLinkMsg.pb.h"
 
@@ -47,7 +47,7 @@ namespace isis {
 		void disconnect();
 
 	private:
-		::log4cpp::Category& m_logcat;  
+		//::log4cpp::Category& m_logcat;  
 
 		struct BridgeClientImpl;
 		boost::scoped_ptr<BridgeClientImpl> impl;

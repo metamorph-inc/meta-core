@@ -18,13 +18,7 @@
 #include <AssembleUtils.h>
 
 #include <boost/filesystem.hpp>
-
-#include <log4cpp/Category.hh>
-#include <log4cpp/PropertyConfigurator.hh>
-#include <log4cpp/BasicConfigurator.hh>
-#include <log4cpp/PatternLayout.hh>
-#include <log4cpp/OstreamAppender.hh>
-#include <log4cpp/FileAppender.hh>
+#include "LoggerBoost.h"
 #include "CommonDefinitions.h"
 
 //#include "EventLoopMonitor.h"
@@ -49,8 +43,7 @@ ProError ProTermAction(ProeTerminationStatus term_type)
 */
 void informHightlightSelectionEvent(ProSelection selection, ProBoolean highlight, ProAppData ext_data)
 {
-    log4cpp::Category& logcat = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-    logcat.errorStream() << "caught event : "
+    isis_LOG(lg, isis_FILE, isis_ERROR) << "caught event : "
                          << selection << " highlight-toggle: " << highlight << " external-data: " << ext_data;
 }
 
@@ -59,8 +52,7 @@ implements ProAsmcompActivatePreAction()
 */
 ProError metaAsmcompActivatePreAction(ProAsmcomppath *active_path, ProSolid active_model)
 {
-    log4cpp::Category& logcat = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-    logcat.errorStream() << "caught event : "
+    isis_LOG(lg, isis_FILE, isis_ERROR) << "caught event : "
                          << " active-path: " << active_path << " acive-model: " << active_model;
     return PRO_TK_NO_ERROR;
 }
@@ -80,48 +72,20 @@ ProError metaParameterModifyAction(ProParameter *param, ProParamvalue *old_value
     return PRO_TK_NO_ERROR;
 }
 
-void SetupLogging(const std::string logfilename, const log4cpp::Priority::Value level)
+
+void SetupLogging(const std::string logfilename, isis_LogSeverityLevel level)
+
 {
     isis::isis_DeleteFile(logfilename);
 
-    log4cpp::PatternLayout *layout1 = new log4cpp::PatternLayout();
-    layout1->setConversionPattern(log4cpp::PatternLayout::SIMPLE_CONVERSION_PATTERN);
-    log4cpp::PatternLayout *layout2 = new log4cpp::PatternLayout();
-    layout2->setConversionPattern(log4cpp::PatternLayout::SIMPLE_CONVERSION_PATTERN);
-    log4cpp::PatternLayout *layout3 = new log4cpp::PatternLayout();
-    layout3->setConversionPattern(log4cpp::PatternLayout::SIMPLE_CONVERSION_PATTERN);
+	// Always set Console logging to isis_INFO, so that the console output would be consistent
+	init_logging_boost(	true, false, level, isis_INFO, logfilename);
 
-    // Appender for logging to the console
-    log4cpp::Appender *consoleappender2 = new log4cpp::OstreamAppender("console", &std::cout);
-    consoleappender2->setLayout(layout1);
-
-    // Appender for logging to the log file
-    log4cpp::Appender *fileappender1 = new log4cpp::FileAppender("logfile", logfilename);
-    fileappender1->setLayout(layout2);
-
-    // Appender for logging to the log file
-    log4cpp::Appender *fileappender2 = new log4cpp::FileAppender("logfile", logfilename);
-    fileappender2->setLayout(layout3);
-
-    // Category for logging only to the log file
-    log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-    logcat_fileonly.setPriority(level);
-    logcat_fileonly.addAppender(fileappender1);
-
-    // Category for logging both to the log file and to the console (in Meta-Link it's only to the file)
-    log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
-    logcat_consoleandfile.setPriority(level);
-    logcat_consoleandfile.addAppender(fileappender2);
-
-    // Category for logging only to the console
-    log4cpp::Category& logcat_consoleonly = log4cpp::Category::getInstance(LOGCAT_CONSOLEONLY);
-    logcat_consoleonly.setPriority(level);
-    logcat_consoleonly.addAppender(consoleappender2);
 }
 
 void writeConfigProFile(const ::boost::filesystem::path &workingDir, const isis::ProgramInputArguments &programInputArguments)
 {
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 	    ofstream config_Pro;
         ::boost::filesystem::path configPro_PathAndFileName = workingDir / "config.pro";
@@ -163,7 +127,7 @@ void writeConfigProFile(const ::boost::filesystem::path &workingDir, const isis:
         ::boost::filesystem::path protkPath;
         if(hudatExt != NULL)
         {
-            logcat_fileonly.infoStream() << " HuDat present : using custom protk_hudat.dat (" << hudatExt << ")" << ::log4cpp::eol;
+            isis_LOG(lg, isis_FILE, isis_INFO) << " HuDat present : using custom protk_hudat.dat (" << hudatExt << ")" << isis_EOL;
             protkPath = proeIsisExtPath / "plugins" / "protk_hudat.dat";
             if(! ::boost::filesystem::is_regular_file(protkPath))
             {
@@ -181,7 +145,7 @@ void writeConfigProFile(const ::boost::filesystem::path &workingDir, const isis:
         ::boost::filesystem::path modelTreeConfigPath = proeIsisExtPath / "plugins" / treecfgfile;
         if(! ::boost::filesystem::is_regular_file(modelTreeConfigPath))
         {
-            logcat_fileonly.warnStream() << "the model tree config file file has a problem (existance?): "
+            isis_LOG(lg, isis_FILE, isis_WARN) << "the model tree config file file has a problem (existance?): "
                                          << modelTreeConfigPath.string();
             config_Pro << std::endl << "# ";
         }
@@ -222,10 +186,10 @@ int main(int argc, char *argv[])
         // Parse Input Arguments
         programInputArguments.ParseInputArguments(argc, argv);
 
-        // Set log4cpp to use user-specified logfilename
+        // Setup Boost logging
         SetupLogging(programInputArguments.logFileName, programInputArguments.logVerbosity);
 
-        log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+        
 
         Logging_Set_Up = true;
 
@@ -247,11 +211,11 @@ int main(int argc, char *argv[])
         ///////////////////
 
         programName_Version_TimeStamp += isis_CADCommon::GetDayMonthTimeYear();
-        logcat_fileonly.infoStream() << programName_Version_TimeStamp;
+        isis_LOG(lg, isis_FILE, isis_INFO) << programName_Version_TimeStamp;
 
-        logcat_fileonly.infoStream() << "Notes: " << ::log4cpp::eol
-                                     << "   1. The \"Component Instance ID\"s in this file equate to ComponentInstanceIDs in CyPhy."  << ::log4cpp::eol
-                                     << "   2. To map \"Component Instance ID\"s in this file to AVM-IDs, see .\\log\\CyPhy2CAD.log." << ::log4cpp::eol;
+        isis_LOG(lg, isis_FILE, isis_INFO) << "Notes: " << isis_EOL
+                                     << "   1. The \"Component Instance ID\"s in this file equate to ComponentInstanceIDs in CyPhy."  << isis_EOL
+                                     << "   2. To map \"Component Instance ID\"s in this file to AVM-IDs, see .\\log\\CyPhy2CAD.log." << isis_EOL;
 
         time_t time_start; /* calendar time */
         time_start=time(NULL); /* get current cal time */
@@ -262,9 +226,9 @@ int main(int argc, char *argv[])
         {
             inputLine << argv[i] << std::string(" ");
         }
-        logcat_fileonly.infoStream() << "Command line: " << inputLine.str();
+        isis_LOG(lg, isis_FILE, isis_INFO) << "Command line: " << inputLine.str();
 
-		logcat_fileonly.debugStream() << "Input arguments (parsed): " << log4cpp::eol << programInputArguments;
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "Input arguments (parsed): " << isis_EOL << programInputArguments;
 
         if(workingDir.generic_string().size() >= PRO_PATH_SIZE)      // PRO_PATH_SIZE   260
         {
@@ -297,7 +261,7 @@ int main(int argc, char *argv[])
 
         ProTermFuncSet(ProTermAction);
 
-        logcat_fileonly.infoStream() << "Creo-Parametric successfully started.";
+        isis_LOG(lg, isis_FILE, isis_INFO) << "Creo-Parametric successfully started.";
 
         boost::asio::io_service ios;
         std::string delimiters(":");
@@ -310,16 +274,16 @@ int main(int argc, char *argv[])
         {
             host = parts[0];
             service = parts[1];
-            logcat_fileonly.infoStream() << "host: " << host << ", service: " << service;
+            isis_LOG(lg, isis_FILE, isis_INFO) << "host: " << host << ", service: " << service;
         }
         else if(parts.size() > 0)
         {
             host = parts[0];
-            logcat_fileonly.infoStream() << "host: " << host << ", service: " << service << "(default)";
+            isis_LOG(lg, isis_FILE, isis_INFO) << "host: " << host << ", service: " << service << "(default)";
         }
         else
         {
-            logcat_fileonly.infoStream() << "host: " << host << "(default), service: " << service << "(default)";
+            isis_LOG(lg, isis_FILE, isis_INFO) << "host: " << host << "(default), service: " << service << "(default)";
         }
 
         SetupCreoPlugins();
@@ -421,8 +385,8 @@ int main(int argc, char *argv[])
 
         if(Logging_Set_Up)
         {
-            log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-            logcat_fileonly.errorStream() << exceptionErrorStringStream.str();
+            
+            isis_LOG(lg, isis_FILE, isis_ERROR) << exceptionErrorStringStream.str();
         }
         else
         {
@@ -432,7 +396,7 @@ int main(int argc, char *argv[])
     }
 
 
-    /*log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+    /*
     ::boost::filesystem::current_path(original_directory);
 
     // Cleanup - Delete the working dir after execution
@@ -441,55 +405,55 @@ int main(int argc, char *argv[])
     {
     	// Remove files one-by-one so if the directory removal fails still something is removed
     	::boost::filesystem::path deleteFile = workingDir / "*";
-    	logcat_fileonly.debugStream() << workingDir / "*";
+    	isis_LOG(lg, isis_FILE, isis_DEBUG) << workingDir / "*";
     	if (::boost::filesystem::exists(deleteFile) ) {
     		::boost::filesystem::remove_all(deleteFile, ec);
     		if (ec != 0)
     		{
-    			logcat_fileonly.errorStream() << "Failed to remove working directory, ec: " << ec;
+    			isis_LOG(lg, isis_FILE, isis_ERROR) << "Failed to remove working directory, ec: " << ec;
     		}
     	}
     	deleteFile = workingDir;
-    	logcat_fileonly.debugStream() << workingDir;
+    	isis_LOG(lg, isis_FILE, isis_DEBUG) << workingDir;
     	if (::boost::filesystem::exists(deleteFile) ) {
     		::boost::filesystem::remove_all(deleteFile, ec);
     		if (ec != 0)
     		{
-    			logcat_fileonly.errorStream() << "Failed to remove working directory, ec: " << ec;
+    			isis_LOG(lg, isis_FILE, isis_ERROR) << "Failed to remove working directory, ec: " << ec;
     		}
     	}
     } else if (isis::GlobalModelData::Instance.mode == isis::COMPONENTEDIT)
     {
     	::boost::filesystem::path deleteFile = workingDir / "config.pro";
-    	logcat_fileonly.debugStream() << workingDir / "config.pro";
+    	isis_LOG(lg, isis_FILE, isis_DEBUG) << workingDir / "config.pro";
     	if (::boost::filesystem::exists(deleteFile) ) {
     		::boost::filesystem::remove_all(deleteFile, ec);
     		if (ec != 0)
     		{
-    			logcat_fileonly.errorStream() << "Failed to remove working directory, ec: " << ec;
+    			isis_LOG(lg, isis_FILE, isis_ERROR) << "Failed to remove working directory, ec: " << ec;
     		}
     	}
     	deleteFile = workingDir / "std.err";
-    	logcat_fileonly.debugStream() << workingDir / "std.err";
+    	isis_LOG(lg, isis_FILE, isis_DEBUG) << workingDir / "std.err";
     	if (::boost::filesystem::exists(deleteFile) ) {
     		::boost::filesystem::remove_all(deleteFile, ec);
     		if (ec != 0)
     		{
-    			logcat_fileonly.errorStream() << "Failed to remove working directory, ec: " << ec;
+    			isis_LOG(lg, isis_FILE, isis_ERROR) << "Failed to remove working directory, ec: " << ec;
     		}
     	}
     	deleteFile = workingDir / "trail.txt.*";
-    	logcat_fileonly.debugStream() << workingDir / "trail.txt.*";
+    	isis_LOG(lg, isis_FILE, isis_DEBUG) << workingDir / "trail.txt.*";
     	if (::boost::filesystem::exists(deleteFile) ) {
     		::boost::filesystem::remove_all(deleteFile, ec);
     		if (ec != 0)
     		{
-    			logcat_fileonly.errorStream() << "Failed to remove working directory, ec: " << ec;
+    			isis_LOG(lg, isis_FILE, isis_ERROR) << "Failed to remove working directory, ec: " << ec;
     		}
     	}
     }
     */
-    log4cpp::Category::shutdown();
+  
 
     exit(ExitCode);
 }

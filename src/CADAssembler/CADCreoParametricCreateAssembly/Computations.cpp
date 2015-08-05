@@ -226,8 +226,10 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 	//	</Component>
 	//	</Components>
 
-	//log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	//
+	//
+
+	
 
 	std::map<std::string, std::list<CADComputation>> componentID_to_ListofComputations_map;
 	std::map<std::string, std::string> componentID_to_AssemblyComponentID_map;
@@ -250,14 +252,14 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 	// Check for no computations
 	if ( componentID_to_ListofComputations_map.size() == 0 ) 
 	{
-		logcat_consoleandfile.infoStream() << "";
-		logcat_consoleandfile.warnStream() << "No computations requested.  ComputedValues file NOT created.";	
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "No computations requested.  ComputedValues file NOT created.";	
 		return;
 	}
 	else
 	{
-		logcat_consoleandfile.infoStream() << "";
-		logcat_consoleandfile.infoStream() << "Creating ComputedValues File";	
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "Creating ComputedValues File";	
 	}
 
 	Udm::SmartDataNetwork dn_FEAPostProcessingParameters( CADPostProcessingParameters::diagram );
@@ -522,7 +524,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 		// Write XML File
 		//////////////////////////
 		if ( dn_FEAPostProcessingParameters.isOpen()) dn_FEAPostProcessingParameters.CloseWithUpdate();
-		logcat_consoleandfile.infoStream() << "   Created:  " << in_PathAndFileName;	
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Created:  " << in_PathAndFileName;	
 
 	}
 	catch ( ... )
@@ -615,7 +617,7 @@ void CreateXMLFile_RequestedMetrics(
 {
 
 	Udm::SmartDataNetwork dn_Metrics( CADAnalysisMetaData::diagram );
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
 	try
 	{
@@ -623,16 +625,16 @@ void CreateXMLFile_RequestedMetrics(
 
 		RetrieveAllComputations( in_TopLevelAssemblies, cADComputations_WithParentData );
 
-		logcat_fileonly.infoStream() << "";
-		logcat_fileonly.infoStream() << "**** Begin Complete Set of Computations ****";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "**** Begin Complete Set of Computations ****";
 		for each ( CADComputation_WithParentData i in cADComputations_WithParentData )
 		{
-			logcat_fileonly.infoStream() << "**** Computation ****";
-			logcat_fileonly.infoStream() << "configurationID: " << i.configurationID;
-			logcat_fileonly.infoStream() << "topAssemblyComponentInstanceID: " << i.topAssemblyComponentInstanceID;
-			logcat_fileonly.infoStream() << i.cADComputation;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "**** Computation ****";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "configurationID: " << i.configurationID;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "topAssemblyComponentInstanceID: " << i.topAssemblyComponentInstanceID;
+			isis_LOG(lg, isis_FILE, isis_INFO) << i.cADComputation;
 		}
-		logcat_fileonly.infoStream() << "***** End Complete Set of Computations *****";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "***** End Complete Set of Computations *****";
 
 
 		dn_Metrics.CreateNew( in_PathAndFileName, "CADAnalysisMetaData", CADAnalysisMetaData::Metrics::meta);
@@ -707,7 +709,7 @@ void CreateXMLFile_RequestedMetrics(
 		//  </Component>
 		//
 		//</Components>
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 		Udm::SmartDataNetwork dn_CFDParameters ( CADPostProcessingParameters::diagram );
 		if (isis::FileExists( in_PathAndFileName.c_str()) )
@@ -715,10 +717,10 @@ void CreateXMLFile_RequestedMetrics(
 		else
 			dn_CFDParameters.CreateNew( in_PathAndFileName, "CADPostProcessingParameters", CADPostProcessingParameters::Components::meta);\
 
-		logcat_fileonly.infoStream() << "";
-		logcat_fileonly.infoStream() << "Begin **** CreateXMLFile_ComputedValues_Metrics *****";
-		for each ( CADComputation i in in_Metrics ) logcat_fileonly.infoStream() << i;
-		logcat_fileonly.infoStream() << "End **** CreateXMLFile_ComputedValues_Metrics *****";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "Begin **** CreateXMLFile_ComputedValues_Metrics *****";
+		for each ( CADComputation i in in_Metrics ) isis_LOG(lg, isis_FILE, isis_INFO) << i;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "End **** CreateXMLFile_ComputedValues_Metrics *****";
 			
 
 		bool computedValues_Found = false;

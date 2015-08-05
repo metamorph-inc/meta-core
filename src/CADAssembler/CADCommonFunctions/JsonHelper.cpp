@@ -2,7 +2,7 @@
 
 #include "MiscellaneousFunctions.h"
 
-#include <log4cpp/Category.hh>
+#include "LoggerBoost.h"
 #include "CommonDefinitions.h"
 
 #include <boost/property_tree/ptree.hpp>
@@ -94,7 +94,8 @@ namespace isis_CADCommon
 									 std::vector< std::pair<double,double> > in_XSect ) // cross sections
 												throw (isis::application_exception)
 	{
-		log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+		//log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+
 		std::stringstream errorString;
 		using boost::property_tree::ptree;
 		// std::set<std::string> notFoundTags; fix this later
@@ -110,7 +111,7 @@ namespace isis_CADCommon
 				throw isis::application_exception(errorString.str());
 			}
 			std::string canonical_path = p.make_preferred().string();
-			log_cf.infoStream() << "writing hydrostatics.json : " << canonical_path;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "writing hydrostatics.json : " << canonical_path;
 			std::string id = "";
 			
 			ptree pt;
@@ -127,7 +128,7 @@ namespace isis_CADCommon
 
 			BOOST_FOREACH(ptree::value_type& child, pt.get_child("Data")) 
 			{
-				log_cf.infoStream() << "writing hydrostatics.json data";
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "writing hydrostatics.json data";
 				ptree& ct = child.second;
 
 				ct.put<double>("WaterLine", in_WaterLine_Height_zAxis);

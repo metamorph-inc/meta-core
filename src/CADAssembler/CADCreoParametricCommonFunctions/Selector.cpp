@@ -37,8 +37,8 @@ ProError select_geom_action (ProGeomitem* geom_handle, ProError status, ProAppDa
 
 			
 Selector::Selector( ProSelection selection ) 
-	: m_log_f(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
-	  m_log_cf(log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE)),
+	: //m_log_f(isis_FILE_CHANNEL),
+	  //m_log_cf(isis_FILE_AND_CONSOLE_CHANNEL),
 	  m_self(selection)  { }
 
 /**
@@ -55,8 +55,8 @@ ProFeatureGeomitemVisit();  // *I think this is the correct approach*
 ProSurfaceDataGet();
 */
 Selector::Selector( ProMdl in_model, ProFeature in_feature, ProType in_geom_type )
-	: m_log_f(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
-	  m_log_cf(log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE))
+	//: m_log_f(isis_FILE_CHANNEL),
+	//  m_log_cf(isis_FILE_AND_CONSOLE_CHANNEL)
 {
 	ProError status;
 	ProModelitem model_item;
@@ -69,26 +69,26 @@ Selector::Selector( ProMdl in_model, ProFeature in_feature, ProType in_geom_type
 		{
 		case PRO_TK_NO_ERROR: break;
 		case PRO_TK_BAD_INPUTS:
-			m_log_cf.warnStream() << "one or more arguments was invalid.";
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "one or more arguments was invalid.";
 			break;
 		default:
-			m_log_cf.warnStream() 
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) 
 				<< "the action function returned a value other than PRO_TK_NO_ERROR and visiting stopped. " 
 				<< status;
 		}
 	}
-	m_log_cf.infoStream() << "model selected: "
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "model selected: "
 		<< " id = " << model_item.id << " type = " << model_item.type;
 
     switch( status = ProSelectionAlloc(NULL, &model_item, &m_self) ) {
 	case PRO_TK_NO_ERROR: break;
     case PRO_TK_BAD_INPUTS:
-		m_log_cf.errorStream() << "the allocation failed due to bad inputs.";
-		m_log_cf.errorStream() << " component-path: NULL " 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "the allocation failed due to bad inputs.";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << " component-path: NULL " 
 		          << " model-item: " << model_item.id;
 		throw std::runtime_error("selector allocation failed");
 	default: 
-		m_log_cf.errorStream() << "could not allocate selection: " << status;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not allocate selection: " << status;
 		throw std::runtime_error("selector allocation failed");
 	}
 }

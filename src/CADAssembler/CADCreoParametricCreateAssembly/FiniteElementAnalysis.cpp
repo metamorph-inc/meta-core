@@ -1622,7 +1622,7 @@ void CreateXMLFile_FEAPostProcessingParameters(
 	//		</Metrics>
 	//  </Component>
 	//</Components>
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
 	std::map<std::string, std::string> ComponentID_to_NastranMaterialID_map;
 
@@ -1696,11 +1696,11 @@ void CreateXMLFile_FEAPostProcessingParameters(
 
 				std::string tempMatierialID = in_CADComponentData_map[i].materialID_FromCreoPart;
 
-				logcat_fileonly.infoStream() << "Material Info: ";
-				logcat_fileonly.infoStream() << "   Component Instance ID: "  << i;
-				logcat_fileonly.infoStream() << "   Component Name:        "  <<  in_CADComponentData_map[i].name;
-				logcat_fileonly.infoStream() << "   MaterialId:            "  <<  tempMatierialID;
-				logcat_fileonly.infoStream() << "   in_CADComponentData_map[i].materialID_FromCreoPart: " << in_CADComponentData_map[i].materialID_FromCreoPart;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Material Info: ";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Instance ID: "  << i;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Name:        "  <<  in_CADComponentData_map[i].name;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   MaterialId:            "  <<  tempMatierialID;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[i].materialID_FromCreoPart: " << in_CADComponentData_map[i].materialID_FromCreoPart;
 
 				isis::ComputeAllowableStressLevels(	numberOfCycles,in_Materials[tempMatierialID].analysisMaterialProperties, 
 											materialPropertiesAllowables );
@@ -1936,8 +1936,8 @@ void Create_FEADecks_BatFiles(
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																	throw (isis::application_exception)
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	//////////////////////////////////////
 	// Create Analysis Directories
@@ -2133,10 +2133,10 @@ void Create_FEADecks_BatFiles(
 	/////////////////////////////
 	std::map<std::string, std::string> NastranMaterialID_to_CompnentID_map;
 
-	logcat_consoleandfile.infoStream() << "";
-	logcat_consoleandfile.infoStream()  << "Creating finite element mesh, this could take a few minutes ...";
-	logcat_fileonly.infoStream() << "";
-	logcat_fileonly.infoStream()  << "Creating finite element mesh";
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)  << "Creating finite element mesh, this could take a few minutes ...";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_FILE, isis_INFO)  << "Creating finite element mesh";
 	// WARNING - Do not save the assembly/models after this point.  Doing so will save the temporarily created material.
 	isis::CreateFEADeck(	in_Materials,
 							in_ProgramName_Version_TimeStamp, 
@@ -2193,14 +2193,14 @@ void Create_FEADecks_BatFiles(
 	postProcessingParametersFile.close();
 	*/
 
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" << originalMeshFileName;
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" << modifiedMeshFileName ;
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + abaqusDirName + "\\" <<  abaqusAnalysisBatFileName ;
-	//logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + abaqusDirName + "\\" <<  abaqusPostProcessingParametersXMLFileName;
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + caculixDirName + "\\" <<  calculixDeckBatFileName;
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + caculixDirName + "\\" <<  calculixLinuxBatFileName;
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + nastranDirName + "\\" <<  nastranAnalysisBatFileName ;
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + nastranDirName + "\\" <<  fEAAnalysisMetaDataFile;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" << originalMeshFileName;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" << modifiedMeshFileName ;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" + abaqusDirName + "\\" <<  abaqusAnalysisBatFileName ;
+	//isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" + abaqusDirName + "\\" <<  abaqusPostProcessingParametersXMLFileName;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" + caculixDirName + "\\" <<  calculixDeckBatFileName;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" + caculixDirName + "\\" <<  calculixLinuxBatFileName;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" + nastranDirName + "\\" <<  nastranAnalysisBatFileName ;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" + nastranDirName + "\\" <<  fEAAnalysisMetaDataFile;
 
 
 }

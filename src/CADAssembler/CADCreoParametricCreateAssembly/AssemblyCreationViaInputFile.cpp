@@ -53,9 +53,6 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 
 	cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
 	
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& logcat_consoleonly = log4cpp::Category::getInstance(LOGCAT_CONSOLEONLY);
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
 
 	//bool Pro_E_Running = false;
 	bool Template_Copied = false;
@@ -94,13 +91,13 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 
 		if ( out_CADComponentAssemblies.topLevelAssemblies.size() == 0 ) 
 		{
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "*************************** Begin Assembly Creation **************************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "*************************** Begin Assembly Creation **************************";
 			std::stringstream informationString;
 			informationString << "No assemblies were created because the input xml file, " 
 					  << std::endl << in_XMLInputFile_PathAndFileName 
 					  << ", did not define any assemblies.";
-			logcat_fileonly.warnStream() << informationString.str();
+			isis_LOG(lg, isis_FILE, isis_WARN) << informationString.str();
 
 			if ( out_CADComponentAssemblies.unassembledComponents.size() == 0 )
 			{
@@ -112,7 +109,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 						 << std::endl << "The input xml file must specify assemblies and/or unassembled parts/sub-assemblies."; 
 						throw isis::application_exception(errorString.str());
 			}
-			logcat_fileonly.infoStream() << "************************** End Assembly Creation *****************************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************************** End Assembly Creation *****************************";
 		}
 
 		///////////////////////////////////
@@ -138,12 +135,12 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 																	out_CADComponentData_map, 
 																	fromModel_ToModel );
 
-		logcat_fileonly.infoStream() << "";
-		logcat_fileonly.infoStream() << "************** Begin Modified Part Names for Multiple Parametric Parts *****************";
-		logcat_fileonly.infoStream() << "From-Model-Name    To-Model-Name    Model-Type";
-		logcat_fileonly.infoStream() << fromModel_ToModel;
-		logcat_fileonly.infoStream() << "";
-		logcat_fileonly.infoStream() << "************** End Modified Part Names for Multiple Parametric Parts *****************";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Modified Part Names for Multiple Parametric Parts *****************";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "From-Model-Name    To-Model-Name    Model-Type";
+		isis_LOG(lg, isis_FILE, isis_INFO) << fromModel_ToModel;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Modified Part Names for Multiple Parametric Parts *****************";
 
 		// If this is an analysis run, must modify so that each part has a unique name.  
 		// e.g. if Part_A appears three times
@@ -240,12 +237,12 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 			////////////////////////////
 			// Log Part Copy/Renames
 			///////////////////////////
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << log4cpp::eol << "************** Begin Modified Part Names for Analysis Purposes *****************";
-			logcat_fileonly.infoStream() << "From_Part_Name   To_Part_Name";
-			logcat_fileonly.infoStream() << fromModel_ToModel;
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << log4cpp::eol << "************** End Modified Part Names for Analysis Purposes *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << isis_EOL << "************** Begin Modified Part Names for Analysis Purposes *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "From_Part_Name   To_Part_Name";
+			isis_LOG(lg, isis_FILE, isis_INFO) << fromModel_ToModel;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << isis_EOL << "************** End Modified Part Names for Analysis Purposes *****************";
 		}
 		
 
@@ -260,29 +257,29 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 		//	  ++i )
 		for each( isis::TopLevelAssemblyData i in out_CADComponentAssemblies.topLevelAssemblies)
 		{
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** Begin Entire Tree For a Single Assembly  *****************";
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** Begin Assembly Level Computations (i.e. Metrics)  *****************";
-			for each ( CADComputation ii in i.assemblyMetrics ) logcat_fileonly.infoStream() << ii;
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** End Assembly Level Computations (i.e. Metrics)  *******************";
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** Begin Analysis Data For a Single Assembly  *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Entire Tree For a Single Assembly  *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Assembly Level Computations (i.e. Metrics)  *****************";
+			for each ( CADComputation ii in i.assemblyMetrics ) isis_LOG(lg, isis_FILE, isis_INFO) << ii;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Assembly Level Computations (i.e. Metrics)  *******************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Analysis Data For a Single Assembly  *****************";
 			std::stringstream str;
 			stream_AnalysisInputData( i.analysesCAD, str);
-			logcat_fileonly.infoStream() << str.str();
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** End Analysis Data For a Single Assembly  *****************";
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** Begin Entire Component Data Tree (CAD Internal Structures) *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Analysis Data For a Single Assembly  *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Entire Component Data Tree (CAD Internal Structures) *****************";
 			str.clear();
 			stream_AssemblyCADComponentData( i.assemblyComponentID, out_CADComponentData_map, str);
-			logcat_fileonly.infoStream() << str.str();
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** Begin Entire Component Data Tree (CAD Internal Structures) *****************";
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "************** End Entire Tree For a Single Assembly  *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Entire Component Data Tree (CAD Internal Structures) *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Entire Tree For a Single Assembly  *****************";
 		}
 
 		///////////////////////////////////////////////////////////////////////////////////
@@ -339,8 +336,8 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 		/////////////////////////////
 		/////// Start Pro/E /////////
 		/////////////////////////////
-		logcat_consoleonly.infoStream()  << "CADCreoParametricCreateAssembly "<< ASSEMBLE_PTC_VERSION;
-		logcat_consoleonly.infoStream()  << "Starting Creo-Parametric, this takes about 10 seconds...";
+		isis_LOG(lg, isis_CONSOLE, isis_INFO)  << "CADCreoParametricCreateAssembly "<< ASSEMBLE_PTC_VERSION;
+		isis_LOG(lg, isis_CONSOLE, isis_INFO)  << "Starting Creo-Parametric, this takes about 10 seconds...";
 
 		char tempBuffer[1024];
 		strcpy(tempBuffer, in_CreoStartCommand.c_str() );
@@ -348,7 +345,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 
 		int creoVersionNumber;
 		isis_ProEngineerReleaseNumericversionGet(&creoVersionNumber);
-		logcat_fileonly.infoStream() << "Creo Version Number: " <<  creoVersionNumber << ".  Creo Parametric 2.0 is version 31.";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "Creo Version Number: " <<  creoVersionNumber << ".  Creo Parametric 2.0 is version 31.";
 
 		out_Pro_E_Running = true;
 		cout <<  endl << "Creo-Parametric successfully started." << endl;
@@ -427,16 +424,16 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 
 			time_t time_elapsed = time_end - time_start;
 
-			logcat_consoleandfile.infoStream() << "";
-			logcat_consoleandfile.infoStream() << "Assembly creation completed successfully.";
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "Assembly creation completed successfully.";
 
 			// Get component count
 			isis::ComponentVistorCountAssemblyComponents  componentVistorCountAssemblyComponents;
 			isis::VisitComponents(i->assemblyComponentID, out_CADComponentData_map, componentVistorCountAssemblyComponents);
 
 			// Log component count
-			logcat_consoleandfile.infoStream() << "   Number of assembled components: " << componentVistorCountAssemblyComponents.numberOfComponents;
-			logcat_consoleandfile.infoStream() << "   Elapsed wall-clock time:        " << time_elapsed << " seconds";
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Number of assembled components: " << componentVistorCountAssemblyComponents.numberOfComponents;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Elapsed wall-clock time:        " << time_elapsed << " seconds";
 
 			time_start=time(NULL); // reset start time for subsequent assemblies if any
 
@@ -481,12 +478,12 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 					////////////////////////////
 					// Log Part Copy/Renames
 					///////////////////////////
-					logcat_fileonly.infoStream() << "";
-					logcat_fileonly.infoStream()  << "************** Begin Modified Part Names for Analysis Purposes *****************";
-					logcat_fileonly.infoStream() << "From_Part_Name   To_Part_Name";
-					logcat_fileonly.infoStream() << fromModel_ToModel_FEA;
-					logcat_fileonly.infoStream() << "";
-					logcat_fileonly.infoStream()  << "************** End Modified Part Names for Analysis Purposes *****************";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "";
+					isis_LOG(lg, isis_FILE, isis_INFO)  << "************** Begin Modified Part Names for Analysis Purposes *****************";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "From_Part_Name   To_Part_Name";
+					isis_LOG(lg, isis_FILE, isis_INFO) << fromModel_ToModel_FEA;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "";
+					isis_LOG(lg, isis_FILE, isis_INFO)  << "************** End Modified Part Names for Analysis Purposes *****************";
 
 					if ( fromModel_ToModel_FEA.size() > 0 ) isis::CopyModels(fromModel_ToModel_FEA);
 
@@ -669,13 +666,13 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 
 			}  // END if ( OutputJointInformation )
 
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "*** BEGIN Entire Component Data Tree with Internal Addresses, Leaf Subordinates (if requested), and Joints (if requested) ****";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "*** BEGIN Entire Component Data Tree with Internal Addresses, Leaf Subordinates (if requested), and Joints (if requested) ****";
 			std::stringstream str;
 			stream_AssemblyCADComponentData( i->assemblyComponentID, out_CADComponentData_map, str );
-			logcat_fileonly.infoStream() << str.str();
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "*** END Begin Entire Component Data Tree with Internal Addresses, Leaf Subordinates (if requested), and Joints (if requested) ****";
+			isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "*** END Begin Entire Component Data Tree with Internal Addresses, Leaf Subordinates (if requested), and Joints (if requested) ****";
 
 			/* Old Metrics outpu should not be here because it applies to all assemblies
 			/////////////////////////////////////////////
@@ -695,7 +692,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 			}
 			else
 			{
-				logcat_consoleandfile.warnStream() << "\nMetrics file not created because all assemblies did not regenerate.";
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "\nMetrics file not created because all assemblies did not regenerate.";
 			}
 
 			*/
@@ -725,16 +722,16 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 			{
 				if ( regenerationSucceeded )
 				{
-					logcat_consoleonly.infoStream() << "";
-					logcat_consoleonly.infoStream() << log4cpp::eol << "Exporting STEP files, this could take several minutes...";
-					logcat_fileonly.infoStream() << "";
-					logcat_fileonly.infoStream() << log4cpp::eol << "Exporting STEP files";
+					isis_LOG(lg, isis_CONSOLE, isis_INFO) << "";
+					isis_LOG(lg, isis_CONSOLE, isis_INFO) << isis_EOL << "Exporting STEP files, this could take several minutes...";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "";
+					isis_LOG(lg, isis_FILE, isis_INFO) << isis_EOL << "Exporting STEP files";
 					
-					logcat_fileonly.infoStream() << "STEP file formats: ";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "STEP file formats: ";
 
 					for each( isis::DataExchangeSpecification de in out_CADComponentAssemblies.DataExchangeSpecifications)
 					{
-						logcat_fileonly.infoStream() << "   " << isis::DataExchangeVersion_string(de.dataExchangeVersion);
+						isis_LOG(lg, isis_FILE, isis_INFO) << "   " << isis::DataExchangeVersion_string(de.dataExchangeVersion);
 					}
 					
 					isis::ExportDataExchangeFiles(	 i->assemblyComponentID,
@@ -748,8 +745,8 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 					/////////////////////////////////
 					if ( manufacturingManifestJsonExists && separateStepPartFilesRequested )
 					{
-						logcat_fileonly.infoStream() << "";
-						logcat_fileonly.infoStream() << "Updating Manufacturing Manifest (manufacturing.manifest.json) for assembly: " << i->assemblyComponentID;
+						isis_LOG(lg, isis_FILE, isis_INFO) << "";
+						isis_LOG(lg, isis_FILE, isis_INFO) << "Updating Manufacturing Manifest (manufacturing.manifest.json) for assembly: " << i->assemblyComponentID;
 						isis::UpdateManufacturingManifestWithSTEPFileInfo(
 														stepFileVersion_ForManufacturing, 
 														i->assemblyComponentID, 
@@ -761,14 +758,14 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 				}
 				else
 				{
-					logcat_consoleandfile.errorStream() << "";
-					logcat_consoleandfile.errorStream() << "STEP Files - Did NOT export STEP file(s) because the attempts to regenerate the assembly failed.";	
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "STEP Files - Did NOT export STEP file(s) because the attempts to regenerate the assembly failed.";	
 				}
 			}
 			else
 			{
-				logcat_consoleandfile.warnStream() << "";
-				logcat_consoleandfile.warnStream() << "STEP Files - Export of STEP files was not explicitly requested; however, STEP files may be exported for particular analyses (e.g. FEA).";		
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "";
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "STEP Files - Export of STEP files was not explicitly requested; however, STEP files may be exported for particular analyses (e.g. FEA).";		
 			}
 
 			/////////////////////////////////////////////
@@ -776,25 +773,25 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 			/////////////////////////////////////////////
 			if ( !manufacturingManifestUpdated )
 			{
-				logcat_fileonly.warnStream() << "";
-				logcat_fileonly.warnStream()  << "Manufacturing manifest (i.e. manufacturing.manifest.json) NOT updated for assembly: " << out_CADComponentData_map[i->assemblyComponentID].name;
-				logcat_fileonly.warnStream() << "   For the manufacturing manifest to be updated, all three of the following must be True"; 
+				isis_LOG(lg, isis_FILE, isis_WARN) << "";
+				isis_LOG(lg, isis_FILE, isis_WARN)  << "Manufacturing manifest (i.e. manufacturing.manifest.json) NOT updated for assembly: " << out_CADComponentData_map[i->assemblyComponentID].name;
+				isis_LOG(lg, isis_FILE, isis_WARN) << "   For the manufacturing manifest to be updated, all three of the following must be True"; 
 				if (separateStepPartFilesRequested )
-					logcat_fileonly.warnStream() << "      Separate STEP Part Files Requested = True";
+					isis_LOG(lg, isis_FILE, isis_WARN) << "      Separate STEP Part Files Requested = True";
 				else
-					logcat_fileonly.warnStream() << "      Separate STEP Part Files Requested = False";
+					isis_LOG(lg, isis_FILE, isis_WARN) << "      Separate STEP Part Files Requested = False";
 
 				if (regenerationSucceeded )
-					logcat_fileonly.warnStream() << "      Assembly Regeneration Succeeded    = True";
+					isis_LOG(lg, isis_FILE, isis_WARN) << "      Assembly Regeneration Succeeded    = True";
 				else
-					logcat_fileonly.warnStream() << "      Assembly Regeneration Succeeded    = False";
+					isis_LOG(lg, isis_FILE, isis_WARN) << "      Assembly Regeneration Succeeded    = False";
 
 				if (manufacturingManifestJsonExists )
-					logcat_fileonly.warnStream() << "      Manufacturing Manifest Exists      = True";
+					isis_LOG(lg, isis_FILE, isis_WARN) << "      Manufacturing Manifest Exists      = True";
 				else
 				{
-					logcat_fileonly.warnStream() << "      Manufacturing Manifest Exists      = False";
-					logcat_fileonly.warnStream() <<  isis::CouldNotFindManufacturingManifestError;
+					isis_LOG(lg, isis_FILE, isis_WARN) << "      Manufacturing Manifest Exists      = False";
+					isis_LOG(lg, isis_FILE, isis_WARN) <<  isis::CouldNotFindManufacturingManifestError;
 				}
 			}
 
@@ -848,13 +845,13 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 								"  Creo Material Name:    " <<  out_CADComponentData_map[mat_pair.first].materialID_FromCreoPart  <<  std::endl << 
 								"  Using Material Name:   " <<  out_CADComponentData_map[mat_pair.first].materialID_FromCreoPart << std::endl;
 
-							logcat_consoleandfile.errorStream() << errorString.str();
+							isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << errorString.str();
 
 						}
 					}
 				}
 				if ( materialMisMatchFound ) 
-					logcat_fileonly.warnStream() << "Material name(s) in CyPhy differ from material name(s) in the Creo Part(s). See " << 
+					isis_LOG(lg, isis_FILE, isis_WARN) << "Material name(s) in CyPhy differ from material name(s) in the Creo Part(s). See " << 
 					in_LogFile_PathAndFileName << " in the log directory for a listing of the differences.  Search on WARNING.";
 
 				//for each ( std::string i_temp in assembllyComponenteIDs.listOfComponentIDs ) 
@@ -871,10 +868,10 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 					isis::ReadMaterialsLibrary( MaterialsLibrary_PathAndFileName(), materialNames, out_CADComponentAssemblies.materials);
 
 					// Log materials
-					logcat_fileonly.infoStream() << "Materials: ";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Materials: ";
 					for each ( std::pair<std::string, isis::Material> i in out_CADComponentAssemblies.materials )
 					{
-						logcat_fileonly.infoStream() << i.second.analysisMaterialProperties;
+						isis_LOG(lg, isis_FILE, isis_INFO) << i.second.analysisMaterialProperties;
 					}
 				}
 				catch (isis::application_exception &ex )
@@ -882,9 +879,9 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 					materialLibLookup_ErrorsOccured = true;
 					if ( fEAAnalysisAbaqusModelBasedRun )
 					{
-						logcat_consoleandfile.infoStream() << "\n\nWARNING: Material lookup anomalies.  This may/may-not cause problems with Abaqus model-based FEA. ";
-						logcat_consoleandfile.infoStream() << "         If a lack of material information causes a problem with FEA, the FEA job will fail and the FEA log will explain the error condition.";
-						logcat_consoleandfile.infoStream() << "         " << ex.what();
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "\n\nWARNING: Material lookup anomalies.  This may/may-not cause problems with Abaqus model-based FEA. ";
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "         If a lack of material information causes a problem with FEA, the FEA job will fail and the FEA log will explain the error condition.";
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "         " << ex.what();
 					}
 					else
 					{
@@ -928,15 +925,15 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 						catch (isis::application_exception &ex )
 						{
 
-							logcat_consoleandfile.infoStream() << "\n\nWARNING: Material lookup anomalies.  This may/may-not cause problems with Abaqus model-based FEA. ";
-							logcat_consoleandfile.infoStream() << "         If a lack of material information causes a problem with FEA, the FEA job will fail and the FEA log will explain the error condition.";
-							logcat_consoleandfile.infoStream() << "         " << ex.what();
+							isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "\n\nWARNING: Material lookup anomalies.  This may/may-not cause problems with Abaqus model-based FEA. ";
+							isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "         If a lack of material information causes a problem with FEA, the FEA job will fail and the FEA log will explain the error condition.";
+							isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "         " << ex.what();
 						}
 
 					}
 					else
 					{
-						logcat_fileonly.infoStream() << "\nFile AnalysisMetaData.xml not created because there were errors reading all the material information from them material library";
+						isis_LOG(lg, isis_FILE, isis_INFO) << "\nFile AnalysisMetaData.xml not created because there were errors reading all the material information from them material library";
 					}
 				}
 
@@ -1009,11 +1006,11 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 					 out_CADComponentAssemblies.unassembledComponents.size() == 0 &&  
 					 out_CADComponentAssemblies.topLevelAssemblies.size() == 1)
 				{			
-					logcat_consoleandfile.infoStream() << "";
-					logcat_consoleandfile.infoStream() << "Creating Interference File";	
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "Creating Interference File";	
 
-					logcat_consoleandfile.infoStream() << "   Created:    " + InterferenceReport_PathAndFileName;
-					logcat_consoleandfile.infoStream() << "   Populating: " + InterferenceReport_PathAndFileName + ", Note: For large assemblies, this could take several minutes.";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Created:    " + InterferenceReport_PathAndFileName;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Populating: " + InterferenceReport_PathAndFileName + ", Note: For large assemblies, this could take several minutes.";
 					try 
 					{
 						CreateInterferenceReport( InterferenceReport_PathAndFileName, i->assemblyComponentID, interferenceCount_CADComputations[0], out_CADComponentData_map );
@@ -1021,40 +1018,40 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 
 					catch ( isis::application_exception& ex )
 					{
-						logcat_consoleandfile.infoStream() << "\nError occurred when computing interferences: " << ex.what();
-						logcat_consoleandfile.infoStream() << "\nContinue processing...";
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "\nError occurred when computing interferences: " << ex.what();
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "\nContinue processing...";
 					}
 					catch ( std::exception& ex )
 					{
-						logcat_consoleandfile.infoStream() << "\nError occurred when computing interferences: " << ex.what();
-						logcat_consoleandfile.infoStream() << "\nContinue processing...";
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "\nError occurred when computing interferences: " << ex.what();
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "\nContinue processing...";
 					}
 					catch ( ... )
 					{
-						logcat_consoleandfile.infoStream() << "\nError occurred when computing interferences: ";
-						logcat_consoleandfile.infoStream() << "\nContinue processing...";
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "\nError occurred when computing interferences: ";
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "\nContinue processing...";
 					}
 				}
 				else
 				{
 					if ( !regenerationSucceeded_ForAllAssemblies )
 					{
-						logcat_fileonly.warnStream() << "";
-						logcat_fileonly.warnStream()  << "Interference Report NOT created because all assemblies could not be regenerated.";
+						isis_LOG(lg, isis_FILE, isis_WARN) << "";
+						isis_LOG(lg, isis_FILE, isis_WARN)  << "Interference Report NOT created because all assemblies could not be regenerated.";
 					}
 					else
 					{
 						if ( out_CADComponentAssemblies.unassembledComponents.size() != 0 )
 						{
 							// Unassembled Components
-							logcat_fileonly.warnStream() << "";
-							logcat_fileonly.warnStream()  << "Interference Report NOT created because there were unassembled components.";
+							isis_LOG(lg, isis_FILE, isis_WARN) << "";
+							isis_LOG(lg, isis_FILE, isis_WARN)  << "Interference Report NOT created because there were unassembled components.";
 						}
 						else
 						{
 							// More than one assembly
-							logcat_fileonly.warnStream() << "";
-							logcat_fileonly.warnStream()  << "Interference Report NOT created because there was more than one assembly defined in the input xml.";
+							isis_LOG(lg, isis_FILE, isis_WARN) << "";
+							isis_LOG(lg, isis_FILE, isis_WARN)  << "Interference Report NOT created because there was more than one assembly defined in the input xml.";
 
 						}
 					}
@@ -1104,9 +1101,9 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 		else
 		{
 			if (  !regenerationSucceeded_ForAllAssemblies )
-				logcat_consoleandfile.warnStream() << "\nMetrics file not created because all assemblies did not regenerate.";
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "\nMetrics file not created because all assemblies did not regenerate.";
 			else
-				logcat_consoleandfile.warnStream() << "\nMetrics file not created because there were unassembled components.";
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "\nMetrics file not created because there were unassembled components.";
 		}
 														
 		///////////////////////////////////
@@ -1124,7 +1121,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 		}
 		else
 		{
-			logcat_fileonly.warnStream() << "ComputedValues File - Did NOT create a ComputedValues file because the attempts to regenerate the assembly failed.";	
+			isis_LOG(lg, isis_FILE, isis_WARN) << "ComputedValues File - Did NOT create a ComputedValues file because the attempts to regenerate the assembly failed.";	
 		}
 		
 		////////////////////////////////////////////
@@ -1133,10 +1130,10 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 		bool manufacturingManifestUpdated = false;
 		if ( out_CADComponentAssemblies.unassembledComponents.size() > 0 )
 		{
-			logcat_consoleonly.infoStream() << "";
-			logcat_consoleonly.infoStream()  << "Exporting STEP files for unassembled models, this could take several minutes...";
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream()  << "Exporting STEP files for unassembled models";
+			isis_LOG(lg, isis_CONSOLE, isis_INFO) << "";
+			isis_LOG(lg, isis_CONSOLE, isis_INFO)  << "Exporting STEP files for unassembled models, this could take several minutes...";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO)  << "Exporting STEP files for unassembled models";
 
 			bool logCouldNotFindManifestError = true;
 
@@ -1162,8 +1159,8 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 												false, // Need to update the manifest for parts and assmeblies
 												false, // The case should be the same as entered in CyPhy and the input xml
 												out_CADComponentData_map );
-					logcat_fileonly.infoStream() << "";
-					logcat_fileonly.infoStream()  << "Updating Manufacturing Manifest (manufacturing.manifest.json) for unassembled model: " << unusedComp->name;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "";
+					isis_LOG(lg, isis_FILE, isis_INFO)  << "Updating Manufacturing Manifest (manufacturing.manifest.json) for unassembled model: " << unusedComp->name;
 					manufacturingManifestUpdated = true; 
 				}
 			}
@@ -1174,20 +1171,20 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 		/////////////////////////////////////////////
 		if ( !manufacturingManifestUpdated  && out_CADComponentAssemblies.unassembledComponents.size() > 0 )
 		{
-			logcat_fileonly.warnStream() << "";
-			logcat_fileonly.warnStream()  << "Manufacturing manifest (i.e. manufacturing.manifest.json) NOT updated for unassembled parts/sub-assemblies";
-			logcat_fileonly.warnStream() << "   For the manufacturing manifest to be updated, both of the following must be True"; 
+			isis_LOG(lg, isis_FILE, isis_WARN) << "";
+			isis_LOG(lg, isis_FILE, isis_WARN)  << "Manufacturing manifest (i.e. manufacturing.manifest.json) NOT updated for unassembled parts/sub-assemblies";
+			isis_LOG(lg, isis_FILE, isis_WARN) << "   For the manufacturing manifest to be updated, both of the following must be True"; 
 			if (separateStepPartFilesRequested )
-				logcat_fileonly.warnStream() << "      Separate STEP Part Files Requested = True";
+				isis_LOG(lg, isis_FILE, isis_WARN) << "      Separate STEP Part Files Requested = True";
 			else
-				logcat_fileonly.warnStream() << "      Separate STEP Part Files Requested = False";
+				isis_LOG(lg, isis_FILE, isis_WARN) << "      Separate STEP Part Files Requested = False";
 
 			if (manufacturingManifestJsonExists )
-				logcat_fileonly.warnStream() << "      Manufacturing Manifest Exists      = True";
+				isis_LOG(lg, isis_FILE, isis_WARN) << "      Manufacturing Manifest Exists      = True";
 			else
 			{
-				logcat_fileonly.warnStream() << "      Manufacturing Manifest Exists      = False";
-				logcat_fileonly.warnStream() <<  isis::CouldNotFindManufacturingManifestError;
+				isis_LOG(lg, isis_FILE, isis_WARN) << "      Manufacturing Manifest Exists      = False";
+				isis_LOG(lg, isis_FILE, isis_WARN) <<  isis::CouldNotFindManufacturingManifestError;
 			}
 		}			
 

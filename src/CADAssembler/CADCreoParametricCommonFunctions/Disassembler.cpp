@@ -8,8 +8,7 @@
 #include <ProUtil.h>
 
 #include <CommonDefinitions.h>
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
+#include "LoggerBoost.h"
 
 namespace isis {
 namespace creo {
@@ -25,21 +24,21 @@ ProError filter_action( ProFeature* in_feature, ProAppData in_app_data );
 
 
 ProError visit_component_action( ProFeature* in_feature, ProError in_status, Appdata in_app_data ) {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProError rs;
 	ProMdl model;
 	switch( rs = ProAsmcompMdlGet(in_feature, &model) ) {
 	case PRO_TK_NO_ERROR: break;
 	case PRO_TK_BAD_INPUTS:
-		log_cf.errorStream() << "The specified feature is not a valid component feature.";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "The specified feature is not a valid component feature.";
 		return PRO_TK_GENERAL_ERROR;
 	case PRO_TK_E_NOT_FOUND:
-		log_cf.errorStream() << "Assembly component model is not a solid or is not in memory.";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "Assembly component model is not a solid or is not in memory.";
 		return PRO_TK_GENERAL_ERROR;
 	default:
-		log_cf.errorStream() << "unexpected error: " << rs;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "unexpected error: " << rs;
 		return PRO_TK_GENERAL_ERROR;
 	}
 	ProSolid solid = static_cast<ProSolid>(model);
@@ -49,13 +48,13 @@ ProError visit_component_action( ProFeature* in_feature, ProError in_status, App
 	switch( rs = ProMdlTypeGet(model, &component_type) ) {
 	case PRO_TK_NO_ERROR: break;
 	case PRO_TK_BAD_INPUTS:
-		log_cf.errorStream() << "The input argument is invalid.";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "The input argument is invalid.";
 		return PRO_TK_GENERAL_ERROR;
 	case PRO_TK_GENERAL_ERROR:
-		log_cf.errorStream() << "The information could not be obtained.";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "The information could not be obtained.";
 		return PRO_TK_GENERAL_ERROR;
 	default:
-		log_cf.errorStream() << "unexpected error: " << rs;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "unexpected error: " << rs;
 		return PRO_TK_GENERAL_ERROR;
 	}
 
@@ -78,10 +77,10 @@ ProError visit_component_action( ProFeature* in_feature, ProError in_status, App
 		switch( rs = ProSolidFeatVisit(solid, visit_action, filter_action, app_data_vp) ) {
 		case PRO_TK_NO_ERROR: break;
 		case PRO_TK_E_NOT_FOUND:
-			log_cf.errorStream() << "filter produced no component features.";
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "filter produced no component features.";
 			break;
 		default:
-			log_cf.errorStream() << "Any other value is the value returned "
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "Any other value is the value returned "
 				<< " by the action function (visiting stopped)." << rs;
 		}
 		}
@@ -92,7 +91,7 @@ ProError visit_component_action( ProFeature* in_feature, ProError in_status, App
 			switch( rs = ProModelitemMdlGet(in_feature, &self) ) {
 			case PRO_TK_NO_ERROR: break;
 			case PRO_TK_BAD_INPUTS:
-				log_cf.errorStream() << "feature has no model. " << in_feature->id;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "feature has no model. " << in_feature->id;
 			}
 			char assembly_name[PRO_NAME_SIZE];
 			{
@@ -100,13 +99,13 @@ ProError visit_component_action( ProFeature* in_feature, ProError in_status, App
 				switch( rs = ProMdlNameGet(self, wname) ) {
 				case PRO_TK_NO_ERROR: break;
 				case PRO_TK_BAD_INPUTS:
-					log_cf.errorStream() << "The input argument is invalid. " << in_feature->id;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "The input argument is invalid. " << in_feature->id;
 					throw std::runtime_error("selector feature name failed");
 				case PRO_TK_E_NOT_FOUND:
-					log_cf.errorStream() << "The specified item does not have a name.  ";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "The specified item does not have a name.  ";
 					break;
 				default:
-					log_cf.errorStream() << "ill specified error:  " << rs;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "ill specified error:  " << rs;
 					throw std::runtime_error("selector feature name failed");
 				}
 				ProWstringToString(assembly_name, wname);
@@ -118,13 +117,13 @@ ProError visit_component_action( ProFeature* in_feature, ProError in_status, App
 				switch( rs = ProMdlCommonnameGet(self, &wname, &is_modifiable) ) {
 				case PRO_TK_NO_ERROR: break;
 				case PRO_TK_BAD_INPUTS:
-					log_cf.errorStream() << "The input argument is invalid. " << in_feature->id;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "The input argument is invalid. " << in_feature->id;
 					throw std::runtime_error("selector feature name failed");
 				case PRO_TK_E_NOT_FOUND:
-					log_cf.errorStream() << "The specified item does not have a name.  ";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "The specified item does not have a name.  ";
 					break;
 				default:
-					log_cf.errorStream() << "ill specified error:  " << rs;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "ill specified error:  " << rs;
 					throw std::runtime_error("selector feature name failed");
 				}
 				ProWstringToString(model_name, wname);
@@ -136,13 +135,13 @@ ProError visit_component_action( ProFeature* in_feature, ProError in_status, App
 				switch( rs = ProModelitemNameGet(in_feature, wname) ) {
 				case PRO_TK_NO_ERROR: break;
 				case PRO_TK_BAD_INPUTS:
-					log_cf.errorStream() << "The input argument is invalid. " << in_feature->id;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "The input argument is invalid. " << in_feature->id;
 					throw std::runtime_error("selector feature name failed");
 				case PRO_TK_E_NOT_FOUND:
-					log_cf.errorStream() << "The specified item does not have a name.  ";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "The specified item does not have a name.  ";
 					break;
 				default:
-					log_cf.errorStream() << "ill specified error:  " << rs;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "ill specified error:  " << rs;
 					throw std::runtime_error("selector feature name failed");
 				}
 				ProWstringToString(item_name, wname);
@@ -156,33 +155,33 @@ ProError visit_component_action( ProFeature* in_feature, ProError in_status, App
 			switch( rs = ProAsmcomppathTrfGet(&app_data.path, bottom_up, transformation) ) {
 			case PRO_TK_NO_ERROR: break;
 			case PRO_TK_BAD_INPUTS:
-				log_cf.errorStream() << "transform get, the input argument is invalid: " 
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "transform get, the input argument is invalid: " 
 					<< app_data.path.comp_id_table;
 				return PRO_TK_GENERAL_ERROR;
 			case PRO_TK_GENERAL_ERROR:
-				log_cf.errorStream() << "The specified component path was wrong, or contained missing members.";
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "The specified component path was wrong, or contained missing members.";
 				return PRO_TK_GENERAL_ERROR;
 			default:
-				log_cf.errorStream() << "unexpected error: " << rs;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "unexpected error: " << rs;
 				return PRO_TK_GENERAL_ERROR;
 			}
 
-			log_f.infoStream() << "transformation: " << assembly_name 
+			isis_LOG(lg, isis_FILE, isis_INFO) << "transformation: " << assembly_name 
 				<< " : " << model_name << " : " << item_name;
-			log_f.infoStream() << "[";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "[";
 			for( int ix=0; ix < 4; ++ix ) {
-				log_f.infoStream() << "\n\t[";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "\n\t[";
 				for( int jx=0; jx < 4; ++jx ) {
-					log_f.infoStream() << '\t' << transformation[ix][jx];
+					isis_LOG(lg, isis_FILE, isis_INFO) << '\t' << transformation[ix][jx];
 				}
-				log_f.infoStream() << "]";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "]";
 			}
-			log_f.infoStream() << "]\n";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "]\n";
 			return PRO_TK_NO_ERROR;
 		} 
 	default:
 		{
-		log_cf.errorStream() << "unknown-component-type: " << component_type;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "unknown-component-type: " << component_type;
 		}
 	}
 	return PRO_TK_NO_ERROR;
@@ -190,8 +189,8 @@ ProError visit_component_action( ProFeature* in_feature, ProError in_status, App
 
 /* ProAssemblyDynPosGet(); */
 ProError visit_datum_plane_action( ProFeature* in_feature, ProError in_status, Appdata in_app_data ) {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProError rs = PRO_TK_NO_ERROR;
 	/*
@@ -205,11 +204,11 @@ ProError visit_datum_plane_action( ProFeature* in_feature, ProError in_status, A
 The visiting function. If it returns anything other than PRO_TK_NO_ERROR, visiting stops.
 */
 ProError visit_action( ProFeature* in_feature, ProError in_status, ProAppData in_app_data_raw ) {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	if (in_feature == NULL) {
-		log_cf.errorStream() << "NULL feature";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "NULL feature";
 		return PRO_TK_CONTINUE;
 	}
 	Appdata* in_app_data = static_cast<Appdata*>(in_app_data_raw);
@@ -219,29 +218,29 @@ ProError visit_action( ProFeature* in_feature, ProError in_status, ProAppData in
 	switch( rs = ProFeatureTypeGet(in_feature, &feat_type) ) {
 	case PRO_TK_NO_ERROR: break;
 	case PRO_TK_BAD_INPUTS:
-		log_cf.errorStream() << "feature type get, the input argument is invalid.";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "feature type get, the input argument is invalid.";
 		return PRO_TK_GENERAL_ERROR;
 	default:
-		log_cf.errorStream() << "unexpected error: " << rs;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "unexpected error: " << rs;
 		return PRO_TK_GENERAL_ERROR;
 	}
 	switch( feat_type ) {
 	case PRO_FEAT_COMPONENT: 
-		log_f.infoStream() << "component : " << in_feature->id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "component : " << in_feature->id;
         return visit_component_action( in_feature, in_status, *in_app_data );
 
 	case PRO_FEAT_DATUM:
-		log_f.infoStream() << "datum-plane : " << in_feature->id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "datum-plane : " << in_feature->id;
         return visit_datum_plane_action( in_feature, in_status, *in_app_data );
 
 	case PRO_FEAT_DATUM_AXIS:
-		log_f.infoStream() << "datum-axis : " << in_feature->id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "datum-axis : " << in_feature->id;
         return(PRO_TK_NO_ERROR);
 	case PRO_FEAT_DATUM_POINT:
-		log_f.infoStream() << "datum-point : " << in_feature->id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "datum-point : " << in_feature->id;
         return(PRO_TK_NO_ERROR);
 	default:
-		log_cf.errorStream() << "feature type : " << feat_type;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "feature type : " << feat_type;
 	}
 	return PRO_TK_CONTINUE;
 }
@@ -251,8 +250,8 @@ The filter function. If NULL, all features in the specified
 solid are visited using the action function. 
 */
 ProError filter_action( ProFeature* in_feature, ProAppData in_app_data ) {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
    ProError rs;
 
@@ -260,34 +259,34 @@ ProError filter_action( ProFeature* in_feature, ProAppData in_app_data ) {
 	switch( rs = ProFeatureTypeGet(in_feature, &feat_type) ) {
 	case PRO_TK_NO_ERROR: break;
 	case PRO_TK_BAD_INPUTS:
-		log_cf.errorStream() << "the input argument is invalid.";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "the input argument is invalid.";
 		return PRO_TK_GENERAL_ERROR;
 	default:
-		log_cf.errorStream() << "unexpected error: " << rs;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "unexpected error: " << rs;
 		return PRO_TK_GENERAL_ERROR;
 	}
 	switch( feat_type ) {
 	case PRO_FEAT_COMPONENT: 
-		log_f.infoStream() << "component : " << in_feature->id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "component : " << in_feature->id;
         return(PRO_TK_NO_ERROR);
 	case PRO_FEAT_DATUM:
-		log_f.infoStream() << "datum-plane : " << in_feature->id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "datum-plane : " << in_feature->id;
         return(PRO_TK_NO_ERROR);
 	case PRO_FEAT_DATUM_AXIS:
-		log_f.infoStream() << "datum-axis : " << in_feature->id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "datum-axis : " << in_feature->id;
         return(PRO_TK_NO_ERROR);
 	case PRO_FEAT_DATUM_POINT:
-		log_f.infoStream() << "datum-point : " << in_feature->id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "datum-point : " << in_feature->id;
         return(PRO_TK_NO_ERROR);
 	default:
-		log_cf.errorStream() << "feature type : " << feat_type;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "feature type : " << feat_type;
 	}
     return(PRO_TK_CONTINUE);
 }
 
 ProError disassemble(ProSolid in_solid) {
-	log4cpp::Category& log_f = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& log_cf = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	ProError rs;
 
@@ -305,11 +304,11 @@ ProError disassemble(ProSolid in_solid) {
 	switch( rs = ProSolidFeatVisit(in_solid, visit_action, filter_action, app_data_vp) ) {
 	case PRO_TK_NO_ERROR: break;
 	case PRO_TK_E_NOT_FOUND:
-		log_cf.errorStream() << "Either no features exist, "
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "Either no features exist, "
 			<< " or they were all filtered out by the filter function.";
 		break;
 	default:
-		log_cf.errorStream() << "Any other value is the value returned "
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "Any other value is the value returned "
 			<< " by the action function (visiting stopped)." << rs;
 	}
 	return PRO_TK_NO_ERROR;
