@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,7 +64,8 @@ namespace CyPhy2DesignInterchange
             }
         }
 
-        private static String GetOrSetID(CyPhy.DesignEntity de)
+        private ISet<string> designEntityIds = new HashSet<string>();
+        private String GetOrSetID(CyPhy.DesignEntity de)
         {
             int id = de.Attributes.ID;
             if (id == 0)
@@ -80,7 +81,13 @@ namespace CyPhy2DesignInterchange
                 }
             }
             if (id == 0)
+            {
+                id = de.Guid.GetHashCode();
+            }
+            if (id == 0 || designEntityIds.Add(id.ToString()) == false)
+            {
                 id = Guid.NewGuid().GetHashCode();
+            }
             
             de.Attributes.ID = id;
             return id.ToString();
