@@ -58,5 +58,4 @@ mvn install</Command>
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
     <Import Project="..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
   </ImportGroup>
-  </ImportGroup>
 </Project>
