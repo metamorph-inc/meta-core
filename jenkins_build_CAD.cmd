@@ -15,9 +15,6 @@ IF "%PROCESSOR_ARCHITEW6432%" == "AMD64" set DBGTOOLS=%ProgramW6432%\Debugging T
 IF NOT EXIST "%DBGTOOLS%" set DBGTOOLS=%ProgramFiles(x86)%\Debugging Tools for Windows (x86)
 
 echo %TIME%
-call "%DBGTOOLS%\srcsrv\svnindex.cmd" /debug /Ini="externals\common-scripts\srcsrv.ini" /source="%CD%" /symbols="%CD%"
-IF %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
-echo %TIME%
-copy_pdbs.py
+.\bin\Python27\Scripts\python.exe copy_pdbs.py
 IF %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
 echo %TIME%
