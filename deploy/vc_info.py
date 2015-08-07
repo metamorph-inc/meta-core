@@ -23,10 +23,10 @@ def last_mdl2mga_rev():
    
 def last_changed_rev(*paths):
     output = subprocess.check_output('git log --format=%H -n 1 --'.split() + list(paths), cwd=meta_path)
-    return str(commit_no()) + '-git' + output.rstrip()[0:8]
+    return str(commit_no(*paths)) + '-git' + output.rstrip()[0:8]
 
-def commit_no():
-    return int(subprocess.check_output('git rev-list HEAD --count'.split(), cwd=meta_path).rstrip())
+def commit_no(*paths):
+    return int(subprocess.check_output('git rev-list HEAD --count --'.split() + (list(paths) or ['.']), cwd=meta_path).rstrip())
     
 def update_version(version, last_version):
     version = version.split(".")
