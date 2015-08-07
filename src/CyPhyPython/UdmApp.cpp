@@ -112,10 +112,14 @@ std::string GetPythonError()
 	return error;
 }
 
-std::string openfilename(char *filter = "All Files (*.*)\0*.*\0", HWND owner = NULL)
+#ifdef _UNICODE
+std::wstring openfilename(TCHAR *filter = _T("All Files (*.*)\0*.*\0"), HWND owner = NULL)
+#else
+std::string openfilename(TCHAR *filter = _T("All Files (*.*)\0*.*\0"), HWND owner = NULL)
+#endif
 {
 	OPENFILENAME ofn;
-	char fileName[MAX_PATH] = "";
+	TCHAR fileName[MAX_PATH] = _T("");
 	ZeroMemory(&ofn, sizeof(ofn));
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = owner;
@@ -123,9 +127,13 @@ std::string openfilename(char *filter = "All Files (*.*)\0*.*\0", HWND owner = N
 	ofn.lpstrFile = fileName;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-	ofn.lpstrDefExt = "";
-	string fileNameStr;
-	if (GetOpenFileNameA(&ofn))
+	ofn.lpstrDefExt = _T("");
+#ifdef _UNICODE
+    std::wstring fileNameStr;
+#else
+    std::string fileNameStr;
+#endif
+	if (GetOpenFileName(&ofn))
 		fileNameStr = fileName;
 	return fileNameStr;
 }
@@ -188,7 +196,7 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 	//Py_VerboseFlag = 2;
 	
 	// Py_NoSiteFlag = 1; // we import site after setting up sys.path
-	HMODULE python_dll = LoadLibrary("Python27.dll");
+	HMODULE python_dll = LoadLibraryA("Python27.dll");
 	if (python_dll == nullptr)
 		throw udm_exception("Failed to load Python27.dll");
 	int* Py_NoSiteFlagAddress = reinterpret_cast<int*>(GetProcAddress(python_dll, "Py_NoSiteFlag"));
@@ -269,7 +277,7 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 			&& output_dir->second.bstrVal
 			&& *output_dir->second.bstrVal)
 		{
-			CreateDirectory(CStringA(output_dir->second.bstrVal) + "\\log", NULL);
+			CreateDirectoryW(CStringW(output_dir->second.bstrVal) + L"\\log", NULL);
 			PyObject_RAII logfile = PyFile_FromString(const_cast<char *>(static_cast<const char*>(CStringA(output_dir->second.bstrVal) + "\\log\\CyPhyPython.log")), "w");
 			if (PyErr_Occurred())
 			{
@@ -287,22 +295,22 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 	auto script_file_it = componentParameters.find(_bstr_t(L"script_file"));
 	if (script_file_it == componentParameters.end())
 	{
-		std::string scriptFilename;
-		scriptFilename = openfilename("Python Scripts (*.py)\0*.py\0");
+		std::wstring scriptFilename;
+		scriptFilename = openfilename(L"Python Scripts (*.py)\0*.py\0");
 		if (scriptFilename.length() == 0)
 		{
 			return;
 		}
 		TCHAR fullpath[MAX_PATH];
 		TCHAR* filepart;
-		if (!GetFullPathNameA(scriptFilename.c_str(), sizeof(fullpath)/sizeof(fullpath[0]), fullpath, &filepart)) {
+		if (!GetFullPathNameW(scriptFilename.c_str(), sizeof(fullpath)/sizeof(fullpath[0]), fullpath, &filepart)) {
 		} else {
 			*(filepart-1) = '\0';
 
-			newpath += separator + fullpath;
+			newpath += separator + static_cast<const char*>(CStringA(fullpath));
 			PySys_SetPath(const_cast<char*>(newpath.c_str()));
 
-			module_name = filepart;
+            module_name = static_cast<const char*>(CStringA(filepart));
 		}
 	}
 	else

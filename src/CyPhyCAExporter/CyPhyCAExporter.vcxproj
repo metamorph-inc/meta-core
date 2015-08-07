@@ -26,22 +26,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -313,8 +313,7 @@
   <ItemGroup>
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.cpp" />
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp" />
-    <ClCompile Include="ComponentObj.cpp" />
-    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Console.cpp" />
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentObj.cpp" />
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp" />
     <ClCompile Include="..\Util\CyPhyUtil.cpp" />
     <ClCompile Include="ConfigExportDialog.cpp" />
@@ -328,6 +327,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="UdmApp.cpp" />
+    <ClCompile Include="UdmConsole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Component.def" />
@@ -341,6 +341,7 @@
     <ClInclude Include="..\Util\CyPhyUtil.h" />
     <ClInclude Include="ComponentConfig.h" />
     <ClInclude Include="ComponentLib_h.h" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComponentObj.h" />
     <ClInclude Include="ComponentObj.h" />
     <ClInclude Include="ConfigExportDialog.h" />
     <ClInclude Include="CyPhyCAExporter.h" />

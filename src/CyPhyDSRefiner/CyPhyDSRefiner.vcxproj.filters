@@ -10,9 +10,6 @@
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentObj.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Console.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -29,6 +26,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StatusDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UdmConsole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

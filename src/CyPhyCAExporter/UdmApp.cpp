@@ -216,7 +216,7 @@ void CUdmApp::UdmMain(
 		}
 
 		if(cwcs.empty()){
-			AfxMessageBox("Please open a CWC model or select CWC model(s) to invoke the interpreter.");
+			AfxMessageBox(L"Please open a CWC model or select CWC model(s) to invoke the interpreter.");
 			return;
 		}
 
@@ -247,7 +247,7 @@ void CUdmApp::UdmMain(
 			{
 				useCurrent = cfgExDlg.m_useCurrent;
 				flatten = cfgExDlg.m_flatten;
-				outFdr = (LPCTSTR)cfgExDlg.m_outputfdr;
+				outFdr = (LPCSTR)((CStringA)cfgExDlg.m_outputfdr);
 			}
 			else 
 				return;
@@ -268,7 +268,7 @@ void CUdmApp::UdmMain(
 			{
 				prgDlg.SetRange(40*idCnt);
 			}
-			std::string outfileBase = outFdr+"\\"+getFileNameNoExt((LPCTSTR)mgaPath);
+			std::string outfileBase = outFdr+"\\"+getFileNameNoExt((LPCSTR)((CStringA)mgaPath));
 			for(set<CyPhyML::CWC>::iterator i=cwcs.begin();i!=cwcs.end();++i)
 			{
 				CyPhyML::CWC cwc = *i;
@@ -415,7 +415,7 @@ void CUdmApp::UdmMain(
 	}
 	catch(udm_exception &exc)
 	{
-		AfxMessageBox(exc.what());
+		AfxMessageBox(CString(exc.what()));
 		throw exc;
 	}
 	catch(...)

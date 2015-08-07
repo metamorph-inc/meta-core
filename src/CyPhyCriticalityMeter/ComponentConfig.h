@@ -9,7 +9,7 @@
 
 
 // This name will appear in the popup window for interpreter selection.
-#define COMPONENT_NAME "CyPhyCriticalityMeter"
+#define COMPONENT_NAME L"CyPhyCriticalityMeter"
 
 
 #define TOOLTIP_TEXT "Design Space Criticality/Complexity Meter"

@@ -209,7 +209,7 @@ CSize ModelComplexPart::GetPreferredSize(void) const
 	int LeftPortsMaxLabelLength = 0;
 	int RightPortsMaxLabelLength = 0;
 	LOGFONT logFont;
-	getFacilities().GetFont(FONT_PORT)->gdipFont->GetLogFontA(getFacilities().getGraphics(), &logFont);
+	getFacilities().GetFont(FONT_PORT)->gdipFont->GetLogFontW(getFacilities().getGraphics(), &logFont);
 	{
 		CDC dc;
 		dc.Attach(GetDC(NULL));

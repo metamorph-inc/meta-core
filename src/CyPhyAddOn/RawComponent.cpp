@@ -77,24 +77,6 @@ void RawComponent::createStringSetForMeta_id()
 	// std::for_each(guidIdfcoKinds.begin(), guidIdfcoKinds.end(), [](const _bstr_t& str) { OutputDebugStringW(str); OutputDebugStringW(L"\n"); });
 }
 
-CString RawComponent::generateDCEUUID()
-{
-	GUID guid;
-	CoCreateGuid(&guid); 
-	OLECHAR szGUID[39];
-	StringFromGUID2(guid, szGUID, 39);
-
-	std::string uid("");
-	for(int i=1;i<37;i++)
-	{
-		uid += (char)szGUID[i];
-	}
-
-	CString uuid("DCE:");
-	uuid.Append(uid.c_str());
-	return uuid;
-}
-
 CString RawComponent::getFCOMetaName(IMgaFCO *fco)
 {
 	CBstr bstr;	
@@ -116,9 +98,9 @@ CString RawComponent::getObjectMetaDisplayedName(IMgaObject *obj)
 bool RawComponent::isDesignElement(IMgaFCO *fco)
 {
 	CString metaName = getFCOMetaName(fco);
-	if(metaName=="DesignContainer")
+	if(metaName==L"DesignContainer")
 		return true;
-	if(metaName=="Component" || metaName=="CyberComponent" || metaName=="ComponentAssembly" || metaName=="ComponentRef")
+	if(metaName==L"Component" || metaName==L"CyberComponent" || metaName==L"ComponentAssembly" || metaName==L"ComponentRef")
 	{
 		CComPtr<IMgaModel> parent_model;
 		HRESULT _hr = fco->get_ParentModel(&parent_model);
@@ -126,10 +108,10 @@ bool RawComponent::isDesignElement(IMgaFCO *fco)
 		if(!parent_model) return false;
 		CComQIPtr<IMgaFCO> parent_fco(parent_model);
 		CString parent_metaName = getFCOMetaName(parent_fco);
-		if(parent_metaName=="DesignContainer")
+		if(parent_metaName==L"DesignContainer")
 			return true;
 	}
-	else if(metaName=="VisualConstraint" || metaName=="Constraint")
+	else if(metaName==L"VisualConstraint" || metaName==L"Constraint")
 		return true;
 	return false;
 }
@@ -162,7 +144,7 @@ void RawComponent::traverseFCO(IMgaFCO *fco, _bstr_t &metaName)
 	if(numericIdfcoKinds.find(metaName)==numericIdfcoKinds.end()) return;
 
 	long currid = 0;
-	COMTHROW(fco->get_IntAttrByName(CBstrIn("ID"), &currid));
+	COMTHROW(fco->get_IntAttrByName(CBstrIn(L"ID"), &currid));
 	
 	if(currid > maxId)
 	{
@@ -237,7 +219,7 @@ STDMETHODIMP RawComponent::Invoke(IMgaProject* gme, IMgaFCOs *models, long param
 	return InvokeEx(gme, focus, selected, parvar);
 #else
 	if(interactive) {
-		AfxMessageBox("This component does not support the obsolete invoke mechanism");
+		AfxMessageBox(L"This component does not support the obsolete invoke mechanism");
 	}
 	return E_MGA_NOT_SUPPORTED;
 #endif
@@ -252,15 +234,15 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 	COMTRY {
 	  if(interactive) {
 		CComBSTR projname;
-		CComBSTR focusname = "<nothing>";
+		CComBSTR focusname = L"<nothing>";
 		CComPtr<IMgaTerritory> terr;
 		COMTHROW(project->CreateTerritory(NULL, &terr, 0));
 		COMTHROW(project->BeginTransaction(terr, TRANSACTION_GENERAL));
 		try {			
 			COMTHROW(project->get_Name(&projname));
 			if(currentobj) COMTHROW(currentobj->get_Name(&focusname));
-			AfxMessageBox("RAW Com Component --- Plugin!!!! Sample (project: " + CString(projname) +
-						", focus: " + CString(focusname));
+			AfxMessageBox(L"RAW Com Component --- Plugin!!!! Sample (project: " + CString(projname) +
+						L", focus: " + CString(focusname));
 			COMTHROW(project->CommitTransaction());
 		}	catch(...) { project->AbortTransaction(); throw; }
 		
@@ -272,7 +254,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 // you only need to implement it if other invokation mechanisms are used
 STDMETHODIMP RawComponent::ObjectsInvokeEx( IMgaProject *project,  IMgaObject *currentobj,  IMgaObjects *selectedobjs,  long param) {
 	if(interactive) {
-		AfxMessageBox("Tho ObjectsInvoke method is not implemented");
+		AfxMessageBox(L"Tho ObjectsInvoke method is not implemented");
 	}
 	return E_MGA_NOT_SUPPORTED;
 }
@@ -348,8 +330,8 @@ STDMETHODIMP RawComponent::ObjectEvent(IMgaObject * obj, unsigned long eventmask
 			CString objectDisplayedName = getObjectMetaDisplayedName(comObj);
 
 			CString name(bstrName.m_str);
-			if (name == objectDisplayedName || name == "New" + objectDisplayedName) {
-				name.Replace(" ", "");
+			if (name == objectDisplayedName || name == L"New" + objectDisplayedName) {
+				name.Replace(L" ", L"");
 				COMTHROW(obj->put_Name(_bstr_t(name)));
 			}
 
@@ -358,7 +340,7 @@ STDMETHODIMP RawComponent::ObjectEvent(IMgaObject * obj, unsigned long eventmask
 				CComQIPtr<IMgaFCO> fco(obj);
 				_bstr_t fcoKind = fco->Meta->Name;
 
-				if(numericIdfcoKinds.find(fcoKind) != numericIdfcoKinds.end())// && isDesignElement(fco)) || fcoType == "ComponentAssembly")
+				if(numericIdfcoKinds.find(fcoKind) != numericIdfcoKinds.end())// && isDesignElement(fco)) || fcoType == L"ComponentAssembly")
 				{	
 					if(turnedon)
 					{

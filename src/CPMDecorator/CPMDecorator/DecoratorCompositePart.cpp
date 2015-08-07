@@ -18,7 +18,7 @@
 #include "DecoratorExceptions.h"
 
 static const unsigned int	CTX_MENU_ID_SAMPLE		= DECORATOR_CTX_MENU_MINID + 100;	// Should be unique
-static const char*			CTX_MENU_STR_SAMPLE		= "Decorator Ctx Menu Item";
+static const wchar_t*			CTX_MENU_STR_SAMPLE		= L"Decorator Ctx Menu Item";
 
 
 namespace Decor {
@@ -103,7 +103,7 @@ bool DecoratorCompositePart::MouseLeftButtonDoubleClick(UINT nFlags, const CPoin
 {
 	CRect ptRect = m_compositeParts[0]->GetBoxLocation();
 	if (ptRect.PtInRect(point)) {
-		AfxMessageBox("Decorator double clicked!");
+		AfxMessageBox(L"Decorator double clicked!");
 		GeneralOperationStarted(NULL);
 		// TODO: do something
 		GeneralOperationFinished(NULL);
@@ -172,7 +172,7 @@ bool DecoratorCompositePart::DropFile(HDROP p_hDropInfo, const CPoint& point, HD
 				is_dir = (fstatus.st_mode & _S_IFDIR) == _S_IFDIR;
 
 			CString conn(szFileName);
-			if (!is_dir && conn.Right(4).CompareNoCase(".txt") == 0) {
+			if (!is_dir && conn.Right(4).CompareNoCase(L".txt") == 0) {
 				CFile txtFile(conn, CFile::modeRead);
 				char pbufRead[100];
 				UINT readLen = txtFile.Read(pbufRead, sizeof(pbufRead) - 1);
@@ -180,13 +180,13 @@ bool DecoratorCompositePart::DropFile(HDROP p_hDropInfo, const CPoint& point, HD
 				GeneralOperationStarted(NULL);
 				// TODO: do something
 				GeneralOperationFinished(NULL);
-				AfxMessageBox("Decorator drop: '" + conn + "' first 100 bytes: " + pbufRead + ".");
+				AfxMessageBox(L"Decorator drop: '" + conn + L"' first 100 bytes: " + pbufRead + L".");
 				return true;
 			} else {
-				AfxMessageBox("Decorator drop: '.txt' files may be dropped only. Can't open file: " + conn + "!");
+				AfxMessageBox(L"Decorator drop: '.txt' files may be dropped only. Can't open file: " + conn + L"!");
 			}
 		} else {
-			AfxMessageBox("Decorator drop: Can't inquire file information!");
+			AfxMessageBox(L"Decorator drop: Can't inquire file information!");
 		}
 	}
 
@@ -196,7 +196,7 @@ bool DecoratorCompositePart::DropFile(HDROP p_hDropInfo, const CPoint& point, HD
 bool DecoratorCompositePart::MenuItemSelected(UINT menuItemId, UINT nFlags, const CPoint& point, HDC transformHDC)
 {
 	if (menuItemId == CTX_MENU_ID_SAMPLE) {
-		AfxMessageBox("Decorator Ctx Menu Item clicked!");
+		AfxMessageBox(L"Decorator Ctx Menu Item clicked!");
 		GeneralOperationStarted(NULL);
 		// TODO: do something
 		GeneralOperationFinished(NULL);

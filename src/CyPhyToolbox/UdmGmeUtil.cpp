@@ -27,7 +27,7 @@ std::string GetErrorMessage(_com_error& e)
 {
 	if (e.Description().length())
 		return static_cast<const char*>(e.Description());
-	return e.ErrorMessage();
+	return static_cast<const char*>(_bstr_t(e.ErrorMessage()));
 }
 
 // Caveats:

@@ -29,22 +29,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -82,6 +82,7 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)d</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)d</TargetName>
+    <NuGetPackageImportStamp>f266ab5a</NuGetPackageImportStamp>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <CustomBuildStep />
@@ -299,7 +300,6 @@
     <ClCompile Include="ComHelp.cpp" />
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp" />
     <ClCompile Include="ComponentObj.cpp" />
-    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Console.cpp" />
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp" />
     <ClCompile Include="..\CyPhyToolbox\CyPhyElaborate.cpp" />
     <ClCompile Include="..\CyPhyToolbox\FormulaTraverse.cpp" />
@@ -319,6 +319,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="UdmApp.cpp" />
+    <ClCompile Include="UdmConsole.cpp" />
     <ClCompile Include="UdmFormatter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -371,11 +372,17 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
     <Import Project="..\nuget\muparser.1.34\build\native\muparser.targets" Condition="Exists('..\nuget\muparser.1.34\build\native\muparser.targets')" />
-    <Import Project="..\nuget\muparser-vc100.1.34\build\native\muparser-vc100.targets" Condition="Exists('..\nuget\muparser-vc100.1.34\build\native\muparser-vc100.targets')" />
+    <Import Project="..\nuget\muparser-vc100.1.34.2\build\native\muparser-vc100.targets" Condition="Exists('..\nuget\muparser-vc100.1.34.2\build\native\muparser-vc100.targets')" />
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
       <UserProperties RESOURCE_FILE="Component.rc" />
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\nuget\muparser-vc100.1.34.2\build\native\muparser-vc100.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\nuget\muparser-vc100.1.34.2\build\native\muparser-vc100.targets'))" />
+  </Target>
 </Project>

@@ -105,7 +105,7 @@ BOOL CConfigExportDialog::OnInitDialog()
     pRbtn2->SetCheck(true); 
 	m_flatten = false;
 
-	TCHAR szDirectory[MAX_PATH] = "";
+	TCHAR szDirectory[MAX_PATH] = L"";
 	::GetCurrentDirectory(sizeof(szDirectory) - 1, szDirectory);
 	m_outputfdr = (CString)szDirectory;
 	this->GetDlgItem(IDC_OUTPUTEDIT)->SetWindowText(szDirectory);

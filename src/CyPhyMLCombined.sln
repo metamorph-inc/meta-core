@@ -123,9 +123,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyPhy2Modelica_v2", "CyPhy2Modelica_v2\CyPhy2Modelica_v2.csproj", "{D2DEA0A5-78D5-4346-9C24-4CD7AE10B8AF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyPhyMetaLinkBridgeClient", "CyPhyMetaLinkBridgeClient\CyPhyMetaLinkBridgeClient.csproj", "{89D01A92-0ABD-40C5-8323-1792CD65C8E1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C} = {EF6DE767-A722-4D29-8041-B7FA81BAD65C}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyPhyMLCS", "CyPhyMLCS\CyPhyMLCS.csproj", "{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}"
 EndProject
@@ -287,8 +284,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mcl", "..\externals\desert\DesertDll\mcl\mcl.vcxproj", "{CB52D04F-E20F-4D37-9A1C-A1BF136CEB99}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libctemplate", "..\3rdParty\ctemplate-1.0\vsprojects\libctemplate\libctemplate.vcxproj", "{FB27FBDB-E6C0-4D00-A7F8-1EEEF1B48ABC}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MetaLink_maven", "MetaLink\MetaLink_maven.vcxproj", "{EF6DE767-A722-4D29-8041-B7FA81BAD65C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -593,8 +588,8 @@ Global
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.DebugUnicode|x64.Build.0 = DebugUnicode|x64
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.DebugUnicode|x86.ActiveCfg = DebugUnicode|x64
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Any CPU.ActiveCfg = Release|Win32
-		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Mixed Platforms.ActiveCfg = ReleaseUnicode|Win32
+		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Mixed Platforms.Build.0 = ReleaseUnicode|Win32
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Win32.ActiveCfg = Release|Win32
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Win32.Build.0 = Release|Win32
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|x64.ActiveCfg = Release|x64
@@ -3599,38 +3594,6 @@ Global
 		{FB27FBDB-E6C0-4D00-A7F8-1EEEF1B48ABC}.ReleaseUnicode|x64.Build.0 = Release|x64
 		{FB27FBDB-E6C0-4D00-A7F8-1EEEF1B48ABC}.ReleaseUnicode|x86.ActiveCfg = Release|Win32
 		{FB27FBDB-E6C0-4D00-A7F8-1EEEF1B48ABC}.ReleaseUnicode|x86.Build.0 = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Debug|Any CPU.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Debug|Mixed Platforms.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Debug|Mixed Platforms.Build.0 = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Debug|Win32.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Debug|Win32.Build.0 = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Debug|x64.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Debug|x86.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Debug|x86.Build.0 = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.DebugUnicode|Any CPU.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.DebugUnicode|Mixed Platforms.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.DebugUnicode|Mixed Platforms.Build.0 = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.DebugUnicode|Win32.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.DebugUnicode|Win32.Build.0 = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.DebugUnicode|x64.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.DebugUnicode|x86.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.DebugUnicode|x86.Build.0 = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Release|Any CPU.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Release|Win32.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Release|Win32.Build.0 = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Release|x64.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Release|x86.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.Release|x86.Build.0 = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.ReleaseUnicode|Any CPU.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.ReleaseUnicode|Mixed Platforms.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.ReleaseUnicode|Mixed Platforms.Build.0 = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.ReleaseUnicode|Win32.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.ReleaseUnicode|Win32.Build.0 = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.ReleaseUnicode|x64.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.ReleaseUnicode|x86.ActiveCfg = Release|Win32
-		{EF6DE767-A722-4D29-8041-B7FA81BAD65C}.ReleaseUnicode|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

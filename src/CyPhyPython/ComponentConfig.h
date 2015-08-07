@@ -27,7 +27,7 @@
 
 
 // This name will appear in the popup window for interpreter selection.
-#define COMPONENT_NAME "CyPhyPython"
+#define COMPONENT_NAME L"CyPhyPython"
 
 
 // This text will appear in the toolbar icon tooltip and in the menu.

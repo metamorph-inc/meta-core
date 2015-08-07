@@ -3,6 +3,8 @@
 /* Tihamer Levendovszky 2009			  */
 /*										  */
 /******************************************/
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <algorithm>
