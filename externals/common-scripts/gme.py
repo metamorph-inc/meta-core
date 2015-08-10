@@ -276,13 +276,13 @@ def register_component(file, warn_on_tlb_error=None):
 
 # UDM functions
 def meta2uml(mgafile, umlfile=None, refresh_str=None):
+    '''Run MetaGME2Uml on an MetaGME .mga file'''
     refresh=False
     if refresh_str is None or refresh_str=='No' or refresh_str=='no' or refresh_str=='false' or refresh_str=='False':
         refresh=False
     elif refresh_str=='Yes' or refresh_str=='yes' or refresh_str=='true' or refresh_str=='True':
         refresh=True
 
-    '''Run MetaGME2Uml on an MetaGME .mga file'''
     if not os.path.isfile(mgafile):
         raise Exception("'" + mgafile + "' not found")
     
@@ -294,6 +294,7 @@ def meta2uml(mgafile, umlfile=None, refresh_str=None):
         project.commit_transaction()
         project.project.Save("", True)
         project.project.Close(True)
+        os.utime(output_path, None) # make _uml.mga file modified after source file to make incremental build work
     if umlfile and os.path.normcase(os.path.abspath(umlfile)) != os.path.normcase(os.path.abspath(output_path)):
         import shutil
         try:
