@@ -2146,7 +2146,7 @@ std::wstring wstringFromUTF8(const std::string& utf8)
         throw udm_exception("Can't convert string from UTF-8 to UTF-16 (MultiByteToWideChar failed).");
     }
 
-    return std::wstring(utf16.get());
+    return std::wstring(utf16.get(), utf16.get() + utf16Length);
 }
 
 std::wstring wstringFromUTF8(const Udm::StringAttr& attr) {
