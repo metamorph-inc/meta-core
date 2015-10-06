@@ -210,6 +210,18 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 	//PY_MAJOR_VERSION 
 	//PY_MINOR_VERSION
 
+	PyGILState_STATE gstate;
+	// n.b. we need this to be reentrant (i.e. in case this interpreter is being called by python (e.g. via win32com.client))
+	// this is because PyEval_SaveThread() was called
+	gstate = PyGILState_Ensure();
+	struct UnGil {
+		PyGILState_STATE &state;
+		UnGil(PyGILState_STATE &state) : state(state) {}
+		~UnGil() {
+			PyGILState_Release(state);
+		}
+	} ungil(gstate);
+
 	char *path = Py_GetPath();
 #ifdef _WIN32
 	std::string separator = ";";
