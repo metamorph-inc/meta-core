@@ -270,6 +270,7 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 
 	if (meta_path.length()) {
 		newpath += separator + meta_path + "\\bin";
+		newpath += separator + meta_path + "\\bin\\Python27\\Scripts";
 		PyObject_RAII prefix = PyString_FromString((meta_path + "\\bin\\Python27").c_str());
 		PyObject* sys = PyDict_GetItemString(main_namespace, "sys");
 		PyObject_SetAttrString(sys, "prefix", prefix);
