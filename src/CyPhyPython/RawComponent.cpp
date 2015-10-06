@@ -79,7 +79,9 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 	CUdmApp udmApp;
 
 	CComPtr<IMgaProject>ccpProject(project);
-	
+    long status = 0;
+    ccpProject->get_ProjectStatus(&status);
+
 	try
 	{
 		// Setting up the console
@@ -96,7 +98,9 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		try
 		{
 			// Opening backend
-			dngBackend.OpenExisting(ccpProject, Udm::CHANGES_LOST_DEFAULT);
+		if (!(status & 8))
+			COMTHROW(ccpProject->BeginTransactionInNewTerr(TRANSACTION_NON_NESTED, &terr));
+			dngBackend.OpenExisting(ccpProject, Udm::CHANGES_LOST_DEFAULT, true);
 
 			std::string metapath;
 			HKEY software_meta;
@@ -175,17 +179,28 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 			udmApp.UdmMain(&dngBackend, currentObject, selectedObjects, param, componentParameters, workingDir);
 			// Closing backend
 			dngBackend.CloseWithUpdate();
+            if (!(status & 8))
+                COMTHROW(ccpProject->CommitTransaction());
+            terr = 0;
 
 		}
 		catch(udm_exception &exc)
 		{
-			// Close GME Backend (we may close it twice, but GmeDataNetwork handles it)
 			dngBackend.CloseNoUpdate();
+            if (!(status & 8))
+                COMTHROW(ccpProject->AbortTransaction());
 
 			GMEConsole::Console::Error::writeLine(exc.what());
 			return S_FALSE;
 		}
-	}
+        catch (python_error &exc)
+        {
+            dngBackend.CloseNoUpdate();
+            if (!(status & 8))
+                COMTHROW(ccpProject->AbortTransaction());
+            throw;
+        }
+    }
 	catch (udm_exception& e)
 	{
 		ccpProject->AbortTransaction();
