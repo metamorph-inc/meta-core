@@ -917,6 +917,19 @@ v1.5.3.0 06/25/2015	Modify the sorting (order that models are added to the assem
 			https://svn.isis.vanderbilt.edu/META/sandbox/rowens/Documents/Creo%20Constraint-Feature-Tree%20Contents%20to%20Toolkit%20Constructs.docx
 			R.O.
 
+
+No New Vers. 10/12/2015	A change was made to the CyPhy2CAD interpreter that affects the contents of CADAssembly.xml 
+			and thus the behavior of the CreateAssembly program.
+			A description of the change follows:
+			For both loads and constraints, a metric should have been requested in CADAssembly.xml for 
+			the location of the points used in defining the loads and constraints.  This was done for 
+			constraints but not loads.  FEATestBench.cs lines were modified from 
+			AddGeometry2Load(feaforceRep,geometry.Impl as MgaFCO,tipContextPath)  
+			to
+			AddGeometry2Load(feaforceRep,geometry.Impl as MgaFCO,tipContextPath, true);  
+			The "true" in the previous line means to addcomputations.
+
+
 Known Defects
 -------------
 
