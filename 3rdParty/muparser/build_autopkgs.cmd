@@ -1,10 +1,12 @@
-C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe build\msvc2010\muparser.sln /p:Configuration=Debug;Platform=x64
-C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe build\msvc2010\muparser.sln /p:Configuration=Release;Platform=x64
-C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe build\msvc2010\muparser.sln /p:Configuration=Debug;Platform=win32
-C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe build\msvc2010\muparser.sln /p:Configuration=Release;Platform=win32
+SetLocal EnableDelayedExpansion
 
-powershell -ExecutionPolicy ByPass ipmo \"C:\Program Files (x86)\Outercurve Foundation\Modules\CoApp\CoApp.Powershell.Tools.dll\" ; Write-NuGetPackage .\muparser.autopkg
-powershell -ExecutionPolicy ByPass ipmo \"C:\Program Files (x86)\Outercurve Foundation\Modules\CoApp\CoApp.Powershell.Tools.dll\" ; Write-NuGetPackage .\muparser-vc100.autopkg
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe /p:"VCTargetsPath=C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140";PlatformToolset=v140  build\msvc2010\muparser.sln /p:Configuration=Debug;Platform=x64 || exit /b !ERRORLEVEL!
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe /p:"VCTargetsPath=C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140";PlatformToolset=v140  build\msvc2010\muparser.sln /p:Configuration=Release;Platform=x64 || exit /b !ERRORLEVEL!
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe /p:"VCTargetsPath=C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140";PlatformToolset=v140  build\msvc2010\muparser.sln /p:Configuration=Debug;Platform=win32 || exit /b !ERRORLEVEL!
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe /p:"VCTargetsPath=C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140";PlatformToolset=v140  build\msvc2010\muparser.sln /p:Configuration=Release;Platform=win32 || exit /b !ERRORLEVEL!
 
-rem nuget push -Source http://build.isis.vanderbilt.edu/  muparser-vc100.1.34.nupkg
+powershell -ExecutionPolicy ByPass ipmo \"C:\Program Files (x86)\Outercurve Foundation\Modules\CoApp\CoApp.Powershell.Tools.dll\" ; Write-NuGetPackage .\muparser.autopkg || exit /b !ERRORLEVEL!
+powershell -ExecutionPolicy ByPass ipmo \"C:\Program Files (x86)\Outercurve Foundation\Modules\CoApp\CoApp.Powershell.Tools.dll\" ; Write-NuGetPackage .\muparser-vc140.autopkg || exit /b !ERRORLEVEL!
+
+rem nuget push -Source http://build.isis.vanderbilt.edu/  muparser-vc140.1.34.2.nupkg
 rem nuget push -Source http://build.isis.vanderbilt.edu/  muparser.1.34.nupkg
