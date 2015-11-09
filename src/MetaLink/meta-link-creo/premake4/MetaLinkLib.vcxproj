@@ -223,8 +223,8 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-     <Import Project="..\..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
+     <Import Project="..\..\..\nuget\boost.1.59.0.0\build\native\boost.targets" Condition="Exists('..\..\..\nuget\boost.1.59.0.0\build\native\boost.targets')" />
     <Import Project="..\..\..\nuget\protobuf.2.5.0.0\build\native\protobuf.targets" Condition="Exists('..\..\..\nuget\protobuf.2.5.0.0\build\native\protobuf.targets')" />
-    <Import Project="..\..\..\nuget\protobuf-vc100.2.5.0.0\build\native\protobuf-vc100.targets" Condition="Exists('..\..\..\nuget\protobuf-vc100.2.5.0.0\build\native\protobuf-vc100.targets')" />
+    <Import Project="..\..\..\nuget\protobuf-vc140.2.5.0.0\build\native\protobuf-vc140.targets" Condition="Exists('..\..\..\nuget\protobuf-vc140.2.5.0.0\build\native\protobuf-vc140.targets')" />
   </ImportGroup>
 </Project>

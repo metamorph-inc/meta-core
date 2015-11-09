@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="muparser-vc140_init">
+  <PropertyGroup Label="Default initializers for properties">
+    <Linkage-muparser-vc140 Condition="'$(Linkage-muparser-vc140)' == ''">dynamic</Linkage-muparser-vc140>
+    <CallingConvention-muparser-vc140 Condition="'$(CallingConvention-muparser-vc140)' == ''">cdecl</CallingConvention-muparser-vc140>
+  </PropertyGroup>
+  <ItemDefinitionGroup Label="x64 and v140 and Release" Condition="'$(Platform.ToLower())' == 'x64' And '$(PlatformToolset.ToLower())' == 'v140' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 )">
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../..//build/native/lib/x64\v140\Release\muParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="x64 and v140 and Debug" Condition="'$(Platform.ToLower())' == 'x64' And '$(PlatformToolset.ToLower())' == 'v140' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 )">
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../..//build/native/lib/x64\v140\Debug\muParserd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="Win32 and v140 and Release" Condition="'$(Platform.ToLower())' == 'win32' And '$(PlatformToolset.ToLower())' == 'v140' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 )">
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../..//build/native/lib/Win32\v140\Release\muParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="Win32 and v140 and Debug" Condition="'$(Platform.ToLower())' == 'win32' And '$(PlatformToolset.ToLower())' == 'v140' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 )">
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../..//build/native/lib/Win32\v140\Debug\muParserd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\default-propertiesui.xml" />
+  </ItemGroup>
+  <UsingTask TaskName="muparser-vc140_Contains" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" TaskFactory="CodeTaskFactory">
+    <ParameterGroup>
+      <Text Output="false" ParameterType="System.String" />
+      <Library Output="false" Required="true" ParameterType="System.String" />
+      <Value Output="false" Required="true" ParameterType="System.String" />
+      <Result Output="true" ParameterType="System.String" />
+    </ParameterGroup>
+    <Task>
+      <Code>Result = ((Text ?? "").Split(';').Contains(Library) ) ? Value : String.Empty;</Code>
+    </Task>
+  </UsingTask>
+  <Target Name="muparser-vc140_init">
+    <muparser-vc140_Contains Text="Linkage-dynamic" Library="muparser-vc140" Value="dynamic" Condition="'$(Linkage-muparser-vc140)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-muparser-vc140" />
+    </muparser-vc140_Contains>
+    <muparser-vc140_Contains Text="Linkage-static" Library="muparser-vc140" Value="static" Condition="'$(Linkage-muparser-vc140)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-muparser-vc140" />
+    </muparser-vc140_Contains>
+    <muparser-vc140_Contains Text="Linkage-ltcg" Library="muparser-vc140" Value="ltcg" Condition="'$(Linkage-muparser-vc140)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-muparser-vc140" />
+    </muparser-vc140_Contains>
+    <muparser-vc140_Contains Text="Linkage-sxs" Library="muparser-vc140" Value="sxs" Condition="'$(Linkage-muparser-vc140)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-muparser-vc140" />
+    </muparser-vc140_Contains>
+    <muparser-vc140_Contains Text="CallingConvention-cdecl" Library="muparser-vc140" Value="cdecl" Condition="'$(CallingConvention-muparser-vc140)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-muparser-vc140" />
+    </muparser-vc140_Contains>
+    <muparser-vc140_Contains Text="CallingConvention-stdcall" Library="muparser-vc140" Value="stdcall" Condition="'$(CallingConvention-muparser-vc140)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-muparser-vc140" />
+    </muparser-vc140_Contains>
+    <muparser-vc140_Contains Text="CallingConvention-fastcall" Library="muparser-vc140" Value="fastcall" Condition="'$(CallingConvention-muparser-vc140)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-muparser-vc140" />
+    </muparser-vc140_Contains>
+    <muparser-vc140_Contains Text="CallingConvention-thiscall" Library="muparser-vc140" Value="thiscall" Condition="'$(CallingConvention-muparser-vc140)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-muparser-vc140" />
+    </muparser-vc140_Contains>
+    <muparser-vc140_Contains Text="CallingConvention-clrcall" Library="muparser-vc140" Value="clrcall" Condition="'$(CallingConvention-muparser-vc140)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-muparser-vc140" />
+    </muparser-vc140_Contains>
+  </Target>
+</Project>
