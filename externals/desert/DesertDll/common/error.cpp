@@ -7,7 +7,7 @@
 
 static const TCHAR *logName=_T("error.log");
 
-static FILE *log=0;
+static FILE *logFile=0;
 static bool touchLog=false;
 static TCHAR buf[1024];
 
@@ -38,27 +38,27 @@ void StartLogging(const TCHAR *n, bool append)
 {
   if (n) logName = n;
   if(!append)
-	log = _tfopen(logName, _T("w"));
+	logFile = _tfopen(logName, _T("w"));
   else
   {
-	log = _tfopen(logName, _T("a"));
+	logFile = _tfopen(logName, _T("a"));
 
 	TCHAR currtime[128];
 	time_t now = time(0);
 	struct tm* tm = localtime(&now);
 	_sntprintf(currtime, _countof(currtime), _T("%02d-%02d-%04d  %02d:%02d:%02d"), (tm->tm_mon + 1), tm->tm_mday, (tm->tm_year+1900), tm->tm_hour, tm->tm_min, tm->tm_sec);
 
-	_ftprintf(log, _T("\n=====Run Desert at %s======\n"), currtime);
+	_ftprintf(logFile, _T("\n=====Run Desert at %s======\n"), currtime);
   }
 }
 
 void StopLogging(void)
 {
-  if (log)
+  if (logFile)
   {
-    fflush(log);
-    fclose(log);
-    log = 0;
+    fflush(logFile);
+    fclose(logFile);
+    logFile = 0;
   }
   if (!touchLog) _tunlink(logName);
 }
@@ -119,28 +119,28 @@ void Fatal(const TCHAR *loc, const TCHAR *fmt, ...)
 
 static void Log(const TCHAR *msg, const TCHAR *loc, int level)
 {
-  if (!log) return;
+  if (!logFile) return;
   touchLog = true;
 
   switch(level)
   {
   case cTodo:
-    _ftprintf(log, _T("Todo:<%s>: %s\n"), loc, msg);
+    _ftprintf(logFile, _T("Todo:<%s>: %s\n"), loc, msg);
     break;
   case cInfo:
-    _ftprintf(log, _T("Info:<%s>: %s\n"), loc, msg);
+    _ftprintf(logFile, _T("Info:<%s>: %s\n"), loc, msg);
     break;
   case cWarning:
-    _ftprintf(log, _T("Warning:<%s>: %s\n"), loc, msg);
+    _ftprintf(logFile, _T("Warning:<%s>: %s\n"), loc, msg);
     break;
   case cError:
-    _ftprintf(log, _T("Error:<%s>: %s\n"), loc, msg);
+    _ftprintf(logFile, _T("Error:<%s>: %s\n"), loc, msg);
     break;
   case cFatal:
-    _ftprintf(log, _T("Fatal:<%s>: %s\n"), loc, msg);
+    _ftprintf(logFile, _T("Fatal:<%s>: %s\n"), loc, msg);
     break;
   default:
-    _ftprintf(log, _T("Unknown:<%s>: %s\n"), loc, msg);
+    _ftprintf(logFile, _T("Unknown:<%s>: %s\n"), loc, msg);
   }
 }
 
