@@ -272,38 +272,131 @@ namespace isis_CADCommon
 
 	enum ElementType 
 	{
+		ELEMENT_TYPE_UNDEFINED,
 		CHEXA,
 		CPENTA,
-		CTETRA
+		CTETRA,
+		CQUAD,
+		CTRIA3
 	};
 
-	struct SolidElement
+	std::string ElementType_ToString( ElementType in_ElementType);
+
+	struct FEAElement
 	{
 		ElementType Type;
 		int EID;
 		int PID;
-		std::vector<int> GID;
+		std::vector<int> GIDs;  // These GIDs must be in the order read from the card.
+		double thickness;   // Applies to shell elements only
+
+		//	Description:
+		//		This function validates that the element type is a valid type.
+		//	Pre-Conditions:
+		//		None
+		//	Post-Conditions
+		//		if ( Type != CHEXA ||  Type != CPENTA || Type != CTETRA || Type != CQUAD || Type != CTRIA3 )
+		//			throw exception
+		//		else
+		//			Do nothing
+		void validateElementType_and_NumberGIDs( const std::string &in_CallingFunctionName) const throw (isis::application_exception);
+
+		//	Description:
+		//		This function computes the minimum number of GIDs for an element.  For example, a Tetra element must have a minimum of 4 elements.  
+		//		It could have ten elements.
+		//
+		//		Supported elements: CHEXAC, CPENTA, CTETRA, CQUAD and CTRIA3 
+		//
+		//	Pre-Conditions:
+		//		None
+		//		if ( Type != CHEXA &&  Type != CPENTA &&Type != CTETRA && Type != CQUAD && Type != CTRIA3 )
+		//			throw exception
+		//		else
+		//			Return minimum number of GIDs
+		int getElementMinimumNumberOfGIDS() const;
+
+		//	Description:
+		//		This function computes the minimum number of GIDs for a surface.  For example, a Tetra element must have a minimum of 3 GIDs per surface.  
+		//		It could have 6 elements per surface, but normally we are only interested in the corner elements, which would be the first 3.
+		//
+		//		Supported elements: CHEXAC, CTETRA, CQUAD and CTRIA3 
+		//		CPENTA not supported because some surfaces have 3 nodes and other sufaces have 4 nodes.
+		//
+		//	Pre-Conditions:
+		//		None
+		//		if ( Type != CHEXA && Type != CTETRA && Type != CQUAD && Type != CTRIA3 )
+		//			throw exception
+		//		else
+		//			Return minimum number of GIDs
+		int FEAElement::getSurfaceMinimumNumberOfGIDS() const;
+
+		//	Description:
+		//		This function returns the corner GIDs of an element.  For example, a Tetra elements has four corner points 
+		//		and thus four GIDs would be returned for a Tetra element.
+		//
+		//		validateElementType_and_NumberGIDs is called at the beginning of this function.
+		//
+		//		Notes - 1) out_ElementCornerPoints is cleared/emptied before adding the corner point GIDs
+		//				2) Supported elements: CHEXAC, CPENTA, CTETRA, CQUAD and CTRIA3 
+		//			
+		//	Pre-Conditions:
+		//		None
+		//	Post-Conditions:
+		//		If validateElementType_and_NumberGIDs finds an error
+		//			throw (isis::application_exception)
+		//		else
+		//			out_ElementCornerPoints would be populated with the corner GIDs
+		void getElementCornerPoints( std::vector<int> &out_ElementCornerPoints ) const throw (isis::application_exception);
 
 		//	Description:
 		//		Compute the volume of CTetra (4 or 10 node) elements.  Other elements 
 		//		( e.g. CHexa, CPenta) are not supported at this time.  When needed, 
 		//		this function should be modified to support those elements.
+		//		
+		//		Supported elements: CTETRA 
+		//
 		//	Pre-Conditions:
-		//		The grid points in SolidElement must not be congruent.  If one or more grid points are
-		//		congruent, then the behaviour of this function is unknown.
+		//		The grid points in FEAElement must not be congruent.  If one or more grid points are
+		//		congruent, then the behaviour of this function is undefined.
 		//	Post-Conditions
-		//		If SolidElement.Type != CTETRA
+		//		If FEAElement.Type != CTETRA
 		//			throw sis::application_exception
-		//		If SolidElement.GID.size() < 4
+		//		If FEAElement.GID.size() < 4
 		//			throw sis::application_exception
 		//		If a GID is not in in_GridPointData
 		//			throw sis::application_exception
 		//		If no exceptions
 		//			return volume
 		double getVolume( const std::map<int, GridPoint> &in_GridPointData ) const throw (isis::application_exception);
+		
+		// SurfaceID is just a unique ID for each surface within an element.  For example, a Tetra element has four surfaces, which
+		// would be numbered 1, 2, 3, and 4.
+		// The CornerPoints are in an order that would seem logical for the particular surface.  This order does not serve as a key.
+		// To use the CornerPoints as a key, you must first sort them.
+		//
+		// Supported elements: CHEXAC, PENTA, CTETRA, CQUAD and CTRIA3 
+		//
+		void getCornerPointsForEachSurface( std::map<int, std::vector<int>> &out_SurfaceID_to_CornerPoints_map ) const;
 
-		friend std::ostream& operator<<(std::ostream& stream, SolidElement &myElement);
+		// This function finds the diagonal point for an element.  This is a point used by certain cards (e.g. PLOAD4) to 
+		// identify a particular surface on an element.
+		// Note -	in_SurfacePoints does not need to be sorted.  It will be copied to another vector then sorted.  The
+		//			sorted vector is used to find the particular surface.
+		// -1 will be returned for elements that have only one surface (e.g. CQUAD, CTRIA3) and thus do not need diagonal points.
+		//
+		//	in_SurfacePoints can include the surface corner points followed by any mid points, or it could just be
+		//	the surface corner points.  If the mid points are present, they will be ignored.
+		//
+		//
+		void FEAElement::getDiagonalPointForSurface( const std::vector<int> &in_SurfacePoints,
+													int    &out_AnchorPoint,
+													int    &out_DiagonalPoint) const;
+
+		FEAElement();
+
+		friend std::ostream& operator<<(std::ostream& stream, FEAElement &myElement);
 	};
+
 
 	struct SPC
 	{
@@ -311,7 +404,7 @@ namespace isis_CADCommon
 		std::string G1;
 		std::string C1;
 		std::string D1;
-		friend std::ostream& operator<<(std::ostream& stream, SPC &myConstraint);
+		friend std::ostream& operator<<(std::ostream& stream, const SPC &myConstraint);
 	};
 
 	struct Force
@@ -323,8 +416,36 @@ namespace isis_CADCommon
 		std::string N1;
 		std::string N2;
 		std::string N3;
-		friend std::ostream& operator<<(std::ostream& stream, Force &myForce);
+		friend std::ostream& operator<<(std::ostream& stream, const Force &myForce);
 	};
+
+	struct Acceleration   // GRAV card
+	{
+		int SID;
+		int CID;
+		std::string A;
+		std::string N1;  // Acceleration vector
+		std::string N2;
+		std::string N3;
+
+		friend std::ostream& operator<<(std::ostream& stream, const Acceleration &myAcceleration);
+	};
+
+
+	struct Pressure   // PLOAD4
+	{
+		int SID;
+		int EID;
+		std::string P1;
+		std::string P2;
+		std::string P3;
+		std::string P4;
+		std::string G1;
+		std::string G3_or_G4;
+
+		friend std::ostream& operator<<(std::ostream& stream, const Pressure &myPressure);
+	};
+
 
 	struct Load
 	{
@@ -376,7 +497,7 @@ namespace isis_CADCommon
 	//	std::map<int, Material>						materialData;				// MAT1 materials, others not supported right now
 	//	std::map<int, GridPoint>					gridPointData;				// grid points
 	//	std::map<int, PSolid>						psolidData;					// PSolids: <PID, psolid>
-	//	std::multimap<int, SolidElement>			elementData;				// elements: <PID, element>
+	//	std::multimap<int, FEAElement>			elementData;				// elements: <PID, element>
 	//	std::map<int, CoordSystem>					coordSystems;
 	//	std::multimap<int, SPC>						spcData;					// SPC
 	//	std::multimap<int, Force>					forceLoadData;				// Force
@@ -393,25 +514,25 @@ namespace isis_CADCommon
 	//	//*******************
 
 	//	// Description: This class takes a vector of PSolid ID integers and outputs a 
-	//	//  corresponding vector of all SolidElement objects which are contained within
+	//	//  corresponding vector of all FEAElement objects which are contained within
 	//	//  the PSolids. This function is invoked in the FindGridPointsFromPSolids function
 	//	//
 	//	// Pre-conditions:  in_PSolidIDs is a valid std::vector<int>
 	//	//                  out_elements is empty (although we ensure this later)
 	//	// Post-conditions: An exception is thrown if any PSolid ID is invalid
-	//	//                  Otherwise, the corresponding vector of SolidElement objects 
+	//	//                  Otherwise, the corresponding vector of FEAElement objects 
 	//	//                   is returned by parameter
-	//	void FindElementsFromPSolids(std::vector<int> &in_PSolidIDs, std::vector<SolidElement> &out_elements);
+	//	void FindElementsFromPSolids(std::vector<int> &in_PSolidIDs, std::vector<FEAElement> &out_elements);
 
 	//	// Description: Given a vector of SolidElements, we return a vector of gridPoints that belong to those
-	//	//  SolidElement objects.
+	//	//  FEAElement objects.
 	//	//
-	//	// Pre-conditions:  in_Elements is a valid vector of SolidElement objects 
+	//	// Pre-conditions:  in_Elements is a valid vector of FEAElement objects 
 	//	// Post-conditions: An exception is raised if any of the elements have an invalid ID
 	//	//                  If no exception is raised, we return a vector of gridPoints that compose the 
-	//	//                   SolidElement objects
+	//	//                   FEAElement objects
 	//	//
-	//	void FindGridPointsFromElements(std::vector<SolidElement> &in_ElementIDs, std::vector<int> &out_gridPoints);
+	//	void FindGridPointsFromElements(std::vector<FEAElement> &in_ElementIDs, std::vector<int> &out_gridPoints);
 
 	//	// Description: Given a vector of PSolid IDs, we return a vector of grid point IDs that
 	//	//  correspond to the PSolid parts
@@ -467,7 +588,7 @@ namespace isis_CADCommon
 			std::map<int, GridPoint> gridPointData;	// grid points
 			int	 gridPointIDCurrentMax;
 			std::map<int, PSolid> psolidData; // PSolids: <PID, psolid>
-			std::map<int, SolidElement> elementData; // elements: <EID, element> - used to be multimap, but we
+			std::map<int, FEAElement> elementData; // elements: <EID, element> - used to be multimap, but we
 			// need to index into it. Hopefully this doesn't hurt us later
 
 			std::map<int, CoordSystem> coordSystems;
@@ -475,6 +596,9 @@ namespace isis_CADCommon
 			std::multimap<int, SPC>	spcData_SIDKey; // SPC with SID ( constraint set) Key
 			std::multimap<int, SPC>	spcData_GridIDKey; // SPC with grid ID key
 			std::multimap<int, Force> forceLoadData; // Force
+			std::multimap<int, Acceleration> accelerationLoadData; // Acceleration
+			std::multimap<int, Pressure> pressureLoadData; // Pressure
+
 
 			// Book-keeping Stuff
 			int	globalCord_ID;
@@ -553,7 +677,7 @@ namespace isis_CADCommon
 			int	getNextGridPointID();
 
 			std::map<int, PSolid>& getPsolidData(); 
-			const std::map<int, SolidElement>& getElementData() const; 
+			const std::map<int, FEAElement>& getElementData() const; 
 			std::map<int, CoordSystem>& getCoordSystems();
 			std::multimap<int, SPC>& getSpcData_SIDKey();
 			const std::multimap<int, SPC>& getSpcData_GridIDKey() const;
@@ -677,8 +801,7 @@ namespace isis_CADCommon
 			//		P Pressure
 			//		Gi Grid point identification numbers
 			// PLOAD4,59,5877,14904.,14904.,14904.,,418,1416
-			// ??? Presure loads require retriving elements,  should do this later 
-			///void AddPressureToDeck( ...); 
+			void AddPressureToDeck( int in_LoadID, int in_ElemID, double in_Pressure, int in_Grid_1, int in_Grid_3_or_4 );
 
 
 			// MAT1 MID E G NU RHO A TREF GE ST SC SS MCSID
@@ -756,22 +879,22 @@ namespace isis_CADCommon
 			//void CreateCommonNastranDS(CommonNastranDS&);		// main function to populate CommonNastranDS
 
 			// Description: This class takes a vector of PSolid ID integers and outputs a 
-			//  corresponding vector of all SolidElement objects which are contained within
+			//  corresponding vector of all FEAElement objects which are contained within
 			//  the PSolids. This function is invoked in the FindGridPointsFromPSolids function
 			//
 			// Pre-conditions:  None.
 			// Post-conditions: An exception is thrown if any PSolid ID is invalid
-			//  Otherwise, the corresponding vector of SolidElement objects is
+			//  Otherwise, the corresponding vector of FEAElement objects is
 			//   returned by parameter
 			void FindElementsFromPSolids(const std::vector<int> &in_PSolidIDs, std::vector<int> &out_elementIDs);
 
 			//	Description:
 			//		Compute the total volume of all the in_PSolidIDs elements. 
-			//		This function calls SolidElement:getVolume for each element identified by in_PSolidIDs.
+			//		This function calls FEAElement:getVolume for each element identified by in_PSolidIDs.
 			//	Pre-Conditions:
-			//		The pre-conditions for SolidElement:getVolume apply to this function
+			//		The pre-conditions for FEAElement:getVolume apply to this function
 			//	Post-Conditions
-			//		The exceptions for SolidElement:getVolume apply to this function.
+			//		The exceptions for FEAElement:getVolume apply to this function.
 			//		if (in_PSolidIDs.empty())
 			//			throw isis::application_exception
 			//		if ( in_PSolidIDs contains an invalide PSolidID )
@@ -783,12 +906,12 @@ namespace isis_CADCommon
 			double VolumeOfPSolids(const std::vector<int> &in_PSolidIDs);
 
 			// Description: Given a vector of SolidElements, we return a vector of gridPoints
-			//  that belong to those SolidElement objects.
+			//  that belong to those FEAElement objects.
 			//
 			// Pre-conditions:  None.
 			// Post-conditions: An exception is raised if any of the elements have an invalid ID
 			//  If no exception is raised, we return a vector of gridPoints that compose the 
-			//   SolidElement objects
+			//   FEAElement objects
 			void FindGridPointsFromElements(std::vector<int> &in_ElementIDs, std::vector<int> &out_gridPoints);
 
 			// Description: Given a vector of PSolid IDs, we return a vector of grid point IDs that
@@ -836,19 +959,19 @@ namespace isis_CADCommon
 			void SeparateGridPoints(std::vector<int> &in_gridPoints);
 
 			// Description: This function accepts a gridPoint ID as a parameter.
-			//  It finds every SolidElement with that GridPoint, and
-			//  marks it. Then, we find out if any of the marked SolidElement 
+			//  It finds every FEAElement with that GridPoint, and
+			//  marks it. Then, we find out if any of the marked FEAElement 
 			//  objects belong to different parts. If not, we do nothing. 
 			//  If so, then we keep all the entries relating to one of the 
 			//  PSolids the same. For each of the others PSolids, we create a new
 			//  grid point with the same values as in_gridPoint (but with 
-			//  a different GID, of course). Then for each SolidElement of
+			//  a different GID, of course). Then for each FEAElement of
 			//  that PSolid, we create 
 			//
 			//	Pre-conditions: in_gridPoint is a valid grid point ID.
 			//  Post-conditions: If in_gridPoint is not a valid ID, an exception
 			//   is thrown. Otherwise, for each part (PSolid) in_gridPoint 
-			//   belongs to, a new grid point is created, and each SolidElement
+			//   belongs to, a new grid point is created, and each FEAElement
 			//   in the part which
 			void SeparateGridPoint(int in_gridPoint);
 
@@ -1068,7 +1191,9 @@ namespace isis_CADCommon
 			//			then
 			//				out_ElementFound set to true
 			//				out_ElementID set to the element ID containing the face
-			void findElementContainingSurface( const std::vector<int> &in_SurfaceCornerGridIDs, bool &out_ElementFound, int &out_ElementID )																										throw (isis::application_exception);
+			void findElementsContainingSurface(		const std::vector<int> &in_SurfaceCornerGridIDs, 
+													bool &out_ElementFound, 
+													std::set<int> &out_ElementIDs )throw (isis::application_exception);
 
 			// Description:
 			//		This function return the heat flux load for boundary surfaces.  It currently does not test whether the surface
@@ -1107,6 +1232,12 @@ namespace isis_CADCommon
 			//			isis::application_exception would be thrown.
 			//		if there are no surfaces found,  then out_ElementID_to_SurfacePoints_map.size() == 0
 			//		Otherwise, return a populated out_ElementID_to_SurfacePoints_map
+			//
+			//     	if ( elem_itr->second.Type != CTETRA &&  elem_itr->second.Type != CQUAD )
+			//			throw (isis::application_exception)
+			//
+			//	Supported Element Types: CTETRA and CQUAD
+			//
 			void getSurfaceElementsContainingGridPoints ( const std::set<int> &in_GridPointIDs, 
 														  std::multimap< int, std::vector<int>> &out_ElementID_to_SurfacePoints_map )
 														  throw (isis::application_exception);
@@ -1127,19 +1258,21 @@ namespace isis_CADCommon
 			// Don't allow this class to be instantiated without specifying  the NastranDeck as an input.
 			NastranDeckHelper();
 
-			bool sufaceCornerGridIDs_to_SolidElementID_map_populated;  // Initially set to false by the constructor
+			bool sufaceCornerGridIDs_to_FEAElementIDs_map_populated;  // Initially set to false by the constructor
 
 			// For sufaceIDs_to_SolidElement_map:
 			//	1) Only tetra elements are currently supported
 			//	2) The key (i.e. std::vector<int>) is the four corner points representing the four faces of a tetra element.
-			//	3) The keys for a tetra with the four corner points numbered 1, 2, ,3, 4 are
+			//	3) The keys for a tetra with the four corner points numbered 1, 2, 3, 4 are
 			//	   Face 1, Keys: 1 2 3
 			//	   Face 2, Keys: 1 2 4
 			//	   Face 3, Keys: 1 3 4
 			//	   Face 4, Keys: 2 3 4
-			std::map<std::vector<int>, int> sufaceCornerGridIDs_to_SolidElementID_map;  // surfaceIDs represent a key to a solid element
+			std::map<std::vector<int>, std::set<int>> sufaceCornerGridIDs_to_FEAElementIDs_map;  // surfaceIDs represent a key to a solid element
 
-			void populate_sufaceCornerGridIDs_to_SolidElementID_map();
+
+			// Supports Elements: CHEXAC, PENTA, CTETRA, CQUAD and CTRIA3 
+			void populate_sufaceCornerGridIDs_to_FEAElementIDs_map();
 	};
 
 	

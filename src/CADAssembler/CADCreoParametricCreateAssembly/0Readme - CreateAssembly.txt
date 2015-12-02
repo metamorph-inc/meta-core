@@ -1,30 +1,35 @@
-Title: 	  CADCreoParametricCreateAssembly.exe (Creo Parametric)
-	  assemble_ptc.exe (Pro/E) no longer supported
+                         CADCreoParametricCreateAssembly.exe 
+	  	
+Supported Creo Versions
+-----------------------
+Creo Parametric 2.x and 3.x
 
-Creo-Parametric 	CADCreoParametricCreateAssembly.exe v1.5.3.0
-Pro/E 		 	assemble_ptc.exe Version: v1.0.008  // Not supported as of Jan. 2012
+Deprecated Versions
+-------------------
+Pro/E not supported
+Pro/E assemble_ptc.exe Version: v1.0.008 not supported as of Jan. 2012
 
-Supported Creo Versions: Creo 2.x, no other versions currently supported
-
-Pre-Conditions:
+Pre-Conditions
 --------------
 
 1. This program only runs on 64 bit machines/OSs.
 
-2. Pro/E (i.e. “Pro/E Wildfire 5.0”) Not Supported as of Jan. 2012
+2. A supported version of Creo (see Supported Creo Versions above) must be installed and must work 
+   properly on your machine.
 
-3. For Creo-Parametric, must have “Creo Paramtric 2.x” installed and configured such that Creo runs properly.
-   Creo 1.0 not supported as of July, 2013.  	
-
-4. Typically this program would be invoked on a computer that has the META tool suite installed.  If this
+3. Typically this program would be invoked on a computer that has the META tool suite installed.  If this
    is no the case, the x64 version of UDM must be installed.  This is needed because this program uses UDM to 
    parse xml files.  You can download UDM from http://repo.isis.vanderbilt.edu/downloads/.  Make sure you 
    install the 64 bit versions (e.g. UDM_x64-....msi). 
 
-Install Instructions:
---------------------
+CADCreoParametricCreateAssembly.exe Install Instructions:
+--------------------------------------------------------
+NOTE - Normally there is no need to perform a manual install.  The META installer 
+       performs of all the necessary setup.
 
-1.  Copy the directory "Proe ISIS Extensions" to a local drive.  Typically, "C:\Program Files\META\Proe ISIS Extensions"
+If you would like to install manually, perform the following steps:
+1.  Copy the directory "Proe ISIS Extensions" to a local drive.  Typically, 
+    "C:\Program Files\META\Proe ISIS Extensions"
 
 2.  Setup the following system environment variable:  
 
@@ -35,7 +40,7 @@ Install Instructions:
 3.  Starting with CADCreoParametricCreateAssembly.exe v1.2.2.0 no environment variables, other than 
     PROE_ISIS_EXTENSIONS, are necessary.  CADCreoParametricCreateAssembly.exe will automatically 
     choose the highest version of the CADCreoParametricCreateAssembly.exe supported versions of 
-    Creo (see Supported Creo Versions section above) that is on your machine.  However, there 
+    Creo (see Supported Creo Versions above) that is on your computer.  However, there 
     are cases where you may want to use the environment variables.  For example, if you have 
     multiple versions of Creo on your machine, then you may want to use the environment variables 
     to specify the version you would like to use.  To specify a particular version of Creo, 
@@ -921,13 +926,34 @@ v1.5.3.0 06/25/2015	Modify the sorting (order that models are added to the assem
 No New Vers. 10/12/2015	A change was made to the CyPhy2CAD interpreter that affects the contents of CADAssembly.xml 
 			and thus the behavior of the CreateAssembly program.
 			A description of the change follows:
-			For both loads and constraints, a metric should have been requested in CADAssembly.xml for 
-			the location of the points used in defining the loads and constraints.  This was done for 
-			constraints but not loads.  FEATestBench.cs lines were modified from 
+			For both loads and constraints, a metric should have been requested in CADAssembly.xml
+                        for the location of the points used in defining the loads and constraints.  This was done 			for constraints but not loads.  FEATestBench.cs lines were modified from 
 			AddGeometry2Load(feaforceRep,geometry.Impl as MgaFCO,tipContextPath)  
-			to
-			AddGeometry2Load(feaforceRep,geometry.Impl as MgaFCO,tipContextPath, true);  
-			The "true" in the previous line means to addcomputations.
+			to AddGeometry2Load(feaforceRep,geometry.Impl as MgaFCO,tipContextPath, true);  
+			The "true" in the previous line means to addcomputations. 
+			R.O.
+
+			
+v1.5.4.0 12/02/2015	GitHub Branch: CAD_002_FEA_METALink_Improvements 
+
+			For FEA, added:
+				a) Support for pressure loads for deck-based Nastran and deck-based Abaqus.
+				   Note - will add support for pressure loads for Calculix later.
+				b) Support for Face construct (i.e. adding loads/constraints to surfaces) for
+				   deck-based Nastran, Abaqus, and Calculix.
+				c) Support for extrusions for identifying geometry
+				d) The "Structural FEA" Test Bench has a dropdown to specify SolverType. Modified
+				   src\CyPhyMasterInterpreter\Rules\StructuralFEATestBenchChecker.cs to allow Face 
+				   constructs to be used with all SolverTypes, not just "Abaqus Model Based".
+
+			Performance improvements:	
+				a) Modified SetCADModelParameters.cpp to only regen (up to 5 times) for parametric 
+				   parts.  Previously the regen was happening for all parts, but non-parametric
+				   parts should have been regened before saving.  If that is not the case, 
+				   this program would have no way of correcting modeling errors.
+				b) Modified AssemblyEditingViaLink.cpp to remove a superfluous regenerate.
+			R.O.				
+
 
 
 Known Defects

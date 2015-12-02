@@ -1189,7 +1189,7 @@ void Tests::NastranDeck_test()
 			}
 
 			//std::cout << std::endl;
-			//std::cout << std::endl << "*****************  findElementContainingSurface ***********************";
+			//std::cout << std::endl << "*****************  findElementsContainingSurface ***********************";
 
 			std::vector<int> surfaceCornerGridIDs;
 
@@ -1198,14 +1198,29 @@ void Tests::NastranDeck_test()
 			surfaceCornerGridIDs.push_back(32);
 
 			bool elementFound;
-			int  elementID;
+			std::set<int> elementIDs;
 
-			nastranDeckHelper.findElementContainingSurface( surfaceCornerGridIDs,elementFound, elementID );
+			nastranDeckHelper.findElementsContainingSurface( surfaceCornerGridIDs,elementFound, elementIDs );
 
 			//std::cout <<std::endl << "Element Key: "; 
 			//for each ( const int &j in surfaceCornerGridIDs) std::cout << " " << j;
 
+
+
 			CPPUNIT_ASSERT(elementFound);
+
+			// In the deck Edited_Thermal_Mesh.nas, there are two tetra with the element combination
+			// CTETRA,20,1,20,14,32,13,93,94,
+			//	,117,87,84,92
+			// CTETRA,10,1,14,20,32,5,93,117,       // We want this one
+			//	,94,50,51,52
+
+			int elementID = 0;
+			for each ( const int &i_target in elementIDs )
+			{
+				if ( i_target == 10 ) elementID = 10;
+			}
+	
 			CPPUNIT_ASSERT_EQUAL(10, elementID);
 			CPPUNIT_ASSERT_EQUAL(10, deck.getElementData().find(elementID)->second.EID);
 			CPPUNIT_ASSERT_EQUAL(CTETRA, deck.getElementData().find(elementID)->second.Type);
@@ -1216,7 +1231,7 @@ void Tests::NastranDeck_test()
 			std::vector<HeatFluxLoad> heatFluxLoads;
 			nastranDeckHelper.getHeatFluxLoadsForBoundarySurfaces( heatFluxLoads ) ;
 			CPPUNIT_ASSERT_EQUAL(2, (int)heatFluxLoads.size());
-			//const std::map<int, SolidElement> &elementData_map = deck.getElementData();
+			//const std::map<int, FEAElement> &elementData_map = deck.getElementData();
 
 			CPPUNIT_ASSERT_EQUAL(std::string("QBDY3"), heatFluxLoads[0].name);
 			CPPUNIT_ASSERT_EQUAL(39, heatFluxLoads[0].elementIDThatContainsSurface);

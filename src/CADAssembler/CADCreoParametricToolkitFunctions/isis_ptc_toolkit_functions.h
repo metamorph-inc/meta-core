@@ -607,6 +607,32 @@ namespace isis
 
 	extern ProError isis_ProEngineerReleaseNumericversionGet(	int* ver ) throw(isis::application_exception);
 
+	extern ProError isis_ProSurfaceInit (	ProMdl        p_owner_handle,
+											int           surf_id,
+											ProSurface   *p_surface)
+																throw(isis::application_exception);			
+
+
+	extern ProError isis_ProPoint3dOnsurfaceFind(	ProPoint3d      xyz,        
+													ProSurface      surface,   
+													ProBoolean     *on_surf,  
+													ProPoint3d      closest_pt)
+																throw(isis::application_exception);				
+
+	extern ProError isis_ProModelitemMdlGet (		ProModelitem    *p_model_item, 
+													ProMdl          *p_owner) 
+																throw(isis::application_exception);	
+
+	// Note - The following function is from UtilCollect.c
+	extern ProError isis_ProUtilCollectSolidSurfaces (	ProSolid	    p_solid,		//	In:  The handle to the solid */
+														ProSurface	    **p_surfaces	//	Out: ProArray with collected surfaces. 
+																						//	The function allocates memory 
+																						//	for this argument, but you must 
+																						//	free it. To free the memory, 
+																						//	call the function ProArrayFree()*/
+																				)
+																		throw (isis::application_exception);
+
 
 	// Need Toolkit Mechanica license
 	/*

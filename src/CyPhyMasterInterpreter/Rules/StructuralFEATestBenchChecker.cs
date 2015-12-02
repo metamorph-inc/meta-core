@@ -56,7 +56,7 @@ namespace CyPhyMasterInterpreter.Rules
                         {
                             var feedback = new ContextCheckerResult()
                             {
-                                Success = false,
+                                Success = true,
                                 Subject = face.Impl,
                                 Message = string.Format("Face construct not allowed for solver type ABAQUS deck based.")
                             };
@@ -70,7 +70,7 @@ namespace CyPhyMasterInterpreter.Rules
                         {
                             var feedback = new ContextCheckerResult()
                             {
-                                Success = false,
+                                Success = true,
                                 Subject = face.Impl,
                                 Message = string.Format("Face construct not allowed for solver type NASTRAN.")
                             };

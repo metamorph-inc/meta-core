@@ -46,6 +46,7 @@ extern "C"
 #include <ProSimprep.h>
 #include <ProFit.h>
 #include <ProIntf3Dexport.h>
+#include <ProSurface.h>
 //#include <TestError.h>
 }
 

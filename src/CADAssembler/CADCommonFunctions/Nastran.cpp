@@ -15,6 +15,9 @@
 #pragma warning( disable : 4996 ) // Disable warining about not using the safe char* functions (e.g. sscanf_s, sprintf_s...
 namespace isis_CADCommon
 {
+	const std::string c_PRESSURES_PLACEMENT("PRESSURES_PLACEMENT");
+	const std::string c_ACCELERATIONS_PLACEMENT("ACCELERATIONS_PLACEMENT");
+		
 	std::string DoubleToString(double in_data, std::streamsize in_precision)
 	{
 		if(abs(in_data) < 1e-19)
@@ -58,7 +61,7 @@ namespace isis_CADCommon
 		return stream.str();
 	}
 
-	std::ostream& operator<<(std::ostream& stream, const SolidElement &myElement)
+	std::ostream& operator<<(std::ostream& stream, const FEAElement &myElement)
 	{
 		std::string elementType = "";
 		if(myElement.Type == isis_CADCommon::CTETRA)
@@ -69,9 +72,9 @@ namespace isis_CADCommon
 			elementType = "CHEXA";
 		stream << elementType;
 		stream << "," << myElement.EID << "," << myElement.PID;
-		for(size_t i = 0; i < myElement.GID.size(); ++i)
+		for(size_t i = 0; i < myElement.GIDs.size(); ++i)
 		{
-			stream << "," << myElement.GID[i];
+			stream << "," << myElement.GIDs[i];
 			if(i%5 == 0 && i != 0)
 				stream << ",\n";
 		}
@@ -325,6 +328,24 @@ namespace isis_CADCommon
 		return stream;
 	}
 
+	
+	std::ostream& operator<<(std::ostream& stream, const Acceleration &myAcceleration)
+	{
+		stream	<< "GRAV," << myAcceleration.SID << "," << myAcceleration.CID << "," << myAcceleration.A << ","
+				<< myAcceleration.N1 << "," << myAcceleration.N2 << "," << myAcceleration.N3;
+		return stream;
+	}
+	
+
+	std::ostream& operator<<(std::ostream& stream, const Pressure &myPressure)
+	{
+		stream << "PLOAD4," << myPressure.SID << "," << myPressure.EID << ","
+			<<  myPressure.P1 << "," << myPressure.P2 << "," << myPressure.P3
+			<< "," << myPressure.P4 << "," << myPressure.G1 <<   "," << myPressure.G3_or_G4;
+		return stream;
+	}
+
+
 	std::ostream& operator<<(std::ostream& stream, const CoordSystem &myCoord)
 	{
 		//how to preserve decimal point at end of doubles/floats?
@@ -340,8 +361,171 @@ namespace isis_CADCommon
 		return stream;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	void FEAElement::validateElementType_and_NumberGIDs( const std::string &in_CallingFunctionName) const throw (isis::application_exception)
+	{
+		if ( Type != CHEXA &&  Type != CPENTA && Type != CTETRA && Type != CQUAD && Type != CTRIA3 )
+		{
+			std::stringstream errorString;
+			errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+						"Function:    " << in_CallingFunctionName << std::endl <<
+						"ElementType: "	<<  ElementType_ToString(Type) <<  std::endl <<
+						"Error:       " << "Only CHEXA, CPENTA, CTETRA, CQUAD, and CTRIA3 currently supported.";
+			throw isis::application_exception(errorString.str()); 
+		}
+			
+		switch ( Type )
+		{
+			case CHEXA:
+				if ( GIDs.size() < 8 )  
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+								"Function:				  " << in_CallingFunctionName << std::endl <<
+								"ElementType:			  "	<<  ElementType_ToString(Type) <<  std::endl <<
+								"ElementNumberGridPoints: " << GIDs.size() <<  std::endl <<
+								"Error:		            " << "Must have at least 8 grid points.";
+					throw isis::application_exception(errorString.str()); 
+				}
+				break;
+			case CPENTA:
+				if ( GIDs.size() < 6 )  
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+								"Function:				  " << in_CallingFunctionName << std::endl <<
+								"ElementType:			  "	<<  ElementType_ToString(Type) <<  std::endl <<
+								"ElementNumberGridPoints: " << GIDs.size() <<  std::endl <<
+								"Error:		            " << "Must have at least 6 grid points.";
+					throw isis::application_exception(errorString.str()); 
+				}
+				break;
+
+			case CTETRA:
+				if (GIDs.size() < 4 )  
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+								"Function:				 " << in_CallingFunctionName << std::endl <<
+								"ElementType:			  "	<<  ElementType_ToString(Type) <<  std::endl <<
+								"ElementNumberGridPoints: " << GIDs.size() <<  std::endl <<
+								"Error:		            " << "Must have at least 4 grid points.";
+					throw isis::application_exception(errorString.str()); 
+				}
+
+				break;
+			case CQUAD:
+				if (GIDs.size() < 4 )  
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+								"Function:				  " << in_CallingFunctionName << std::endl <<
+								"ElementType:			  "	<<  ElementType_ToString(Type) <<  std::endl <<
+								"ElementNumberGridPoints: " << GIDs.size() <<  std::endl <<
+								"Error:		            " << "Must have at least 4 grid points.";
+					throw isis::application_exception(errorString.str()); 
+				}
+				break;
+			case CTRIA3:
+				if (GIDs.size() < 3 )  
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+								"Function:				  " << in_CallingFunctionName << std::endl <<
+								"ElementType:			  "	<<  ElementType_ToString(Type) <<  std::endl <<
+								"ElementNumberGridPoints: " << GIDs.size() <<  std::endl <<
+								"Error:		            " << "Must have at least 3 grid points.";
+					throw isis::application_exception(errorString.str()); 
+				}
+		} // END Switch
+
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	int FEAElement::getElementMinimumNumberOfGIDS() const
+	{
+		if ( Type != CHEXA &&  Type != CPENTA && Type != CTETRA && Type != CQUAD && Type && CTRIA3 )
+		{
+			std::stringstream errorString;
+			errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+						"Function:    " << __FUNCTION__ << std::endl <<
+						"ElementType: "	<<  ElementType_ToString(Type) <<  std::endl <<
+						"Error:       " << "Only CHEXA, CPENTA, CTETRA, CQUAD, and CTRIA3 currently supported.";
+			throw isis::application_exception(errorString.str()); 
+		}
+
+		int minimumNumberOfGIDS = 0;
+		switch ( Type )
+		{
+			case CHEXA:
+				minimumNumberOfGIDS = 8;
+				break;
+			case CPENTA:
+				minimumNumberOfGIDS = 6;
+				break;
+			case CTETRA:
+				minimumNumberOfGIDS = 4;
+				break;
+			case CQUAD:
+				minimumNumberOfGIDS = 4;
+				break;
+			case CTRIA3:
+				minimumNumberOfGIDS = 3;
+		} // END Switch
+
+		return minimumNumberOfGIDS;
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	int FEAElement::getSurfaceMinimumNumberOfGIDS() const
+	{
+		//if ( Type != CHEXA &&  Type != CPENTA && Type != CTETRA && Type != CQUAD && Type && CTRIA3 )
+		// CPENTA not supported because some surfaces have 3 nodes and other surfaces have 4 nodes.
+		if ( Type != CHEXA &&  Type != CTETRA && Type != CQUAD && Type && CTRIA3 )
+		{
+			std::stringstream errorString;
+			errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+						"Function:    " << __FUNCTION__ << std::endl <<
+						"ElementType: "	<<  ElementType_ToString(Type) <<  std::endl <<
+						//"Error:       " << "Only CHEXA, CPENTA, CTETRA, CQUAD, and CTRIA3 currently supported.";
+						"Error:       " << "Only CHEXA, CTETRA, CQUAD, and CTRIA3 currently supported.";
+			throw isis::application_exception(errorString.str()); 
+		}
+
+		int minimumNumberOfGIDS = 0;
+		switch ( Type )
+		{
+			case CHEXA:
+				minimumNumberOfGIDS = 4;
+				break;
+			case CPENTA:
+				minimumNumberOfGIDS = 4;  // 3 surface have a minimum of 4 nodes, and 2 Surfaces have a minimum of 3 
+				break;
+			case CTETRA:
+				minimumNumberOfGIDS = 3;
+				break;
+			case CQUAD:
+				minimumNumberOfGIDS = 4;
+				break;
+			case CTRIA3:
+				minimumNumberOfGIDS = 3;
+		} // END Switch
+
+		return minimumNumberOfGIDS;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	void FEAElement::getElementCornerPoints ( std::vector<int> &out_ElementCornerPoints ) const
+	{
+		validateElementType_and_NumberGIDs(__FUNCTION__);
+
+		out_ElementCornerPoints.clear();
+
+		for ( int i = 0; i < getElementMinimumNumberOfGIDS(); ++ i )
+		{
+			out_ElementCornerPoints.push_back(GIDs[i]);
+		}
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Only volume of CTETRA currently supported
-	double SolidElement::getVolume( const std::map<int, GridPoint> &in_GridPointData ) const throw (isis::application_exception)
+	double FEAElement::getVolume( const std::map<int, GridPoint> &in_GridPointData ) const throw (isis::application_exception)
 	{
 		// Note - this function should be expanded to support the other (e.g. CHEXA, and CPENTA) element types.
 		std::stringstream errorString;
@@ -360,20 +544,20 @@ namespace isis_CADCommon
 				throw isis::application_exception(errorString.str()); 		
 				break;
 			case CTETRA:
-				if ( GID.size() < 4 )
+				if ( GIDs.size() < 4 )
 				{
 					errorString <<  "Error, Function: " << __FUNCTION__ ", Insufficient points for computing the volume.  There must be at least four points.  " << std::endl <<
-						"Number of points: " << GID.size();
+						"Number of points: " << GIDs.size();
 					throw isis::application_exception(errorString.str()); 	
 				}
 
 				for ( int i = 0; i < 4; ++i )
 				{
-					std::map<int, GridPoint>::const_iterator grid_itr = in_GridPointData.find(GID[i] );
+					std::map<int, GridPoint>::const_iterator grid_itr = in_GridPointData.find(GIDs[i] );
 
 					if ( grid_itr == in_GridPointData.end() )
 					{
-						errorString <<  "Error, Function: " << __FUNCTION__ ", grid point for tetra element not found. Grid point ID: " << GID[0];
+						errorString <<  "Error, Function: " << __FUNCTION__ ", grid point for tetra element not found. Grid point ID: " << GIDs[0];
 						throw isis::application_exception(errorString.str()); 	
 					}
 					cornerPoints.push_back(grid_itr->second.point);
@@ -388,6 +572,358 @@ namespace isis_CADCommon
 		}
 		return volume;
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	void FEAElement::getCornerPointsForEachSurface( std::map<int, std::vector<int>> &out_SurfaceID_to_CornerPoints_map ) const
+	{
+
+		validateElementType_and_NumberGIDs(__FUNCTION__);
+
+		int numberSurfaceCornerPoints = 4;  // This will be 3 or 4
+		int totalCornerPoints = 1000;  // Make large, so it will have to be reset or otherwise caught by the error handler.
+		std::stringstream errorString;
+
+		std::vector<int> cornerPoints(32);
+		switch ( Type )
+		{
+			case CHEXA:
+				// See Nastran documentation for Tetra CHEXA point numbering scheme
+				// Faces by Grid Point Numbering  
+				// Face		Grid Points				GIDs Vector Numbering
+				//			Nastran Numbering
+				//	1		1 2 3 4					0 1 2 3					
+				//	2		1 2 6 5				`	0 1 5 4
+				//	3		1 5 8 4					0 4 7 3
+				//	4		2 3 7 6					1 2 6 5
+				//  5       3 4 8 7                 2 3 7 6
+				//  6		5 6 7 8					4 5 6 7
+
+				totalCornerPoints = 8;
+				numberSurfaceCornerPoints = 4;
+				if ( GIDs.size() < 	totalCornerPoints  )
+				{				
+					errorString <<
+						"Function - " + std::string(__FUNCTION__) +
+						" Insufficient grid points for a " << ElementType_ToString(Type) << " element.  Number of required grid points: " <<  totalCornerPoints << ".  Number of found grid points:  GIDs.size()";
+					throw isis::application_exception(errorString.str().c_str());
+				}
+
+				cornerPoints[0] = GIDs[0];
+				cornerPoints[1] = GIDs[1];
+				cornerPoints[2] = GIDs[2];
+				cornerPoints[3] = GIDs[3];
+				out_SurfaceID_to_CornerPoints_map[1] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+
+				cornerPoints[0] = GIDs[0];
+				cornerPoints[1] = GIDs[1];
+				cornerPoints[2] = GIDs[5];
+				cornerPoints[3] = GIDs[4];
+				out_SurfaceID_to_CornerPoints_map[2] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+
+				cornerPoints[0] = GIDs[0];
+				cornerPoints[1] = GIDs[4];
+				cornerPoints[2] = GIDs[7];
+				cornerPoints[3] = GIDs[3];
+				out_SurfaceID_to_CornerPoints_map[3] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+
+				cornerPoints[0] = GIDs[1];
+				cornerPoints[1] = GIDs[2];
+				cornerPoints[2] = GIDs[6];
+				cornerPoints[3] = GIDs[5];
+				out_SurfaceID_to_CornerPoints_map[4] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+
+				cornerPoints[0] = GIDs[2];
+				cornerPoints[1] = GIDs[3];
+				cornerPoints[2] = GIDs[7];
+				cornerPoints[3] = GIDs[6];
+				out_SurfaceID_to_CornerPoints_map[5] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+
+				cornerPoints[0] = GIDs[4];
+				cornerPoints[1] = GIDs[5];
+				cornerPoints[2] = GIDs[6];
+				cornerPoints[3] = GIDs[7];
+				out_SurfaceID_to_CornerPoints_map[6] =  cornerPoints;
+
+				break;
+			case CPENTA:
+				// Surface could have three corner points or four points
+				// See Nastran documentation for Tetra CPENTA point numbering scheme
+				// Faces by Grid Point Numbering  
+				// Face		Grid Points				GIDs Vector Numbering
+				//			Nastran Numbering
+				//	1		1 2 3 					0 1 2 					
+				//	2		4 5 6				`	3 4 5
+				//	3		1 2 5 4					0 1 4 3
+				//	4		2 3 6 5				    1 2 5 4
+				//  5       1 3 6 4                 0 2 5 3
+
+				totalCornerPoints = 6;
+				numberSurfaceCornerPoints = 4;  // two surfaces have only three corner points
+				if ( GIDs.size() < 	totalCornerPoints  )
+				{				
+					errorString <<
+						"Function - " + std::string(__FUNCTION__) +
+						" Insufficient grid points for a " << ElementType_ToString(Type) << " element.  Number of required grid points: " <<  totalCornerPoints << ".  Number of found grid points:  GIDs.size()";
+					throw isis::application_exception(errorString.str().c_str());
+				}
+
+				cornerPoints[0] = GIDs[0];
+				cornerPoints[1] = GIDs[1];
+				cornerPoints[2] = GIDs[2];
+				//cornerPoints[3] = GIDs[3];
+				//																							This surface has 3 points
+				out_SurfaceID_to_CornerPoints_map[1] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints-1]);
+
+				cornerPoints[0] = GIDs[3];
+				cornerPoints[1] = GIDs[3];
+				cornerPoints[2] = GIDs[5];
+				//cornerPoints[3] = GIDs[4];
+				//																							This surface has 3 points
+				out_SurfaceID_to_CornerPoints_map[2] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints - 1]);
+
+				cornerPoints[0] = GIDs[0];
+				cornerPoints[1] = GIDs[1];
+				cornerPoints[2] = GIDs[4];
+				cornerPoints[3] = GIDs[3];
+				out_SurfaceID_to_CornerPoints_map[3] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+
+				cornerPoints[0] = GIDs[1];
+				cornerPoints[1] = GIDs[2];
+				cornerPoints[2] = GIDs[5];
+				cornerPoints[3] = GIDs[4];
+				out_SurfaceID_to_CornerPoints_map[4] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+
+				cornerPoints[0] = GIDs[0];
+				cornerPoints[1] = GIDs[2];
+				cornerPoints[2] = GIDs[5];
+				cornerPoints[3] = GIDs[3];
+				out_SurfaceID_to_CornerPoints_map[5] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+
+				break;
+			case CTETRA:
+				// See Nastran documentation for Tetra Grid point numbering scheme
+				//
+				// Faces by Grid Point Numbering  
+				// Face		Grid Points				GIDs Vector Numbering
+				//			Nastran Numbering
+				//	1		1 2 3					0 1 2
+				//	2		1 2 4					0 1 3
+				//	3		2 3 4					1 2 3
+				//	4		1 3 4					0 2 3
+
+				totalCornerPoints = 4;
+				numberSurfaceCornerPoints = 3;
+
+				if ( GIDs.size() < numberSurfaceCornerPoints )
+				{
+					errorString <<
+						"Function - " + std::string(__FUNCTION__) +
+						" Insufficient grid points for a " << ElementType_ToString(Type) << " element.  Number of required grid points: " <<  totalCornerPoints << ".  Number of found grid points:  GIDs.size()";
+					throw isis::application_exception(errorString.str().c_str());
+				}
+
+				cornerPoints[0] = GIDs[0];
+				cornerPoints[1] = GIDs[1];
+				cornerPoints[2] = GIDs[2];
+				out_SurfaceID_to_CornerPoints_map[1] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+
+				cornerPoints[0] = GIDs[0];
+				cornerPoints[1] = GIDs[1];
+				cornerPoints[2] = GIDs[3];
+				out_SurfaceID_to_CornerPoints_map[2] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+
+				cornerPoints[0] = GIDs[1];
+				cornerPoints[1] = GIDs[2];
+				cornerPoints[2] = GIDs[3];
+				out_SurfaceID_to_CornerPoints_map[3] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+
+				cornerPoints[0] = GIDs[0];
+				cornerPoints[1] = GIDs[2];
+				cornerPoints[2] = GIDs[3];
+				out_SurfaceID_to_CornerPoints_map[4] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+
+				break;
+			case CQUAD:
+				// See Nastran documentation for CQUAD Grid point numbering scheme
+				//
+				// Faces by Grid Point Numbering  
+				// Face		Grid Points				GIDs Vector Numbering
+				//			Nastran Numbering
+				//	1		1 2 3 4					0 1 2 3
+
+				totalCornerPoints = 4;
+				numberSurfaceCornerPoints = 4;
+
+				if ( GIDs.size() < numberSurfaceCornerPoints )
+				{
+					errorString <<
+						"Function - " + std::string(__FUNCTION__) +
+						" Insufficient grid points for a " << ElementType_ToString(Type) << " element.  Number of required grid points: " <<  totalCornerPoints << ".  Number of found grid points:  GIDs.size()";
+					throw isis::application_exception(errorString.str().c_str());
+				}
+
+				cornerPoints[0] = GIDs[0];
+				cornerPoints[1] = GIDs[1];
+				cornerPoints[2] = GIDs[2];
+				cornerPoints[3] = GIDs[3];
+				out_SurfaceID_to_CornerPoints_map[1] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+
+				break;
+			case CTRIA3:
+				// See Nastran documentation for CTRIA3 Grid point numbering scheme
+				//
+				// Faces by Grid Point Numbering  
+				// Face		Grid Points				GIDs Vector Numbering
+				//			Nastran Numbering
+				//	1		1 2 3 					0 1 2
+
+				totalCornerPoints = 3;
+				numberSurfaceCornerPoints = 3;
+
+				if ( GIDs.size() < numberSurfaceCornerPoints )
+				{
+					errorString <<
+						"Function - " + std::string(__FUNCTION__) +
+						" Insufficient grid points for a " << ElementType_ToString(Type) << " element.  Number of required grid points: " <<  totalCornerPoints << ".  Number of found grid points:  GIDs.size()";
+					throw isis::application_exception(errorString.str().c_str());
+				}
+
+				cornerPoints[0] = GIDs[0];
+				cornerPoints[1] = GIDs[1];
+				cornerPoints[2] = GIDs[2];
+				out_SurfaceID_to_CornerPoints_map[1] =  std::vector<int>(&cornerPoints[0],&cornerPoints[numberSurfaceCornerPoints]);
+				break;
+			default:
+				std::stringstream errorString;
+				errorString <<
+					"Function - " + std::string(__FUNCTION__) +
+					" unsupported element type: " <<  ElementType_ToString(Type) << ". Supported element types:  CHEXA, CPENTA, CTETRA, CQUAD, CTRIA3";
+				throw isis::application_exception(errorString.str().c_str());
+		}
+
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	void FEAElement::getDiagonalPointForSurface( const std::vector<int> &in_SurfacePoints,
+												int    &out_AnchorPoint,
+												int    &out_DiagonalPoint) const
+	{
+
+		out_AnchorPoint = -99;
+		out_DiagonalPoint = -99;
+
+		// G1	Identification number of a grid point connected to a corner of the face. Required
+		//		data for solid elements only. (Integer > 0 or blank)
+		// G3	Identification number of a grid point connected to a corner diagonally opposite to
+		//		G1 on the same face of a CHEXA or CPENTA element. Required data for
+		//		quadrilateral faces of CHEXA and CPENTA elements only. G3 must be omitted
+		//		for a triangular surface on a CPENTA element.
+		// G4	Identification number of the CTETRA grid point located at the corner; this grid
+		//		point may not reside on the face being loaded. This is required data and is used for
+		//		CTETRA elements only. (Integer > 0)
+
+		std::vector<int> elementCornerPoints;
+		getElementCornerPoints(elementCornerPoints);
+
+		if ( elementCornerPoints.size() < 3)
+		{
+			std::stringstream errorString;
+			errorString <<  "Erroneous number of corner grid points.  There must be at least three corner grid points."		<< std::endl <<
+						"Function:                " << __FUNCTION__ << std::endl <<
+						"ElementType:             "	<<  ElementType_ToString(Type) <<  std::endl <<
+						"ElementCornerGridPoints: ";
+						for each ( const int &i_grid in elementCornerPoints) errorString << " " <<  i_grid;
+			throw isis::application_exception(errorString.str()); 
+
+		}
+
+		if ( in_SurfacePoints.size() < 3)
+		{
+			std::stringstream errorString;
+			errorString <<  "Erroneous number of surface grid points.  There must be at least three corner grid points."		<< std::endl <<
+						"Function:                " << __FUNCTION__ << std::endl <<
+						"ElementType:             "	<<  ElementType_ToString(Type) <<  std::endl <<
+						"ElementCornerGridPoints: ";
+						for each ( const int &i_grid in in_SurfacePoints) errorString << " " <<  i_grid;
+			throw isis::application_exception(errorString.str()); 
+
+		}
+
+
+		if (Type == CQUAD  )
+		{
+			out_AnchorPoint = elementCornerPoints[0];
+			out_DiagonalPoint = -1; // Single surface elements do not need a diagnoal point
+			return;
+		}
+
+		if ( Type != CTETRA )
+		{
+				std::stringstream errorString;
+				errorString <<
+					"Function - " + std::string(__FUNCTION__) +
+					" unsupported element type: " <<  ElementType_ToString(Type) << ". Supported element types: CTETRA, CQUAD, CTRIA3";
+				throw isis::application_exception(errorString.str()); 
+		}
+
+
+		std::set<int> A(elementCornerPoints.begin(), elementCornerPoints.end());
+		std::set<int> B(in_SurfacePoints.begin(), in_SurfacePoints.begin() + getSurfaceMinimumNumberOfGIDS());
+	
+		std::set<int> A_minus_B;
+		
+		std::set_difference(A.begin(), A.end(), 
+							B.begin(), B.end(),
+									std::inserter(	A_minus_B, A_minus_B.end()));
+
+		switch ( Type )
+		{
+			//case CHEXA:  Not supported yet
+			//case CPENTA: Not supported yet
+			case CTETRA:
+				// The desired point is the point not on the surface defined by in_SurfacePoints
+				// This would be the point in A_minus_B
+				if ( A_minus_B.size() != 1 )
+				{
+					std::stringstream errorString;
+					errorString <<  "Erroneous Input."		<< std::endl <<
+								"Function:                " << __FUNCTION__ << std::endl <<
+								"ElementType:             "	<<  ElementType_ToString(Type) <<  std::endl <<
+								"ElementCornerGridPoints: ";
+								for each ( const int &i_grid in elementCornerPoints) errorString << " " <<  i_grid;
+								errorString << 	std::endl << "SurfaceGridPoints:       ";
+								for each ( const int &i_grid in in_SurfacePoints) errorString << " " <<  i_grid;
+								errorString << 	std::endl << "ElementCornerGridPoints (A): ";
+								for each ( const int &i_grid in A) errorString << " " <<  i_grid;
+								errorString << 	std::endl << "SurfaceCornerGridPoints (B): ";
+								for each ( const int &i_grid in B) errorString << " " <<  i_grid;
+								errorString << 	std::endl << "ElementCornerGridPoints - SurfaceCornerGridPoints (A_minus_B): ";
+								for each ( const int &i_grid in A_minus_B) errorString << " " <<  i_grid;
+								errorString <<  std::endl << 
+								"Error:                    There should be 4 ElementCornerGridPoints, with 3 of the points being SurfaceCornerGridPoints.";
+					throw isis::application_exception(errorString.str()); 
+				}
+				
+				out_AnchorPoint = in_SurfacePoints[0];
+				out_DiagonalPoint = *A_minus_B.begin();
+
+			break;
+
+			case CQUAD:  // Single surface, no need for a diagnoal point		
+			case CTRIA3:
+				break;
+			default:
+				std::stringstream errorString;
+				errorString <<
+					"Function - " + std::string(__FUNCTION__) +
+					" unsupported element type: " <<  ElementType_ToString(Type) << ". Supported element types: CTETRA, CQUAD, CTRIA3";
+				throw isis::application_exception(errorString.str().c_str());
+		}
+
+	}
+
+		FEAElement::FEAElement(): Type(ELEMENT_TYPE_UNDEFINED), EID(0), PID(0), thickness(0.0) {};
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void ReplaceCommasWithSpace( std::string &in_out_String )
 	{
@@ -708,7 +1244,7 @@ namespace isis_CADCommon
 	{
 		return psolidData;
 	}
-	const std::map<int, SolidElement>& NastranDeck::getElementData() const
+	const std::map<int, FEAElement>& NastranDeck::getElementData() const
 	{
 		return elementData;
 	}
@@ -1117,19 +1653,59 @@ namespace isis_CADCommon
 			//		CID Coordinate system identification number.
 			//		G Acceleration vector scale factor.
 			//		Ni Acceleration vector components measured in coordinate system CID.
+	
 	void NastranDeck::AddAccelerationToDeck( int in_LoadID,  int in_CoordinateSystemID, double in_AccelerationScaleFactor, 
 											 double in_Vector_x, double in_Vector_y, double in_Vector_z ) 
 	{
-		if(forceLoadData.empty())
-			bulkString.push_back("FORCES_PLACEMENT");
-		std::string tempString;
+		if (accelerationLoadData.empty()) bulkString.push_back(c_ACCELERATIONS_PLACEMENT);
 
+		Acceleration newAcceleration = Acceleration();
+		newAcceleration.SID = in_LoadID;
+		newAcceleration.CID = in_CoordinateSystemID;
+		//we have to convert the doubles to strings first
+		newAcceleration.A = DoubleToString(in_AccelerationScaleFactor);
+		newAcceleration.N1 = DoubleToString(in_Vector_x);
+		newAcceleration.N2 = DoubleToString(in_Vector_y);
+		newAcceleration.N3 = DoubleToString(in_Vector_z);
 
-		tempString = "GRAV,"	+ IntegerToString(in_LoadID) +
+		//Finally, insert this into our forceLoadData object
+		accelerationLoadData.insert(std::make_pair(newAcceleration.SID, newAcceleration));
+
+		//std::string tempString;
+
+		//tempString = "GRAV,"	+ IntegerToString(in_LoadID) +
 					 ","		+ IntegerToString(in_CoordinateSystemID);
 		
-		tempString +=  ScaleFactorVectorString( in_AccelerationScaleFactor, in_Vector_x, in_Vector_y, in_Vector_z );
-		bulkString.push_back( tempString );
+		//tempString +=  ScaleFactorVectorString( in_AccelerationScaleFactor, in_Vector_x, in_Vector_y, in_Vector_z );
+		//bulkString.push_back( tempString );
+	}
+	
+	// Pressure			PLOAD4,59,1875,14904.,14904.,14904.,,355,1221
+	// PLOAD4 SID EID P1 P2 P3 P4 G1 G3 or G4 
+	//		  CID N1 N2 N3 SORL LDIR
+	//		SID Load set identification number
+	//		P Pressure
+	//		Gi Grid point identification numbers
+	// PLOAD4,59,5877,14904.,14904.,14904.,,418,1416
+	void NastranDeck::AddPressureToDeck( int in_LoadID, int in_ElemID, double in_Pressure, int in_Grid_1, int in_Grid_3_or_4 )
+	{
+		if( pressureLoadData.empty())
+			bulkString.push_back(c_PRESSURES_PLACEMENT);
+
+		Pressure newPressure = Pressure();
+		newPressure.SID = in_LoadID;
+		newPressure.EID = in_ElemID;
+
+		//we have to convert the doubles to strings first
+		newPressure.P1 = DoubleToString(in_Pressure);
+		newPressure.G1 = IntegerToString(in_Grid_1);
+
+		if ( in_Grid_3_or_4 != -1 )
+			newPressure.G3_or_G4 = IntegerToString(in_Grid_3_or_4);
+
+		//Finally, insert this into our pressureLoadData object
+		pressureLoadData.insert(std::make_pair(newPressure.SID, newPressure));
+
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1568,8 +2144,8 @@ namespace isis_CADCommon
 			}
 			else if(line == "ELEMENTS_PLACEMENT")
 			{
-				std::map<int, SolidElement>::const_iterator it = in_NastranDeck.elementData.begin();
-				std::map<int, SolidElement>::const_iterator endMap = in_NastranDeck.elementData.end();
+				std::map<int, FEAElement>::const_iterator it = in_NastranDeck.elementData.begin();
+				std::map<int, FEAElement>::const_iterator endMap = in_NastranDeck.elementData.end();
 				for(; it != endMap; ++it)
 				{
 					output << it->second << std::endl ;
@@ -1593,6 +2169,16 @@ namespace isis_CADCommon
 					output << it->second << std::endl;
 				}
 			}
+			else if(line == c_ACCELERATIONS_PLACEMENT)
+			{
+				for each ( const std::pair<int,Acceleration> &it in in_NastranDeck.accelerationLoadData ) output << it.second << std::endl;
+			}
+
+			else if(line == c_PRESSURES_PLACEMENT)
+			{
+				for each ( const std::pair<int,Pressure> &it in in_NastranDeck.pressureLoadData ) output << it.second << std::endl;
+			}
+
 			else if(line == "COORDS_PLACEMENT")
 			{
 				std::map<int, CoordSystem>::const_iterator it = in_NastranDeck.coordSystems.begin();
@@ -1648,9 +2234,7 @@ namespace isis_CADCommon
 					}
 					else
 						std::cout << "WARNING: ExecutiveControl Parsing [" << data << "]" << std::endl;
-				}
-				
-			
+				}					
 		}
 	}
 	
@@ -2278,7 +2862,7 @@ namespace isis_CADCommon
 						continue;
 					}
 					
-					SolidElement element;
+					FEAElement element;
 					element.EID = atoi(tokens[1].c_str());
 					element.PID = atoi(tokens[2].c_str());
 					element.Type = CTETRA;
@@ -2286,7 +2870,7 @@ namespace isis_CADCommon
 					tempGID.assign(tokens.begin() + 3, tokens.end());
 					for(size_t i = 0; i < tempGID.size(); ++i)
 					{
-						element.GID.push_back(atoi(tempGID[i].c_str()));
+						element.GIDs.push_back(atoi(tempGID[i].c_str()));
 					}
 					elementData.insert(std::make_pair(element.EID, element));
 					tetraCount++;
@@ -2308,7 +2892,7 @@ namespace isis_CADCommon
 						std::cout << "CPENTA: [ " << data << "]" << std::endl;
 						continue;
 					}
-					SolidElement element;
+					FEAElement element;
 					element.EID = atoi(tokens[1].c_str());
 					element.PID = atoi(tokens[2].c_str());
 					element.Type = CPENTA;
@@ -2316,7 +2900,7 @@ namespace isis_CADCommon
 					tempGID.assign(tokens.begin() + 3, tokens.end());
 					for(size_t i = 0; i < tempGID.size(); ++i)
 					{
-						element.GID.push_back(atoi(tempGID[i].c_str()));
+						element.GIDs.push_back(atoi(tempGID[i].c_str()));
 					}
 					elementData.insert(std::make_pair(element.EID, element));
 					pentaCount++;
@@ -2339,7 +2923,7 @@ namespace isis_CADCommon
 						continue;
 					}
 					
-					SolidElement element;
+					FEAElement element;
 					element.EID = atoi(tokens[1].c_str());
 					element.PID = atoi(tokens[2].c_str());
 					element.Type = CHEXA;
@@ -2347,7 +2931,7 @@ namespace isis_CADCommon
 					tempGID.assign(tokens.begin() + 3, tokens.end());
 					for(size_t i = 0; i < tempGID.size(); ++i)
 					{
-						element.GID.push_back(atoi(tempGID[i].c_str()));
+						element.GIDs.push_back(atoi(tempGID[i].c_str()));
 					}
 					elementData.insert(std::make_pair(element.EID, element));
 					hexaCount++;
@@ -2444,7 +3028,7 @@ namespace isis_CADCommon
 		out_elementIDs.clear();
 
 		//iterate through the NastranDeck's elementData map
-		for(std::map<int, SolidElement>::iterator iter = elementData.begin(); iter!=elementData.end(); ++iter)
+		for(std::map<int, FEAElement>::iterator iter = elementData.begin(); iter!=elementData.end(); ++iter)
 		{
 			//if an element's PID belongs to one of the psolids in 
 			//our input vector, add it to our output vector
@@ -2486,14 +3070,14 @@ namespace isis_CADCommon
 
 		for each ( const int &i in elementIDs )
 		{
-			std::map<int, SolidElement>::const_iterator elem_itr = elementData.find(i);
+			std::map<int, FEAElement>::const_iterator elem_itr = elementData.find(i);
 
 			if ( elem_itr == elementData.end() )
 			{	
 				std::stringstream errorString;
 				errorString <<
 					"Function - " + std::string(__FUNCTION__) +
-					" element not found in \"std::map<int, SolidElement> elementData\".  Elemenet ID: " << i;
+					" element not found in \"std::map<int, FEAElement> elementData\".  Elemenet ID: " << i;
 				throw isis::application_exception(errorString.str().c_str());
 			}
 
@@ -2508,14 +3092,14 @@ namespace isis_CADCommon
 	{
 		//throw exception for empty input vector
 		if(in_ElementIDs.empty())
-			throw isis::application_exception("NastranDeck::FindGridPointsFromElements, input vector of SolidElement IDs is empty");
+			throw isis::application_exception("NastranDeck::FindGridPointsFromElements, input vector of FEAElement IDs is empty");
 		//ensure that our Elements are in range
 		//throw exception if any ID not in range
 		for(size_t i = 0; i < in_ElementIDs.size(); ++i)
 		{
 			 if(in_ElementIDs[i] > elementData.size() || in_ElementIDs[i] < 1)
 			 {
-				 throw isis::application_exception("NastranDeck::FindGridPointsFromElements, invalid SolidElement ID in input vector (at least one ID is out of range)");
+				 throw isis::application_exception("NastranDeck::FindGridPointsFromElements, invalid FEAElement ID in input vector (at least one ID is out of range)");
 			 }
 		}
 		
@@ -2527,12 +3111,12 @@ namespace isis_CADCommon
 		{
 			size_t gridMax = 0;
 			//we find the max number of grid points (size of the element's GID vector)
-			gridMax = elementData[in_ElementIDs[i]].GID.size();
+			gridMax = elementData[in_ElementIDs[i]].GIDs.size();
 
 			for(size_t j = 0; j < gridMax; ++j)
 			{
 				//we insert the element into our set
-				gridPointSet.insert(elementData[in_ElementIDs[i]].GID[j]);
+				gridPointSet.insert(elementData[in_ElementIDs[i]].GIDs[j]);
 			}
 		}
 		//Our set is populated (ensuring uniqueness), but we need to populate our vector
@@ -2569,11 +3153,11 @@ namespace isis_CADCommon
 			" - input Grid Point ID does not exist");
 		//iterate through elementData, adding to our set
 		
-		for(std::map<int, SolidElement>::iterator iter = elementData.begin();
+		for(std::map<int, FEAElement>::iterator iter = elementData.begin();
 			iter != elementData.end(); ++iter)
 		{
 			//std::cout << "Element ID: " << iter->second.EID << std::endl;
-			size_t gridMax = iter->second.GID.size();
+			size_t gridMax = iter->second.GIDs.size();
 			//find its number of grid points
 			for(size_t i = 0; i < gridMax; ++i)
 			{
@@ -2581,7 +3165,7 @@ namespace isis_CADCommon
 				//if our grid point is equal to in_GridPointID
 				// we put it in the vector
 				//std::cout << iter->second.GID[i] << std::endl;
-				if(in_GridPointID == iter->second.GID[i])
+				if(in_GridPointID == iter->second.GIDs[i])
 				{
 					
 					out_ElementIDs.push_back(iter->first);
@@ -2596,7 +3180,7 @@ namespace isis_CADCommon
 	{
 		//first ensure that our PSolidID vector is empty
 		if(in_ElementIDs.empty())
-			throw isis::application_exception("NastranDeck::FindPSolidsFromElements - input SolidElement vector is empty");
+			throw isis::application_exception("NastranDeck::FindPSolidsFromElements - input FEAElement vector is empty");
 
 		out_PSolidIDs.clear();
 		std::set<int> uniquePSolids = std::set<int>();
@@ -2604,7 +3188,7 @@ namespace isis_CADCommon
 			iter != in_ElementIDs.end(); ++iter)
 		{
 			if(elementData.find(*iter) == elementData.end())
-				throw isis::application_exception("NastranDeck::FindPSolidsFromElements - invalid SolidElement ID in input vector (at least one ID is out of range)");
+				throw isis::application_exception("NastranDeck::FindPSolidsFromElements - invalid FEAElement ID in input vector (at least one ID is out of range)");
 			//for each element ID, we look it up and find out which part it belonged to
 			uniquePSolids.insert(elementData[*iter].PID);
 			//to guarantee uniqueness, we make a set
@@ -2671,22 +3255,22 @@ namespace isis_CADCommon
 				// the references in each of this part's polygons to use this
 				// new point instead of the previous one
 			
-				for(std::map<int, SolidElement>::iterator iter = elementData.begin(); 
+				for(std::map<int, FEAElement>::iterator iter = elementData.begin(); 
 					iter != elementData.end(); 
 					++iter)
 				{
-					//if we find a SolidElement with the PID of our PSolid
+					//if we find a FEAElement with the PID of our PSolid
 					if(iter->second.PID == *PSolidIter)
 					{
 						//iterate through its gridpoints
-						for(size_t j = 0; j < iter->second.GID.size(); ++j)
+						for(size_t j = 0; j < iter->second.GIDs.size(); ++j)
 						{
 							//If the GID of the current polygon 
 							//is equal to our input gridpoint
-							if(iter->second.GID[j] == in_gridPoint)
+							if(iter->second.GIDs[j] == in_gridPoint)
 							{
 								//replace the gridpoint with our new one
-								iter->second.GID[j] = newGridPoint.ID;
+								iter->second.GIDs[j] = newGridPoint.ID;
 							
 							} //endif
 						} //endfor (GID)
@@ -2757,11 +3341,11 @@ namespace isis_CADCommon
 		//we've now deleted all grid points but the one for the input parameter
 		//we now need to reassign the deleted gridpoints in the elements to point
 		// to that parameter. O(n^3) efficiency
-		for(std::map<int, SolidElement>::iterator iter = elementData.begin();
+		for(std::map<int, FEAElement>::iterator iter = elementData.begin();
 			iter != elementData.end(); ++iter)
 		{
 			//find out if the element at iter has a grid point in equalGrids
-			size_t maxSize = iter->second.GID.size();
+			size_t maxSize = iter->second.GIDs.size();
 
 			//iterate through its grid IDs
 			for(size_t i = 0; i < maxSize; ++i)
@@ -2770,12 +3354,12 @@ namespace isis_CADCommon
 				// are equal to our grid ID
 				for(size_t j = 0; j < equalGrids.size(); ++j)
 				{
-					if(equalGrids[j] == iter->second.GID[i])
+					if(equalGrids[j] == iter->second.GIDs[i])
 					{
 						/*std::cout << "CHANGED: "  << iter->second.EID <<  " - " 
 							<< iter->second.GID[i] << " to " <<  in_gridPoint  << std::endl;*/
 						//replace the former element with the input param
-						iter->second.GID[i] = in_gridPoint;
+						iter->second.GIDs[i] = in_gridPoint;
 						
 					}
 				}
@@ -2946,7 +3530,7 @@ namespace isis_CADCommon
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	NastranDeckHelper::NastranDeckHelper( const NastranDeck &in_NastranDeck ) : nastranDeck( in_NastranDeck ), sufaceCornerGridIDs_to_SolidElementID_map_populated(false) {}
+	NastranDeckHelper::NastranDeckHelper( const NastranDeck &in_NastranDeck ) : nastranDeck( in_NastranDeck ), sufaceCornerGridIDs_to_FEAElementIDs_map_populated(false) {}
 
 	void NastranDeckHelper::getDefaultGridPointTemperature( bool &out_DefaultGridPointTemperature_set, double &out_DefaultGridPointTemperature ) const
 																								throw (isis::application_exception)
@@ -3043,166 +3627,131 @@ namespace isis_CADCommon
 		}
 	}
 
-	void NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map() throw (isis::application_exception)
+	// Supports Elements: CHEXAC, PENTA, CTETRA, CQUAD and CTRIA3 
+	void NastranDeckHelper::populate_sufaceCornerGridIDs_to_FEAElementIDs_map() throw (isis::application_exception)
 	{
-		const std::map<int, SolidElement> &elementData_map = nastranDeck.getElementData();
+		const std::map<int, FEAElement> &elementData_map = nastranDeck.getElementData();
 
-		for each ( const std::pair<int, SolidElement> &i in elementData_map)
+		for each ( const std::pair<int, FEAElement> &i in elementData_map)
 		{
-			if (i.second.Type != CTETRA )
+			if (i.second.Type != CHEXA &&  i.second.Type != CPENTA && i.second.Type != CTETRA && i.second.Type != CQUAD && i.second.Type != CTRIA3 )
 			{
 				std::stringstream errorString;
 				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
-							"Function:				NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map" << std::endl <<
-							"ElementType:			"	<<  i.second.Type << ", 0 - CHEXA, 1-  CPENTA, 2 - CTETRA"	<< std::endl <<
-							"Error:		            " << "Only CTETRA currently supported.";
+							"Function:				" << __FUNCTION__ << std::endl <<
+							"ElementType:			"	<<  ElementType_ToString(i.second.Type) <<  std::endl <<
+							"Error:		            " << "Only CHEXA, CPENTA, CTETRA, CQUAD, and CTRIA3 currently supported.";
 				throw isis::application_exception(errorString.str()); 
 			}
 			
-			if (i.second.GID.size() < 4 )
+			switch ( i.second.Type )
 			{
-				std::stringstream errorString;
-				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
-							"Function:				  NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map" << std::endl <<
-							"ElementType:			  "	<<  i.second.Type << ", 0 - CHEXA, 1-  CPENTA, 2 - CTETRA"	<< std::endl <<
-							"ElementNumberGridPoints: " << i.second.GID.size() <<  std::endl <<
-							"Error:		            " << "CTETRA must have at least four grid points.";
-				throw isis::application_exception(errorString.str()); 
-			}
+			case CHEXA:
+				if (i.second.GIDs.size() < 8 )  
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+								"Function:				  NastranDeckHelper::populate_sufaceCornerGridIDs_to_FEAElementIDs_map" << std::endl <<
+								"ElementType:			  "	<<  ElementType_ToString(i.second.Type) <<  std::endl <<
+								"ElementNumberGridPoints: " << i.second.GIDs.size() <<  std::endl <<
+								"Error:		            " << "Must have at least 8 grid points.";
+					throw isis::application_exception(errorString.str()); 
+				}
+				break;
+			case CPENTA:
+				if (i.second.GIDs.size() < 6 )  
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+								"Function:				  NastranDeckHelper::populate_sufaceCornerGridIDs_to_FEAElementIDs_map" << std::endl <<
+								"ElementType:			  "	<<  ElementType_ToString(i.second.Type) <<  std::endl <<
+								"ElementNumberGridPoints: " << i.second.GIDs.size() <<  std::endl <<
+								"Error:		            " << "Must have at least 6 grid points.";
+					throw isis::application_exception(errorString.str()); 
+				}
+				break;
 
-			std::vector<int> key_1;
-			std::vector<int> key_2;
-			std::vector<int> key_3;
-			std::vector<int> key_4;
-			// Face Keys Numbering from 1 ( Grid points as numberd by Nastran
-			// 1 2 3
-			// 1 2 4
-			// 2 3 4
-			// 1 3 4
+			case CTETRA:
+				if (i.second.GIDs.size() < 4 )  
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+								"Function:				  NastranDeckHelper::populate_sufaceCornerGridIDs_to_FEAElementIDs_map" << std::endl <<
+								"ElementType:			  "	<<  ElementType_ToString(i.second.Type) <<  std::endl <<
+								"ElementNumberGridPoints: " << i.second.GIDs.size() <<  std::endl <<
+								"Error:		            " << "Must have at least 4 grid points.";
+					throw isis::application_exception(errorString.str()); 
+				}
 
-			// Face Keys Numbering from 0 
-			// 0 1 2
-			// 0 1 3
-			// 1 2 3
-			// 0 2 3
+				break;
+			case CQUAD:
+				if (i.second.GIDs.size() < 4 )  
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+								"Function:				  NastranDeckHelper::populate_sufaceCornerGridIDs_to_FEAElementIDs_map" << std::endl <<
+								"ElementType:			  "	<<  ElementType_ToString(i.second.Type) <<  std::endl <<
+								"ElementNumberGridPoints: " << i.second.GIDs.size() <<  std::endl <<
+								"Error:		            " << "Must have at least 4 grid points.";
+					throw isis::application_exception(errorString.str()); 
+				}
+				break;
+			case CTRIA3:
+				if (i.second.GIDs.size() < 3 )  
+				{
+					std::stringstream errorString;
+					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+								"Function:				  NastranDeckHelper::populate_sufaceCornerGridIDs_to_FEAElementIDs_map" << std::endl <<
+								"ElementType:			  "	<<  ElementType_ToString(i.second.Type) <<  std::endl <<
+								"ElementNumberGridPoints: " << i.second.GIDs.size() <<  std::endl <<
+								"Error:		            " << "Must have at least 3 grid points.";
+					throw isis::application_exception(errorString.str()); 
+				}
+
+				break;
+			} // End switch
 
 
-			key_1.push_back(i.second.GID[0]);
-			key_1.push_back(i.second.GID[1]);
-			key_1.push_back(i.second.GID[2]);
+			std::map<int, std::vector<int>> surfaceID_to_CornerPoints_map;
 
-			key_2.push_back(i.second.GID[0]);
-			key_2.push_back(i.second.GID[1]);
-			key_2.push_back(i.second.GID[3]);
+			i.second.getCornerPointsForEachSurface(surfaceID_to_CornerPoints_map);
 
-			key_3.push_back(i.second.GID[1]);
-			key_3.push_back(i.second.GID[2]);
-			key_3.push_back(i.second.GID[3]);
-
-			key_4.push_back(i.second.GID[0]);
-			key_4.push_back(i.second.GID[2]);
-			key_4.push_back(i.second.GID[3]);
-
-			std::sort(key_1.begin(), key_1.end());
-			std::sort(key_2.begin(), key_2.end());
-			std::sort(key_3.begin(), key_3.end());
-			std::sort(key_4.begin(), key_4.end());
-
-			/* Not Checking if Key already exists.  This is because a face can be shared between tetras and thus would in some cases
-			   already exists
-			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_1) != sufaceCornerGridIDs_to_SolidElementID_map.end())
+			for each ( std::pair<int, std::vector<int>> j in surfaceID_to_CornerPoints_map )
 			{
-				std::stringstream errorString;
-				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
-							"Function:                NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map" << std::endl <<
-							"ElementType:             "	<<  i.second.Type << ", 0 - CHEXA, 1-  CPENTA, 2 - CTETRA"	<< std::endl <<
-							"ElementNumberGridPoints: " << i.second.GID.size() <<  std::endl <<
-							"ElementID:               " << i.second.EID  <<  std::endl <<
-							"Key:                     ";
-							for each ( const int &j in key_1) errorString << " " << j;
-							errorString <<	std::endl << "Error:		            " << "Key already found.  Key should appear only once.";
-				throw isis::application_exception(errorString.str()); 
+				std::vector<int> key = j.second;
+			    std::sort(key.begin(), key.end());
+				//if ( sufaceCornerGridIDs_to_FEAElementIDs_map.find(key) == sufaceCornerGridIDs_to_FEAElementIDs_map.end())
+				// The corner grid points can be shared between elements.  The only exception would be if the corner grid points
+				// are on the outside (i.e. extrior surface) of the part.  
+				sufaceCornerGridIDs_to_FEAElementIDs_map[key].insert(i.second.EID);		
 			}
-			sufaceCornerGridIDs_to_SolidElementID_map[key_1] = i.second.EID;
-
-			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_2) != sufaceCornerGridIDs_to_SolidElementID_map.end())
-			{
-				std::stringstream errorString;
-				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
-							"Function:                NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map" << std::endl <<
-							"ElementType:			  "	<<  i.second.Type << ", 0 - CHEXA, 1-  CPENTA, 2 - CTETRA"	<< std::endl <<
-							"ElementNumberGridPoints: " << i.second.GID.size() <<  std::endl <<
-							"ElementID:               " << i.second.EID  <<  std::endl <<
-							"Key:                     ";
-							for each ( const int &j in key_2) errorString << " " << j;
-							errorString <<	std::endl << "Error:		            " << "Key already found.  Key should appear only once.";
-				throw isis::application_exception(errorString.str()); 
-			}
-			sufaceCornerGridIDs_to_SolidElementID_map[key_2] = i.second.EID;
-
-			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_3) != sufaceCornerGridIDs_to_SolidElementID_map.end())
-			{
-				std::stringstream errorString;
-				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
-							"Function:                NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map" << std::endl <<
-							"ElementType:             "	<<  i.second.Type << ", 0 - CHEXA, 1-  CPENTA, 2 - CTETRA"	<< std::endl <<
-							"ElementNumberGridPoints: " << i.second.GID.size() <<  std::endl <<
-							"ElementID:               " << i.second.EID  <<  std::endl <<
-							"Key:                     ";
-							for each ( const int &j in key_3) errorString << " " << j;
-							errorString <<	std::endl << "Error:		            " << "Key already found.  Key should appear only once.";
-				throw isis::application_exception(errorString.str()); 
-			}
-			sufaceCornerGridIDs_to_SolidElementID_map[key_3] = i.second.EID;
-
-			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_4) != sufaceCornerGridIDs_to_SolidElementID_map.end())
-			{
-				std::stringstream errorString;
-				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
-							"Function:                 NastranDeckHelper::populate_sufaceCornerGridIDs_to_SolidElementID_map" << std::endl <<
-							"ElementType:              "	<<  i.second.Type << ", 0 - CHEXA, 1-  CPENTA, 2 - CTETRA"	<< std::endl <<
-							"ElementNumberGridPoints:  " << i.second.GID.size() <<  std::endl <<
-							"ElementID:                " << i.second.EID  <<  std::endl <<
-							"Key:                      ";
-							for each ( const int &j in key_4) errorString << " " << j;
-							errorString <<	std::endl << "Error:	            " << "Key already found.  Key should appear only once.";
-				throw isis::application_exception(errorString.str()); 
-			}
-			*/
-
-			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_1) == sufaceCornerGridIDs_to_SolidElementID_map.end())
-																sufaceCornerGridIDs_to_SolidElementID_map[key_1] = i.second.EID;
-			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_2) == sufaceCornerGridIDs_to_SolidElementID_map.end())
-																sufaceCornerGridIDs_to_SolidElementID_map[key_2] = i.second.EID;
-			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_3) == sufaceCornerGridIDs_to_SolidElementID_map.end())
-																sufaceCornerGridIDs_to_SolidElementID_map[key_3] = i.second.EID;
-			if ( sufaceCornerGridIDs_to_SolidElementID_map.find(key_4) == sufaceCornerGridIDs_to_SolidElementID_map.end())
-																sufaceCornerGridIDs_to_SolidElementID_map[key_4] = i.second.EID;
-
 
 		} // for each (
 
-		sufaceCornerGridIDs_to_SolidElementID_map_populated = true;
+		sufaceCornerGridIDs_to_FEAElementIDs_map_populated = true;
 	} //void NastranDeckHelper::populate_S...
 
-	void NastranDeckHelper::findElementContainingSurface( const std::vector<int> &in_SurfaceCornerGridIDs, bool &out_ElementFound, int &out_ElementID )
-																											throw (isis::application_exception)
+	void NastranDeckHelper::findElementsContainingSurface(	const std::vector<int> &in_SurfaceCornerGridIDs, 
+															bool &out_ElementFound, 
+															std::set<int> &out_ElementIDs )
+																					throw (isis::application_exception)
 	{
 		out_ElementFound = false;
-		out_ElementID = 0;
+		out_ElementIDs.clear();
 
 		std::vector<int> surfaceCornerGridIDs = in_SurfaceCornerGridIDs;
 
 		std::sort(surfaceCornerGridIDs.begin(), surfaceCornerGridIDs.end());
 
-		if (!sufaceCornerGridIDs_to_SolidElementID_map_populated) populate_sufaceCornerGridIDs_to_SolidElementID_map();
+		if (!sufaceCornerGridIDs_to_FEAElementIDs_map_populated) populate_sufaceCornerGridIDs_to_FEAElementIDs_map();
 
-		const std::map<std::vector<int>, int>::const_iterator i = sufaceCornerGridIDs_to_SolidElementID_map.find(surfaceCornerGridIDs);
+		const std::map<std::vector<int>, std::set<int>>::const_iterator i = sufaceCornerGridIDs_to_FEAElementIDs_map.find(surfaceCornerGridIDs);
 
-		if ( i != sufaceCornerGridIDs_to_SolidElementID_map.end() )
+		if ( i != sufaceCornerGridIDs_to_FEAElementIDs_map.end() )
 		{
+			
 			out_ElementFound = true;
-			out_ElementID = i->second;
+			for each ( const int &j in i->second ) out_ElementIDs.insert(j);
 		}
 	}
 
@@ -3211,7 +3760,8 @@ namespace isis_CADCommon
 
 		out_HeatFluxLoads.clear();
 
-		if (!sufaceCornerGridIDs_to_SolidElementID_map_populated) populate_sufaceCornerGridIDs_to_SolidElementID_map();
+		if (!sufaceCornerGridIDs_to_FEAElementIDs_map_populated) populate_sufaceCornerGridIDs_to_FEAElementIDs_map();
+		                                                                
 
 		const std::multimap<int, QBDY3>	&heatFlux_QBDY3_map = nastranDeck.getHeatFlux_QBDY3();
 		const std::map<int, CHBDYG> &surfaceElement_CHBDYG_map = nastranDeck.getSurfaceElement_CHBDYG(); 
@@ -3279,9 +3829,9 @@ namespace isis_CADCommon
 
 				std::sort(key.begin(), key.end());
 
-				const std::map<std::vector<int>, int>::const_iterator key_itr = sufaceCornerGridIDs_to_SolidElementID_map.find(key);
+				const std::map<std::vector<int>, std::set<int>>::const_iterator key_itr = sufaceCornerGridIDs_to_FEAElementIDs_map.find(key);
 
-				if ( key_itr == sufaceCornerGridIDs_to_SolidElementID_map.end() )
+				if ( key_itr == sufaceCornerGridIDs_to_FEAElementIDs_map.end() )
 				{
 					std::stringstream errorString;
 					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
@@ -3293,17 +3843,20 @@ namespace isis_CADCommon
 				}
 				else
 				{
-					heatFluxLoad.elementIDThatContainsSurface = key_itr->second;
-					heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G1);
-					heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G2);
-					heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G3);
-					if ( k_itr->second.G4 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G4);
-					if ( k_itr->second.G5 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G5);
-					if ( k_itr->second.G6 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G6);
-					if ( k_itr->second.G7 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G7);
-					if ( k_itr->second.G8 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G8);
+					for each ( const int &l in key_itr->second)
+					{
+						heatFluxLoad.elementIDThatContainsSurface = l;
+						heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G1);
+						heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G2);
+						heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G3);
+						if ( k_itr->second.G4 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G4);
+						if ( k_itr->second.G5 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G5);
+						if ( k_itr->second.G6 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G6);
+						if ( k_itr->second.G7 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G7);
+						if ( k_itr->second.G8 != 0 ) heatFluxLoad.surfaceGridPointIDs.push_back(k_itr->second.G8);
 				
-					out_HeatFluxLoads.push_back(heatFluxLoad);
+						out_HeatFluxLoads.push_back(heatFluxLoad);
+					}
 				}
 			} // for each ( const int &j in CHBDYG_EIDs ) 
 		}  // for each ( const std::pair<int, QBDY3> &i in  heatFlux_QBDY3_map )
@@ -3311,7 +3864,7 @@ namespace isis_CADCommon
 
 	void NastranDeckHelper::getSurfaceConvectionConstraints ( std::vector<SurfaceConvection> &out_SurfaceConvections ) throw (isis::application_exception)
 	{
-		if (!sufaceCornerGridIDs_to_SolidElementID_map_populated) populate_sufaceCornerGridIDs_to_SolidElementID_map();
+		if (!sufaceCornerGridIDs_to_FEAElementIDs_map_populated) populate_sufaceCornerGridIDs_to_FEAElementIDs_map();
 
 		out_SurfaceConvections.clear();
 
@@ -3450,9 +4003,9 @@ namespace isis_CADCommon
 
 			std::sort(key.begin(), key.end());
 
-			const std::map<std::vector<int>, int>::const_iterator key_itr = sufaceCornerGridIDs_to_SolidElementID_map.find(key);
+			const std::map<std::vector<int>, std::set<int>>::const_iterator key_itr = sufaceCornerGridIDs_to_FEAElementIDs_map.find(key);
 
-			if ( key_itr == sufaceCornerGridIDs_to_SolidElementID_map.end() )
+			if ( key_itr == sufaceCornerGridIDs_to_FEAElementIDs_map.end() )
 			{
 				std::stringstream errorString;
 				errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
@@ -3467,35 +4020,367 @@ namespace isis_CADCommon
 			}
 			else
 			{
-				surfaceConvection.elementIDThatContainsSurface = key_itr->second;
-				surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G1);
-				surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G2);
-				surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G3);
-				if ( chbdyg_itr->second.G4 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G4);
-				if ( chbdyg_itr->second.G5 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G5);
-				if ( chbdyg_itr->second.G6 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G6);
-				if ( chbdyg_itr->second.G7 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G7);
-				if ( chbdyg_itr->second.G8 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G8);
+				for each ( const int &l in key_itr->second )
+				{
+					surfaceConvection.elementIDThatContainsSurface = l;
+					surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G1);
+					surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G2);
+					surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G3);
+					if ( chbdyg_itr->second.G4 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G4);
+					if ( chbdyg_itr->second.G5 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G5);
+					if ( chbdyg_itr->second.G6 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G6);
+					if ( chbdyg_itr->second.G7 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G7);
+					if ( chbdyg_itr->second.G8 != 0 ) surfaceConvection.surfaceGridPointIDs.push_back(chbdyg_itr->second.G8);
 				
-				out_SurfaceConvections.push_back(surfaceConvection);
+					out_SurfaceConvections.push_back(surfaceConvection);
+				}
 			}
 
 		} // for each ( const std::pair<int, CONV> &conv_ref in CONV_map )
 
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//	Description:
+	//		This function finds the face that contains in_SearchForGridPoints and returns the complete set of grid points for 
+	//		that face.  For example, for a Tetra elements with 4 nodes, then the face points would always consist of 3 nodes.
+	//		However, for a 10 Tetra element, the face nodes would consist of 6 nodes.
+	//
+	//		Supported elements: CTETRA elments only 
+	//
+	//		WARNING -	in_SearchForCornerGridPoints must be a valid face in in_FEAElement.  Don't call this function
+	//					unless you know that is true.  An exeption will be thrown
+	//
+	//	Pre-Conditions:
+	//		None
+	//		
+	//	Post-Conditons
+	//
+	//	if (in_FEAElement.Type != CTETRA )
+	//		throw isis::application_exception
+	//  if ( in_SearchForCornerGridPoints.size() != 4 )
+	//		throw isis::application_exception			
+	//	if ( in_FEAElement.GIDs.size() < 4 )
+	//		throw isis::application_exception	
+	//	if face not found
+	//		throw isis::application_exception	
+	//  if no exceptions
+	//		return out_FaceGridPoints_IncludingMidpoints where the order of the points are the order as they would appear in the
+	//		Nastran CTETRA card.
+	void FindFaceContainingCornerGridPoints_ReturnAllGridPointsForFace_CTETRA(	
+																const std::set<int>		&in_SearchForCornerGridPoints,
+																const FEAElement		&in_FEAElement,
+																std::vector<int>		&out_FaceGridPoints_IncludingMidpoints ) 
+																			throw (isis::application_exception)
+	{
 
-	void NastranDeckHelper::getSurfaceElementsContainingGridPoints (	const std::set<int> &in_GridPointIDs, 
-																		std::multimap< int, std::vector<int>> &out_ElementID_to_SurfacePoints_map )
+		if ( in_FEAElement.Type != CTETRA )
+		{
+			std::stringstream errorString;
+			errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+						"Function:    "	<< __FUNCTION__ << std::endl <<
+						"ElementType: "	<<  ElementType_ToString(in_FEAElement.Type) <<  std::endl <<
+						"Error:       " << "Only CTETRA element supported by this function.";
+			throw isis::application_exception(errorString.str()); 
+		}
+
+
+		 std::vector<int> elementCornerPoints;
+		 in_FEAElement.getElementCornerPoints(elementCornerPoints);
+
+		if (elementCornerPoints.size() != 4 )
+		{
+			std::stringstream errorString;
+			errorString <<  "Erroneous input" << std::endl <<
+						"Function:     " <<   __FUNCTION__ << std::endl <<
+						"ElementType:  " <<  ElementType_ToString(in_FEAElement.Type) <<  std::endl <<
+						"ElementID:    " <<   in_FEAElement.EID	  << std::endl <<
+						"in_SearchForCornerGridPoints size: " << in_SearchForCornerGridPoints.size() << std::endl <<
+						"Error:        " << "in_SearchForCornerGridPoints size must be 4.";
+			throw isis::application_exception(errorString.str()); 
+		}
+
+
+		if ( in_FEAElement.GIDs.size() < 4 )
+		{
+			std::stringstream errorString;
+			errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+			"Function:            " __FUNCTION__ << std::endl <<
+			"ElementID:           " <<   in_FEAElement.EID	  << std::endl <<
+			"Element Grid Points: ";
+			for each ( const int &i_grid in in_FEAElement.GIDs) errorString << " " <<  i_grid;
+			errorString <<
+			"Search for Grid Points:  ";
+			for each ( const int &i_search in in_SearchForCornerGridPoints )errorString << " " <<  i_search;
+			errorString <<
+			"Error:                         " << "\"Element Grid Points\" must contain at least four grid points.";	
+			throw isis::application_exception(errorString.str()); 
+
+		}
+
+		out_FaceGridPoints_IncludingMidpoints.clear();
+
+		// Could be one of four faces
+		// Face Keys Numbering from 1 ( Grid points as numberd by Nastran
+		// 1 2 3
+		// 1 2 4
+		// 2 3 4
+		// 1 3 4
+
+		// Face Keys Numbering from 0 
+		// 0 1 2
+		// 0 1 3
+		// 1 2 3
+		// 0 2 3
+
+		std::set<int> intersect_set;
+		for each ( int i in in_SearchForCornerGridPoints) intersect_set.insert(i);
+
+		std::set<int> faceKey_1_set;
+		faceKey_1_set.insert( in_FEAElement.GIDs[0] );
+		faceKey_1_set.insert( in_FEAElement.GIDs[1] );
+		faceKey_1_set.insert( in_FEAElement.GIDs[2] );
+
+		std::set<int> faceKey_2_set;
+		faceKey_2_set.insert( in_FEAElement.GIDs[0] );
+		faceKey_2_set.insert( in_FEAElement.GIDs[1] );
+		faceKey_2_set.insert( in_FEAElement.GIDs[3] );
+
+		std::set<int> faceKey_3_set;
+		faceKey_3_set.insert( in_FEAElement.GIDs[1] );
+		faceKey_3_set.insert( in_FEAElement.GIDs[2] );
+		faceKey_3_set.insert( in_FEAElement.GIDs[3] );
+
+		std::set<int> faceKey_4_set;
+		faceKey_4_set.insert( in_FEAElement.GIDs[0] );
+		faceKey_4_set.insert( in_FEAElement.GIDs[2] );
+		faceKey_4_set.insert( in_FEAElement.GIDs[3] );
+
+
+		if ( faceKey_1_set == intersect_set)
+		{
+			// First Face Match
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[0]);
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[1]);
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[2]);
+			if (  in_FEAElement.GIDs.size() == 10 )
+			{
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[4]);
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[5]);
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[6]);
+			}
+
+		}
+		else if ( faceKey_2_set == intersect_set)
+		{
+			// Second Face Match
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[0]);
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[1]);
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[3]);
+			if (  in_FEAElement.GIDs.size() == 10 )
+			{
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[4]);
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[8]);
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[7]);
+			}
+		}
+		else if ( faceKey_3_set == intersect_set)
+		{
+			// Third Face Match
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[1]);
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[2]);
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[3]);
+			if (  in_FEAElement.GIDs.size() == 10 )
+			{
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[5]);
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[9]);
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[8]);
+			}
+
+		}
+		else if ( faceKey_4_set == intersect_set)
+		{
+			// Fourth Face Match
+			// Third Face Match
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[0]);
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[2]);
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[3]);
+			if (  in_FEAElement.GIDs.size() == 10 )
+			{
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[6]);
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[9]);
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[7]);
+			}
+		}	
+
+		if ( out_FaceGridPoints_IncludingMidpoints.size() == 0 )
+		{
+			std::stringstream errorString;
+			errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+			"Function:            " __FUNCTION__ << std::endl <<
+			"ElementID:           " <<   in_FEAElement.EID	 << std::endl <<
+			"Element Grid Points: ";
+			for each ( const int &i_grid in in_FEAElement.GIDs) errorString << " " <<  i_grid;
+			errorString <<
+			"Search for Grid Points:          ";
+			for each ( const int &i_search in in_SearchForCornerGridPoints )errorString << " " <<  i_search;
+			errorString <<  std::endl <<
+			"Error:               " << "Could not locate \"Search for Grid Points\" in \"Element Grid Points\".";	
+			throw isis::application_exception(errorString.str()); 
+		}
+
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//	Description:
+	//		This function finds the face that contains in_SearchForGridPoints and returns the complete set of grid points for 
+	//		that face.  For example, for a CQUAD elements with 4 nodes, then the face points would always consist of 4 nodes.
+	//		However, for a 8/9 CQUAD elements, the face nodes would consist of 8/9 nodes.  Note - the 9th node is an optional 
+	//		center point node.
+	//
+	//		Supported elements: CQUAD elments only 
+	//
+	//		WARNING -	in_SearchForCornerGridPoints must be a valid face in in_FEAElement.  Don't call this function
+	//					unless you know that is true.  An exeption will be thrown
+	//
+	//	Pre-Conditions:
+	//		None
+	//		
+	//	Post-Conditons
+	//
+	//	if (in_FEAElement.Type != CQUAD )
+	//		throw isis::application_exception
+	//  if ( in_SearchForCornerGridPoints.size() != 4 )
+	//		throw isis::application_exception			
+	//	if ( in_FEAElement.GIDs.size() < 4 )
+	//		throw isis::application_exception	
+	//	if face not found
+	//		throw isis::application_exception	
+	//  if no exceptions
+	//		return out_FaceGridPoints_IncludingMidpoints where the order of the points are the order as they would appear in the
+	//		Nastran CTETRA card.
+	void FindFaceContainingCornerGridPoints_ReturnAllGridPointsForFace_CQUAD(	
+																const std::set<int>		&in_SearchForCornerGridPoints,
+																const FEAElement		&in_FEAElement,
+																std::vector<int>		&out_FaceGridPoints_IncludingMidpoints ) 
+																			throw (isis::application_exception)
+	{
+
+		if ( in_FEAElement.Type != CQUAD )
+		{
+			std::stringstream errorString;
+			errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+						"Function:				"	<< __FUNCTION__ << std::endl <<
+						"ElementType:			"	<<  ElementType_ToString(in_FEAElement.Type) <<  std::endl <<
+						"Error:		            " << "Only CQUAD element supported by this function.";
+			throw isis::application_exception(errorString.str()); 
+		}
+
+		if (in_SearchForCornerGridPoints.size() != 4 )
+		{
+			std::stringstream errorString;
+			errorString <<  "Erroneous input"		<< std::endl <<
+						"Function:				      "	<< __FUNCTION__ << std::endl <<
+						"ElementType:			      "	<<  ElementType_ToString(in_FEAElement.Type) <<  std::endl <<
+						"ElementID:                   " <<   in_FEAElement.EID	  << std::endl <<
+						"in_SearchForCornerGridPoints size: " << in_SearchForCornerGridPoints.size() << std::endl <<
+						"Error:		                  " << "in_SearchForCornerGridPoints size must be 4.";
+			throw isis::application_exception(errorString.str()); 
+		}
+
+
+		if ( in_FEAElement.GIDs.size() < 4 )
+		{
+			std::stringstream errorString;
+			errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+			"Function:                      " __FUNCTION__ << std::endl <<
+			"ElementID:                     " <<   in_FEAElement.EID	  << std::endl <<
+			"Element Grid Points:          ";
+			for each ( const int &i_grid in in_FEAElement.GIDs) errorString << " " <<  i_grid;
+			errorString <<
+			"Search for Grid Points:          ";
+			for each ( const int &i_search in in_SearchForCornerGridPoints )errorString << " " <<  i_search;
+			errorString <<
+			"Error:                         " << "\"Element Grid Points\" must contain at least four grid points.";	
+			throw isis::application_exception(errorString.str()); 
+
+		}
+
+
+		out_FaceGridPoints_IncludingMidpoints.clear();
+
+		// Only one face on a CQuad
+		// Face Keys Numbering from 1 ( Grid points as numberd by Nastran
+		// 1 2 3 4
+
+
+		// Face Keys Numbering from 0 
+		// 0 1 2 3
+
+		std::set<int> intersect_set;
+		for each ( int i in in_SearchForCornerGridPoints) intersect_set.insert(i);
+
+		std::set<int> faceKey_1_set;
+		faceKey_1_set.insert( in_FEAElement.GIDs[0] );
+		faceKey_1_set.insert( in_FEAElement.GIDs[1] );
+		faceKey_1_set.insert( in_FEAElement.GIDs[2] );
+		faceKey_1_set.insert( in_FEAElement.GIDs[3] );
+
+
+		if ( faceKey_1_set == intersect_set)
+		{
+			// Only match possible
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[0]);
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[1]);
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[2]);
+			out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[3]);
+
+			if (  in_FEAElement.GIDs.size() == 8 || in_FEAElement.GIDs.size() == 9 )
+			{
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[4]);
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[5]);
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[6]);
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[7]);
+			}
+			if (  in_FEAElement.GIDs.size() == 9 )
+			{
+				out_FaceGridPoints_IncludingMidpoints.push_back( in_FEAElement.GIDs[8]);
+			}
+
+		}
+
+
+		if ( out_FaceGridPoints_IncludingMidpoints.size() == 0 )
+		{
+			std::stringstream errorString;
+			errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+			"Function:                      " __FUNCTION__ << std::endl <<
+			"ElementID:                     " <<   in_FEAElement.EID	 << std::endl <<
+			"Element Grid Points:          ";
+			for each ( const int &i_grid in in_FEAElement.GIDs) errorString << " " <<  i_grid;
+			errorString <<
+			"Search for Grid Points:          ";
+			for each ( const int &i_search in in_SearchForCornerGridPoints )errorString << " " <<  i_search;
+			errorString <<
+			"Error:                         " << "Could not locate \"Search for Grid Points\" in \"Element Grid Points\".";	
+			throw isis::application_exception(errorString.str()); 
+		}
+
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void NastranDeckHelper::getSurfaceElementsContainingGridPoints (	
+														const std::set<int>						&in_GridPointIDs, 
+														std::multimap< int, std::vector<int>>	&out_ElementID_to_SurfacePoints_map )
 																							throw (isis::application_exception)
 	{
 	
-		const std::map<int, SolidElement> &elementData_map = nastranDeck.getElementData();
+		const std::map<int, FEAElement> &elementData_map = nastranDeck.getElementData();
 
-		if (!sufaceCornerGridIDs_to_SolidElementID_map_populated) populate_sufaceCornerGridIDs_to_SolidElementID_map();	
+		if (!sufaceCornerGridIDs_to_FEAElementIDs_map_populated) populate_sufaceCornerGridIDs_to_FEAElementIDs_map();	
 
-		//std::map<std::vector<int>, int> sufaceCornerGridIDs_to_SolidElementID_map
-		for each ( const std::pair<std::vector<int>, int> &i in sufaceCornerGridIDs_to_SolidElementID_map )
+		//std::map<std::vector<int>, int> sufaceCornerGridIDs_to_FEAElementIDs_map
+		for each ( const std::pair<std::vector<int>, std::set<int>> &i in sufaceCornerGridIDs_to_FEAElementIDs_map )
 		{
 			std::set<int> elementCornerPoints_set;
 			for each ( const int &j in i.first ) elementCornerPoints_set.insert(j);
@@ -3510,144 +4395,70 @@ namespace isis_CADCommon
 				// Found an element with all the corner points in in_GridPointIDs
 				// Need to find the complete set of grid points for the applicable face
 
-				const std::map<int, SolidElement>::const_iterator elem_itr = elementData_map.find(i.second);
-
-				if ( elem_itr == elementData_map.end())
+				for each ( const int &j in i.second )
 				{
-					std::stringstream errorString;
-					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
-					"Function:                      " __FUNCTION__ << std::endl <<
-					"ElementID:                     " <<   i.second		  << std::endl <<
-					"Error:                         " << "Could not locate an element identified with ElementID.";	
-					throw isis::application_exception(errorString.str()); 
-				}
 
-				// Could be one of four faces
-				// Face Keys Numbering from 1 ( Grid points as numberd by Nastran
-				// 1 2 3
-				// 1 2 4
-				// 2 3 4
-				// 1 3 4
+					const std::map<int, FEAElement>::const_iterator elem_itr = elementData_map.find(j);
 
-				// Face Keys Numbering from 0 
-				// 0 1 2
-				// 0 1 3
-				// 1 2 3
-				// 0 2 3
-
-				if ( elem_itr->second.GID.size() < 4 )
-				{
-					std::stringstream errorString;
-					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
-					"Function:                      " __FUNCTION__ << std::endl <<
-					"ElementID:                     " <<   i.second		  << std::endl <<
-					"Element Grid Points:          ";
-					for each ( const int &i_grid in elem_itr->second.GID) errorString << " " <<  i_grid;
-					errorString <<
-					"Search for Grid Points:          ";
-					for each ( const int &i_search in i.first )errorString << " " <<  i_search;
-					errorString <<
-					"Error:                         " << "\"Element Grid Points\" must contain at least four grid points.";	
-					throw isis::application_exception(errorString.str()); 
-
-				}
-
-				std::set<int> faceKey_1_set;
-				faceKey_1_set.insert( elem_itr->second.GID[0] );
-				faceKey_1_set.insert( elem_itr->second.GID[1] );
-				faceKey_1_set.insert( elem_itr->second.GID[2] );
-
-				std::set<int> faceKey_2_set;
-				faceKey_2_set.insert( elem_itr->second.GID[0] );
-				faceKey_2_set.insert( elem_itr->second.GID[1] );
-				faceKey_2_set.insert( elem_itr->second.GID[3] );
-
-				std::set<int> faceKey_3_set;
-				faceKey_3_set.insert( elem_itr->second.GID[1] );
-				faceKey_3_set.insert( elem_itr->second.GID[2] );
-				faceKey_3_set.insert( elem_itr->second.GID[3] );
-
-				std::set<int> faceKey_4_set;
-				faceKey_4_set.insert( elem_itr->second.GID[0] );
-				faceKey_4_set.insert( elem_itr->second.GID[2] );
-				faceKey_4_set.insert( elem_itr->second.GID[3] );
-
-				std::vector<int> faceGridPoints;
-
-				if ( faceKey_1_set == intersect_set)
-				{
-					// First Face Match
-					faceGridPoints.push_back( elem_itr->second.GID[0]);
-					faceGridPoints.push_back( elem_itr->second.GID[1]);
-					faceGridPoints.push_back( elem_itr->second.GID[2]);
-					if (  elem_itr->second.GID.size() == 10 )
+					if ( elem_itr == elementData_map.end())
 					{
-						faceGridPoints.push_back( elem_itr->second.GID[4]);
-						faceGridPoints.push_back( elem_itr->second.GID[5]);
-						faceGridPoints.push_back( elem_itr->second.GID[6]);
+						std::stringstream errorString;
+						errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+						"Function:                      " __FUNCTION__ << std::endl <<
+						"ElementID:                     " <<   j		  << std::endl <<
+						"Error:                         " << "Could not locate an element identified with ElementID.";	
+						throw isis::application_exception(errorString.str()); 
+					}
+				
+					std::vector<int> faceGridPoints;
+
+					if ( elem_itr->second.Type != CTETRA &&  elem_itr->second.Type != CQUAD )
+					{
+						std::stringstream errorString;
+						errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
+						"Function:                      " __FUNCTION__ << std::endl <<
+						"ElementID:                     " <<   j		  << std::endl <<
+						"ElementType					" << ElementType_ToString(elem_itr->second.Type)  << std::endl <<
+						"Error:                         " << "Only CTETRA and CQUAD element types are supported";	
+						throw isis::application_exception(errorString.str()); 
 					}
 
-				}
-				else if ( faceKey_2_set == intersect_set)
-				{
-					// Second Face Match
-					faceGridPoints.push_back( elem_itr->second.GID[0]);
-					faceGridPoints.push_back( elem_itr->second.GID[1]);
-					faceGridPoints.push_back( elem_itr->second.GID[3]);
-					if (  elem_itr->second.GID.size() == 10 )
+
+					if ( elem_itr->second.Type == CTETRA )
 					{
-						faceGridPoints.push_back( elem_itr->second.GID[4]);
-						faceGridPoints.push_back( elem_itr->second.GID[8]);
-						faceGridPoints.push_back( elem_itr->second.GID[7]);
-					}
-				}
-				else if ( faceKey_3_set == intersect_set)
-				{
-					// Third Face Match
-					faceGridPoints.push_back( elem_itr->second.GID[1]);
-					faceGridPoints.push_back( elem_itr->second.GID[2]);
-					faceGridPoints.push_back( elem_itr->second.GID[3]);
-					if (  elem_itr->second.GID.size() == 10 )
-					{
-						faceGridPoints.push_back( elem_itr->second.GID[5]);
-						faceGridPoints.push_back( elem_itr->second.GID[9]);
-						faceGridPoints.push_back( elem_itr->second.GID[8]);
+						// Returns conrner points and middle points for the face in the order of the CTETRA card
+						FindFaceContainingCornerGridPoints_ReturnAllGridPointsForFace_CTETRA(	elementCornerPoints_set,
+																								elem_itr->second,
+																								faceGridPoints );
+						//std::cout << std::endl;
+						//std::cout << std::endl << "After FindFaceContainingCornerGridPoints_ReturnAllGridPointsForFace_CTETRA";
+						//std::cout << std::endl << "   Element Corner Points:";
+						//for each ( const int &pt in elementCornerPoints_set ) std::cout << std::endl << "      " << pt; 
+						//std::cout << std::endl << "   Element Data:";
+						//std::cout << std::endl << elem_itr->second;
+						//std::cout << std::endl << "   Element Face Points:";
+						//for each ( const int &pt in faceGridPoints ) std::cout << std::endl << "      " << pt; 
+						//std::cout << std::endl;
 					}
 
-				}
-				else if ( faceKey_4_set == intersect_set)
-				{
-					// Fourth Face Match
-					// Third Face Match
-					faceGridPoints.push_back( elem_itr->second.GID[0]);
-					faceGridPoints.push_back( elem_itr->second.GID[2]);
-					faceGridPoints.push_back( elem_itr->second.GID[3]);
-					if (  elem_itr->second.GID.size() == 10 )
+					if ( elem_itr->second.Type == CQUAD )
 					{
-						faceGridPoints.push_back( elem_itr->second.GID[6]);
-						faceGridPoints.push_back( elem_itr->second.GID[9]);
-						faceGridPoints.push_back( elem_itr->second.GID[7]);
-					}
-				}	
+						// Returns conrner points and middle points for the face in the order of the CQUAD card
+						FindFaceContainingCornerGridPoints_ReturnAllGridPointsForFace_CQUAD(	elementCornerPoints_set,
+																								elem_itr->second,
+																								faceGridPoints );
+			
 
-				if ( faceGridPoints.size() == 0 )
-				{
-					std::stringstream errorString;
-					errorString <<  "Nastran deck contains erroneous data."		<< std::endl <<
-					"Function:                      " __FUNCTION__ << std::endl <<
-					"ElementID:                     " <<   i.second		  << std::endl <<
-					"Element Grid Points:          ";
-					for each ( const int &i_grid in elem_itr->second.GID) errorString << " " <<  i_grid;
-					errorString <<
-					"Search for Grid Points:          ";
-					for each ( const int &i_search in i.first )errorString << " " <<  i_search;
-					errorString <<
-					"Error:                         " << "Could not locate \"Search for Grid Points\" in \"Element Grid Points\".";	
-					throw isis::application_exception(errorString.str()); 
+					}
+				
+					if ( faceGridPoints.size() > 0 )
+					{
+						out_ElementID_to_SurfacePoints_map.insert(std::pair<int, std::vector<int>>(elem_itr->first, faceGridPoints));
+					}
 				}
 
-				out_ElementID_to_SurfacePoints_map.insert(std::pair<int, std::vector<int>>(elem_itr->first, faceGridPoints));
-			}
+
+			} // END if ( intersect_set.size() == elementCornerPoints_set.size() )
 
 		} // for each ( const std::pair<std::vector<int>, int> &i
 	} // NastranDeckHelper::getSurfaceElementsContainingGridPoints
@@ -3678,5 +4489,33 @@ namespace isis_CADCommon
 		}
 
 	}
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	std::string ElementType_ToString( ElementType in_ElementType)
+	{
+		switch ( in_ElementType ) 
+		{
+			case CHEXA:
+				return "CHEXA";
+				break;
+			case CPENTA:
+				return "CPENTA";
+				break;
+			case CTETRA:
+				return "CTETRA";
+				break;
+			case CQUAD:
+				return "CQUAD";
+				break;
+			case CTRIA3:
+				return "CTRIA3";
+				break;
+			default:
+				return "";
+		}
+	}
+
+
 
 } // End namespace isis
