@@ -240,7 +240,7 @@ def build_msi():
         starttime = datetime.datetime.now()
         system(['light', '-sw1055', '-sice:ICE82', '-sice:ICE57', '-sice:ICE60', '-sice:ICE69', '-ext', 'WixNetFxExtension', '-ext', 'WixUIExtension', '-ext', 'WixUtilExtension', 
             # '-cc', os.path.join(this_dir, 'cab_cache'), '-reusecab', # we were getting errors during installation relating to corrupted cab files => disable cab cache
-            '-o', os.path.splitext(source_wxs)[0] + ".msi"] + [ get_wixobj(file) for file in sources ])
+            '-o', os.path.splitext(source_wxs)[0] + ".msi"] + [ get_wixobj(file) for file in sources ] + ["UdmDll_VC14.wixlib"])
         print "elapsed time: %d seconds" % (datetime.datetime.now() - starttime).seconds
     else:
         msm_output = os.path.splitext(source_wxs)[0] + ".msm"
