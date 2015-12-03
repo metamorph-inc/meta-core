@@ -280,6 +280,7 @@ namespace isis
 				errorString <<
 						"Could not find feature in Creo model:"  << std::endl <<
 						"   Feature Name:      " << featureName <<  std::endl <<
+						"   Feature Type:      " << type << ", Point-66, Axis-21, Coordinate System-25, Plane/Surface-5" << std::endl <<
 						"   Model Name:        " << in_Model_Name << std::endl <<
 						"   Model Type:        " << isis::ProMdlType_string(mdltype)<<  std::endl <<
 						"   Component Instance ID:      " << in_ComponentID << std::endl <<

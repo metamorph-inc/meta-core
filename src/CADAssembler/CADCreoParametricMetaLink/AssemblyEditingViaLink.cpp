@@ -549,12 +549,15 @@ throw(isis::application_exception)
         //    isis_LOG(lg, isis_FILE, isis_INFO) << "toAddComponentInstanceID: " << j;
         //    isis_LOG(lg, isis_FILE, isis_INFO) << "cADComponentData_map_TEMP[j].p_model: " << cADComponentData_map_TEMP[j].p_model;
         //}
+
         isis::ApplyParametricParameters(toAddComponentInstanceIDs, cADComponentData_map_TEMP, out_ErrorList);
 
-        isis::RegenerateModel(m_CADComponentData_map[parentAssemblyInstanceID].modelHandle,
-                              m_CADComponentData_map[parentAssemblyInstanceID].name,
-                              m_CADComponentData_map[parentAssemblyInstanceID].componentID,
-                              regenerationSucceeded);
+		// R.O. 8/25/2015, No need to regenerate models here.  The previous statement (isis::ApplyParametricParameters) did
+		// a regenerate of the components that had parameters.
+        //isis::RegenerateModel(m_CADComponentData_map[parentAssemblyInstanceID].modelHandle,
+        //                      m_CADComponentData_map[parentAssemblyInstanceID].name,
+        //                      m_CADComponentData_map[parentAssemblyInstanceID].componentID,
+        //                      regenerationSucceeded);
 
         isis::isis_ProWindowRepaint(windowID);
 

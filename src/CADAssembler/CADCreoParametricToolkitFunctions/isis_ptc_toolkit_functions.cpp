@@ -5,6 +5,7 @@
 #include <StringToEnumConversions.h>
 #include "LoggerBoost.h"
 #include "CommonDefinitions.h"
+#include <UtilCollect.h>
 
 // extern "C" FILE* PTApplsUnicodeFopen(const char *filename, const char *mode);
 
@@ -2444,6 +2445,77 @@ namespace isis
 			throw isis::application_exception("C06102",err_str);  
 		}
 		return err;
+	}
+
+	ProError isis_ProSurfaceInit (	ProMdl        p_owner_handle,
+									int           surf_id,
+									ProSurface   *p_surface)
+																throw(isis::application_exception)
+	{
+		ProError err =  ProSurfaceInit ( p_owner_handle, surf_id, p_surface);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProSurfaceInit returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+	}
+
+	ProError isis_ProPoint3dOnsurfaceFind(	ProPoint3d      xyz,        
+											ProSurface      surface,   
+											ProBoolean     *on_surf,  
+											ProPoint3d      closest_pt)
+																throw(isis::application_exception)
+	{
+		ProError err =  ProPoint3dOnsurfaceFind(xyz, surface,  on_surf, closest_pt);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProPoint3dOnsurfaceFind returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+	}
+
+
+	ProError isis_ProModelitemMdlGet (		ProModelitem    *p_model_item, 
+											ProMdl          *p_owner) 
+																throw(isis::application_exception)	
+	{
+		ProError err =  ProModelitemMdlGet(p_model_item, p_owner);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProModelitemMdlGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+	}
+
+	// Note - The following function is from UtilCollect.c
+	ProError isis_ProUtilCollectSolidSurfaces ( ProSolid	    p_solid,		//	In:  The handle to the solid */
+												ProSurface	    **p_surfaces	//	Out: ProArray with collected surfaces. 
+																				//	The function allocates memory 
+																				//	for this argument, but you must 
+																				//	free it. To free the memory, 
+																				//	call the function ProArrayFree()*/
+																				)
+																		throw (isis::application_exception)
+	{
+		ProError err =  ProUtilCollectSolidSurfaces ( p_solid, p_surfaces);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : isis_ProUtilCollectSolidSurfaces returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+
 	}
 
 
