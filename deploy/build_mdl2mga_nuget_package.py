@@ -33,7 +33,7 @@ def pack_nuget():
 
 def push_nuget():
     system([nuget, "push", "META.%s.%s.nupkg" % (package_name, _get_version()),
-        "-Source", "http://build.isis.vanderbilt.edu/"])
+        "-Source", "http://nuget.isis.vanderbilt.edu/"])
     
 if __name__ == '__main__':
     for command in sys.argv[1:] or ['pack_nuget']:

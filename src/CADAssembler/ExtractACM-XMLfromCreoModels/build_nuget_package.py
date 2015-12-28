@@ -35,7 +35,7 @@ def pack_nuget():
 
 def push_nuget():
     system([nuget, "push", os.path.join(THIS_DIR, "META.ExtractACM-XMLfromCreoModels.%s.nupkg" % _get_version()),
-        "-Source", "http://build.isis.vanderbilt.edu/"])
+        "-Source", "http://nuget.isis.vanderbilt.edu/"])
     
 
 if __name__ == '__main__':
