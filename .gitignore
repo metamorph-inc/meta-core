@@ -40,6 +40,10 @@ src/**/Debug/*
 src/**/DebugUnicode/*
 test/**/Release/*
 test/**/Debug/*
+source_code_analysis/*.pylint.html
+source_code_analysis/*.cppcheck.txt
+source_code_analysis/*.cloc.csv
+source_code_analysis.log
 
 deploy/CAD_Installs/META.CADCreoParametricMetaLink.*/
 deploy/CAD_Installs/META.CadCreoParametricCreateAssembly.*/
