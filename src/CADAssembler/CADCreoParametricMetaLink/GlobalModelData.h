@@ -33,10 +33,10 @@ public:
     std::string GetGuidFromModel(const ProAsmcomppath &in_CompPath);
     const isis::CADComponentData *GetComponentDataFromModel(const ProAsmcomppath &in_CompPath);
 
-    log4cpp::Category& m_logcat;
+    // log4cpp::Category& m_logcat;
 private:
-    GlobalModelData() : mode(UNDEFINEDMODE),
-        m_logcat(log4cpp::Category::getInstance(std::string("metalink.global.data")))
+    GlobalModelData() : mode(UNDEFINEDMODE) //,
+        //m_logcat(log4cpp::Category::getInstance(std::string("metalink.global.data")))
     {
     }
     boost::mutex locker;

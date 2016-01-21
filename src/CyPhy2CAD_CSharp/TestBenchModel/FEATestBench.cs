@@ -529,7 +529,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                             string tipContextPath = Path.GetDirectoryName(geometry.Path);
                             AddGeometry2Load(feaforceRep,
                                              geometry.Impl as MgaFCO,
-                                             tipContextPath);
+                                             tipContextPath, true);
                         }
                     }
                 }
@@ -583,7 +583,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                             string tipContextPath = Path.GetDirectoryName(geometry.Path);
                             AddGeometry2Load(feaforceRep,
                                              geometry.Impl as MgaFCO,
-                                             tipContextPath);
+                                             tipContextPath, true);
                         }
                     }
 
@@ -650,7 +650,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                             string tipContextPath = Path.GetDirectoryName(geometry.Path);
                             AddGeometry2Load(feapressRep,
                                              geometry.Impl as MgaFCO,
-                                             tipContextPath);
+                                             tipContextPath, true);
                         }
                     }
                 }
@@ -677,7 +677,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                             string tipContextPath = Path.GetDirectoryName(geometry.Path);
                             AddGeometry2Load(feapressRep,
                                              geometry.Impl as MgaFCO,
-                                             tipContextPath);
+                                             tipContextPath, true);
                         }
                     }
                 }
@@ -726,13 +726,29 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
         private void AddGeometry2Load(FEALoadBase loadRep,
                                       MgaFCO geometryFCO,
-                                      string tipContextPath)
+                                      string tipContextPath, bool addcomputations)
         {
             GeometryTraversal traverser = new GeometryTraversal();
             traverser.TraverseGeometry(geometryFCO);
             
             CADGeometry geomRep = FillOutGeometryRep(geometryFCO,
                                                      tipContextPath);
+
+            if (addcomputations)
+            {
+                foreach (var point in geomRep.GeometryFeatures)
+                {
+                    TBComputation tbcomputation = new TBComputation();
+                    tbcomputation.ComputationType = TBComputation.Type.POINTCOORDINATES;
+                    tbcomputation.MetricID = point.ComponentID + ":" + point.DatumName;
+                    tbcomputation.RequestedValueType = "Vector";
+                    tbcomputation.FeatureDatumName = point.DatumName;
+                    tbcomputation.ComponentID = point.ComponentID;
+
+                    StaticComputations.Add(tbcomputation);
+                }
+            }
+
             if (geomRep != null)
             {                     
                 loadRep.AddGeometry(geomRep);

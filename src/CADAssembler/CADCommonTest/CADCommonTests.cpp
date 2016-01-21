@@ -41,7 +41,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 
 	}
-	catch ( isis::application_exception& ex )
+	//catch ( isis::application_exception& ex )
+	catch ( isis::application_exception &)
 	{
 		o.close();
 		return -1;

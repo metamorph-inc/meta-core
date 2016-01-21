@@ -1,7 +1,8 @@
 #pragma once
 
 
-#include <log4cpp/Category.hh>
+#include "LoggerBoost.h"
+
 #include "CommonDefinitions.h"
 
 #include <set>
@@ -56,8 +57,8 @@ Extrapolation is also supported.
 class PolatedAxis {
 private:
 	PolatedAxis(void)
-		: m_log_f(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
-		  m_log_cf(log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE))
+		//: m_log_f(isis_FILE_CHANNEL),
+		//  m_log_cf(isis_FILE_AND_CONSOLE_CHANNEL)
 	{}
 	axis_type m_axis;
 public:
@@ -76,13 +77,13 @@ public:
 
 	// virtual ~PolatedAxis(void); 
 	PolatedAxis(const axis_type axis) 
-		: m_log_f(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
-		  m_log_cf(log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE)),
+		: //m_log_f(isis_FILE_CHANNEL),
+		  //m_log_cf(isis_FILE_AND_CONSOLE_CHANNEL),
 		  m_axis(axis) {}; 
 
-private:
-	log4cpp::Category& m_log_f;
-	log4cpp::Category& m_log_cf; 
+public:
+	//isisLogger  m_log_f;
+	//isisLogger  m_log_cf;
 
 public:
 	std::vector<double>::const_iterator begin() const {
@@ -122,8 +123,6 @@ public:
 	typedef ::boost::multi_array<Result, 3> array_result_type;
 
 private:
-	log4cpp::Category& m_log_f;
-	log4cpp::Category& m_log_cf;
 
 	const PolatedAxis m_depth_axis;
 	const PolatedAxis m_heel_axis;
@@ -134,8 +133,8 @@ private:
 public:
 	PolatedSpace(const PolatedAxis& in_depth, const PolatedAxis& in_heel, const PolatedAxis& in_trim, 
 		const array_result_type& in_array_result )
-		: m_log_f(log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
-		  m_log_cf(log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE)),
+		: //m_log_f(isis_FILE_CHANNEL),
+		  //m_log_cf(isis_FILE_AND_CONSOLE_CHANNEL),
 		  m_depth_axis(in_depth), m_heel_axis(in_heel), m_trim_axis(in_trim),
 		  m_marray_result(in_array_result) {} 
 	// virtual ~PolatedSpace(void);
@@ -224,8 +223,6 @@ public:
 	void orientVertSet( const Orientation orient ) { m_vert_orient = orient; }
 
 private:
-	log4cpp::Category& m_log_f;
-	log4cpp::Category& m_log_cf;
 
 	/**
 	Name of the exterior-shell.

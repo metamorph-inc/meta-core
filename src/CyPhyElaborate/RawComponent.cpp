@@ -59,7 +59,7 @@ STDMETHODIMP RawComponent::Invoke(IMgaProject* gme, IMgaFCOs *models, long param
 	return InvokeEx(gme, focus, selected, parvar);
 #else
 	if(interactive) {
-		AfxMessageBox("This component does not support the obsolete invoke mechanism");
+		AfxMessageBox(L"This component does not support the obsolete invoke mechanism");
 	}
 	return E_MGA_NOT_SUPPORTED;
 #endif
@@ -90,19 +90,19 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		GMEConsole::Console::setupConsole(ccpProject);
 		GMEConsole::Console::clear();
 
-		char tmpbuf[128];
-		_strdate_s(tmpbuf,128);
-		std::string date(tmpbuf);
-		_strtime_s(tmpbuf,128);
-		std::string time(tmpbuf);
+		wchar_t tmpbuf[128];
+		_wstrdate_s(tmpbuf,128);
+		std::wstring date(tmpbuf);
+		_wstrtime_s(tmpbuf,128);
+		std::wstring time(tmpbuf);
 
-		GMEConsole::Console::writeLine(date + " " + time + " Starting CyPhyElaborate Tester Interpreter", MSG_INFO);
+		GMEConsole::Console::writeLine(date + L" " + time + L" Starting CyPhyElaborate Tester Interpreter", MSG_INFO);
 
 
 	  if(interactive)
 	  {
 		CComBSTR projname;
-		CComBSTR focusname = "<nothing>";
+		CComBSTR focusname = L"<nothing>";
 		CComPtr<IMgaTerritory> terr;
 		//COMTHROW(ccpProject->CreateTerritory(NULL, &terr));
 		//COMTHROW(ccpProject->BeginTransaction(terr));
@@ -291,18 +291,18 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		GMEConsole::Console::gmeoleapp = 0;
 		std::string msg = "Udm error: ";
 		msg += e.what();
-		AfxMessageBox(msg.c_str());
+		AfxMessageBox(CString(msg.c_str()));
 		return E_FAIL;
 	}
 	catch(...)
 	{
 		ccpProject->AbortTransaction();
 		// This can be a problem with the GME Console, so we display it in a message box
-		AfxMessageBox("An unexpected error has occurred during the interpretation process.");
+		AfxMessageBox(L"An unexpected error has occurred during the interpretation process.");
 		return E_UNEXPECTED;
 	}
 
-	GMEConsole::Console::writeLine("End of CyPhyElaborate Tester Interpreter", MSG_INFO);
+	GMEConsole::Console::writeLine(L"End of CyPhyElaborate Tester Interpreter", MSG_INFO);
 	GMEConsole::Console::freeConsole();
 
 
@@ -314,7 +314,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 // you only need to implement it if other invokation mechanisms are used
 STDMETHODIMP RawComponent::ObjectsInvokeEx( IMgaProject *project,  IMgaObject *currentobj,  IMgaObjects *selectedobjs,  long param) {
 	if(interactive) {
-		AfxMessageBox("Tho ObjectsInvoke method is not implemented");
+		AfxMessageBox(L"Tho ObjectsInvoke method is not implemented");
 	}
 	return E_MGA_NOT_SUPPORTED;
 }
@@ -322,11 +322,11 @@ STDMETHODIMP RawComponent::ObjectsInvokeEx( IMgaProject *project,  IMgaObject *c
 
 // implement application specific parameter-mechanism in these functions:
 STDMETHODIMP RawComponent::get_ComponentParameter(BSTR name, VARIANT *pVal) {
-    std::string _name = _bstr_t(name);
-    if (_name == "exception") {
+    std::wstring _name = _bstr_t(name);
+    if (_name == L"exception") {
         CComVariant(msg_exception.c_str()).Detach(pVal);
     }
-	if (_name == "traceability")
+	if (_name == L"traceability")
 	{
 		if (traceability)
 		{
@@ -337,32 +337,32 @@ STDMETHODIMP RawComponent::get_ComponentParameter(BSTR name, VARIANT *pVal) {
 }
 
 STDMETHODIMP RawComponent::put_ComponentParameter(BSTR name, VARIANT newVal) {
-	std::string _name = _bstr_t(name);
-	if (_name == "automated_expand") {
+	std::wstring _name = _bstr_t(name);
+	if (_name == L"automated_expand") {
 		_variant_t _newVal = newVal;
-		std::string value = _bstr_t(_newVal.bstrVal);
-		if (value == "true")
+		std::wstring value = _bstr_t(_newVal.bstrVal);
+		if (value == L"true")
 			automated_expand = true;
-	} else if (_name == "automated_collapse") {
+	} else if (_name == L"automated_collapse") {
 		_variant_t _newVal = newVal;
-		std::string value = _bstr_t(_newVal.bstrVal);
-		if (value == "true")
+		std::wstring value = _bstr_t(_newVal.bstrVal);
+		if (value == L"true")
 			automated_collapse = true;
 	}
-	else if (_name == "console_messages")
+	else if (_name == L"console_messages")
 	{
 		_variant_t _newVal = newVal;
-		std::string value = _bstr_t(_newVal.bstrVal);
-		if (value == "off")
+		std::wstring value = _bstr_t(_newVal.bstrVal);
+		if (value == L"off")
 		{
 			ConsoleMessagesOn = false;
 		}
-		else if (value == "on")
+		else if (value == L"on")
 		{
 			ConsoleMessagesOn = true;
 		}
 	}
-    else if (_name == "exception") {
+    else if (_name == L"exception") {
 		_variant_t _newVal = newVal;
 		msg_exception = _bstr_t(_newVal.bstrVal);
     }
@@ -375,7 +375,7 @@ STDMETHODIMP RawComponent::put_ComponentParameter(BSTR name, VARIANT newVal) {
 // these two functions are the main 
 STDMETHODIMP RawComponent::GlobalEvent(globalevent_enum event) { 
 	if(event == GLOBALEVENT_UNDO) {
-		AfxMessageBox("UNDO!!");
+		AfxMessageBox(L"UNDO!!");
 	}
 	return S_OK; 
 }
@@ -385,7 +385,7 @@ STDMETHODIMP RawComponent::ObjectEvent(IMgaObject * obj, unsigned long eventmask
 	if(eventmask & OBJEVENT_CREATED) {
 		CComBSTR objID;
 		COMTHROW(obj->get_ID(&objID));
-		AfxMessageBox( "Object created! ObjID: " + CString(objID)); 
+		AfxMessageBox( L"Object created! ObjID: " + CString(objID)); 
 	}	
 #endif
 

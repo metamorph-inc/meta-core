@@ -17,6 +17,9 @@
 #include <iterator>
 
 
+std::wstring wstringFromUTF8(const std::string& utf8);
+std::wstring wstringFromUTF8(const Udm::StringAttr& attr);
+
 //extern string OutputDir;
 
 /** \brief Global traverse function that kicks start everything when called in UdmMain. It calls NewTraverse's traverse function.
@@ -1229,7 +1232,7 @@ bool NewTraverser::EvaluatePPC(CyPhyML::ValueFlowTarget &vf, UnitUtil::ValueUnit
 			mu::Parser parser;
 			parser.ResetLocale();
 
-			parser.SetExpr(CheckExpression(val));
+			parser.SetExpr(CheckExpression(wstringFromUTF8(val)));
 
 			try
 			{
@@ -1296,7 +1299,7 @@ bool NewTraverser::EvaluateFormula(CyPhyML::ValueFormula &vf, UnitUtil::ValueUni
 		//vector<UnitUtil::ValueUnitRep> inputVURep_Collection;
 
 		map<CyPhyML::ValueFlowTarget, UnitUtil::ValueUnitRep> inputVURep_Collection;
-		multimap<string, double> parameters;
+		multimap<wstring, double> parameters;
 
 		// do conversion to SI units, check compatibility, then calculate and save		
 		for (set<CyPhyML::ValueFlow>::iterator i = VF_Set.begin(); i != VF_Set.end(); i++)
@@ -1347,7 +1350,7 @@ bool NewTraverser::EvaluateFormula(CyPhyML::ValueFormula &vf, UnitUtil::ValueUni
 				map<CyPhyML::ValueFlowTarget, UnitUtil::ValueUnitRep>::const_iterator begin = inputVURep_Collection.begin();
 				CyPhyML::ValueFlowTarget firstVFT = begin->first;
 				UnitUtil::ValueUnitRep first = begin->second;
-				parameters.insert(make_pair("dummy", first.siValue));
+				parameters.insert(make_pair(L"dummy", first.siValue));
 				begin++;
 
 				for (; begin != inputVURep_Collection.end(); begin++)
@@ -1359,7 +1362,7 @@ bool NewTraverser::EvaluateFormula(CyPhyML::ValueFormula &vf, UnitUtil::ValueUni
 						throw udm_exception(message);
 					}
 					else
-						parameters.insert(make_pair("dummy", begin->second.siValue));
+						parameters.insert(make_pair(L"dummy", begin->second.siValue));
 				}	
 
 
@@ -1394,7 +1397,7 @@ bool NewTraverser::EvaluateFormula(CyPhyML::ValueFormula &vf, UnitUtil::ValueUni
 			for (map<CyPhyML::ValueFlowTarget, UnitUtil::ValueUnitRep>::const_iterator begin = inputVURep_Collection.begin(); begin != inputVURep_Collection.end(); begin++)
 			{
 				myVURep.unitRep += begin->second.unitRep;
-				parameters.insert(make_pair("dummy", begin->second.siValue));
+				parameters.insert(make_pair(L"dummy", begin->second.siValue));
 			}
 
 #if 0
@@ -1407,12 +1410,12 @@ bool NewTraverser::EvaluateFormula(CyPhyML::ValueFormula &vf, UnitUtil::ValueUni
 #endif
 		}
 
-		myVURep.siValue = EvaluateSimpleFormula(parameters, method);
+		myVURep.siValue = EvaluateSimpleFormula(parameters, wstringFromUTF8(method));
 		myVURep.actualValue = myVURep.siValue;
 	}
 	else					// custom formula treated as blackbox
 	{
-		std::multimap<std::string, double> parameters;
+		std::multimap<std::wstring, double> parameters;
 
 		for (set<CyPhyML::ValueFlow>::iterator i = VF_Set.begin(); i != VF_Set.end(); i++)
 		{
@@ -1438,7 +1441,7 @@ bool NewTraverser::EvaluateFormula(CyPhyML::ValueFormula &vf, UnitUtil::ValueUni
 				//if (this->EvaluateFormula(CyPhyML::ValueFormula::Cast(src_vfTarget), incomingVURep)
 				this->EvaluateFormula(CyPhyML::ValueFormula::Cast(src_vfTarget), incomingVURep);
 				{
-					parameters.insert(pair<std::string, double>((vf_variableName == "") ? "Formula" : vf_variableName, incomingVURep.actualValue));
+					parameters.insert(pair<std::wstring, double>((vf_variableName == "") ? L"Formula" : wstringFromUTF8(vf_variableName), incomingVURep.actualValue));
 				}
 			}				
 			else 
@@ -1452,7 +1455,7 @@ bool NewTraverser::EvaluateFormula(CyPhyML::ValueFormula &vf, UnitUtil::ValueUni
 					throw udm_exception (message);
 				}
 				{
-					parameters.insert(pair<std::string, double>((vf_variableName == "") ? src_vfTarget.name() : vf_variableName, incomingVURep.actualValue));
+                    parameters.insert(pair<std::wstring, double>((vf_variableName == "") ? wstringFromUTF8(src_vfTarget.name()) : wstringFromUTF8(vf_variableName), incomingVURep.actualValue));
 				}
 			}
 	
@@ -1460,7 +1463,7 @@ bool NewTraverser::EvaluateFormula(CyPhyML::ValueFormula &vf, UnitUtil::ValueUni
 		
 		if (parameters.size() > 0)
 		{
-			auto evaluatedValue = EvaluateCustomFormula(parameters, CyPhyML::CustomFormula::Cast(vf).Expression());
+            auto evaluatedValue = EvaluateCustomFormula(parameters, wstringFromUTF8(CyPhyML::CustomFormula::Cast(vf).Expression()));
 
 			if (evaluatedValue == std::numeric_limits<double>::infinity())
 			{
@@ -2111,4 +2114,41 @@ std::string NewTraverser::NonRealValueFixture( CyPhyML::ValueFlowTarget &vft, st
 	}
 
 	return rtn;
+}
+
+
+std::wstring wstringFromUTF8(const std::string& utf8)
+{
+    if (utf8.empty())
+        return std::wstring();
+
+    // Fail if an invalid input character is encountered
+    const DWORD conversionFlags = MB_ERR_INVALID_CHARS;
+
+    const int utf16Length = ::MultiByteToWideChar(CP_UTF8, conversionFlags, utf8.data(), utf8.length(), NULL, 0);
+    if (utf16Length == 0)
+    {
+        DWORD error = ::GetLastError();
+
+        throw udm_exception(
+            (error == ERROR_NO_UNICODE_TRANSLATION) ?
+            "Invalid UTF-8 sequence found in input string." :
+            "Can't get length of UTF-16 string (MultiByteToWideChar failed).");
+    }
+
+    std::unique_ptr<wchar_t[]> utf16(new wchar_t[utf16Length]);
+    if (utf16 == NULL)
+        throw std::bad_alloc();
+
+    if (!::MultiByteToWideChar(CP_UTF8, 0, utf8.data(), utf8.length(), utf16.get(), utf16Length))
+    {
+        DWORD error = ::GetLastError();
+        throw udm_exception("Can't convert string from UTF-8 to UTF-16 (MultiByteToWideChar failed).");
+    }
+
+    return std::wstring(utf16.get(), utf16.get() + utf16Length);
+}
+
+std::wstring wstringFromUTF8(const Udm::StringAttr& attr) {
+    return wstringFromUTF8(static_cast<const std::string>(attr));
 }

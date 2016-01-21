@@ -42,9 +42,6 @@
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Console.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\CyPhyToolbox\CyPhyElaborate.cpp">
       <Filter>CyPhyToolbox</Filter>
     </ClCompile>
@@ -56,6 +53,9 @@
     </ClCompile>
     <ClCompile Include="..\CyPhyToolbox\UnitUtil.cpp">
       <Filter>CyPhyToolbox</Filter>
+    </ClCompile>
+    <ClCompile Include="UdmConsole.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

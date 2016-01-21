@@ -1,7 +1,5 @@
 #include <CommonFunctions.h>
 #include <string>
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
 #include "CommonDefinitions.h"
 
 
@@ -16,9 +14,9 @@ namespace isis
 	// This function is not thread safe.
 	void setCreoWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
-		logcat_fileonly.infoStream()	<< "setCreoWorkingDirectory: " << in_MultiFormatString;
+		isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCreoWorkingDirectory: " << in_MultiFormatString;
 		static wchar_t *setCreoWorkingDirectory_buffer = NULL;
 
 		if ( !setCreoWorkingDirectory_buffer) setCreoWorkingDirectory_buffer = new wchar_t[PRO_PATH_SIZE];

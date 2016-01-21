@@ -324,11 +324,11 @@ bool CGMEDataSource::ParseXMLData(COleDataObject *pDataObject, IMgaObject *targe
 			CString desc;
 			COMTHROW( errinfo->GetDescription(PutOut(desc)) );
 
-			AfxMessageBox(CString("Error while parsing XML file: ") + desc);
+			AfxMessageBox(CString(L"Error while parsing XML file: ") + desc);
 		}
 		catch(hresult_exception &)
 		{
-			AfxMessageBox("Fatal error while parsing XML file!");
+			AfxMessageBox(L"Fatal error while parsing XML file!");
 		}
 
 		throw e;

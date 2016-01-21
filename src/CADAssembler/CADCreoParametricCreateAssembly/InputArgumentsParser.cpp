@@ -187,6 +187,19 @@ void ParseInputArguments(  int                        in_argc,
 		if(vm.count("v")) {
 		  std::string lv = vm["v"].as<std::string>();
 		  if (boost::iequals(lv, LOG_VERBOSITY_DEBUG)) {
+			  out_ProgramInputArguments.logVerbosity = 	isis_DEBUG;
+		  } else if (boost::iequals(lv, LOG_VERBOSITY_INFO)) {
+			  out_ProgramInputArguments.logVerbosity = isis_INFO;
+		  } else if (boost::iequals(lv, LOG_VERBOSITY_WARN)) {
+			  out_ProgramInputArguments.logVerbosity = isis_WARN;
+		  } else if (boost::iequals(lv, LOG_VERBOSITY_ERROR)) {
+			  out_ProgramInputArguments.logVerbosity = isis_ERROR;
+		  } else {
+			  std::cerr << "The log level is not recognized.  Setting log level to INFO." << std::endl;
+			  out_ProgramInputArguments.logVerbosity = isis_INFO;
+		  } 
+		  /*
+		  if (boost::iequals(lv, LOG_VERBOSITY_DEBUG)) {
 			  out_ProgramInputArguments.logVerbosity = log4cpp::Priority::DEBUG;
 		  } else if (boost::iequals(lv, LOG_VERBOSITY_INFO)) {
 			  out_ProgramInputArguments.logVerbosity = log4cpp::Priority::INFO;
@@ -208,6 +221,7 @@ void ParseInputArguments(  int                        in_argc,
 			  std::cerr << "The log level is not recognized" << std::endl;
 			  out_ProgramInputArguments.logVerbosity = log4cpp::Priority::NOTSET;
 		  } 
+		  */
 
 		}
 		if(vm.count("c")) {

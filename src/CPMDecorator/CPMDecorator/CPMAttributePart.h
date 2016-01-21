@@ -88,7 +88,7 @@ public:
 		if (m_bTextEditable == false || m_strText.GetLength() > 0)
 			return DecoratorSDK::getFacilities().MeasureText(gdip, pFont, m_strText);
 
-		CSize size = DecoratorSDK::getFacilities().MeasureText(gdip, pFont, "m");
+		CSize size = DecoratorSDK::getFacilities().MeasureText(gdip, pFont, L"m");
 		size.cx = 20;
 		return size;
 	}
@@ -137,7 +137,7 @@ public:
 	{
 	// transaction operation begin
 	m_strText = newString;
-	long newValue = atol(newString);
+	long newValue = _wtol(newString);
 	DecoratorSDK::getFacilities().setAttribute(m_spActualFCO, m_attrName, newValue);
 	// transaction operation end
 	}

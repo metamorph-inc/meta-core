@@ -10,7 +10,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/crc.hpp> 
-#include <log4cpp/Category.hh>
+#include "LoggerBoost.h"
 
 using boost::uint8_t;
 using boost::uint32_t;
@@ -51,10 +51,10 @@ namespace isis {
 		typedef boost::shared_ptr<meta::Edit> EditPointer;
 
 		FramedEdit(EditPointer edit = EditPointer()) :
-			m_logcat( ::log4cpp::Category::getInstance(std::string("metalink.framer")) ),
+			//m_logcat( ::log4cpp::Category::getInstance(std::string("metalink.framer")) ),
 			m_edit(edit)
 		{
-			m_logcat.infoStream() << "framing request";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "framing request";
 		}
 
 		void set_load(EditPointer edit)
@@ -150,7 +150,7 @@ namespace isis {
 					continue;
 				}
 				if (m_input_buffer.size() < m_input_start + HEADER_SIZE) {
-					m_logcat.debugStream() << "not enough bytes to contain a header " << m_input_buffer.size();
+					isis_LOG(lg, isis_FILE, isis_DEBUG) << "not enough bytes to contain a header " << m_input_buffer.size();
 					return 0;
 				}
 				m_input_start = ix;
@@ -217,7 +217,7 @@ namespace isis {
 		}
 
 	private:
-		 ::log4cpp::Category& m_logcat;  
+		 //::log4cpp::Category& m_logcat;  
 
 		 static uint8_t const magic[4];
 

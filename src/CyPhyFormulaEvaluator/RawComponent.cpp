@@ -71,7 +71,7 @@ STDMETHODIMP RawComponent::Invoke(IMgaProject* gme, IMgaFCOs *models, long param
 	return InvokeEx(gme, focus, selected, parvar);
 #else
 	if(interactive) {
-		AfxMessageBox("This component does not support the obsolete invoke mechanism");
+		AfxMessageBox(L"This component does not support the obsolete invoke mechanism");
 	}
 	return E_MGA_NOT_SUPPORTED;
 #endif
@@ -176,7 +176,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 
 			CComBSTR bstrPath;
 			COMTHROW(ccpProject->get_ProjectConnStr(&bstrPath));
-			CUdmApp::projectDir = CString(bstrPath);
+			CUdmApp::projectDir = CStringA(bstrPath);
 
 			CComPtr<IMgaFCO> ccpFocus(currentobj);
 			Udm::Object currentObject;
@@ -305,7 +305,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		GMEConsole::Console::gmeoleapp = 0;
 		std::string msg = "Udm error: ";
 		msg += e.what();
-		AfxMessageBox(msg.c_str());
+		AfxMessageBox(CString(msg.c_str()));
 		return E_FAIL;
 	}
 	catch (const _com_error&)
@@ -317,7 +317,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		GMEConsole::Console::gmeoleapp = 0;
 		ccpProject->AbortTransaction();
 		// This can be a problem with the GME Console, so we display it in a message box
-		AfxMessageBox("An unexpected error has occurred during the interpretation process.");
+		AfxMessageBox(L"An unexpected error has occurred during the interpretation process.");
 		return E_FAIL;
 	}
 
@@ -336,7 +336,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 // you only need to implement it if other invokation mechanisms are used
 STDMETHODIMP RawComponent::ObjectsInvokeEx( IMgaProject *project,  IMgaObject *currentobj,  IMgaObjects *selectedobjs,  long param) {
 	if(interactive) {
-		AfxMessageBox("Tho ObjectsInvoke method is not implemented");
+		AfxMessageBox(L"Tho ObjectsInvoke method is not implemented");
 	}
 	return E_MGA_NOT_SUPPORTED;
 }

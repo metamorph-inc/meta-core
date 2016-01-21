@@ -12,7 +12,7 @@
 
 
 // This name will appear in the popup window for interpreter selection.
-#define COMPONENT_NAME "DESERT Configuration to Component Assembly"
+#define COMPONENT_NAME L"DESERT Configuration to Component Assembly"
 
 
 #define TOOLTIP_TEXT "DESERT Configuration to Component Assembly"

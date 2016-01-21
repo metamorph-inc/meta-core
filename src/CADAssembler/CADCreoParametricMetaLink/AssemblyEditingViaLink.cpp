@@ -34,12 +34,12 @@ namespace isis
 MetaLinkAssemblyEditor::MetaLinkAssemblyEditor(cad::CadFactoryAbstract::ptr in_cadfactory,
         const isis::ProgramInputArguments              &in_ProgramInputArguments,
         std::map<std::string, isis::CADComponentData> &in_CADComponentData_map) :
-    m_logcat(::log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
+   // m_logcat(::log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
     m_programInputArguments(in_ProgramInputArguments),
     m_CADComponentData_map(in_CADComponentData_map),
     m_uniqueNameIndex(0), m_addedToAssemblyOrdinal(0)
 {
-	m_logcat.debugStream() << "MetaLinkAssemblyEditor::MetaLinkAssemblyEditor()";
+	isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkAssemblyEditor::MetaLinkAssemblyEditor()";
 
     m_cadfactory = in_cadfactory;
     designID = in_ProgramInputArguments.designID;
@@ -49,15 +49,15 @@ MetaLinkAssemblyEditor::MetaLinkAssemblyEditor(cad::CadFactoryAbstract::ptr in_c
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MetaLinkAssemblyEditor::ClearSelection()
 {
-    m_logcat.debugStream() << "ClearSelection() entered";
+    isis_LOG(lg, isis_FILE, isis_DEBUG) << "ClearSelection() entered";
     ProError status;
     switch(status = ProWindowRepaint(PRO_VALUE_UNUSED))
     {
     case PRO_TK_NO_ERROR:
-        m_logcat.debugStream() << "ProWindowRepaint(): Window repainted." ;
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "ProWindowRepaint(): Window repainted." ;
         break;
     case PRO_TK_BAD_INPUTS:
-		m_logcat.warnStream() << "ProWindowRepaint(): Unsuccesful" << "[" << __FILE__ << ": " << __LINE__ << "]";
+		isis_LOG(lg, isis_FILE, isis_WARN) << "ProWindowRepaint(): Unsuccesful" << "[" << __FILE__ << ": " << __LINE__ << "]";
         break;
     }
 }
@@ -74,7 +74,7 @@ void MetaLinkAssemblyEditor::SelectComponentOfAssembly(
     std::vector<isis::CADCreateAssemblyError> &out_ErrorList)
 throw(isis::application_exception)
 {
-    log4cpp::Category& logcat = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+    //log4cpp::Category& logcat = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
 
     ProError status;
     ProModelitem selectedComponent;
@@ -87,12 +87,12 @@ throw(isis::application_exception)
     std::map<std::string, isis::CADComponentData>::const_iterator componentIx = m_CADComponentData_map.find(in_ComponentInstanceId);
     if(componentIx == m_CADComponentData_map.end())
     {
-        logcat.warnStream()
+        isis_LOG(lg, isis_FILE, isis_WARN)
                 << "Function MetaLinkAssemblyEditor::SelectComponentOfAssembly invoked, but ComponentInstanceID does not exist in the assembly. "
                 <<  in_ComponentInstanceId;
         throw isis::application_exception("C08002", "component instance ID is not present");
     }
-    logcat.infoStream() << "found component: " << componentIx->second.name;
+    isis_LOG(lg, isis_FILE, isis_INFO) << "found component: " << componentIx->second.name;
 
     ProAsmcomppath assemblyPath;
     switch(status = Retrieve_ProAsmcomppath((ProSolid)top_handle,
@@ -100,67 +100,67 @@ throw(isis::application_exception)
                                             assemblyPath))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "selection of component";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "selection of component";
         break;
     case PRO_TK_BAD_INPUTS:
-        logcat.errorStream() << "One or more input arguments was invalid";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "One or more input arguments was invalid";
         throw isis::application_exception("C09004", "one or more input arguments were invalid");
     }
 
-    logcat.infoStream() << "highlight the component";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "highlight the component";
     ProMdl component_handle = componentIx->second.modelHandle;
     switch(status = ProMdlToModelitem(component_handle, &selectedComponent))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "selection of component";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "selection of component";
         break;
     case PRO_TK_BAD_INPUTS:
-        logcat.errorStream() << "One or more input arguments was invalid";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "One or more input arguments was invalid";
         throw isis::application_exception("C09004", "one or more input arguments were invalid");
     case PRO_TK_NOT_EXIST:
-        logcat.errorStream() << "model item does not exist";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "model item does not exist";
         throw isis::application_exception("C09014", "Item with such id and type does not exist");
     }
     switch(status = ProSelectionAlloc(&assemblyPath, &selectedComponent, &selection))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "selection of component";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "selection of component";
         break;
     case PRO_TK_BAD_INPUTS:
-        logcat.errorStream() << "One or more input arguments was invalid";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "One or more input arguments was invalid";
         throw isis::application_exception("C09004", "one or more input arguments were invalid");
     }
     //ProSelect(
     switch(status = ProSelectionHighlight(selection, PRO_COLOR_HIGHLITE))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "component highlighted";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "component highlighted";
         break;
     case PRO_TK_BAD_CONTEXT:
-        logcat.errorStream() << "One or more input arguments was invalid";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "One or more input arguments was invalid";
         throw isis::application_exception("C09005", "one or more input arguments were invalid");
     }
 
-    logcat.infoStream() << "selection complete";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "selection complete";
     switch(status = ProWindowRefresh(PRO_VALUE_UNUSED))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "window refreshed" ;
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "window refreshed" ;
         break;
     case PRO_TK_BAD_CONTEXT:
-        logcat.errorStream() << "the current view is not valid";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "the current view is not valid";
         throw isis::application_exception("C09007", "one or more input arguments were invalid");
     }
     switch(status = ProDetailtreeRefresh((ProSolid)component_handle, PRO_VALUE_UNUSED))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "the detail tree is refreshed" ;
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "the detail tree is refreshed" ;
         break;
     case PRO_TK_BAD_INPUTS:
-        logcat.errorStream() << "One or more of the input arguments are invalid.";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "One or more of the input arguments are invalid.";
         throw isis::application_exception("C09008", "one or more input arguments were invalid");
     case PRO_TK_NO_CHANGE:
-        logcat.errorStream() << "There is no change in the detail tree.";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "There is no change in the detail tree.";
         break;
     }
 }
@@ -172,50 +172,50 @@ std::string MetaLinkAssemblyEditor::LocateComponentOfAssembly(
     std::vector<isis::CADCreateAssemblyError> &out_ErrorList)
 throw(isis::application_exception)
 {
-    log4cpp::Category& logcat = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-    logcat.info("locate request is being sent");
+    //log4cpp::Category& logcat = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+    isis_LOG(lg, isis_FILE, isis_INFO) << "locate request is being sent";
     ProError status;
     ProSelection *ret_buff;
     switch(status = ProSelbufferSelectionsGet(&ret_buff))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "buffer is in session and was returned.";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "buffer is in session and was returned.";
         break;
     case PRO_TK_BAD_INPUTS:
-        logcat.errorStream() << "The argument was invalid (NULL).";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "The argument was invalid (NULL).";
         throw isis::application_exception("C0A001", "invalid selection buffer");
     case PRO_TK_CANT_ACCESS:
-        logcat.errorStream() << "There is no Object/Action selection tool active.";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "There is no Object/Action selection tool active.";
         throw isis::application_exception("C0A002", "no active selection");
     case PRO_TK_E_NOT_FOUND:
-        logcat.errorStream() << "There are no objects in the current selection tool.";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "There are no objects in the current selection tool.";
         return "";
     }
     ProModelitem component_handle;
     switch(status = ProSelectionModelitemGet(*ret_buff, &component_handle))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "buffer is in session and was returned.";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "buffer is in session and was returned.";
         break;
     case PRO_TK_BAD_INPUTS:
-        logcat.errorStream() << "The argument was invalid (NULL).";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "The argument was invalid (NULL).";
         throw isis::application_exception("C0A004", "null argument");
     case PRO_TK_NOT_EXIST:
-        logcat.errorStream() << "The model item doesn't exist.";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "The model item doesn't exist.";
         throw isis::application_exception("C0A005", "selected model does not exist");
     }
     ProAsmcomppath component_path;
     switch(status = ProSelectionAsmcomppathGet(*ret_buff, &component_path))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "buffer is in session and was returned.";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "buffer is in session and was returned.";
         break;
     case PRO_TK_BAD_INPUTS:
-        logcat.errorStream() << "The argument was invalid (NULL).";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "The argument was invalid (NULL).";
         throw isis::application_exception("C0A006", "no selelcted assembly path");
     }
     ProSelectionarrayFree(ret_buff);
-    logcat.errorStream() << "caught select event : component: " << component_handle.id << " table: " << component_path.table_num;
+    isis_LOG(lg, isis_FILE, isis_ERROR) << "caught select event : component: " << component_handle.id << " table: " << component_path.table_num;
 
     return isis::GlobalModelData::Instance.GetGuidFromModel(component_path);
 }
@@ -227,18 +227,18 @@ void MetaLinkAssemblyEditor::SelectDatumOfComponent(
 throw(isis::application_exception)
 {
 
-    log4cpp::Category& logcat = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-    logcat.info("select datum request has been received");
+    //log4cpp::Category& logcat = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+    isis_LOG(lg, isis_FILE, isis_INFO) <<"select datum request has been received";
     ProError status;
 
     ProMdl componentHandle = m_AvmComponentModel;
     ProModelitem selectedDatum;
     ProSelection selection;
 
-    logcat.infoStream() << "highlight the datum";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "highlight the datum";
     if(in_DatumName.size() > (PRO_NAME_SIZE - 1))
     {
-        logcat.warnStream()
+        isis_LOG(lg, isis_FILE, isis_WARN)
                 << "Function MetaLinkAssemblyEditor::SelectComponentOfAssembly invoked, but DatumName is too long. "
                 <<  in_DatumName;
         throw isis::application_exception("C08005", "datum name is too long");
@@ -250,55 +250,55 @@ throw(isis::application_exception)
     switch(status = ProModelitemByNameInit(componentHandle, type, datumName, &selectedDatum))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "selected datum";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "selected datum";
         break;
     case PRO_TK_E_NOT_FOUND:
-        logcat.errorStream() << "The datum was not found: " << datumName;
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "The datum was not found: " << datumName;
         throw isis::application_exception("C09002", "datum not found by name");
         break;
     case PRO_TK_BAD_INPUTS:
-        logcat.errorStream() << "One or more input arguments was invalid";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "One or more input arguments was invalid";
         throw isis::application_exception("C09003", "one or more input arguments were invalid");
     }
     switch(status = ProSelectionAlloc(NULL, &selectedDatum, &selection))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "selection of datum";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "selection of datum";
         break;
     case PRO_TK_BAD_INPUTS:
-        logcat.errorStream() << "One or more input arguments was invalid";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "One or more input arguments was invalid";
         throw isis::application_exception("C09004", "one or more input arguments were invalid");
     }
     switch(status = ProSelectionHighlight(selection, PRO_COLOR_HIGHLITE))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "datum highlighted";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "datum highlighted";
         break;
     case PRO_TK_BAD_CONTEXT:
-        logcat.errorStream() << "One or more input arguments was invalid";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "One or more input arguments was invalid";
         throw isis::application_exception("C09005", "one or more input arguments were invalid");
     }
 
-    logcat.infoStream() << "selection complete";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "selection complete";
     switch(status = ProWindowRefresh(PRO_VALUE_UNUSED))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "window refreshed" ;
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "window refreshed" ;
         break;
     case PRO_TK_BAD_CONTEXT:
-        logcat.errorStream() << "the current view is not valid";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "the current view is not valid";
         throw isis::application_exception("C09007", "one or more input arguments were invalid");
     }
     switch(status = ProDetailtreeRefresh((ProSolid)componentHandle, PRO_VALUE_UNUSED))
     {
     case PRO_TK_NO_ERROR:
-        logcat.debugStream() << "the detail tree is refreshed" ;
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "the detail tree is refreshed" ;
         break;
     case PRO_TK_BAD_INPUTS:
-        logcat.errorStream() << "One or more of the input arguments are invalid.";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "One or more of the input arguments are invalid.";
         throw isis::application_exception("C09008", "one or more input arguments were invalid");
     case PRO_TK_NO_CHANGE:
-        logcat.errorStream() << "There is no change in the detail tree.";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "There is no change in the detail tree.";
         break;
     }
 }
@@ -319,7 +319,7 @@ void MetaLinkAssemblyEditor::AddComponentToAssembly(
 throw(isis::application_exception)
 {
 
-    m_logcat.infoStream() << "***************** Begin MetaLinkAssemblyEditor::AddComponentToAssembly ******************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "***************** Begin MetaLinkAssemblyEditor::AddComponentToAssembly ******************";
     std::stringstream generalMsg;
 
     // 8/14/2013 Tempory fix to the problem that CyPhy does not have a way to pass the assembly instnce ID in
@@ -327,8 +327,8 @@ throw(isis::application_exception)
     // assembly.
     std::string parentAssemblyInstanceID = topAssemblyComponentInstanceID;
 
-    m_logcat.infoStream() << "Setting parentAssemblyInstanceID to topAssemblyComponentInstanceID."
-                          << ::log4cpp::eol << "  topAssemblyComponentInstanceID: " << topAssemblyComponentInstanceID;
+    isis_LOG(lg, isis_FILE, isis_INFO) << "Setting parentAssemblyInstanceID to topAssemblyComponentInstanceID."
+                          << isis_EOL << "  topAssemblyComponentInstanceID: " << topAssemblyComponentInstanceID;
 
     //std::string parentAssemblyInstanceID = in_ParentAssemblyInstanceID;
 
@@ -344,32 +344,32 @@ throw(isis::application_exception)
 
 
 
-    m_logcat.infoStream() << "************* Begin Input Arguments *********************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "************* Begin Input Arguments *********************";
 
-    m_logcat.infoStream() << "Adding component to the assembly: " <<  generalMsg.str();
+    isis_LOG(lg, isis_FILE, isis_INFO) << "Adding component to the assembly: " <<  generalMsg.str();
     for each(CADParameter i in in_CADParameters)
     {
-        m_logcat.infoStream()  << i;
+        isis_LOG(lg, isis_FILE, isis_INFO)  << i;
     }
 
-    m_logcat.infoStream() << "*************** End Input Arguments *********************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "*************** End Input Arguments *********************";
 
-    m_logcat.infoStream() << "Adding Creo model"  << in_CreoModelName;
+    isis_LOG(lg, isis_FILE, isis_INFO) << "Adding Creo model"  << in_CreoModelName;
 
     /////////////////////////////
     // Begin Input Data Checks
     /////////////////////////////
-    m_logcat.infoStream() << "******************** Begin Checks ***********************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "******************** Begin Checks ***********************";
     // Verify that a top assembly exists in this class
     if(topAssemblyComponentInstanceID.size() == 0)
     {
         std::stringstream errorString;
         errorString << "Function MetaLinkAssemblyEditor::AddComponentToAssembly invoked, but no assemblies have been created. "
                     <<      generalMsg.str();
-        m_logcat.errorStream() << errorString.str();
+        isis_LOG(lg, isis_FILE, isis_ERROR) << errorString.str();
         throw isis::application_exception("C08001", errorString);                          ////
     }
-    m_logcat.infoStream() << " Top level assembly exists in the internal data structures";
+    isis_LOG(lg, isis_FILE, isis_INFO) << " Top level assembly exists in the internal data structures";
 
 
     // 8/14/2013 Old approach for dealing with the mapping of a CyPhy DesignID to Creo
@@ -392,7 +392,7 @@ throw(isis::application_exception)
     }
     else
     {
-        m_logcat.infoStream() << " Parent assembly exists in the internal data structures";
+        isis_LOG(lg, isis_FILE, isis_INFO) << " Parent assembly exists in the internal data structures";
 
         // We know parentAssemblyInstanceID exists in the assembly, now verify that parentAssemblyInstanceID is an assembly
         std::map<std::string, isis::CADComponentData>::const_iterator itr;
@@ -405,7 +405,7 @@ throw(isis::application_exception)
             throw isis::application_exception("C08003", errorString);
         }
     }
-    m_logcat.infoStream() << " Parent assembly is a Creo assembly (i.e. not a part)";
+    isis_LOG(lg, isis_FILE, isis_INFO) << " Parent assembly is a Creo assembly (i.e. not a part)";
 
     // Verify in_ComponentInstanceID does not exist in the assembly.  If it does exist, then an attempt is
     // being made to add it a second time.  A ComponentInstanceID can exist one and only one time in a assembly.
@@ -417,7 +417,7 @@ throw(isis::application_exception)
                     <<  generalMsg.str();
         throw isis::application_exception("C08004", errorString);
     }
-    m_logcat.infoStream() << " Add component instance does not already exist in the assembly";
+    isis_LOG(lg, isis_FILE, isis_INFO) << " Add component instance does not already exist in the assembly";
 
     // Make sure in_CreoModelName is not too long
     if(in_CreoModelName.size() > (PRO_NAME_SIZE - 1))
@@ -429,8 +429,8 @@ throw(isis::application_exception)
                 <<  generalMsg.str();
         throw isis::application_exception("C08005", errorString);
     }
-    m_logcat.infoStream() << " Creo model name is within the allowable length of: " << (PRO_NAME_SIZE - 1) << " characters.";
-    m_logcat.infoStream() << "********************* End Checks ************************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << " Creo model name is within the allowable length of: " << (PRO_NAME_SIZE - 1) << " characters.";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "********************* End Checks ************************";
     /////////////////////////////
     // End Input Data Checks
     /////////////////////////////
@@ -481,10 +481,10 @@ throw(isis::application_exception)
                                             modelName,
                                             completeName);
 
-            m_logcat.infoStream() << "Parametric part/sub-assembly rename: "
-                                  << log4cpp::eol << "   Old Name:                          " << in_CreoModelName
-                                  << log4cpp::eol << "   New Name:                          " << modelName
-                                  << log4cpp::eol << "   Family Table Name (if applicable): " << completeName;
+            isis_LOG(lg, isis_FILE, isis_INFO) << "Parametric part/sub-assembly rename: "
+                                  << isis_EOL << "   Old Name:                          " << in_CreoModelName
+                                  << isis_EOL << "   New Name:                          " << modelName
+                                  << isis_EOL << "   Family Table Name (if applicable): " << completeName;
 
             ///std::cout << std::endl << "CreateModelNameWithUniqueSuffix:modelName BB" << modelName << "EE";
 
@@ -517,11 +517,11 @@ throw(isis::application_exception)
 
     try
     {
-        //m_logcat.infoStream()  << "*********** Begin Temp Structure - Call to Creo SDK to Add the Component **************";
-        //m_logcat.infoStream() << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle: "         << m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
-        //m_logcat.infoStream() << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle.name: " << m_CADComponentData_map[parentAssemblyInstanceID].name;
-        //m_logcat.infoStream() << "cADComponentData_map_TEMP[in_ComponentInstanceID]:                   " << cADComponentData_map_TEMP[in_ComponentInstanceID];
-        //m_logcat.infoStream()  << "************ End Temp Structure - Call to Creo SDK to Add the Component ***************";
+        //isis_LOG(lg, isis_FILE, isis_INFO)  << "*********** Begin Temp Structure - Call to Creo SDK to Add the Component **************";
+        //isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle: "         << m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
+        //isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle.name: " << m_CADComponentData_map[parentAssemblyInstanceID].name;
+        //isis_LOG(lg, isis_FILE, isis_INFO) << "cADComponentData_map_TEMP[in_ComponentInstanceID]:                   " << cADComponentData_map_TEMP[in_ComponentInstanceID];
+        //isis_LOG(lg, isis_FILE, isis_INFO)  << "************ End Temp Structure - Call to Creo SDK to Add the Component ***************";
 
         isis::Add_Subassemblies_and_Parts(*m_cadfactory,
                                           m_CADComponentData_map[parentAssemblyInstanceID].modelHandle,
@@ -538,23 +538,26 @@ throw(isis::application_exception)
         //             m_CADComponentData_map[parentAssemblyInstanceID].componentID,
         //             regenerationSucceeded);
 
-        m_logcat.infoStream() << "*********** Begin Temp Structure - Call to Creo SDK to Add the Component **************";
-        m_logcat.infoStream() << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
-        m_logcat.infoStream() << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle.name: " << m_CADComponentData_map[parentAssemblyInstanceID].name;
-        m_logcat.infoStream() << "cADComponentData_map_TEMP[in_ComponentInstanceID]:                 " << cADComponentData_map_TEMP[in_ComponentInstanceID];
-        m_logcat.infoStream() << "************ End Temp Structure - Call to Creo SDK to Add the Component ***************";
+        isis_LOG(lg, isis_FILE, isis_INFO) << "*********** Begin Temp Structure - Call to Creo SDK to Add the Component **************";
+        isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
+        isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle.name: " << m_CADComponentData_map[parentAssemblyInstanceID].name;
+        isis_LOG(lg, isis_FILE, isis_INFO) << "cADComponentData_map_TEMP[in_ComponentInstanceID]:                 " << cADComponentData_map_TEMP[in_ComponentInstanceID];
+        isis_LOG(lg, isis_FILE, isis_INFO) << "************ End Temp Structure - Call to Creo SDK to Add the Component ***************";
 
         //for each ( std::string j in toAddComponentInstanceIDs )
         //{
-        //    m_logcat.infoStream() << "toAddComponentInstanceID: " << j;
-        //    m_logcat.infoStream() << "cADComponentData_map_TEMP[j].p_model: " << cADComponentData_map_TEMP[j].p_model;
+        //    isis_LOG(lg, isis_FILE, isis_INFO) << "toAddComponentInstanceID: " << j;
+        //    isis_LOG(lg, isis_FILE, isis_INFO) << "cADComponentData_map_TEMP[j].p_model: " << cADComponentData_map_TEMP[j].p_model;
         //}
+
         isis::ApplyParametricParameters(toAddComponentInstanceIDs, cADComponentData_map_TEMP, out_ErrorList);
 
-        isis::RegenerateModel(m_CADComponentData_map[parentAssemblyInstanceID].modelHandle,
-                              m_CADComponentData_map[parentAssemblyInstanceID].name,
-                              m_CADComponentData_map[parentAssemblyInstanceID].componentID,
-                              regenerationSucceeded);
+		// R.O. 8/25/2015, No need to regenerate models here.  The previous statement (isis::ApplyParametricParameters) did
+		// a regenerate of the components that had parameters.
+        //isis::RegenerateModel(m_CADComponentData_map[parentAssemblyInstanceID].modelHandle,
+        //                      m_CADComponentData_map[parentAssemblyInstanceID].name,
+        //                      m_CADComponentData_map[parentAssemblyInstanceID].componentID,
+        //                      regenerationSucceeded);
 
         isis::isis_ProWindowRepaint(windowID);
 
@@ -581,16 +584,16 @@ throw(isis::application_exception)
     m_CADComponentData_map[in_ComponentInstanceID] = cADComponentData_map_TEMP[in_ComponentInstanceID];
     m_CADComponentData_map[parentAssemblyInstanceID].children.push_back(in_ComponentInstanceID);
 
-    m_logcat.infoStream() << "******************* Begin Final Structure - Add the Component *************************";
-    m_logcat.infoStream() << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
-    m_logcat.infoStream() << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle.name: " << m_CADComponentData_map[parentAssemblyInstanceID].name;
-    m_logcat.infoStream() << "m_CADComponentData_map[in_ComponentInstanceID]:                    " << m_CADComponentData_map[in_ComponentInstanceID];
-    m_logcat.infoStream() << "******************* End Final Structure - Add the Component *************************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "******************* Begin Final Structure - Add the Component *************************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
+    isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle.name: " << m_CADComponentData_map[parentAssemblyInstanceID].name;
+    isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[in_ComponentInstanceID]:                    " << m_CADComponentData_map[in_ComponentInstanceID];
+    isis_LOG(lg, isis_FILE, isis_INFO) << "******************* End Final Structure - Add the Component *************************";
 
-    m_logcat.infoStream() << "Successfully added component to the assembly:" <<  generalMsg.str();
-    m_logcat.infoStream() << m_CADComponentData_map.find(parentAssemblyInstanceID)->second;
+    isis_LOG(lg, isis_FILE, isis_INFO) << "Successfully added component to the assembly:" <<  generalMsg.str();
+    isis_LOG(lg, isis_FILE, isis_INFO) << m_CADComponentData_map.find(parentAssemblyInstanceID)->second;
 
-    m_logcat.infoStream() << "******************* End MetaLinkAssemblyEditor::AddComponentToAssembly ******************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "******************* End MetaLinkAssemblyEditor::AddComponentToAssembly ******************";
 
 }
 
@@ -601,7 +604,7 @@ void MetaLinkAssemblyEditor::UpdateComponentName(const std::string &in_Constrain
     {
         std::stringstream errorString;
         errorString << "exception : Function MetaLinkAssemblyEditor::UpdateComponentName invoked, but no assemblies have been created. ";
-        m_logcat.errorStream() << errorString.str();
+        isis_LOG(lg, isis_FILE, isis_ERROR) << errorString.str();
         throw isis::application_exception("C08013", errorString);
     }
 
@@ -626,7 +629,7 @@ void MetaLinkAssemblyEditor::UpdateComponentName(const std::string &in_Constrain
     }
     catch(isis::application_exception &ex)
     {
-        m_logcat.errorStream() << "Unable to set component name, error: " << ex.what();
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "Unable to set component name, error: " << ex.what();
     }
 
     ProMdl mainMdl;
@@ -639,31 +642,31 @@ void MetaLinkAssemblyEditor::ConstrainComponent(const std::string               
         const std::vector< ConstraintPair>  &in_ConstraintPairs)
 throw(isis::application_exception)
 {
-    m_logcat.infoStream() << "***************** Begin MetaLinkAssemblyEditor::ConstrainComponent ******************";
-    m_logcat.infoStream() << "*************** Begin Input Arguments *********************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "***************** Begin MetaLinkAssemblyEditor::ConstrainComponent ******************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "*************** Begin Input Arguments *********************";
 
     if(topAssemblyComponentInstanceID.size() == 0)
     {
         std::stringstream errorString;
         errorString << "exception : Function MetaLinkAssemblyEditor::ConstrainComponent invoked, but no assemblies have been created. ";
-        m_logcat.errorStream() << errorString.str();
+        isis_LOG(lg, isis_FILE, isis_ERROR) << errorString.str();
         throw isis::application_exception("C08013", errorString);
     }
 
-    m_logcat.infoStream() << "in_ConstraintComponentInstanceID: " << in_ConstraintComponentInstanceID;
+    isis_LOG(lg, isis_FILE, isis_INFO) << "in_ConstraintComponentInstanceID: " << in_ConstraintComponentInstanceID;
     for each(ConstraintPair i  in in_ConstraintPairs)
     {
-        m_logcat.infoStream() << "      constraintFeatures:";
+        isis_LOG(lg, isis_FILE, isis_INFO) << "      constraintFeatures:";
         for each(ConstraintFeature j in i.constraintFeatures)
         {
-            m_logcat.infoStream()
-                    << "         component:               " <<        j.componentInstanceID  << ::log4cpp::eol
-                    << "         featureName:             " <<        j.featureName  << ::log4cpp::eol
+            isis_LOG(lg, isis_FILE, isis_INFO)
+                    << "         component:               " <<        j.componentInstanceID  << isis_EOL
+                    << "         featureName:             " <<        j.featureName  << isis_EOL
                     << "         featureOrientationType:  " <<        ProDatumside_string(j.featureOrientationType);
 
         }
     }
-    m_logcat.infoStream() << "*************** End Input Arguments *********************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "*************** End Input Arguments *********************";
 
     /////////////////////////////
     // Begin Input Data Checks
@@ -691,7 +694,7 @@ throw(isis::application_exception)
     // End Input Data Checks
     /////////////////////////////
 
-    m_logcat.infoStream() << "Constraining Creo model:"  << m_CADComponentData_map[in_ConstraintComponentInstanceID].name;
+    isis_LOG(lg, isis_FILE, isis_INFO) << "Constraining Creo model:"  << m_CADComponentData_map[in_ConstraintComponentInstanceID].name;
 
     ///////////////////////////////////////////////
     // Add the contraints to m_CADComponentData_map
@@ -700,7 +703,7 @@ throw(isis::application_exception)
     // zzz If already constrained, cannot allow a second constraint.  In the future will support deleting
     // constraints.  For now, throw an exception if trying to constrain a component that is already
     // constrained.
-    m_logcat.infoStream() << "Number of Constraints: "<< m_CADComponentData_map[topAssemblyComponentInstanceID].constraintDef.constraints.size();
+    isis_LOG(lg, isis_FILE, isis_INFO) << "Number of Constraints: "<< m_CADComponentData_map[topAssemblyComponentInstanceID].constraintDef.constraints.size();
     if(m_CADComponentData_map[in_ConstraintComponentInstanceID].constraintDef.constraints.size() > 0)
     {
         std::stringstream errorString;
@@ -728,8 +731,8 @@ throw(isis::application_exception)
     componentIDsToBeConstrained.push_back(in_ConstraintComponentInstanceID);
 
 
-    m_logcat.infoStream() << "**** Before call to ApplyModelConstraints ******";
-    m_logcat.infoStream() << m_CADComponentData_map[in_ConstraintComponentInstanceID];
+    isis_LOG(lg, isis_FILE, isis_INFO) << "**** Before call to ApplyModelConstraints ******";
+    isis_LOG(lg, isis_FILE, isis_INFO) << m_CADComponentData_map[in_ConstraintComponentInstanceID];
 
     ApplyModelConstraints(*m_cadfactory,
                           &m_CADComponentData_map[topAssemblyComponentInstanceID].modelHandle,
@@ -751,10 +754,10 @@ throw(isis::application_exception)
 
     isis::isis_ProWindowRepaint(windowID);
 
-    m_logcat.infoStream() << "**** After call to ApplyModelConstraints ******";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "**** After call to ApplyModelConstraints ******";
 
-    m_logcat.infoStream() << "Constraint applied successfully";
-    m_logcat.infoStream() << "***************** End MetaLinkAssemblyEditor::ConstrainComponent ******************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "Constraint applied successfully";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "***************** End MetaLinkAssemblyEditor::ConstrainComponent ******************";
     /////////////////////////////
     // Begin Input Data Checks
     /////////////////////////////
@@ -773,22 +776,22 @@ void MetaLinkAssemblyEditor::ModifyParameters(const std::string  &in_ComponentIn
         const std::vector<CADParameter> &in_Parameters) throw(isis::application_exception)
 
 {
-    m_logcat.infoStream() << "********************* Begin MetaLinkAssemblyEditor::ModifyParameter **********************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "********************* Begin MetaLinkAssemblyEditor::ModifyParameter **********************";
     if(topAssemblyComponentInstanceID.size() == 0)
     {
         std::stringstream errorString;
         errorString << "exception : Function MetaLinkAssemblyEditor::ModifyParameters invoked, but no assemblies have been created. ";
-        m_logcat.errorStream() << errorString.str();
+        isis_LOG(lg, isis_FILE, isis_ERROR) << errorString.str();
         throw isis::application_exception("C08014", errorString);
     }
 
-    m_logcat.infoStream() << "************* Begin Input Arguments *********************";
-    m_logcat.infoStream() << "   in_ComponentInstanceID: " << in_ComponentInstanceID;
+    isis_LOG(lg, isis_FILE, isis_INFO) << "************* Begin Input Arguments *********************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "   in_ComponentInstanceID: " << in_ComponentInstanceID;
     for each(CADParameter i in in_Parameters)
     {
-        m_logcat.infoStream() << i;
+        isis_LOG(lg, isis_FILE, isis_INFO) << i;
     }
-    m_logcat.infoStream() << "************* End Input Arguments *********************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "************* End Input Arguments *********************";
 
 
     /////////////////////////////
@@ -829,10 +832,10 @@ void MetaLinkAssemblyEditor::ModifyParameters(const std::string  &in_ComponentIn
                                           m_CADComponentData_map[in_ComponentInstanceID].name,
                                           m_CADComponentData_map[in_ComponentInstanceID].modelType);
 
-    m_logcat.infoStream() << "Internal data structure parameter values BEFORE modification:";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "Internal data structure parameter values BEFORE modification:";
     for each(CADParameter i in m_CADComponentData_map[in_ComponentInstanceID].parametricParameters)
     {
-        m_logcat.infoStream() << i;
+        isis_LOG(lg, isis_FILE, isis_INFO) << i;
     }
 
     // Change the paraqmeters
@@ -875,13 +878,13 @@ void MetaLinkAssemblyEditor::ModifyParameters(const std::string  &in_ComponentIn
         }
     }
 
-    m_logcat.infoStream() << "Internal data structure parameter values AFTER modification:";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "Internal data structure parameter values AFTER modification:";
     for each(CADParameter i in m_CADComponentData_map[in_ComponentInstanceID].parametricParameters)
     {
-        m_logcat.infoStream() << i;
+        isis_LOG(lg, isis_FILE, isis_INFO) << i;
     }
 
-    m_logcat.infoStream() << "********************* End MetaLinkAssemblyEditor::ModifyParameter ************************";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "********************* End MetaLinkAssemblyEditor::ModifyParameter ************************";
 }
 
 
@@ -910,17 +913,17 @@ void MetaLinkAssemblyEditor::CreateAssembly(const std::string  &in_AssemblyXMLSt
         throw isis::application_exception("C08015", errorString);
     }
     topAssemblyComponentInstanceID = GlobalModelData::Instance.CadAssemblies.topLevelAssemblies.begin()->assemblyComponentID;
-    m_logcat.infoStream()
+    isis_LOG(lg, isis_FILE, isis_INFO)
             << " top assembly component instance id SET : " << topAssemblyComponentInstanceID;
 
     bool hasCritical = false;
     if(errorList.size()!=0)
     {
         ostringstream ostr;
-        m_logcat.errorStream() << "Error list from MetaLinkAssemblyEditor::CreateAssembly:";
+        isis_LOG(lg, isis_FILE, isis_ERROR) << "Error list from MetaLinkAssemblyEditor::CreateAssembly:";
         for(std::vector<isis::CADCreateAssemblyError>::iterator it = errorList.begin(); it != errorList.end(); ++it)
         {
-            m_logcat.errorStream() << it->Text;
+            isis_LOG(lg, isis_FILE, isis_ERROR) << it->Text;
             ostr << it->Text << std::endl;
             if(it->Severity == CADCreateAssemblyError_Severity_Critical)
             {
@@ -962,8 +965,8 @@ void CreateAssemblyViaString(cad::CadFactoryAbstract				&in_factory,
                              std::vector<CADCreateAssemblyError>            &out_ErrorList)
 throw(isis::application_exception)
 {
-    log4cpp::Category& logcat = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-    logcat.infoStream() << "raw xml:" << ::log4cpp::eol << in_XMLInputFile_String;
+   
+    isis_LOG(lg, isis_FILE, isis_INFO) << "raw xml:" << isis_EOL << in_XMLInputFile_String;
 
     bool Template_Copied = false;
     int ExitCode = 0;
@@ -993,8 +996,8 @@ throw(isis::application_exception)
 
         if(out_CADComponentAssemblies.topLevelAssemblies.size() == 0)
         {
-            logcat.infoStream() << "*************************** Begin Assembly Creation **************************";
-            logcat.infoStream() << "No assemblies were created because the input xml did not define any assemblies.";
+            isis_LOG(lg, isis_FILE, isis_INFO) << "*************************** Begin Assembly Creation **************************";
+            isis_LOG(lg, isis_FILE, isis_INFO) << "No assemblies were created because the input xml did not define any assemblies.";
             if(out_CADComponentAssemblies.unassembledComponents.size() == 0)
             {
                 std::stringstream errorString;
@@ -1003,7 +1006,7 @@ throw(isis::application_exception)
                             << std::endl << "The input xml file must specify assemblies and/or unassembled parts/sub-assemblies.";
                 throw isis::application_exception(errorString);
             }
-            logcat.infoStream() << "************************** End Assembly Creation *****************************";
+            isis_LOG(lg, isis_FILE, isis_INFO) << "************************** End Assembly Creation *****************************";
         }
         // Rename parametric parts that have multiple instances of the same part.
         //std::map<std::string, std::string>  ToPartName_FromPartName_map;
@@ -1016,10 +1019,10 @@ throw(isis::application_exception)
                 out_CADComponentData_map,
                 fromModel_ToModel);
 
-        logcat.infoStream()  << "************** Begin Modified Part Names for Multiple Parametric Parts *****************";
-        logcat.infoStream()  << "From_Part_Name   To_Part_Name";
-        logcat.infoStream() << fromModel_ToModel;
-        logcat.infoStream()  << "************** End Modified Part Names for Multiple Parametric Parts *****************";
+        isis_LOG(lg, isis_FILE, isis_INFO)  << "************** Begin Modified Part Names for Multiple Parametric Parts *****************";
+        isis_LOG(lg, isis_FILE, isis_INFO)  << "From_Part_Name   To_Part_Name";
+        isis_LOG(lg, isis_FILE, isis_INFO) << fromModel_ToModel;
+        isis_LOG(lg, isis_FILE, isis_INFO)  << "************** End Modified Part Names for Multiple Parametric Parts *****************";
 
         // Add the depends-on information to the CADComponentData
         isis::Add_dependsOn(out_CADComponentData_map);
@@ -1027,17 +1030,17 @@ throw(isis::application_exception)
         for each(isis::TopLevelAssemblyData i in out_CADComponentAssemblies.topLevelAssemblies)
         {
 
-            logcat.infoStream() << "************** Begin Entire Tree For a Single Assembly  *****************";
-            logcat.infoStream() << "assemblyComponentID: " << i.assemblyComponentID;
-            logcat.infoStream() << "************** Begin Analysis Data For a Single Assembly  *****************";
+            isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Entire Tree For a Single Assembly  *****************";
+            isis_LOG(lg, isis_FILE, isis_INFO) << "assemblyComponentID: " << i.assemblyComponentID;
+            isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Analysis Data For a Single Assembly  *****************";
             stream_AnalysisInputData(i.analysesCAD, clog);
-            logcat.infoStream() << "************** End Analysis Data For a Single Assembly  *****************";
+            isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Analysis Data For a Single Assembly  *****************";
 
-            logcat.infoStream() << "************** Begin Entire Component Data Tree (CAD Internal Structures) *****************";
+            isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Entire Component Data Tree (CAD Internal Structures) *****************";
             stream_AssemblyCADComponentData(i.assemblyComponentID, out_CADComponentData_map, clog);
-            logcat.infoStream() << "************** Begin Entire Component Data Tree (CAD Internal Structures) *****************";
+            isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Entire Component Data Tree (CAD Internal Structures) *****************";
 
-            logcat.infoStream() << "************** End Entire Tree For a Single Assembly  *****************";
+            isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Entire Tree For a Single Assembly  *****************";
         }
 
 
@@ -1116,15 +1119,15 @@ throw(isis::application_exception)
 
             time_t time_elapsed = time_end - time_start;
 
-            logcat.infoStream() << "Assembly creation completed successfully.";
+            isis_LOG(lg, isis_FILE, isis_INFO) << "Assembly creation completed successfully.";
 
             // Get component count
             isis::ComponentVistorCountAssemblyComponents  componentVistorCountAssemblyComponents;
             isis::VisitComponents(i->assemblyComponentID, out_CADComponentData_map, componentVistorCountAssemblyComponents);
 
             // Log component count
-            logcat.infoStream() << "   Number of assembled components: " << componentVistorCountAssemblyComponents.numberOfComponents;
-            logcat.infoStream() << "   Elapsed wall-clock time:        " << time_elapsed << " seconds";
+            isis_LOG(lg, isis_FILE, isis_INFO) << "   Number of assembled components: " << componentVistorCountAssemblyComponents.numberOfComponents;
+            isis_LOG(lg, isis_FILE, isis_INFO) << "   Elapsed wall-clock time:        " << time_elapsed << " seconds";
 
             time_start=time(NULL); // reset start time for subsequent assemblies if any
         }  // END  Build the assemblies
@@ -1151,7 +1154,7 @@ throw(isis::application_exception)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool MetaLinkAssemblyEditor::Clear()
 {
-    m_logcat.infoStream() << "MetaLinkAssemblyEditor::ClearAssembly(): starting ";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "MetaLinkAssemblyEditor::ClearAssembly(): starting ";
 
     bool success = true;
     ProError status;
@@ -1164,39 +1167,39 @@ bool MetaLinkAssemblyEditor::Clear()
     }
     if(model_handle == NULL)
     {
-        m_logcat.warnStream() << "Nothing to clear.";
+        isis_LOG(lg, isis_FILE, isis_WARN) << "Nothing to clear.";
         return false;
     }
 
-    m_logcat.infoStream() << " top: " << topAssemblyComponentInstanceID << " handle: " << model_handle;
+    isis_LOG(lg, isis_FILE, isis_INFO) << " top: " << topAssemblyComponentInstanceID << " handle: " << model_handle;
 
     switch(status = ProMdlEraseAll(model_handle))
     {
     case PRO_TK_NO_ERROR:
         msg << "erased all models";
-        m_logcat.infoStream() << msg.str();
+        isis_LOG(lg, isis_FILE, isis_INFO) << msg.str();
         isis_ProMdlEraseNotDisplayed();  // R.O. Added 9/12/2013
         break;
     case PRO_TK_BAD_INPUTS:
         msg << "The model handle is defective: " << model_handle;
-        m_logcat.errorStream() << msg.str();
+        isis_LOG(lg, isis_FILE, isis_ERROR) << msg.str();
         throw isis::application_exception(msg);
     case PRO_TK_BAD_CONTEXT:
         msg << "Current User Interface context does not allow "
             << "erasure of models (for example, when the Erase button is grayed out).";
-        m_logcat.errorStream() << msg.str();
+        isis_LOG(lg, isis_FILE, isis_ERROR) << msg.str();
         throw isis::application_exception(msg);
     case PRO_TK_E_IN_USE:
         msg << "The model could not be erased because it is in use, "
             << "for example by another model in the session. ";
-        m_logcat.errorStream() << msg.str();
+        isis_LOG(lg, isis_FILE, isis_ERROR) << msg.str();
         throw isis::application_exception(msg);
     }
 
     // Empty out the assembler data structures.
     m_CADComponentData_map.clear();
     topAssemblyComponentInstanceID = "";
-    m_logcat.infoStream() << " top assembly component instance id CLEARED";
+    isis_LOG(lg, isis_FILE, isis_INFO) << " top assembly component instance id CLEARED";
     m_uniqueNameIndex = 0;
     searchPaths.clear();
     GlobalModelData::Instance.Clear();
@@ -1214,7 +1217,7 @@ void MetaLinkAssemblyEditor::UnHighlightAll()
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MetaLinkAssemblyEditor::AddSearchPaths(const std::list<std::string> &in_SearchPaths) throw(isis::application_exception)
 {
-	m_logcat.debugStream() << "MetaLinkAssemblyEditor::AddSearchPaths()";
+	isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkAssemblyEditor::AddSearchPaths()";
     ProName        optionName;
     ProPath        optionValue;
 
@@ -1240,21 +1243,21 @@ void MetaLinkAssemblyEditor::AddSearchPaths(const std::list<std::string> &in_Sea
                     wcscpy(optionName, L"search_path");
                     wcscpy(optionValue, searchPath_MultiFormat);
                     isis_ProConfigoptSet(optionName, optionValue);
-					m_logcat.debugStream() << "Added serach path: " << searchPathString;
+					isis_LOG(lg, isis_FILE, isis_DEBUG) << "Added serach path: " << searchPathString;
                     searchPaths.insert(searchPathString_uppercase);
                 }
                 else
                 {
                     std::stringstream errorString;
                     errorString << "Search path already set in the Creo model. No action taken.  Search path: " << searchPathString;
-                    m_logcat.infoStream() << errorString.str();
+                    isis_LOG(lg, isis_FILE, isis_INFO) << errorString.str();
                 }
             }
             else
             {
                 std::stringstream errorString;
                 errorString << "MetaLinkAssemblyEditor::AddSerachPaths received an empty search path.  This is not considered a error.  Empty search paths are ignored";
-                m_logcat.infoStream() << errorString.str();
+                isis_LOG(lg, isis_FILE, isis_INFO) << errorString.str();
             }
         }
     }
@@ -1301,7 +1304,7 @@ Reference:
 void MetaLinkAssemblyEditor::InitAvmComponent(const std::string in_AvmComponentID, const std::string in_CreoModelName,
         const std::string  in_CreoAvmComponentName, const ProMdlType in_CreoModelType) throw(isis::application_exception)
 {
-	m_logcat.debugStream() << "=== MetaLinkAssemblyEditor::InitAvmComponent  === " << " BEGIN ";
+	isis_LOG(lg, isis_FILE, isis_DEBUG) << "=== MetaLinkAssemblyEditor::InitAvmComponent  === " << " BEGIN ";
     ProError status;
 
     // load the avm component creo file
@@ -1311,7 +1314,7 @@ void MetaLinkAssemblyEditor::InitAvmComponent(const std::string in_AvmComponentI
     {
     case  PRO_TK_NO_ERROR:
     {
-		m_logcat.debugStream() << "ProMdlRetrieve() successfully retrieved the model.";
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "ProMdlRetrieve() successfully retrieved the model.";
         break;
     }
     case  PRO_TK_BAD_INPUTS:
@@ -1340,7 +1343,7 @@ void MetaLinkAssemblyEditor::InitAvmComponent(const std::string in_AvmComponentI
     {
     case PRO_TK_NO_ERROR:
     {
-		m_logcat.debugStream() << "The ProMdlToModelitem() was successful: "
+		isis_LOG(lg, isis_FILE, isis_DEBUG) << "The ProMdlToModelitem() was successful: "
                               << " id: " <<  modelItem.id
                               << " owner: " << modelItem.owner
                               << " type: " << modelItem.type;
@@ -1372,7 +1375,7 @@ void MetaLinkAssemblyEditor::InitAvmComponent(const std::string in_AvmComponentI
     {
     case PRO_TK_NO_ERROR:
     {
-        m_logcat.debugStream() << "ProMdlDisplay() successfully displayed the model.";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "ProMdlDisplay() successfully displayed the model.";
         break;
     }
     case PRO_TK_E_NOT_FOUND:
@@ -1403,7 +1406,7 @@ void MetaLinkAssemblyEditor::InitAvmComponent(const std::string in_AvmComponentI
     {
     case PRO_TK_NO_ERROR:
     {
-        m_logcat.debugStream() << "ProMdlWindowGet() successfully found the window.";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "ProMdlWindowGet() successfully found the window.";
         break;
     }
     case PRO_TK_E_NOT_FOUND:
@@ -1419,12 +1422,12 @@ void MetaLinkAssemblyEditor::InitAvmComponent(const std::string in_AvmComponentI
     {
     case PRO_TK_NO_ERROR:
     {
-        m_logcat.debugStream() << "ProWindowCurrentSet(): successfully set the window to be current. ";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "ProWindowCurrentSet(): successfully set the window to be current. ";
         break;
     }
     case PRO_TK_BAD_INPUTS:
     {
-        m_logcat.warnStream() << "ProWindowCurrentSet(): invalid argument.";
+        isis_LOG(lg, isis_FILE, isis_WARN) << "ProWindowCurrentSet(): invalid argument.";
         break;
     }
     }
@@ -1435,7 +1438,7 @@ void MetaLinkAssemblyEditor::InitAvmComponent(const std::string in_AvmComponentI
     {
     case PRO_TK_NO_ERROR:
     {
-        m_logcat.debugStream() << "ProWindowActivate() successfully activated the window.";
+        isis_LOG(lg, isis_FILE, isis_DEBUG) << "ProWindowActivate() successfully activated the window.";
         break;
     }
     case PRO_TK_BAD_INPUTS:
@@ -1458,7 +1461,7 @@ void MetaLinkAssemblyEditor::InitAvmComponent(const std::string in_AvmComponentI
     // Make sure activate takes effect
     ProEventProcess();
 
-    m_logcat.infoStream() << "=== MetaLinkAssemblyEditor::InitAvmComponent  === " << " FINISHED ";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "=== MetaLinkAssemblyEditor::InitAvmComponent  === " << " FINISHED ";
 }
 
 /**
@@ -1469,7 +1472,7 @@ Example of setting a Creo parameter. In this case we would set AVM_COMPONENT_ID.
 */
 void MetaLinkAssemblyEditor::UpdateAvmComponentViaXML(const std::string  &in_AssemblyXMLString) throw(isis::application_exception)
 {
-    m_logcat.warnStream() << " MetaLinkAssemblyEditor::UpdateComponentViaXML" << " NOT YET IMPLEMENTED";
+    isis_LOG(lg, isis_FILE, isis_WARN) << " MetaLinkAssemblyEditor::UpdateComponentViaXML" << " NOT YET IMPLEMENTED";
 }
 
 } // END namespace isis

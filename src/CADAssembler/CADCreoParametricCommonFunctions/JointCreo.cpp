@@ -13,7 +13,7 @@
 #include <ProFeature.h>
 #include <ostream>
 #include <isis_application_exception.h>
-
+#include "LoggerBoost.h"
 
 namespace isis {
 namespace cad {
@@ -24,7 +24,7 @@ static double TAU = 2.0 * M_PI;
 
 struct Marker {
 public:
-	log4cpp::Category& log_cf;
+	//isisLogger  log_cf;
 
 	// absolute location in the assembly coordinate system.
 	e3ga::vector locate;
@@ -34,7 +34,7 @@ public:
 	double rotate;
 
 	Marker()
-		: log_cf(log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE)),
+		: //log_cf(isis_FILE_AND_CONSOLE_CHANNEL),
 		locate(), orient(), rotate(0.0)
 	{
 	}
@@ -73,13 +73,13 @@ bool within_angular_tolerance( const double& angle ) {
 ProError extract_point_marker( ProGeomitem& in_geom_item, Marker& out_marker )
 {
 	ProError rc = PRO_TK_NO_ERROR;
-	log4cpp::CategoryStream& log = out_marker.log_cf.infoStream();
+	//log4cpp::CategoryStream& log = out_marker.log_cf.infoStream();
 
 	ProPoint point;
 	switch( rc = ProGeomitemToPoint(&in_geom_item, &point) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log << " geom to point error";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << " geom to point error";
 	}
 
 	ProGeomitemdata* geom_item_data = NULL;
@@ -88,7 +88,7 @@ ProError extract_point_marker( ProGeomitem& in_geom_item, Marker& out_marker )
 	switch( rc = ProPointCoordGet(point, location) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log << "point coord error";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "point coord error";
 	}
 	out_marker.locate = convert(location);
 	out_marker.joint_type = DATUM_POINT;
@@ -108,20 +108,20 @@ ProError get_point_marker(
 ProError extract_axis_marker( ProGeomitem& in_geom_item, Marker& out_marker )
 {
 	ProError rc = PRO_TK_NO_ERROR;
-	log4cpp::CategoryStream& log = out_marker.log_cf.infoStream();
+	//log4cpp::CategoryStream& log = out_marker.log_cf.infoStream();
 
 	ProAxis axis;
 	switch( rc = ProGeomitemToAxis(&in_geom_item, &axis) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log << "geom to axis error";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "geom to axis error";
 	}
 
 	ProGeomitemdata* geom_item_data = NULL;
 	switch( rc = ProAxisDataGet(axis, &geom_item_data) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log << "axis data get error";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "axis data get error";
 	}
 	ProCurvedata& axis_data = *geom_item_data->data.p_curve_data;
 	ProEnttype geom_type;
@@ -163,20 +163,20 @@ ProError get_axis_marker(
 ProError extract_edge_marker( ProGeomitem& in_geom_item, Marker& out_marker )
 {
 	ProError rc = PRO_TK_NO_ERROR;
-	log4cpp::CategoryStream& log = out_marker.log_cf.infoStream();
+	//log4cpp::CategoryStream& log = out_marker.log_cf.infoStream();
 
 	ProEdge edge;
 	switch( rc = ProGeomitemToEdge(&in_geom_item, &edge) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log << "geom to axis error";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "geom to axis error";
 	}
 
 	ProGeomitemdata* geom_item_data = NULL;
 	switch( rc = ProEdgeDataGet(edge, &geom_item_data) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log << "axis data get error";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "axis data get error";
 	}
 	ProCurvedata& edge_data = *geom_item_data->data.p_curve_data;
 	ProEnttype geom_type;
@@ -210,20 +210,20 @@ ProError extract_edge_marker( ProGeomitem& in_geom_item, Marker& out_marker )
 ProError extract_plane_marker( ProGeomitem* in_geom_item, Marker& out_marker )
 {
 	ProError rc = PRO_TK_NO_ERROR;
-	log4cpp::CategoryStream& log = out_marker.log_cf.infoStream();
+	//log4cpp::CategoryStream& log = out_marker.log_cf.infoStream();
 
 	ProSurface plane;
 	switch( rc = ProGeomitemToSurface(in_geom_item, &plane) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log << "geom to surface error";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "geom to surface error";
 	}
 
 	ProGeomitemdata* geom_item_data = NULL;
 	switch( rc = ProSurfaceDataGet(plane, &geom_item_data) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log << "surface data get error";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "surface data get error";
 	}
 	ProSurfacedata* surface_data = geom_item_data->data.p_surface_data;
 
@@ -254,7 +254,7 @@ ProError extract_plane_marker( ProGeomitem* in_geom_item, Marker& out_marker )
 				break;
 			default:
 				// Not-supported yet
-				log << "surface type is wrong: " << surface_type;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "surface type is wrong: " << surface_type;
 				return PRO_TK_BAD_INPUTS;
 	}
 
@@ -270,7 +270,7 @@ ProError get_plane_marker(
 {
 	ProError rc = PRO_TK_NO_ERROR;
 	Marker& marker = *reinterpret_cast<Marker*>(app_data);
-	log4cpp::CategoryStream& log = marker.log_cf.infoStream();
+	//log4cpp::CategoryStream& log = marker.log_cf.infoStream();
 	return extract_plane_marker( geom_item, marker);
 }
 
@@ -281,7 +281,7 @@ http://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions#Rotation_ma
 */
 ProError extract_csys_marker( ProGeomitem& in_geom_item, Marker& out_marker )
 {
-	log4cpp::CategoryStream& log = out_marker.log_cf.infoStream();
+	//log4cpp::CategoryStream& log = out_marker.log_cf.infoStream();
 	ProError rc = PRO_TK_NO_ERROR;
 
 	ProCsys csys;
@@ -291,7 +291,7 @@ ProError extract_csys_marker( ProGeomitem& in_geom_item, Marker& out_marker )
 	switch( rc = ProCsysDataGet(csys, &geom_item_data) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log << "csys data get error";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "csys data get error";
 	}
 	ProCsysdata* csys_data = geom_item_data->data.p_csys_data;
 
@@ -340,12 +340,12 @@ Joint convert_datum(ProFeature& in_datum) {
 	ProError rc;
 	ProFeattype feat_type;
 	Marker marker;
-	log4cpp::CategoryStream& log = marker.log_cf.infoStream();
+	//log4cpp::CategoryStream& log = marker.log_cf.infoStream();
 
 	switch( rc = ProFeatureTypeGet(&in_datum, &feat_type) ) {
 	case PRO_TK_NO_ERROR: break;
 	default:
-		log << "feature type get error";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "feature type get error";
 	}
 	switch( feat_type ) {
 	case PRO_FEAT_DATUM_POINT:
@@ -356,7 +356,7 @@ Joint convert_datum(ProFeature& in_datum) {
 		{
 		case PRO_TK_NO_ERROR: break;
 		default:
-			log << "point feature geom visit error";
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "point feature geom visit error";
 		}
 		break;
 	case PRO_FEAT_DATUM_AXIS:
@@ -366,7 +366,7 @@ Joint convert_datum(ProFeature& in_datum) {
 		{
 		case PRO_TK_NO_ERROR: break;
 		default:
-			log << "axis feature geom visit error";
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "axis feature geom visit error";
 		}
 		break;
 	case PRO_FEAT_DATUM:
@@ -377,7 +377,7 @@ Joint convert_datum(ProFeature& in_datum) {
 		{
 		case PRO_TK_NO_ERROR: break;
 		default:
-			log << "surface feature geom visit error";
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "surface feature geom visit error";
 		}
 		break;
 	case PRO_FEAT_CSYS:
@@ -387,11 +387,11 @@ Joint convert_datum(ProFeature& in_datum) {
 		{
 		case PRO_TK_NO_ERROR: break;
 		default:
-			log << "csys feature geom visit error";
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "csys feature geom visit error";
 		}
 		break;
 	default:
-		log << "unknown feature type error";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "unknown feature type error";
 	}
 
 	Joint joint(marker.joint_type, 
@@ -415,7 +415,7 @@ a set of datum joints.
 */
 Joint extract_marker( ProGeomitem& in_geom_item) {
 	Marker marker;
-	log4cpp::CategoryStream& log = marker.log_cf.infoStream();
+	//log4cpp::CategoryStream& log = marker.log_cf.infoStream();
 
 	switch( in_geom_item.type ) {
 	case PRO_SURFACE:
@@ -435,7 +435,7 @@ Joint extract_marker( ProGeomitem& in_geom_item) {
 		extract_csys_marker( in_geom_item, marker );
 		break;
 	default:
-		log << "unknown feature type error";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "unknown feature type error";
 	}
 
 	Joint joint(marker.joint_type, 

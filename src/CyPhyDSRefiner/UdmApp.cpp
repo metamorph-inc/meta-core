@@ -180,12 +180,12 @@ void CUdmApp::UdmMain(
 	try{
 		//1. get the set of configurations for refiner
 		if(focusObject==Udm::null){
-			AfxMessageBox("Please open a Configurations model to invoke the interpreter.");
+			AfxMessageBox(L"Please open a Configurations model to invoke the interpreter.");
 			return;
 		}
 
 		if(!Uml::IsDerivedFrom(focusObject.type(), CyPhyML::Configurations::meta)){
-			AfxMessageBox("Please open a Configurations model to invoke the interpreter.");
+			AfxMessageBox(L"Please open a Configurations model to invoke the interpreter.");
 			return;
 		}
 		
@@ -209,7 +209,7 @@ void CUdmApp::UdmMain(
 
 		if(cwcs.empty())
 		{
-			AfxMessageBox("There is no CWC model selected.");
+			AfxMessageBox(L"There is no CWC model selected.");
 			return;
 		}
 		//2. run the refiner
@@ -221,11 +221,11 @@ void CUdmApp::UdmMain(
 		GMEConsole::Console::Out::writeLine(addlog);
 		refiner.endProgressBar();
 		std::string msg("Refined DesignSpace: "+ (std::string)refinedDS.name() + " is created for "+ UdmUtil::ExtractName(cfgs.parent())+".");
-		MessageBox(NULL, msg.c_str(), "CyPhyDSRefiner", MB_ICONINFORMATION);
+		MessageBox(NULL, CString(msg.c_str()), L"CyPhyDSRefiner", MB_ICONINFORMATION);
 	}
 	catch(udm_exception &exc)
 	{
-		AfxMessageBox(exc.what());
+		AfxMessageBox(CString(exc.what()));
 		std::string addlog("CyPhyDSRefiner for "+appendObjLink(focusObject)+" is failed: "+(std::string)exc.what());
 		GMEConsole::Console::Out::writeLine(addlog);
 		throw exc;

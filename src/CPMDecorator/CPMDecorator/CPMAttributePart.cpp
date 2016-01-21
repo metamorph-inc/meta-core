@@ -35,8 +35,8 @@ CPMInternalTextPart::CPMInternalTextPart(PartBase* pPart, CComPtr<IMgaCommonDeco
 	m_spActualFCO(pFCO)
 {
 	m_strText = strText;
-	m_strText.Replace("\r", NULL);
-	m_strText.Replace("\n", "\r\n");
+	m_strText.Replace(L"\r", NULL);
+	m_strText.Replace(L"\n", L"\r\n");
 	m_bMultiLine = bMultiLine;
 	m_textRelXPosition = 0;
 	m_textRelYPosition = 0;
@@ -44,7 +44,7 @@ CPMInternalTextPart::CPMInternalTextPart(PartBase* pPart, CComPtr<IMgaCommonDeco
 
 	if (m_strText.GetLength() > 35)
 	{
-		m_strText = m_strText.Left(30) + "...";
+		m_strText = m_strText.Left(30) + L"...";
 		m_bTextEditable = false;
 	}
 }
@@ -69,8 +69,8 @@ void CPMInternalTextPart::Draw(CDC* pDC, Gdiplus::Graphics* gdip)
 									   (m_bActive) ? m_crText : DecoratorSDK::COLOR_GREY,
 									   TA_BOTTOM | TA_LEFT,
 									   INT_MAX,
-									   "",
-									   "",
+									   L"",
+									   L"",
 									   false);
 		}
 		else

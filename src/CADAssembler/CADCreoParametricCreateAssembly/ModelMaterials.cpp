@@ -323,7 +323,7 @@ namespace isis
 																throw (isis::application_exception)
 	{
 
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 		int materialIndex = 0;	
 
@@ -342,12 +342,12 @@ namespace isis
 			++materialIndex;
 			std::string materialName = "ZZ_FEA_MAT_" + std::string(itoa(materialIndex,buffer,10)) + "_ZZ";
 
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream()  << "CreateUniquelyNamedMaterials_impl: " << 
-				log4cpp::eol << "   Material:    "  << materialName <<
-				log4cpp::eol << "   Model Name:  " << in_out_CADComponentData_map[*i].name <<
-				log4cpp::eol << "   Model Type:  " << isis::ProMdlType_string(in_out_CADComponentData_map[*i].modelType) << 
-				log4cpp::eol << "   modelHandel: " <<    in_out_CADComponentData_map[*i].modelHandle;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO)  << "CreateUniquelyNamedMaterials_impl: " << 
+				isis_EOL << "   Material:    "  << materialName <<
+				isis_EOL << "   Model Name:  " << in_out_CADComponentData_map[*i].name <<
+				isis_EOL << "   Model Type:  " << isis::ProMdlType_string(in_out_CADComponentData_map[*i].modelType) << 
+				isis_EOL << "   modelHandel: " <<    in_out_CADComponentData_map[*i].modelHandle;
 
 			if ( materialName.size() >= PRO_NAME_SIZE )
 			{

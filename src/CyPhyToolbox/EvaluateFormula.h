@@ -7,6 +7,7 @@
 #include "muParser.h"
 
 
+
 /** \file
     \brief Definition of function that calls muParser parser for formula evaluation.		    
 */
@@ -18,10 +19,10 @@
     \return void
 */
 /*
-std::string CreateExpression(multimap<std::string, double*> &parameters, mu::Parser &parser, std::string delimiter = ",")
+std::wstring CreateExpression(multimap<std::wstring, double*> &parameters, mu::Parser &parser, std::wstring delimiter = ",")
 {
-	std::string expression;
-	for(multimap<std::string, double*>::iterator i = parameters.begin();i != parameters.end();++i)
+	std::wstring expression;
+	for(multimap<std::wstring, double*>::iterator i = parameters.begin();i != parameters.end();++i)
 	{
 		if (i != parameters.begin())
 			expression += delimiter;
@@ -41,15 +42,15 @@ std::string CreateExpression(multimap<std::string, double*> &parameters, mu::Par
 	\param [in] delimiter Delimiter used to seperate parameters
     \return void
 */
-std::string CreateExpression2(multimap<std::string, double> &parameters, mu::Parser &parser, std::string delimiter = ",")
+std::wstring CreateExpression2(multimap<std::wstring, double> &parameters, mu::Parser &parser, std::wstring delimiter = L",")
 {
-	std::string expression;
-	for(multimap<std::string, double>::iterator i = parameters.begin();i != parameters.end();++i)
+	std::wstring expression;
+	for(multimap<std::wstring, double>::iterator i = parameters.begin();i != parameters.end();++i)
 	{
 		if (i != parameters.begin())
 			expression += delimiter;
 
-		std::string tmp;
+		std::wstring tmp;
 		to_string(tmp, i->second);
 		expression += tmp;  
 	}
@@ -61,11 +62,11 @@ std::string CreateExpression2(multimap<std::string, double> &parameters, mu::Par
     \param [in] expression Expression
     \return reformatted expression
 */
-std::string CheckExpression(std::string expression)
+std::wstring CheckExpression(std::wstring expression)
 {
-	std::string cleanExpression;
+	std::wstring cleanExpression;
 
-	for (std::string::size_type i = 0; i < expression.size(); i++)
+	for (std::wstring::size_type i = 0; i < expression.size(); i++)
 	{
 		if (expression[i] != '\n' && expression[i] != '\t')
 			cleanExpression += expression[i];
@@ -77,10 +78,10 @@ std::string CheckExpression(std::string expression)
     \param [in] parameters Parameters to be added together
     \return calculated result
 */
-double EvaluateAddition(multimap<std::string, double> &parameters)
+double EvaluateAddition(multimap<std::wstring, double> &parameters)
 {
 	double result = 0;
-	for(multimap<std::string, double>::iterator i = parameters.begin(); i != parameters.end();++i)
+	for(multimap<std::wstring, double>::iterator i = parameters.begin(); i != parameters.end();++i)
 	{
 		double val = (i->second);
 		result += val;
@@ -93,11 +94,11 @@ double EvaluateAddition(multimap<std::string, double> &parameters)
     \param [in] parameters Parameters to be multiplied together
     \return calculated result
 */
-double EvaluateMultiplication(multimap<std::string, double> &parameters)
+double EvaluateMultiplication(multimap<std::wstring, double> &parameters)
 {
 	double result = 0;
 
-	for(multimap<std::string, double>::iterator i = parameters.begin();i != parameters.end();++i)
+	for(multimap<std::wstring, double>::iterator i = parameters.begin();i != parameters.end();++i)
 	{
 		if (i == parameters.begin())
 			result = i->second;
@@ -112,10 +113,10 @@ double EvaluateMultiplication(multimap<std::string, double> &parameters)
     \param [in] parameters Parameters to be added together
     \return calculated result
 */
-double EvaluateGeometricMean(multimap<std::string, double> &parameters)
+double EvaluateGeometricMean(multimap<std::wstring, double> &parameters)
 {
 	// If any of the parameters are negative, give an erorr and return a negative result
-	for(multimap<std::string, double>::iterator i = parameters.begin(); i != parameters.end(); ++i)
+	for(multimap<std::wstring, double>::iterator i = parameters.begin(); i != parameters.end(); ++i)
 	{
 		if (i->second < 0)
 		{
@@ -139,7 +140,7 @@ double EvaluateGeometricMean(multimap<std::string, double> &parameters)
     \param [in] parameters Parameters to be evaluated
     \return maximum value
 */
-double EvaluateMaximum(multimap<std::string, double> &parameters)
+double EvaluateMaximum(multimap<std::wstring, double> &parameters)
 {
 	double result = 0;
 
@@ -147,7 +148,7 @@ double EvaluateMaximum(multimap<std::string, double> &parameters)
 		return result;
 
 	result = ((parameters.begin())->second);
-	for(multimap<std::string, double>::iterator i = parameters.begin();i != parameters.end(); i++)
+	for(multimap<std::wstring, double>::iterator i = parameters.begin();i != parameters.end(); i++)
 		if((i->second) > result) 
 			result = (i->second);
 
@@ -158,14 +159,14 @@ double EvaluateMaximum(multimap<std::string, double> &parameters)
     \param [in] parameters Parameters to be evaluated
     \return minimum value
 */
-double EvaluateMinimum(multimap<std::string, double> &parameters)
+double EvaluateMinimum(multimap<std::wstring, double> &parameters)
 {
 	double result = 0;
 	if(parameters.empty()) 
 		return result;
 
 	result = ((parameters.begin())->second);
-	for(multimap<std::string, double>::iterator i=parameters.begin();i!=parameters.end();++i)
+	for(multimap<std::wstring, double>::iterator i=parameters.begin();i!=parameters.end();++i)
 		if((i->second) < result) 
 			result = (i->second);
 
@@ -177,7 +178,7 @@ double EvaluateMinimum(multimap<std::string, double> &parameters)
     \param [in] expression Custom formula expression to be evaluated
     \return calculated result
 */
-double EvaluateCustomFormula(multimap<std::string, double> &parameters, std::string expression)
+double EvaluateCustomFormula(multimap<std::wstring, double> &parameters, std::wstring expression)
 {
 	double result = 0;
 	try
@@ -185,7 +186,7 @@ double EvaluateCustomFormula(multimap<std::string, double> &parameters, std::str
 		mu::Parser parser;
 		parser.ResetLocale();
 
-		for(multimap<std::string, double>::iterator i = parameters.begin(); i != parameters.end(); i++)
+		for(multimap<std::wstring, double>::iterator i = parameters.begin(); i != parameters.end(); i++)
 			parser.DefineVar((*i).first, &(*i).second);
 			//parser.DefineVar(i->first, i->second);
 
@@ -200,7 +201,7 @@ double EvaluateCustomFormula(multimap<std::string, double> &parameters, std::str
 	}
 	catch (mu::Parser::exception_type &e)
 	{
-		GMEConsole::Console::writeLine("muParser Exception [ expression = " + expression + " ] Error: " + e.GetMsg(), MSG_ERROR);
+		GMEConsole::Console::writeLine(L"muParser Exception [ expression = " + expression + L" ] Error: " + e.GetMsg(), MSG_ERROR);
 	}
 	catch (std::exception &e)
 	{
@@ -219,7 +220,7 @@ double EvaluateCustomFormula(multimap<std::string, double> &parameters, std::str
     \param [in] operation Type of operation to be performed
     \return calculated result
 */
-double EvaluateSimpleFormula(multimap<std::string, double> &parameters, std::string operation)
+double EvaluateSimpleFormula(multimap<std::wstring, double> &parameters, std::wstring operation)
 {		
 	
 	double result = 0;
@@ -227,42 +228,42 @@ double EvaluateSimpleFormula(multimap<std::string, double> &parameters, std::str
 	{
 		mu::Parser parser;
 
-		if (operation == "Addition")
+		if (operation == L"Addition")
 		{	
-			std::string expression = "sum(" + CreateExpression2(parameters, parser) + ")";
+			std::wstring expression = L"sum(" + CreateExpression2(parameters, parser) + L")";
 			parser.SetExpr(expression);
 			result = parser.Eval();		
 		}
-		else if (operation == "Multiplication")
+		else if (operation == L"Multiplication")
 		{
 			//result = EvaluateMultiplication(parameters);
-			parser.SetExpr(CreateExpression2(parameters, parser, "*"));
+			parser.SetExpr(CreateExpression2(parameters, parser, L"*"));
 			result = parser.Eval(); 
 		}
-		else if (operation == "ArithmeticMean")
+		else if (operation == L"ArithmeticMean")
 		{
-			std::string expression = "avg(" + CreateExpression2(parameters, parser) + ")";
+			std::wstring expression = L"avg(" + CreateExpression2(parameters, parser) + L")";
 			parser.SetExpr(expression);
 			result = parser.Eval();	
 		}
-		else if (operation == "GeometricMean")
+		else if (operation == L"GeometricMean")
 			result = EvaluateGeometricMean(parameters);
-		else if (operation == "Maximum")
+		else if (operation == L"Maximum")
 		{
-			std::string expression = "max(" + CreateExpression2(parameters, parser) + ")";
+			std::wstring expression = L"max(" + CreateExpression2(parameters, parser) + L")";
 			parser.SetExpr(expression);
 			result = parser.Eval();	
 		}
-		else if (operation == "Minimum")
+		else if (operation == L"Minimum")
 		{
-			std::string expression = "min(" + CreateExpression2(parameters, parser) + ")";
+			std::wstring expression = L"min(" + CreateExpression2(parameters, parser) + L")";
 			parser.SetExpr(expression);
 			result = parser.Eval();	
 		}
 	}
 	catch (mu::Parser::exception_type &e)
 	{
-		GMEConsole::Console::writeLine("muParser Exception: " + e.GetMsg(), MSG_ERROR);
+		GMEConsole::Console::writeLine(L"muParser Exception: " + e.GetMsg(), MSG_ERROR);
 	}
 	catch (std::exception &e)
 	{

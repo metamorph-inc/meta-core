@@ -18,8 +18,7 @@
 #include <iterator>
 #include <boost/regex.hpp>
 #include <stdlib.h>
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
+#include "LoggerBoost.h"
 #include "CommonDefinitions.h"
 
 
@@ -543,11 +542,11 @@ void PopulateAnalysisMaterialStruct( const Material				 &in_Material,
 				}
 				catch (...)  // Could not get the unit, but units are required.  Assume the property is not defined
 				{
-					log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+					
 
-					logcat_consoleandfile.errorStream() << "Material units not defined for: " << log4cpp::eol <<
-											  "   Material Name:     " << in_MaterialName << log4cpp::eol <<
-											  "   Material Property: " << in_MaterialLibPropertyName << log4cpp::eol <<
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "Material units not defined for: " << isis_EOL <<
+											  "   Material Name:     " << in_MaterialName << isis_EOL <<
+											  "   Material Property: " << in_MaterialLibPropertyName << isis_EOL <<
 											  "   Note:              Without units, this material property cannot be used.";
 					return false;
 				}
@@ -590,15 +589,15 @@ void PopulateAnalysisMaterialStruct( const Material				 &in_Material,
 					"A zero value is not allowed.";
 				throw isis::application_exception(errorString.str());
 			}
-			log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+			
 
-			logcat_fileonly.infoStream() <<
-					"Material:                " <<  in_MaterialName << log4cpp::eol <<
-					"Material Property:       " <<  in_MaterialLibPropertyName << log4cpp::eol <<
-					"Material Unit:	          " <<  unit  << log4cpp::eol <<
-					"Material Library Value:  " <<  value_string << log4cpp::eol <<
-					"Unit Conversion Factor:  " <<  in_UnitsConversionFactor << log4cpp::eol <<
-					"Convert to Unit:         " << in_ConvertToUnit << log4cpp::eol <<
+			isis_LOG(lg, isis_FILE, isis_INFO) <<
+					"Material:                " <<  in_MaterialName << isis_EOL <<
+					"Material Property:       " <<  in_MaterialLibPropertyName << isis_EOL <<
+					"Material Unit:	          " <<  unit  << isis_EOL <<
+					"Material Library Value:  " <<  value_string << isis_EOL <<
+					"Unit Conversion Factor:  " <<  in_UnitsConversionFactor << isis_EOL <<
+					"Convert to Unit:         " << in_ConvertToUnit << isis_EOL <<
 					"Converted Value		  " << out_Value;
 		}
 

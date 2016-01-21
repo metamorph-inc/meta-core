@@ -59,7 +59,8 @@ public:
     std::string         inputXmlFileName;          // could be the file name or the path and file name
     std::string         workingDirectory;          // could be the complete path or a relative path
     std::string         logFileName;               // could be the file name or the path and file name
-    log4cpp::Priority::PriorityLevel   logVerbosity;  // the log level for the root log category
+    //log4cpp::Priority::PriorityLevel   logVerbosity;  // the log level for the root log category
+	isis_LogSeverityLevel	   logVerbosity;
     std::string         auxiliaryCADDirectory;     // empty string by default - could be complete path or relative path
     bool                synchronizeWithCyPhy;      // Default false
     std::string         majorMode;                 // {"design", "component"}
@@ -69,7 +70,7 @@ public:
 	std::string			instanceID;				  // ID of this Creo instance (used during communication with GME
 
     ProgramInputArguments(): graphicsModeOn(false),
-		logFileName("cad-assembler.log"), logVerbosity(log4cpp::Priority::DEBUG),
+		logFileName("cad-assembler.log"), logVerbosity(isis_INFO),
         auxiliaryCADDirectory(""), synchronizeWithCyPhy(false), majorMode(MAJOR_MODE_DESIGN) {};
 
     bool is_designMode() const;

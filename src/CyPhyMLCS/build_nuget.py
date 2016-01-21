@@ -45,7 +45,7 @@ def pack_nuget():
 
 def push_nuget():
     system([nuget, "push", "META.CyPhyML.%s.nupkg" % _parse_version(),
-        "-Source", "http://build.isis.vanderbilt.edu/"])
+        "-Source", "http://nuget.isis.vanderbilt.edu/"])
     
 
 if __name__ == '__main__':

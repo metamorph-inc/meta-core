@@ -33,7 +33,7 @@ def allProjects(sln):
         #print str(i) + "   " + str(win32com.client.DispatchEx("InterfaceEnum").Enum(i))
 
 
-def get_projs(rel_sln, platform="Win32"):
+def get_projs(rel_sln, platform="Win32", configuration="Release"):
     sln = win32com.client.DispatchEx("VisualStudio.Solution.%s" % _vs_version)
     # print win32com.client.DispatchEx("InterfaceEnum").Enum(sln)
     slnname = meta_path + "\\" + rel_sln
@@ -44,18 +44,18 @@ def get_projs(rel_sln, platform="Win32"):
     print desert_projects
     desert_configs = {}
     for solutionConfiguration2 in sln.SolutionBuild.SolutionConfigurations:
-        if solutionConfiguration2.Name == "Release" and solutionConfiguration2.PlatformName == platform:
+        if solutionConfiguration2.Name == configuration and solutionConfiguration2.PlatformName == platform:
             for solutionContext in solutionConfiguration2.SolutionContexts:
                 desert_configs[os.path.relpath(os.path.dirname(rel_sln) + "\\" + solutionContext.ProjectName, "src")] = solutionContext.ConfigurationName + "|" + solutionContext.PlatformName
     sln.Close()
     return (desert_projects, desert_configs)
 
-desert_projects, desert_configs = get_projs(r"externals\desert\desertVS2010.sln")
-cyber_projects, cyber_configs = get_projs(r"src\Cyber2Code.sln")
-cybertools_projects, cybertools_configs = get_projs(r"src\Cyber-Tools.sln")
+desert_projects, desert_configs = get_projs(r"externals\desert\desertVS2010.sln", configuration="ReleaseUnicode")
+#cyber_projects, cyber_configs = get_projs(r"src\Cyber2Code.sln")
+#cybertools_projects, cybertools_configs = get_projs(r"src\Cyber-Tools.sln")
 
-dep_projects = set(desert_projects + cyber_projects + cybertools_projects)
-dep_configs = dict(desert_configs.items() + cyber_configs.items() + cybertools_configs.items())
+dep_projects = set(desert_projects)
+dep_configs = dict(desert_configs.items())
 
 sln = win32com.client.DispatchEx("VisualStudio.Solution.%s" % _vs_version)
 # print win32com.client.DispatchEx("InterfaceEnum").Enum(sln)
@@ -74,7 +74,7 @@ dep_projects = dep_projects2
 dep_projects_names = [proj.UniqueName for proj in dep_projects]
 
 sleep(2.5)
-sln.SaveAs(os.path.join(os.getcwd(), r"src\CyPhyMLCombined.sln"))
+sln.SaveAs(os.path.join(meta_path, r"src\CyPhyMLCombined.sln"))
 
 for solutionConfiguration2 in sln.SolutionBuild.SolutionConfigurations:
     if solutionConfiguration2.Name == "Release" and solutionConfiguration2.PlatformName == "Mixed Platforms":
@@ -89,17 +89,17 @@ def add_dep(proj, dep):
     bldDepends.AddProject(proj_byname[dep].UniqueName)
 
 add_dep('DesignSpaceHelper.vcxproj', 'desert.vcxproj')
-add_dep('CyPhy2SFC_CodeGen.vcxproj', 'libctemplate.vcxproj')
-add_dep('Cyber2SLC_CodeGen.vcxproj', 'libctemplate.vcxproj')
-add_dep('CyberCS.csproj', 'CyberRegister.vcxproj')
+#add_dep('CyPhy2SFC_CodeGen.vcxproj', 'libctemplate.vcxproj')
+#add_dep('Cyber2SLC_CodeGen.vcxproj', 'libctemplate.vcxproj')
+#add_dep('CyberCS.csproj', 'CyberRegister.vcxproj')
 add_dep('CyPhyMetaLinkBridgeClient.csproj', 'MetaLink_maven.vcxproj')
-for vcxproj in map(os.path.basename, cyber_projects):
-    if vcxproj not in ('UpdateCyber2SLC_udm.vcxproj', 'Cyber.vcxproj'):
-        add_dep(vcxproj, 'UpdateCyber2SLC_udm.vcxproj')
+#for vcxproj in map(os.path.basename, cyber_projects):
+#    if vcxproj not in ('UpdateCyber2SLC_udm.vcxproj', 'Cyber.vcxproj'):
+#        add_dep(vcxproj, 'UpdateCyber2SLC_udm.vcxproj')
 
 # TODO: copy solution dependencies from dependent slns
 
-sln.SaveAs(os.path.join(os.getcwd(), r"src\CyPhyMLCombined.sln"))
+sln.SaveAs(os.path.join(meta_path, r"src\CyPhyMLCombined.sln"))
 
 
 # .FullName > c:\....vcxproj 

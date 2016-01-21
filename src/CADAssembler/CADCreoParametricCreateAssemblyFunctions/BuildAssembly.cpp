@@ -20,8 +20,7 @@
 #include <iterator>
 #include <algorithm>
 #include <sstream>
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
+#include "LoggerBoost.h"
 #include "CommonDefinitions.h"
 #include "ProAssembly.h"
 #include "CreoModelMetaData.h"
@@ -117,15 +116,15 @@ void  LogSortingSet(	const std::string	&in_Indent,
 						std::map<std::string, CADComponentData> &in_ComponentAssembledInfo,
 						const std::set<std::string> &in_Components )
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
-	logcat_fileonly.infoStream() << in_Indent << in_Title;
+	isis_LOG(lg, isis_FILE, isis_INFO) << in_Indent << in_Title;
 
-	logcat_fileonly.infoStream() << in_Indent << "   Parent: " << in_ParentComponentID << "   " << in_ParentName;
+	isis_LOG(lg, isis_FILE, isis_INFO) << in_Indent << "   Parent: " << in_ParentComponentID << "   " << in_ParentName;
 
 		for ( std::set<std::string>::const_iterator i = in_Components.begin(); i != in_Components.end(); ++i )
 		{
-			logcat_fileonly.infoStream() << in_Indent << "      " <<
+			isis_LOG(lg, isis_FILE, isis_INFO) << in_Indent << "      " <<
 				in_ComponentAssembledInfo[*i].componentID  <<   "   " <<
 				in_ComponentAssembledInfo[*i].name;
 		}
@@ -138,21 +137,21 @@ void  LogSortingList(	const std::string	&in_Indent,
 						std::map<std::string, CADComponentData> &in_ComponentAssembledInfo,
 						const std::list<std::string>  &in_Components )
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
-	logcat_fileonly.infoStream() << in_Indent << in_Title;
+	isis_LOG(lg, isis_FILE, isis_INFO) << in_Indent << in_Title;
 
-	logcat_fileonly.infoStream() << in_Indent << "   Parent: " << in_ParentComponentID << "   " << in_ParentName;
+	isis_LOG(lg, isis_FILE, isis_INFO) << in_Indent << "   Parent: " << in_ParentComponentID << "   " << in_ParentName;
 
 		for ( std::list<std::string>::const_iterator i = in_Components.begin(); i != in_Components.end(); ++i )
 		{
-			logcat_fileonly.infoStream() << in_Indent << "      " << in_ComponentAssembledInfo[*i].name  << 
+			isis_LOG(lg, isis_FILE, isis_INFO) << in_Indent << "      " << in_ComponentAssembledInfo[*i].name  << 
 				"  " << in_ComponentAssembledInfo[*i].componentID;
-			logcat_fileonly.infoStream() << in_Indent << "                   Depends On: ";
+			isis_LOG(lg, isis_FILE, isis_INFO) << in_Indent << "                   Depends On: ";
 			for ( std::set<std::string>::const_iterator j = in_ComponentAssembledInfo[*i].dependsOn.begin(); 
 				   j != in_ComponentAssembledInfo[*i].dependsOn.end(); ++j )
 			{
-				logcat_fileonly.infoStream() << in_Indent << "                       "  <<
+				isis_LOG(lg, isis_FILE, isis_INFO) << in_Indent << "                       "  <<
 				in_ComponentAssembledInfo[*j].name  << "    " <<
 				in_ComponentAssembledInfo[*j].componentID;
 
@@ -166,7 +165,7 @@ void LogSortingInputs(	const std::string	&in_ParentName,
 								const std::list<std::string> &in_Components, 
 								std::map<std::string, CADComponentData> &in_ComponentAssembledInfo )
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
 	LogSortingList(	"   ", 
 					"BEGIN ##########   SortCADComponents, List of components to be sorted   ###########",
@@ -174,7 +173,7 @@ void LogSortingInputs(	const std::string	&in_ParentName,
 					in_ParentComponentID,
 					in_ComponentAssembledInfo,
 					in_Components );
-	logcat_fileonly.infoStream() << "END ############   SortCADComponents, List of components to be sorted  ###########";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "END ############   SortCADComponents, List of components to be sorted  ###########";
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -185,12 +184,12 @@ void LogStateWhenSortingFailed(	const std::string	&in_ParentName,
 								const std::set<std::string>  &in_Existing,
 								std::map<std::string, CADComponentData> &in_ComponentAssembledInfo )
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
 	// This is a fatal error.  It means the list cannot be sorted.
 	// Throw exception
 	
-	logcat_fileonly.infoStream() << "ERROR: Could not sort the component list";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "ERROR: Could not sort the component list";
 	//clog << std::endl << std::endl << "BEGIN ##########   SORTING ERROR   ###########";
 	//LogSortingList(	"   ", 
 	//				"BEGIN SortCADComponents, To-be-added Components",
@@ -199,14 +198,14 @@ void LogStateWhenSortingFailed(	const std::string	&in_ParentName,
 	//				in_ComponentAssembledInfo,
 	//				in_Components );
 	//clog << std::endl << "END SortCADComponents, To-be-added Components";
-	logcat_fileonly.infoStream() << "";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
 	LogSortingList(	"", 
 					"BEGIN SortCADComponents, Components that were sorted when the sort failed",
 					in_ParentName,
 					in_ParentComponentID,
 					in_ComponentAssembledInfo,
 					out_Components );
-	logcat_fileonly.infoStream() << "END  SortCADComponents, Components that were sorted when the sort failed";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "END  SortCADComponents, Components that were sorted when the sort failed";
 
 	/////////////////
 	// Log Not used
@@ -217,28 +216,60 @@ void LogStateWhenSortingFailed(	const std::string	&in_ParentName,
 		Components_temp.remove( *itr_2 );
 	}
 	
-	logcat_fileonly.infoStream() << "";
-	logcat_fileonly.infoStream() << "BEGIN SortCADComponents, Not-sorted-yet list when the sort failed"; 
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "BEGIN SortCADComponents, Not-sorted-yet list when the sort failed"; 
 	for ( std::list<std::string>::const_iterator itr_2 =  Components_temp.begin(); itr_2 != Components_temp.end(); ++itr_2 )
 	{
-		logcat_fileonly.infoStream() <<  "     "  <<
+		isis_LOG(lg, isis_FILE, isis_INFO) <<  "     "  <<
 			in_ComponentAssembledInfo[*itr_2].componentID  << "    " <<
 			in_ComponentAssembledInfo[*itr_2].name;     
 	}
-	logcat_fileonly.infoStream() << "END SortCADComponents, Not-sorted-yet list when the sort failed"; 
+	isis_LOG(lg, isis_FILE, isis_INFO) << "END SortCADComponents, Not-sorted-yet list when the sort failed"; 
 
-	logcat_fileonly.infoStream() << "";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
 	LogSortingSet(	"", 
 					"BEGIN Components Higher-up in Sort Tree (i.e. existing components from a sort perspective)",
 					in_ParentName,
 					in_ParentComponentID,
 					in_ComponentAssembledInfo,
 					in_Existing );
-	logcat_fileonly.infoStream() << "END Higher-up in Sort Tree (i.e. existing components from a sort perspective)";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "END Higher-up in Sort Tree (i.e. existing components from a sort perspective)";
 
-	logcat_fileonly.infoStream() << "END ###########   SORTING ERROR   ###########";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "END ###########   SORTING ERROR   ###########";
 
 }
+/////////////////////////////////////////////////////////////////////////////////////
+void SearchForAComponentsThatDependOnMultipleAddedComponents(	
+						const std::list<std::string>			&in_CandidateComponents,
+						const std::set<std::string>				&in_ExistingComponents,
+						std::map<std::string, CADComponentData> &in_ComponentAssembledInfo,
+						bool									&out_ComponentFound,
+						std::string								&out_FoundComponentID )
+{
+	out_ComponentFound = false;
+	int maxDependsOnCountFound = 0;
+
+	// First look for a component with a guide
+	for ( std::list<std::string>::const_iterator itr = in_CandidateComponents.begin(); itr != in_CandidateComponents.end(); ++itr )
+	{
+		int dependsOnCount = in_ComponentAssembledInfo[*itr].dependsOn.size();
+
+		if ( dependsOnCount > 1 &&  dependsOnCount > maxDependsOnCountFound  )
+		{			
+			std::set<std::string> Existing_temp = in_ExistingComponents;
+			AddSubordinateComponentIDsToSet( *itr, in_ComponentAssembledInfo, Existing_temp );
+
+			if ( AinB( in_ComponentAssembledInfo[*itr].dependsOn, Existing_temp ) )
+			{
+				maxDependsOnCountFound = dependsOnCount;
+				// found suitbale candidate 
+				out_FoundComponentID = *itr;
+				out_ComponentFound = true;
+			}
+		}
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////////////
 void SearchForAComponentsThatOnlyDependsOnAddedComponents(	
 						const std::list<std::string>			&in_CandidateComponents,
@@ -299,15 +330,25 @@ void SortCADComponents ( const std::string	&in_ParentName,
 		bool FoundComponent = false;
 		std::string FoundComponentID;
 												 
+		// First look for components that depend on multiple existing components
+		SearchForAComponentsThatDependOnMultipleAddedComponents(	Components,
+																	Existing,
+																	in_ComponentAssembledInfo,
+																	FoundComponent,
+																	FoundComponentID );
 
-		// First look for a component with a guide
 
-		SearchForAComponentsThatOnlyDependsOnAddedComponents(	Components,
-																Existing,
-																true,  // Only search for components that have a guide constraint
-																in_ComponentAssembledInfo,
-																FoundComponent,
-																FoundComponentID );
+		// Second look for a component with a guide
+		if ( !FoundComponent )
+		{
+			SearchForAComponentsThatOnlyDependsOnAddedComponents(	Components,
+																	Existing,
+																	true,  // Only search for components that have a guide constraint
+																	in_ComponentAssembledInfo,
+																	FoundComponent,
+																	FoundComponentID );
+		}
+
 		/*
 		for ( std::list<std::string>::const_iterator itr = Components.begin(); itr != Components.end(); ++itr )
 		{
@@ -335,6 +376,7 @@ void SortCADComponents ( const std::string	&in_ParentName,
 			}
 		}
 		*/
+		// Third look for components with/without a guide
 		if ( !FoundComponent )
 		{
 			SearchForAComponentsThatOnlyDependsOnAddedComponents(	Components,
@@ -484,8 +526,8 @@ void Add_Subassemblies_and_Parts(
 					int											&in_out_addedToAssemblyOrdinal)
 														throw (isis::application_exception)
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	CreoModelMetaData constraintData("constraintdata.xml");
 
@@ -535,16 +577,16 @@ void Add_Subassemblies_and_Parts(
 			in_CADComponentData_map[*itr].componentPaths.push_back((assembled_feat_handle).id);
 			in_CADComponentData_map[*itr].addedToAssemblyOrdinal =	in_out_addedToAssemblyOrdinal++;
 
-			logcat_consoleandfile.infoStream() <<  "   Assembly: " << in_ParentName << "   Added Model: "  << ModelNameWithSuffix; 
-			logcat_fileonly.infoStream() << "       Added Model  componentInstanceID:   " <<  in_CADComponentData_map[*itr].componentID;
-			logcat_fileonly.infoStream() << "       Added Model  parentComponentID:     " <<  in_CADComponentData_map[*itr].parentComponentID;
-			logcat_fileonly.infoStream() << "       Added Model  p_model:               " <<  in_CADComponentData_map[*itr].p_model; 
-			logcat_fileonly.infoStream() << "       Added Model  modelHandle:           "  << in_CADComponentData_map[*itr].modelHandle;
-			logcat_fileonly.infoStream() << "       Added Model  assembledFeature.id:   " <<  in_CADComponentData_map[*itr].assembledFeature.id;
-			logcat_fileonly.infoStream() << "       Added Model  assembledFeature.type: " <<  in_CADComponentData_map[*itr].assembledFeature.type;
-			//logcat_fileonly.infoStream() << "       Added Model  specialInstruction:    " <<  isis::SpecialInstruction_string( in_CADComponentData_map[*itr].specialInstruction );
-			logcat_fileonly.infoStream() << "       Added Model  specialInstruction:    " <<  in_CADComponentData_map[*itr].specialInstruction;
-			logcat_fileonly.infoStream() << "       Added Model  representation:        " <<  in_CADComponentData_map[*itr].geometryRepresentation;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "   Assembly: " << in_ParentName << "   Added Model: "  << ModelNameWithSuffix; 
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  componentInstanceID:   " <<  in_CADComponentData_map[*itr].componentID;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  parentComponentID:     " <<  in_CADComponentData_map[*itr].parentComponentID;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  p_model:               " <<  in_CADComponentData_map[*itr].p_model; 
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  modelHandle:           "  << in_CADComponentData_map[*itr].modelHandle;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  assembledFeature.id:   " <<  in_CADComponentData_map[*itr].assembledFeature.id;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  assembledFeature.type: " <<  in_CADComponentData_map[*itr].assembledFeature.type;
+			//isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  specialInstruction:    " <<  isis::SpecialInstruction_string( in_CADComponentData_map[*itr].specialInstruction );
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  specialInstruction:    " <<  in_CADComponentData_map[*itr].specialInstruction;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  representation:        " <<  in_CADComponentData_map[*itr].geometryRepresentation;
 		
 			//////////////////////////////////////////////
 			// Set DDP parameters in the assembly feature
@@ -556,8 +598,8 @@ void Add_Subassemblies_and_Parts(
 				errorString <<
 				"exception : The ComponentID string is too long to store as a paramter in the Creo model.  Component Instance ID: " <<  in_CADComponentData_map[*itr].componentID;
 				throw isis::application_exception("C04002",errorString.str().c_str());*/
-				logcat_consoleandfile.warnStream() << "";
-				logcat_consoleandfile.warnStream() << "WARNING: Couldn't set DDP_COMPONENT_INSTANCE_ID. STEP export might not work on this model.";
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "";
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "WARNING: Couldn't set DDP_COMPONENT_INSTANCE_ID. STEP export might not work on this model.";
 				
 			} else {	
 
@@ -702,13 +744,13 @@ void	RegenerateModel( ProSolid in_p_asm,
 											throw (isis::application_exception)
 {
 	bool ProSolidRegenerate_ThrewException = false;
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 	
 	try 
 	{
-		logcat_consoleandfile.infoStream() << "";
-		logcat_consoleandfile.infoStream() << "   Regenerating:     " << in_ParentName << "  " << in_ParentComponentID;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Regenerating:     " << in_ParentName << "  " << in_ParentComponentID;
 
 		//	"Pro/TOOLKIT® User’s Guide" Section "Regenerating a Solid":
 		//	PRO_REGEN_NO_RESOLVE_MODE—Specifies the
@@ -771,12 +813,12 @@ void	RegenerateModel( ProSolid in_p_asm,
 			err_str = "   Regeneration FAILED.";
 		}
 
-		logcat_consoleandfile.errorStream() << err_str; 
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << err_str; 
 	}
 
 	if ( out_RegenerationSucceeded )
 	{
-		logcat_consoleandfile.infoStream() << "   Regeneration succeeded.";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Regeneration succeeded.";
 	}
 
 }
@@ -797,8 +839,8 @@ void AssembleCADComponent(
 																		throw (isis::application_exception)
 {
 		
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 
 
@@ -849,10 +891,10 @@ void AssembleCADComponent(
 
 	//if (p_asm)
 
-	logcat_fileonly.infoStream() << "";
-	logcat_fileonly.infoStream() << "######################### Begin Assembly " << in_CADComponentData_map[in_AssemblyComponentID].name << " ########################";
-	logcat_fileonly.infoStream() << "";
-	logcat_consoleandfile.infoStream() << "Created Assembly: " << in_CADComponentData_map[in_AssemblyComponentID].name;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "######################### Begin Assembly " << in_CADComponentData_map[in_AssemblyComponentID].name << " ########################";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "Created Assembly: " << in_CADComponentData_map[in_AssemblyComponentID].name;
 
 	in_CADComponentData_map[in_AssemblyComponentID].modelHandle = (ProSolid)p_asm;
 	in_CADComponentData_map[in_AssemblyComponentID].addedToAssemblyOrdinal = in_out_addedToAssemblyOrdinal++;
@@ -892,25 +934,25 @@ void AssembleCADComponent(
 						in_CADComponentData_map,
 						SortedComponents );
 
-	logcat_fileonly.infoStream() << "";
-	logcat_fileonly.infoStream()  << "BEGIN ----------   Unsorted List   ------------";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_FILE, isis_INFO)  << "BEGIN ----------   Unsorted List   ------------";
 	LogSortingList(	"   ", 
 					"UnsortedComponents, Components",
 					in_CADComponentData_map[in_AssemblyComponentID].name,
 					in_CADComponentData_map[in_AssemblyComponentID].componentID,
 					in_CADComponentData_map,
 					UnsortedComponents );
-	logcat_fileonly.infoStream() << "END ------------   Unsorted List   ------------";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "END ------------   Unsorted List   ------------";
 
-	logcat_fileonly.infoStream() << "";
-	logcat_fileonly.infoStream()  << "BEGIN ----------   Sorted List   --------------";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_FILE, isis_INFO)  << "BEGIN ----------   Sorted List   --------------";
 	LogSortingList(	"", 
 					"SortedComponents, Components",
 					in_CADComponentData_map[in_AssemblyComponentID].name,
 					in_CADComponentData_map[in_AssemblyComponentID].componentID,
 					in_CADComponentData_map,
 					SortedComponents );
-	logcat_fileonly.infoStream() << "END ------------   Sorted List   --------------";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "END ------------   Sorted List   --------------";
 
 	bool constraintdata = false;
 
@@ -975,11 +1017,11 @@ void AssembleCADComponent(
 	//////////////////////////////////////////////////
 	// Log in_CADComponentData_map contents
 	//////////////////////////////////////////////////
-	logcat_fileonly.infoStream() <<  "\n************** Begin map CADComponent in BuildAssembly Function **************"; 
+	isis_LOG(lg, isis_FILE, isis_INFO) <<  "\n************** Begin map CADComponent in BuildAssembly Function **************"; 
 	std::stringstream str;
 	stream_CADComponentData_map( in_CADComponentData_map, str );
-	logcat_fileonly.infoStream() << str.str();
-	logcat_fileonly.infoStream() << "\n************** End map CADComponent in BuildAssembly Function ***************";
+	isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
+	isis_LOG(lg, isis_FILE, isis_INFO) << "\n************** End map CADComponent in BuildAssembly Function ***************";
 
 
 	bool fail = isis::ApplyModelConstraints( in_factory,
@@ -1069,8 +1111,8 @@ void AssembleCADComponent(
 		{
 			// Try regeneration each sub-component separately to identify the non-regeneration part/sub-assembly
 
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream()  << "Regenerating parts/sub-assemblies. This will help indicate which part/sub-assembly would not generate."; 
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO)  << "Regenerating parts/sub-assemblies. This will help indicate which part/sub-assembly would not generate."; 
 			bool local_RegenerationSucceeded;
 			for ( std::list<string>::const_iterator i_regen (in_CADComponentData_map[in_AssemblyComponentID].children.begin());
 			  i_regen != in_CADComponentData_map[in_AssemblyComponentID].children.end();
@@ -1127,11 +1169,11 @@ void AssembleCADComponent(
 
 	if ( in_SaveAssembly ) isis::isis_ProMdlSave(p_asm);
 
-	logcat_consoleandfile.infoStream() << "";
-	logcat_consoleandfile.infoStream()  << "Saved Assembly:   " <<  (const std::string&)in_CADComponentData_map[in_AssemblyComponentID].name + "  " + (const std::string&)in_CADComponentData_map[in_AssemblyComponentID].componentID;
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)  << "Saved Assembly:   " <<  (const std::string&)in_CADComponentData_map[in_AssemblyComponentID].name + "  " + (const std::string&)in_CADComponentData_map[in_AssemblyComponentID].componentID;
 
-	logcat_fileonly.infoStream() << "";
-	logcat_fileonly.infoStream()  << "########################## End Assembly " << in_CADComponentData_map[in_AssemblyComponentID].name << " #########################";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_FILE, isis_INFO)  << "########################## End Assembly " << in_CADComponentData_map[in_AssemblyComponentID].name << " #########################";
 
 	// Delete the version 1 of the assembly file.  It was just a temporary file that was copied from the 
 	// template file.
@@ -1150,7 +1192,7 @@ void BuildAssembly( cad::CadFactoryAbstract				&in_factory,
 					bool								in_AllowUnconstrainedModels )
 																	throw (isis::application_exception)
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
 	int addedToAssemblyOrdinal =  0;
 
@@ -1160,8 +1202,8 @@ void BuildAssembly( cad::CadFactoryAbstract				&in_factory,
 	//clog << endl << "Component Type: "  << ProMdlType_string( in_CADComponentData_map[in_AssemblyComponentID].modelType );
 	//clog << endl;
 
-	logcat_fileonly.infoStream() << "";
-	logcat_fileonly.infoStream()  << "*************************** Begin Assembly Creation **************************";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_FILE, isis_INFO)  << "*************************** Begin Assembly Creation **************************";
 
 	std::list<std::string>  SIZE_TO_FIT_Components; 
 
@@ -1198,8 +1240,8 @@ void BuildAssembly( cad::CadFactoryAbstract				&in_factory,
 		throw isis::application_exception("C04003",err_str.c_str());  
 	}
 
-	logcat_fileonly.infoStream() << "";
-	logcat_fileonly.infoStream()  << "************************** End Assembly Creation *************************";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_FILE, isis_INFO)  << "************************** End Assembly Creation *************************";
 
 
 }

@@ -150,7 +150,7 @@ public:
     void HighlightDatum(const std::string parentID, const std::string datumName);
 
 private:
-    ::log4cpp::Category& m_logcat;
+    //::log4cpp::Category& m_logcat;
 
     cad::CadFactoryAbstract::ptr m_cadfactory;
 

@@ -31,7 +31,12 @@ namespace ComponentImporterUnitTests
                 }
             };
 
+            process.OutputDataReceived += (o, dataArgs) =>
+            {
+            };
+
             process.Start();
+            process.BeginOutputReadLine();
 
             String procErrorOutput = "";
             char[] buffer = new char[4096];

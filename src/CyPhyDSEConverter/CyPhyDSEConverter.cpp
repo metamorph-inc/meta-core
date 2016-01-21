@@ -13,7 +13,7 @@
 
 extern bool Automation;
 extern string RefactoredTypeOrAction;
-extern string ExceptionMessage;
+extern wstring ExceptionMessage;
 
 
 CyPhyDSEConverter::CyPhyDSEConverter(CyPhyML::RootFolder &_root):rootFolder(_root),genCA(false)

@@ -89,6 +89,12 @@ namespace CyPhyPET
                         this.testBenchType = "car";
                         this.SimpleCalculation();
                         break;
+
+                    case "MGA.Interpreter.CyPhyPython":   
+                        // TODO: Generate testbench_manifest.json
+                        this.testBenchType = "python";
+                        this.CyPhyPythonTestBench();
+                        break;
                 }
             }
             else if (this.testBench is CyPhy.CADTestBench)
@@ -574,6 +580,28 @@ namespace CyPhyPET
                 var testBenchExecutor = new Templates.TestBenchExecutors.CAD()
                 {
                     MaxIterationExecutionTime = 2 // hours
+                };
+
+                writer.WriteLine(testBenchExecutor.TransformText());
+            }
+        }
+
+        private void CyPhyPythonTestBench()  
+        {
+            this.Logger.WriteWarning("CyPhyPythonTestBench for PET.");
+
+            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "scripts", "driver_runner.py")))
+            {
+                writer.WriteLine(CyPhyPET.Properties.Resources.driver_runner);
+            }
+            this.GenerateTestBenchPy();  //?????
+
+            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "scripts", "python_executor.py")))
+            {
+                Templates.TestBenchExecutors.CyPython testBenchExecutor = new Templates.TestBenchExecutors.CyPython()
+                {
+                    MaxIterationExecutionTime = 2 // hours
+                    //testBench = this.testBench as CyPhy.TestBench
                 };
 
                 writer.WriteLine(testBenchExecutor.TransformText());

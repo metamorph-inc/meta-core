@@ -52,32 +52,8 @@ namespace CyPhyMasterInterpreter.Rules
 
                         break;
                     case CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.ABAQUS_Deck_Based:
-                        foreach (var face in this.testBench.Children.FaceCollection)
-                        {
-                            var feedback = new ContextCheckerResult()
-                            {
-                                Success = false,
-                                Subject = face.Impl,
-                                Message = string.Format("Face construct not allowed for solver type ABAQUS deck based.")
-                            };
-
-                            results.Add(feedback);
-                        }
-
                         break;
                     case CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.NASTRAN:
-                        foreach (var face in this.testBench.Children.FaceCollection)
-                        {
-                            var feedback = new ContextCheckerResult()
-                            {
-                                Success = false,
-                                Subject = face.Impl,
-                                Message = string.Format("Face construct not allowed for solver type NASTRAN.")
-                            };
-
-                            results.Add(feedback);
-                        }
-
                         break;
                 }
             }

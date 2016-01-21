@@ -5,7 +5,8 @@
 #include "UdmBase.h"
 #include <CADPostProcessingParameters.h>
 #include <CADAnalysisMetaData.h>
-#include <ToolKitPassThroughFunctions.h>  
+#include <ToolKitPassThroughFunctions.h>
+
 #include "MiscellaneousFunctions.h"
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
@@ -54,16 +55,16 @@ void ValidateAnalysisGeometry(  const std::string &in_ConfigurationIDSentence,
 {
 	std::string TempError = in_ConfigurationIDSentence;
 
-	bool modelBasedAbaqusSolver = false;
-
-	for each ( AnalysisSolver i in analysisSolvers)
-	{
-		if ( i.analysisSolutionType == ANALYSIS_MODEL_BASED )
-		{
-			modelBasedAbaqusSolver = true;
-			break;
-		}
-	}
+	// 11/24/2015 Added support for FACE with deck-based.  modelBasedAbaqusSolver not needed anymore
+	//bool modelBasedAbaqusSolver = false;
+	//for each ( AnalysisSolver i in analysisSolvers)
+	//{
+	//	if ( i.analysisSolutionType == ANALYSIS_MODEL_BASED )
+	//	{
+	//		modelBasedAbaqusSolver = true;
+	//		break;
+	//	}
+	//}
 
 	int numberOfFeatures = in_AnalysisGeometry.features.begin()->features.size();
 
@@ -84,12 +85,13 @@ void ValidateAnalysisGeometry(  const std::string &in_ConfigurationIDSentence,
 		TempError += "For a ball " + in_ConstraintOrLoad + ", there must two features (i.e. Datum Points)";
 		throw isis::application_exception(TempError.c_str());	
 	}
-
-	if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_FACE) && ( !modelBasedAbaqusSolver))
-	{
-		TempError += "For FEA, Feature GeometryType=\"FACE\" the solver type must be Abaqus-Model-Based.  Deck-based Nastran, Abaqus, and Calculix do not support the FACE feature.";
-		throw isis::application_exception(TempError.c_str());	
-	}
+	
+	// 11/24/2015 Added support for FACE with deck-based
+	//if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_FACE) && ( !modelBasedAbaqusSolver))
+	//{
+	//	TempError += "For FEA, Feature GeometryType=\"FACE\" the solver type must be Abaqus-Model-Based.  Deck-based Nastran, Abaqus, and Calculix do not support the FACE feature.";
+	//	throw isis::application_exception(TempError.c_str());	
+	//}
 
 }
 
@@ -480,13 +482,14 @@ void GetPolygonAnalysisGeometry(
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 std::string AnalysisGeometry_error(	const AnalysisGeometry	&in_AnalysisGeometry,
-									const std::string       &in_CallingFunction,
-									int						in_ExpectedNumPoints,
+									const std::string       &in_CallingFunction,		
+									const std::string		&in_Expected_or_Minimum,  // Should be Expected or Minimum
+									int						in_NumPoints,
 									int						in_ReceivedNumPoints )
 {
 	std::stringstream errorString;
 	errorString << "Function - " << in_CallingFunction << ", received incorrect number of points defining the analysis geometry." << std::endl <<
-	"Expected Number of Points: " << in_ExpectedNumPoints << std::endl <<
+	in_Expected_or_Minimum << " Number of Points: " << in_NumPoints << std::endl <<
 	"Received Number of Points: " << in_ReceivedNumPoints << std::endl <<
 	//"Geometry Type: " << CADGeometryType_string(in_AnalysisGeometry) << std::endl <<
 	//"Component Instance ID: "  << in_AnalysisGeometry.componentID << std::endl <<
@@ -498,6 +501,9 @@ std::string AnalysisGeometry_error(	const AnalysisGeometry	&in_AnalysisGeometry,
 
 	return errorString.str();
 }
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 std::string NoGridPointsWithInMesh_ErrorSstring(	const std::string &in_ComponentID, 
@@ -529,6 +535,278 @@ std::string NoGridPointsWithInMesh_ErrorSstring( const std::list<CADFeature> &in
 
 	return TempError;
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+struct ComponentInstanceID_DatumFeatureName
+{
+	std::string			componentInstanceID;
+	MultiFormatString	datumName;
+
+	ComponentInstanceID_DatumFeatureName(	const std::string &in_ComponentInstanceID, 
+											const MultiFormatString &in_DatumName ) :
+												componentInstanceID(in_ComponentInstanceID), 
+												datumName(in_DatumName) {};
+
+};
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+struct DatumPointCoordinates
+{
+	ComponentInstanceID_DatumFeatureName	point_ID_Name;
+	CADPoint								cADPoint;
+
+	DatumPointCoordinates( const ComponentInstanceID_DatumFeatureName &in_ComponentInstanceID_DatumFeatureName,
+						   const CADPoint							  &in_CADPoint) :
+								point_ID_Name(in_ComponentInstanceID_DatumFeatureName),
+								cADPoint(in_CADPoint) {};
+};
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void GetDatumPointsReferencedByAnalyses( const	std::list<AnalysisConstraint>				&in_AnalysisConstraints,
+										 const	std::list<AnalysisLoad>						&in_AnalysisLoads,
+										 std::vector<ComponentInstanceID_DatumFeatureName>	&out_ComponentInstanceID_DatumFeatureName )
+																				
+
+{
+	for each ( const AnalysisConstraint &i in in_AnalysisConstraints )
+	{
+		for each ( const AnalysisGeometryFeature &j in  i.geometry.features )
+		{
+			if ( j.featureGeometryType == CAD_FEATURE_GEOMETRY_POINT )
+			{
+				for each ( const CADFeature &k in j.features )
+				{
+					ComponentInstanceID_DatumFeatureName  c_d(k.componentID, k.datumName );
+					out_ComponentInstanceID_DatumFeatureName.push_back(c_d);								
+				}
+			}
+		}
+	}
+
+	for each ( const AnalysisLoad &i in in_AnalysisLoads )
+	{
+		for each ( const AnalysisGeometryFeature &j in  i.geometry.features )
+		{
+			if ( j.featureGeometryType == CAD_FEATURE_GEOMETRY_POINT )
+			{
+				for each ( const CADFeature &k in j.features )
+				{
+					ComponentInstanceID_DatumFeatureName  c_d(k.componentID, k.datumName );
+					out_ComponentInstanceID_DatumFeatureName.push_back(c_d);								
+				}
+			}
+		}
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void GetDatumPointsCoordinates(	const std::vector<ComponentInstanceID_DatumFeatureName> &in_ComponentInstanceID_DatumFeatureName,   
+								const std::string										&in_AssemblyComponentID,
+								std::map<string, isis::CADComponentData>				&in_CADComponentData_map,
+								std::vector<DatumPointCoordinates>						&out_datumPointCoordinates )
+{
+	for each ( const ComponentInstanceID_DatumFeatureName &i in in_ComponentInstanceID_DatumFeatureName )
+	{
+		CADPoint  point;
+		RetrieveDatumPointCoordinates(	in_AssemblyComponentID,
+										i.componentInstanceID,
+										in_CADComponentData_map,
+										i.datumName,  // Datum Point Name
+										point);
+		out_datumPointCoordinates.push_back( DatumPointCoordinates(i, point ));
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void DatumKey_to_Point_map( const std::vector<DatumPointCoordinates>	&in_datumPointCoordinates,
+							std::map<std::string, CADPoint>				&out_DatumKey_to_Point_map )
+																		throw (isis::application_exception)
+{
+	for each ( const DatumPointCoordinates &i in in_datumPointCoordinates )
+	{
+		std:string key = i.point_ID_Name.componentInstanceID + ":" +  (std::string)i.point_ID_Name.datumName;
+		
+		std::map<std::string, CADPoint>::const_iterator  point_itr;
+
+		point_itr = out_DatumKey_to_Point_map.find(key);
+
+		if ( point_itr != out_DatumKey_to_Point_map.end() )
+		{
+			std::stringstream errorString;
+			errorString <<
+				"Function - " << __FUNCTION__ << " Duplicate datum point information with the key of: " <<  key;
+			throw isis::application_exception(errorString.str());	
+		}
+
+		out_DatumKey_to_Point_map[key] = i.cADPoint;
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void FindPointsOnSurface( 	const std::map<int,isis_CADCommon::GridPoint>		&in_GridPoints_map,
+							const std::string									&in_AssemblyComponentID,
+							const std::string									&in_PartComponentID,
+							std::map<string, isis::CADComponentData>			&in_CADComponentData_map,
+							const MultiFormatString								&in_DatumName_PointOnSurface,
+							std::vector<int>									&out_GridPointIds_WithinGeometry ) 
+																				throw (isis::application_exception)						
+{
+
+	////////////////////////////////////////
+	// Get point on surface coordinates
+	////////////////////////////////////////
+	CADPoint pointOnSurface_CADPoint;
+	RetrieveDatumPointCoordinates( in_AssemblyComponentID,
+									in_PartComponentID,
+									in_CADComponentData_map,
+									in_DatumName_PointOnSurface,
+									pointOnSurface_CADPoint); 
+	
+	ProPoint3d pointOnSurface_XYZ_In;
+	ProPoint3d pointOnSurface_XYZ_Out;
+
+	pointOnSurface_XYZ_In[0] = pointOnSurface_CADPoint.x;
+	pointOnSurface_XYZ_In[1] = pointOnSurface_CADPoint.y;
+	pointOnSurface_XYZ_In[2] = pointOnSurface_CADPoint.z;
+
+	isis_LOG(lg, isis_FILE, isis_INFO);
+	isis_LOG(lg, isis_FILE, isis_INFO) << __FUNCTION__ << " Data:";  
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Name:                      " << in_CADComponentData_map[in_PartComponentID].name;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_DatumName_PointOnSurface:         " << in_DatumName_PointOnSurface;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_DatumName_PointOnSurface (x,y,z): " << pointOnSurface_XYZ_In[0] << "  " << pointOnSurface_XYZ_In[1] << "  " << pointOnSurface_XYZ_In[2];
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[in_PartComponentID].name:         " << in_CADComponentData_map[in_PartComponentID].name;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[in_PartComponentID].modelHandle:  " << in_CADComponentData_map[in_PartComponentID].modelHandle;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   *in_CADComponentData_map[in_PartComponentID].p_model:     " << *in_CADComponentData_map[in_PartComponentID].p_model;
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	// Find all Surfaces in Model (i.e. in_CADComponentData_map[in_PartComponentID].modelHandle
+	////////////////////////////////////////////////////////////////////////////////////////////
+	ProSurface	    *surfaces;
+	isis_ProUtilCollectSolidSurfaces (in_CADComponentData_map[in_PartComponentID].modelHandle, &surfaces);
+
+	//////////////////////////////////
+	// Find surfaces containing point
+	//////////////////////////////////
+ 	int surfaces_num;
+
+	isis_ProArraySizeGet ((ProArray)surfaces, &surfaces_num);
+
+	isis_LOG(lg, isis_FILE, isis_INFO) << "Number of surfaces in the component: " << surfaces_num;  
+
+	if ( surfaces_num < 1 ) 
+	{
+		std::stringstream errorString;
+		errorString <<
+			"Function - " << __FUNCTION__ <<", No surfaces found in model (i.e. component).  There must be at least one surface in the model if a point is used to identify a surface." << std::endl <<
+			"in_PartComponentID           " << (string)in_CADComponentData_map[in_PartComponentID].componentID << std::endl <<
+			"in_PartComponentID name      " << (string)in_CADComponentData_map[in_PartComponentID].name << std::endl <<
+			"in_DatumName_PointOnSurface: " <<   (string)in_DatumName_PointOnSurface << std::endl <<
+			"Point coordinates (x,y,z)    " <<  pointOnSurface_XYZ_In[0] << "  " << pointOnSurface_XYZ_In[1]  << "  " << pointOnSurface_XYZ_In[2];
+		throw isis::application_exception(errorString.str());
+	}
+	
+	std::vector<int> foundOnSurfaces_index;
+
+	for (int i = 0; i < surfaces_num; i++)
+    {
+		ProBoolean onSurface;
+
+		isis_ProPoint3dOnsurfaceFind (	pointOnSurface_XYZ_In, surfaces[i], &onSurface, pointOnSurface_XYZ_Out );
+		if ( onSurface == PRO_B_TRUE) foundOnSurfaces_index.push_back(i);
+    }
+
+	if ( foundOnSurfaces_index.size() == 0 ) 
+	{
+		std::stringstream errorString;
+		errorString <<
+			"Function - " << __FUNCTION__ <<", No surface found with the in_DatumName_PointOnSurface on a surface in the model (i.e. component)." << std::endl <<
+			"in_PartComponentID           " << (string)in_CADComponentData_map[in_PartComponentID].componentID << std::endl <<
+			"in_PartComponentID name      " << (string)in_CADComponentData_map[in_PartComponentID].name << std::endl <<
+			"in_DatumName_PointOnSurface: " <<   (string)in_DatumName_PointOnSurface << std::endl <<
+			"Point coordinates (x,y,z)    " <<  pointOnSurface_XYZ_In[0] << "  " << pointOnSurface_XYZ_In[1]  << "  " << pointOnSurface_XYZ_In[2];
+		throw isis::application_exception(errorString.str());
+	}
+
+	isis_LOG(lg, isis_FILE, isis_INFO) << "Number of surfaces that the point on the face touches: " << foundOnSurfaces_index.size();
+
+	ProPoint3d point_XYZ_In;
+	ProPoint3d point_XYZ_Out;
+
+	//   PRO_ACCURACY_RELATIVE = 1,
+	//   PRO_ACCURACY_ABSOLUTE = 2
+	//double accuracyRelative;
+	//double accuracyAbsolute;
+
+	// ProAccuracyType r_type_relative = PRO_ACCURACY_RELATIVE;
+	// ProAccuracyType r_type_absolute = PRO_ACCURACY_ABSOLUTE;
+
+	//ProErr local_error;
+	//local_error = ProSolidAccuracyGet (in_CADComponentData_map[in_PartComponentID].modelHandle,
+    //                                 &r_type_relative,
+    //                                 &accuracyRelative);
+	//isis_LOG(lg, isis_FILE, isis_INFO) << "local_error: " << local_error;
+	//
+	//local_error = ProSolidAccuracyGet (in_CADComponentData_map[in_PartComponentID].modelHandle,
+    //                                 &r_type_absolute,
+    //                                 &accuracyAbsolute);
+	//isis_LOG(lg, isis_FILE, isis_INFO) << "local_error: " << local_error;
+	//
+	//isis_LOG(lg, isis_FILE, isis_INFO) << "Accuracy, relative, absolute " << accuracyRelative << "  " << accuracyAbsolute;
+
+	bool firstErrorMessage = true;
+
+	for each ( const std::pair<int,isis_CADCommon::GridPoint> &i in in_GridPoints_map )
+	{
+		point_XYZ_In[0] = i.second.point.x;
+		point_XYZ_In[1] = i.second.point.y;
+		point_XYZ_In[2] = i.second.point.z;
+		
+		//isis_LOG(lg, isis_FILE, isis_INFO) << "Grid Point: " << point_XYZ_In[0] << "  " << point_XYZ_In[1] << "  " << point_XYZ_In[2];
+
+
+		for each ( const int &j in foundOnSurfaces_index )
+		{ 			
+			ProBoolean onSurface;
+			//isis_LOG(lg, isis_FILE, isis_INFO) << "point_XYZ_In,  " << point_XYZ_In[0] << "  " << point_XYZ_In[1] << "  " << point_XYZ_In[2];
+
+			try
+			{
+			isis_ProPoint3dOnsurfaceFind (	point_XYZ_In, surfaces[j], &onSurface, point_XYZ_Out );	
+			}
+			catch ( isis::application_exception ex )
+			{
+				// ProPoint3dOnsurfaceFind seems to always work for the case where the point is on the surface.  If the point is off of the
+				// surface, it fails some of the time.  This maybe because point_XYZ_Out cannot be calculated within the Creo model tolerances.
+				// For example, if a point would project so that it would be mostly tangential to the surface then the projection would 
+				// probably fail.
+				// In general, this failure is not a problem because we are interested in only points on the surface.
+				if ( firstErrorMessage )
+				{
+					isis_LOG(lg, isis_FILE, isis_INFO);
+					isis_LOG(lg, isis_FILE, isis_INFO) << "INFORMATION Function: " << __FUNCTION__;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "   The computation of a point on a surface (i.e. ProPoint3dOnsurfaceFind) failed.";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "   This is usually occurs because the point is not on the surface and the projection";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "   of the point onto the surface fails. This projection failure could occur because";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "   the projection would be mostly tangential to the surface.  We are only interested";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "   in points on the surface and thus this failure does not matter.";
+					firstErrorMessage = false;
+				}
+
+				isis_LOG(lg, isis_FILE, isis_INFO) << "      INFORMATION, ProPoint3dOnsurfaceFind could not project point (x, y, z): " << point_XYZ_In[0] << "  " << point_XYZ_In[1] << "  " << point_XYZ_In[2];
+				//isis_LOG(lg, isis_FILE, isis_INFO) << "   Error message: " <<ex.what();
+
+			}
+			// isis_LOG(lg, isis_FILE, isis_INFO) << "point_XYZ_Out,  " << point_XYZ_Out[0] << "  " << point_XYZ_Out[1] << "  " << point_XYZ_Out[2];
+
+			if ( onSurface == PRO_B_TRUE ) out_GridPointIds_WithinGeometry.push_back(i.first);
+			// A point on the edge of the surface is considered on the surface.  Therefore, the following code is not needed.
+			//if ( onSurface == PRO_B_TRUE ||
+			//	(	abs( point_XYZ_In[0] - point_XYZ_Out[0]  ) < accuracyRelative &&
+			//		abs( point_XYZ_In[1] - point_XYZ_Out[1]  ) < accuracyRelative &&
+			//		abs( point_XYZ_In[2] - point_XYZ_Out[2]  ) < accuracyRelative ) )
+			//{
+			//	out_GridPointIds_WithinGeometry.push_back(i.first);
+			//}
+		}
+	} //END for each ( const std::pair<int,isis_CADCommon::GridPoint> &i in in_GridPoints_map )
+	
+	isis_ProArrayFree ((ProArray*)&surfaces);
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GetGridPointsWithinAnalysisGeometry( 
@@ -559,103 +837,167 @@ void GetGridPointsWithinAnalysisGeometry(
 	for ( std::list<AnalysisGeometryFeature>::const_iterator i(in_AnalysisGeometry.features.begin());
 		  i != in_AnalysisGeometry.features.end(); ++i )
 	{
-			
-		std::vector< isis_CADCommon::Point_3D >  geometry3DPoints;
-
-		// Retrieve point coordinates defining the geometry
-		for ( std::list<CADFeature>::const_iterator k( i->features.begin());
-				k != in_AnalysisGeometry.features.begin()->features.end();
-				++k )
+		if ( i->geometryType == CAD_GEOMETRY_FACE )
 		{
-			isis::CADPoint  point;
-			isis::RetrieveDatumPointCoordinates(	in_AssemblyComponentID,
-													k->componentID,
-													in_CADComponentData_map,
-													k->datumName,  // Datum Point Name
-													point);
-			geometry3DPoints.push_back( isis_CADCommon::Point_3D( point.x, point.y, point.z));
-			//++numberPolygonPoints;
+			// CAD_GEOMETRY_FACE is different because it depends on Creo surface geometry.  Therefore, the Creo suface geometry
+			// must be used to determine if a point is on the surface.
+
+			// For CAD_GEOMETRY_FACE there should be one and only one datum point
+
+			if ( i->featureGeometryType != CAD_FEATURE_GEOMETRY_POINT )
+			{
+				std::stringstream errorString;
+				errorString <<
+					"Function - " << __FUNCTION__ <<", CAD_GEOMETRY_FACE (i.e. surface) must have a featureGeometryType of CAD_FEATURE_GEOMETRY_POINT." << std::endl <<
+					"featureGeometryType: " << CADFeatureGeometryType_string(i->featureGeometryType);
+				throw isis::application_exception(errorString.str());
+			}
+			if ( i->features.size() != 1 )
+			{
+				std::stringstream errorString;
+				errorString <<
+					"Function - " << __FUNCTION__ <<", CAD_GEOMETRY_FACE (i.e. surface) must have one and only one datum point defining the face (i.e. surface)." << std::endl <<
+					"features.size(): " << i->features.size();
+				throw isis::application_exception(errorString.str());
+
+			}
+
+			FindPointsOnSurface( 	in_GridPoints_map,
+									in_AssemblyComponentID,
+									i->features.begin()->componentID,
+									in_CADComponentData_map,
+									i->features.begin()->datumName,
+									gridPointIds_WithinGeometry );
 		}
-
-		isis_CADCommon::Geometry_3D *Geometry_3D_ptr;
-
-		switch (i->geometryType)
+		else
 		{
-			case CAD_GEOMETRY_POLYGON : 
-				Geometry_3D_ptr = new isis_CADCommon::Polygon_3D(geometry3DPoints, in_Precision, "GetGridPointsWithinAnalysisGeometry" );
-				break;
-			case CAD_GEOMETRY_CIRCLE : 
-				if ( geometry3DPoints.size() != 3) throw isis::application_exception(
-					AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry", 3, geometry3DPoints.size()).c_str());
-				Geometry_3D_ptr = new isis_CADCommon::Circle_3D( geometry3DPoints[0], geometry3DPoints[1], geometry3DPoints[2], in_Precision );
-				break;
-			case CAD_GEOMETRY_CONCENTRIC_CIRCLES:
-				if ( geometry3DPoints.size() != 3) throw isis::application_exception(
-					AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry", 3, geometry3DPoints.size()).c_str());
-				Geometry_3D_ptr = new isis_CADCommon::ConcentricCircles_3D( geometry3DPoints[0], geometry3DPoints[1], geometry3DPoints[2], in_Precision );
-				break;
-			case CAD_GEOMETRY_CYLINDER : 
-				if ( i->secondaryGeometryQualifier != CAD_INCLUDE_END_CAPS && i->secondaryGeometryQualifier != CAD_EXCLUDE_END_CAPS)
-				{
-					std::string TempError = "For Cylinders, the End Caps qualifier must be set to " + CADSecondaryGeometryQualifier_string(CAD_INCLUDE_END_CAPS) + 
-						" or " + CADSecondaryGeometryQualifier_string(CAD_EXCLUDE_END_CAPS) + ".  Feature ID: " + i->featureID; 
-					throw isis::application_exception(TempError.c_str());	
-				}
-				isis_CADCommon::e_CylinderGeometryInclusionSpecifier  cylinderGeometryInclusionSpecifier;
-				if ( i->secondaryGeometryQualifier == CAD_INCLUDE_END_CAPS ) 
-					cylinderGeometryInclusionSpecifier = isis_CADCommon::GEOMETRY_INCLUDE_END_CAP;
-				else
-					cylinderGeometryInclusionSpecifier = isis_CADCommon::GEOMETRY_EXCLUDE_END_CAP;
+			// This section covers geometry that is defined by points
+			std::vector< isis_CADCommon::Point_3D >  geometry3DPoints;
 
-				if ( geometry3DPoints.size() != 3) throw isis::application_exception(
-					AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry", 3, geometry3DPoints.size()).c_str());
-				Geometry_3D_ptr = new isis_CADCommon::Cylinder_3D(geometry3DPoints[0], geometry3DPoints[1], geometry3DPoints[2], cylinderGeometryInclusionSpecifier, in_Precision );
-				break;
-			//case CAD_GEOMETRY_CYLINDER_SURFACE :   // This was replace by computing the cylinder-all-points and subtracting the cylinder-internal-points 
-			//	 if ( geometry3DPoints.size() != 3) throw isis::application_exception(
-			//			AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry", 3, geometry3DPoints.size()).c_str());
-			//	 Geometry_3D_ptr = new isis_CADCommon::Cylinder_3D(geometry3DPoints[0], geometry3DPoints[1], geometry3DPoints[2], isis_CADCommon::GEOMETRY_EXCLUDE_END_CAP, in_Precision );
-			//	 break;
-			case CAD_GEOMETRY_SPHERE : 
-				if ( geometry3DPoints.size() != 2) throw isis::application_exception(
-					AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry", 2, geometry3DPoints.size()).c_str());
-				Geometry_3D_ptr = new isis_CADCommon::Sphere_3D(geometry3DPoints[0], geometry3DPoints[1], in_Precision );
-				break;
-			//case CAD_GEOMETRY_SPHERE_SURFACE: 
-			//	if ( geometry3DPoints.size() != 2) throw isis::application_exception(
-			//		AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry", 2, geometry3DPoints.size()).c_str());
-			//	Geometry_3D_ptr = new isis_CADCommon::SphereSurface_3D(geometry3DPoints[0], geometry3DPoints[1], in_Precision );
-			//	break;
-			default:
-			std::stringstream errorString;
-			errorString <<
-				"Function - GetGridPointsWithinAnalysisGeometry, received geometryType that is not currently supported." << std::endl <<
-				//"Geometry Type: " << CADGeometryType_string(in_AnalysisGeometry.geometryType);
-				"Geometry Type: " << CADGeometryType_string(in_AnalysisGeometry.features.begin()->geometryType);
-			throw isis::application_exception(errorString.str());
-		}
+			// Retrieve point coordinates defining the geometry
+			for ( std::list<CADFeature>::const_iterator k( i->features.begin());
+					k != in_AnalysisGeometry.features.begin()->features.end();
+					++k )
+			{
+				isis::CADPoint  point;
+				isis::RetrieveDatumPointCoordinates(	in_AssemblyComponentID,
+														k->componentID,
+														in_CADComponentData_map,
+														k->datumName,  // Datum Point Name
+														point);
+				geometry3DPoints.push_back( isis_CADCommon::Point_3D( point.x, point.y, point.z));
+				//++numberPolygonPoints;
+			}
 
-		if ( i->primaryGeometryQualifier != CAD_INTERIOR_ONLY && 
-			 i->primaryGeometryQualifier != CAD_BOUNDARY_ONLY && 
-			 i->primaryGeometryQualifier != CAD_INTERIOR_AND_BOUNDARY )
-		{
-			std::string TempError = "Function: GetGridPointsWithinAnalysisGeometry, recieved an erroneous PrimaryGeometryQualifier (" + CADPrimaryGeometryQualifier_string(i->primaryGeometryQualifier) + 
-				" ).  Feature ID: " + i->featureID; 
-			throw isis::application_exception(TempError.c_str());	
-		}
+			isis_CADCommon::Geometry_3D *Geometry_3D_ptr;
 
-		isis_CADCommon::e_GeneralGeometryInclusionSpecifier generalGeometryInclusionSpecifier;
-		switch ( i->primaryGeometryQualifier )
-		{
-			case CAD_INTERIOR_ONLY:			generalGeometryInclusionSpecifier = isis_CADCommon::GEOMETRY_INTERIOR_ONLY;	break;
-			case CAD_BOUNDARY_ONLY:			generalGeometryInclusionSpecifier = isis_CADCommon::GEOMETRY_BOUNDARY_ONLY;	break;
-			case CAD_INTERIOR_AND_BOUNDARY: generalGeometryInclusionSpecifier = isis_CADCommon::GEOMETRY_INTERIOR_AND_BOUNDARY; break;
-		}
+			// Thd following three variable could be used by switch case CAD_GEOMETRY_EXTRUSION 
+			int tempCount = 0;
+			std::vector< isis_CADCommon::Point_3D >  temp3DPoints;
+			isis_CADCommon::Point_3D   temp3DPoint;
 
-		//std::cout << std::endl << "in_GridPoints_map size: " << in_GridPoints_map.size();
-		isis_CADCommon::GetGridPointsWithinGeometry( in_GridPoints_map, *Geometry_3D_ptr, generalGeometryInclusionSpecifier, in_Precision, gridPointIds_WithinGeometry);
-		delete Geometry_3D_ptr;
-	}
+			switch (i->geometryType)
+			{
+				case CAD_GEOMETRY_POLYGON : 
+					if ( geometry3DPoints.size() < 3 ) throw isis::application_exception(
+						AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry", "Minimum", 3,  geometry3DPoints.size()).c_str());
+					Geometry_3D_ptr = new isis_CADCommon::Polygon_3D(geometry3DPoints, in_Precision, "GetGridPointsWithinAnalysisGeometry" );
+					break;
+				case CAD_GEOMETRY_CIRCLE : 
+					if ( geometry3DPoints.size() != 3) throw isis::application_exception(
+						AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry", "Expected",3,  geometry3DPoints.size()).c_str());
+					Geometry_3D_ptr = new isis_CADCommon::Circle_3D( geometry3DPoints[0], geometry3DPoints[1], geometry3DPoints[2], in_Precision );
+					break;
+				case CAD_GEOMETRY_CONCENTRIC_CIRCLES:
+					if ( geometry3DPoints.size() != 3) throw isis::application_exception(
+						AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry", "Expected",3, geometry3DPoints.size()).c_str());
+					Geometry_3D_ptr = new isis_CADCommon::ConcentricCircles_3D( geometry3DPoints[0], geometry3DPoints[1], geometry3DPoints[2], in_Precision );
+					break;
+				case CAD_GEOMETRY_CYLINDER : 
+					if ( i->secondaryGeometryQualifier != CAD_INCLUDE_END_CAPS && i->secondaryGeometryQualifier != CAD_EXCLUDE_END_CAPS)
+					{
+						std::string TempError = "For Cylinders, the End Caps qualifier must be set to " + CADSecondaryGeometryQualifier_string(CAD_INCLUDE_END_CAPS) + 
+							" or " + CADSecondaryGeometryQualifier_string(CAD_EXCLUDE_END_CAPS) + ".  Feature ID: " + i->featureID; 
+						throw isis::application_exception(TempError.c_str());	
+					}
+					isis_CADCommon::e_CylinderGeometryInclusionSpecifier  cylinderGeometryInclusionSpecifier;
+					if ( i->secondaryGeometryQualifier == CAD_INCLUDE_END_CAPS ) 
+						cylinderGeometryInclusionSpecifier = isis_CADCommon::GEOMETRY_INCLUDE_END_CAP;
+					else
+						cylinderGeometryInclusionSpecifier = isis_CADCommon::GEOMETRY_EXCLUDE_END_CAP;
+
+					if ( geometry3DPoints.size() != 3) throw isis::application_exception(
+						AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry", "Expected",3, geometry3DPoints.size()).c_str());
+					Geometry_3D_ptr = new isis_CADCommon::Cylinder_3D(geometry3DPoints[0], geometry3DPoints[1], geometry3DPoints[2], cylinderGeometryInclusionSpecifier, in_Precision );
+					break;
+				//case CAD_GEOMETRY_CYLINDER_SURFACE :   // This was replace by computing the cylinder-all-points and subtracting the cylinder-internal-points 
+				//	 if ( geometry3DPoints.size() != 3) throw isis::application_exception(
+				//			AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry", 3, geometry3DPoints.size()).c_str());
+				//	 Geometry_3D_ptr = new isis_CADCommon::Cylinder_3D(geometry3DPoints[0], geometry3DPoints[1], geometry3DPoints[2], isis_CADCommon::GEOMETRY_EXCLUDE_END_CAP, in_Precision );
+				//	 break;
+				case CAD_GEOMETRY_SPHERE : 
+					if ( geometry3DPoints.size() != 2) throw isis::application_exception(
+						AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry", "Expected", 2, geometry3DPoints.size()).c_str());
+					Geometry_3D_ptr = new isis_CADCommon::Sphere_3D(geometry3DPoints[0], geometry3DPoints[1], in_Precision );
+					break;
+
+
+				case CAD_GEOMETRY_EXTRUSION : 
+					if ( geometry3DPoints.size() < 4) throw isis::application_exception(
+						AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry","Minimum", 4, geometry3DPoints.size()).c_str());
+
+					for each ( const isis_CADCommon::Point_3D &i in geometry3DPoints )
+					{
+						++tempCount;
+						if ( tempCount <  geometry3DPoints.size() )
+							temp3DPoints.push_back(i);
+						else
+							temp3DPoint = i;
+					}
+
+					// Extrusion_3D(	const std::vector<Point_3D>  in_Polygon_Points,
+					//			const Point_3D	&in_offsetFromPolygon,  
+					//			double in_Tolerance = DEFAULT_TOLERANCE )throw (isis::application_exception);
+					Geometry_3D_ptr = new isis_CADCommon::Extrusion_3D(temp3DPoints, temp3DPoint, in_Precision );
+					break;
+
+
+				//case CAD_GEOMETRY_SPHERE_SURFACE: 
+				//	if ( geometry3DPoints.size() != 2) throw isis::application_exception(
+				//		AnalysisGeometry_error(	in_AnalysisGeometry, "GetGridPointsWithinAnalysisGeometry", 2, geometry3DPoints.size()).c_str());
+				//	Geometry_3D_ptr = new isis_CADCommon::SphereSurface_3D(geometry3DPoints[0], geometry3DPoints[1], in_Precision );
+				//	break;
+				default:
+				std::stringstream errorString;
+				errorString <<
+					"Function - GetGridPointsWithinAnalysisGeometry, received geometryType that is not currently supported." << std::endl <<
+					//"Geometry Type: " << CADGeometryType_string(in_AnalysisGeometry.geometryType);
+					"Geometry Type: " << CADGeometryType_string(in_AnalysisGeometry.features.begin()->geometryType);
+				throw isis::application_exception(errorString.str());
+			}
+
+			if ( i->primaryGeometryQualifier != CAD_INTERIOR_ONLY && 
+				 i->primaryGeometryQualifier != CAD_BOUNDARY_ONLY && 
+				 i->primaryGeometryQualifier != CAD_INTERIOR_AND_BOUNDARY )
+			{
+				std::string TempError = "Function: GetGridPointsWithinAnalysisGeometry, recieved an erroneous PrimaryGeometryQualifier (" + CADPrimaryGeometryQualifier_string(i->primaryGeometryQualifier) + 
+					" ).  Feature ID: " + i->featureID; 
+				throw isis::application_exception(TempError.c_str());	
+			}
+
+			isis_CADCommon::e_GeneralGeometryInclusionSpecifier generalGeometryInclusionSpecifier;
+			switch ( i->primaryGeometryQualifier )
+			{
+				case CAD_INTERIOR_ONLY:			generalGeometryInclusionSpecifier = isis_CADCommon::GEOMETRY_INTERIOR_ONLY;	break;
+				case CAD_BOUNDARY_ONLY:			generalGeometryInclusionSpecifier = isis_CADCommon::GEOMETRY_BOUNDARY_ONLY;	break;
+				case CAD_INTERIOR_AND_BOUNDARY: generalGeometryInclusionSpecifier = isis_CADCommon::GEOMETRY_INTERIOR_AND_BOUNDARY; break;
+			}
+
+			//std::cout << std::endl << "in_GridPoints_map size: " << in_GridPoints_map.size();
+			isis_CADCommon::GetGridPointsWithinGeometry( in_GridPoints_map, *Geometry_3D_ptr, generalGeometryInclusionSpecifier, in_Precision, gridPointIds_WithinGeometry);
+			delete Geometry_3D_ptr;
+		}  // END if ( i->geometryType == CAD_GEOMETRY_FACE ) else
+	}  // END for ( std::list<AnalysisGeometryFeature>::const_iterator i...
 
 	if ( gridPointIds_WithinGeometry.size() == 0 )
 	{
@@ -1221,14 +1563,76 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 					}
 				}
 
+
+				if( k->pressureDefined )
+				{
+
+					std::set<int> gridPointIds_WithinGeometry_set(gridPointIds_WithinGeometry.begin(),gridPointIds_WithinGeometry.end()); 
+
+					// Normally this logging would be commented out.  Only for debugging purposes
+					//isis_LOG(lg, isis_FILE, isis_INFO) << "Grid Points (IDs) Defining Pressure Load: ";
+					//for each ( const int &g_id in gridPointIds_WithinGeometry_set )
+					//{
+					//	isis_LOG(lg, isis_FILE, isis_INFO) << "   " << g_id;
+					//}
+
+					std::multimap< int, std::vector<int>> elementID_to_SurfacePoints_map;
+
+					nastranDeckHelper.getSurfaceElementsContainingGridPoints( gridPointIds_WithinGeometry_set, elementID_to_SurfacePoints_map );
+
+					// Normally this logging would be commented out.  Only for debugging purposes
+					//isis_LOG(lg, isis_FILE, isis_INFO) << "Element Surfaces containing grid points, elementID_to_SurfacePoints_map: ";
+					//for each ( const std::pair< int, std::vector<int>> &id_pts in elementID_to_SurfacePoints_map )
+					//{
+					//	isis_LOG(lg, isis_FILE, isis_INFO) << "   Element ID: " << id_pts.first;
+					//
+					//	for each ( const int ptIDs in id_pts.second )
+					//	{
+					//		isis_LOG(lg, isis_FILE, isis_INFO) << "      Point ID: " << ptIDs;
+					//	}
+					//}
+
+					if ( elementID_to_SurfacePoints_map.size() == 0  )
+					{
+						std::stringstream errorString;
+						errorString <<  "Function - " << std::string(__FUNCTION__) << ", Failed to find FEA elements within the geometry defined by:" << std::endl <<
+										NoGridPointsWithInMesh_ErrorSstring(  k->geometry.features.begin()->features ); 
+						throw isis::application_exception(errorString.str());					
+					}
+
+
+					for each ( const std::pair<int, std::vector<int>> &Elem_to_SurfPnts in elementID_to_SurfacePoints_map )
+					{
+
+						const std::map<int, isis_CADCommon::FEAElement> &elementData_ref = nastranDeck.getElementData();
+
+						std::map<int, isis_CADCommon::FEAElement>::const_iterator elem_itr = elementData_ref.find(Elem_to_SurfPnts.first);
+
+						if ( elem_itr == elementData_ref.end() )
+						{	
+							std::stringstream errorString;
+							errorString <<
+								"Function - " + std::string(__FUNCTION__) +
+								" element not found in \"std::map<int, FEAElement> elementData\".  Elemenet ID: " << Elem_to_SurfPnts.first;
+							throw isis::application_exception(errorString.str().c_str());
+						}
+						
+						int anchorPoint;
+						int diagonalPoint;
+
+						elem_itr->second.getDiagonalPointForSurface( Elem_to_SurfPnts.second, anchorPoint, diagonalPoint );
+
+						nastranDeck.AddPressureToDeck( loadSetID, Elem_to_SurfPnts.first, k->pressure.value, anchorPoint, diagonalPoint );
+					}	
+				}
+
 				if( k->accelerationDefined )
 				{
 					nastranDeck.AddAccelerationToDeck(loadSetID, 1, 1,	k->acceleration.direction.x, 
 																		k->acceleration.direction.y,
 																		k->acceleration.direction.z);
 				}
-
-			
+		
 
 				if ( k->gridPointInitialTemperatureDefined )
 				{
@@ -1242,8 +1646,7 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 						ss_temp << k->gridPointInitialTemperature.value;
 						tempD.T = ss_temp.str();
 						//tempD.T = boost::lexical_cast<string>(k->gridPointInitialTemperature.value);
-						nastranDeck.AddTemperature_TEMPD(tempD);			
-					
+						nastranDeck.AddTemperature_TEMPD(tempD);				
 					}
 					else
 					{
@@ -1622,7 +2025,7 @@ void CreateXMLFile_FEAPostProcessingParameters(
 	//		</Metrics>
 	//  </Component>
 	//</Components>
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
 	std::map<std::string, std::string> ComponentID_to_NastranMaterialID_map;
 
@@ -1696,11 +2099,11 @@ void CreateXMLFile_FEAPostProcessingParameters(
 
 				std::string tempMatierialID = in_CADComponentData_map[i].materialID_FromCreoPart;
 
-				logcat_fileonly.infoStream() << "Material Info: ";
-				logcat_fileonly.infoStream() << "   Component Instance ID: "  << i;
-				logcat_fileonly.infoStream() << "   Component Name:        "  <<  in_CADComponentData_map[i].name;
-				logcat_fileonly.infoStream() << "   MaterialId:            "  <<  tempMatierialID;
-				logcat_fileonly.infoStream() << "   in_CADComponentData_map[i].materialID_FromCreoPart: " << in_CADComponentData_map[i].materialID_FromCreoPart;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Material Info: ";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Instance ID: "  << i;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Name:        "  <<  in_CADComponentData_map[i].name;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   MaterialId:            "  <<  tempMatierialID;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[i].materialID_FromCreoPart: " << in_CADComponentData_map[i].materialID_FromCreoPart;
 
 				isis::ComputeAllowableStressLevels(	numberOfCycles,in_Materials[tempMatierialID].analysisMaterialProperties, 
 											materialPropertiesAllowables );
@@ -1936,8 +2339,8 @@ void Create_FEADecks_BatFiles(
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																	throw (isis::application_exception)
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	//////////////////////////////////////
 	// Create Analysis Directories
@@ -2133,10 +2536,10 @@ void Create_FEADecks_BatFiles(
 	/////////////////////////////
 	std::map<std::string, std::string> NastranMaterialID_to_CompnentID_map;
 
-	logcat_consoleandfile.infoStream() << "";
-	logcat_consoleandfile.infoStream()  << "Creating finite element mesh, this could take a few minutes ...";
-	logcat_fileonly.infoStream() << "";
-	logcat_fileonly.infoStream()  << "Creating finite element mesh";
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)  << "Creating finite element mesh, this could take a few minutes ...";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_FILE, isis_INFO)  << "Creating finite element mesh";
 	// WARNING - Do not save the assembly/models after this point.  Doing so will save the temporarily created material.
 	isis::CreateFEADeck(	in_Materials,
 							in_ProgramName_Version_TimeStamp, 
@@ -2193,14 +2596,14 @@ void Create_FEADecks_BatFiles(
 	postProcessingParametersFile.close();
 	*/
 
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" << originalMeshFileName;
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" << modifiedMeshFileName ;
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + abaqusDirName + "\\" <<  abaqusAnalysisBatFileName ;
-	//logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + abaqusDirName + "\\" <<  abaqusPostProcessingParametersXMLFileName;
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + caculixDirName + "\\" <<  calculixDeckBatFileName;
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + caculixDirName + "\\" <<  calculixLinuxBatFileName;
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + nastranDirName + "\\" <<  nastranAnalysisBatFileName ;
-	logcat_fileonly.infoStream() << "   Created: .\\" + analysisDirName + "\\" + nastranDirName + "\\" <<  fEAAnalysisMetaDataFile;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" << originalMeshFileName;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" << modifiedMeshFileName ;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" + abaqusDirName + "\\" <<  abaqusAnalysisBatFileName ;
+	//isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" + abaqusDirName + "\\" <<  abaqusPostProcessingParametersXMLFileName;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" + caculixDirName + "\\" <<  calculixDeckBatFileName;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" + caculixDirName + "\\" <<  calculixLinuxBatFileName;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" + nastranDirName + "\\" <<  nastranAnalysisBatFileName ;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   Created: .\\" + analysisDirName + "\\" + nastranDirName + "\\" <<  fEAAnalysisMetaDataFile;
 
 
 }

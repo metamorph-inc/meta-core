@@ -143,6 +143,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CAD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Templates\TestBenchExecutors\CyPython.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CyPython.tt</DependentUpon>
+    </Compile>
     <Compile Include="Templates\TestBenchExecutors\TemplateExecutor.cs">
       <DependentUpon>TemplateExecutor.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -251,6 +256,10 @@
     <None Include="Templates\TestBenchExecutors\CAD.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>CAD.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\TestBenchExecutors\CyPython.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>CyPython.cs</LastGenOutput>
     </None>
     <None Include="Templates\TestBenchExecutors\TemplateExecutor.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

@@ -1,5 +1,5 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CyPhy2Desert", "CyPhy2Desert\CyPhy2Desert.vcxproj", "{92A92343-2D21-4C4C-84C7-B1920C13888B}"
 EndProject
@@ -545,8 +545,8 @@ Global
 		{DD9633C4-1455-499D-BAD8-AAD20FACC31D}.ReleaseUnicode|x64.Build.0 = Release|x64
 		{DD9633C4-1455-499D-BAD8-AAD20FACC31D}.ReleaseUnicode|x86.ActiveCfg = Release|x64
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Debug|Mixed Platforms.ActiveCfg = DebugUnicode|Win32
+		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Debug|Mixed Platforms.Build.0 = DebugUnicode|Win32
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Debug|Win32.Build.0 = Debug|Win32
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Debug|x64.ActiveCfg = DebugUnicode|x64
@@ -561,8 +561,8 @@ Global
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.DebugUnicode|x64.Build.0 = DebugUnicode|x64
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.DebugUnicode|x86.ActiveCfg = DebugUnicode|x64
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Any CPU.ActiveCfg = Release|Win32
-		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Mixed Platforms.ActiveCfg = ReleaseUnicode|Win32
+		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Mixed Platforms.Build.0 = ReleaseUnicode|Win32
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Win32.ActiveCfg = Release|Win32
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|Win32.Build.0 = Release|Win32
 		{77FEBD41-CD6C-4D55-B561-3957F7151CC2}.Release|x64.ActiveCfg = Release|x64

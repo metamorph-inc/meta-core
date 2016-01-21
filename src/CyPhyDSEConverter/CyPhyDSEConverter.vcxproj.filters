@@ -4,9 +4,6 @@
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Console.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CyPhyDSEConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,6 +51,9 @@
     </ClCompile>
     <ClCompile Include="ComHelp.cpp" />
     <ClCompile Include="ComponentObj.cpp" />
+    <ClCompile Include="UdmConsole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComponentConfig.h">

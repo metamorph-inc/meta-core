@@ -9,7 +9,7 @@
 
 
 // This name will appear in the popup window for interpreter selection.
-#define COMPONENT_NAME "CyPhyDSRefiner"
+#define COMPONENT_NAME L"CyPhyDSRefiner"
 
 
 #define TOOLTIP_TEXT "Design Space Refinement Tool"

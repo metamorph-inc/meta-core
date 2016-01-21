@@ -8,8 +8,7 @@
 #include <CommonFunctions.h>
 #include <JsonHelper.h>
 #include <time.h>
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
+#include "LoggerBoost.h"
 #include "CommonDefinitions.h"
 #include <CommonFunctions.h>
 #include <DatumRefResolver.h>
@@ -511,7 +510,7 @@ void CreateModelNameWithUniqueSuffix(
 									std::map<std::string, isis::CADComponentData> &in_CADComponentData_map )
 														throw (isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 		try
 		{
 			std::string stepFileDirectory = isis::DataExchangeVersion_string(in_DataExchangeVersion) + "/";
@@ -559,23 +558,23 @@ void CreateModelNameWithUniqueSuffix(
 				/////////////////////////////////////////
 				// Log StEP File Names added to manifest
 				/////////////////////////////////////////
-				logcat_fileonly.infoStream() << "";
-				logcat_fileonly.infoStream() << "Added STEP file names to " <<  
+				isis_LOG(lg, isis_FILE, isis_INFO) << "";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Added STEP file names to " <<  
 										  manufacturingManifestJson_PathAndFileName;
 				bool flagAdded = false;
 				for each ( std::string compID in componentInstanceIds_AddedToManifest )
 				{
-					logcat_fileonly.infoStream() << "   Component Instance ID: " << compID <<
+					isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Instance ID: " << compID <<
 						            "  STEP File Name: " << componentInstanceId_to_StepFile_map[compID];
 					flagAdded = true;
 				}
-				if ( !flagAdded ) logcat_fileonly.infoStream() << "   None";
+				if ( !flagAdded ) isis_LOG(lg, isis_FILE, isis_INFO) << "   None";
 
 				/////////////////////////////////////////////
 				// Log StEP File Names Not added to manifest
 				/////////////////////////////////////////////
-				logcat_fileonly.infoStream() << "";
-				logcat_fileonly.infoStream() << "Did Not add STEP file names to " <<  
+				isis_LOG(lg, isis_FILE, isis_INFO) << "";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Did Not add STEP file names to " <<  
 										  manufacturingManifestJson_PathAndFileName;
 
 				flagAdded = false;
@@ -584,26 +583,26 @@ void CreateModelNameWithUniqueSuffix(
 					if ( componentInstanceIds_AddedToManifest.find(compID) == componentInstanceIds_AddedToManifest.end() &&
 						 in_CADComponentData_map[compID].modelType == PRO_PART )
 					{
-						logcat_fileonly.infoStream() << "   Component Instance ID: " << compID <<
+						isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Instance ID: " << compID <<
 						            "  STEP File Name: " << componentInstanceId_to_StepFile_map[compID];
 						flagAdded = true;
 					}
 				}
-				if ( !flagAdded ) logcat_fileonly.infoStream() << "   None";
+				if ( !flagAdded ) isis_LOG(lg, isis_FILE, isis_INFO) << "   None";
 				
 			}  
 			else
 			{
-				logcat_fileonly.infoStream() << CouldNotFindManufacturingManifestError;
+				isis_LOG(lg, isis_FILE, isis_INFO) << CouldNotFindManufacturingManifestError;
 			} // END if ( isis::FileExists(
 		}
 		catch (isis::application_exception &ex )
 		{
-			logcat_fileonly.errorStream() << "ERROR, Function: " << __FUNCTION__ << ", Error Message: " << ex.what(); 
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: " << __FUNCTION__ << ", Error Message: " << ex.tostring(); 
 		}
 		catch (...)
 		{
-			logcat_fileonly.errorStream() << "ERROR, Function: " << __FUNCTION__ << ", Error Message: Unkown Error"; 
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: " << __FUNCTION__ << ", Error Message: Unkown Error"; 
 		}
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -719,7 +718,7 @@ void CreateModelNameWithUniqueSuffix(
 							std::vector<CopyModelDefinition>				&out_FromModel_ToModel  )
 																		throw (isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 		std::set<std::string>  modelsAlreadyEncountered;
 
 		//int index = 1;
@@ -801,7 +800,7 @@ void CreateModelNameWithUniqueSuffix(
 
 				++in_out_UniqueNameIndex;
 			}
-			logcat_fileonly.infoStream() << "ModelsAlreadyEncountered.insert: " << modelNameWithSuffix;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "ModelsAlreadyEncountered.insert: " << modelNameWithSuffix;
 			modelsAlreadyEncountered.insert(modelNameWithSuffix);
 		}
 	}	// END ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly	 
@@ -949,7 +948,7 @@ void CreateModelNameWithUniqueSuffix(
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
 		{			
 			if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_ASSEMBLY && in_out_CADComponentData_map[i].children.size() == 0 )
@@ -962,7 +961,7 @@ void CreateModelNameWithUniqueSuffix(
 
 				std::stringstream str;
 				stream_AssemblyHierarchy (assemblyHierarchy, str);
-				logcat_fileonly.infoStream() << str.str();
+				isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
 
 				bool checkExclusion_by_SimplifiedRep = false;
 
@@ -991,7 +990,7 @@ void CreateModelNameWithUniqueSuffix(
 
 						for each ( std::pair<int, CAD_SimplifiedRepData> i_simp in featureID_to_SimplifiedRepData_map)
 						{
-							logcat_fileonly.infoStream() <<  "\nSimplified Rep Included/Exclude Info, Feature ID: " << i_simp.first << "  " << CAD_SimplifiedRep_InclusionStatus_string(i_simp.second.inclusionStatus);
+							isis_LOG(lg, isis_FILE, isis_INFO) <<  "\nSimplified Rep Included/Exclude Info, Feature ID: " << i_simp.first << "  " << CAD_SimplifiedRep_InclusionStatus_string(i_simp.second.inclusionStatus);
 						}
 					}
 
@@ -1007,7 +1006,7 @@ void CreateModelNameWithUniqueSuffix(
 						{
 							if ( featureID_to_SimplifiedRepData_map[j.proAsmcomp.id].inclusionStatus == CAD_SIMPLIFIED_REP_EXCLUDE )
 							{
-								logcat_fileonly.infoStream()<<  "\nExcluding, Feature ID: " << j.proAsmcomp.id;
+								isis_LOG(lg, isis_FILE, isis_INFO)<<  "\nExcluding, Feature ID: " << j.proAsmcomp.id;
 								includeThisChild = false;
 							}
 						}
@@ -1161,17 +1160,17 @@ void CreateModelNameWithUniqueSuffix(
 												ProMdl				&out_RenamedModelHandle)
 					throw (isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-		logcat_fileonly.infoStream() << "\n ***** InAnAssembly_RenamePartOrAssemblyInstance: ";
-		logcat_fileonly.infoStream() << "   topAssemblyModelHandle " << in_FromModelInstanceData.topAssemblyModelHandle;
-		logcat_fileonly.infoStream() << "   in_FromModelName:      " << in_FromModelInstanceData.modelName;
-		logcat_fileonly.infoStream() << "   model type:            " << ProMdlType_string(in_FromModelInstanceData.modelType);
-		logcat_fileonly.infoStream() << "   modelHandle:           " << in_FromModelInstanceData.modelHandle;
-		logcat_fileonly.infoStream() << "   in_ToModelName:        " << in_ToModelName;
-		logcat_fileonly.infoStream() << "   From Model assembledFeature: ";
-		logcat_fileonly.infoStream() << "        id:    "  << in_FromModelInstanceData.assembledFeature.id;
-		logcat_fileonly.infoStream() << "        owner: "  << in_FromModelInstanceData.assembledFeature.owner;
-		logcat_fileonly.infoStream() << "        type: "   << FeatureGeometryType_string(in_FromModelInstanceData.assembledFeature.type);
+		
+		isis_LOG(lg, isis_FILE, isis_INFO) << "\n ***** InAnAssembly_RenamePartOrAssemblyInstance: ";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   topAssemblyModelHandle " << in_FromModelInstanceData.topAssemblyModelHandle;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   in_FromModelName:      " << in_FromModelInstanceData.modelName;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   model type:            " << ProMdlType_string(in_FromModelInstanceData.modelType);
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   modelHandle:           " << in_FromModelInstanceData.modelHandle;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   in_ToModelName:        " << in_ToModelName;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   From Model assembledFeature: ";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "        id:    "  << in_FromModelInstanceData.assembledFeature.id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "        owner: "  << in_FromModelInstanceData.assembledFeature.owner;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "        type: "   << FeatureGeometryType_string(in_FromModelInstanceData.assembledFeature.type);
 
 		/////////////////////////////////////
 		// Check Validity of input data
@@ -1203,9 +1202,9 @@ void CreateModelNameWithUniqueSuffix(
 		}
 		//// Test 
 		
-		logcat_fileonly.infoStream() << "in_FromModelInstanceData.assembledFeature.owner: " << in_FromModelInstanceData.assembledFeature.owner;
-		logcat_fileonly.infoStream() << "in_FromModelInstanceData.assembledFeature.id:    " << in_FromModelInstanceData.assembledFeature.id;
-		logcat_fileonly.infoStream() << "in_FromModelInstanceData.assembledFeature.type:  " << in_FromModelInstanceData.assembledFeature.type;		
+		isis_LOG(lg, isis_FILE, isis_INFO) << "in_FromModelInstanceData.assembledFeature.owner: " << in_FromModelInstanceData.assembledFeature.owner;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "in_FromModelInstanceData.assembledFeature.id:    " << in_FromModelInstanceData.assembledFeature.id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "in_FromModelInstanceData.assembledFeature.type:  " << in_FromModelInstanceData.assembledFeature.type;		
 		
 		//ProMdl outModifiedMdl;
 		 ProName newName;
@@ -1255,7 +1254,7 @@ void CreateModelNameWithUniqueSuffix(
 																		throw (isis::application_exception)
 	{
 
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 		try
 		{
@@ -1272,10 +1271,10 @@ void CreateModelNameWithUniqueSuffix(
 				}
 				catch (...)
 				{
-					logcat_fileonly.infoStream() << "";
-					logcat_fileonly.infoStream() << "WARNING - Component Instance ID: " << in_ComponentInstanceID << ".  Model Name: " << 
+					isis_LOG(lg, isis_FILE, isis_INFO) << "";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "WARNING - Component Instance ID: " << in_ComponentInstanceID << ".  Model Name: " << 
 					in_CADComponentData_map[in_ComponentInstanceID].name << ".  isis_ProSolidOutlineCompute failed, using isis_ProSolidOutlineGet.  isis_ProSolidOutlineGet is less accurate."; 
-					logcat_fileonly.infoStream() << "";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "";
 
 					ComputeBoundingBox(		CAD_PRO_SOLID_OUTLINE_GET,
 											in_CADComponentData_map[in_ComponentInstanceID].modelHandle,
@@ -1299,7 +1298,7 @@ void CreateModelNameWithUniqueSuffix(
 		}
 		catch ( isis::application_exception& ex )
 		{
-			log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+			
 			// Get Mass properties and check for zero volume, this would indicate that there was no solid geometry.  Probably just
 			// reference geometry used to define an interface.  For example, an interface between a hatch and hull.
 			ProMassProperty  mass_prop;
@@ -1321,10 +1320,10 @@ void CreateModelNameWithUniqueSuffix(
 				out_Dimensions_xyz[1] = 0.0;
 				out_Dimensions_xyz[2] = 0.0;
 			
-				logcat_fileonly.infoStream() << "";
-				logcat_fileonly.infoStream() << "   Component Instance ID: " << in_ComponentInstanceID << ".  Model Name: " << 
+				isis_LOG(lg, isis_FILE, isis_INFO) << "";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Instance ID: " << in_ComponentInstanceID << ".  Model Name: " << 
 					in_CADComponentData_map[in_ComponentInstanceID].name << ".  Model has zero volume, setting bounding box to size of zero."; 
-				logcat_fileonly.infoStream() << "";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "";
 			}
 			else
 			{
@@ -1516,11 +1515,11 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 						throw (isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
-		logcat_fileonly.infoStream() << "*************  PopulateMap_with_JunctionInformation_SingleJunction (Constraints derived from CADAssembly.xml)";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "*************  PopulateMap_with_JunctionInformation_SingleJunction (Constraints derived from CADAssembly.xml)";
 
-		logcat_fileonly.infoStream() << (std::string)in_out_CADComponentData_map[in_ComponentID].name;
+		isis_LOG(lg, isis_FILE, isis_INFO) << (std::string)in_out_CADComponentData_map[in_ComponentID].name;
 
 		cad::IAssembler& assembler = in_factory.get_assembler();
 
@@ -1528,19 +1527,19 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		
 		for each ( ConstraintPair i in in_ConstraintPairs )
 		{
-			logcat_fileonly.infoStream() << "FeatureGeometryType_string(i.featureGeometryType): " << FeatureGeometryType_string(i.featureGeometryType);
+			isis_LOG(lg, isis_FILE, isis_INFO) << "FeatureGeometryType_string(i.featureGeometryType): " << FeatureGeometryType_string(i.featureGeometryType);
 			for each ( ConstraintFeature j in i.constraintFeatures )
-				logcat_fileonly.infoStream() << "   FeatureName: "  << (std::string) j.featureName;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   FeatureName: "  << (std::string) j.featureName;
 		}
 
 		cad::Joint::pair_t inferred_joint = cad::infer_joint_pair(joint_pair_vector);
 
-		logcat_fileonly.infoStream() << "inferred_joint.first.type:    " << JointType_string(inferred_joint.first.type);
-		logcat_fileonly.infoStream() << "inferred_joint.first.location:" << inferred_joint.first.location.c_str_e20();
-		logcat_fileonly.infoStream() << "inferred_joint.first.orientation:" << inferred_joint.first.orientation.c_str_e20();
-		logcat_fileonly.infoStream() << "inferred_joint.second.type:   " << JointType_string(inferred_joint.second.type);
-		logcat_fileonly.infoStream() << "inferred_joint.second.location:" << inferred_joint.second.location.c_str_e20();
-		logcat_fileonly.infoStream() << "inferred_joint.second.orientation:" << inferred_joint.second.orientation.c_str_e20();
+		isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.first.type:    " << JointType_string(inferred_joint.first.type);
+		isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.first.location:" << inferred_joint.first.location.c_str_e20();
+		isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.first.orientation:" << inferred_joint.first.orientation.c_str_e20();
+		isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.second.type:   " << JointType_string(inferred_joint.second.type);
+		isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.second.location:" << inferred_joint.second.location.c_str_e20();
+		isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.second.orientation:" << inferred_joint.second.orientation.c_str_e20();
 
 
 		out_Junction.update(inferred_joint);
@@ -1576,7 +1575,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 			}
 
 
-			logcat_fileonly.warnStream() << errorString.str();
+			isis_LOG(lg, isis_FILE, isis_WARN) << errorString.str();
 
 			// snyako@isis.vanderbilt.edu : take this error lightly for the time being - otherwise many older model won't work.
 
@@ -1596,13 +1595,13 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 						throw (isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
-		logcat_fileonly.infoStream() << "*************  PopulateMap_with_JunctionInformation_SingleJunction (Constraints derived from feature tree)";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "*************  PopulateMap_with_JunctionInformation_SingleJunction (Constraints derived from feature tree)";
 
-		logcat_fileonly.infoStream() << in_AssembledFeatureDefinition;
+		isis_LOG(lg, isis_FILE, isis_INFO) << in_AssembledFeatureDefinition;
 
-		logcat_fileonly.infoStream() << (std::string)in_out_CADComponentData_map[in_AssembledFeatureDefinition.componentInstanceID].name;
+		isis_LOG(lg, isis_FILE, isis_INFO) << (std::string)in_out_CADComponentData_map[in_AssembledFeatureDefinition.componentInstanceID].name;
 
 		cad::IAssembler& assembler = in_factory.get_assembler();
 
@@ -1618,7 +1617,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 				if ( (i.component_constr_attr & DISABLED_CONSTRAINT_MASK ) == DISABLED_CONSTRAINT_MASK ) 
 				{					
-					logcat_fileonly.infoStream() << "Constraint disabled.  SetIndex: " <<  i.component_constr_set_id << ", Index within constraint set: " << constraintOffsetCounter << ", Component Instance ID: " <<  in_AssembledFeatureDefinition.componentInstanceID;	
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Constraint disabled.  SetIndex: " <<  i.component_constr_set_id << ", Index within constraint set: " << constraintOffsetCounter << ", Component Instance ID: " <<  in_AssembledFeatureDefinition.componentInstanceID;	
 					continue;  
 				}
 				cad::Joint::pair_t  jointPair;
@@ -1633,20 +1632,20 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 		if ( joint_pair_vector.size() == 0 )
 		{
-			logcat_fileonly.infoStream() << "All constraints were disabled, SetIndex: " << in_SetIndex;
-			logcat_fileonly.infoStream() << "in_AssembledFeatureDefinition: ";
-			logcat_fileonly.infoStream() << in_AssembledFeatureDefinition;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "All constraints were disabled, SetIndex: " << in_SetIndex;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "in_AssembledFeatureDefinition: ";
+			isis_LOG(lg, isis_FILE, isis_INFO) << in_AssembledFeatureDefinition;
 			return; 
 		}
 
 		cad::Joint::pair_t inferred_joint = cad::infer_joint_pair(joint_pair_vector);
 
-		//logcat_fileonly.infoStream() << "inferred_joint.first.type:    " << JointType_string(inferred_joint.first.type);
-		//logcat_fileonly.infoStream() << "inferred_joint.first.location:" << inferred_joint.first.location.c_str_e20();
-		//logcat_fileonly.infoStream() << "inferred_joint.first.orientation:" << inferred_joint.first.orientation.c_str_e20();
-		//logcat_fileonly.infoStream() << "inferred_joint.second.type:   " << JointType_string(inferred_joint.second.type);
-		//logcat_fileonly.infoStream() << "inferred_joint.second.location:" << inferred_joint.second.location.c_str_e20();
-		//logcat_fileonly.infoStream() << "inferred_joint.second.orientation:" << inferred_joint.second.orientation.c_str_e20();
+		//isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.first.type:    " << JointType_string(inferred_joint.first.type);
+		//isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.first.location:" << inferred_joint.first.location.c_str_e20();
+		//isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.first.orientation:" << inferred_joint.first.orientation.c_str_e20();
+		//isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.second.type:   " << JointType_string(inferred_joint.second.type);
+		//isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.second.location:" << inferred_joint.second.location.c_str_e20();
+		//isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.second.orientation:" << inferred_joint.second.orientation.c_str_e20();
 
 		out_Junction.update(inferred_joint);
 
@@ -1676,7 +1675,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				errorString << std::endl << "   Composite joint: " << i;
 			}
 
-			logcat_fileonly.warnStream() << errorString.str();
+			isis_LOG(lg, isis_FILE, isis_WARN) << errorString.str();
 
 			// snyako@isis.vanderbilt.edu : take this error lightly for the time being - otherwise many older model won't work.
 
@@ -1705,8 +1704,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 						std::string																&out_ReferencedPartComponentInstanceID )
 															throw (isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-		log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+		
+		
 
 		ProAsmcomppath asmCompPath;
 		isis_ProSelectionAsmcomppathGet(in_ProSelection, &asmCompPath );
@@ -1728,14 +1727,14 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 			//	ProName ownerModelName_wide;
 			//	isis::isis_ProMdlNameGet( selectionModelItem.owner, ownerModelName_wide);
 			//	isis::MultiFormatString ownerModelName_wide_multi(ownerModelName_wide);
-			//	logcat_fileonly.warnStream() << "\nWARNING, " << __FUNCTION__ << " was passed a ProSelection with an owner type of: " << isis::ProMdlType_string(ownerProMdlType);
-			//	logcat_fileonly.warnStream() << "         Parent (constrained via the ProSelection ) Model Name: " <<  (std::string)ownerModelName_wide_multi;
-			//	logcat_fileonly.warnStream() << "         Currently only types of PRO_MDL_PART are supported.  This may result in the metrics file having missing joint information.";
-			//	logcat_fileonly.warnStream() << "         If every .prt is constrained to at least one other .prt, then the necessary joint information will be present in the metrics file.";
+			//	isis_LOG(lg, isis_FILE, isis_WARN) << "\nWARNING, " << __FUNCTION__ << " was passed a ProSelection with an owner type of: " << isis::ProMdlType_string(ownerProMdlType);
+			//	isis_LOG(lg, isis_FILE, isis_WARN) << "         Parent (constrained via the ProSelection ) Model Name: " <<  (std::string)ownerModelName_wide_multi;
+			//	isis_LOG(lg, isis_FILE, isis_WARN) << "         Currently only types of PRO_MDL_PART are supported.  This may result in the metrics file having missing joint information.";
+			//	isis_LOG(lg, isis_FILE, isis_WARN) << "         If every .prt is constrained to at least one other .prt, then the necessary joint information will be present in the metrics file.";
 			//}
 			//catch ( isis::application_exception &ex)
 			//{
-			//	logcat_fileonly.errorStream() << "ERROR GetReferencedPartComponentInstanceID failed to retrieve the ModelItem for the owner of a ProSelection";
+			//	isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR GetReferencedPartComponentInstanceID failed to retrieve the ModelItem for the owner of a ProSelection";
 			//	throw;
 			//}
 			return;
@@ -1814,7 +1813,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 						std::set<std::string>												&out_ReferencedComponentInstanceIDs)
 																				throw (isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 		for each ( CreoConstraintDefinition i in in_AssembledFeatureDefinition.constraintDefinitions )
 		{	
@@ -1831,7 +1830,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 					datumRefResolver_comp_constr_ref.Resolve(resolved_comp_constr_ref);
 				} catch (isis::application_exception &ex)
 				{
-					logcat_fileonly.errorStream() << "Datum resolution failed: " << ex.what();
+					isis_LOG(lg, isis_FILE, isis_ERROR) << "Datum resolution failed: " << ex.what();
 				}
 
 				for each ( ProSelection i in resolved_assem_constr_ref )
@@ -1845,7 +1844,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 					{
 										out_ReferencedComponentInstanceIDs.insert(componentInstanceID);
 
-					logcat_fileonly.infoStream() << "RetrieveReferencedComponentInstanceIDs, resolved_assem_constr_ref, componentInstanceID: " << componentInstanceID;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "RetrieveReferencedComponentInstanceIDs, resolved_assem_constr_ref, componentInstanceID: " << componentInstanceID;
 					}
 				}
 
@@ -1859,7 +1858,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 					if ( componentInstanceID.size() > 0 && componentInstanceID != in_AssembledFeatureDefinition.componentInstanceID  )
 					{
 						out_ReferencedComponentInstanceIDs.insert(componentInstanceID);
-						logcat_fileonly.infoStream() << "vvvvvvvvvv RetrieveReferencedComponentInstanceIDs, resolved_comp_constr_ref, componentInstanceID: " << componentInstanceID;
+						isis_LOG(lg, isis_FILE, isis_INFO) << "vvvvvvvvvv RetrieveReferencedComponentInstanceIDs, resolved_comp_constr_ref, componentInstanceID: " << componentInstanceID;
 					}
 				}
 			}			
@@ -1946,7 +1945,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 	e_CADJointType AdjustJointTypeToCreoGeometryTypes( const std::vector<ConstraintPair> &in_ConstraintPairs,
 													   cad::JointType in_JointType )
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);	
+			
 
 		int counter_1 = 0;
 		int counter_2 = 0;
@@ -1974,7 +1973,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				}
 				else
 				{
-					logcat_fileonly.infoStream() << "Due to constraint geometry not consisting of a axis and (plane or point), converted REVOLUTE joint type to UNKNOWN_JOINT_TYPE";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of a axis and (plane or point), converted REVOLUTE joint type to UNKNOWN_JOINT_TYPE";
 					return UNKNOWN_JOINT_TYPE;
 				}
 				break;
@@ -1992,7 +1991,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				}
 				else
 				{
-					logcat_fileonly.infoStream() << "Due to constraint geometry not consisting of a point, converted SPHERICAL joint type to UNKNOWN_JOINT_TYPE";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of a point, converted SPHERICAL joint type to UNKNOWN_JOINT_TYPE";
 					return UNKNOWN_JOINT_TYPE;
 				}
 				break;
@@ -2011,7 +2010,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				}
 				else
 				{
-					logcat_fileonly.infoStream() << "Due to constraint geometry not consisting of an axis and plane, converted PRISMATIC joint type to UNKNOWN_JOINT_TYPE";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of an axis and plane, converted PRISMATIC joint type to UNKNOWN_JOINT_TYPE";
 					return UNKNOWN_JOINT_TYPE;
 				}
 				break;
@@ -2026,7 +2025,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				}
 				else
 				{
-					logcat_fileonly.infoStream() << "Due to constraint geometry not consisting of an axis, converted CYLINDRICAL joint type to UNKNOWN_JOINT_TYPE";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of an axis, converted CYLINDRICAL joint type to UNKNOWN_JOINT_TYPE";
 					return UNKNOWN_JOINT_TYPE;
 				}
 
@@ -2043,7 +2042,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				}
 				else
 				{
-					logcat_fileonly.infoStream() << "Due to constraint geometry not consisting of a plane, converted PLANAR joint type to UNKNOWN_JOINT_TYPE";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of a plane, converted PLANAR joint type to UNKNOWN_JOINT_TYPE";
 					return UNKNOWN_JOINT_TYPE;
 				}
 				break;
@@ -2051,7 +2050,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				return FREE_JOINT;
 				break;
 			default:
-				logcat_fileonly.infoStream() << "Due to unknown joint type, set joint type to UNKNOWN_JOINT_TYPE";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Due to unknown joint type, set joint type to UNKNOWN_JOINT_TYPE";
 				return UNKNOWN_JOINT_TYPE;
 		}
 
@@ -2066,7 +2065,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 																			throw (isis::application_exception)
 																	
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);	
+			
 
 		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
 		{		
@@ -2075,7 +2074,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				 j < in_out_CADComponentData_map[i].constraintDef.constraints.end	();
 				 ++j )
 			{
-				logcat_fileonly.infoStream() << "Computed joint information, ComponentInstanceID: " << i << ", Constraint pairs set " << constraintPairs_counter << " of " << in_out_CADComponentData_map[i].constraintDef.constraints.size();
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Computed joint information, ComponentInstanceID: " << i << ", Constraint pairs set " << constraintPairs_counter << " of " << in_out_CADComponentData_map[i].constraintDef.constraints.size();
 				if ( !j->computedJointData.junctiondDefined_withoutGuide || in_Force )  // without-a-guide would always be defined if either with/with-out were defined.
 				{
 					if ( j->hasAGuideConstraint() )
@@ -2086,7 +2085,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 							j->computedJointData.jointType_withguide =  FIXED_JOINT;
 							j->computedJointData.junctiondDefined_withGuide = true;						
 
-							logcat_fileonly.infoStream() << "   With guide (by default set to FIXED_JOINT), Joint type: " << CADJointType_string(j->computedJointData.jointType_withguide);
+							isis_LOG(lg, isis_FILE, isis_INFO) << "   With guide (by default set to FIXED_JOINT), Joint type: " << CADJointType_string(j->computedJointData.jointType_withguide);
 
 							std::vector<ConstraintPair> constraintPairs_withoutGuide = j->getConstraintPairsWithoutGuide();
 							PopulateMap_with_JunctionInformation_SingleJunction( in_factory, 
@@ -2100,7 +2099,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 							// ttttt
 							j->computedJointData.coordinatesystem = i;
 							j->computedJointData.junctiondDefined_withoutGuide = true;
-							logcat_fileonly.infoStream() << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
+							isis_LOG(lg, isis_FILE, isis_INFO) << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
 						}
 					}
 					else
@@ -2115,13 +2114,13 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 						j->computedJointData.junctiondDefined_withoutGuide = true;
 						//j->computedJointData.jointType_withoutguide = GetCADJointType(j->computedJointData.junction_withoutguide.joint_pair.first.type);
 						j->computedJointData.jointType_withoutguide =  AdjustJointTypeToCreoGeometryTypes(j->constraintPairs, j->computedJointData.junction_withoutguide.joint_pair.first.type);
-						logcat_fileonly.infoStream() << "   Constraint pairs do not have a guide.";
-						logcat_fileonly.infoStream() << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
+						isis_LOG(lg, isis_FILE, isis_INFO) << "   Constraint pairs do not have a guide.";
+						isis_LOG(lg, isis_FILE, isis_INFO) << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
 					}	
 				}
 				else
 				{
-					logcat_fileonly.infoStream() << "   Computed joint information already defined for ComponentInstanceID: " << i;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "   Computed joint information already defined for ComponentInstanceID: " << i;
 				}
 
 				++constraintPairs_counter;
@@ -2162,7 +2161,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																			throw (isis::application_exception)
 	{		
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
 		{
 			for ( std::vector<ConstraintData>::iterator j = in_out_CADComponentData_map[i].constraintDef.constraints.begin();
@@ -2195,17 +2194,17 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				cad::Joint jointGlobal = motorPair.move(j->computedJointData.junction_withoutguide.joint_pair.first);
 #else
 				// Use matrix multiplication until the quaternion rotation is not fixed
-				logcat_fileonly.infoStream() << "Computing global coordinates of " << i << ", In the coordinate system of: " << j->computedJointData.coordinatesystem;
-				logcat_fileonly.infoStream() << "   location: " << j->computedJointData.junction_withoutguide.joint_pair.first.location.c_str_e20();
-				logcat_fileonly.infoStream() << "   orient  : " << j->computedJointData.junction_withoutguide.joint_pair.first.orientation.c_str_e20();
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Computing global coordinates of " << i << ", In the coordinate system of: " << j->computedJointData.coordinatesystem;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   location: " << j->computedJointData.junction_withoutguide.joint_pair.first.location.c_str_e20();
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   orient  : " << j->computedJointData.junction_withoutguide.joint_pair.first.orientation.c_str_e20();
 				e3ga::vector loc = j->computedJointData.junction_withoutguide.joint_pair.first.location;
 				e3ga::vector orient = j->computedJointData.junction_withoutguide.joint_pair.first.orientation;
 				transform(j->computedJointData.junction_withoutguide.joint_pair.first.location, j->computedJointData.junction_withoutguide.joint_pair.first.orientation, transformationMatrix, loc, orient);
 				orient = e3ga::unit(orient);
 				cad::Joint jointGlobal(j->computedJointData.junction_withoutguide.joint_pair.first.type, loc, orient, j->computedJointData.junction_withoutguide.joint_pair.first.rotation, 0);
-				logcat_fileonly.infoStream() << " transformed";
-				logcat_fileonly.infoStream() << "   location: " << loc.c_str_e20();
-				logcat_fileonly.infoStream() << "   orient  : " << orient.c_str_e20();
+				isis_LOG(lg, isis_FILE, isis_INFO) << " transformed";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   location: " << loc.c_str_e20();
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   orient  : " << orient.c_str_e20();
 
 #endif
 
@@ -2257,7 +2256,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 					it->constrainedFrom_InstanceID = partid;
 					if (in_out_CADComponentData_map[partid].modelType == PRO_MDL_ASSEMBLY)
 					{
-						logcat.warnStream() << "Resolved constrainedFrom_Paths points to an assembly: " + i;
+						isis_LOG(lg, isis_FILE, isis_WARN) << "Resolved constrainedFrom_Paths points to an assembly: " + i;
 					}
 				}
 
@@ -2284,7 +2283,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 					it->constrainedTo_InstanceID = partid;
 					if (in_out_CADComponentData_map[partid].modelType == PRO_MDL_ASSEMBLY)
 					{
-						logcat.warnStream() << "Resolved constrainedTo_Paths points to an assembly. Assembly: " << i << ", constrainedTo: " << partid;
+						isis_LOG(lg, isis_FILE, isis_WARN) << "Resolved constrainedTo_Paths points to an assembly. Assembly: " << i << ", constrainedTo: " << partid;
 					}
 				}
 			}
@@ -2426,7 +2425,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 			std::map<std::string, isis::CADComponentData>							&in_out_CADComponentData_map )
 																		throw (isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 		for each (  const std::string &i in in_AssemblyComponentIDs )
 		{		
@@ -2673,7 +2672,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 		std::vector<std::string> trimmedListOfComponentIDs;
 		FurtherTrimList_Remove_TreatAsOneBodeParts( in_AssemblyComponentIDs,
@@ -2683,7 +2682,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		for each ( const std::string &i in trimmedListOfComponentIDs )
 		{
 
-			logcat_fileonly.infoStream() << "************** PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees, ComponentID: " << i;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees, ComponentID: " << i;
 		
 			ProAsmcomppath asmcomppath;
 
@@ -2706,7 +2705,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 												ElemTree);
 
 
-			//logcat_fileonly.infoStream() << assembledFeatureDefinition;
+			//isis_LOG(lg, isis_FILE, isis_INFO) << assembledFeatureDefinition;
 			//std::cout << std::endl << std::endl << assembledFeatureDefinition;
 
 			if ( assembledFeatureDefinition.constraintDefinitions.size() > 0 )
@@ -2733,11 +2732,11 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				{
 					if ( (PmConnectionAttr)assembledFeatureDefinition.constraintSetDefinitions[setIndex].component_set_misc_attr == PRO_ASM_DISABLE_COMP_SET)
 					{
-						logcat_fileonly.infoStream() << "Constraint set disabled.  SetIndex: " << setIndex << "  Component Instance ID: " <<  i;				
+						isis_LOG(lg, isis_FILE, isis_INFO) << "Constraint set disabled.  SetIndex: " << setIndex << "  Component Instance ID: " <<  i;				
 						continue;
 					}
 
-					logcat_fileonly.infoStream() << "Adding junction information for the following constraint feature: ";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Adding junction information for the following constraint feature: ";
 					ConstraintData constraintData_PerFeatureTree;
 
 					// If a particular constraint was disabled, the following function would not include the junction information for 
@@ -2785,8 +2784,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 			}
 			else  // ELSE if ( assembledFeatureDefinition.constraintDefinitions.size() > 0 )
 			{
-				//logcat_fileonly.infoStream() << "\nNOT adding junction information (no constraint references found) for the following constraint feature: ";
-				//logcat_fileonly.infoStream() << assembledFeatureDefinition;
+				//isis_LOG(lg, isis_FILE, isis_INFO) << "\nNOT adding junction information (no constraint references found) for the following constraint feature: ";
+				//isis_LOG(lg, isis_FILE, isis_INFO) << assembledFeatureDefinition;
 
 				std::stringstream errorString;
 				errorString <<
@@ -2996,7 +2995,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 						std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map) 
 																				throw (isis::application_exception)
 	{
-		log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+		
 
 		for each ( const std::string &i in in_AssemblyComponentIDs )
 		{
@@ -3048,7 +3047,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 					if ( !isis_CADCommon::Positive_Definite_3_x_3( in_out_CADComponentData_map[i].massProperties.coordSysInertiaTensor ))
 					{
-						logcat_consoleandfile.infoStream()	<< "\n\nERROR: Non-positive-definite inertia tensor at the default coordinate system." 
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)	<< "\n\nERROR: Non-positive-definite inertia tensor at the default coordinate system." 
 															<< "\n       ComponentInstanceID: " << i
 															<< "\n       Model Name:          " << in_out_CADComponentData_map[i].name 
 															<< "\n       Model Type:          " << isis::ProMdlType_string(in_out_CADComponentData_map[i].modelType)
@@ -3070,7 +3069,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 					if ( !isis_CADCommon::Positive_Definite_3_x_3( in_out_CADComponentData_map[i].massProperties.cGInertiaTensor ))
 					{
-						logcat_consoleandfile.infoStream()	<< "\n\nERROR: Non-positive-definite inertia tensor at the center of gravity." 
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)	<< "\n\nERROR: Non-positive-definite inertia tensor at the center of gravity." 
 															<< "\n       ComponentInstanceID: " << i
 															<< "\n       Model Name:          " << in_out_CADComponentData_map[i].name 
 															<< "\n       Model Type:          " << isis::ProMdlType_string(in_out_CADComponentData_map[i].modelType)

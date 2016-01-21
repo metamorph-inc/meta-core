@@ -4,8 +4,7 @@
 #include <DiagnosticUtilities.h>
 #include <AssembleUtils.h>
 #include <ToolKitPassThroughFunctions.h> 
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
+#include "LoggerBoost.h"
 #include "CommonDefinitions.h"
 #include <boost/algorithm/string.hpp>
 #define PRO_USE_VAR_ARGS
@@ -627,7 +626,7 @@ void Add_PRO_E_COMPONENT_SET(	ProElement out_sets_elem,
 	ProElemId elemid;
 	ProValueData value_data;	
 
-	//log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	//
 	
 	////////////////////////////////
 	// Add PRO_E_COMPONENT_SET
@@ -730,11 +729,11 @@ void Add_PRO_E_COMPONENT_CONSTRAINT( ProElement &out_constrs_elem,
 														throw (isis::application_exception)
 {
 
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 		std::stringstream str;
-		logcat_fileonly.infoStream() << "Add_PRO_E_COMPONENT_CONSTRAINT >>>>>>>>>>>>>>>";
-		//logcat_fileonly.infoStream() << "\n**** Axis Constraint Index: " <<  counter << "  ******";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "Add_PRO_E_COMPONENT_CONSTRAINT >>>>>>>>>>>>>>>";
+		//isis_LOG(lg, isis_FILE, isis_INFO) << "\n**** Axis Constraint Index: " <<  counter << "  ******";
 		stream_PopulateOneConstraintInConstraintStructure(
 						&in_TopAssemblyModel,	// typedef struct sld_part* ProSolid;
 						in_ContraintDef.base_model_path_list,		
@@ -748,8 +747,8 @@ void Add_PRO_E_COMPONENT_CONSTRAINT( ProElement &out_constrs_elem,
 						in_ContraintDef.offset_between_datums,		// This is only used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
 						str);
 			
-			logcat_fileonly.infoStream() << str.str();
-			logcat_fileonly.infoStream();
+			isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
+			isis_LOG(lg, isis_FILE, isis_INFO);
 		///////////////////////////////////
 		// Add PRO_E_COMPONENT_CONSTRAINT
 		//////////////////////////////////
@@ -953,11 +952,11 @@ void Add_PRO_E_COMPONENT_CONSTRAINT_2(	ProElement &out_constrs_elem,
 														throw (isis::application_exception)
 {
 
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 		std::stringstream str;
-		logcat_fileonly.infoStream() << "Add_PRO_E_COMPONENT_CONSTRAINT >>>>>>>>>>>>>>>";
-		//logcat_fileonly.infoStream() << "\n**** Axis Constraint Index: " <<  counter << "  ******";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "Add_PRO_E_COMPONENT_CONSTRAINT >>>>>>>>>>>>>>>";
+		//isis_LOG(lg, isis_FILE, isis_INFO) << "\n**** Axis Constraint Index: " <<  counter << "  ******";
 		stream_PopulateOneConstraintInConstraintStructure_2(
 						&in_TopAssemblyModel,	// typedef struct sld_part* ProSolid;
 						in_ContraintDef.base_model_path_list,		
@@ -972,10 +971,10 @@ void Add_PRO_E_COMPONENT_CONSTRAINT_2(	ProElement &out_constrs_elem,
 						in_ContraintDef.flip_orientation,
 						str);
 			
-			logcat_fileonly.infoStream() << str.str();
+			isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
 
 
-			logcat_fileonly.infoStream();
+			isis_LOG(lg, isis_FILE, isis_INFO);
 		///////////////////////////////////
 		// Add PRO_E_COMPONENT_CONSTRAINT
 		//////////////////////////////////
@@ -1005,24 +1004,70 @@ void Add_PRO_E_COMPONENT_CONSTRAINT_2(	ProElement &out_constrs_elem,
 		elemid = PRO_E_COMPONENT_CONSTR_TYPE;
 		value_data.type = PRO_VALUE_TYPE_INT;
 		ProAsmcompConstrType constrtype = in_ContraintDef.constraint_type;
+		ProConnectionFlipState flipState = PRO_ASM_FLIP_UNDEFINED;
+
 		switch ( in_ContraintDef.pro_datum_type  )
 		{
 			case PRO_SURFACE:
-				 constrtype = in_ContraintDef.constraint_type;
-					break;
+				// Mate/Align	Side	Side	Should Be
+				//	Mate		A		A		Mate A A
+				//	Mate		A		B		Algin A A
+				//	Mate		B		B		Mate A A
+				//	Align		A		A		Align A A
+				//	Align		A		B		Mate A A
+				//	Align		B		B		Align A A
+				// PRO_E_COMPONENT_COMP_ORIENT/ASSM_ORIENT should both be PRO_ASM_NOT_FLIPPED.
+				if ( in_ContraintDef.constraint_type == PRO_ASM_MATE )
+				{
+					if ( in_ContraintDef.base_model_datum_side == in_ContraintDef.added_model_datum_side ) 
+						constrtype = PRO_ASM_MATE;
+					else
+						constrtype = PRO_ASM_ALIGN;
+				}
+				else
+				{
+					if ( in_ContraintDef.base_model_datum_side == in_ContraintDef.added_model_datum_side ) 
+						constrtype = PRO_ASM_ALIGN;
+					else
+						constrtype = PRO_ASM_MATE;
+
+				}
+
+				flipState = PRO_ASM_NOT_FLIPPED;
+
+				break;
 			case PRO_POINT:
-				constrtype = PRO_ASM_ALIGN;
+				constrtype = PRO_ASM_ALIGN;   // 6/19/2015 Correct, PRO_E_COMPONENT_COMP_ORIENT/ASSM_ORIENT should both be PRO_ASM_FLIPPED 
+											  // PRO_ASM_FLIPPED does not make sense, but this was derived by dumping feature trees.
+											  // PRO_ASM_FLIPPED is probably ignored
+				flipState = PRO_ASM_FLIPPED;
 				break;
 
 			case PRO_AXIS:
-				constrtype = PRO_ASM_ALIGN;
+				constrtype = PRO_ASM_ALIGN;  // 6/19/2015 Correct, PRO_E_COMPONENT_COMP_ORIENT/ASSM_ORIENT should both be either
+											 // PRO_ASM_NOT_FLIPPED or PRO_ASM_FLIPPED.  If PRO_ASM_FLIPPED this means the axes should 
+											 // be poiting in the opposite direction
+				if (in_ContraintDef.flip_orientation )   // Would only be set for axes
+				{
+					flipState = PRO_ASM_FLIPPED;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_E_COMPONENT_CONSTR_ATTR:              PRO_ASM_FLIPPED";
+				}
+				else
+				{
+					flipState = PRO_ASM_NOT_FLIPPED;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_E_COMPONENT_CONSTR_ATTR:              PRO_ASM_NOT_FLIPPED";
+				}
 				break;
 
 			case PRO_CSYS:
-				constrtype = PRO_ASM_CSYS;
+				constrtype = PRO_ASM_CSYS; // 6/19/2015 Correct, PRO_E_COMPONENT_COMP_ORIENT/ASSM_ORIENT should both be PRO_ASM_FLIPPED 
+											  // PRO_ASM_FLIPPED does not make sense, but this was derived by dumping feature trees.
+											  // PRO_ASM_FLIPPED is probably ignored
+				flipState = PRO_ASM_FLIPPED;
 				break;
 			default:
 				constrtype = PRO_ASM_ALIGN;
+				flipState = PRO_ASM_NOT_FLIPPED;
 		}
 
 		value_data.v.i = constrtype;
@@ -1071,31 +1116,10 @@ void Add_PRO_E_COMPONENT_CONSTRAINT_2(	ProElement &out_constrs_elem,
 		value_data.v.r =  base_model_select;
 		ProElement asm_const2_Ref_elem;
 		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem,&value_data, &asm_const2_Ref_elem);
-
-		ProConnectionFlipState flipState = PRO_ASM_FLIP_UNDEFINED;
-
-		pro_datum_side datumSide = PRO_DATUM_SIDE_YELLOW;
-
-		if ( in_ContraintDef.pro_datum_type == PRO_SURFACE )
-		{
-			if ( in_ContraintDef.base_model_datum_side == PRO_DATUM_SIDE_YELLOW )
-			{
-				datumSide =  PRO_DATUM_SIDE_YELLOW;
-				logcat_fileonly.infoStream() << "PRO_E_COMPONENT_ASSM_ORIENT:              PRO_DATUM_SIDE_YELLOW";
-			}
-			else
-			{
-				datumSide =  PRO_DATUM_SIDE_RED;
-				logcat_fileonly.infoStream() << "PRO_E_COMPONENT_ASSM_ORIENT:              PRO_DATUM_SIDE_RED";
-			}
-		}
-
+	
 		elemid = PRO_E_COMPONENT_ASSM_ORIENT ;
 		value_data.type = PRO_VALUE_TYPE_INT;
-		if (in_ContraintDef.pro_datum_type == PRO_SURFACE )
-			value_data.v.i = datumSide;
-		else
-			value_data.v.i = flipState; 
+		value_data.v.i = flipState; 
 		ProElement base_model_datum_side_elem;
 		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem, &value_data, &base_model_datum_side_elem);
 
@@ -1103,27 +1127,9 @@ void Add_PRO_E_COMPONENT_CONSTRAINT_2(	ProElement &out_constrs_elem,
 		// Add a PRO_E_COMPONENT_COMP_ORIENT 
 		////////////////////////////////////////
 
-		if ( in_ContraintDef.pro_datum_type == PRO_SURFACE )
-		{
-			if ( in_ContraintDef.added_model_datum_side == PRO_DATUM_SIDE_YELLOW )
-			{
-				datumSide =  PRO_DATUM_SIDE_YELLOW;
-				logcat_fileonly.infoStream() << "PRO_E_COMPONENT_COMP_ORIENT:              PRO_DATUM_SIDE_YELLOW";
-			}
-			else
-			{
-				datumSide =  PRO_DATUM_SIDE_RED;
-				logcat_fileonly.infoStream() << "PRO_E_COMPONENT_COMP_ORIENT:              PRO_DATUM_SIDE_RED";
-			}
-		}
-
 		elemid = PRO_E_COMPONENT_COMP_ORIENT ;
 		value_data.type = PRO_VALUE_TYPE_INT;
-		//value_data.v.i = ((in_JointType ==  REVOLUTE_JOINT || in_JointType == PRISMATIC_JOINT)&&!guide)?flip:in_ContraintDef.added_model_datum_side; 
-		if (in_ContraintDef.pro_datum_type == PRO_SURFACE )
-			value_data.v.i = datumSide;
-		else
-			value_data.v.i = flipState; 
+		value_data.v.i = flipState; 
 		ProElement added_model_datum_side_elem;
 		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem, &value_data, &added_model_datum_side_elem);
 
@@ -1138,25 +1144,9 @@ void Add_PRO_E_COMPONENT_CONSTRAINT_2(	ProElement &out_constrs_elem,
 		ProElement comp_constr_set_id;
 		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem,&value_data, &comp_constr_set_id);
 
-		////////////////////////////////////////
-		// Add a PRO_E_COMPONENT_CONSTR_ATTR 
-		////////////////////////////////////////		
-		// PRO_E_COMPONENT_CONSTR_ATTR applies to only axes
-		if (in_ContraintDef.flip_orientation )   // Would only be set for axes
-		{
-			flipState = PRO_ASM_FLIPPED;
-			logcat_fileonly.infoStream() << "PRO_E_COMPONENT_CONSTR_ATTR:              PRO_ASM_FLIPPED";
-		}
-		else
-		{
-			flipState = PRO_ASM_FLIP_UNDEFINED;
-			// This doesn't work flipState = PRO_ASM_NOT_FLIPPED;
-			logcat_fileonly.infoStream() << "PRO_E_COMPONENT_CONSTR_ATTR:              PRO_ASM_FLIP_UNDEFINED";
-		}
-
 		elemid = PRO_E_COMPONENT_CONSTR_ATTR;
 		value_data.type = PRO_VALUE_TYPE_INT;
-		value_data.v.i = flipState;
+		value_data.v.i = 0;
 		ProElement comp_constr_attr;
 		isis::isis_AddElementtoElemTree(elemid, &comp_constr_elem,&value_data, &comp_constr_attr);		
 }
@@ -1185,10 +1175,10 @@ void SetupRotationLimits(ProSolid parentAssembly, const std::vector<ContraintFea
 			return;
 		}
 
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 
-	//logcat_fileonly.errorStream() << constraintdefs[0].ToString();
+	//isis_LOG(lg, isis_FILE, isis_ERROR) << constraintdefs[0].ToString();
 		ProElempathItem set_path[] = 
 			{{PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_SETS},
 			{PRO_ELEM_PATH_ITEM_TYPE_INDEX, setid-1}};
@@ -1229,7 +1219,7 @@ void SetupRotationLimits(ProSolid parentAssembly, const std::vector<ContraintFea
 		err = ProReferenceSet(comp_ref, &added_comp_path, &added_model_item);
 		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("Error: ProReferenceSet, in Function: SetupRotationLimits_2");
 
-		//logcat_fileonly.warnStream() << "Setting rotation limits on: " << constraintdefs[0].base_model_component_instance_ID << ", " << constraintdefs[0].added_model_component_instance_ID;
+		//isis_LOG(lg, isis_FILE, isis_WARN) << "Setting rotation limits on: " << constraintdefs[0].base_model_component_instance_ID << ", " << constraintdefs[0].added_model_component_instance_ID;
 
 		Set_Limits_On_Set(set_elem, comp_ref, asm_ref, joint, joint.RotationLimits);
 
@@ -1269,10 +1259,10 @@ void SetupRotationLimits_2(	ProSolid parentAssembly,
 			return;
 		}
 
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 
-	//logcat_fileonly.errorStream() << constraintdefs[0].ToString();
+	//isis_LOG(lg, isis_FILE, isis_ERROR) << constraintdefs[0].ToString();
 		ProElempathItem set_path[] = 
 			{{PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_SETS},
 			{PRO_ELEM_PATH_ITEM_TYPE_INDEX, in_SetID_index}};
@@ -1313,7 +1303,7 @@ void SetupRotationLimits_2(	ProSolid parentAssembly,
 		err = ProReferenceSet(comp_ref, &added_comp_path, &added_model_item);
 		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("Error: ProReferenceSet, in Function: SetupRotationLimits_2");
 
-		//logcat_fileonly.warnStream() << "Setting rotation limits on: " << constraintdefs[0].base_model_component_instance_ID << ", " << constraintdefs[0].added_model_component_instance_ID;
+		//isis_LOG(lg, isis_FILE, isis_WARN) << "Setting rotation limits on: " << constraintdefs[0].base_model_component_instance_ID << ", " << constraintdefs[0].added_model_component_instance_ID;
 
 		Set_Limits_On_Set(set_elem, comp_ref, asm_ref, joint, joint.RotationLimits);
 
@@ -1349,10 +1339,10 @@ void SetupTranslationLimits(ProSolid parentAssembly, const std::vector<Contraint
 			return;
 		}
 
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 
-	//logcat_fileonly.errorStream() << constraintdefs[0].ToString();
+	//isis_LOG(lg, isis_FILE, isis_ERROR) << constraintdefs[0].ToString();
 		ProElempathItem set_path[] = 
 			{{PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_SETS},
 			{PRO_ELEM_PATH_ITEM_TYPE_INDEX, setid-1}};
@@ -1391,7 +1381,7 @@ void SetupTranslationLimits(ProSolid parentAssembly, const std::vector<Contraint
 		err = ProReferenceSet(comp_ref, &added_comp_path, &added_model_item);
 		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("Error: ProReferenceSet, in Function: SetupTranslationLimits");
 
-		//logcat_fileonly.warnStream() << "Setting translation limits on: " << constraintdefs[0].base_model_component_instance_ID << ", " << constraintdefs[0].added_model_component_instance_ID;
+		//isis_LOG(lg, isis_FILE, isis_WARN) << "Setting translation limits on: " << constraintdefs[0].base_model_component_instance_ID << ", " << constraintdefs[0].added_model_component_instance_ID;
 
 		Set_Limits_On_Set(set_elem, comp_ref, asm_ref, joint, joint.TranslationLimits);
 
@@ -1430,10 +1420,10 @@ void SetupTranslationLimits_2(	ProSolid parentAssembly,
 			return;
 		}
 
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 
 
-	//logcat_fileonly.errorStream() << constraintdef.ToString();
+	//isis_LOG(lg, isis_FILE, isis_ERROR) << constraintdef.ToString();
 		ProElempathItem set_path[] = 
 			{{PRO_ELEM_PATH_ITEM_TYPE_ID, PRO_E_COMPONENT_SETS},
 			{PRO_ELEM_PATH_ITEM_TYPE_INDEX, in_SetID_index}};
@@ -1472,7 +1462,7 @@ void SetupTranslationLimits_2(	ProSolid parentAssembly,
 		err = ProReferenceSet(comp_ref, &added_comp_path, &added_model_item);
 		if (err != PRO_TK_NO_ERROR) throw isis::application_exception("Error: ProReferenceSet, in Function: SetupTranslationLimits_2");
 
-		//logcat_fileonly.warnStream() << "Setting translation limits on: " << constraintdef.base_model_component_instance_ID << ", " << constraintdef.added_model_component_instance_ID;
+		//isis_LOG(lg, isis_FILE, isis_WARN) << "Setting translation limits on: " << constraintdef.base_model_component_instance_ID << ", " << constraintdef.added_model_component_instance_ID;
 
 		Set_Limits_On_Set(set_elem, comp_ref, asm_ref, joint, joint.TranslationLimits);
 
@@ -1516,10 +1506,10 @@ void SetConstraints (	ProSolid									&in_TopAssembly,
 {
 
 	ProAsmcompconstraint *proAsmcompconstraint_dummy_not_used = NULL;
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
-	logcat_fileonly.infoStream() << "";
-	logcat_fileonly.infoStream() << "********** Begin SetConstraints, Constraint Definitions  ***************";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "********** Begin SetConstraints, Constraint Definitions  ***************";
 	
 	int constraint_counter = 0;
 
@@ -1528,12 +1518,12 @@ void SetConstraints (	ProSolid									&in_TopAssembly,
 	/////////////////////////////////////
 	for each ( const PerSetConstraintDefinition  &i_PerSetConstaint in in_PerSetConstraintDefinitions )
 	{
-		logcat_fileonly.infoStream();
-		logcat_fileonly.infoStream() << "\n**** Constraint Index: " <<  constraint_counter << "  ******";
-		logcat_fileonly.infoStream() << "setID:                   " <<  i_PerSetConstaint.setID;
-		logcat_fileonly.infoStream() << "hasAGuideConstraint:     " <<  i_PerSetConstaint.hasAGuideConstraint;
-		logcat_fileonly.infoStream() << "jointType_withoutguide:  " <<  CADJointType_string(i_PerSetConstaint.jointType_withoutguide);
-		logcat_fileonly.infoStream() << "jointType_withguide:     " <<  CADJointType_string(i_PerSetConstaint.jointType_withguide);
+		isis_LOG(lg, isis_FILE, isis_INFO);
+		isis_LOG(lg, isis_FILE, isis_INFO) << "\n**** Constraint Index: " <<  constraint_counter << "  ******";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "setID:                   " <<  i_PerSetConstaint.setID;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "hasAGuideConstraint:     " <<  i_PerSetConstaint.hasAGuideConstraint;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "jointType_withoutguide:  " <<  CADJointType_string(i_PerSetConstaint.jointType_withoutguide);
+		isis_LOG(lg, isis_FILE, isis_INFO) << "jointType_withguide:     " <<  CADJointType_string(i_PerSetConstaint.jointType_withguide);
 
 		for each ( const ContraintFeatureDefinition &j_constraint in i_PerSetConstaint.contraintFeatureDefinitions )
 		{
@@ -1551,9 +1541,9 @@ void SetConstraints (	ProSolid									&in_TopAssembly,
 							j_constraint.offset_between_datums,		// This is only used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
 							str);
 			
-				logcat_fileonly.infoStream() << str.str();
-				logcat_fileonly.infoStream() << "1st Round: " << in_1stRound;
-				logcat_fileonly.infoStream();
+				isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
+				isis_LOG(lg, isis_FILE, isis_INFO) << "1st Round: " << in_1stRound;
+				isis_LOG(lg, isis_FILE, isis_INFO);
 				++constraint_counter;
 		}
 	}
@@ -1975,7 +1965,7 @@ void SetConstraints_2 (
 																		throw (isis::application_exception)
 {
 	ProAsmcompconstraint *proAsmcompconstraint_dummy_not_used = NULL;
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
 	////////////////////////////////////////////////////
 	// Verfify in_PerSetConstraintDefinitions not empty
@@ -1989,24 +1979,24 @@ void SetConstraints_2 (
 
 	ValidateConstraintOrder_ThrowExceptionIfInvalid(__FUNCTION__, in_ConstraintOrder, in_PerSetConstraintDefinitions);
 
-	logcat_fileonly.infoStream() << __FUNCTION__ << ", ConstraintOrder";
-	logcat_fileonly.infoStream() << in_ConstraintOrder;
+	isis_LOG(lg, isis_FILE, isis_INFO) << __FUNCTION__ << ", ConstraintOrder";
+	isis_LOG(lg, isis_FILE, isis_INFO) << in_ConstraintOrder;
 
-	logcat_fileonly.infoStream() << "";
-	logcat_fileonly.infoStream() << "********** Begin SetConstraints, Constraint Definitions  ***************";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "********** Begin SetConstraints, Constraint Definitions  ***************";
 	
 	int constraint_counter = 0;
 
 	/////////////////////////////////////
 	// Log Constraint Information
 	/////////////////////////////////////
-	logcat_fileonly.infoStream();
-	logcat_fileonly.infoStream() << "constraintDefinitionOrder: ";
-	for each ( int i in in_ConstraintOrder.constraintDefinitionOrder) logcat_fileonly.infoStream() << "   " << i;
-	logcat_fileonly.infoStream() << "constraintFeatureOrder: ";
+	isis_LOG(lg, isis_FILE, isis_INFO);
+	isis_LOG(lg, isis_FILE, isis_INFO) << "constraintDefinitionOrder: ";
+	for each ( int i in in_ConstraintOrder.constraintDefinitionOrder) isis_LOG(lg, isis_FILE, isis_INFO) << "   " << i;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "constraintFeatureOrder: ";
 
 	for each ( const std::pair<int, std::vector<int>>  &i in in_ConstraintOrder.constraintFeatureOrder_map )
-			for each ( int j in i.second ) logcat_fileonly.infoStream()  << "   constraintDefinitionID" << i.first <<  ", constraintFeatureID: " << j;
+			for each ( int j in i.second ) isis_LOG(lg, isis_FILE, isis_INFO)  << "   constraintDefinitionID" << i.first <<  ", constraintFeatureID: " << j;
 
 
 	int setID_index = 0;  // This is not the setID. It is an index into an array of setIDs.  The first index is always 0;
@@ -2014,15 +2004,15 @@ void SetConstraints_2 (
 	for each ( int i in in_ConstraintOrder.constraintDefinitionOrder )
 	{
 		const PerSetConstraintDefinition_2 &pSCD = in_PerSetConstraintDefinitions[i];
-		logcat_fileonly.infoStream() << "constraintDefinition, order ID: " << i;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "constraintDefinition, order ID: " << i;
 
-		logcat_fileonly.infoStream();
-		logcat_fileonly.infoStream() << "\n**** Constraint Index: " <<  constraint_counter << "  ******";
-		//logcat_fileonly.infoStream() << "setID:                   " <<  pSCD.get_SetID();
-		logcat_fileonly.infoStream() << "setID:                   " <<  setID_index;
-		logcat_fileonly.infoStream() << "hasAGuideConstraint:     " <<  pSCD.get_HasAGuideConstraint();
-		logcat_fileonly.infoStream() << "jointType_withoutguide:  " <<  CADJointType_string(pSCD.get_JointType_withoutguide());
-		logcat_fileonly.infoStream() << "jointType_withguide:     " <<  CADJointType_string(pSCD.get_JointType_withguide());
+		isis_LOG(lg, isis_FILE, isis_INFO);
+		isis_LOG(lg, isis_FILE, isis_INFO) << "\n**** Constraint Index: " <<  constraint_counter << "  ******";
+		//isis_LOG(lg, isis_FILE, isis_INFO) << "setID:                   " <<  pSCD.get_SetID();
+		isis_LOG(lg, isis_FILE, isis_INFO) << "setID:                   " <<  setID_index;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "hasAGuideConstraint:     " <<  pSCD.get_HasAGuideConstraint();
+		isis_LOG(lg, isis_FILE, isis_INFO) << "jointType_withoutguide:  " <<  CADJointType_string(pSCD.get_JointType_withoutguide());
+		isis_LOG(lg, isis_FILE, isis_INFO) << "jointType_withguide:     " <<  CADJointType_string(pSCD.get_JointType_withguide());
 
 		for each ( const int &j in in_ConstraintOrder.getFeatureIDs(i) )
 		{
@@ -2043,9 +2033,9 @@ void SetConstraints_2 (
 							cFD.offset_between_datums,		// This is only used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
 							str);
 			
-				logcat_fileonly.infoStream() << str.str();
-				logcat_fileonly.infoStream() << "TreatAsAUserDefinedJoint (in_SET_USER_DEFINED_TYPE): " << in_TreatAsAUserDefinedJoint;
-				logcat_fileonly.infoStream();
+				isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
+				isis_LOG(lg, isis_FILE, isis_INFO) << "TreatAsAUserDefinedJoint (in_SET_USER_DEFINED_TYPE): " << in_TreatAsAUserDefinedJoint;
+				isis_LOG(lg, isis_FILE, isis_INFO);
 				++constraint_counter;
 		}
 		++setID_index;
@@ -2192,8 +2182,8 @@ void SetConstraints_2 (
 
 		for each ( int j in in_ConstraintOrder.getFeatureIDs(i) )
 		{
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "Add_PRO_E_COMPONENT_CONSTRAINT, Model Name: " << in_CADComponentData_map[in_ComponentID].name <<
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "Add_PRO_E_COMPONENT_CONSTRAINT, Model Name: " << in_CADComponentData_map[in_ComponentID].name <<
 				" ComponentID: " << in_ComponentID;
 			Add_PRO_E_COMPONENT_CONSTRAINT_2( constrs_elem, pSCD.get_ContraintFeatureDefinition_const(j), in_TopAssembly, setID_index);
 		}
@@ -2260,7 +2250,7 @@ void SetConstraints_2 (
 	featureTreeFileName_multi = (string)featureTreeFileName_narrow;
 	isis::isis_ProElemtreeWrite(elem_tree, PRO_ELEMTREE_XML, (wchar_t*)(const wchar_t*)featureTreeFileName_multi);
 	// DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG 	
-
+	*/
 	//ProElement elem_tree_2;
 
 	//isis::isis_ProElementAlloc(PRO_E_FEATURE_TREE, &elem_tree_2);
@@ -2322,15 +2312,15 @@ void Apply_CADDatum_ModelConstraints_Via_FeatureTree(	const std::string &in_Comp
 
 	ProAsmcompconstraint *proAsmcompconstraint_dummy_not_used = NULL;
 
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
-	logcat_fileonly.infoStream() << "";
-	logcat_fileonly.infoStream() << "********** Begin PopulateOneConstraintInConstraintStructure  ***************";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "********** Begin PopulateOneConstraintInConstraintStructure  ***************";
 	std::stringstream str;
 	int constraint_counter = 0;
 	for each ( ContraintFeatureDefinition i_constraint in in_ContraintFeatureDefinitions )
 	{
-		logcat_fileonly.infoStream() << "**** Constraint Index: " <<  constraint_counter << "  ******";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "**** Constraint Index: " <<  constraint_counter << "  ******";
 		stream_PopulateOneConstraintInConstraintStructure(
 						in_assembly_model,				// typedef struct sld_part* ProSolid;
 						i_constraint.base_model_path_list,		
@@ -2345,8 +2335,8 @@ void Apply_CADDatum_ModelConstraints_Via_FeatureTree(	const std::string &in_Comp
 						proAsmcompconstraint_dummy_not_used,
 						str);
 	}
-	logcat_fileonly.infoStream() << str.str();
-	logcat_fileonly.infoStream() << "********** End PopulateOneConstraintInConstraintStructure  ***************" << log4cpp::eol;
+	isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
+	isis_LOG(lg, isis_FILE, isis_INFO) << "********** End PopulateOneConstraintInConstraintStructure  ***************" << isis_EOL;
 
 	
 	ProElemId elemid;
@@ -2710,10 +2700,10 @@ void PopulateOneConstraintInConstraintStructure(
 	int					  &out_indexOfAddedConstraint)
 												throw (isis::application_exception)
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
-	logcat_fileonly.infoStream() << "";
-	logcat_fileonly.infoStream() << "********** Begin PopulateOneConstraintInConstraintStructure  ***************";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "********** Begin PopulateOneConstraintInConstraintStructure  ***************";
 	std::stringstream str;
 	stream_PopulateOneConstraintInConstraintStructure(
 					in_assembly_model,				// typedef struct sld_part* ProSolid;
@@ -2727,8 +2717,8 @@ void PopulateOneConstraintInConstraintStructure(
 					in_constraint_type,				// enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
 					in_offset_between_datums,		// This is only used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
 					str);
-	logcat_fileonly.infoStream() << str.str();
-	logcat_fileonly.infoStream() << "********** End PopulateOneConstraintInConstraintStructure  ***************" << log4cpp::eol;
+	isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
+	isis_LOG(lg, isis_FILE, isis_INFO) << "********** End PopulateOneConstraintInConstraintStructure  ***************" << isis_EOL;
 	
 	// *******************************************
 	// Initialize the path to the base component
@@ -3105,7 +3095,7 @@ void CreateConstriantSet_and_SetAllowAssumptions ( ProAsmcomppath *assem_path,  
 
 void SetConstraint_AllowAssumptions ( ProAsmcomppath *assem_path,  ProAsmcomp *in_ProAsmcomp, e_ConstraintAllowAssumptions in_AllowAssumptions )
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 
 	//int AllowAssumptions_flag = 0;  // This is the CAD_CONSTRAINT_ALLOW_ASSUMPTIONS_TRUE case
 	//if ( in_AllowAssumptions == CAD_CONSTRAINT_ALLOW_ASSUMPTIONS_FALSE ) AllowAssumptions_flag = 64;
@@ -3137,17 +3127,17 @@ void SetConstraint_AllowAssumptions ( ProAsmcomppath *assem_path,  ProAsmcomp *i
 	ProValueData value_data;
 	isis::isis_ProValueDataGet(val_component_misc_attr, &value_data);
 
-	logcat_fileonly.infoStream() << "\nPRO_E_COMPONENT_MISC_ATTR ProValueDataGet, type: " << value_data.type;
-	logcat_fileonly.infoStream() << "\nPRO_E_COMPONENT_MISC_ATTR ProValueDataGet, v: "    <<  value_data.v.i;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "\nPRO_E_COMPONENT_MISC_ATTR ProValueDataGet, type: " << value_data.type;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "\nPRO_E_COMPONENT_MISC_ATTR ProValueDataGet, v: "    <<  value_data.v.i;
 
 	//std::cout << std::endl << "\n   Type:       " << FeatureGeometryType_string(in_ProAsmcomp->type);
 
 	if ( value_data.v.i == in_AllowAssumptions )
 	{
-		logcat_fileonly.infoStream() << "\nAllowAssumptions already set to: " << ConstraintAllowAssumptionse_string(in_AllowAssumptions) << ".  For:";
-		logcat_fileonly.infoStream() << "\n   Feature ID: " << in_ProAsmcomp->id;
-		logcat_fileonly.infoStream() << "\n   Owner:      " << in_ProAsmcomp->owner;
-		logcat_fileonly.infoStream() << "\n   Type:       " << FeatureGeometryType_string(in_ProAsmcomp->type);
+		isis_LOG(lg, isis_FILE, isis_INFO) << "\nAllowAssumptions already set to: " << ConstraintAllowAssumptionse_string(in_AllowAssumptions) << ".  For:";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "\n   Feature ID: " << in_ProAsmcomp->id;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "\n   Owner:      " << in_ProAsmcomp->owner;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "\n   Type:       " << FeatureGeometryType_string(in_ProAsmcomp->type);
 		
 	}
 	else
@@ -3405,9 +3395,9 @@ void Populate_PerSetConstraintDefinitions(
 				std::map<string, isis::CADComponentData>		&in_CADComponentData_map,
 				std::vector<PerSetConstraintDefinition_2>		&out_PerSetConstraintDefinitions) throw (isis::application_exception)
 {
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-		log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
-		logcat_fileonly.infoStream() << "";
+		
+		
+		isis_LOG(lg, isis_FILE, isis_INFO) << "";
 
 		out_PerSetConstraintDefinitions.clear();
 
@@ -3454,7 +3444,7 @@ void Populate_PerSetConstraintDefinitions(
 				bool base_model_defined = false;
 				string added_model_constraint_feature_component_ID;
 				string base_model_constraint_feature_component_ID;
-				logcat_fileonly.infoStream() << "";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "";
 
 				std::string constraintFeature_From_To = "      ";
 				for (	std::vector<ConstraintFeature>::const_iterator l(k->constraintFeatures.begin());
@@ -3499,7 +3489,7 @@ void Populate_PerSetConstraintDefinitions(
 					}		
 					
 				}
-				logcat_consoleandfile.infoStream() << constraintFeature_From_To;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << constraintFeature_From_To;
 
 				if ( !base_model_defined || !added_model_defined)
 				{
@@ -3514,11 +3504,11 @@ void Populate_PerSetConstraintDefinitions(
 				if ( k->constraintOffsetPresent )
 				{	
 					offset_between_datums = k->constraintOffset.value;
-					logcat_fileonly.infoStream() << "      ConstraintOffset Value:               " <<  k->constraintOffset.value;
-					logcat_fileonly.infoStream() << "      ConstraintOffset OffsetAlignmentType: " <<  ProAsmcompConstrType_string( k->constraintOffset.offsetAlignmentType );
+					isis_LOG(lg, isis_FILE, isis_INFO) << "      ConstraintOffset Value:               " <<  k->constraintOffset.value;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "      ConstraintOffset OffsetAlignmentType: " <<  ProAsmcompConstrType_string( k->constraintOffset.offsetAlignmentType );
 					if ( k->constraintOffset.unitsPresent )
 					{
-						logcat_fileonly.infoStream() << "      ConstraintOffset Units Type:          " << CADUnitsDistance_string( k->constraintOffset.units );
+						isis_LOG(lg, isis_FILE, isis_INFO) << "      ConstraintOffset Units Type:          " << CADUnitsDistance_string( k->constraintOffset.units );
 					}
 				}				
 				
@@ -3830,8 +3820,8 @@ void CheckAxesAlignments_FlipOrientationIndicatorAsNecessary(
 										std::vector<PerSetConstraintDefinition_2>	&in_out_PerSetConstraintDefinitions )
 {
 
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	for each ( int i in in_ConstraintOrder.constraintDefinitionOrder )
 	{
@@ -3970,23 +3960,23 @@ void CheckAxesAlignments_FlipOrientationIndicatorAsNecessary(
 				{
 					// two axes are not colinear.  There must be something ill formed about the other constraints.  The user must correct 
 					// this either by changing the CyPhy model or by changine the CAD models 
-					logcat_consoleandfile.warnStream() << "Function - " << __FUNCTION__ << ", WARNING, Found constrained axes that were not collinear.";
-					logcat_consoleandfile.warnStream() << "    base_model_component_instance_ID:  " << cFD.base_model_component_instance_ID;
-					logcat_consoleandfile.warnStream() << "    base_model_name:                   " << cFD.base_model_name;
-					logcat_consoleandfile.warnStream() << "    base_model_datum_name:             " << isis::MultiFormatString(cFD.base_model_datum_name);
-					logcat_consoleandfile.warnStream() << "    Line start point and end point:";
-					for each ( const isis_CADCommon::Point_3D &pt in line_base )  logcat_consoleandfile.warnStream() << "        " << pt;
-					logcat_consoleandfile.warnStream() << "    added_model_component_instance_ID: " << cFD.added_model_component_instance_ID;
-					logcat_consoleandfile.warnStream() << "    added_model_name:                  " << cFD.added_model_name;
-					logcat_consoleandfile.warnStream() << "    added_model_datum_name:            " <<  isis::MultiFormatString(cFD.added_model_datum_name);
-					logcat_consoleandfile.warnStream() << "    Line start point and end point:";
-					for each ( const isis_CADCommon::Point_3D &pt in line_added ) logcat_consoleandfile.warnStream() << "        " << pt;
-					logcat_consoleandfile.warnStream() << "    If two axes are constrained together, they should be collinear.  Non-collinear axes are ";
-					logcat_consoleandfile.warnStream() << "    usually due to other constraints making it impossible to align the axes.  Open the CAD ";
-					logcat_consoleandfile.warnStream() << "    assembly and inspect the constraints for the model listed above to identify the problem. ";
-					logcat_consoleandfile.warnStream() << "    Also, open the CyPhy model or  CADAssembly.xml and check if this component has a guide.";
-					logcat_consoleandfile.warnStream() << "    Ill placed guides can cause axes to not align.  This condition should be corrected before "; 
-					logcat_consoleandfile.warnStream() << "    proceeding.";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "Function - " << __FUNCTION__ << ", WARNING, Found constrained axes that were not collinear.";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    base_model_component_instance_ID:  " << cFD.base_model_component_instance_ID;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    base_model_name:                   " << cFD.base_model_name;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    base_model_datum_name:             " << isis::MultiFormatString(cFD.base_model_datum_name);
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    Line start point and end point:";
+					for each ( const isis_CADCommon::Point_3D &pt in line_base )  isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "        " << pt;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    added_model_component_instance_ID: " << cFD.added_model_component_instance_ID;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    added_model_name:                  " << cFD.added_model_name;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    added_model_datum_name:            " <<  isis::MultiFormatString(cFD.added_model_datum_name);
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    Line start point and end point:";
+					for each ( const isis_CADCommon::Point_3D &pt in line_added ) isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "        " << pt;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    If two axes are constrained together, they should be collinear.  Non-collinear axes are ";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    usually due to other constraints making it impossible to align the axes.  Open the CAD ";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    assembly and inspect the constraints for the model listed above to identify the problem. ";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    Also, open the CyPhy model or  CADAssembly.xml and check if this component has a guide.";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    Ill placed guides can cause axes to not align.  This condition should be corrected before "; 
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "    proceeding.";
 					continue;  
 				}
 
@@ -4009,17 +3999,17 @@ void CheckAxesAlignments_FlipOrientationIndicatorAsNecessary(
 					// Must set flip_orientation
 					ContraintFeatureDefinition_2 &cFD_mutable = pSCD.get_ContraintFeatureDefinition(j);
 					cFD_mutable.flip_orientation = true;
-					logcat_fileonly.infoStream() << "**** Axis Flipped  ****"; 
-					logcat_fileonly.infoStream() << "    base_model_component_instance_ID:  " << cFD.base_model_component_instance_ID;
-					logcat_fileonly.infoStream() << "    base_model_name:                   " << cFD.base_model_name;
-					logcat_fileonly.infoStream() << "    base_model_datum_name:             " << isis::MultiFormatString(cFD.base_model_datum_name);
-					logcat_fileonly.infoStream() << "    Line start point and end point:";
-					for each ( const isis_CADCommon::Point_3D &pt in line_base )  logcat_fileonly.infoStream() << "        " << pt;
-					logcat_fileonly.infoStream() << "    added_model_component_instance_ID: " << cFD.added_model_component_instance_ID;
-					logcat_fileonly.infoStream() << "    added_model_name:                  " << cFD.added_model_name;
-					logcat_fileonly.infoStream() << "    Line start point and end point:";
-					logcat_fileonly.infoStream() << "    added_model_datum_name:            " <<  isis::MultiFormatString(cFD.added_model_datum_name);
-					for each ( const isis_CADCommon::Point_3D &pt in line_added ) logcat_fileonly.infoStream() << "        " << pt;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "**** Axis Flipped  ****"; 
+					isis_LOG(lg, isis_FILE, isis_INFO) << "    base_model_component_instance_ID:  " << cFD.base_model_component_instance_ID;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "    base_model_name:                   " << cFD.base_model_name;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "    base_model_datum_name:             " << isis::MultiFormatString(cFD.base_model_datum_name);
+					isis_LOG(lg, isis_FILE, isis_INFO) << "    Line start point and end point:";
+					for each ( const isis_CADCommon::Point_3D &pt in line_base )  isis_LOG(lg, isis_FILE, isis_INFO) << "        " << pt;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "    added_model_component_instance_ID: " << cFD.added_model_component_instance_ID;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "    added_model_name:                  " << cFD.added_model_name;
+					isis_LOG(lg, isis_FILE, isis_INFO) << "    Line start point and end point:";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "    added_model_datum_name:            " <<  isis::MultiFormatString(cFD.added_model_datum_name);
+					for each ( const isis_CADCommon::Point_3D &pt in line_added ) isis_LOG(lg, isis_FILE, isis_INFO) << "        " << pt;
 				}			
 			}
 		}
@@ -4038,8 +4028,8 @@ bool Apply_CADDatum_ModelConstraints_2(
 													throw (isis::application_exception)
 {
 
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	bool stop = false;
 
@@ -4144,8 +4134,8 @@ bool Apply_CADDatum_ModelConstraints_2(
 			}
 			catch (...)
 			{
-				logcat_consoleandfile.warnStream() << "WARNING - Assembly failed to regenerate in PRO_REGEN_UPDATE_ASSEMBLY_ONLY mode.";
-				logcat_consoleandfile.warnStream() << "   Error caused by Assembly Name: " << in_CADComponentData_map[in_AssemblyComponentID].name << "  ComponentID: " + in_AssemblyComponentID + ".";
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "WARNING - Assembly failed to regenerate in PRO_REGEN_UPDATE_ASSEMBLY_ONLY mode.";
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "   Error caused by Assembly Name: " << in_CADComponentData_map[in_AssemblyComponentID].name << "  ComponentID: " + in_AssemblyComponentID + ".";
 			}
 
 
@@ -4206,12 +4196,12 @@ bool Apply_CADDatum_ModelConstraints_2(
 		{
 			if (isis::AssemblyOptions::GetInstance().FailLevel == isis::AssemblyOptions::FEATURE_REDEF)
 			{
-				logcat_consoleandfile.errorStream() << warnings;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << warnings;
 				return true;
 			} 
 			else 
 			{
-						logcat_consoleandfile.warnStream() << warnings;
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << warnings;
 			}
 		}
 
@@ -4257,12 +4247,12 @@ bool Apply_CADDatum_ModelConstraints_2(
 	{
 		if (isis::AssemblyOptions::GetInstance().FailLevel == isis::AssemblyOptions::FEATURE_REDEF)
 		{
-			logcat_consoleandfile.errorStream() << warnings;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << warnings;
 			return true;
 		} 
 		else 
 		{
-					logcat_consoleandfile.warnStream() << warnings;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << warnings;
 		}
 	}
 
@@ -4372,8 +4362,8 @@ bool Apply_CADDatum_ModelConstraints(
 			
 
 			ProAsmcomp		added_model_assembled_feature;
-			log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-			log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+			
+			
 	
 			const isis::CADComponentData &ComponentAssembledInfo_temp = in_CADComponentData_map[in_ComponentID];
 			added_model_assembled_feature = ComponentAssembledInfo_temp.assembledFeature;
@@ -4386,7 +4376,7 @@ bool Apply_CADDatum_ModelConstraints(
 			//      j != in_CADComponent_itr->Constraint().end();
 			//	  ++j )
 			
-			logcat_fileonly.infoStream() << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
 
 			
 			//int numberOfConstraints = 0;
@@ -4446,7 +4436,7 @@ bool Apply_CADDatum_ModelConstraints(
 					bool base_model_defined = false;
 					string added_model_constraint_feature_component_ID;
 					string base_model_constraint_feature_component_ID;
-					logcat_fileonly.infoStream() << "";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "";
 
 					//for ( AssemblyType::CADComponent_type::Constraint_type::Pair_type::ConstraintFeature_const_iterator l(k->ConstraintFeature().begin());
 					//	  l != k->ConstraintFeature().end();
@@ -4473,11 +4463,11 @@ bool Apply_CADDatum_ModelConstraints(
 							added_model_datum_side = l->featureOrientationType;
 							added_model_defined = true;
 							added_model_constraint_feature_component_ID = l->componentInstanceID;
-							//logcat_consoleandfile.infoStream() << in_CADComponentData_map[l->componentInstanceID].name << "::" << l->featureName;
+							//isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << in_CADComponentData_map[l->componentInstanceID].name << "::" << l->featureName;
 							constraintFeature_From_To += (std::string)in_CADComponentData_map[l->componentInstanceID].name + "::" + (std::string)l->featureName;
 							if (!base_model_defined)
 							{ 
-								//logcat_consoleandfile.infoStream() << " --> ";
+								//isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << " --> ";
 								constraintFeature_From_To += " --> ";
 							}
 						}
@@ -4492,17 +4482,17 @@ bool Apply_CADDatum_ModelConstraints(
 							base_model_datum_side = l->featureOrientationType;
 							base_model_defined = true;
 							base_model_constraint_feature_component_ID = l->componentInstanceID;
-							//logcat_consoleandfile.infoStream() << in_CADComponentData_map[l->componentInstanceID].name << "::" << l->featureName;
+							//isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << in_CADComponentData_map[l->componentInstanceID].name << "::" << l->featureName;
 							constraintFeature_From_To += (std::string)in_CADComponentData_map[l->componentInstanceID].name + "::" + (std::string)l->featureName;
 							if (!added_model_defined) 
 							{ 
-								//logcat_consoleandfile.infoStream() << " -zz-> ";
+								//isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << " -zz-> ";
 								constraintFeature_From_To += " --> ";
 							}
 						}		
 					
 					}
-					logcat_consoleandfile.infoStream() << constraintFeature_From_To;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << constraintFeature_From_To;
 
 					if ( !base_model_defined || !added_model_defined)
 					{
@@ -4517,11 +4507,11 @@ bool Apply_CADDatum_ModelConstraints(
 					if ( k->constraintOffsetPresent )
 					{	
 						offset_between_datums = k->constraintOffset.value;
-						logcat_fileonly.infoStream() << "      ConstraintOffset Value:               " <<  k->constraintOffset.value;
-						logcat_fileonly.infoStream() << "      ConstraintOffset OffsetAlignmentType: " <<  ProAsmcompConstrType_string( k->constraintOffset.offsetAlignmentType );
+						isis_LOG(lg, isis_FILE, isis_INFO) << "      ConstraintOffset Value:               " <<  k->constraintOffset.value;
+						isis_LOG(lg, isis_FILE, isis_INFO) << "      ConstraintOffset OffsetAlignmentType: " <<  ProAsmcompConstrType_string( k->constraintOffset.offsetAlignmentType );
 						if ( k->constraintOffset.unitsPresent )
 						{
-							logcat_fileonly.infoStream() << "      ConstraintOffset Units Type:          " << CADUnitsDistance_string( k->constraintOffset.units );
+							isis_LOG(lg, isis_FILE, isis_INFO) << "      ConstraintOffset Units Type:          " << CADUnitsDistance_string( k->constraintOffset.units );
 						}
 					}				
 
@@ -4588,7 +4578,7 @@ bool Apply_CADDatum_ModelConstraints(
 	
 		/*	string msg = "Adding comp: " + in_ComponentID;
 			ProMessageDisplay(L"msg_user.txt", "USER %0s", msg.c_str());
-			logcat_fileonly.errorStream() << msg;*/
+			isis_LOG(lg, isis_FILE, isis_ERROR) << msg;*/
 
 			// 1st round of setup: install guides and the 1st kinematic joint as non-kinematic ones to establish the initial position
 			if (!in_IgnoreGuides)
@@ -4599,10 +4589,10 @@ bool Apply_CADDatum_ModelConstraints(
 				{
 					if (isis::AssemblyOptions::GetInstance().FailLevel == isis::AssemblyOptions::FEATURE_REDEF)
 					{
-						logcat_consoleandfile.errorStream() << warnings;
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << warnings;
 						return true;
 					} else {
-						logcat_consoleandfile.warnStream() << warnings;
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << warnings;
 					}
 				}
 
@@ -4634,10 +4624,10 @@ bool Apply_CADDatum_ModelConstraints(
 					if (isis::AssemblyOptions::GetInstance().FailLevel == isis::AssemblyOptions::REGEN ||
 						isis::AssemblyOptions::GetInstance().FailLevel == isis::AssemblyOptions::FEATURE_REDEF)
 					{
-						logcat_fileonly.errorStream() << errMsg;
+						isis_LOG(lg, isis_FILE, isis_ERROR) << errMsg;
 						return true;
 					} else {
-						logcat_fileonly.warnStream() << errMsg;
+						isis_LOG(lg, isis_FILE, isis_WARN) << errMsg;
 					}
 				}
 
@@ -4671,16 +4661,16 @@ bool Apply_CADDatum_ModelConstraints(
 			{
 				if (isis::AssemblyOptions::GetInstance().FailLevel == isis::AssemblyOptions::FEATURE_REDEF)
 				{
-					logcat_consoleandfile.errorStream() << warnings;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << warnings;
 					return true;
 				} else {
-					logcat_consoleandfile.warnStream() << warnings;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << warnings;
 				}
 			}
 
 
 			//ProMessageDisplay(L"msg_user.txt", "USER %0s", "regen3");
-			//logcat_fileonly.errorStream() << "regen3";
+			//isis_LOG(lg, isis_FILE, isis_ERROR) << "regen3";
 			// Regenerate placement of the assembled model
 
 			int i = 5;
@@ -4712,10 +4702,10 @@ bool Apply_CADDatum_ModelConstraints(
 				if (isis::AssemblyOptions::GetInstance().FailLevel == isis::AssemblyOptions::REGEN ||
 					isis::AssemblyOptions::GetInstance().FailLevel == isis::AssemblyOptions::FEATURE_REDEF)
 				{
-					logcat_fileonly.errorStream() << errMsg;
+					isis_LOG(lg, isis_FILE, isis_ERROR) << errMsg;
 					return true;
 				} else {
-					logcat_fileonly.warnStream() << errMsg;
+					isis_LOG(lg, isis_FILE, isis_WARN) << errMsg;
 				}
 			}
 
@@ -4726,14 +4716,14 @@ bool Apply_CADDatum_ModelConstraints(
 
 			// Set the assembly component constraints
 			/*
-			logcat_fileonly.infoStream() << "";
-			logcat_fileonly.infoStream() << "********* Begin Set Constraint Set - ProAsmcompConstraintsSet ";
-			logcat_fileonly.infoStream() << "added_model_assembled_feature";
-			logcat_fileonly.infoStream() <<	 "   added_model_assembled_feature.id:     " << added_model_assembled_feature.id <<  log4cpp::eol <<
-	     	 "   added_model_assembled_feature.type:   " << added_model_assembled_feature.type <<  log4cpp::eol <<
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "********* Begin Set Constraint Set - ProAsmcompConstraintsSet ";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "added_model_assembled_feature";
+			isis_LOG(lg, isis_FILE, isis_INFO) <<	 "   added_model_assembled_feature.id:     " << added_model_assembled_feature.id <<  isis_EOL <<
+	     	 "   added_model_assembled_feature.type:   " << added_model_assembled_feature.type <<  isis_EOL <<
 	     	 "   added_model_assembled_feature.owner:  " << added_model_assembled_feature.owner;
-			logcat_fileonly.infoStream() << "Constraints address: " <<  constraints;
-			logcat_fileonly.infoStream() << "********* End Set Constraint Set - ProAsmcompConstraintsSet " << log4cpp::eol;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "Constraints address: " <<  constraints;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "********* End Set Constraint Set - ProAsmcompConstraintsSet " << isis_EOL;
 
 			ProAsmcomppath assem_path;
 			ProIdTable c_id_table;
@@ -4804,7 +4794,7 @@ bool Apply_CADDatum_ModelConstraints(
 				}
 				catch (...)
 				{
-					logcat_consoleandfile.infoStream() << "ERROR: Failed to regenerate after adding guide constraint(s) (i.e. initial position constraint(s)) to" 
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "ERROR: Failed to regenerate after adding guide constraint(s) (i.e. initial position constraint(s)) to" 
 													   << "\n   ComponentInstanceID: " << in_ComponentID 
 													   << "\n   Model Name:          " << in_CADComponentData_map[in_ComponentID].name;
 					throw;
@@ -4825,7 +4815,7 @@ bool Apply_CADDatum_ModelConstraints(
 			{
 				//isis_ProAsmcompConstrRemove (	ProAsmcomp *p_feat_handle, int  index ) throw(isis::application_exception);		
 				isis::isis_ProAsmcompConstrRemove (	&ComponentAssembledInfo_temp.assembledFeature, *i_del );
-				logcat_fileonly.infoStream() << "\nRemoved guide constraint, ComponentInstanceID: " << ComponentAssembledInfo_temp.componentID << ".  Constraint index: " << *i_del;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "\nRemoved guide constraint, ComponentInstanceID: " << ComponentAssembledInfo_temp.componentID << ".  Constraint index: " << *i_del;
 			}
 			
 
@@ -5071,7 +5061,7 @@ bool ApplyModelConstraints(
 										throw (isis::application_exception)
 {
 	bool fail = false;
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 	try
 	{
 		int count = 0;
@@ -5084,7 +5074,7 @@ bool ApplyModelConstraints(
 
 			if ( in_AllowUnconstrainedModels && in_CADComponentData_map[*i].constraintDef.constraints.size() == 0 )
 			{
-				logcat_fileonly.infoStream() << "      "  << 	in_CADComponentData_map[*i].name << "::Unconstrained";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "      "  << 	in_CADComponentData_map[*i].name << "::Unconstrained";
 				continue;
 			}
 			if ( in_CADComponentData_map[*i].constraintDef.constraints.size() == 0 )
@@ -5120,14 +5110,14 @@ bool ApplyModelConstraints(
 			{
 				if ( count == 0 && in_FirstComponentToBePositionedAsIntiiallyPlaced_IfDatumsCannotBeFound)
 				{
-					logcat_fileonly.infoStream() << "      "  << 	in_CADComponentData_map[*i].name << "::Coordinate System --> Assembly Coordinate System";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "      "  << 	in_CADComponentData_map[*i].name << "::Coordinate System --> Assembly Coordinate System";
 				}
 				else
 				{
 					throw;
 				}
 			}  // END try - Catch
-			logcat_fileonly.infoStream() << "      "  << 	in_CADComponentData_map[*i].name << "::Coordinate System --> Assembly Coordinate System";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "      "  << 	in_CADComponentData_map[*i].name << "::Coordinate System --> Assembly Coordinate System";
 		}
 	}
 	catch (...)

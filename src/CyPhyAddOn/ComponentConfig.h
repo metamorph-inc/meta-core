@@ -12,7 +12,7 @@
 #define COCLASS_PROGID "MGA.AddOn.CyPhyAddOn"
 
 // This name will appear in the popup window for interpreter selection.
-#define COMPONENT_NAME "CyPhyAddOn"
+#define COMPONENT_NAME L"CyPhyAddOn"
 
 
 // This text will appear in the toolbar icon tooltip and in the menu.

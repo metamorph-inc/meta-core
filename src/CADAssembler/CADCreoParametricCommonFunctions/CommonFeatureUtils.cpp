@@ -1,9 +1,8 @@
 #include <CommonFeatureUtils.h>
 #include <StringToEnumConversions.h>
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
 #include "CommonDefinitions.h"
 #include <iomanip>
+#include "LoggerBoost.h"
 
 //#include "ProFeatType.h"
 namespace isis
@@ -111,7 +110,7 @@ ProError user_action( ProFeature *feature, ProError status, ProAppData appdata)
 	}
 	catch(...)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 		// Call again to get the error code
 		ProError  proError_temp = ProAsmcompMdlGet(feature , &mdl);
 		// PRO_TK_E_NOT_FOUND  - Assembly component model is not a solid or is not in memory.
@@ -119,19 +118,19 @@ ProError user_action( ProFeature *feature, ProError status, ProAppData appdata)
 		if ( proError_temp == PRO_TK_E_NOT_FOUND )
 		{
 			//std::cout << std::endl << std::endl << "@@@@@@@@@@@@@@@@@@@@@ isis_ProAsmcompMdlGet @@@@@@@@@@@@@@@@@@@@@@@@@@@@";
-			logcat_fileonly.errorStream() << "INFORMATION: isis_ProAsmcompMdlGet(feature , &mdl), Could not retrieve sub-part/assembly, probably because the simplified rep did not contain the part/assembly";
-			logcat_fileonly.errorStream() << "isis_ProAsmcompMdlGet(feature , &mdl), feature: " << feature;
-			logcat_fileonly.errorStream() << "                                       id       " << feature->id;
-			logcat_fileonly.errorStream() << "                                       owner    " << feature->owner;
-			logcat_fileonly.errorStream() <<  "                                      type     " << feature->type;	
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "INFORMATION: isis_ProAsmcompMdlGet(feature , &mdl), Could not retrieve sub-part/assembly, probably because the simplified rep did not contain the part/assembly";
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "isis_ProAsmcompMdlGet(feature , &mdl), feature: " << feature;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "                                       id       " << feature->id;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "                                       owner    " << feature->owner;
+			isis_LOG(lg, isis_FILE, isis_ERROR) <<  "                                      type     " << feature->type;	
 			return(PRO_TK_CONTINUE);
 		}
 		else
 		{
-			logcat_fileonly.errorStream() << "isis_ProAsmcompMdlGet(feature , &mdl), feature: " << feature;
-			logcat_fileonly.errorStream() << "                                        id      " << feature->id;
-			logcat_fileonly.errorStream() << "                                        owner   " << feature->owner;
-			logcat_fileonly.errorStream() <<  "                                       type    " << feature->type;	
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "isis_ProAsmcompMdlGet(feature , &mdl), feature: " << feature;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "                                        id      " << feature->id;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "                                        owner   " << feature->owner;
+			isis_LOG(lg, isis_FILE, isis_ERROR) <<  "                                       type    " << feature->type;	
 			throw;
 		}
 	}

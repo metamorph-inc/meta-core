@@ -8,8 +8,7 @@
 #include <ProReference.h>
 #include <ProDtmPln.h>
 
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
+#include "LoggerBoost.h"
 #include "CommonDefinitions.h"
 
 #include <string>
@@ -22,8 +21,6 @@ namespace feature {
 
 class Selector {
 private:
-	log4cpp::Category& m_log_f;
-	log4cpp::Category& m_log_cf;
 
 	ProSelection m_self;
 public:

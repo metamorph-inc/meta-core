@@ -9,7 +9,6 @@ using GME;
 using GME.MGA.Core;
 using System.Windows.Forms;
 using System.Linq;
-using Excel = Microsoft.Office.Interop.Excel;
 using GME.MGA.Meta;
 
 namespace CyPhyMdaoAddOn

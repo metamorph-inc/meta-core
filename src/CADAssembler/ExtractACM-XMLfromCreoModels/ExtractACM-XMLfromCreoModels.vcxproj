@@ -175,11 +175,14 @@
     <ProjectReference Include="..\CADCreoParametricToolkitFunctions\CADCreoParametricToolkitFunctions.vcxproj">
       <Project>{7cfd6932-09b9-4c2d-9483-c70a460e6996}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\CADCreoUtils\CADCreoUtils.vcxproj">
+      <Project>{8b88c487-8f58-4622-997b-b0ba84f8b881}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-    <Import Project="..\..\nuget\boost.1.55.0.10\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.10\build\native\boost.targets')" />
+    <Import Project="..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
     <Import Project="..\..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets" Condition="Exists('..\..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets')" />
     <Import Project="..\..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets" Condition="Exists('..\..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets')" />
     <Import Project="..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets" Condition="Exists('..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets')" />
@@ -190,10 +193,7 @@
     <Import Project="..\..\nuget\boost_atomic-vc100.1.55.0.15\build\native\boost_atomic-vc100.targets" Condition="Exists('..\..\nuget\boost_atomic-vc100.1.55.0.15\build\native\boost_atomic-vc100.targets')" />
     <Import Project="..\..\nuget\protobuf.2.5.0.0\build\native\protobuf.targets" Condition="Exists('..\..\nuget\protobuf.2.5.0.0\build\native\protobuf.targets')" />
     <Import Project="..\..\nuget\protobuf-vc100.2.5.0.0\build\native\protobuf-vc100.targets" Condition="Exists('..\..\nuget\protobuf-vc100.2.5.0.0\build\native\protobuf-vc100.targets')" />
-    <Import Project="..\..\nuget\log4cpp.redist.1.1.0.2\build\native\log4cpp.redist.targets" Condition="Exists('..\..\nuget\log4cpp.redist.1.1.0.2\build\native\log4cpp.redist.targets')" />
-    <Import Project="..\..\nuget\log4cpp.1.1.0.2\build\native\log4cpp.targets" Condition="Exists('..\..\nuget\log4cpp.1.1.0.2\build\native\log4cpp.targets')" />
-    <Import Project="..\..\nuget\log4cpp.1.1.0.3\build\native\log4cpp.targets" Condition="Exists('..\..\nuget\log4cpp.1.1.0.3\build\native\log4cpp.targets')" />
-    <Import Project="..\..\nuget\log4cpp-vc100.redist.1.1.0.3\build\native\log4cpp-vc100.redist.targets" Condition="Exists('..\..\nuget\log4cpp-vc100.redist.1.1.0.3\build\native\log4cpp-vc100.redist.targets')" />
-    <Import Project="..\..\nuget\log4cpp-vc100.1.1.0.3\build\native\log4cpp-vc100.targets" Condition="Exists('..\..\nuget\log4cpp-vc100.1.1.0.3\build\native\log4cpp-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_log-vc100.1.55.0.15\build\native\boost_log-vc100.targets" Condition="Exists('..\..\nuget\boost_log-vc100.1.55.0.15\build\native\boost_log-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_log_setup-vc100.1.55.0.15\build\native\boost_log_setup-vc100.targets" Condition="Exists('..\..\nuget\boost_log_setup-vc100.1.55.0.15\build\native\boost_log_setup-vc100.targets')" />
   </ImportGroup>
 </Project>

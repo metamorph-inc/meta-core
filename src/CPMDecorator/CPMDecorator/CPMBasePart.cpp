@@ -1122,8 +1122,7 @@ void CPMBasePart::AddBottomLabel(CComPtr<IMgaFCO>& pFCO, CComPtr<IMgaProject>& p
 								 HWND& parentWnd, DecoratorSDK::PreferenceMap& preferences) {
 	CComBSTR bstr;
 	COMTHROW(pFCO->get_Name(&bstr));
-	CString textStr;
-	CopyTo(bstr, textStr);
+    CString textStr = bstr;
 
 	m_LabelPart = new DecoratorSDK::ClassLabelPart(this, m_eventSink, false);
 	m_LabelPart->SetText(textStr);

@@ -21,7 +21,7 @@ CString CUdmApp::mgaPath = "";
 
 extern bool Automation;
 extern string RefactoredTypeOrAction;
-extern string ExceptionMessage;
+extern wstring ExceptionMessage;
 
 
 // converts jdlk_jasf__afsdf__Fsda___ => jdlk_jasf
@@ -57,10 +57,10 @@ std::string appendObjLink(const Udm::Object &obj)
 
 void showUsage()
 {
-	CString usage("CyPhyDSEConverter interpreter cannot be invoked. Please see its usage as below: \r\n");
-	usage.Append("1. Invoke interpreter inside a ComponentAssembly/TestBench model and convert this model into DesignContainer of compound type.\r\n");
-	usage.Append("2. Invoke interpreter inside a DesignContainer model, select an object or a group of objects and ");
-	usage.Append("convert them into a DesignContainer or ComponentAssembly and still keep the port connection.\r\n");
+	CString usage(L"CyPhyDSEConverter interpreter cannot be invoked. Please see its usage as below: \r\n");
+	usage.Append(L"1. Invoke interpreter inside a ComponentAssembly/TestBench model and convert this model into DesignContainer of compound type.\r\n");
+	usage.Append(L"2. Invoke interpreter inside a DesignContainer model, select an object or a group of objects and ");
+	usage.Append(L"convert them into a DesignContainer or ComponentAssembly and still keep the port connection.\r\n");
 	GMEConsole::Console::Out::writeLine(usage.GetString());
 	if(Automation) {
 		ExceptionMessage = usage;
@@ -488,7 +488,7 @@ void refactor_single_CA(CyPhyML::RootFolder &cyphy_rf, Udm::Object &focusObject,
 		GMEConsole::Console::Out::writeLine(msg);
 
 		if(Automation) {
-			ExceptionMessage = msg;
+			ExceptionMessage = CString(msg.c_str());
 			throw;
 		}
 
@@ -521,7 +521,7 @@ void refactor_single_CA(CyPhyML::RootFolder &cyphy_rf, Udm::Object &focusObject,
 		GMEConsole::Console::Out::writeLine(msg);
 
 		if(Automation) {
-			ExceptionMessage = msg;
+			ExceptionMessage = CString(msg.c_str());
 			throw;
 		}
 

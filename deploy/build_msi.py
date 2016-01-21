@@ -55,7 +55,8 @@ def get_nuget_packages():
         version = package.get('version')
         version = vc_info.update_version(version, svnversion)
         print "NuGet install " + package.get('id') + " " + version
-        system([r'..\src\.nuget\nuget.exe', 'install', '-ConfigFile', r'..\NuGet.config', '-PreRelease', '-Version', version, package.get('id')], os.path.join(this_dir, 'CAD_Installs'))
+        # n.b. don't specify -ConfigFile, as it makes nuget.exe ignore %APPDATA%\NuGet\NuGet.config
+        system([r'..\src\.nuget\nuget.exe', 'install', '-PreRelease', '-Version', version, package.get('id')], os.path.join(this_dir, 'CAD_Installs'))
         package_dir = r'CAD_Installs\%s.%s' % (package.get('id'), version)
         for filename in glob.glob(package_dir + '/*'):
             #if os.path.basename(filename) == 'svnversion':

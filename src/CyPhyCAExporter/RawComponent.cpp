@@ -51,7 +51,7 @@ STDMETHODIMP RawComponent::Invoke(IMgaProject* gme, IMgaFCOs *models, long param
 	return InvokeEx(gme, focus, selected, parvar);
 #else
 	if(interactive) {
-		AfxMessageBox("This component does not support the obsolete invoke mechanism");
+		AfxMessageBox(L"This component does not support the obsolete invoke mechanism");
 	}
 	return E_MGA_NOT_SUPPORTED;
 #endif
@@ -109,7 +109,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 
 //	if ( (project != NULL))
 //	{		
-//		CComBSTR bstrName("GME.Application");
+//		CComBSTR bstrName(L"GME.Application");
 //		CComPtr<IMgaClient> pClient;
 //		HRESULT hr = project->GetClientByName(bstrName, &pClient);
 //		if (SUCCEEDED(hr) && pClient) 
@@ -142,19 +142,19 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 			GMEConsole::Console::clear();
 		  }
 
-		  char currdate[128];
-		  char currtime[128];
-		  _strdate_s( currdate);
-		  _strtime_s( currtime );
-		  std::string cd(currdate);
-		  std::string ct(currtime);
-		  GMEConsole::Console::Info::writeLine("== "+cd+" "+ct+"> Call Cyphy ComponentAssembly Export Tool: ==");
+		  wchar_t currdate[128];
+		  wchar_t currtime[128];
+		  _wstrdate_s( currdate);
+		  _wstrtime_s( currtime );
+		  std::wstring cd(currdate);
+		  std::wstring ct(currtime);
+		  GMEConsole::Console::Info::writeLine(L"== "+cd+L" "+ct+L"> Call Cyphy ComponentAssembly Export Tool: ==");
 
 	//	  if(interactive)
 	  {
 
 		CComBSTR projname;
-		CComBSTR focusname = "<nothing>";
+		CComBSTR focusname = L"<nothing>";
 		CComPtr<IMgaTerritory> terr;
 
 		CComPtr<IMgaProject> mgaProject = project;
@@ -409,7 +409,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 	catch(...)
 	{
 		ccpProject->AbortTransaction();
-		AfxMessageBox("An unexpected error has occured during the interpretation process.");
+		AfxMessageBox(L"An unexpected error has occured during the interpretation process.");
 		GMEConsole::Console::freeConsole();
 
 		  if (constrMgr)
@@ -419,7 +419,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 
 		return E_UNEXPECTED;
 	}
-	GMEConsole::Console::Info::writeLine("==== End ====");
+	GMEConsole::Console::Info::writeLine(L"==== End ====");
 	GMEConsole::Console::freeConsole();
 	  if (constrMgr)
 	      COMTHROW(constrMgr->Enable(true));
@@ -432,7 +432,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 // you only need to implement it if other invokation mechanisms are used
 STDMETHODIMP RawComponent::ObjectsInvokeEx( IMgaProject *project,  IMgaObject *currentobj,  IMgaObjects *selectedobjs,  long param) {
 	if(interactive) {
-		AfxMessageBox("Tho ObjectsInvoke method is not implemented");
+		AfxMessageBox(L"Tho ObjectsInvoke method is not implemented");
 	}
 	return E_MGA_NOT_SUPPORTED;
 }
@@ -453,7 +453,7 @@ STDMETHODIMP RawComponent::put_ComponentParameter(BSTR name, VARIANT newVal) {
 // these two functions are the main
 STDMETHODIMP RawComponent::GlobalEvent(globalevent_enum event) {
 	if(event == GLOBALEVENT_UNDO) {
-		AfxMessageBox("UNDO!!");
+		AfxMessageBox(L"UNDO!!");
 	}
 	return S_OK;
 }
@@ -462,7 +462,7 @@ STDMETHODIMP RawComponent::ObjectEvent(IMgaObject * obj, unsigned long eventmask
 	if(eventmask & OBJEVENT_CREATED) {
 		CComBSTR objID;
 		COMTHROW(obj->get_ID(&objID));
-		AfxMessageBox( "Object created! ObjID: " + CString(objID));
+		AfxMessageBox( L"Object created! ObjID: " + CString(objID));
 	}
 	return S_OK;
 }

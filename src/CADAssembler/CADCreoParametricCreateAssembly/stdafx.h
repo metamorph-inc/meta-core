@@ -5,8 +5,7 @@
 #include <CommonStructures.h>
 #include <ostream>
 #include <iostream>
-#include <log4cpp\Category.hh>
-#include <log4cpp\OstreamAppender.hh>
+#include "LoggerBoost.h"
 #include <CommonUtilities.h>
 #include <FiniteElementAnalysis.h>
 #include <AssembleUtils.h>

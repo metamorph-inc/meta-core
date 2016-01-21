@@ -48,7 +48,6 @@ private:
 	std::vector<CComPtr<IMgaFCO>> fcolist;
 	int maxId;
 	void createStringSetForMeta_id();
-	CString generateDCEUUID();
 	CString getFCOMetaName(IMgaFCO *fco);
 	CString getObjectMetaDisplayedName(IMgaObject *obj);
 	void traverseFolder(IMgaFolder *fdr);

@@ -51,7 +51,7 @@ STDMETHODIMP RawComponent::Invoke(IMgaProject* gme, IMgaFCOs *models, long param
 	return InvokeEx(gme, focus, selected, parvar);
 #else
 	if(interactive) {
-		AfxMessageBox("This component does not support the obsolete invoke mechanism");
+		AfxMessageBox(L"This component does not support the obsolete invoke mechanism");
 	}
 	return E_MGA_NOT_SUPPORTED;
 #endif
@@ -79,7 +79,9 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 	CUdmApp udmApp;
 
 	CComPtr<IMgaProject>ccpProject(project);
-	
+    long status = 0;
+    ccpProject->get_ProjectStatus(&status);
+
 	try
 	{
 		// Setting up the console
@@ -96,7 +98,9 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		try
 		{
 			// Opening backend
-			dngBackend.OpenExisting(ccpProject, Udm::CHANGES_LOST_DEFAULT);
+		if (!(status & 8))
+			COMTHROW(ccpProject->BeginTransactionInNewTerr(TRANSACTION_NON_NESTED, &terr));
+			dngBackend.OpenExisting(ccpProject, Udm::CHANGES_LOST_DEFAULT, true);
 
 			std::string metapath;
 			HKEY software_meta;
@@ -116,7 +120,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 			}
 			udmApp.meta_path = metapath;
 			std::string python_dll_path = metapath + "\\bin\\Python27\\Scripts\\python27.dll";
-			HMODULE python_dll = LoadLibrary(python_dll_path.c_str());
+			HMODULE python_dll = LoadLibraryA(python_dll_path.c_str());
 			if (python_dll == nullptr)
 				throw udm_exception("Could not load Python27.dll at " + python_dll_path);
 			RAIIFreeLibrary python_dll_cleanup;
@@ -175,24 +179,35 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 			udmApp.UdmMain(&dngBackend, currentObject, selectedObjects, param, componentParameters, workingDir);
 			// Closing backend
 			dngBackend.CloseWithUpdate();
+            if (!(status & 8))
+                COMTHROW(ccpProject->CommitTransaction());
+            terr = 0;
 
 		}
 		catch(udm_exception &exc)
 		{
-			// Close GME Backend (we may close it twice, but GmeDataNetwork handles it)
 			dngBackend.CloseNoUpdate();
+            if (!(status & 8))
+                COMTHROW(ccpProject->AbortTransaction());
 
 			GMEConsole::Console::Error::writeLine(exc.what());
 			return S_FALSE;
 		}
-	}
+        catch (python_error &exc)
+        {
+            dngBackend.CloseNoUpdate();
+            if (!(status & 8))
+                COMTHROW(ccpProject->AbortTransaction());
+            throw;
+        }
+    }
 	catch (udm_exception& e)
 	{
 		ccpProject->AbortTransaction();
 		GMEConsole::Console::gmeoleapp = 0;
 		std::string msg = "Udm exception: ";
 		msg += e.what();
-		AfxMessageBox(msg.c_str());
+		AfxMessageBox(CString(msg.c_str()));
 		return E_FAIL;
 	}
 	catch (python_error& e)
@@ -230,7 +245,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		ccpProject->AbortTransaction();
 		GMEConsole::Console::gmeoleapp = 0;
 		// This can be a problem with the GME Console, so we display it in a message box
-		AfxMessageBox("An unexpected error has occurred during the interpretation process.");
+		AfxMessageBox(L"An unexpected error has occurred during the interpretation process.");
 		return E_FAIL;
 	}
 	GMEConsole::Console::gmeoleapp = 0;
@@ -242,7 +257,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 // you only need to implement it if other invokation mechanisms are used
 STDMETHODIMP RawComponent::ObjectsInvokeEx( IMgaProject *project,  IMgaObject *currentobj,  IMgaObjects *selectedobjs,  long param) {
 	if(interactive) {
-		AfxMessageBox("The ObjectsInvoke method is not implemented");
+		AfxMessageBox(L"The ObjectsInvoke method is not implemented");
 	}
 	return E_MGA_NOT_SUPPORTED;
 }

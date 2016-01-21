@@ -136,7 +136,12 @@ class OpenModelica(ToolBase):
             return_str = subprocess_call(command, log)
             version = return_str.split('(')
             self.tool_version = version[0].strip()
-            self.tool_version_number = version[1].strip().strip(')')
+            if len(version) > 1:
+                self.tool_version_number = version[1].strip().strip(')')
+            else:
+                # Around v.1.9.4 open-modelica changed version format string.
+                # For example v1.9.4-dev-62-g0de2ae0 will now be under self.tool_version as is.
+                self.tool_version_number = 'UNKNOWN'
         except subprocess.CalledProcessError as err:
             raise ModelicaCompilationError("Could not call omc.", sp_msg=err.returncode)
     # end of _print_revision_number
@@ -303,10 +308,16 @@ class OpenModelica(ToolBase):
         # run the simulation
 
         total_cnt = 0   # Counter to check to total elapsed simulation time
+        # FIX for OM 1.9.4, add \bin to path.
+        # Add %OPENMODELICAHOME%\bin to environment variables
+        env_var_bin = os.path.join(os.getenv('OPENMODELICAHOME'), 'bin')
+        my_env = os.environ
+        my_env["PATH"] = env_var_bin + os.pathsep + my_env["PATH"]
+        log.debug('Added "{0}" to beginning of env var PATH.'.format(env_var_bin))
 
         om_stdout = open('om_stdout.txt', 'w')
         t_stamp = time.time()
-        sim_process = subprocess.Popen([command], stdout=om_stdout, stderr=om_stdout)
+        sim_process = subprocess.Popen([command], stdout=om_stdout, stderr=om_stdout, env=my_env)
         log.debug('OpenModelica simulation sub-process opened.')
         while sim_process.poll() is None:
             time.sleep(1)

@@ -3,9 +3,9 @@
 #include <CreoErrorCodes.h>
 #include <MultiFormatString.h>
 #include <StringToEnumConversions.h>
-#include <log4cpp/Category.hh>
-#include <log4cpp/FileAppender.hh>
+#include "LoggerBoost.h"
 #include "CommonDefinitions.h"
+#include <UtilCollect.h>
 
 // extern "C" FILE* PTApplsUnicodeFopen(const char *filename, const char *mode);
 
@@ -1316,13 +1316,13 @@ namespace isis
 
 		if ( err != PRO_TK_NO_ERROR ) 
 		{
-			log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-			logcat_fileonly.errorStream() << "p_errors->error_number: " << p_errors->error_number;
+			
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_number: " << p_errors->error_number;
 			for (int i = 0; i < p_errors->error_number; ++i )
 			{
-				logcat_fileonly.errorStream() << "p_errors->error_list[0].error: "<< p_errors->error_list[0].error;
-				logcat_fileonly.errorStream() << "p_errors->error_list[0].err_item_id: "<< p_errors->error_list[0].err_item_id;
-				logcat_fileonly.errorStream() << "p_errors->error_list[0].err_item_type: "<< p_errors->error_list[0].err_item_type;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].error: "<< p_errors->error_list[0].error;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].err_item_id: "<< p_errors->error_list[0].err_item_id;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].err_item_type: "<< p_errors->error_list[0].err_item_type;
 			}
 
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
@@ -1348,13 +1348,13 @@ namespace isis
 
 		if ( err != PRO_TK_NO_ERROR || p_errors->error_number != 0) 
 		{
-			log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-			logcat_fileonly.errorStream() << "p_errors->error_number: " << p_errors->error_number;
+			
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_number: " << p_errors->error_number;
 			for (int i = 0; i < p_errors->error_number; ++i )
 			{
-				logcat_fileonly.errorStream() << "p_errors->error_list[0].error: "<< p_errors->error_list[0].error;
-				logcat_fileonly.errorStream() << "p_errors->error_list[0].err_item_id: "<< p_errors->error_list[0].err_item_id;
-				logcat_fileonly.errorStream() << "p_errors->error_list[0].err_item_type: "<< p_errors->error_list[0].err_item_type;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].error: "<< p_errors->error_list[0].error;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].err_item_id: "<< p_errors->error_list[0].err_item_id;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].err_item_type: "<< p_errors->error_list[0].err_item_type;
 			}
 
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
@@ -1511,11 +1511,11 @@ namespace isis
 	ProError isis_ProDirectoryChange(  ProPath path )
 										throw(isis::application_exception)
 	{
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 		ProError status ;
 		switch ( status = ProDirectoryChange ( path ) ) {
 		case PRO_TK_NO_ERROR: 
-			logcat_fileonly.infoStream() << "The function successfully changed the directory.";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "The function successfully changed the directory.";
 			break;
 		case PRO_TK_BAD_INPUTS:
 			{
@@ -2445,6 +2445,77 @@ namespace isis
 			throw isis::application_exception("C06102",err_str);  
 		}
 		return err;
+	}
+
+	ProError isis_ProSurfaceInit (	ProMdl        p_owner_handle,
+									int           surf_id,
+									ProSurface   *p_surface)
+																throw(isis::application_exception)
+	{
+		ProError err =  ProSurfaceInit ( p_owner_handle, surf_id, p_surface);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProSurfaceInit returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+	}
+
+	ProError isis_ProPoint3dOnsurfaceFind(	ProPoint3d      xyz,        
+											ProSurface      surface,   
+											ProBoolean     *on_surf,  
+											ProPoint3d      closest_pt)
+																throw(isis::application_exception)
+	{
+		ProError err =  ProPoint3dOnsurfaceFind(xyz, surface,  on_surf, closest_pt);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProPoint3dOnsurfaceFind returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+	}
+
+
+	ProError isis_ProModelitemMdlGet (		ProModelitem    *p_model_item, 
+											ProMdl          *p_owner) 
+																throw(isis::application_exception)	
+	{
+		ProError err =  ProModelitemMdlGet(p_model_item, p_owner);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProModelitemMdlGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+	}
+
+	// Note - The following function is from UtilCollect.c
+	ProError isis_ProUtilCollectSolidSurfaces ( ProSolid	    p_solid,		//	In:  The handle to the solid */
+												ProSurface	    **p_surfaces	//	Out: ProArray with collected surfaces. 
+																				//	The function allocates memory 
+																				//	for this argument, but you must 
+																				//	free it. To free the memory, 
+																				//	call the function ProArrayFree()*/
+																				)
+																		throw (isis::application_exception)
+	{
+		ProError err =  ProUtilCollectSolidSurfaces ( p_solid, p_surfaces);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : isis_ProUtilCollectSolidSurfaces returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+
 	}
 
 

@@ -1,8 +1,7 @@
 #include "AssemblyOptions.h"
 #include "boost\algorithm\string.hpp"
 #include <boost\lexical_cast.hpp>
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
+#include "LoggerBoost.h"
 #include <vector>
 #include "CommonDefinitions.h"
 
@@ -18,7 +17,7 @@ AssemblyOptions AssemblyOptions::Instance;
 // - applyparamsafter=<0|1> 1 means apply the cyphy parameters after the assembly has been completed
 AssemblyOptions& AssemblyOptions::Create(const string &input)
 {
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+	
 	vector<string> tokens;
 	boost::split(tokens, input, boost::is_any_of(";"));
 	for (vector<string>::const_iterator it = tokens.begin(); it != tokens.end(); ++it)
@@ -35,7 +34,7 @@ AssemblyOptions& AssemblyOptions::Create(const string &input)
 		}
 		if (value.size()==0)
 		{
-			logcat_fileonly.warnStream() << "Invalid assembly option, no value specified. keyword=" << keyword;
+			isis_LOG(lg, isis_FILE, isis_WARN) << "Invalid assembly option, no value specified. keyword=" << keyword;
 			continue;
 		}
 		if (keyword=="applyparamsafter")
@@ -47,7 +46,7 @@ AssemblyOptions& AssemblyOptions::Create(const string &input)
 			boost::split(tokens, value, boost::is_any_of(":"));
 			if (tokens.size()==0)
 			{
-				logcat_fileonly.warnStream() << "Invalid assembly option, wrong value for stopassembly. value=" << value;
+				isis_LOG(lg, isis_FILE, isis_WARN) << "Invalid assembly option, wrong value for stopassembly. value=" << value;
 				continue;
 			}
 			Instance.StopAssemblyComponentID = tokens[0];
@@ -56,7 +55,7 @@ AssemblyOptions& AssemblyOptions::Create(const string &input)
 			} catch (...)
 			{
 				// conversion from string to int failed
-				logcat_fileonly.warnStream() << "Invalid assembly option, wrong value for stopassembly. value=" << value;
+				isis_LOG(lg, isis_FILE, isis_WARN) << "Invalid assembly option, wrong value for stopassembly. value=" << value;
 			}
 		} else if (keyword=="faillevel")
 		{
@@ -65,7 +64,7 @@ AssemblyOptions& AssemblyOptions::Create(const string &input)
 		{
 			Instance.FullRegen = value=="1";
 		} else {
-			logcat_fileonly.warnStream() << "Invalid assembly option, wrong keyword. keyword=" << keyword;
+			isis_LOG(lg, isis_FILE, isis_WARN) << "Invalid assembly option, wrong keyword. keyword=" << keyword;
 		}
 	}
 	return Instance;

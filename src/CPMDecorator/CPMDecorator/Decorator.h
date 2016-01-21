@@ -16,7 +16,7 @@
 #include "DecoratorInterface.h"
 #include "PartInterface.h"
 
-#define CPM_NAMESPACE			"CPM::"
+#define CPM_NAMESPACE			L"CPM::"
 #define CPM_NAMESPACE_LENGTH	5
 
 // icon is RGB(0xcc, 0xff, 0xcc)
@@ -28,38 +28,38 @@
 
 // CPM Attributes
 
-#define  CPM_PARAMETER_RANGE_ATTR			"Range"
-#define  CPM_PARAMETER_VALUE_ATTR			"Value"
+#define  CPM_PARAMETER_RANGE_ATTR			L"Range"
+#define  CPM_PARAMETER_VALUE_ATTR			L"Value"
 
 
-#define  CPM_PROPERTY_TOLERANCE_ATTR		"Tolerance"
-#define  CPM_PROPERTY_VALUE_ATTR			"Value"
+#define  CPM_PROPERTY_TOLERANCE_ATTR		L"Tolerance"
+#define  CPM_PROPERTY_VALUE_ATTR			L"Value"
 
 
 
 //CPM KINDS
-#define	 CPM_COMPONENT_OBJ				"Component"
-#define	 CPM_TESTCOMPONENT_OBJ			"TestComponent"
-#define	 CPM_CYBERCOMPONENT_OBJ			"CyberComponent"
+#define	 CPM_COMPONENT_OBJ				L"Component"
+#define	 CPM_TESTCOMPONENT_OBJ			L"TestComponent"
+#define	 CPM_CYBERCOMPONENT_OBJ			L"CyberComponent"
 
-#define	 CPM_PARAMETER_OBJ				"Parameter"
-#define	 CPM_PROPERTY_OBJ				"Property"
-#define	 CPM_METRIC_OBJ					"Metric"
-#define	 CPM_CARPARAMETER_OBJ			"CarParameter"
+#define	 CPM_PARAMETER_OBJ				L"Parameter"
+#define	 CPM_PROPERTY_OBJ				L"Property"
+#define	 CPM_METRIC_OBJ					L"Metric"
+#define	 CPM_CARPARAMETER_OBJ			L"CarParameter"
 
-#define	 CPM_THERMAL_PORT_OBJ			"ThermalPowerPort"
-#define	 CPM_HYDROLIC_PORT_OBJ			"HydraulicPowerPort"
-#define	 CPM_ELECTRICAL_PORT_OBJ		"ElectricalPowerPort"
-#define	 CPM_MAGNETIC_PORT_OBJ			"MagneticPowerPort"
-#define	 CPM_ELECTROMAGNETIC_PORT_OBJ	"ElectromagneticPort"
-#define	 CPM_ROTATIONAL_PORT_OBJ		"RotationalPowerPort"
-#define	 CPM_TRANSLATIONAL_PORT_OBJ		"TranslationalPowerPort"
-#define	 CPM_PNEUMATIC_PORT_OBJ			"PneumaticPowerPort"
-#define	 CPM_ACOUSTIC_PORT_OBJ			"AcousticPowerPort"
-#define  CPM_AGGREGATE_PORT_OBJ			"AggregatePort"
+#define	 CPM_THERMAL_PORT_OBJ			L"ThermalPowerPort"
+#define	 CPM_HYDROLIC_PORT_OBJ			L"HydraulicPowerPort"
+#define	 CPM_ELECTRICAL_PORT_OBJ		L"ElectricalPowerPort"
+#define	 CPM_MAGNETIC_PORT_OBJ			L"MagneticPowerPort"
+#define	 CPM_ELECTROMAGNETIC_PORT_OBJ	L"ElectromagneticPort"
+#define	 CPM_ROTATIONAL_PORT_OBJ		L"RotationalPowerPort"
+#define	 CPM_TRANSLATIONAL_PORT_OBJ		L"TranslationalPowerPort"
+#define	 CPM_PNEUMATIC_PORT_OBJ			L"PneumaticPowerPort"
+#define	 CPM_ACOUSTIC_PORT_OBJ			L"AcousticPowerPort"
+#define  CPM_AGGREGATE_PORT_OBJ			L"AggregatePort"
 
-#define	 CPM_ELECTRONICSIGNAL_PORT_OBJ	"ElectricalSignalPort"
-#define	 CPM_SOFTWARE_PORT_OBJ			"SoftwareCommunicationPort"
+#define	 CPM_ELECTRONICSIGNAL_PORT_OBJ	L"ElectricalSignalPort"
+#define	 CPM_SOFTWARE_PORT_OBJ			L"SoftwareCommunicationPort"
 
 
 

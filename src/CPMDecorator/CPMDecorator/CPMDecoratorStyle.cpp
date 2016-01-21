@@ -41,9 +41,8 @@ CString CPMDecoratorStyle::GetAttribute(const CString& attrName) const
 CPMNamePart* CPMDecoratorStyle::NewCPMNamePart(int iFontKey,  COLORREF cColorKey)
 {
 	CComBSTR bName;
-	CString cName;
 	COMTHROW(m_pFCO->get_Name(&bName));
-	CopyTo(bName, cName);
+    CString cName = bName;
 	m_preferences[DecoratorSDK::PREF_LABELFONT] = PreferenceVariant((long)iFontKey);
 	m_preferences[DecoratorSDK::PREF_LABELCOLOR] = PreferenceVariant(cColorKey);
 	return new CPMNamePart(m_pBasePart, m_eventSink, cName, m_pFCO);
@@ -86,7 +85,7 @@ static CString getIntegerAttribute(const CComPtr<IMgaFCO> pFCO, const CString& a
 	long attrValue;
 	DecoratorSDK::getFacilities().getAttribute(pFCO, attrName, attrValue);
 	CString attrString;
-	attrString.Format("%ld", attrValue);
+	attrString.Format(L"%ld", attrValue);
 	return attrString;
 }
 

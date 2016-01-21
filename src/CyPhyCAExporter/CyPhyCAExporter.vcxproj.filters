@@ -7,10 +7,7 @@
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentObj.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Console.cpp">
+    <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentObj.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp">
@@ -35,6 +32,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Util\CyPhyUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UdmConsole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -76,6 +76,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Util\CyPhyUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComponentObj.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ComponentObj.h">

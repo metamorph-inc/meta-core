@@ -5,8 +5,7 @@
 #include <CommonUtilities.h>
 #include <CommonStructures.h>
 #include <sstream>
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
+#include "LoggerBoost.h"
 #include "CommonDefinitions.h"
 
 namespace isis
@@ -24,8 +23,8 @@ namespace isis
 										  throw (isis::application_exception)
 	{
 
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-		log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+		
+		
 		try
 		{
 
@@ -126,12 +125,12 @@ namespace isis
 					if ( err == PRO_TK_NO_ERROR )   
 					{
 						// assembly was retrieved.
-						logcat_fileonly.infoStream() << "Representation: " << in_Representation << ", was found for ComponentInstanceID: " << in_ComponentID << ", Model Name: " << in_Model_Name << ".";
+						isis_LOG(lg, isis_FILE, isis_INFO) << "Representation: " << in_Representation << ", was found for ComponentInstanceID: " << in_ComponentID << ", Model Name: " << in_Model_Name << ".";
 						return; // model was retrieved. 
 					}
 					else
 					{
-						logcat_fileonly.warnStream() << "Representation: " << in_Representation << ", was NOT found for ComponentInstanceID: " << in_ComponentID << ", Model Name: " << in_Model_Name << ".  Using active representation.";
+						isis_LOG(lg, isis_FILE, isis_WARN) << "Representation: " << in_Representation << ", was NOT found for ComponentInstanceID: " << in_ComponentID << ", Model Name: " << in_Model_Name << ".  Using active representation.";
 					}
 
 				}
@@ -199,12 +198,12 @@ namespace isis
 					if ( err == PRO_TK_NO_ERROR )
 					{
 						// Part retrieved
-						logcat_fileonly.infoStream() << "Representation: " << in_Representation << ", was found for ComponentInstanceID: " << in_ComponentID << ", Model Name: " << in_Model_Name << ".";
+						isis_LOG(lg, isis_FILE, isis_INFO) << "Representation: " << in_Representation << ", was found for ComponentInstanceID: " << in_ComponentID << ", Model Name: " << in_Model_Name << ".";
 						return; // model was retrieved. 
 					}
 					else
 					{
-						logcat_fileonly.warnStream() << "Representation: " << in_Representation << ", was NOT found for ComponentInstanceID: " << in_ComponentID << ", Model Name: " << in_Model_Name << ".  Using active representation.";
+						isis_LOG(lg, isis_FILE, isis_WARN) << "Representation: " << in_Representation << ", was NOT found for ComponentInstanceID: " << in_ComponentID << ", Model Name: " << in_Model_Name << ".  Using active representation.";
 					}
 				} // END Else if ( type == PRO_MDL_ASSEMBLY )
 
@@ -213,7 +212,7 @@ namespace isis
 			}
 			else
 			{
-				logcat_fileonly.infoStream() << "A Representation was not specified for ComponentInstanceID: " << in_ComponentID << ", Model Name: " << in_Model_Name << ".";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "A Representation was not specified for ComponentInstanceID: " << in_ComponentID << ", Model Name: " << in_Model_Name << ".";
 			} // END if ( in_Representation.size() > 0 )
 
 			// If made it to here, then the simplified rep was not found.
@@ -234,11 +233,11 @@ namespace isis
 				ProPath path; 
 				isis_ProDirectoryCurrentGet( path );
 				isis::MultiFormatString  path_MultiFormatString(path);
-				logcat_consoleandfile.errorStream() << "ProDirectoryCurrent: " << path_MultiFormatString;
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "ProDirectoryCurrent: " << path_MultiFormatString;
 			}
 			catch ( isis::application_exception ex)
 			{
-				logcat_consoleandfile.errorStream() << "Failed to retrieve ProDirectoryCurrent. Exception: " << ex.what(); 
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "Failed to retrieve ProDirectoryCurrent. Exception: " << ex.what(); 
 			}
 
 			//char modelName[ISIS_CHAR_BUFFER_LENGTH];
@@ -281,6 +280,7 @@ namespace isis
 				errorString <<
 						"Could not find feature in Creo model:"  << std::endl <<
 						"   Feature Name:      " << featureName <<  std::endl <<
+						"   Feature Type:      " << type << ", Point-66, Axis-21, Coordinate System-25, Plane/Surface-5" << std::endl <<
 						"   Model Name:        " << in_Model_Name << std::endl <<
 						"   Model Type:        " << isis::ProMdlType_string(mdltype)<<  std::endl <<
 						"   Component Instance ID:      " << in_ComponentID << std::endl <<

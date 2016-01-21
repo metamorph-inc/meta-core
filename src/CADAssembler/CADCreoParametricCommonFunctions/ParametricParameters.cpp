@@ -5,8 +5,7 @@
 #include <string>
 #include <sstream>
 #include "isis_ptc_toolkit_ostream.h"
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
+#include "LoggerBoost.h"
 #include "CommonDefinitions.h"
 
 
@@ -27,13 +26,13 @@ void SetParametricParameter(
 									throw (isis::application_exception)
 {
 
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
 	
-	logcat_consoleandfile.infoStream() <<  "   CADParameter";
-	logcat_consoleandfile.infoStream() <<  "      Model Name     "  <<  in_model_name;	
-	logcat_consoleandfile.infoStream() <<  "      Type           "  <<  in_ParameterType;
-	logcat_consoleandfile.infoStream() <<  "      Name           "	<<  in_ParameterName;
-	logcat_consoleandfile.infoStream() <<  "      Value          "	<<  in_ParameterValue;
+	
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "   CADParameter";
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Model Name     "  <<  in_model_name;	
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Type           "  <<  in_ParameterType;
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Name           "	<<  in_ParameterName;
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Value          "	<<  in_ParameterValue;
 
 	
 
@@ -42,7 +41,7 @@ void SetParametricParameter(
 	{
 		char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
 		std::string err_str = "exception : Exceeded maximum number of characters. Parameter Name: "  + std::string(in_ParameterName) + ", Maximum allowed characters: " + itoa(PRO_NAME_SIZE - 1, temp_char_array, 10);
-		logcat_consoleandfile.errorStream() << err_str;			
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << err_str;			
 		throw isis::application_exception("C01001", err_str.c_str());
 	}
 
@@ -102,7 +101,7 @@ void SetParametricParameter(
 			default:
 				//std::string err_str = "Erroneous CADParameter Type: " +  in_ParameterType + ", Should be FLOAT, INTEGER, or BOOLEAN.";
 				std::string err_str = "exception : Erroneous CADParameter Type: " +  CADParameterType_string(in_ParameterType) + ", Should be FLOAT, INTEGER, or BOOLEAN.";
-				logcat_consoleandfile.errorStream() << err_str;			
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << err_str;			
 				throw isis::application_exception(err_str.c_str());
 		}
 
@@ -139,15 +138,15 @@ std::string GetParametricParameter(
 									throw (isis::application_exception)
 {
 
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
+	
+	
 
 	//typedef wchar_t	ProName[PRO_NAME_SIZE];
 	if ( in_ParameterOwner.size() >= PRO_NAME_SIZE )
 	{
 		char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
 		std::string err_str = "exception : Exceeded maximum number of characters. Owner Name: "  + std::string(in_ParameterOwner) + ", Maximum allowed characters: " + _itoa(PRO_NAME_SIZE - 1, temp_char_array, 10);
-		logcat_consoleandfile.errorStream() << err_str;			
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << err_str;			
 		throw isis::application_exception("C01003", err_str);
 	}
 
@@ -156,7 +155,7 @@ std::string GetParametricParameter(
 	{
 		char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
 		std::string err_str = "exception : Exceeded maximum number of characters. Parameter Name: "  + std::string(in_ParameterName) + ", Maximum allowed characters: " + _itoa(PRO_NAME_SIZE - 1, temp_char_array, 10);
-		logcat_consoleandfile.errorStream() << err_str;			
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << err_str;			
 		throw isis::application_exception("C01004", err_str);
 	}
 
@@ -218,7 +217,7 @@ std::string GetParametricParameter(
 
 			default:
 				std::string err_str = "exception : Erroneous CADReadParameter Type, Supported types are DOUBLE, INTEGER, STRING, and BOOLEAN.";
-				logcat_consoleandfile.errorStream() << err_str;			
+				isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << err_str;			
 				throw isis::application_exception(err_str);
 		}
 
@@ -250,27 +249,27 @@ ProError SetParametricParameter(
 	ProError result = PRO_TK_NO_ERROR; 
 	std::stringstream msg("SetParametricParameter: (force) ");
 
-	log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
-	log4cpp::Category& logcat_consoleandfile = log4cpp::Category::getInstance(LOGCAT_CONSOLEANDLOGFILE);
-
-	logcat_fileonly.infoStream() <<  "  SetParametricParameter CADParameter" 
-		<< log4cpp::eol <<  "      Force          "  <<  force
-		<< log4cpp::eol <<  "      Model Name     "  <<  in_model_name 
-		<< log4cpp::eol <<  "      Model Handle   "  <<  in_p_model
-		<< log4cpp::eol <<  "      Type           "  <<  in_ParameterType 
-		<< log4cpp::eol <<  "      Name           "  <<  in_ParameterName
-		<< log4cpp::eol <<  "      Value          "  <<  in_ParameterValue;
+	
+	
+	
+	isis_LOG(lg, isis_FILE, isis_INFO) <<  "  SetParametricParameter CADParameter" 
+		<< isis_EOL <<  "      Force          "  <<  force
+		<< isis_EOL <<  "      Model Name     "  <<  in_model_name 
+		<< isis_EOL <<  "      Model Handle   "  <<  in_p_model
+		<< isis_EOL <<  "      Type           "  <<  in_ParameterType 
+		<< isis_EOL <<  "      Name           "  <<  in_ParameterName
+		<< isis_EOL <<  "      Value          "  <<  in_ParameterValue;
 
 	if (in_p_model == NULL) {
-		logcat_consoleandfile.errorStream() << "null model handle";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "null model handle";
 		return PRO_TK_BAD_INPUTS;
 	}
 
-	logcat_fileonly.infoStream() << "SetParametricParameter : Set up the parameter"; 
+	isis_LOG(lg, isis_FILE, isis_INFO) << "SetParametricParameter : Set up the parameter"; 
 	if ( in_ParameterName.size() >= PRO_NAME_SIZE ) {
 		msg << "Exceeded maximum number of characters : "
 		    << "Parameter Name: " << in_ParameterName << ", Maximum allowed characters: " << (PRO_NAME_SIZE - 1);
-		logcat_consoleandfile.errorStream() << msg.str();
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 		throw isis::application_exception("C01001", msg);
 	}
 
@@ -307,19 +306,19 @@ ProError SetParametricParameter(
 		default:
 			msg << "Erroneous CADParameter Type: "
 				<<  CADParameterType_string(in_ParameterType) << ", Should be FLOAT, INTEGER, or BOOLEAN.";
-			logcat_consoleandfile.errorStream() << msg;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 			throw isis::application_exception(msg);
 	}
 
 	ProError status;
 
-	logcat_fileonly.infoStream() << "SetParametricParameter : get the model-item from the model";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "SetParametricParameter : get the model-item from the model";
 	ProModelitem model_item;
 	
 	switch ( status = ProMdlToModelitem( *in_p_model, &model_item ) ) {
 	case PRO_TK_NO_ERROR: 
 		{
-			logcat_fileonly.infoStream() << "The ProMdlToModelitem() was successful.";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "The ProMdlToModelitem() was successful.";
 			break;
 		}
 	case PRO_TK_BAD_INPUTS: 
@@ -328,19 +327,19 @@ ProError SetParametricParameter(
 				<< " model: " << in_p_model 
 				<< " model-item: " << model_item;
 			isis::application_exception ex(msg);
-			logcat_consoleandfile.errorStream() << ex;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 			throw ex;
 		}
 	case PRO_TK_INVALID_PTR: 
 		{
 			msg << "ProMdlToModelitem: The handle is invalid. ";
 			isis::application_exception ex(msg);
-			logcat_consoleandfile.errorStream() << ex;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 			throw ex;
 		}
 	}
 
-	logcat_fileonly.infoStream() << "SetParametricParameter : set the property";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "SetParametricParameter : set the property";
 	ProParameter parameter_handle;
     switch ( status = ProParameterInit(&model_item, parameter_key, &parameter_handle) ) {
 		case PRO_TK_E_NOT_FOUND:
@@ -352,22 +351,22 @@ ProError SetParametricParameter(
 				{
 					msg << "key is not bound and should not be forced";
 					isis::application_exception ex(msg);
-					logcat_consoleandfile.errorStream() << ex;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 					throw ex;
 				}
 			case FORCE_NEITHER:
 				{
 					msg << "force neither : not yet implemented";
 					isis::application_exception ex(msg);
-					logcat_consoleandfile.errorStream() << ex;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 					throw ex;
 				}
 			}
-			logcat_fileonly.infoStream() << "The parameter was not found within the owner, so creating new.";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "The parameter was not found within the owner, so creating new.";
 			switch ( status = ProParameterCreate (&model_item, parameter_key, &parameter_value, &parameter_handle ) ) {
 			case PRO_TK_NO_ERROR:
 				{
-						logcat_fileonly.infoStream() << "ProParameterCreate successfully added the parameter.";
+						isis_LOG(lg, isis_FILE, isis_INFO) << "ProParameterCreate successfully added the parameter.";
 						result = PRO_TK_E_NOT_FOUND;
 						break;
 				}
@@ -377,35 +376,35 @@ ProError SetParametricParameter(
 						<< " key: " << parameter_key 
 						<< " param: " << parameter_handle.owner.type;
 					isis::application_exception ex(msg);
-					logcat_consoleandfile.errorStream() << ex;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 					throw ex;
 				}
 			case PRO_TK_BAD_CONTEXT:
 				{
 					msg << "The owner is nonexistent.";
 					isis::application_exception ex(msg);
-					logcat_consoleandfile.errorStream() << ex;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 					throw ex;
 				}
 			case PRO_TK_E_FOUND:
 				{
 					msg << "The specified parameter already exists.";
 					isis::application_exception ex(msg);
-					logcat_consoleandfile.errorStream() << ex;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 					throw ex;
 				}
 			case PRO_TK_GENERAL_ERROR: 
 				{
 					msg << "The function could not add the parameter to the database.";
 					isis::application_exception ex(msg);
-					logcat_consoleandfile.errorStream() << ex;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 					throw ex;
 				}
 			}
 		}
 	case PRO_TK_NO_ERROR: 
 		{
-			logcat_fileonly.infoStream() << "ProParameterInit() successfully initialized the handle.";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "ProParameterInit() successfully initialized the handle.";
 			switch (force) {
 			case FORCE_KEY:
 			case FORCE_VALUE:
@@ -414,14 +413,14 @@ ProError SetParametricParameter(
 				{
 					msg << "force neither : not yet implemented";
 					isis::application_exception ex(msg);
-					logcat_consoleandfile.errorStream() << ex;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 					throw ex;
 				}
 			}	
 			switch ( status = ProParameterValueSet(&parameter_handle, &parameter_value) ) {
 			case PRO_TK_NO_ERROR:
 				{
-					logcat_fileonly.infoStream() << "ProParameterValueSet successfully updated the information.";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "ProParameterValueSet successfully updated the information.";
 					result = PRO_TK_NO_ERROR;
 					break;
 				}
@@ -429,14 +428,14 @@ ProError SetParametricParameter(
 				{
 					msg << "The owner was not found.";
 					isis::application_exception ex(msg);
-					logcat_consoleandfile.errorStream() << ex;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 					throw ex;
 				}
 			case PRO_TK_GENERAL_ERROR: 
 				{
 					msg << "The parameter was not found, or the function could not perform the action.";
 					isis::application_exception ex(msg);
-					logcat_consoleandfile.errorStream() << ex;
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 					throw ex;
 				}
 			}
@@ -448,19 +447,19 @@ ProError SetParametricParameter(
 				<< " key: " << parameter_key 
 				<< " param: " << parameter_handle.owner.type;
 			isis::application_exception ex(msg);
-			logcat_consoleandfile.errorStream() << ex;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 			throw ex;
 		}
 	case PRO_TK_BAD_CONTEXT: 
 		{
 			msg << "The owner is nonexistent.";
 			isis::application_exception ex(msg);
-			logcat_consoleandfile.errorStream() << ex;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << msg.str();
 			throw ex;
 		}
 		
 	}
-	logcat_fileonly.infoStream() << "SetParametricParameter : COMPLETE";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "SetParametricParameter : COMPLETE";
 	return result;
 		
 }  // end ForceParametricParameter

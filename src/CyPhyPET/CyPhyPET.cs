@@ -13,6 +13,7 @@ using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using System.Diagnostics;
 using CyPhyGUIs;
+using Newtonsoft.Json;
 
 namespace CyPhyPET
 {
@@ -687,6 +688,10 @@ namespace CyPhyPET
                     case "MGA.Interpreter.CyPhyFormulaEvaluator":
                         interpreterSuccess = true;
                         break;
+
+                    case "MGA.Interpreter.CyPhyPython":   
+                        interpreterSuccess = this.CallCyPhyPython(testBench);
+                        break;
                 }
             }
             else if (testBenchRef != null && testBenchRef.AllReferred != null && testBenchRef.AllReferred is CyPhy.TestBenchType)
@@ -820,6 +825,74 @@ namespace CyPhyPET
             if (cyPhy2CAD.result.Success)
             {
                 this.result.Labels += cyPhy2CAD.result.Labels;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool CallCyPhyPython(CyPhy.TestBenchType testBench)  
+        {
+            var cyPhyPython = new META.ComComponent("MGA.Interpreter.CyPhyPython");
+
+            //cyPhyPython.InterpreterConfig = META.ComComponent.DeserializeConfiguration(
+            //    this.mainParameters.ProjectDirectory,
+            //   typeof(CyPhyPython.CyPhyPythonSettings),
+            //    cyPhyPython.ProgId);
+
+            cyPhyPython.Initialize(this.mainParameters.Project);
+
+            var workflowRef = testBench.Children.WorkflowRefCollection.FirstOrDefault();
+            if (workflowRef == null || workflowRef.Referred.Workflow == null)
+            {
+                throw new ApplicationException("CyPhyPython testbench must have a WorkflowRef");
+            }
+            var task = workflowRef.Referred.Workflow.Children.TaskCollection.Where(t => t.Attributes.COMName == "MGA.Interpreter.CyPhyPython").FirstOrDefault();
+            if (task == null)
+            {
+                throw new ApplicationException("CyPhyPython testbench must have Task");
+            }
+            try
+            {
+                cyPhyPython.WorkflowParameters = (Dictionary<string, string>)JsonConvert.DeserializeObject(task.Attributes.Parameters, typeof(Dictionary<string, string>));
+                if (cyPhyPython.WorkflowParameters == null)
+                {
+                    cyPhyPython.WorkflowParameters = new Dictionary<string, string>();
+                }
+            }
+            catch (JsonException ex)
+            {
+                throw new ApplicationException(String.Format("Could not parse Parameters for '{0}'", task.Name), ex);
+            }
+            cyPhyPython.DoGUIConfiguration(this.mainParameters.ProjectDirectory, false);
+
+            var diTestBenchOutputDir = Directory.CreateDirectory(Path.Combine(OutputDirectory, "TestBench"));
+
+            cyPhyPython.MainParameters.OutputDirectory = diTestBenchOutputDir.FullName;
+            cyPhyPython.MainParameters.CurrentFCO = (MgaFCO)testBench.Impl;
+
+            cyPhyPython.MainParameters.Project = this.mainParameters.Project;
+            cyPhyPython.MainParameters.ProjectDirectory = this.mainParameters.ProjectDirectory;
+            cyPhyPython.MainParameters.SelectedFCOs = this.mainParameters.SelectedFCOs;
+            cyPhyPython.MainParameters.StartModeParam = this.mainParameters.StartModeParam;
+            cyPhyPython.MainParameters.VerboseConsole = this.mainParameters.VerboseConsole;
+
+            try
+            {
+                cyPhyPython.Main();
+            }
+            catch (META.InterpreterException)
+            {
+                //Trace.TraceError(ex.ToString());
+                this.Logger.WriteError("CyPhyPython failed!");
+                return false;
+            }
+
+            if (cyPhyPython.result.Success)
+            {
+                this.result.Labels += cyPhyPython.result.Labels;
                 return true;
             }
             else

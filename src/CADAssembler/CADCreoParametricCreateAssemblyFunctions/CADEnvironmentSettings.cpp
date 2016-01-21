@@ -12,8 +12,8 @@
 #include <algorithm>
 #include <sstream>
 #include <ISISConstants.h>
-#include <log4cpp/Category.hh>
-#include <log4cpp/OstreamAppender.hh>
+#include "LoggerBoost.h"
+
 #include "CommonDefinitions.h"
 
 // #define BUFFER 8192
@@ -40,13 +40,13 @@ namespace isis
 		///////////////////////////////////////////////////////////////
 		// Log: Use environment  variables or look values in registry
 		//////////////////////////////////////////////////////////////
-		log4cpp::Category& logcat_fileonly = log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY);
+		
 		char *envVariable_CREO_PARAMETRIC_USE_ENVIR_VARS;
 		envVariable_CREO_PARAMETRIC_USE_ENVIR_VARS = getenv ("CREO_PARAMETRIC_USE_ENVIR_VARS");
 		if ( envVariable_CREO_PARAMETRIC_USE_ENVIR_VARS == NULL )
-			logcat_fileonly.warnStream() << "Environment Variable CREO_PARAMETRIC_USE_ENVIR_VARS: Not Defined";
+			isis_LOG(lg, isis_FILE, isis_WARN) << "Environment Variable CREO_PARAMETRIC_USE_ENVIR_VARS: Not Defined";
 		else 
-			logcat_fileonly.infoStream() << "Environment Variable CREO_PARAMETRIC_USE_ENVIR_VARS: " << envVariable_CREO_PARAMETRIC_USE_ENVIR_VARS;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "Environment Variable CREO_PARAMETRIC_USE_ENVIR_VARS: " << envVariable_CREO_PARAMETRIC_USE_ENVIR_VARS;
 
 
 		/////////////////
@@ -68,13 +68,13 @@ namespace isis
 		/////////////////////////////
 		// Log Resulting Settings
 		/////////////////////////////
-		logcat_fileonly.infoStream() << "";
-		logcat_fileonly.infoStream()  << "************** Begin Environment Variables and System Settings *****************";
-		logcat_fileonly.infoStream() << "ProeIsisExtensionsDir:         "	<< out_ProeIsisExtensionsDir; 
-		logcat_fileonly.infoStream() << "CreoStartCommand:              "	<< out_CreoStartCommand; 
-		logcat_fileonly.infoStream() << "PRO_COMM_MSG_EXE:              "	<<  getenv ("PRO_COMM_MSG_EXE"); 
-		logcat_fileonly.infoStream() << "TemplateFile_PathAndFileName:  "	<< out_TemplateFile_PathAndFileName; 
-		logcat_fileonly.infoStream() << "************** End Environment Variables and System Settings *****************";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "";
+		isis_LOG(lg, isis_FILE, isis_INFO)  << "************** Begin Environment Variables and System Settings *****************";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "ProeIsisExtensionsDir:         "	<< out_ProeIsisExtensionsDir; 
+		isis_LOG(lg, isis_FILE, isis_INFO) << "CreoStartCommand:              "	<< out_CreoStartCommand; 
+		isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_COMM_MSG_EXE:              "	<<  getenv ("PRO_COMM_MSG_EXE"); 
+		isis_LOG(lg, isis_FILE, isis_INFO) << "TemplateFile_PathAndFileName:  "	<< out_TemplateFile_PathAndFileName; 
+		isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Environment Variables and System Settings *****************";
 
 	}
 

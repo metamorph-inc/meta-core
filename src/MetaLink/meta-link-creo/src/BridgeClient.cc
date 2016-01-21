@@ -41,29 +41,29 @@ namespace isis {
 	public:
 
 		BridgeConnection(asio::io_service& io_service, OutboundEventHandler out_edit, InboundHandler in_edit) :
-		        m_logcat( ::log4cpp::Category::getInstance(std::string("metalink.bridge.connection")) ),
+		        //m_logcat( ::log4cpp::Category::getInstance(std::string("metalink.bridge.connection")) ),
 				m_socket(io_service), m_outbound_handler_ref(out_edit), m_inbound_handler_ref(in_edit),
 					m_framed_edit(boost::shared_ptr<meta::Edit>(new meta::Edit())), 
 					m_ready(false) 
 		{
-			m_logcat.infoStream() << "instantiate socket";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "instantiate socket";
 		}
 
 
 		void start(boost::asio::ip::tcp::resolver::iterator it) {
-			m_logcat.infoStream() << "BridgeConnection::start "  << " host-name: " << it->host_name();
+			isis_LOG(lg, isis_FILE, isis_INFO) << "BridgeConnection::start "  << " host-name: " << it->host_name();
 			m_socket.async_connect(*it, 
 				boost::bind(&BridgeConnection::handle_connect,
 							this, asio::placeholders::error));
-			m_logcat.infoStream() << "started";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "started";
 		}
 
 		void send(EditPointer editPtr) {
 			if (! m_ready) {
-				m_logcat.infoStream() << "send not ready";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "send not ready";
 				return;
 			}
-			m_logcat.infoStream() << "BridgeConnection::send";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "BridgeConnection::send";
 			start_write_outbound(editPtr);
 		}
 
@@ -77,7 +77,7 @@ namespace isis {
 		}
 
 	private:
-		::log4cpp::Category& m_logcat;  
+		//::log4cpp::Category& m_logcat;  
 
 		tcp::socket m_socket;
 		OutboundEventHandler m_outbound_handler_ref;
@@ -88,18 +88,18 @@ namespace isis {
 		
 		void handle_connect(const boost::system::error_code& error) {
 			if (error) {
-				m_logcat.errorStream() << "BridgeConnection::handle_connect, error: " << error.message(); 
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "BridgeConnection::handle_connect, error: " << error.message(); 
 				return;
 			}
-			m_logcat.infoStream() << "connection established";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "connection established";
 			m_ready = true;
 			start_read_inbound();
-			m_logcat.infoStream() << "BridgeConnection::handle_connect after : start_read";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "BridgeConnection::handle_connect after : start_read";
 			m_outbound_handler_ref();
 		}
 
 		void start_read_inbound() {
-			m_logcat.infoStream() << "BridgeConnection::start_read_inbound";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "BridgeConnection::start_read_inbound";
 			m_framed_edit.resize_input_buffer_for_header();
 			asio::async_read(m_socket, m_framed_edit.get_input_buffer_for_header(),
 					boost::bind(&BridgeConnection::handle_read_header,
@@ -108,16 +108,16 @@ namespace isis {
 
 		void handle_read_header(const boost::system::error_code& error) {
 			if (error) {
-				m_logcat.errorStream() << "BridgeConnection::handle_read_header " << error.message();
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "BridgeConnection::handle_read_header " << error.message();
 				return;
 			}
-			m_logcat.debugStream() << "Got header!" << '\n' << m_framed_edit.show_input_buffer();
+			isis_LOG(lg, isis_FILE, isis_DEBUG) << "Got header!" << '\n' << m_framed_edit.show_input_buffer();
 			unsigned payload_length = m_framed_edit.decode_header();
 			if (payload_length < 1) {
 				start_read_inbound();
 				return;
 			}
-			m_logcat.debugStream() << payload_length << " bytes";
+			isis_LOG(lg, isis_FILE, isis_DEBUG) << payload_length << " bytes";
 			start_read_body();
 		}
 
@@ -137,10 +137,11 @@ namespace isis {
 
 		void handle_read_body(const boost::system::error_code& error) {	
 			if (error) {
-				m_logcat.errorStream() << "BridgeConnection::handle_read_body " << error.message();
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "BridgeConnection::handle_read_body " << error.message();
 				return;
 			}
-			m_logcat.debugStream() << "Got body!" << '\n' << m_framed_edit.show_input_buffer();
+			isis_LOG(lg, isis_FILE, isis_DEBUG) << "Got body!";
+			// R.O. Leave out buffer    isis_LOG(lg, isis_FILE, isis_DEBUG) << "Got body!" << '\n' << m_framed_edit.show_input_buffer();
 			handle_request();
 			start_read_inbound();
 		}
@@ -152,11 +153,11 @@ namespace isis {
 		void handle_request() {
 			bool success = m_framed_edit.unpack();
 			if (!success) {
-				m_logcat.warnStream() << "handle request could not unpack ";
+				isis_LOG(lg, isis_FILE, isis_WARN) << "handle request could not unpack ";
 				return;
 			}
 			EditPointer edit = m_framed_edit.get_load();
-			m_logcat.infoStream() << "edit " << edit->DebugString();
+			isis_LOG(lg, isis_FILE, isis_INFO) << "edit " << edit->DebugString();
 			/** This is where the edit gets passed off to the incoming edit queue */
 			m_inbound_handler_ref(edit);
 			m_framed_edit.get_load()->Clear();
@@ -164,10 +165,10 @@ namespace isis {
 
 		bool start_write_outbound(EditPointer editPtr) {
 			FramedEdit framed_edit(editPtr);
-			m_logcat.infoStream() << "request framed";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "request framed";
 			isis::data_buffer backing_buff;
 			framed_edit.pack(backing_buff);
-			m_logcat.infoStream() << "request packed " << backing_buff.size();
+			isis_LOG(lg, isis_FILE, isis_INFO) << "request packed " << backing_buff.size();
 			boost::asio::mutable_buffers_1 sendable = boost::asio::buffer(backing_buff);
 			
 			boost::asio::async_write(m_socket, sendable, 
@@ -175,7 +176,7 @@ namespace isis {
 				             this, 
 				             asio::placeholders::error, asio::placeholders::bytes_transferred)); 
 
-			m_logcat.infoStream() << "requested outbound " << editPtr->DebugString();
+			isis_LOG(lg, isis_FILE, isis_INFO) << "requested outbound " << editPtr->DebugString();
 			return true;
 		}
 
@@ -184,17 +185,17 @@ namespace isis {
 			std::size_t bytes_transferred)
 		{   
 			if (error) {
-			    m_logcat.errorStream() << "BridgeConnection::handle_write_outbound_complete " << error.message();
+			    isis_LOG(lg, isis_FILE, isis_ERROR) << "BridgeConnection::handle_write_outbound_complete " << error.message();
 			    return;
 			}
-			m_logcat.infoStream() << "write complete " << " bytes " << bytes_transferred;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "write complete " << " bytes " << bytes_transferred;
 		}
 
 
 	};
 
 	struct BridgeClient::BridgeClientImpl { 
-		::log4cpp::Category& m_logcat;  
+		//::log4cpp::Category& m_logcat;  
 		tcp::resolver m_resolver;
 		
 		std::string m_host;
@@ -206,17 +207,17 @@ namespace isis {
 		BridgeClientImpl(asio::io_service& io_service, 
 			std::string host, std::string service, 
 			OutboundEventHandler outbound_handler, InboundHandler inbound_handler) :  
-		m_logcat( ::log4cpp::Category::getInstance(std::string("metalink.bridge.client.impl")) ),
+		//m_logcat( ::log4cpp::Category::getInstance(std::string("metalink.bridge.client.impl")) ),
 		m_resolver(io_service), m_host(host), m_service(service), 
 			m_connection(io_service, outbound_handler, inbound_handler)
 		{
-			m_logcat.infoStream()  << "BridgeClientImpl::ctor " << m_host << ":" << service;
+			isis_LOG(lg, isis_FILE, isis_INFO)  << "BridgeClientImpl::ctor " << m_host << ":" << service;
 		}
 
 		void start_resolve() {
-			m_logcat.infoStream()  << "BridgeClientImpl::start_resolve";
+			isis_LOG(lg, isis_FILE, isis_INFO)  << "BridgeClientImpl::start_resolve";
 			tcp::resolver::query query(m_host, m_service);
-			m_logcat.infoStream()  << "resolver query " << query.host_name() << ":" << query.service_name();
+			isis_LOG(lg, isis_FILE, isis_INFO)  << "resolver query " << query.host_name() << ":" << query.service_name();
 			m_resolver.async_resolve(query, 
 				boost::bind(&BridgeClientImpl::handle_resolution, this, 
 					asio::placeholders::error,  boost::asio::placeholders::iterator));
@@ -227,12 +228,12 @@ namespace isis {
 		 */
 		void handle_resolution(const boost::system::error_code &error, tcp::resolver::iterator it) {
 		  if (error)  {
-			  m_logcat.warnStream() << "could not resolve host: " << m_host 
+			  isis_LOG(lg, isis_FILE, isis_WARN) << "could not resolve host: " << m_host 
 				  << " and service: " << m_service
 				  << " with error: " << error.message();
 			  return;
 		  }
-		  m_logcat.infoStream() << "BridgeClient::handle_resolution ";
+		  isis_LOG(lg, isis_FILE, isis_INFO) << "BridgeClient::handle_resolution ";
 		  m_connection.start(it);
 		}
 
@@ -251,7 +252,7 @@ namespace isis {
 			const std::string host, const std::string service,
 			OutboundHandler outbound_handler,
 			InboundHandler inbound_handler) :
-		m_logcat( ::log4cpp::Category::getInstance(std::string("metalink.bridge.client")) ),
+		//m_logcat( ::log4cpp::Category::getInstance(std::string("metalink.bridge.client")) ),
 			impl(new BridgeClientImpl(io_service, host, service, boost::bind(outbound_handler, this), inbound_handler)) 
 	{
 		impl->start_resolve();

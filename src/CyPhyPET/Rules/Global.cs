@@ -62,7 +62,8 @@ namespace CyPhyPET.Rules
         {
             "MGA.Interpreter.CyPhy2Modelica_v2",
             "MGA.Interpreter.CyPhy2CAD_CSharp",
-            "MGA.Interpreter.CyPhyFormulaEvaluator"
+            "MGA.Interpreter.CyPhyFormulaEvaluator",
+            "MGA.Interpreter.CyPhyPython"  
         };
 
         /// <summary>

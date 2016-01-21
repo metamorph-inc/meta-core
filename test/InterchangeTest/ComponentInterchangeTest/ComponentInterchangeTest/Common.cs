@@ -77,7 +77,26 @@ namespace ComponentInterchangeTest
                 }
                 
                 process.StartInfo.CreateNoWindow = true;
+                StringBuilder stdout = new StringBuilder();
+                if (process.StartInfo.RedirectStandardOutput)
+                {
+                    process.OutputDataReceived += (o, dataArgs) =>
+                    {
+                        if (dataArgs.Data == null)
+                            return;
+                        lock (stdout)
+                        {
+                            stdout.Append(dataArgs.Data);
+                        }
+                    };
+                }
+
                 process.Start();
+                if (process.StartInfo.RedirectStandardOutput)
+                {
+                    process.BeginOutputReadLine();
+                }
+
                 if (redirect)
                 {
                     char[] buffer = new char[4096];
@@ -118,9 +137,7 @@ namespace ComponentInterchangeTest
             {
                 StartInfo =
                 {
-                    FileName = Path.Combine(META.VersionInfo.MetaPath, "src", "bin", "CyPhyMLComparator.exe"),
-                    RedirectStandardError = true,
-                    RedirectStandardOutput = true
+                    FileName = Path.Combine(META.VersionInfo.MetaPath, "src", "bin", "CyPhyMLComparator.exe")
                 }
             };
 

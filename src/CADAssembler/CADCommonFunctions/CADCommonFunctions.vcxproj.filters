@@ -64,6 +64,9 @@
     <ClInclude Include="Joint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LoggerBoost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsFunctions.cpp">
@@ -100,6 +103,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Joint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggerBoost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
