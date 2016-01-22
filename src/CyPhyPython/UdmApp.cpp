@@ -199,11 +199,21 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 	HMODULE python_dll = LoadLibraryA("Python27.dll");
 	if (python_dll == nullptr)
 		throw udm_exception("Failed to load Python27.dll");
-	int* Py_NoSiteFlagAddress = reinterpret_cast<int*>(GetProcAddress(python_dll, "Py_NoSiteFlag"));
-	FreeLibrary(python_dll);
-	if (Py_NoSiteFlagAddress == nullptr)
-		throw udm_exception("Failed to find Py_NoSiteFlag in Python27.dll");
-	*Py_NoSiteFlagAddress = 1;
+	struct FreePythonLib {
+		HMODULE python;
+		FreePythonLib(HMODULE python_dll) : python(python_dll) {}
+		~FreePythonLib() {
+			FreeLibrary(python);
+		}
+	} _FreePythonLib(python_dll);
+
+	const char* flags[] = { "Py_NoSiteFlag", "Py_IgnoreEnvironmentFlag", "Py_DontWriteBytecodeFlag", NULL };
+	for (const char** flag = flags; *flag; flag++) {
+		int* Py_FlagAddress = reinterpret_cast<int*>(GetProcAddress(python_dll, *flag));
+		if (Py_FlagAddress == nullptr)
+			throw udm_exception(std::string("Failed to find ") + *flag + " in Python27.dll");
+		*Py_FlagAddress = 1;
+	}
 
 	Py_Initialize();
 
