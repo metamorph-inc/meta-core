@@ -323,7 +323,7 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 			newpath += separator + static_cast<const char*>(CStringA(fullpath));
 			PySys_SetPath(const_cast<char*>(newpath.c_str()));
 
-            module_name = static_cast<const char*>(CStringA(filepart));
+			module_name = static_cast<const char*>(CStringA(filepart));
 		}
 	}
 	else
@@ -356,7 +356,10 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 		}
 	}
 	{
-		PyObject_RAII ret = PyRun_StringFlags("import site\n", Py_file_input, main_namespace, main_namespace, NULL);
+		PyObject_RAII ret = PyRun_StringFlags("import site\n"
+            "reload(site)\n"
+            "import sitecustomize\n"
+            "reload(sitecustomize)\n", Py_file_input, main_namespace, main_namespace, NULL);
 		if (ret == NULL && PyErr_Occurred())
 		{
 			throw python_error(GetPythonError());
@@ -407,6 +410,11 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 		PyDict_SetItemString(args, "componentParameters", parameters);
 
 		PyObject_RAII ret = PyObject_Call(invoke, empty_tuple, args);
+		std::unique_ptr<python_error> invokeError;
+		if (ret == nullptr && PyErr_Occurred())
+		{
+			invokeError = std::unique_ptr<python_error>(new python_error(GetPythonError()));
+		}
 
 		if (PyObject_HasAttrString(CyPhyPython, "_logfile"))
 		{
@@ -421,6 +429,10 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 					throw python_error(GetPythonError());
 				}
 			}
+		}
+		if (invokeError)
+		{
+			throw *invokeError.get();
 		}
 		char* params[] = { "runCommand", "labels", NULL };
 		for (char** param = params; *param; param++)
