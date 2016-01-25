@@ -176,6 +176,10 @@ namespace CyPhyMetaLinkBridgeClient
                     if (_messageQueue.TryTake(out message, 1000, sendThreadCancellation.Token))
                     {
                         sendMessage(message);
+                        if (EditMessageSent != null)
+                        {
+                            EditMessageSent(message);
+                        }
                     }
                 }
             }
@@ -201,6 +205,7 @@ namespace CyPhyMetaLinkBridgeClient
         }
 
         public event Action<MetaLinkProtobuf.Edit> EditMessageReceived;
+        public event Action<MetaLinkProtobuf.Edit> EditMessageSent;
         public event Action<Exception> ReceiveError;
 
         public void receiveThread()

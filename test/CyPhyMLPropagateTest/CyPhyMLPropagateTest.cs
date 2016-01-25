@@ -618,16 +618,20 @@ namespace CyPhyPropagateTest
                             actionMode = edu.vanderbilt.isis.meta.Action.ActionMode.REQUEST_COMPONENT_LIST
                         });
 
+                        Edit edit;
+                        Assert.True(this.receivedMessagesQueue.TryTake(out edit, 10000));
                         this.receivedMessages.Clear();
                         propagate.EditMessageReceived(msg);
                         Application.DoEvents();
-                        Thread.Sleep(1000); // XXX don't race with propagate's send message thread
-                        WaitForAllMetaLinkMessages();
+                        Assert.True(this.sentMessagesQueue.TryTake(out edit, 10000));
+                        Assert.True(this.receivedMessagesQueue.TryTake(out edit, 10000));
                     }
                     project.BeginTransactionInNewTerr();
                     try
                     {
-                        Xunit.Assert.Equal(1, this.receivedMessages.Where(msg => msg.actions.Count == 1 && msg.actions[0].manifest.Count() == 11).Count());
+                        Xunit.Assert.True(1 == this.receivedMessages.Count(), "No receivedMessages");
+                        Xunit.Assert.True(1 == this.receivedMessages.Where(msg => msg.actions.Count == 1 && msg.actions[0].manifest.Count() == 11).Count(),
+                            String.Join(" ", this.receivedMessages.Where(msg => msg.actions.Count == 1).Select(msg => msg.actions.First().manifest.Select(cm => cm.name).ToArray())));
                     }
                     finally
                     {

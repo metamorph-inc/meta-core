@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -24,7 +25,7 @@ namespace CyPhyMetaLinkBridgeClient
             private set;
         }
 
-        public bool EstablishConnection(Action<MetaLinkProtobuf.Edit> EditMessageReceived, Action<Exception> connectionClosed)
+        public bool EstablishConnection(Action<MetaLinkProtobuf.Edit> EditMessageReceived, Action<Exception> connectionClosed, Action<MetaLinkProtobuf.Edit> EditMessageSent = null)
         {
             lock (lockObject)
             {
@@ -33,6 +34,10 @@ namespace CyPhyMetaLinkBridgeClient
                 {
                     _socketQueue = null;
                     return false;
+                }
+                if (EditMessageSent != null)
+                {
+                    _socketQueue.EditMessageSent += EditMessageSent;
                 }
                 _socketQueue.EditMessageReceived += EditMessageReceived;
                 _socketQueue.ReceiveError += x =>
