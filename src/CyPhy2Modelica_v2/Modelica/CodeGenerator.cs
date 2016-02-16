@@ -104,6 +104,11 @@
         private List<RequirementMetric> requirementMetrics;
 
         /// <summary>
+        /// User settings for current invocation.
+        /// </summary>
+        private CyPhy2Modelica_v2Settings modelicaSettings;
+
+        /// <summary>
         /// Intializes a new instance of the <see cref="CodeGenerator"/> class.
         /// </summary>
         /// <param name="parameters">Passed through the Main function in CyPhyGUIs API.</param>
@@ -113,6 +118,7 @@
         {
             this.Logger = logger;
             this.MainParameters = parameters;
+            this.modelicaSettings = this.MainParameters.config as CyPhy2Modelica_v2Settings;
             this.traceability = traceability;
             this.LimitDefintion = new LimitDefinition();
             this.reservedPackageNames = new List<string>() { "Modelica", MainPackage };
@@ -788,7 +794,8 @@
             var componentAssembly_mo = new ComponentAssembly(ca)
             {
                 FullName = componentAssemblyFullName,
-                HasInnerCAs = hasInnerCAs
+                HasInnerCAs = hasInnerCAs,
+                ConstrainedBys = this.modelicaSettings.GenerateConstrainedBys
             };
 
             this.testBench_mo.ComponentAssemblies.Add(componentAssembly_mo);
@@ -1240,7 +1247,8 @@
                 {
                     FullName = innerCAFullName,
                     ParentComponentAssembly = componentAssembly_mo,
-                    HasInnerCAs = innerCAHasChildren
+                    HasInnerCAs = innerCAHasChildren,
+                    ConstrainedBys = this.modelicaSettings.GenerateConstrainedBys
                 };
 
                 this.testBench_mo.ComponentAssemblies.Add(innerComponentAssembly_mo);

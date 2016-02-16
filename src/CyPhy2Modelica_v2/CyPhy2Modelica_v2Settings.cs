@@ -29,6 +29,7 @@ namespace CyPhy2Modelica_v2
 
         public bool CheckWithDymola { get; set; }
         public bool CheckWithOpenModelica { get; set; }
+        public bool GenerateConstrainedBys { get; set; }
 
         public CyPhy2Modelica_v2Settings()
         {

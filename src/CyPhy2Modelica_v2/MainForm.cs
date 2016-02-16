@@ -81,6 +81,7 @@ namespace CyPhy2Modelica_v2
             ModelicaLibrary.UpdateSettingsFromModelicaLibraries(this.ModelicaSettings, libData.Cast<ModelicaLibrary>().ToList());
             this.ModelicaSettings.CheckWithDymola = chbCheckWithDymola.Checked && chbCheckWithDymola.Enabled;
             this.ModelicaSettings.CheckWithOpenModelica = chbCheckWithOM.Checked && chbCheckWithOM.Enabled;
+            this.ModelicaSettings.GenerateConstrainedBys = chbConstrained.Checked;
         }
 
         private void btnBrowseIncludeDir_Click(object sender, EventArgs e)
