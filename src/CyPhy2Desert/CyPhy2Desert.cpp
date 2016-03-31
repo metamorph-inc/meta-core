@@ -1249,7 +1249,22 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 	{
 		DesertIface::CustomFormula dcf = DesertIface::CustomFormula::Create(formulaSet);
 		dcf.name() = propname;
-		dcf.expression() = "constraint formula_"+increaseCounter()+"_"+propname+" () {"+DFUtil::getRelativePath(src_vf_end, src_vf_end_parent, cyphy_com)+std::string(src_vf_end.name())+"() }";
+
+		std::string expr = "constraint formula_" + increaseCounter() + "_" + propname + " () {"
+			+ DFUtil::getRelativePath(src_vf_end, src_vf_end_parent, cyphy_com) + std::string(src_vf_end.name()) + "()";
+		if (cyphy_com.type() == CyPhyML::DesignContainer::meta)
+		{
+			CyPhyML::DesignContainer dc = CyPhyML::DesignContainer::Cast(cyphy_com);
+			if ((std::string)dc.ContainerType() == "Optional") {
+				expr += " or " + std::string("children(\"null\").") + std::string(src_vf_end.name()) + "()";
+			}
+			else if ((std::string)dc.ContainerType() == "Alternative") {
+				// FIXME tbd
+			}
+		}
+		expr += "}";
+		dcf.expression() = expr;
+
 		dcf.property_end() += vp;
 		dcf.context() = desert_elem;
 	}
