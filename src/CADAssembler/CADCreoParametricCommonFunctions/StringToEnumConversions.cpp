@@ -1415,6 +1415,7 @@ namespace isis
 		  else if ( CADGeometryType_string.compare("EXTRUSION") == 0 ) return CAD_GEOMETRY_EXTRUSION;   
 		  else if ( CADGeometryType_string.compare("FACE") == 0 ) return CAD_GEOMETRY_FACE;   
 		 // else if ( CADGeometryType_string.compare("EXTRUSION_SURFACE") == 0 ) return CAD_GEOMETRY_EXTRUSION_SURFACE;
+		 else if ( CADGeometryType_string.compare("NONE") == 0 ) return CAD_GEOMETRY_NONE;  
 
 
 		  string temp_string = "Function CADGeometryType_enum was passed " + in_CADGeometryType_string + " which is an erroneous type.";
@@ -1458,6 +1459,10 @@ namespace isis
 			//case CAD_GEOMETRY_EXTRUSION_SURFACE:
 			//	return "EXTRUSION_SURFACE";
 			//	break;
+			case CAD_GEOMETRY_NONE:
+				return "NONE";
+				break;
+
 			default:
 				char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
 				string temp_string = "Function CADGeometryType_string was passed " + 

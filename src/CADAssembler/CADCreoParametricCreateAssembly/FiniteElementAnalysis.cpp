@@ -68,30 +68,34 @@ void ValidateAnalysisGeometry(  const std::string &in_ConfigurationIDSentence,
 
 	int numberOfFeatures = in_AnalysisGeometry.features.begin()->features.size();
 
-	if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_POLYGON) && ( numberOfFeatures < 3 ))
+	if ( numberOfFeatures == 0 )
 	{
-		TempError += "For a polygon " + in_ConstraintOrLoad + ", there must at least three features (i.e. Datum Points)";
-		throw isis::application_exception(TempError.c_str());	
-	}
 
-	if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_CYLINDER) && (numberOfFeatures != 3 ))
-	{
-		TempError += "For a pin " + in_ConstraintOrLoad + ", there must two features (i.e. Datum Points)";
-		throw isis::application_exception(TempError.c_str());	
-	}
+		if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_POLYGON) && ( numberOfFeatures < 3 ))
+		{
+			TempError += "For a polygon " + in_ConstraintOrLoad + ", there must at least three features (i.e. Datum Points)";
+			throw isis::application_exception(TempError.c_str());	
+		}
 
-	if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_SPHERE) && (numberOfFeatures != 2 ))
-	{
-		TempError += "For a ball " + in_ConstraintOrLoad + ", there must two features (i.e. Datum Points)";
-		throw isis::application_exception(TempError.c_str());	
-	}
+		if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_CYLINDER) && (numberOfFeatures != 3 ))
+		{
+			TempError += "For a pin " + in_ConstraintOrLoad + ", there must two features (i.e. Datum Points)";
+			throw isis::application_exception(TempError.c_str());	
+		}
+
+		if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_SPHERE) && (numberOfFeatures != 2 ))
+		{
+			TempError += "For a ball " + in_ConstraintOrLoad + ", there must two features (i.e. Datum Points)";
+			throw isis::application_exception(TempError.c_str());	
+		}
 	
-	// 11/24/2015 Added support for FACE with deck-based
-	//if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_FACE) && ( !modelBasedAbaqusSolver))
-	//{
-	//	TempError += "For FEA, Feature GeometryType=\"FACE\" the solver type must be Abaqus-Model-Based.  Deck-based Nastran, Abaqus, and Calculix do not support the FACE feature.";
-	//	throw isis::application_exception(TempError.c_str());	
-	//}
+		// 11/24/2015 Added support for FACE with deck-based
+		//if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_FACE) && ( !modelBasedAbaqusSolver))
+		//{
+		//	TempError += "For FEA, Feature GeometryType=\"FACE\" the solver type must be Abaqus-Model-Based.  Deck-based Nastran, Abaqus, and Calculix do not support the FACE feature.";
+		//	throw isis::application_exception(TempError.c_str());	
+		//}
+	}
 
 }
 
@@ -169,7 +173,24 @@ void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CAD
 				}
 			}
 
-			ValidateAnalysisGeometry(TempError, "AnalysisConstraint", j->geometry, i->analysisSolvers );
+			if ( j->geometry.features.size() == 0 )
+			{
+				// All constraints must have at least one geometry feature
+				std::stringstream errorString;
+				errorString <<
+					"Function - " << __FUNCTION__ << " FEA constraints must reference at least one geometry feature (e.g. points)" << std::endl <<
+					"Constraint Type: ";
+				if ( j->analysisBallDefined ) errorString << "Ball";
+				else if ( j->analysisDisplacementDefined )  errorString << "Displacement"; 
+				else if ( j->analysisPinDefined )  errorString << "Pin"; 
+				else if ( j->convectionBoundaryDefined )  errorString << "Convection Boundary"; 
+				throw isis::application_exception(errorString.str());	
+			}
+			else
+			{
+				// The following function is only valid for the case where j->geometry.features.size() > 0 
+				ValidateAnalysisGeometry(TempError, "AnalysisConstraint", j->geometry, i->analysisSolvers );
+			}
 		}
 
 		//////////////////////////////
@@ -243,7 +264,29 @@ void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CAD
 			// if no geometry the temperature applies to all nodes that do not have an explicit gridPointTemperature
 			if ( j->gridPointInitialTemperatureDefined && j->geometry.features.size() == 0 ) continue;  
 				
-			ValidateAnalysisGeometry(TempError, "Load", j->geometry, i->analysisSolvers );
+
+			if ( !j->accelerationDefined  && !j->ambientTemperatureDefined )  // No geometry for acceleration and ambient-temperature
+			{
+				if ( j->geometry.features.size() == 0 )
+				{
+					// All loads (except acceleration and ambient-temperature)  must have at least one geometry feature
+					std::stringstream errorString;
+					errorString <<
+						"Function - " << __FUNCTION__ << " Except for acceleration and ambient-temperature loads, loads must reference at least one geometry feature (e.g. points)" << std::endl <<
+						"Load Type: ";
+					if ( j->forceDefined )  errorString << "Force"; 
+					else if ( j->pressureDefined )  errorString << "Pressure"; 
+					else if ( j->heatFluxDefined )  errorString << "Heat Flux"; 
+					else if ( j->heatGenerationDefined )  errorString << "Heat Generation"; 
+					else if ( j->gridPointTemperatureDefined )  errorString << "Grid Point Temperature"; 
+					throw isis::application_exception(errorString.str());	
+				}
+				else
+				{
+					// The following function is only valid for the case where j->geometry.features.size() > 0 
+					ValidateAnalysisGeometry(TempError, "Load", j->geometry, i->analysisSolvers );
+				}
+			}
 		}
 
 		//////////////////////////////

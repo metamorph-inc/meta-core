@@ -956,6 +956,21 @@ v1.5.4.0 12/02/2015	GitHub Branch: CAD_002_FEA_METALink_Improvements
 
 
 
+
+v1.5.5.0 04/04/2016	GitHub Branch: CAD_003_Support_FEA_CAD_GEOMETRY_NONE
+
+			The function ValidateFEAAnalysisInputs checks for a load/constraint having the 
+			proper number of geometry features.  For example, a force load must be applied 
+			to geometry identified by geometry features (i.e. datum points).  There are some 
+			loads (e.g. acceleration and ambient-temperature) that do not require geometry features.
+			ValidateFEAAnalysisInputs was handling acceleration and ambient-temperature incorrectly.  
+			This resulted in error messages such as “For a polygon load, there must at least three 
+			features (i.e. Datum Points)”.  This defect was corrected to support acceleration and 
+			ambient temperature loads correctly.
+
+			
+			
+
 Known Defects
 -------------
 
