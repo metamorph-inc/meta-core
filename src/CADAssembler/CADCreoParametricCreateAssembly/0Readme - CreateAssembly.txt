@@ -1,4 +1,4 @@
-                         CADCreoParametricCreateAssembly.exe 
+Ôªø                         CADCreoParametricCreateAssembly.exe 
 	  	
 Supported Creo Versions
 -----------------------
@@ -65,11 +65,11 @@ Revision History:
 ----------------
 v1.0.000  05/16/2011 	Initial Release
 
-v1.0.001  05/17/2011 	Suppressed the ìFile not foundî message when attempting to delete an 
+v1.0.001  05/17/2011 	Suppressed the ‚ÄúFile not found‚Äù message when attempting to delete an 
 	   		assembly that does not exist.
 
-v1.0.002  05/18/2011	Added the input argument EXIT_PROMPT.  If set to ìNOî (case insensitive),
-			assemble_ptc.exe will exit without prompting with ìType Enter to exit.î 
+v1.0.002  05/18/2011	Added the input argument EXIT_PROMPT.  If set to ‚ÄúNO‚Äù (case insensitive),
+			assemble_ptc.exe will exit without prompting with ‚ÄúType Enter to exit.‚Äù 
 
 v1.0.003  05/22/2011	Corrected a problem with the routine that searches for parts in an assembly 
 			structure.  The search was only checking the first part at a particular level 
@@ -94,7 +94,7 @@ v1.0.004  06/06/2011	1) Added support for assemblies as a leaf node.  If an asse
 			Millimeter-Newton-Second.  
 
 			5) Corrected memory leaks for the case where the memory was allocated via 
-			ProÖAlloc(Ö) functions.  Called ProÖFree(Ö) where appropriate. 
+			Pro‚Ä¶Alloc(‚Ä¶) functions.  Called Pro‚Ä¶Free(‚Ä¶) where appropriate. 
 
 v1.0.005 - 06/24/2011	1) Added the capability to modify Pro/E parameters.  See ParametricParameters.h  
 			for a description of the function ApplyParametricParameters.  In general the 
@@ -125,9 +125,9 @@ Start Version 1.1... - Works only with Creo-Parametric
 ------------------------------------------------------
 
 v1.1.0.0 - 8/12/2011	Starting with v1.1,0,0, switched to Visual Studio 2010 and Creo-Parametric 1.0.  
-			Note ñ this version and subsequent v1.1Ö versions will only work with Creo-Parametric.
-  			Changed the executable name from ìassemble_ptc.exeî to ìCADCreoParametricCreateAssembly.exeî.
-   			ìassemble_ptc.exeî will still be used for v1.0Ö versions, which will support only 
+			Note ‚Äì this version and subsequent v1.1‚Ä¶ versions will only work with Creo-Parametric.
+  			Changed the executable name from ‚Äúassemble_ptc.exe‚Äù to ‚ÄúCADCreoParametricCreateAssembly.exe‚Äù.
+   			‚Äúassemble_ptc.exe‚Äù will still be used for v1.0‚Ä¶ versions, which will support only 
 			Pro/E (i.e. not Creo).  Modified the internals such that the XML input file is loaded 
 			into structures internal to this application (i.e. CADCreoParametricCreateAssembly.exe).
   			This was necessary to make the SIZE_TO_FIT code serviceable/maintainable.  Added version
@@ -136,14 +136,14 @@ v1.1.0.0 - 8/12/2011	Starting with v1.1,0,0, switched to Visual Studio 2010 and 
 			checks to make sure the Creo-Parametric environment variables are set.  	
 
 v1.1.1.0 - 9/9/2011	This version adds the creation of a metrics file each time an assembly is built.  
-			The metrics information is stored in a file that has a suffix of ìÖmetrics.xmlî.  
+			The metrics information is stored in a file that has a suffix of ‚Äú‚Ä¶metrics.xml‚Äù.  
 			The metrics file is located in the same directory (i.e. working directory) as the 
 			log file and the Creo models.  To support this addition, the input file schema 
 			changed; therefore, this version will only work with CyPhy2CAD.dll version 1.2.0.0 
 			or later.  To determine the version of CyPhy2CAD.dll, right click on CyPhy2CAD.dll, 
 			select Properties, and select the Details tab.  
 
-v1.2.0.0 - 3/7/2012	Added FEA Support ñ Polygon loads/constraints, mesh generation, use of material library, 
+v1.2.0.0 - 3/7/2012	Added FEA Support ‚Äì Polygon loads/constraints, mesh generation, use of material library, 
 			and the generation of the bat file to invoke Abaqus.
 			Replaced CodeSynthesis with UDM.
 			Modified the creation of the metrics file to throw an exception if materials were not assigned 
@@ -196,8 +196,8 @@ v1.3.4.0 - 7/23/2012	Changed the way the environment variables are read and inte
 v1.3.5.0 - 7/27/2012	For a parametric part that occurs more than once, copied the instances beyond the first instance to unique names.
 			Added bounding box information to the metrics file.  By default the bounding box information will be created in 
 			the metrics file; however, if the input xml contains a construct such as 
-			ì<BoundingBox ComponentID="100000445"  MetricID="987654321"/> ì, then the MetricID will 
-			be associated to the bounding box information in the metrics file.  If the input xml contains <DataExchange Ö> 
+			‚Äú<BoundingBox ComponentID="100000445"  MetricID="987654321"/> ‚Äú, then the MetricID will 
+			be associated to the bounding box information in the metrics file.  If the input xml contains <DataExchange ‚Ä¶> 
 			entries, the STEP files per the DataExchange instructions will be created.
 
 
@@ -382,7 +382,7 @@ v1.3.36.0 - 03/13/2013	Removed the error condition if there were no assemblies d
 			was used more than once.  Added logging of the xml input information for C.G., 
 			Mass, Bounding Box, and Point metrics.
 			
-v1.3.37.0 - 03/18/2013	Added checks for ComponentID=îî and FeatureName"".  For initial errors, changed the
+v1.3.37.0 - 03/18/2013	Added checks for ComponentID=‚Äù‚Äù and FeatureName"".  For initial errors, changed the
 			starting message from "std::exception" to ERROR. For ProMdlRetrieve and ProModelitemByNameInit
 			function calls, added additional information (Component ID, Model-Name/Type) to the error messages.
 			Added notes to the top of the log file that explain the mapping of ComponentIDs to CyPhy and
@@ -538,7 +538,7 @@ v1.4.22.0 -10/25/2013   Modified the code to try three regens before giving up. 
 			file in the function isis_ProOutputFileWrite when writing the output file failed.   
 			Added the function isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg and 
 			called it when getting mass properties.  This function provides a better error 
-			message.  Added a check for when the Possionís ratio keys in the Nastran deck
+			message.  Added a check for when the Possion‚Äôs ratio keys in the Nastran deck
 			could not be found.  If a key was not found a descriptive error message would 
 			be returned.  The key not found condition would probably be because Creo Simulate 
 			was used to define material properties.    
@@ -964,8 +964,8 @@ v1.5.5.0 04/04/2016	GitHub Branch: CAD_003_Support_FEA_CAD_GEOMETRY_NONE
 			to geometry identified by geometry features (i.e. datum points).  There are some 
 			loads (e.g. acceleration and ambient-temperature) that do not require geometry features.
 			ValidateFEAAnalysisInputs was handling acceleration and ambient-temperature incorrectly.  
-			This resulted in error messages such as ìFor a polygon load, there must at least three 
-			features (i.e. Datum Points)î.  This defect was corrected to support acceleration and 
+			This resulted in error messages such as ‚ÄúFor a polygon load, there must at least three 
+			features (i.e. Datum Points)‚Äù.  This defect was corrected to support acceleration and 
 			ambient temperature loads correctly.
 
 			
