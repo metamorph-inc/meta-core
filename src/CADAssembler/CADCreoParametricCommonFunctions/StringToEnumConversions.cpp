@@ -1414,8 +1414,8 @@ namespace isis
 		  //else if ( CADGeometryType_string.compare("SPHERE_SURFACE") == 0 ) return CAD_GEOMETRY_SPHERE_SURFACE;
 		  else if ( CADGeometryType_string.compare("EXTRUSION") == 0 ) return CAD_GEOMETRY_EXTRUSION;   
 		  else if ( CADGeometryType_string.compare("FACE") == 0 ) return CAD_GEOMETRY_FACE;   
-		 // else if ( CADGeometryType_string.compare("EXTRUSION_SURFACE") == 0 ) return CAD_GEOMETRY_EXTRUSION_SURFACE;
-		 else if ( CADGeometryType_string.compare("NONE") == 0 ) return CAD_GEOMETRY_NONE;  
+		  // else if ( CADGeometryType_string.compare("EXTRUSION_SURFACE") == 0 ) return CAD_GEOMETRY_EXTRUSION_SURFACE;
+		  else if ( CADGeometryType_string.compare("NONE") == 0 ) return CAD_GEOMETRY_NONE;
 
 
 		  string temp_string = "Function CADGeometryType_enum was passed " + in_CADGeometryType_string + " which is an erroneous type.";
