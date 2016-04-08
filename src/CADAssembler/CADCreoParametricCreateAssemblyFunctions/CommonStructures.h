@@ -424,7 +424,8 @@ namespace isis
 		std::string					featureID;
 		e_CADGeometryType			geometryType;			//  CAD_GEOMETRY_POLYGON, CAD_GEOMETRY_CIRCLE, CAD_GEOMETRY_CONCENTRIC_CIRCLES,
 															//	CAD_GEOMETRY_CYLINDER_SURFACE, CAD_GEOMETRY_CYLINDER_SURFACE, CAD_GEOMETRY_SPHERE_SURFACE
-															//  CAD_GEOMETRY_SPHERE_SURFACE, CAD_GEOMETRY_EXTRUSION, CAD_GEOMETRY_EXTRUSION_SURFACE
+															//  CAD_GEOMETRY_SPHERE_SURFACE, CAD_GEOMETRY_EXTRUSION, CAD_GEOMETRY_EXTRUSION_SURFACE,
+															//	CAD_GEOMETRY_NONE
 		std::list<CADFeature>		features;            
 		e_FeatureInterfaceType		featureInterfaceType;	// CAD_DATUM 
 		e_CADFeatureGeometryType	featureGeometryType;	// POINT, maybe other type later. for now points define polygons, lines, and spheres
@@ -438,7 +439,7 @@ namespace isis
 		//bool							geometrySetOperationDefined;
 		//e_GeometrySetOperation			geometrySetOperation;
 
-		AnalysisGeometryFeature(): primaryGeometryQualifierDefined(false), secondaryGeometryQualifierDefined(false) {};
+		AnalysisGeometryFeature(): primaryGeometryQualifierDefined(false), secondaryGeometryQualifierDefined(false), geometryType(CAD_GEOMETRY_NONE) {};
 	};
 
 
@@ -518,6 +519,8 @@ namespace isis
 								analysisPinDefined(false), 
 								analysisBallDefined(false), 
 								convectionBoundaryDefined(false) {};
+
+				
 	};
 
 
