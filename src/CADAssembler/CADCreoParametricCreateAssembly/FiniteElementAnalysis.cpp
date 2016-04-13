@@ -702,9 +702,31 @@ void FindPointsOnSurface( 	const std::map<int,isis_CADCommon::GridPoint>		&in_Gr
 	ProPoint3d pointOnSurface_XYZ_In;
 	ProPoint3d pointOnSurface_XYZ_Out;
 
-	pointOnSurface_XYZ_In[0] = pointOnSurface_CADPoint.x;
-	pointOnSurface_XYZ_In[1] = pointOnSurface_CADPoint.y;
-	pointOnSurface_XYZ_In[2] = pointOnSurface_CADPoint.z;
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// BEGIN Transform Point:  Must transform the point from the assembly coordinates to the part coordinates
+	double transformationMatrix[4][4];
+	RetrieveTranformationMatrix_Assembly_to_Child (	in_AssemblyComponentID,
+														in_CADComponentData_map[in_PartComponentID].componentPaths,
+														in_CADComponentData_map,  
+														PRO_B_FALSE,  // bottom up
+														transformationMatrix);
+			
+	 ProVector from_assembly_xyz_point;
+
+	 ProVector pointInAssemblyCoordinates;
+	 pointInAssemblyCoordinates[0] = pointOnSurface_CADPoint.x;
+	 pointInAssemblyCoordinates[1] = pointOnSurface_CADPoint.y;
+	 pointInAssemblyCoordinates[2] = pointOnSurface_CADPoint.z;
+
+	 ProVector pointInPartCoordinates;
+
+	 isis::isis_ProPntTrfEval( pointInAssemblyCoordinates, transformationMatrix, pointOnSurface_XYZ_In);
+	// END Transform Point: 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//pointOnSurface_XYZ_In[0] = pointOnSurface_CADPoint.x;
+	//pointOnSurface_XYZ_In[1] = pointOnSurface_CADPoint.y;
+	//pointOnSurface_XYZ_In[2] = pointOnSurface_CADPoint.z;
 
 	isis_LOG(lg, isis_FILE, isis_INFO);
 	isis_LOG(lg, isis_FILE, isis_INFO) << __FUNCTION__ << " Data:";  
@@ -808,7 +830,12 @@ void FindPointsOnSurface( 	const std::map<int,isis_CADCommon::GridPoint>		&in_Gr
 
 			try
 			{
-			isis_ProPoint3dOnsurfaceFind (	point_XYZ_In, surfaces[j], &onSurface, point_XYZ_Out );	
+				// We must transform the Nastran grid points to the coordinate system of the part before checking if the point (i.e. grid point)
+				// is on the surface.
+				ProPoint3d pointOnSurface_XYZ_In_partCys;
+				isis::isis_ProPntTrfEval( point_XYZ_In, transformationMatrix, pointOnSurface_XYZ_In_partCys);
+				isis_ProPoint3dOnsurfaceFind (	pointOnSurface_XYZ_In_partCys, surfaces[j], &onSurface, point_XYZ_Out );	
+				//isis_ProPoint3dOnsurfaceFind (	point_XYZ_In, surfaces[j], &onSurface, point_XYZ_Out );	
 			}
 			catch ( isis::application_exception ex )
 			{

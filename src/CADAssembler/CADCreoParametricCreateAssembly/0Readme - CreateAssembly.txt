@@ -967,14 +967,22 @@ v1.5.5.0 04/04/2016	GitHub Branch: CAD_003_Support_FEA_CAD_GEOMETRY_NONE
 			This resulted in error messages such as “For a polygon load, there must at least three 
 			features (i.e. Datum Points)”.  This defect was corrected to support acceleration and 
 			ambient temperature loads correctly.
+			R.O.
 
 			
-			
+v1.5.6.0 04/13/2016	GitHub Branch: CAD_004_Correct_FEA_Treatment_of_Assembly_Surfaces
+	
+			The Face FEA construct identifies surfaces for placing loads/constraints.  For 
+			deck-based FEA this worked correctly for single parts, but not for assemblies 
+			of parts.  For assemblies, parts are offset from the assembly global coordinate 
+			system and special transformations were needed for the Face construct to work 
+			properly for assemblies.
+			R.O.
 
 Known Defects
 -------------
 
-1. 	Title: 			Error with Multiple Instances of a Parametric Family Table Part
+1. 	Title: 			Error with Multiple Insta Parametric Family Table Part
    	Date Found: 		7/27/2012
 	Found in Version: 	v1.3.5.0
 	Description: 		Multiple instances of a parametric family table part results in the following error:
