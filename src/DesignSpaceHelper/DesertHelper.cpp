@@ -990,7 +990,7 @@ void DesertHelper::exportModel_ex(set<int> cfgIds)
 
 		int idCnt = cfgIds.size();
 		//std::string fnbase;
-		prgDlg.SetRange(25*idCnt);
+		prgDlg.SetRange((1 + idCnt)*10); // processPos += 10;
 
 		prgDlg.SetProgress("Preparing to export models...");
 	}

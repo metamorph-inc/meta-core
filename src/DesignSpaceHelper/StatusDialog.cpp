@@ -62,13 +62,6 @@ void CStatusDialog::SetProgress(const CString &status)
 
 void CStatusDialog::OnFinished()
 {
-	m_prgBar.SetRange( 0, m_maxPrg);
-	while(processPos < m_maxPrg)
-	{
-		Sleep(20);
-		m_prgBar.StepIt();
-		processPos += 5;
-	}
 	CDialog::OnCancel();
 }
 
