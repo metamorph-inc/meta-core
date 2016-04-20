@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Resource.h"
-#include "afxwin.h"
-#include "afxcmn.h"
+#include <afxwin.h>
+#include <afxcmn.h>
 
 #include "DesertHelper.h"
 // CConstraintAddDialog dialog

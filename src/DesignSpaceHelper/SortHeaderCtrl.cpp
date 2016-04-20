@@ -11,7 +11,7 @@ Purpose:  Provides the header control, with drawing of the arrows, for
           the list control.
 ----------------------------------------------------------------------*/
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SortHeaderCtrl.h"
 
 #ifdef _DEBUG

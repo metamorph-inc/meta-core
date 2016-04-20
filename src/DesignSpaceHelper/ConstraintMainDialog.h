@@ -2,10 +2,10 @@
 
 #include "resource.h"
 //#include "UdmBase.h"
-#include "afxcmn.h"
+#include <afxcmn.h>
 
 #include "DesertHelper.h"
-#include "afxwin.h"
+#include <afxwin.h>
 // CConstraintMainDialog dialog
 #include "CheckHeadCtrl.h"
 #include "SortListCtrl.h"
@@ -51,7 +51,7 @@ public:
 	virtual BOOL OnInitDialog();
 private:
 	void FillList();
-	void FillList(int index, const std::string &cons_name, const std::string &cons_context, const std::string &cons_type, const std::string &domain);
+	void FillList(int index, const std::string &cons_name, const std::string &cons_context, const std::string &cons_type, const std::string &cons_domain);
 	void FillSizeBox();
 	void FillFilter();
 	afx_msg void OnInfoTip( NMHDR * pNMHDR, LRESULT * pResult );

@@ -3,7 +3,7 @@
 //Microsoft Excel97 Developer Kit, Microsoft Press 1997 
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "XLAutomation.h"
 #include <ole2ver.h>
 #include <string.h>

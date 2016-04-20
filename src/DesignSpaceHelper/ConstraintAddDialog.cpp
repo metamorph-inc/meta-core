@@ -1,7 +1,7 @@
 // ConstraintAddDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ConstraintAddDialog.h"
 
 
@@ -112,7 +112,9 @@ void CConstraintAddDialog::OnLbnDblclkFunctionlist()
 
 void CConstraintAddDialog::InsertFuncString()
 {
-	if(!m_editExpression) return;
+	if(!m_editExpression) {
+		return;
+	}
 
 	CPoint caret = GetCaretPos();
 	int curpos = c_expredit.CharFromPos(caret);

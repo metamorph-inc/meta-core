@@ -4,7 +4,7 @@
 // that the component implementor is expected to modify in the first place
 //
 ///////////////////////////////////////////////////////////////////////////
-#include "stdafx.h"
+#include "StdAfx.h"
 
 #include "ComHelp.h"
 #include "GMECOM.h"

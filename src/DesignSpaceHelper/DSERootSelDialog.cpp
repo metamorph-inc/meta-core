@@ -1,9 +1,9 @@
 // DSERootSelDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DSERootSelDialog.h"
-#include "afxdialogex.h"
+#include <afxdialogex.h>
 #include "Uml.h"
 #include "UmlExt.h"
 #include "UdmUtil.h"

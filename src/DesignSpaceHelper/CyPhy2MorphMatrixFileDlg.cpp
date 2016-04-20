@@ -1,9 +1,9 @@
 // CyPhy2MorphMatrixFileDlg.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CyPhy2MorphMatrixFileDlg.h"
-#include "afxdialogex.h"
+#include <afxdialogex.h>
 
 
 // CCyPhy2MorphMatrixFileDlg dialog

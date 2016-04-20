@@ -1,7 +1,7 @@
 // ConstraintMainDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ConstraintMainDialog.h"
 #include "ConstraintEditDialog.h"
 #include "ConstraintAddDialog.h"
@@ -37,8 +37,9 @@ CConstraintMainDialog::CConstraintMainDialog(DesertHelper *deserthelper_ptr, CWn
 
 CConstraintMainDialog::~CConstraintMainDialog()
 {
-	if(m_pToolTip)
+	if(m_pToolTip) {
 		delete m_pToolTip;
+	}
 }
 
 void CConstraintMainDialog::DoDataExchange(CDataExchange* pDX)
@@ -363,7 +364,9 @@ void CConstraintMainDialog::OnBnClickedEditbtn()
 			if(m_listctrl.GetCheck(i)) sel = i;
 		}
 
-	if(sel==-1) return;
+	if(sel==-1) {
+		return;
+	}
 
 	int con_index = m_listctrl.GetItemID(sel);
 	CConstraintEditDialog editdlg(m_listctrl.GetItemText(sel,1), (CString)(constraintExprMap[con_index].c_str()),dhelper_ptr);
@@ -390,8 +393,9 @@ void CConstraintMainDialog::OnBnClickedCommitbtn()
 void CConstraintMainDialog::OnBnClickedApplybtn()
 {
 	// TODO: Add your control notification handler code here
-	if(refresh_needed)
+	if(refresh_needed) {
 		dhelper_ptr->closeDesertIfaceBackDN();
+	}
 	std::string conslist="";
 	int cnt = m_listctrl.GetItemCount();
 	//set<int> conIdlist;
@@ -455,10 +459,11 @@ void CConstraintMainDialog::OnBnClickedApplyallbtn()
 	{
 //		AfxMessageBox(CString(exc.what()));
 	//	initConstraints();
-		if(dhelper_ptr->isBackNavigable())
+		if(dhelper_ptr->isBackNavigable()) {
 			dhelper_ptr->goBack();
-		else
+		} else {
 			initConstraints();
+	}
 		FillList();
 		return;
 	}
@@ -466,10 +471,11 @@ void CConstraintMainDialog::OnBnClickedApplyallbtn()
 	{
 		invalidConstraintName_set.insert(e->GetConstraintName());
 		e->Delete();
-		if(dhelper_ptr->isBackNavigable())
+		if(dhelper_ptr->isBackNavigable()) {
 			dhelper_ptr->goBack();
-		else
+		} else {
 			initConstraints();
+	}
 		FillList();
 		return;
 	}
@@ -592,10 +598,11 @@ void CConstraintMainDialog::generateConfig()
 
 	if(dhelper_ptr->isLastDesertFinit_2_fail())
 	{
-		if(applyAll)
+		if(applyAll) {
 			dhelper_ptr->applyAllConstraints(true);
-		else
+		} else {
 			dhelper_ptr->applyConstraints(conIdlist, true);
+		}
 	}
 
 	int ret = dhelper_ptr->runDesertFinit_2();
@@ -805,16 +812,17 @@ void CConstraintMainDialog::setDomainCheck(int nItem, bool check)
 {
 	int nFilter = m_filterlist.GetItemCount();
 	int nCons = m_listctrl.GetItemCount();
-	
-	if(!check)
+
+	if(!check) {
 		m_filterlist.SetCheck(0,0);
-	else
+	} else
 	{
 		bool allChecked=true;
 		for(int i=1;i<nFilter; i++)
 		{
-			if(i==nItem)
+			if(i==nItem) {
 				continue;
+			}
 			if(!m_filterlist.GetCheck(i))
 			{
 				allChecked = false;
@@ -889,11 +897,12 @@ void CConstraintMainDialog::OnNMClickFilterlist(NMHDR *pNMHDR, LRESULT *pResult)
 		bchecked = m_filterlist.GetCheck(nItem);
 		bchecked = !bchecked;
 	}
-	
-	if(nItem==0)
+
+	if(nItem==0) {
 		setCheckAll(bchecked);
-	else
+	} else {
 		setDomainCheck(nItem, bchecked);
+	}
 }
 
 

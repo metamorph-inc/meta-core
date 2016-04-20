@@ -78,8 +78,9 @@ std::string getPath( const std::string& filepath, bool deleteTerminatingBackSlas
 }
 
 void DesertHelper::morphMatrixInitialize1() {
-	if(morphMatrixInitialized1)
+	if(morphMatrixInitialized1) {
 		return;
+	}
 
 	// MorphMatrix initialize
 	if(morphMatrix.size() > 0) {
@@ -104,8 +105,9 @@ void DesertHelper::morphMatrixInitialize1() {
 }
 
 void DesertHelper::morphMatrixFinalize1() {
-	if(!morphMatrixInitialized1)
+	if(!morphMatrixInitialized1) {
 		return;
+	}
 
 	morphMatrixInitialized1 = false;
 

@@ -1,7 +1,7 @@
 // StatusDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "StatusDialog.h"
 
 
@@ -82,7 +82,9 @@ CStatusDialog * GetStatusDlg(CStatusDialog * set)
 {
 	static CStatusDialog * csdlg;
 	
-	if (set) csdlg = set;
+	if (set) {
+		csdlg = set;
+	}
 	ASSERT(csdlg != NULL);
 	return csdlg;
 };

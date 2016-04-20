@@ -116,8 +116,9 @@ void DesertThread::RunDesert()
 				std::string desc("Writing out Configuration: ");
 				while(pos)
 				{
-					if(m_notify->m_cancel || m_notify->m_quit)
+					if(m_notify->m_cancel || m_notify->m_quit) {
 						break;
+					}
 
 					DBConfiguration * config = confs->GetNext(pos);
 					if (config)
@@ -244,8 +245,9 @@ void DesertThread::operator()()
 		return;
 	}
 
-	if (m_notify)
+	if (m_notify) {
 		m_notify->finished();
+	}
 
 	CoUninitialize();
 }

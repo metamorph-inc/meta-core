@@ -2,7 +2,7 @@
 
 #include "resource.h"
 #include "CyPhyML.h"
-#include "afxcmn.h"
+#include <afxcmn.h>
 // CDesignSpaceSelDialog dialog
 
 class CDesignSpaceSelDialog : public CDialogEx

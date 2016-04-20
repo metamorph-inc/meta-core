@@ -1,9 +1,9 @@
 // DesertStatusDlg.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DesertStatusDlg.h"
-#include "afxdialogex.h"
+#include <afxdialogex.h>
 #include "DesertStatusDlg.h"
 #include "Splash.h"
 
@@ -155,7 +155,9 @@ void CDesertStatusDlg::SetStatus(StatusID s_id)
 
 void CDesertStatusDlg::SetStatus(const TCHAR *desc, int percent)
 {
-	if(m_cancel) return;
+	if(m_cancel) {
+		return;
+	}
 
 	if ( _silent) {
 		std::cout << ".";
@@ -217,7 +219,9 @@ CDesertStatusDlg * GetStatusDlg(CDesertStatusDlg * set)
 {
 	static CDesertStatusDlg * csdlg = NULL;
 	
-	if (set) csdlg = set;
+	if (set != 0) {
+		csdlg = set;
+	}
 	ASSERT(csdlg != NULL);
 	return csdlg;
 
@@ -228,7 +232,9 @@ const StatusDefinition * LookUpStatus(StatusID s_id)
 	const StatusDefinition * std = Stats;
 	while (std->id != SD_NULL)
 	{
-		if (std->id == s_id) break;
+		if (std->id == s_id) {
+			break;
+		}
 		std++;
 	}
 
