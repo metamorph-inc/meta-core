@@ -40,7 +40,7 @@ std::string checkInvalidName(std::string name)
 };
 
 set<CyPhyML::DesignEntity> allOptions;
-typedef map<CyPhyML::DesignEntity, set<CyPhyML::DesignEntity>*> GroupOptions;
+typedef map<CyPhyML::DesignEntity, std::unique_ptr<set<CyPhyML::DesignEntity> > > GroupOptions;
 GroupOptions allGroupOptions;
 const char* mmGroupsFilename = "groups_list.txt";
 const char* mmOptionsFilename = "options_list.txt";
@@ -53,13 +53,6 @@ void morphMatrixInitialize2() {
 		return;
 
 	// MorphMatrix initialize
-	if(allGroupOptions.size() > 0) {
-		for(GroupOptions::iterator mmPos = allGroupOptions.begin(); mmPos != allGroupOptions.end(); ++mmPos) {
-			GroupOptions::value_type mmRow = *mmPos;
-			set<CyPhyML::DesignEntity>* selectedEntities = mmRow.second;
-			delete selectedEntities;
-		}
-	}
 	allGroupOptions.clear();
 	allOptions.clear();
 	mmfd1 = fopen(mmGroupsFilename, "w+");
@@ -76,9 +69,10 @@ void morphMatrixFinalize2() {
 
 	// MorphMatrix finalize
 	for(GroupOptions::iterator mmPos = allGroupOptions.begin(); mmPos != allGroupOptions.end(); ++mmPos) {
-		GroupOptions::value_type mmRow = *mmPos;
+		GroupOptions::value_type& mmRow = *mmPos;
 		CyPhyML::DesignEntity group = mmRow.first;
-		set<CyPhyML::DesignEntity>* groupOptions = mmRow.second;
+
+		auto& groupOptions = mmRow.second;
 		string groupName = group.name();
 		long groupID = group.ID();
 		CyPhyML::DesignContainer groupContainer = CyPhyML::DesignContainer::Cast(group);
@@ -105,13 +99,6 @@ void morphMatrixFinalize2() {
 	fclose(mmfd2);
 	mmfd1 = 0;
 	mmfd2 = 0;
-	if(allGroupOptions.size() > 0) {
-		for(GroupOptions::iterator mmPos = allGroupOptions.begin(); mmPos != allGroupOptions.end(); ++mmPos) {
-			GroupOptions::value_type mmRow = *mmPos;
-			set<CyPhyML::DesignEntity>* groupOptions = mmRow.second;
-			delete groupOptions;
-		}
-	}
 	allGroupOptions.clear();
 	allOptions.clear();
 }

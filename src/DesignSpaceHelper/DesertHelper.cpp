@@ -83,13 +83,6 @@ void DesertHelper::morphMatrixInitialize1() {
 	}
 
 	// MorphMatrix initialize
-	if(morphMatrix.size() > 0) {
-		for(MorphMatrix::iterator mmPos = morphMatrix.begin(); mmPos != morphMatrix.end(); ++mmPos) {
-			MorphMatrix::value_type mmRow = *mmPos;
-			set<CyPhyML::DesignEntity>* selectedEntities = mmRow.second;
-			delete selectedEntities;
-		}
-	}
 	morphMatrix.clear();
 	allEntities.clear();
 	stringstream newMMFilenameSS;
@@ -126,9 +119,9 @@ void DesertHelper::morphMatrixFinalize1() {
 	}
 	fprintf(mmfd, "\n");
 	for(MorphMatrix::iterator mmPos = morphMatrix.begin(); mmPos != morphMatrix.end(); ++mmPos) {
-		MorphMatrix::value_type mmRow = *mmPos;
+		MorphMatrix::value_type& mmRow = *mmPos;
 		Configuration cfg = mmRow.first;
-		set<CyPhyML::DesignEntity>* selectedEntities = mmRow.second;
+		auto& selectedEntities = mmRow.second;
 		long cfgID = cfg.uniqueId();
 		string cfgName = cfg.name();
 		cfgName = "cfg" + cfgName.substr(10);
@@ -171,13 +164,6 @@ void DesertHelper::morphMatrixFinalize1() {
 	fflush(mmfd);
 	fclose(mmfd);
 	mmfd = 0;
-	if(morphMatrix.size() > 0) {
-		for(MorphMatrix::iterator mmPos = morphMatrix.begin(); mmPos != morphMatrix.end(); ++mmPos) {
-			MorphMatrix::value_type mmRow = *mmPos;
-			set<CyPhyML::DesignEntity>* selectedEntities = mmRow.second;
-			delete selectedEntities;
-		}
-	}
 	morphMatrix.clear();
 	allEntities.clear();
 }
