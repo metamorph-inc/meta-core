@@ -182,7 +182,7 @@ void CyPhy2Desert::generateDesert(const CyPhyML::DesignContainer &cyphy_dc)
 		errorMsg = "The cyclic reference loop is found: <br>"+path;
 		throw udm_exception("The cyclic reference loop is found. Please see the details in console window.");
 	}
-	init();	
+	init();
 
 	initConnectorDefMap(cyphy_dc);
 	initConnectorDefWildCardMap();
@@ -210,7 +210,7 @@ _int64 string2int(const std::string &value)
 }
 
 void CyPhy2Desert::init()
-{	
+{
 	space = DesertIface::Space::Create(dsystem);
 	space.name() = "DesignSpace";
 	space.id() = 1000;
@@ -259,7 +259,7 @@ void CyPhy2Desert::init()
 //			if(this_si.size()!=length)
 //				continue;
 //			bool ismatch = true;
-//			for(std::string::size_type i = 0; i<length; ++i) 
+//			for(std::string::size_type i = 0; i<length; ++i)
 //			{
 //				if(si_wc[i]=='*')
 //					continue;
@@ -292,7 +292,7 @@ void CyPhy2Desert::initConnectorDefMap(const CyPhyML::RootFolder &rf)
 	for(set<CyPhyML::DesignSpace>::const_iterator di=dsfdrs.begin();di!=dsfdrs.end();++di)
 	{
 		initConnectorDefMap(*di);
-	}	
+	}
 }
 
 void CyPhy2Desert::initConnectorDefMap(const CyPhyML::DesignSpace &ds)
@@ -301,13 +301,13 @@ void CyPhy2Desert::initConnectorDefMap(const CyPhyML::DesignSpace &ds)
 	for(set<CyPhyML::DesignSpace>::const_iterator di=dsfdrs.begin();di!=dsfdrs.end();++di)
 	{
 		initConnectorDefMap(*di);
-	}	
-	
+	}
+
 	const set<CyPhyML::DesignContainer> &containers = ds.DesignContainer_kind_children();
 	for(set<CyPhyML::DesignContainer>::const_iterator ci=containers.begin();ci!=containers.end();++ci)
-	{	
+	{
 		initConnectorDefMap(*ci);
-	}	
+	}
 }
 
 void CyPhy2Desert::initConnectorDefMap(const CyPhyML::DesignContainer &dc)
@@ -315,7 +315,7 @@ void CyPhy2Desert::initConnectorDefMap(const CyPhyML::DesignContainer &dc)
 	set<CyPhyML::DesignContainer> dcs = dc.DesignContainer_kind_children();
 	for(auto it_dc=dcs.begin(); it_dc!=dcs.end(); ++it_dc)
 		initConnectorDefMap(*it_dc);
-	
+
 	set<CyPhyML::ComponentRef> comrefs = dc.ComponentRef_kind_children();
 	for(auto it_ref=comrefs.begin(); it_ref!=comrefs.end(); ++it_ref)
 	{
@@ -328,7 +328,7 @@ void CyPhy2Desert::initConnectorDefMap(const CyPhyML::DesignContainer &dc)
 			nullComponentRefs.insert(comref);
 		}
 	}
-	
+
 	set<CyPhyML::ComponentAssembly> cas = dc.ComponentAssembly_kind_children();
 	for(auto it_ca=cas.begin(); it_ca!=cas.end(); ++it_ca)
 		initConnectorDefMap(*it_ca);
@@ -364,7 +364,7 @@ void CyPhy2Desert::initConnectorDefMap(const CyPhyML::DesignElement &de)
 			}
 		}
 	}
-	
+
 	if(Uml::IsDerivedFrom(de.type(), CyPhyML::ComponentAssembly::meta))
 	{
 		CyPhyML::ComponentAssembly ca = CyPhyML::ComponentAssembly::Cast(de);
@@ -397,7 +397,7 @@ void CyPhy2Desert::initConnectorDefWildCardMap()
 			if(this_si.size()!=length)
 				continue;
 			bool ismatch = true;
-			for(std::string::size_type i = 0; i<length; ++i) 
+			for(std::string::size_type i = 0; i<length; ++i)
 			{
 				if(si_wc[i]=='*')
 					continue;
@@ -451,7 +451,7 @@ DesertIface::CustomDomain CyPhy2Desert::generateCustomDomain(const std::string &
 
 template <class T> void CyPhy2Desert::traverseDesignSpace(const CyPhyML::DesignSpace &ds, T &element_parent)
 {
-	Element element = Element::Create(element_parent);	
+	Element element = Element::Create(element_parent);
 	element.name() = ds.name();
 	element.id() = element.externalID() = ds.uniqueId();
 	element.decomposition() = true;
@@ -461,13 +461,13 @@ template <class T> void CyPhy2Desert::traverseDesignSpace(const CyPhyML::DesignS
 	{
 		traverseDesignSpace(*di, element);
 		DOEVENTS();
-	}	
-	
+	}
+
 	const set<CyPhyML::DesignContainer> &containers = ds.DesignContainer_kind_children();
 	if(containers.empty()) return;
 //	rootContainer = *(containers.begin());
 	for(set<CyPhyML::DesignContainer>::const_iterator ci=containers.begin();ci!=containers.end();++ci)
-	{	
+	{
 		rootDC = *ci;
 		set<int> ids;
 		std::string path;
@@ -475,7 +475,7 @@ template <class T> void CyPhy2Desert::traverseDesignSpace(const CyPhyML::DesignS
 			throw udm_exception("The cyclic reference loop is found: \\n"+path);
 		traverseContainer(*ci, element, CyPhyML::DesignEntity::Cast(*ci));
 		DOEVENTS();
-	}	
+	}
 }
 
 void CyPhy2Desert::addGroup(CyPhyML::DesignContainer& currentGroup)
@@ -523,28 +523,28 @@ void CyPhy2Desert::processConstants(const set<CyPhyML::Constant> &constants, con
 		DesertIface::NaturalMember member;
 		if(!getDomainWithMember(cname, domain, value, member))
 			throw udm_exception("Constant: "+cname+" is not NaturalDomain.");
-		DesertIface::VariableProperty vp = DesertIface::VariableProperty::Create(delem);	
+		DesertIface::VariableProperty vp = DesertIface::VariableProperty::Create(delem);
 		updatevpMap(vp, constant, celem);
 		vp.parametric() = false;
-		vp.name() = vp.CUSTName() = cname; 
-		vp.id() = vp.externalID() = celem.ID()+5000; 
-		vp.PCM_STR() = "PCM_NONE"; 
-		vp.Max() = 100000; 
+		vp.name() = vp.CUSTName() = cname;
+		vp.id() = vp.externalID() = celem.ID()+5000;
+		vp.PCM_STR() = "PCM_NONE";
+		vp.Max() = 100000;
 		vp.domain() =domain;
 
 		DesertIface::AssignedValues av = DesertIface::AssignedValues::Create(delem);
 		av.id() = av.externalID() = 2000;
 		av.properties_end() = vp;
-		av.values_end() = member;	
+		av.values_end() = member;
 	}
 }
 
-void CyPhy2Desert::processProperties(const set<CyPhyML::Property> &properties, const CyPhyML::DesignContainer &celem, 
+void CyPhy2Desert::processProperties(const set<CyPhyML::Property> &properties, const CyPhyML::DesignContainer &celem,
 									DesertIface::Element &delem)
 {
 	for(set<CyPhyML::Property>::iterator i=properties.begin();i!=properties.end();++i)
 	{
-		CyPhyML::Property propty = *i;	
+		CyPhyML::Property propty = *i;
 		if(propty.Disable()) continue;
 		std::string pname = propty.name();
 		set<CyPhyML::ValueFlow> src_vfs = propty.srcValueFlow();
@@ -570,7 +570,7 @@ void CyPhy2Desert::processParameters(const set<CyPhyML::Parameter> &parameters, 
 {
 	for(set<CyPhyML::Parameter>::iterator pi=parameters.begin();pi!=parameters.end();++pi)
 	{
-		CyPhyML::Parameter parameter = *pi;	
+		CyPhyML::Parameter parameter = *pi;
 
 		std::string pname = parameter.name();
 
@@ -614,7 +614,7 @@ Ranges are inclusive
 		invalidParameters.insert(parameter);
 		return "";
 	}
-	
+
 	if(range.find("-inf..inf")!=std::string::npos)
 		return "";
 	if(range.find("-inf,inf")!=std::string::npos) // compatibility
@@ -639,7 +639,7 @@ Ranges are inclusive
 	std::string expr;
 	expr = "(";
 	if (lower.empty() == false && lower != "-inf")
-	{			
+	{
 		expr = expr + "(" + newParamName + "() >= " + lower + ")";
 	}
 	if (upper.empty() == false && upper != "inf")
@@ -649,7 +649,7 @@ Ranges are inclusive
 		expr = expr + "(" + newParamName + "() <= " + upper + ")";
 	}
 	expr += ")";
-	
+
 	if (expr == "()") {
 		expr.clear();
 	}
@@ -675,7 +675,7 @@ void CyPhy2Desert::generateConstraint(const CyPhyML::Parameter &parameter, Deser
 	dsConstraint.name() = pcon_name;
 	dsConstraint.expression() = "constraint "+ pcon_name+"() {\n" + expr+"\n}";
 	dsConstraint.context() = delem;
-	
+
 	return;
 }
 
@@ -696,7 +696,7 @@ std::string CyPhy2Desert::getFirstNumber(std::string &str)
 		if(pos2!=std::string::npos)
 			end_pos = pos2;
 	}
-	
+
 	ret = str.substr(pos, end_pos-pos);
 	str.erase(0, end_pos);
 
@@ -726,30 +726,30 @@ void CyPhy2Desert::processAlternativeValueFlowEnds()
 			delem = (*pos).second;
 		else
 			continue;
-	
+
 		DesertIface::SimpleFormula dsf = DesertIface::SimpleFormula::Create(formulaSet);
 		dsf.ComputationType() = "PCM_OR";
 		dsf.context() = delem;
 		dsf.name() = "SimpleFormula";
 		dsf.id() = dsf.externalID() = vfend.uniqueId();
-			
+
 		DesertIface::VariableProperty dvp = getVariableProperty(vfend,celem);
 		if(dvp == Udm::null)
 		{
 			dvp = DesertIface::VariableProperty::Create(delem);
-			updatevpMap(dvp, vfend, celem);			
+			updatevpMap(dvp, vfend, celem);
 			dvp.name() = dvp.CUSTName() = UdmUtil::ExtractName(vfend);
 			dvp.id() = dvp.externalID() = celem.ID()+5000;
 		}
 		dvp.parametric() = true;
 		dvp.PCM_STR() = "";
 		dsf.property_end() += dvp;
-			
+
 		for(set<CyPhyML::ValueFlow>::iterator it_vf=src_vfs.begin();it_vf!=src_vfs.end();++it_vf)
 		{
 			CyPhyML::ValueFlowTarget src_end = (*it_vf).srcValueFlow_end();
-			if (Uml::IsDerivedFrom(src_end.type(), CyPhyML::Parameter::meta) 
-				|| Uml::IsDerivedFrom(src_end.type(), CyPhyML::Property::meta) 
+			if (Uml::IsDerivedFrom(src_end.type(), CyPhyML::Parameter::meta)
+				|| Uml::IsDerivedFrom(src_end.type(), CyPhyML::Property::meta)
 				|| Uml::IsDerivedFrom(src_end.type(), CyPhyML::Constant::meta)
 				)
 			{
@@ -770,13 +770,13 @@ void CyPhy2Desert::processAlternativeValueFlowEnds()
 						vpParent = (*pos).second;
 					else
 						continue;
-				
-					src_dvp = DesertIface::VariableProperty::Create(vpParent);				
+
+					src_dvp = DesertIface::VariableProperty::Create(vpParent);
 					updatevpMap(src_dvp, src_end, src_parent);
 					int uid = src_end.uniqueId();
 				//	char buffer[65];
 				//	_itoa(uid, buffer, 10);
-					src_dvp.id() = src_dvp.externalID() = src_end.uniqueId()+5000; 				
+					src_dvp.id() = src_dvp.externalID() = src_end.uniqueId()+5000;
 				}
 				dsf.srcProperty() += src_dvp;
 			}
@@ -803,19 +803,19 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 	Element element = Element::Create(element_parent);
 	com2elemMap[cyphy_elem] = element;
 	element.name() = cyphy_elem.name();
-	
+
 	originalIDs[cyphy_elem] = (int)cyphy_elem.ID();  //reverse it back later
 	cyphy_elem.ID() = cyphy_elem.uniqueId();  //using uniqueID to avoid negative integer(maybe caused by overflow)
-	int elemID = (int)cyphy_elem.ID(); 
+	int elemID = (int)cyphy_elem.ID();
 
 	element.id() = element.externalID() = elemID;
-	
+
 	if(!Uml::IsDerivedFrom(cyphy_elem.type(), DesignContainer::meta))
 	{
 		flatternComponent(cyphy_elem, element, isAlt);
 	}
 	else  //DesignContainer
-	{		
+	{
 		DesignContainer container = DesignContainer::Cast(cyphy_elem);
 
 		// First make sure that the design container contains at least 1 design element in it (as per the designed/supported use-case)
@@ -831,16 +831,16 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 
 		preprocessParameters(container);
 
-		bool dcAlt = ((std::string)container.ContainerType() != "Compound");	
-		
+		bool dcAlt = ((std::string)container.ContainerType() != "Compound");
+
 		bool procSF = true;
-				
+
 		const set<CyPhyML::Property> properties = container.Property_kind_children();
 		processProperties(properties, container, element);
-		
-		set<CyPhyML::Parameter> parameters = container.Parameter_kind_children();																															
+
+		set<CyPhyML::Parameter> parameters = container.Parameter_kind_children();
 		processParameters(parameters, container, element, false);
-		
+
 		const set<CyPhyML::Constant> constants = container.Constant_kind_children();
 		processConstants(constants, container, element);
 
@@ -849,7 +849,7 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 		const set<CyPhyML::ValueFormula> formulas = container.ValueFormula_kind_children();
 		pre_processValueFormulas(formulas, container, element);
 
-		if(!dcAlt)	
+		if(!dcAlt)
 			element.decomposition() = true;
 
 		else
@@ -865,7 +865,7 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 				{
 					for(set<CyPhyML::Property>::iterator nit=properties.begin();nit!=properties.end();++nit)
 					{
-						CyPhyML::Property propty = *nit;	
+						CyPhyML::Property propty = *nit;
 						set<CyPhyML::ValueFlow> dstvfs = propty.dstValueFlow();
 						if(dstvfs.empty()) continue;
 						CyPhyML::SimpleFormula sf;
@@ -897,15 +897,15 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 						getDomainWithMember(pname, domain, nullVal, member);
 						DesertIface::VariableProperty vp = DesertIface::VariableProperty::Create(nullelem);
 						vp.parametric() = false;
-						vp.name() = vp.CUSTName() = pname; 
-						vp.id() = vp.externalID() = container.ID()+5100; 
-						vp.PCM_STR() = "PCM_NONE"; 
+						vp.name() = vp.CUSTName() = pname;
+						vp.id() = vp.externalID() = container.ID()+5100;
+						vp.PCM_STR() = "PCM_NONE";
 						vp.domain() =domain;
 						vp.Max() = 214748000;
 						DesertIface::AssignedValues av = DesertIface::AssignedValues::Create(nullelem);
 						av.id() = av.externalID() = 2000;
 						av.properties_end() = vp;
-						av.values_end() = member;	
+						av.values_end() = member;
 					}
 				}
 			}
@@ -933,7 +933,7 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 			else if(Uml::IsDerivedFrom(formula.type(), CyPhyML::CustomFormula::meta))
 				processCustomFormula(CyPhyML::CustomFormula::Cast(formula), element);
 		}
-		
+
 		processConnectors(container, element);
 
 		if(dcAlt)
@@ -1008,8 +1008,8 @@ void CyPhy2Desert::processConnectors(const CyPhyML::DesignContainer &dc,DesertIf
 		dst_port.port = js.dstConnectorComposition_end();
 		dst_port.port_ref_parent = js.dstConnectorComposition_refport_parent();
 		Udm::Object src_port_parent = src_port.port.GetParent();
-		
-		if(isAltPort(src_port, CyPhyML::ConnectorComposition::meta, "srcConnectorComposition", "dstConnectorComposition") 
+
+		if(isAltPort(src_port, CyPhyML::ConnectorComposition::meta, "srcConnectorComposition", "dstConnectorComposition")
 			|| isAltPort(dst_port, CyPhyML::ConnectorComposition::meta, "srcConnectorComposition", "dstConnectorComposition"))
 			generateConstraint(src_port, dst_port, dc);
 	}
@@ -1031,7 +1031,7 @@ bool CyPhy2Desert::isAltPort(const CyPhyUtil::ComponentPort &port, const Uml::Cl
 
 	if(Uml::IsDerivedFrom(port_parent.type(), CyPhyML::DesignElement::meta))
 		return false;
-	
+
 	if(Uml::IsDerivedFrom(port_parent.type(), CyPhyML::DesignContainer::meta))
 	{
 		CyPhyML::DesignContainer dc = CyPhyML::DesignContainer::Cast(port_parent);
@@ -1063,7 +1063,7 @@ bool CyPhy2Desert::isAltPort(const CyPhyUtil::ComponentPort &port, const Uml::Cl
 	return false;
 }
 
-bool CyPhy2Desert::isConnectedToAltPort(const CyPhyUtil::ComponentPort &port, const CyPhyML::DesignContainer &dc, 
+bool CyPhy2Desert::isConnectedToAltPort(const CyPhyUtil::ComponentPort &port, const CyPhyML::DesignContainer &dc,
                                         const Uml::Class &objType, std::string srcRoleName, std::string dstRoleName)
 {
 	std::string tmp1=port.port.getPath2();
@@ -1094,9 +1094,9 @@ bool CyPhy2Desert::isConnectedToAltPort(const CyPhyUtil::ComponentPort &port, co
 
 	CyPhyML::DesignContainer dc_parent;
 	Udm::Object dc_parent_obj = port_parent.GetParent();
-	if (Uml::IsDerivedFrom(dc_parent_obj.type(), CyPhyML::DesignContainer::meta)) 
-		dc_parent = CyPhyML::DesignContainer::Cast(dc_parent_obj); 
-	else 
+	if (Uml::IsDerivedFrom(dc_parent_obj.type(), CyPhyML::DesignContainer::meta))
+		dc_parent = CyPhyML::DesignContainer::Cast(dc_parent_obj);
+	else
 		return false;
 
 	Udm::Object::AssociationInfo assocInfo1(objType);
@@ -1108,7 +1108,7 @@ bool CyPhy2Desert::isConnectedToAltPort(const CyPhyUtil::ComponentPort &port, co
 	assocInfo1.strDstRoleName = srcRoleName;
 	set<Udm::Object> assocs1 = Udm::Object(port.port).GetAssociationClassObjects(NULL, assocInfo1);
 	assocs.insert(assocs1.begin(), assocs1.end());
-       
+
 	for(auto it=assocs.begin();it!=assocs.end();++it)
 	{
 		Udm::Object assoc = *it;
@@ -1139,16 +1139,16 @@ DesertIface::VariableProperty CyPhy2Desert::createDesertVP_PCMNONE(DesertIface::
 	DesertIface::VariableProperty vp = DesertIface::VariableProperty::Create(delem);
 //	updatevpMap(vp, cyphyProp, cyphy_com);
 	vp.parametric() = false;
-	vp.name() = vp.CUSTName() = name; 
-	vp.id() = vp.externalID() = delem.externalID()+5000; 
-	vp.PCM_STR() = "PCM_NONE"; 
-	vp.Max() = 10000000000000; 
+	vp.name() = vp.CUSTName() = name;
+	vp.id() = vp.externalID() = delem.externalID()+5000;
+	vp.PCM_STR() = "PCM_NONE";
+	vp.Max() = 10000000000000;
 	vp.domain() =domain;
 
 	DesertIface::AssignedValues av = DesertIface::AssignedValues::Create(delem);
 	av.id() = av.externalID() = 2000;
 	av.properties_end() = vp;
-	av.values_end() = member;	
+	av.values_end() = member;
 	return vp;
 }
 
@@ -1179,8 +1179,8 @@ void CyPhy2Desert::generateConstraint(CyPhyUtil::ComponentPort &port1, CyPhyUtil
 	std::string expr ="("+ port1_path+"()="+port2_path+"()"+")";
 	expr += ("\nor\n("+port1_path+"()=0)");
 	expr += ("\nor\n("+port2_path+"()=0)");
-		       
-			   
+
+
 	DesertIface::Constraint dconstraint = DesertIface::Constraint::Create(constraintSet);
 	std::string con_name = UdmUtil::ExtractName(port1.port)+"_"+UdmUtil::ExtractName(port2.port)+CyPhy2Desert::increaseCounter()+"_constraint";
 	dconstraint.name() = con_name;
@@ -1201,7 +1201,7 @@ bool CyPhy2Desert::isConstantProperty(set<CyPhyML::ValueFlow> &src_vfs)
 		set<CyPhyML::ValueFlow> in_vfs = src_vf.srcValueFlow();
 		//need filter out the componentref
 		if (Uml::IsDerivedFrom(src_vf.type(), CyPhyML::Parameter::meta) || Uml::IsDerivedFrom(src_vf.type(), CyPhyML::Property::meta))
-		{			
+		{
 			if(!in_vfs.empty())
 				return false;
 		}
@@ -1219,7 +1219,7 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 		CyPhyML::DesignContainer dc = CyPhyML::DesignContainer::Cast(cyphy_com);
 		if((std::string)dc.ContainerType()!="Compound" && src_vfs.size()>1)
 		{
-			if(Uml::IsDerivedFrom(prop.type(), CyPhyML::ValueFlowTarget::meta)) 
+			if(Uml::IsDerivedFrom(prop.type(), CyPhyML::ValueFlowTarget::meta))
 				alt_vfends.insert(CyPhyML::ValueFlowTarget::Cast(prop));
 			return;
 		}
@@ -1233,7 +1233,7 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 	updatevpMap(vp, prop, cyphy_com);
 	vp.parametric() = true;
 	vp.name() = vp.CUSTName() = propname;
-	vp.id() = vp.externalID() = cyphy_com.ID()+5000; 
+	vp.id() = vp.externalID() = cyphy_com.ID()+5000;
 
 	CyPhyML::ValueFlow src_vf = *(src_vfs.begin());
 	CyPhyML::ValueFlowTarget src_vf_end = src_vf.srcValueFlow_end();
@@ -1242,8 +1242,8 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 		src_vf_end_parent = src_vf_end.parent();
 
 	//for direct ValueFlow
-	if (Uml::IsDerivedFrom(src_vf_end.type(), CyPhyML::Parameter::meta) 
-		|| Uml::IsDerivedFrom(src_vf_end.type(), CyPhyML::Property::meta) 
+	if (Uml::IsDerivedFrom(src_vf_end.type(), CyPhyML::Parameter::meta)
+		|| Uml::IsDerivedFrom(src_vf_end.type(), CyPhyML::Property::meta)
 		|| Uml::IsDerivedFrom(src_vf_end.type(), CyPhyML::Constant::meta)
 		)
 	{
@@ -1272,7 +1272,7 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 }
 
 //process non-parametric Parameter(natual number)
-void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, DesertIface::Element &desert_elem, 
+void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, DesertIface::Element &desert_elem,
 	                               const std::string &pname, double value, const std::string &compType, Udm::Object cyphyProp, bool assignValue)
 {
 	DesertIface::NaturalDomain domain;
@@ -1282,12 +1282,12 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 	DesertIface::VariableProperty vp = DesertIface::VariableProperty::Create(desert_elem);
 	updatevpMap(vp, cyphyProp, cyphy_com);
 	vp.parametric() = false;
-	vp.name() = vp.CUSTName() = pname; 
-	vp.id() = vp.externalID() = cyphy_com.ID()+5000; 
+	vp.name() = vp.CUSTName() = pname;
+	vp.id() = vp.externalID() = cyphy_com.ID()+5000;
 
-	vp.PCM_STR() = "PCM_NONE"; 
+	vp.PCM_STR() = "PCM_NONE";
 	if(isAlternativeContainer(CyPhyML::DesignEntity(cyphy_com)) && Uml::IsDerivedFrom(cyphyProp.type(), CyPhyML::ValueFlowTarget::meta))
-	{		
+	{
 		CyPhyML::ValueFlowTarget vftarget = CyPhyML::ValueFlowTarget::Cast(cyphyProp);
 		set<CyPhyML::ValueFlow> srcvfs = vftarget.srcValueFlow();
 		set<CyPhyML::ValueFlow> dstvfs = vftarget.dstValueFlow();
@@ -1298,7 +1298,7 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 			CyPhyML::ValueFlow vf = *(srcvfs.begin());
 			Udm::Object  vf_parent = vf.parent();
 			if(vf_parent==cyphy_com)
-				vp.PCM_STR() = "PCM_ADD"; 
+				vp.PCM_STR() = "PCM_ADD";
 		}
 		else if(!dstvfs.empty())
 		{
@@ -1313,10 +1313,10 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 				}
 			}
 		}
-		
+
 	}
-	
-	vp.Max() = 100000; 
+
+	vp.Max() = 100000;
 	vp.domain() =domain;
 
 	if(assignValue)
@@ -1324,7 +1324,7 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 		DesertIface::AssignedValues av = DesertIface::AssignedValues::Create(desert_elem);
 		av.id() = av.externalID() = 2000;
 		av.properties_end() = vp;
-		av.values_end() = member;	
+		av.values_end() = member;
 	}
 }
 
@@ -1338,9 +1338,9 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 		throw udm_exception("Property/Parameter: "+pname+" of component: "+(std::string)cyphy_com.name()+" is not CustomDomain. Please check the ComputationType.");
 	DesertIface::VariableProperty vp = DesertIface::VariableProperty::Create(desert_elem);
 	vp.parametric() = false;
-	vp.name() = vp.CUSTName() = pname; 
-	vp.id() = vp.externalID() = cyphy_com.uniqueId()+1; 
-	vp.PCM_STR() = "PCM_NOP"; 
+	vp.name() = vp.CUSTName() = pname;
+	vp.id() = vp.externalID() = cyphy_com.uniqueId()+1;
+	vp.PCM_STR() = "PCM_NOP";
 	vp.domain() = domain;
 
 	DesertIface::AssignedValues av = DesertIface::AssignedValues::Create(desert_elem);
@@ -1356,7 +1356,7 @@ double CyPhy2Desert::getPropertyNumberValue(CyPhyML::ValueFlowTarget &vft)
 
 	double ret = 0;
 	set<CyPhyML::ValueFlow> srcfs = vft.srcValueFlow();
-	
+
 	set<CyPhyML::SimpleFormula> sfs;
 	for(set<CyPhyML::ValueFlow>::iterator i=srcfs.begin();i!=srcfs.end();++i)
 	{
@@ -1364,7 +1364,7 @@ double CyPhy2Desert::getPropertyNumberValue(CyPhyML::ValueFlowTarget &vft)
 		if(dvft.type()==CyPhyML::SimpleFormula::meta)
 			sfs.insert(CyPhyML::SimpleFormula::Cast(dvft));
 	}
-	
+
 	if(srcfs.empty() || sfs.empty())
 	{
 		std::string svalue;
@@ -1427,7 +1427,7 @@ double CyPhy2Desert::getPropertyNumberValue(CyPhyML::ValueFlowTarget &vft)
 	return dret;
 }
 
-bool CyPhy2Desert::getDomainWithMember(const std::string &dname, DesertIface::NaturalDomain &domain, 
+bool CyPhy2Desert::getDomainWithMember(const std::string &dname, DesertIface::NaturalDomain &domain,
 	                                   double value, DesertIface::NaturalMember &member)
 {
 	map<std::string, DesertIface::Domain>::iterator pos = domainMap.find(dname);
@@ -1473,7 +1473,7 @@ bool CyPhy2Desert::getDomainWithMember(const std::string &dname, DesertIface::Na
 	return true;
 }
 
-bool CyPhy2Desert::getDomainWithMember(const std::string &dname, DesertIface::CustomDomain &domain, 
+bool CyPhy2Desert::getDomainWithMember(const std::string &dname, DesertIface::CustomDomain &domain,
 		                               const std::string &value, DesertIface::CustomMember &member)
 {
 	map<std::string, DesertIface::Domain>::iterator pos = domainMap.find(dname);
@@ -1536,7 +1536,7 @@ void CyPhy2Desert::processConstraints(const CyPhyML::DesignContainer &cyphy_cont
 	{
 		CyPhyML::VisualConstraint vcon = *vci;
 		if(vcon.Inactive()) continue;
-		
+
 		std::string expr = generateVisualConstraint(cyphy_container, vcon);
 		if(expr.empty()) continue;
 
@@ -1618,7 +1618,7 @@ void CyPhy2Desert::processConstraints(const CyPhyML::DesignContainer &cyphy_cont
 			CyPhyML::Property propertCon = (*bit).dstPropertyConstraintBinding_end();
 			//create the constraint in desert
 			std::string dsconName = (std::string)cyphy_container.name()+"_"+(std::string)pcon.name()+"_constraint";
-		
+
 			Udm::Object propParent = propertCon.parent();
 			if(cyphy_container == propParent)
 				currExpr = (std::string)propertCon.name() + "()" + expr;
@@ -1651,10 +1651,10 @@ std::string CyPhy2Desert::generateConstraint(const CyPhyML::ImpliesEnd &iend, co
 std::string CyPhy2Desert::generateConstraint(const CyPhyML::And_Or &and_or, const Udm::Object &container)
 {
 	std::string ret;
-	
+
 	std::string op;
 	op = Uml::IsDerivedFrom(and_or.type(), CyPhyML::Or_operator::meta) ? " or " : " and ";  //for or_operator: or; for and and not operator: and
-	
+
 	set<CyPhyML::ImpliesEnd> implyends = and_or.ImpliesEnd_kind_children();
 	bool mul = implyends.size()>1 ? true : false;
 	set<CyPhyML::ImpliesEnd>::iterator i=implyends.begin();
@@ -1682,7 +1682,7 @@ std::string CyPhy2Desert::generateConstraint(const CyPhyML::And_Or &and_or, cons
 
 	if(!ret.empty())
 		ret = "(" + ret + ")\n";
-		
+
 	return ret;
 }
 
@@ -1731,12 +1731,12 @@ std::string CyPhy2Desert::generateConstraint(const CyPhyML::PropertyConstraint &
 	sprintf_s(limit,"%f",dv);
 
 	expr += (std::string)limit;
-	
+
 	set<CyPhyML::PropertyConstraintBinding>::iterator bit;
 	while(!bindings.empty())
 	{
 		bit = bindings.begin();
-		CyPhyML::Property prop = (*bit).dstPropertyConstraintBinding_end();	
+		CyPhyML::Property prop = (*bit).dstPropertyConstraintBinding_end();
 
 		Udm::Object propParent = prop.parent();
 		std::string path = getPath(propParent, container);
@@ -1744,7 +1744,7 @@ std::string CyPhy2Desert::generateConstraint(const CyPhyML::PropertyConstraint &
 		ret = ret + "("+path+(std::string)prop.name() + "()" + expr+")";
 
 		bindings.erase(bit);
-		if(!bindings.empty()) 
+		if(!bindings.empty())
 			ret += " and ";
 	}
 
@@ -1777,7 +1777,7 @@ std::string CyPhy2Desert::getPath(const Udm::Object &obj, const Udm::Object &con
 		bool found = false;
 		list<Udm::Object>::iterator i;
 		while(Uml::IsDerivedFrom(pobj.type(), CyPhyML::DesignContainer::meta))
-		{			
+		{
 			for(i=childrenlist.begin();i!=childrenlist.end();++i)
 			{
 				if(*i == pobj)
@@ -1786,7 +1786,7 @@ std::string CyPhy2Desert::getPath(const Udm::Object &obj, const Udm::Object &con
 					break;
 				}
 			}
-			
+
 			if(!found)
 			{
 				pobj = pobj.GetParent();
@@ -1803,7 +1803,7 @@ std::string CyPhy2Desert::getPath(const Udm::Object &obj, const Udm::Object &con
 		}
 
 		for(int t=0;t<cnt;++t)
-			path += "parent()."; 
+			path += "parent().";
 		for(i=childrenlist.begin();i!=childrenlist.end();++i)
 			path = path+"children(\""+UdmUtil::ExtractName(*i)+"\").";
 	}
@@ -1871,7 +1871,7 @@ double CyPhy2Desert::getMultiplicationValue(vector<double> args)
 }
 
 double CyPhy2Desert::getMaximumValue(vector<double> args)
-{	
+{
 	if(args.empty()) return 0;
 
 	double ret = *(args.begin());
@@ -1913,7 +1913,7 @@ double CyPhy2Desert::getGeometriMeanValue(vector<double> args)
 	{
 		ret *= *i;
 	}
-	
+
 	if(!args.empty())
 	{
 		double x = 1/args.size();
@@ -1969,10 +1969,10 @@ void CyPhy2Desert::gatherGroupBasedOnRef(set<CyPhyML::DesignContainer> &containe
 void CyPhy2Desert::gatherGroupBasedOnArchType(set<CyPhyML::DesignContainer> &containers, map<std::string, list<CyPhyML::DesignEntity> > &groups)
 {
 	if(containers.size() < 2) return;
-	
+
 	set<CyPhyML::DesignContainer>::iterator it = containers.begin();
 	CyPhyML::DesignContainer firstContainer = *it;
-	
+
 }
 
 void CyPhy2Desert::generateConstraint(map<std::string, list<CyPhyML::DesignEntity> > &groups, const Udm::Object &container, DesertIface::Element &desert_elem)
@@ -2001,9 +2001,9 @@ void CyPhy2Desert::generateConstraint(map<std::string, list<CyPhyML::DesignEntit
 		defaultConstraints.insert(constraintName);
 
 		DesertIface::Constraint dsConstraint = DesertIface::Constraint::Create(constraintSet);
-		dsConstraint.name() = constraintName;		
+		dsConstraint.name() = constraintName;
 		/*dsConstraint.id() = dsConstraint.externalID() = vcon.ID();*/
-		dsConstraint.expression() = "constraint "+ constraintName+"() {\n" + expr+"\n}";	
+		dsConstraint.expression() = "constraint "+ constraintName+"() {\n" + expr+"\n}";
 		dsConstraint.context() = desert_elem;
 	}
 }
@@ -2043,20 +2043,20 @@ bool CyPhy2Desert::generateConstraint(map<CyPhyML::DesignElement, list<CyPhyML::
 		defaultConstraints.insert(constraintName);
 
 		DesertIface::Constraint dsConstraint = DesertIface::Constraint::Create(constraintSet);
-		dsConstraint.name() = constraintName;		
+		dsConstraint.name() = constraintName;
 		/*dsConstraint.id() = dsConstraint.externalID() = vcon.ID();*/
-		dsConstraint.expression() = "constraint "+ constraintName+"() {\n" + expr+"\n}";	
+		dsConstraint.expression() = "constraint "+ constraintName+"() {\n" + expr+"\n}";
 		dsConstraint.context() = desert_elem;
 	}
 	return ret;
 }
 
-map<int, CyPhyML::DesignEntity> CyPhy2Desert::getMorphMatrixGroup() 
+map<int, CyPhyML::DesignEntity> CyPhy2Desert::getMorphMatrixGroup()
 {
 	return mgroupMap;
 }
-	
-map<int, CyPhyML::DesignEntity> CyPhy2Desert::getMorphMatrixOption() 
+
+map<int, CyPhyML::DesignEntity> CyPhy2Desert::getMorphMatrixOption()
 {
 	return moptionMap;
 }
@@ -2089,7 +2089,7 @@ std::string CyPhy2Desert::getRelativePath(Udm::Object &obj, const CyPhyML::Desig
 					ret = "parent()."+getRelativePath(obj, CyPhyML::DesignEntity::Cast(cobj));
 			}
 		}
-	}	
+	}
 	return ret;
 }
 
@@ -2107,7 +2107,7 @@ std::string CyPhy2Desert::getDesertPCM(const std::string &method)
 	std::string pcm("PCM_NOP");
 
 	if(method == "Addition")
-		pcm = "PCM_ADD"; 
+		pcm = "PCM_ADD";
 	else if(method == "Multiplication")
 		pcm = "PCM_MUL";
 	else if(method == "ArithmeticMean")
@@ -2136,7 +2136,7 @@ bool CyPhy2Desert::isAlternativeContainer(Udm::Object &obj)
 		else
 			return false;
 	}
-	else 
+	else
 		return false;
 }
 
@@ -2146,9 +2146,9 @@ DesertIface::VariableProperty CyPhy2Desert::getVariableProperty(Udm::Object &cyp
 	map<Udm::Object, map<CyPhyML::DesignEntity, DesertIface::VariableProperty> >::iterator vpMap_pos = vpMap.find(cyphy_obj);
 	if(vpMap_pos!=vpMap.end())
 	{
-		map<CyPhyML::DesignEntity, DesertIface::VariableProperty> tmpMap = (*vpMap_pos).second;
-		map<CyPhyML::DesignEntity, DesertIface::VariableProperty>::iterator tmpMap_pos = tmpMap.find(obj_parent);
-		if(tmpMap_pos!=tmpMap.end())
+		const map<CyPhyML::DesignEntity, DesertIface::VariableProperty>& tmpMap = (*vpMap_pos).second;
+		map<CyPhyML::DesignEntity, DesertIface::VariableProperty>::const_iterator tmpMap_pos = tmpMap.find(obj_parent);
+		if (tmpMap_pos!=tmpMap.end())
 			dvp = (*tmpMap_pos).second;
 	}
 	return dvp;
@@ -2168,7 +2168,7 @@ void CyPhy2Desert::updatevpMap(const DesertIface::VariableProperty &dvp, const U
 
 void CyPhy2Desert::checkSourceValueFlows(set<CyPhyML::ValueFlow> &vfs, const CyPhyML::DesignContainer &dc)
 {
-	//check whether the incoming valueflow is outside of the root designContainer, 
+	//check whether the incoming valueflow is outside of the root designContainer,
 	//some design explorer may start in lower level designContainer
 	set<CyPhyML::ValueFlow> tmpvfs;
 	Udm::Object rootDC_parent = rootDC.parent();
@@ -2193,15 +2193,15 @@ void CyPhy2Desert::processAlternativeParameters(CyPhyML::DesignContainer &altDC)
 	for(set<CyPhyML::DesignEntity>::iterator it=des.begin();it!=des.end();++it)
 	{
 		CyPhyML::DesignEntity de = *it;
-			
-		if(Uml::IsDerivedFrom(de.type(), CyPhyML::DesignElement::meta))		
+
+		if(Uml::IsDerivedFrom(de.type(), CyPhyML::DesignElement::meta))
 		{
 			CyPhyML::DesignElement celem = CyPhyML::DesignElement::Cast(de);
 			set<CyPhyML::Parameter> params = celem.Parameter_kind_children();
 			for(set<CyPhyML::Parameter>::iterator pit=params.begin();pit!=params.end();++pit)
 				insertParameterMap(*pit, parameterMap);
 		}
-		else if(Uml::IsDerivedFrom(de.type(), CyPhyML::ComponentRef::meta))	
+		else if(Uml::IsDerivedFrom(de.type(), CyPhyML::ComponentRef::meta))
 		{
 			CyPhyML::ComponentRef comref = CyPhyML::ComponentRef::Cast(de);
 			CyPhyML::DesignElement celem = comref.ref();
@@ -2222,7 +2222,7 @@ void CyPhy2Desert::processAlternativeParameters(CyPhyML::DesignContainer &altDC)
 				insertParameterMap(*pit, parameterMap);
 		}
 	}
-	
+
 	DesertIface::Element alt_delem = com2elemMap[altDC];
 	ASSERT(alt_delem!=Udm::null);
 	//generate the parameter constraint for the alternative container
@@ -2236,7 +2236,7 @@ void CyPhy2Desert::processAlternativeParameters(CyPhyML::DesignContainer &altDC)
 		{
 			ranges_str = ranges_str +","+(*rit);
 		}
-		
+
 
 		DesertIface::NaturalDomain domain;
 		DesertIface::NaturalMember member;
@@ -2244,10 +2244,10 @@ void CyPhy2Desert::processAlternativeParameters(CyPhyML::DesignContainer &altDC)
 			throw udm_exception("Property/Parameter:  is not NaturalDomain. Please check the ComputationType.");
 		DesertIface::VariableProperty vp = DesertIface::VariableProperty::Create(alt_delem);
 		vp.parametric() = false;
-		vp.name() = vp.CUSTName() = (*pos).first; 
-		vp.id() = vp.externalID() = altDC.ID()+5000; 
+		vp.name() = vp.CUSTName() = (*pos).first;
+		vp.id() = vp.externalID() = altDC.ID()+5000;
 		vp.PCM_STR() = "PCM_ADD";
-		vp.Max() = 100000; 
+		vp.Max() = 100000;
 		vp.domain() =domain;
 
 		bool validate = true;
@@ -2304,7 +2304,7 @@ void CyPhy2Desert::preprocessParameters(set<CyPhyML::Parameter> &parameters)
 		CyPhyML::Parameter currParameter = *i;
 		set<CyPhyML::ValueFlow> srcvfs = currParameter.srcValueFlow();
 		set<CyPhyML::ValueFlow> dstvfs = currParameter.dstValueFlow();
-		
+
 		if(srcvfs.empty() && dstvfs.empty())
 			continue;
 
@@ -2329,7 +2329,7 @@ bool CyPhy2Desert::validateParameter(CyPhyML::DesignEntity &de, const std::strin
 {
 	DesertIface::Element delem = com2elemMap[de];
 	ASSERT(de!=Udm::null);
-	
+
 	set<DesertIface::VariableProperty> vps = delem.VariableProperty_kind_children();
 	for(set<DesertIface::VariableProperty>::iterator it=vps.begin();it!=vps.end();++it)
 	{
@@ -2344,10 +2344,10 @@ bool CyPhy2Desert::validateParameter(CyPhyML::DesignEntity &de, const std::strin
 		throw udm_exception("Property/Parameter:  is not NaturalDomain. Please check the ComputationType.");
 	DesertIface::VariableProperty vp = DesertIface::VariableProperty::Create(delem);
 	vp.parametric() = false;
-	vp.name() = vp.CUSTName() = pname; 
-	vp.id() = vp.externalID() = de.ID()+5000; 
+	vp.name() = vp.CUSTName() = pname;
+	vp.id() = vp.externalID() = de.ID()+5000;
 	vp.PCM_STR() = "PCM_NONE";
-	vp.Max() = 100000; 
+	vp.Max() = 100000;
 	vp.domain() =domain;
 
 	DesertIface::AssignedValues av = DesertIface::AssignedValues::Create(delem);
@@ -2368,13 +2368,13 @@ std::string CyPhy2Desert::generateVisualConstraint(const CyPhyML::DesignContaine
 	{
 		CyPhyML::ImpliesEnd iend = *ei;
 		std::string context = generateConstraint(*ei, cyphy_container);
-			
+
 		if(context.empty()) continue;
-			
+
 		visual2string[iend] = context;
 		set<CyPhyML::Implies> ims_src = iend.dstImplies();
 		set<CyPhyML::Implies> ims_dst = iend.srcImplies();
-		if(ims_src.empty() && ims_dst.empty()) 
+		if(ims_src.empty() && ims_dst.empty())
 			singleEnds.insert(iend);
 	}
 
@@ -2391,7 +2391,7 @@ std::string CyPhy2Desert::generateVisualConstraint(const CyPhyML::DesignContaine
 		if(mul && imply_it!=implies.end())
 			expr += "\n and \n";
 	}
-	if(!singleEnds.empty() && !implies.empty()) 
+	if(!singleEnds.empty() && !implies.empty())
 		expr += "\n and \n";
 	set<CyPhyML::ImpliesEnd>::iterator implyend_it = singleEnds.begin();
 	while(implyend_it!=singleEnds.end())
@@ -2405,14 +2405,14 @@ std::string CyPhy2Desert::generateVisualConstraint(const CyPhyML::DesignContaine
 	return expr;
 }
 
-//check whether CusttomFormula/SimpleFormula is the source of SimpleFormula, 
+//check whether CusttomFormula/SimpleFormula is the source of SimpleFormula,
 //if it is, then create DesertIface::VariableProperty for transferring the value in desert
 void CyPhy2Desert::pre_processValueFormulas(const set<CyPhyML::ValueFormula> &formulas, const CyPhyML::DesignEntity &celem, DesertIface::Element &delem)
 {
 	for(auto it_f=formulas.begin();it_f!=formulas.end();++it_f)
 	{
 		CyPhyML::ValueFormula formula = *it_f;
-	
+
 		set<CyPhyML::ValueFlow> dst_vfs = formula.dstValueFlow();
 		for(auto it_dst=dst_vfs.begin();it_dst!=dst_vfs.end();++it_dst)
 		{
@@ -2421,10 +2421,10 @@ void CyPhy2Desert::pre_processValueFormulas(const set<CyPhyML::ValueFormula> &fo
 			{
 				if(Uml::IsDerivedFrom(dst_end.type(), CyPhyML::CustomFormula::meta))
 					throw udm_exception("CustomFormula/SimpleFormula cannot be conneted to CustomFormula.");
-			
-				//create parametric VariableProperty 
-				DesertIface::VariableProperty dvp = DesertIface::VariableProperty::Create(delem);		
-				dvp.id() = dvp.externalID() = formula.uniqueId()+5000; 
+
+				//create parametric VariableProperty
+				DesertIface::VariableProperty dvp = DesertIface::VariableProperty::Create(delem);
+				dvp.id() = dvp.externalID() = formula.uniqueId()+5000;
 				dvp.name() = dvp.CUSTName() = UdmUtil::ExtractName(formula)+"_"+increaseCounter();
 				dvp.parametric() = true;
 				updatevpMap(dvp, formula, celem);
@@ -2441,18 +2441,18 @@ void CyPhy2Desert::processSimpleFormula(const CyPhyML::SimpleFormula &sformula, 
 	dsf.context() = delem;
 	dsf.name() = "SimpleFormula";
 	dsf.id() = dsf.externalID() = sformula.uniqueId();
-	
+
 	set<CyPhyML::ValueFlow> src_vfs = sformula.srcValueFlow();
 	for(auto it_src=src_vfs.begin();it_src!=src_vfs.end();++it_src)
 	{
 		CyPhyML::ValueFlowTarget src_end = (*it_src).srcValueFlow_end();
 		Udm::Object src_end_parent = (*it_src).srcValueFlow_refport_parent();
-		if(src_end_parent==Udm::null)   
+		if(src_end_parent==Udm::null)
 			src_end_parent = src_end.GetParent();
-		
+
 		if(!Uml::IsDerivedFrom(src_end_parent.type(), CyPhyML::DesignEntity::meta))
 			continue;
-	
+
 		CyPhyML::DesignEntity src_end_entity = CyPhyML::DesignEntity::Cast(src_end_parent);
 		DesertIface::VariableProperty dvp = getVariableProperty(src_end, src_end_entity);
 		if(dvp==Udm::null)
@@ -2464,7 +2464,7 @@ void CyPhy2Desert::processSimpleFormula(const CyPhyML::SimpleFormula &sformula, 
 			else
 				continue;
 			dvp = DesertIface::VariableProperty::Create(delem_parent);
-			updatevpMap(dvp, src_end, src_end_entity);			
+			updatevpMap(dvp, src_end, src_end_entity);
 			dvp.name() = dvp.CUSTName() = src_end.name();;
 			dvp.id() = dvp.externalID() = src_end_entity.ID()+5000;
 		}
@@ -2478,12 +2478,12 @@ void CyPhy2Desert::processSimpleFormula(const CyPhyML::SimpleFormula &sformula, 
 	{
 		CyPhyML::ValueFlowTarget dst_end = (*it_dst).dstValueFlow_end();
 		Udm::Object dst_end_parent = (*it_dst).dstValueFlow_refport_parent();
-		if(dst_end_parent==Udm::null)   
+		if(dst_end_parent==Udm::null)
 			dst_end_parent = dst_end.GetParent();
-				
+
 		if(!Uml::IsDerivedFrom(dst_end_parent.type(), CyPhyML::DesignEntity::meta))
 			continue;
-	
+
 		DesertIface::VariableProperty dvp;
 
 		if(Uml::IsDerivedFrom(dst_end.type(), CyPhyML::ValueFormula::meta))
@@ -2506,7 +2506,7 @@ void CyPhy2Desert::processCustomFormula(const CyPhyML::CustomFormula &cformula, 
 	if(expression.empty()) return;
 	if(!DFUtil::IsValidExpression(expression))
 		CyPhy2Desert::invalidCustomFormulas.insert(cformula);
-	
+
 	map<string, string> VariablePathMap;
 
 	set<CyPhyML::ValueFlow> inputVFs = cformula.srcValueFlow();
@@ -2535,18 +2535,18 @@ void CyPhy2Desert::processCustomFormula(const CyPhyML::CustomFormula &cformula, 
 	{
 		CyPhyML::ValueFlowTarget dst_end = (*it_dst).dstValueFlow_end();
 		Udm::Object dst_end_parent = (*it_dst).dstValueFlow_refport_parent();
-		if(dst_end_parent==Udm::null)   
+		if(dst_end_parent==Udm::null)
 			dst_end_parent = dst_end.GetParent();
-				
+
 		if(!Uml::IsDerivedFrom(dst_end_parent.type(), CyPhyML::DesignEntity::meta))
 			continue;
-	
+
 		DesertIface::VariableProperty dvp;
 		if(Uml::IsDerivedFrom(dst_end.type(), CyPhyML::ValueFormula::meta))
 			dvp = getVariableProperty((CyPhyML::CustomFormula)cformula, CyPhyML::DesignEntity::Cast(dst_end_parent));
 		else
 			dvp = getVariableProperty(dst_end, CyPhyML::DesignEntity::Cast(dst_end_parent));
-		
+
 		ASSERT(dvp!=Udm::null);
 
 		if(dvp!=Udm::null)
@@ -2585,7 +2585,7 @@ void CyPhy2Desert::flatternComponent(const CyPhyML::DesignEntity &celem, DesertI
 
 	Com2DesertElement comflattern(cyphy_de, comref, delem, true, isAlt);
 	comflattern.flatternCA();
-	
+
 	//update the vpMap
 	map<Udm::Object, DesertIface::VariableProperty> topVpMap = comflattern.getTopVpMap();
 	for(map<Udm::Object, DesertIface::VariableProperty>::iterator pos=topVpMap.begin(); pos!=topVpMap.end();++pos)
@@ -2602,7 +2602,7 @@ void CyPhy2Desert::flatternComponent(const CyPhyML::DesignEntity &celem, DesertI
 		tmpMap[celem] = dvp;
 		vpMap[pobj] = tmpMap;
 	}
-	
+
 	//update NatureDomain/CustomDomain
 	map<DesertIface::VariableProperty, double> vp2ValMap = comflattern.getVp2ValMap();
 	comflattern.clearVp2ValMap();
@@ -2620,7 +2620,7 @@ void CyPhy2Desert::flatternComponent(const CyPhyML::DesignEntity &celem, DesertI
 		DesertIface::AssignedValues av = DesertIface::AssignedValues::Create(vp_elem);
 		av.id() = av.externalID() = 2000;
 		av.properties_end() = dvp;
-		av.values_end() = member;	
+		av.values_end() = member;
 	}
 
 	map<DesertIface::VariableProperty, set<double> > vp2ValsMap = comflattern.getVp2ValsMap();
@@ -2642,7 +2642,7 @@ void CyPhy2Desert::flatternComponent(const CyPhyML::DesignEntity &celem, DesertI
 			DesertIface::AssignedValues av = DesertIface::AssignedValues::Create(vp_elem);
 			av.id() = av.externalID() = 2000;
 			av.properties_end() = dvp;
-			av.values_end() = member;	
+			av.values_end() = member;
 		}
 	}
 }
@@ -2721,7 +2721,7 @@ map<DesertIface::VariableProperty, double> Com2DesertElement::_vp2ValMap;
 map<DesertIface::VariableProperty, set<double> > Com2DesertElement::_vp2ValsMap;
 set<std::string> Com2DesertElement::_vpNameSet;
 
-Com2DesertElement::Com2DesertElement(const CyPhyML::DesignElement &cyphy_de, const CyPhyML::ComponentRef &comref, 
+Com2DesertElement::Com2DesertElement(const CyPhyML::DesignElement &cyphy_de, const CyPhyML::ComponentRef &comref,
 									DesertIface::Element &delem, bool isroot, bool isAlt)
 									:_com(cyphy_de), _comref(comref), _delem(delem), _isroot(isroot), _isAlt(isAlt)
 {
@@ -2781,7 +2781,7 @@ void Com2DesertElement::flatternCA()
 		}
 	}
 
-	//pre-process SimpleFormula/CustomFormula to see where it is the src for another SimpleFormula, 
+	//pre-process SimpleFormula/CustomFormula to see where it is the src for another SimpleFormula,
 	//if it is, create DesertIface::VariableProperty
 	set<CyPhyML::CustomFormula> cformulas = _com.CustomFormula_kind_children();
 	for(auto it_cf=cformulas.begin();it_cf!=cformulas.end();++it_cf)
@@ -2879,7 +2879,7 @@ void Com2DesertElement::init()
 }
 
 DesertIface::VariableProperty Com2DesertElement::createDesertVP(const Udm::Object &cyphy_vp, double value, bool parametric)
-{	
+{
 	std::string pname = UdmUtil::ExtractName(cyphy_vp);
 
 	set<std::string>::iterator it = _vpNameSet.find(pname);
@@ -2887,18 +2887,18 @@ DesertIface::VariableProperty Com2DesertElement::createDesertVP(const Udm::Objec
 	{
 		char buffer[65];
 		_itoa_s(_cnt++, buffer, 10);
-		pname = pname + (std::string)buffer;	
+		pname = pname + (std::string)buffer;
 	}
 	_vpNameSet.insert(pname);
 
 	int pid = cyphy_vp.uniqueId();
 
 	DesertIface::VariableProperty newdvp = DesertIface::VariableProperty::Create(_delem);
-					
-	newdvp.id() = newdvp.externalID() = pid+5000; 
+
+	newdvp.id() = newdvp.externalID() = pid+5000;
 	newdvp.name() = newdvp.CUSTName() = pname;
-	newdvp.PCM_STR() = "PCM_NONE"; 
-	newdvp.Max() = value+100000; 
+	newdvp.PCM_STR() = "PCM_NONE";
+	newdvp.Max() = value+100000;
 	newdvp.parametric() = parametric;
 
 	if(!parametric)
@@ -2918,15 +2918,15 @@ void Com2DesertElement::createDesertVP4WildCard(const Udm::Object &si, set<int> 
 	{
 		char buffer[65];
 		_itoa_s(_cnt++, buffer, 10);
-		pname = pname + (std::string)buffer;	
+		pname = pname + (std::string)buffer;
 	}
 	_vpNameSet.insert(pname);
 
 	int pid = si.uniqueId();
-	DesertIface::VariableProperty newdvp = DesertIface::VariableProperty::Create(_delem);					
-	newdvp.id() = newdvp.externalID() = pid+5000; 
+	DesertIface::VariableProperty newdvp = DesertIface::VariableProperty::Create(_delem);
+	newdvp.id() = newdvp.externalID() = pid+5000;
 	newdvp.name() = newdvp.CUSTName() = pname;
-	newdvp.PCM_STR() = ""; 
+	newdvp.PCM_STR() = "";
 	newdvp.parametric() = false;
 	_topVpMap[si] = newdvp;
 	set<double> tmp_vals;
@@ -2939,7 +2939,7 @@ void Com2DesertElement::processProperty(const CyPhyML::Property &prop)
 {
 	//set<CyPhyML::ValueFlow> src_vfs = prop.srcValueFlow();
 	//bool parametric = src_vfs.empty() ? false : true;
-	//not complete here, need more consideration, even if src_vfs is not empty, 
+	//not complete here, need more consideration, even if src_vfs is not empty,
 	//it may come from somewhere else due to the reference port case
 	CyPhyML::ValueFlowTarget src_end;
 	Udm::Object src_end_parent;
@@ -2958,8 +2958,8 @@ void Com2DesertElement::processProperty(const CyPhyML::Property &prop)
 
 	if(src_end==Udm::null) return;
 
-	if (Uml::IsDerivedFrom(src_end.type(), CyPhyML::Parameter::meta) 
-		|| Uml::IsDerivedFrom(src_end.type(), CyPhyML::Property::meta) 
+	if (Uml::IsDerivedFrom(src_end.type(), CyPhyML::Parameter::meta)
+		|| Uml::IsDerivedFrom(src_end.type(), CyPhyML::Property::meta)
 		|| Uml::IsDerivedFrom(src_end.type(), CyPhyML::Constant::meta)
 		)
 	{
@@ -3005,8 +3005,8 @@ void Com2DesertElement::processParameter(const CyPhyML::Parameter &param)
 
 	if(src_end==Udm::null) return;
 
-	if (Uml::IsDerivedFrom(src_end.type(), CyPhyML::Parameter::meta) 
-		|| Uml::IsDerivedFrom(src_end.type(), CyPhyML::Property::meta) 
+	if (Uml::IsDerivedFrom(src_end.type(), CyPhyML::Parameter::meta)
+		|| Uml::IsDerivedFrom(src_end.type(), CyPhyML::Property::meta)
 		|| Uml::IsDerivedFrom(src_end.type(), CyPhyML::Constant::meta)
 		)
 	{
@@ -3054,7 +3054,7 @@ void Com2DesertElement::processSimpleFormula(const CyPhyML::SimpleFormula &sform
 	dsf.context() = _delem;
 	dsf.name() = "SimpleFormula";
 	dsf.id() = dsf.externalID() = sformula.uniqueId();
-	
+
 	set<CyPhyML::ValueFlow> src_vfs = sformula.srcValueFlow();
 	for(auto it_src=src_vfs.begin();it_src!=src_vfs.end();++it_src)
 	{
@@ -3064,12 +3064,12 @@ void Com2DesertElement::processSimpleFormula(const CyPhyML::SimpleFormula &sform
 
 		CyPhyML::ValueFlowTarget src_end = (*it_src).srcValueFlow_end();
 		Udm::Object src_end_parent = (*it_src).srcValueFlow_refport_parent();
-		if(src_end_parent==Udm::null)   
+		if(src_end_parent==Udm::null)
 			src_end_parent = src_end.GetParent();
-				
+
 		if(!Uml::IsDerivedFrom(src_end_parent.type(), CyPhyML::DesignEntity::meta))
 			continue;
-	
+
 		DesertIface::VariableProperty dvp = getVariableProperty(src_end, CyPhyML::DesignEntity::Cast(src_end_parent));
 		ASSERT(dvp!=Udm::null);// || Uml::IsDerivedFrom(src_end.type(), CyPhyML::ValueFormula::meta));
 		if(dvp!=Udm::null)
@@ -3085,12 +3085,12 @@ void Com2DesertElement::processSimpleFormula(const CyPhyML::SimpleFormula &sform
 
 		CyPhyML::ValueFlowTarget dst_end = (*it_dst).dstValueFlow_end();
 		Udm::Object dst_end_parent = (*it_dst).dstValueFlow_refport_parent();
-		if(dst_end_parent==Udm::null)   
+		if(dst_end_parent==Udm::null)
 			dst_end_parent = dst_end.GetParent();
-				
+
 		if(!Uml::IsDerivedFrom(dst_end_parent.type(), CyPhyML::DesignEntity::meta))
 			continue;
-	
+
 		DesertIface::VariableProperty dvp;
 
 		if(Uml::IsDerivedFrom(dst_end.type(), CyPhyML::ValueFormula::meta))
@@ -3151,18 +3151,18 @@ void Com2DesertElement::processCustomFormula(const CyPhyML::CustomFormula &cform
 
 		CyPhyML::ValueFlowTarget dst_end = (*it_dst).dstValueFlow_end();
 		Udm::Object dst_end_parent = (*it_dst).dstValueFlow_refport_parent();
-		if(dst_end_parent==Udm::null)   
+		if(dst_end_parent==Udm::null)
 			dst_end_parent = dst_end.GetParent();
-				
+
 		if(!Uml::IsDerivedFrom(dst_end_parent.type(), CyPhyML::DesignEntity::meta))
 			continue;
-	
+
 		DesertIface::VariableProperty dvp;
 		if(Uml::IsDerivedFrom(dst_end.type(), CyPhyML::ValueFormula::meta))
 			dvp = getVariableProperty((CyPhyML::CustomFormula)cformula, CyPhyML::DesignEntity::Cast(dst_end_parent));
 		else
 			dvp = getVariableProperty(dst_end, CyPhyML::DesignEntity::Cast(dst_end_parent));
-		
+
 		ASSERT(dvp!=Udm::null);
 
 		if(dvp!=Udm::null)
@@ -3182,7 +3182,7 @@ void Com2DesertElement::processDirectValueFlow(const CyPhyML::ValueFlow &vf)
 {
 	CyPhyML::ValueFlowTarget dst_end = vf.dstValueFlow_end();
 	Udm::Object dst_end_parent = vf.dstValueFlow_refport_parent();
-	if(dst_end_parent==Udm::null)   
+	if(dst_end_parent==Udm::null)
 		dst_end_parent = dst_end.GetParent();
 
 	DesertIface::VariableProperty dst_dvp = getVariableProperty(dst_end, CyPhyML::DesignEntity::Cast(dst_end_parent));
@@ -3190,7 +3190,7 @@ void Com2DesertElement::processDirectValueFlow(const CyPhyML::ValueFlow &vf)
 
 	CyPhyML::ValueFlowTarget src_end = vf.srcValueFlow_end();
 	Udm::Object src_end_parent = vf.srcValueFlow_refport_parent();
-	if(src_end_parent==Udm::null)   
+	if(src_end_parent==Udm::null)
 		src_end_parent = src_end.GetParent();
 
 	DesertIface::VariableProperty src_dvp = getVariableProperty(src_end, CyPhyML::DesignEntity::Cast(src_end_parent));
@@ -3213,10 +3213,10 @@ void Com2DesertElement::updateInnerVpMap(const CyPhyML::DesignEntity &cyphy_elem
 	for(map<Udm::Object, DesertIface::VariableProperty>::iterator pos=topVpMap.begin(); pos!=topVpMap.end();++pos)
 	{
 		Udm::Object pobj = (*pos).first;
-		
+
 		if(Uml::IsDerivedFrom(pobj.type(), CyPhyML::ValueFormula::meta))
 			continue;
-		
+
 		DesertIface::VariableProperty dvp = (*pos).second;
 
 		map<CyPhyML::DesignEntity, DesertIface::VariableProperty> tmpMap;
@@ -3270,7 +3270,7 @@ bool Com2DesertElement::isVariableParametric(const CyPhyML::ValueFlowTarget &var
 			 //same component
 			real_vfs.insert(src_vf);
 		}
-		
+
 	}
 
 	if(real_vfs.empty()) return false;
@@ -3279,7 +3279,7 @@ bool Com2DesertElement::isVariableParametric(const CyPhyML::ValueFlowTarget &var
 		throw udm_exception("Property/Parameter: "+(std::string)var.name()+" cannot have more than one source ValueFlow.");
 
 	CyPhyML::ValueFlow real_vf = *(real_vfs.begin());
-	
+
 	Udm::Object topParent;
 	if(_comref!=Udm::null)
 		topParent = _comref.GetParent();
@@ -3288,7 +3288,7 @@ bool Com2DesertElement::isVariableParametric(const CyPhyML::ValueFlowTarget &var
 
 	if(_isroot && real_vf.GetParent()==topParent)
 	{
-		src_end = real_vf.srcValueFlow_end();	
+		src_end = real_vf.srcValueFlow_end();
 		src_end_parent = real_vf.srcValueFlow_refport_parent();
 	}
 
