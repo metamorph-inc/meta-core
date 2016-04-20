@@ -222,11 +222,10 @@ namespace CyPhyDesignExporter
             }
             else
             {
-                var tlsut = ((MgaObject)testBench).ChildObjects.
-                                    Cast<MgaObject>().
-                                    OfType<MgaFCO>().
-                                    Where(x => x.MetaBase.Name == "TopLevelSystemUnderTest")
-                                    .Cast<CyPhyClasses.DesignEntity>().FirstOrDefault();
+                var tlsut = (CyPhy.DesignEntity)testBench.AllChildren
+                                    .Where(x => ((IMgaFCO)x.Impl).MetaRole.Name == "TopLevelSystemUnderTest"
+                                        || ((IMgaFCO)x.Impl).MetaRole.Name == x.Impl.MetaBase.Name + "TopLevelSystemUnderTest")
+                                    .FirstOrDefault();
                 if (tlsut != null)
                     return ExportToFile(tlsut, outputDirectory);
             }
