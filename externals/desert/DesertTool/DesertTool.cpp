@@ -132,6 +132,9 @@ void ReInitializeManager(DesertSystem* ds, UdmDesertMap* des_map, DesertUdmMap *
 		UdmElementSet elements;
 		UdmMemberSet custom_members;
 				
+		CStatusDlg * st_dlg = GetStatusDlg(NULL);
+		std::function<void(short)> UpdateStatus = [&st_dlg](short status) { st_dlg->StepInState(status); };
+				
 		//Build spaces
 		if (!spaces.empty())
 		{
@@ -142,34 +145,34 @@ void ReInitializeManager(DesertSystem* ds, UdmDesertMap* des_map, DesertUdmMap *
 			{
 				Space sp = *(sp_iterator);
 				//TRACE("Creating space: %s\n", ((string)sp.name()).c_str());
-				CreateDesertSpace(sp, dummy, *des_map, *inv_des_map, elements, true);
+				CreateDesertSpace(sp, dummy, *des_map, *inv_des_map, elements, true, UpdateStatus);
 			}//eo for (sp_iterator)
 		}//if (!spaces.empty())
 	
 		//create relations			
-		CreateElementRelations(*ds, *des_map, *inv_des_map);
+		CreateElementRelations(*ds, *des_map, *inv_des_map, UpdateStatus);
 
 		//create constrains
 		CreateConstraints(*ds, *des_map, *inv_des_map);
 
 		//create natural domains
-		CreateNaturalDomains(*ds, *des_map, *inv_des_map);
+		CreateNaturalDomains(*ds, *des_map, *inv_des_map, UpdateStatus);
 
 		//create custom domains
-		CreateCustomDomains(*ds, *des_map, *inv_des_map, custom_members);
+		CreateCustomDomains(*ds, *des_map, *inv_des_map, custom_members, UpdateStatus);
 
 		//create custom domain relations
-		CreateMemberRelations(*ds, *des_map, *inv_des_map);
+		CreateMemberRelations(*ds, *des_map, *inv_des_map, UpdateStatus);
 
 		//create variable properties
-		CreateVariableProperties(*des_map, *inv_des_map, elements);
+		CreateVariableProperties(*des_map, *inv_des_map, elements, UpdateStatus);
 
 		//create constant properties
-		CreateConstantProperties(*des_map, *inv_des_map, elements, custom_members);
+		CreateConstantProperties(*des_map, *inv_des_map, elements, custom_members, UpdateStatus);
 		
 		CreateSimpleFormulas(*ds,*des_map,*inv_des_map);
 		//create assignments for VariableProperties
-		CreateAssignments(*des_map, *inv_des_map, elements, custom_members);
+		CreateAssignments(*des_map, *inv_des_map, elements, custom_members, UpdateStatus);
 }
 
 BOOL CDesertToolApp::InitInstance()
@@ -346,7 +349,7 @@ BOOL CDesertToolApp::InitInstance()
 			s_dlg.SetStatus(SD_INIT);
 			s_dlg.SetStatus(SD_PARSE);
 
-			nw.OpenExisting(std::string(CStringA(input_file)), "", Udm::CHANGES_PERSIST_ALWAYS);
+			nw.OpenExisting(std::string(CStringA(input_file)), "", Udm::CHANGES_LOST_DEFAULT);
 			ds = DesertSystem::Cast(nw.GetRootObject());
 			DesertInit(CString(((std::string)ds.SystemName()).c_str()));
 			
@@ -364,6 +367,8 @@ BOOL CDesertToolApp::InitInstance()
 			UdmElementSet elements;
 			UdmMemberSet custom_members;
 						
+			CStatusDlg * st_dlg = GetStatusDlg(NULL);
+			std::function<void(short)> UpdateStatus = [&st_dlg](short status) { st_dlg->StepInState(status); };
 	
 			//Build spaces
 			if (!spaces.empty())
@@ -371,17 +376,17 @@ BOOL CDesertToolApp::InitInstance()
 				Space sp;
 				Element dummy;
 				
-				for (sp_iterator = spaces.begin(); sp_iterator != spaces.end(); sp_iterator ++)
+				for (sp_iterator = spaces.begin(); sp_iterator != spaces.end(); sp_iterator++)
 				{
 					Space sp = *(sp_iterator);
 					TRACE("Creating space: %s\n", ((string)sp.name()).c_str());
-					CreateDesertSpace(sp, dummy, des_map, inv_des_map, elements, true);
+					CreateDesertSpace(sp, dummy, des_map, inv_des_map, elements, true, UpdateStatus);
 				}//eo for (sp_iterator)
 			}//if (!spaces.empty())
 			
 			//create relations
 			s_dlg.SetStatus(SD_ERS);
-			CreateElementRelations(ds, des_map, inv_des_map);
+			CreateElementRelations(ds, des_map, inv_des_map, UpdateStatus);
 
 			//create constrains
 			s_dlg.SetStatus(SD_CTS);
@@ -392,29 +397,29 @@ BOOL CDesertToolApp::InitInstance()
 
 			//create natural domains
 			s_dlg.SetStatus(SD_NDS);
-			CreateNaturalDomains(ds, des_map, inv_des_map);
+			CreateNaturalDomains(ds, des_map, inv_des_map, UpdateStatus);
 
 			//create custom domains
 			s_dlg.SetStatus(SD_CDS);
-			CreateCustomDomains(ds, des_map, inv_des_map, custom_members);
+			CreateCustomDomains(ds, des_map, inv_des_map, custom_members, UpdateStatus);
 
 			//create custom domain relations
 			s_dlg.SetStatus(SD_MRS);
-			CreateMemberRelations(ds, des_map, inv_des_map);
+			CreateMemberRelations(ds, des_map, inv_des_map, UpdateStatus);
 
 			//create variable properties
 			s_dlg.SetStatus(SD_VPS);
-			CreateVariableProperties(des_map, inv_des_map, elements);
+			CreateVariableProperties(des_map, inv_des_map, elements, UpdateStatus);
 
 			//create constant properties
 			s_dlg.SetStatus(SD_CPS);
-			CreateConstantProperties(des_map, inv_des_map, elements, custom_members);
+			CreateConstantProperties(des_map, inv_des_map, elements, custom_members, UpdateStatus);
 	
 			//create simpleformula for properties
 			CreateSimpleFormulas(ds, des_map, inv_des_map);
 			//create assignments for VariableProperties
 			s_dlg.SetStatus(SD_ASS);
-			CreateAssignments(des_map, inv_des_map, elements, custom_members);
+			CreateAssignments(des_map, inv_des_map, elements, custom_members, UpdateStatus);
 	
 			//invoking Desert UI
 			s_dlg.SetStatus(SD_GUI);
@@ -424,7 +429,7 @@ BOOL CDesertToolApp::InitInstance()
 			fprintf(fdDcif, "<?xml version=\"1.1\"?>\n");
 			fprintf(fdDcif, "<DesertConfigurations>\n");
 
-			if(multiRun) {
+			if (multiRun) {
 				// Initialize
 				std::cout << "Starting Multirun" << std::endl;
 				DesertFinitWithMultirun_Pre(numConsGroups, consGroupNames, consGroups);
@@ -443,17 +448,17 @@ BOOL CDesertToolApp::InitInstance()
 
 				// Next run for all groups
 				fprintf(fdDcif, "\t<Groups>\n");
-				for(int j=0; j<numConsGroups; j++) {
+				for (int j = 0; j < numConsGroups; j++) {
 					numCfgs = DesertFinitWithMultirun_Exec(true, CString(((std::string) ds.SystemName()).c_str()), consGroupNames[j], consGroups[j]);
 
 					std::cout << "Group: NONE\tConfigs: " << numCfgs << std::endl;
 					fprintf(fdDcif, "\t\t<Group Name=\"%S\" NumConfigs=\"%d\">\n", consGroupNames[j], numCfgs);
 					std::vector<tstring> splittedCons = splitConstraints(consGroups[j]);
-					for(std::vector<tstring>::iterator conIt = splittedCons.begin(); conIt != splittedCons.end(); ++conIt)
+					for (std::vector<tstring>::iterator conIt = splittedCons.begin(); conIt != splittedCons.end(); ++conIt)
 						fprintf(fdDcif, "\t\t\t<Constraint Name=\"%S\"/>\n", conIt->c_str());
 					fprintf(fdDcif, "\t\t</Group>\n");
 
-					if(j<numConsGroups) {
+					if (j < numConsGroups) {
 						ReInitializeManager(&ds, &des_map, &inv_des_map);
 					}
 				}
@@ -468,18 +473,18 @@ BOOL CDesertToolApp::InitInstance()
 
 				// AfxMessageBox(CString("Calling DESERT Finit w/:") + consList );
 				std::cout << "Running with constraint set: \t" << consList << std::endl;
-				DBConfigurations * confs = (DBConfigurations * )DesertFinit(true, isSilent, consList == "" ? NULL : (LPCTSTR)consList);
+				DBConfigurations * confs = (DBConfigurations *)DesertFinit(true, isSilent, consList == "" ? NULL : (LPCTSTR)consList);
 				int numCfgs = (confs) ? confs->GetCount() : 0;
 				
 				tstring strConsList = trimSpaces(tstring(consList));
-				if(strConsList.length() == 0 || strConsList.compare(_T("None")) == 0 || strConsList.compare(_T("none")) == 0) {
+				if (strConsList.length() == 0 || strConsList.compare(_T("None")) == 0 || strConsList.compare(_T("none")) == 0) {
 					fprintf(fdDcif, "\t<None NumConfigs=\"%d\"/>\n", numCfgs);
 				} else if(strConsList.compare(_T("applyAll")) == 0) {
 					fprintf(fdDcif, "\t<All NumConfigs=\"%d\"/>\n", numCfgs);
 				} else {
 					fprintf(fdDcif, "\t<ConstraintSet NumConfigs=\"%d\">\n", numCfgs);
 					std::vector<tstring> allStrCons = splitConstraints(strConsList);
-					for(std::vector<tstring>::iterator strCIt = allStrCons.begin(); strCIt != allStrCons.end(); ++strCIt)
+					for (std::vector<tstring>::iterator strCIt = allStrCons.begin(); strCIt != allStrCons.end(); ++strCIt)
 						fprintf(fdDcif, "\t\t<Constraint Name=\"%S\"/>\n", strCIt->c_str());
 					fprintf(fdDcif, "\t</ConstraintSet>\n");
 				}
@@ -506,7 +511,7 @@ BOOL CDesertToolApp::InitInstance()
 							else cancel_output = true;
 
 					}
-					if(!cancel_output)
+					if (!cancel_output)
 					{
 				
 						//create data network
@@ -530,7 +535,7 @@ BOOL CDesertToolApp::InitInstance()
 						POSITION pos = confs->GetHeadPosition();
 						int count = 0;
 						s_dlg.SetStatus(SD_PREP);
-						while(pos)
+						while (pos)
 						{
 		
 							DBConfiguration * config = confs->GetNext(pos);
@@ -543,7 +548,7 @@ BOOL CDesertToolApp::InitInstance()
 								while (pos1)
 								{
 									long valid_ass = config->assignments.GetNext(pos1);				
-									BackIfaceFunctions::CreatePropertyAssignment(dbs,dummy, inv_des_map, des_map, valid_ass, false);
+									BackIfaceFunctions::CreatePropertyAssignment(dbs, dummy, inv_des_map, des_map, valid_ass, false);
 								}
 								POSITION pos2 = config->alt_assignments.GetStartPosition();
 								while (pos2)
@@ -554,13 +559,13 @@ BOOL CDesertToolApp::InitInstance()
 
 								};
 							}//eo if (config)	
-							s_dlg.StepInState( (double)(((double)(++count))/((double)(confs->GetCount())))*100.0 );	//progress bar
+							s_dlg.StepInState((double)(((double)(++count)) / ((double)(confs->GetCount())))*100.0);	//progress bar
 
 						}//eo while(pos)
 						pos = confs->GetHeadPosition();
 						s_dlg.SetStatus(SD_BACK);
 						count = 0;
-						while(pos)
+						while (pos)
 						{
 							DBConfiguration * config = confs->GetNext(pos);
 							if (config)
@@ -577,7 +582,7 @@ BOOL CDesertToolApp::InitInstance()
 								while (pos1)
 								{
 									long valid_ass = config->assignments.GetNext(pos1);				
-									BackIfaceFunctions::CreatePropertyAssignment(dbs,dib_conf, inv_des_map, des_map, valid_ass, true);
+									BackIfaceFunctions::CreatePropertyAssignment(dbs, dib_conf, inv_des_map, des_map, valid_ass, true);
 								}
 								POSITION pos2 = config->alt_assignments.GetStartPosition();
 								while (pos2)
@@ -592,13 +597,13 @@ BOOL CDesertToolApp::InitInstance()
 
 								delete config;
 							}//eo if (config)
-							s_dlg.StepInState( (double)(((double)(++count))/((double)(confs->GetCount())))*100.0 );	//progress bar
+							s_dlg.StepInState((double)(((double)(++count)) / ((double)(confs->GetCount())))*100.0);	//progress bar
 						}//eo while(pos)
 					
 						delete confs;
 			
 						set<DesertIfaceBack::Configuration> cfgs = dbs.Configuration_kind_children();		
-						for(set<DesertIfaceBack::Configuration>::iterator it=cfgs.begin();it!=cfgs.end();++it)
+						for (set<DesertIfaceBack::Configuration>::iterator it = cfgs.begin(); it != cfgs.end(); ++it)
 						{
 							DesertIfaceBack::Configuration cfg = *it;
 							std::string cfgid = cfg.cfgId();
@@ -606,7 +611,7 @@ BOOL CDesertToolApp::InitInstance()
 							id_hash.process_bytes(cfgid.c_str(), cfgid.length());
 							int uid = id_hash.checksum();
 							std::stringstream sstream;
-							sstream << std::hex <<uid;
+							sstream << std::hex << uid;
 							cfg.cfgId() = sstream.str();
 						}
 					}//eo if DoModal() == IDOK
@@ -651,7 +656,7 @@ BOOL CDesertToolApp::InitInstance()
 			fclose(fdDcif);
 
 		}//eo try
-		catch(CDesertException *e)
+		catch (CDesertException *e)
 		{
 			fprintf(fdDcif, "</DesertConfigurations>\n");
 			fflush(fdDcif);
@@ -661,7 +666,7 @@ BOOL CDesertToolApp::InitInstance()
 			//	throw e;
 			return FALSE;
 		}
-		catch(udm_exception e)
+		catch (udm_exception e)
 		{
 			fprintf(fdDcif, "</DesertConfigurations>\n");
 			fflush(fdDcif);
@@ -670,7 +675,7 @@ BOOL CDesertToolApp::InitInstance()
 			if (m_lpCmdLine && command_arg_ok)
 				std::cerr << std::string("Udm exception: ") + e.what();
 			else
-				AfxMessageBox(CString("Udm exception: ") + CString(e.what()) );
+				AfxMessageBox(CString("Udm exception: ") + CString(e.what()));
 			//	throw e;
 			return FALSE;
 		}

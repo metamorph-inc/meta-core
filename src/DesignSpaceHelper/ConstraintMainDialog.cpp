@@ -419,6 +419,7 @@ void CConstraintMainDialog::OnBnClickedApplybtn()
 	}
 //	FillSizeBox();
 	applyCounter++;
+	applyCounter %= MAX_FILTERS;
 	applyIdx++;
 	filters[applyCounter].clear();
 	int nFilters = m_filterlist.GetItemCount();
@@ -479,6 +480,7 @@ void CConstraintMainDialog::OnBnClickedApplyallbtn()
 	applyAll = true;	
 	
 	applyCounter++;
+	applyCounter %= MAX_FILTERS; // FIXME this won't crash, but is it correct?
 	applyIdx++;
 	filters[applyCounter].clear();
 	int nFilters = m_filterlist.GetItemCount();
@@ -599,7 +601,7 @@ void CConstraintMainDialog::generateConfig()
 	int ret = dhelper_ptr->runDesertFinit_2();
 	if(ret<=0) {
 		if(ret==0)
-			AfxMessageBox(_T("There is no configuration generated."));
+			AfxMessageBox(_T("There are no configurations generated."));
 		set<int> emptyListOfConstraints;
 		dhelper_ptr->applyConstraints(emptyListOfConstraints, true);
 		FillSizeBox();
@@ -792,7 +794,7 @@ void CConstraintMainDialog::FillFilter()
 	int nFilters = m_filterlist.GetItemCount();
 	for(int i=0;i<nFilters;i++)
 	{
-		if(filters[applyIdx].find(i)!=filters[applyIdx].end())
+		if(filters[applyIdx%MAX_FILTERS].find(i)!=filters[applyIdx%MAX_FILTERS].end())
 			m_filterlist.SetCheck(i);
 		else
 			m_filterlist.SetCheck(i,0);
@@ -915,7 +917,7 @@ void CConstraintMainDialog::OnNMCustomdrawFilterlist(NMHDR *pNMHDR, LRESULT *pRe
 	{
 		COLORREF crText;
 		int nItem = pLVCD->nmcd.dwItemSpec;
-		if(filters[applyIdx].find(nItem)!=filters[applyIdx].end())
+		if(filters[applyIdx%MAX_FILTERS].find(nItem)!=filters[applyIdx%MAX_FILTERS].end())
 			crText = RGB(190,190,190);  //grey
 		else
 			crText = RGB(0,0,0);  //black
