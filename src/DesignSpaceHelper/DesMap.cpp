@@ -13,6 +13,8 @@
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
+#include <algorithm>
+#include <iterator>
 
 
 using namespace DesertIface;
@@ -21,6 +23,26 @@ using namespace DesertIface;
 #include <stdio.h>
 
 #include "DesertStatusDlg.h"
+
+struct DepthSort {
+	bool operator()(const Udm::Object& a, const Udm::Object& b) {
+		int aDepth = depth(a);
+		int bDepth = depth(b);
+		if (aDepth == bDepth) {
+			return a < b;
+		}
+		return aDepth < bDepth;
+	}
+	static int depth(const Udm::Object& prop) {
+		Udm::Object o = prop;
+		int depth = 0;
+		while (o) {
+			depth++;
+			o = o.GetParent();
+		}
+		return depth;
+	}
+};
 
 void DoMap(DesertBase &db, UdmDesertMap & _map, DesertUdmMap &inv_des_map,long id)
 {
@@ -382,15 +404,17 @@ bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_ma
 };
 
 
-
 bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, UdmElementSet& elements)
 {
-	UdmElementSet::iterator i;
 	//progress bar indication
 	CDesertStatusDlg * st_dlg = GetStatusDlg(NULL);
 	int pos = 0;
-	
-	for (i = elements.begin(); i != elements.end(); i++)
+
+	std::set<DesertIface::Element, DepthSort> sortedElements;
+	std::copy(elements.begin(), elements.end(), std::inserter(sortedElements, sortedElements.begin()));
+	DepthSort sort;
+
+	for (auto i = sortedElements.begin(); i != sortedElements.end(); i++)
 	{
 		Element e= *i;
 		std::string ename = e.name();
