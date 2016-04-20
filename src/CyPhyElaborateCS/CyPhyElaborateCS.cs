@@ -4,6 +4,7 @@ namespace CyPhyElaborateCS
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using CyPhyGUIs;
     using GME.CSharp;
     using GME.MGA;
     using GME.MGA.Core;
@@ -15,7 +16,7 @@ namespace CyPhyElaborateCS
     ProgId(ComponentConfig.ProgID),
     ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class CyPhyElaborateCSInterpreter : IMgaComponentEx, IGMEVersionInfo
+    public class CyPhyElaborateCSInterpreter : IMgaComponentEx, IGMEVersionInfo, CyPhyGUIs.ICyPhyInterpreter
     {
         /// <summary>
         /// Contains information about the GUI event that initiated the invocation.
@@ -460,6 +461,23 @@ namespace CyPhyElaborateCS
                     MgaGateway.PerformInTransaction(delegate
                     {
                         success = this.Main(project, currentobj, selectedobjs, this.Convert(param));
+
+                        if (parameters!= null)
+                        {
+                            var tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(parameters.OutputDirectory);
+                            Dictionary<string, AVM.DDP.MetaTBManifest.Metric> metrics = tbManifest.Metrics.ToDictionary(metric => metric.Name);
+                            foreach (MgaFCO metricFco in ((MgaModel)parameters.CurrentFCO).ChildFCOs.Cast<MgaFCO>()
+                                .Where(fco => fco.Meta.Name == "Metric"))
+                            {
+                                AVM.DDP.MetaTBManifest.Metric metric;
+                                if (metrics.TryGetValue(metricFco.Name, out metric))
+                                {
+                                    metric.Value = metricFco.GetStrAttrByNameDisp("Value");
+                                }
+                            }
+
+                            tbManifest.Serialize(parameters.OutputDirectory);
+                        }
                     },
                     transactiontype_enum.TRANSACTION_NON_NESTED);
 
@@ -625,6 +643,7 @@ namespace CyPhyElaborateCS
 
         #region Custom Parameters
         private SortedDictionary<string, object> componentParameters = null;
+        private IInterpreterMainParameters parameters;
 
         /// <summary>
         /// Gets a parameter by name.
@@ -724,6 +743,14 @@ namespace CyPhyElaborateCS
             get { return GMEInterfaceVersion_enum.GMEInterfaceVersion_Current; }
         }
 
+        public string InterpreterConfigurationProgId
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         #endregion
 
         #region Registration Helpers
@@ -738,6 +765,26 @@ namespace CyPhyElaborateCS
         public static void GMEUnRegister(Type t)
         {
             Registrar.UnregisterComponentsInGMERegistry();
+        }
+
+        public IInterpreterPreConfiguration PreConfig(IPreConfigParameters parameters)
+        {
+            return null;
+        }
+
+        public IInterpreterConfiguration DoGUIConfiguration(IInterpreterPreConfiguration preConfig, IInterpreterConfiguration previousConfig)
+        {
+            return null;
+        }
+
+        public IInterpreterResult Main(IInterpreterMainParameters parameters)
+        {
+            var result = new InterpreterResult();
+            this.parameters = parameters;
+            result.Success = this.RunInTransaction(parameters.CurrentFCO.Project, parameters.CurrentFCO, parameters.SelectedFCOs, 128);
+            result.RunCommand = "cmd.exe /c \"\"";
+
+            return result;
         }
 
         #endregion
