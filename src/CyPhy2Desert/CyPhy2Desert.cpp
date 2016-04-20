@@ -924,6 +924,9 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 		for(set<CyPhyML::DesignEntity>::iterator i=entities.begin();i!=entities.end();++i)
 			 traverseContainer(*i, element, container,dcAlt);
 		
+		processAlternativeValueFlowEnds();
+		alt_vfends.clear();
+
 		for(auto it_f=formulas.begin();it_f!=formulas.end();++it_f)
 		{
 			CyPhyML::ValueFormula formula = *it_f;
