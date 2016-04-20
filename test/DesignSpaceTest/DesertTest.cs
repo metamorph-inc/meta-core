@@ -101,7 +101,7 @@ namespace DesignSpaceTest
         }
 
         [Fact]
-        void TestDesertPropConstraint()
+        void TestDesert_DesignContainer_SimpleProp()
         {
             DesertTestBase("/@DesignSpaces/@DesignContainer_SimpleProp", (configurations) =>
             {
@@ -109,6 +109,16 @@ namespace DesignSpaceTest
                 Assert.Equal(2, configurations.First().Children.CWCCollection.Count());
             }, null);
 
+        }
+
+        [Fact]
+        void TestDesert_DesignContainer_Formula()
+        {
+            DesertTestBase("/@DesignSpaces/@DesignContainer_Formula", (configurations) =>
+            {
+                Assert.Equal(1, configurations.Count());
+                Assert.Equal(1, configurations.First().Children.CWCCollection.Count());
+            }, null);
         }
 
         private MgaProject project { get { return (MgaProject)fixture.proj; } }
