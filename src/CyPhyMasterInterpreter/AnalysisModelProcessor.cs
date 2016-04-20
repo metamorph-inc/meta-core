@@ -132,7 +132,7 @@
             {
                 if (string.IsNullOrWhiteSpace(this.projectDirectory))
                 {
-                    this.projectDirectory = Path.GetDirectoryName(this.GetInvokedObject().Project.ProjectConnStr.Substring("MGA=".Length));
+                    this.projectDirectory = MgaExtensions.MgaExtensions.GetProjectDirectoryPath(this.GetInvokedObject().Project);
                 }
 
                 return this.projectDirectory;
@@ -609,7 +609,7 @@
                 interpreter.MainParameters.SelectedFCOs = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
                 interpreter.MainParameters.StartModeParam = 128;
                 interpreter.MainParameters.ConsoleMessages = false;
-                interpreter.MainParameters.ProjectDirectory = Path.GetDirectoryName(this.GetExpandedObject().Project.ProjectConnStr.Substring("MGA=".Length));
+                interpreter.MainParameters.ProjectDirectory = MgaExtensions.MgaExtensions.GetProjectDirectoryPath(this.GetExpandedObject().Project);
                 interpreter.MainParameters.OutputDirectory = this.OutputDirectory;
                 interpreter.MainParameters.VerboseConsole = verboseConsole;
 
@@ -680,8 +680,8 @@
         /// <returns>Full path to the output directory.</returns>
         public string GetResultsDirectory()
         {
-            string projectPath = this.GetInvokedObject().Project.ProjectConnStr.Substring("MGA=".Length);
-            string outputDir = Path.Combine(Path.GetDirectoryName(projectPath), "results");
+            string projectPath = MgaExtensions.MgaExtensions.GetProjectDirectoryPath(this.GetInvokedObject().Project);
+            string outputDir = Path.Combine(projectPath, "results");
             return Path.GetFullPath(outputDir);
         }
 
@@ -927,7 +927,7 @@
         private string CreateOutputDirectory()
         {
             string outputSubDir = string.Empty;
-            string projectPath = this.GetInvokedObject().Project.ProjectConnStr.Substring("MGA=".Length);
+            string projectPath = MgaExtensions.MgaExtensions.GetProjectDirectoryPath(this.GetInvokedObject().Project);
             string outputDir = this.GetResultsDirectory();
 
             Directory.CreateDirectory(outputDir);

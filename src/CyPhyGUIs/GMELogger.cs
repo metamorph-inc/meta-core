@@ -63,7 +63,7 @@ namespace CyPhyGUIs
 
             if (string.IsNullOrWhiteSpace(interpreterName) == false)
             {
-                var logFilePath = Path.Combine(Path.GetDirectoryName(project.ProjectConnStr.Substring("MGA=".Length)), "log");
+                var logFilePath = Path.Combine(MgaExtensions.MgaExtensions.GetProjectDirectoryPath(project), "log");
 
                 Directory.CreateDirectory(logFilePath);
 
@@ -169,6 +169,38 @@ namespace CyPhyGUIs
         public void WriteCheckFailed(string format, params object[] args)
         {
             base.WriteAll(MessageType_enum.Failed, format, args);
+        }
+    }
+}
+
+namespace MgaExtensions
+{
+    public static class MgaExtensions
+    {
+        public static String GetProjectDirectoryPath(this IMgaProject project)
+        {
+            if (project.ProjectConnStr.StartsWith("MGA="))
+            {
+                return Path.GetDirectoryName(project.ProjectConnStr.Substring("MGA=".Length));
+            }
+            else
+            {
+                var mgx = project.ProjectConnStr.Substring("MGX=\"".Length);
+                return mgx.Substring(0, mgx.IndexOf("\""));
+            }
+        }
+
+        public static string GetProjectName(MgaProject project)
+        {
+            if (project.ProjectConnStr.StartsWith("MGA="))
+            {
+                return Path.GetFileName(project.ProjectConnStr.Substring("MGA=".Length));
+            }
+            else
+            {
+                var mgx = project.ProjectConnStr.Substring("MGX=\"".Length);
+                return Path.GetFileName(mgx.Substring(0, mgx.IndexOf("\"")));
+            }
         }
     }
 }

@@ -370,7 +370,7 @@ namespace META
         /// <returns></returns>
         public static String GetProjectRootPath(IMgaProject project)
         {
-            return Path.GetFullPath(Path.GetDirectoryName(project.ProjectConnStr.Substring("MGA=".Length)));
+            return MgaExtensions.MgaExtensions.GetProjectDirectoryPath(project);
         }
     }
 }
