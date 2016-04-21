@@ -99,7 +99,7 @@ namespace ComponentAndArchitectureTeamTest
             Type typeMgaFCOs = Type.GetTypeFromProgID("Mga.MgaFCOs");
             MgaFCOs selectedObjs = Activator.CreateInstance(typeMgaFCOs) as MgaFCOs;
 
-            // initialize formula evauator
+            // initialize formula evaluator
             formulaEval.Initialize(fixture.proj);
 
             // automation means no UI element shall be shown by the interpreter
@@ -477,6 +477,30 @@ namespace ComponentAndArchitectureTeamTest
 
                 var srcProp = comp.Children.PropertyCollection.First(p => p.Name == "SrcStringProp");
                 var dstProp = comp.Children.PropertyCollection.First(p => p.Name == "DstStringProp");
+                Assert.Equal(srcProp.Attributes.Value, dstProp.Attributes.Value);
+            });
+        }
+
+        [Fact]
+        public void StringFormula()
+        {
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var comp = fixture.proj.GetComponentsByName("StringFormula").First();
+                Assert.Throws(typeof(COMException), () => RunFormulaEvaluator(comp.Impl as MgaFCO));
+            });
+        }
+        [Fact]
+
+        public void EmptyInputFormula()
+        {
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var comp = fixture.proj.GetComponentsByName("EmptyInputFormula").First();
+                RunFormulaEvaluator(comp.Impl as MgaFCO);
+
+                var srcProp = comp.Children.PropertyCollection.First(p => p.Name == "Property");
+                var dstProp = comp.Children.PropertyCollection.First(p => p.Name == "DstProp");
                 Assert.Equal(srcProp.Attributes.Value, dstProp.Attributes.Value);
             });
         }
