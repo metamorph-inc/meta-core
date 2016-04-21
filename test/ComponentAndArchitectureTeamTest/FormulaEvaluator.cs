@@ -482,6 +482,20 @@ namespace ComponentAndArchitectureTeamTest
         }
 
         [Fact]
+        public void DegreesUnitFlow()
+        {
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var comp = fixture.proj.GetComponentsByName("DegreesUnitFlow").First();
+                RunFormulaEvaluator(comp.Impl as MgaFCO);
+
+                var srcProp = comp.Children.PropertyCollection.First(p => p.Name == "PropertyInDegrees");
+                var dstProp = comp.Children.PropertyCollection.First(p => p.Name == "UnspecifiedUnit");
+                Assert.Equal(srcProp.Attributes.Value, dstProp.Attributes.Value);
+            });
+        }
+
+        [Fact]
         public void ModelicaMatrix()
         {
             fixture.proj.PerformInTransaction(delegate

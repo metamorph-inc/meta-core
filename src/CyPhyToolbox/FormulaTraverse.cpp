@@ -2030,7 +2030,7 @@ string NewTraverser::GetVftUnitAndValue(const CyPhyML::ValueFlowTarget& vft, Uni
 				if (Uml::IsDerivedFrom(static_cast<CyPhyML::CADComputationType>(it->srcCADComputation2Metric_end()).type(), CyPhyML::Mass::meta))
 				{
 					vurep.actualValue = vurep.siValue = std::atof(val.c_str());
-					vurep.unitRep = UnitUtil::DimensionRep();
+					vurep.unitRep = UnitUtil::DimensionRep::zeroes;
 					vurep.unitRep.mass = 1;
 					vurep.cyphyRef = CyPhyML::unit::Cast(Udm::null);
 					return val;
