@@ -1548,6 +1548,10 @@ void CyPhy2Desert::processConstraints(const CyPhyML::DesignContainer &cyphy_cont
 		for(set<CyPhyML::DesignEntityRef>::iterator ref_it=refs.begin();ref_it!=refs.end();++ref_it)
 		{
 			CyPhyML::DesignEntity dentiti = (*ref_it).ref();
+			if (!dentiti)
+			{
+				throw udm_exception("Invalid Decision Group reference " + ref_it->getPath("/", false, false));
+			}
 			if(Uml::IsDerivedFrom(dentiti.type(), CyPhyML::DesignContainer::meta))
 			{
 				CyPhyML::DesignContainer container = CyPhyML::DesignContainer::Cast(dentiti);
