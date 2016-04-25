@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7091078C-61AB-434B-B46D-7E2291289426}</ProjectGuid>
-    <Keyword>MakeFileProj</Keyword>
+    <ProjectGuid>{7091078C-61AB-434B-B46D-7E2291289420}</ProjectGuid>
+    <Keyword>CADCreoParametericMetalLink</Keyword>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -28,18 +28,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -88,7 +92,7 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C\Creo 2.0\Common Files\M030\protoolkit\includes;C\Creo 2.0\Common Files\M030\protoolkit\includes</IncludePath>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C\Creo 2.0\Common Files\M030\protoolkit\includes;$(IncludePath)</IncludePath>
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
@@ -96,6 +100,7 @@
     <ClCompile>
       <PreprocessorDefinitions>PRO_MACHINE=36;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zm200 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -108,6 +113,7 @@
     <ClCompile>
       <PreprocessorDefinitions>PRO_MACHINE=36;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zm200 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -121,6 +127,7 @@
       <PreprocessorDefinitions>PRO_MACHINE=36;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalOptions>-Zm200 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -137,14 +144,14 @@
       <Optimization>MaxSpeed</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalOptions>-Zm154 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-Zm200 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\prodevelop\x86e_win64\obj;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\x86e_win64\obj;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Psapi.lib;Netapi32.lib;Mpr.lib;prodevmd.lib;protkmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Psapi.lib;Netapi32.lib;Mpr.lib;protkmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
@@ -220,18 +227,17 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
     <Import Project="..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
-    <Import Project="..\..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets" Condition="Exists('..\..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets" Condition="Exists('..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets" Condition="Exists('..\..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_thread-vc100.1.55.0.15\build\native\boost_thread-vc100.targets" Condition="Exists('..\..\nuget\boost_thread-vc100.1.55.0.15\build\native\boost_thread-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_date_time-vc100.1.55.0.15\build\native\boost_date_time-vc100.targets" Condition="Exists('..\..\nuget\boost_date_time-vc100.1.55.0.15\build\native\boost_date_time-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_chrono-vc100.1.55.0.15\build\native\boost_chrono-vc100.targets" Condition="Exists('..\..\nuget\boost_chrono-vc100.1.55.0.15\build\native\boost_chrono-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets" Condition="Exists('..\..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_atomic-vc100.1.55.0.15\build\native\boost_atomic-vc100.targets" Condition="Exists('..\..\nuget\boost_atomic-vc100.1.55.0.15\build\native\boost_atomic-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_filesystem-vc110.1.55.0.16\build\native\boost_filesystem-vc110.targets" Condition="Exists('..\..\nuget\boost_filesystem-vc110.1.55.0.16\build\native\boost_filesystem-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_program_options-vc110.1.55.0.16\build\native\boost_program_options-vc110.targets" Condition="Exists('..\..\nuget\boost_program_options-vc110.1.55.0.16\build\native\boost_program_options-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_system-vc110.1.55.0.16\build\native\boost_system-vc110.targets" Condition="Exists('..\..\nuget\boost_system-vc110.1.55.0.16\build\native\boost_system-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_thread-vc110.1.55.0.16\build\native\boost_thread-vc110.targets" Condition="Exists('..\..\nuget\boost_thread-vc110.1.55.0.16\build\native\boost_thread-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_date_time-vc110.1.55.0.16\build\native\boost_date_time-vc110.targets" Condition="Exists('..\..\nuget\boost_date_time-vc110.1.55.0.16\build\native\boost_date_time-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_chrono-vc110.1.55.0.16\build\native\boost_chrono-vc110.targets" Condition="Exists('..\..\nuget\boost_chrono-vc110.1.55.0.16\build\native\boost_chrono-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_regex-vc110.1.55.0.16\build\native\boost_regex-vc110.targets" Condition="Exists('..\..\nuget\boost_regex-vc110.1.55.0.16\build\native\boost_regex-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_atomic-vc110.1.55.0.16\build\native\boost_atomic-vc110.targets" Condition="Exists('..\..\nuget\boost_atomic-vc110.1.55.0.16\build\native\boost_atomic-vc110.targets')" />
     <Import Project="..\..\nuget\protobuf.2.5.0.0\build\native\protobuf.targets" Condition="Exists('..\..\nuget\protobuf.2.5.0.0\build\native\protobuf.targets')" />
-    <Import Project="..\..\nuget\protobuf-vc100.2.5.0.0\build\native\protobuf-vc100.targets" Condition="Exists('..\..\nuget\protobuf-vc100.2.5.0.0\build\native\protobuf-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_log-vc100.1.55.0.15\build\native\boost_log-vc100.targets" Condition="Exists('..\..\nuget\boost_log-vc100.1.55.0.15\build\native\boost_log-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_log_setup-vc100.1.55.0.15\build\native\boost_log_setup-vc100.targets" Condition="Exists('..\..\nuget\boost_log_setup-vc100.1.55.0.15\build\native\boost_log_setup-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_log_setup-vc100.1.55.0.15\build\native\boost_log_setup-vc100.targets" Condition="Exists('..\..\nuget\boost_log_setup-vc100.1.55.0.15\build\native\boost_log_setup-vc100.targets')" />
+    <Import Project="..\..\nuget\protobuf-vc110.2.5.0.0\build\native\protobuf-vc110.targets" Condition="Exists('..\..\nuget\protobuf-vc110.2.5.0.0\build\native\protobuf-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_log-vc110.1.55.0.16\build\native\boost_log-vc110.targets" Condition="Exists('..\..\nuget\boost_log-vc110.1.55.0.16\build\native\boost_log-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_log_setup-vc110.1.55.0.16\build\native\boost_log_setup-vc110.targets" Condition="Exists('..\..\nuget\boost_log_setup-vc110.1.55.0.16\build\native\boost_log_setup-vc110.targets')" />
   </ImportGroup>
 </Project>
