@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCreoParametricCreateAssembly", "CADCreoParametricCreateAssembly\CADCreoParametricCreateAssembly.vcxproj", "{CF4A3F5A-6ABD-46EC-BEF1-63369A9F3EC4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8B88C487-8F58-4622-997B-B0BA84F8B881} = {8B88C487-8F58-4622-997B-B0BA84F8B881}
@@ -26,7 +26,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCreoUtils", "CADCreoUtil
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCreateAssemblyFunctions", "CADCreateAssemblyFunctions\CADCreateAssemblyFunctions.vcxproj", "{F23B1B7B-3223-4310-B3E2-0281CBB655EA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathTrigLib", "CADCommonTest\MathTrigLib.vcxproj", "{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCommonTests", "CADCommonTest\MathTrigLib.vcxproj", "{C6D4B011-B5ED-4CC5-B8BC-7C28E1ABF763}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9438FDE8-A6E2-41E7-8523-250484CB4981} = {9438FDE8-A6E2-41E7-8523-250484CB4981}
 	EndProjectSection

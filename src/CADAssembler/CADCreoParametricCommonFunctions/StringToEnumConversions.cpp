@@ -549,14 +549,14 @@ namespace isis
   {
 	  std::string Boolean_string = ConvertToUpperCase(in_Boolean_string);
 
-	  if ( Boolean_string.compare("TRUE") == 0 )
+	  if ( Boolean_string.compare("TRUE") == 0 ||  Boolean_string.compare("1"))
 		  return PRO_B_TRUE;
 	  else
-		  if ( Boolean_string.compare("FALSE") == 0 )
+		  if ( Boolean_string.compare("FALSE") == 0 ||  Boolean_string.compare("0"))
 			return PRO_B_FALSE;
 
 		 
-	  string temp_string = "Function String_To_ProBoolean was passed: '" + in_Boolean_string + "' which is an erroneous type. Allowed types are TRUE and FALSE.";
+	  string temp_string = "Function String_To_ProBoolean was passed: '" + in_Boolean_string + "' which is an erroneous type. Allowed types are TRUE, FALSE, 1, or 0.";
 	  throw isis::application_exception(temp_string.c_str());
   }
 
