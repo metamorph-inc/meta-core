@@ -28,6 +28,12 @@ goto :ERROR_SECTION
 
 "%MetaPath%\bin\Python27\Scripts\Python.exe" "%MetaPath%\bin\CAD\CADJobDriver.py" -assembler <#=Assembler#> -mesher <#=Mesher#> -analyzer <#=Analyzer#> <# if (Mode!=null) { #>-mode <#=Mode#> <#}#>
 
+set ERROR_CODE=%ERRORLEVEL%
+if %ERRORLEVEL% NEQ 0 (
+set ERROR_MSG="Error from runCADJob.bat: CADJobDriver.py encountered error during execution, error level is %ERROR_CODE%"
+goto :ERROR_SECTION
+)
+
 <# if (CallDomainTool!=null) { #>
 
 <#=CallDomainTool#>

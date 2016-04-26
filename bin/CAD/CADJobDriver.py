@@ -8,7 +8,7 @@ import cad_library
 outputcmds = True
 
 def runCreoAssembler():
-    isisext = os.environ['PROE_ISIS_EXTENSIONS']
+    isisext = os.environ.get('PROE_ISIS_EXTENSIONS')
     if isisext is None:
         cad_library.exitwitherror ('PROE_ISIS_EXTENSIONS env. variable is not set. Do you have the META toolchain installed properly?', -1)
     createasm = os.path.join(isisext,'bin','CADCreoParametricCreateAssembly.exe')
@@ -132,7 +132,7 @@ def main():
     # Run assembler
     if assembler=='CREO':
         result = runCreoAssembler()
-        if result == -1:
+        if result != 0:
             cad_library.exitwitherror('CADJobDriver.py: The CreateAssembly program returned with an error:' + str(result), -1)
     else:
         cad_library.exitwitherror('CADJobDriver.py: Only CREO assembler is supported.', -1)
