@@ -360,9 +360,8 @@
                     throw new AnalysisModelExpandFailedException(string.Format("Exported configuration {0} yielded null reference to component assembly.", configuration.Name));
                 }
 
+                temporaryObjects.Push(componentAssemblyRef.Referred.ComponentAssembly.Impl);
                 this.Expand(componentAssemblyRef.Referred.ComponentAssembly);
-
-                // TODO: should we delete the exporter components to save memory??
             }
         }
 
