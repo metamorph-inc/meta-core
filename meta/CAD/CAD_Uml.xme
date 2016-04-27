@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{57844CB8-8538-46EA-9F82-4C331298597A}" cdate="Tue Feb 17 11:48:41 2015" mdate="Tue Feb 17 11:48:41 2015" version="1.2.0.11" metaguid="{1913C77F-2986-4DA3-BD61-02F6C19FD44E}" metaversion="" metaname="UML">
+<project guid="{A0A2074E-2F79-4FA1-9425-63D6FC17C78E}" cdate="Wed Apr 27 15:47:56 2016" mdate="Wed Apr 27 15:47:56 2016" version="1.2.0.11" metaguid="{1913C77F-2986-4DA3-BD61-02F6C19FD44E}" metaversion="" metaname="UML">
 	<name>AssemblyInterface</name>
 	<comment>v.1.2.0.11 Added MaxElementSize attribute to FEA.
 
@@ -1627,7 +1627,7 @@ Value: String
 								<value>343,294</value>
 							</regnode>
 							<regnode name="preferredSize" isopaque="yes">
-								<value>229,87</value>
+								<value>229,101</value>
 							</regnode>
 						</regnode>
 					</regnode>
@@ -1635,7 +1635,8 @@ Value: String
 						<value>Type: String
 MeshOnly: Boolean
 MaxAdaptiveIterations: Integer
-MaxElementSize: Real</value>
+MaxElementSize: Real
+InfiniteCycle: Boolean</value>
 					</attribute>
 					<attribute kind="IsAbstract" status="meta">
 						<value>false</value>

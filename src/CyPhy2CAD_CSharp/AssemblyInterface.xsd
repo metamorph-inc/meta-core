@@ -3,7 +3,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
  elementFormDefault="qualified" 
 >
-<!-- generated on Tue Feb 17 11:50:19 2015 -->
+<!-- generated on Wed Apr 27 15:53:43 2016 -->
 
 
 	<xsd:complexType name="LimitReferenceType">
@@ -914,6 +914,7 @@
 		<xsd:attribute name="MeshOnly" type="xsd:boolean" use="required"/>
 		<xsd:attribute name="MaxAdaptiveIterations" type="xsd:long" use="required"/>
 		<xsd:attribute name="MaxElementSize" type="xsd:double" use="required"/>
+		<xsd:attribute name="InfiniteCycle" type="xsd:boolean" use="required"/>
 		<xsd:attribute name="AnalysisID" type="xsd:string" use="required"/>
 		<xsd:attribute name="_id" type="xsd:ID"/>
 		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
