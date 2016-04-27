@@ -349,6 +349,21 @@ namespace isis
 																creoParametricInstallPath, 
 																creoParametricCommMsgExe );
 			}
+
+			catch ( isis::application_exception& ex_Creo_3 )
+			{
+				std::stringstream errorString;
+				errorString <<
+						"Could not find an installation of Creo 3.0.  Creo 2.0 and earlier are no longer supported, "
+						<< std::endl << ex_Creo_3.what();
+						throw isis::application_exception(errorString.str());
+			}
+
+			// 4/26/2016, We are now compiling with Creo 3, which means this program will only
+			// work with Creo 3.0 or higher (e.g. Creo 4.0 when it is released)
+			// Leave the following code commented out so that Creo 4.0 can easily be supported when available.
+
+			/**
 			catch ( isis::application_exception& ex_Creo_3 )
 			{
 				try // Creo 2.0
@@ -373,7 +388,7 @@ namespace isis
 							throw isis::application_exception(errorString.str());
 				}
 			}	
-
+			****/
 			//_putenv_s( "PROE_INSTALL_PATH", creoParametricInstallPath.c_str() ); // PROE_INSTALL_PATH does not needed to run Creo
 			_putenv_s( "PRO_COMM_MSG_EXE", creoParametricCommMsgExe.c_str() );				
 			char *EnvVariableCOMM_MSG_EXE  = getenv ("PRO_COMM_MSG_EXE");

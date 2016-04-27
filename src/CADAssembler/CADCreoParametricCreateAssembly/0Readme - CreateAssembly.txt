@@ -2,12 +2,13 @@
 	  	
 Supported Creo Versions
 -----------------------
-Creo Parametric 2.x and 3.x
+Creo Parametric 3.x
 
 Deprecated Versions
 -------------------
 Pro/E not supported
 Pro/E assemble_ptc.exe Version: v1.0.008 not supported as of Jan. 2012
+Creo 1.0 and 2.0 not supported.
 
 Pre-Conditions
 --------------
@@ -978,6 +979,18 @@ v1.5.6.0 04/13/2016	GitHub Branch: CAD_004_Correct_FEA_Treatment_of_Assembly_Sur
 			system and special transformations were needed for the Face construct to work 
 			properly for assemblies.
 			R.O.
+
+
+v1.5.7.0 04/26/2016	GitHub Branch: CAD_005_Update_TO_Creo_3_VS2012
+
+			Updated to use Creo 3.0 and Visual Studio 2012.  Added a check that will
+			only allow this program to run if Creo 3.0 is installed.  
+			Modified String_To_ProBoolean to handle the case of 1/0 where 1 means True 
+			and 0 means false. Previously, only handled True/False.  
+			Patran_PP.py was modified to handle the case where not all
+			test-injection-points have a StructuralFEAComputation.
+
+				
 
 Known Defects
 -------------
