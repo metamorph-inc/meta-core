@@ -17,7 +17,7 @@ namespace GME.CSharp
 		// Specify an icon path
 		public const string iconName = "Component.ico";
 
-        public const string tooltip = "CyPhy2CAD_CSharp";
+        public const string tooltip = "CyPhy2CAD";
 
 		// If null, updated with the assembly path + the iconName dynamically on registration
         public static string iconPath = null; 
