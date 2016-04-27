@@ -104,7 +104,15 @@ namespace GME.CSharp
                 if (interpreters[TaskProgId].isValid)
                 {
                     contentColor = Color.Blue;
-                    Content = interpreters[TaskProgId].Name;
+                    Content = interpreters[TaskProgId].ToolTip;
+                    if (string.IsNullOrWhiteSpace(Content))
+                    {
+                        Content = interpreters[TaskProgId].Name;
+                    }
+                    if (Content.StartsWith("MGA.Interpreter.", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        Content = Content.Substring("MGA.Interpreter.".Length);
+                    }
                     MgaRegistrar registrar = new MgaRegistrar();
                     string DllFileName = registrar.LocalDllPath[TaskProgId];
                     try
