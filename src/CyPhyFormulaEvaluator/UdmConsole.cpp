@@ -64,7 +64,7 @@ namespace GMEConsole
                 if ((SUCCEEDED(s3)) && (gmeoleapp != 0))
                 {
                     // gmeoleapp->ConsoleClear();
-                    gmeoleapp->put_ConsoleContents(NULL);
+                    // gmeoleapp->put_ConsoleContents(NULL);
                 }
                 else
                 {

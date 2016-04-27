@@ -300,14 +300,14 @@ namespace CyPhyDesignExporter
             bool result = false;
             try
             {
-                GMEConsole.Info.WriteLine("Elaborating model...");
+                // GMEConsole.Info.WriteLine("Elaborating model...");
                 var elaborator = new CyPhyElaborateCS.CyPhyElaborateCSInterpreter();
                 elaborator.Initialize(project);
                 int verbosity = 128;
                 //elaborator.UnrollConnectors = false;
                 result = elaborator.RunInTransaction(project, currentobj, selectedobjs, verbosity);
 
-                GMEConsole.Info.WriteLine("Elaboration is done.");
+                // GMEConsole.Info.WriteLine("Elaboration is done.");
             }
             catch (Exception ex)
             {
