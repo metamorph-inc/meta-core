@@ -16,25 +16,45 @@ namespace ComponentLibraryManagerTest
 {
     public class AddOnTestFixture : IDisposable
     {
+        public virtual string path_Test
+        {
+            get
+            {
+                return Path.Combine(META.VersionInfo.MetaPath,
+                                                       "models",
+                                                       "ComponentsAndArchitectureTeam",
+                                                       "ComponentLibraryManager_AddOn");
+            }
+        }
+
         public AddOnTestFixture()
         {
-            // Copy to create a new test folder
-            if (Directory.Exists(AddOnTest.path_Test))
-                Directory.Delete(AddOnTest.path_Test, true);
+            var path_XME = Path.Combine(path_Test,
+                                        "model.xme");
+            var path_MGA = Path.Combine(path_Test,
+                                        "model_test.mga");
+            var path_Manifest = Path.Combine(path_Test,
+                                             "manifest.project.json");
+            var path_Manifest_Original = Path.Combine(path_Test,
+                                                      "manifest.project.org");
 
-            Utils.DirectoryCopy(AddOnTest.path_OriginalFiles, AddOnTest.path_Test);
-            File.WriteAllText(Path.Combine(AddOnTest.path_Test, "_THIS_DIR_IS_A_COPY"), "");
+            // Copy to create a new test folder
+            if (Directory.Exists(path_Test))
+                Directory.Delete(path_Test, true);
+
+            Utils.DirectoryCopy(AddOnTest.path_OriginalFiles, path_Test);
+            File.WriteAllText(Path.Combine(path_Test, "_THIS_DIR_IS_A_COPY"), "");
 
             // Delete any MGA and import from scratch
-            File.Delete(AddOnTest.path_MGA);
-            GME.MGA.MgaUtils.ImportXME(AddOnTest.path_XME, AddOnTest.path_MGA, enableAutoAddons: true);
-            Assert.True(File.Exists(AddOnTest.path_MGA));
+            File.Delete(path_MGA);
+            GME.MGA.MgaUtils.ImportXME(path_XME, path_MGA, enableAutoAddons: true);
+            Assert.True(File.Exists(path_MGA));
 
-            File.Copy(AddOnTest.path_Manifest_Original, AddOnTest.path_Manifest, true);
+            File.Copy(path_Manifest_Original, path_Manifest, true);
 
             proj = new MgaProject();
             bool ro_mode;
-            proj.Open("MGA=" + Path.GetFullPath(AddOnTest.path_MGA), out ro_mode);
+            proj.Open("MGA=" + Path.GetFullPath(path_MGA), out ro_mode);
         }
 
         public void Dispose()
@@ -131,33 +151,25 @@ namespace ComponentLibraryManagerTest
         }
     }
 
-    public class AddOnTest : IUseFixture<AddOnTestFixture>
+    public abstract class AddOnTestBase<T> : IUseFixture<T> where T : new()
+    {
+        #region Fixture
+        protected T fixture;
+        public void SetFixture(T data)
+        {
+            fixture = data;
+        }
+        #endregion
+    }
+
+    public class AddOnTest : AddOnTestBase<AddOnTestFixture>
     {
         #region Path Declarations
         public static String path_OriginalFiles = Path.Combine(META.VersionInfo.MetaPath,
                                                                "models",
                                                                "ComponentsAndArchitectureTeam",
                                                                "ComponentLibraryManager");
-        public static String path_Test = Path.Combine(META.VersionInfo.MetaPath,
-                                                       "models",
-                                                       "ComponentsAndArchitectureTeam",
-                                                       "ComponentLibraryManager_AddOn");
-        public static String path_XME = Path.Combine(path_Test,
-                                                     "model.xme");
-        public static String path_MGA = Path.Combine(path_Test,
-                                                     "model_test.mga");
-        public static String path_Manifest = Path.Combine(path_Test,
-                                                          "manifest.project.json");
-        public static String path_Manifest_Original = Path.Combine(path_Test,
-                                                          "manifest.project.org");
-        #endregion
 
-        #region Fixture
-        AddOnTestFixture fixture;
-        public void SetFixture(AddOnTestFixture data)
-        {
-            fixture = data;
-        }
         #endregion
 
         [Fact]
@@ -197,7 +209,7 @@ namespace ComponentLibraryManagerTest
         {
             // Take an existing component and copy it.
             // Close the transaction.
-            // The, retrieve that guy and check it.
+            // Then, retrieve that guy and check it.
             // It should have a different AVMID and Path, and that path should exist on disk.
             var project = fixture.GetProject();
             project.EnableAutoAddOns(true);
@@ -241,10 +253,10 @@ namespace ComponentLibraryManagerTest
             var compName = Utils.GetCurrentMethod();
 
             // First, let's create such a path.
-            var path_ToCopy = Path.Combine(path_Test,
+            var path_ToCopy = Path.Combine(fixture.path_Test,
                                            "components",
                                            "z672jsd8");
-            var path_NewCopy = Path.Combine(path_Test,
+            var path_NewCopy = Path.Combine(fixture.path_Test,
                                             "components",
                                             compName);
             Utils.DirectoryCopy(path_ToCopy, path_NewCopy);
@@ -256,6 +268,7 @@ namespace ComponentLibraryManagerTest
 
             var project = fixture.GetProject();
             project.EnableAutoAddOns(true);
+            Assert.Contains("MGA.Addon.ComponentLibraryManagerAddOn", project.AddOnComponents.Cast<IMgaComponentEx>().Select(x => x.ComponentProgID));
             project.PerformInTransaction(delegate
             {
                 CyPhy.RootFolder rf = ISIS.GME.Dsml.CyPhyML.Classes.RootFolder.GetRootFolder(project);
@@ -294,7 +307,7 @@ namespace ComponentLibraryManagerTest
             var compName = Utils.GetCurrentMethod();
 
             // First, let's create a fake path.
-            var path_NewCopy = Path.Combine(path_Test,
+            var path_NewCopy = Path.Combine(fixture.path_Test,
                                             "components",
                                             compName);
 
@@ -345,7 +358,7 @@ namespace ComponentLibraryManagerTest
             var compName = Utils.GetCurrentMethod();
 
             // First, let's create a fake path.
-            var path_NewCopy = Path.Combine(path_Test,
+            var path_NewCopy = Path.Combine(fixture.path_Test,
                                             "components",
                                             compName);
 
@@ -486,10 +499,10 @@ namespace ComponentLibraryManagerTest
             var compName = Utils.GetCurrentMethod();
 
             // First, let's create such a path.
-            var path_ToCopy = Path.Combine(path_Test,
+            var path_ToCopy = Path.Combine(fixture.path_Test,
                                            "components",
                                            "z672jsd8");
-            var path_NewCopy = Path.Combine(path_Test,
+            var path_NewCopy = Path.Combine(fixture.path_Test,
                                             "components",
                                             compName);
             Utils.DirectoryCopy(path_ToCopy, path_NewCopy);
@@ -576,7 +589,7 @@ namespace ComponentLibraryManagerTest
         }
 
         [Fact]
-        [Trait("JIRA","META-2856")]
+        [Trait("JIRA", "META-2856")]
         public void InsideCopy_OriginalPathHasPeriod()
         {
             /* The "twist" here is that the original path,
@@ -590,7 +603,7 @@ namespace ComponentLibraryManagerTest
              * Then, retrieve that guy and check it
              * It should have a different AVMID and Path, that path should exist on disk.
              * Take one of the resources and make sure it exists too.
-             */ 
+             */
             var project = fixture.GetProject();
             project.EnableAutoAddOns(true);
 
@@ -620,7 +633,7 @@ namespace ComponentLibraryManagerTest
 
                 String org_full = Path.GetFullPath(comp_Original.Attributes.Path);
                 String new_full = Path.GetFullPath(comp_Copy.Attributes.Path);
-                Assert.False(org_full == new_full, 
+                Assert.False(org_full == new_full,
                              "Copied component has the same Path as the original.");
                 Assert.True(Directory.Exists(comp_Copy.GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE)), "Copied component's Path does not exist.");
 
@@ -728,7 +741,7 @@ namespace ComponentLibraryManagerTest
 
                 Assert.False(String.IsNullOrWhiteSpace(asm_Copy.Attributes.Path), "Copied assembly wasn't assigned a new Path.");
                 Assert.NotEqual(asm_Copy.Attributes.Path, asm_Original.Attributes.Path);
-                Assert.True(File.Exists(Path.Combine(AddOnTest.path_Test, asm_Copy.Attributes.Path + "\\asm_resource.txt")));
+                Assert.True(File.Exists(Path.Combine(fixture.path_Test, asm_Copy.Attributes.Path + "\\asm_resource.txt")));
             });
             project.Save();
         }
@@ -745,4 +758,87 @@ namespace ComponentLibraryManagerTest
             });
         }
     }
+
+
+    public class AddOnTestPathRenameFixture : AddOnTestFixture
+    {
+        public override string path_Test
+        {
+            get
+            {
+                return Path.Combine(META.VersionInfo.MetaPath,
+                                                       "models",
+                                                       "ComponentsAndArchitectureTeam",
+                                                       "ComponentLibraryManager_AddOnPathRename");
+            }
+        }
+    }
+
+    // subclassing here so that the project is imported separately for this test
+    public class AddOnTestPathRename : AddOnTestBase<AddOnTestPathRenameFixture>
+    {
+        [Fact]
+        public void ComponentPathRename()
+        {
+            var project = fixture.GetProject();
+            project.EnableAutoAddOns(true);
+
+            project.PerformInTransaction(delegate
+            {
+                var comp_ToCopy = project.GetComponentsByName("HasDirPath")
+                                                .FirstOrDefault();
+                Assert.True(null != comp_ToCopy, "Couldn't find HasDirPath component.");
+
+                comp_ToCopy.Attributes.Path = "renamed_path";
+            });
+
+            project.PerformInTransaction(delegate
+            {
+                var comp = project.GetComponentsByName("HasDirPath")
+                                                .FirstOrDefault();
+                var compDir = comp.GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE);
+                Assert.True(Directory.Exists(compDir), "Component path doesn't exist.");
+
+                Assert.True(File.Exists(Path.Combine(compDir, "ComponentData.xml")), "Component file ComponentData.xml doesn't exist.");
+            });
+            project.Save();
+        }
+
+        [Fact]
+        public void ComponentPathRename_CollidesWithExisting()
+        {
+            var renamed_path = "collision_path";
+            String original_path = "";
+
+            // Create this path
+            var fullpath = Path.Combine(fixture.path_Test, renamed_path);
+            Directory.CreateDirectory(fullpath);
+            Assert.True(Directory.Exists(fullpath), "Couldn't create test path.");
+
+            var project = fixture.GetProject();
+            project.EnableAutoAddOns(true);
+
+            Assert.Throws<System.Runtime.InteropServices.COMException>(delegate
+            {
+                project.PerformInTransaction(delegate
+                {
+                    var comp_ToCopy = project.GetComponentsByName("HasDirPath")
+                                                    .FirstOrDefault();
+                    Assert.True(null != comp_ToCopy, "Couldn't find HasDirPath component.");
+
+                    original_path = comp_ToCopy.Attributes.Path;
+                    comp_ToCopy.Attributes.Path = renamed_path;
+                });
+            });
+
+            project.PerformInTransaction(delegate
+            {
+                var comp = project.GetComponentsByName("HasDirPath")
+                                                .FirstOrDefault();
+                Assert.True(original_path == comp.Attributes.Path, "Component path has changed. Renaming into an existing path shouldn't be allowed.");
+            });
+            project.Save();
+        }
+    }
+
 }

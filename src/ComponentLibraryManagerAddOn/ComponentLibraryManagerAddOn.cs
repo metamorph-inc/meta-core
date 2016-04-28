@@ -27,6 +27,7 @@ namespace META
         private bool handleEvents = true;
         private bool xmeImportInProgress = false;
         CyPhyGUIs.GMELogger Logger { get; set; }
+        private Dictionary<String, String> lastObservedPaths = new Dictionary<String, String>();
 
         public void Dispose()
         {
@@ -103,7 +104,8 @@ namespace META
             uint uOBJEVENT_CREATED = 0;
             unchecked { uOBJEVENT_CREATED = (uint)objectevent_enum.OBJEVENT_CREATED; }
             bool objectCreatedAndNotLibObject = (eventMask & uOBJEVENT_CREATED) != 0 && (eventMask & (uint)objectevent_enum.OBJEVENT_DESTROYED) == 0 && subject.IsLibObject == false;
-            if (xmeImportInProgress) {
+            if (xmeImportInProgress)
+            {
                 if (objectCreatedAndNotLibObject && subject.MetaBase.MetaRef == componentAssemblyMetaRef && componentAssemblyPathMetaRef != 0)
                 {
                     string path = ((IMgaFCO)subject).StrAttrByName["Path"];
@@ -128,6 +130,11 @@ namespace META
             // MessageBox.Show(eventMask.ToString());
             // GMEConsole.Out.WriteLine(subject.Name);
 
+            // attribute was changed and object was neither created nor destroyed
+            bool attributeChanged = (eventMask & (uint)objectevent_enum.OBJEVENT_ATTR) != 0 &&
+                (eventMask & uOBJEVENT_CREATED) == 0 &&
+                (eventMask & (uint)objectevent_enum.OBJEVENT_DESTROYED) == 0;
+
             if (objectCreatedAndNotLibObject)
             {
                 MgaObject parent;
@@ -148,6 +155,87 @@ namespace META
                     Process(CyPhyClasses.ComponentAssembly.Cast(subject));
                 }
             }
+            else if (attributeChanged && subject.IsLibObject == false)
+            {
+                MgaObject parent;
+                GME.MGA.Meta.objtype_enum objType;
+                subject.GetParent(out parent, out objType);
+                if (subject.MetaBase.Name == "Component")
+                {
+                    string oldPath = null;
+                    // Check that parent is a Components folder
+                    if (objType == GME.MGA.Meta.objtype_enum.OBJTYPE_FOLDER
+                        && parent.MetaBase.Name == "Components")
+                    {
+                        if (param != null)
+                        {
+                            var parameters = ((object[])param).ToList();
+                            int pathAttr = parameters.IndexOf("ATTR:Path");
+                            if (pathAttr != -1)
+                            {
+                                oldPath = (string)parameters[pathAttr + 1];
+                                RenameComponentDirectory(CyPhyClasses.Component.Cast(subject), oldPath);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void RenameComponentDirectory(CyPhy.Component component, string oldPath)
+        {
+            if (string.IsNullOrEmpty(oldPath) || Path.GetFullPath(oldPath) == Path.GetFullPath(component.Attributes.Path))
+            {
+                return;
+            }
+
+            // Check to see if this "changed" path is the same one we saw last time we were in this function, post-normalization.
+            // If so, then don't consider this a rename, and return.
+            var componentGuid = component.Guid.ToString();
+            String lastPath;
+            if (lastObservedPaths.TryGetValue(componentGuid, out lastPath) && lastPath.Equals(component.Attributes.Path))
+            {
+                return;
+            }
+
+            var project = component.Impl.Project;
+            var projectRoot = Path.GetFullPath(project.GetRootDirectoryPath());
+            if (Directory.Exists(Path.Combine(projectRoot, component.Attributes.Path)))
+            {
+                var console = GMEConsole.CreateFromProject(project);
+                if (console.gme != null)
+                {
+                    console.Error.WriteLine(String.Format("Cannot move component directory to {0}: this directory already exists.", component.Attributes.Path));
+                    Marshal.FinalReleaseComObject(console.gme);
+                }
+                Marshal.ThrowExceptionForHR(-2023391233); // E_MGA_CONSTRAINT_VIOLATION	= 0x87657fff
+            }
+
+            if (Directory.Exists(Path.Combine(projectRoot, oldPath)))
+            {
+                // Normalize path syntax
+                if (component.Attributes.Path.Contains("\\"))
+                {
+                    component.Attributes.Path = component.Attributes.Path.Replace("\\", "/");
+                }
+                if (component.Attributes.Path.EndsWith("/") == false)
+                {
+                    component.Attributes.Path = component.Attributes.Path + "/";
+                }
+                var pathWithoutTrailingSlash = Path.GetDirectoryName(component.Attributes.Path);
+
+                Directory.CreateDirectory(Path.Combine(projectRoot, Path.GetDirectoryName(pathWithoutTrailingSlash)));
+                Directory.Move(Path.Combine(projectRoot, oldPath), Path.Combine(projectRoot, pathWithoutTrailingSlash));
+                var console = GMEConsole.CreateFromProject(project);
+                if (console.gme != null)
+                {
+                    console.Info.WriteLine(String.Format("Moved component directory from {0} to {1}", oldPath, component.Attributes.Path));
+                    Marshal.FinalReleaseComObject(console.gme);
+                }
+            }
+
+            lastObservedPaths.Add(componentGuid, component.Attributes.Path);
         }
 
         private IEnumerable<CyPhy.ComponentAssembly> GetAllComponentAssemblys(IMgaProject project, bool includeLibraries = false)
@@ -299,7 +387,7 @@ namespace META
 
                 if (PathCollision || !folderExists)
                 {
-                    var newCompPath_Absolute = ComponentLibraryManager.CreateComponentFolder(component.Impl.Project);                 
+                    var newCompPath_Absolute = ComponentLibraryManager.CreateComponentFolder(component.Impl.Project);
                     var newCompPath_Relative = ComponentLibraryManager.MakeRelativePath(projectPath_Absolute, newCompPath_Absolute);
 
                     newCompPath_Relative = newCompPath_Relative.Replace('\\', '/') + '/';
@@ -369,7 +457,7 @@ namespace META
         private void WarnUserAboutMissingFiles(CyPhy.Component component)
         {
             Logger.WriteWarning(string.Format(@"Warning: copied component {0} contains resource children, but
-                                                its path is empty or invalid; its backing files are likely 
+                                                its path is empty or invalid; its backing files are likely
                                                 missing and should be copied manually.", component.ToHyperLink()));
         }
 
