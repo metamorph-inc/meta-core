@@ -243,7 +243,11 @@ namespace CyPhyDesignExporter
         private string ExportToFile(CyPhy.DesignEntity de, String s_outFolder)
         {
             // Elaborate first
-            CallElaborator(de.Impl.Project, de.Impl as MgaFCO, null, 128, true);
+            bool elaboratorSucceeded = CallElaborator(de.Impl.Project, de.Impl as MgaFCO, null, 128, true);
+            if (elaboratorSucceeded == false)
+            {
+                throw new ApplicationException("Elaborator failed");
+            }
             
             var dm = CyPhy2DesignInterchange.CyPhy2DesignInterchange.Convert(de);
             String s_outFilePath = String.Format("{0}\\{1}.adm", s_outFolder, Safeify(de.Name));
