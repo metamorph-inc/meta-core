@@ -15,7 +15,7 @@ namespace GME.CSharp
         public const string componentName = "ComponentLibraryManagerAddOn";
         
 		// Select the object events you want the addon to listen to.
-        public const int eventMask = (int)(objectevent_enum.OBJEVENT_CREATED);
+        public const int eventMask = (int)(objectevent_enum.OBJEVENT_CREATED) | (int)(objectevent_enum.OBJEVENT_ATTR);
 		
         // Uncomment the flag if your component is paradigm independent.
         public static componenttype_enum componentType = componenttype_enum.COMPONENTTYPE_ADDON;

@@ -136,6 +136,10 @@
       <Project>{8880FD8F-C7DA-4491-908D-778B67057DA0}</Project>
       <Name>AvmDdp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\ComponentLibraryManagerAddOn\ComponentLibraryManagerAddOn.csproj">
+      <Project>{1524f926-5956-46f4-b46b-be1a2b3beb88}</Project>
+      <Name>ComponentLibraryManagerAddOn</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ComponentLibraryManager\ComponentLibraryManager.csproj">
       <Project>{0B1EAA2B-5B37-4D27-868E-60CF820B3273}</Project>
       <Name>ComponentLibraryManager</Name>
