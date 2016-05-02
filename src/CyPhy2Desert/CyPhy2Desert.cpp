@@ -17,6 +17,7 @@
 #include <string.h>
 #include <iterator>
 #include <algorithm>
+#include <regex>
 
 using namespace CyPhyML;
 using namespace DesertIface;
@@ -585,20 +586,27 @@ void CyPhy2Desert::processParameters(const set<CyPhyML::Parameter> &parameters, 
 
 std::string CyPhy2Desert::generateParameterConstraint(const CyPhyML::Parameter &parameter, const std::string &newParamName)
 {
-	/*
+	std::string range = parameter.Range();
+	return generateParameterConstraint(range, newParamName, parameter);
+}
+
+std::string CyPhy2Desert::generateParameterConstraint(const std::string &range, const std::string &newParamName, CyPhyML::Parameter parameter)
+{
+/*
 Syntax: 0..2
 or -inf..inf
 or -inf..2
 Ranges are inclusive
 */
-	std::string range = parameter.Range();
 	if(range.empty())
 		return "";
 
 	size_t not_pos = range.find_first_not_of(" [(-0123456789infINF]).,");
 	if(not_pos!=std::string::npos)
 	{
-		invalidParameters.insert(parameter);
+		if (parameter) {
+			invalidParameters.insert(parameter);
+		}
 		return "";
 	}
 
@@ -608,20 +616,23 @@ Ranges are inclusive
 		return "";
 
 	std::string cleanRange;
-	std::copy_if(range.begin(), range.end(), std::back_inserter(cleanRange), [](std::string::value_type ch) { return strchr("[](),", ch) == NULL; }); // compatibility
+	std::copy_if(range.begin(), range.end(), std::back_inserter(cleanRange), [](std::string::value_type ch) { return strchr("[]() ", ch) == NULL; }); // compatibility
+	cleanRange = std::regex_replace(cleanRange, std::regex(","), std::string(".."));
 
 	size_t dots;
-	dots = cleanRange.find("..");
+	dots = cleanRange.rfind("..");
 	if (dots == std::string::npos)
 	{
-		invalidParameters.insert(parameter);
+		if (parameter) {
+			invalidParameters.insert(parameter);
+		}
 		return "";
 	}
 	std::string lower;
-	if (dots > 0)
+	if (dots > 0) {
 		lower = cleanRange.substr(0, dots);
-	std::string upper;
-		upper = cleanRange.substr(dots + 2);
+	}
+	std::string upper = cleanRange.substr(dots + 2);
 
 	std::string expr;
 	expr = "(";
@@ -2183,6 +2194,12 @@ void CyPhy2Desert::processAlternativeParameters(CyPhyML::DesignContainer &altDC)
 {
 	//collect all parameters
 	map<std::string, set<std::string> > parameterMap;
+	std::set<std::string> propertyNames;
+	auto addPropertyNames = [&propertyNames](const std::set<CyPhyML::Property>& props) {
+		std::for_each(props.begin(), props.end(), [&](const CyPhyML::Property prop) {
+			propertyNames.insert(prop.name());
+		});
+	};
 	set<CyPhyML::DesignEntity> des = altDC.DesignEntity_kind_children();
 	for(set<CyPhyML::DesignEntity>::iterator it=des.begin();it!=des.end();++it)
 	{
@@ -2194,6 +2211,7 @@ void CyPhy2Desert::processAlternativeParameters(CyPhyML::DesignContainer &altDC)
 			set<CyPhyML::Parameter> params = celem.Parameter_kind_children();
 			for(set<CyPhyML::Parameter>::iterator pit=params.begin();pit!=params.end();++pit)
 				insertParameterMap(*pit, parameterMap);
+			addPropertyNames(celem.Property_children());
 		}
 		else if(Uml::IsDerivedFrom(de.type(), CyPhyML::ComponentRef::meta))
 		{
@@ -2201,9 +2219,10 @@ void CyPhy2Desert::processAlternativeParameters(CyPhyML::DesignContainer &altDC)
 			CyPhyML::DesignElement celem = comref.ref();
 			if(celem!=Udm::null)
 			{
-			set<CyPhyML::Parameter> params = celem.Parameter_kind_children();
-			for(set<CyPhyML::Parameter>::iterator pit=params.begin();pit!=params.end();++pit)
-				insertParameterMap(*pit, parameterMap);
+				set<CyPhyML::Parameter> params = celem.Parameter_kind_children();
+				for(set<CyPhyML::Parameter>::iterator pit=params.begin();pit!=params.end();++pit)
+					insertParameterMap(*pit, parameterMap);
+				addPropertyNames(celem.Property_children());
 			}
 			else
 				nullComponentRefs.insert(comref);
@@ -2214,6 +2233,7 @@ void CyPhy2Desert::processAlternativeParameters(CyPhyML::DesignContainer &altDC)
 			set<CyPhyML::Parameter> params = cdc.Parameter_kind_children();
 			for(set<CyPhyML::Parameter>::iterator pit=params.begin();pit!=params.end();++pit)
 				insertParameterMap(*pit, parameterMap);
+			addPropertyNames(cdc.Property_children());
 		}
 	}
 
@@ -2222,15 +2242,29 @@ void CyPhy2Desert::processAlternativeParameters(CyPhyML::DesignContainer &altDC)
 	//generate the parameter constraint for the alternative container
 	for(map<std::string, set<std::string> >::iterator pos=parameterMap.begin();pos!=parameterMap.end();++pos)
 	{
-		CyPhyML::Parameter tmpParameter = CyPhyML::Parameter::Create(altDC);
-		tmpParameter.name() = (*pos).first;
-		std::string ranges_str;
+		if (propertyNames.find(pos->first) != propertyNames.end()) {
+			// Propertys are unconstrained
+			continue;
+		}
+		std::string constraint_expr;
 		set<std::string> ranges = (*pos).second;
 		for(set<std::string>::iterator rit=ranges.begin();rit!=ranges.end();++rit)
 		{
-			ranges_str = ranges_str +","+(*rit);
+			if (constraint_expr.length() > 0) {
+				constraint_expr += "\nor\n";
+			}
+			std::string parameterConstraint = generateParameterConstraint(*rit, pos->first, CyPhyML::Parameter::Cast(Udm::null));
+			if (parameterConstraint.length() == 0) {
+				// unconstrained
+				constraint_expr = "";
+				break;
+			}
+			constraint_expr = constraint_expr + parameterConstraint;
 		}
 
+		if (constraint_expr.length() == 0) {
+			continue;
+		}
 
 		DesertIface::NaturalDomain domain;
 		DesertIface::NaturalMember member;
@@ -2242,22 +2276,30 @@ void CyPhy2Desert::processAlternativeParameters(CyPhyML::DesignContainer &altDC)
 		vp.id() = vp.externalID() = altDC.ID()+5000;
 		vp.PCM_STR() = "PCM_ADD";
 		vp.Max() = 100000;
-		vp.domain() =domain;
+		vp.domain() = domain;
 
 		bool validate = true;
-		for(set<CyPhyML::DesignEntity>::iterator it=des.begin();it!=des.end();++it)
+		for(set<CyPhyML::DesignEntity>::iterator it=des.begin(); it!=des.end(); ++it)
 		{
 			CyPhyML::DesignEntity de = *it;
 			if(!validateParameter(de, (*pos).first))
 				validate = false;
 		}
 
-		if(!validate)
-			ranges_str = ranges_str +", -1";
+		if (!validate) {
+			if (constraint_expr.length() > 0) {
+				constraint_expr += "\nor\n";
+			}
+			constraint_expr = constraint_expr + "(" +  pos->first + "() = -1)";
 
-		tmpParameter.Range() = ranges_str;
-		generateConstraint(tmpParameter, alt_delem);
-		tmpParameter.DeleteObject();
+		}
+
+		DesertIface::Constraint dsConstraint = DesertIface::Constraint::Create(constraintSet);
+		std::string pcon_name = pos->first + "_" + increaseCounter() + "_constraint";
+		dsConstraint.name() = pcon_name;
+		dsConstraint.expression() = "constraint " + pcon_name + "() {\n" + constraint_expr + "\n}";
+		dsConstraint.context() = alt_delem;
+
 	}
 }
 
