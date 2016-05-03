@@ -12940,6 +12940,8 @@ namespace CAD {
         private long maxAdaptiveIterationsField;
         
         private double maxElementSizeField;
+
+        private bool infiniteCycleField;
         
         private string analysisIDField;
         
@@ -13093,6 +13095,20 @@ namespace CAD {
             }
             set {
                 this.maxElementSizeField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public bool InfiniteCycle
+        {
+            get
+            {
+                return this.infiniteCycleField;
+            }
+            set
+            {
+                this.infiniteCycleField = value;
             }
         }
         
