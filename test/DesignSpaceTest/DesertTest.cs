@@ -121,6 +121,16 @@ namespace DesignSpaceTest
             }, null);
         }
 
+        [Fact]
+        void TestDesert_DesignContainerParamConstraint()
+        {
+            DesertTestBase("/@DesignSpaces/@DesignContainerParamConstraint", (configurations) =>
+            {
+                Assert.Equal(1, configurations.Count());
+                Assert.Equal(1, configurations.First().Children.CWCCollection.Count());
+            }, null);
+        }
+
         private MgaProject project { get { return (MgaProject)fixture.proj; } }
 
         ToyDSFixture fixture;
