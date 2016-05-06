@@ -391,10 +391,10 @@
             }
 
             var count = 0;
-            this.ExecuteInTransaction(context, () =>
-            {
+            //this.ExecuteInTransaction(context, () =>
+            //{
                 count = resolvedConfigurations.Count;
-            });
+            //});
 
             var currentNumber = 0;
 
@@ -447,7 +447,18 @@
                 });
 
                 this.Logger.WriteDebug("Starting analysis model processor");
-                var thisResult = this.RunAnalysisModelProcessors(context, configuration, postToJobManager, keepTempModels);
+                MasterInterpreterResult thisResult = null;
+                if (keepTempModels == true)
+                {
+                    thisResult = this.RunAnalysisModelProcessors(context, configuration, postToJobManager, keepTempModels);
+                }
+                else
+                {
+                    this.ExecuteInTransaction(context, () =>
+                    {
+                        thisResult = this.RunAnalysisModelProcessors(context, configuration, postToJobManager, true /* dont bother deleting tmp models */);
+                    }, abort: true);
+                }
 
                 this.Logger.WriteDebug("Analysis model processor is done");
 
@@ -1038,7 +1049,7 @@
             return Path.GetFullPath(Path.Combine(this.ProjectManifest.OutputDirectory, "index.html"));
         }
 
-        private void ExecuteInTransaction(IMgaObject context, Action doWork)
+        private void ExecuteInTransaction(IMgaObject context, Action doWork, bool abort=false)
         {
             if (context == null ||
                 doWork == null)
@@ -1046,10 +1057,10 @@
                 throw new ArgumentNullException();
             }
 
-            this.ExecuteInTransaction(context.Project, doWork);
+            this.ExecuteInTransaction(context.Project, doWork, abort);
         }
 
-        private void ExecuteInTransaction(MgaProject project, Action doWork)
+        private void ExecuteInTransaction(MgaProject project, Action doWork, bool abort=false)
         {
             if (project == null ||
                 doWork == null)
@@ -1057,13 +1068,26 @@
                 throw new ArgumentNullException();
             }
 
-            var terr = project.BeginTransactionInNewTerr(transactiontype_enum.TRANSACTION_NON_NESTED);
+            bool inTx = (project.ProjectStatus & 8) != 0;
+            if (inTx)
+            {
+                doWork();
+                return;
+            }
+            project.BeginTransactionInNewTerr(transactiontype_enum.TRANSACTION_NON_NESTED);
 
             try
             {
                 doWork();
 
-                project.CommitTransaction();
+                if (abort)
+                {
+                    project.AbortTransaction();
+                }
+                else
+                {
+                    project.CommitTransaction();
+                }
                 project.FlushUndoQueue();
             }
             catch (Exception)
@@ -1259,7 +1283,7 @@
 
                 bool isVerbose = this.Logger.GMEConsoleLoggingLevel == CyPhyGUIs.SmartLogger.MessageType_enum.Debug;
 
-                analysisModelProcessor.RunInterpreters(keepTempModels == false, isVerbose);
+                    analysisModelProcessor.RunInterpreters(keepTempModels == false, isVerbose);
                 result.OutputDirectory = analysisModelProcessor.OutputDirectory;
 
                 this.Logger.WriteDebug("Interpreters finished.");

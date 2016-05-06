@@ -117,11 +117,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MgaGateway.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CyPhyGUIs\CyPhyGUIs.csproj">
+      <Project>{ab27ee78-6819-4b8c-b678-68bc4fbc99d2}</Project>
+      <Name>CyPhyGUIs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SubTreeMerge\SubTreeMerge.csproj">
       <Project>{4FDF7186-0783-4371-8C19-FBDB6752E08F}</Project>
       <Name>SubTreeMerge</Name>

@@ -30,7 +30,6 @@ namespace DesignConsistencyChecker.DesignRule
                 var tagsAttribute = method.GetCustomAttributes(true).OfType<TagsAttribute>().FirstOrDefault();
                 var interpretersRequiringAttribute = method.GetCustomAttributes(true).OfType<InterpretersRequiringAttribute>().FirstOrDefault();
                 var validContextAttribute = method.GetCustomAttributes(true).OfType<ValidContextAttribute>().FirstOrDefault();
-                var requiresElaboration = method.GetCustomAttributes(true).OfType<ElaborationRequiredAttribute>().FirstOrDefault() != null;
 
                 if (checkerRuleAttribute == null) continue;
 
@@ -45,7 +44,6 @@ namespace DesignConsistencyChecker.DesignRule
                                   Description = checkerRuleAttribute.Description,
                                   InterpretersRequiring = interpretersRequiringAttribute==null?new List<string>() : interpretersRequiringAttribute.Interpreters,
                                   ValidContext = validContextAttribute.Context,
-                                  RequiresElaboration = requiresElaboration
                               });
             }
         }

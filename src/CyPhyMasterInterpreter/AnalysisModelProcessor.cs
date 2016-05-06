@@ -754,6 +754,13 @@
 
             var project = invokedObject.Project;
 
+            bool inTx = (project.ProjectStatus & 8) != 0;
+            if (inTx)
+            {
+                doWork();
+                return;
+            }
+
             var terr = project.BeginTransactionInNewTerr(transactiontype_enum.TRANSACTION_NON_NESTED);
 
             try

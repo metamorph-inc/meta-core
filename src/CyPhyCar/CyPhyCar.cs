@@ -48,7 +48,6 @@ namespace CyPhyCar
         {
             GMEConsole = GMEConsole.CreateFromProject(project);
             MgaGateway = new MgaGateway(project);
-            project.CreateTerritoryWithoutSink(out MgaGateway.territory);
         }
 
         /// <summary>
@@ -155,10 +154,6 @@ namespace CyPhyCar
             finally
             {
 //                parameters.Project.AbortTransaction();
-                if (MgaGateway != null && MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
@@ -242,10 +237,6 @@ namespace CyPhyCar
             }
             finally
             {
-                if (MgaGateway != null && MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 project = null;
                 currentobj = null;

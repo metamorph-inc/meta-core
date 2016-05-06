@@ -19,7 +19,6 @@ namespace CyPhySoT.Rules
     {
         [CheckerRule("SoTObjectsValid", Description = "All objects within this SoT are valid.")]
         [Tags("SoT")]
-        [ElaborationRequired]
         [ValidContext("TestBenchSuite")]
         public static IEnumerable<RuleFeedbackBase> SoTObjectsValid(MgaFCO context)
         {
@@ -75,7 +74,6 @@ namespace CyPhySoT.Rules
 
         [CheckerRule("TestBenchRefsWorkflowsAreValid", Description = "TestBenchRefs has valid workflows.")]
         [Tags("SoT")]
-        [ElaborationRequired]
         [ValidContext("TestBenchSuite")]
         public static IEnumerable<RuleFeedbackBase> TestBenchRefsWorkflowsAreValid(MgaFCO context)
         {

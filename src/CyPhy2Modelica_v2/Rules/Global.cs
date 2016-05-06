@@ -20,7 +20,6 @@ namespace CyPhy2Modelica_v2.Rules
     {
         [CheckerRule("ModelicaParametersHaveValues", Description = "ModelicaParameters within ModelicaModels should have a Value")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("ModelicaModel", "ModelicaConnector")]
         public static IEnumerable<RuleFeedbackBase> ModelicaParametersHaveValues(MgaFCO context)
         {
@@ -138,7 +137,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("PropertiesMustNotGetValuesFromParameters", Description = "Properties are evaluated in CyPhy and Parameters are evaluated in the generated Modelica code.")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("Property")]
         public static IEnumerable<RuleFeedbackBase> PropertiesMustNotGetValuesFromParameters(MgaFCO context)
         {
@@ -228,7 +226,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ParametersHaveValidIncomingFlowsAndRanges", Description = "Parameters cannot have values coming in from CustomFormulas.")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("Parameter")]
         public static IEnumerable<RuleFeedbackBase> ParametersHaveValidIncomingFlowsAndRanges(MgaFCO context)
         {
@@ -369,7 +366,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ComponentPropertiesHaveValues", Description = "Properties should have a Value")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("Component", "TestComponent", "ComponentAssembly", "TestBench")]
         public static IEnumerable<RuleFeedbackBase> ComponentPropertiesHaveValues(MgaFCO context)
         {
@@ -475,7 +471,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ComponentParametersHaveValues", Description = "Parameters should have a Value")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("Component", "TestComponent", "ComponentAssembly", "TestBench")]
         public static IEnumerable<RuleFeedbackBase> ComponentParametersHaveValues(MgaFCO context)
         {
@@ -581,7 +576,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ComponentIsDefinedInComponentFolder", Description = "Components needs to be defined in a Component Folder (red).")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("Component")]
         public static IEnumerable<RuleFeedbackBase> ComponentIsDefinedInComponentFolder(MgaFCO context)
         {
@@ -703,7 +697,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("PostProcessingPathIsValid", Description = "PostProcessing block must point to an existing file")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("PostProcessing")]
         public static IEnumerable<RuleFeedbackBase> PostProcessingPathIsValid(MgaFCO context)
         {
@@ -769,7 +762,6 @@ namespace CyPhy2Modelica_v2.Rules
         #region PortParameterUpdates
         [CheckerRule("PortParameterUpdates", Description = "Updating and checking port parameters")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("ModelicaModel")]
         public static IEnumerable<RuleFeedbackBase> PortParameterUpdates(MgaFCO context)
         {
@@ -1120,7 +1112,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("Workflow", Description = "Only one workflow must exist")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("TestBench")]
         public static IEnumerable<RuleFeedbackBase> Workflow(MgaFCO context)
         {
@@ -1208,7 +1199,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("OneSUTInTestBench", Description = "One and only one SUT in a TestBench")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("TestBench")]
         public static IEnumerable<RuleFeedbackBase> OneCAInTestBench(MgaFCO context)
         {
@@ -1302,7 +1292,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ElaboratorMustNotLeaveRefsInTestBench", Description = "Checking if references are elaborated.")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("TestBench")]
         public static IEnumerable<RuleFeedbackBase> ElaboratorMustNotLeaveRefsInTestBench(MgaFCO context)
         {
@@ -1340,7 +1329,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ElaboratorMustNotLeaveRefsInComponentAssembly", Description = "Checking if references are elaborated.")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("ComponentAssembly")]
         public static IEnumerable<RuleFeedbackBase> ElaboratorMustNotLeaveRefsInComponentAssembly(MgaFCO context)
         {
@@ -1378,7 +1366,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ComponentAssemblyCannotShareNameWithItsParent", Description = "A component assembly can not have the same name as the component assembly it is within.")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("ComponentAssembly")]
         public static IEnumerable<RuleFeedbackBase> ComponentAssemblyCannotShareNameWithItsParent(MgaFCO context)
         {
@@ -1519,7 +1506,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ConnectorWithinComponentAssembly", Description = "Within ComponentAssemblies, ModelicaConnectors within Connectors should have 0 connections")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("ComponentAssembly")]
         public static IEnumerable<RuleFeedbackBase> ConnectorWithinComponentAssembly(MgaFCO context)
         {
@@ -1586,7 +1572,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ConnectorWithinComponent", Description = "Within Components & TestComponents, ModelicaConnectors within Connectors must have a valid connection")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("Component", "TestComponent")]
         public static IEnumerable<RuleFeedbackBase> ConnectorWithinComponent(MgaFCO context)
         {
@@ -1806,7 +1791,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ModelicaConnectorsMustHaveOneValidConnection", Description = "ModelicaConnectors in Components, TestComponents, and ComponentAssemblies must have a valid connection")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("ModelicaConnector")]
         public static IEnumerable<RuleFeedbackBase> ModelicaConnectorsMustHaveOneValidConnection(MgaFCO context)
         {
@@ -2171,7 +2155,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ConnectorsMustHaveOneValidConnection", Description = "Connectors in Components, TestComponents, and ComponentAssemblies must have a valid connection")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("Connector")]
         public static IEnumerable<RuleFeedbackBase> ConnectorsMustHaveOneValidConnection(MgaFCO context)
         {
@@ -2488,7 +2471,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("NamesMustBeValid", Description = "Based on context/containment, names must be unique/valid")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("TestBench", "TestComponent", "Component", "ComponentAssembly", "ModelicaModel", "Connector", "ModelicaConnector")]
         public static IEnumerable<RuleFeedbackBase> NamesMustBeValid(MgaFCO context)
         {
@@ -2696,7 +2678,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("TestBenchNameMustBeValid", Description = "Test bench name must be vaild.")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("TestBench")]
         public static IEnumerable<RuleFeedbackBase> TestBenchNameMustBeValid(MgaFCO context)
         {
@@ -2775,7 +2756,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ModelicaConnectorHasValidURI", Description = "ModelicaConnector must have valid URI")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("ModelicaConnector")]
         public static IEnumerable<RuleFeedbackBase> ModelicaConnectorHasValidURI(MgaFCO context)
         {
@@ -2880,7 +2860,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ModelicaModelHasValidURI", Description = "ModelicaModel must have valid URI, referring to an attached library")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("Component", "TestComponent")]
         public static IEnumerable<RuleFeedbackBase> ModelicaModelHasValidURI(MgaFCO context)
         {
@@ -3004,7 +2983,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ComponentTreeHasValidStructure", Description = "Component tree must map to valid Modelica code.")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("TestBench")]
         public static IEnumerable<RuleFeedbackBase> ComponentTreeHasValidStructure(MgaFCO context)
         {
@@ -3078,7 +3056,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("NoMoreThanOneModelicaConnectorWithinConnector", Description = "Any connector must not contain more than 1 ModelicaConnector.")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("Connector")]
         public static IEnumerable<RuleFeedbackBase> NoMoreThanOneModelicaConnectorWithinConnectors(MgaFCO context)
         {
@@ -3113,7 +3090,6 @@ namespace CyPhy2Modelica_v2.Rules
 
         [CheckerRule("ConnectorsShouldHaveChildren", Description = "All Connectors should contain some object (ModelicaConnector).")]
         [Tags("Modelica")]
-        [ElaborationRequired]
         [ValidContext("Connector")]
         public static IEnumerable<RuleFeedbackBase> ConnectorsShouldHaveChildren(MgaFCO context)
         {

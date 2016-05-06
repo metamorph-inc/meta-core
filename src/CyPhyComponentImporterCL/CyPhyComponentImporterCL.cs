@@ -166,7 +166,6 @@ namespace CyPhyComponentImporterCL {
                 {
                     MgaGateway mgaGateway = new MgaGateway(mgaProject);
 
-                    mgaProject.CreateTerritoryWithoutSink(out mgaGateway.territory);
                     mgaGateway.PerformInTransaction(delegate
                     {
 
@@ -221,14 +220,9 @@ namespace CyPhyComponentImporterCL {
                         importer.Initialize(cyPhyMLRootFolder.Impl.Project);
                         importer.ImportFiles(cyPhyMLRootFolder.Impl.Project, libroot, lp_FilesToImport.ToArray(), true);
                         bExceptionOccurred = importer.Errors.Count > 0;
-                    });
+                    }, abort: false);
 
                     mgaProject.Save();
-
-                    if (mgaGateway.territory != null)
-                    {
-                        mgaGateway.territory.Destroy();
-                    }
 
                     if (bExceptionOccurred)
                     {

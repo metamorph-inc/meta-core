@@ -87,7 +87,6 @@ namespace CyPhyPrepareIFab
             {
                 GMEConsole = GMEConsole.CreateFromProject(project);
                 MgaGateway = new MgaGateway(project);
-                project.CreateTerritoryWithoutSink(out MgaGateway.territory);
                 this.Logger = new CyPhyGUIs.GMELogger(project, this.ComponentName);
 
                 if (currentobj == null)
@@ -143,10 +142,6 @@ namespace CyPhyPrepareIFab
             finally
             {
                 //Trace.Close();
-                if (MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 if (Logger != null) Logger.Dispose();
                 project = null;
@@ -522,37 +517,38 @@ namespace CyPhyPrepareIFab
             cadSettings.OtherDataFormat.STLAscii = true;
             InvokeEx(parameters.Project, parameters.CurrentFCO, parameters.SelectedFCOs, parameters.StartModeParam);
 
-            parameters.Project.BeginTransactionInNewTerr();
-
-            // TODO: this part needs to be refactored!
-            string Parameters = parameters
-                .CurrentFCO
-                .ChildObjects
-                .OfType<MgaReference>()
-                .FirstOrDefault(x => x.Meta.Name == "WorkflowRef")
-                .Referred
-                .ChildObjects
-                .OfType<MgaAtom>()
-                .FirstOrDefault(fco => fco.Meta.Name == typeof(CyPhy.Task).Name
-                    && String.Equals(CyPhyClasses.Task.Cast(fco).Attributes.COMName, this.ComponentProgID, StringComparison.InvariantCultureIgnoreCase))
-                .StrAttrByName["Parameters"];
-
-            Dictionary<string, string> workflowParameters = new Dictionary<string, string>();
-
-            try
+            MgaGateway.PerformInTransaction(() =>
             {
-                workflowParameters = (Dictionary<string, string>)Newtonsoft.Json.JsonConvert.DeserializeObject(Parameters, typeof(Dictionary<string, string>));
-                if (workflowParameters == null)
+
+                // TODO: this part needs to be refactored!
+                string Parameters = parameters
+                    .CurrentFCO
+                    .ChildObjects
+                    .OfType<MgaReference>()
+                    .FirstOrDefault(x => x.Meta.Name == "WorkflowRef")
+                    .Referred
+                    .ChildObjects
+                    .OfType<MgaAtom>()
+                    .FirstOrDefault(fco => fco.Meta.Name == typeof(CyPhy.Task).Name
+                        && String.Equals(CyPhyClasses.Task.Cast(fco).Attributes.COMName, this.ComponentProgID, StringComparison.InvariantCultureIgnoreCase))
+                    .StrAttrByName["Parameters"];
+
+                Dictionary<string, string> workflowParameters = new Dictionary<string, string>();
+
+                try
                 {
-                    workflowParameters = new Dictionary<string, string>();
+                    workflowParameters = (Dictionary<string, string>)Newtonsoft.Json.JsonConvert.DeserializeObject(Parameters, typeof(Dictionary<string, string>));
+                    if (workflowParameters == null)
+                    {
+                        workflowParameters = new Dictionary<string, string>();
+                    }
                 }
-            }
-            catch (Newtonsoft.Json.JsonReaderException)
-            {
-            }
+                catch (Newtonsoft.Json.JsonReaderException)
+                {
+                }
 
-            META.AnalysisTool.ApplyToolSelection(this.ComponentProgID, workflowParameters, this.result, parameters);
-            parameters.Project.AbortTransaction();
+                META.AnalysisTool.ApplyToolSelection(this.ComponentProgID, workflowParameters, this.result, parameters);
+            }, abort: true);
 
             result.Success = true;
             return result;

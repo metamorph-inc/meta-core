@@ -34,7 +34,6 @@ namespace CyPhyDesignExporterCL
             try
             {
                 var mgaGateway = new MgaGateway(project);
-                project.CreateTerritoryWithoutSink(out mgaGateway.territory);
 
                 var designList = new List<CyPhy.DesignEntity>();
                 var designName = Safeify(options.DesignName);
@@ -84,7 +83,7 @@ namespace CyPhyDesignExporterCL
                         Console.Error.WriteLine("Stack: {0}", ex.StackTrace.ToString());
                         bExceptionOccurred = true;
                     }
-                });
+                }, abort: false);
 
                 if (bExceptionOccurred)
                     return -1;

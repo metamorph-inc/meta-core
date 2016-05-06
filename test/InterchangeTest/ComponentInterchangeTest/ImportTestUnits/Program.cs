@@ -166,7 +166,6 @@ namespace ComponentImporterUnitTests
             AVM.DDP.MetaAvmProject proj = null;
             bool resultIsNull = false;
             var mgaGateway = new MgaGateway(mgaProject);
-            mgaProject.CreateTerritoryWithoutSink(out mgaGateway.territory);
             mgaGateway.PerformInTransaction(delegate {
                 var importer = new CyPhyComponentImporter.CyPhyComponentImporterInterpreter();
                 importer.Initialize(mgaProject);

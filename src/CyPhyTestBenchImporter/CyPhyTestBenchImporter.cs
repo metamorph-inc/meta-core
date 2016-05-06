@@ -96,7 +96,7 @@ namespace CyPhyTestBenchImporter
                             CyPhy2TestBenchInterchange.TestBenchInterchange2CyPhy.Convert(avmTestBench, project);
                         }
                     }
-                }, transactiontype_enum.TRANSACTION_NON_NESTED);
+                }, transactiontype_enum.TRANSACTION_NON_NESTED, abort: false);
 
                 //if (result.Any() && GMEConsole.gme != null)
                 //{
@@ -127,19 +127,11 @@ namespace CyPhyTestBenchImporter
             {
                 GMEConsole = GMEConsole.CreateFromProject(project);
                 MgaGateway = new MgaGateway(project);
-                project.CreateTerritoryWithoutSink(out MgaGateway.territory);
 
-                //MgaGateway.PerformInTransaction(delegate
-                //{
-                    Main(project, currentobj, selectedobjs, Convert(param));
-                //});
+                Main(project, currentobj, selectedobjs, Convert(param));
             }
             finally
             {
-                if (MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 project = null;
                 currentobj = null;

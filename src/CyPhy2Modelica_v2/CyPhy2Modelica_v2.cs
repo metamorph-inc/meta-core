@@ -49,7 +49,6 @@ namespace CyPhy2Modelica_v2
         {
             //GMEConsole = GMEConsole.CreateFromProject(project);
             MgaGateway = new MgaGateway(project);
-            project.CreateTerritoryWithoutSink(out MgaGateway.territory);
         }
 
         #region IMgaComponentEx Members
@@ -140,11 +139,6 @@ namespace CyPhy2Modelica_v2
                 {
                     this.Logger.Dispose();
                     this.Logger = null;
-                }
-                if (MgaGateway != null &&
-                    MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
                 }
                 MgaGateway = null;
                 project = null;
@@ -848,10 +842,6 @@ namespace CyPhy2Modelica_v2
                 {
                     this.Logger.Dispose();
                     this.Logger = null;
-                }
-                if (MgaGateway != null && MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
                 }
                 MgaGateway = null;
                 GC.Collect();

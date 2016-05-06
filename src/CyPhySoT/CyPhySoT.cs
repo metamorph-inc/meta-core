@@ -68,7 +68,6 @@ namespace CyPhySoT
             // Mimic CyPET and CyPhy2Modelica_v2
             //GMEConsole = GMEConsole.CreateFromProject(project);
             MgaGateway = new MgaGateway(project);
-            project.CreateTerritoryWithoutSink(out MgaGateway.territory);
         }
 
         [ComVisible(false)]
@@ -902,11 +901,6 @@ namespace CyPhySoT
                     this.Logger.Dispose();
                     this.Logger = null;
                 }
-                if (MgaGateway != null &&
-                    MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 //GMEConsole = null;
 
@@ -970,7 +964,9 @@ namespace CyPhySoT
             }
             // 3) Copy mga project file to output directory
             string outputFile = Path.Combine(this.OutputBaseDir, Path.GetFileName(this.ProjectFilename));
+            this.mainParameters.Project.AbortTransaction();
             this.mainParameters.Project.Save("MGA=" + outputFile, true);
+            this.mainParameters.Project.BeginTransactionInNewTerr();
             sotConfig.ProjectFileName = Path.GetFileName(outputFile);
 
             this.CleanUpTempMgaProject(outputFile);

@@ -187,12 +187,11 @@ namespace ModelicaImporter
                 this.Logger = new CyPhyGUIs.GMELogger(project, this.ComponentName);
 
                 MgaGateway = new MgaGateway(project);
-                project.CreateTerritoryWithoutSink(out MgaGateway.territory);
 
                 MgaGateway.PerformInTransaction(delegate
                 {
                     Main(project, currentobj, selectedobjs, Convert(param));
-                });
+                }, abort: false);
             }
             finally
             {
@@ -202,10 +201,6 @@ namespace ModelicaImporter
                     this.Logger = null;
                 }
 
-                if (MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 project = null;
                 currentobj = null;

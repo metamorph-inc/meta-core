@@ -40,7 +40,7 @@ namespace ReferenceSwitcher
             {
                 Switcher switcher = new Switcher(fco1Object, fco2Object, GMEConsole);
                 switcher.UpdateSublibrary();
-            });
+            }, abort: false);
         }
 
         public IMgaObjects GetSelectedObjects()
@@ -60,7 +60,7 @@ namespace ReferenceSwitcher
             MgaGateway.PerformInTransaction(delegate
             {
                 selectedText = selected.Name + " (" + selected.ID + ")";
-            });
+            }, abort: false);
             if (sender == choose1)
             {
                 this.fco1.Text = selectedText;

@@ -27,8 +27,7 @@ namespace TestBenchInterchangeTests
             private void PerformInTransaction(MgaGateway.voidDelegate del)
             {
                 var mgaGateway = new MgaGateway(proj);
-                proj.CreateTerritoryWithoutSink(out mgaGateway.territory);
-                mgaGateway.PerformInTransaction(del);
+                mgaGateway.PerformInTransaction(del, abort: false);
             }
 
             private CyPhy.TestBench GetTestBenchByName(String name)

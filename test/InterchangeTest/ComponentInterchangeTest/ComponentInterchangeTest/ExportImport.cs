@@ -51,8 +51,7 @@ namespace ComponentInterchangeTest
         public static void PerformInTransaction(this MgaProject project, MgaGateway.voidDelegate del)
         {
             var mgaGateway = new MgaGateway(project);
-            project.CreateTerritoryWithoutSink(out mgaGateway.territory);
-            mgaGateway.PerformInTransaction(del);
+            mgaGateway.PerformInTransaction(del, abort: false);
         }
 
         public static IEnumerable<CyPhy.Component> GetComponentsByName(this MgaProject project, String name)
@@ -89,7 +88,8 @@ namespace ComponentInterchangeTest
         [Trait("ProjectImport/Open", "ExportImport")]
         public void ProjectXmeImport()
         {
-            Assert.DoesNotThrow(() => { 
+            Assert.DoesNotThrow(() =>
+            {
                 var fixture = new ExportImportFixture();
                 fixture.Dispose();
             });

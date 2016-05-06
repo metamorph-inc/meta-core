@@ -174,7 +174,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 			long status;
 			COMTHROW(ccpProject->get_ProjectStatus(&status));
 			if (!(status & 8))
-				COMTHROW(ccpProject->BeginTransactionInNewTerr(TRANSACTION_GENERAL, &terr));
+				COMTHROW(ccpProject->BeginTransactionInNewTerr(TRANSACTION_NON_NESTED, &terr));
 			// Opening backend
 			try {
 			dngBackend.OpenExisting(ccpProject, Udm::CHANGES_LOST_DEFAULT, true);

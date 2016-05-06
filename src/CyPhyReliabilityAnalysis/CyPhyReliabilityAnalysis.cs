@@ -48,7 +48,6 @@ namespace CyPhyReliabilityAnalysis
         public void Initialize(MgaProject project)
         {
             MgaGateway = new MgaGateway(project);
-            project.CreateTerritoryWithoutSink(out MgaGateway.territory);
         }
 
         public CyPhyGUIs.GMELogger Logger { get; set; }
@@ -160,11 +159,6 @@ namespace CyPhyReliabilityAnalysis
                 {
                     this.Logger.Dispose();
                     this.Logger = null;
-                }
-                if (MgaGateway != null &&
-                    MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
                 }
                 MgaGateway = null;
                 project = null;

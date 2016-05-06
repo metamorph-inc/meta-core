@@ -117,9 +117,6 @@
     <Compile Include="..\..\PyLibUtils\PyLibUtils.cs">
       <Link>PyLibUtils.cs</Link>
     </Compile>
-    <Compile Include="..\ImportTestUnits\MgaGateway.cs">
-      <Link>MgaGateway.cs</Link>
-    </Compile>
     <Compile Include="CAD.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="ComponentInterchangeTest.cs" />
