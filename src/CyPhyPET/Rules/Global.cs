@@ -238,8 +238,8 @@ namespace CyPhyPET.Rules
                         var feedback = new GenericRuleFeedback()
                         {
                             FeedbackType = FeedbackTypes.Error,
-                            Message = string.Format("Workflow must have exactly one task ({0}): {1}.",
-                            workflow.Name)
+                            Message = string.Format("Workflow must have exactly one task: {0}.",
+                                workflow.Name)
                         };
 
                         feedback.InvolvedObjectsByRole.Add(workflow.Impl as IMgaFCO);

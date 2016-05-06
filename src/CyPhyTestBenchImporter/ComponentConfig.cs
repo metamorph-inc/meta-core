@@ -17,7 +17,7 @@ namespace GME.CSharp
 		// Specify an icon path
         public const string iconName = "CyPhyTestBenchImporter.ico";
         
-		public const string tooltip = "CyPhyTestBenchImporter";
+		public const string tooltip = "TestBench Importer";
 
 		// If null, updated with the assembly path + the iconName dynamically on registration
         public static string iconPath = null; 

@@ -1,7 +1,7 @@
 // CheckHeadCtrl.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 //#include "CheckLCDemo.h"
 #include "CheckHeadCtrl.h"
 

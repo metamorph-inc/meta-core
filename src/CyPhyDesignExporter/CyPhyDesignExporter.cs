@@ -222,11 +222,10 @@ namespace CyPhyDesignExporter
             }
             else
             {
-                var tlsut = ((MgaObject)testBench).ChildObjects.
-                                    Cast<MgaObject>().
-                                    OfType<MgaFCO>().
-                                    Where(x => x.MetaBase.Name == "TopLevelSystemUnderTest")
-                                    .Cast<CyPhyClasses.DesignEntity>().FirstOrDefault();
+                var tlsut = (CyPhy.DesignEntity)testBench.AllChildren
+                                    .Where(x => ((IMgaFCO)x.Impl).MetaRole.Name == "TopLevelSystemUnderTest"
+                                        || ((IMgaFCO)x.Impl).MetaRole.Name == x.Impl.MetaBase.Name + "TopLevelSystemUnderTest")
+                                    .FirstOrDefault();
                 if (tlsut != null)
                     return ExportToFile(tlsut, outputDirectory);
             }
@@ -244,7 +243,11 @@ namespace CyPhyDesignExporter
         private string ExportToFile(CyPhy.DesignEntity de, String s_outFolder)
         {
             // Elaborate first
-            CallElaborator(de.Impl.Project, de.Impl as MgaFCO, null, 128, true);
+            bool elaboratorSucceeded = CallElaborator(de.Impl.Project, de.Impl as MgaFCO, null, 128, true);
+            if (elaboratorSucceeded == false)
+            {
+                throw new ApplicationException("Elaborator failed");
+            }
             
             var dm = CyPhy2DesignInterchange.CyPhy2DesignInterchange.Convert(de);
             String s_outFilePath = String.Format("{0}\\{1}.adm", s_outFolder, Safeify(de.Name));
@@ -301,14 +304,14 @@ namespace CyPhyDesignExporter
             bool result = false;
             try
             {
-                GMEConsole.Info.WriteLine("Elaborating model...");
+                // GMEConsole.Info.WriteLine("Elaborating model...");
                 var elaborator = new CyPhyElaborateCS.CyPhyElaborateCSInterpreter();
                 elaborator.Initialize(project);
                 int verbosity = 128;
                 //elaborator.UnrollConnectors = false;
                 result = elaborator.RunInTransaction(project, currentobj, selectedobjs, verbosity);
 
-                GMEConsole.Info.WriteLine("Elaboration is done.");
+                // GMEConsole.Info.WriteLine("Elaboration is done.");
             }
             catch (Exception ex)
             {

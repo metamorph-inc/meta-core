@@ -2,7 +2,7 @@
 // Splash1.cpp : implementation file
 //
 
-#include "stdafx.h"  // e. g. stdafx.h
+#include "StdAfx.h"  // e. g. stdafx.h
 #include "resource.h"  // e.g. resource.h
 
 #include "Splash.h"  // e.g. splash.h

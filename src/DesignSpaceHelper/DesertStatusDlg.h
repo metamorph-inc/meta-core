@@ -1,8 +1,8 @@
 #pragma once
 
 #include "resource.h"
-#include "afxwin.h"
-#include "afxcmn.h"
+#include <afxwin.h>
+#include <afxcmn.h>
 #include "DesertIface.h"
 #include "DesertIfaceBack.h"
 #include "DesMap.h"
@@ -118,9 +118,9 @@ public:
 					 CWnd* pParent, bool silent, long& configCount);
 	virtual ~CDesertStatusDlg();
 	void SetStatus(StatusID s_id);
-	void SetStatus(const TCHAR *info, int percent);
-	unsigned long StepInState(short percentage);
-	unsigned long StepInState(short percentage, const TCHAR *desc);
+	void SetStatus(const TCHAR *desc, int percent);
+	unsigned long StepInState(short p);
+	unsigned long StepInState(short p, const TCHAR *desc);
 
 // Dialog Data
 	enum { IDD = IDD_DESERTSTATUSDLG };
@@ -144,4 +144,4 @@ public:
 	CString m_invalidConstraint;
 };
 
-CDesertStatusDlg * GetStatusDlg(CDesertStatusDlg * set_dlg);
+CDesertStatusDlg * GetStatusDlg(CDesertStatusDlg * set);

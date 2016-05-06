@@ -1,6 +1,6 @@
 #pragma once
-#include "afxcmn.h"
-#include "afxwin.h"
+#include <afxcmn.h>
+#include <afxwin.h>
 
 #include "resource.h"
 // CStatusDialog dialog
@@ -35,5 +35,5 @@ public:
 	//afx_msg void OnBnClickedCancelbtn();
 	virtual void OnCancel();
 };
-CStatusDialog * GetStatusDlg(CStatusDialog * set_dlg);
+CStatusDialog * GetStatusDlg(CStatusDialog * set);
 

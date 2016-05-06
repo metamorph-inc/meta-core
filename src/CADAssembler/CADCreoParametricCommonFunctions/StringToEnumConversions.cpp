@@ -549,14 +549,14 @@ namespace isis
   {
 	  std::string Boolean_string = ConvertToUpperCase(in_Boolean_string);
 
-	  if ( Boolean_string.compare("TRUE") == 0 )
+	  if ( Boolean_string.compare("TRUE") == 0 ||  Boolean_string.compare("1"))
 		  return PRO_B_TRUE;
 	  else
-		  if ( Boolean_string.compare("FALSE") == 0 )
+		  if ( Boolean_string.compare("FALSE") == 0 ||  Boolean_string.compare("0"))
 			return PRO_B_FALSE;
 
 		 
-	  string temp_string = "Function String_To_ProBoolean was passed: '" + in_Boolean_string + "' which is an erroneous type. Allowed types are TRUE and FALSE.";
+	  string temp_string = "Function String_To_ProBoolean was passed: '" + in_Boolean_string + "' which is an erroneous type. Allowed types are TRUE, FALSE, 1, or 0.";
 	  throw isis::application_exception(temp_string.c_str());
   }
 
@@ -1414,7 +1414,8 @@ namespace isis
 		  //else if ( CADGeometryType_string.compare("SPHERE_SURFACE") == 0 ) return CAD_GEOMETRY_SPHERE_SURFACE;
 		  else if ( CADGeometryType_string.compare("EXTRUSION") == 0 ) return CAD_GEOMETRY_EXTRUSION;   
 		  else if ( CADGeometryType_string.compare("FACE") == 0 ) return CAD_GEOMETRY_FACE;   
-		 // else if ( CADGeometryType_string.compare("EXTRUSION_SURFACE") == 0 ) return CAD_GEOMETRY_EXTRUSION_SURFACE;
+		  // else if ( CADGeometryType_string.compare("EXTRUSION_SURFACE") == 0 ) return CAD_GEOMETRY_EXTRUSION_SURFACE;
+		  else if ( CADGeometryType_string.compare("NONE") == 0 ) return CAD_GEOMETRY_NONE;
 
 
 		  string temp_string = "Function CADGeometryType_enum was passed " + in_CADGeometryType_string + " which is an erroneous type.";
@@ -1458,6 +1459,10 @@ namespace isis
 			//case CAD_GEOMETRY_EXTRUSION_SURFACE:
 			//	return "EXTRUSION_SURFACE";
 			//	break;
+			case CAD_GEOMETRY_NONE:
+				return "NONE";
+				break;
+
 			default:
 				char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
 				string temp_string = "Function CADGeometryType_string was passed " + 

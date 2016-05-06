@@ -28,18 +28,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -123,7 +127,7 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
     <Import Project="..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
-	<Import Project="..\..\nuget\boost_log_setup-vc100.1.55.0.15\build\native\boost_log_setup-vc100.targets" Condition="Exists('..\..\nuget\boost_log_setup-vc100.1.55.0.15\build\native\boost_log_setup-vc100.targets')" />   	
-	<Import Project="..\..\nuget\boost_log-vc100.1.55.0.15\build\native\boost_log-vc100.targets" Condition="Exists('..\..\nuget\boost_log-vc100.1.55.0.15\build\native\boost_log-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_log_setup-vc100.1.55.0.16\build\native\boost_log_setup-vc100.targets" Condition="Exists('..\..\nuget\boost_log_setup-vc100.1.55.0.16\build\native\boost_log_setup-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_log-vc100.1.55.0.16\build\native\boost_log-vc100.targets" Condition="Exists('..\..\nuget\boost_log-vc100.1.55.0.16\build\native\boost_log-vc100.targets')" />
   </ImportGroup>
 </Project>

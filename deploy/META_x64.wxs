@@ -61,6 +61,7 @@
     <!-- DIRECTORY STRUCTURE -->
     <!-- =========================================================== -->
     <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id='System64Folder' Name='System64Folder'/>
       <Directory Id='ProgramFiles64Folder'>
         <Directory Id='INSTALLDIR64' Name='META'>
           <Directory Id='INSTALLDIR64_BIN' Name='bin'/>
@@ -115,7 +116,6 @@
     <!-- =========================================================== -->
     <DirectoryRef Id='TARGETDIR'>
       <Merge Id="UdmDll_VS10" Language="1033" SourceFile="UdmDll_VS10.msm" DiskId="2" />
-      <Merge Id="UdmDll_VS10_x64" Language="1033" SourceFile="UdmDll_VS10_x64.msm" DiskId="2" />
       <Merge Id="xerces_c" Language="1033" SourceFile="xerces_c.msm" DiskId="2" />
       <Merge Id="xerces_c_x64" Language="1033" SourceFile="xerces_c_x64.msm" DiskId="2" />
       <Merge Id="CRT100" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_CRT_x86.msm" DiskId="2" />
@@ -130,6 +130,10 @@
     <!-- =========================================================== -->
     <!-- COMPONENTS -->
     <!-- =========================================================== -->
+
+    <Component Directory='System64Folder'>
+        <File Id='zlibwapi' Source='zlibwapi.dll' />
+    </Component>
 
     <DirectoryRef Id='Proe_ISIS_Extensions_x64'>
       <Component Id='PROE_ISIS_EXTENSIONS' Guid='{81FF799C-5509-4BAF-A420-82E256556D3A}' Win64='yes'>
@@ -437,10 +441,10 @@
         </Feature>
       </Feature>
 
-
+      <ComponentGroupRef Id='UdmDll_VC11x64' />
+      <ComponentRef Id='zlibwapi' />
 
       <MergeRef Id='UdmDll_VS10' />
-      <MergeRef Id='UdmDll_VS10_x64' />
       <MergeRef Id='xerces_c' />
       <MergeRef Id='xerces_c_x64' />
       <MergeRef Id='CRT100' />

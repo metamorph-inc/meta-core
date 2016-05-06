@@ -1,7 +1,7 @@
 // DesertConfigDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DesertConfigDialog.h"
 #include "commctrl.h"
 #include <fstream>

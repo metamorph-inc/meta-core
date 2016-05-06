@@ -136,7 +136,7 @@ protected:
 
 	std::string defaultConstraints;
 
-	typedef map<DesertIfaceBack::Configuration, set<CyPhyML::DesignEntity>*> MorphMatrix;
+	typedef map<DesertIfaceBack::Configuration, std::unique_ptr<set<CyPhyML::DesignEntity> > > MorphMatrix;
 	MorphMatrix morphMatrix;
 	set<CyPhyML::DesignEntity> allEntities;
 	string mmFilename;

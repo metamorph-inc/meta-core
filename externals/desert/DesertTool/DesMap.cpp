@@ -1,127 +1,46 @@
-
 #include <stdafx.h>
 
-#include "../iface/DesertIface.h"
-#include "../desertdll/desertdll.h"
+#include "DesertIface.h"
+
 #include "uml.h"
 
-//status dlg
 
-#include <afxcmn.h>
-#include "Resource.h"
-#include "StatusDlg.h"
+#include <algorithm>
+#include <iterator>
 
-// Udm uses utf-8 strings
-#ifdef _UNICODE
-typedef std::wstring tstring;
-CString utf82cstring(const char* input, int length)
-{
-    if (length == 0)
-        return CString();
-
-    // Fail if an invalid input character is encountered
-    const DWORD conversionFlags = MB_ERR_INVALID_CHARS;
-
-    const int utf16Length = ::MultiByteToWideChar(CP_UTF8, conversionFlags, input, length, NULL, 0);
-    if (utf16Length == 0)
-    {
-        DWORD error = ::GetLastError();
-
-        return CString();
-        //    (error == ERROR_NO_UNICODE_TRANSLATION) ? 
-        //        "Invalid UTF-8 sequence found in input string." :
-        //        "Can't get length of UTF-16 string (MultiByteToWideChar failed).");
-    }
-
-    CString ret;
-    wchar_t* buf = ret.GetBuffer(utf16Length);
-    
-    if (!::MultiByteToWideChar(CP_UTF8, 0, input, length, buf, utf16Length))
-    {
-        DWORD error = ::GetLastError();
-        ret.ReleaseBuffer(0);
-        return ret;
-    }
-
-    ret.ReleaseBuffer(utf16Length);
-    return ret;
-}
-
-
-CString utf82cstring(LPCSTR utf8) {
-    return utf82cstring(utf8, strlen(utf8));
-}
-
-CString utf82cstring(const std::string& utf8) {
-	return utf82cstring(utf8.c_str(), utf8.length());
-}
-
-std::string tstring2utf8(const wchar_t* input, int length) {
-    if (length == 0)
-        return std::string();
-
-	const int utf8Length = ::WideCharToMultiByte(CP_UTF8, 0, input, length, NULL, 0, NULL, NULL);
-    if (utf8Length == 0)
-    {
-        DWORD error = ::GetLastError();
-
-        return std::string();
-        //    (error == ERROR_NO_UNICODE_TRANSLATION) ? 
-        //        "Invalid UTF-8 sequence found in input string." :
-        //        "Can't get length of UTF-16 string (MultiByteToWideChar failed).");
-    }
-
-    char* buf = (char*)malloc(utf8Length);
-    
-	if (!::WideCharToMultiByte(CP_UTF8, 0, input, length, buf, utf8Length, NULL, NULL))
-    {
-        DWORD error = ::GetLastError();
-		free(buf);
-        return std::string();
-    }
-
-	std::string ret(buf, utf8Length);
-	free(buf);
-    return ret;
-}
-
-std::string tstring2utf8(const std::wstring& input) {
-	return tstring2utf8(input.c_str(), input.length());
-}
-
-std::string tstring2utf8(const CString& input) {
-	return tstring2utf8(static_cast<const wchar_t*>(input), input.GetLength());
-}
-
-#else
-typedef std::string tstring;
-CString utf82cstring(LPCSTR utf8) {
-    return CString(utf8);
-}
-
-CString utf82cstring(const std::string& utf8) {
-	return CString(utf8.c_str());
-}
-std::string tstring2utf8(const tstring& input) {
-	return std::string(static_cast<const char*>(input.c_str()));
-}
-std::string tstring2utf8(const CString& input) {
-	return std::string(static_cast<const char*>(input));
-}
-#endif
 
 using namespace DesertIface;
 
 #include "DesMap.h"
 #include <stdio.h>
 
+
+struct DepthSort {
+	bool operator()(const Udm::Object& a, const Udm::Object& b) {
+		int aDepth = depth(a);
+		int bDepth = depth(b);
+		if (aDepth == bDepth) {
+			return a < b;
+		}
+		return aDepth < bDepth;
+	}
+	static int depth(const Udm::Object& prop) {
+		Udm::Object o = prop;
+		int depth = 0;
+		while (o) {
+			depth++;
+			o = o.GetParent();
+		}
+		return depth;
+	}
+};
+
 void DoMap(DesertBase &db, UdmDesertMap & _map, DesertUdmMap &inv_des_map,long id)
 {
 	//the main mapping function
 	//of UDM objects to Desert IDs
 	//in a global map
-	string dbname = db.name();
-	int n = inv_des_map.size();
+
 	pair<UdmDesertMap::iterator, bool> insert_res;
 	
 	UdmDesertMapItem item(db, id);
@@ -141,10 +60,6 @@ long GetID(DesertBase &db, UdmDesertMap & _map)
 {
 	//find a UDM object in a global map
 	UdmDesertMap::iterator i = _map.find(db);
-	if(i==_map.end())
-	{
-		int ccc = 0;
-	}
 	ASSERT(i != _map.end());
 	return (*i).second;
 };
@@ -158,7 +73,7 @@ DesertBase &GetObject(long id, DesertUdmMap & _map)
 };
 
 
-bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMap &inv_des_map, UdmElementSet &elements, bool root)
+bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMap &inv_des_map, UdmElementSet &elements, bool root, std::function<void(short)> StepInState)
 {
 	static long parent;			//id of the parent element
 	long old_parent;			//save old parent
@@ -174,7 +89,6 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 	//static and non-static variables
 	//for progress indication 
 	//(this is weird in case of a recursive function)
-	CStatusDlg * st_dlg = GetStatusDlg(NULL);
 	static short percent_done;
 	static short percent_to_do;
 	short percent_to_do_save;
@@ -207,12 +121,12 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 		//
 		//create the space & the root element in the space
 		//
-		space = CreateSpace(utf82cstring(((string)sp.name()).c_str()));
+		space =  CreateSpace(utf82cstring((string)sp.name()));
 		//space =  CreateSpace(((string)sp.name()).c_str(), sp.id(), sp.externalID());
 		
 /*
 		parent = CreateElement(
-			((tstring)sp.name()).c_str(), 
+			((string)sp.name()).c_str(), 
 			space, 
 			decomposition, 
 			-1, 
@@ -221,7 +135,7 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 */
 				
 		parent = CreateElement(
-			utf82cstring(((string)sp.name()).c_str()),
+			utf82cstring((string)sp.name()),
 			space, 
 			decomposition, 
 			-1, 
@@ -239,7 +153,7 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 		{
 			//leaf node
 			percent_done += percent_to_do;
-			st_dlg->StepInState(percent_done);
+			StepInState(percent_done);
 		}//eo if (e_children.empty())
 
 		else
@@ -256,7 +170,7 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 			for (i = e_children.begin(); i != e_children.end(); i++)
 			{
 				Element new_e = *i;
-				CreateDesertSpace(sp, new_e, des_map, inv_des_map, elements, false);
+				CreateDesertSpace(sp, new_e, des_map, inv_des_map, elements, false, StepInState);
 			};//eo for (i...)
 
 			//still part of the recursive hack
@@ -287,7 +201,7 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 
 		//create new elenent
 		long new_parent = CreateElement(
-			utf82cstring(((string)e.name()).c_str()),
+			utf82cstring((string)e.name()),
 			space,
 			decomposition,
 			parent,
@@ -313,7 +227,7 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 		{
 			//leaf node
 			percent_done += percent_to_do;
-			st_dlg->StepInState(percent_done);
+			StepInState(percent_done);
 		}//eo if (e_children.empty())
 		else
 		{
@@ -334,7 +248,7 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 			for (i = e_children.begin(); i != e_children.end(); i++)
 			{
 				Element new_e = *i;
-				CreateDesertSpace(sp, new_e, des_map, inv_des_map, elements, false);
+				CreateDesertSpace(sp, new_e, des_map, inv_des_map, elements, false, StepInState);
 			};//eo for (i...)
 			//recursive & static hack
 			//setting back parent&percent_to_do
@@ -351,7 +265,7 @@ bool CreateDesertSpace(Space &sp, Element &e, UdmDesertMap &des_map, DesertUdmMa
 
 
 
-bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_map, DesertUdmMap &inv_des_map, UdmMemberSet &mb_set, bool root)
+bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_map, DesertUdmMap &inv_des_map, UdmMemberSet &mb_set, bool root, std::function<void(short)> StepInState)
 {
 	static long parent;			//id of the parent element
 	long old_parent;		//save old parent
@@ -360,7 +274,7 @@ bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_ma
 	//static and non-static variables
 	//for progress indication 
 	//(this is weird in case of a recursive function)
-	CStatusDlg * st_dlg = GetStatusDlg(NULL);
+	//CDesertStatusDlg * st_dlg = GetStatusDlg(NULL);
 	static short percent_done;
 	static short percent_to_do;
 	short percent_to_do_save;
@@ -388,7 +302,7 @@ bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_ma
 		{
 			//leaf node
 			percent_done += percent_to_do;
-			st_dlg->StepInState(percent_done);
+			StepInState(percent_done);
 
 		}//eo if cm_set.empty()
 		else
@@ -403,7 +317,7 @@ bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_ma
 			for (cm_iterator = cm_set.begin(); cm_iterator != cm_set.end(); cm_iterator++)
 			{
 				CustomMember cm = *cm_iterator;
-				CreateCustomDomain(cd, cm, des_map, inv_des_map, mb_set,  false);
+				CreateCustomDomain(cd, cm, des_map, inv_des_map, mb_set,  false, StepInState);
 			};//eo for (iterator)
 
 			//still part of the recursive hack
@@ -428,7 +342,7 @@ bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_ma
 		}
 
 		long new_parent = CreateElement(
-			utf82cstring(((string)mb.name()).c_str()),
+			utf82cstring((string)mb.name()),
 			cd_id, 
 			decomposition,
 			parent,
@@ -448,7 +362,7 @@ bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_ma
 		if (cm_set.empty())
 		{
 			percent_done += percent_to_do;
-			st_dlg->StepInState(percent_done);
+			StepInState(percent_done);
 
 		}//eo if (cm_set.empty())
 		else
@@ -469,7 +383,7 @@ bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_ma
 			for (cm_iterator = cm_set.begin(); cm_iterator != cm_set.end(); cm_iterator++)
 			{
 				CustomMember cm = *cm_iterator;
-				CreateCustomDomain(cd, cm, des_map, inv_des_map, mb_set, false);
+				CreateCustomDomain(cd, cm, des_map, inv_des_map, mb_set, false, StepInState);
 			};//eo for (cm_iterator)
 
 			percent_to_do = percent_to_do_save;
@@ -479,16 +393,14 @@ bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_ma
 	return true;
 };
 
-
-
-bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, UdmElementSet& elements)
+bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, UdmElementSet& elements, std::function<void(short)> StepInState)
 {
-	UdmElementSet::iterator i;
-	//progress bar indication
-	CStatusDlg * st_dlg = GetStatusDlg(NULL);
 	int pos = 0;
+	std::set<DesertIface::Element, DepthSort> sortedElements;
+	std::copy(elements.begin(), elements.end(), std::inserter(sortedElements, sortedElements.begin()));
+	DepthSort sort;
 	
-	for (i = elements.begin(); i != elements.end(); i++)
+	for (auto i = sortedElements.begin(); i != sortedElements.end(); i++)
 	{
 		Element e= *i;
 		set<VariableProperty> vp_set = e.VariableProperty_kind_children();
@@ -512,16 +424,16 @@ bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 				else cpfn = ((string)vp.CUSTName()).c_str();
 			
 				long vp_id = CreateVariableProperty(
-					utf82cstring(((string)vp.name()).c_str()),	//const TCHAR *name, 
-					(LPCTSTR)cpfn,					//const TCHAR *cpfn
+					utf82cstring((string)vp.name()),	//const char *name, 
+					(LPCTSTR)cpfn,					//const char *cpfn
 					owner_id,						//long owner, 
 					domain_id );					//long domain);
 			
 				/*
 			
 				long vp_id = CreateVariableProperty(
-					((string)vp.name()).c_str(),	//const TCHAR *name, 
-					(LPCTSTR)cpfn,					//const TCHAR *cpfn
+					((string)vp.name()).c_str(),	//const char *name, 
+					(LPCTSTR)cpfn,					//const char *cpfn
 					owner_id,						//long owner, 
 					domain_id,						//long domain);
 					vp.id(),
@@ -543,7 +455,7 @@ bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 					if(currf.type()==CustomFormula::meta)
 					{
 						CustomFormula customf = CustomFormula::Cast(currf);
-						long pvp_id = createParametricVariableProperty(utf82cstring(((string)vp.name()).c_str()), owner_id, utf82cstring(((string)customf.expression()).c_str()));
+						long pvp_id = createParametricVariableProperty(utf82cstring((string)vp.name()), owner_id, utf82cstring((string)customf.expression()));
 						DoMap(vp, des_map, inv_des_map, pvp_id);
 						TRACE("Added VariableProperty: (name %s, owner: %d, domain: %d) :%d\n", 
 								((string)vp.name()).c_str(),
@@ -555,8 +467,8 @@ bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 						SimpleFormula simplef = SimpleFormula::Cast(currf);
 						CString cpfn = ((string)simplef.ComputationType()).c_str();
 						long vp_id = CreateVariableProperty(
-							utf82cstring(((string)vp.name()).c_str()),	//const TCHAR *name, 
-									(LPCTSTR)cpfn,					//const TCHAR *cpfn
+							utf82cstring((string)vp.name()),	//const char *name, 
+									(LPCTSTR)cpfn,					//const char *cpfn
 									owner_id						//long owner, 
 									);					
 			
@@ -569,7 +481,7 @@ bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 		};//eo for(vp_i)
 		//progress bar status update
 		pos++;
-		st_dlg->StepInState((short) (float)pos *100.00 /(float)elements.size());
+		StepInState((short) (float)pos *100.00 /(float)elements.size());
 
 	};//end for(i)
 
@@ -577,10 +489,8 @@ bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 };
 
 
-bool CreateConstantProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, UdmElementSet& elements, UdmMemberSet &c_members)
+bool CreateConstantProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, UdmElementSet& elements, UdmMemberSet &c_members, std::function<void(short)> StepInState)
 {
-	//progress bar indication
-	CStatusDlg * st_dlg = GetStatusDlg(NULL);
 	int pos = 0;
 	
 	UdmElementSet::iterator i;
@@ -597,13 +507,13 @@ bool CreateConstantProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 			Domain cp_d = cp.domain();
 			long domain_id = GetID(cp_d, des_map);
 
-			CString cpfn;
+			string cpfn;
 			if ( strcmp(((string)cp.PCM_STR()).c_str() , "PCM_CUST") )
 			{
 				//no match
-				cpfn = ((string)cp.PCM_STR()).c_str();
+				cpfn = ((string)cp.PCM_STR());
 			}
-			else cpfn = ((string)cp.CUSTName()).c_str();
+			else cpfn = ((string)cp.CUSTName());
 			
 			int value;
 			Member cp_value = cp.value();
@@ -627,16 +537,16 @@ bool CreateConstantProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 			}
 
 			
-			long cp_id = CreateConstantProperty(
-				utf82cstring((string)cp.name()),	//const TCHAR *name, 
-				(LPCTSTR)cpfn,					//const TCHAR *cpfn
+				long cp_id = CreateConstantProperty(
+					utf82cstring((string)cp.name()),	//const char *name, 
+					utf82cstring(cpfn),					//const char *cpfn
 				owner_id,						//long owner, 
 				domain_id,						//long domain);
 				value);							//int value
 			/*
 			long cp_id = CreateConstantProperty(
-				((string)cp.name()).c_str(),	//const TCHAR *name, 
-				(LPCTSTR)cpfn,					//const TCHAR *cpfn
+				((string)cp.name()).c_str(),	//const char *name, 
+				(LPCTSTR)cpfn,					//const char *cpfn
 				owner_id,						//long owner, 
 				domain_id,						//long domain);
 				value,							//int value
@@ -657,7 +567,7 @@ bool CreateConstantProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 		};//eo for(cp_i)
 		//progress bar status update
 		pos++;
-		st_dlg->StepInState((short) (float)pos *100.00 /(float)elements.size());
+		StepInState((short) (float)pos *100.00 /(float)elements.size());
 
 	};//end for(i)
 
@@ -666,10 +576,8 @@ bool CreateConstantProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 
 
 
-bool CreateAssignments(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, UdmElementSet& elements, UdmMemberSet &c_members)
+bool CreateAssignments(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, UdmElementSet& elements, UdmMemberSet &c_members, std::function<void(short)> StepInState)
 {
-	//progress bar indication
-	CStatusDlg * st_dlg = GetStatusDlg(NULL);
 	int pos = 0;
 	
 	UdmElementSet::iterator i;
@@ -688,8 +596,10 @@ bool CreateAssignments(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, UdmElem
 			if(av_prop.type()==VariableProperty::meta)
 			{
 				VariableProperty av_vp = VariableProperty::Cast(av_prop);
-				if(av_vp.parametric()) continue;
+				if(av_vp.parametric()) 
+					continue;
 			}
+
 			long prop_id = GetID(av_prop, des_map);
 
 			Domain av_dom = av_prop.domain();
@@ -725,20 +635,22 @@ bool CreateAssignments(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, UdmElem
 			//av_id = AddtoVariableProperty(prop_id, ((string)av.name()).c_str(), owner_id, value, d_id, av.id(), av.externalID());
 			av_id = AddtoVariableProperty(prop_id, utf82cstring((string)av_prop.name()), owner_id, value, d_id);
 			DoMap(av, des_map, inv_des_map,  av_id);
-
-
 		};//eo for(vp_i)
 		//progress bar indication
 		pos++;
-		st_dlg->StepInState((short) (float)pos *100.00 /(float)elements.size());
+		StepInState((short) (float)pos *100.00 /(float)elements.size());
 
 	};//end for(i)
 	return true;
 
 };
 
+
+
+
 bool CreateDesertConstraintSet(ConstraintSet &cs, UdmDesertMap &des_map, DesertUdmMap &inv_des_map )
 {
+	bool ret = true;
 	Constraint ct;
 	Element owner;
 	long cts_id;
@@ -774,17 +686,19 @@ bool CreateDesertConstraintSet(ConstraintSet &cs, UdmDesertMap &des_map, DesertU
 						ct.id(),
 						ct.externalID());
 		*/
-
+		if(ct_id==-1)
+			ret = false;
 		DoMap(ct, des_map, inv_des_map,  ct_id);
 
 	}//eo for (ct_iterator)
-	return true;
+	return ret;
 };//eo bool CreateDesertConstrainSet
 
 bool CreateConstraints(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMap &inv_des_map)
 {
 
 	//constrainsets, constrainst
+	bool ret = true;
 	set<ConstraintSet> c_sets = ds.ConstraintSet_kind_children();
 	set<ConstraintSet>::iterator cts_iterator;
 
@@ -798,11 +712,12 @@ bool CreateConstraints(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMap &in
 			set<Constraint> ct_set = cs.Constraint_kind_children();
 
 			if (ct_set.empty()) continue;
-			CreateDesertConstraintSet(cs, des_map, inv_des_map);
-
+			bool val = CreateDesertConstraintSet(cs, des_map, inv_des_map);
+			if(!val)
+				ret = false;
 		}//eo for cts_iterator
 	}//eo if (!c_sets.empty())
-	return true;
+	return ret;
 };
 
 bool CreateSimpleFormulas(DesertSystem &ds, UdmDesertMap& des_map, DesertUdmMap &inv_des_map)
@@ -835,7 +750,10 @@ bool CreateSimpleFormulas(DesertSystem &ds, UdmDesertMap& des_map, DesertUdmMap 
 			
 				set<VariableProperty> in_vps = sf.srcProperty();
 				if(in_vps.empty())
-					throw new CDesertException("There is no source variableProperty for SimpleFormula.");
+				{
+					std::string err = "There is no source VariableProperty for SimpleFormula: "+(std::string)sf.name();
+					throw new CDesertException(utf82cstring(err));
+				}
 				for(vp_it=in_vps.begin();vp_it!=in_vps.end();++vp_it)
 				{
 					VariableProperty in_vp = *vp_it;
@@ -911,12 +829,11 @@ bool CreateCustomFormulas(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMap 
 		}//eo for cts_iterator
 	}//eo if (!c_sets.empty())
 	return true;
-};
-/////
-bool CreateElementRelations(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMap &inv_des_map)
+}
+
+
+bool CreateElementRelations(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMap &inv_des_map, std::function<void(short)> StepInState)
 {
-	//progress bar indication
-	CStatusDlg * st_dlg = GetStatusDlg(NULL);
 	int pos = 0;
 
 		//ElementRelations
@@ -956,7 +873,7 @@ bool CreateElementRelations(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMa
 				
 				//progress bar indication
 				pos++;
-				st_dlg->StepInState((short) (float)pos *100.00 /(float)er_set.size());
+				StepInState((short) (float)pos *100.00 /(float)er_set.size());
 
 
 			}//eo for (e_iterator)
@@ -967,7 +884,7 @@ bool CreateElementRelations(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMa
 };
 
 
-bool CreateMemberRelations(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMap &inv_des_map)
+bool CreateMemberRelations(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMap &inv_des_map, std::function<void(short)> StepInState)
 {
 
 		//MemberRelations
@@ -978,7 +895,6 @@ bool CreateMemberRelations(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMap
 		{
 			MemberRelation mr;
 			//progress bar indication
-			CStatusDlg * st_dlg = GetStatusDlg(NULL);
 			int pos = 0;
 
 			for(m_iterator = mr_set.begin(); m_iterator != mr_set.end(); m_iterator ++)
@@ -1012,7 +928,7 @@ bool CreateMemberRelations(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMap
 
 				//progress bar indication
 				pos++;
-				st_dlg->StepInState((short) (float)pos *100.00 /(float)mr_set.size());
+				StepInState((short) (float)pos *100.00 /(float)mr_set.size());
 
 			}//eo for (e_iterator)
 
@@ -1022,7 +938,7 @@ bool CreateMemberRelations(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMap
 };
 
 
-bool CreateNaturalDomains(DesertSystem& ds, UdmDesertMap& des_map, DesertUdmMap &inv_des_map)
+bool CreateNaturalDomains(DesertSystem& ds, UdmDesertMap& des_map, DesertUdmMap &inv_des_map, std::function<void(short)> StepInState)
 {
 		//natural domains
 		set<NaturalDomain> nd_set = ds.NaturalDomain_kind_children();
@@ -1031,8 +947,6 @@ bool CreateNaturalDomains(DesertSystem& ds, UdmDesertMap& des_map, DesertUdmMap 
 
 		if (!nd_set.empty())
 		{
-			//progress bar indication
-			CStatusDlg * st_dlg = GetStatusDlg(NULL);
 			int pos = 0;
 
 			NaturalDomain nd;
@@ -1042,7 +956,7 @@ bool CreateNaturalDomains(DesertSystem& ds, UdmDesertMap& des_map, DesertUdmMap 
 				nd = *(nd_iterator);
 				
 				long d_id = CreateNaturalDomain( 
-					utf82cstring(((string)nd.name())),
+					utf82cstring((string)nd.name()),
 					nd.maximum(),
 					nd.minimum());
 					
@@ -1064,7 +978,7 @@ bool CreateNaturalDomains(DesertSystem& ds, UdmDesertMap& des_map, DesertUdmMap 
 				DoMap(nd, des_map,inv_des_map,  d_id);
 				//progress bar indication
 				pos++;
-				st_dlg->StepInState((short) (float)pos *100.00 /(float)nd_set.size());
+				StepInState((short) (float)pos *100.00 /(float)nd_set.size());
 
 
 			}//eo nd_iterator
@@ -1074,7 +988,7 @@ bool CreateNaturalDomains(DesertSystem& ds, UdmDesertMap& des_map, DesertUdmMap 
 };
 
 
-bool CreateCustomDomains(DesertSystem& ds, UdmDesertMap& des_map, DesertUdmMap &inv_des_map,  UdmMemberSet &mb_set)
+bool CreateCustomDomains(DesertSystem& ds, UdmDesertMap& des_map, DesertUdmMap &inv_des_map,  UdmMemberSet &mb_set, std::function<void(short)> StepInState)
 {
 		//custom domains
 		set<CustomDomain> cd_set = ds.CustomDomain_kind_children();
@@ -1102,9 +1016,11 @@ bool CreateCustomDomains(DesertSystem& ds, UdmDesertMap& des_map, DesertUdmMap &
 		
 				
 				
-				CreateCustomDomain(cd, dummy, des_map, inv_des_map, mb_set, true);
+				CreateCustomDomain(cd, dummy, des_map, inv_des_map, mb_set, true, StepInState);
 			}//eo cd_iterator
 
 		}//eo if (!cd_set.empty())
 		return true;
 };
+
+

@@ -3,6 +3,7 @@
 
 #include "CyPhyML.h"
 #include <map>
+#include <math.h>
 
 using namespace CyPhyML;
 
@@ -13,13 +14,13 @@ struct UnitUtil
 	struct DimensionRep
 	{
 		DimensionRep():
-			length(0),
-			mass(0),
-			time(0),
-			current(0),
-			temperature(0),
-			amountSubstance(0),
-			luminous(0) {}
+			length(std::numeric_limits<double>::quiet_NaN()),
+			mass(std::numeric_limits<double>::quiet_NaN()),
+			time(std::numeric_limits<double>::quiet_NaN()),
+			current(std::numeric_limits<double>::quiet_NaN()),
+			temperature(std::numeric_limits<double>::quiet_NaN()),
+			amountSubstance(std::numeric_limits<double>::quiet_NaN()),
+			luminous(std::numeric_limits<double>::quiet_NaN()) {}
 
 		double length;		// length
 		double mass;		// mass
@@ -29,7 +30,17 @@ struct UnitUtil
 		double amountSubstance;		// amount sustance
 		double luminous;		// luminous intensity
 
+	private: DimensionRep(double) :
+			length(0),
+			mass(0),
+			time(0),
+			current(0),
+			temperature(0),
+			amountSubstance(0),
+			luminous(0) {}
 
+	public:
+		static DimensionRep zeroes;
 
 		DimensionRep& operator=(const DimensionRep &rhs)
 		{
@@ -45,13 +56,16 @@ struct UnitUtil
 
 		bool operator==(const DimensionRep &rhs) const
 		{
-			return ( (rhs.amountSubstance == amountSubstance)
-				&& (rhs.current == current)
-				&& (rhs.length == length)
-				&& (rhs.luminous == luminous)
-				&& (rhs.mass == mass)
-				&& (rhs.temperature == temperature)
-				&& (rhs.time == time) );
+			auto equal = [](double a, double b) {
+				return (_isnan(a) && _isnan(b)) || a == b;
+			};
+			return equal(rhs.amountSubstance, amountSubstance)
+				&& equal(rhs.current, current)
+				&& equal(rhs.length, length)
+				&& equal(rhs.luminous, luminous)
+				&& equal(rhs.mass, mass)
+				&& equal(rhs.temperature, temperature)
+				&& equal(rhs.time, time);
 		}
 
 		bool operator!=(const DimensionRep &rhs) const
@@ -61,13 +75,19 @@ struct UnitUtil
 
 		DimensionRep & DimensionRep::operator+=(const DimensionRep &rhs) 
 		{
-			current += rhs.current;
-			luminous += rhs.luminous;
-			temperature += rhs.temperature;
-			mass += rhs.mass;
-			length += rhs.length;
-			amountSubstance += rhs.amountSubstance;
-			time += rhs.time;
+			auto add = [](double& a, double b) {
+				if (_isnan(a) && _isnan(b)) {
+					return;
+				}
+				a = _isnan(a) ? 0 : a + _isnan(b) ? 0 : b;
+			};
+			add(current, rhs.current);
+			add(luminous, rhs.luminous);
+			add(temperature, rhs.temperature);
+			add(mass, rhs.mass);
+			add(length, rhs.length);
+			add(amountSubstance, rhs.amountSubstance);
+			add(time, rhs.time);
 		    return *this;
 		}
 

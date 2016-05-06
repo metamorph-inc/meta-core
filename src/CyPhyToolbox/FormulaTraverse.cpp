@@ -1128,12 +1128,14 @@ bool NewTraverser::EvaluatePPC(CyPhyML::ValueFlowTarget &vf, UnitUtil::ValueUnit
 			else if (myVURep.unitRep == incomingVURep.unitRep)				// units are compatible
 			{
 				// convert
+				myVURep.type = UnitUtil::ValueUnitRep::DOUBLE;
 				myVURep.siValue = incomingVURep.siValue;
 				myVURep.actualValue = unitUtil.ConvertFromSIEquivalent(myUnit, incomingVURep.siValue);
 				UpdateNamedElementValue(vf, myVURep.actualValue);
 			}
 			else														// units not compatible
 			{
+				myVURep.type = UnitUtil::ValueUnitRep::DOUBLE;
 				if (nullUnitRef)		// TODO: 12/20/11 Auto-assigning unit
 				{
 					myVURep.siValue = incomingVURep.siValue;
@@ -1158,6 +1160,7 @@ bool NewTraverser::EvaluatePPC(CyPhyML::ValueFlowTarget &vf, UnitUtil::ValueUnit
 		else if (IsDerivedFrom(src_vfTarget.type(), CyPhyML::ValueFormula::meta))
 		{
 			EvaluateFormula(CyPhyML::ValueFormula::Cast(src_vfTarget), incomingVURep);
+			myVURep.type = UnitUtil::ValueUnitRep::DOUBLE;
 
 			if (src_vfTarget.type() == CyPhyML::SimpleFormula::meta)			// simple formula
 			{
@@ -2027,7 +2030,7 @@ string NewTraverser::GetVftUnitAndValue(const CyPhyML::ValueFlowTarget& vft, Uni
 				if (Uml::IsDerivedFrom(static_cast<CyPhyML::CADComputationType>(it->srcCADComputation2Metric_end()).type(), CyPhyML::Mass::meta))
 				{
 					vurep.actualValue = vurep.siValue = std::atof(val.c_str());
-					vurep.unitRep = UnitUtil::DimensionRep();
+					vurep.unitRep = UnitUtil::DimensionRep::zeroes;
 					vurep.unitRep.mass = 1;
 					vurep.cyphyRef = CyPhyML::unit::Cast(Udm::null);
 					return val;

@@ -43,7 +43,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 
-#include "stdafx.h"
+#include "StdAfx.h"
 
 #include "MgaUtil.h"
 #include "ComponentConfig.h"

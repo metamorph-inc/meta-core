@@ -34,6 +34,7 @@ namespace CyPhy2Modelica_v2.Modelica
         public int CanvasYMax { get; set; }
         public ComponentAssembly ParentComponentAssembly { get; set; }
         public bool HasInnerCAs { get; set; }
+        public bool ConstrainedBys { get; set; }
 
         public override string ToString()
         {
@@ -72,11 +73,18 @@ namespace CyPhy2Modelica_v2.Modelica
             sb.AppendLine("  //Components");
             foreach (var componentInstance in ComponentInstances)
             {
-                sb.AppendLine("  replaceable");
-                sb.AppendLine(string.Format("    {0}", componentInstance.InstanceOf.FullName));
-                sb.AppendLine(string.Format("    {0} constrainedby", componentInstance.ToString()));
-                sb.AppendLine(string.Format("    {0}", componentInstance.InstanceOf.Extends));
-                sb.AppendLine(string.Format("    {0};", componentInstance.Annotation));
+                if (this.ConstrainedBys == true)
+                {
+                    sb.AppendLine("  replaceable");
+                    sb.AppendLine(string.Format("    {0}", componentInstance.InstanceOf.FullName));
+                    sb.AppendLine(string.Format("    {0} constrainedby", componentInstance.ToString()));
+                    sb.AppendLine(string.Format("    {0}", componentInstance.InstanceOf.Extends));
+                    sb.AppendLine(string.Format("    {0};", componentInstance.Annotation));
+                }
+                else
+                {
+                    sb.AppendLine(string.Format("  {0} {1} {2};", componentInstance.InstanceOf.FullName, componentInstance.ToString(), componentInstance.Annotation));
+                }
             }
             sb.AppendLine();
             sb.AppendLine("  //Connectors");

@@ -8,8 +8,11 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="pom.xml">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">set PATH=%PATH%;$(MSBuildThisFileDirectory)..\..\3rdParty\apache-maven-3.0.5\bin;$(MSBuildThisFileDirectory)..\..\3rdParty\protoc-2.5.0-win32
-mvn install</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">set PATH=$(MSBuildThisFileDirectory)..\..\3rdParty\apache-maven-3.0.5\bin;$(MSBuildThisFileDirectory)\3rdParty\protoc-2.5.0-win32;%PATH%
+    set M2=
+    set M2_HOME=
+    mvn install --projects meta-bridge/java-server
+</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">maven MetaLink</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">meta-link-cyphy\src\gen\MetaLinkMsg.cs</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ALWAYS_BUILD;meta-protobuf\src\main\protobuf\MetaLinkMsg.proto;%(AdditionalInputs)</AdditionalInputs>

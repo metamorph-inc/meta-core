@@ -1183,6 +1183,14 @@ namespace CyPhy2Modelica_v2
             {
                 controlWasHeld = true;
             }
+            if (this.mainParameters.Project.Clients.Cast<GME.MGA.MgaClient>().Where(c => c.Name == "GME.Application").Count() == 0)
+            {
+                controlWasHeld = false;
+            }
+            if ((this.mainParameters.StartModeParam | 128) == 128)
+            {
+                controlWasHeld = false;
+            }
 
             if (this.result.Success == false)
             {

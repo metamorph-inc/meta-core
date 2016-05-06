@@ -37,6 +37,7 @@ namespace CyPhyPropagateTest
 
         protected List<Edit> receivedMessages;
         protected BlockingCollection<Edit> receivedMessagesQueue;
+        protected BlockingCollection<Edit> sentMessagesQueue;
         protected BlockingCollection<Edit> addonMessagesQueue = new System.Collections.Concurrent.BlockingCollection<Edit>(new ConcurrentQueue<Edit>());
         protected MetaLinkBridgeClient testingClient;
         protected Process metalink;
@@ -340,6 +341,7 @@ namespace CyPhyPropagateTest
             testingClient = new MetaLinkBridgeClient();
             receivedMessages = new List<Edit>();
             receivedMessagesQueue = new System.Collections.Concurrent.BlockingCollection<Edit>(new ConcurrentQueue<Edit>());
+            sentMessagesQueue = new System.Collections.Concurrent.BlockingCollection<Edit>(new ConcurrentQueue<Edit>());
             testingClient.EstablishConnection(msg =>
                 {
                     lock (receivedMessages)
@@ -348,7 +350,11 @@ namespace CyPhyPropagateTest
                     }
                     receivedMessagesQueue.Add(msg);
                 },
-                connectionClosed: exc => KillMetaLink()
+                connectionClosed: exc => KillMetaLink(),
+                EditMessageSent: msg =>
+                {
+                    sentMessagesQueue.Add(msg);
+                }
             );
         }
 

@@ -607,7 +607,7 @@ namespace AVM.DDP
 
         public static MetaAvmProject Create(MgaProject project)
         {
-            return MetaAvmProject.Create(Path.GetDirectoryName(project.ProjectConnStr.Substring("MGA=".Length)), project);
+            return MetaAvmProject.Create(MgaExtensions.MgaExtensions.GetProjectDirectoryPath(project), project);
         }
 
         /// <summary>
@@ -682,7 +682,7 @@ namespace AVM.DDP
 
             if (project != null)
             {
-                avmProj.Project.CyPhyProjectFileName = Path.GetFileName(project.ProjectConnStr.Substring("MGA=".Length));
+                avmProj.Project.CyPhyProjectFileName = MgaExtensions.MgaExtensions.GetProjectName(project);
 
                 CyPhy.RootFolder rf = ISIS.GME.Dsml.CyPhyML.Classes.RootFolder.GetRootFolder(project);
 

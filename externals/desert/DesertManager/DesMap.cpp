@@ -1,17 +1,19 @@
 #ifndef DES_MAP_CPP
 #define DES_MAP_CPP
+// FIXME: this file is largely copy-pasted from DesertTool/DesMap.cpp, but this file may be out-of-date
 #include "DesertIface.h"
 
 #include "uml.h"
 
 //status dlg
+
+#include <algorithm>
+#include <iterator>
+
+
 #include <afxcmn.h>
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
-#include <afxdtctl.h>		// MFC support for Internet Explorer 4 Common Controls
-#ifndef _AFX_NO_AFXCMN_SUPPORT
-#include <afxcmn.h>			// MFC support for Windows Common Controls
-#endif // _AFX_NO_AFXCMN_SUPPORT
 
 
 
@@ -380,16 +382,36 @@ bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_ma
 };
 
 
+struct DepthSort {
+	bool operator()(const Udm::Object& a, const Udm::Object& b) {
+		int aDepth = depth(a);
+		int bDepth = depth(b);
+		if (aDepth == bDepth) {
+			return a < b;
+		}
+		return aDepth < bDepth;
+	}
+	static int depth(const Udm::Object& prop) {
+		Udm::Object o = prop;
+		int depth = 0;
+		while (o) {
+			depth++;
+			o = o.GetParent();
+		}
+		return depth;
+	}
+};
 
 bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, UdmElementSet& elements)
 {
-	UdmElementSet::iterator i;
 	//progress bar indication
-//	CStatusDlg * st_dlg = GetStatusDlg(NULL);
+	CStatusDlg * st_dlg = GetStatusDlg(NULL);
 	int pos = 0;
+	std::set<DesertIface::Element, DepthSort> sortedElements;
+	std::copy(elements.begin(), elements.end(), std::inserter(sortedElements, sortedElements.begin()));
+	DepthSort sort;
 	
-
-	for (i = elements.begin(); i != elements.end(); i++)
+	for (auto i = sortedElements.begin(); i != sortedElements.end(); i++)
 	{
 		Element e= *i;
 		set<VariableProperty> vp_set = e.VariableProperty_kind_children();

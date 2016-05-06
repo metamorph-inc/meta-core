@@ -28,6 +28,7 @@ public:
 
 	std::string generateVisualConstraint(const CyPhyML::DesignContainer &cyphy_container, const CyPhyML::VisualConstraint &vcon);
 	static std::string generateParameterConstraint(const CyPhyML::Parameter &param, const std::string &newParamName);
+	static std::string generateParameterConstraint(const std::string &range, const std::string &newParamName, CyPhyML::Parameter parameter);
 	static std::string getFirstNumber(std::string &str);
 	static std::string increaseCounter();
 	static std::string getDesertPCM(const std::string &method);

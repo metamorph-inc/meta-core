@@ -56,10 +56,10 @@ string GetGMEGUID(Udm::Object &object)
 
 	if (cObj)
 	{
-		CComBSTR cGuid;
-		HRESULT res = cObj->GetGuidDisp(&cGuid);
+		_bstr_t cGuid;
+		HRESULT res = cObj->GetGuidDisp(cGuid.GetAddress());
 		if (res == S_OK)
-			guid = _bstr_t(cGuid);
+			guid = cGuid;
 	}
 
 	size_t begin = guid.find('{');
@@ -263,10 +263,10 @@ void traverseContainer(CyPhyML::DesignContainer &container, MorphMatrix& morphMa
 		pos = morphMatrix.end();
 	}
 	if(pos==morphMatrix.end()) {
-		curEntities = new set<CyPhyML::DesignEntity>(); // FIXME: need to delete this
-		morphMatrix.insert(MorphMatrix::value_type(config, curEntities));
+		curEntities = new set<CyPhyML::DesignEntity>();
+		auto inserted = morphMatrix.insert(MorphMatrix::value_type(config, curEntities));
 	} else {
-		curEntities = morphMatrix[config];
+		curEntities = morphMatrix[config].get();
 	}
 	
 
@@ -442,10 +442,10 @@ void traverseContainerForMorphMatrix(CyPhyML::DesignContainer &container, MorphM
 		pos = morphMatrix.end();
 	}
 	if(pos==morphMatrix.end()) {
-		curEntities = new set<CyPhyML::DesignEntity>(); // FIXME: need to delete this
+		curEntities = new set<CyPhyML::DesignEntity>();
 		morphMatrix.insert(MorphMatrix::value_type(config, curEntities));
 	} else {
-		curEntities = morphMatrix[config];
+		curEntities = morphMatrix[config].get();
 	}
 
 	// Continue with configurations

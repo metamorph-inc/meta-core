@@ -10,7 +10,7 @@ Purpose:  Provides a sortable list control, it will sort text, numbers
 					arrows just like windows explorer!
 ----------------------------------------------------------------------*/
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SortListCtrl.h"
 #include "resource.h"
 #include "ConstraintMainDialog.h"
@@ -220,9 +220,11 @@ bool IsNumber( LPCTSTR pszText )
 {
 	ASSERT_VALID_STRING( pszText );
 
-	for( int i = 0; i < lstrlen( pszText ); i++ )
-		if( !_istdigit( pszText[ i ] ) )
+	for( int i = 0; i < lstrlen( pszText ); i++ ) {
+		if( !_istdigit( pszText[ i ] ) ) {
 			return false;
+		}
+	}
 
 	return true;
 }
@@ -236,11 +238,13 @@ int NumberCompare( LPCTSTR pszNumber1, LPCTSTR pszNumber2 )
 	const int iNumber1 = _ttoi( pszNumber1 );
 	const int iNumber2 = _ttoi( pszNumber2 );
 
-	if( iNumber1 < iNumber2 )
+	if( iNumber1 < iNumber2 ) {
 		return -1;
+	}
 	
-	if( iNumber1 > iNumber2 )
+	if( iNumber1 > iNumber2 ) {
 		return 1;
+	}
 
 	return 0;
 }

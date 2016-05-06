@@ -1,9 +1,9 @@
 // DesignSpaceSelDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DesignSpaceSelDialog.h"
-#include "afxdialogex.h"
+#include <afxdialogex.h>
 
 
 // CDesignSpaceSelDialog dialog

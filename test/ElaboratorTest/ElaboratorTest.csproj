@@ -118,6 +118,10 @@
       <Project>{ABDA448D-4C24-4E96-93D8-B6E64DBB2F51}</Project>
       <Name>CyPhyElaborateCS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhyGUIs\CyPhyGUIs.csproj">
+      <Project>{ab27ee78-6819-4b8c-b678-68bc4fbc99d2}</Project>
+      <Name>CyPhyGUIs</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

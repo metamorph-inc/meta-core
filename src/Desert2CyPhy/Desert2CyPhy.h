@@ -11,7 +11,7 @@
 using namespace CyPhyML;
 using namespace DesertIfaceBack;
 
-typedef map<Configuration, set<CyPhyML::DesignEntity>*> MorphMatrix;
+typedef map<Configuration, std::unique_ptr<set<CyPhyML::DesignEntity> > > MorphMatrix;
 
 void generateCyPhy(RootFolder &cyphy_rf, DesertBackSystem &desert_top, MorphMatrix& morphMatrix, set<CyPhyML::DesignEntity>& allEntities);
 void generateCyPhy(RootFolder &cyphy_rf, DesertBackSystem &desert_top, Configuration &cfg, MorphMatrix& morphMatrix, set<CyPhyML::DesignEntity>& allEntities);

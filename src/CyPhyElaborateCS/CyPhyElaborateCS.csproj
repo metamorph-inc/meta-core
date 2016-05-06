@@ -98,6 +98,10 @@
     <None Include="AssemblySignature.snk" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AvmDdp\AvmDdp.csproj">
+      <Project>{8880fd8f-c7da-4491-908d-778b67057da0}</Project>
+      <Name>AvmDdp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CyPhyCOMInterfacesCS\CyPhyCOMInterfacesCS.csproj">
       <Project>{F8627136-5AEB-4501-A0FE-E5642D86827B}</Project>
       <Name>CyPhyCOMInterfacesCS</Name>

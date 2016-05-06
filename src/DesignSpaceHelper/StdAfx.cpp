@@ -2,7 +2,7 @@
 //  stdafx.pch will be the pre-compiled header
 //  stdafx.obj will contain the pre-compiled type information
 
-#include "stdafx.h"
+#include "StdAfx.h"
 
 #ifdef _ATL_STATIC_REGISTRY
 #include <statreg.h>
@@ -10,8 +10,9 @@
 
 CString utf82cstring(const char* input, int length)
 {
-    if (length == 0)
+    if (length == 0) {
         return CString();
+    }
 
     // Fail if an invalid input character is encountered
     const DWORD conversionFlags = MB_ERR_INVALID_CHARS;

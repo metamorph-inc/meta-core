@@ -1,9 +1,9 @@
 // MophyMatrixFileDlg.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MophyMatrixFileDlg.h"
-#include "afxdialogex.h"
+#include <afxdialogex.h>
 
 
 // CMophyMatrixFileDlg dialog
