@@ -838,6 +838,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             feaanalysis.Type = FEAAnalysisType;
             feaanalysis.MaxAdaptiveIterations = MaxAdaptiveIterations;
             feaanalysis.MaxElementSize = this.CyphyTestBenchRef.Attributes.MaximumElementSize;
+            feaanalysis.InfiniteCycle = this.CyphyTestBenchRef.Attributes.InfiniteCycle;
             // solvers
             CAD.SolversType solversType = new CAD.SolversType();
             solversType._id = UtilityHelpers.MakeUdmID();

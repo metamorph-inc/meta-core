@@ -122,7 +122,7 @@ def build_msi():
     svnversion = get_svnversion()
     
     print "SVN version: " + str(get_svnversion())
-    sourcedir = adjacent_file('')
+    sourcedir = os.path.relpath(this_dir) + '/'
 
     def get_gitversion():
         p = subprocess.Popen("git rev-parse --short HEAD".split(), stdout=subprocess.PIPE)
@@ -240,7 +240,7 @@ def build_msi():
         starttime = datetime.datetime.now()
         system(['light', '-sw1055', '-sice:ICE82', '-sice:ICE57', '-sice:ICE60', '-sice:ICE69', '-ext', 'WixNetFxExtension', '-ext', 'WixUIExtension', '-ext', 'WixUtilExtension', 
             # '-cc', os.path.join(this_dir, 'cab_cache'), '-reusecab', # we were getting errors during installation relating to corrupted cab files => disable cab cache
-            '-o', os.path.splitext(source_wxs)[0] + ".msi"] + [ get_wixobj(file) for file in sources ] + ["UdmDll_VC14.wixlib"])
+            '-o', os.path.splitext(source_wxs)[0] + ".msi"] + [ get_wixobj(file) for file in sources ] + ['UdmDll_VC11_x64.wixlib', 'UdmDll_VC14.wixlib'])
         print "elapsed time: %d seconds" % (datetime.datetime.now() - starttime).seconds
     else:
         msm_output = os.path.splitext(source_wxs)[0] + ".msm"

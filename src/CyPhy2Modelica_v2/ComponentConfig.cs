@@ -16,7 +16,7 @@ namespace GME.CSharp
         // Specify an icon path
         public const string iconName = "CyPhy2Modelica_v2.ico";
 
-        public const string tooltip = "CyPhy2Modelica_v2";
+        public const string tooltip = "CyPhy2Modelica";
 
         // If null, updated with the assembly path + the iconName dynamically on registration
         public static string iconPath = null;

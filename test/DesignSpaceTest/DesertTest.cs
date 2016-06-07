@@ -37,8 +37,7 @@ namespace DesignSpaceTest
 
     public class DesertTest : IUseFixture<ToyDSFixture>
     {
-        [Fact]
-        void TestDesertAutomation()
+        public void DesertTestBase(string dsPath, Action<IEnumerable<Configurations>> helperTest, Action<Configurations> exporterTest)
         {
             var gateway = new MgaGateway(project);
             Type desertType = Type.GetTypeFromProgID("MGA.Interpreter.DesignSpaceHelper");
@@ -47,7 +46,7 @@ namespace DesignSpaceTest
             MgaFCO currentobj = null;
             gateway.PerformInTransaction(() =>
             {
-                currentobj = (MgaFCO)project.RootFolder.ObjectByPath["/@DesignSpaces/@DesignContainer"];
+                currentobj = (MgaFCO)project.RootFolder.ObjectByPath[dsPath];
             });
 
             desert.Initialize(project);
@@ -57,15 +56,15 @@ namespace DesignSpaceTest
             {
                 var configurations = ISIS.GME.Dsml.CyPhyML.Classes.DesignContainer.Cast(currentobj).Children.ConfigurationsCollection;
                 configs = configurations.First();
-                Assert.Equal(1, configurations.Count());
-                Assert.Equal(2, configurations.First().Children.CWCCollection.Count());
+                helperTest(configurations);
             });
 
-            Type caExporterType = Type.GetTypeFromProgID("MGA.Interpreter.CyPhyCAExporter");
-            var caExporter = (IMgaComponentEx)Activator.CreateInstance(caExporterType);
+            if (exporterTest != null)
+            {
+                Type caExporterType = Type.GetTypeFromProgID("MGA.Interpreter.CyPhyCAExporter");
+                var caExporter = (IMgaComponentEx)Activator.CreateInstance(caExporterType);
 
-
-            gateway.PerformInTransaction(() =>
+                gateway.PerformInTransaction(() =>
                 {
                     MgaFCOs selected = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
                     foreach (MgaFCO cwc in configs.Children.CWCCollection.Select(x => (MgaFCO)x.Impl))
@@ -75,15 +74,61 @@ namespace DesignSpaceTest
 
                     caExporter.Initialize(project);
                     caExporter.InvokeEx(project, selected[1].ParentModel as MgaFCO, selected, 128);
-                    foreach (var cwc in configs.Children.CWCCollection)
-                    {
-                        Assert.Equal(1, cwc.DstConnections.Config2CACollection.Count());
-                        var caConn = cwc.DstConnections.Config2CACollection.First();
-                        // ((MgaModel)ca.Impl).GetDescendantFCOs(project.CreateFilter()).Count
-                        var ca = ISIS.GME.Dsml.CyPhyML.Classes.ComponentAssemblyRef.Cast(caConn.DstEnd.Impl).Referred.ComponentAssembly;
-                        Assert.Equal(1, ca.Children.ConnectorCollection.Count());
-                    }
+                    exporterTest(configs);
                 });
+            }
+        }
+
+        [Fact]
+        void TestDesertAutomation()
+        {
+            DesertTestBase("/@DesignSpaces/@DesignContainer", (configurations) =>
+            {
+                Assert.Equal(1, configurations.Count());
+                Assert.Equal(2, configurations.First().Children.CWCCollection.Count());
+            }, (configs) =>
+            {
+                foreach (var cwc in configs.Children.CWCCollection)
+                {
+                    Assert.Equal(1, cwc.DstConnections.Config2CACollection.Count());
+                    var caConn = cwc.DstConnections.Config2CACollection.First();
+                    // ((MgaModel)ca.Impl).GetDescendantFCOs(project.CreateFilter()).Count
+                    var ca = ISIS.GME.Dsml.CyPhyML.Classes.ComponentAssemblyRef.Cast(caConn.DstEnd.Impl).Referred.ComponentAssembly;
+                    Assert.Equal(1, ca.Children.ConnectorCollection.Count());
+                }
+            });
+
+        }
+
+        [Fact]
+        void TestDesert_DesignContainer_SimpleProp()
+        {
+            DesertTestBase("/@DesignSpaces/@DesignContainer_SimpleProp", (configurations) =>
+            {
+                Assert.Equal(1, configurations.Count());
+                Assert.Equal(2, configurations.First().Children.CWCCollection.Count());
+            }, null);
+
+        }
+
+        [Fact]
+        void TestDesert_DesignContainer_Formula()
+        {
+            DesertTestBase("/@DesignSpaces/@DesignContainer_Formula", (configurations) =>
+            {
+                Assert.Equal(1, configurations.Count());
+                Assert.Equal(1, configurations.First().Children.CWCCollection.Count());
+            }, null);
+        }
+
+        [Fact]
+        void TestDesert_DesignContainerParamConstraint()
+        {
+            DesertTestBase("/@DesignSpaces/@DesignContainerParamConstraint", (configurations) =>
+            {
+                Assert.Equal(1, configurations.Count());
+                Assert.Equal(1, configurations.First().Children.CWCCollection.Count());
+            }, null);
         }
 
         private MgaProject project { get { return (MgaProject)fixture.proj; } }

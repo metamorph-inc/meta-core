@@ -68,30 +68,34 @@ void ValidateAnalysisGeometry(  const std::string &in_ConfigurationIDSentence,
 
 	int numberOfFeatures = in_AnalysisGeometry.features.begin()->features.size();
 
-	if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_POLYGON) && ( numberOfFeatures < 3 ))
+	if ( numberOfFeatures == 0 )
 	{
-		TempError += "For a polygon " + in_ConstraintOrLoad + ", there must at least three features (i.e. Datum Points)";
-		throw isis::application_exception(TempError.c_str());	
-	}
 
-	if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_CYLINDER) && (numberOfFeatures != 3 ))
-	{
-		TempError += "For a pin " + in_ConstraintOrLoad + ", there must two features (i.e. Datum Points)";
-		throw isis::application_exception(TempError.c_str());	
-	}
+		if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_POLYGON) && ( numberOfFeatures < 3 ))
+		{
+			TempError += "For a polygon " + in_ConstraintOrLoad + ", there must at least three features (i.e. Datum Points)";
+			throw isis::application_exception(TempError.c_str());	
+		}
 
-	if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_SPHERE) && (numberOfFeatures != 2 ))
-	{
-		TempError += "For a ball " + in_ConstraintOrLoad + ", there must two features (i.e. Datum Points)";
-		throw isis::application_exception(TempError.c_str());	
-	}
+		if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_CYLINDER) && (numberOfFeatures != 3 ))
+		{
+			TempError += "For a pin " + in_ConstraintOrLoad + ", there must two features (i.e. Datum Points)";
+			throw isis::application_exception(TempError.c_str());	
+		}
+
+		if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_SPHERE) && (numberOfFeatures != 2 ))
+		{
+			TempError += "For a ball " + in_ConstraintOrLoad + ", there must two features (i.e. Datum Points)";
+			throw isis::application_exception(TempError.c_str());	
+		}
 	
-	// 11/24/2015 Added support for FACE with deck-based
-	//if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_FACE) && ( !modelBasedAbaqusSolver))
-	//{
-	//	TempError += "For FEA, Feature GeometryType=\"FACE\" the solver type must be Abaqus-Model-Based.  Deck-based Nastran, Abaqus, and Calculix do not support the FACE feature.";
-	//	throw isis::application_exception(TempError.c_str());	
-	//}
+		// 11/24/2015 Added support for FACE with deck-based
+		//if (  (in_AnalysisGeometry.features.begin()->geometryType == CAD_GEOMETRY_FACE) && ( !modelBasedAbaqusSolver))
+		//{
+		//	TempError += "For FEA, Feature GeometryType=\"FACE\" the solver type must be Abaqus-Model-Based.  Deck-based Nastran, Abaqus, and Calculix do not support the FACE feature.";
+		//	throw isis::application_exception(TempError.c_str());	
+		//}
+	}
 
 }
 
@@ -169,7 +173,24 @@ void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CAD
 				}
 			}
 
-			ValidateAnalysisGeometry(TempError, "AnalysisConstraint", j->geometry, i->analysisSolvers );
+			if ( j->geometry.features.size() == 0 )
+			{
+				// All constraints must have at least one geometry feature
+				std::stringstream errorString;
+				errorString <<
+					"Function - " << __FUNCTION__ << " FEA constraints must reference at least one geometry feature (e.g. points)" << std::endl <<
+					"Constraint Type: ";
+				if ( j->analysisBallDefined ) errorString << "Ball";
+				else if ( j->analysisDisplacementDefined )  errorString << "Displacement"; 
+				else if ( j->analysisPinDefined )  errorString << "Pin"; 
+				else if ( j->convectionBoundaryDefined )  errorString << "Convection Boundary"; 
+				throw isis::application_exception(errorString.str());	
+			}
+			else
+			{
+				// The following function is only valid for the case where j->geometry.features.size() > 0 
+				ValidateAnalysisGeometry(TempError, "AnalysisConstraint", j->geometry, i->analysisSolvers );
+			}
 		}
 
 		//////////////////////////////
@@ -243,7 +264,29 @@ void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CAD
 			// if no geometry the temperature applies to all nodes that do not have an explicit gridPointTemperature
 			if ( j->gridPointInitialTemperatureDefined && j->geometry.features.size() == 0 ) continue;  
 				
-			ValidateAnalysisGeometry(TempError, "Load", j->geometry, i->analysisSolvers );
+
+			if ( !j->accelerationDefined  && !j->ambientTemperatureDefined )  // No geometry for acceleration and ambient-temperature
+			{
+				if ( j->geometry.features.size() == 0 )
+				{
+					// All loads (except acceleration and ambient-temperature)  must have at least one geometry feature
+					std::stringstream errorString;
+					errorString <<
+						"Function - " << __FUNCTION__ << " Except for acceleration and ambient-temperature loads, loads must reference at least one geometry feature (e.g. points)" << std::endl <<
+						"Load Type: ";
+					if ( j->forceDefined )  errorString << "Force"; 
+					else if ( j->pressureDefined )  errorString << "Pressure"; 
+					else if ( j->heatFluxDefined )  errorString << "Heat Flux"; 
+					else if ( j->heatGenerationDefined )  errorString << "Heat Generation"; 
+					else if ( j->gridPointTemperatureDefined )  errorString << "Grid Point Temperature"; 
+					throw isis::application_exception(errorString.str());	
+				}
+				else
+				{
+					// The following function is only valid for the case where j->geometry.features.size() > 0 
+					ValidateAnalysisGeometry(TempError, "Load", j->geometry, i->analysisSolvers );
+				}
+			}
 		}
 
 		//////////////////////////////
@@ -659,9 +702,31 @@ void FindPointsOnSurface( 	const std::map<int,isis_CADCommon::GridPoint>		&in_Gr
 	ProPoint3d pointOnSurface_XYZ_In;
 	ProPoint3d pointOnSurface_XYZ_Out;
 
-	pointOnSurface_XYZ_In[0] = pointOnSurface_CADPoint.x;
-	pointOnSurface_XYZ_In[1] = pointOnSurface_CADPoint.y;
-	pointOnSurface_XYZ_In[2] = pointOnSurface_CADPoint.z;
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// BEGIN Transform Point:  Must transform the point from the assembly coordinates to the part coordinates
+	double transformationMatrix[4][4];
+	RetrieveTranformationMatrix_Assembly_to_Child (	in_AssemblyComponentID,
+														in_CADComponentData_map[in_PartComponentID].componentPaths,
+														in_CADComponentData_map,  
+														PRO_B_FALSE,  // bottom up
+														transformationMatrix);
+			
+	 ProVector from_assembly_xyz_point;
+
+	 ProVector pointInAssemblyCoordinates;
+	 pointInAssemblyCoordinates[0] = pointOnSurface_CADPoint.x;
+	 pointInAssemblyCoordinates[1] = pointOnSurface_CADPoint.y;
+	 pointInAssemblyCoordinates[2] = pointOnSurface_CADPoint.z;
+
+	 ProVector pointInPartCoordinates;
+
+	 isis::isis_ProPntTrfEval( pointInAssemblyCoordinates, transformationMatrix, pointOnSurface_XYZ_In);
+	// END Transform Point: 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//pointOnSurface_XYZ_In[0] = pointOnSurface_CADPoint.x;
+	//pointOnSurface_XYZ_In[1] = pointOnSurface_CADPoint.y;
+	//pointOnSurface_XYZ_In[2] = pointOnSurface_CADPoint.z;
 
 	isis_LOG(lg, isis_FILE, isis_INFO);
 	isis_LOG(lg, isis_FILE, isis_INFO) << __FUNCTION__ << " Data:";  
@@ -765,7 +830,12 @@ void FindPointsOnSurface( 	const std::map<int,isis_CADCommon::GridPoint>		&in_Gr
 
 			try
 			{
-			isis_ProPoint3dOnsurfaceFind (	point_XYZ_In, surfaces[j], &onSurface, point_XYZ_Out );	
+				// We must transform the Nastran grid points to the coordinate system of the part before checking if the point (i.e. grid point)
+				// is on the surface.
+				ProPoint3d pointOnSurface_XYZ_In_partCys;
+				isis::isis_ProPntTrfEval( point_XYZ_In, transformationMatrix, pointOnSurface_XYZ_In_partCys);
+				isis_ProPoint3dOnsurfaceFind (	pointOnSurface_XYZ_In_partCys, surfaces[j], &onSurface, point_XYZ_Out );	
+				//isis_ProPoint3dOnsurfaceFind (	point_XYZ_In, surfaces[j], &onSurface, point_XYZ_Out );	
 			}
 			catch ( isis::application_exception ex )
 			{

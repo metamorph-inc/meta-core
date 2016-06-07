@@ -40,6 +40,7 @@
             this.Version = new System.Windows.Forms.DataGridViewButtonColumn();
             this.chbCheckWithOM = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.chbConstrained = new System.Windows.Forms.CheckBox();
             this.isSelectedDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.modelicaLibraryBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -186,6 +187,15 @@
             this.isSelectedDataGridViewCheckBoxColumn.Name = "isSelectedDataGridViewCheckBoxColumn";
             this.isSelectedDataGridViewCheckBoxColumn.ReadOnly = true;
             this.isSelectedDataGridViewCheckBoxColumn.Width = 35;
+            // chbConstrained
+            // 
+            this.chbConstrained.AutoSize = true;
+            this.chbConstrained.Location = new System.Drawing.Point(12, 196);
+            this.chbConstrained.Name = "chbConstrained";
+            this.chbConstrained.Size = new System.Drawing.Size(144, 17);
+            this.chbConstrained.TabIndex = 20;
+            this.chbConstrained.Text = "Generate constrainedbys";
+            this.chbConstrained.UseVisualStyleBackColor = true;
             // 
             // nameDataGridViewTextBoxColumn
             // 
@@ -207,6 +217,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(535, 222);
+            this.Controls.Add(this.chbConstrained);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.chbCheckWithOM);
             this.Controls.Add(this.dataGridView1);
@@ -243,5 +254,6 @@
         private System.Windows.Forms.DataGridViewButtonColumn Version;
         private System.Windows.Forms.CheckBox chbCheckWithOM;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox chbConstrained;
 	}
 }

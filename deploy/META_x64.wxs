@@ -10,7 +10,7 @@
 
     <Package Id='*' Description='META Vehicle Design Suite'
         Manufacturer='Vanderbilt University, ISIS'
-        InstallerVersion='301' Languages='1033' Compressed='yes' SummaryCodepage='1252'
+        InstallerVersion='405' Languages='1033' Compressed='yes' SummaryCodepage='1252'
         InstallPrivileges='elevated' InstallScope='perMachine' Platform='x64'
 		Comments='Created from $(var.SVNVERSION) ($(var.GITVERSION))'/>
 
@@ -33,11 +33,13 @@
     <Media Id='4' Cabinet='META_CAD.cab' EmbedCab='yes' />
     <Media Id='5' Cabinet='META_analysis_tools.cab' EmbedCab='yes' />
 
-    <Condition Message="This application is only supported on Windows XP or higher.">
-      <![CDATA[Installed OR (VersionNT >= 501)]]>
+    <Condition Message="This application may only be installed on Windows 7 SP1, Windows 8.1, or later.">
+      <!-- https://msdn.microsoft.com/en-us/library/windows/desktop/aa370556(v=vs.85).aspx -->
+      <![CDATA[Installed OR ((VersionNT = 601 AND ServicePackLevel >= 1) OR VersionNT >= 603)]]>
     </Condition>
 
     <PropertyRef Id="NETFRAMEWORK40FULL"/>
+    <!-- FIXME: WiX 3.10 has WIX_IS_NETFRAMEWORK_40_OR_LATER_INSTALLED -->
     <Condition Message="This application requires .NET Framework 4.0 Full. Please install the .NET Framework then run this installer again.">
       <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
     </Condition>
@@ -57,11 +59,55 @@
     <WixVariable Id="WixUIBannerBmp" Value="WixUiBanner.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="WixUIDialog.bmp" />
 
+    <!-- Universal CRT -->
+    <!-- n.b. we need this for the Universal CRT on Windows < 10 -->
+    <!-- TODO this doesn't work. Require the user to install KB2999226 manually
+    <ComponentGroup Id='ucrt'>
+    <Component Id='ucrt_6_1' Directory='INSTALLDIR64_BIN'>
+      <File Id='ucrt_6_1' Source="Windows6.1-KB2999226-x64.msu" />
+    </Component>
+    <Component Id='ucrt_8_1' Directory='INSTALLDIR64_BIN'>
+      <File Id='ucrt_8_1' Source="Windows8.1-KB2999226-x64.msu" />
+    </Component>
+    </ComponentGroup>
+    <!- - FIXME asyncNoWait is a hack, but get 1618 if it is sync instead. maybe there is a race with asyncNoWait - ->
+    <!- - TODO use burn to chain this and .net 4 - ->
+    <CustomAction Id="InstallUCRT_6_1" Directory='INSTALLDIR64_BIN' ExeCommand="/quiet /norestart" Return="asyncNoWait" Impersonate="yes"/>
+    <CustomAction Id="InstallUCRT_8_1" Directory='INSTALLDIR64_BIN' ExeCommand="/quiet /norestart" Return="asyncNoWait" Impersonate="yes"/>
+
+    <InstallExecuteSequence>
+       <Custom Action="InstallUCRT_6_1" After="InstallFinalize"><![CDATA[NOT Installed AND NOT WIN10FOUND AND NOT VS2015MINRUNTIMEFOUND AND VersionNT = 601 AND ServicePackLevel = 1]]></Custom>
+       <Custom Action="InstallUCRT_8_1" After="InstallFinalize"><![CDATA[NOT Installed AND NOT WIN10FOUND AND NOT VS2015MINRUNTIMEFOUND AND VersionNT = 603 AND ServicePackLevel = 1]]></Custom>
+    </InstallExecuteSequence>
+    <!- - VersionNT is not set properly on Windows 10 http://stackoverflow.com/questions/31932646/versionnt-msi-property-on-windows-10 - ->
+    <Property Id="WIN10FOUND">
+      <DirectorySearch Id="searchSystem" Path="[SystemFolder]" Depth="0">
+        <FileSearch Id="searchFile" Name="advapi32.dll" MinVersion="6.3.10000.0"/>
+      </DirectorySearch>
+    </Property>
+    -->
+
+    <Upgrade Id='36F68A90-239C-34DF-B58C-64B30153CE35'>
+      <UpgradeVersion Minimum="0.0.0" OnlyDetect="yes" Property="VS2015MINRUNTIMEFOUND"/>
+    </Upgrade>
+    
+    <Property Id="UCRTINSTALLED">
+      <DirectorySearch Id="UCRTSystemSearch" Path="[SystemFolder]" Depth="0">
+        <FileSearch Id="UCRTFileSearch" Name="ucrtbase.dll" MinVersion="10.0.10240.16389" />
+      </DirectorySearch>
+    </Property>
+    <Condition Message="This application requires the Universal CRT. Please install KB2999226 via Windows Update or https://support.microsoft.com/en-us/kb/2999226">
+      <![CDATA[Installed OR UCRTINSTALLED]]>
+    </Condition>
+
+
+
     <!-- =========================================================== -->
     <!-- DIRECTORY STRUCTURE -->
     <!-- =========================================================== -->
     <Directory Id='TARGETDIR' Name='SourceDir'>
       <Directory Id='SystemFolder' Name='SystemFolder'/>
+      <Directory Id='System64Folder' Name='System64Folder'/>
       <Directory Id='ProgramFiles64Folder'>
         <Directory Id='INSTALLDIR64' Name='META'>
           <Directory Id='INSTALLDIR64_BIN' Name='bin'/>
@@ -115,20 +161,26 @@
     <!-- MERGE MODULES -->
     <!-- =========================================================== -->
     <DirectoryRef Id='TARGETDIR'>
-      <!-- n.b. zlibwapi.dll is in UdmDll_VS10_x64, but not later versions! -->
-      <Merge Id="UdmDll_VS10_x64" Language="1033" SourceFile="UdmDll_VS10_x64.msm" DiskId="2" />
       <Merge Id="xerces_c" Language="1033" SourceFile="xerces_c.msm" DiskId="2" />
       <Merge Id="xerces_c_x64" Language="1033" SourceFile="xerces_c_x64.msm" DiskId="2" />
       <Merge Id="CRT140" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC140_CRT_x86.msm" DiskId="2" />
       <Merge Id="MFC140" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC140_MFC_x86.msm" DiskId="2" />
+      <!-- UdmDllx86 -> xerces -> CRT90 -->
+      <Merge Id="CRT90" Language="0" SourceFile="Microsoft_VC90_CRT_x86.msm" DiskId="2" />
+      <Merge Id="CRT90_policy" Language="0" SourceFile="policy_9_0_Microsoft_VC90_CRT_x86.msm" DiskId="2" />
       <Merge Id="CRT100" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_CRT_x86.msm" DiskId="2" />
       <Merge Id="CRT100x64" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_CRT_x64.msm" DiskId="2" />
+      <Merge Id="CRT110x64" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC110_CRT_x64.msm" DiskId="2" />
       <Merge Id='DocModule' Language='1033' SourceFile='Documentation.msm' DiskId='2' />
     </DirectoryRef>
 
     <!-- =========================================================== -->
     <!-- COMPONENTS -->
     <!-- =========================================================== -->
+
+    <Component Directory='System64Folder'>
+        <File Id='zlibwapi' Source='zlibwapi.dll' />
+    </Component>
 
     <DirectoryRef Id='Proe_ISIS_Extensions_x64'>
       <Component Id='PROE_ISIS_EXTENSIONS' Guid='{81FF799C-5509-4BAF-A420-82E256556D3A}' Win64='yes'>
@@ -237,7 +289,7 @@
           </Class>
         </File>
       </Component>
-	  
+
       <Component Win64='no'>
         <File Source="..\src\CLM_light\bin\Release\ClmLib.dll"/>
       </Component>
@@ -264,7 +316,7 @@
       <Component Win64='no'>
         <File Source='..\externals\common-scripts\ISIS.GME.Common.dll' Assembly='.net' />
       </Component>
-   </DirectoryRef>
+    </DirectoryRef>
     <DirectoryRef Id='INSTALLDIR_BIN'>
       <Component Win64='no'>
         <File Source="..\src\bin\desert.dll" />
@@ -272,17 +324,17 @@
       <Component Win64='no'>
         <File Source="..\src\bin\DesertTool.exe" />
       </Component>      
-      <Component Id='boost_thread_vc140_mt_1_59.dll' Win64='no'>
-        <File Source="..\src\bin\boost_thread-vc140-mt-1_59.dll" />
+      <Component Id='boost_thread_vc140_mt_1_60.dll' Win64='no'>
+        <File Source="..\src\bin\boost_thread-vc140-mt-1_60.dll" />
       </Component>
-      <Component Id='boost_system_vc140_mt_1_59.dll' Win64='no'>
-        <File Source="..\src\bin\boost_system-vc140-mt-1_59.dll" />
+      <Component Id='boost_system_vc140_mt_1_60.dll' Win64='no'>
+        <File Source="..\src\bin\boost_system-vc140-mt-1_60.dll" />
       </Component>
-      <Component Id='boost_chrono_vc140_mt_1_59.dll' Win64='no'>
-        <File Source="..\src\bin\boost_chrono-vc140-mt-1_59.dll" />
+      <Component Id='boost_chrono_vc140_mt_1_60.dll' Win64='no'>
+        <File Source="..\src\bin\boost_chrono-vc140-mt-1_60.dll" />
       </Component>
     </DirectoryRef>
-
+    
     <Component Directory="INSTALLDIR_BIN" Win64="no">
       <File Source="..\meta\DesignDataPackage\lib\csharp\XSD2CSharp\bin\Release\XSD2CSharp.dll"/>
     </Component>
@@ -396,9 +448,9 @@
       <ComponentRef Id='ReferenceSwitcher.dll'/>
 
       <!-- <ComponentRef Id='CyPhyMLUdmCli.dll'/> -->
-      <ComponentRef Id='boost_thread_vc140_mt_1_59.dll'/>
-      <ComponentRef Id='boost_system_vc140_mt_1_59.dll'/>
-      <ComponentRef Id='boost_chrono_vc140_mt_1_59.dll'/>
+      <ComponentRef Id='boost_thread_vc140_mt_1_60.dll'/>
+      <ComponentRef Id='boost_system_vc140_mt_1_60.dll'/>
+      <ComponentRef Id='boost_chrono_vc140_mt_1_60.dll'/>
 
       <ComponentGroupRef Id='Json.NET'/>
 
@@ -427,13 +479,16 @@
         </Feature>
       </Feature>
 
-
+      <ComponentGroupRef Id='UdmDll_VC11x64' />
+      <ComponentRef Id='zlibwapi' />
 
       <ComponentGroupRef Id='UdmDll_VC14x86' />
-      <MergeRef Id='UdmDll_VS10_x64' />
       <MergeRef Id='xerces_c' />
       <MergeRef Id='xerces_c_x64' />
       <MergeRef Id='CRT100x64' />
+      <MergeRef Id='CRT110x64' />
+      <MergeRef Id='CRT90' />
+      <MergeRef Id='CRT90_policy' />
       <MergeRef Id='CRT100' />
       <MergeRef Id='CRT140' />
       <MergeRef Id='MFC140' />

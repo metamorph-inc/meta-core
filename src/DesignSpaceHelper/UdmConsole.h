@@ -1,6 +1,6 @@
 #pragma once
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ComHelp.h"
 #include "GMECOM.h"
 #include "UdmBase.h"

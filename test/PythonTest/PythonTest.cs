@@ -24,13 +24,18 @@ namespace PythonTest
 
         private Exception ImportModule(string moduleName)
         {
+            return CheckCommand(String.Format("import {0}", moduleName));
+        }
+
+        private Exception CheckCommand(string command)
+        {
             try
             {
                 Process p = new Process();
                 p.StartInfo = new ProcessStartInfo()
                 {
                     FileName = VersionInfo.PythonVEnvExe,
-                    Arguments = String.Format("-c \"import {0}\"", moduleName),
+                    Arguments = String.Format("-c \"{0}\"", command),
                     CreateNoWindow = true,
                     UseShellExecute = false
                 };
@@ -72,6 +77,16 @@ namespace PythonTest
                 {
                     Assert.True(e == null, "Importing " + test.Item1 + " failed: " + e.ToString());
                 }
+            }
+        }
+
+        [Fact]
+        public void TestTk()
+        {
+            var e = CheckCommand("import Tkinter; Tkinter.Tk()");
+            if (e != null)
+            {
+                Assert.True(e == null, "Tkinter failed: " + e.ToString());
             }
         }
 

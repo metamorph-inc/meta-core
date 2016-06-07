@@ -4,6 +4,7 @@
 #include <fstream>
 #include <math.h>
 
+UnitUtil::DimensionRep UnitUtil::DimensionRep::zeroes = UnitUtil::DimensionRep(0.0);
 
 	UnitUtil::ValueUnitRep::ValueUnitRep(UnitUtil& unitUtil, double aValue, unit& unitRef)
 	{
@@ -287,7 +288,6 @@
 		set<derived_unit_element> unit_refs = unit.derived_unit_element_kind_children();
 		for (set<derived_unit_element>::const_iterator ci = unit_refs.begin(); ci != unit_refs.end(); ci++)
 		{
-			DimensionRep tmpRep;
 			double exponent = ci->exponent();
 			named_unit namedUnit = ci->ref();
 			if (namedUnit != Udm::null)

@@ -1,9 +1,9 @@
 #pragma once
 
 #include "resource.h"
-#include "afxcmn.h"
+#include <afxcmn.h>
 #include "DesertHelper.h"
-#include "afxwin.h"
+#include <afxwin.h>
 #include "CheckHeadCtrl.h"
 // CDesertConfigDialog dialog
 

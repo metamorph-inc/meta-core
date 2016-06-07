@@ -8,7 +8,7 @@ from xml.etree import ElementTree
 
 def add_wix_to_path():
     import _winreg
-    versions = ('3.6', '3.7', '3.8')
+    versions = ('3.6', '3.7', '3.8', '3.9', '3.10')
     for wix_ver in versions:
         try:
             with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 'SOFTWARE\\Microsoft\\Windows Installer XML\\' + wix_ver) as wixkey:

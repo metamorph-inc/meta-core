@@ -4,7 +4,7 @@
 // that the component implementor is expected to modify in the first place
 //
 ///////////////////////////////////////////////////////////////////////////
-#include "stdafx.h"
+#include "StdAfx.h"
 
 #include "ComHelp.h"
 #include "GMECOM.h"
@@ -147,10 +147,17 @@ HRESULT RawComponent::Main(IMgaProject *project,  IMgaFCO *currentobj, bool appl
 		COMTHROW(mgaProject->get_ProjectConnStr(&connString));
 
 		CString mgaFilePath = connString;
-		int e = mgaFilePath.ReverseFind('\\');
-	//	if(e != -1)
-		{	
-			CUdmApp::mgaPath = mgaFilePath.Mid(4, mgaFilePath.GetLength());
+		if (mgaFilePath.Find(L"MGA=", 0) == 0) {
+			int e = mgaFilePath.ReverseFind('\\');
+			//	if(e != -1)
+			{
+				CUdmApp::mgaPath = mgaFilePath.Mid(4, mgaFilePath.GetLength());
+			}
+		}
+		else {
+			mgaFilePath = mgaFilePath.Right(mgaFilePath.GetLength() - wcslen(L"MGX=\""));
+			mgaFilePath = mgaFilePath.Left(mgaFilePath.Find(L"\"", 0));
+			CUdmApp::mgaPath = mgaFilePath;
 		}
 
 		// Setting up Udm

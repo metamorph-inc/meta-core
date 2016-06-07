@@ -18,6 +18,8 @@
 #include "time.h"
 #include "DesertThread.h"
 
+using namespace DesertIface;
+
 //typedef map<DesertIfaceBack::Configuration, set<CyPhyML::DesignEntity>*> MorphMatrix;
 //MorphMatrix morphMatrix;
 //set<CyPhyML::DesignEntity> allEntities;
@@ -76,17 +78,11 @@ std::string getPath( const std::string& filepath, bool deleteTerminatingBackSlas
 }
 
 void DesertHelper::morphMatrixInitialize1() {
-	if(morphMatrixInitialized1)
+	if(morphMatrixInitialized1) {
 		return;
+	}
 
 	// MorphMatrix initialize
-	if(morphMatrix.size() > 0) {
-		for(MorphMatrix::iterator mmPos = morphMatrix.begin(); mmPos != morphMatrix.end(); ++mmPos) {
-			MorphMatrix::value_type mmRow = *mmPos;
-			set<CyPhyML::DesignEntity>* selectedEntities = mmRow.second;
-			delete selectedEntities;
-		}
-	}
 	morphMatrix.clear();
 	allEntities.clear();
 	stringstream newMMFilenameSS;
@@ -102,8 +98,9 @@ void DesertHelper::morphMatrixInitialize1() {
 }
 
 void DesertHelper::morphMatrixFinalize1() {
-	if(!morphMatrixInitialized1)
+	if(!morphMatrixInitialized1) {
 		return;
+	}
 
 	morphMatrixInitialized1 = false;
 
@@ -122,9 +119,9 @@ void DesertHelper::morphMatrixFinalize1() {
 	}
 	fprintf(mmfd, "\n");
 	for(MorphMatrix::iterator mmPos = morphMatrix.begin(); mmPos != morphMatrix.end(); ++mmPos) {
-		MorphMatrix::value_type mmRow = *mmPos;
+		MorphMatrix::value_type& mmRow = *mmPos;
 		Configuration cfg = mmRow.first;
-		set<CyPhyML::DesignEntity>* selectedEntities = mmRow.second;
+		auto& selectedEntities = mmRow.second;
 		long cfgID = cfg.uniqueId();
 		string cfgName = cfg.name();
 		cfgName = "cfg" + cfgName.substr(10);
@@ -167,13 +164,6 @@ void DesertHelper::morphMatrixFinalize1() {
 	fflush(mmfd);
 	fclose(mmfd);
 	mmfd = 0;
-	if(morphMatrix.size() > 0) {
-		for(MorphMatrix::iterator mmPos = morphMatrix.begin(); mmPos != morphMatrix.end(); ++mmPos) {
-			MorphMatrix::value_type mmRow = *mmPos;
-			set<CyPhyML::DesignEntity>* selectedEntities = mmRow.second;
-			delete selectedEntities;
-		}
-	}
 	morphMatrix.clear();
 	allEntities.clear();
 }
@@ -700,6 +690,7 @@ void DesertHelper::runDesertFinit_1(const std::string &constraints, bool refresh
 
 		UdmElementSet elements;
 		UdmMemberSet custom_members;
+		std::function<void(short)> noop = [](short) {};
 				
 		//Build spaces
 		if (!spaces.empty())
@@ -711,34 +702,34 @@ void DesertHelper::runDesertFinit_1(const std::string &constraints, bool refresh
 			{
 				Space sp = *(sp_iterator);
 				//TRACE("Creating space: %s\n", ((string)sp.name()).c_str());
-				CreateDesertSpace(sp, dummy, des_map, inv_des_map, elements, true);
+				CreateDesertSpace(sp, dummy, des_map, inv_des_map, elements, true, noop);
 			}//eo for (sp_iterator)
 		}//if (!spaces.empty())
 	
 		//create relations			
-		CreateElementRelations(ds, des_map, inv_des_map);
+		CreateElementRelations(ds, des_map, inv_des_map, noop);
 
 		//create constrains
 		CreateConstraints(ds, des_map, inv_des_map);
 
 		//create natural domains
-		CreateNaturalDomains(ds, des_map, inv_des_map);
+		CreateNaturalDomains(ds, des_map, inv_des_map, noop);
 
 		//create custom domains
-		CreateCustomDomains(ds, des_map, inv_des_map, custom_members);
+		CreateCustomDomains(ds, des_map, inv_des_map, custom_members, noop);
 
 		//create custom domain relations
-		CreateMemberRelations(ds, des_map, inv_des_map);
+		CreateMemberRelations(ds, des_map, inv_des_map, noop);
 
 		//create variable properties
-		CreateVariableProperties(des_map, inv_des_map, elements);
+		CreateVariableProperties(des_map, inv_des_map, elements, noop);
 
 		//create constant properties
-		CreateConstantProperties(des_map, inv_des_map, elements, custom_members);
+		CreateConstantProperties(des_map, inv_des_map, elements, custom_members, noop);
 		
 		CreateSimpleFormulas(ds,des_map,inv_des_map);
 		//create assignments for VariableProperties
-		CreateAssignments(des_map, inv_des_map, elements, custom_members);
+		CreateAssignments(des_map, inv_des_map, elements, custom_members, noop);
 
 		if(!defaultConstraints.empty())
 		{
@@ -985,7 +976,7 @@ void DesertHelper::exportModel_ex(set<int> cfgIds)
 
 		int idCnt = cfgIds.size();
 		//std::string fnbase;
-		prgDlg.SetRange(25*idCnt);
+		prgDlg.SetRange((1 + idCnt)*10); // processPos += 10;
 
 		prgDlg.SetProgress("Preparing to export models...");
 	}
@@ -1327,6 +1318,7 @@ bool DesertHelper::checkConstraints()
 
 	UdmElementSet elements;
 	UdmMemberSet custom_members;
+	std::function<void(short)> noop = [](short) {};
 				
 	//Build spaces
 	if (!spaces.empty())
@@ -1338,33 +1330,33 @@ bool DesertHelper::checkConstraints()
 		{
 			Space sp = *(sp_iterator);
 			//TRACE("Creating space: %s\n", ((string)sp.name()).c_str());
-			CreateDesertSpace(sp, dummy, des_map, inv_des_map, elements, true);
+			CreateDesertSpace(sp, dummy, des_map, inv_des_map, elements, true, noop);
 		}//eo for (sp_iterator)
 	}//if (!spaces.empty())
 	
 	//create relations
-	CreateElementRelations(ds, des_map, inv_des_map);
+	CreateElementRelations(ds, des_map, inv_des_map, noop);
 
 	//create constrains
 	bool ret = CreateConstraints(ds, des_map, inv_des_map);
 
 	//create natural domains
-	CreateNaturalDomains(ds, des_map, inv_des_map);
+	CreateNaturalDomains(ds, des_map, inv_des_map, noop);
 
 	//create custom domains
-	CreateCustomDomains(ds, des_map, inv_des_map, custom_members);
+	CreateCustomDomains(ds, des_map, inv_des_map, custom_members, noop);
 
 	//create custom domain relations
-	CreateMemberRelations(ds, des_map, inv_des_map);
+	CreateMemberRelations(ds, des_map, inv_des_map, noop);
 
 	//create variable properties
-	CreateVariableProperties(des_map, inv_des_map, elements);
+	CreateVariableProperties(des_map, inv_des_map, elements, noop);
 
 	//create constant properties
-	CreateConstantProperties(des_map, inv_des_map, elements, custom_members);
+	CreateConstantProperties(des_map, inv_des_map, elements, custom_members, noop);
 
 	//create assignments for VariableProperties
-	CreateAssignments(des_map, inv_des_map, elements, custom_members);
+	CreateAssignments(des_map, inv_des_map, elements, custom_members, noop);
 
 	bool valid = VerifyConstraints(_T("applyAll"));
 	ds_dn_copy.CloseNoUpdate();
@@ -1482,10 +1474,11 @@ void DesertHelper::executeAll(bool applyConstraints)
 	if(allRootDCs.empty())
 	{
 		runCyPhy2Desert();
-		if (applyConstraints)
+		if (applyConstraints) {
 			applyAllConstraints(true);
-		else
+		} else {
 			this->applyConstraints(std::set<int>(), true);
+		}
 		cfgs = runDesertFinit_2();
 		if (cfgs)
 		{

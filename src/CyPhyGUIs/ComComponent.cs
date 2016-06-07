@@ -404,10 +404,19 @@ namespace META
                 PreConfigArgs preConfigArgs = new PreConfigArgs();
                 preConfigArgs.ProjectDirectory = projectDir;
                 // FIXME: fill in other preConfigArgs
-                this.InterpreterConfig = META.ComComponent.DeserializeConfiguration(projectDir, InterpreterConfig.GetType(), ProgId);
                 IInterpreterPreConfiguration preConfig = (MgaComponent as ICyPhyInterpreter).PreConfig(preConfigArgs);
-                 // Set configuration based on Workflow Parameters. This will override all [WorkflowConfigItem] members.
-                this.SetWorkflowParameterValues();
+                if (InterpreterConfig != null)
+                {
+                    this.InterpreterConfig = META.ComComponent.DeserializeConfiguration(projectDir, InterpreterConfig.GetType(), ProgId);
+                    // Set configuration based on Workflow Parameters. This will override all [WorkflowConfigItem] members.
+                    this.SetWorkflowParameterValues();
+                }
+                else
+                {
+                    success = true;
+                    return success;
+                }
+
                 if (showGUI == false)
                 {
                     return true;

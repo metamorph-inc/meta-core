@@ -80,6 +80,7 @@ CManager::
   Destroy(simpleFormulas);
   for (int i=0; i<MAX_GENERATIONS; i++)
   {
+	  // FIXME Destroy dynContainers[i] ?
     Destroy(dynSpaces[i]);
     Destroy(dynDomains[i]);
     Destroy(dynConstraintSets[i]);
@@ -985,7 +986,8 @@ void CManager::GenerateNextHierarchy()
 {
 	int prev;
 	
-	if (generations.IsEmpty()) prev = -1;
+	if (generations.IsEmpty())
+		prev = -1;
 	else
 	{
 		//ASSERT_EX(currentGenerationPosition, _T("CManager::GenerateNextHierarchy"), _T("current generation is NULL"));
@@ -1012,14 +1014,17 @@ void CManager::GenerateNextHierarchy()
 		{
 			generations.RemoveAt(pos);
 			more_to_come = true;
-		} else more_to_come = false;
+		} else {
+			more_to_come = false;
+		}
 
 	} while (more_to_come);
 
 
 
 	static int generation_id = -1;
-	if(generations.IsEmpty()) generation_id = -1;
+	if(generations.IsEmpty())
+		generation_id = -1;
 	
 	generation_id++;
 	currentGenerationPosition = generations.AddTail(generation_id);
@@ -1035,6 +1040,7 @@ void CManager::GenerateNextHierarchy()
   ::Destroy(domains);                   // MAX_GENERATIONS must be atleast 2
   ::Destroy(spaces);
   ::Destroy(consets);
+  // FIXME this crashes when over MAX_GENERATIONS
   ::Destroy(containers);
   dynContainers[currentGeneration].RemoveAll();
 

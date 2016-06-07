@@ -2,7 +2,7 @@
 
 #include "resource.h"
 #include "DesertHelper.h"
-#include "afxcmn.h"
+#include <afxcmn.h>
 
 // CDSESelectorDialog dialog
 

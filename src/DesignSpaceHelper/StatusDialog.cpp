@@ -1,7 +1,7 @@
 // StatusDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "StatusDialog.h"
 
 
@@ -62,13 +62,6 @@ void CStatusDialog::SetProgress(const CString &status)
 
 void CStatusDialog::OnFinished()
 {
-	m_prgBar.SetRange( 0, m_maxPrg);
-	while(processPos < m_maxPrg)
-	{
-		Sleep(20);
-		m_prgBar.StepIt();
-		processPos += 5;
-	}
 	CDialog::OnCancel();
 }
 
@@ -82,7 +75,9 @@ CStatusDialog * GetStatusDlg(CStatusDialog * set)
 {
 	static CStatusDialog * csdlg;
 	
-	if (set) csdlg = set;
+	if (set) {
+		csdlg = set;
+	}
 	ASSERT(csdlg != NULL);
 	return csdlg;
 };

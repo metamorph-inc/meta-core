@@ -955,7 +955,7 @@ public:
 			double step_size = (finish_distance - start_distance) / (step_count + 1);
 
 			out_result.xsection_area.push_back( 
-				std::make_pair<double,double>(start_distance, 0.0) );
+				std::pair<double,double>(start_distance, 0.0) );
 
 			for( int ix=0; ix < step_count; ++ix ) {
 				double cut_distance = start_distance + step_size * (ix+1);
@@ -999,7 +999,7 @@ public:
 					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not compute the un-wetted x-section: " << status;
 				}
 				out_result.xsection_area.push_back( 
-					std::make_pair<double,double>(cut_distance, xsec_prop.surface_area) );
+					std::pair<double,double>(cut_distance, xsec_prop.surface_area) );
 
 				{ // clean up the x-section
 					// ProFeature xfeat;
@@ -1033,7 +1033,7 @@ public:
 				}
 			}
 			out_result.xsection_area.push_back( 
-				std::make_pair<double,double>(finish_distance, 0.0) );
+				std::pair<double,double>(finish_distance, 0.0) );
 		}
 
 		return PRO_TK_NO_ERROR;

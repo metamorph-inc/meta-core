@@ -98,8 +98,13 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 	try
 	{
 		// Setting up the console
-		GMEConsole::Console::setupConsole(ccpProject);
-		GMEConsole::Console::clear();
+		if (ConsoleMessagesOn) {
+			GMEConsole::Console::setupConsole(ccpProject);
+			GMEConsole::Console::clear();
+		}
+		else {
+			GMEConsole::Console::freeConsole();
+		}
 
 		char tmpbuf[128];
 		_strdate_s(tmpbuf,128);

@@ -1,7 +1,7 @@
 // Component.cpp : Defines the initialization routines for the DLL.
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 //#include <afxctl.h>
 
 #include "MgaUtil.h"
