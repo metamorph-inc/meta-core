@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -28,21 +28,25 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -329,16 +333,16 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-    <Import Project="..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
-    <Import Project="..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets" Condition="Exists('..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets')" />
-    <Import Project="..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets" Condition="Exists('..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets')" />
+    <Import Project="..\nuget\boost.1.60.0.0\build\native\boost.targets" Condition="Exists('..\nuget\boost.1.60.0.0\build\native\boost.targets')" />
+    <Import Project="..\nuget\boost_filesystem-vc140.1.60.0.0\build\native\boost_filesystem-vc140.targets" Condition="Exists('..\nuget\boost_filesystem-vc140.1.60.0.0\build\native\boost_filesystem-vc140.targets')" />
+    <Import Project="..\nuget\boost_system-vc140.1.60.0.0\build\native\boost_system-vc140.targets" Condition="Exists('..\nuget\boost_system-vc140.1.60.0.0\build\native\boost_system-vc140.targets')" />
     <Import Project="..\nuget\muparser.1.34\build\native\muparser.targets" Condition="Exists('..\nuget\muparser.1.34\build\native\muparser.targets')" />
-    <Import Project="..\nuget\muparser-vc100.1.34.2\build\native\muparser-vc100.targets" Condition="Exists('..\nuget\muparser-vc100.1.34.2\build\native\muparser-vc100.targets')" />
+    <Import Project="..\nuget\muparser-vc140.1.34.2\build\native\muparser-vc140.targets" Condition="Exists('..\nuget\muparser-vc140.1.34.2\build\native\muparser-vc140.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\nuget\muparser-vc100.1.34.2\build\native\muparser-vc100.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\nuget\muparser-vc100.1.34.2\build\native\muparser-vc100.targets'))" />
+    <Error Condition="!Exists('..\nuget\muparser-vc140.1.34.2\build\native\muparser-vc140.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\nuget\muparser-vc140.1.34.2\build\native\muparser-vc140.targets'))" />
   </Target>
 </Project>

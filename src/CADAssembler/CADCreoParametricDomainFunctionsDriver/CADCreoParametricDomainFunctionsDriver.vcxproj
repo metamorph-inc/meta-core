@@ -205,19 +205,19 @@ wsock32.lib;ws2_32.lib;
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
     <Import Project="..\..\nuget\log4cpp.redist.1.1.0.2\build\native\log4cpp.redist.targets" Condition="Exists('..\..\nuget\log4cpp.redist.1.1.0.2\build\native\log4cpp.redist.targets')" />
     <Import Project="..\..\nuget\log4cpp.1.1.0.2\build\native\log4cpp.targets" Condition="Exists('..\..\nuget\log4cpp.1.1.0.2\build\native\log4cpp.targets')" />
-    <Import Project="..\..\nuget\boost_regex-vc100.1.55.0.16\build\native\boost_regex-vc100.targets" Condition="Exists('..\..\nuget\boost_regex-vc100.1.55.0.16\build\native\boost_regex-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_program_options-vc100.1.55.0.16\build\boost_program_options-vc100.targets" Condition="Exists('..\..\nuget\boost_program_options-vc100.1.55.0.16\build\native\boost_program_options.targets')" />
-    <Import Project="..\..\nuget\boost_atomic-vc100.1.55.0.16\build\native\boost_atomic-vc100.targets" Condition="Exists('..\..\nuget\boost_atomic-vc100.1.55.0.16\build\native\boost_atomic-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_chrono-vc100.1.55.0.16\build\native\boost_chrono-vc100.targets" Condition="Exists('..\..\nuget\boost_chrono-vc100.1.55.0.16\build\native\boost_chrono-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_date_time-vc100.1.55.0.16\build\native\boost_date_time-vc100.targets" Condition="Exists('..\..\nuget\boost_date_time-vc100.1.55.0.16\build\native\boost_date_time-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_filesystem-vc100.1.55.0.16\build\native\boost_filesystem-vc100.targets" Condition="Exists('..\..\nuget\boost_filesystem-vc100.1.55.0.16\build\native\boost_filesystem-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_program_options-vc100.1.55.0.16\build\native\boost_program_options-vc100.targets" Condition="Exists('..\..\nuget\boost_program_options-vc100.1.55.0.16\build\native\boost_program_options-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_system-vc100.1.55.0.16\build\native\boost_system-vc100.targets" Condition="Exists('..\..\nuget\boost_system-vc100.1.55.0.16\build\native\boost_system-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_thread-vc100.1.55.0.16\build\native\boost_thread-vc100.targets" Condition="Exists('..\..\nuget\boost_thread-vc100.1.55.0.16\build\native\boost_thread-vc100.targets')" />
+    <Import Project="..\..\nuget\boost_regex-vc110.1.60.0.0\build\native\boost_regex-vc110.targets" Condition="Exists('..\..\nuget\boost_regex-vc110.1.60.0.0\build\native\boost_regex-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_program_options-vc110.1.60.0.0\build\boost_program_options-vc110.targets" Condition="Exists('..\..\nuget\boost_program_options-vc110.1.60.0.0\build\native\boost_program_options.targets')" />
+    <Import Project="..\..\nuget\boost_atomic-vc110.1.60.0.0\build\native\boost_atomic-vc110.targets" Condition="Exists('..\..\nuget\boost_atomic-vc110.1.60.0.0\build\native\boost_atomic-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_chrono-vc110.1.60.0.0\build\native\boost_chrono-vc110.targets" Condition="Exists('..\..\nuget\boost_chrono-vc110.1.60.0.0\build\native\boost_chrono-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_date_time-vc110.1.60.0.0\build\native\boost_date_time-vc110.targets" Condition="Exists('..\..\nuget\boost_date_time-vc110.1.60.0.0\build\native\boost_date_time-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_filesystem-vc110.1.60.0.0\build\native\boost_filesystem-vc110.targets" Condition="Exists('..\..\nuget\boost_filesystem-vc110.1.60.0.0\build\native\boost_filesystem-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_program_options-vc110.1.60.0.0\build\native\boost_program_options-vc110.targets" Condition="Exists('..\..\nuget\boost_program_options-vc110.1.60.0.0\build\native\boost_program_options-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_system-vc110.1.60.0.0\build\native\boost_system-vc110.targets" Condition="Exists('..\..\nuget\boost_system-vc110.1.60.0.0\build\native\boost_system-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_thread-vc110.1.60.0.0\build\native\boost_thread-vc110.targets" Condition="Exists('..\..\nuget\boost_thread-vc110.1.60.0.0\build\native\boost_thread-vc110.targets')" />
     <Import Project="..\..\nuget\czmq.2.1.0-alpha\build\native\czmq.targets" Condition="Exists('..\..\nuget\czmq.2.1.0-alpha\build\native\czmq.targets')" />
     <Import Project="..\..\nuget\libzmq.redist.4.1.0\build\native\libzmq.redist.targets" Condition="Exists('..\..\nuget\libzmq.redist.4.1.0\build\native\libzmq.redist.targets')" />
     <Import Project="..\..\nuget\libzmq.4.1.0\build\native\libzmq.targets" Condition="Exists('..\..\nuget\libzmq.4.1.0\build\native\libzmq.targets')" />
-    <Import Project="..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
+    <Import Project="..\..\nuget\boost.1.60.0.0\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.60.0.0\build\native\boost.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -226,6 +226,6 @@ wsock32.lib;ws2_32.lib;
     <Error Condition="!Exists('..\..\nuget\czmq.2.1.0-alpha\build\native\czmq.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\czmq.2.1.0-alpha\build\native\czmq.targets'))" />
     <Error Condition="!Exists('..\..\nuget\libzmq.redist.4.1.0\build\native\libzmq.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\libzmq.redist.4.1.0\build\native\libzmq.redist.targets'))" />
     <Error Condition="!Exists('..\..\nuget\libzmq.4.1.0\build\native\libzmq.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\libzmq.4.1.0\build\native\libzmq.targets'))" />
-    <Error Condition="!Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\boost.1.55.0.16\build\native\boost.targets'))" />
+    <Error Condition="!Exists('..\..\nuget\boost.1.60.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\boost.1.60.0.0\build\native\boost.targets'))" />
   </Target>
 </Project>

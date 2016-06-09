@@ -209,8 +209,8 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-    <Import Project="..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
-    <Import Project="..\..\nuget\boost_log_setup-vc100.1.55.0.16\build\native\boost_log_setup-vc100.targets" Condition="Exists('..\..\nuget\boost_log_setup-vc100.1.55.0.16\build\native\boost_log_setup-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_log-vc100.1.55.0.16\build\native\boost_log-vc100.targets" Condition="Exists('..\..\nuget\boost_log-vc100.1.55.0.16\build\native\boost_log-vc100.targets')" />
+    <Import Project="..\..\nuget\boost.1.60.0.0\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.60.0.0\build\native\boost.targets')" />
+    <Import Project="..\..\nuget\boost_log_setup-vc110.1.60.0.0\build\native\boost_log_setup-vc110.targets" Condition="Exists('..\..\nuget\boost_log_setup-vc110.1.60.0.0\build\native\boost_log_setup-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_log-vc110.1.60.0.0\build\native\boost_log-vc110.targets" Condition="Exists('..\..\nuget\boost_log-vc110.1.60.0.0\build\native\boost_log-vc110.targets')" />
   </ImportGroup>
 </Project>

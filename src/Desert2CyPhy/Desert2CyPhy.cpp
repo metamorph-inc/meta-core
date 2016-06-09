@@ -36,9 +36,9 @@ CyPhyML::DesignContainer& initializeMorphMatrixCreation(RootFolder &cyphy_rf, Cy
 void traversDesignSpaceForMorphMatrix(const CyPhyML::DesignSpace &ds, MorphMatrix& morphMatrix, set<CyPhyML::DesignEntity>& allEntities);
 void traverseContainerForMorphMatrix(CyPhyML::DesignContainer &container, MorphMatrix& morphMatrix, set<CyPhyML::DesignEntity>& allEntities);
 
-void generateCyPhy(RootFolder &cyphy_rf, 
-					DesertBackSystem &desert_top, 					
-				//	DeviceConfigurationFolder &dcfdr, 
+void generateCyPhy(RootFolder &cyphy_rf,
+					DesertBackSystem &desert_top,
+				//	DeviceConfigurationFolder &dcfdr,
 					Configuration &cfg, MorphMatrix& morphMatrix, set<CyPhyML::DesignEntity>& allEntities)
 {
 	//dcfolder = dcfdr;
@@ -74,7 +74,7 @@ string GetGMEGUID(Udm::Object &object)
 	return guid;
 }
 
-CyPhyML::CWC generateCyPhy(RootFolder &cyphy_rf, CyPhyML::Configurations &cfgModels, DesertBackSystem &desert_top, 
+CyPhyML::CWC generateCyPhy(RootFolder &cyphy_rf, CyPhyML::Configurations &cfgModels, DesertBackSystem &desert_top,
 				   Configuration &cfg, MorphMatrix& morphMatrix, set<CyPhyML::DesignEntity>& allEntities)
 {
 	alternativeMap.clear();
@@ -106,7 +106,7 @@ CyPhyML::CWC generateCyPhy(RootFolder &cyphy_rf, CyPhyML::Configurations &cfgMod
 	if(config == Udm::null) return cfg_model;
 
 	makeAlternativeMap();
-	
+
 	cfg_model = CyPhyML::CWC::Create(cfgs_model);
 	//cfg_model.name() = "cfg" + (std::string)buffer;
 //	cfg_model.name() = "cfg: "+cfg_id;
@@ -131,11 +131,11 @@ void initD2C()
 	alternativeMap.clear();
 	elemMap.clear();
 	copyMap.clear();
-	
+
 	//cyphy_rootfolder = cyphy_rf;
 	//desert_system = desert_top;
 	//Create SoftwareAssembly model with configuration #
-	
+
 	int cfgId = desert_system.selConfig();
 	char buffer[65];
 	_itoa(cfgId, buffer, 10);
@@ -204,15 +204,15 @@ void traversDesignSpace(const CyPhyML::DesignSpace &ds, MorphMatrix& morphMatrix
 	for(set<CyPhyML::DesignSpace>::const_iterator di=dsfdrs.begin();di!=dsfdrs.end();++di)
 	{
 		traversDesignSpace(*di, morphMatrix, allEntities);
-	}	
-	
+	}
+
 	const set<CyPhyML::DesignContainer> &containers = ds.DesignContainer_kind_children();
 	for(set<CyPhyML::DesignContainer>::iterator ci=containers.begin();ci!=containers.end();++ci)
-	{	
+	{
 		CyPhyML::DesignContainer container = *ci;
 		traverseContainer(container, morphMatrix, allEntities);
 	}
-	
+
 }
 
 bool componentFollowsFromInTypeInstanceHierarchy(const CyPhyML::DesignEntity& selectedCom, const CyPhyML::DesignEntity& rootChild)
@@ -264,11 +264,11 @@ void traverseContainer(CyPhyML::DesignContainer &container, MorphMatrix& morphMa
 	}
 	if(pos==morphMatrix.end()) {
 		curEntities = new set<CyPhyML::DesignEntity>();
-		auto inserted = morphMatrix.insert(MorphMatrix::value_type(config, curEntities));
+		auto inserted = morphMatrix.insert(MorphMatrix::value_type(config, std::unique_ptr<set<CyPhyML::DesignEntity> >(curEntities)));
 	} else {
 		curEntities = morphMatrix[config].get();
 	}
-	
+
 
 	// Continue with configuration models creation
 	if((std::string)container.ContainerType()!="Compound")
@@ -276,7 +276,7 @@ void traverseContainer(CyPhyML::DesignContainer &container, MorphMatrix& morphMa
 		map<int, int>::iterator pos = alternativeMap.find(container.ID());
 		if(pos==alternativeMap.end())
 			return;
-		
+
 		//get object by id
 		int altId = (*pos).second;
 		if(altId<=0)
@@ -299,7 +299,7 @@ void traverseContainer(CyPhyML::DesignContainer &container, MorphMatrix& morphMa
 				break;
 			}
 		}
-		if(selectedCom == Udm::null) 
+		if(selectedCom == Udm::null)
 		{
 			char buffer[10];
 			_itoa(altId, buffer, 10);
@@ -310,7 +310,7 @@ void traverseContainer(CyPhyML::DesignContainer &container, MorphMatrix& morphMa
 		com_ref.name() = std::string(selectedCom.name())+"_ref";
 		com_ref.ref() = selectedCom;
 		addSelectedEntity(allEntities, curEntities, selectedCom, container);
-		
+
 		createCWCReference(container);
 
 		//if(Uml::IsDerivedFrom(selectedCom.type(), CyPhyML::DesignContainer::meta))
@@ -319,7 +319,7 @@ void traverseContainer(CyPhyML::DesignContainer &container, MorphMatrix& morphMa
 			traverseContainer(CyPhyML::DesignContainer::Cast(selectedCom), morphMatrix, allEntities);
 		}
 	}
-	else 
+	else
 	{
 		createCWCReference(container);
 		for(set<CyPhyML::DesignEntity>::iterator i=entities.begin();i!=entities.end();++i)
@@ -417,15 +417,15 @@ void traversDesignSpaceForMorphMatrix(const CyPhyML::DesignSpace &ds, MorphMatri
 	for(set<CyPhyML::DesignSpace>::const_iterator di=dsfdrs.begin();di!=dsfdrs.end();++di)
 	{
 		traversDesignSpaceForMorphMatrix(*di, morphMatrix, allEntities);
-	}	
-	
+	}
+
 	const set<CyPhyML::DesignContainer> &containers = ds.DesignContainer_kind_children();
 	for(set<CyPhyML::DesignContainer>::iterator ci=containers.begin();ci!=containers.end();++ci)
-	{	
+	{
 		CyPhyML::DesignContainer container = *ci;
 		traverseContainerForMorphMatrix(container, morphMatrix, allEntities);
 	}
-	
+
 }
 
 void traverseContainerForMorphMatrix(CyPhyML::DesignContainer &container, MorphMatrix& morphMatrix, set<CyPhyML::DesignEntity>& allEntities)
@@ -443,7 +443,7 @@ void traverseContainerForMorphMatrix(CyPhyML::DesignContainer &container, MorphM
 	}
 	if(pos==morphMatrix.end()) {
 		curEntities = new set<CyPhyML::DesignEntity>();
-		morphMatrix.insert(MorphMatrix::value_type(config, curEntities));
+		morphMatrix.insert(MorphMatrix::value_type(config, std::unique_ptr<set<CyPhyML::DesignEntity> >(curEntities)));
 	} else {
 		curEntities = morphMatrix[config].get();
 	}
@@ -454,7 +454,7 @@ void traverseContainerForMorphMatrix(CyPhyML::DesignContainer &container, MorphM
 		map<int, int>::iterator pos = alternativeMap.find(container.ID());
 		if(pos==alternativeMap.end())
 			return;
-		
+
 		//get object by id
 		int altId = (*pos).second;
 		if(altId<=0) return;
@@ -468,7 +468,7 @@ void traverseContainerForMorphMatrix(CyPhyML::DesignContainer &container, MorphM
 				break;
 			}
 		}
-		if(selectedCom == Udm::null) 
+		if(selectedCom == Udm::null)
 		{
 			char buffer[10];
 			_itoa(altId, buffer, 10);
@@ -484,7 +484,7 @@ void traverseContainerForMorphMatrix(CyPhyML::DesignContainer &container, MorphM
 			traverseContainerForMorphMatrix(CyPhyML::DesignContainer::Cast(selectedCom), morphMatrix, allEntities);
 		}
 	}
-	else 
+	else
 	{
 		for(set<CyPhyML::DesignEntity>::iterator i=entities.begin();i!=entities.end();++i)
 		{

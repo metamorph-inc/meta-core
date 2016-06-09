@@ -12,6 +12,10 @@
 
 namespace CyPhyCOMInterfaces { using namespace CyPhyCOMInterfacesCS; }
 
+static void lowercase(std::string& inputAndOutput) {
+	std::transform(inputAndOutput.begin(), inputAndOutput.end(), inputAndOutput.begin(), [](std::string::value_type c) { return ::tolower(c); });
+}
+
 struct CyPhyElaborateTraceability : public CyPhyCOMInterfaces::IMgaTraceability
 {
 	std::unique_ptr<std::map<Udm::Object, Udm::Object> > copiedObjectsToOriginals;
@@ -85,7 +89,7 @@ struct CyPhyElaborateTraceability : public CyPhyCOMInterfaces::IMgaTraceability
 			{
 				// overwrite the return values if we found it
 				auto ret = UdmGme::UdmId2GmeId(it->second.uniqueId());
-				std::transform(ret.begin(), ret.end(), ret.begin(), ::tolower);
+				lowercase(ret);
 				*out_id = _bstr_t(ret.c_str()).Detach();
 				*has_mapped_obj = VARIANT_TRUE;
 				// while it is a map we do not need to iterate through if we have found it
@@ -102,9 +106,9 @@ struct CyPhyElaborateTraceability : public CyPhyCOMInterfaces::IMgaTraceability
 		for (; it != copiedObjectsToOriginals->end(); it++)
 		{
 			auto id = UdmGme::UdmId2GmeId(it->first.uniqueId());
-			std::transform(id.begin(), id.end(), id.begin(), ::tolower);
+			lowercase(id);
 			auto original = UdmGme::UdmId2GmeId(it->second.uniqueId());
-			std::transform(original.begin(), original.end(), original.begin(), ::tolower);
+			lowercase(original);
 			HRESULT hr = copy->raw_AddItem(_bstr_t(id.c_str()), _bstr_t(original.c_str()));
 			if (FAILED(hr))
 				return hr;
