@@ -26,13 +26,13 @@ CHANGE LOG
 //-----CDynamicObj
 
 inline CDynamicObj::CDynamicObj() :CCosmic()
-{ 
-	type = typeDynamic;  
+{
+	type = typeDynamic;
 	ASSERT_EX( false, _T("CDynamicObj::CDynamicObj()"), _T("No core") );
 };
 
 inline CDynamicObj::CDynamicObj(CStaticObj *core)
-	  : CCosmic(), core(core)		
+	  : CCosmic(), core(core)
 {
 	type = typeDynamic;
 }
@@ -76,7 +76,7 @@ void CDynElementContainer::Clone()
 {
 	// create root elements
 	CElementList& list = ((CSpace *)GetCore())->GetRootElements();
-	
+
 	POSITION pos = list.GetHeadPosition();
 	while(pos)
 	{
@@ -157,8 +157,8 @@ inline CDynSpace::~CDynSpace()										{};
 inline void CDynSpace::SetEncodingLen(int l)						{encodingLen = l;};
 inline CBdd CDynSpace::GetEncoding()								{return encoding;};
 inline bool CDynSpace::IsAlive() const								{return alive;};
-inline CStaticObj * CDynSpace::GetCore()							{return this->core;}; 
-  
+inline CStaticObj * CDynSpace::GetCore()							{return this->core;};
+
 
 inline CType CDynSpace::GetType()					{return CDynamicObj::GetType();				};
 inline  CDynSpace::operator long() const			{return CDynamicObj::operator long();		};
@@ -298,9 +298,9 @@ int CDynSpace::SetPropertyEncodingValue(const TCHAR *n, int sv)
 
 //---CDynProperty
 
-inline CDynProperty::CDynProperty(CProperty *c, CDynDomain *d, CDynElement *o)  
+inline CDynProperty::CDynProperty(CProperty *c, CDynDomain *d, CDynElement *o)
 	: CDynamicObj(c), domain(d), owner(o)				{type = typeDynProperty;};
-inline CDynProperty::CDynProperty(CProperty *c, CDynElement *o)  
+inline CDynProperty::CDynProperty(CProperty *c, CDynElement *o)
 	: CDynamicObj(c), owner(o)							{type = typeDynProperty;};
 //CDynProperty *CDynProperty::Make(CProperty *core, CDynDomain *domain, CDynElement *owner);
 inline CDynProperty::~CDynProperty()								{};
@@ -311,9 +311,9 @@ inline bool CDynProperty::GetValue(CDynElement*& r) const			{r = 0;return false;
 inline int CDynProperty::SetEncodingValue(int sb, int encLen)		{return 0;};
 inline int CDynProperty::SetEncodingValue(int sv)					{return 0;}; // for constant properties
 inline CBdd CDynProperty::MaptoBdd(CBdd& parentEncoding)			{return parentEncoding;};
-inline CBdd CDynProperty::MapValuetoBdd(CBdd& parentEncoding)		{return parentEncoding;};	
+inline CBdd CDynProperty::MapValuetoBdd(CBdd& parentEncoding)		{return parentEncoding;};
 
-	
+
 inline double CDynProperty::ComputeSize()							{return 1;};
 inline int CDynProperty::GetVector()								{return -1;};
 inline void CDynProperty::Restrict(CBdd& res)						{};
@@ -396,7 +396,7 @@ void CDynVariableProperty::Restrict(CBdd& res)
 	int  i = 0;
 	CList<POSITION, POSITION> erase_list;
 	CBdd zero = CBdd::Zero();
-		
+
 	if (type == typeDynCustomDomain)
 	{
 
@@ -408,7 +408,7 @@ void CDynVariableProperty::Restrict(CBdd& res)
 
 				POSITION prev_pos = pos;
 
-				CDynElement * rangeElement = range.GetNext(pos);	
+				CDynElement * rangeElement = range.GetNext(pos);
 				CBdd r = CBdd::Encode(i++, startVar, encodingLen);
 				if (zero == (r && res)) erase_list.AddTail(prev_pos);
 			}
@@ -427,7 +427,7 @@ void CDynVariableProperty::Restrict(CBdd& res)
 			while (pos)
 			{
 				POSITION prev_pos = pos;		//store position
-				
+
 				int rangeVal = naturalRange.GetNext(pos);
 				CBdd r = CBdd::Mtbdd_Ite( CBdd::Encode(i++, startVar, encodingLen), CBdd::EncodeArith(rangeVal));
 				if (zero == (r && res)) erase_list.AddTail(prev_pos);
@@ -445,19 +445,19 @@ void CDynVariableProperty::Dump(FILE *f)
 {
 	if (f && domain->GetType() == typeDynCustomDomain)
 	{
-		_ftprintf(f, _T("Variableproperty on Custom Domain: %s at address %x core address: %x\n"), GetName(), this, core);
+		_ftprintf(f, _T("Variableproperty on Custom Domain: %s at address %p core address: %p\n"), static_cast<const TCHAR*>(GetName()), this, core);
 		POSITION pos = range.GetHeadPosition();
 		while(pos)
 		{
 			CDynElement * p = range.GetNext(pos);
-			_ftprintf(f,_T("%x(%x):"), p, p->GetCore());
+			_ftprintf(f,_T("%p(%p):"), p, p->GetCore());
 		}
 		_ftprintf(f, _T("\n"));
 	}
 
 	if (f && domain->GetType() == typeDynNaturalDomain)
 	{
-		_ftprintf(f, _T("Variableproperty on Natural Domain: %s at address %x core address: %x\n"), GetName(), this, core);
+		_ftprintf(f, _T("Variableproperty on Natural Domain: %s at address %p core address: %p\n"), static_cast<const TCHAR*>(GetName()), this, core);
 #ifndef DOUBLE_MTBDD
 		CIntegerList &il = GetNaturalRange();
 		POSITION pos = il.GetHeadPosition();
@@ -472,13 +472,13 @@ void CDynVariableProperty::Dump(FILE *f)
 		while(pos)
 		{
 			int i  = il.GetNext(pos);
-			_ftprintf(f,_T("%f:"), i);
+			_ftprintf(f,_T("%i:"), i);
 		}
 #endif
 		_ftprintf(f, _T("\n"));
 	}
 
-	
+
 }
 
 CDynVariableProperty::
@@ -496,12 +496,12 @@ CDynVariableProperty(CVariableProperty *c, CDynDomain* d, CDynElement *o)
 		{
 			CElement *sre = sr.GetNext(pos);
 			CDynElement *dre = d->FindElement(sre);
-		 
+
 			if (!dre)
 			 throw new CDesertException(_T("CDynVariableProperty::CDynVariableProperty(): range element not found in dyn domain"));
-		 
+
 			//ASSERT_EX(dre, _T("CDynVariableProperty::CDynVariableProperty"), _T("range element not found in dyn domain"));
-		 
+
 		 range.AddTail(dre);
 		}
 	}
@@ -513,7 +513,7 @@ CDynVariableProperty(CVariableProperty *c, CDynDomain* d, CDynElement *o)
 		CDoubleList& nr = c->GetNaturalRange();
 #endif
 		POSITION pos = nr.GetHeadPosition();
-		while (pos) 
+		while (pos)
 			naturalRange.AddTail(nr.GetNext(pos));
 	}
 }
@@ -532,7 +532,7 @@ FindEncodingLen()
 {
   // if not assigned any resource, then use the entire domain (base class findencodinglen)
   // else only the resources included in the range
-	
+
 	if (domain->GetType() == typeDynCustomDomain)
 	{
 	  if (range.IsEmpty())
@@ -569,7 +569,7 @@ CBdd CDynVariableProperty:: MapValuetoBdd(CBdd& parentEnc)
 	if(!((CVariableProperty *)core)->IsNatural())
 		throw new CDesertException(_T("CDynVariableProperty::MapValuetoBdd(): The value is not natural number"));
 
-	CBdd ret;  
+	CBdd ret;
 #ifndef DOUBLE_MTBDD
 		int propVal;
 	  CIntegerList &vals = GetNaturalRange();
@@ -577,8 +577,8 @@ CBdd CDynVariableProperty:: MapValuetoBdd(CBdd& parentEnc)
 	double propVal;
 	  CDoubleList &vals = GetNaturalRange();
 #endif
-  
-    switch( vals.GetCount() ) 
+
+    switch( vals.GetCount() )
 	{
 		case 1:
 		  propVal = vals.GetHead();
@@ -607,7 +607,7 @@ CBdd CDynVariableProperty:: MapValuetoBdd(CBdd& parentEnc)
 
     encoding = ret && parentEnc;
 	return ret;
-	
+
 
 
 };
@@ -630,14 +630,14 @@ double CDynVariableProperty::ComputeSize()
 
 void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguration *cfg, CBdd& enc, long elementID)
 {
-	
+
   if (CBdd::Zero() == (encoding && enc)) return;
   long assignedTo = -1;
 
 
 	if (domain->GetType() == typeDynCustomDomain)
 	{
-		//assignedID will be the element ID of the 
+		//assignedID will be the element ID of the
 		// assigned element (custom member)
 		switch(range.GetCount() )
 		{
@@ -648,7 +648,7 @@ void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguratio
 				assignedTo = d->GetExternal(enc, startVar, encodingLen);
 				//returns element ID!!!
 				break;
-			}	
+			}
 
 		case 1:
 			//since there is only one element, for this variable,
@@ -663,8 +663,8 @@ void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguratio
 			*/
 
 			if (((CVariableProperty*)core)->GetRange().GetCount() == 1) return;
-			
-			//otherwise, generate 
+
+			//otherwise, generate
 			assignedTo = *(range.GetHead()->GetCore()); //implicit cast to long
 		break;
 
@@ -686,7 +686,7 @@ void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguratio
 
 	  } // end switch range.GetCount()
 		ASSERT(assignedTo != -1);
-	
+
 		CAssignment * ass;
 
 		//we should insert all the elements in the list instead of just one
@@ -697,7 +697,7 @@ void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguratio
 
 
 		POSITION mPos = ass_l->GetHeadPosition();
-		
+
 		while (mPos)
 		{
 			ass = ass_l->GetNext(mPos);
@@ -705,13 +705,13 @@ void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguratio
 			cfg->assignments.AddTail((long)(*ass));
 		}
 
-		
+
 	}//eo if (domain->GetType() == typeDynCustomDomain)
 	else
 	{
 		//assignedTo will be a value!!!
 		ASSERT(domain->GetType() == typeDynNaturalDomain);
-	
+
 #ifndef DOUBLE_MTBDD
 	  CIntegerList &nRange = GetNaturalRange();
 #else
@@ -721,7 +721,7 @@ void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguratio
 		{
 		case 0:
 		/*	{
-						
+
 				CDynNaturalDomain *d = (CDynNaturalDomain *) domain;
 				assignedTo = d->GetValue(enc, startVar, encodingLen);
 				break;
@@ -731,10 +731,10 @@ void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguratio
 			//see comment in previous switch, case 1
 
 			if (((CVariableProperty*)core)->GetRange().GetCount() == 1) return;
-			
+
 			if(naturalRange.GetCount()>0)
 				assignedTo = naturalRange.GetHead();
-			
+
 			//break;
 		default:
 			{
@@ -743,19 +743,19 @@ void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguratio
 				CBdd zero = CBdd::Zero();
 				while (pos)
 				{
-#ifndef DOUBLE_MTBDD					
+#ifndef DOUBLE_MTBDD
 					int value = nRange.GetNext(pos);
 #else
 					double value = nRange.GetNext(pos);
 #endif
 					//CBdd r = CBdd::Mtbdd_Ite( CBdd::Encode(i++, startVar, encodingLen), CBdd::EncodeArith(value));
-					
+
 					CBdd r = CBdd::Encode(i++, startVar, encodingLen);
 				//	TRACE(_T("%s:testing if %d is ok at position %d\n"), value, i-1, core->GetName());
 				//	TRACE(_T("value in range[%d]: %d\n"), i, value);
 					if (zero == (r && enc)) continue;
 				//	TRACE(_T("%s: %d is ok at encoding: %d, in configuration number:%d\n"), (LPCTSTR)core->GetName(), value, i-1, cfg->id);
-					
+
 					//value is present in the configuration
 					assignedTo = value;
 					CAssignment * ass;
@@ -781,10 +781,10 @@ void CDynVariableProperty::BuildConfiguration(BackIfaceFunctions::DBConfiguratio
 			}//eo case default
 
 		}//eo switch (naturalRange.GetCount())
-		
-	
+
+
 	}//eo else if (domain->GetType() == typeDynCustomDomain)
-    
+
 }
 
 CBdd
@@ -792,7 +792,7 @@ CDynVariableProperty::
 GetEncoding(CDynElement *rangeElement)
 {
   CBdd ret = CBdd::One();
-  
+
   CDynElement * debug;
 //  CString debugname, rangename;
   switch(range.GetCount())
@@ -806,7 +806,7 @@ GetEncoding(CDynElement *rangeElement)
   }
 
   case 1:
-		
+
 	  debug = range.GetHead();
 //	  debugname = debug->GetName();
 //	  rangename = rangeElement->GetName();
@@ -847,12 +847,12 @@ GetEncoding(CDynElement *rangeElement)
 //-------------------CDynDomain
 
 
-inline CDynDomain* CDynDomain::Make(CDynDomain *f)				
+inline CDynDomain* CDynDomain::Make(CDynDomain *f)
 {
 	return f->IsAlive() ? Make((CDomain *)f->GetCore()) : 0;
 };
 
-inline CDynDomain::CDynDomain(CDomain *core): CDynamicObj(core)	
+inline CDynDomain::CDynDomain(CDomain *core): CDynamicObj(core)
 {
 	type = typeDynDomain;
 };
@@ -907,7 +907,7 @@ inline CDynNaturalDomain::CDynNaturalDomain(CNaturalDomain *c, int mx, int mn) :
 
 inline void CDynNaturalDomain::Clone()										{};
 inline void CDynNaturalDomain::Dump(FILE *f)								{};
-inline void CDynNaturalDomain::Clone(CDynDomain* from)						{};		
+inline void CDynNaturalDomain::Clone(CDynDomain* from)						{};
 inline CDynNaturalDomain::~CDynNaturalDomain()								{};
 inline int CDynNaturalDomain::GetSize() const								{return maxVal-minVal;};
 
@@ -921,7 +921,7 @@ long CDynNaturalDomain::GetValue(CBdd& enc, int sv, int encLen)
 	{
 		CBdd r = CBdd::Mtbdd_Ite( CBdd::Encode(i++, sv, encLen), CBdd::EncodeArith(val));
 		if (zero == (r && enc)){val++; continue;}
-		
+
 		return val;
 	}
   return -1;
@@ -958,7 +958,7 @@ inline CDynElement * CDynCustomDomain::RemoveElement(long i)			{return CDynEleme
 inline CDynElement * CDynCustomDomain::RemoveElement(const TCHAR *n)		{return CDynElementContainer::RemoveElement(n);}
 inline CDynElement * CDynCustomDomain::InsertElement(CDynElement *e)	{return CDynElementContainer::InsertElement(e);}
 inline int CDynCustomDomain::IndexElement(CDynElement *elem)			{return Index(elements, elem);};
-inline CStaticObj * CDynCustomDomain::GetCore()							{return this->core;}; 
+inline CStaticObj * CDynCustomDomain::GetCore()							{return this->core;};
 inline CType CDynCustomDomain::GetType()								{return CDynamicObj::GetType();				};
 inline CDynCustomDomain::operator long() const							{return CDynamicObj::operator long();		};
 inline CDynCustomDomain::operator const TCHAR * () const					{return CDynamicObj::operator const TCHAR *();};
@@ -1017,12 +1017,12 @@ CBdd CDynCustomDomain::GetEncoding(CDynElement *rangeElement, int sv, int encLen
   throw new CDesertException(_T("CDynVariableProperty::GetEncoding(): resource not found in the domain"));
   return CBdd::One();
 }
-	
+
 //------------CDynCOnstraintSet
 
 
 
-inline CDynConstraintSet::CDynConstraintSet(CConstraintSet *c)  :CDynamicObj(c), alive(true)	
+inline CDynConstraintSet::CDynConstraintSet(CConstraintSet *c)  :CDynamicObj(c), alive(true)
 {
 	type =	typeDynConstraintSet;
 };
@@ -1047,12 +1047,12 @@ inline CDynConstraint * CDynConstraintSet::InsertConstraint(CDynConstraint *e)	{
 inline void CDynConstraintSet::RemoveAll()										{constraints.RemoveAll();};
 inline bool CDynConstraintSet ::IsEmpty() const									{return constraints.IsEmpty() ? true : false;};
 inline bool CDynConstraintSet::IsAlive() const									{return alive;};
-  
+
 
 void CDynConstraintSet::Clone()
 {
  // ASSERT_EX( core, _T("CDynConstraintSet::Clone"), _T("core is NULL") );
-  
+
 	if (!core) throw new CDesertException(_T("CDynConstraintSet::Clone: core is NULL") );
 
   //ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
@@ -1094,7 +1094,7 @@ CBdd CDynConstraintSet::MaptoBdd()
 {
 	CBdd ret = CBdd::One();
 	POSITION pos = constraints.GetHeadPosition();
-	while(pos)   
+	while(pos)
 	{
 		CDynConstraint *con = constraints.GetNext(pos);
 		if(con->IsValid())
@@ -1132,7 +1132,7 @@ CDynElement *CDynConstraintSet::FindAffectedSpace(CDynSpaceList& spaces, bool& p
       spaces.AddTail(spc);
     }
   }
-  
+
   if (!sc) return (CDynElement *)FindRoot(dependency);
   return 0;
 }
@@ -1149,7 +1149,7 @@ bool CDynConstraintSet::Restrict(void)
 
 //-------------CDynConstraint
 inline CDynConstraint::CDynConstraint(CConstraint *c, CDynConstraintSet *s, CDynElement* e)
-	: CDynamicObj(c), set(s), context(e), alive(true), wasApplied(false)	
+	: CDynamicObj(c), set(s), context(e), alive(true), wasApplied(false)
 {
 	valid = c->IsValid();
 	type = typeDynConstraint;
@@ -1188,7 +1188,7 @@ CBdd CDynConstraint::MaptoBdd()
 	  err.Append(_T("> fails to be evaluated.\r"));
 	  err.Append(e->GetErrorMessage());
 	  e->Delete();
-	
+
 	  throw new CDesertException(err, this->GetName());
   }
 
@@ -1198,9 +1198,9 @@ CBdd CDynConstraint::MaptoBdd()
 void CDynConstraint::FillDependency(CDynamicObjList& dep)
 {
 //  ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
-	
+
 	DYN_MANAGER_CHECK(_T("CDynConstraint::Restrict()"));
-	
+
   CConstraint *core = (CConstraint *)(this->core);
   if (core->GetConstraintType() ==  typeUniSpace)
   {
@@ -1285,7 +1285,7 @@ inline CDynRelation::CDynRelation(CRelation *core, CDynElement *c, CDynElement *
 
 inline CDynRelation::~CDynRelation()												{};
 inline CDynElement* CDynRelation::GetContext()										{return context;};
-inline CDynElement* CDynRelation::GetSource()										{return source;};				
+inline CDynElement* CDynRelation::GetSource()										{return source;};
 inline CDynElement* CDynRelation::GetDestination()									{return destination;};
 
 
@@ -1328,10 +1328,10 @@ inline CBdd CDynElement::GetBaseEncoding()									{return baseEnc;};
 
 inline bool CDynElement::IsAlive() const								{return alive;};
 inline CCosmic* CDynElement::Parent()									{return parent;};
-inline CCosmic* CDynElement::Space()									{return space;};				
+inline CCosmic* CDynElement::Space()									{return space;};
 
 inline int CDynElement:: GetCount() const
-{  
+{
 	int count=1;                          // 1 for self
 	POSITION pos = children.GetHeadPosition();
 	while(pos) count += children.GetNext(pos)->GetCount();
@@ -1386,12 +1386,12 @@ double CDynElement::ComputeSize()
 				  if (property->GetDomain()->GetType() == typeDynCustomDomain)
 					  ret *= property->ComputeSize();
 
-			  
+
 	  }
 	  if (ret == 0) ret = 1;
     break;
   }
-  
+
   return ret;
 }
 
@@ -1463,10 +1463,10 @@ int CDynElement::FindEncodingLen()
 #else
 				CDoubleList& vals = dvnp->GetNaturalRange();
 #endif
-				if (vals.GetCount() > 1) 
+				if (vals.GetCount() > 1)
 					nbits += log2(vals.GetCount());
 			}
-			else 
+			else
 			{
 				resourceEncodingLen += prop->FindEncodingLen();
 			}
@@ -1569,7 +1569,7 @@ int CDynElement::SetEncodingValue(int enc, int sb)
 				CDoubleList& vals = dvnp->GetNaturalRange();
 #endif
 			  int nbits = 0;
-			  if (vals.GetCount() > 1) 
+			  if (vals.GetCount() > 1)
 				  nbits = log2(vals.GetCount());
 			  dvnp->SetEncodingValue(startVar + ret, nbits);
 			  ret += nbits;
@@ -1594,7 +1594,7 @@ CBdd CDynElement::MaptoBdd(CBdd& parentEnc, int props, ...)
 
 CBdd CDynElement::MaptoBdd_0(CBdd& parentEnc, int props, va_list ap)
 {
-  
+
   TRACE( _T("CDynElement::MaptoBdd_0 : element %s : encval %d : startvar %d : encLen %d  \n"),
          GetName(), encodingVal, startVar, encodingLen );
 
@@ -1652,8 +1652,8 @@ void CDynElement::Dump(FILE *f)
 //	ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
 	DYN_MANAGER_CHECK(_T("CDynElement::Dump()"));
 
-	if (f) _ftprintf(f, _T(" Element: %s at address %x; core address: %x\n"), GetName(), this, GetCore());
-	
+	if (f) _ftprintf(f, _T(" Element: %s at address %p; core address: %p\n"), static_cast<const TCHAR*>(GetName()), this, GetCore());
+
 	POSITION pos = properties.GetHeadPosition();
 	while(pos) properties.GetNext(pos)->Dump(f);
 
@@ -1675,10 +1675,10 @@ void CDynElement::Clone()
         new CDynElement( list.GetNext(pos), space, this ) :
         new CDynElement( list.GetNext(pos), (CDynCustomDomain*)domain, this );
       children.AddTail(dup);
-      
+
 	  // we do not insert elements in domain
       if (space) space->InsertElement(dup);
-	  if (domain) 
+	  if (domain)
 		  domain->InsertElement(dup);
 
     }
@@ -1826,7 +1826,7 @@ bool CDynElement::Restrict(CBdd& res)
 		pos = properties.GetHeadPosition();
 		while (pos) properties.GetNext(pos)->Restrict(res);
 		break;
-		
+
 	}
 
 	TRACE(_T("%s: sv: %d, len:%d, val: %d\n"), (LPCTSTR)this->GetName(), this->startVar, this->encodingLen, this->encodingVal);
@@ -1848,7 +1848,7 @@ void CDynElement::BuildConfiguration(BackIfaceFunctions::DBConfiguration *cfg, C
 	  {
 		  //if parent is element
 		  if (parent->GetDecomposition() == decompOr)
-		  {//if parent is an or decompositioned 
+		  {//if parent is an or decompositioned
 			  long dummy;
 			  VERIFY(!cfg->alt_assignments.Lookup(*(parent->GetCore()), dummy));
 			  cfg->alt_assignments[*(parent->GetCore())] = *core;
@@ -1869,7 +1869,7 @@ void CDynElement::BuildConfiguration(BackIfaceFunctions::DBConfiguration *cfg, C
   case decompAnd:
   case decompOr:
     pos = children.GetHeadPosition();
-    while(pos) 
+    while(pos)
 		children.GetNext(pos)->BuildConfiguration(cfg, enc);
     break;
 
@@ -1917,16 +1917,16 @@ ClData CDynElement::Eval(const CCosmic *other) const
     CDynVariableProperty *prop;
 	CDynProperty * temp;
 
-	
+
 	CDynPropertyList& prop_list = this_noconst->GetProperties();
-	
+
 
     switch(other->GetType())
     {
     case typeDynElement:
       obj = (CDynElement *)other;
       break;
-      
+
     default:
       Todo(_T("CDynElement::Eval"), _T("Eval for unimplemented type %d"), (int)(other->GetType()));
     }
@@ -1957,12 +1957,12 @@ bool CDynElement::IsNumericFunc() const
 //	if (funcType==funcPCMNop || funcType==funcPCMNone || funcType==funcImplementedBy)
 	if (funcType==funcPCMNop || funcType==funcImplementedBy)
 		return false;
-	else 
+	else
 		return true;
 }
 
 ClData CDynElement::Eval(ClRelExpr::RelOp op, const CCosmic *other) const
-{	
+{
 //	if(funcType==funcPCMNop || funcType==funcPCMNone || funcType==funcImplementedBy)
 	if(funcType==funcPCMNop || funcType==funcImplementedBy)
 	{
@@ -1979,15 +1979,15 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, const CCosmic *other) const
 	{
 		CDynVariableProperty *prop;
 		CDynProperty * temp;
-	
+
 		CDynPropertyList& prop_list = this_noconst->GetProperties();
-	
+
 		switch(other->GetType())
 		{
 			case typeDynElement:
 				obj = (CDynElement *)other;
 				break;
-      
+
 			default:
 				Todo(_T("CDynElement::Eval"), _T("Eval for unimplemented type %d"), (int)(other->GetType()));
 		}
@@ -1996,7 +1996,7 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, const CCosmic *other) const
 
 		leftBDD = ((CDynElement *)this)->PCMGen_0(0, funcProperty);
 		rightBDD = obj->PCMGen_0(0, obj->GetFuncProperty());
-		ret = leftBDD - rightBDD;	
+		ret = leftBDD - rightBDD;
 		int limit = 0;
 		switch (op)
 		{
@@ -2011,7 +2011,7 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, const CCosmic *other) const
 			//not equals to relation operator
 			case ClRelExpr::neOp:
 			{
-				ret = ret.not_equals_to(limit);		
+				ret = ret.not_equals_to(limit);
 				ret = CBdd::Implies(encoding, ret);    // conditionalize the property with our encoding
 				return ret;
 			}
@@ -2021,7 +2021,7 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, const CCosmic *other) const
 			//less then relation operator
 			case ClRelExpr::ltOp:
 			{
-				ret = ret.threshold(limit);		
+				ret = ret.threshold(limit);
 				ret = CBdd::Implies(encoding, ret);    // conditionalize the property with our encoding
 				return ret;
 			}
@@ -2062,15 +2062,15 @@ ClData CDynElement::Eval(ClAddExpr::AddOp op, const CCosmic *other) const
 	{
 		CDynVariableProperty *prop;
 		CDynProperty * temp;
-	
+
 		CDynPropertyList& prop_list = this_noconst->GetProperties();
-	
+
 		switch(other->GetType())
 		{
 			case typeDynElement:
 				obj = (CDynElement *)other;
 				break;
-      
+
 			default:
 				Todo(_T("CDynElement::Eval"), _T("Eval for unimplemented type %d"), (int)(other->GetType()));
 		}
@@ -2094,7 +2094,7 @@ ClData CDynElement::Eval(ClAddExpr::AddOp op, const CCosmic *other) const
 		default:
 			return (CBdd::Zero());
 		}
-		
+
 	}
 	return ClData(ret);
 }
@@ -2121,7 +2121,7 @@ ClData CDynElement::Eval(ClAddExpr::AddOp op, const CBdd& left) const
 	default:
 		return (CBdd::Zero());
 	}
-		
+
 	return ClData(ret);
 }
 
@@ -2137,15 +2137,15 @@ ClData CDynElement::Eval(ClMulExpr::MulOp op, const CCosmic *other) const
 	{
 		CDynVariableProperty *prop;
 		CDynProperty * temp;
-	
+
 		CDynPropertyList& prop_list = this_noconst->GetProperties();
-	
+
 		switch(other->GetType())
 		{
 			case typeDynElement:
 				obj = (CDynElement *)other;
 				break;
-      
+
 			default:
 				Todo(_T("CDynElement::Eval"), _T("Eval for unimplemented type %d"), (int)(other->GetType()));
 		}
@@ -2169,7 +2169,7 @@ ClData CDynElement::Eval(ClMulExpr::MulOp op, const CCosmic *other) const
 		default:
 			return (CBdd::Zero());
 		}
-		
+
 	}
 	return ClData(ret);
 }
@@ -2181,8 +2181,8 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, double right) const
 #endif
 {
   //ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
-	
-	DYN_MANAGER_CHECK(_T("CDynElement::Eval(ClRelExpr::RelOp op, int right)"));	
+
+	DYN_MANAGER_CHECK(_T("CDynElement::Eval(ClRelExpr::RelOp op, int right)"));
 	CBdd ret = CBdd::One();
 
 	switch(funcType)
@@ -2190,7 +2190,7 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, double right) const
 		case funcPCMAdd:
 			ret = ((CDynElement *)this)->PCMAdd(right, op); // screwing up with the constant-ness here
 			break;
-  
+
 		case funcPCMMul:
 			ret = ((CDynElement *)this)->PCMMul(right, op); // screwing up with the constant-ness here
 			break;
@@ -2210,7 +2210,7 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, double right) const
 		case funcPCMGmed:
 			ret = ((CDynElement *)this)->PCMGmed(right, op); // screwing up with the constant-ness here
 			break;
-  
+
 		case funcPCMCust:
 			ret = ((CDynElement *)this)->PCMCust(right, op); // screwing up with the constant-ness here
 			break;
@@ -2222,10 +2222,10 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, double right) const
 			break;
 
 		case funcPCMNop:
-			//does no operation 
+			//does no operation
 			ret = ((CDynElement *)this)->PCMNop(right, op); // screwing up with the constant-ness here
 			break;
-  
+
 		default:
 			Warning(_T("CDynElement::Eval"), _T("Eval a Rel Expr of an unimplemented function type %d for property %s"),
 				funcType, funcProperty);
@@ -2280,7 +2280,7 @@ CBdd CDynElement::PCMMin(int limit, ClRelExpr::RelOp op)
 {
   CBdd ret = PCMMin_0(limit, funcProperty);
 
-  	
+
   switch (op)
   {
 	//equals to relation operator
@@ -2333,7 +2333,7 @@ CBdd CDynElement::PCMMin(int limit, ClRelExpr::RelOp op)
 	}
   };
 
-  
+
 }
 
 CBdd CDynElement::PCMMax(int limit, ClRelExpr::RelOp op)
@@ -2341,7 +2341,7 @@ CBdd CDynElement::PCMMax(int limit, ClRelExpr::RelOp op)
 
   CBdd ret = PCMMax_0(limit, funcProperty);
 
-  	
+
   switch (op)
   {
 	//equals to relation operator
@@ -2394,7 +2394,7 @@ CBdd CDynElement::PCMMax(int limit, ClRelExpr::RelOp op)
 	}
   };
 
-  
+
 }
 
 
@@ -2403,7 +2403,7 @@ CBdd CDynElement::PCMAmed(int limit, ClRelExpr::RelOp op)
 
   CBdd ret = PCMAmed_0(limit, funcProperty);
 
-  	
+
   switch (op)
   {
 	//equals to relation operator
@@ -2456,7 +2456,7 @@ CBdd CDynElement::PCMAmed(int limit, ClRelExpr::RelOp op)
 	}
   };
 
-  
+
 }
 
 CBdd CDynElement::PCMGmed(int limit, ClRelExpr::RelOp op)
@@ -2464,7 +2464,7 @@ CBdd CDynElement::PCMGmed(int limit, ClRelExpr::RelOp op)
 
   CBdd ret = PCMGmed_0(limit, funcProperty);
 
-  	
+
   switch (op)
   {
 	//equals to relation operator
@@ -2517,7 +2517,7 @@ CBdd CDynElement::PCMGmed(int limit, ClRelExpr::RelOp op)
 	}
   };
 
-  
+
 }
 
 
@@ -2529,7 +2529,7 @@ CBdd CDynElement::PCMMul(int limit, ClRelExpr::RelOp op)
 
   CBdd ret = PCMMul_0(limit, funcProperty);
 
-  	
+
   switch (op)
   {
 	//equals to relation operator
@@ -2582,12 +2582,12 @@ CBdd CDynElement::PCMMul(int limit, ClRelExpr::RelOp op)
 	}
   };
 
-  
+
 }
 
 CBdd CDynElement::PCMCust(int limit, ClRelExpr::RelOp op)
 {
-	
+
 	fnptrPCMCust PCMfn = CManager::theInstance->GetPCMCustomFunction(funcProperty);
 	return PCMfn(limit, op, this);
 }
@@ -2596,10 +2596,10 @@ fnptrPCMCust CManager::GetPCMCustomFunction(CString &propName)
 {
 
 	void * PCMfn;			//returna value
-	
-	//Look Up... 
+
+	//Look Up...
 	if (fnPCMtable.Lookup(propName, PCMfn)) return (fnptrPCMCust)PCMfn;
-	
+
 	//Not found, find the Dll and the function
 	CString dll_name;
 	CStringA eval_fn;
@@ -2610,7 +2610,7 @@ fnptrPCMCust CManager::GetPCMCustomFunction(CString &propName)
 	dll_name = _T("PCM_") + propName + _T(".dll");
 
 #endif
-	
+
 	HMODULE dll_module = LoadLibrary(dll_name);
 
 	if (!dll_module)
@@ -2634,7 +2634,7 @@ CBdd CDynElement::PCMAdd(int limit, ClRelExpr::RelOp op)
 {
 
   CBdd ret = PCMAdd_0(limit, funcProperty);
- 
+
   switch (op)
   {
 	//equals to relation operator
@@ -2687,7 +2687,7 @@ CBdd CDynElement::PCMAdd(int limit, ClRelExpr::RelOp op)
 	}
   };
 
-  
+
 }
 
 CBdd CDynElement::PCMNop_0(const CCosmic * other, const TCHAR * propName)
@@ -2729,7 +2729,7 @@ CBdd CDynElement::PCMNop_0(const CCosmic * other, const TCHAR * propName)
 			throw new CDesertException(_T("PCMNop_0(): Unimplemented operation, expected other to be of type typeDynElement"));
 
 		obj = (CDynElement*) other;
-		
+
 		ret = vprop ? vprop->GetEncoding(obj) : CBdd::Zero();
 		break;
 	} // end switch( decomp...
@@ -2775,7 +2775,7 @@ CBdd CDynElement::PCMNone(int limit, ClRelExpr::RelOp op)
 			ret = CBdd::Implies(encoding, ret);    // conditionalize the property with our encoding
 			return ret;
 		}
-		
+
 		//not equals to relation operator
 		case ClRelExpr::neOp:
 		{
@@ -2827,12 +2827,12 @@ CBdd CDynElement::PCMNone(int limit, ClRelExpr::RelOp op)
 CBdd CDynElement::PCMNop(const CCosmic * other)
 {
 	CBdd ret = PCMNop_0(other, funcProperty);
-	
+
 	//the only op expected here is eqOp, probably we should also support neOp
 
 	ret = ret  && encoding;
 	ret = ret || !(encoding);
-	
+
 	return ret;
 }
 
@@ -2840,7 +2840,7 @@ CBdd CDynElement::PCMNop(int limit, ClRelExpr::RelOp op)
 {
 
   CBdd ret = PCMNop_0(limit, funcProperty);
- 
+
   switch (op)
   {
 	//equals to relation operator
@@ -2893,7 +2893,7 @@ CBdd CDynElement::PCMNop(int limit, ClRelExpr::RelOp op)
 	}
   };
 
-  
+
 }
 
 
@@ -2968,7 +2968,7 @@ PCMAdd_0(int limit, const TCHAR *propName)
   case decompLeaf:
     prop = FindProperty(propName);
 
-	
+
 	if(prop)
 	{
 		ret = prop->MapValuetoBdd( encoding );
@@ -2992,7 +2992,7 @@ PCMAdd_0(int limit, const TCHAR *propName)
     ret = CBdd::Mtbdd_Ite(baseEnc, ret);
 
  // int sz = ret.size();
- 
+
   return ret;
 }
 
@@ -3018,11 +3018,11 @@ PCMGmed_0(int limit, const TCHAR *propName)
 		pos = children.GetHeadPosition();
 		while(pos)
 			ret = ret * children.GetNext(pos)->PCMGmed_0(limit, propName);
-    
-		ret = ret ^ children.GetCount();//n-th order root 
+
+		ret = ret ^ children.GetCount();//n-th order root
 	  }
 	break;
-	
+
 
   case decompOr:
     ret = CBdd::Zero();
@@ -3079,11 +3079,11 @@ PCMAmed_0(int limit, const TCHAR *propName)
 		pos = children.GetHeadPosition();
 		while(pos)
 			ret = ret + children.GetNext(pos)->PCMAmed_0(limit, propName);
-    
+
 		ret = ret / children.GetCount();
 	  }
 	break;
-	
+
 
   case decompOr:
     ret = CBdd::Zero();
@@ -3317,7 +3317,7 @@ NotRedundant(int *enc)
     // if i am a node then i use:
     // a) my own encoding len (decided by parent)
     // b) childEncodinglen (bits used by my children)
-    // if a am an or node i also use 
+    // if a am an or node i also use
     // c) log2(children_count) bits to distinguish between my children
     //
 
@@ -3401,7 +3401,7 @@ NotRedundant(int *enc)
 		}
 	}
 	*/
-	
+
 
 
 
@@ -3536,14 +3536,14 @@ CDynElement::
 PCMGen_0(int limit, const TCHAR *propName)
 {
 	CBdd ret = CBdd::One();
-	
+
 	switch(funcType)
 	{
- 
+
 	case funcPCMAdd:
 		ret = ((CDynElement *)this)->PCMAdd_0(0, funcProperty); // screwing up with the constant-ness here
 		break;
-  
+
 	case funcPCMMul:
 		ret = ((CDynElement *)this)->PCMMul_0(0, funcProperty); // screwing up with the constant-ness here
 		break;
@@ -3563,7 +3563,7 @@ PCMGen_0(int limit, const TCHAR *propName)
 	case funcPCMGmed:
 		ret = ((CDynElement *)this)->PCMGmed_0(0, funcProperty); // screwing up with the constant-ness here
 		break;
-  
+
 	case funcPCMCust:
 //		ret = ((CDynElement *)this)->PCMCust(right, op); // screwing up with the constant-ness here
 		break;
@@ -3586,15 +3586,15 @@ PCMGen_0(int limit, const TCHAR *propName)
 				break;
 			} // end switch( decomp...
 
-			//if parent is alternatives			
+			//if parent is alternatives
 			if (parent && (decompOr == (CDecomposition)(*parent)))
 				ret = CBdd::Mtbdd_Ite(baseEnc, ret);
-			
+
 			break;
 		}
 	case funcPCMNop:
 		{
-		//does no operation 
+		//does no operation
 		ret = ((CDynElement *)this)->PCMNop_0(limit, funcProperty); // screwing up with the constant-ness here
 		break;
 		}
@@ -3631,7 +3631,7 @@ ClData CDynElement::Eval(int limit, const TCHAR *propName, FunctionType fn) cons
 		}
 		else
 			pcm_fn = fn;
-		
+
 		if(!processSimpleFormula)
 		{
 			switch((CDecomposition)*this)
@@ -3651,7 +3651,7 @@ ClData CDynElement::Eval(int limit, const TCHAR *propName, FunctionType fn) cons
 
 	if (parent && (decompOr == (CDecomposition)(*parent)))
 		ret = CBdd::Mtbdd_Ite(baseEnc, ret);
-	
+
 	return ClData(ret);
 }
 
@@ -3664,12 +3664,12 @@ CBdd CDynElement::PCMGen_SimpleFormula(int limit,CDynPropertyList &propList, Fun
 		CDynProperty *prop = propList.GetNext(pos);
 		CString propName = prop->GetName();
 		CDynElement *elem = prop->GetOwner();
-		
+
 		CProperty *cprop = (CProperty*)(prop->GetCore());
 		FunctionType pcm_fn = cprop->GetFuncType();
 
 		switch(fn)
-		{ 
+		{
 		case funcPCMAdd:
 			ret = ret + (CBdd)(elem->Eval(limit, propName, pcm_fn));
 			break;
@@ -3683,16 +3683,16 @@ CBdd CDynElement::PCMGen_SimpleFormula(int limit,CDynPropertyList &propList, Fun
 			ret = CBdd::Max(ret , elem->Eval(limit, propName, pcm_fn));
 			break;
 		case funcPCMAmed:
-			ret = ret + (CBdd)(elem->Eval(limit, propName, pcm_fn)); 
+			ret = ret + (CBdd)(elem->Eval(limit, propName, pcm_fn));
 			break;
 		case funcPCMGmed:
 			ret = ret * (CBdd)(elem->Eval(limit, propName, pcm_fn));
 			break;
 		case funcPCMNop:
-			ret = ret && elem->Eval(limit, propName, pcm_fn); 
+			ret = ret && elem->Eval(limit, propName, pcm_fn);
 			break;
 		case funcPCMOr:
-			ret = ret || elem->Eval(limit, propName, pcm_fn); 
+			ret = ret || elem->Eval(limit, propName, pcm_fn);
 			break;
 		}
 	}
@@ -3713,7 +3713,7 @@ CBdd CDynElement::PCMGen_SimpleFormula(int limit,CDynPropertyList &propList, Fun
 CBdd CDynElement::PCMGen_decompAnd(int limit, const TCHAR *propName, FunctionType fn)
 {
 	CBdd ret = CBdd::ArithZero();
-	
+
 	CDynProperty * prop = FindProperty(propName);
 	ret = prop ? prop->MapValuetoBdd((CBdd)encoding ) : CBdd::ArithZero();
 
@@ -3728,7 +3728,7 @@ CBdd CDynElement::PCMGen_decompAnd(int limit, const TCHAR *propName, FunctionTyp
 	while(pos)
 	{
 		switch(fn)
-		{ 
+		{
 		case funcPCMAdd:
 			ret = ret + (CBdd)(children.GetNext(pos)->Eval(limit, propName, fn));
 			break;
@@ -3742,13 +3742,13 @@ CBdd CDynElement::PCMGen_decompAnd(int limit, const TCHAR *propName, FunctionTyp
 			ret = CBdd::Max(ret , children.GetNext(pos)->Eval(limit, propName, fn));
 			break;
 		case funcPCMAmed:
-			ret = ret + (CBdd)(children.GetNext(pos)->Eval(limit, propName, fn)); 
+			ret = ret + (CBdd)(children.GetNext(pos)->Eval(limit, propName, fn));
 			break;
 		case funcPCMGmed:
 			ret = ret * (CBdd)(children.GetNext(pos)->Eval(limit, propName, fn));
 			break;
 		case funcPCMNop:
-			ret = ret && children.GetNext(pos)->Eval(limit, propName, fn); 
+			ret = ret && children.GetNext(pos)->Eval(limit, propName, fn);
 			break;
 		default:
 			break;
@@ -3795,7 +3795,7 @@ CBdd CDynElement::PCMGen_decompLeaf(int limit, const TCHAR *propName, FunctionTy
 	CBdd ret;
 	CDynProperty *prop = FindProperty(propName);
 
-	
+
 	if(prop)
 		ret = prop->MapValuetoBdd( encoding );
 	else
@@ -3812,14 +3812,14 @@ ClData CDynElement::Eval() const
 //	return ((CDynElement *)this)->PCMGen_0(0, funcProperty);
 	return ((CDynElement *)this)->Eval(0, funcProperty, funcType);
 	CBdd ret = CBdd::One();
-	
+
 	switch(funcType)
 	{
- 
+
 	case funcPCMAdd:
 		ret = ((CDynElement *)this)->PCMAdd_0(0, funcProperty); // screwing up with the constant-ness here
 		break;
-  
+
 	case funcPCMMul:
 		ret = ((CDynElement *)this)->PCMMul_0(0, funcProperty); // screwing up with the constant-ness here
 		break;
@@ -3839,7 +3839,7 @@ ClData CDynElement::Eval() const
 	case funcPCMGmed:
 		ret = ((CDynElement *)this)->PCMGmed_0(0, funcProperty); // screwing up with the constant-ness here
 		break;
-  
+
 	case funcPCMCust:
 //		ret = ((CDynElement *)this)->PCMCust(right, op); // screwing up with the constant-ness here
 		break;
@@ -3862,15 +3862,15 @@ ClData CDynElement::Eval() const
 				break;
 			} // end switch( decomp...
 
-			//if parent is alternatives			
+			//if parent is alternatives
 			if (parent && (decompOr == (CDecomposition)(*parent)))
 				ret = CBdd::Mtbdd_Ite(baseEnc, ret);
-			
+
 			break;
 		}
 	case funcPCMNop:
 		{
-		//does no operation 
+		//does no operation
 		ret = ((CDynElement *)this)->PCMNop_0(0, funcProperty); // screwing up with the constant-ness here
 		break;
 		}
@@ -3882,7 +3882,7 @@ ClData CDynElement::Eval() const
 }
 
 //------------CDynFormulaSet
-inline CDynFormulaSet::CDynFormulaSet(CFormulaSet *c)  : CDynamicObj(c), alive(true)	
+inline CDynFormulaSet::CDynFormulaSet(CFormulaSet *c)  : CDynamicObj(c), alive(true)
 {
 	type =	typeDynFormulaSet;
 };
@@ -3907,12 +3907,12 @@ inline CDynFormula * CDynFormulaSet::InsertFormula(CDynFormula *e)	{return Inser
 inline void CDynFormulaSet::RemoveAll()										{formulas.RemoveAll();};
 inline bool CDynFormulaSet ::IsEmpty() const									{return formulas.IsEmpty() ? true : false;};
 inline bool CDynFormulaSet::IsAlive() const									{return alive;};
-  
+
 
 void CDynFormulaSet::Clone()
 {
  // ASSERT_EX( core, _T("CDynConstraintSet::Clone"), _T("core is NULL") );
-  
+
 	if (!core) throw new CDesertException(_T("CDynFormulaSet::Clone: core is NULL") );
 
   //ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
@@ -3988,7 +3988,7 @@ CDynElement *CDynFormulaSet::FindAffectedSpace(CDynSpaceList& spaces, bool& prop
       spaces.AddTail(spc);
     }
   }
-  
+
   if (!sc) return (CDynElement *)FindRoot(dependency);
   return 0;
 }
@@ -4022,7 +4022,7 @@ CBdd CDynFormula::MaptoBdd()
 {
   ClFormula *expression = ((CFormula *)core)->GetExpression();
   ClContext clCtx = context;
- 
+
   // Himanshu: Always return Bdd::One() when a constraint fails
   CBdd ret = CBdd::One();
   try {
@@ -4044,9 +4044,9 @@ CBdd CDynFormula::MaptoBdd()
 void CDynFormula::FillDependency(CDynamicObjList& dep)
 {
 //  ASSERT_EX( CManager::theInstance, _T("CDynElement::Clone"), _T("manager not instantiated") );
-	
+
 	DYN_MANAGER_CHECK(_T("CDynFormula::Restrict()"));
-	
+
   CFormula *core = (CFormula *)(this->core);
   if (core->GetConstraintType() ==  typeUniSpace)
   {
