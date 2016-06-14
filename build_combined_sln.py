@@ -13,9 +13,19 @@ import os.path
 import sys
 import win32com.client
 from time import sleep # FIXME appears there are races...
+import ctypes
+import subprocess
 
 meta_path = os.path.dirname(os.path.abspath(__file__))
-_vs_version = "12.0" # do not use VS 2010 or earlier
+os.chdir(meta_path)
+_vs_version = "14.0" # do not use VS 2010 or earlier
+
+subprocess.check_call([r'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\vcvars32.bat'] + '& cl RetryIOleFilter.cpp'.split() +
+    [r'/IC:\Program Files (x86)\Windows Kits\10\Include\10.0.10586.0\km\crt'] + [r'/IC:\Program Files (x86)\Windows Kits\10\Include\10.0.10586.0\km'] + [r'/IC:\Program Files (x86)\Windows Kits\10\Include\10.0.10586.0\um'] +
+    '/LD /link /out:RetryIOleFilter.dll'.split() + [r'/libpath:C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10240.0\ucrt\x86'], shell=True)
+
+RetryIOleFilter = ctypes.windll.LoadLibrary(os.path.join(meta_path, 'RetryIOleFilter'))
+RetryIOleFilter.Register()
 
 def allProjects(sln):
     '''get all projects in a DTE solution, even ones in solution folders'''
