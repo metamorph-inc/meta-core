@@ -59,8 +59,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>set PATH=C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\NETFX 4.0 Tools;C:\Program Files\Microsoft SDKs\Windows\v7.0A\Bin\NETFX 4.0 Tools;%25PATH%25
-TlbExp.exe "$(TargetPath)"
+    <PostBuildEvent>Setlocal EnableDelayedExpansion
+set PATH=$(SDK40ToolsPath);%25PATH%25
+TlbExp.exe "$(TargetPath)" || exit /b !ERRORLEVEL!
 $(SolutionDir)..\instrumentdll $(TargetDir) $(TargetFileName) $(ProjectDir)..\CyphyGUIs\CyPhyGUIs.snk
 </PostBuildEvent>
   </PropertyGroup>
