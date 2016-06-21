@@ -161,11 +161,9 @@
     <!-- MERGE MODULES -->
     <!-- =========================================================== -->
     <DirectoryRef Id='TARGETDIR'>
-      <Merge Id="xerces_c" Language="1033" SourceFile="xerces_c.msm" DiskId="2" />
-      <Merge Id="xerces_c_x64" Language="1033" SourceFile="xerces_c_x64.msm" DiskId="2" />
       <Merge Id="CRT140" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC140_CRT_x86.msm" DiskId="2" />
       <Merge Id="MFC140" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC140_MFC_x86.msm" DiskId="2" />
-      <!-- UdmDllx86 -> xerces -> CRT90 -->
+      <!-- Python -> CRT90 -->
       <Merge Id="CRT90" Language="0" SourceFile="Microsoft_VC90_CRT_x86.msm" DiskId="2" />
       <Merge Id="CRT90_policy" Language="0" SourceFile="policy_9_0_Microsoft_VC90_CRT_x86.msm" DiskId="2" />
       <Merge Id="CRT100" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_CRT_x86.msm" DiskId="2" />
@@ -180,6 +178,14 @@
 
     <Component Directory='System64Folder'>
         <File Id='zlibwapi' Source='zlibwapi.dll' />
+    </Component>
+
+    <Component Id='xerces_c_x86' Directory='SystemFolder' Win64='no' Guid='11C1E35D-8685-550A-935E-48AB1AE2EF86'>
+        <File Id='xerces_c_x86' Source='xerces-c_2_8.dll' />
+    </Component>
+
+    <Component Id='xerces_c_x64' Directory='System64Folder' Win64='yes' Guid='8FC5F01D-94BD-5EBE-B364-EC4024B7F976'>
+        <File Id='xerces_c_x64' Source='xerces-c_2_8_x64.dll' />
     </Component>
 
     <DirectoryRef Id='Proe_ISIS_Extensions_x64'>
@@ -483,8 +489,8 @@
       <ComponentRef Id='zlibwapi' />
 
       <ComponentGroupRef Id='UdmDll_VC14x86' />
-      <MergeRef Id='xerces_c' />
-      <MergeRef Id='xerces_c_x64' />
+      <ComponentRef Id='xerces_c_x86' />
+      <ComponentRef Id='xerces_c_x64' />
       <MergeRef Id='CRT100x64' />
       <MergeRef Id='CRT110x64' />
       <MergeRef Id='CRT90' />
