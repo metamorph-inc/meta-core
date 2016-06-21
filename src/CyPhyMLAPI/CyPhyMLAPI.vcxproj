@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\generated\CyPhyML.cpp" />
+    <ClCompile Include="VersionCheck.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\meta\CyPhyML\CyPhyML.vcxproj">
