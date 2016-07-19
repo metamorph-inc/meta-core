@@ -25,6 +25,7 @@
 
   <Target Name="MDL2MGA" DependsOnTargets="CheckEnv">
     <Error Text="MATLAB_PATH='$(MATLAB_PATH)' doesn't exist" Condition="!Exists('$(MATLAB_PATH)')"/>
+    <Exec Command="cmd /c where java"/>
     <Exec Command=".nuget\NuGet.exe restore -ConfigFile .nuget\NuGet.Config ..\externals\HCDDES\MDL2MGACyPhyML.sln"
         WorkingDirectory="$(MSBuildThisFileDirectory)\src"/> 
     <Exec Command=".nuget\NuGet.exe restore MDL2MGACyPhyML.sln"
