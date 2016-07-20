@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "UdmConsole.h"
-#include "UdmBase.h"
-
 
 namespace GMEConsole
 {
@@ -18,7 +16,7 @@ namespace GMEConsole
 		{
 			DWORD error = ::GetLastError();
 
-			throw udm_exception(
+			throw python_error(
 				(error == ERROR_NO_UNICODE_TRANSLATION) ? 
 					"Invalid UTF-8 sequence found in input string." :
 					"Can't get length of UTF-16 string (MultiByteToWideChar failed).");
@@ -32,7 +30,7 @@ namespace GMEConsole
 		{
 			DWORD error = ::GetLastError();
 			SysFreeString(utf16);
-			throw udm_exception("Can't convert string from UTF-8 to UTF-16 (MultiByteToWideChar failed).");
+			throw python_error("Can't convert string from UTF-8 to UTF-16 (MultiByteToWideChar failed).");
 		}
 
 		CComBSTR ret;
@@ -63,7 +61,7 @@ namespace GMEConsole
 				}
 				else
 				{
-					throw udm_exception("GME Console could not be accessed.");
+					throw python_error("GME Console could not be accessed.");
 				}
 			}
 		}

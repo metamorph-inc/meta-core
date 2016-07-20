@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="UdmConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UdmApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -55,9 +52,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generated\CyPhyML.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

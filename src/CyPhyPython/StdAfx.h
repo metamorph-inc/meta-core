@@ -23,9 +23,3 @@
 extern CComModule _Module;
 #include <atlcom.h>
 
-#include "UdmBase.h"
-#include "Uml.h"
-#include "UmlExt.h"
-#include "UdmDom.h"
-#include "UdmGme.h"
-

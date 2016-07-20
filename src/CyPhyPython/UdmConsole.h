@@ -2,9 +2,9 @@
 #include "stdafx.h"
 #include "ComHelp.h"
 #include "GMECOM.h"
-#include "UdmBase.h"
 #include <string>
 #include "GMEVersion.h"
+#include "UdmApp.h"
 
 #if GME_VERSION_MAJOR >= 11
 #include "Gme.h"
@@ -51,7 +51,7 @@ namespace GMEConsole
 				}
 			} else {
 				if(S_OK != gmeoleapp->ConsoleMessage(CComBSTR(message.length(), message.c_str()), type))
-					throw udm_exception("Could not write to GME console.");
+					throw python_error("Could not write to GME console.");
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace GMEConsole
 				}
 			} else {
 				if(S_OK != gmeoleapp->ConsoleMessage(CComBSTR(message.length(), message.c_str()), type))
-					throw udm_exception("Could not write to GME console.");
+					throw python_error("Could not write to GME console.");
 			}
 		}
 
@@ -84,13 +84,13 @@ namespace GMEConsole
 		{
 			if (gmeoleapp != 0)
 				if(S_OK != gmeoleapp->put_ConsoleContents( CComBSTR(contents.length(),contents.c_str()) ))
-					throw udm_exception("Could not set the contents of GME console.");
+					throw python_error("Could not set the contents of GME console.");
 		}
 		static void setContents(const std::wstring& contents)
 		{
 			if (gmeoleapp != 0)
 				if(S_OK != gmeoleapp->put_ConsoleContents( CComBSTR(contents.length(),contents.c_str()) ))
-					throw udm_exception("Could not set the contents of GME console.");
+					throw python_error("Could not set the contents of GME console.");
 		}
 
 		class Error
