@@ -260,10 +260,6 @@
     <ProjectReference Include="..\lib\UdmEngine\UdmEngineCyPhyML.vcxproj">
       <Project>{6de303f5-99d8-4091-8139-6914acc0755e}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\models\ESMoL\ESMoL.vcxproj">
-      <Project>{35efa7d1-a834-4297-a597-6c76cc4fd399}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\models\SFC\SFC.vcxproj">
       <Project>{e4950023-ab75-4eef-8cd6-653be9290daa}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
