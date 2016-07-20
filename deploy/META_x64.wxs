@@ -485,6 +485,7 @@
         </Feature>
       </Feature>
 
+      <ComponentGroupRef Id='UdmDll_VS10x86' />
       <ComponentGroupRef Id='UdmDll_VC11x64' />
       <ComponentRef Id='zlibwapi' />
 
