@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -28,21 +28,25 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -474,11 +478,11 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\externals\common-scripts\build_customization\udm.targets" />
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-    <Import Project="..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
-    <Import Project="..\nuget\boost_thread-vc100.1.55.0.15\build\native\boost_thread-vc100.targets" Condition="Exists('..\nuget\boost_thread-vc100.1.55.0.15\build\native\boost_thread-vc100.targets')" />
-    <Import Project="..\nuget\boost_date_time-vc100.1.55.0.15\build\native\boost_date_time-vc100.targets" Condition="Exists('..\nuget\boost_date_time-vc100.1.55.0.15\build\native\boost_date_time-vc100.targets')" />
-    <Import Project="..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets" Condition="Exists('..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets')" />
-    <Import Project="..\nuget\boost_chrono-vc100.1.55.0.15\build\native\boost_chrono-vc100.targets" Condition="Exists('..\nuget\boost_chrono-vc100.1.55.0.15\build\native\boost_chrono-vc100.targets')" />
+    <Import Project="..\nuget\boost.1.60.0.0\build\native\boost.targets" Condition="Exists('..\nuget\boost.1.60.0.0\build\native\boost.targets')" />
+    <Import Project="..\nuget\boost_thread-vc140.1.60.0.0\build\native\boost_thread-vc140.targets" Condition="Exists('..\nuget\boost_thread-vc140.1.60.0.0\build\native\boost_thread-vc140.targets')" />
+    <Import Project="..\nuget\boost_date_time-vc140.1.60.0.0\build\native\boost_date_time-vc140.targets" Condition="Exists('..\nuget\boost_date_time-vc140.1.60.0.0\build\native\boost_date_time-vc140.targets')" />
+    <Import Project="..\nuget\boost_system-vc140.1.60.0.0\build\native\boost_system-vc140.targets" Condition="Exists('..\nuget\boost_system-vc140.1.60.0.0\build\native\boost_system-vc140.targets')" />
+    <Import Project="..\nuget\boost_chrono-vc140.1.60.0.0\build\native\boost_chrono-vc140.targets" Condition="Exists('..\nuget\boost_chrono-vc140.1.60.0.0\build\native\boost_chrono-vc140.targets')" />
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>

@@ -75,7 +75,7 @@ CyPhyML::MgaObject CyPhyElaborate::Retrieve(
 
 				if (result == S_OK)
 				{
-					Udm_VS10::Object::uniqueId_type uid;
+					Udm::Object::uniqueId_type uid;
 					uid = UdmGme::GmeId2UdmId(string(_bstr_t(id)).c_str());
 
 					Udm::Object object;

@@ -2,6 +2,7 @@
 #define RAWCOMPONENT_H
 
 #include "Mga.h"
+#include <map>
 
 
 // Declaration of the main RAW COM component interface class
@@ -25,7 +26,7 @@ public:
 		componentParameters[L"name"] = L"CyPhyPython";
 	}
 private:
-	map<_bstr_t, _variant_t> componentParameters;
+	std::map<_bstr_t, _variant_t> componentParameters;
 	
 // Try not to modify the code below this line
 ////////////////////

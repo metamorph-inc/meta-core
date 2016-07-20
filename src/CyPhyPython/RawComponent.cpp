@@ -13,28 +13,9 @@
 #include <GMECOM.h>
 #include "ComponentConfig.h"
 #include "RawComponent.h"
-
-// Console
 #include "UdmConsole.h"
 
-
-// Udm includes
-#include "UdmBase.h"
-#include "Uml.h"
-#include "UmlExt.h"
-
 using namespace std;
-
-#ifdef _USE_DOM
-	#include "UdmDOM.h"
-#endif
-
-#include "UdmGme.h"
-#include "UdmStatic.h"
-#include "UdmUtil.h"
-
-#include "UdmApp.h"
-#include "UdmConfig.h"
 
 // this method is called after all the generic initialization is done
 // this should be empty, unless application-specific initialization is needed
@@ -76,8 +57,6 @@ struct RAIIFreeLibrary
 STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,  
 									IMgaFCOs *selectedobjs,  long param) 
 {
-	CUdmApp udmApp;
-
 	CComPtr<IMgaProject>ccpProject(project);
     long status = 0;
     ccpProject->get_ProjectStatus(&status);
@@ -92,15 +71,11 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		CComPtr<IMgaTerritory> terr;
 		COMTHROW(ccpProject->CreateTerritory(NULL, &terr));
 
-		// Setting up Udm
-		// Loading the project
-		UdmGme::GmeDataNetwork dngBackend(META_NAMESPACE::diagram);
 		try
 		{
 			// Opening backend
-		if (!(status & 8))
-			COMTHROW(ccpProject->BeginTransactionInNewTerr(TRANSACTION_NON_NESTED, &terr));
-			dngBackend.OpenExisting(ccpProject, Udm::CHANGES_LOST_DEFAULT, true);
+			if (!(status & 8))
+				COMTHROW(ccpProject->BeginTransactionInNewTerr(TRANSACTION_NON_NESTED, &terr));
 
 			std::string metapath;
 			HKEY software_meta;
@@ -116,35 +91,27 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 			}
 			if (!metapath.length())
 			{
-				throw udm_exception("Could not read META_PATH from HKLM\\Software\\META");
+				throw python_error("Could not read META_PATH from HKLM\\Software\\META");
 			}
-			udmApp.meta_path = metapath;
 			std::string python_dll_path = metapath + "\\bin\\Python27\\Scripts\\python27.dll";
 			HMODULE python_dll = LoadLibraryA(python_dll_path.c_str());
 			if (python_dll == nullptr)
-				throw udm_exception("Could not load Python27.dll at " + python_dll_path);
+				throw python_error("Could not load Python27.dll at " + python_dll_path);
 			RAIIFreeLibrary python_dll_cleanup;
 			python_dll_cleanup.module = python_dll;
 			
 			CComPtr<IMgaFCO> ccpFocus(currentobj);
-			Udm::Object currentObject;
-			if(ccpFocus)
-			{
-				currentObject=dngBackend.Gme2Udm(ccpFocus);
-			}
 
-			std::set<Udm::Object> selectedObjects;
+			std::set<CComPtr<IMgaFCO> > selectedObjects;
 
 			CComPtr<IMgaFCOs> ccpSelObject(selectedobjs);
 
 			MGACOLL_ITERATE(IMgaFCO,ccpSelObject){
-				Udm::Object currObj;
 				if(MGACOLL_ITER)
 				{
-					currObj=dngBackend.Gme2Udm(MGACOLL_ITER);
+					selectedObjects.insert(MGACOLL_ITER);
 				}
-			 selectedObjects.insert(currObj);
-			}MGACOLL_ITERATE_END;
+			} MGACOLL_ITERATE_END;
 
 			std::string workingDir;
 			_bstr_t tmpbstr;
@@ -158,7 +125,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 			else
 			{
 				COMTHROW(project->get_ProjectConnStr(tmpbstr.GetAddress()));
-				if (wcsnicmp(L"MGA=", tmpbstr, 4) == 0)
+				if (_wcsnicmp(L"MGA=", tmpbstr, 4) == 0)
 				{
 					mgaFile = (static_cast<const char*>(tmpbstr) + 4);
 				}
@@ -174,42 +141,21 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 				}
 			}
 
+			Main(metapath, project, currentobj, selectedObjects, param, componentParameters, workingDir);
 
-			// Calling the main entry point
-			udmApp.UdmMain(&dngBackend, currentObject, selectedObjects, param, componentParameters, workingDir);
-			// Closing backend
-			dngBackend.CloseWithUpdate();
+
             if (!(status & 8))
                 COMTHROW(ccpProject->CommitTransaction());
             terr = 0;
 
 		}
-		catch(udm_exception &exc)
-		{
-			dngBackend.CloseNoUpdate();
-            if (!(status & 8))
-                COMTHROW(ccpProject->AbortTransaction());
-
-			GMEConsole::Console::Error::writeLine(exc.what());
-			return S_FALSE;
-		}
         catch (python_error &exc)
         {
-            dngBackend.CloseNoUpdate();
             if (!(status & 8))
                 COMTHROW(ccpProject->AbortTransaction());
             throw;
         }
     }
-	catch (udm_exception& e)
-	{
-		ccpProject->AbortTransaction();
-		GMEConsole::Console::gmeoleapp = 0;
-		std::string msg = "Udm exception: ";
-		msg += e.what();
-		AfxMessageBox(CString(msg.c_str()));
-		return E_FAIL;
-	}
 	catch (python_error& e)
 	{
 		if (componentParameters.find(L"output_dir") != componentParameters.end())

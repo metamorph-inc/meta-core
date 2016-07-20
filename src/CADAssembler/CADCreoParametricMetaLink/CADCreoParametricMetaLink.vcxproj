@@ -226,18 +226,18 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-    <Import Project="..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
-    <Import Project="..\..\nuget\boost_filesystem-vc110.1.55.0.16\build\native\boost_filesystem-vc110.targets" Condition="Exists('..\..\nuget\boost_filesystem-vc110.1.55.0.16\build\native\boost_filesystem-vc110.targets')" />
-    <Import Project="..\..\nuget\boost_program_options-vc110.1.55.0.16\build\native\boost_program_options-vc110.targets" Condition="Exists('..\..\nuget\boost_program_options-vc110.1.55.0.16\build\native\boost_program_options-vc110.targets')" />
-    <Import Project="..\..\nuget\boost_system-vc110.1.55.0.16\build\native\boost_system-vc110.targets" Condition="Exists('..\..\nuget\boost_system-vc110.1.55.0.16\build\native\boost_system-vc110.targets')" />
-    <Import Project="..\..\nuget\boost_thread-vc110.1.55.0.16\build\native\boost_thread-vc110.targets" Condition="Exists('..\..\nuget\boost_thread-vc110.1.55.0.16\build\native\boost_thread-vc110.targets')" />
-    <Import Project="..\..\nuget\boost_date_time-vc110.1.55.0.16\build\native\boost_date_time-vc110.targets" Condition="Exists('..\..\nuget\boost_date_time-vc110.1.55.0.16\build\native\boost_date_time-vc110.targets')" />
-    <Import Project="..\..\nuget\boost_chrono-vc110.1.55.0.16\build\native\boost_chrono-vc110.targets" Condition="Exists('..\..\nuget\boost_chrono-vc110.1.55.0.16\build\native\boost_chrono-vc110.targets')" />
-    <Import Project="..\..\nuget\boost_regex-vc110.1.55.0.16\build\native\boost_regex-vc110.targets" Condition="Exists('..\..\nuget\boost_regex-vc110.1.55.0.16\build\native\boost_regex-vc110.targets')" />
-    <Import Project="..\..\nuget\boost_atomic-vc110.1.55.0.16\build\native\boost_atomic-vc110.targets" Condition="Exists('..\..\nuget\boost_atomic-vc110.1.55.0.16\build\native\boost_atomic-vc110.targets')" />
+    <Import Project="..\..\nuget\boost.1.60.0.0\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.60.0.0\build\native\boost.targets')" />
+    <Import Project="..\..\nuget\boost_filesystem-vc110.1.60.0.0\build\native\boost_filesystem-vc110.targets" Condition="Exists('..\..\nuget\boost_filesystem-vc110.1.60.0.0\build\native\boost_filesystem-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_program_options-vc110.1.60.0.0\build\native\boost_program_options-vc110.targets" Condition="Exists('..\..\nuget\boost_program_options-vc110.1.60.0.0\build\native\boost_program_options-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_system-vc110.1.60.0.0\build\native\boost_system-vc110.targets" Condition="Exists('..\..\nuget\boost_system-vc110.1.60.0.0\build\native\boost_system-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_thread-vc110.1.60.0.0\build\native\boost_thread-vc110.targets" Condition="Exists('..\..\nuget\boost_thread-vc110.1.60.0.0\build\native\boost_thread-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_date_time-vc110.1.60.0.0\build\native\boost_date_time-vc110.targets" Condition="Exists('..\..\nuget\boost_date_time-vc110.1.60.0.0\build\native\boost_date_time-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_chrono-vc110.1.60.0.0\build\native\boost_chrono-vc110.targets" Condition="Exists('..\..\nuget\boost_chrono-vc110.1.60.0.0\build\native\boost_chrono-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_regex-vc110.1.60.0.0\build\native\boost_regex-vc110.targets" Condition="Exists('..\..\nuget\boost_regex-vc110.1.60.0.0\build\native\boost_regex-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_atomic-vc110.1.60.0.0\build\native\boost_atomic-vc110.targets" Condition="Exists('..\..\nuget\boost_atomic-vc110.1.60.0.0\build\native\boost_atomic-vc110.targets')" />
     <Import Project="..\..\nuget\protobuf.2.5.0.0\build\native\protobuf.targets" Condition="Exists('..\..\nuget\protobuf.2.5.0.0\build\native\protobuf.targets')" />
     <Import Project="..\..\nuget\protobuf-vc110.2.5.0.0\build\native\protobuf-vc110.targets" Condition="Exists('..\..\nuget\protobuf-vc110.2.5.0.0\build\native\protobuf-vc110.targets')" />
-    <Import Project="..\..\nuget\boost_log-vc110.1.55.0.16\build\native\boost_log-vc110.targets" Condition="Exists('..\..\nuget\boost_log-vc110.1.55.0.16\build\native\boost_log-vc110.targets')" />
-    <Import Project="..\..\nuget\boost_log_setup-vc110.1.55.0.16\build\native\boost_log_setup-vc110.targets" Condition="Exists('..\..\nuget\boost_log_setup-vc110.1.55.0.16\build\native\boost_log_setup-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_log-vc110.1.60.0.0\build\native\boost_log-vc110.targets" Condition="Exists('..\..\nuget\boost_log-vc110.1.60.0.0\build\native\boost_log-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_log_setup-vc110.1.60.0.0\build\native\boost_log_setup-vc110.targets" Condition="Exists('..\..\nuget\boost_log_setup-vc110.1.60.0.0\build\native\boost_log_setup-vc110.targets')" />
   </ImportGroup>
 </Project>

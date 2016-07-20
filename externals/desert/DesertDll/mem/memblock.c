@@ -60,7 +60,7 @@ mem_fatal(message)
      TCHAR *message;
 #endif
 {
-  fprintf(stderr, "Memory management library: error: %s\n", message);
+  _ftprintf(stderr, _T("Memory management library: error: %s\n"), message);
   if (bdd_fatal_hook == NULL)
   {
 	exit(1);
@@ -294,7 +294,7 @@ mem_get_block(size)
 	SIZE_T alloc_size;
 	pointer sbrk_ret;
 	block b;
-	
+
 	if ((size_index=block_size_index(size)) < 0)
 		return ((pointer)0);
 	/* Find smallest free block which is large enough. */
@@ -453,20 +453,20 @@ mem_get_block(size)
 
   if (size <= 0)
     return ((pointer)0);
-  
+
   p = MALLOC(size + 1);
-  
+
   result = (void *)((unsigned long)((unsigned long)p + 0x08) & 0xFFFFFFFF8);
 
   if (!result)
     mem_fatal(_T("mem_get_block: allocation failed (USE_MALLOC_FREE defined)"));
 
   printf("result = %x\n", result);
-  
-#ifdef WIN32  
+
+#ifdef WIN32
   /*
   (unsigned long)result = (unsigned long)result + 0x08;
-  
+
   (unsigned long)result = ((unsigned long)result & 0xFFFFFFF8);
 */
   if((unsigned long)result & 0x07)  {
@@ -514,7 +514,7 @@ mem_resize_block(p, new_size)
 
  /* old_size = _msize(p);
 */
-  printf("old_size = %d\n", old_size); 
+  printf("old_size = %d\n", old_size);
 
   /*np = REALLOC(p, new_size+8);
   */
@@ -528,7 +528,7 @@ mem_resize_block(p, new_size)
 */
   mem_free_block(p);
 
-#ifdef WIN32  
+#ifdef WIN32
 
   if((unsigned long)result & 0x07)  {
 	printf("result = %x\n", result);

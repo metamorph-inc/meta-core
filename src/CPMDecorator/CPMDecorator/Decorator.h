@@ -15,6 +15,7 @@
 #include "StdAfx.h"
 #include "DecoratorInterface.h"
 #include "PartInterface.h"
+#include <memory>
 
 #define CPM_NAMESPACE			L"CPM::"
 #define CPM_NAMESPACE_LENGTH	5

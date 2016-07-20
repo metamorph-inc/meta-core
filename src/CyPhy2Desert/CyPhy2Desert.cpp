@@ -480,8 +480,8 @@ void CyPhy2Desert::addGroup(CyPhyML::DesignContainer& currentGroup)
 	GroupOptions::iterator goItr = allGroupOptions.find(groupBaseType);
 	if(goItr == allGroupOptions.end()) {
 		// New group
-		set<CyPhyML::DesignEntity>* groupOptions = new set<CyPhyML::DesignEntity>();
-		allGroupOptions.insert(GroupOptions::value_type(groupBaseType, groupOptions));
+		auto groupOptions = new set<CyPhyML::DesignEntity>();
+		allGroupOptions.emplace(groupBaseType, unique_ptr<set<CyPhyML::DesignEntity> >(groupOptions));
 
 		set<CyPhyML::DesignEntity> groupChildren = groupBaseType.DesignEntity_kind_children();
 		for(set<CyPhyML::DesignEntity>::iterator it = groupChildren.begin(); it != groupChildren.end(); ++it) {
@@ -921,7 +921,7 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 		set<CyPhyML::DesignEntity> entities = container.DesignEntity_kind_children();
 		for(set<CyPhyML::DesignEntity>::iterator i=entities.begin();i!=entities.end();++i)
 			 traverseContainer(*i, element, container,dcAlt);
-		
+
 		processAlternativeValueFlowEnds();
 		alt_vfends.clear();
 

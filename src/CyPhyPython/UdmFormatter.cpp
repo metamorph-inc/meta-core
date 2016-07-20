@@ -2,18 +2,11 @@
 #include "UdmFormatter.h"
 #include <sstream>
 #include <iomanip>
-#include "UdmGme.h"
 
 using namespace std;
 
 namespace GMEConsole
 {
-	std::string Formatter::MakeObjectHyperlink(const std::string & text, const Udm::Object& object)
-	{
-		ostringstream ostr;
-		ostr << "<a href=\"mga:" << UdmGme::UdmId2GmeId(object.uniqueId()) << "\">" << text << "</a>";
-		return ostr.str();
-	}
 
 	std::string Formatter::MakeColored(const std::string & text, COLORREF color)
 	{

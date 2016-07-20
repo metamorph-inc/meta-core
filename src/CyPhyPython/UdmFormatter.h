@@ -2,7 +2,6 @@
 
 #include <string>
 #include <afxwin.h>
-#include "UdmBase.h"
 
 namespace GMEConsole
 {
@@ -22,7 +21,6 @@ namespace GMEConsole
 		static std::string MakeItalic(const std::string & text){return std::string("<i>") + text +"</i>";}
 		static std::string MakeUnderline(const std::string & text){return std::string("<u>") + text +"</u>";}
 		static std::string MakeHyperlink(const std::string & text, const std::string& url){return std::string("<a href=\"") + url + "\">" + text +"</a>";}
-		static std::string MakeObjectHyperlink(const std::string & text, const Udm::Object& object);
 		static std::string MakeColored(const std::string & text, COLORREF color);
 
 	};

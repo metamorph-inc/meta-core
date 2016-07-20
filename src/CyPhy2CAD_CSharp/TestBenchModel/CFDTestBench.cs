@@ -382,13 +382,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 writer.WriteLine(searchmeta.TransformText());
             }
 
-            string keyName = @"HKEY_LOCAL_MACHINE\Software\META";
-            string value = @"META_PATH";
-
-            string metaPath = (string)Registry.GetValue(
-                keyName,
-                value,
-                "C:\\Program Files (x86)\\META");
+            string metaPath = META.VersionInfo.MetaPath;
 
             if (!Directory.Exists(metaPath))
                 Logger.Instance.AddLogMessage("META_PATH is not found in registry!", Severity.Error);

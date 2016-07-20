@@ -315,26 +315,6 @@ namespace CyPhySignalBlocksAddOn
             }
         }
 
-        // Look up the value of the META_PATH variable
-        public string GetMetaPathValue()
-        {
-            const string keyName = "Software\\META";
-
-            RegistryKey metaKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
-                .OpenSubKey(keyName, false);
-
-            using (metaKey)
-            {
-                string metaPath = "C:\\Program Files (x86)\\META";
-                if (metaKey != null)
-                {
-                    metaPath = (string)metaKey.GetValue("META_PATH", metaPath);
-                }
-
-                return metaPath;
-            }
-        }
-
 
         /// <summary>
         /// Called when an FCO or folder changes
@@ -540,7 +520,7 @@ namespace CyPhySignalBlocksAddOn
             this.project = p;
             if (metaPath == null)
             {
-                metaPath = Path.Combine(GetMetaPathValue(), "meta");
+                metaPath = Path.Combine(META.VersionInfo.MetaPath, "meta");
             }
 
             if (!Directory.Exists(metaPath))

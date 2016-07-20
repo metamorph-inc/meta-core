@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,12 +19,14 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -132,13 +134,11 @@
     <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.h" />
     <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\GMECOM.H" />
     <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\targetver.h" />
-    <ClInclude Include="..\..\generated\CyPhyML.h" />
     <ClInclude Include="ComponentConfig.h" />
     <ClInclude Include="RawComponent.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="UdmApp.h" />
-    <ClInclude Include="UdmConfig.h" />
     <ClInclude Include="UdmConsole.h" />
     <ClInclude Include="UdmFormatter.h" />
   </ItemGroup>
@@ -167,9 +167,6 @@
     <Midl Include="$(GME_ROOT)\SDK\BON\Common\ComponentLib.idl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CyPhyMLAPI\CyPhyMLAPI.vcxproj">
-      <Project>{73b8126a-1a5e-48f5-9b4c-108fda1ab118}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

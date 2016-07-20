@@ -1,13 +1,12 @@
 #include "stdafx.h"
-#include "UdmApp.h"
-#include "UdmConfig.h"
-#include "Uml.h"
-#include "UdmUtil.h"
+
 #include "UdmConsole.h"
 
 using namespace std;
 
 #include "..\bin\Python27\Include\Python.h"
+#include <algorithm>
+#include <memory>
 
 // n.b. can't /DELAYLOAD and import data
 static PyObject* get_Py_None()
@@ -22,38 +21,6 @@ static PyObject* return_Py_None()
 	PyObject* none = Py_BuildValue("");
 	return none;
 }
-
-/* 
-Remarks to CUdmApp::UdmMain(...):
-0.	The p_backend points to an already open backend, and the framework 
-	closes it automatically. DO NOT OPEN OR CLOSE IT!
-	To commit changes use p_backend->CommitEditSequence().
-	To abort changes use p_backend->AbortEditSequence().
-	To save changes to a different file use p_backend->SaveAs() or p_backend->CloseAs().
-
-1.	Focus is the currently open model.
-
-2.	The possible values for param (from GME Mga.idl component_startmode_enum):
-	GME_MAIN_START			=   0,
-	GME_BROWSER_START		=   1,
-	GME_CONTEXT_START		=   2,
-	GME_EMBEDDED_START		=   3,
-	GME_MENU_START			=  16,
-	GME_BGCONTEXT_START		=  18,
-	GME_ICON_START			=  32,
-	METAMODEL_CHECK_SYNTAX	= 101
-
- 3. The framework catches all the exceptions and reports the error in a message box,
-	clean up and close the transactions aborting the changes. You can override this 
-	behavior by catching udm_exception. Use udm_exception::what() to form an error 
-	message.
-*/
-
-/***********************************************/
-/* Main entry point for Udm-based Interpreter  */
-/***********************************************/
-
-typedef PyObject* (__cdecl *Object_Convert_t)(Udm::Object udmObject);
 
 struct PyObject_RAII
 {
@@ -111,6 +78,31 @@ std::string GetPythonError()
 		error += "Unknown traceback";
 	return error;
 }
+
+
+// PythonCOM.h: PYCOM_EXPORT PyObject *PyCom_PyObjectFromIUnknown(IUnknown *punk, REFIID riid, BOOL bAddRef = FALSE);
+typedef PyObject *(*PyCom_PyObjectFromIUnknown_t)(IUnknown *punk, REFIID riid, BOOL bAddRef);
+PyObject* convert(IDispatch* disp) {
+	PyObject_RAII main = PyImport_ImportModule("__main__");
+	PyObject* main_namespace = PyModule_GetDict(main);
+	// also loads pythoncomxx.dll
+	PyObject_RAII ret = PyRun_StringFlags("import win32com.client\n", Py_file_input, main_namespace, main_namespace, NULL);
+	if (ret == NULL && PyErr_Occurred())
+	{
+		throw python_error(GetPythonError());
+	}
+	char pythoncomname[40];
+	sprintf_s(pythoncomname, "pythoncom%d%d.dll", PY_MAJOR_VERSION, PY_MINOR_VERSION);
+	HMODULE pythoncom = GetModuleHandleA(pythoncomname);
+	if (pythoncom == NULL)
+		throw python_error(std::string("Could not load ") + pythoncomname);
+	PyCom_PyObjectFromIUnknown_t PyCom_PyObjectFromIUnknown = (PyCom_PyObjectFromIUnknown_t)GetProcAddress(pythoncom, "PyCom_PyObjectFromIUnknown");
+	if (PyCom_PyObjectFromIUnknown == NULL)
+		throw python_error(std::string("Could not load PyCom_PyObjectFromIUnknown from ") + pythoncomname);
+	PyObject* obj = (*PyCom_PyObjectFromIUnknown)(disp, IID_IDispatch, TRUE);
+	return obj;
+}
+
 
 #ifdef _UNICODE
 std::wstring openfilename(TCHAR *filter = _T("All Files (*.*)\0*.*\0"), HWND owner = NULL)
@@ -186,9 +178,8 @@ static PyMethodDef CyPhyPython_methods[] = {
 
 
 
-void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
-					 Udm::Object focusObject,
-					 std::set<Udm::Object> selectedObjects,
+void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IMgaObject> focusObject,
+					 std::set<CComPtr<IMgaFCO> > selectedObjects,
 					 long param, map<_bstr_t, _variant_t>& componentParameters, std::string workingDir)
 {
 	//AllocConsole();
@@ -198,7 +189,7 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 	// Py_NoSiteFlag = 1; // we import site after setting up sys.path
 	HMODULE python_dll = LoadLibraryA("Python27.dll");
 	if (python_dll == nullptr)
-		throw udm_exception("Failed to load Python27.dll");
+		throw python_error("Failed to load Python27.dll");
 	struct FreePythonLib {
 		HMODULE python;
 		FreePythonLib(HMODULE python_dll) : python(python_dll) {}
@@ -211,7 +202,7 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 	for (const char** flag = flags; *flag; flag++) {
 		int* Py_FlagAddress = reinterpret_cast<int*>(GetProcAddress(python_dll, *flag));
 		if (Py_FlagAddress == nullptr)
-			throw udm_exception(std::string("Failed to find ") + *flag + " in Python27.dll");
+			throw python_error(std::string("Failed to find ") + *flag + " in Python27.dll");
 		*Py_FlagAddress = 1;
 	}
 
@@ -256,28 +247,6 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 		throw python_error(GetPythonError());
 	}
 
-	HMODULE udm_pyd = LoadLibraryA("udm.pyd");
-	if (!udm_pyd)
-	{
-		throw python_error("Could not load Udm Python: LoadLibary failed");
-	}
-	Object_Convert_t Object_Convert = (Object_Convert_t) GetProcAddress(udm_pyd, "Object_Convert");
-	if (!Object_Convert)
-	{
-		FreeLibrary(udm_pyd);
-		throw python_error("Could not load Udm Python: GetProcAddress failed");
-	}
-	PyObject_RAII pyFocusObject;
-	if (focusObject)
-		pyFocusObject.p = (*Object_Convert)(focusObject);
-	else
-	{
-		pyFocusObject.p = get_Py_None();
-		Py_INCREF(pyFocusObject.p);
-	}
-	PyObject_RAII pyRootObject = (*Object_Convert)(p_backend->GetRootObject());
-	FreeLibrary(udm_pyd);
-
 	if (meta_path.length()) {
 		newpath += separator + meta_path + "\\bin";
 		newpath += separator + meta_path + "\\bin\\Python27\\Scripts";
@@ -292,7 +261,7 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 	if (console_messages != componentParameters.end()
 		&& console_messages->second.vt == VT_BSTR
 		&& console_messages->second.bstrVal
-		&& wcsicmp(console_messages->second.bstrVal, L"off") == 0)
+		&& _wcsicmp(console_messages->second.bstrVal, L"off") == 0)
 	{
 		auto output_dir = componentParameters.find(L"output_dir");
 		if (output_dir != componentParameters.end()
@@ -340,7 +309,7 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 	{
 		if (script_file_it->second.vt != VT_BSTR || SysStringLen(script_file_it->second.bstrVal) == 0)
 		{
-			throw udm_exception("No script_file specified");
+			throw python_error("No script_file specified");
 		}
 		module_name = _bstr_t(script_file_it->second.bstrVal);
 		if (module_name != "" && PathIsRelativeA(module_name.c_str())) {
@@ -375,6 +344,24 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 			throw python_error(GetPythonError());
 		}
 	}
+	PyObject_RAII pyRootObject;
+	CComPtr<IMgaFolder> root;
+	project->get_RootFolder(&root);
+	pyRootObject.p = convert(root);
+
+	PyObject_RAII pyProject = convert(project);
+
+	PyObject_RAII pyFocusObject;
+	if (focusObject)
+	{
+		pyFocusObject.p = convert(focusObject);
+	}
+	else
+	{
+		pyFocusObject.p = get_Py_None();
+		Py_INCREF(pyFocusObject.p);
+	}
+
 
 	if (module_name.rfind(".py") != std::string::npos)
 	{
@@ -403,10 +390,44 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 			throw python_error("Error: script \"invoke\" attribute is not callable");
 		}
 
+		PyDict_SetItemString(main_namespace, "focusObj", pyFocusObject.p);
+		PyDict_SetItemString(main_namespace, "rootObj", pyRootObject.p);
+		PyDict_SetItemString(main_namespace, "project", pyProject.p);
+		
+		PyObject_RAII setup = PyRun_StringFlags(
+			//"import ctypes\n"
+			//"ctypes.windll.kernel32.allocconsole()\n"
+			//"import sys\n"
+			//"sys.stdout = open('conout$', 'wt')\n"
+			//"sys.stdin = open('conin$', 'rt')\n"
+			//"import pdb; pdb.set_trace()\n"
+			"import win32com.client.dynamic\n"
+			"import udm\n"
+			"import os.path\n"
+			"import six\n"
+			"with six.moves.winreg.OpenKey(six.moves.winreg.HKEY_LOCAL_MACHINE, r'Software\\META') as software_meta:\n"
+			"    meta_path, _ = six.moves.winreg.QueryValueEx(software_meta, 'META_PATH')\n"
+			"CyPhyML_udm = os.path.join(meta_path, r'generated\\CyPhyML\\models\\CyPhyML_udm.xml')\n"
+			"if not os.path.isfile(CyPhyML_udm):\n"
+			"	CyPhyML_udm = os.path.join(meta_path, r'meta\\CyPhyML_udm.xml')\n"
+			"cyphy = udm.SmartDataNetwork(udm.uml_diagram())\n"
+			"cyphy.open(CyPhyML_udm, '')\n"
+			"udm_project = udm.SmartDataNetwork(cyphy.root)\n"
+			"udm_project.open(project, '')\n"
+			"if focusObj: focusObj = win32com.client.dynamic.Dispatch(focusObj)\n"
+			"if rootObj: rootObj = win32com.client.dynamic.Dispatch(rootObj)\n"
+			"if focusObj: focusObj = udm_project.convert_gme2udm(focusObj)\n"
+			"if rootObj: rootObj = udm_project.convert_gme2udm(rootObj)\n"
+			, Py_file_input, main_namespace, main_namespace, NULL);
+		if (setup == nullptr && PyErr_Occurred())
+		{
+			throw python_error(GetPythonError());
+		}
+
 		PyObject_RAII empty_tuple = PyTuple_New(0);
 		PyObject_RAII args = PyDict_New();
-		PyDict_SetItemString(args, "focusObject", pyFocusObject);
-		PyDict_SetItemString(args, "rootObject", pyRootObject);
+		PyDict_SetItemString(args, "focusObject", PyDict_GetItemString(main_namespace, "focusObj"));
+		PyDict_SetItemString(args, "rootObject", PyDict_GetItemString(main_namespace, "rootObj"));
 
 		PyObject_RAII parameters = PyDict_New();
 		for (auto it = componentParameters.begin(); it != componentParameters.end(); it++)
@@ -424,6 +445,18 @@ void CUdmApp::UdmMain(Udm::DataNetwork* p_backend,
 		if (ret == nullptr && PyErr_Occurred())
 		{
 			invokeError = std::unique_ptr<python_error>(new python_error(GetPythonError()));
+		}
+
+		PyObject_RAII dn_close;
+		if (invokeError) {
+			dn_close = PyRun_StringFlags("udm_project.close_no_update(); cyphy.close_no_update()\n", Py_file_input, main_namespace, main_namespace, NULL);
+		}
+		else {
+			dn_close = PyRun_StringFlags("udm_project.close_with_update(); cyphy.close_no_update()\n", Py_file_input, main_namespace, main_namespace, NULL);
+		}
+		if (dn_close == NULL && PyErr_Occurred())
+		{
+			throw python_error(GetPythonError());
 		}
 
 		if (PyObject_HasAttrString(CyPhyPython, "_logfile"))
