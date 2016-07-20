@@ -28,7 +28,6 @@
 #include "MatLabEngine.hpp"
 #include "MatLabUdm.hpp"
 
-#include "mclmcr.h"
 
 #ifdef LINUX
 #include <unistd.h>
