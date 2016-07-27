@@ -149,10 +149,10 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
     <Import Project="..\..\nuget\gecode.3.7.3\build\native\gecode.targets" Condition="Exists('..\..\nuget\gecode.3.7.3\build\native\gecode.targets')" />
-    <Import Project="..\..\nuget\gecode-vc100.redist.3.7.3\build\native\gecode-vc100.redist.targets" Condition="Exists('..\..\nuget\gecode-vc100.redist.3.7.3\build\native\gecode-vc100.redist.targets')" />
-    <Import Project="..\..\nuget\gecode-vc100.3.7.3\build\native\gecode-vc100.targets" Condition="Exists('..\..\nuget\gecode-vc100.3.7.3\build\native\gecode-vc100.targets')" />
-    <Import Project="..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
-    <Import Project="..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets" Condition="Exists('..\..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets')" />
+    <Import Project="..\..\nuget\gecode-vc140.redist.3.7.3\build\native\gecode-vc140.redist.targets" Condition="Exists('..\..\nuget\gecode-vc140.redist.3.7.3\build\native\gecode-vc140.redist.targets')" />
+    <Import Project="..\..\nuget\gecode-vc140.3.7.3\build\native\gecode-vc140.targets" Condition="Exists('..\..\nuget\gecode-vc140.3.7.3\build\native\gecode-vc140.targets')" />
+    <Import Project="..\..\nuget\boost.1.60.0.0\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.60.0.0\build\native\boost.targets')" />
+    <Import Project="..\..\nuget\boost_program_options-vc140.1.60.0.0\build\native\boost_program_options-vc140.targets" Condition="Exists('..\..\nuget\boost_program_options-vc140.1.60.0.0\build\native\boost_program_options-vc140.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -160,7 +160,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('..\..\nuget\gecode.3.7.3\build\native\gecode.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\gecode.3.7.3\build\native\gecode.targets'))" />
-    <Error Condition="!Exists('..\..\nuget\gecode-vc100.redist.3.7.3\build\native\gecode-vc100.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\gecode-vc100.redist.3.7.3\build\native\gecode-vc100.redist.targets'))" />
-    <Error Condition="!Exists('..\..\nuget\gecode-vc100.3.7.3\build\native\gecode-vc100.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\gecode-vc100.3.7.3\build\native\gecode-vc100.targets'))" />
+    <Error Condition="!Exists('..\..\nuget\gecode-vc140.redist.3.7.3\build\native\gecode-vc140.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\gecode-vc140.redist.3.7.3\build\native\gecode-vc140.redist.targets'))" />
+    <Error Condition="!Exists('..\..\nuget\gecode-vc140.3.7.3\build\native\gecode-vc140.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\gecode-vc140.3.7.3\build\native\gecode-vc140.targets'))" />
   </Target>
 </Project>

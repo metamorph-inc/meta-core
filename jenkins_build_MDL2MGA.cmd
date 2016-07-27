@@ -4,7 +4,7 @@ pushd %~dp0
 
 where UdmDll_3_2_VS10.dll
 
-c:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild make_MDL2MGA.msbuild /t:All;Push_All_NuGet /fl /flp:diag;PerformanceSummary /m /nodeReuse:false
+"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe" make_MDL2MGA.msbuild /t:All;Push_All_NuGet /fl /flp:diag;PerformanceSummary /m /nodeReuse:false
 IF %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
 
 set DBGTOOLS=%ProgramFiles%\Debugging Tools for Windows (x86)

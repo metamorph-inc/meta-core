@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -21,12 +21,14 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -36,7 +38,7 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\UdmDlld.props" />
+    <Import Project="..\UdmDll.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -132,7 +134,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <AdditionalIncludeDirectories>.;.\SL_CodeGen;.\SL_CodeGen\FMI;..\Cyber2SFC_CodeGen;.\Cycles;..\..\3rdParty\ctemplate-1.0\src\windows;$(GME_ROOT)/SDK/BON/Common;$(UDM_PATH)/include;$(GME_ROOT)/Interfaces;$(GME_ROOT)/Gme/Interfaces;$(GME_ROOT)\GME\Gme;$(META_PATH)\externals\HCDDES\include;$(GREAT_PATH)/include;$(PYTHON_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;USE_CyberComposition;NDEBUG;_WINDOWS;_USRDLL;UDM_DYNAMIC_LINKING;PRINT_INFO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;USE_CyberComposition;NDEBUG;_WINDOWS;_USRDLL;_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;UDM_DYNAMIC_LINKING;UDM_NO_DEFINE_ASSERT;PRINT_INFO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
@@ -306,13 +308,13 @@
     <Import Project="..\..\externals\common-scripts\build_customization\udm.targets" />
     <Import Project="..\..\externals\common-scripts\build_customization\xme2mga.targets" />
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-    <Import Project="..\nuget\boost.1.55.0.10\build\native\boost.targets" Condition="Exists('..\nuget\boost.1.55.0.10\build\native\boost.targets')" />
-    <Import Project="..\nuget\boost_graph-vc100.1.55.0.15\build\native\boost_graph-vc100.targets" Condition="Exists('..\nuget\boost_graph-vc100.1.55.0.15\build\native\boost_graph-vc100.targets')" />
-    <Import Project="..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets" Condition="Exists('..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets')" />
-    <Import Project="..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets" Condition="Exists('..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets')" />
-    <Import Project="..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets" Condition="Exists('..\nuget\boost_program_options-vc100.1.55.0.15\build\native\boost_program_options-vc100.targets')" />
-    <Import Project="..\nuget\boost_python.1.55.0.10\build\native\boost_python.targets" Condition="Exists('..\nuget\boost_python.1.55.0.10\build\native\boost_python.targets')" />
-    <Import Project="..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets" Condition="Exists('..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets')" />
+    <Import Project="..\nuget\boost.1.60.0.0\build\native\boost.targets" Condition="Exists('..\nuget\boost.1.60.0.0\build\native\boost.targets')" />
+    <Import Project="..\nuget\boost_graph-vc140.1.60.0.0\build\native\boost_graph-vc140.targets" Condition="Exists('..\nuget\boost_graph-vc140.1.60.0.0\build\native\boost_graph-vc140.targets')" />
+    <Import Project="..\nuget\boost_filesystem-vc140.1.60.0.0\build\native\boost_filesystem-vc140.targets" Condition="Exists('..\nuget\boost_filesystem-vc140.1.60.0.0\build\native\boost_filesystem-vc140.targets')" />
+    <Import Project="..\nuget\boost_system-vc140.1.60.0.0\build\native\boost_system-vc140.targets" Condition="Exists('..\nuget\boost_system-vc140.1.60.0.0\build\native\boost_system-vc140.targets')" />
+    <Import Project="..\nuget\boost_program_options-vc140.1.60.0.0\build\native\boost_program_options-vc140.targets" Condition="Exists('..\nuget\boost_program_options-vc140.1.60.0.0\build\native\boost_program_options-vc140.targets')" />
+    <Import Project="..\nuget\boost_python.1.60.0.0\build\native\boost_python.targets" Condition="Exists('..\nuget\boost_python.1.60.0.0\build\native\boost_python.targets')" />
+    <Import Project="..\nuget\boost_regex-vc140.1.60.0.0\build\native\boost_regex-vc140.targets" Condition="Exists('..\nuget\boost_regex-vc140.1.60.0.0\build\native\boost_regex-vc140.targets')" />
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>

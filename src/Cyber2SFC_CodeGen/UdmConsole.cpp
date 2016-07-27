@@ -33,4 +33,9 @@ namespace GMEConsole
 			}
 		}
 	}
+
+	void Console::SetupConsole(CComPtr<IMgaProject> project)
+	{
+		setupConsole(project);
+	}
 }

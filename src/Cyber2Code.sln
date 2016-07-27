@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cyber2SFC_CodeGen", "Cyber2SFC_CodeGen\CyPhy2SFC_CodeGen.vcxproj", "{94143676-7004-4CAD-A74E-D2DE0B713E26}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CCE0FC0E-7843-4A85-B4D8-9752E92355D3} = {CCE0FC0E-7843-4A85-B4D8-9752E92355D3}
@@ -108,7 +110,8 @@ Global
 		{1A92A2B3-8CD0-4DC9-9B61-B67474D07456}.Release|x64.Build.0 = Release|x64
 		{CC9E25EA-5C44-4869-A4EC-CB3672D74891}.Debug|Win32.ActiveCfg = Release|Win32
 		{CC9E25EA-5C44-4869-A4EC-CB3672D74891}.Debug|Win32.Build.0 = Release|Win32
-		{CC9E25EA-5C44-4869-A4EC-CB3672D74891}.Debug|x64.ActiveCfg = Debug|Win32
+		{CC9E25EA-5C44-4869-A4EC-CB3672D74891}.Debug|x64.ActiveCfg = Release|Win32
+		{CC9E25EA-5C44-4869-A4EC-CB3672D74891}.Debug|x64.Build.0 = Release|Win32
 		{CC9E25EA-5C44-4869-A4EC-CB3672D74891}.Release|Win32.ActiveCfg = Release|Win32
 		{CC9E25EA-5C44-4869-A4EC-CB3672D74891}.Release|Win32.Build.0 = Release|Win32
 		{CC9E25EA-5C44-4869-A4EC-CB3672D74891}.Release|x64.ActiveCfg = Release|Win32

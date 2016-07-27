@@ -29,6 +29,8 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
+#include <algorithm>
+
 // The code contained in this file is based on the original
 // WorldCom Grid control written by Joe Willcoxson,
 //      mailto:chinajoe@aol.com
@@ -141,6 +143,8 @@ inline CCellID CCellRange::GetTopLeft() const
 
 inline CCellRange CCellRange::Intersect(const CCellRange& rhs) const
 {
+    using std::min;
+    using std::max;
      return CCellRange(max(m_nMinRow,rhs.m_nMinRow), max(m_nMinCol,rhs.m_nMinCol),
                        min(m_nMaxRow,rhs.m_nMaxRow), min(m_nMaxCol,rhs.m_nMaxCol));
 }

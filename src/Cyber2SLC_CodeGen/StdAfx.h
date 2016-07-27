@@ -23,6 +23,8 @@
 extern CComModule _Module;
 #include <atlcom.h>
 
+#include "../../3rdParty/GReAT/RTT.h"
+
 #include "UdmBase.h"
 #include "Uml.h"
 #include "UmlExt.h"

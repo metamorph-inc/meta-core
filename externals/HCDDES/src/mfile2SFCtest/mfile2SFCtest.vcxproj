@@ -189,11 +189,11 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\nuget\antlrC.3.1.3\build\native\antlrC.targets" Condition="Exists('..\..\nuget\antlrC.3.1.3\build\native\antlrC.targets')" />
-    <Import Project="..\..\nuget\antlrC-vc100.3.1.3\build\native\antlrC-vc100.targets" Condition="Exists('..\..\nuget\antlrC-vc100.3.1.3\build\native\antlrC-vc100.targets')" />
+    <Import Project="..\..\nuget\antlrC-vc140.3.1.3\build\native\antlrC-vc140.targets" Condition="Exists('..\..\nuget\antlrC-vc140.3.1.3\build\native\antlrC-vc140.targets')" />
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-    <Import Project="..\..\nuget\boost.1.55.0.16\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.55.0.16\build\native\boost.targets')" />
-    <Import Project="..\..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets" Condition="Exists('..\..\nuget\boost_regex-vc100.1.55.0.15\build\native\boost_regex-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets" Condition="Exists('..\..\nuget\boost_filesystem-vc100.1.55.0.15\build\native\boost_filesystem-vc100.targets')" />
-    <Import Project="..\..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets" Condition="Exists('..\..\nuget\boost_system-vc100.1.55.0.15\build\native\boost_system-vc100.targets')" />
+    <Import Project="..\..\nuget\boost.1.60.0.0\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.60.0.0\build\native\boost.targets')" />
+    <Import Project="..\..\nuget\boost_regex-vc140.1.60.0.0\build\native\boost_regex-vc140.targets" Condition="Exists('..\..\nuget\boost_regex-vc140.1.60.0.0\build\native\boost_regex-vc140.targets')" />
+    <Import Project="..\..\nuget\boost_filesystem-vc140.1.60.0.0\build\native\boost_filesystem-vc140.targets" Condition="Exists('..\..\nuget\boost_filesystem-vc140.1.60.0.0\build\native\boost_filesystem-vc140.targets')" />
+    <Import Project="..\..\nuget\boost_system-vc140.1.60.0.0\build\native\boost_system-vc140.targets" Condition="Exists('..\..\nuget\boost_system-vc140.1.60.0.0\build\native\boost_system-vc140.targets')" />
   </ImportGroup>
 </Project>

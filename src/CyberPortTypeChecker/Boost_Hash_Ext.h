@@ -9,7 +9,6 @@ namespace boost
 
 	inline size_t hash_value(const Udm::Object obj)
 	{
-		std::hash<Udm::Object> udmObjHash;
-		return udmObjHash(obj);
+        return obj.uniqueId();
 	}
 }
