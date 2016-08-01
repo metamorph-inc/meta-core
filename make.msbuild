@@ -63,10 +63,7 @@
 
   <Target Name="Cyber-Tools">
     <Error Text="META_PATH='$(META_PATH)' doesn't exist" Condition="!Exists('$(META_PATH)')"/>
-    <!--<MSBuild Projects="src\Cyber-Tools.sln" Targets="Build"/>-->
-    <MSBuild Projects="src\Cyber-Tools.sln" Properties="Configuration=Release; Platform=Any CPU" Targets="Build"/>
     <MSBuild Projects="src\Cyber-Tools.sln" Properties="Configuration=Release; Platform=Win32" Targets="Build"/>
-    <MSBuild Projects="src\Cyber-Tools.sln" Properties="Configuration=Release; Platform=x64" Targets="Build"/>
   </Target>
   
   <Target Name="MetaLink">
