@@ -101,12 +101,12 @@
  * name vsnprintf, since windows defines that (but not snprintf (!)).
  */
 #if !defined(__MINGW32__) && !defined(__MINGW64__)  /* mingw already defines */
-extern CTEMPLATE_DLL_DECL int snprintf(char *str, size_t size,
-                                       const char *format, ...);
+// extern CTEMPLATE_DLL_DECL int snprintf(char *str, size_t size,
+//                                       const char *format, ...);
 extern int CTEMPLATE_DLL_DECL safe_vsnprintf(char *str, size_t size,
                                              const char *format, va_list ap);
 #define vsnprintf(str, size, format, ap)  safe_vsnprintf(str, size, format, ap)
-#define va_copy(dst, src)  (dst) = (src)
+// #define va_copy(dst, src)  (dst) = (src)
 #endif  /* #if !defined(__MINGW32__) && !defined(__MINGW64__) */
 
 /* Windows doesn't support specifying the number of buckets as a

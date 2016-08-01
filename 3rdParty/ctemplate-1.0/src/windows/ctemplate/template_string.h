@@ -34,7 +34,7 @@
 #define TEMPLATE_TEMPLATE_STRING_H_
 
 #include <string.h>      // for memcmp() and size_t
-#include <hash_map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 
