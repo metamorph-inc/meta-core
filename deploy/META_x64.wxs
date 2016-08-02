@@ -93,7 +93,7 @@
     
     <Property Id="UCRTINSTALLED">
       <DirectorySearch Id="UCRTSystemSearch" Path="[SystemFolder]" Depth="0">
-        <FileSearch Id="UCRTFileSearch" Name="ucrtbase.dll" MinVersion="10.0.10240.16389" />
+        <FileSearch Id="UCRTFileSearch" Name="ucrtbase.dll"/>
       </DirectorySearch>
     </Property>
     <Condition Message="This application requires the Universal CRT. Please install KB2999226 via Windows Update or https://support.microsoft.com/en-us/kb/2999226">
