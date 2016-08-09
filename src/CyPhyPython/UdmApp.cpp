@@ -208,13 +208,24 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 
 	Py_Initialize();
 
-	//PY_MAJOR_VERSION 
-	//PY_MINOR_VERSION
+	struct ReleaseLock {
+	public:
+		int times = 0;
+		~ReleaseLock() {
+			while (times--)
+				PyEval_ReleaseLock();
+		}
+	} _Release;
 
-	PyGILState_STATE gstate;
+	if (!PyEval_ThreadsInitialized()) {
+		PyEval_InitThreads();
+		// mainThreadState = PyThreadState_Get();
+		_Release.times++;
+	}
+
 	// n.b. we need this to be reentrant (i.e. in case this interpreter is being called by python (e.g. via win32com.client))
 	// this is because PyEval_SaveThread() was called
-	gstate = PyGILState_Ensure();
+	PyGILState_STATE gstate = PyGILState_Ensure();
 	struct UnGil {
 		PyGILState_STATE &state;
 		UnGil(PyGILState_STATE &state) : state(state) {}

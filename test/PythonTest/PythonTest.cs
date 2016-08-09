@@ -6,6 +6,7 @@ using System.Reflection;
 using Xunit;
 using META;
 using System.Diagnostics;
+using System.IO;
 
 namespace PythonTest
 {
@@ -104,6 +105,58 @@ namespace PythonTest
             p.Start();
             p.WaitForExit();
             Assert.Equal(42, p.ExitCode);
+        }
+
+        [Fact]
+        public void TestCyPhyPython()
+        {
+            string assemblyDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+
+            string stderr = "<process did not start>";
+            int retcode = Run(VersionInfo.PythonVEnvExe, Path.Combine(assemblyDir, "..\\.."), "test_CyPhyPython.py", out stderr);
+            Assert.True(0 == retcode, stderr);
+        }
+
+        public int Run(string runCommand, string cwd, string args, out string stderr)
+        {
+            ProcessStartInfo info = new ProcessStartInfo()
+            {
+                FileName = runCommand,
+                WorkingDirectory = cwd,
+                Arguments = args,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardError = true,
+                RedirectStandardOutput = true
+            };
+
+            Process proc = new Process();
+            proc.StartInfo = info;
+
+            proc.Start();
+            string err = "";
+
+            proc.ErrorDataReceived += ((sender, e) =>
+            {
+                if (e.Data != null)
+                {
+                    try
+                    {
+                        err = err + e.Data;
+                    }
+                    catch (System.ObjectDisposedException)
+                    {
+                    }
+                }
+            });
+            proc.BeginErrorReadLine();
+            var stdout = proc.StandardOutput.ReadToEnd();
+            proc.WaitForExit();
+            stdout = stdout.Replace("\r", "");
+            stderr = err.Replace("\r", "");
+
+            return proc.ExitCode;
+
         }
     }
 }
