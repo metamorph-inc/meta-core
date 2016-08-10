@@ -2,6 +2,8 @@ import sys
 import os
 import cgi
 import os.path
+import pythoncom
+from pywintypes import com_error
 
 
 def log_formatted(s):
@@ -27,7 +29,6 @@ def start_pdb():
     '''Start pdb, the Python debugger, in a console window.'''
     import ctypes
     ctypes.windll.kernel32.AllocConsole()
-    import sys
     sys.stdout = open('CONOUT$', 'wt')
     sys.stdin = open('CONIN$', 'rt')
     import pdb
@@ -38,8 +39,10 @@ def start_pdb():
 def invoke(focusObject, rootObject, componentParameters, **kwargs):
     log(focusObject.name + "\n")
 
+
 def main():
     from win32com.client import Dispatch
+    pythoncom.CoInitialize()
     project = Dispatch("Mga.MgaProject")
     project.Create("MGA=" + "tmp.mga", "CyPhyML")
     try:
@@ -51,7 +54,15 @@ def main():
         component = components.CreateRootObject(component_meta)
         component.Name = component_meta.Name
         project.CommitTransaction()
-        metaint._oleobj_.Invoke(1610743811, 0, 4, 0, 'script_file', os.path.basename(__file__))
+        try:
+            invoke_id = metaint._oleobj_.GetIDsOfNames(u'ComponentParameter')
+        except com_error as e:
+            if e.hresult & 0xffffffff == 0x80020006L:
+                # 'Unknown name': old GME components don't do IDispatch
+                sys.stderr.write('Old GME; skipping test\n')
+                return
+            raise
+        metaint._oleobj_.Invoke(invoke_id, 0, 4, 0, 'script_file', os.path.basename(__file__))
         metaint.InvokeEx(project, component, Dispatch("Mga.MgaFCOs"), 128)
     finally:
         project.Close()
@@ -59,10 +70,9 @@ def main():
 if __name__ == '__main__':
     main()
     import threading
-    import pythoncom
-    t = threading.Thread(target=lambda: pythoncom.CoInitialize() or main())
+    t = threading.Thread(target=main)
     t.start()
     t.join()
-    t = threading.Thread(target=lambda: pythoncom.CoInitialize() or main())
+    t = threading.Thread(target=main)
     t.start()
     t.join()
