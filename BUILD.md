@@ -18,11 +18,6 @@ When installing, select these packages (at minimum):
 ## Microsoft Visual Studio 2015 Update 2
 [Download](https://www.visualstudio.com/en-us/news/vs2015-update2-vs.aspx)
 
-## WIX
-[Download 3.x here](http://wixtoolset.org/releases/) (get the newest 3.10 version).
-
-3.6, 3.7, 3.8, 3.9, 3.10 are detected by the build_msi.py script.
-
 ## Java JDK 7 or above
 [Download it here](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
 

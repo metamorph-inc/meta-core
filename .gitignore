@@ -46,6 +46,7 @@ source_code_analysis/*.cppcheck.txt
 source_code_analysis/*.cloc.csv
 source_code_analysis.log
 
+deploy/CAD_Installs/WiX.Toolset.*/
 deploy/CAD_Installs/META.CADCreoParametricMetaLink.*/
 deploy/CAD_Installs/META.CadCreoParametricCreateAssembly.*/
 deploy/CAD_Installs/META.ExtractACM-XMLfromCreoModels.*/
@@ -56,8 +57,10 @@ deploy/CAD_Installs/Proe ISIS Extensions/bin/ExtractACM-XMLfromCreoModels.exe
 deploy/DesignDataPackage_python.wxi
 deploy/MassSpringDamper.wxi
 deploy/MaterialLibraryInterface.wxi
+deploy/META_bundle_x64.exe
 deploy/PCC.wxi
 deploy/Proe_ISIS_Extensions_x64.wxi
+deploy/Redist/
 deploy/analysis_tool_CFD.wxi
 deploy/analysis_tool_FAME.wxi
 deploy/analysis_tool_FreedLinkageAssembler.wxi
@@ -74,6 +77,11 @@ deploy/isis_meta.wxi
 deploy/meta_nrmm.wxi
 deploy/py_modelica.wxi
 deploy/py_modelica_exporter.wxi
+deploy/Windows6.1-KB2999226-x64.msu
+deploy/Windows8-RT-KB2999226-x64.msu
+deploy/Windows8.1-KB2999226-x64.msu
+deploy/vc_redist.x64.exe
+deploy/vc_redist.x86.exe
 externals/desert/DesertDll/mcl/MCLLexer.cpp
 externals/desert/DesertDll/mcl/MCLLexer.h
 externals/desert/DesertDll/mcl/MCLParser.cpp

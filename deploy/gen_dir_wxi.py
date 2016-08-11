@@ -3,29 +3,40 @@ import os
 import os.path
 import hashlib
 import re
+import errno
+import itertools
 
 from xml.etree import ElementTree
 
-def add_wix_to_path():
-    import _winreg
-    versions = ('3.6', '3.7', '3.8', '3.9', '3.10')
-    for wix_ver in versions:
-        try:
-            with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 'SOFTWARE\\Microsoft\\Windows Installer XML\\' + wix_ver) as wixkey:
-                os.environ['PATH'] = _winreg.QueryValueEx(wixkey, 'InstallRoot')[0] + ';' + os.environ['PATH']
-                return
-        except WindowsError as e:
-            if e.winerror != 2: # "The system cannot find the file specified."
-                raise
+_this_dir = os.path.dirname(os.path.abspath(__file__))
+prefs = { 'verbose': True }
 
-    raise Exception('WIX is probably not installed. Required version is one of: {0}'.format(versions))
+def system(args, dirname=None):
+    """
+    Executes a system command (throws an exception on error)
+    params
+        args : [command, arg1, arg2, ...]
+        dirname : if set, execute the command within this directory
+    """
+    import subprocess
+    #print args
+    with open(os.devnull, "w") as nulfp:
+        # n.b. stderr=subprocess.STDOUT fails mysteriously
+        import sys
+        subprocess.check_call(args, stdout=(sys.stdout if prefs['verbose'] else nulfp), stderr=subprocess.STDOUT, shell=False, cwd=dirname)
+
+def add_wix_to_path():
+    wix_dir = 'WiX.Toolset.2015.3.10.0.1502'
+    if not os.path.isdir(os.path.join(_this_dir, 'CAD_Installs', wix_dir)):
+        system([r'..\src\.nuget\nuget.exe', 'install', '-Version', '3.10.0.1502', 'WiX.Toolset.2015'], os.path.join(_this_dir))
+    os.environ['PATH'] = os.path.join(_this_dir, 'CAD_Installs', wix_dir, 'tools\\wix') + ';' + os.environ['PATH']
 
 # http://bugs.python.org/issue8277
 class CommentedTreeBuilder(ElementTree.XMLTreeBuilder):
     def __init__(self, html=0, target=None):
         ElementTree.XMLTreeBuilder.__init__(self, html, target)
         self._parser.CommentHandler = self.handle_comment
-    
+
     def handle_comment(self, data):
         self._target.start(ElementTree.Comment, {})
         self._target.data(data)
@@ -91,9 +102,9 @@ def gen_dir_from_vc(src, output_filename=None, id=None, diskId=None):
     if exit_code != 0:
         raise Exception('svn status failed: ' + err)
     for filename in (line.replace("/", "\\") for line in out.splitlines()):
-        #print filename
-        if filename == src: continue
-        if os.path.isdir(filename): continue
+        # print filename
+        if filename == src or os.path.isdir(filename):
+            continue
         dir_ = get_dir(os.path.dirname(filename))
 
         component = SubElement(component_group, 'Component')
@@ -104,21 +115,53 @@ def gen_dir_from_vc(src, output_filename=None, id=None, diskId=None):
         file_.set('Id', 'fil_' + hashlib.md5(filename).hexdigest())
         if diskId:
             component.attrib['DiskId'] = diskId
-    import xml.etree.cElementTree as ET
 
     _indent(wix)
     ElementTree.ElementTree(wix).write(output_filename, xml_declaration=True, encoding='utf-8')
 
 
+def download_file(url, filename):
+    if os.path.isfile(filename):
+        return
+    import requests
+    print('Downloading {} => {}'.format(url, filename))
+    if os.path.dirname(filename):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+    r = requests.get(url, stream=True)
+    with open(filename, 'wb') as f:
+        for chunk in r.iter_content(chunk_size=1024):
+            if chunk:  # filter out keep-alive new chunks
+                f.write(chunk)
+
+
+def download_bundle_deps(bundle_wxs):
+    tree = ElementTree.parse(bundle_wxs, parser=CommentedTreeBuilder()).getroot()
+    ElementTree.register_namespace("", "http://schemas.microsoft.com/wix/2006/wi")
+    for package in itertools.chain(tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}ExePackage"),
+            tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}MsuPackage"),
+            tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}MsiPackage")):
+        url = package.get('DownloadUrl', '')
+        if not url:
+            continue
+        filename = package.get('SourceFile', '') or package.get('Name', '')
+        download_file(url, filename)
+    # from https://github.com/wixtoolset/wix3/blob/develop/src/ext/NetFxExtension/wixlib/NetFx4.5.wxs
+    download_file('http://go.microsoft.com/fwlink/?LinkId=225704', 'redist\\dotNetFx45_Full_setup.exe')
+
+
 def main(src, output_filename=None, id=None, diskId=None):
     add_wix_to_path()
-    
+
     while src[-1] in ('/', '\\'):
         src = src[:-1]
     name = os.path.basename(src)
     id = id or name.replace('-', '_').replace(' ', '_')
     output_filename = output_filename or _adjacent_file(id + ".wxi")
-    
+
     import subprocess
     def check_call(args):
         print " ".join(args)
@@ -128,7 +171,7 @@ def main(src, output_filename=None, id=None, diskId=None):
 
     check_call(['heat', 'dir', _adjacent_file(src), '-template', 'fragment', '-sreg', '-scom',
       '-o', output_filename, '-ag', '-cg', id, '-srd', '-var', 'var.' + id, '-dr', id, '-nologo'])
-    
+
     ElementTree.register_namespace("", "http://schemas.microsoft.com/wix/2006/wi")
     tree = ElementTree.parse(output_filename, parser=CommentedTreeBuilder()).getroot()
     tree.insert(0, ElementTree.Comment('generated with gen_dir_wxi.py %s\n' % src))
@@ -151,9 +194,10 @@ def main(src, output_filename=None, id=None, diskId=None):
             component.attrib['DiskId'] = diskId
 
     ElementTree.ElementTree(tree).write(output_filename, xml_declaration=True, encoding='utf-8')
-            
+
 
 if __name__=='__main__':
     main(sys.argv[1])
+    # download_bundle_deps("META_bundle_x64.wxs")
 
 #heat dir ../runtime/MATLAB/Scenario-matlab-library -template fragment -o Scenario-matlab-library.wxi -gg -cg Scenario_matlab_library -srd -var var.Scenario_matlab_library -dr Scenario_matlab_library
