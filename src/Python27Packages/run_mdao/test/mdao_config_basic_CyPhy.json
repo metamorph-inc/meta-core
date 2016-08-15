@@ -1,0 +1,110 @@
+{
+  "components": {
+        "Enum_Map": {
+            "name": "Enum_Map",
+            "type": "EnumMap",
+            "parameters": {
+                "input": {
+                    "source": [
+                        "ParameterStudy",
+                        "x"
+                    ],
+                    "dimension": null,
+                    "value": "value"
+                }
+            },
+            "unknowns": {
+                "AverageWindSpeed": {
+                    "value": 10
+                },
+                "ExtremeGust": {
+                    "value": 70
+                }
+            },
+            "details": {
+                "config": {
+                    "Ia": {
+                        "AverageWindSpeed": 10,
+                        "ExtremeGust": 70
+                    },
+                    "Ib": {
+                        "AverageWindSpeed": 10,
+                        "ExtremeGust": 70
+                    },
+                    "IIa": {
+                        "AverageWindSpeed": 8.5,
+                        "ExtremeGust": 59.5
+                    },
+                    "IIb": {
+                        "AverageWindSpeed": 8.5,
+                        "ExtremeGust": 59.5
+                    },
+                    "IIIa": {
+                        "AverageWindSpeed": 7.5,
+                        "ExtremeGust": 52.5
+                    },
+                    "IIIb": {
+                        "AverageWindSpeed": 7.5,
+                        "ExtremeGust": 52.5
+                    },
+                    "IV": {
+                        "AverageWindSpeed": 6,
+                        "ExtremeGust": 42
+                    }
+                },
+                "directory": "Enum_Map"
+            },
+            "uploader": {}
+        },
+    "paraboloid_TestBench": {
+      "parameters": {
+        "x": {
+          "source": [
+            "Enum_Map",
+            "AverageWindSpeed"
+          ]
+        },
+        "y": {
+          "source": [
+            "ParameterStudy",
+            "y"
+          ]
+        }
+      },
+      "unknowns": {
+        "fxy": {}
+      },
+      "details": {
+        "directory": "TestBench2"
+      }
+    }
+  },
+  "drivers": {
+    "ParameterStudy": {
+      "type": "parameterStudy",
+      "designVariables": {
+        "x": {
+          "type": "enum",
+          "items": ["Ia", "IIIa"]
+        },
+        "y": {
+          "RangeMin": -50.0,
+          "RangeMax": 50.0
+        }
+      },
+      "objectives": {
+        "fxy": {
+          "source": [
+            "paraboloid_TestBench",
+            "fxy"
+          ]
+        }
+      },
+      "details": {
+        "Code": "num_samples=4",
+        "SurrogateType": "None",
+        "DOEType": "Full Factorial"
+      }
+    }
+  }
+}

@@ -217,7 +217,13 @@ namespace CyPhyMasterInterpreter
 
         public override bool UpdateTestBenchManifestExecutionSteps(AVM.DDP.MetaTBManifest manifest)
         {
-            // FIXME: return fake true for now.
+            manifest.Steps.Add(new AVM.DDP.MetaTBManifest.Step()
+            {
+                Invocation = String.Format("\"{0}\" -m run_mdao", VersionInfo.PythonVEnvExe),
+                Description = "ParametricExploration",
+                // Type = "Parametric Study",
+                Status = AVM.DDP.MetaTBManifest.StatusEnum.UNEXECUTED
+            });
             return true;
         }
     }

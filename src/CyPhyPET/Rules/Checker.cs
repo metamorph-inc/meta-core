@@ -53,7 +53,7 @@ namespace CyPhyPET.Rules
                 if (child.Meta.Name == "ParametricExploration")
                 {
                     ReportFeedBack(Global.OneAndOnlyOneDriver(child), child, "OneAndOnlyOneDriver", "There should be one and only one driver.");
-                    ReportFeedBack(Global.OneAndOnlyOneTestBenchRef(child), child, "OneAndOnlyOneTestBenchRef", "There should be one and only one TestBenchReference.");
+                    ReportFeedBack(Global.UniqueTestBenchRefNames(child), child, "UniqueTestBenchRefNames", "TestBenchReferences should have unique names");
                 }
                 else if (child.Meta.Name == "TestBenchRef")
                 {

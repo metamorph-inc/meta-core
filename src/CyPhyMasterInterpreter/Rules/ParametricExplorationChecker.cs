@@ -46,30 +46,16 @@ namespace CyPhyMasterInterpreter.Rules
 
                 results.Add(feedback);
             }
-            else if (testBenchRefCount == 1)
+            else if (testBenchRefCount >= 1)
             {
                 var feedback = new ContextCheckerResult()
                 {
                     Success = true,
                     Subject = this.parametricExploration.Children.TestBenchRefCollection.FirstOrDefault().Impl,
-                    Message = "One test bench reference found."
+                    Message = "One or more test bench reference found."
                 };
 
                 results.Add(feedback);
-            }
-            else if (testBenchRefCount > 1)
-            {
-                foreach (var testBenchRef in this.parametricExploration.Children.TestBenchRefCollection)
-                {
-                    var feedback = new ContextCheckerResult()
-                    {
-                        Success = false,
-                        Subject = testBenchRef.Impl,
-                        Message = "Only one test bench reference is allowed."
-                    };
-
-                    results.Add(feedback);
-                }
             }
             else
             {

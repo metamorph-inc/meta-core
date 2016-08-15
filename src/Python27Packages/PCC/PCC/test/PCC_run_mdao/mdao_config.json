@@ -1,0 +1,144 @@
+{
+  "components": {
+    "MSD_for_testing": {
+      "name": "PythonCalc",
+      "type": "run_mdao.python_component.PythonComponent",
+      "parameters": {
+        "f_const": {
+          "source": [
+            "PCCDriver",
+            "f_const"
+          ]
+        },
+        "mass_start_acc": {
+          "source": [
+            "PCCDriver",
+            "mass_acc_start"
+          ]
+        }
+      },
+      "unknowns": {
+        "MaximumSpeed10": {},
+        "MaximumSpeed": {}
+      },
+      "details": {
+        "filename": "pythoncalc.py"
+      }
+    }
+  },
+  "drivers": {
+    "PCCDriver": {
+      "type": "PCCDriver",
+      "designVariables": {
+        "mass_acc_start": {
+          "RangeMin": null,
+          "RangeMax": null
+        },
+        "f_const": {
+          "RangeMin": null,
+          "RangeMax": null
+        }
+      },
+      "objectives": {
+        "MaximumSpeed10": {
+          "source": [
+            "MSD_for_testing",
+            "MaximumSpeed10"
+          ]
+        },
+        "MaximumSpeed": {
+          "source": [
+            "MSD_for_testing",
+            "MaximumSpeed"
+          ]
+        }
+      },
+      "details": {
+        "Configurations": {
+          "Configuration": {
+            "Feasible": null,
+            "ID": "id-0065-00000123",
+            "Name": "PCCDriver",
+            "Parts": [
+              {
+                "ModelConfigFileName": "test_bench_model_config.json",
+                "ToolConfigFileName": "test_bench_tool_config.json"
+              }
+            ],
+            "PCCInputArguments": {
+              "OutputIDs": [
+                "id-0067-00000098",
+                "id-0067-0000009a"
+              ],
+              "InputIDs": [
+                "id-0067-00000097",
+                "id-0067-00000099"
+              ],
+              "StochasticInputs": {
+                "InputDistributions": [
+                  {
+                    "ID": "id-0067-00000097",
+                    "Name": "f_const",
+                    "TestBenchParameterNames": [
+                      "f_const"
+                    ],
+                    "Distribution": "NORM",
+                    "Param1": 5.0,
+                    "Param2": 1.0,
+                    "Param3": 0.0,
+                    "Param4": 0.0
+                  },
+                  {
+                    "ID": "id-0067-00000099",
+                    "Name": "mass_acc_start",
+                    "TestBenchParameterNames": [
+                      "mass_start_acc"
+                    ],
+                    "Distribution": "NORM",
+                    "Param1": 10.0,
+                    "Param2": 2.0,
+                    "Param3": 0.0,
+                    "Param4": 0.0
+                  }
+                ]
+              },
+              "PCCMetrics": [
+                {
+                  "ID": "id-0067-00000098",
+                  "Name": "MSD_for_testing.MaximumSpeed",
+                  "TestBenchMetricName": "MaximumSpeed",
+                  "PCC_Calc": 0.0,
+                  "PCC_Spec": 0.7,
+                  "Limits": {
+                    "Min": 5.0,
+                    "Max": 7.0,
+                    "op": null,
+                    "minrange": null,
+                    "maxrange": null
+                  }
+                },
+                {
+                  "ID": "id-0067-0000009a",
+                  "Name": "MSD_for_testing.MaximumSpeed10",
+                  "TestBenchMetricName": "MaximumSpeed10",
+                  "PCC_Calc": 0.0,
+                  "PCC_Spec": 0.7,
+                  "Limits": {
+                    "Min": 50.0,
+                    "Max": 70.0,
+                    "op": null,
+                    "minrange": null,
+                    "maxrange": null
+                  }
+                }
+              ],
+              "Methods": [
+                2
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -23,6 +23,16 @@ namespace DynamicsTeamTest
         public static bool Run(string outputdirname, string projectPath, string absPath)
         {
             bool result = false;
+
+            result = RunReturnFull(outputdirname, projectPath, absPath).Item2.Success;
+
+            return result;
+        }
+
+        public static Tuple<CyPhyGUIs.InterpreterMainParameters, CyPhyGUIs.IInterpreterResult> RunReturnFull(string outputdirname, string projectPath, string absPath)
+        {
+            var mainParameters = new CyPhyGUIs.InterpreterMainParameters();
+            CyPhyGUIs.IInterpreterResult results = null;
             Assert.True(File.Exists(projectPath), "Project file does not exist.");
             string ProjectConnStr = "MGA=" + projectPath;
 
@@ -35,6 +45,7 @@ namespace DynamicsTeamTest
             {
                 var terr = project.BeginTransactionInNewTerr();
                 var testObj = project.ObjectByPath[absPath] as MgaFCO;
+                Assert.NotNull(testObj);
                 project.AbortTransaction();
 
                 string OutputDir = Path.Combine(Path.GetDirectoryName(projectPath), outputdirname);
@@ -49,7 +60,6 @@ namespace DynamicsTeamTest
                 interpreter.Initialize(project);
 
                 //dynamic mainParameters = Activator.CreateInstance(MainParametersType);
-                var mainParameters = new CyPhyGUIs.InterpreterMainParameters();
                 mainParameters.Project = project;
                 mainParameters.CurrentFCO = testObj;
                 mainParameters.SelectedFCOs = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
@@ -59,12 +69,11 @@ namespace DynamicsTeamTest
                 mainParameters.OutputDirectory = OutputDir;
 
                 //dynamic results = interpreter.Main(mainParameters);
-                var results = interpreter.MainThrows(mainParameters);
+                results = interpreter.MainThrows(mainParameters);
 
                 Assert.True(File.Exists(ProjectConnStr.Substring("MGA=".Length)));
 
-                result = results.Success;
-                if (result == false)
+                if (results.Success == false)
                 {
                     Test.DeleteDirectory(OutputDir);
                 }
@@ -74,7 +83,7 @@ namespace DynamicsTeamTest
                 project.Close(true);
             }
 
-            return result;
+            return new Tuple<CyPhyGUIs.InterpreterMainParameters, CyPhyGUIs.IInterpreterResult>(mainParameters, results);
         }
 
         /// <summary>

@@ -1,0 +1,64 @@
+{
+  "components": {
+    "Producer": {
+        "name": "FileProducer",
+        "type": "run_mdao.python_component.PythonComponent",
+        "parameters": {
+            "unused": {
+                "source": [
+                    "ParameterStudy",
+                    "y"
+                ]
+            }
+        },
+        "unknowns": {
+            "outfile": {
+            }
+        },
+        "details": {
+            "filename": "fileproducer.py"
+        }
+    },
+    "Consumer": {
+      "name": "FileConsumer",
+      "type": "run_mdao.python_component.PythonComponent",
+      "parameters": {
+        "infile": {
+          "source": [
+            "Producer",
+            "outfile"
+          ]
+        }
+      },
+      "unknowns": {
+        "checksum": {}
+      },
+      "details": {
+        "filename": "fileconsumer.py"
+      }
+    }
+  },
+  "drivers": {
+    "ParameterStudy": {
+      "type": "parameterStudy",
+      "designVariables": {
+        "y": {
+          "RangeMin": -50.0,
+          "RangeMax": 50.0
+        }
+      },
+      "objectives": {
+        "checksum": {
+          "source": [
+            "Consumer",
+            "checksum"
+          ]
+        }
+      },
+      "details": {
+        "Code": "num_samples=2",
+        "DOEType": "Full Factorial"
+      }
+    }
+  }
+}

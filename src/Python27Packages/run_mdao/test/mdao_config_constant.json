@@ -1,0 +1,105 @@
+{
+    "components": {
+        "Constants": {
+            "type": "IndepVarComp",
+            "unknowns": {
+                "Reynolds_Number": {
+                    "value": 200000
+                },
+                "Test_String": {
+                    "value": "a string"
+                }
+            }
+        },
+        "XFOIL_Tier_1": {
+            "parameters": {
+                "Reynolds_Number": {
+                    "source": [
+                        "Constants",
+                        "Reynolds_Number"
+                    ],
+                    "dimension": null,
+                    "value": 153916.11312449834
+                },
+                "Naca_Code": {
+                    "source": [
+                        "SomeDriver",
+                        "Naca_Code"
+                    ],
+                    "dimension": null,
+                    "value": 4410
+                }
+            },
+            "unknowns": {
+                "cl_cd_cm_table": {
+                    "dimension": null
+                },
+                "Ncrit": {
+                    "dimension": null
+                },
+                "max_glide_ratio": {
+                    "dimension": null
+                },
+                "alpha": {
+                    "dimension": null
+                },
+                "cl": {
+                    "dimension": null
+                },
+                "cd": {
+                    "dimension": null
+                }
+            },
+            "details": {
+                "directory": "XFOIL_Tier_1"
+            },
+            "name": "XFOIL_Tier_1"
+        }
+    },
+    "drivers": {
+        "SomeDriver": {
+            "type": "parameterStudy",
+            "designVariables": {
+                "Naca_Code": {
+                    "RangeMin": 4410,
+                    "RangeMax": 4450
+                }
+            },
+            "objectives": {
+                "max_glide_ratio": {
+                    "source": [
+                        "XFOIL_Tier_1",
+                        "max_glide_ratio"
+                    ],
+                    "dimension": null
+                },
+                "alpha": {
+                    "source": [
+                        "XFOIL_Tier_1",
+                        "alpha"
+                    ],
+                    "dimension": null
+                },
+                "cl": {
+                    "source": [
+                        "XFOIL_Tier_1",
+                        "cl"
+                    ],
+                    "dimension": null
+                },
+                "cd": {
+                    "source": [
+                        "XFOIL_Tier_1",
+                        "cd"
+                    ],
+                    "dimension": null
+                }
+            },
+            "details": {
+                "Code": "num_samples=5",
+                "DOEType": "Full Factorial",
+                "SurrogateType": null
+            }
+        }
+    }
+}

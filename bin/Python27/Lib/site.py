@@ -250,6 +250,9 @@ def addsitepackages(known_paths, sys_prefix=sys.prefix, exec_prefix=sys.exec_pre
                 except AttributeError:
                     pass
                 # Debian-specific dist-packages directories:
+                sitedirs.append(os.path.join(prefix, "local/lib",
+                                             "python" + sys.version[:3],
+                                             "dist-packages"))
                 if sys.version[0] == '2':
                     sitedirs.append(os.path.join(prefix, "lib",
                                                  "python" + sys.version[:3],
@@ -258,9 +261,6 @@ def addsitepackages(known_paths, sys_prefix=sys.prefix, exec_prefix=sys.exec_pre
                     sitedirs.append(os.path.join(prefix, "lib",
                                                  "python" + sys.version[0],
                                                  "dist-packages"))
-                sitedirs.append(os.path.join(prefix, "local/lib",
-                                             "python" + sys.version[:3],
-                                             "dist-packages"))
                 sitedirs.append(os.path.join(prefix, "lib", "dist-python"))
             else:
                 sitedirs = [prefix, os.path.join(prefix, "lib", "site-packages")]
@@ -479,7 +479,7 @@ def setcopyright():
     elif _is_pypy:
         builtins.credits = _Printer(
             "credits",
-            "PyPy is maintained by the PyPy developers: http://codespeak.net/pypy")
+            "PyPy is maintained by the PyPy developers: http://pypy.org/")
     else:
         builtins.credits = _Printer("credits", """\
     Thanks to CWI, CNRI, BeOpen.com, Zope Corporation and a cast of thousands
@@ -560,13 +560,17 @@ def virtual_install_main_packages():
     if _is_jython:
         paths = [os.path.join(sys.real_prefix, 'Lib')]
     elif _is_pypy:
-        if sys.pypy_version_info >= (1, 5):
+        if sys.version_info > (3, 2):
+            cpyver = '%d' % sys.version_info[0]
+        elif sys.pypy_version_info >= (1, 5):
             cpyver = '%d.%d' % sys.version_info[:2]
         else:
             cpyver = '%d.%d.%d' % sys.version_info[:3]
         paths = [os.path.join(sys.real_prefix, 'lib_pypy'),
-                 os.path.join(sys.real_prefix, 'lib-python', 'modified-%s' % cpyver),
                  os.path.join(sys.real_prefix, 'lib-python', cpyver)]
+        if sys.pypy_version_info < (1, 9):
+            paths.insert(1, os.path.join(sys.real_prefix,
+                                         'lib-python', 'modified-%s' % cpyver))
         hardcoded_relative_dirs = paths[:] # for the special 'darwin' case below
         #
         # This is hardcoded in the Python executable, but relative to sys.prefix:

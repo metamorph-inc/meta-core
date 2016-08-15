@@ -1,0 +1,7 @@
+#!C:\Users\kevin\Documents\meta-core\bin\Python27\Scripts\python.exe
+
+import warnings
+warnings.simplefilter('default', DeprecationWarning)
+
+from logilab.common.pytest import run
+run()

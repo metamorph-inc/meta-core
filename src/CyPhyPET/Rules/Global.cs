@@ -11,6 +11,8 @@ using GME.CSharp;
 using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using CyPhyCOMInterfaces;
+using System.Globalization;
+using ISIS.GME.Common.Interfaces;
 
 namespace CyPhyPET.Rules
 {
@@ -56,17 +58,6 @@ namespace CyPhyPET.Rules
 
 #region TestBench
         /// <summary>
-        /// Contains all supported work-flows in a TestBench. (One and only one must be defined.)
-        /// </summary>
-        public static HashSet<string> AllSupportedInterpreters = new HashSet<string>() 
-        {
-            "MGA.Interpreter.CyPhy2Modelica_v2",
-            "MGA.Interpreter.CyPhy2CAD_CSharp",
-            "MGA.Interpreter.CyPhyFormulaEvaluator",
-            "MGA.Interpreter.CyPhyPython"  
-        };
-
-        /// <summary>
         /// Looks if a work-flow with a task is defined in testBench and if so, returns the ProgID defined
         /// in task. If the rules are not fulfilled an empty string is returned.
         /// </summary>
@@ -97,16 +88,16 @@ namespace CyPhyPET.Rules
             return result;
         }
 
-        [CheckerRule("OneAndOnlyOneTestBenchRef", Description = "There should be one and only one TestBenchReference.")]
+        [CheckerRule("UniqueTestBenchRefNames", Description = "TestBenchReferences should have unique names")]
         [Tags("PET")]
         [ValidContext("ParametricExploration")]
-        public static IEnumerable<RuleFeedbackBase> OneAndOnlyOneTestBenchRef(MgaFCO context)
+        public static IEnumerable<RuleFeedbackBase> UniqueTestBenchRefNames(MgaFCO context)
         {
             var pet = CyPhyClasses.ParametricExploration.Cast(context);
-            return OneAndOnlyOneTestBenchRef(pet);
+            return UniqueTestBenchRefNames(pet);
         }
 
-        public static IEnumerable<RuleFeedbackBase> OneAndOnlyOneTestBenchRef(CyPhy.ParametricExploration pet)
+        public static IEnumerable<RuleFeedbackBase> UniqueTestBenchRefNames(CyPhy.ParametricExploration pet)
         {
             var result = new List<RuleFeedbackBase>();
 
@@ -124,13 +115,17 @@ namespace CyPhyPET.Rules
             }
             else if (cnt > 1)
             {
-                var feedback = new GenericRuleFeedback()
+                var dupNames = pet.Children.TestBenchRefCollection.GroupBy(tb => tb.Name).Where(group => group.Count() > 1)
+                    .Select(group => group.Key);
+                if (dupNames.Count() > 0)
                 {
-                    FeedbackType = FeedbackTypes.Error,
-                    Message = string.Format("The ParameterExploration-model has {0} TestBenchRefs. There must only be one.", cnt)
-                };
-
-                result.Add(feedback);
+                    var feedback = new GenericRuleFeedback()
+                    {
+                        FeedbackType = FeedbackTypes.Error,
+                        Message = string.Format("PET requires unique TestBenchRef names. Duplicate names: {0}", String.Join(",", dupNames.ToArray()))
+                    };
+                    result.Add(feedback);
+                }
             }
 
             return result;
@@ -174,10 +169,11 @@ namespace CyPhyPET.Rules
                 var parameters = testBench.Children.ParameterCollection;
                 if (parameters.Count() != parameters.Select(p => p.Name).Distinct().Count())
                 {
+                    var names = String.Join(", ", parameters.Select(p => p.Name).GroupBy(p => p).Where(x => x.Count() > 1).Select(x => x.First()).ToArray());
                     var feedback = new GenericRuleFeedback()
                     {
                         FeedbackType = FeedbackTypes.Error,
-                        Message = string.Format("Parameters in test-bench share common names.")
+                        Message = string.Format("Duplicate parameter names '{0}'.", names)
                     };
 
                     feedback.InvolvedObjectsByRole.Add(testBench.Impl as IMgaFCO);
@@ -245,22 +241,6 @@ namespace CyPhyPET.Rules
                         feedback.InvolvedObjectsByRole.Add(workflow.Impl as IMgaFCO);
                         result.Add(feedback);
                     }
-                    else
-                    {
-                        var task = workflow.Children.TaskCollection.FirstOrDefault();
-
-                        if (AllSupportedInterpreters.Contains(task.Attributes.COMName) == false)
-                        {
-                            var feedback = new GenericRuleFeedback()
-                            {
-                                FeedbackType = FeedbackTypes.Error,
-                                Message = string.Format("Workflow task '{0}' is not supported.", task.Attributes.COMName)
-                            };
-
-                            feedback.InvolvedObjectsByRole.Add(workflow.Impl as IMgaFCO);
-                            result.Add(feedback);
-                        }
-                    }
                 }
             }
 
@@ -319,10 +299,9 @@ namespace CyPhyPET.Rules
                 checkResults.Add(feedback);
             }
 
-            List<ISIS.GME.Common.Interfaces.FCO> tbParamsWithConnections = new List<ISIS.GME.Common.Interfaces.FCO>();
+            var tbParamsWithConnections = new HashSet<Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>>();
 
             // Check for connections and names of parameters in the test-bench.
-            HashSet<string> parameterNames = new HashSet<string>();
             foreach (var param in parameters)
             {
                 var attributeCheckResults = checkPccParamAttributes(param);
@@ -338,6 +317,7 @@ namespace CyPhyPET.Rules
                 {
                     CyPhy.DriveParameter driveParam = driveParamCollection.FirstOrDefault();
                     var tbParam = driveParam.DstEnds.Parameter;
+                    var tb = driveParam.GenericDstEndRef;
 
                     if (tbParam != null)
                     {
@@ -368,23 +348,9 @@ namespace CyPhyPET.Rules
                                 checkResults.Add(feedback);
                             }
 
-                            if (parameterNames.Contains(tbParam.Name))
-                            {
-                                var feedback = new GenericRuleFeedback()
-                                {
-                                    FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Parameters share common name: {0}.", tbParam.Name)
-                                };
-
-                                feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
-                                checkResults.Add(feedback);
-                            }
-
-                            parameterNames.Add(tbParam.Name);
-
                             var value = tbParam.Attributes.Value;
                             double dummy;
-                            if (double.TryParse(value, out dummy) == false)
+                            if (value != "" && double.TryParse(value, out dummy) == false)
                             {
                                 var feedback = new GenericRuleFeedback()
                                 {
@@ -397,7 +363,8 @@ namespace CyPhyPET.Rules
                             }
                         }
 
-                        if (tbParamsWithConnections.Contains(tbParam))
+                        if (tbParamsWithConnections.Add(
+                            new Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(tb, tbParam)) == false)
                         {
                             var feedback = new GenericRuleFeedback()
                             {
@@ -408,10 +375,8 @@ namespace CyPhyPET.Rules
                             feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
                             checkResults.Add(feedback);
                         }
-
-                        tbParamsWithConnections.Add(tbParam);
                     }
-                    
+
                 }
                 else if (driveParamCollection != null &&
                     driveParamCollection.Count() != 1)
@@ -427,9 +392,8 @@ namespace CyPhyPET.Rules
                 }
             }
 
-            List<ISIS.GME.Common.Interfaces.FCO> tbMetricsWithConnections = new List<ISIS.GME.Common.Interfaces.FCO>();
+            var tbMetricsWithConnections = new HashSet<Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>>();
             // Check for connections and names of metrics in the test-bench.
-            HashSet<string> metricNames = new HashSet<string>();
             foreach (var output in outputs)
             {
                 var attributeCheckResults = checkPccOutputAttributes(output);
@@ -445,12 +409,13 @@ namespace CyPhyPET.Rules
                 {
                     CyPhy.PCCOutputMapping pccOutputMap = pccOutputMappingCollection.FirstOrDefault();
                     var tbMetric = pccOutputMap.SrcEnd;
+                    var tb = pccOutputMap.GenericSrcEndRef;
 
                     if (tbMetric != null)
                     {
                         var tbMetricParent = tbMetric.ParentContainer;
                         if (tbMetricParent != null &&
-                            (tbMetricParent is CyPhy.TestBenchType) == false)
+                            ((tbMetricParent is CyPhy.TestBenchType) == false && (tbMetricParent is CyPhy.ParametricTestBench) == false))
                         {
                             var feedback = new GenericRuleFeedback()
                             {
@@ -474,22 +439,9 @@ namespace CyPhyPET.Rules
                                 feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
                                 checkResults.Add(feedback);
                             }
-
-                            if (metricNames.Contains(tbMetric.Name))
-                            {
-                                var feedback = new GenericRuleFeedback()
-                                {
-                                    FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Parameters share common name: {0}.", tbMetric.Name)
-                                };
-
-                                feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
-                                checkResults.Add(feedback);
-                            }
-
-                            metricNames.Add(tbMetric.Name);
                         }
-                        if (tbMetricsWithConnections.Contains(tbMetric))
+                        if (tbMetricsWithConnections.Add(
+                            new Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(tb, tbMetric)) == false)
                         {
                             var feedback = new GenericRuleFeedback()
                             {
@@ -500,8 +452,6 @@ namespace CyPhyPET.Rules
                             feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
                             checkResults.Add(feedback);
                         }
-
-                        tbMetricsWithConnections.Add(tbMetric);
                     }
                 }
                 else if (pccOutputMappingCollection != null &&
@@ -529,12 +479,12 @@ namespace CyPhyPET.Rules
             double minValue = 0;
             double pccTarget = output.Attributes.TargetPCCValue;
 
-            bool compareValues = 
+            bool compareValues =
                 double.TryParse(output.Attributes.MaxValue.Trim(), out maxValue) &&
                 double.TryParse(output.Attributes.MinValue.Trim(), out minValue);
 
-            bool pccTargetValid = 
-                (0 <= pccTarget) && 
+            bool pccTargetValid =
+                (0 <= pccTarget) &&
                 (pccTarget <= 1);
 
             if (compareValues)
@@ -746,10 +696,9 @@ namespace CyPhyPET.Rules
                 checkResults.Add(feedback);
             }
 
-            List<ISIS.GME.Common.Interfaces.FCO> tbParamsWithConnections = new List<ISIS.GME.Common.Interfaces.FCO>();
-            List<ISIS.GME.Common.Interfaces.FCO> tbMetricsWithConnections = new List<ISIS.GME.Common.Interfaces.FCO>();
+            var tbParamsWithConnections = new HashSet<Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>>();
+            var tbMetricsWithConnections = new HashSet<Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>>();
             // Check for connections and names of parameters in the test-bench.
-            HashSet<string> parameterNames = new HashSet<string>();
             var rangeLengths = new List<int>();
             foreach (var designVar in designVariables)
             {
@@ -763,11 +712,12 @@ namespace CyPhyPET.Rules
                 {
                     CyPhy.VariableSweep varSweep = varSweepCollection.FirstOrDefault();
                     var tbParam = varSweep.DstEnds.Parameter;
+                    var tb = varSweep.GenericDstEndRef;
                     if (tbParam != null)
                     {
                         var tbParamParent = tbParam.ParentContainer;
                         if (tbParamParent != null &&
-                            (tbParamParent is CyPhy.TestBenchType) == false)
+                            ((tbParamParent is CyPhy.TestBenchType) == false && (tbParamParent is CyPhy.ParametricTestBench) == false))
                         {
                             var feedback = new GenericRuleFeedback()
                             {
@@ -792,23 +742,9 @@ namespace CyPhyPET.Rules
                                 checkResults.Add(feedback);
                             }
 
-                            if (parameterNames.Contains(tbParam.Name))
-                            {
-                                var feedback = new GenericRuleFeedback()
-                                {
-                                    FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Parameters share common name : {0}.", tbParam.Name)
-                                };
-
-                                feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
-                                checkResults.Add(feedback);
-                            }
-
-                            parameterNames.Add(tbParam.Name);
-
                             var value = tbParam.Attributes.Value;
                             double dummy;
-                            if (double.TryParse(value, out dummy) == false)
+                            if (value != "" && double.TryParse(value, out dummy) == false)
                             {
                                 var feedback = new GenericRuleFeedback()
                                 {
@@ -820,7 +756,9 @@ namespace CyPhyPET.Rules
                                 checkResults.Add(feedback);
                             }
                         }
-                        if (tbParamsWithConnections.Contains(tbParam))
+
+                        if (tbParamsWithConnections.Add(
+                            new Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(tb, tbParam)) == false)
                         {
                             var feedback = new GenericRuleFeedback()
                             {
@@ -831,17 +769,15 @@ namespace CyPhyPET.Rules
                             feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
                             checkResults.Add(feedback);
                         }
-
-                        tbParamsWithConnections.Add(tbParam);
                     }
                 }
                 else if (varSweepCollection != null &&
-                    varSweepCollection.Count() != 1)
+                    varSweepCollection.Count() == 0)
                 {
                     var feedback = new GenericRuleFeedback()
                     {
                         FeedbackType = FeedbackTypes.Error,
-                        Message = string.Format("Driver DesignVariable ({0}) must have (only) 1 connection to a Testbench Parameter/Property", designVar.Name)
+                        Message = string.Format("Driver DesignVariable ({0}) must have at least 1 connection to a Testbench Parameter/Property", designVar.Name)
                     };
 
                     feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
@@ -862,7 +798,6 @@ namespace CyPhyPET.Rules
                 checkResults.Add(feedback);
             }
             // Check for connections and names of metrics in the test-bench.
-            HashSet<string> metricNames = new HashSet<string>();
             foreach (var obj in objectives)
             {
                 var objMappingCollection = obj.SrcConnections.ObjectiveMappingCollection;
@@ -871,11 +806,12 @@ namespace CyPhyPET.Rules
                 {
                     CyPhy.ObjectiveMapping objMap = objMappingCollection.FirstOrDefault();
                     var tbMetric = objMap.SrcEnd;
+                    var tb = objMap.GenericSrcEndRef;
                     if (tbMetric != null)
                     {
                         var tbMetricParent = tbMetric.ParentContainer;
                         if (tbMetricParent != null &&
-                            (tbMetricParent is CyPhy.TestBenchType) == false)
+                            ((tbMetricParent is CyPhy.TestBenchType) == false && (tbMetricParent is CyPhy.ParametricTestBench) == false))
                         {
                             var feedback = new GenericRuleFeedback()
                             {
@@ -899,23 +835,10 @@ namespace CyPhyPET.Rules
                                 feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
                                 checkResults.Add(feedback);
                             }
-
-                            if (metricNames.Contains(tbMetric.Name))
-                            {
-                                var feedback = new GenericRuleFeedback()
-                                {
-                                    FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Metrics share common name : {0}.", tbMetric.Name)
-                                };
-
-                                feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
-                                checkResults.Add(feedback);
-                            }
-
-                            metricNames.Add(tbMetric.Name);
                         }
 
-                        if (tbMetricsWithConnections.Contains(tbMetric))
+                        if (tbMetricsWithConnections.Add(
+                            new Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(tb, tbMetric)) == false)
                         {
                             var feedback = new GenericRuleFeedback()
                             {
@@ -926,21 +849,32 @@ namespace CyPhyPET.Rules
                             feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
                             checkResults.Add(feedback);
                         }
-
-                        tbMetricsWithConnections.Add(tbMetric);
                     }
                 }
-                else if (objMappingCollection != null &&
-                    objMappingCollection.Count() != 1)
+                else if (objMappingCollection != null)
                 {
-                    var feedback = new GenericRuleFeedback()
+                    if (objMappingCollection.Count() > 1)
                     {
-                        FeedbackType = FeedbackTypes.Error,
-                        Message = string.Format("Driver Objective ({0}) must have (only) 1 connection from a Testbench Metric", obj.Name)
-                    };
+                        var feedback = new GenericRuleFeedback()
+                        {
+                            FeedbackType = FeedbackTypes.Error,
+                            Message = string.Format("Driver Objective ({0}) must not have multiple connections from Testbench Metrics", obj.Name)
+                        };
 
-                    feedback.InvolvedObjectsByRole.Add(obj.Impl as IMgaFCO);
-                    checkResults.Add(feedback);
+                        feedback.InvolvedObjectsByRole.Add(obj.Impl as IMgaFCO);
+                        checkResults.Add(feedback);
+                    }
+                    else if (objMappingCollection.Count() == 0)
+                    {
+                        var feedback = new GenericRuleFeedback()
+                        {
+                            FeedbackType = FeedbackTypes.Warning,
+                            Message = string.Format("Driver Objective ({0}) does not have a connection from a Testbench Metric", obj.Name)
+                        };
+
+                        feedback.InvolvedObjectsByRole.Add(obj.Impl as IMgaFCO);
+                        checkResults.Add(feedback);
+                    }
                 }
             }
 
@@ -965,7 +899,7 @@ namespace CyPhyPET.Rules
                 foreach (var rp in rangePieces)
                 {
                     double val = 0;
-                    if (double.TryParse(rp, out val) == false)
+                    if (double.TryParse(rp, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out val) == false)
                     {
                         var feedback = new GenericRuleFeedback()
                         {
@@ -984,8 +918,10 @@ namespace CyPhyPET.Rules
                 double min = 0;
                 double max = 0;
                 bool canGetMaxAndMin =
-                    double.TryParse(splitRange[0].Trim(), out min) &&
-                    double.TryParse(splitRange[1].Trim(), out max);
+                    double.TryParse(splitRange[0].Trim(), NumberStyles.Float | NumberStyles.AllowThousands,
+                            CultureInfo.InvariantCulture, out min) &&
+                    double.TryParse(splitRange[1].Trim(), NumberStyles.Float | NumberStyles.AllowThousands,
+                            CultureInfo.InvariantCulture, out max);
                 if (canGetMaxAndMin)
                 {
                     if (min > max)
@@ -1012,12 +948,29 @@ namespace CyPhyPET.Rules
                     attributeCheckResults.Add(feedback);
                 }
             }
+            else if (splitRange.Count() == 1)
+            {
+                double singlePoint = 0;
+                if (double.TryParse(splitRange[0].Trim(), NumberStyles.Float | NumberStyles.AllowThousands,
+                            CultureInfo.InvariantCulture, out singlePoint) == false)
+                {
+                    var feedback = new GenericRuleFeedback()
+                    {
+                        FeedbackType = FeedbackTypes.Error,
+                        Message = string.Format("MDAODriver DesignVariable ({0}) Range: Could not parse value... is it a decimal?", designVar.Name)
+                    };
+
+                    feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
+                    // FIXME: need to rewrite this test for ;-delimited enums
+                    // attributeCheckResults.Add(feedback);
+                }
+            }
             else// if (range != "-inf..inf") We need to make a judgement call on whether or not to accept "-inf..inf"
             {
                 var feedback = new GenericRuleFeedback()
                 {
                     FeedbackType = FeedbackTypes.Error,
-                    Message = string.Format("MDAODriver DesignVariable ({0}) Range Attribute should have format 'Min, Max' where Min and Max are Reals", designVar.Name)
+                    Message = string.Format("MDAODriver DesignVariable ({0}) Range Attribute should have format 'Min, Max' where Min and Max are Reals, or 'Val' where Val is Real", designVar.Name)
                 };
 
                 feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
@@ -1055,7 +1008,7 @@ namespace CyPhyPET.Rules
                 result.Add(new GenericRuleFeedback()
                 {
                     FeedbackType = FeedbackTypes.Error,
-                    Message = string.Format("Optimizers cannot have more than one output variable.")
+                    Message = string.Format("Optimizers cannot have more than one objective.")
                 });
             }
 

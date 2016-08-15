@@ -13,6 +13,7 @@
             <Directory Id="py_modelica" Name="py_modelica" />
             <Directory Id="py_modelica_exporter" Name="py_modelica_exporter" />
             <Directory Id="cad_library" Name="cad_library" />
+            <Directory Id="run_mdao" Name="run_mdao" />
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -24,6 +25,7 @@
             <ComponentGroupRef Id="py_modelica" />
             <ComponentGroupRef Id="py_modelica_exporter" />
             <ComponentGroupRef Id="cad_library" />
+            <ComponentGroupRef Id="run_mdao" />
         </ComponentGroup>
     </Fragment>
 </Wix>

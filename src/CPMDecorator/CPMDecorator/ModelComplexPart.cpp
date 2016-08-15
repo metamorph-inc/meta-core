@@ -21,6 +21,31 @@ static const int cornerRadius = 15;
 namespace Decor{
 
 
+struct {
+	const wchar_t* kind;
+	const wchar_t* fileAttribute;
+} PETKinds[] = {
+	{ L"ExcelWrapper", L"ExcelFilename" },
+	{ L"MATLABWrapper", L"MFilename" },
+	{ L"PythonWrapper", L"PyFilename" },
+};
+const wchar_t* PETWrapperLookup(_bstr_t& kind) {
+	for (size_t i = 0; i < _countof(PETKinds); i++) {
+		if (kind.operator==(PETKinds[i].kind)) {
+			return PETKinds[i].fileAttribute;
+		}
+	}
+	return NULL;
+}
+
+
+bool operator==(const _bstr_t& a, const wchar_t* b) {
+	if (a.length() == 0) {
+		return wcslen(b) == 0;
+	}
+	return wcscmp(a, b) == 0;
+}
+
 class CPMPortLabelPart : public PortLabelPart
 {
 public:
@@ -254,6 +279,13 @@ CSize ModelComplexPart::GetPreferredSize(void) const
 	lWidth = max(lWidth, bitmapSize.cx);
 	lHeight = max(lHeight, bitmapSize.cy);
 	const_cast<Decor::ModelComplexPart*>(this)->resizeLogic.SetMinimumSize(CSize(lWidth, lHeight));
+
+	if (button) {
+		int y = lHeight - button->m_bmp->GetHeight();
+		int x = lWidth - RightPortsMaxLabelLength - button->m_bmp->GetWidth();
+		button->position = CRect(x, y, x + button->m_bmp->GetWidth(), y + button->m_bmp->GetHeight());
+	}
+
 	return CSize(max((long) WIDTH_MODEL, lWidth), max((long) HEIGHT_MODEL, lHeight));
 }
 
@@ -399,6 +431,9 @@ void ModelComplexPart::InitializeEx(CComPtr<IMgaProject>& pProject, CComPtr<IMga
 	preferences[PREF_TILESDEFAULT]	= PreferenceVariant(getFacilities().getTileVector(TILE_MODELDEFAULT));
 	preferences[PREF_TILESUNDEF]	= PreferenceVariant(getFacilities().getTileVector(TILE_PORTDEFAULT));
 
+	if (pPart) {
+		kind = pPart->Role->Kind->Name;
+	}
 	if (pFCO) {
 		PreferenceMap::iterator it = preferences.find(PREF_PORTLABELCOLOR);
 		if (it != preferences.end())
@@ -428,6 +463,36 @@ void ModelComplexPart::InitializeEx(CComPtr<IMgaProject>& pProject, CComPtr<IMga
 		TypeableBitmapPart::InitializeEx(pProject, pPart, pFCO, parentWnd, preferences);
 
 		LoadPorts();
+
+		if (kind == L"ExcelWrapper") {
+			button = std::unique_ptr<ModelButton>(new ModelButton());
+
+			if (getFacilities().arePathesValid())
+			{
+				std::vector<CString> vecPathes = getFacilities().getPathes();
+
+				CString strFName = L"refresh.png";
+				auto& m_bmp = button->m_bmp;
+
+				for (unsigned int i = 0; i < vecPathes.size(); i++)
+				{
+					CString imageFileName = vecPathes[i] + strFName;
+					m_bmp = std::unique_ptr<Gdiplus::Bitmap>(Gdiplus::Bitmap::FromFile(CStringW(imageFileName)));
+					if (m_bmp && m_bmp->GetLastStatus() == Gdiplus::Ok)
+					{
+						UINT widthToSet = m_bmp->GetWidth();
+						UINT heightToSet = m_bmp->GetHeight();
+						ASSERT(widthToSet > 0);	// valid sizes, otherwise AutoRouter fails
+						ASSERT(heightToSet > 0);
+						break;
+					}
+					else
+					{
+						m_bmp = nullptr;
+					}
+				}
+			}
+		}
 	} else {
 		TypeableBitmapPart::InitializeEx(pProject, pPart, pFCO, parentWnd, preferences);
 	}
@@ -557,6 +622,28 @@ bool ModelComplexPart::MouseMoved(UINT nFlags, const CPoint& point, HDC transfor
 bool ModelComplexPart::MouseLeftButtonDown(UINT nFlags, const CPoint& point, HDC transformHDC)
 {
 	HRESULT retVal = S_OK;
+	if (button) {
+		//HWND wnd = WindowFromDC(transformHDC);
+		CPoint converted = point;
+		//ClientToScreen(wnd, &converted);
+		CRect loc = TypeableBitmapPart::GetBoxLocation(false);
+		CRect buttonPosition = button->position;
+		buttonPosition.OffsetRect(loc.TopLeft());
+
+		if (buttonPosition.PtInRect(converted)) {
+			CComDispatchDriver dd;
+			if (SUCCEEDED(dd.CoCreateInstance(L"MGA.Interpreter.CyPhyPET", nullptr, CLSCTX_INPROC))) {
+				IMgaProjectPtr proj = m_spFCO->Project;
+				CComPtr<IMgaTerritory> terr;
+				proj->BeginTransactionInNewTerr(TRANSACTION_NON_NESTED, &terr);
+				CComVariant variantFCO = (IDispatch*)m_spFCO.p;
+				dd.Invoke1(L"DecoratorDoubleClick", &variantFCO);
+				proj->CommitTransaction();
+				return true;
+			}
+			return true;
+		}
+	}
 	try {
 		if (TypeableBitmapPart::MouseLeftButtonDown(nFlags, point, transformHDC))
 			return true;
@@ -654,14 +741,13 @@ bool ModelComplexPart::MouseLeftButtonUp(UINT nFlags, const CPoint& point, HDC t
 
 bool ModelComplexPart::MouseLeftButtonDoubleClick(UINT nFlags, const CPoint& point, HDC transformHDC)
 {
-	CComBSTR kind;
 	CComPtr<IMgaProject> proj;
 	if (m_spFCO && m_spMetaFCO && SUCCEEDED(m_spFCO->get_Project(&proj))) 
 	{
 		CComPtr<IMgaTerritory> terr;
-		proj->BeginTransactionInNewTerr(TRANSACTION_READ_ONLY, &terr);
-		if (SUCCEEDED(m_spFCO->get_Name(&kind)) && kind && kind == L"Data Sheet")
+		if (kind.length() && kind == L"Data Sheet")
 		{
+			proj->BeginTransactionInNewTerr(TRANSACTION_NON_NESTED, &terr);
 			CComBSTR path;
 			if (SUCCEEDED(m_spFCO->get_StrAttrByName(CComBSTR(L"Path"), &path)) && path)
 			{
@@ -686,9 +772,28 @@ bool ModelComplexPart::MouseLeftButtonDoubleClick(UINT nFlags, const CPoint& poi
 					return true;
 				}
 			}
+			// n.b. don't abort, it will Reset the view and destruct this
+			proj->CommitTransaction();
 		}
-		// n.b. don't abort, it will Reset the view and destruct this
-		proj->CommitTransaction();
+
+		if (kind.length() && PETWrapperLookup(kind))
+		{
+			proj->BeginTransactionInNewTerr(TRANSACTION_NON_NESTED, &terr);
+			if (m_spFCO->GetStrAttrByName(PETWrapperLookup(kind)).length() > 0) {
+				; // use default action (open model)
+			}
+			else {
+				CComDispatchDriver dd;
+				CComVariant variantFCO = (IDispatch*)m_spFCO.p;
+				if (SUCCEEDED(dd.CoCreateInstance(L"MGA.Interpreter.CyPhyPET", nullptr, CLSCTX_INPROC))) {
+					dd.Invoke1(L"DecoratorDoubleClick", &variantFCO);
+					proj->CommitTransaction();
+					return true;
+				}
+			}
+			// n.b. don't abort, it will Reset the view and destruct this
+			proj->CommitTransaction();
+		}
 	}
 
 	HRESULT retVal = S_OK;
@@ -1437,6 +1542,10 @@ void ModelComplexPart::DrawBackground(CDC* pDC, Gdiplus::Graphics* gdip)
  				width, height);
  			gdip->DrawImage(m_bmp.get(), grect, 0, 0, (int)m_bmp->GetWidth(), (int)m_bmp->GetHeight(), Gdiplus::UnitPixel);
 		}
+		if (button) {
+			Gdiplus::Rect grect(cRect.left + button->position.left, cRect.top + button->position.top, button->position.Width(), button->position.Height());
+			gdip->DrawImage(button->m_bmp.get(), grect, 0, 0, (int)button->m_bmp->GetWidth(), (int)button->m_bmp->GetHeight(), Gdiplus::UnitPixel);
+		}
 	}
 
 	for (std::vector<Decor::PortPart*>::iterator ii = m_LeftPorts.begin(); ii != m_LeftPorts.end(); ++ii) {
@@ -1462,6 +1571,9 @@ void ModelComplexPart::LoadPorts()
 			return;						// do not need ports for this reference: see Meta paradigm ReferTo connection showPorts attribute 
 	}
 
+	if (PETWrapperLookup(kind)) {
+		button = std::unique_ptr<ModelButton>(new ModelButton());
+	}
 
 	CComPtr<IMgaMetaAspect>	spParentAspect;
 	COMTHROW(m_spPart->get_ParentAspect(&spParentAspect));

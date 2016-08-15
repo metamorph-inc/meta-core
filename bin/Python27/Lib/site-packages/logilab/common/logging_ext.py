@@ -24,6 +24,8 @@ import os
 import sys
 import logging
 
+from six import string_types
+
 from logilab.common.textutils import colorize_ansi
 
 
@@ -131,7 +133,7 @@ def get_threshold(debug=False, logthreshold=None):
             logthreshold = logging.DEBUG
         else:
             logthreshold = logging.ERROR
-    elif isinstance(logthreshold, basestring):
+    elif isinstance(logthreshold, string_types):
         logthreshold = getattr(logging, THRESHOLD_MAP.get(logthreshold,
                                                           logthreshold))
     return logthreshold
