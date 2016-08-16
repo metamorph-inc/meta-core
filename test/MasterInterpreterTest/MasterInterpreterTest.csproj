@@ -131,6 +131,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\CyPhy2CAD_CSharp\CyPhy2CAD_CSharp.csproj">
+      <Project>{ea9cc9fa-046f-47c6-80d9-a2b1cfe8bbae}</Project>
+      <Name>CyPhy2CAD_CSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\CyPhy2Modelica_v2\CyPhy2Modelica_v2.csproj">
       <Project>{D2DEA0A5-78D5-4346-9C24-4CD7AE10B8AF}</Project>
       <Name>CyPhy2Modelica_v2</Name>
