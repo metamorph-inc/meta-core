@@ -183,7 +183,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 				}
 			}
 		}
-		GMEConsole::Console::Error::writeLine(e.what());
+		GMEConsole::Console::Error::writeLine(html_encode<char>(e.what()));
 		return E_FAIL;
 	}
 	catch(...)

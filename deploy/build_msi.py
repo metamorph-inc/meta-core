@@ -5,33 +5,18 @@ import os
 import os.path
 import win32com.client
 import gen_dir_wxi
-from gen_dir_wxi import add_wix_to_path
+from gen_dir_wxi import add_wix_to_path, system, download_bundle_deps
 import gen_analysis_tool_wxi
 import glob
 import subprocess
 
 import xml.etree.ElementTree as ET
 
-prefs = { 'verbose': True }
 this_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(this_dir)
 
 os.environ['PATH'] = os.environ['PATH'].replace('"', '')
 
-       
-def system(args, dirname=None):
-    """
-    Executes a system command (throws an exception on error)
-    params
-        args : [command, arg1, arg2, ...]
-        dirname : if set, execute the command within this directory
-    """
-    import subprocess
-    #print args
-    with open(os.devnull, "w") as nulfp:
-        # n.b. stderr=subprocess.STDOUT fails mysteriously
-        import sys
-        subprocess.check_call(args, stdout=(sys.stdout if prefs['verbose'] else nulfp), stderr=subprocess.STDOUT, shell=False, cwd=dirname)
 
 def get_nuget_packages():
     import vc_info
@@ -66,12 +51,12 @@ def get_nuget_packages():
             if not destination_file:
                 continue
             destination_file = destination_file[0]
-            
+
             from win32file import CreateHardLink
             print "Linking %s to %s" % (os.path.join(this_dir, filename), os.path.join(this_dir, destination_file))
             CreateHardLink(os.path.join(this_dir, destination_file), os.path.join(this_dir, filename))
             destination_files.remove(destination_file)
-    
+
     if destination_files:
         raise Exception('Could not find files %s in NuGet packages' % repr(destination_files))
 
@@ -123,7 +108,7 @@ def build_msi():
         #    raise subprocess.CalledProcessError(p.returncode, 'svnversion')
         #return out
     svnversion = get_svnversion()
-    
+
     print "SVN version: " + str(get_svnversion())
     sourcedir = os.path.relpath(this_dir) + '/'
 
@@ -133,9 +118,9 @@ def build_msi():
         #if p.returncode:
         #    raise subprocess.CalledProcessError(p.returncode, 'svnversion')
         return out.strip() or 'unknown'
-    
+
     gitversion = get_gitversion()
-    
+
     import glob
     if len(sys.argv[1:]) > 0:
         source_wxs = sys.argv[1]
@@ -205,11 +190,11 @@ def build_msi():
     cyphy_versions = get_mta_versions(adjacent_file('../generated/CyPhyML/models/CyPhyML.mta'))
     defines.append(('GUIDSTRCYPHYML', cyphy_versions[0]))
     defines.append(('VERSIONSTRCYPHYML', cyphy_versions[1]))
-    
+
     cyber_composition_versions = get_mta_versions(adjacent_file(r'..\generated\Cyber\models\CyberComposition.mta'))
     defines.append(('GUIDSTRCyberComposition', cyber_composition_versions[0]))
     defines.append(('VERSIONSTRCyberComposition', cyber_composition_versions[1]))
-    
+
     version = '14.13.'
     if 'M' in svnversion:
         version = version + '1'
@@ -242,23 +227,40 @@ def build_msi():
     # ICE69: Mismatched component reference. Entry 'reg491FAFEB7F990D99C4A4D719B2A95253' of the Registry table belongs to component 'CyPhySoT.dll'. However, the formatted string in column 'Value' references file 'CyPhySoT.ico' which belongs to component 'CyPhySoT.ico'
     # ICE60: The file fil_5b64d789d9ad5473bc580ea7258a0fac is not a Font, and its version is not a companion file reference. It should have a language specified in the Language column.
     if source_wxs.startswith("META"):
+        def download():
+            try:
+                download_bundle_deps('META_bundle_x64.wxs')
+            except Exception as e:
+                pool_exceptions.append(e)
+
+        import threading
+        download_thread = threading.Thread(target=download)
+        download_thread.start()
+
         import datetime
         starttime = datetime.datetime.now()
-        system(['light', '-sw1055', '-sice:ICE82', '-sice:ICE57', '-sice:ICE60', '-sice:ICE69', '-ext', 'WixNetFxExtension', '-ext', 'WixUIExtension', '-ext', 'WixUtilExtension', 
+        system(['light', '-sw1055', '-sice:ICE82', '-sice:ICE57', '-sice:ICE60', '-sice:ICE69', '-ext', 'WixNetFxExtension', '-ext', 'WixUIExtension', '-ext', 'WixUtilExtension',
             # '-cc', os.path.join(this_dir, 'cab_cache'), '-reusecab', # we were getting errors during installation relating to corrupted cab files => disable cab cache
             # udm.pyd depends on UdmDll_VC10
-            '-o', os.path.splitext(source_wxs)[0] + ".msi"] + [ get_wixobj(file) for file in sources ] + ['UdmDll_VS10.wixlib', 'UdmDll_VC11_x64.wixlib', 'UdmDll_VC14.wixlib'])
+            '-o', os.path.splitext(source_wxs)[0] + ".msi"] + [get_wixobj(file) for file in sources] + ['UdmDll_VS10.wixlib', 'UdmDll_VC11_x64.wixlib', 'UdmDll_VC14.wixlib'])
+
+        download_thread.join()
+        if pool_exceptions:
+            raise pool_exceptions[0]
+        system('candle.exe META_bundle_x64.wxs -ext WixBalExtension -ext WixUtilExtension -ext WixDependencyExtension'.split() + ['-d' + d[0] + '=' + d[1] for d in defines])
+        system('light.exe META_bundle_x64.wixobj -ext WixBalExtension -ext WixUtilExtension -ext WixDependencyExtension -ext WixNetFxExtension'.split())
+
         print "elapsed time: %d seconds" % (datetime.datetime.now() - starttime).seconds
     else:
         msm_output = os.path.splitext(source_wxs)[0] + ".msm"
-        system(['light', '-ext', 'WixUtilExtension', '-o', msm_output] + [ get_wixobj(file) for file in sources ])
-        
+        system(['light', '-ext', 'WixUtilExtension', '-o', msm_output] + [get_wixobj(file) for file in sources])
+
 
 class MSBuildErrorWriter(object):
     def write(self, d):
         sys.stderr.write("error: ")
         sys.stderr.write(d)
-        
+
 if __name__ == '__main__':
     os.chdir(this_dir)
     import traceback

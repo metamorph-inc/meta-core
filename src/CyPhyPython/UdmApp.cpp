@@ -159,11 +159,11 @@ static PyObject *CyPhyPython_log(PyObject *self, PyObject *args)
 	}
 	if (PyUnicode_Check(arg1))
 	{
-		GMEConsole::Console::Out::writeLine(PyUnicode_AsUnicode(arg1));
+		GMEConsole::Console::Out::writeLine(html_encode<wchar_t>(PyUnicode_AsUnicode(arg1)));
 	}
 	else if (PyString_Check(arg1))
 	{
-		GMEConsole::Console::Out::writeLine(PyString_AsString(arg1));
+		GMEConsole::Console::Out::writeLine(html_encode<char>(PyString_AsString(arg1)));
 	}
 	else
 		return NULL;
@@ -208,13 +208,14 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 
 	Py_Initialize();
 
-	//PY_MAJOR_VERSION 
-	//PY_MINOR_VERSION
+	if (!PyEval_ThreadsInitialized()) {
+		PyEval_InitThreads();
+		PyEval_SaveThread();
+	}
 
-	PyGILState_STATE gstate;
 	// n.b. we need this to be reentrant (i.e. in case this interpreter is being called by python (e.g. via win32com.client))
 	// this is because PyEval_SaveThread() was called
-	gstate = PyGILState_Ensure();
+	PyGILState_STATE gstate = PyGILState_Ensure();
 	struct UnGil {
 		PyGILState_STATE &state;
 		UnGil(PyGILState_STATE &state) : state(state) {}
