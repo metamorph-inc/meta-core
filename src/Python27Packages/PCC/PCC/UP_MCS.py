@@ -1,10 +1,10 @@
 from __future__ import division
 from numpy import *
-import pearscdf
 import LHS
-from scipy.stats import beta,norm,lognorm,uniform,skew,kurtosis
+from scipy.stats import beta, norm, lognorm, uniform, skew, kurtosis
 import estimate_complexity
 from model_calls import run_list
+
 
 def UP_MCS(driver):
     # Uses the MCS method for UP
@@ -35,13 +35,13 @@ def UP_MCS(driver):
 
     for j in range(inpt):
         if stvars[j].dist == 'NORM':
-            value[:,j] = norm.ppf(uniform.cdf(value[:,j], 0, 1), stvars[j].param[0], stvars[j].param[1])
+            value[:, j] = norm.ppf(uniform.cdf(value[:, j], 0, 1), stvars[j].param[0], stvars[j].param[1])
         elif stvars[j].dist == 'LNORM':
-            value[:,j] = lognorm.ppf(uniform.cdf(value[:, j], 0, 1), stvars[j].param[1], 0, exp(stvars[j].param[0]))
+            value[:, j] = lognorm.ppf(uniform.cdf(value[:, j], 0, 1), stvars[j].param[1], 0, exp(stvars[j].param[0]))
         elif stvars[j].dist == 'BETA':
-            value[:,j] = beta.ppf(uniform.cdf(value[:, j], 0, 1), stvars[j].param[0], stvars[j].param[1], stvars[j].param[2], stvars[j].param[3] - stvars[j].param[2])
+            value[:, j] = beta.ppf(uniform.cdf(value[:, j], 0, 1), stvars[j].param[0], stvars[j].param[1], stvars[j].param[2], stvars[j].param[3] - stvars[j].param[2])
         elif stvars[j].dist == 'UNIF':
-            value[:,j] = uniform.ppf(uniform.cdf(value[:,j], 0, 1), stvars[j].param[0], stvars[j].param[1])
+            value[:, j] = uniform.ppf(uniform.cdf(value[:, j], 0, 1), stvars[j].param[0], stvars[j].param[1])
 
     # ----------------------  Model  ---------------------------
 
@@ -51,45 +51,45 @@ def UP_MCS(driver):
         out = predictor(value, dmodel)
     else:
 #        for i in range(nMCS):
-#            print 'Running simulation',i+1,'of',nMCS,'with inputs',value[i]
+#            print 'Running simulation', i+1, 'of', nMCS, 'with inputs', value[i]
 #            out[i] = run_model(driver, value[i])
         out = run_list(driver, value)
 
     limstate = asarray(limstate)
-    limstate1 = asarray(kron(limstate[:, 0], ones(nMCS))).reshape(otpt,nMCS).transpose()
-    limstate2 = asarray(kron(limstate[:, 1], ones(nMCS))).reshape(otpt,nMCS).transpose()
-    B = logical_and(greater_equal(out,limstate1),less_equal(out,limstate2))
-    PCC = sum(B,0) / nMCS
-    B_t = B[sum(B,1) == otpt]
+    limstate1 = asarray(kron(limstate[:, 0], ones(nMCS))).reshape(otpt, nMCS).transpose()
+    limstate2 = asarray(kron(limstate[:, 1], ones(nMCS))).reshape(otpt, nMCS).transpose()
+    B = logical_and(greater_equal(out, limstate1), less_equal(out, limstate2))
+    PCC = sum(B, 0) / nMCS
+    B_t = B[sum(B, 1) == otpt]
     if otpt > 1 and not 0 in PCC[0:otpt]:
-        PCC = append(PCC,len(B_t) / nMCS)
+        PCC = append(PCC, len(B_t) / nMCS)
 
     #Moments
-    CovarianceMatrix = matrix(cov(out,None,0))#.transpose()
-    Moments = {'Mean': mean(out,0), 'Variance': diag(CovarianceMatrix), 'Skewness': skew(out), 'Kurtosis': kurtosis(out,fisher=False)}
+    CovarianceMatrix = matrix(cov(out, None, 0))#.transpose()
+    Moments = {'Mean': mean(out, 0), 'Variance': diag(CovarianceMatrix), 'Skewness': skew(out), 'Kurtosis': kurtosis(out, fisher=False)}
 
     # combine the display of the correlation matrix with setting a var that will be needed below
     sigma_mat=matrix(sqrt(diag(CovarianceMatrix)))
-    CorrelationMatrix= CovarianceMatrix/multiply(sigma_mat,sigma_mat.transpose())
+    CorrelationMatrix= CovarianceMatrix/multiply(sigma_mat, sigma_mat.transpose())
 
     # ----------------------  Analyze  ---------------------------
 
-    if any(Moments['Variance']==0):
+    if any(Moments['Variance'] == 0):
         print "Warning: One or more outputs does not vary over given parameter variation."
 
     C_Y = [0]*otpt
-    for k in range(0,otpt):
-        if Moments['Variance'][k]!=0:
-            C_Y[k] = estimate_complexity.with_samples(out[:,k],nMCS)
+    for k in range(0, otpt):
+        if Moments['Variance'][k] != 0:
+            C_Y[k] = estimate_complexity.with_samples(out[:, k], nMCS)
 
-    sigma_mat=matrix(sqrt(diag(CovarianceMatrix)))
-    seterr(invalid='ignore')    #ignore problems with divide-by-zero, just give us 'nan' as usual
-    CorrelationMatrix= CovarianceMatrix/multiply(sigma_mat,sigma_mat.transpose())
+    sigma_mat = matrix(sqrt(diag(CovarianceMatrix)))
+    seterr(invalid='ignore')    # ignore problems with divide-by-zero, just give us 'nan' as usual
+    CorrelationMatrix = CovarianceMatrix/multiply(sigma_mat, sigma_mat.transpose())
 
     Distribution = {'Complexity': C_Y}
 
-    CorrelationMatrix=where(isnan(CorrelationMatrix), None, CorrelationMatrix)
-			
+    CorrelationMatrix = where(isnan(CorrelationMatrix), None, CorrelationMatrix)
+
     Results = {'Moments': Moments, 'CorrelationMatrix': CorrelationMatrix,
     'CovarianceMatrix': CovarianceMatrix, 'Distribution': Distribution, 'PCC': PCC}
 
@@ -114,6 +114,3 @@ def UP_MCS(driver):
 # OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 # WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE DATA OR THE USE OR OTHER DEALINGS IN THE DATA.
-
-
-

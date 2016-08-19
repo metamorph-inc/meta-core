@@ -66,10 +66,13 @@ namespace AVM.DDP
             public string PostProcess { get; set; }
             public string PreProcess { get; set; }
             public string Type { get; set; }
+            [JsonConverter(typeof(StringEnumConverter))]
+            public StatusEnum Status { get; set; }
 
             public Step()
             {
                 Parameters = new List<Parameter>();
+                Status = StatusEnum.UNEXECUTED;
             }
         }
 

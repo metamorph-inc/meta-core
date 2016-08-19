@@ -1,0 +1,50 @@
+{
+  "Status": "OK", 
+  "CopyTestResults": false, 
+  "Parameters": [
+    {
+      "Description": "", 
+      "DisplayedName": null, 
+      "GMEID": "id-0067-00000003", 
+      "Value": "", 
+      "Range": "-inf..inf", 
+      "ID": "2fb16d0e-fff4-4c97-b69d-e1ca576ccef2", 
+      "Unit": "", 
+      "Name": "z"
+    }
+  ], 
+  "TierLevel": 0, 
+  "Artifacts": [], 
+  "VisualizationArtifacts": [], 
+  "DesignName": "SimpleSystem", 
+  "Metrics": [
+    {
+      "GMEID": "id-0067-00000002", 
+      "Description": "", 
+      "DisplayedName": null, 
+      "VisualizationArtifacts": [], 
+      "Value": "", 
+      "ID": "c033f632-1f6c-498e-8244-328f2275166a", 
+      "Unit": "", 
+      "Name": "z"
+    }
+  ], 
+  "DesignID": "{ec537329-2daf-42cc-b1a7-076d594052a3}", 
+  "Dependencies": [], 
+  "Steps": [
+    {
+      "ExecutionCompletionTimestamp": "2015-11-09T14:22:49.317000", 
+      "Status": "OK", 
+      "Description": "ParametricExploration", 
+      "Parameters": [], 
+      "ExecutionStartTimestamp": "2015-11-09T14:22:47.494000", 
+      "PreProcess": null, 
+      "PostProcess": null, 
+      "Invocation": "python.exe -m run_mdao", 
+      "LogFile": "log/log2015-11-09T142247.494000.log", 
+      "Type": null
+    }
+  ], 
+  "TestBench": "add2_TestBench", 
+  "Created": "2015-11-09T20:22:43.6216888Z"
+}

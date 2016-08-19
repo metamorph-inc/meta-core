@@ -15,7 +15,6 @@
 import sys
 
 from sre_constants import *
-from _sre import MAXREPEAT
 
 SPECIAL_CHARS = ".\\[{()*+?^$|"
 REPEAT_CHARS = "*+?{"
@@ -70,6 +69,8 @@ class Pattern:
         self.open = []
         self.groups = 1
         self.groupdict = {}
+        self.lookbehind = 0
+
     def opengroup(self, name=None):
         gid = self.groups
         self.groups = gid + 1
@@ -95,33 +96,42 @@ class SubPattern:
         self.data = data
         self.width = None
     def dump(self, level=0):
-        nl = 1
-        seqtypes = type(()), type([])
+        seqtypes = (tuple, list)
         for op, av in self.data:
-            print level*"  " + op,; nl = 0
-            if op == "in":
+            print level*"  " + op,
+            if op == IN:
                 # member sublanguage
-                print; nl = 1
+                print
                 for op, a in av:
                     print (level+1)*"  " + op, a
-            elif op == "branch":
-                print; nl = 1
-                i = 0
-                for a in av[1]:
-                    if i > 0:
+            elif op == BRANCH:
+                print
+                for i, a in enumerate(av[1]):
+                    if i:
                         print level*"  " + "or"
-                    a.dump(level+1); nl = 1
-                    i = i + 1
-            elif type(av) in seqtypes:
+                    a.dump(level+1)
+            elif op == GROUPREF_EXISTS:
+                condgroup, item_yes, item_no = av
+                print condgroup
+                item_yes.dump(level+1)
+                if item_no:
+                    print level*"  " + "else"
+                    item_no.dump(level+1)
+            elif isinstance(av, seqtypes):
+                nl = 0
                 for a in av:
                     if isinstance(a, SubPattern):
-                        if not nl: print
-                        a.dump(level+1); nl = 1
+                        if not nl:
+                            print
+                        a.dump(level+1)
+                        nl = 1
                     else:
-                        print a, ; nl = 0
+                        print a,
+                        nl = 0
+                if not nl:
+                    print
             else:
-                print av, ; nl = 0
-            if not nl: print
+                print av
     def __repr__(self):
         return repr(self.data)
     def __len__(self):
@@ -142,12 +152,12 @@ class SubPattern:
         # determine the width (min, max) for this subpattern
         if self.width:
             return self.width
-        lo = hi = 0L
+        lo = hi = 0
         UNITCODES = (ANY, RANGE, IN, LITERAL, NOT_LITERAL, CATEGORY)
         REPEATCODES = (MIN_REPEAT, MAX_REPEAT)
         for op, av in self.data:
             if op is BRANCH:
-                i = sys.maxint
+                i = MAXREPEAT - 1
                 j = 0
                 for av in av[1]:
                     l, h = av.getwidth()
@@ -165,14 +175,14 @@ class SubPattern:
                 hi = hi + j
             elif op in REPEATCODES:
                 i, j = av[2].getwidth()
-                lo = lo + long(i) * av[0]
-                hi = hi + long(j) * av[1]
+                lo = lo + i * av[0]
+                hi = hi + j * av[1]
             elif op in UNITCODES:
                 lo = lo + 1
                 hi = hi + 1
             elif op == SUCCESS:
                 break
-        self.width = int(min(lo, sys.maxint)), int(min(hi, sys.maxint))
+        self.width = min(lo, MAXREPEAT - 1), min(hi, MAXREPEAT)
         return self.width
 
 class Tokenizer:
@@ -291,6 +301,11 @@ def _escape(source, escape, state):
             if group < state.groups:
                 if not state.checkgroup(group):
                     raise error, "cannot refer to open group"
+                if state.lookbehind:
+                    import warnings
+                    warnings.warn('group references in lookbehind '
+                                  'assertions are not supported',
+                                  RuntimeWarning)
                 return GROUPREF, group
             raise ValueError
         if len(escape) == 2:
@@ -568,7 +583,13 @@ def _parse(source, state):
                                         "%r" % name)
                         gid = state.groupdict.get(name)
                         if gid is None:
-                            raise error, "unknown group name"
+                            msg = "unknown group name: {0!r}".format(name)
+                            raise error(msg)
+                        if state.lookbehind:
+                            import warnings
+                            warnings.warn('group references in lookbehind '
+                                          'assertions are not supported',
+                                          RuntimeWarning)
                         subpatternappend((GROUPREF, gid))
                         continue
                     else:
@@ -597,7 +618,10 @@ def _parse(source, state):
                             raise error, "syntax error"
                         dir = -1 # lookbehind
                         char = sourceget()
+                        state.lookbehind += 1
                     p = _parse_sub(source, state)
+                    if dir < 0:
+                        state.lookbehind -= 1
                     if not sourcematch(")"):
                         raise error, "unbalanced parenthesis"
                     if char == "=":
@@ -621,12 +645,18 @@ def _parse(source, state):
                     if isname(condname):
                         condgroup = state.groupdict.get(condname)
                         if condgroup is None:
-                            raise error, "unknown group name"
+                            msg = "unknown group name: {0!r}".format(condname)
+                            raise error(msg)
                     else:
                         try:
                             condgroup = int(condname)
                         except ValueError:
                             raise error, "bad character in group name"
+                    if state.lookbehind:
+                        import warnings
+                        warnings.warn('group references in lookbehind '
+                                      'assertions are not supported',
+                                      RuntimeWarning)
                 else:
                     # flags
                     if not source.next in FLAGS:
@@ -691,13 +721,13 @@ def parse(str, flags=0, pattern=None):
     elif tail:
         raise error, "bogus characters at end of regular expression"
 
-    if flags & SRE_FLAG_DEBUG:
-        p.dump()
-
     if not (flags & SRE_FLAG_VERBOSE) and p.pattern.flags & SRE_FLAG_VERBOSE:
         # the VERBOSE flag was switched on inside the pattern.  to be
         # on the safe side, we'll parse the whole thing again...
         return parse(str, p.pattern.flags)
+
+    if flags & SRE_FLAG_DEBUG:
+        p.dump()
 
     return p
 
@@ -747,7 +777,8 @@ def parse_template(source, pattern):
                     try:
                         index = pattern.groupindex[name]
                     except KeyError:
-                        raise IndexError, "unknown group name"
+                        msg = "unknown group name: {0!r}".format(name)
+                        raise IndexError(msg)
                 a((MARK, index))
             elif c == "0":
                 if s.next in OCTDIGITS:

@@ -1,5 +1,4 @@
-#!C:\Users\kevin\Downloads\openmdao-0.8.1\Scripts\python.exe
-# EASY-INSTALL-SCRIPT: 'pywin32==218','pywin32_testall.py'
-__requires__ = 'pywin32==218'
-import pkg_resources
-pkg_resources.run_script('pywin32==218', 'pywin32_testall.py')
+#!C:\Users\kevin\Documents\meta-core\bin\Python27\Scripts\python.exe
+# EASY-INSTALL-SCRIPT: 'pywin32==220',u'pywin32_testall.py'
+__requires__ = 'pywin32==220'
+__import__('pkg_resources').run_script('pywin32==220', u'pywin32_testall.py')

@@ -168,8 +168,10 @@ def simple_cycles(G):
     # Johnson's algorithm requires some ordering of the nodes.
     # We assign the arbitrary ordering given by the strongly connected comps
     # There is no need to track the ordering as each node removed as processed.
-    subG=G.copy()   # save the actual graph so we can mutate it here
-    sccs = nx.strongly_connected_components(subG)
+    subG = type(G)(G.edges_iter()) # save the actual graph so we can mutate it here
+                              # We only take the edges because we do not want to
+                              # copy edge and node attributes here.
+    sccs = list(nx.strongly_connected_components(subG))
     while sccs:
         scc=sccs.pop()
         # order of scc determines ordering of nodes
@@ -194,6 +196,7 @@ def simple_cycles(G):
                 elif nextnode not in blocked:
                     path.append(nextnode)
                     stack.append( (nextnode,list(subG[nextnode])) )
+                    closed.discard(nextnode)
                     blocked.add(nextnode)
                     continue
             # done with nextnode... look for more neighbors
@@ -201,7 +204,7 @@ def simple_cycles(G):
                 if thisnode in closed:
                     _unblock(thisnode,blocked,B)
                 else:
-                    for nbr in G[thisnode]:
+                    for nbr in subG[thisnode]:
                         if thisnode not in B[nbr]:
                             B[nbr].add(thisnode)
                 stack.pop()
@@ -210,7 +213,7 @@ def simple_cycles(G):
         # done processing this node
         subG.remove_node(startnode)
         H=subG.subgraph(scc)  # make smaller to avoid work in SCC routine
-        sccs.extend(nx.strongly_connected_components(H))
+        sccs.extend(list(nx.strongly_connected_components(H)))
 
 
 @not_implemented_for('undirected')

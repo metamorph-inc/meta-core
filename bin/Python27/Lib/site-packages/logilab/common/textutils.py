@@ -284,11 +284,14 @@ def text_to_dict(text):
     dict of {'key': 'value'}. When the same key is encountered multiple time,
     value is turned into a list containing all values.
 
-    >>> text_to_dict('''multiple=1
+    >>> d = text_to_dict('''multiple=1
     ... multiple= 2
     ... single =3
     ... ''')
-    {'single': '3', 'multiple': ['1', '2']}
+    >>> d['single']
+    '3'
+    >>> d['multiple']
+    ['1', '2']
 
     """
     res = {}

@@ -1,0 +1,197 @@
+{
+    "Status": "OK", 
+    "CopyTestResults": false, 
+    "Parameters": [
+        {
+            "Description": "Spring constant in N/mm.", 
+            "DisplayedName": null, 
+            "GMEID": "id-0067-000000ac", 
+            "Value": "5", 
+            "Range": "", 
+            "ID": "c059bb55-4fb7-47b9-a4bc-275186c36316", 
+            "Unit": "", 
+            "Name": "f_const"
+        }, 
+        {
+            "Description": "Spring constant in N/mm.", 
+            "DisplayedName": null, 
+            "GMEID": "id-0067-000000ab", 
+            "Value": "10", 
+            "Range": "", 
+            "ID": "ff74a1b5-eca4-41d9-9627-cd54b6c9dfc8", 
+            "Unit": "", 
+            "Name": "mass_start_acc"
+        }
+    ], 
+    "TierLevel": 0, 
+    "Artifacts": [], 
+    "VisualizationArtifacts": [], 
+    "DesignName": "MSD", 
+    "Metrics": [
+        {
+            "GMEID": "id-0067-000000af", 
+            "Description": "", 
+            "DisplayedName": null, 
+            "VisualizationArtifacts": [], 
+            "Value": "", 
+            "ID": "0cbc567e-31cd-4d3d-a14e-1cbf9e85fdec", 
+            "Unit": "", 
+            "Name": "MaximumSpeed10"
+        }, 
+        {
+            "GMEID": "id-0067-000000ad", 
+            "Description": "", 
+            "DisplayedName": null, 
+            "VisualizationArtifacts": [], 
+            "Value": "", 
+            "ID": "bc3d2de7-d3d0-4228-b39a-1bbf2413bcb3", 
+            "Unit": "", 
+            "Name": "MaximumSpeed"
+        }
+    ], 
+    "DesignID": "{111965ae-f166-4169-b87d-9c3a60b6e720}", 
+    "Dependencies": [], 
+    "Steps": [
+        {
+            "ExecutionCompletionTimestamp": "2016-04-05T10:09:28.220000", 
+            "Status": "OK", 
+            "Description": "ParametricExploration", 
+            "Parameters": [], 
+            "ExecutionStartTimestamp": "2016-04-05T10:08:54.104000", 
+            "Invocation": "python.exe -m run_mdao", 
+            "PostProcess": null, 
+            "PreProcess": null, 
+            "LogFile": "log/log2016-04-05T100854.104000.log", 
+            "Type": null
+        }
+    ], 
+    "PCCResults": {
+        "TS": {
+            "PCCConfigMetrics": [
+                {
+                    "Name": "MSD_for_testing.MaximumSpeed", 
+                    "Limits": {
+                        "Max": 7.0, 
+                        "maxrange": null, 
+                        "op": null, 
+                        "minrange": null, 
+                        "Min": 5.0
+                    }, 
+                    "Moments": {
+                        "Variance": 264.999999999996, 
+                        "Skewness": [
+                            0.0
+                        ], 
+                        "Kurtosis": [
+                            3.0
+                        ], 
+                        "Mean": 66.0
+                    }, 
+                    "TestBenchMetricName": "MaximumSpeed", 
+                    "Plotting": {
+                        "alpha": 9.6249765070489133, 
+                        "beta": 9.624932349707878, 
+                        "hi": 139.25435978793263, 
+                        "lo": -7.2546958648659512
+                    }, 
+                    "PCC": 5.5439804337305387e-05, 
+                    "Distribution": {
+                        "PearsonType": 0, 
+                        "a1": 0, 
+                        "Complexity": 0.52484174378669168, 
+                        "a2": 0, 
+                        "m1": 0, 
+                        "m2": 1
+                    }, 
+                    "ID": "id-0067-00000098"
+                }, 
+                {
+                    "Name": "MSD_for_testing.MaximumSpeed10", 
+                    "Limits": {
+                        "Max": 70.0, 
+                        "maxrange": null, 
+                        "op": null, 
+                        "minrange": null, 
+                        "Min": 50.0
+                    }, 
+                    "Moments": {
+                        "Variance": 26499.999999999727, 
+                        "Skewness": [
+                            0.0
+                        ], 
+                        "Kurtosis": [
+                            3.0
+                        ], 
+                        "Mean": 660.0
+                    }, 
+                    "TestBenchMetricName": "MaximumSpeed10", 
+                    "Plotting": {
+                        "alpha": 9.6249765070489168, 
+                        "beta": 9.6249323497078816, 
+                        "hi": 1392.543597879328, 
+                        "lo": -72.546958648661303
+                    }, 
+                    "PCC": 5.5439804337306716e-05, 
+                    "Distribution": {
+                        "PearsonType": 0, 
+                        "a1": 0, 
+                        "Complexity": 5.2484174378677757, 
+                        "a2": 0, 
+                        "m1": 0, 
+                        "m2": 1
+                    }, 
+                    "ID": "id-0067-0000009a"
+                }
+            ], 
+            "CovarianceMatrix": [
+                [
+                    264.999999999996, 
+                    2649.9999999999663
+                ], 
+                [
+                    2649.9999999999663, 
+                    26499.999999999727
+                ]
+            ], 
+            "JointPCC": 5.54398043372915e-05, 
+            "CorrelationMatrix": [
+                [
+                    0.9999999999999998, 
+                    0.9999999999999998
+                ], 
+                [
+                    0.9999999999999998, 
+                    0.9999999999999999
+                ]
+            ], 
+            "InputDistributions": [
+                {
+                    "Name": "f_const", 
+                    "ID": "id-0067-00000097", 
+                    "Param4": 0.0, 
+                    "Param3": 0.0, 
+                    "Param2": 1.0, 
+                    "Param1": 5.0, 
+                    "Distribution": "NORM", 
+                    "TestBenchParameterNames": [
+                        "f_const"
+                    ]
+                }, 
+                {
+                    "Name": "mass_acc_start", 
+                    "ID": "id-0067-00000099", 
+                    "Param4": 0.0, 
+                    "Param3": 0.0, 
+                    "Param2": 2.0, 
+                    "Param1": 10.0, 
+                    "Distribution": "NORM", 
+                    "TestBenchParameterNames": [
+                        "mass_start_acc"
+                    ]
+                }
+            ]
+        }
+    }, 
+    "TestBench": "MSD_for_testing", 
+    "Created": "2016-04-05T15:08:08.7854213Z"
+}

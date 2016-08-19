@@ -14,6 +14,7 @@ using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using System.Diagnostics;
 using CyPhyGUIs;
 using Newtonsoft.Json;
+using System.Windows.Forms;
 
 namespace CyPhyPET
 {
@@ -97,8 +98,9 @@ namespace CyPhyPET
                 bool doReturn = false;
 
                 int VK_CONTROL = 0x11;
-                // If control was held, try to open GUI. 
-                if ((bool)((GetKeyState(VK_CONTROL) & 0x8000) == 0x8000))
+                // If control was held, try to open GUI.
+                if ((bool)((GetKeyState(VK_CONTROL) & 0x8000) == 0x8000) &&
+                    (this.mainParameters.StartModeParam & 128) != 128)
                 {
                     MgaGateway.PerformInTransaction(delegate
                     {
@@ -111,7 +113,7 @@ namespace CyPhyPET
                     return;
                 }
 
-                string interpreterProgID = "";
+                List<string> interpreterProgIDs = new List<string>();
 
                 // Set up the output directory and check kind of currentObj.
                 string kindName = string.Empty;
@@ -128,19 +130,18 @@ namespace CyPhyPET
                         parameters.ProjectDirectory,
                         "results",
                         outputDirName));
-                    var testBenchRef = currentobj.ChildObjects.Cast<MgaFCO>().Where(c => c.MetaRole.Name == typeof(CyPhyClasses.TestBenchRef).Name).FirstOrDefault();
-                    if (testBenchRef != null)
+                    foreach (var testBenchRef in currentobj.ChildObjects.Cast<MgaFCO>().Where(c => c.MetaRole.Name == typeof(CyPhyClasses.TestBenchRef).Name))
                     {
                         var tbRef = CyPhyClasses.TestBenchRef.Cast(testBenchRef);
                         if (tbRef.AllReferred is CyPhy.TestBench)
                         {
                             var testBench = CyPhyClasses.TestBenchRef.Cast(testBenchRef).Referred.TestBench;
-                            interpreterProgID = Rules.Global.GetInterpreterProgIDFromTestBench(testBench);
+                            interpreterProgIDs.Add(Rules.Global.GetInterpreterProgIDFromTestBench(testBench));
                         }
                         else if (tbRef.AllReferred is CyPhy.TestBenchType)
                         {
                             // Assume CyPhy2CAD_CSharp for all other types of test-benches for now.
-                            interpreterProgID = "MGA.Interpreter.CyPhy2CAD_CSharp";
+                            interpreterProgIDs.Add("MGA.Interpreter.CyPhy2CAD_CSharp");
                         }
                     }
                 });
@@ -170,32 +171,26 @@ namespace CyPhyPET
                     this.Logger.WriteWarning("Operation cancelled by the user.");
                     return;
                 }
-
-                // External Interpreter configuration
-                if (interpreterProgID == "MGA.Interpreter.CyPhy2Modelica_v2")
-                {
-                    var cyPhy2Modelica_v2 = new META.ComComponent("MGA.Interpreter.CyPhy2Modelica_v2");
-                    if (cyPhy2Modelica_v2.DoGUIConfiguration(parameters.ProjectDirectory) == false)
-                    {
-                        this.Logger.WriteWarning("Operation cancelled by the user.");
-                        return;
-                    }
-                }
-                else if (interpreterProgID == "MGA.Interpreter.CyPhy2CAD_CSharp")
-                {
-                    var cyPhy2CAD_CSharp = new META.ComComponent("MGA.Interpreter.CyPhy2CAD_CSharp");
-                    if (cyPhy2CAD_CSharp.DoGUIConfiguration(parameters.ProjectDirectory) == false)
-                    {
-                        this.Logger.WriteWarning("Operation cancelled by the user.");
-                        return;
-                    }
-                }
-
-                // if config is valid save it and update it on the file system
                 META.ComComponent.SerializeConfiguration(parameters.ProjectDirectory, config, this.ComponentProgID);
-
                 // assign the new configuration to mainParameters
                 parameters.config = config;
+
+                // External Interpreter configuration
+                foreach (var interpreter in interpreterProgIDs.Distinct().Select(progid => new META.ComComponent(progid)))
+                {
+                    if (interpreter.InterpreterConfig != null)
+                    {
+                        interpreter.InterpreterConfig = META.ComComponent.DeserializeConfiguration(parameters.ProjectDirectory, interpreter.InterpreterConfig.GetType(), interpreter.ProgId);
+                        if (interpreter.DoGUIConfiguration(parameters.ProjectDirectory) == false)
+                        {
+                            this.Logger.WriteWarning("Operation cancelled by the user.");
+                            return;
+                        }
+
+                        // if config is valid save it and update it on the file system
+                        META.ComComponent.SerializeConfiguration(parameters.ProjectDirectory, config, interpreter.ProgId);
+                    }
+                }
 
                 // call the main (ICyPhyComponent) function
                 this.Main(parameters);
@@ -374,21 +369,6 @@ namespace CyPhyPET
 
         #endregion
 
-        #region Possibly Dependent Interpreters
-
-        private bool CallCyPhy2Modelica_v2(
-            MgaProject project,
-            MgaFCO currentobj,
-            MgaFCOs selectedobjs,
-            int param)
-        {
-            bool result = false;
-
-            return result;
-        }
-
-        #endregion
-
         #region CyPhyGUIs
 
         /// <summary>
@@ -512,7 +492,7 @@ namespace CyPhyPET
             }
             catch (Exception ex)
             {
-                this.Logger.WriteError("Exception was thrown : {0}", ex.ToString());
+                this.Logger.WriteError("Exception was thrown : {0}", ex.ToString().Replace("\n", "<br>"));
                 this.result.Success = false;
             }
             finally
@@ -601,6 +581,11 @@ namespace CyPhyPET
                     this.Logger.WriteError("PET Interpreter failed! See error messages above.");
                 }
             }
+            catch (ApplicationException e)
+            {
+                this.result.Success = false;
+                this.Logger.WriteError(String.Format("PET Interpreter failed: {0}", e.Message));
+            }
             finally
             {
                 if (disposeLogger && this.Logger != null)
@@ -642,9 +627,6 @@ namespace CyPhyPET
 
         #region CyPhyPET Specific code
 
-        /// <summary>
-        /// This function does the job. CyPhy2Modelica translation.
-        /// </summary>
         private void WorkInMainTransaction()
         {
             this.Logger.WriteInfo("{0} [{1}]", this.mainParameters.CurrentFCO.Name, this.mainParameters.CurrentFCO.MetaBase.Name);
@@ -662,56 +644,83 @@ namespace CyPhyPET
                 return;
             }
 
+            var petGenerator = new PET(this.mainParameters, this.Logger);
+
             // 2) Get the type of test-bench and call any dependent interpreters
-            var testBenchRef = CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO)
-                .Children.TestBenchRefCollection.FirstOrDefault();
-            bool interpreterSuccess = false;
-            if (testBenchRef != null &&
-                testBenchRef.AllReferred != null
-                && testBenchRef.AllReferred is CyPhy.TestBench) 
+            //var graph = CyPhySoT.CyPhySoTInterpreter.UpdateDependency((MgaModel)this.mainParameters.CurrentFCO, this.Logger);
+
+            foreach (var testBenchRef in CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO).Children.TestBenchRefCollection.OrderBy(x => x.ID))
             {
-                var testBench = testBenchRef.AllReferred as CyPhy.TestBench;
-
-                var interpreterProgID = Rules.Global.GetInterpreterProgIDFromTestBench(testBench);
-                switch (interpreterProgID)
+                var outputFolder = "TestBench_" + testBenchRef.Name;
+                bool interpreterSuccess = false;
+                if (testBenchRef != null &&
+                    testBenchRef.AllReferred != null
+                    && testBenchRef.AllReferred is CyPhy.TestBench)
                 {
-                    case "MGA.Interpreter.CyPhy2Modelica_v2":
-                        interpreterSuccess = this.CallCyPhy2Modelica_v2(testBench);
-                        this.UpdateSuccess("External Interpreter Called : ", interpreterSuccess);
-                        break;
+                    var testBench = testBenchRef.AllReferred as CyPhy.TestBench;
 
-                    case "MGA.Interpreter.CyPhy2CAD_CSharp":
-                        interpreterSuccess = this.CallCyPhy2CAD_CSharp(testBench);
-                        this.UpdateSuccess("Assuming call to CAD successful : ", true);
-                        break;
+                    var interpreterProgID = Rules.Global.GetInterpreterProgIDFromTestBench(testBench);
+                    switch (interpreterProgID)
+                    {
+                        case "MGA.Interpreter.CyPhy2CAD_CSharp":
+                            interpreterSuccess = this.CallCyPhy2CAD_CSharp(testBench, outputFolder);
+                            break;
 
-                    case "MGA.Interpreter.CyPhyFormulaEvaluator":
-                        interpreterSuccess = true;
-                        break;
+                        case "MGA.Interpreter.CyPhyFormulaEvaluator":
+                            interpreterSuccess = true;
+                            break;
 
-                    case "MGA.Interpreter.CyPhyPython":   
-                        interpreterSuccess = this.CallCyPhyPython(testBench);
-                        break;
+                        case "MGA.Interpreter.CyPhyPython":
+                            interpreterSuccess = this.CallCyPhyPython(testBench, outputFolder);
+                            break;
+
+                        default:
+                            interpreterSuccess = this.CallIntererpreterAndAddRunCommandToManifest(interpreterProgID, testBench, outputFolder);
+                            break;
+                    }
+                    this.UpdateSuccess("Interpreter successful : ", interpreterSuccess);
+                }
+                else if (testBenchRef != null && testBenchRef.AllReferred != null && testBenchRef.AllReferred is CyPhy.TestBenchType)
+                {
+                    interpreterSuccess = this.CallCyPhy2CAD_CSharp(testBenchRef.AllReferred as CyPhy.TestBenchType, outputFolder);
+                    this.UpdateSuccess("Assuming call to CAD successful : ", true);
+                }
+                else
+                {
+                    throw new NotSupportedException(string.Format(@"Error: {0} must contain one non-null reference to a TestBench",
+                        this.mainParameters.CurrentFCO.ToMgaHyperLink()));
+                }
+
+                if (interpreterSuccess == false)
+                {
+                    Logger.WriteError("TestBench {0} failed", testBenchRef.Name);
+                }
+                else
+                {
+                    petGenerator.GenerateCode(testBenchRef, outputFolder);
                 }
             }
-            else if (testBenchRef != null && testBenchRef.AllReferred != null && testBenchRef.AllReferred is CyPhy.TestBenchType)
+
+            foreach (var excel in CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO).Children.ExcelWrapperCollection.OrderBy(x => x.ID))
             {
-                interpreterSuccess = this.CallCyPhy2CAD_CSharp(testBenchRef.AllReferred as CyPhy.TestBenchType);
-                this.UpdateSuccess("Assuming call to CAD successful : ", true);
+                petGenerator.GenerateCode(excel);
             }
-            else
+            foreach (var matlab in CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO).Children.MATLABWrapperCollection.OrderBy(x => x.ID))
             {
-                throw new NotSupportedException(string.Format(@"Error: {0} must contain one non-null reference to a TestBench",
-                    this.mainParameters.CurrentFCO.ToMgaHyperLink()));
+                petGenerator.GenerateCode(matlab);
+            }
+            foreach (var python in CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO).Children.PythonWrapperCollection.OrderBy(x => x.ID))
+            {
+                petGenerator.GenerateCode(python);
             }
 
-            // 3) Generate scripts
-            //PET.GMEConsole = GMEConsole;
-            var petGenerator = new PET(this.mainParameters, this.Logger);
-            var successGenerateScripts = petGenerator.GenerateCode();
-            this.result.RunCommand = petGenerator.RunCommand;
-            this.result.Labels += petGenerator.Label;
-            this.UpdateSuccess("PET Scripts generation", successGenerateScripts);
+            if (this.result.Success)
+            {
+                // 3) Generate scripts
+                petGenerator.GenerateDriverCode();
+                this.result.RunCommand = petGenerator.RunCommand;
+                this.result.Labels += petGenerator.Label;
+            }
         }
 
         private bool TryOpenPCCPropertyInputEditor()
@@ -745,95 +754,138 @@ namespace CyPhyPET
                 doReturn = true;
             }
 
-             return doReturn;
+            return doReturn;
         }
 
-        private bool CallCyPhy2Modelica_v2(CyPhy.TestBench testBench)
+        private bool CallIntererpreterAndAddRunCommandToManifest(string progid, CyPhy.TestBench testBench, string outputDirName)
         {
-            var cyPhy2Modelica_v2 = new META.ComComponent("MGA.Interpreter.CyPhy2Modelica_v2");
-
-            cyPhy2Modelica_v2.InterpreterConfig = META.ComComponent.DeserializeConfiguration(this.mainParameters.ProjectDirectory, typeof(CyPhy2Modelica_v2.CyPhy2Modelica_v2Settings), cyPhy2Modelica_v2.ProgId);
-
-            cyPhy2Modelica_v2.Initialize(this.mainParameters.Project);
-
-            var diTestBenchOutputDir = Directory.CreateDirectory(Path.Combine(OutputDirectory, "TestBench"));
-
-            cyPhy2Modelica_v2.MainParameters.OutputDirectory = diTestBenchOutputDir.FullName;
-            cyPhy2Modelica_v2.MainParameters.CurrentFCO = (MgaFCO)testBench.Impl;
-
-            cyPhy2Modelica_v2.MainParameters.Project = this.mainParameters.Project;
-            cyPhy2Modelica_v2.MainParameters.ProjectDirectory = this.mainParameters.ProjectDirectory;
-            cyPhy2Modelica_v2.MainParameters.SelectedFCOs = this.mainParameters.SelectedFCOs;
-            cyPhy2Modelica_v2.MainParameters.StartModeParam = this.mainParameters.StartModeParam;
-            cyPhy2Modelica_v2.MainParameters.VerboseConsole = this.mainParameters.VerboseConsole;
-
-            try
+            string name = progid.Split('.').Last();
+            var interpreter = CallInterpreter(testBench, progid, name, outputDirName, initializeManifest: true);
+            if (interpreter.result.Success && string.IsNullOrEmpty(interpreter.result.RunCommand) == false)
             {
-                cyPhy2Modelica_v2.Main();
-            }
-            catch (META.InterpreterException)
-            {
-                //Trace.TraceError(ex.ToString());
-                this.Logger.WriteError("CyPhy2Modelica failed");
-                return false;
-            }
+                // if RunCommand is specified, add it to the manifest
+                var tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(interpreter.MainParameters.OutputDirectory);
 
-            if (cyPhy2Modelica_v2.result.Success)
-            {
-                this.result.Labels += cyPhy2Modelica_v2.result.Labels;
+                tbManifest.AddStep(new AVM.DDP.MetaTBManifest.Step()
+                {
+                    Status = AVM.DDP.MetaTBManifest.StatusEnum.UNEXECUTED,
+                    Invocation = interpreter.result.RunCommand,
+                    Description = "Run testbench",
+                    // TODO MaxIterationExecutionTime = 2 // hours
+                });
+                tbManifest.Serialize(interpreter.MainParameters.OutputDirectory);
+
                 return true;
+
             }
-            else
-            {
-                return false;
-            }
+            return interpreter.result.Success;
         }
 
-        private bool CallCyPhy2CAD_CSharp(CyPhy.TestBenchType testBench)
+        private bool CallCyPhy2CAD_CSharp(CyPhy.TestBenchType testBench, string outputDirName)
         {
-            var cyPhy2CAD = new META.ComComponent("MGA.Interpreter.CyPhy2CAD_CSharp");
-
-            cyPhy2CAD.InterpreterConfig = META.ComComponent.DeserializeConfiguration(
-                this.mainParameters.ProjectDirectory,
-                typeof(CyPhy2CAD_CSharp.CyPhy2CADSettings),
-                cyPhy2CAD.ProgId);
-
-            cyPhy2CAD.Initialize(this.mainParameters.Project);
-
-            var diTestBenchOutputDir = Directory.CreateDirectory(Path.Combine(OutputDirectory, "TestBench"));
-
-            cyPhy2CAD.MainParameters.OutputDirectory = diTestBenchOutputDir.FullName;
-            cyPhy2CAD.MainParameters.CurrentFCO = (MgaFCO)testBench.Impl;
-
-            cyPhy2CAD.MainParameters.Project = this.mainParameters.Project;
-            cyPhy2CAD.MainParameters.ProjectDirectory = this.mainParameters.ProjectDirectory;
-            cyPhy2CAD.MainParameters.SelectedFCOs = this.mainParameters.SelectedFCOs;
-            cyPhy2CAD.MainParameters.StartModeParam = this.mainParameters.StartModeParam;
-            cyPhy2CAD.MainParameters.VerboseConsole = this.mainParameters.VerboseConsole;
-
-            try
-            {
-                cyPhy2CAD.Main();
-            }
-            catch (META.InterpreterException)
-            {
-                //Trace.TraceError(ex.ToString());
-                this.Logger.WriteError("CyPhy2CAD_CSharp failed!");
-                return false;
-            }
-
+            var cyPhy2CAD = CallInterpreter(testBench, "MGA.Interpreter.CyPhy2CAD_CSharp", "CyPhy2CAD_CSharp", outputDirName);
             if (cyPhy2CAD.result.Success)
             {
-                this.result.Labels += cyPhy2CAD.result.Labels;
+                var tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(cyPhy2CAD.MainParameters.OutputDirectory);
+
+                tbManifest.Steps.Insert(0, new AVM.DDP.MetaTBManifest.Step()
+                {
+                    Status = AVM.DDP.MetaTBManifest.StatusEnum.UNEXECUTED,
+                    Invocation = String.Format("\"{0}\" -m run_mdao.cad.update_parameters", META.VersionInfo.PythonVEnvExe),
+                    Description = "Update parameters in CADAssembly.xml"
+                });
+                tbManifest.AddStep(new AVM.DDP.MetaTBManifest.Step()
+                {
+                    Status = AVM.DDP.MetaTBManifest.StatusEnum.UNEXECUTED,
+                    Invocation = cyPhy2CAD.result.RunCommand,
+                    Description = "Run CAD assembly",
+                    // TODO MaxIterationExecutionTime = 2 // hours
+                });
+                tbManifest.Serialize(cyPhy2CAD.MainParameters.OutputDirectory);
+
                 return true;
+
+            }
+            return cyPhy2CAD.result.Success;
+        }
+
+        // it is more efficient to not abort and create a new transaction, but interpreters must be prepared to be called inside an mga transaction
+        private static HashSet<string> progIdsThatCanRunInsideATransaction = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "MGA.Interpreter.CyPhy2Modelica_v2",
+            "MGA.Interpreter.CyPhy2Modelica",
+            "MGA.Interpreter.CyPhy2CAD_CSharp",
+            "MGA.Interpreter.CyPhy2CAD",
+            "MGA.Interpreter.CyPhyDesignExporter",
+            "MGA.Interpreter.CyPhyPython"
+        };
+
+        private META.ComComponent CallInterpreter(CyPhy.TestBenchType testBench, string progid, string name, string outputDirName, bool initializeManifest = false)
+        {
+            var interpreter = new META.ComComponent(progid);
+
+            if (interpreter.InterpreterConfig != null)
+            {
+                interpreter.InterpreterConfig = META.ComComponent.DeserializeConfiguration(
+                    this.mainParameters.ProjectDirectory,
+                    interpreter.InterpreterConfig.GetType(),
+                    interpreter.ProgId);
+            }
+
+            interpreter.Initialize(this.mainParameters.Project);
+
+            var diTestBenchOutputDir = Directory.CreateDirectory(Path.Combine(OutputDirectory, outputDirName));
+
+            interpreter.MainParameters.OutputDirectory = diTestBenchOutputDir.FullName;
+            interpreter.MainParameters.CurrentFCO = (MgaFCO)testBench.Impl;
+            // FIXME: do we need to set interpreter.WorkflowParameters ?
+            interpreter.MainParameters.Project = this.mainParameters.Project;
+            interpreter.MainParameters.ProjectDirectory = this.mainParameters.ProjectDirectory;
+            interpreter.MainParameters.SelectedFCOs = this.mainParameters.SelectedFCOs;
+            interpreter.MainParameters.StartModeParam = this.mainParameters.StartModeParam;
+            interpreter.MainParameters.VerboseConsole = this.mainParameters.VerboseConsole;
+
+            if (initializeManifest)
+            {
+                AVM.DDP.MetaTBManifest tbManifest = new AVM.DDP.MetaTBManifest();
+                tbManifest.MakeManifest(testBench, diTestBenchOutputDir.FullName);
+                tbManifest.Serialize(diTestBenchOutputDir.FullName);
+            }
+            try
+            {
+                if (progIdsThatCanRunInsideATransaction.Contains(progid) == false)
+                {
+                    testBench.Impl.Project.AbortTransaction();
+                }
+                interpreter.Main();
+            }
+            catch (META.InterpreterException)
+            {
+                //Trace.TraceError(ex.ToString());
+                this.Logger.WriteError(name + " failed!");
+                // cyPhy2CAD.result.Success = false;
+                return interpreter;
+            }
+            finally
+            {
+                if (progIdsThatCanRunInsideATransaction.Contains(progid) == false)
+                {
+                    testBench.Impl.Project.BeginTransactionInNewTerr(transactiontype_enum.TRANSACTION_NON_NESTED);
+                }
+            }
+
+            if (interpreter.result.Success)
+            {
+                this.result.Labels += (this.result.Labels.Length > 0 ? " && " : "") + interpreter.result.Labels;
+                return interpreter;
             }
             else
             {
-                return false;
+                return interpreter;
             }
         }
 
-        private bool CallCyPhyPython(CyPhy.TestBenchType testBench)  
+        private bool CallCyPhyPython(CyPhy.TestBenchType testBench, string outputDirName)
         {
             var cyPhyPython = new META.ComComponent("MGA.Interpreter.CyPhyPython");
 
@@ -868,7 +920,7 @@ namespace CyPhyPET
             }
             cyPhyPython.DoGUIConfiguration(this.mainParameters.ProjectDirectory, false);
 
-            var diTestBenchOutputDir = Directory.CreateDirectory(Path.Combine(OutputDirectory, "TestBench"));
+            var diTestBenchOutputDir = Directory.CreateDirectory(Path.Combine(OutputDirectory, outputDirName));
 
             cyPhyPython.MainParameters.OutputDirectory = diTestBenchOutputDir.FullName;
             cyPhyPython.MainParameters.CurrentFCO = (MgaFCO)testBench.Impl;
@@ -879,20 +931,38 @@ namespace CyPhyPET
             cyPhyPython.MainParameters.StartModeParam = this.mainParameters.StartModeParam;
             cyPhyPython.MainParameters.VerboseConsole = this.mainParameters.VerboseConsole;
 
+            AVM.DDP.MetaTBManifest tbManifest = new AVM.DDP.MetaTBManifest();
+            tbManifest.MakeManifest(testBench, cyPhyPython.MainParameters.OutputDirectory);
+
+            tbManifest.Serialize(cyPhyPython.MainParameters.OutputDirectory);
+
+            bool success;
             try
             {
                 cyPhyPython.Main();
+                success = cyPhyPython.result.Success;
             }
-            catch (META.InterpreterException)
+            catch (COMException e)
             {
-                //Trace.TraceError(ex.ToString());
-                this.Logger.WriteError("CyPhyPython failed!");
-                return false;
+                Logger.WriteDebug("CyPhyPython on '{0}' failed: {1}", testBench.Name, e.ToString());
+                success = false;
             }
 
-            if (cyPhyPython.result.Success)
+            if (success)
             {
                 this.result.Labels += cyPhyPython.result.Labels;
+
+                if (string.IsNullOrWhiteSpace(cyPhyPython.result.RunCommand) == false)
+                {
+                    tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(cyPhyPython.MainParameters.OutputDirectory);
+                    tbManifest.Steps.Add(new AVM.DDP.MetaTBManifest.Step()
+                    {
+                        Status = AVM.DDP.MetaTBManifest.StatusEnum.UNEXECUTED,
+                        Invocation = cyPhyPython.result.RunCommand
+                    });
+                    tbManifest.Serialize(cyPhyPython.MainParameters.OutputDirectory);
+                }
+
                 return true;
             }
             else
@@ -901,8 +971,251 @@ namespace CyPhyPET
             }
         }
 
+        public void DecoratorDoubleClick(object fco)
+        {
+            GMEConsole console = GMEConsole.CreateFromProject(((IMgaFCO)fco).Project);
+
+            try
+            {
+                if (((IMgaFCO)fco).Meta.Name == "ExcelWrapper")
+                {
+                    CreateParametersAndMetricsForExcel(fco);
+                }
+                else if (((IMgaFCO)fco).Meta.Name == "MATLABWrapper")
+                {
+                    var wrapper = CyPhyClasses.MATLABWrapper.Cast((IMgaFCO)fco);
+                    string filename = CreateParametersAndMetricsForOpenMDAOComponent("MATLAB file|*.m|All Files (*.*)|*.*", ".m", wrapper.Attributes.MFilename, wrapper, "matlab_wrapper",
+                        () => CyPhyClasses.Metric.Create(wrapper), () => CyPhyClasses.Parameter.Create(wrapper));
+                    if (filename != null)
+                    {
+                        wrapper.Attributes.MFilename = filename;
+                    }
+                }
+                else if (((IMgaFCO)fco).Meta.Name == "PythonWrapper")
+                {
+                    var wrapper = CyPhyClasses.PythonWrapper.Cast((IMgaFCO)fco);
+                    string filename = CreateParametersAndMetricsForOpenMDAOComponent("Python file|*.py;*.pyd|All Files (*.*)|*.*", ".py", wrapper.Attributes.PyFilename, wrapper, "run_mdao.python_component.get_params_and_unknowns",
+                        () => CyPhyClasses.Metric.Create(wrapper), () => CyPhyClasses.Parameter.Create(wrapper));
+                    if (filename != null)
+                    {
+                        wrapper.Attributes.PyFilename = filename;
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                console.Error.WriteLine(e.Message);
+            }
+            finally
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+        }
+
+        private string CreateParametersAndMetricsForOpenMDAOComponent(string openFileFilter, string defaultExt, string oldFilename, CyPhy.ParametricTestBench tb, string pythonModule, Func<CyPhy.Metric> metricCreate, Func<CyPhy.Parameter> paramCreate)
+        {
+            string mgaDir = Path.GetDirectoryName(Path.GetFullPath(tb.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
+            oldFilename = Path.Combine(mgaDir, oldFilename);
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.DefaultExt = defaultExt;
+            dialog.CheckFileExists = true;
+            if (String.IsNullOrEmpty(oldFilename) == false
+                && Directory.Exists(Path.GetDirectoryName(oldFilename)))
+            {
+                dialog.InitialDirectory = Path.GetDirectoryName(oldFilename);
+                if (File.Exists(oldFilename))
+                {
+                    dialog.FileName = Path.GetFileName(oldFilename);
+                    dialog.ShowHelp = true; // https://connect.microsoft.com/VisualStudio/feedback/details/525070/openfiledialog-show-part-of-file-name-in-win7
+                }
+            }
+            else
+            {
+                dialog.InitialDirectory = mgaDir;
+            }
+            dialog.Filter = openFileFilter;
+            if (dialog.ShowDialog() != DialogResult.OK)
+            {
+                return null;
+            }
+
+            var valueFlow = ((GME.MGA.Meta.IMgaMetaModel)tb.Impl.MetaBase).AspectByName["ValueFlowAspect"];
+
+            Dictionary<string, Dictionary<string, Dictionary<string, object>>> paramsAndUnknowns = GetParamsAndUnknowns(dialog.FileName, pythonModule);
+
+            HashSet<ISIS.GME.Common.Interfaces.FCO> metricsAndParameters = new HashSet<ISIS.GME.Common.Interfaces.FCO>(new DsmlFCOComparer());
+            foreach (var metricOrParameter in tb.Children.MetricCollection.Concat<ISIS.GME.Common.Interfaces.FCO>(tb.Children.ParameterCollection))
+            {
+                metricsAndParameters.Add(metricOrParameter);
+            }
+            foreach (var item in paramsAndUnknowns["unknowns"])
+            {
+                string name = item.Key;
+                var metric = tb.Children.MetricCollection.Where(m => m.Name == name).FirstOrDefault();
+                if (metric == null)
+                {
+                    metric = metricCreate();
+                    metric.Name = name;
+                    // metric.Attributes.Description =
+                    ((IMgaFCO)metric.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 800, 300);
+                }
+                else
+                {
+                    metricsAndParameters.Remove(metric);
+                }
+            }
+            foreach (var item in paramsAndUnknowns["params"])
+            {
+                string name = item.Key;
+                var param = tb.Children.ParameterCollection.Where(m => m.Name == name).FirstOrDefault();
+                if (param == null)
+                {
+                    param = paramCreate();
+                    param.Name = name;
+                    // param.Attributes.Description =
+                }
+                else
+                {
+                    metricsAndParameters.Remove(param);
+                }
+            }
+            foreach (var metricOrParameter in metricsAndParameters)
+            {
+                // no longer in MATLAB function declaration
+                metricOrParameter.Delete();
+            }
+            var filename = dialog.FileName;
+            // make relative if filename is in same directory as GME project
+            if (filename.StartsWith(mgaDir + "\\"))
+            {
+                filename = filename.Substring((mgaDir + "\\").Length);
+            }
+            return filename;
+        }
+
+        private static Dictionary<string, Dictionary<string, Dictionary<string, object>>> GetParamsAndUnknowns(string filename, string pythonModule)
+        {
+            Process getParamsAndUnknowns = new Process();
+            getParamsAndUnknowns.StartInfo = new ProcessStartInfo(META.VersionInfo.PythonVEnvExe)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                Arguments = String.Format("-m {0} \"{1}\"", pythonModule, filename),
+            };
+
+            getParamsAndUnknowns.Start();
+            // n.b. assume buffers will not fill up and deadlock us
+            string stdout = getParamsAndUnknowns.StandardOutput.ReadToEnd();
+            string stderr = getParamsAndUnknowns.StandardError.ReadToEnd();
+            getParamsAndUnknowns.WaitForExit();
+            if (getParamsAndUnknowns.ExitCode != 0)
+            {
+                throw new ApplicationException(stderr);
+            }
+
+            // e.g. { "unknowns": { "m": { "shape": 1, "val": 0.0, "size": 1}, "s": { "shape": 1, "val": 0.0, "size": 1} }, "params": { "a": { "shape": 1, "val": 0.0, "size": 1}, "b": { "shape": 1, "val": 0.0, "size": 1}, "c": { "shape": 1, "val": 0.0, "size": 1} } }
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, object>>>>(stdout.Replace("\r", "").Split('\n').Last(line => string.IsNullOrWhiteSpace(line) == false));
+        }
+
+        private static void CreateParametersAndMetricsForExcel(object fco)
+        {
+            var excel = CyPhyClasses.ExcelWrapper.Cast((IMgaFCO)fco);
+            string mgaDir = Path.GetDirectoryName(Path.GetFullPath(excel.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
+            var filename = excel.Attributes.ExcelFilename;
+            filename = Path.Combine(mgaDir, filename);
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.DefaultExt = ".xlsx";
+            dialog.CheckFileExists = true;
+            if (String.IsNullOrEmpty(filename) == false
+                && Directory.Exists(Path.GetDirectoryName(filename)))
+            {
+                dialog.InitialDirectory = Path.GetDirectoryName(filename);
+
+                if (File.Exists(filename))
+                {
+                    dialog.FileName = Path.GetFileName(filename);
+                    dialog.ShowHelp = true; // https://connect.microsoft.com/VisualStudio/feedback/details/525070/openfiledialog-show-part-of-file-name-in-win7
+                }
+
+            }
+            dialog.Filter = "Excel File|*.xlsx;*.xlsm;*.xlsb;*.xls|All Files (*.*)|*.*";
+            if (dialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+            excel.Attributes.ExcelFilename = dialog.FileName;
+            // make relative if possible
+            if (excel.Attributes.ExcelFilename.StartsWith(mgaDir + "\\"))
+            {
+                excel.Attributes.ExcelFilename = excel.Attributes.ExcelFilename.Substring((mgaDir + "\\").Length);
+            }
+
+            HashSet<ISIS.GME.Common.Interfaces.FCO> metricsAndParameters = new HashSet<ISIS.GME.Common.Interfaces.FCO>(new DsmlFCOComparer());
+            foreach (var metricOrParameter in excel.Children.MetricCollection.Concat<ISIS.GME.Common.Interfaces.FCO>(excel.Children.ParameterCollection))
+            {
+                metricsAndParameters.Add(metricOrParameter);
+            }
+
+            var valueFlow = ((GME.MGA.Meta.IMgaMetaModel)excel.Impl.MetaBase).AspectByName["ValueFlowAspect"];
+            ExcelInterop.GetExcelInputsAndOutputs(dialog.FileName, (string name, string refersTo) =>
+            {
+                var metric = excel.Children.MetricCollection.Where(m => m.Name == name).FirstOrDefault();
+                if (metric == null)
+                {
+                    metric = CyPhyClasses.Metric.Create(excel);
+                    metric.Name = name;
+                    metric.Attributes.Description = refersTo;
+                    ((IMgaFCO)metric.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 800, 300);
+                }
+                else
+                {
+                    metricsAndParameters.Remove(metric);
+                }
+            }, (string name, string refersTo) =>
+            {
+                var param = excel.Children.ParameterCollection.Where(m => m.Name == name).FirstOrDefault();
+                if (param == null)
+                {
+                    param = CyPhyClasses.Parameter.Create(excel);
+                    param.Name = name;
+                    param.Attributes.Description = refersTo;
+                }
+                else
+                {
+                    metricsAndParameters.Remove(param);
+                }
+            }, () =>
+            {
+                foreach (var metricOrParameter in metricsAndParameters)
+                {
+                    // no longer in Excel doc
+                    metricOrParameter.Delete();
+                }
+            });
+        }
+
         [DllImport("user32.dll")]
         public static extern short GetKeyState(int Key);
         #endregion
     }
+
+    public class DsmlFCOComparer : IEqualityComparer<ISIS.GME.Common.Interfaces.FCO>
+    {
+        public bool Equals(ISIS.GME.Common.Interfaces.FCO x, ISIS.GME.Common.Interfaces.FCO y)
+        {
+            return x.Impl.Project == y.Impl.Project && x.ID == y.ID;
+        }
+
+        public int GetHashCode(ISIS.GME.Common.Interfaces.FCO obj)
+        {
+            return obj.ID.GetHashCode();
+        }
+    }
+
 }

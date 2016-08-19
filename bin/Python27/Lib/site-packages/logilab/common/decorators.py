@@ -16,27 +16,28 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with logilab-common.  If not, see <http://www.gnu.org/licenses/>.
 """ A few useful function/method decorators. """
+
+from __future__ import print_function
+
 __docformat__ = "restructuredtext en"
 
 import sys
 import types
 from time import clock, time
+from inspect import isgeneratorfunction, getargspec
 
-from logilab.common.compat import callable, method_type
+from logilab.common.compat import method_type
 
 # XXX rewrite so we can use the decorator syntax when keyarg has to be specified
-
-def _is_generator_function(callableobj):
-    return callableobj.func_code.co_flags & 0x20
 
 class cached_decorator(object):
     def __init__(self, cacheattr=None, keyarg=None):
         self.cacheattr = cacheattr
         self.keyarg = keyarg
     def __call__(self, callableobj=None):
-        assert not _is_generator_function(callableobj), \
+        assert not isgeneratorfunction(callableobj), \
                'cannot cache generator function: %s' % callableobj
-        if callableobj.func_code.co_argcount == 1 or self.keyarg == 0:
+        if len(getargspec(callableobj).args) == 1 or self.keyarg == 0:
             cache = _SingleValueCache(callableobj, self.cacheattr)
         elif self.keyarg:
             cache = _MultiValuesKeyArgCache(callableobj, self.keyarg, self.cacheattr)
@@ -68,7 +69,6 @@ class _SingleValueCache(object):
         try:
             wrapped.__doc__ = self.callable.__doc__
             wrapped.__name__ = self.callable.__name__
-            wrapped.func_name = self.callable.func_name
         except:
             pass
         return wrapped
@@ -227,8 +227,8 @@ def timed(f):
         t = time()
         c = clock()
         res = f(*args, **kwargs)
-        print '%s clock: %.9f / time: %.9f' % (f.__name__,
-                                               clock() - c, time() - t)
+        print('%s clock: %.9f / time: %.9f' % (f.__name__,
+                                               clock() - c, time() - t))
         return res
     return wrap
 

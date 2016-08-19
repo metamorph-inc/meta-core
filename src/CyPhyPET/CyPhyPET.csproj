@@ -46,9 +46,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\externals\common-scripts\ISIS.GME.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\3rdParty\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.0.5.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\3rdParty\Json.NET\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Office, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\3rdParty\Office.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -76,6 +86,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExcelInterop.cs" />
     <Compile Include="PCCPropertyInputDistributionEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,75 +114,10 @@
     <Compile Include="Registrar.cs" />
     <Compile Include="MgaGateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Templates\CSVParameterStudy.cs">
-      <DependentUpon>CSVParameterStudy.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\TestBenchComponent.cs">
-      <DependentUpon>TestBenchComponent.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\runDriverLINUX.cs">
-      <DependentUpon>runDriverLINUX.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\Modelica_v2.cs">
-      <DependentUpon>Modelica_v2.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\Optimizer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Optimizer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\PCCDriver.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PCCDriver.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\runDriver.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>runDriver.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\TestBenchExecutors\CAD.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CAD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\TestBenchExecutors\CyPython.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CyPython.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\TestBenchExecutors\TemplateExecutor.cs">
-      <DependentUpon>TemplateExecutor.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\TestBenchExecutors\FEA.cs">
-      <DependentUpon>FEA.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Templates\TestBenchExecutors\Formula.cs">
       <DependentUpon>Formula.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\ParameterStudy.cs">
-      <DependentUpon>ParameterStudy.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\ParameterStudySurrogate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ParameterStudySurrogate.tt</DependentUpon>
     </Compile>
     <Compile Include="Templates\SurrogateAssembly.cs">
       <AutoGen>True</AutoGen>
@@ -189,12 +135,13 @@
     <Compile Include="PCCexperimentSettings.Designer.cs">
       <DependentUpon>PCCexperimentSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\TestBenchExecutors\Modelica.cs">
-      <DependentUpon>Modelica.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="ToolConfig.cs" />
+    <Compile Include="VSTO.Contrib\ComCleanupEnumerator.cs" />
+    <Compile Include="VSTO.Contrib\ComCleanupExtensions.cs" />
+    <Compile Include="VSTO.Contrib\ComCleanupWrapper.cs" />
+    <Compile Include="VSTO.Contrib\CommonExtensions.cs" />
+    <Compile Include="VSTO.Contrib\ComObjectWrapper.cs" />
+    <Compile Include="VSTO.Contrib\RegistryExtensions.cs" />
     <!--$ADDITIONALFILES$-->
   </ItemGroup>
   <ItemGroup>
@@ -205,46 +152,15 @@
     <None Include="Properties\DataSources\PCCPropertyInputDistributionEditor.PCCProperty.datasource" />
     <None Include="Resources\beta.bmp" />
     <Content Include="Resources\driver_runner_simpleCalc.py" />
-    <None Include="Resources\driver_runner_cad.py" />
     <None Include="Resources\lognormal.bmp" />
     <None Include="Resources\normal.bmp" />
     <None Include="Resources\uniform.bmp" />
     <Content Include="Resources\zip.py" />
-    <None Include="Resources\driver_runner.py" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Resources\index.html" />
-    <None Include="Resources\save_results.py" />
-    <None Include="Templates\CSVParameterStudy.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>CSVParameterStudy.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\TestBenchComponent.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>TestBenchComponent.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\runDriverLINUX.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>runDriverLINUX.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\Modelica_v2.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>Modelica_v2.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\PCCDriver.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>PCCDriver.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\runDriver.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>runDriver.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\ParameterStudySurrogate.tt">
-      <Generator>TextTemplatingFilePreProcessor</Generator>
-      <LastGenOutput>ParameterStudySurrogate.cs</LastGenOutput>
-    </None>
     <None Include="Templates\SurrogateAssembly.tt">
       <Generator>TextTemplatingFilePreProcessor</Generator>
       <LastGenOutput>SurrogateAssembly.cs</LastGenOutput>
@@ -253,40 +169,12 @@
       <Generator>TextTemplatingFilePreProcessor</Generator>
       <LastGenOutput>SurrogateValidation.cs</LastGenOutput>
     </None>
-    <None Include="Templates\TestBenchExecutors\CAD.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>CAD.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\TestBenchExecutors\CyPython.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>CyPython.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\TestBenchExecutors\TemplateExecutor.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>TemplateExecutor.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\TestBenchExecutors\FEA.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>FEA.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\TestBenchExecutors\Modelica.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>Modelica.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="AssemblySignature.snk" />
-    <None Include="Templates\Optimizer.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>Optimizer.cs</LastGenOutput>
-    </None>
     <None Include="Templates\TestBenchExecutors\Formula.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>Formula.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\ParameterStudy.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ParameterStudy.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +194,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AvmDdp\AvmDdp.csproj">
+      <Project>{8880fd8f-c7da-4491-908d-778b67057da0}</Project>
+      <Name>AvmDdp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CyPhy2CAD_CSharp\CyPhy2CAD_CSharp.csproj">
       <Project>{EA9CC9FA-046F-47C6-80D9-A2B1CFE8BBAE}</Project>
       <Name>CyPhy2CAD_CSharp</Name>

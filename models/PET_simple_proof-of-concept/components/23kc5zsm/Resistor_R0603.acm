@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" SchemaVersion="2.5" ID="672329de-2203-4d4b-9721-db5428ba573d" Name="Resistor_R0603" Version="" xmlns="avm">
+  <DomainModel xmlns:q1="modelica" xsi:type="q1:ModelicaModel" Author="" Notes="" XPosition="315" YPosition="441" Name="ModelicaModel" Class="Modelica.Electrical.Analog.Basic.Resistor" xmlns="">
+    <Parameter XPosition="224" YPosition="21" Locator="R">
+      <Value ID="id-c267e4df-f759-4129-b268-503d0c9c9249" Unit="ohm">
+        <ValueExpression xmlns:q2="avm" xsi:type="q2:DerivedValue" ValueSource="id-15cdbad5-6620-42a2-bf0d-3808956c1860" />
+      </Value>
+    </Parameter>
+    <Connector ID="id-9d06782f-fa27-4191-9451-ec7d7ce6e2fa" PortMap="" Notes="2" XPosition="497" Definition="" YPosition="42" Name="n" Locator="" Class="Modelica.Electrical.Analog.Interfaces.Pin" />
+    <Connector ID="id-865fd020-8bdc-4fe4-b16a-0a220d9ada39" PortMap="id-9ccc1c93-46c9-420c-a4fa-c67100aa6845" Notes="1" XPosition="56" Definition="" YPosition="35" Name="p" Locator="" Class="Modelica.Electrical.Analog.Interfaces.Pin" />
+  </DomainModel>
+  <DomainModel xmlns:q3="cad" xsi:type="q3:CADModel" UsesResource="id-cea448f5-0f8c-44ae-99a4-e30a668604a2" Author="" Notes="" XPosition="259" YPosition="665" Name="CADModel" ID="id-38e108fe-8eb6-4821-8649-b773dccdecc5" Format="Creo" xmlns="">
+    <Datum xsi:type="q3:CoordinateSystem" ID="cad.48F3D3FB1F15400BA9E16BFF5BE7861" PortMap="" Notes="" XPosition="25" Definition="" YPosition="25" Name="48F3D3FB1F15400BA9E16BFF5BE7861" DatumName="48F3D3FB1F15400BA9E16BFF5BE7861" />
+    <Datum xsi:type="q3:CoordinateSystem" ID="cad.CS" PortMap="" Notes="" XPosition="125" Definition="" YPosition="25" Name="CS" DatumName="CS" />
+  </DomainModel>
+  <DomainModel xmlns:q4="cad" xsi:type="q4:CADModel" UsesResource="id-92946605-e441-48f6-b859-315e294cedf5" Author="" Notes="" XPosition="609" YPosition="462" Name="CADModel" ID="id-50420506-3628-4985-b30d-f7d7523cd2a8" Format="AP_203" xmlns="" />
+  <DomainModel xmlns:q5="eda" xsi:type="q5:EDAModel" UsesResource="id-da410fef-8827-42f7-859a-a61adb839714" Author="SpiceGirls" Notes="" XPosition="315" YPosition="119" Name="SchematicModel" ID="id-fa10a142-c62a-4728-bad0-bf23bd84bdaa" Package="R0603" Device="R0603" Library="rcl" DeviceSet="R-US_" xmlns="">
+    <Pin ID="id-e6d8f427-e654-414f-9643-0bf66a9a35a1" PortMap="" Notes="" XPosition="125" Definition="" YPosition="25" Name="2" EDAGate="G$1" EDASymbolLocationX="5.08" EDASymbolLocationY="0" EDASymbolRotation="R180" SPICEPortNumber="0" />
+    <Pin ID="id-47b77c95-418a-4bfe-9ca2-78a33d670154" PortMap="id-6914c75d-fff5-4a99-a86a-d60a80b9021e" Notes="" XPosition="25" Definition="" YPosition="25" Name="1" EDAGate="G$1" EDASymbolLocationX="-5.08" EDASymbolLocationY="0" EDASymbolRotation="" SPICEPortNumber="0" />
+    <Parameter XPosition="28" YPosition="175" Locator="value">
+      <Value ID="id-8f987a52-3842-4efb-9e92-7a5307df0cf1" Unit="ohm">
+        <ValueExpression xmlns:q6="avm" xsi:type="q6:DerivedValue" ValueSource="id-15cdbad5-6620-42a2-bf0d-3808956c1860" />
+      </Value>
+    </Parameter>
+  </DomainModel>
+  <DomainModel xmlns:q7="spice" xsi:type="q7:SPICEModel" Author="" Notes="Since &quot;R&quot; is a SPICE primitive, no component SPICE model is included with this component." XPosition="315" YPosition="280" Name="SPICEModel" Class="R" xmlns="">
+    <Pin ID="id-bc2811b7-01d8-4065-aea0-e0cb06127beb" PortMap="" Notes="" XPosition="25" Definition="" YPosition="25" Name="1" EDAGate="" EDASymbolLocationX="" EDASymbolLocationY="" EDASymbolRotation="" SPICEPortNumber="1" />
+    <Pin ID="id-f8b1c037-7e29-44e5-aef5-84e24c553891" PortMap="" Notes="" XPosition="125" Definition="" YPosition="25" Name="2" EDAGate="" EDASymbolLocationX="" EDASymbolLocationY="" EDASymbolRotation="" SPICEPortNumber="2" />
+    <Parameter Locator="value">
+      <Value ID="id-cc808dba-2648-49c0-bf82-47ad4ce11166" Unit="ohm">
+        <ValueExpression xmlns:q8="avm" xsi:type="q8:DerivedValue" ValueSource="id-15cdbad5-6620-42a2-bf0d-3808956c1860" />
+      </Value>
+    </Parameter>
+  </DomainModel>
+  <Property xmlns:q9="avm" xsi:type="q9:PrimitiveProperty" Name="R" ID="param.id-15cdbad5-6620-42a2-bf0d-3808956c1860" XPosition="28" YPosition="210" xmlns="">
+    <Value ID="id-15cdbad5-6620-42a2-bf0d-3808956c1860" Dimensions="" Unit="ohm" DimensionType="Scalar" DataType="String">
+      <ValueExpression xsi:type="q9:ParametricValue">
+        <Default xsi:type="q9:FixedValue">
+          <Value>10000</Value>
+        </Default>
+        <AssignedValue xsi:type="q9:FixedValue">
+          <Value>10000</Value>
+        </AssignedValue>
+      </ValueExpression>
+    </Value>
+  </Property>
+  <ResourceDependency Name="Icon" Path="Images/Icon.png" Hash="" ID="id-655d446e-c3bf-48b1-8fea-25b70771b78b" Notes="" XPosition="42" YPosition="553" xmlns="" />
+  <ResourceDependency Name="pkg_0603.prt" Path="CAD\pkg_0603.prt" Hash="" ID="id-cea448f5-0f8c-44ae-99a4-e30a668604a2" Notes="CAD Model Import tool added this resource object for the imported CAD file" XPosition="343" YPosition="574" xmlns="" />
+  <ResourceDependency Name="ecad" Path="Schematic\ecad.lbr" Hash="" ID="id-da410fef-8827-42f7-859a-a61adb839714" Notes="Standalone EAGLE library for this device" XPosition="350" YPosition="28" xmlns="" />
+  <ResourceDependency Name="Resource" Path="CAD\pkg_0603.step" Hash="" ID="id-92946605-e441-48f6-b859-315e294cedf5" Notes="" XPosition="756" YPosition="392" xmlns="" />
+  <Connector ConnectorComposition="" ID="id-4cde194d-606e-4bdd-918c-ea63b4229a25" ApplyJoinData="" XPosition="49" YPosition="28" Notes="" Definition="" Name="P1" xmlns="">
+    <Role xmlns:q10="schematic" xsi:type="q10:Pin" ID="id-6914c75d-fff5-4a99-a86a-d60a80b9021e" PortMap="id-bc2811b7-01d8-4065-aea0-e0cb06127beb" Notes="" XPosition="385" Definition="" YPosition="154" Name="Sch" EDAGate="" EDASymbolLocationX="" EDASymbolLocationY="" EDASymbolRotation="" SPICEPortNumber="0" />
+    <Role xmlns:q11="modelica" xsi:type="q11:Connector" ID="id-9ccc1c93-46c9-420c-a4fa-c67100aa6845" PortMap="" Notes="" XPosition="364" Definition="" YPosition="287" Name="pwr" Locator="" Class="Modelica.Electrical.Analog.Interfaces.Pin" />
+  </Connector>
+  <Connector ConnectorComposition="" ID="id-be3b9612-91e6-4ca3-a58d-a66412fbdd2f" ApplyJoinData="" XPosition="553" YPosition="126" Notes="" Definition="" Name="P2" xmlns="">
+    <Role xmlns:q12="schematic" xsi:type="q12:Pin" ID="id-146085a6-4668-475d-9980-896028817b58" PortMap="id-f8b1c037-7e29-44e5-aef5-84e24c553891 id-e6d8f427-e654-414f-9643-0bf66a9a35a1" Notes="" Definition="" Name="Sch" EDAGate="" EDASymbolLocationX="" EDASymbolLocationY="" EDASymbolRotation="" SPICEPortNumber="0" />
+    <Role xmlns:q13="modelica" xsi:type="q13:Connector" ID="id-5c3dea08-c1a6-4fc5-bd76-103368e60218" PortMap="id-9d06782f-fa27-4191-9451-ec7d7ce6e2fa" Notes="" XPosition="49" Definition="" YPosition="112" Name="pwr" Locator="" Class="Modelica.Electrical.Analog.Interfaces.Pin" />
+  </Connector>
+  <Classifications xmlns="">passive.resistors</Classifications>
+  <DomainMapping xmlns:q14="domainmapping" xsi:type="q14:CAD2EDATransform" RotationX="0" RotationY="0" RotationZ="0" TranslationX="0" TranslationY="0" TranslationZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" EDAModel="id-fa10a142-c62a-4728-bad0-bf23bd84bdaa" CADModel="id-50420506-3628-4985-b30d-f7d7523cd2a8" xmlns="" />
+</Component>

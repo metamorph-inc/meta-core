@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import logging
 import urllib2
 
@@ -62,7 +64,7 @@ class HTTPGssapiAuthHandler(urllib2.BaseHandler):
                 if result < 1:
                     raise GssapiAuthError("HTTPGssapiAuthHandler: step 2 failed with %d" % result)
             return server_response
-        except GssapiAuthError, exc:
+        except GssapiAuthError as exc:
             logging.error(repr(exc))
         finally:
             self.clean_context()
@@ -84,4 +86,4 @@ if __name__ == '__main__':
     # test with url sys.argv[1]
     h = HTTPGssapiAuthHandler()
     response = urllib2.build_opener(h, ch).open(sys.argv[1])
-    print '\nresponse: %s\n--------------\n' % response.code, response.info()
+    print('\nresponse: %s\n--------------\n' % response.code, response.info())

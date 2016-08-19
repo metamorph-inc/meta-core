@@ -1,53 +1,50 @@
-# --find-links http://openmdao.org/dists/
 # Windows setup:
-# Note: easy-install.pth is renamed to stock-easy-install.pth. (During the build, setup.py install is run on ..\..\src\Python27Packages\*, so the rename is to prevent svn-modified files all the time)
-#  http://openmdao.org/releases/0.8.1/go-openmdao.py
-#  virtualenv.py from https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.9.1.tar.gz
+#  Install latest Python 2.7.x
+#  rd /s/q Python27
+#  c:\Python27\python -m pip install --upgrade virtualenv==15.0.3
 #  scipy, numpy: http://www.lfd.uci.edu/~gohlke/pythonlibs/
 #  lxml: http://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml
-#  \\zsolt-ws\share\Software\Python\virtualenv.py scipynumpy
-#  scipynumpy\Scripts\python -m easy_install \\zsolt-ws\share\Software\Python\numpy-MKL-1.9.0b2.win32-py2.7.exe
-#  scipynumpy\Scripts\python -m easy_install \\zsolt-ws\share\Software\Python\scipy-0.14.0.win32-py2.7.exe
-#  set PYTHONHOME=%CD%\scipynumpy
-#  c:\Users\kevin\Downloads\go-openmdao.py
-#  set PYTHONHOME=
-#  .\openmdao-0.8.1\Scripts\activate.bat
-#  python -m easy_install \\zsolt-ws\share\Software\Python\numpy-MKL-1.9.0b2.win32-py2.7.exe
-#  python -m easy_install \\zsolt-ws\share\Software\Python\scipy-0.14.0.win32-py2.7.exe
-#  python -m easy_install \\zsolt-ws\share\Software\Python\pywin32-218.win32-py2.7.exe
-#  python -m easy_install \\zsolt-ws\share\Software\Python\lxml-3.2.3.win32-py2.7.exe # Ricardo and py_modelica_exporter
-#  python -m easy_install \\zsolt-ws\share\Software\Python\matplotlib-1.3.0.win32-py2.7.exe # Ricardo tool
-#  python -m easy_install \\zsolt-ws\share\Software\Python\pyparsing-2.0.1.tar.gz # simviz tool
-#  OPTION for simviz if the one above does not work: python -m easy_install http://cheeseshop.python.org/packages/source/p/pyparsing/pyparsing-2.0.1.tar.gz
+#  c:\Python27\python.exe -m virtualenv Python27
+#  Python27\scripts\activate.bat
+#  git checkout Python27/requirements
+#  python -m easy_install %userprofile%\Downloads\pywin32-220.win32-py2.7.exe
+#  python -m easy_install %userprofile%\Downloads\elementtree-1.2.7-20070827-preview.win32.exe
+#  python -m pip install %userprofile%\Downloads\numpy-1.11.1+mkl-cp27-cp27m-win32.whl
+#  python -m pip install %userprofile%\Downloads\scipy-0.18.0-cp27-cp27m-win32.whl
+#  python -m pip install %userprofile%\Downloads\lxml-3.6.1-cp27-cp27m-win32.whl # Ricardo and py_modelica_exporter
+#  python -m pip install %userprofile%\Downloads\matplotlib-1.5.2-cp27-cp27m-win32.whl # Ricardo tool
+#  python -m pip install %userprofile%\Downloads\pyparsing-2.1.6-py2.py3-none-any.whl # simviz tool
 #  python -m pip install --egg -r Python27\requirements
-#  remove old Python27, move openmdao-0.8.1 in its place
-#  svn revert Python27\Lib\site-packages\pywin32-218-py2.7-win32.egg\pythoncomloader27.dll
-#  svn revert ubuntu_create_venv.sh ubuntu_create_venv_w_META_packages.sh Lib\no-global-site-packages.txt Lib\site-packages\cobyla-1.0.1-py2.7-win32.egg\cobyla\libgcc_s_dw2-1.dll Lib\site-packages\cobyla-1.0.1-py2.7-win32.egg\cobyla\libquadmath-0.dll Lib\site-packages\cobyla-1.0.1-py2.7-win32.egg\cobyla\libgfortran-3.dll
-#  bash: cd Python27/Lib/site-packages &&  mv easy-install.pth  stock-easy-install.pth; svn status -N | grep ^! | sed 's/^..//' | xargs svn rm
-#        svn status -N | grep ^\\? | sed 's/^..//' | xargs svn add
-#        cd ../../Scripts/ && svn status -N | grep ^! | grep -E '(\.pyd|dll)' | sed 's/^..//' | xargs svn revert Python27.zip activate.bat
-#  make.msbuild will modify easy-install.pth
-openmdao.lib==0.8.1
-openmdao.main==0.8.1
-openmdao.units==0.8.1
-openmdao.util==0.8.1
-decorator==3.4.0 # simviz
+#  git checkout HEAD -- ubuntu_create_venv.sh ubuntu_create_venv_w_META_packages.sh Lib/site-packages/sitecustomize.py
+#  bash: cd $(git rev-parse --show-toplevel) && git status --porcelain bin/Python27/Scripts | grep '^ D ' | grep -E '(\.pyd|dll)' | sed 's/^...//' | xargs git checkout HEAD -- bin/Python27/Scripts/{activate.bat,Python27.zip} bin/Python27/libs/python27.lib
+#  git add -f --all Python27
+
+# HOWTO update Python version
+# reconstruct virtualenv with new Python version
+# zip contents of Lib\ except site-packages into Python27.zip and copy over
+# copy over dlls and pyds from DLLs
+# copy over python27.lib
+# cmd /c "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86 ^& editbin.exe /largeaddressaware   bin\Python27\Scripts\python.exe
+openmdao==1.7.1
+decorator==4.0.4 # simviz
+lxml==3.6.1
 elementtree==1.2.7-20070827-preview
 mpmath==0.17 # PCC
-pywin32==218
-numpy==1.9.0b2
-scipy==0.14.0
+pywin32==220
+numpy==1.11.1+mkl
+scipy==0.18.0
 Cheetah==2.4.4
 pylint==1.0.0
 # Interchange format library support
 pyxb==1.2.3
 # For Ricardo tools (META-1745)
-python-dateutil==2.1
+python-dateutil==2.5.3
 # For Ricardo tools (META-1745) and META-1783
-matplotlib==1.3.0
+matplotlib==1.5.2
 # For py_modelica_exporter to get Modelica icons
 svgwrite==1.1.3
 solidpython==0.1.1
+sympy==0.7.2  # PET PCC
+requests==2.11.0  # installer
 
 networkx==1.9.1
-requests

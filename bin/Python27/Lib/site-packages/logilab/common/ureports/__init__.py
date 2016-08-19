@@ -20,13 +20,11 @@
 A way to create simple reports using python objects, primarily designed to be
 formatted as text and html.
 """
-from __future__ import generators
 __docformat__ = "restructuredtext en"
 
 import sys
-from cStringIO import StringIO
-from StringIO import StringIO as UStringIO
 
+from logilab.common.compat import StringIO
 from logilab.common.textutils import linesep
 
 
@@ -44,13 +42,13 @@ def layout_title(layout):
     """
     for child in layout.children:
         if isinstance(child, Title):
-            return ' '.join([node.data for node in get_nodes(child, Text)])
+            return u' '.join([node.data for node in get_nodes(child, Text)])
 
 def build_summary(layout, level=1):
     """make a summary for the report, including X level"""
     assert level > 0
     level -= 1
-    summary = List(klass='summary')
+    summary = List(klass=u'summary')
     for child in layout.children:
         if not isinstance(child, Section):
             continue
@@ -59,7 +57,7 @@ def build_summary(layout, level=1):
             continue
         if not child.id:
             child.id = label.replace(' ', '-')
-        node = Link('#'+child.id, label=label or child.id)
+        node = Link(u'#'+child.id, label=label or child.id)
         # FIXME: Three following lines produce not very compliant
         # docbook: there are some useless <para><para>. They might be
         # replaced by the three commented lines but this then produces
@@ -101,7 +99,7 @@ class BaseWriter(object):
         for child in getattr(layout, 'children', ()):
             child.accept(self)
 
-    def writeln(self, string=''):
+    def writeln(self, string=u''):
         """write a line in the output buffer"""
         self.write(string + linesep)
 
@@ -134,7 +132,7 @@ class BaseWriter(object):
             result[-1].append(cell)
         # fill missing cells
         while len(result[-1]) < cols:
-            result[-1].append('')
+            result[-1].append(u'')
         return result
 
     def compute_content(self, layout):
@@ -149,7 +147,7 @@ class BaseWriter(object):
                 stream.write(data)
             except UnicodeEncodeError:
                 stream.write(data.encode(self.encoding))
-        def writeln(data=''):
+        def writeln(data=u''):
             try:
                 stream.write(data+linesep)
             except UnicodeEncodeError:
@@ -158,7 +156,7 @@ class BaseWriter(object):
         self.writeln = writeln
         self.__compute_funcs.append((write, writeln))
         for child in layout.children:
-            stream = UStringIO()
+            stream = StringIO()
             child.accept(self)
             yield stream.getvalue()
         self.__compute_funcs.pop()

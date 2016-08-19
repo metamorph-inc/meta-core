@@ -14,6 +14,46 @@ namespace CyPhyPET
     using System.Text.RegularExpressions;
     using System.Diagnostics;
     using CyPhyGUIs;
+    using GME.MGA;
+    using Newtonsoft.Json;
+    using System.Globalization;
+
+    public class PETConfig
+    {
+        public class Parameter
+        {
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public string[] source;
+        }
+        public class Component
+        {
+            public Dictionary<string, Parameter> parameters;
+            public Dictionary<string, Parameter> unknowns;
+            public Dictionary<string, string> details;
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public string type;
+        }
+        public class DesignVariable
+        {
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public string type;
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public double? RangeMin;
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public double? RangeMax;
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public List<object> items;
+        }
+        public class Driver
+        {
+            public string type;
+            public Dictionary<string, DesignVariable> designVariables;
+            public Dictionary<string, Parameter> objectives;
+            public Dictionary<string, object> details;
+        }
+        public Dictionary<string, Component> components;
+        public Dictionary<string, Driver> drivers;
+    }
 
     public class PET
     {
@@ -23,22 +63,26 @@ namespace CyPhyPET
         public string RunCommand { get; set; }
         public string Label { get; set; }
 
-        private enum DriverType {PCC, Optimizer, ParameterStudy};
+        private enum DriverType { PCC, Optimizer, ParameterStudy };
         private DriverType theDriver;
         private string driverName;
-        private string testBenchType;
         private string validationDriver = "";
         private CyPhy.TestBenchType testBench;
         private CyPhy.ParametricExploration pet;
         private string outputDirectory { get; set; }
+        private string testBenchOutputDir;
         public Dictionary<string, string> PCCPropertyInputDistributions { get; set; }
+        public PETConfig config = new PETConfig()
+        {
+            components = new Dictionary<string, PETConfig.Component>(),
+            drivers = new Dictionary<string, PETConfig.Driver>()
+        };
 
         public PET(CyPhyGUIs.IInterpreterMainParameters parameters, CyPhyGUIs.GMELogger logger)
         {
             this.Logger = logger;
             this.pet = CyPhyClasses.ParametricExploration.Cast(parameters.CurrentFCO);
             this.outputDirectory = parameters.OutputDirectory;
-            this.testBench = pet.Children.TestBenchRefCollection.FirstOrDefault().Referred.TestBenchType;
             this.PCCPropertyInputDistributions = new Dictionary<string, string>();
             // Determine type of driver of the Parametric Exploration
             if (this.pet.Children.PCCDriverCollection.Count() == 1)
@@ -50,130 +94,227 @@ namespace CyPhyPET
             {
                 this.theDriver = DriverType.Optimizer;
                 this.driverName = "Optimizer";
+
+                var optimizer = this.pet.Children.OptimizerCollection.FirstOrDefault();
+                var config = AddConfigurationForMDAODriver(optimizer);
+                config.type = "optimizer";
+
+                foreach (var constraint in optimizer.Children.OptimizerConstraintCollection)
+                {
+                    // TODO
+                }
+
             }
             else if (this.pet.Children.ParameterStudyCollection.Count() == 1)
             {
                 this.theDriver = DriverType.ParameterStudy;
                 this.driverName = "ParameterStudy";
+
+                var parameterStudy = this.pet.Children.ParameterStudyCollection.FirstOrDefault();
+
+                var config = AddConfigurationForMDAODriver(parameterStudy);
+                config.type = "parameterStudy";
             }
         }
 
-        public bool GenerateCode()
+        private PETConfig.Driver AddConfigurationForMDAODriver(CyPhy.MDAODriver driver)
         {
-            Directory.CreateDirectory(Path.Combine(outputDirectory, "scripts"));
 
+            var config = new PETConfig.Driver()
+            {
+                designVariables = new Dictionary<string, PETConfig.DesignVariable>(),
+                objectives = new Dictionary<string, PETConfig.Parameter>(),
+                details = new Dictionary<string, object>()
+            };
+            this.config.drivers.Add(driver.Name, config);
+            foreach (var designVariable in driver.Children.DesignVariableCollection)
+            {
+                var configVariable = new PETConfig.DesignVariable();
+                config.designVariables.Add(designVariable.Name, configVariable);
+                if (designVariable.Attributes.Range.Contains(","))
+                {
+                    var range = designVariable.Attributes.Range.Split(new char[] { ',' });
+                    if (range.Length == 2)
+                    {
+                        configVariable.RangeMin = Double.Parse(range[0], CultureInfo.InvariantCulture);
+                        configVariable.RangeMax = Double.Parse(range[1], CultureInfo.InvariantCulture);
+                    }
+                }
+                else if (designVariable.Attributes.Range.Contains(";"))
+                {
+                    var range = designVariable.Attributes.Range;
+                    var oneValue = new System.Text.RegularExpressions.Regex(
+                        // start with previous match. match number or string
+                        "\\G(" +
+                        // number:
+                        "[+-]?(?:\\d*[.])?\\d+" + "|" +
+                        // string: match \ escape sequence, or anything but \ or "
+                        "\"(?:\\\\(?:\\\\|\"|/|b|f|n|r|t|u\\d{4})|[^\\\\\"])*\"" +
+                        // match ends with ; or end of string
+                        ")(?:;|$)");
+                    /*
+                    Print(oneValue.Matches("12;"));
+                    Print(oneValue.Matches("12.2;"));
+                    Print(oneValue.Matches("\"\""));
+                    Print(oneValue.Matches("\";asdf;asd\""));
+                    Print(oneValue.Matches("\"\\\"\"")); // \"
+                    Print(oneValue.Matches("\"\\\\\"")); // \\
+                    Print(oneValue.Matches("\"\\n\"")); // \n
+                    Print(oneValue.Matches("\"\\n\";\"\";\"asdf\""));
+                    Print(oneValue.Matches("\"\\\"")); // \ => false
+                    Print(oneValue.Matches("\"\"\"")); // " => false
+                    */
+                    MatchCollection matches = oneValue.Matches(range);
+                    if (matches.Count == 0)
+                    {
+                        throw new ApplicationException(String.Format("DesignVariable {0} has invalid Range {1}", designVariable.Name, range));
+                    }
+                    configVariable.items = matches.Cast<Match>().Select(x => x.Groups[1].Value).Select(x =>
+                        x[0] == '"' ? (string)JsonConvert.DeserializeObject(x) :
+                            (object)Double.Parse(x, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture)
+                        ).ToList();
+                    configVariable.type = "enum";
+                }
+                else
+                {
+                    double singlePoint;
+                    if (Double.TryParse(designVariable.Attributes.Range, NumberStyles.Float | NumberStyles.AllowThousands,
+                            CultureInfo.InvariantCulture, out singlePoint))
+                    {
+                        configVariable.RangeMin = singlePoint;
+                        configVariable.RangeMax = singlePoint;
+                    }
+                    else
+                    {
+                        throw new ApplicationException(String.Format("Cannot parse Design Variable Range '{0}'", designVariable.Attributes.Range));
+                    }
+                }
+            }
+            foreach (var objective in driver.Children.ObjectiveCollection)
+            {
+                var sourcePath = GetSourcePath(null, (MgaFCO)objective.Impl);
+                if (sourcePath != null)
+                {
+                    config.objectives.Add(objective.Name, new PETConfig.Parameter()
+                    {
+                        source = sourcePath
+                    });
+                }
+            }
+
+            foreach (MgaAttribute attribute in ((MgaFCO)driver.Impl).Attributes)
+            {
+                config.details.Add(attribute.Meta.Name, attribute.StringValue);
+            }
+
+            return config;
+        }
+
+        public void GenerateCode(CyPhy.TestBenchRef testBenchRef, string testBenchOutputDir)
+        {
+            this.testBench = testBenchRef.Referred.TestBenchType;
+            this.testBenchOutputDir = testBenchOutputDir;
+            var config = new PETConfig.Component()
+            {
+                parameters = new Dictionary<string, PETConfig.Parameter>(),
+                unknowns = new Dictionary<string, PETConfig.Parameter>(),
+                details = new Dictionary<string, string>()
+            };
+            config.details["directory"] = testBenchOutputDir;
+
+            this.config.components.Add(testBenchRef.Name, config);
+            foreach (var parameter in testBench.Children.ParameterCollection)
+            {
+                var sourcePath = GetSourcePath((MgaReference)testBenchRef.Impl, (MgaFCO)parameter.Impl);
+                if (sourcePath != null)
+                {
+                    config.parameters.Add(parameter.Name, new PETConfig.Parameter()
+                    {
+                        source = sourcePath
+                    });
+                }
+            }
+            foreach (var metric in testBench.Children.MetricCollection)
+            {
+                config.unknowns.Add(metric.Name, new PETConfig.Parameter()
+                {
+                });
+            }
             if (this.testBench is CyPhy.TestBench)
             {
                 var interpreterProgID = Rules.Global.GetInterpreterProgIDFromTestBench(this.testBench as CyPhy.TestBench);
-                switch (interpreterProgID)
+                if (interpreterProgID == "MGA.Interpreter.CyPhyFormulaEvaluator")
                 {
-                    case "MGA.Interpreter.CyPhy2Modelica_v2":
-                        this.testBenchType = "modelica";
-                        this.CyPhy2Modelica_v2();
-                        break;
-
-                    case "MGA.Interpreter.CyPhy2CAD_CSharp":
-                        // Maybe also create testbench_manifest.json.
-                        this.testBenchType = "cad";
-                        this.CADTestBench();
-                        break;
-
-                    case "MGA.Interpreter.CyPhyFormulaEvaluator":
-                        // TODO: Generate testbench_manifest.json
-                        this.testBenchType = "formula";
-                        this.SimpleCalculation();
-                        break;
-
-                    case "MGA.Interpreter.CyphyCar":
-                        // TODO: Generate testbench_manifest.json
-                        this.testBenchType = "car";
-                        this.SimpleCalculation();
-                        break;
-
-                    case "MGA.Interpreter.CyPhyPython":   
-                        // TODO: Generate testbench_manifest.json
-                        this.testBenchType = "python";
-                        this.CyPhyPythonTestBench();
-                        break;
+                    // FIXME: does this still work
+                    this.SimpleCalculation();
                 }
             }
-            else if (this.testBench is CyPhy.CADTestBench)
-            {
-                this.testBenchType = "fea";
-                this.FEATestBench();
-            }
-            else if (this.testBench is CyPhy.BlastTestBench)
-            {
-                this.testBenchType = "blast";
-                this.TemplateTestBench();
-            }
-            else if (this.testBench is CyPhy.BallisticTestBench)
-            {
-                this.testBenchType = "ballistic";
-                this.TemplateTestBench();
-            }
-            else if (this.testBench is CyPhy.CFDTestBench)
-            {
-                this.testBenchType = "cfd";
-                this.TemplateTestBench();
-            }
-            else if (this.testBench is CyPhy.CarTestBench)
-            {
-                this.testBenchType = "car";
-                this.TemplateTestBench();
-            }
+        }
 
+        private static string[] GetSourcePath(MgaReference refe, MgaFCO port)
+        {
+            MgaConnPoint sources;
+            if (refe != null)
+            {
+                sources = port.PartOfConns.Cast<MgaConnPoint>().Where(cp => cp.References != null && cp.References.Count > 0 && cp.References[1].ID == refe.ID && cp.ConnRole == "dst").FirstOrDefault();
+            }
+            else
+            {
+                sources = port.PartOfConns.Cast<MgaConnPoint>().Where(cp => (cp.References == null || cp.References.Count == 0) && cp.ConnRole == "dst").FirstOrDefault();
+            }
+            if (sources == null)
+            {
+                return null;
+            }
+            var source = (MgaSimpleConnection)sources.Owner;
+            string parentName;
+            if (source.SrcReferences != null && source.SrcReferences.Count > 0)
+            {
+                parentName = source.SrcReferences[1].Name;
+            }
+            else
+            {
+                parentName = source.Src.ParentModel.Name;
+            }
+            var sourcePath = new string[] { parentName, source.Src.Name };
+            return sourcePath;
+        }
+
+        public void GenerateDriverCode()
+        {
             // Generate Driver
             if (this.theDriver == DriverType.PCC)
             {
-                this.RunCommand = "run_PCC.cmd";
+                this.RunCommand = "python -m run_mdao";
                 this.Label = " && PCC" + JobManager.Job.LabelVersion;
+                // TODO convert this to code in python -m run_mdao
                 this.GeneratePCCScripts();
             }
             else if (this.theDriver == DriverType.Optimizer)
             {
-                this.RunCommand = "run_optimizer.cmd";
+                this.RunCommand = "python -m run_mdao";
                 this.Label = "";
-                this.GenerateOptimizerScripts();
             }
             else if (this.theDriver == DriverType.ParameterStudy)
             {
-                this.RunCommand = "run_parameter_study.cmd";
+                this.RunCommand = "python -m run_mdao";
                 this.Label = "";
-                this.GenerateParameterStudyScripts();
-            }
-
-            using (StreamWriter writer = new StreamWriter(Path.Combine(this.outputDirectory, this.RunCommand)))
-            {
-                var runDriver = new Templates.runDriver()
+                if (this.pet.Children.ParameterStudyCollection.First().Attributes.SurrogateType != CyPhyClasses.ParameterStudy.AttributesClass.SurrogateType_enum.None)
                 {
-                    DriverName = this.driverName,
-                    ValidationDriver = this.validationDriver
-                };
-
-                writer.WriteLine(runDriver.TransformText());
+                    throw new ApplicationException("Surrogates are not supported");
+                }
             }
 
+            File.WriteAllText(Path.Combine(this.outputDirectory, "mdao_config.json"), Newtonsoft.Json.JsonConvert.SerializeObject(this.config, Newtonsoft.Json.Formatting.Indented), new System.Text.UTF8Encoding(false));
 
-            // TODO : When and where are these files used????
-
-            //using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "save_results.py")))
-            //{
-            //    writer.WriteLine(CyPhyPET.Properties.Resources.save_results);
-            //}
-
-            //using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "mdao_index.html")))
-            //{
-            //    writer.WriteLine(CyPhyPET.Properties.Resources.index);
-            //}
+            File.WriteAllText(Path.Combine(this.outputDirectory, "..", "CyPhyPET_combine.cmd"),
+                "FOR /F \"skip=2 tokens=2,*\" %%A IN ('C:\\Windows\\SysWoW64\\REG.exe query \"HKLM\\software\\META\" /v \"META_PATH\"') DO set META_PATH=%%B" +
+                @"%META_PATH%\bin\Python27\Scripts\Python.exe %META_PATH%\bin\PetViz.py");
 
             using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "zip.py")))
             {
                 writer.WriteLine(CyPhyPET.Properties.Resources.zip);
             }
-
-            this.Success = true;
-            return this.Success;
         }
 
         # region DriverTypes
@@ -181,7 +322,7 @@ namespace CyPhyPET
         /// <summary>
         /// Generates PCC scripts
         /// </summary>
-        private void GeneratePCCScripts()
+        private PCC.RootObject GeneratePCCScripts()
         {
             var pccDriverCfgFile = "PCCDriverconfigs.json";
             var PCCDriver = this.pet.Children.PCCDriverCollection.FirstOrDefault();
@@ -191,7 +332,7 @@ namespace CyPhyPET
 
             switch (upMethod)
             {
-                case CyPhyClasses.PCCDriver.AttributesClass.PCC_UP_Methods_enum.Monte_Carlo_Simulation__UP_MCS_ :
+                case CyPhyClasses.PCCDriver.AttributesClass.PCC_UP_Methods_enum.Monte_Carlo_Simulation__UP_MCS_:
                     upMethodNum = 1;
                     break;
                 case CyPhyClasses.PCCDriver.AttributesClass.PCC_UP_Methods_enum.Taylor_Series_Approximation__UP_TS_:
@@ -266,290 +407,44 @@ namespace CyPhyPET
                 pccConfig.Configurations.Configuration.PCCInputArguments.StochasticInputs.InputDistributions.Add(pccProperty);
             }
 
-            using (StreamWriter writer = new StreamWriter(Path.Combine(this.outputDirectory, "scripts", driverName + ".py")))
+            PETConfig.Driver driver = new PETConfig.Driver()
             {
-                var pccOMDAO = new Templates.PCCDriver()
+                type = "PCCDriver",
+                details = new Dictionary<string, object>(),
+                designVariables = new Dictionary<string, PETConfig.DesignVariable>(),
+                objectives = new Dictionary<string, PETConfig.Parameter>(),
+            };
+            this.config.drivers.Add(PCCDriver.Name, driver);
+            driver.details["Configurations"] = pccConfig.Configurations;
+
+            foreach (var designVariable in PCCDriver.Children.PCCParameterCollection)
+            {
+                var configVariable = new PETConfig.DesignVariable();
+                driver.designVariables.Add(designVariable.Name, configVariable);
+            }
+            foreach (var objective in PCCDriver.Children.PCCOutputCollection)
+            {
+                var sourcePath = GetSourcePath(null, (MgaFCO)objective.Impl);
+                if (sourcePath != null)
                 {
-                    DriverName = this.pet.Children.PCCDriverCollection.FirstOrDefault().Name,
-                    DesignVariables = designVariabels,
-                    Objectives = objectives,
-                    PCCConfigJson = pccDriverCfgFile,
-                    PCCPropertyInputs = this.PCCPropertyInputDistributions,
-                };
-
-                writer.WriteLine(pccOMDAO.TransformText());
-            }
-
-            using (StreamWriter writer1 = new StreamWriter(Path.Combine(this.outputDirectory, pccDriverCfgFile)))
-            {
-                writer1.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(pccConfig, Newtonsoft.Json.Formatting.Indented));
-            }
-        }
-
-        /// <summary>
-        /// Generates Optimizer scripts
-        /// </summary>
-        private void GenerateOptimizerScripts()
-        {
-            var optimizer = this.pet.Children.OptimizerCollection.FirstOrDefault();
-
-            var optimizerType = optimizer.Attributes.OptimizationFunction;
-            string optimizerName;
-            
-            switch (optimizerType)
-            {
-                case CyPhyClasses.Optimizer.AttributesClass.OptimizationFunction_enum.COBYLA:
-                    optimizerName = "COBYLAdriver";
-                    break;
-                case CyPhyClasses.Optimizer.AttributesClass.OptimizationFunction_enum.CONMIN:
-                    optimizerName = "CONMINdriver";
-                    break;
-                case CyPhyClasses.Optimizer.AttributesClass.OptimizationFunction_enum.NEWSUMT:
-                    optimizerName = "NEWSUMTdriver";
-                    break;
-                default:
-                    optimizerName = "ERROR";
-                    break;
-            }
-
-            using (StreamWriter writer = new StreamWriter(Path.Combine(this.outputDirectory, "scripts", driverName + ".py")))
-            {
-                var optimizerScript = new Templates.Optimizer()
-                {
-                    OptimizerType = optimizerName,
-                    pet = this.pet,
-                    OutputDirectory = this.outputDirectory
-                };
-
-                writer.WriteLine(optimizerScript.TransformText());
-            }
-        }
-
-        /// <summary>
-        /// Generate scripts for ParamterStudy and DOE
-        /// </summary>
-        private void GenerateParameterStudyScripts()
-        {
-            var parameterStudy = this.pet.Children.ParameterStudyCollection.FirstOrDefault();
-
-            var doeType = parameterStudy.Attributes.DOEType;
-            string doeName;
-
-            switch (doeType)
-            {
-                case CyPhyClasses.ParameterStudy.AttributesClass.DOEType_enum.Central_Composite:
-                    doeName = "CentralComposite";
-                    break;
-
-                case CyPhyClasses.ParameterStudy.AttributesClass.DOEType_enum.Full_Factorial:
-                    doeName = "FullFactorial";
-                    break;
-
-                case CyPhyClasses.ParameterStudy.AttributesClass.DOEType_enum.Opt_Latin_Hypercube:
-                    doeName = "LatinHypercube";
-                    break;
-
-                case CyPhyClasses.ParameterStudy.AttributesClass.DOEType_enum.Uniform:
-                    doeName = "Uniform";
-                    break;
-
-                default:
-                    doeName = "";
-                    break;
-            }
-
-            var surrogateType = parameterStudy.Attributes.SurrogateType;
-            string surrogateName = "ERROR";
-
-            switch (surrogateType)
-            {
-                case CyPhyClasses.ParameterStudy.AttributesClass.SurrogateType_enum.None:
-                    if (parameterStudy.Children.DesignVariableCollection.FirstOrDefault().Attributes.Range.StartsWith("["))
+                    driver.objectives.Add(objective.Name, new PETConfig.Parameter()
                     {
-                        this.Logger.WriteWarning("Found disrete ranges in DesignVariables, DOE type (generator) will be ignored.");
-                        var orderedParameters = new List<CyPhy.DesignVariable>();
-                        foreach (var item in parameterStudy.Children.DesignVariableCollection)
-                        {
-                             orderedParameters.Add(item);
-                        }
-
-                        var csvDoe = new Templates.CSVParameterStudy()
-                        {
-                            DOEType = doeName,
-                            pet = this.pet,
-                            Parameters = orderedParameters
-                        };
-
-                        orderedParameters = csvDoe.Parameters;
-                        var rows = new List<string>();
-                        for (int i = 0; i < orderedParameters.FirstOrDefault().Attributes.Range.Split(',').Count(); i++)
-                        {
-                            rows.Add("");
-                        }
-
-                        foreach (var range in orderedParameters.Select(p => p.Attributes.Range.TrimStart('[').TrimEnd(']')))
-                        {
-                            int index = 0;
-                            foreach (var row in range.Split(','))
-                            {
-                                rows[index] += string.Format(",{0}", row.Trim());
-                                index++;
-                            }
-                        }
-
-                        File.WriteAllLines(Path.Combine(this.outputDirectory, "doe_inputs.csv"), rows.Select(r => r.TrimStart(',')));
-                        using (StreamWriter writer = new StreamWriter(Path.Combine(this.outputDirectory, "scripts", driverName + ".py")))
-                        {
-                            writer.WriteLine(csvDoe.TransformText());
-                        }
-                    }
-                    else
-                    {
-                        using (StreamWriter writer = new StreamWriter(Path.Combine(this.outputDirectory, "scripts", driverName + ".py")))
-                        {
-                            var Doe = new Templates.ParameterStudy()
-                            {
-                                DOEType = doeName,
-                                pet = this.pet,
-                            };
-
-                            writer.WriteLine(Doe.TransformText());
-                        }
-                    }
-
-                    break;
-
-                case CyPhyClasses.ParameterStudy.AttributesClass.SurrogateType_enum.Kriging_Surrogate:
-                    surrogateName = "KrigingSurrogate";
-                    goto default;
-
-                case CyPhyClasses.ParameterStudy.AttributesClass.SurrogateType_enum.Logistic_Regression:
-                    surrogateName = "LogisticRegression";
-                    goto default;
-
-                case CyPhyClasses.ParameterStudy.AttributesClass.SurrogateType_enum.Neural_Net:
-                    surrogateName = "NeuralNet";
-                    goto default;
-
-                case CyPhyClasses.ParameterStudy.AttributesClass.SurrogateType_enum.Response_Surface:
-                    surrogateName = "ResponseSurface";
-                    goto default;
-
-                default:
-                    this.GenerateSurrogateScripts(doeName, surrogateName);
-                    break;
+                        source = sourcePath
+                    });
+                }
             }
 
-            using (StreamWriter writer = new StreamWriter(Path.Combine(this.outputDirectory, "scripts", "save_results.py")))
-            {
-                writer.WriteLine(CyPhyPET.Properties.Resources.save_results);
-            }
-        }
-
-        private void GenerateSurrogateScripts(string doeName, string surrogateName)
-        {
-            using (StreamWriter writer = new StreamWriter(Path.Combine(this.outputDirectory, "scripts", "surrogate_model.py")))
-            {
-                var surrogateAsm = new Templates.SurrogateAssembly()
-                {
-                    pet = this.pet,
-                };
-
-                writer.WriteLine(surrogateAsm.TransformText());
-            }
-
-            using (StreamWriter writer = new StreamWriter(Path.Combine(this.outputDirectory, "scripts", this.driverName + ".py")))
-            {
-                var surrogate = new Templates.ParameterStudySurrogate()
-                {
-                    DOEType = doeName,
-                    SurrogateType = surrogateName,
-                    pet = this.pet,
-                    ParameterStudyName = this.driverName,
-                };
-
-                writer.WriteLine(surrogate.TransformText());
-            }
-
-            using (StreamWriter writer = new StreamWriter(Path.Combine(this.outputDirectory, "scripts", "SurrogateModelValidation.py")))
-            {
-                var surrogateValidation = new Templates.SurrogateValidation()
-                {
-                    pet = this.pet,
-                    SurrogateType = surrogateName,
-                };
-
-                writer.WriteLine(surrogateValidation.TransformText());
-            }
-
-            this.validationDriver = "SurrogateModelValidation";
+            return pccConfig;
         }
 
         #endregion
 
         #region TestBenchTypes
 
-        private void CyPhy2Modelica_v2()
-        {
-            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "scripts", "driver_runner.py")))
-            {
-                writer.WriteLine(CyPhyPET.Properties.Resources.driver_runner);
-            }
-
-            this.GenerateTestBenchPy();
-
-            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "scripts", "modelica_executor.py")))
-            {
-                var testBenchExecutor = new Templates.TestBenchExecutors.Modelica()
-                {
-                    // Put stuff here
-                };
-
-                writer.WriteLine(testBenchExecutor.TransformText());
-            }
-
-            // Configuration file setup
-            var dynamicConfigFile = "test_bench_model_config.json"; // this file must end with _model_config.json
-            var toolType = (this.testBench as CyPhy.TestBench).Children.SolverSettingsCollection.FirstOrDefault().Attributes.JobManagerToolSelection;
-            string toolName;
-
-            switch(toolType)
-            {
-                case CyPhyClasses.SolverSettings.AttributesClass.JobManagerToolSelection_enum.Dymola__latest_:
-                    toolName = "Dymola";
-                    break;
-                case CyPhyClasses.SolverSettings.AttributesClass.JobManagerToolSelection_enum.Dymola_2013:
-                    toolName = "Dymola";
-                    break;
-                case CyPhyClasses.SolverSettings.AttributesClass.JobManagerToolSelection_enum.Dymola_2014:
-                    toolName = "Dymola";
-                    break;
-                case CyPhyClasses.SolverSettings.AttributesClass.JobManagerToolSelection_enum.OpenModelica__latest_:
-                    toolName =  "OpenModelica";
-                    break;
-                case CyPhyClasses.SolverSettings.AttributesClass.JobManagerToolSelection_enum.JModelica_1_dot_12:
-                    toolName = "JModelica";
-                    break;
-                default:
-                    toolName = "Error";
-                    break;
-            }
-
-            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, dynamicConfigFile)))
-            {
-                var modelFileNameConfig = new Dictionary<string, string>()
-                {
-                    {"model_file_name", "TestBench" + "/" + "CyPhy"},
-                    {"tool_name", toolName}
-                };
-
-                writer.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(modelFileNameConfig, Newtonsoft.Json.Formatting.Indented));
-            }
-        }
-
         private void SimpleCalculation()
         {
             this.Logger.WriteWarning("Formula has limited support. You may experience issues during the execution.");
+            Directory.CreateDirectory(Path.Combine(outputDirectory, "scripts"));
             using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "scripts", "test_bench.py")))
             {
                 Templates.TestBenchExecutors.Formula simpleCalc = new Templates.TestBenchExecutors.Formula()
@@ -566,142 +461,7 @@ namespace CyPhyPET
             }
         }
 
-        private void CADTestBench()
-        {
-            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "scripts", "driver_runner.py")))
-            {
-                writer.WriteLine(CyPhyPET.Properties.Resources.driver_runner);
-            }
 
-            this.GenerateTestBenchPy();
-
-            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "scripts", "cad_executor.py")))
-            {
-                var testBenchExecutor = new Templates.TestBenchExecutors.CAD()
-                {
-                    MaxIterationExecutionTime = 2 // hours
-                };
-
-                writer.WriteLine(testBenchExecutor.TransformText());
-            }
-        }
-
-        private void CyPhyPythonTestBench()  
-        {
-            this.Logger.WriteWarning("CyPhyPythonTestBench for PET.");
-
-            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "scripts", "driver_runner.py")))
-            {
-                writer.WriteLine(CyPhyPET.Properties.Resources.driver_runner);
-            }
-            this.GenerateTestBenchPy();  //?????
-
-            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "scripts", "python_executor.py")))
-            {
-                Templates.TestBenchExecutors.CyPython testBenchExecutor = new Templates.TestBenchExecutors.CyPython()
-                {
-                    MaxIterationExecutionTime = 2 // hours
-                    //testBench = this.testBench as CyPhy.TestBench
-                };
-
-                writer.WriteLine(testBenchExecutor.TransformText());
-            }
-        }
-
-        private void FEATestBench()
-        {
-            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "scripts", "driver_runner.py")))
-            {
-                writer.WriteLine(CyPhyPET.Properties.Resources.driver_runner);
-            }
-
-            this.GenerateTestBenchPy();
-
-            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "scripts", "fea_executor.py")))
-            {
-                // META-3282
-                //var testBenchExecutor = new Templates.TestBenchExecutors.FEA()
-                var testBenchExecutor = new Templates.TestBenchExecutors.CAD()
-                {
-                    MaxIterationExecutionTime = 72 // hours
-                };
-
-                writer.WriteLine(testBenchExecutor.TransformText());
-            }
-        }
-
-        private void TemplateTestBench()
-        {
-            this.Logger.WriteWarning("Will only generate an empty executor shell!");
-            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "scripts", "driver_runner.py")))
-            {
-                writer.WriteLine(CyPhyPET.Properties.Resources.driver_runner);
-            }
-
-            this.GenerateTestBenchPy();
-
-            using (StreamWriter writer = new StreamWriter(
-                Path.Combine(outputDirectory, "scripts", string.Format("{0}_executor.py", this.testBenchType))))
-            {
-                var testBenchExecutor = new Templates.TestBenchExecutors.TemplateExecutor()
-                {
-                    // TODO: Put stuff here.
-                };
-
-                writer.WriteLine(testBenchExecutor.TransformText());
-            }
-        }
-
-        private void GenerateTestBenchPy()
-        {
-            var wiredParameters = new List<CyPhy.Parameter>();
-            var wiredMetrics = new List<CyPhy.Metric>();
-
-            if (theDriver == DriverType.PCC)
-            {
-                foreach (var paramMapping in pet.Children.DriveParameterCollection)
-                {
-                    wiredParameters.Add(paramMapping.DstEnds.Parameter);
-                }
-
-                foreach (var metricMappping in pet.Children.PCCOutputMappingCollection)
-                {
-                    wiredMetrics.Add(metricMappping.SrcEnds.Metric);
-                }
-            }
-            else
-            {
-                foreach (var paramMapping in pet.Children.VariableSweepCollection)
-                {
-                    wiredParameters.Add(paramMapping.DstEnds.Parameter);
-                }
-
-                foreach (var metricMappping in pet.Children.ObjectiveMappingCollection)
-                {
-                    wiredMetrics.Add(metricMappping.SrcEnds.Metric);
-                }
-                if (theDriver == DriverType.Optimizer)
-                {
-                    foreach (var metricMapping in pet.Children.ConstraintMappingCollection)
-                    {
-                        wiredMetrics.Add(metricMapping.SrcEnds.Metric);
-                    }
-                }
-            }
-
-            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "scripts", "test_bench.py")))
-            {
-                var testBenchTemplate = new Templates.TestBenchComponent()
-                {
-                    Parameters = wiredParameters,
-                    Metrics = wiredMetrics,
-                    TestBenchType = this.testBenchType,
-                    PCCPropertyInputs = this.PCCPropertyInputDistributions
-                };
-
-                writer.WriteLine(testBenchTemplate.TransformText());
-            }
-        }
         #endregion
 
         # region HelperMethods
@@ -789,7 +549,7 @@ namespace CyPhyPET
                 var pccMetric = new PCC.PCCMetric();
                 pccMetric.ID = item.ID;
                 pccMetric.TestBenchMetricName = item.SrcConnections.PCCOutputMappingCollection.FirstOrDefault().SrcEnd.Name;
-                pccMetric.Name = "TestBench." + pccMetric.TestBenchMetricName;
+                pccMetric.Name = item.SrcConnections.PCCOutputMappingCollection.First().SrcEnd.ParentContainer.Name + "." + pccMetric.TestBenchMetricName;
                 pccMetric.PCC_Spec = item.Attributes.TargetPCCValue;  // Could this ever present a problem?
 
                 var metricLimits = new PCC.Limits();
@@ -849,7 +609,7 @@ namespace CyPhyPET
         {
             var results = new List<PCCInputDistribution>();
 
-            var jsonFile = Path.Combine(this.outputDirectory, "TestBench", "CyPhy", "PCCProperties.json");
+            var jsonFile = Path.Combine(this.outputDirectory, this.testBenchOutputDir, "CyPhy", "PCCProperties.json");
             if (File.Exists(jsonFile))
             {
                 this.Logger.WriteInfo("Found defined PCC-Properties for the DynamicTestBench.");
@@ -857,6 +617,150 @@ namespace CyPhyPET
             }
 
             return results;
+        }
+
+        public void GenerateCode(CyPhy.ExcelWrapper excel)
+        {
+            var config = GenerateCode((CyPhy.ParametricTestBench)excel);
+
+            var projectDir = Path.GetDirectoryName(Path.GetFullPath(excel.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
+            config.details = new Dictionary<string, string>()
+            {
+                // TODO: maybe generate a relative path instead of making absolute here
+                {"excelFile", Path.Combine(projectDir, excel.Attributes.ExcelFilename)},
+                {"varFile", generateXLFileJson(excel)}
+            };
+            config.type = "excel_wrapper.excel_wrapper.ExcelWrapper";
+
+            var inputs = excel.Children.ParameterCollection.Select(fco => fco.Name).ToList();
+            var outputs = excel.Children.MetricCollection.Select(fco => fco.Name).ToList();
+
+            HashSet<string> xlInputs = new HashSet<string>();
+            HashSet<string> xlOutputs = new HashSet<string>();
+            ExcelInterop.GetExcelInputsAndOutputs(config.details["excelFile"], (string name, string refersTo) =>
+            {
+                outputs.Remove(name);
+            }, (string name, string refersTo) =>
+            {
+                inputs.Remove(name);
+            },
+            () => { });
+
+            if (inputs.Count > 0)
+            {
+                throw new ApplicationException(String.Format("ExcelWrapper {0} has inputs {1} that are not in the Excel file", excel.Name, String.Join(",", inputs.ToArray())));
+            }
+            if (outputs.Count > 0)
+            {
+                throw new ApplicationException(String.Format("ExcelWrapper {0} has outputs {1} that are not in the Excel file", excel.Name, String.Join(",", outputs.ToArray())));
+            }
+        }
+
+        public void GenerateCode(CyPhy.PythonWrapper python)
+        {
+            var config = GenerateCode((CyPhy.ParametricTestBench)python);
+
+            var projectDir = Path.GetDirectoryName(Path.GetFullPath(python.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
+            config.details = new Dictionary<string, string>()
+            {
+                // TODO: maybe generate a relative path instead of making absolute here
+                {"filename", Path.Combine(projectDir, python.Attributes.PyFilename)}
+            };
+            config.type = "run_mdao.python_component.PythonComponent";
+        }
+
+        public void GenerateCode(CyPhy.MATLABWrapper matlab)
+        {
+            var config = GenerateCode((CyPhy.ParametricTestBench)matlab);
+
+            var projectDir = Path.GetDirectoryName(Path.GetFullPath(matlab.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
+            config.details = new Dictionary<string, string>()
+            {
+                // TODO: maybe generate a relative path instead of making absolute here
+                {"mFile", Path.Combine(projectDir, matlab.Attributes.MFilename)},
+            };
+            config.type = "matlab_wrapper.MatlabWrapper";
+        }
+
+        public PETConfig.Component GenerateCode(CyPhy.ParametricTestBench excel)
+        {
+            var config = new PETConfig.Component()
+            {
+                parameters = new Dictionary<string, PETConfig.Parameter>(),
+                unknowns = new Dictionary<string, PETConfig.Parameter>(),
+            };
+
+            foreach (var parameter in excel.Children.ParameterCollection)
+            {
+                if (parameter.AllSrcConnections.Count() == 0)
+                {
+                    continue;
+                }
+                var sourcePath = GetSourcePath(null, (MgaFCO)parameter.Impl);
+                if (sourcePath != null)
+                {
+                    config.parameters.Add(parameter.Name, new PETConfig.Parameter()
+                    {
+                        source = sourcePath
+                    });
+                }
+            }
+            foreach (var metric in excel.Children.MetricCollection)
+            {
+                config.unknowns.Add(metric.Name, new PETConfig.Parameter()
+                {
+                });
+            }
+
+            this.config.components.Add(excel.Name, config);
+
+            return config;
+        }
+
+        private string generateXLFileJson(CyPhy.ExcelWrapper excel)
+        {
+            List<Dictionary<string, object>> paramss = new List<Dictionary<string, object>>();
+            foreach (var param in excel.Children.ParameterCollection)
+            {
+                double val = 0.0;
+                Double.TryParse(param.Attributes.Value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out val);
+                paramss.Add(new Dictionary<string, object>()
+                {
+                    {"name", param.Name },
+                    {"type", "Float" },
+                    {"desc", param.Attributes.Description },
+                    {"val", val }
+                    // TODO sheet, row, column, units
+                });
+            }
+            List<Dictionary<string, object>> metrics = new List<Dictionary<string, object>>();
+            foreach (var metric in excel.Children.MetricCollection)
+            {
+                double val = 0.0;
+                Double.TryParse(metric.Attributes.Value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out val);
+                metrics.Add(new Dictionary<string, object>()
+                {
+                    {"name", metric.Name },
+                    {"type", "Float" },
+                    {"desc", metric.Attributes.Description },
+                    {"val", val }
+                    // TODO sheet, row, column, units
+                });
+            }
+            var macros = new List<string>();
+            if (string.IsNullOrEmpty(excel.Attributes.Macro) == false)
+            {
+                macros.Add(excel.Attributes.Macro);
+            }
+            Dictionary<string, object> varFile = new Dictionary<string, object>()
+            {
+                {"unknowns", metrics},
+                {"params", paramss},
+                {"macros", macros }
+            };
+            var filename = Path.Combine(this.outputDirectory, excel.Name + ".json");
+            File.WriteAllText(filename, JsonConvert.SerializeObject(varFile, Formatting.Indented));
+            return Path.GetFileName(filename);
         }
 
         #endregion

@@ -157,7 +157,7 @@ namespace DynamicsTeamTest
         protected abstract string xmeFilename { get; }
         private Exception importException;
         private string _mgaFile;
-        internal string mgaFile
+        public string mgaFile
         {
             get
             {

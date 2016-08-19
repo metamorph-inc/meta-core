@@ -2,37 +2,32 @@ from numpy import *
 import pearscdf
 from mvncdf import mvstdnormcdf
 import estimate_complexity
-import Dist
-import gaussquad
-import itertools  #for fullfact function
-import scipy #for misc.factorial function
-import xvector
-import hermite
-from sympy import N, symbols
+import itertools  # for fullfact function
 import os
 import subprocess
 import multiprocessing
 
+
 def UP_DPCE(driver):
     # Uses the Dakota PCE method for UP
-    
+
     # ----------------------  Setup  ---------------------------
     methd = 'DPCE'
     method = 6
 
-    inpt    = len(driver.inputs)
-    krig    = driver.krig
-    limstate= driver.limstate
-    order   = driver.order
-    otpt    = len(driver.outputNames)
-    output  = driver.outputNames   
+    inpt = len(driver.inputs)
+    krig = driver.krig
+    limstate = driver.limstate
+    order = driver.order
+    otpt = len(driver.outputNames)
+    output = driver.outputNames
 
-#preprocess inputs, as Dakota won't let us specify them one at a time, only in groups according to distribution type
+# preprocess inputs, as Dakota won't let us specify them one at a time, only in groups according to distribution type
     norm = []
     lnorm = []
     beta = []
     unif = []
-    for idx,stvar in enumerate(driver.stvars):
+    for idx, stvar in enumerate(driver.stvars):
         if stvar.dist == 'NORM':
             norm.append(idx)
         elif stvar.dist == 'LNORM':
@@ -43,26 +38,26 @@ def UP_DPCE(driver):
             unif.append(idx)
 
     if len(driver.Wrapper) == 0:
-        raise Exception, 'Must specify a path to the model wrapper file.'
-    
+        raise Exception('Must specify a path to the model wrapper file.')
+
     OldDir = os.getcwd()
     WorkDir = os.path.dirname(driver.Wrapper)
     if WorkDir != "":
         os.chdir(WorkDir)
-    
+
     with open('parameters.csv', 'w') as f:  # write log file of inputs and outputs
         f.write(','.join(driver.inputNames)+','+','.join(driver.outputNames)+'\n')
         f.close()
 
-    f = open('dakota_pce.in','w')
-    f.write('strategy\n') #look at dakota input summary
-    f.write('    single_method\n') #graphics
+    f = open('dakota_pce.in', 'w')
+    f.write('strategy\n')  # look at dakota input summary
+    f.write('    single_method\n')  # graphics
     f.write('method\n')
     f.write('    polynomial_chaos\n')
     f.write('        quadrature_order')
     for node in driver.nodes:
         f.write(' {0}'.format(node))
-    f.write('\n        variance_based_decomp\n') #univariate_effects
+    f.write('\n        variance_based_decomp\n')  # univariate_effects
 #    f.write('        num_response_levels =')
 #    for x in range(otpt):
 #        f.write(' 2')
@@ -78,7 +73,7 @@ def UP_DPCE(driver):
 #    f.write('        seed 12347\n')
     f.write('variables')
 
-    if len(norm)>0:
+    if len(norm) > 0:
         f.write('\n    normal_uncertain {0}\n'.format(len(norm)))
 #            v[j] = norm.ppf(norm.cdf(value[j], 0, 1), stvars[j].param[0], stvars[j].param[1])
         f.write('        means')
@@ -90,7 +85,7 @@ def UP_DPCE(driver):
         f.write('\n        descriptors')
         for idx in norm:
             f.write(' \'{0}\''.format(driver.stvars[idx].name))
-    if len(lnorm)>0:
+    if len(lnorm) > 0:
         f.write('\n    lognormal_uncertain {0}\n'.format(len(lnorm)))
 #            v[j] = lognorm.ppf(norm.cdf(value[j], 0, 1), stvars[j].param[1], 0, exp(stvars[j].param[0]))
         f.write('        lnuv_means')
@@ -102,7 +97,7 @@ def UP_DPCE(driver):
         f.write('\n        lnuv_descriptors')
         for idx in lnorm:
             f.write(' \'{0}\''.format(driver.stvars[idx].name))
-    if len(beta)>0:
+    if len(beta) > 0:
         f.write('\n    beta_uncertain {0}\n'.format(len(beta)))
 #            v[j] = beta.ppf(norm.cdf(value[j], 0, 1), stvars[j].param[0], stvars[j].param[1], stvars[j].param[2], stvars[j].param[3] - stvars[j].param[2])
         f.write('        alphas')
@@ -120,7 +115,7 @@ def UP_DPCE(driver):
         f.write('\n        descriptors')
         for idx in beta:
             f.write(' \'{0}\''.format(driver.stvars[idx].name))
-    if len(unif)>0:
+    if len(unif) > 0:
         f.write('\n    uniform_uncertain {0}\n'.format(len(unif)))
         f.write('        lower_bounds')
         for idx in unif:
@@ -145,16 +140,16 @@ def UP_DPCE(driver):
     f.write('        copy\n')
     f.write('        template_directory =\'{0}\'\n'.format(os.path.dirname(driver.Wrapper)))
     f.write('responses\n')
-    f.write('    response_functions {0}\n'.format(otpt)) #number of outputs
-    f.write('    no_gradients\n') #leave as-is?
-    f.write('    no_hessians\n')  #leave as-is?
+    f.write('    response_functions {0}\n'.format(otpt))  # number of outputs
+    f.write('    no_gradients\n')  # leave as-is?
+    f.write('    no_hessians\n')  # leave as-is?
     f.close()
-    
+
     command = 'dakota dakota_pce.in | tee dakota_output.txt'
     print 'Calling "{0}" as a subprocess.'.format(command)
     return_code = subprocess.call(command, shell=True)
-    
-    f = open('dakota_output.txt','r')
+
+    f = open('dakota_output.txt', 'r')
     dakota_output = f.read().split()
     f.close()
 
@@ -164,21 +159,21 @@ def UP_DPCE(driver):
     G_kurt = zeros(otpt)
     G_skew = zeros(otpt)
 
-    fn_start = dakota_output.index('Mean')+5 #index of response_fn_1
+    fn_start = dakota_output.index('Mean') + 5  # index of response_fn_1
     for out in range(otpt):
         G_mean[out] = float(dakota_output[fn_start+2])
         G_skew[out] = float(dakota_output[fn_start+7])
         G_kurt[out] = float(dakota_output[fn_start+8])+3
-        fn_start = fn_start + 9       #go to next response function, if any
+        fn_start = fn_start + 9  # go to next response function, if any
 
     DPCC = [0]*otpt
-    fn_start = dakota_output.index('(CDF)') #index of CDF for response_fn_1
+    fn_start = dakota_output.index('(CDF)')  # index of CDF for response_fn_1
     for out in range(otpt):
         DPCC[out] = float(dakota_output[fn_start+19]) - float(dakota_output[fn_start+17])
-        fn_start = fn_start + 23       #go to next response function, if any
-    print 'Dakota PCCs:',DPCC
-    
-    CovarianceMatrix = zeros((otpt,otpt))
+        fn_start = fn_start + 23  # go to next response function, if any
+    print 'Dakota PCCs:', DPCC
+
+    CovarianceMatrix = zeros((otpt, otpt))
     covpos = dakota_output.index('[[')+1
     for y in range(otpt):
         for x in range(otpt):
@@ -243,7 +238,7 @@ def UP_DPCE(driver):
 
 
 #duplicates matlab fullfact function
-def fullfact(levels):    
+def fullfact(levels):
     args = []
     for l in levels:
         args.append(range(0,l))
@@ -253,22 +248,19 @@ def fullfact(levels):
 # Copyright (c) 2011.
 # Developed with the sponsorship of the Defense Advanced Research Projects Agency (DARPA).
 
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this data, 
-# including any software or models in source or binary form, as well as any drawings, 
-# specifications, and documentation (collectively "the Data"), 
-# to deal in the Data without restriction, including without limitation the rights to 
-# use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Data, 
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this data,
+# including any software or models in source or binary form, as well as any drawings,
+# specifications, and documentation (collectively "the Data"),
+# to deal in the Data without restriction, including without limitation the rights to
+# use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Data,
 # and to permit persons to whom the Data is furnished to do so, subject to the following conditions:
 
 # The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Data.
 
-# THE DATA IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-# INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-# IN NO EVENT SHALL THE AUTHORS, SPONSORS, DEVELOPERS, CONTRIBUTORS, 
-# OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+# THE DATA IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+# INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+# IN NO EVENT SHALL THE AUTHORS, SPONSORS, DEVELOPERS, CONTRIBUTORS,
+# OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE DATA OR THE USE OR OTHER DEALINGS IN THE DATA.
-
-
-

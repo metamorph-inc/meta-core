@@ -162,16 +162,6 @@
     <Compile Include="Projects\MSD_FailChecker.Designer.cs">
       <DependentUpon>MSD_FailChecker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Projects\MSD_PCC.Designer.cs">
-      <DependentUpon>MSD_PCC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Projects\MSD_PET.Designer.cs">
-      <DependentUpon>MSD_PET.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Projects\MSD_PET_RuleFailure.cs" />
-    <Compile Include="Projects\MSD_PET_RuleFailure.designer.cs">
-      <DependentUpon>MSD_PET_RuleFailure.cs</DependentUpon>
-    </Compile>
     <Compile Include="Projects\RICheckerTestModel.cs" />
     <Compile Include="Projects\RICheckerTestModel.designer.cs">
       <DependentUpon>RICheckerTestModel.cs</DependentUpon>
@@ -188,9 +178,7 @@
     <Compile Include="Projects\RISimpleFormula.designer.cs">
       <DependentUpon>RISimpleFormula.cs</DependentUpon>
     </Compile>
-    <Compile Include="Projects\MSD_PET.cs" />
     <Compile Include="Projects\DriveLine_v3.cs" />
-    <Compile Include="Projects\MSD_PCC.cs" />
     <Compile Include="Projects\RollingWheel.cs" />
     <Compile Include="Projects\RollingWheel.designer.cs">
       <DependentUpon>RollingWheel.cs</DependentUpon>
