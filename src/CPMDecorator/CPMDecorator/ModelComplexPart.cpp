@@ -280,7 +280,7 @@ CSize ModelComplexPart::GetPreferredSize(void) const
 	lHeight = max(lHeight, bitmapSize.cy);
 	const_cast<Decor::ModelComplexPart*>(this)->resizeLogic.SetMinimumSize(CSize(lWidth, lHeight));
 
-	if (button) {
+	if (button && button->m_bmp) {
 		int y = lHeight - button->m_bmp->GetHeight();
 		int x = lWidth - RightPortsMaxLabelLength - button->m_bmp->GetWidth();
 		button->position = CRect(x, y, x + button->m_bmp->GetWidth(), y + button->m_bmp->GetHeight());
@@ -464,7 +464,7 @@ void ModelComplexPart::InitializeEx(CComPtr<IMgaProject>& pProject, CComPtr<IMga
 
 		LoadPorts();
 
-		if (kind == L"ExcelWrapper") {
+		if (PETWrapperLookup(kind)) {
 			button = std::unique_ptr<ModelButton>(new ModelButton());
 
 			if (getFacilities().arePathesValid())
