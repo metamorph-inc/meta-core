@@ -6,8 +6,10 @@ import glob
 import time
 from xml.etree import ElementTree
 import subprocess
+import threading
 
 _this_dir = os.path.dirname(os.path.abspath(__file__))
+_lock = threading.Lock()
 
 def fixup_nunit_xml(filename, name=None):
     if name is None:
@@ -37,25 +39,29 @@ def run_test(filename, cwd, result_dir):
         if exception.errno != errno.EEXIST:
             raise
 
-    process = subprocess.Popen([sys.executable, os.path.join(_this_dir, '..\\run_in_job_object.py'), # n.b. without this, if a test creates a child process which doesn't exit, we hang reading its stdout
-                            os.path.join(_this_dir, r'..\3rdParty\xunit-1.9.1\xunit.console.clr4.x86.exe'),
-                            filename, '/nunit', result_xml, '/html', result_xml + '.html'],
-                            cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    output, unused_err = process.communicate()
-    retcode = process.poll()
-    if retcode != 0:
-        # xunit exe returns 1 when a test fails
+    # xunit redirects .NET stdout/stderr. Send other output to a log
+    with open(result_xml + '.log', 'wb') as logfile:
+        process = subprocess.Popen([sys.executable, os.path.join(_this_dir, '..\\run_in_job_object.py'), # n.b. without this, if a test creates a child process which doesn't exit, we hang reading its stdout
+                                os.path.join(_this_dir, r'..\3rdParty\xunit-1.9.1\xunit.console.clr4.x86.exe'),
+                                filename, '/nunit', result_xml, '/html', result_xml + '.html'],
+                                cwd=cwd, stdout=logfile, stderr=subprocess.STDOUT)
+        # output, unused_err = process.communicate()
+        retcode = process.wait()
+    with _lock:
+        if retcode != 0:
+            # xunit exe returns 1 when a test fails
+            if os.path.exists(result_xml):
+                print "Test '" + filename + "' failed"
+            else:
+                print "Error while testing ", filename, " return code: ", retcode
         if os.path.exists(result_xml):
-            print "Test '" + filename + "' failed"
-        else:
-            print "Error while testing ", filename, " return code: ", retcode
-    if os.path.exists(result_xml):
-        fixup_nunit_xml(result_xml)
-        return result_xml
+            fixup_nunit_xml(result_xml)
+            return result_xml
 
-    print "test warning: %s was not produced" % result_xml 
-    print " xunit.exe output: " + output
-    return None
+        print "test warning: %s was not produced" % result_xml 
+        with open(result_xml + '.log', 'rb') as logfile:
+            print " xunit.exe output: " + logfile.read()
+        return None
 
 def get_test_assemblies(xunit_file):
     tree = ElementTree.parse(xunit_file)
