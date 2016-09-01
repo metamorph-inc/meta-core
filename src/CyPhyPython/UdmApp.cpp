@@ -233,7 +233,8 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	std::string newpath = path;
 	if (meta_path.length())
 	{
-		newpath += separator + meta_path + "\\bin";
+		newpath = meta_path + "\\bin\\Python27\\Scripts" + separator + newpath;
+		newpath = meta_path + "\\bin" + separator + newpath;
 	}
 	//newpath += separator + "C:\\Program Files\\ISIS\\Udm\\bin";
 
@@ -249,8 +250,6 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	}
 
 	if (meta_path.length()) {
-		newpath += separator + meta_path + "\\bin";
-		newpath += separator + meta_path + "\\bin\\Python27\\Scripts";
 		PyObject_RAII prefix = PyString_FromString((meta_path + "\\bin\\Python27").c_str());
 		PyObject* sys = PyDict_GetItemString(main_namespace, "sys");
 		PyObject_SetAttrString(sys, "prefix", prefix);
