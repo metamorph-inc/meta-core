@@ -57,14 +57,14 @@
       <PackageGroupRef Id="NetFx45Web"/>
 
       <ExePackage Id="vcredist_2015_x86.exe"
-                  Name="vc_redist.x86.exe"
+                  Name="vc_redist.x86.$(var.VcRedistVersion).exe"
                   InstallCommand="/norestart /q /chainingpackage ADMINDEPLOYMENT"
                   RepairCommand="/norestart /q /chainingpackage ADMINDEPLOYMENT"
                   UninstallCommand="/norestart /q /chainingpackage ADMINDEPLOYMENT"
                   Protocol="netfx4"
                   Compressed="$(var.Compressed)"
                   Permanent="yes"
-                  DetectCondition="vcredist_2015_x86_installed AND vcredist_2015_x86_version AND vcredist_2015_x86_versionnumber &gt;= v14.0.23918"
+                  DetectCondition="vcredist_2015_x86_installed AND vcredist_2015_x86_version AND vcredist_2015_x86_versionnumber &gt;= $(var.VcRedistVersion)"
                   PerMachine="yes"
                   Vital="yes"
                   Cache="no"
@@ -74,7 +74,7 @@
       />
 
       <ExePackage Id="vcredist_2015_x64.exe"
-                  Name="vc_redist.x64.exe"
+                  Name="vc_redist.x64.$(var.VcRedistVersion).exe"
                   InstallCommand="/norestart /q /chainingpackage ADMINDEPLOYMENT"
                   RepairCommand="/norestart /q /chainingpackage ADMINDEPLOYMENT"
                   UninstallCommand="/norestart /q /chainingpackage ADMINDEPLOYMENT"
@@ -82,7 +82,7 @@
                   Compressed="$(var.Compressed)"
                   Permanent="yes"
                   InstallCondition="VersionNT64"
-                  DetectCondition="vcredist_2015_x64_installed AND vcredist_2015_x64_version AND vcredist_2015_x64_versionnumber &gt;= v14.0.23918"
+                  DetectCondition="vcredist_2015_x64_installed AND vcredist_2015_x64_version AND vcredist_2015_x64_versionnumber &gt;= $(var.VcRedistVersion)"
                   PerMachine="yes"
                   Vital="yes"
                   Cache="yes"
