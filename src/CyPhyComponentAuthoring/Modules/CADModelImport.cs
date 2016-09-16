@@ -375,18 +375,9 @@ namespace CyPhyComponentAuthoring.Modules
                         {
                             string str = subkey.GetValue("DisplayName", "").ToString();
 
-                            // truncate the name to ignore the version number
-                            if (str.Length >= 15)
+                            if (new string[] { "Creo Parametric", "PTC Creo Parametric" }.Any(name => str.StartsWith(name)))
                             {
-                                str = str.Substring(0, 15);
-                            }
-
-                            if (str != "")
-                            {
-                                if (str.Equals("Creo Parametric"))
-                                {
-                                    return true;
-                                }
+                                return true;
                             }
                         }
                         catch (Exception)
