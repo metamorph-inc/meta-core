@@ -299,6 +299,7 @@ namespace AVM.DDP
                 finally
                 {
                     jsonFileMutex.ReleaseMutex();
+                    jsonFileMutex.Dispose();
                 }
             }
         }

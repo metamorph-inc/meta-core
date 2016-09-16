@@ -703,6 +703,20 @@ namespace CyPhyMasterInterpreter
             {
                 success = project.SaveTestBench(this.testBenchType);
             }
+            catch (System.IO.IOException ex)
+            {
+                // ignore sharing violation:
+                // if another process is writing the same testbench file, it will have the same contents
+                int HResult = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
+                const int SharingViolation = 32;
+                if ((HResult & 0xFFFF) == SharingViolation)
+                {
+                }
+                else
+                {
+                    throw new AnalysisModelProcessorException("Saving test bench failed.", ex);
+                }
+            }
             catch (Exception ex)
             {
                 throw new AnalysisModelProcessorException("Saving test bench failed.", ex);
