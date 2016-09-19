@@ -206,6 +206,7 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 		*Py_FlagAddress = 1;
 	}
 
+	// Py_SetProgramName("GME.exe");
 	Py_Initialize();
 
 	if (!PyEval_ThreadsInitialized()) {
@@ -225,16 +226,23 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	} ungil(gstate);
 
 	char *path = Py_GetPath();
+	
 #ifdef _WIN32
 	std::string separator = ";";
 #else
 	std::string separator = ":";
 #endif
-	std::string newpath = path;
+
+	std::string newpath;
 	if (meta_path.length())
 	{
-		newpath = meta_path + "\\bin\\Python27\\Scripts" + separator + newpath;
-		newpath = meta_path + "\\bin" + separator + newpath;
+		// n.b. don't use Py_GetPath(), since it may read garbage from HKCU\Software\Python\PythonCore\2.7\PythonPath
+		newpath = meta_path + "\\bin\\Python27\\Scripts\\python27.zip";
+		newpath = newpath + separator + meta_path + "\\bin\\Python27\\Scripts";
+		newpath = newpath + separator + meta_path + "\\bin";
+	}
+	else {
+		newpath = path;
 	}
 	//newpath += separator + "C:\\Program Files\\ISIS\\Udm\\bin";
 
