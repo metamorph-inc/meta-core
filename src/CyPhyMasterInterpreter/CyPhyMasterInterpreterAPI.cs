@@ -24,31 +24,42 @@
     {
         private Action copyDashboard = new Action(() =>
         {
-            var sourceDir = VersionInfo.DashboardPath;
-            var destinationDir = Path.Combine("dashboard");
-            var manifestFilename = "manifest.json";
-
-            var manifestSrc = Path.Combine(sourceDir, manifestFilename);
-            var manifestDst = Path.Combine(destinationDir, manifestFilename);
-
-            // read both manifest files
-            if (File.Exists(manifestSrc) &&
-                File.Exists(manifestDst))
+            var mutex = new System.Threading.Mutex(false, "OpenMETA_CyPhyMasterInterpreter_dashboard");
+            mutex.WaitOne();
+            try
             {
-                // compare version number, chance to skip copy
-                var manifestSrcContent = File.ReadAllText(manifestSrc);
-                var manifestDstContent = File.ReadAllText(manifestDst);
-                var manifestSrcObject = Newtonsoft.Json.JsonConvert.DeserializeObject<DashboardManifest>(manifestSrcContent);
-                var manifestDstObject = Newtonsoft.Json.JsonConvert.DeserializeObject<DashboardManifest>(manifestDstContent);
-                if (manifestSrcObject.Version == manifestDstObject.Version)
+                var sourceDir = VersionInfo.DashboardPath;
+                var destinationDir = Path.Combine("dashboard");
+                var manifestFilename = "manifest.json";
+
+                var manifestSrc = Path.Combine(sourceDir, manifestFilename);
+                var manifestDst = Path.Combine(destinationDir, manifestFilename);
+
+                // read both manifest files
+                if (File.Exists(manifestSrc) &&
+                    File.Exists(manifestDst))
                 {
-                    // no need for update/copy
-                    return;
+                    // compare version number, chance to skip copy
+                    var manifestSrcContent = File.ReadAllText(manifestSrc);
+                    var manifestDstContent = File.ReadAllText(manifestDst);
+                    var manifestSrcObject = Newtonsoft.Json.JsonConvert.DeserializeObject<DashboardManifest>(manifestSrcContent);
+                    var manifestDstObject = Newtonsoft.Json.JsonConvert.DeserializeObject<DashboardManifest>(manifestDstContent);
+                    if (manifestSrcObject.Version == manifestDstObject.Version)
+                    {
+                        // no need for update/copy
+                        return;
+                    }
                 }
+
+                // TODO: we should put dashboard into the project directory and not into the current working directory.
+                DirectoryCopy(sourceDir, destinationDir, true);
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+                mutex.Dispose();
             }
 
-            // TODO: we should put dashboard into the project directory and not into the current working directory.
-            DirectoryCopy(sourceDir, destinationDir, true);
         });
 
         private Dictionary<string, CyPhyGUIs.IInterpreterConfiguration> interpreterConfigurations =
@@ -352,7 +363,7 @@
 
             this.Logger.WriteDebug("Start main method for master interpreter.");
 
-            this.Logger.WriteDebug("Start copying dashboard sync.");
+            this.Logger.WriteDebug("Copying dashboard.");
             this.copyDashboard.Invoke();
 
             if (this.ProjectManifest == null)
@@ -398,9 +409,6 @@
                     Title = "Starting"
                 });
             });
-
-            this.Logger.WriteDebug("Wait for dashboard copy to finish");
-            this.Logger.WriteDebug("Dashboard copy finished");
 
             this.ExecuteInTransaction(context, () =>
             {
@@ -613,7 +621,7 @@
         public void OpenDashboardWithChrome()
         {
             string indexFileName = this.GetIndexFilename();
-            
+
             // try to get this value better HKLM + 32 vs 64bit...
             this.Logger.WriteDebug("Requested to dashboard {0} file with chrome");
 
@@ -1449,7 +1457,7 @@
 
         private class DashboardManifest
         {
-            [Newtonsoft.Json.JsonProperty(PropertyName="version")]
+            [Newtonsoft.Json.JsonProperty(PropertyName = "version")]
             public string Version { get; set; }
         }
     }
