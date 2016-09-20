@@ -184,8 +184,10 @@ namespace DynamicsTeamTest
         public string ImportXME2Mga()
         {
             string projectConnStr;
-            MgaUtils.ImportXMEForTest(Path.Combine("..", "..", "..", "..", "models", "DynamicsTeam", xmeFilename), out projectConnStr);
-            return projectConnStr.Substring("MGA=".Length);
+            MgaUtils.ImportXMEForTest(Path.Combine(
+                Path.GetDirectoryName(new Uri(System.Reflection.Assembly.GetAssembly(typeof(XmeImportFixture)).CodeBase).LocalPath),
+                "..", "..", "..", "..", "models", "DynamicsTeam", xmeFilename), out projectConnStr);
+           return projectConnStr.Substring("MGA=".Length);
         }
     }
 }
