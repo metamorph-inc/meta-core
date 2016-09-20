@@ -68,6 +68,14 @@
       <![CDATA[Installed OR UCRTINSTALLED]]>
     </Condition>
 
+    <Property Id="MSVCPINSTALLED">
+      <DirectorySearch Id="MSVCPSystemSearch" Path="[SystemFolder]" Depth="0">
+        <FileSearch Id="MSVCPFileSearch" Name="msvcp140.dll"/>
+      </DirectorySearch>
+    </Property>
+    <Condition Message="This application requires Visual C++ Redistributable for Visual Studio 2015">
+      <![CDATA[Installed OR MSVCPINSTALLED]]>
+    </Condition>
 
 
     <!-- =========================================================== -->
