@@ -3,14 +3,19 @@ using Excel = Microsoft.Office.Interop.Excel;
 using VSTOContrib.Core.Extensions;
 using System.Collections;
 using System.Runtime.InteropServices;
+using System.IO;
+using System.Threading;
+using System.Diagnostics;
 
 namespace CyPhyPET
 {
     internal class ExcelInterop
     {
+        [DllImport("kernel32.dll")]
+        static extern int GetCurrentThreadId();
+
         internal static void GetExcelInputsAndOutputs(string xlFilename, Action<string, string> addOutput, Action<string, string> addInput, Action done)
         {
-
             int REGDB_E_CLASSNOTREG = unchecked((int)0x80040154);
             Excel.Application excelApp;
             try
@@ -33,11 +38,15 @@ namespace CyPhyPET
                     throw;
                 }
             }
+            // Create a copy of the file, since excel opens with ShareMode: None and we may want to run in parallel
+            string xlFilenameCopy = Path.Combine(Path.GetDirectoryName(xlFilename), Path.GetFileNameWithoutExtension(xlFilename) + "_" + GetCurrentThreadId().ToString() +
+                "_" + Process.GetCurrentProcess().Id + Path.GetExtension(xlFilename));
+            System.IO.File.Copy(xlFilename, xlFilenameCopy, true);
             try
             {
                 // n.b. Excel needs an absolute path
                 using (var workbooks = excelApp.Workbooks.WithComCleanup())
-                using (var workbook = workbooks.Resource.Open(xlFilename).WithComCleanup())
+                using (var workbook = workbooks.Resource.Open(xlFilenameCopy).WithComCleanup())
                 {
                     // for (var workbook in excelApp.Workbooks
                     foreach (Excel.Name name in ((IEnumerable)workbook.Resource.Names).ComLinq<object>())
@@ -104,6 +113,7 @@ namespace CyPhyPET
                 }
                 excelApp.Quit();
                 Marshal.FinalReleaseComObject(excelApp);
+                File.Delete(xlFilenameCopy);
             }
         }
 
