@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{F50362FC-CAAC-4C2D-9917-967D8F457875}" cdate="Fri Aug 12 12:15:04 2016" mdate="Fri Aug 12 12:15:04 2016" version="" metaguid="{57BCD02F-D796-4884-AB71-179B3975D2F5}" metaversion="$Rev: 29627 $" metaname="CyPhyML">
+<project guid="{ABE2F75C-28FC-46E6-8A99-45AEC1812A12}" cdate="Wed Sep 28 17:35:09 2016" mdate="Wed Sep 28 17:35:09 2016" version="" metaguid="{7CC02229-9049-4C5B-94C9-C13EFA458016}" metaversion="$Rev: 29627 $" metaname="CyPhyML">
 	<name>RootFolder</name>
 	<comment></comment>
 	<author></author>
-	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x3e" kind="RootFolder" guid="{543bffc7-87cb-48a0-9b44-d867e80b79df}">
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x42" kind="RootFolder" guid="{543bffc7-87cb-48a0-9b44-d867e80b79df}">
 		<name>RootFolder</name>
 		<folder id="id-006a-00000002" relid="0x8" childrelidcntr="0xc" kind="ComponentAssemblies" guid="{45cddf1c-ad80-4f00-8790-454b5580d535}">
 			<name>Designs</name>
@@ -91,7 +91,43 @@
 					<attribute kind="Version" status="meta">
 						<value></value>
 					</attribute>
-					<model id="id-0065-00000271" kind="ModelicaModel" role="ModelicaModel" guid="{fbca55ef-25e9-42c5-a394-c562c6fcccc6}" derivedfrom="id-0065-00000037" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+					<model id="id-0065-00000271" kind="Connector" role="Connector" guid="{73687dc4-1aa0-466c-ae79-9335c3dfd781}" derivedfrom="id-0065-00000033" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<name>P1</name>
+						<attribute kind="Definition" status="inherited">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="inherited">
+							<value>id-4cde194d-606e-4bdd-918c-ea63b4229a25</value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="inherited">
+							<value></value>
+						</attribute>
+						<model id="id-0065-00000272" kind="ModelicaConnector" role="ModelicaConnector" guid="{a33500a5-0cb5-47e8-8425-bb961cc46cd0}" derivedfrom="id-0065-00000034" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>pwr</name>
+							<attribute kind="Class" status="inherited">
+								<value>Modelica.Electrical.Analog.Interfaces.Pin</value>
+							</attribute>
+							<attribute kind="Definition" status="inherited">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="inherited">
+								<value>id-9ccc1c93-46c9-420c-a4fa-c67100aa6845</value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="inherited">
+								<value></value>
+							</attribute>
+							<attribute kind="Locator" status="meta">
+								<value></value>
+							</attribute>
+						</model>
+					</model>
+					<model id="id-0065-00000273" kind="ModelicaModel" role="ModelicaModel" guid="{fbca55ef-25e9-42c5-a394-c562c6fcccc6}" derivedfrom="id-0065-00000037" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 						<name>ModelicaModel</name>
 						<attribute kind="Author" status="inherited">
 							<value></value>
@@ -105,7 +141,7 @@
 						<attribute kind="Notes" status="inherited">
 							<value></value>
 						</attribute>
-						<model id="id-0065-00000272" kind="ModelicaConnector" role="ModelicaConnector" guid="{cfd43a97-702f-4b11-8417-bd2e09bbe2b4}" derivedfrom="id-0065-00000038" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<model id="id-0065-00000274" kind="ModelicaConnector" role="ModelicaConnector" guid="{cfd43a97-702f-4b11-8417-bd2e09bbe2b4}" derivedfrom="id-0065-00000038" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>n</name>
 							<attribute kind="Class" status="inherited">
 								<value>Modelica.Electrical.Analog.Interfaces.Pin</value>
@@ -126,7 +162,7 @@
 								<value></value>
 							</attribute>
 						</model>
-						<model id="id-0065-00000273" kind="ModelicaConnector" role="ModelicaConnector" guid="{a0556ac8-4e82-4253-a3bc-3a03cc524d93}" derivedfrom="id-0065-00000039" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+						<model id="id-0065-00000275" kind="ModelicaConnector" role="ModelicaConnector" guid="{a0556ac8-4e82-4253-a3bc-3a03cc524d93}" derivedfrom="id-0065-00000039" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>p</name>
 							<attribute kind="Class" status="inherited">
 								<value>Modelica.Electrical.Analog.Interfaces.Pin</value>
@@ -159,42 +195,6 @@
 								<value>10000</value>
 							</attribute>
 						</reference>
-					</model>
-					<model id="id-0065-00000274" kind="Connector" role="Connector" guid="{73687dc4-1aa0-466c-ae79-9335c3dfd781}" derivedfrom="id-0065-00000033" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-						<name>P1</name>
-						<attribute kind="Definition" status="inherited">
-							<value></value>
-						</attribute>
-						<attribute kind="DefinitionNotes" status="meta">
-							<value></value>
-						</attribute>
-						<attribute kind="ID" status="inherited">
-							<value>id-4cde194d-606e-4bdd-918c-ea63b4229a25</value>
-						</attribute>
-						<attribute kind="InstanceNotes" status="inherited">
-							<value></value>
-						</attribute>
-						<model id="id-0065-00000275" kind="ModelicaConnector" role="ModelicaConnector" guid="{a33500a5-0cb5-47e8-8425-bb961cc46cd0}" derivedfrom="id-0065-00000034" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-							<name>pwr</name>
-							<attribute kind="Class" status="inherited">
-								<value>Modelica.Electrical.Analog.Interfaces.Pin</value>
-							</attribute>
-							<attribute kind="Definition" status="inherited">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="inherited">
-								<value>id-9ccc1c93-46c9-420c-a4fa-c67100aa6845</value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="inherited">
-								<value></value>
-							</attribute>
-							<attribute kind="Locator" status="meta">
-								<value></value>
-							</attribute>
-						</model>
 					</model>
 					<model id="id-0065-00000276" kind="Connector" role="Connector" guid="{0c224aa7-7e1b-46e5-805d-4abb91a33387}" derivedfrom="id-0065-00000035" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 						<name>P2</name>
@@ -340,22 +340,7 @@
 							<value></value>
 						</attribute>
 					</model>
-					<atom id="id-0066-000000ce" kind="Resource" role="Resource" guid="{1cff44e7-3cd2-4937-9450-d4a7ca30ed70}" derivedfrom="id-0066-0000000d" isinstance="yes" isprimary="no">
-						<name>Resource</name>
-						<attribute kind="Hash" status="inherited">
-							<value></value>
-						</attribute>
-						<attribute kind="ID" status="inherited">
-							<value>id-92946605-e441-48f6-b859-315e294cedf5</value>
-						</attribute>
-						<attribute kind="Notes" status="inherited">
-							<value></value>
-						</attribute>
-						<attribute kind="Path" status="inherited">
-							<value>CAD\pkg_0603.step</value>
-						</attribute>
-					</atom>
-					<atom id="id-0066-000000cf" kind="ReferenceCoordinateSystem" role="ReferenceCoordinateSystem" guid="{58b1a449-1e95-42af-9de3-5b2c5253802c}" derivedfrom="id-0066-0000000e" isinstance="yes" isprimary="no">
+					<atom id="id-0066-000000ce" kind="ReferenceCoordinateSystem" role="ReferenceCoordinateSystem" guid="{58b1a449-1e95-42af-9de3-5b2c5253802c}" derivedfrom="id-0066-0000000e" isinstance="yes" isprimary="no">
 						<name>AssemblyRoot</name>
 						<attribute kind="Definition" status="meta">
 							<value></value>
@@ -368,6 +353,21 @@
 						</attribute>
 						<attribute kind="InstanceNotes" status="meta">
 							<value></value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-000000cf" kind="Resource" role="Resource" guid="{73793ede-f858-45bf-83d8-3d9e035f109d}" derivedfrom="id-0066-0000000c" isinstance="yes" isprimary="no">
+						<name>pkg_0603.prt</name>
+						<attribute kind="Hash" status="inherited">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="inherited">
+							<value>id-cea448f5-0f8c-44ae-99a4-e30a668604a2</value>
+						</attribute>
+						<attribute kind="Notes" status="inherited">
+							<value>CAD Model Import tool added this resource object for the imported CAD file</value>
+						</attribute>
+						<attribute kind="Path" status="inherited">
+							<value>CAD\pkg_0603.prt</value>
 						</attribute>
 					</atom>
 					<atom id="id-0066-000000d0" kind="Resource" role="Resource" guid="{89169330-e636-4904-bdfe-5b90d188e3bd}" derivedfrom="id-0066-0000000b" isinstance="yes" isprimary="no">
@@ -385,19 +385,19 @@
 							<value>Images/Icon.png</value>
 						</attribute>
 					</atom>
-					<atom id="id-0066-000000d1" kind="Resource" role="Resource" guid="{73793ede-f858-45bf-83d8-3d9e035f109d}" derivedfrom="id-0066-0000000c" isinstance="yes" isprimary="no">
-						<name>pkg_0603.prt</name>
+					<atom id="id-0066-000000d1" kind="Resource" role="Resource" guid="{1cff44e7-3cd2-4937-9450-d4a7ca30ed70}" derivedfrom="id-0066-0000000d" isinstance="yes" isprimary="no">
+						<name>Resource</name>
 						<attribute kind="Hash" status="inherited">
 							<value></value>
 						</attribute>
 						<attribute kind="ID" status="inherited">
-							<value>id-cea448f5-0f8c-44ae-99a4-e30a668604a2</value>
+							<value>id-92946605-e441-48f6-b859-315e294cedf5</value>
 						</attribute>
 						<attribute kind="Notes" status="inherited">
-							<value>CAD Model Import tool added this resource object for the imported CAD file</value>
+							<value></value>
 						</attribute>
 						<attribute kind="Path" status="inherited">
-							<value>CAD\pkg_0603.prt</value>
+							<value>CAD\pkg_0603.step</value>
 						</attribute>
 					</atom>
 					<reference id="id-0067-000001c3" kind="Parameter" role="Parameter" guid="{ce3c5224-a76f-4f62-9696-4f2b94229e2a}" derivedfrom="id-0067-00000076" isinstance="yes" isprimary="no" isbound="yes">
@@ -472,22 +472,22 @@
 							<value>10000</value>
 						</attribute>
 					</reference>
-					<connection isbound="yes" id="id-0068-00000059" kind="UsesResource" role="UsesResource" guid="{f3c09eb3-15c6-4ebb-90b5-d8c498ca2654}" derivedfrom="id-0068-0000003c" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-00000059" kind="PortComposition" role="PortComposition" guid="{8d481f03-0b51-49d9-b656-ca66486a6ba9}" derivedfrom="id-0068-00000038" isinstance="yes" isprimary="no">
 						<name></name>
 					</connection>
-					<connection isbound="yes" id="id-0068-0000005a" kind="PortComposition" role="PortComposition" guid="{8d481f03-0b51-49d9-b656-ca66486a6ba9}" derivedfrom="id-0068-00000038" isinstance="yes" isprimary="no">
-						<name></name>
-					</connection>
-					<connection isbound="yes" id="id-0068-0000005b" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{defed5db-6d46-4d13-9975-a2bd52165d4c}" derivedfrom="id-0068-0000003a" isinstance="yes" isprimary="no">
-						<name></name>
-					</connection>
-					<connection isbound="yes" id="id-0068-0000005c" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{6591eb14-95dc-4100-ac92-1bb1b4a93ac1}" derivedfrom="id-0068-0000003d" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-0000005a" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{6591eb14-95dc-4100-ac92-1bb1b4a93ac1}" derivedfrom="id-0068-0000003d" isinstance="yes" isprimary="no">
 						<name>CADParameterPortMap</name>
 					</connection>
-					<connection isbound="yes" id="id-0068-0000005d" kind="UsesResource" role="UsesResource" guid="{099167cc-7722-4638-9562-dcc29f6babcd}" derivedfrom="id-0068-0000003b" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-0000005b" kind="UsesResource" role="UsesResource" guid="{f3c09eb3-15c6-4ebb-90b5-d8c498ca2654}" derivedfrom="id-0068-0000003c" isinstance="yes" isprimary="no">
 						<name></name>
 					</connection>
-					<connection isbound="yes" id="id-0068-0000005e" kind="PortComposition" role="PortComposition" guid="{f8823e34-c4a5-452d-848e-f2a86f15f6aa}" derivedfrom="id-0068-00000039" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-0000005c" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{defed5db-6d46-4d13-9975-a2bd52165d4c}" derivedfrom="id-0068-0000003a" isinstance="yes" isprimary="no">
+						<name></name>
+					</connection>
+					<connection isbound="yes" id="id-0068-0000005d" kind="PortComposition" role="PortComposition" guid="{f8823e34-c4a5-452d-848e-f2a86f15f6aa}" derivedfrom="id-0068-00000039" isinstance="yes" isprimary="no">
+						<name></name>
+					</connection>
+					<connection isbound="yes" id="id-0068-0000005e" kind="UsesResource" role="UsesResource" guid="{099167cc-7722-4638-9562-dcc29f6babcd}" derivedfrom="id-0068-0000003b" isinstance="yes" isprimary="no">
 						<name></name>
 					</connection>
 				</model>
@@ -4395,7 +4395,7 @@
 						<connpoint role="src" target="id-0067-00000069"/>
 					</connection>
 				</model>
-				<model id="id-0065-0000002f" kind="ParametricExploration" guid="{08a0f9f5-9e4f-4087-9506-aa1f05fe5d96}" relid="0x49" childrelidcntr="0xe">
+				<model id="id-0065-0000002f" kind="ParametricExploration" guid="{08a0f9f5-9e4f-4087-9506-aa1f05fe5d96}" relid="0x49" childrelidcntr="0xf">
 					<name>TestMATLAB</name>
 					<model id="id-0065-00000030" kind="MATLABWrapper" role="MATLABWrapper" guid="{2ace95a5-08ea-41da-9fe0-04c20018dcac}" relid="0xa" childrelidcntr="0x5">
 						<name>MATLABWrapper</name>
@@ -4636,11 +4636,6 @@
 						<connpoint role="src" target="id-0067-0000006f"/>
 						<connpoint role="dst" target="id-0067-00000072"/>
 					</connection>
-					<connection id="id-0068-00000034" kind="ResultFlow" role="ResultFlow" guid="{6ada7052-0c88-4eb8-9559-2d3e36715b63}" relid="0xd">
-						<name>ResultFlow</name>
-						<connpoint role="src" target="id-0067-00000002" refs="id-0067-00000074"/>
-						<connpoint role="dst" target="id-0067-00000071"/>
-					</connection>
 					<connection id="id-0068-00000035" kind="ResultFlow" role="ResultFlow" guid="{b7dc01d2-84fb-4469-8f74-f05a284b4737}" relid="0xc">
 						<name>ResultFlow</name>
 						<connpoint role="src" target="id-0067-00000002" refs="id-0067-00000074"/>
@@ -4660,6 +4655,17 @@
 							<value>arrow</value>
 						</regnode>
 						<connpoint role="dst" target="id-0067-00000003" refs="id-0067-00000074"/>
+						<connpoint role="src" target="id-0067-00000073"/>
+					</connection>
+					<connection id="id-0068-0000007a" kind="VariableSweep" role="VariableSweep" guid="{26369455-f7ea-4ae1-a0e7-30ac23bfa27a}" relid="0xf">
+						<name>VariableSweep</name>
+						<regnode name="color" isopaque="yes">
+							<value>0xff80c0</value>
+						</regnode>
+						<regnode name="dstStyle" isopaque="yes">
+							<value>arrow</value>
+						</regnode>
+						<connpoint role="dst" target="id-0067-00000071"/>
 						<connpoint role="src" target="id-0067-00000073"/>
 					</connection>
 				</model>
@@ -5655,7 +5661,7 @@
 				</reference>
 			</model>
 		</folder>
-		<folder id="id-006a-00000018" relid="0x3b" childrelidcntr="0x8" libref="UnitLibrary QUDT" kind="RootFolder" guid="{930ea234-c97f-40fd-aa87-a272824dfa19}">
+		<folder id="id-006a-00000018" relid="0x3f" childrelidcntr="0x8" libref="UnitLibrary QUDT" kind="RootFolder" guid="{930ea234-c97f-40fd-aa87-a272824dfa19}">
 			<name>UnitLibrary QUDT</name>
 			<folder id="id-006a-00000019" relid="0x1" childrelidcntr="0x4" kind="TypeSpecifications" guid="{fd90cf10-6360-414e-8c3c-9d42897f41c7}">
 				<name>TypeSpecifications</name>
@@ -19827,10 +19833,10 @@
 				</folder>
 			</folder>
 			<regnode name="modtime" isopaque="yes">
-				<value>131154958446302133</value>
+				<value>131188754125303882</value>
 			</regnode>
 		</folder>
-		<folder id="id-006a-0000001b" relid="0x3c" childrelidcntr="0xc" libref="PortLibrary CyPhy_PortLib" kind="RootFolder" guid="{e30db627-2b68-46a7-ad9b-fff19a95efda}">
+		<folder id="id-006a-0000001b" relid="0x40" childrelidcntr="0xc" libref="PortLibrary CyPhy_PortLib" kind="RootFolder" guid="{e30db627-2b68-46a7-ad9b-fff19a95efda}">
 			<name>PortLibrary CyPhy_PortLib</name>
 			<folder id="id-006a-0000001c" relid="0x2" childrelidcntr="0x2" kind="Connectors" guid="{bded3721-5142-4910-9b2f-b137b12f08ea}">
 				<name>Interface and Port Definitions</name>
@@ -20835,10 +20841,10 @@
 				</folder>
 			</folder>
 			<regnode name="modtime" isopaque="yes">
-				<value>131154958425751467</value>
+				<value>131188754128210935</value>
 			</regnode>
 		</folder>
-		<folder id="id-006a-00000020" relid="0x3d" childrelidcntr="0xd" libref="MaterialLibrary CyPhy_MaterialLib" kind="RootFolder" guid="{5057546a-d298-4963-b477-b9ccbdb4da76}">
+		<folder id="id-006a-00000020" relid="0x41" childrelidcntr="0xd" libref="MaterialLibrary CyPhy_MaterialLib" kind="RootFolder" guid="{5057546a-d298-4963-b477-b9ccbdb4da76}">
 			<name>MaterialLibrary CyPhy_MaterialLib</name>
 			<folder id="id-006a-00000021" relid="0xd" childrelidcntr="0x69" kind="MaterialsDefinition" guid="{69120e36-14bd-4459-82d3-6c96375e77e6}">
 				<name>MaterialDefinitions</name>
@@ -21789,10 +21795,10 @@
 				</atom>
 			</folder>
 			<regnode name="modtime" isopaque="yes">
-				<value>131154958405502941</value>
+				<value>131188754131338140</value>
 			</regnode>
 		</folder>
-		<folder id="id-006a-00000022" relid="0x3e" childrelidcntr="0x8" libref="CADResourceLibrary" kind="RootFolder" guid="{13b19e07-ff61-4a7f-82c6-58dea72fb96f}">
+		<folder id="id-006a-00000022" relid="0x42" childrelidcntr="0x8" libref="CADResourceLibrary" kind="RootFolder" guid="{13b19e07-ff61-4a7f-82c6-58dea72fb96f}">
 			<name>CADResourceLibrary</name>
 			<folder id="id-006a-00000023" relid="0x4" childrelidcntr="0xe" kind="GeometryFolder" guid="{7c595b3d-3b50-4594-a8ca-b78952921e4a}">
 				<name>GeometryDefinition</name>
@@ -24216,7 +24222,7 @@
 				</model>
 			</folder>
 			<regnode name="modtime" isopaque="yes">
-				<value>131154958378973232</value>
+				<value>131188754136246601</value>
 			</regnode>
 		</folder>
 	</folder>
