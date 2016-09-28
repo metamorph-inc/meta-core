@@ -219,7 +219,7 @@ namespace CyPhyMasterInterpreter
         {
             manifest.Steps.Add(new AVM.DDP.MetaTBManifest.Step()
             {
-                Invocation = String.Format("\"{0}\" -m run_mdao", VersionInfo.PythonVEnvExe),
+                Invocation = String.Format("\"{0}\" -E -m run_mdao", VersionInfo.PythonVEnvExe),
                 Description = "ParametricExploration",
                 // Type = "Parametric Study",
                 Status = AVM.DDP.MetaTBManifest.StatusEnum.UNEXECUTED

@@ -28,7 +28,7 @@ namespace CyPhyPETTest
                 {
                     FileName = VersionInfo.PythonVEnvExe,
                     WorkingDirectory = PCC_run_mdao_dir,
-                    Arguments = "-m run_mdao mdao_config.json",
+                    Arguments = "-E -m run_mdao mdao_config.json",
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     RedirectStandardError = true,
@@ -103,7 +103,7 @@ namespace CyPhyPETTest
             {
                 FileName = VersionInfo.PythonVEnvExe,
                 WorkingDirectory = outputDir,
-                Arguments = "-m run_mdao mdao_config.json",
+                Arguments = "-E -m run_mdao mdao_config.json",
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 RedirectStandardError = true,
