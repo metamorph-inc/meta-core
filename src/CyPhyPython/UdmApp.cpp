@@ -8,6 +8,8 @@ using namespace std;
 #include <algorithm>
 #include <memory>
 
+#define CYPHY_PYTHON_VERSION _STRINGIZE(PY_MAJOR_VERSION) _STRINGIZE(PY_MINOR_VERSION)
+
 // n.b. can't /DELAYLOAD and import data
 static PyObject* get_Py_None()
 {
@@ -91,8 +93,7 @@ PyObject* convert(IDispatch* disp) {
 	{
 		throw python_error(GetPythonError());
 	}
-	char pythoncomname[40];
-	sprintf_s(pythoncomname, "pythoncom%d%d.dll", PY_MAJOR_VERSION, PY_MINOR_VERSION);
+	const char* pythoncomname = "pythoncom" CYPHY_PYTHON_VERSION ".dll";
 	HMODULE pythoncom = GetModuleHandleA(pythoncomname);
 	if (pythoncom == NULL)
 		throw python_error(std::string("Could not load ") + pythoncomname);
@@ -187,9 +188,9 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	//Py_VerboseFlag = 2;
 	
 	// Py_NoSiteFlag = 1; // we import site after setting up sys.path
-	HMODULE python_dll = LoadLibraryA("Python27.dll");
+	HMODULE python_dll = LoadLibraryA("Python" CYPHY_PYTHON_VERSION ".dll");
 	if (python_dll == nullptr)
-		throw python_error("Failed to load Python27.dll");
+		throw python_error("Failed to load Python" CYPHY_PYTHON_VERSION ".dll");
 	struct FreePythonLib {
 		HMODULE python;
 		FreePythonLib(HMODULE python_dll) : python(python_dll) {}
@@ -202,7 +203,7 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	for (const char** flag = flags; *flag; flag++) {
 		int* Py_FlagAddress = reinterpret_cast<int*>(GetProcAddress(python_dll, *flag));
 		if (Py_FlagAddress == nullptr)
-			throw python_error(std::string("Failed to find ") + *flag + " in Python27.dll");
+			throw python_error(std::string("Failed to find ") + *flag + " in Python" CYPHY_PYTHON_VERSION  ".dll");
 		*Py_FlagAddress = 1;
 	}
 
@@ -237,8 +238,8 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	if (meta_path.length())
 	{
 		// n.b. don't use Py_GetPath(), since it may read garbage from HKCU\Software\Python\PythonCore\2.7\PythonPath
-		newpath = meta_path + "\\bin\\Python27\\Scripts\\python27.zip";
-		newpath = newpath + separator + meta_path + "\\bin\\Python27\\Scripts";
+		newpath = meta_path + "\\bin\\Python" CYPHY_PYTHON_VERSION "\\Scripts\\python" CYPHY_PYTHON_VERSION ".zip";
+		newpath = newpath + separator + meta_path + "\\bin\\Python" CYPHY_PYTHON_VERSION "\\Scripts";
 		newpath = newpath + separator + meta_path + "\\bin";
 	}
 	else {
@@ -258,7 +259,7 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	}
 
 	if (meta_path.length()) {
-		PyObject_RAII prefix = PyString_FromString((meta_path + "\\bin\\Python27").c_str());
+		PyObject_RAII prefix = PyString_FromString((meta_path + "\\bin\\Python" CYPHY_PYTHON_VERSION).c_str());
 		PyObject* sys = PyDict_GetItemString(main_namespace, "sys");
 		PyObject_SetAttrString(sys, "prefix", prefix);
 		PyObject_SetAttrString(sys, "exec_prefix", prefix);
@@ -344,9 +345,18 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	}
 	{
 		PyObject_RAII ret = PyRun_StringFlags("import site\n"
-            "reload(site)\n"
-            "import sitecustomize\n"
-            "reload(sitecustomize)\n", Py_file_input, main_namespace, main_namespace, NULL);
+			"reload(site)\n"
+			"import sitecustomize\n"
+			"reload(sitecustomize)\n"
+
+			// pythoncom.py calls LoadLibrary("pythoncom27.dll"), which will load via %PATH%
+			// e.g. Anaconda's pythoncom27.dll doesn't include the correct SxS activation info, so trying to load it results in "An application has made an attempt to load the C runtime library incorrectly."
+			// load our pythoncom27.dll with an explicit path
+			"import imp, os.path\n"
+			"import afxres\n"
+			// FIXME: would this be better : pkg_resources.resource_filename('win32api', 'pythoncom27.dll')
+			"imp.load_dynamic('pythoncom', os.path.join(os.path.dirname(afxres.__file__), 'pythoncom" CYPHY_PYTHON_VERSION ".dll'))\n"
+			, Py_file_input, main_namespace, main_namespace, NULL);
 		if (ret == NULL && PyErr_Occurred())
 		{
 			throw python_error(GetPythonError());
