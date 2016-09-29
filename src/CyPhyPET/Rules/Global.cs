@@ -113,16 +113,17 @@ namespace CyPhyPET.Rules
 
                 result.Add(feedback);
             }
-            else if (cnt > 1)
+            else
             {
-                var dupNames = pet.Children.TestBenchRefCollection.GroupBy(tb => tb.Name).Where(group => group.Count() > 1)
+                var components = pet.Children.TestBenchRefCollection.Concat<ISIS.GME.Common.Interfaces.FCO>(pet.Children.ParametricTestBenchCollection);
+                var dupNames = components.GroupBy(tb => tb.Name).Where(group => group.Count() > 1)
                     .Select(group => group.Key);
                 if (dupNames.Count() > 0)
                 {
                     var feedback = new GenericRuleFeedback()
                     {
                         FeedbackType = FeedbackTypes.Error,
-                        Message = string.Format("PET requires unique TestBenchRef names. Duplicate names: {0}", String.Join(",", dupNames.ToArray()))
+                        Message = string.Format("PET requires unique names. Duplicate names: {0}", String.Join(",", dupNames.ToArray()))
                     };
                     result.Add(feedback);
                 }
