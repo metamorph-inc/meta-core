@@ -91,6 +91,9 @@ class MatlabWrapper(Component):
         err = six.StringIO()
 
         outputs = getattr(self.eng, self.basename)(*args, nargout=len(self._output_names), stdout=out, stderr=err)
+        if len(self._output_names) == 1 and not isinstance(self.eng, SMOPEngine):
+            # MATLAB returns a single float, not an array
+            outputs = [outputs]
 
         set_unknowns(outputs)
 
