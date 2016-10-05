@@ -21,10 +21,9 @@ os.environ['PATH'] = os.environ['PATH'].replace('"', '')
 
 def get_nuget_packages():
     import vc_info
-    packages = None
     from xml.etree import ElementTree
     cad_packages = ElementTree.parse(r'CAD_Installs\packages.config')
-    destination_files = [ r'CAD_Installs\Proe ISIS Extensions\bin\CADCreoParametricCreateAssembly.exe',
+    destination_files = [r'CAD_Installs\Proe ISIS Extensions\bin\CADCreoParametricCreateAssembly.exe',
         r'CAD_Installs\Proe ISIS Extensions\0Readme - CreateAssembly.txt',
         r'CAD_Installs\Proe ISIS Extensions\bin\ExtractACM-XMLfromCreoModels.exe',
         r'CAD_Installs\Proe ISIS Extensions\bin\CADCreoParametricMetaLink.exe',
@@ -33,7 +32,7 @@ def get_nuget_packages():
         if os.path.isfile(filename):
             os.unlink(filename)
     for package in cad_packages.findall('package'):
-        svnversion = { "META.CadCreoParametricCreateAssembly": vc_info.last_cad_rev,
+        svnversion = {"META.CadCreoParametricCreateAssembly": vc_info.last_cad_rev,
             "META.ExtractACM-XMLfromCreoModels": vc_info.last_cad_rev,
             "META.MDL2MGACyber": vc_info.last_mdl2mga_rev,
             "META.CADCreoParametricMetaLink": vc_info.last_cad_rev, }[package.get('id')]()
@@ -44,7 +43,7 @@ def get_nuget_packages():
         system([r'..\src\.nuget\nuget.exe', 'install', '-PreRelease', '-Version', version, package.get('id')], os.path.join(this_dir, 'CAD_Installs'))
         package_dir = r'CAD_Installs\%s.%s' % (package.get('id'), version)
         for filename in glob.glob(package_dir + '/*'):
-            #if os.path.basename(filename) == 'svnversion':
+            # if os.path.basename(filename) == 'svnversion':
             #    with open(os.path.join(this_dir, filename), 'rb') as svnversion:
             #        print filename + ': ' + svnversion.read()
             destination_file = [fn for fn in destination_files if os.path.basename(fn) == os.path.basename(filename)]
@@ -76,8 +75,10 @@ def build_msi():
     generate_license_rtf()
 
     add_wix_to_path()
+
     def get_wixobj(file):
         return os.path.splitext(file)[0] + ".wixobj"
+
     def adjacent_file(file):
         return os.path.join(os.path.dirname(__file__), file)
 
@@ -94,7 +95,7 @@ def build_msi():
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\cad_library\cad_library",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\run_mdao",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
-    gen_dir_wxi.main(r"CAD_Installs\Proe ISIS Extensions", "Proe_ISIS_Extensions_x64.wxi", "Proe_ISIS_Extensions_x64", diskId='4') # do not call gen_dir_from_vc, it would exclude CADCreoCreateAssembly.exe
+    gen_dir_wxi.main(r"CAD_Installs\Proe ISIS Extensions", "Proe_ISIS_Extensions_x64.wxi", "Proe_ISIS_Extensions_x64", diskId='4')  # do not call gen_dir_from_vc, it would exclude CADCreoCreateAssembly.exe
     gen_dir_wxi.gen_dir_from_vc(r"..\WebGME",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\CyPhyML\icons",)
     gen_dir_wxi.gen_dir_from_vc(r"..\models\MassSpringDamper",)
@@ -112,12 +113,12 @@ def build_msi():
         p = subprocess.Popen("git rev-list HEAD --count".split(), stdout=subprocess.PIPE)
         out, err = p.communicate()
         return out.strip() or '5'
-        #import subprocess
-        #p = subprocess.Popen(['svnversion', '-n', adjacent_file('..')], stdout=subprocess.PIPE)
-        #out, err = p.communicate()
-        #if p.returncode:
-        #    raise subprocess.CalledProcessError(p.returncode, 'svnversion')
-        #return out
+        # import subprocess
+        # p = subprocess.Popen(['svnversion', '-n', adjacent_file('..')], stdout=subprocess.PIPE)
+        # out, err = p.communicate()
+        # if p.returncode:
+        #     raise subprocess.CalledProcessError(p.returncode, 'svnversion')
+        # return out
     svnversion = get_svnversion()
 
     print "SVN version: " + str(get_svnversion())
@@ -126,8 +127,8 @@ def build_msi():
     def get_gitversion():
         p = subprocess.Popen("git rev-parse --short HEAD".split(), stdout=subprocess.PIPE)
         out, err = p.communicate()
-        #if p.returncode:
-        #    raise subprocess.CalledProcessError(p.returncode, 'svnversion')
+        # if p.returncode:
+        #     raise subprocess.CalledProcessError(p.returncode, 'svnversion')
         return out.strip() or 'unknown'
 
     gitversion = get_gitversion()
@@ -147,7 +148,7 @@ def build_msi():
         print 'Processing WXS: ' + wxs
         tree = ET.parse(wxs)
         root = tree.getroot()
-        #print root
+        # print root
         all_nodes = root.findall('.//')
         for node in all_nodes:
             if node.tag == '{http://schemas.microsoft.com/wix/2006/wi}ComponentGroupRef':
@@ -156,8 +157,8 @@ def build_msi():
                 if 'Proe' in node.attrib['Id'] + '_x64.wxi':
                     print node.attrib['Id'] + '_x64.wxi'
             if node.tag == '{http://schemas.microsoft.com/wix/2006/wi}ComponentRef':
-                include_wxis.append(node.attrib['Id'].rsplit( ".", 1 )[ 0 ] + '.wxi')
-                include_wxis.append(node.attrib['Id'].rsplit( ".", 1 )[ 0 ] + '_x64.wxi')
+                include_wxis.append(node.attrib['Id'].rsplit(".", 1)[0] + '.wxi')
+                include_wxis.append(node.attrib['Id'].rsplit(".", 1)[0] + '_x64.wxi')
 
     # For each file in include_wxis, check for ComponentGroupRef and ComponentRef.
     # Add any that you find
@@ -178,8 +179,8 @@ def build_msi():
                 include_wxis.append(node.attrib['Id'] + '.wxi')
                 include_wxis.append(node.attrib['Id'] + '_x64.wxi')
             if node.tag == '{http://schemas.microsoft.com/wix/2006/wi}ComponentRef':
-                include_wxis.append(node.attrib['Id'].rsplit( ".", 1 )[ 0 ] + '.wxi')
-                include_wxis.append(node.attrib['Id'].rsplit( ".", 1 )[ 0 ] + '_x64.wxi')
+                include_wxis.append(node.attrib['Id'].rsplit(".", 1)[0] + '.wxi')
+                include_wxis.append(node.attrib['Id'].rsplit(".", 1)[0] + '_x64.wxi')
 
     sources = [source for source in sources_all if (os.path.basename(source) in include_wxis)]
     sources.append(source_wxs)
@@ -187,7 +188,7 @@ def build_msi():
     if len(sources) == 0:
         raise Exception("0 sources found in " + sourcedir)
 
-    defines = [ ('InterpreterBin', '../src/bin') ]
+    defines = [('InterpreterBin', '../src/bin')]
 
     def get_mta_versions(mta_file):
         import uuid
@@ -201,7 +202,6 @@ def build_msi():
     cyphy_versions = get_mta_versions(adjacent_file('../generated/CyPhyML/models/CyPhyML.mta'))
     defines.append(('GUIDSTRCYPHYML', cyphy_versions[0]))
     defines.append(('VERSIONSTRCYPHYML', cyphy_versions[1]))
-
 
     version = '14.13.'
     if 'M' in svnversion:
@@ -217,10 +217,11 @@ def build_msi():
     from multiprocessing.pool import ThreadPool
     pool = ThreadPool()
     pool_exceptions = []
+
     def candle(source):
         try:
-            arch = [ '-arch', ('x86' if source.find('x64') == -1 else 'x64') ]
-            system(['candle', '-ext', 'WiXUtilExtension'] + ['-d' + d[0] + '=' + d[1] for d in defines ] + arch + [ '-out', get_wixobj(source), source] + ['-nologo'])
+            arch = ['-arch', ('x86' if source.find('x64') == -1 else 'x64')]
+            system(['candle', '-ext', 'WiXUtilExtension'] + ['-d' + d[0] + '=' + d[1] for d in defines] + arch + ['-out', get_wixobj(source), source] + ['-nologo'])
         except Exception as e:
             pool_exceptions.append(e)
             raise
@@ -231,7 +232,7 @@ def build_msi():
         raise pool_exceptions[0]
     assert candle_results.successful()
 
-    #ignore warning 1055, ICE82 from VC10 merge modules
+    # ignore warning 1055, ICE82 from VC10 merge modules
     # ICE69: Mismatched component reference. Entry 'reg491FAFEB7F990D99C4A4D719B2A95253' of the Registry table belongs to component 'CyPhySoT.dll'. However, the formatted string in column 'Value' references file 'CyPhySoT.ico' which belongs to component 'CyPhySoT.ico'
     # ICE60: The file fil_5b64d789d9ad5473bc580ea7258a0fac is not a Font, and its version is not a companion file reference. It should have a language specified in the Language column.
     if source_wxs.startswith("META"):
