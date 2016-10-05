@@ -9,6 +9,7 @@ from gen_dir_wxi import add_wix_to_path, system, download_bundle_deps
 import gen_analysis_tool_wxi
 import glob
 import subprocess
+import re
 
 import xml.etree.ElementTree as ET
 
@@ -59,8 +60,20 @@ def get_nuget_packages():
     if destination_files:
         raise Exception('Could not find files %s in NuGet packages' % repr(destination_files))
 
+
+def generate_license_rtf():
+    with open('../license.rtf', 'wb') as rtf:
+        txt = open('../license.txt').read()
+        txt = re.sub('\\n(?!\\n)', '', txt.replace('\r', ''))
+        rtf.write('{\\rtf1\n')
+        rtf.write(txt.replace('\r', '').replace('\n', '\\par\n'))
+        rtf.write('\n}')
+
+
 def build_msi():
     get_nuget_packages()
+
+    generate_license_rtf()
 
     add_wix_to_path()
     def get_wixobj(file):
