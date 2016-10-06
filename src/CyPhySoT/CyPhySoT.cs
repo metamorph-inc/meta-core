@@ -981,15 +981,18 @@ namespace CyPhySoT
 
             var projectDir = Path.GetDirectoryName(this.ProjectFilename);
 
-            foreach (var configXML in Directory.GetFiles(Path.Combine(projectDir, "config"), "*.xml"))
+            if (Directory.Exists(Path.Combine(projectDir, "config")))
             {
-                var newConfigXML = configXML.Replace(projectDir, this.OutputBaseDir);
-                if (Directory.Exists(Path.GetDirectoryName(newConfigXML)) == false)
+                foreach (var configXML in Directory.GetFiles(Path.Combine(projectDir, "config"), "*.xml"))
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(newConfigXML));
-                }
+                    var newConfigXML = configXML.Replace(projectDir, this.OutputBaseDir);
+                    if (Directory.Exists(Path.GetDirectoryName(newConfigXML)) == false)
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(newConfigXML));
+                    }
 
-                File.Copy(configXML, newConfigXML, true);
+                    File.Copy(configXML, newConfigXML, true);
+                }
             }
 
             // CyPhy2CAD stores its config in an xml file instead of in the project

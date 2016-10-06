@@ -523,7 +523,7 @@
 
             foreach (var innerExpanders in this.InnerExpanders)
             {
-                innerExpanders.ShowInterpreterConfigs(interpreterConfigurations, firstTimeOnly);
+                innerExpanders.ShowInterpreterConfigs(interpreterConfigurations, firstTimeOnly, interactive: interactive);
             }
 
             if (configurationFailed.Any())
