@@ -82,7 +82,6 @@ namespace CyPhyComponentExporterCL {
             }
 
             MgaGateway mgaGateway = new MgaGateway( mgaProject );
-            mgaProject.CreateTerritoryWithoutSink( out mgaGateway.territory );
 
             bool bExceptionOccurred = false;
 
@@ -154,7 +153,7 @@ namespace CyPhyComponentExporterCL {
                     Console.Error.WriteLine("Stack: {0}", ex.StackTrace.ToString());
                     bExceptionOccurred = true;
                 }
-            } );
+            }, abort: false );
 
             mgaProject.Close();
 

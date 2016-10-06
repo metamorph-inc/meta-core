@@ -370,23 +370,18 @@ namespace CyPhyComponentAuthoring
             try
             {
                 MgaGateway = new MgaGateway(project);
-                project.CreateTerritoryWithoutSink(out MgaGateway.territory);
                 this.Logger = new CyPhyGUIs.GMELogger(project, this.GetType().Name);
 
                 MgaGateway.PerformInTransaction(delegate
                 {
                     Main(project, currentobj, selectedobjs, Convert(param));
-                });
+                }, abort: false);
             }
             finally
             {
                 if (Logger != null)
                 {
                     Logger.Dispose();
-                }
-                if (MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
                 }
                 MgaGateway = null;
                 Logger = null;

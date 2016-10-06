@@ -13,7 +13,6 @@ namespace DesignConsistencyChecker.DesignRule
         public List<string> Tags { get; set; }
         public List<string> ValidContext { get; set; }
         public List<string> InterpretersRequiring { get; set; }
-        public bool RequiresElaboration { get; set; }
 
         public Func<MgaFCO, IEnumerable<RuleFeedbackBase>> CheckRuleDelegate { get; private set; }
 
@@ -24,7 +23,6 @@ namespace DesignConsistencyChecker.DesignRule
             Tags = new List<string>();
             ValidContext = new List<string>();
             InterpretersRequiring = new List<string>();
-            RequiresElaboration = false;
         }
 
         public IEnumerable<RuleFeedbackBase> Check(MgaFCO context)

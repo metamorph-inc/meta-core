@@ -88,7 +88,7 @@ namespace SubTreeMerge
                     SubTreeMerge subTreeMerge = new SubTreeMerge();
                     subTreeMerge.gmeConsole = gmeConsole;
                     subTreeMerge.merge(currentobj, FileNames[0]);
-                }, transactiontype_enum.TRANSACTION_NON_NESTED);
+                }, transactiontype_enum.TRANSACTION_NON_NESTED, abort: false);
                 return;
             } else {
                 gmeConsole.Warning.WriteLine("Subtree Merge Utility cancelled");
@@ -120,16 +120,11 @@ namespace SubTreeMerge
             {
                 gmeConsole = new FlexConsole(FlexConsole.ConsoleType.GMECONSOLE, project);
                 MgaGateway = new MgaGateway(project);
-                project.CreateTerritoryWithoutSink(out MgaGateway.territory);
 
                 Main(project, currentobj, selectedobjs, Convert(param));
             }
             finally
             {
-                if (MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 project = null;
                 currentobj = null;
@@ -426,7 +421,6 @@ namespace SubTreeMerge
 
                 MgaGateway mgaGateway = new MgaGateway(mgaProject);
 
-                mgaProject.CreateTerritoryWithoutSink(out mgaGateway.territory);
                 mgaGateway.PerformInTransaction(delegate
                 {
 
@@ -525,12 +519,7 @@ namespace SubTreeMerge
 
                     } while (false);
 
-                }, transactiontype_enum.TRANSACTION_NON_NESTED);
-
-                if (mgaGateway.territory != null)
-                {
-                    mgaGateway.territory.Destroy();
-                }
+                }, transactiontype_enum.TRANSACTION_NON_NESTED, abort: false);
 
                 currentObject.DestroyObject();
             }

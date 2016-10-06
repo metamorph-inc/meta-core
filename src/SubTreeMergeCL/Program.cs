@@ -59,7 +59,6 @@ namespace CyPhyMLMerge {
             int retval = 0;
             MgaGateway mgaGateway = new MgaGateway(mainMgaProject);
 
-            mainMgaProject.CreateTerritoryWithoutSink(out mgaGateway.territory);
             mgaGateway.PerformInTransaction(delegate {
 
                 for (int ix = 1; ix < args.Length; ++ix) {
@@ -82,13 +81,9 @@ namespace CyPhyMLMerge {
                     retval = (int)subTreeMerge.exitStatus;
                 }
 
-            });
+            }, abort: false);
 
             mainMgaProject.Save();
-
-            if (mgaGateway.territory != null) {
-                mgaGateway.territory.Destroy();
-            }
 
             return retval;
         }

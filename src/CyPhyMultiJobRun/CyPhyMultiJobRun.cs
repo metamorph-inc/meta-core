@@ -70,7 +70,10 @@ namespace CyPhyMultiJobRun
             sotConfig.MultiJobRun = true;
             sotConfig.OriginalProjectFileName = project.ProjectConnStr.Substring("MGA=".Length);
             sotConfig.ProjectFileName = Path.Combine(OutputBaseDir, Path.GetFileName(sotConfig.OriginalProjectFileName));
+            // can't be in a tx and save the project
+            project.AbortTransaction();
             project.Save("MGA=" + sotConfig.ProjectFileName, true);
+            project.BeginTransactionInNewTerr(transactiontype_enum.TRANSACTION_NON_NESTED);
             MgaGateway.PerformInTransaction(delegate
             {
                 sotConfig.SoTID = currentobj.ID;
@@ -123,7 +126,6 @@ namespace CyPhyMultiJobRun
                 }
 
                 MgaGateway = new MgaGateway(project);
-                project.CreateTerritoryWithoutSink(out MgaGateway.territory);
                 string kindName = null;
                 MgaGateway.PerformInTransaction(delegate 
                 {
@@ -143,10 +145,6 @@ namespace CyPhyMultiJobRun
             }
             finally
             {
-                if (MgaGateway != null && MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 project = null;
                 currentobj = null;

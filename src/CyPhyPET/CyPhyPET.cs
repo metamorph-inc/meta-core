@@ -51,7 +51,6 @@ namespace CyPhyPET
         {
             //GMEConsole = GMEConsole.CreateFromProject(project);
             MgaGateway = new MgaGateway(project);
-            project.CreateTerritoryWithoutSink(out MgaGateway.territory);
         }
 
         #region IMgaComponentEx Members
@@ -202,11 +201,6 @@ namespace CyPhyPET
                 {
                     this.Logger.Dispose();
                     this.Logger = null;
-                }
-                if (MgaGateway != null &&
-                    MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
                 }
                 MgaGateway = null;
                 project = null;
@@ -593,11 +587,6 @@ namespace CyPhyPET
                     this.Logger.Dispose();
                     this.Logger = null;
                 }
-                if (MgaGateway != null &&
-                    MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 //GMEConsole = null; 
                 GC.Collect();
@@ -809,17 +798,6 @@ namespace CyPhyPET
             return cyPhy2CAD.result.Success;
         }
 
-        // it is more efficient to not abort and create a new transaction, but interpreters must be prepared to be called inside an mga transaction
-        private static HashSet<string> progIdsThatCanRunInsideATransaction = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-        {
-            "MGA.Interpreter.CyPhy2Modelica_v2",
-            "MGA.Interpreter.CyPhy2Modelica",
-            "MGA.Interpreter.CyPhy2CAD_CSharp",
-            "MGA.Interpreter.CyPhy2CAD",
-            "MGA.Interpreter.CyPhyDesignExporter",
-            "MGA.Interpreter.CyPhyPython"
-        };
-
         private META.ComComponent CallInterpreter(CyPhy.TestBenchType testBench, string progid, string name, string outputDirName, bool initializeManifest = false)
         {
             var interpreter = new META.ComComponent(progid);
@@ -853,10 +831,6 @@ namespace CyPhyPET
             }
             try
             {
-                if (progIdsThatCanRunInsideATransaction.Contains(progid) == false)
-                {
-                    testBench.Impl.Project.AbortTransaction();
-                }
                 interpreter.Main();
             }
             catch (META.InterpreterException)
@@ -865,13 +839,6 @@ namespace CyPhyPET
                 this.Logger.WriteError(name + " failed!");
                 // cyPhy2CAD.result.Success = false;
                 return interpreter;
-            }
-            finally
-            {
-                if (progIdsThatCanRunInsideATransaction.Contains(progid) == false)
-                {
-                    testBench.Impl.Project.BeginTransactionInNewTerr(transactiontype_enum.TRANSACTION_NON_NESTED);
-                }
             }
 
             if (interpreter.result.Success)

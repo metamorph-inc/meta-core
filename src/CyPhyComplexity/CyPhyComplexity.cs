@@ -50,7 +50,6 @@ namespace CyPhyComplexity
         public void Initialize(MgaProject project)
         {
             MgaGateway = new MgaGateway(project);
-            project.CreateTerritoryWithoutSink(out MgaGateway.territory);
         }
 
         /// <summary>
@@ -203,10 +202,6 @@ namespace CyPhyComplexity
             }
             finally
             {
-                if (MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 project = null;
                 currentobj = null;
@@ -219,13 +214,7 @@ namespace CyPhyComplexity
 
         private void CallElaboratorAndMain(MgaProject project, MgaFCO currentobj, MgaFCOs selectedobjs, int param)
         {
-            string keyName = @"HKEY_LOCAL_MACHINE\Software\META";
-            string value = @"META_PATH";
-
-            META_PATH = (string)Microsoft.Win32.Registry.GetValue(
-                keyName,
-                value,
-                "ERROR: " + keyName + value + " does not exist!");
+            META_PATH = META.VersionInfo.MetaPath;
 
             GMEConsole = GMEConsole.CreateFromProject(project);
 

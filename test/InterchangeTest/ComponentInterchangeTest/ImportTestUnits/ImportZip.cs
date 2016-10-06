@@ -41,7 +41,6 @@ namespace ComponentImporterUnitTests
 
             bool resultIsNull = false;
             var mgaGateway = new MgaGateway(mgaProject);
-            mgaProject.CreateTerritoryWithoutSink(out mgaGateway.territory);
             mgaGateway.PerformInTransaction(delegate
             {
                 var importer = new CyPhyComponentImporter.CyPhyComponentImporterInterpreter();
@@ -65,7 +64,6 @@ namespace ComponentImporterUnitTests
             Assert.False(mgaProject == null, "Could not load MGA project.");
 
             var mgaGateway = new MgaGateway(mgaProject);
-            mgaProject.CreateTerritoryWithoutSink(out mgaGateway.territory);
             mgaGateway.PerformInTransaction(delegate
             {
                 var importer = new CyPhyComponentImporter.CyPhyComponentImporterInterpreter();
@@ -87,7 +85,6 @@ namespace ComponentImporterUnitTests
             Assert.False(mgaProject == null, "Could not load MGA project.");
 
             var mgaGateway = new MgaGateway(mgaProject);
-            mgaProject.CreateTerritoryWithoutSink(out mgaGateway.territory);
             mgaGateway.PerformInTransaction(delegate
             {
                 var importer = new CyPhyComponentImporter.CyPhyComponentImporterInterpreter();
@@ -118,7 +115,6 @@ namespace ComponentImporterUnitTests
             Assert.True(mgaProject != null, "Could not load MGA project.");
 
             var mgaGateway = new MgaGateway(mgaProject);
-            mgaProject.CreateTerritoryWithoutSink(out mgaGateway.territory);
             mgaGateway.PerformInTransaction(delegate
             {
                 var importer = new CyPhyComponentImporter.CyPhyComponentImporterInterpreter();

@@ -106,9 +106,6 @@
     <Compile Include="..\..\src\CommonFiles\VersionInfo.cs">
       <Link>VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="..\InterchangeTest\ComponentInterchangeTest\ImportTestUnits\MgaGateway.cs">
-      <Link>MgaGateway.cs</Link>
-    </Compile>
     <Compile Include="DesertTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -116,6 +113,10 @@
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\CyPhyGUIs\CyPhyGUIs.csproj">
+      <Project>{ab27ee78-6819-4b8c-b678-68bc4fbc99d2}</Project>
+      <Name>CyPhyGUIs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\CyPhyMLCS\CyPhyMLCS.csproj">
       <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>
       <Name>CyPhyMLCS</Name>

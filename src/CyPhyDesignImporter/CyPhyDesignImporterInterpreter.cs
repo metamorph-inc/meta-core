@@ -96,7 +96,7 @@ namespace CyPhyDesignImporter
                 {
                     var importer = new AVMDesignImporter(GMEConsole, project);
                     result  = importer.ImportFiles(fileNames, mode: AVMDesignImporter.DesignImportMode.CREATE_CA_IF_NO_DS_CONCEPTS);
-                }, transactiontype_enum.TRANSACTION_NON_NESTED);
+                }, transactiontype_enum.TRANSACTION_NON_NESTED, abort: false);
 
                 if (result.Length > 0 && GMEConsole.gme != null)
                 {
@@ -164,16 +164,11 @@ namespace CyPhyDesignImporter
             {
                 GMEConsole = GMEConsole.CreateFromProject(project);
                 MgaGateway = new MgaGateway(project);
-                project.CreateTerritoryWithoutSink(out MgaGateway.territory);
 
                 Main(project, currentobj, selectedobjs, Convert(param));
             }
             finally
             {
-                if (MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 project = null;
                 currentobj = null;

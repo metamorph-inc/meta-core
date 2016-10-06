@@ -122,9 +122,6 @@
     <Compile Include="..\..\src\CommonFiles\MgaUtils.cs">
       <Link>MgaUtils.cs</Link>
     </Compile>
-    <Compile Include="..\InterchangeTest\ComponentInterchangeTest\ImportTestUnits\MgaGateway.cs">
-      <Link>MgaUtils.cs</Link>
-    </Compile>
     <Compile Include="AddOnTest.cs" />
     <Compile Include="FileManagementTest.cs" />
     <Compile Include="FileManagementTestFixture.cs" />

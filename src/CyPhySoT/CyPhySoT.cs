@@ -68,7 +68,6 @@ namespace CyPhySoT
             // Mimic CyPET and CyPhy2Modelica_v2
             //GMEConsole = GMEConsole.CreateFromProject(project);
             MgaGateway = new MgaGateway(project);
-            project.CreateTerritoryWithoutSink(out MgaGateway.territory);
         }
 
         [ComVisible(false)]
@@ -902,11 +901,6 @@ namespace CyPhySoT
                     this.Logger.Dispose();
                     this.Logger = null;
                 }
-                if (MgaGateway != null &&
-                    MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 //GMEConsole = null;
 
@@ -970,7 +964,9 @@ namespace CyPhySoT
             }
             // 3) Copy mga project file to output directory
             string outputFile = Path.Combine(this.OutputBaseDir, Path.GetFileName(this.ProjectFilename));
+            this.mainParameters.Project.AbortTransaction();
             this.mainParameters.Project.Save("MGA=" + outputFile, true);
+            this.mainParameters.Project.BeginTransactionInNewTerr();
             sotConfig.ProjectFileName = Path.GetFileName(outputFile);
 
             this.CleanUpTempMgaProject(outputFile);
@@ -981,15 +977,18 @@ namespace CyPhySoT
 
             var projectDir = Path.GetDirectoryName(this.ProjectFilename);
 
-            foreach (var configXML in Directory.GetFiles(Path.Combine(projectDir, "config"), "*.xml"))
+            if (Directory.Exists(Path.Combine(projectDir, "config")))
             {
-                var newConfigXML = configXML.Replace(projectDir, this.OutputBaseDir);
-                if (Directory.Exists(Path.GetDirectoryName(newConfigXML)) == false)
+                foreach (var configXML in Directory.GetFiles(Path.Combine(projectDir, "config"), "*.xml"))
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(newConfigXML));
-                }
+                    var newConfigXML = configXML.Replace(projectDir, this.OutputBaseDir);
+                    if (Directory.Exists(Path.GetDirectoryName(newConfigXML)) == false)
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(newConfigXML));
+                    }
 
-                File.Copy(configXML, newConfigXML, true);
+                    File.Copy(configXML, newConfigXML, true);
+                }
             }
 
             // CyPhy2CAD stores its config in an xml file instead of in the project

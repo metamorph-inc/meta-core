@@ -41,7 +41,7 @@ void Traverse(const Udm::Object &focusObject)
 */
 void Traverse(const std::set<Udm::Object> &selectedObjects)
 {
-	GMEConsole::Console::writeLine("Traverse(selectedObjects)", MSG_INFO);
+	// GMEConsole::Console::writeLine("Traverse(selectedObjects)", MSG_INFO);
 	for (std::set<Udm::Object>::iterator i = selectedObjects.begin(); i != selectedObjects.end(); i++)
 	{
 		Udm::Object udmObj (*i);
@@ -337,7 +337,7 @@ void NewTraverser::FindRootNodes(const CyPhyML::TestBenchType &testBench, set<Cy
 */
 bool NewTraverser::CheckValueFormula(const CyPhyML::ValueFormula &formula)
 {
-	GMEConsole::Console::writeLine("Hellow", MSG_WARNING);
+	// GMEConsole::Console::writeLine("Hello", MSG_WARNING);
 	bool stat = 1;
 	set<CyPhyML::ValueFlow> vf_Src_Set = formula.srcValueFlow();
 	set<CyPhyML::ValueFlow> vf_Dst_Set = formula.dstValueFlow();

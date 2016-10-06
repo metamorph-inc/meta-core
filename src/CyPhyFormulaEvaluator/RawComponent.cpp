@@ -100,7 +100,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		// Setting up the console
 		if (ConsoleMessagesOn) {
 			GMEConsole::Console::setupConsole(ccpProject);
-			GMEConsole::Console::clear();
+			// GMEConsole::Console::clear();
 		}
 		else {
 			GMEConsole::Console::freeConsole();
@@ -112,7 +112,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		_strtime_s(tmpbuf,128);
 		std::string time(tmpbuf);
 
-		GMEConsole::Console::writeLine(date + " " + time + " Starting CyPhyFormulaEvaluator Interpreter", MSG_INFO);
+		// GMEConsole::Console::writeLine(date + " " + time + " Starting CyPhyFormulaEvaluator Interpreter", MSG_INFO);
 
 
 	  if(interactive)
@@ -174,7 +174,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 			long status;
 			COMTHROW(ccpProject->get_ProjectStatus(&status));
 			if (!(status & 8))
-				COMTHROW(ccpProject->BeginTransactionInNewTerr(TRANSACTION_GENERAL, &terr));
+				COMTHROW(ccpProject->BeginTransactionInNewTerr(TRANSACTION_NON_NESTED, &terr));
 			// Opening backend
 			try {
 			dngBackend.OpenExisting(ccpProject, Udm::CHANGES_LOST_DEFAULT, true);
@@ -329,7 +329,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 
 	//GMEConsole::Console::writeLine("Output files are <a href=\"file:///" + OutputDir + "\" target=\"_blank\">" + OutputDir + "</a>.", MSG_INFO);
 
-	GMEConsole::Console::writeLine("End of CyPhyFormulaEvaluator Interpreter", MSG_INFO);
+	// GMEConsole::Console::writeLine("End of CyPhyFormulaEvaluator Interpreter", MSG_INFO);
 	GMEConsole::Console::freeConsole();
 
 

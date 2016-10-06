@@ -159,7 +159,7 @@ namespace CyPhyMetaLink
                             componentVersion = CyPhyMLClasses.Component.Cast(currentobj).Attributes.Version;
                         }
                     }
-                }, transactiontype_enum.TRANSACTION_GENERAL, false);
+                }, transactiontype_enum.TRANSACTION_GENERAL, abort: false);
                 if (currentobjKind != null && currentobjKind != "Component" && currentobjKind != "CADModel" && currentobjKind != "ComponentAssembly")
                 {
                     System.Windows.Forms.MessageBox.Show("Please open a Component or a Component Assembly");

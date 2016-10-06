@@ -70,11 +70,8 @@ namespace CyPhyComponentImporter
         /// <param name="project">The handle of the project opened in GME, for which the interpreter was called.</param>
         public void Initialize(MgaProject project)
         {
-            // TODO: Add your initialization code here...  
-
             GMEConsole = GMEConsole.CreateFromProject(project);
             MgaGateway = new MgaGateway(project);
-            project.CreateTerritoryWithoutSink(out MgaGateway.territory);
         }
 
         private CyPhy.Components GetImportFolder(CyPhy.RootFolder rf)
@@ -190,7 +187,7 @@ namespace CyPhyComponentImporter
                 MgaGateway.PerformInTransaction(delegate
                 {
                     ImportFiles(project, projroot, FileNames);
-                }, transactiontype_enum.TRANSACTION_NON_NESTED);
+                }, transactiontype_enum.TRANSACTION_NON_NESTED, abort: false);
                 return;
             }
             else
@@ -646,10 +643,6 @@ namespace CyPhyComponentImporter
             }
             finally
             {
-                if (MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 project = null;
                 currentobj = null;

@@ -91,7 +91,6 @@ namespace CyPhyCADAnalysis
                 //ComponentIndex ci = new ComponentIndex();
                 GMEConsole = GMEConsole.CreateFromProject(project);
                 MgaGateway = new MgaGateway(project);
-                project.CreateTerritoryWithoutSink(out MgaGateway.territory);
                 this.Logger = new CyPhyGUIs.GMELogger(project, this.ComponentName);
 
                 if (currentobj == null)
@@ -180,10 +179,6 @@ namespace CyPhyCADAnalysis
             }
             finally
             {
-                if (MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 if (Logger!=null) Logger.Dispose();
                 MgaGateway = null;
                 project = null;
@@ -570,34 +565,34 @@ namespace CyPhyCADAnalysis
             result.RunCommand = "CyPhyCADAnalysis.bat";
             result.Labels = "Creo&&CADCreoParametricCreateAssembly.exev1.4";
 
-            parameters.Project.BeginTransactionInNewTerr();
-
-            string Parameters = parameters
-                .CurrentFCO
-                .ChildObjects
-                .OfType<MgaReference>()
-                .FirstOrDefault(x => x.Meta.Name == "WorkflowRef")
-                .Referred
-                .ChildObjects
-                .OfType<MgaAtom>()
-                .FirstOrDefault()
-                .StrAttrByName["Parameters"];
             Dictionary<string, string> workflowParameters = new Dictionary<string, string>();
+            MgaGateway.PerformInTransaction(() =>
+            {
+                string Parameters = parameters
+                    .CurrentFCO
+                    .ChildObjects
+                    .OfType<MgaReference>()
+                    .FirstOrDefault(x => x.Meta.Name == "WorkflowRef")
+                    .Referred
+                    .ChildObjects
+                    .OfType<MgaAtom>()
+                    .FirstOrDefault()
+                    .StrAttrByName["Parameters"];
 
-            try
-            {
-                workflowParameters = (Dictionary<string, string>)Newtonsoft.Json.JsonConvert.DeserializeObject(Parameters, typeof(Dictionary<string, string>));
-                if (workflowParameters == null)
+                try
                 {
-                    workflowParameters = new Dictionary<string, string>();
+                    workflowParameters = (Dictionary<string, string>)Newtonsoft.Json.JsonConvert.DeserializeObject(Parameters, typeof(Dictionary<string, string>));
+                    if (workflowParameters == null)
+                    {
+                        workflowParameters = new Dictionary<string, string>();
+                    }
                 }
-            }
-            catch (Newtonsoft.Json.JsonReaderException)
-            {
-            }
-            META.AnalysisTool.ApplyToolSelection(this.ComponentProgID, workflowParameters, this.result, parameters, modifyLabels: false);
-            this.result.Labels += " && CyPhyCADAnalysis" + JobManager.Job.LabelVersion; // META-2405
-            parameters.Project.AbortTransaction();
+                catch (Newtonsoft.Json.JsonReaderException)
+                {
+                }
+                META.AnalysisTool.ApplyToolSelection(this.ComponentProgID, workflowParameters, this.result, parameters, modifyLabels: false);
+                this.result.Labels += " && CyPhyCADAnalysis" + JobManager.Job.LabelVersion; // META-2405
+            }, abort: true);
 
             List<string> Inventor_Tests = new List<string>() {"closures", "field_of_view", "field_of_fire", "ergonomics", "ingress_egress", "transportability"};
             List<string> Leaf_Metrics = new List<string>() { "conceptual_mfg", "detailed_mfg", "completeness", "corrosion" };

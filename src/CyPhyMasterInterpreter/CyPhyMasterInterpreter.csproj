@@ -194,7 +194,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Registrar.cs" />
-    <Compile Include="MgaGateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\BlastTestBenchChecker.cs" />
     <Compile Include="Rules\CFDTestBenchChecker.cs" />

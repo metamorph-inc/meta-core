@@ -1,15 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
-using System.IO;
-using GME.MGA;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
 using System.IO;
 using GME.MGA;
@@ -102,6 +90,29 @@ namespace MasterInterpreterTest.Projects
 
             Assert.False(success, "CyPhyMasterInterpreter run should have failed, but did not.");
         }
+
+
+        [Fact]
+        [Trait("Model", "MBD")]
+        [Trait("MasterInterpreter", "RunInterpreterSuccess")]
+        public void MBD_SOT()
+        {
+            //string outputDir = "MI_10_TestBench_MSD_om_DS_MassSpringDamper_cfg4";
+            string objectAbsPath = "/@Testing/@TestBenchSuites/@Kinematic_SOT";
+            string configAbsPath = "/@ComponentAssemblies/@FourBar/@FourBar";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
     }
 
 }

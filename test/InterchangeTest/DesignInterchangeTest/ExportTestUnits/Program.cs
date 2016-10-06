@@ -385,7 +385,6 @@ namespace DesignExporterUnitTests
                 designExporter.Initialize(proj);
 
                 var mgaGateway = new MgaGateway(proj);
-                proj.CreateTerritoryWithoutSink(out mgaGateway.territory);
                 MgaFCO currentFCO = null;
                 mgaGateway.PerformInTransaction(delegate
                 {

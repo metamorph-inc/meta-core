@@ -200,79 +200,12 @@ namespace DesignConsistencyChecker.Framework
 
             IEnumerable<RuleDescriptor> rulesToCheck = null;
 
-            if (this.Model != null)
-            {
-                rulesToCheck = selectedRules.Where(x => x.RequiresElaboration == false);
-            }
-            else
-            {
-                // no model is open elaboration cannot be performed...
-                rulesToCheck = selectedRules;
-            }
+            rulesToCheck = selectedRules;
 
             foreach (var rule in rulesToCheck)
             {
                 this.CheckRule(ruleFeedbacks, checkerFeedbacks, rule);
             }
-
-            if (this.Model != null && selectedRules.Any(x => x.RequiresElaboration))
-            {
-                var terr = this.Project.ActiveTerritory;
-                this.Project.CommitTransaction();
-
-                try
-                {
-                    this.Project.BeginTransaction(terr);
-                    Type t = Type.GetTypeFromProgID("Mga.MgaFCOs");
-                    MgaFCOs fcos = Activator.CreateInstance(t) as MgaFCOs;
-
-                    if (this.CallElaborator(this.Project, this.Model, fcos, 0))
-                    {
-                        RefreshChildrenCache();
-
-                        foreach (var rule in selectedRules.Where(x => x.RequiresElaboration))
-                        {
-                            this.CheckRule(ruleFeedbacks, checkerFeedbacks, rule);
-                        }
-
-                        //var collapsed = this.CallElaborator(this.Project, this.Model, fcos, 0, expand: false);
-                        //if (collapsed == false)
-                        //{
-                        //    GMEConsole.Error.WriteLine("Elaborator collapse failed.");
-                        //}
-                    }
-                    else
-                    {
-                        if (this.Logger != null)
-                        {
-                            this.Logger.WriteError("Rules below cannot be checked while elaboration failed.");
-                        }
-                        else
-                        {
-                            GMEConsole.Error.WriteLine("Rules below cannot be checked while elaboration failed.");
-                        }
-
-                        foreach (var rule in selectedRules.Where(x => x.RequiresElaboration))
-                        {
-                            if (this.Logger != null)
-                            {
-                                this.Logger.WriteDebug(" - Name: {0} - Description: {1}", rule.Name, rule.Description);
-                            }
-                            else
-                            {
-                                GMEConsole.Out.WriteLine(" - Name: {0} - Description: {1}", rule.Name, rule.Description);
-                            }
-                        }
-                    }
-                }
-                finally
-                {
-                    this.Project.AbortTransaction();
-                }
-
-                this.Project.BeginTransaction(terr);
-            }
-
         }
 
 

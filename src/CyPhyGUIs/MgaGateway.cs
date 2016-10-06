@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GME;
-using GME.Util;
-using GME.MGA;
+﻿using GME.MGA;
 using GME.MGA.Meta;
+using System.Runtime.InteropServices;
 
 namespace GME.CSharp
 {
-    class MgaGateway
+    public class MgaGateway
     {
         public MgaGateway(IMgaProject project)
         {
@@ -17,12 +12,14 @@ namespace GME.CSharp
         }
 
         public IMgaProject project = null;
-        public IMgaTerritory territory = null;
 
-        #region TRANSACTION HANDLING
+        private bool projectWasInTransaction = false;
+        private bool projectHasBeenAborted = false;
+
         public void BeginTransaction(transactiontype_enum mode = transactiontype_enum.TRANSACTION_GENERAL)
         {
-            project.BeginTransaction(territory, mode);
+            var territory = project.BeginTransactionInNewTerr(mode);
+            Marshal.FinalReleaseComObject(territory);
         }
 
         public void CommitTransaction()
@@ -42,21 +39,44 @@ namespace GME.CSharp
         }
 
         public delegate void voidDelegate();
-        public void PerformInTransaction(voidDelegate d, transactiontype_enum mode = transactiontype_enum.TRANSACTION_GENERAL)
+        public void PerformInTransaction(
+            voidDelegate d,
+            transactiontype_enum mode = transactiontype_enum.TRANSACTION_NON_NESTED,
+            bool abort = true)
         {
-            BeginTransaction(mode);
+            this.projectWasInTransaction = (project.ProjectStatus & 8) != 0;
+            this.projectHasBeenAborted = false;
+
+            if (this.projectWasInTransaction == false)
+            {
+                BeginTransaction(mode);
+            }
+
             try
             {
                 d();
-                CommitTransaction();
+                if (this.projectWasInTransaction == false && abort)
+                {
+                    projectHasBeenAborted = true;
+                    AbortTransaction();
+                }
+                else if (this.projectWasInTransaction == false)
+                {
+                    CommitTransaction();
+                }
             }
-            finally
+            catch
             {
-                AbortTransaction();
+                if (this.projectWasInTransaction == false && projectHasBeenAborted == false)
+                {
+                    AbortTransaction();
+                }
+
+                throw;
             }
         }
-        #endregion
-        #region UTILITIES
+
+
         public IMgaMetaBase GetMetaByName(string name)
         {
             try
@@ -70,8 +90,6 @@ namespace GME.CSharp
             }
 #pragma warning restore 0168
         }
-
-        #endregion
 
 
     }

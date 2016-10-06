@@ -113,7 +113,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MgaGateway.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -129,6 +128,10 @@
     <ProjectReference Include="..\CyPhy2DesignInterchange\CyPhy2DesignInterchange.csproj">
       <Project>{931606C8-6178-4F8C-8E02-9D28C6D79FEA}</Project>
       <Name>CyPhy2DesignInterchange</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyGUIs\CyPhyGUIs.csproj">
+      <Project>{ab27ee78-6819-4b8c-b678-68bc4fbc99d2}</Project>
+      <Name>CyPhyGUIs</Name>
     </ProjectReference>
     <ProjectReference Include="..\CyPhyMLCS\CyPhyMLCS.csproj">
       <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>

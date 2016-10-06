@@ -67,7 +67,6 @@ namespace ComponentLibraryManagerTest
             var lastWriteTime_Manifest = File.GetLastWriteTime(path_Manifest);
             
             var mgaGateway = new MgaGateway(fixture.proj);
-            fixture.proj.CreateTerritoryWithoutSink(out mgaGateway.territory);
             mgaGateway.PerformInTransaction(delegate
             {
                 // Get path and check that it's not empty.
@@ -141,7 +140,6 @@ namespace ComponentLibraryManagerTest
             var orgNumCompDirs = Directory.EnumerateDirectories(Path.Combine(path_Test, "components"), "*", SearchOption.TopDirectoryOnly).Count();
 
             var mgaGateway = new MgaGateway(fixture.proj);
-            fixture.proj.CreateTerritoryWithoutSink(out mgaGateway.territory);
             mgaGateway.PerformInTransaction(delegate
             {
                 // Load the manifest and check how many components it contains.

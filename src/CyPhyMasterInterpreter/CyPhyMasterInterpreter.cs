@@ -225,7 +225,6 @@ namespace CyPhyMasterInterpreter
             {
                 GMEConsole = GMEConsole.CreateFromProject(project);
                 MgaGateway = new MgaGateway(project);
-                project.CreateTerritoryWithoutSink(out MgaGateway.territory);
 
                 this.GMEConsole.Clear();
                 System.Windows.Forms.Application.DoEvents();
@@ -267,10 +266,6 @@ namespace CyPhyMasterInterpreter
                 this.Logger.Dispose();
                 System.Windows.Forms.Application.DoEvents();
 
-                if (MgaGateway.territory != null)
-                {
-                    MgaGateway.territory.Destroy();
-                }
                 MgaGateway = null;
                 project = null;
                 currentobj = null;

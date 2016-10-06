@@ -42,6 +42,9 @@
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="ISIS.GME.Common">
       <HintPath>..\..\externals\common-scripts\ISIS.GME.Common.dll</HintPath>
     </Reference>
@@ -107,6 +110,7 @@
     <Compile Include="Interfaces.cs" />
     <Compile Include="InterpreterConfiguration.cs" />
     <Compile Include="InterpreterException.cs" />
+    <Compile Include="MgaGateway.cs" />
     <Compile Include="PCCInputDistribution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartLogger.cs" />
