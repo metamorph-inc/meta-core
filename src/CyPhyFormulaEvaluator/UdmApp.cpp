@@ -68,7 +68,7 @@ void CUdmApp::UdmMain(
 					 long param)						// Parameters
 {	
 	{
-		GMEConsole::Console::writeLine("Inside FormulaEvaluator", MSG_INFO);
+		// GMEConsole::Console::writeLine("Inside FormulaEvaluator", MSG_INFO);
 
 		if (focusObject == Udm::null)
 		{
