@@ -354,7 +354,6 @@
       <ComponentGroupRef Id='CyPhyCriticalityMeter'/>
       <ComponentGroupRef Id='CyphyDSEConverter'/>
       <ComponentGroupRef Id='CyPhyDSRefiner'/>
-      <!-- Commented out in install.cmd: CADAddOn.dll -->
       <ComponentRef Id='XSD2CSharp.dll' />
       <ComponentRef Id='CyPhy2ComponentModel.dll' />
       <ComponentGroupRef Id='CyPhyComponentImporter' />
