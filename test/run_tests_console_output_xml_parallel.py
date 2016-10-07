@@ -26,7 +26,20 @@ def main(*xunitfile_and_result_dirs):
     return threads.map_async(star_test, tests).get()
 
 if __name__ == '__main__':
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Run xunit in parallel.')
+    parser.add_argument('xunit_files', nargs='*', default=['tests.xunit'])
+    parser.add_argument('--start-failed', action='store_true')
+
+    args = parser.parse_args()
+
     _this_dir = os.path.dirname(os.path.abspath(__file__))
-    xml_files = main((os.path.join(_this_dir, 'tests.xunit'), os.path.join(_this_dir, 'results')))
+    xml_files = main(*[(xunit_file, os.path.abspath(os.path.join(os.path.dirname(xunit_file), 'results'))) for xunit_file in args.xunit_files])
     run_tests_console_output_xml.amalgamate_nunit_xmls([xml_file for xml_file in xml_files if xml_file is not None], os.path.join(_this_dir, 'nunit_results.xml'))
 
+    if args.start_failed:
+        from xml.etree import ElementTree
+        for xml_file in xml_files:
+            if int(ElementTree.parse(xml_file).getroot().get('failures')):
+                subprocess.check_call(['cmd.exe', '/c', 'start', xml_file + '.html'])
