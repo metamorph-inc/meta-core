@@ -398,7 +398,7 @@ namespace CyPhyElaborateCS
             this.RunInTransaction(project, currentobj, selectedobjs, param);
         }
 
-        public bool RunInTransaction(MgaProject project, MgaFCO currentobj, MgaFCOs selectedobjs, int param)
+        public bool RunInTransaction(MgaProject project, MgaFCO currentobj, MgaFCOs selectedobjs, int param, string outputDirectory=null)
         {
             bool success = false;
             bool shouldDisposeLogger = false;
@@ -461,21 +461,9 @@ namespace CyPhyElaborateCS
                     {
                         success = this.Main(project, currentobj, selectedobjs, this.Convert(param));
 
-                        if (parameters!= null)
+                        if (String.IsNullOrEmpty(outputDirectory) == false)
                         {
-                            var tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(parameters.OutputDirectory);
-                            Dictionary<string, AVM.DDP.MetaTBManifest.Metric> metrics = tbManifest.Metrics.ToDictionary(metric => metric.Name);
-                            foreach (MgaFCO metricFco in ((MgaModel)parameters.CurrentFCO).ChildFCOs.Cast<MgaFCO>()
-                                .Where(fco => fco.Meta.Name == "Metric"))
-                            {
-                                AVM.DDP.MetaTBManifest.Metric metric;
-                                if (metrics.TryGetValue(metricFco.Name, out metric))
-                                {
-                                    metric.Value = metricFco.GetStrAttrByNameDisp("Value");
-                                }
-                            }
-
-                            tbManifest.Serialize(parameters.OutputDirectory);
+                            UpdateMetricsInTestbenchManifest(currentobj, outputDirectory);
                         }
                     },
                     transactiontype_enum.TRANSACTION_NON_NESTED);
@@ -526,6 +514,23 @@ namespace CyPhyElaborateCS
             }
 
             return success;
+        }
+
+        public static void UpdateMetricsInTestbenchManifest(MgaFCO currentobj, string outputDirectory)
+        {
+            var tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(outputDirectory);
+            Dictionary<string, AVM.DDP.MetaTBManifest.Metric> metrics = tbManifest.Metrics.ToDictionary(metric => metric.Name);
+            foreach (MgaFCO metricFco in ((MgaModel)currentobj).ChildFCOs.Cast<MgaFCO>()
+                .Where(fco => fco.Meta.Name == "Metric"))
+            {
+                AVM.DDP.MetaTBManifest.Metric metric;
+                if (metrics.TryGetValue(metricFco.Name, out metric))
+                {
+                    metric.Value = metricFco.GetStrAttrByNameDisp("Value");
+                }
+            }
+
+            tbManifest.Serialize(outputDirectory);
         }
 
         private ComponentStartMode Convert(int param)
@@ -775,7 +780,7 @@ namespace CyPhyElaborateCS
         {
             var result = new InterpreterResult();
             this.parameters = parameters;
-            result.Success = this.RunInTransaction(parameters.CurrentFCO.Project, parameters.CurrentFCO, parameters.SelectedFCOs, 128);
+            result.Success = this.RunInTransaction(parameters.CurrentFCO.Project, parameters.CurrentFCO, parameters.SelectedFCOs, 128, parameters.OutputDirectory);
             result.RunCommand = "cmd.exe /c \"\"";
 
             return result;
