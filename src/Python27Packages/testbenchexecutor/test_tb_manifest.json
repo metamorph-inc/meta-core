@@ -1,0 +1,61 @@
+{
+  "Status": "UNEXECUTED",
+  "Artifacts": [],
+  "VisualizationArtifacts": [],
+  "Created": "2014-02-20T18:54:21.5307975Z",
+  "DesignID": "{394667be-3fc7-4dcf-a522-44e78a1e121f}",
+  "DesignName": "SimpleRL_cfg1",
+  "Metrics": [
+    {
+      "VisualizationArtifacts": [],
+      "Description": "",
+      "Name": "MaximumCurrent",
+      "Unit": "",
+      "Value": "",
+      "ID": "09f02cf6-2b07-4f74-bcfc-9d76bb3ccb94",
+      "DisplayedName": null,
+      "GMEID": "id-0067-00000694"
+    }
+  ],
+  "Parameters": [
+    {
+      "Range": "-inf..inf",
+      "Description": "",
+      "Name": "Voltage",
+      "Unit": "Volt",
+      "Value": "5",
+      "ID": "b87e3db0-a789-48bf-aa8e-c36f4640a8e5",
+      "DisplayedName": null,
+      "GMEID": "id-0067-00000693"
+    }
+  ],
+  "Steps": [
+    {
+      "Description": null,
+      "ExecutionCompletionTimestamp": null,
+      "ExecutionStartTimestamp": null,
+      "Invocation": "dir .",
+      "Parameters": [],
+      "PostProcess": null,
+      "PreProcess": null,
+      "Type": null,
+      "Status": "UNEXECUTED",
+      "LogFile": null
+    },
+    {
+      "Description": null,
+      "ExecutionCompletionTimestamp": null,
+      "ExecutionStartTimestamp": null,
+      "Invocation": "dir ..",
+      "Parameters": [],
+      "PostProcess": null,
+      "PreProcess": null,
+      "Type": null,
+      "Status": "UNEXECUTED",
+      "LogFile": null
+    }
+  ],
+  "TestBench": "DynamicsSimulation_ds",
+  "TierLevel": 0,
+  "CopyTestResults": false
+}
