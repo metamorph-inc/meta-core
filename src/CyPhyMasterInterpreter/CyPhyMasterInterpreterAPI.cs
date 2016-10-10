@@ -227,7 +227,7 @@
         /// <exception cref="NullReferenceException" />
         /// <exception cref="ExecutionCanceledByUserException" />
         [ComVisible(false)]
-        public ConfigurationSelection ShowConfigurationSelectionForm(IMgaModel context)
+        public ConfigurationSelection ShowConfigurationSelectionForm(IMgaModel context, bool enableDebugging=false)
         {
             if (context == null)
             {
@@ -263,7 +263,7 @@
             var interpreters = analysisModelProcessor.GetWorkflow();
             configurationSelectionInput.InterpreterNames = interpreters.Select(x => x.Name).ToArray();
 
-            using (ConfigurationSelectionForm selectionForm = new ConfigurationSelectionForm(configurationSelectionInput))
+            using (ConfigurationSelectionForm selectionForm = new ConfigurationSelectionForm(configurationSelectionInput, enableDebugging))
             {
                 System.Windows.Forms.DialogResult dialogResult = System.Windows.Forms.DialogResult.None;
                 if (this.IsInteractive)
@@ -450,7 +450,10 @@
                 MasterInterpreterResult thisResult = null;
                 if (keepTempModels == true)
                 {
-                    thisResult = this.RunAnalysisModelProcessors(context, configuration, postToJobManager, keepTempModels);
+                    this.ExecuteInTransaction(context, () =>
+                    {
+                        thisResult = this.RunAnalysisModelProcessors(context, configuration, postToJobManager, keepTempModels);
+                    }, abort: false);
                 }
                 else
                 {
@@ -571,7 +574,7 @@
                                 this.Logger.WriteDebug(result.Exception);
                             }
                         }
-                    });
+                    }, type: transactiontype_enum.TRANSACTION_READ_ONLY);
                 }
                 finally
                 {
@@ -1049,7 +1052,7 @@
             return Path.GetFullPath(Path.Combine(this.ProjectManifest.OutputDirectory, "index.html"));
         }
 
-        private void ExecuteInTransaction(IMgaObject context, Action doWork, bool abort=false)
+        private void ExecuteInTransaction(IMgaObject context, Action doWork, bool abort=false, transactiontype_enum type = transactiontype_enum.TRANSACTION_NON_NESTED)
         {
             if (context == null ||
                 doWork == null)
@@ -1057,10 +1060,10 @@
                 throw new ArgumentNullException();
             }
 
-            this.ExecuteInTransaction(context.Project, doWork, abort);
+            this.ExecuteInTransaction(context.Project, doWork, abort, type);
         }
 
-        private void ExecuteInTransaction(MgaProject project, Action doWork, bool abort=false)
+        private void ExecuteInTransaction(MgaProject project, Action doWork, bool abort=false, transactiontype_enum type=transactiontype_enum.TRANSACTION_NON_NESTED)
         {
             if (project == null ||
                 doWork == null)
@@ -1074,7 +1077,7 @@
                 doWork();
                 return;
             }
-            project.BeginTransactionInNewTerr(transactiontype_enum.TRANSACTION_NON_NESTED);
+            project.BeginTransactionInNewTerr(type);
 
             try
             {

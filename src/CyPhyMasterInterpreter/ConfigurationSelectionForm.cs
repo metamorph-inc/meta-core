@@ -24,8 +24,9 @@ namespace CyPhyMasterInterpreter
         public ConfigurationSelectionOutput ConfigurationSelectionResult {get; set;}
         private ConfigurationSelectionInput m_Input { get; set; }
 
-        public ConfigurationSelectionForm(ConfigurationSelectionInput input)
+        public ConfigurationSelectionForm(ConfigurationSelectionInput input, bool enableDebugging)
         {
+            this.EnableDebugging = enableDebugging;
             this.InitializeComponent();
 
             // verify all properties in input
@@ -102,6 +103,8 @@ namespace CyPhyMasterInterpreter
 
             this.lbExportedCAs.Refresh();
             this.lbConfigModels.Refresh();
+
+            this.chbSaveTestBenches.Visible = EnableDebugging;
         }
 
 
@@ -188,6 +191,7 @@ namespace CyPhyMasterInterpreter
         }
 
         private int LastTipIdx { get; set; }
+        public bool EnableDebugging { get; internal set; }
 
         private void lbExportedCAs_MouseMove(object sender, MouseEventArgs e)
         {
