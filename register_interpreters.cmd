@@ -8,7 +8,7 @@ rem TODO: register more Decorators?
 rem not being built:
 rem meta/MaterialLibImporter
 rem src/CyPhyMasterInterpreterChecker
-if exist "src\DesignConsistencyChecker\bin\Release\instrumented\DesignConsistencyChecker.dll" %windir%\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe /nologo /codebase "src\DesignConsistencyChecker\bin\Release\instrumented\DesignConsistencyChecker.dll" || exit /b !ERRORLEVEL!
+if exist "src\DesignConsistencyChecker\bin\Release\DesignConsistencyChecker.dll" %windir%\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe /nologo /codebase "src\DesignConsistencyChecker\bin\Release\DesignConsistencyChecker.dll" || exit /b !ERRORLEVEL!
 if exist "src\CyPhyComponentFidelitySelector\bin\Release\CyPhyComponentFidelitySelector.dll" %windir%\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe /nologo /codebase "src\CyPhyComponentFidelitySelector\bin\Release\CyPhyComponentFidelitySelector.dll" || exit /b !ERRORLEVEL!
 if exist "src\CyPhyGUIs\bin\Release\CyPhyGUIs.dll" %windir%\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe /nologo /codebase /tlb "src\CyPhyGUIs\bin\Release\CyPhyGUIs.dll" || exit /b !ERRORLEVEL!
 if exist "src\bin\CPMDecorator.dll" %windir%\SysWOW64\regsvr32 /s "src\bin\CPMDecorator.dll" || exit /b !ERRORLEVEL!
