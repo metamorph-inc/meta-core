@@ -64,6 +64,8 @@ namespace PythonTest
                     "PCC",
                     "py_modelica",
                     "py_modelica_exporter",
+                    "run_mdao",
+                    "testbenchexecutor",
             };
 
             foreach (var test in module_names.Select(moduleName =>
