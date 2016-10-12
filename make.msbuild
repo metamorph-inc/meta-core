@@ -52,6 +52,7 @@
   </Target>
  
   <Target Name="CyPhyML-Cyber2Code">
+    <Error Text="GREAT_PATH='$(GREAT_PATH)' doesn't exist" Condition="!Exists('$(GREAT_PATH)')"/>
     <Exec Command=".nuget\NuGet.exe restore MDL2MGACyPhyML.sln"
         WorkingDirectory="$(MSBuildThisFileDirectory)\externals\HCDDES"/> 
     <Exec Command=".nuget\NuGet.exe restore Cyber2Code.sln"
