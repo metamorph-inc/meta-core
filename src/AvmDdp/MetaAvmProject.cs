@@ -170,7 +170,7 @@ namespace AVM.DDP
             return Directory.CreateDirectory(Path.Combine(this.OutputDirectory, "test-benches")).FullName;
         }
 
-        public bool SaveTestBenchManifest(string designName, CyPhy.TestBenchType expandedTestBenchType, string outputDir, CyPhy.TestBenchType origialTestBenchType = null)
+        public bool SaveTestBenchManifest(string designName, string configurationName, CyPhy.TestBenchType expandedTestBenchType, string outputDir, CyPhy.TestBenchType origialTestBenchType, DateTime analysisStartTime)
         {
             if (expandedTestBenchType == null)
             {
@@ -197,6 +197,8 @@ namespace AVM.DDP
 
                 // test bench name fixture
                 manifest.TestBench = origialTestBenchType.Name;
+
+                manifest.CfgID = configurationName;
 
                 manifest.Serialize(outputDir);
 

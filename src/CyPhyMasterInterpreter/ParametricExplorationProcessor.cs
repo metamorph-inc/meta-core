@@ -153,7 +153,7 @@ namespace CyPhyMasterInterpreter
             return success;
         }
 
-        public override bool SaveTestBenchManifest(AVM.DDP.MetaAvmProject project)
+        public override bool SaveTestBenchManifest(AVM.DDP.MetaAvmProject project, string configurationName, DateTime analysisStartTime)
         {
             if (project == null)
             {
@@ -184,10 +184,11 @@ namespace CyPhyMasterInterpreter
 
             var success = project.SaveTestBenchManifest(
                 this.Configuration.Name,
+                configurationName,
                 expandedTestBench,
                 this.OutputDirectory,
-                originalTestBench);
-
+                originalTestBench,
+                analysisStartTime);
 
             return success;
         }
