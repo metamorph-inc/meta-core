@@ -1107,6 +1107,8 @@
             }
         }
 
+        DateTime MasterInterpreterStartTime = DateTime.Now;
+
         private MasterInterpreterResult RunAnalysisModelProcessors(
             IMgaModel context,
             IMgaFCO configuration,
@@ -1234,7 +1236,7 @@
                     }
 
                     this.Logger.WriteDebug("Saving test bench manifest");
-                    bool successTestBenchManifest = analysisModelProcessor.SaveTestBenchManifest(this.ProjectManifest);
+                    bool successTestBenchManifest = analysisModelProcessor.SaveTestBenchManifest(this.ProjectManifest, configuration.Name, MasterInterpreterStartTime);
                     result.Success = result.Success && successTestBenchManifest;
 
                     if (successTestBenchManifest)
@@ -1286,7 +1288,7 @@
 
                 bool isVerbose = this.Logger.GMEConsoleLoggingLevel == CyPhyGUIs.SmartLogger.MessageType_enum.Debug;
 
-                    analysisModelProcessor.RunInterpreters(keepTempModels == false, isVerbose);
+                analysisModelProcessor.RunInterpreters(keepTempModels == false, isVerbose);
                 result.OutputDirectory = analysisModelProcessor.OutputDirectory;
 
                 this.Logger.WriteDebug("Interpreters finished.");
