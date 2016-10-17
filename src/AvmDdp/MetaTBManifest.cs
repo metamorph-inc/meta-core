@@ -82,6 +82,16 @@ namespace AVM.DDP
             public string Directory { get; set; }
         }
 
+        public class DesignType
+        {
+            public string Name { get; set; }
+            public string Type { get; set; }
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public List<DesignType> Children { get; set; }
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public bool? Selected { get; set; }
+        }
+
         [JsonConverter(typeof(StringEnumConverter))]
         public StatusEnum Status { get; set; }
 
@@ -96,8 +106,12 @@ namespace AVM.DDP
         public List<Parameter> Parameters { get; set; }
         public List<Step> Steps { get; set; }
         public string TestBench { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? TierLevel { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public bool? CopyTestResults { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public DesignType Design { get; set; }
 
         public MetaTBManifest()
         {         

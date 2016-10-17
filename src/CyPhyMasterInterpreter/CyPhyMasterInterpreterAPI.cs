@@ -227,7 +227,7 @@
         /// <exception cref="NullReferenceException" />
         /// <exception cref="ExecutionCanceledByUserException" />
         [ComVisible(false)]
-        public ConfigurationSelection ShowConfigurationSelectionForm(IMgaModel context, bool enableDebugging=false)
+        public ConfigurationSelection ShowConfigurationSelectionForm(IMgaModel context, bool enableDebugging = false)
         {
             if (context == null)
             {
@@ -393,7 +393,7 @@
             var count = 0;
             //this.ExecuteInTransaction(context, () =>
             //{
-                count = resolvedConfigurations.Count;
+            count = resolvedConfigurations.Count;
             //});
 
             var currentNumber = 0;
@@ -1052,7 +1052,7 @@
             return Path.GetFullPath(Path.Combine(this.ProjectManifest.OutputDirectory, "index.html"));
         }
 
-        private void ExecuteInTransaction(IMgaObject context, Action doWork, bool abort=false, transactiontype_enum type = transactiontype_enum.TRANSACTION_NON_NESTED)
+        private void ExecuteInTransaction(IMgaObject context, Action doWork, bool abort = false, transactiontype_enum type = transactiontype_enum.TRANSACTION_NON_NESTED)
         {
             if (context == null ||
                 doWork == null)
@@ -1063,7 +1063,7 @@
             this.ExecuteInTransaction(context.Project, doWork, abort, type);
         }
 
-        private void ExecuteInTransaction(MgaProject project, Action doWork, bool abort=false, transactiontype_enum type=transactiontype_enum.TRANSACTION_NON_NESTED)
+        private void ExecuteInTransaction(MgaProject project, Action doWork, bool abort = false, transactiontype_enum type = transactiontype_enum.TRANSACTION_NON_NESTED)
         {
             if (project == null ||
                 doWork == null)
@@ -1136,7 +1136,7 @@
 
             try
             {
-                this.Logger.WriteDebug("Turning off addons for perfomance reasons: {0}", string.Join(", ", this.addonNames));
+                this.Logger.WriteDebug("Turning off addons for performance reasons: {0}", string.Join(", ", this.addonNames));
                 this.TurnOffAddons(context);
 
                 this.ExecuteInTransaction(context, () =>
@@ -1165,11 +1165,16 @@
                         Title = "Expanding"
                     });
 
+                    AVM.DDP.MetaTBManifest.DesignType ddpDesign = null;
                     if (configuration.MetaBase.Name == typeof(CyPhy.CWC).Name)
                     {
                         this.Logger.WriteDebug("{0} was specified as configuration. Start expanding it. {1}", configuration.MetaBase.Name, configuration.AbsPath);
                         analysisModelProcessor.Expand(CyPhyClasses.CWC.Cast(configuration));
                         this.Logger.WriteDebug("Expand finished for {0}", configuration.AbsPath);
+
+                        var configs = (CyPhy.Configurations)CyPhyClasses.CWC.Cast(configuration).ParentContainer;
+                        var designContainer = (CyPhy.DesignContainer)configs.ParentContainer;
+                        ddpDesign = GetSelectedDesign(CyPhyClasses.CWC.Cast(configuration), designContainer);
                     }
                     else if (configuration.MetaBase.Name == typeof(CyPhy.ComponentAssembly).Name)
                     {
@@ -1237,6 +1242,11 @@
 
                     this.Logger.WriteDebug("Saving test bench manifest");
                     bool successTestBenchManifest = analysisModelProcessor.SaveTestBenchManifest(this.ProjectManifest, configuration.Name, MasterInterpreterStartTime);
+
+                    var manifest = AVM.DDP.MetaTBManifest.OpenForUpdate(analysisModelProcessor.OutputDirectory);
+                    manifest.Design = ddpDesign;
+                    manifest.Serialize(analysisModelProcessor.OutputDirectory);
+
                     result.Success = result.Success && successTestBenchManifest;
 
                     if (successTestBenchManifest)
@@ -1442,6 +1452,42 @@
             }
 
             return result;
+        }
+
+        private AVM.DDP.MetaTBManifest.DesignType GetSelectedDesign(CyPhy.CWC cwc, CyPhy.DesignContainer designContainer)
+        {
+            HashSet<string> selectedIDs = new HashSet<string>();
+            foreach (var fco in cwc.Children.DesignEntityRefCollection)
+            {
+                selectedIDs.Add(fco.GenericReferred.ID);
+            }
+
+            var rootDesign = new AVM.DDP.MetaTBManifest.DesignType();
+            Queue<Tuple<CyPhy.DesignContainer, AVM.DDP.MetaTBManifest.DesignType>> designs = new Queue<Tuple<CyPhy.DesignContainer, AVM.DDP.MetaTBManifest.DesignType>>();
+            designs.Enqueue(new Tuple<CyPhy.DesignContainer, AVM.DDP.MetaTBManifest.DesignType>(designContainer, rootDesign));
+            while (designs.Count > 0)
+            {
+                var design = designs.Dequeue();
+                var cyPhyDesign = design.Item1;
+                design.Item2.Name = cyPhyDesign.Name;
+                design.Item2.Type = cyPhyDesign.Attributes.ContainerType.ToString();
+                design.Item2.Children = new List<AVM.DDP.MetaTBManifest.DesignType>();
+                foreach (var child in cyPhyDesign.Children.DesignContainerCollection)
+                {
+                    var childDdpDesign = new AVM.DDP.MetaTBManifest.DesignType();
+                    designs.Enqueue(new Tuple<CyPhy.DesignContainer, AVM.DDP.MetaTBManifest.DesignType>(child, childDdpDesign));
+                    design.Item2.Children.Add(childDdpDesign);
+                }
+                foreach (var child in cyPhyDesign.Children.ComponentRefCollection.Concat<ISIS.GME.Common.Interfaces.FCO>(cyPhyDesign.Children.ComponentCollection))
+                {
+                    var childDesign = new AVM.DDP.MetaTBManifest.DesignType();
+                    childDesign.Name = child.Name;
+                    childDesign.Type = "Component";
+                    childDesign.Selected = selectedIDs.Contains(child.ID);
+                    design.Item2.Children.Add(childDesign);
+                }
+            }
+            return rootDesign;
         }
 
         private void TurnOnAddons(IMgaModel context)
