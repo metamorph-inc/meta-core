@@ -1459,7 +1459,10 @@
             HashSet<string> selectedIDs = new HashSet<string>();
             foreach (var fco in cwc.Children.DesignEntityRefCollection)
             {
-                selectedIDs.Add(fco.GenericReferred.ID);
+                if (fco.GenericReferred != null)
+                {
+                    selectedIDs.Add(fco.GenericReferred.ID);
+                }
             }
 
             var rootDesign = new AVM.DDP.MetaTBManifest.DesignType();
