@@ -14,6 +14,8 @@
 
 #define _ATL_APARTMENT_THREADED
 
+#define GME_COMPONENT_ISUPPORTERRORINFO
+
 #include <afxwin.h>
 #include <afxdisp.h>
 

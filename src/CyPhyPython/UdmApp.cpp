@@ -33,16 +33,18 @@ struct PyObject_RAII
 	~PyObject_RAII() { Py_XDECREF(p); }
 };
 
-std::string GetPythonError()
+std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
 {
 	PyObject_RAII type, value, traceback;
 	PyErr_Fetch(&type.p, &value.p, &traceback.p);
 	PyErr_Clear();
 	std::string error;
+	bool isErrorMessageException = false;
 	if (type)
 	{
+		isErrorMessageException = ErrorMessageException != nullptr && PyObject_IsSubclass(type, ErrorMessageException) == 1;
 		PyObject_RAII type_name = PyObject_GetAttrString(type, "__name__");
-		if (type_name && PyString_Check(type_name))
+		if (isErrorMessageException == false && type_name && PyString_Check(type_name))
 		{
 			error += PyString_AsString(type_name);
 			error += ": ";
@@ -63,21 +65,23 @@ std::string GetPythonError()
 	else
 		error += "Unknown exception";
 
-	error += ": ";
-	if (traceback)
-	{
-		PyObject_RAII main = PyImport_ImportModule("__main__");
-		PyObject* main_namespace = PyModule_GetDict(main);
-		PyObject_RAII dict = PyDict_Copy(main_namespace);
-		PyDict_SetItemString(dict, "tb", traceback);
-		PyObject_RAII _none = PyRun_StringFlags(
-			"import traceback\n"
-			"tb = ''.join(traceback.format_tb(tb))\n", Py_file_input, dict, dict, NULL);
-		PyObject* formatted_traceback = PyDict_GetItemString(dict, "tb");
-		error += PyString_AsString(formatted_traceback);
+	if (isErrorMessageException == false) {
+		error += ": ";
+		if (traceback)
+		{
+			PyObject_RAII main = PyImport_ImportModule("__main__");
+			PyObject* main_namespace = PyModule_GetDict(main);
+			PyObject_RAII dict = PyDict_Copy(main_namespace);
+			PyDict_SetItemString(dict, "tb", traceback);
+			PyObject_RAII _none = PyRun_StringFlags(
+				"import traceback\n"
+				"tb = ''.join(traceback.format_tb(tb))\n", Py_file_input, dict, dict, NULL);
+			PyObject* formatted_traceback = PyDict_GetItemString(dict, "tb");
+			error += PyString_AsString(formatted_traceback);
+		}
+		else
+			error += "Unknown traceback";
 	}
-	else
-		error += "Unknown traceback";
 	return error;
 }
 
@@ -266,6 +270,18 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	}
 	
 	PyObject* CyPhyPython = Py_InitModule("CyPhyPython", CyPhyPython_methods);
+	PyObject* CyPhyPython_namespace = PyModule_GetDict(CyPhyPython);
+	PyDict_SetItemString(CyPhyPython_namespace, "__builtins__", PyEval_GetBuiltins());
+	ret = PyRun_StringFlags(
+		"class ErrorMessageException(Exception):\n"
+		"    'An Exception for which CyPhyPython does not print the stack trace'\n"
+		"    pass\n",
+		Py_file_input, CyPhyPython_namespace, CyPhyPython_namespace, NULL);
+	if (ret == NULL && PyErr_Occurred())
+	{
+		throw python_error(GetPythonError());
+	}
+	PyObject_RAII ErrorMessageException = PyDict_GetItemString(CyPhyPython_namespace, "ErrorMessageException");
 	auto console_messages = componentParameters.find(L"console_messages");
 	if (console_messages != componentParameters.end()
 		&& console_messages->second.vt == VT_BSTR
@@ -462,7 +478,7 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 		std::unique_ptr<python_error> invokeError;
 		if (ret == nullptr && PyErr_Occurred())
 		{
-			invokeError = std::unique_ptr<python_error>(new python_error(GetPythonError()));
+			invokeError = std::unique_ptr<python_error>(new python_error(GetPythonError(ErrorMessageException)));
 		}
 
 		PyObject_RAII dn_close;

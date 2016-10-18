@@ -15,6 +15,8 @@
 #include "RawComponent.h"
 #include "UdmConsole.h"
 
+__declspec(noreturn) void ThrowComError(HRESULT hr, LPOLESTR err);
+
 using namespace std;
 
 // this method is called after all the generic initialization is done
@@ -155,6 +157,12 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
                 COMTHROW(ccpProject->AbortTransaction());
             throw;
         }
+		catch (std::exception& e)
+		{
+			if (!(status & 8))
+				COMTHROW(ccpProject->AbortTransaction());
+			throw;
+		}
     }
 	catch (python_error& e)
 	{
@@ -184,15 +192,22 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 			}
 		}
 		GMEConsole::Console::Error::writeLine(html_encode<char>(e.what()));
-		return E_FAIL;
+		GMEConsole::Console::gmeoleapp = 0;
+		ThrowComError(E_FAIL, _bstr_t(e.what()));
 	}
-	catch(...)
+	catch (std::exception& e)
+	{
+		GMEConsole::Console::Error::writeLine(html_encode<char>(e.what()));
+		GMEConsole::Console::gmeoleapp = 0;
+		ThrowComError(E_FAIL, _bstr_t(e.what()));
+	}
+	catch (...)
 	{
 		ccpProject->AbortTransaction();
 		GMEConsole::Console::gmeoleapp = 0;
 		// This can be a problem with the GME Console, so we display it in a message box
 		AfxMessageBox(L"An unexpected error has occurred during the interpretation process.");
-		return E_FAIL;
+		ThrowComError(E_FAIL, L"An unexpected error has occurred during the interpretation process.");
 	}
 	GMEConsole::Console::gmeoleapp = 0;
 	return S_OK;
