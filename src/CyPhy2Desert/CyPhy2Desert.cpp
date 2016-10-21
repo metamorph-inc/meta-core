@@ -2323,13 +2323,26 @@ void CyPhy2Desert::insertParameterMap(const CyPhyML::Parameter &param, map<std::
 void CyPhy2Desert::preprocessParameters(CyPhyML::DesignContainer &dc)
 {
 	set<CyPhyML::DesignContainer> dcs = dc.DesignContainer_kind_children();
-	for(auto it=dcs.begin();it!=dcs.end();++it)
+	for (auto it = dcs.begin(); it != dcs.end(); ++it)
 	{
 		CyPhyML::DesignContainer dc_child = *it;
-		if((std::string)(dc_child.ContainerType())=="Compound")
+		if ((std::string)(dc_child.ContainerType()) == "Compound")
 			continue;
 		set<CyPhyML::Parameter> parameters = dc_child.Parameter_kind_children();
 		preprocessParameters(parameters);
+	}
+
+	set<CyPhyML::Property> properties = dc.Property_children();
+	set<std::string> propertyNames;
+	for (auto it = properties.begin(); it != properties.end(); ++it)
+	{
+		if (propertyNames.insert(it->name()).second != true)
+		{
+			std::string hyperlink = "<a href=\"mga:" + UdmGme::UdmId2GmeId(it->uniqueId()) + "\">" + static_cast<std::string>(it->name()) + "</a>";
+
+			errorMsg = std::string("Duplicate Property name \"") + hyperlink + "\"";
+			throw udm_exception(std::string("Duplicate Property name \"") + static_cast<std::string>(it->name()) + "\"");
+		}
 	}
 }
 

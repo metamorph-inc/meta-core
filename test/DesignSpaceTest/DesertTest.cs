@@ -8,6 +8,7 @@ using System.IO;
 using System.Reflection;
 using GME.CSharp;
 using ISIS.GME.Dsml.CyPhyML.Interfaces;
+using System.Runtime.InteropServices;
 
 namespace DesignSpaceTest
 {
@@ -48,6 +49,7 @@ namespace DesignSpaceTest
             {
                 currentobj = (MgaFCO)project.RootFolder.ObjectByPath[dsPath];
             });
+            Xunit.Assert.True(currentobj != null, string.Format("'{0}' does not exist in model", dsPath));
 
             desert.Initialize(project);
             desert.InvokeEx(project, currentobj, null, 128);
@@ -119,6 +121,17 @@ namespace DesignSpaceTest
                 Assert.Equal(1, configurations.Count());
                 Assert.Equal(2, configurations.First().Children.CWCCollection.Count());
             }, null);
+
+        }
+
+        [Fact]
+        void TestDesert_DesignContainer_DupPropName()
+        {
+            // bug was fixed where desert would stack overflow. Now the model is rejected
+            Assert.Throws(typeof(COMException), () =>
+                DesertTestBase("/@DesignSpaces/@DesignContainer_DupPropName", (configurations) =>
+                {
+                }, null));
 
         }
 
