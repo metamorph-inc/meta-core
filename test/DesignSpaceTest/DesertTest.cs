@@ -111,6 +111,17 @@ namespace DesignSpaceTest
 
         }
 
+        [Fact(Skip = "Fails due to desert bug")]
+        void TestDesert_DesignContainer_Alt_SimpleProp()
+        {
+            DesertTestBase("/@DesignSpaces/@DesignContainer_Alt_SimpleProp", (configurations) =>
+            {
+                Assert.Equal(1, configurations.Count());
+                Assert.Equal(2, configurations.First().Children.CWCCollection.Count());
+            }, null);
+
+        }
+
         [Fact]
         void TestDesert_DesignContainer_Formula()
         {
