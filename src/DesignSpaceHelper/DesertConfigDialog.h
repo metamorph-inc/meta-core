@@ -68,7 +68,8 @@ private:
 //	CCheckHeadCtrl	m_checkHeadCtrl;
 	HTREEITEM m_cfgTreeRootItem;
 //	BOOL initHeadListCtr();
-	void updateSize(int checkedSize);
+	int checkedSize;
+	void updateSize();
 	void updateConfigList(HTREEITEM &item, set<int> &cfgIds, int &cnt, bool isAlt=false);
 	set<int> computeConfigList(HTREEITEM &item, set<int> cfgIds);
 	void updateConfigList(set<int> &cfgIds, bool check=true);
@@ -79,8 +80,6 @@ private:
 	bool noneChecked;
 
 public:
-	afx_msg void OnNMClickCfgtree(NMHDR *pNMHDR, LRESULT *pResult);
-	LRESULT OnTreeViewCheckStateChange(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnBnClickedCyPhy2MorphMatrix();
 	afx_msg void OnBnClickedMorphMatrix2CyPhy();
 	afx_msg void OnNMDblclkCfglist(NMHDR *pNMHDR, LRESULT *pResult);

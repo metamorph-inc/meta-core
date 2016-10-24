@@ -12,8 +12,6 @@
 
 #define WTIMES	1.6
 
-#define TREE_VIEW_CHECK_STATE_CHANGE (WM_USER + 100) 
-
 IMPLEMENT_DYNAMIC(CDesertConfigDialog, CDialog)
 
 CDesertConfigDialog::CDesertConfigDialog(CWnd* pParent /*=NULL*/)
@@ -52,8 +50,6 @@ BEGIN_MESSAGE_MAP(CDesertConfigDialog, CDialog)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_CFGLIST, &CDesertConfigDialog::OnLvnItemchangedCfglist)
 	ON_BN_CLICKED(IDC_CLEARALLBTN, &CDesertConfigDialog::OnBnClickedClearallbtn)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_CONSTRAINTLIST, &CDesertConfigDialog::OnNMCustomdrawConstraintlist)
-	ON_NOTIFY(NM_CLICK, IDC_CFGTREE, &CDesertConfigDialog::OnNMClickCfgtree)
-	ON_MESSAGE(TREE_VIEW_CHECK_STATE_CHANGE, OnTreeViewCheckStateChange)
 	ON_BN_CLICKED(IDC_CYPHY2MORPHMATRIX, &CDesertConfigDialog::OnBnClickedCyPhy2MorphMatrix)
 	ON_BN_CLICKED(IDC_MORPHMATRIX2CYPHY, &CDesertConfigDialog::OnBnClickedMorphMatrix2CyPhy)
 	// ON_NOTIFY(NM_CLICK, IDC_CFGLIST, &CDesertConfigDialog::OnNMClkCfgList)
@@ -81,14 +77,13 @@ BOOL CDesertConfigDialog::OnInitDialog()
 		ss << cfgCount;
 		cfgSizeInfo = ss.str();
 	}
-
-	/*std::string info = "Total Configurations: \t"+(std::string)cnt_buff+"\r\nChecked Configurations: \t0";
-	m_cfgsize.SetWindowText(info.c_str());*/
-	updateSize(0);
 	
 	FillCfgList();
 	FillCfgTree();
-	
+
+	checkedSize = 0;
+	updateSize();
+
 	m_blInited = false;
 
 	//initialize resize anchor
@@ -338,13 +333,15 @@ void CDesertConfigDialog::OnLvnItemchangedCfglist(NMHDR *pNMHDR, LRESULT *pResul
 		}
 	}	
 		
-	long cnt = 0;
-	for(long i=0;i<cfgSize;++i)
-	{
-		if(m_cfglist.GetCheck(i))
-			cnt++;
-	}
-	updateSize(cnt);
+
+	int ns = pNMLV->uNewState & LVIS_STATEIMAGEMASK;
+
+	if ((ns & 0x2000) != 0)
+		checkedSize++;
+	else if ((ns & 0x1000) != 0)
+		checkedSize--;
+
+	updateSize();
 
 	*pResult = 0;
 }
@@ -372,7 +369,8 @@ void CDesertConfigDialog::OnBnClickedClearallbtn()
 	for(int i=0;i<n;++i)
 		m_cfglist.SetCheck(i,0);
 
-	updateSize(0);
+	checkedSize = 0;
+	updateSize();
 }
 
 void CDesertConfigDialog::OnNMCustomdrawConstraintlist(NMHDR *pNMHDR, LRESULT *pResult)
@@ -420,75 +418,6 @@ void CDesertConfigDialog::OnNMCustomdrawConstraintlist(NMHDR *pNMHDR, LRESULT *p
 		*pResult = CDRF_DODEFAULT;
 	}
 }
-
-void CDesertConfigDialog::OnNMClickCfgtree(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	// TODO: Add your control notification handler code here
-	  HTREEITEM item; 
-      UINT flags; 
-
-      // verify that we have a mouse click in the check box area 
-
-      DWORD pos = GetMessagePos(); 
-      CPoint point(LOWORD(pos), HIWORD(pos)); 
-      m_cfgtree.ScreenToClient(&point); 
-      item = m_cfgtree.HitTest(point, &flags); 
-      if(item && (flags & TVHT_ONITEMSTATEICON)) 
-      { 
-
-            // handle state change here or post message to another handler 
-
-            // Post message state has changed… 
-
-            PostMessage(TREE_VIEW_CHECK_STATE_CHANGE,0,(LPARAM)item); 
-      } 
-
-	*pResult = 0;
-}
-
-LRESULT CDesertConfigDialog::OnTreeViewCheckStateChange(WPARAM wParam, LPARAM lParam) 
-{ 
-	// Handle message here… 
-	for(map<HTREEITEM, int>::iterator i=cfgTreeMap.begin();i!=cfgTreeMap.end();++i)
-	{
-		HTREEITEM node = (*i).first;
-		m_cfgtree.SetItemState(node,0, TVIS_BOLD); 
-	}
-	
-	HTREEITEM  changedItem = (HTREEITEM)lParam; 
-	bool check=true;
-	if(m_cfgtree.GetCheck(changedItem))
-		checkItem(changedItem);
-	else
-	{
-		uncheckItem(changedItem);
-		check=false;
-	}
-
-	set<int> cfgIds;
-	for(long i=0;i<cfgSize;++i)
-		cfgIds.insert(i);
-	noneChecked = false;
-	/*if(!noneChecked) 
-		cfgIds.clear();
-	updateConfigList(cfgIds);
-	updateSize(cfgIds.size());*/
-
-	set<int> valid_ids = computeConfigList(m_cfgTreeRootItem, cfgIds);
-	if(!noneChecked) 
-		 valid_ids.clear();
-	updateConfigList( valid_ids, check);
-	int cnt = m_cfglist.GetItemCount();
-	int checked=0;
-	for(int i=0;i<cnt;++i)
-	{
-		if(m_cfglist.GetCheck(i))
-			checked++;
-	}
-	updateSize( checked);
-
-	return 0;
-} 
 
 void CDesertConfigDialog::checkItem(HTREEITEM &item)
 {
@@ -844,10 +773,10 @@ void CDesertConfigDialog::OnBnClickedMorphMatrix2CyPhy()
 	}
 }
 
-void CDesertConfigDialog::updateSize(int checkedSize)
+void CDesertConfigDialog::updateSize()
 {
-	TCHAR cnt_buff[16];
-	_itot(checkedSize, cnt_buff, _countof(cnt_buff));
+	TCHAR cnt_buff[32];
+	_itot_s(checkedSize, cnt_buff, 10);
 	CString info = _T("Total Configurations: \t");
 	info += utf82cstring(cfgSizeInfo) + _T("\r\nChecked Configurations: \t") + cnt_buff;
 	m_cfgsize.SetWindowText(info);
