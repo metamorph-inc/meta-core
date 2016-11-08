@@ -225,13 +225,36 @@ namespace META
                 }
                 var pathWithoutTrailingSlash = Path.GetDirectoryName(component.Attributes.Path);
 
-                Directory.CreateDirectory(Path.Combine(projectRoot, Path.GetDirectoryName(pathWithoutTrailingSlash)));
-                Directory.Move(Path.Combine(projectRoot, oldPath), Path.Combine(projectRoot, pathWithoutTrailingSlash));
-                var console = GMEConsole.CreateFromProject(project);
-                if (console.gme != null)
+                // Directory.CreateDirectory(Path.Combine(projectRoot, Path.GetDirectoryName(pathWithoutTrailingSlash)));
+                try
                 {
-                    console.Info.WriteLine(String.Format("Moved component directory from {0} to {1}", oldPath, component.Attributes.Path));
-                    Marshal.FinalReleaseComObject(console.gme);
+                    Directory.Move(Path.Combine(projectRoot, oldPath), Path.Combine(projectRoot, pathWithoutTrailingSlash));
+                }
+                catch (IOException e)
+                {
+                    var console = GMEConsole.CreateFromProject(project);
+                    if (console.gme != null)
+                    {
+                        string msg = String.Format("Cannot move component directory {0}.", oldPath);
+                        const int E_SHARING_VIOLATION = unchecked((int)0x80070020);
+                        const int E_ACCESS_DENIED = unchecked((int)0x80070005);
+                        if (Marshal.GetHRForException(e) == E_SHARING_VIOLATION || Marshal.GetHRForException(e) == E_ACCESS_DENIED)
+                        {
+                            msg = msg + " Check that the folder and files it contains are not open in another program.";
+                        }
+                        console.Info.WriteLine(msg);
+                        //Marshal.FinalReleaseComObject(console.gme);
+                    }
+
+                    throw;
+                }
+                {
+                    var console = GMEConsole.CreateFromProject(project);
+                    if (console.gme != null)
+                    {
+                        console.Info.WriteLine(String.Format("Moved component directory from {0} to {1}", oldPath, component.Attributes.Path));
+                        //Marshal.FinalReleaseComObject(console.gme);
+                    }
                 }
             }
 
