@@ -459,7 +459,8 @@ namespace CyPhy2CAD_CSharp.DataRep
 
         public static bool MatchStructuralInterfaceDatums(DataRep.StructuralInterfaceConstraint a,
                                                           DataRep.StructuralInterfaceConstraint b,
-                                                          List<Tuple<DataRep.Datum, DataRep.Datum>> constraintPairs)
+                                                          List<Tuple<DataRep.Datum, DataRep.Datum>> constraintPairs,
+                                                          CyPhyCOMInterfaces.IMgaTraceability Traceability)
         {
             string apath = a.CyPhyImpl.Path, bpath = b.CyPhyImpl.Path;
 
@@ -468,7 +469,8 @@ namespace CyPhy2CAD_CSharp.DataRep
 
             if (!DataRep.StructuralInterfaceConstraint.MatchSIType(a.InterfaceDefinition, b.InterfaceDefinition))         //if (!MatchSIType(a.InterfaceDefinition, b.InterfaceDefinition))
             {
-                Logger.Instance.AddLogMessage("Mismatched Type attribute on connected StructuralInterfaces. Interface 1: [" + a.CyPhyImpl.ToHyperLink() + "] (" + a.InterfaceDefinition + "). Interface 2: [" + b.CyPhyImpl.ToHyperLink() + "] (" + b.InterfaceDefinition + ")", Severity.Error);
+                Logger.Instance.AddLogMessage("Mismatched Type attribute on connected StructuralInterfaces. Interface 1: ["
+                    + a.CyPhyImpl.ToHyperLink(Traceability) + "] (" + a.InterfaceDefinition + "). Interface 2: [" + b.CyPhyImpl.ToHyperLink(Traceability) + "] (" + b.InterfaceDefinition + ")", Severity.Error);
                 return true;
             }
 
@@ -477,7 +479,8 @@ namespace CyPhy2CAD_CSharp.DataRep
 
             if (adatumnames.Count() != bdatumnames.Count())
             {
-                Logger.Instance.AddLogMessage("Connected StructuralInterfaces have different number of datum ports: [" + a.CyPhyImpl.ToHyperLink() + ", " + b.CyPhyImpl.ToHyperLink() + "]", Severity.Error);
+                Logger.Instance.AddLogMessage("Connected StructuralInterfaces have different number of datum ports: ["
+                    + a.CyPhyImpl.ToHyperLink(Traceability) + ", " + b.CyPhyImpl.ToHyperLink(Traceability) + "]", Severity.Error);
                 return true;
             }
 
@@ -491,7 +494,8 @@ namespace CyPhy2CAD_CSharp.DataRep
                         DataRep.DatumType b_type = b.DatumList[adatum.Key].Type;
                         if (a_type != b_type)
                         {
-                            Logger.Instance.AddLogMessage("Matching datum ports are different type [" + a.CyPhyImpl.ToHyperLink() + "," + b.CyPhyImpl.ToHyperLink() + "]", Severity.Error);
+                            Logger.Instance.AddLogMessage("Matching datum ports are different type ["
+                                + a.CyPhyImpl.ToHyperLink(Traceability) + "," + b.CyPhyImpl.ToHyperLink(Traceability) + "]", Severity.Error);
                             result = true;
                             continue;
                         }
@@ -501,7 +505,8 @@ namespace CyPhy2CAD_CSharp.DataRep
                             {
                                 if (adatum.Value.Alignment != b.DatumList[adatum.Key].Alignment)
                                 {
-                                    Logger.Instance.AddLogMessage("Matching Surface datum ports have different Alignment attributes [" + a.CyPhyImpl.ToHyperLink() + "," + b.CyPhyImpl.ToHyperLink() + "]", Severity.Error);
+                                    Logger.Instance.AddLogMessage("Matching Surface datum ports have different Alignment attributes ["
+                                        + a.CyPhyImpl.ToHyperLink(Traceability) + "," + b.CyPhyImpl.ToHyperLink(Traceability) + "]", Severity.Error);
                                     result = true;
                                     continue;
                                 }
@@ -519,7 +524,8 @@ namespace CyPhy2CAD_CSharp.DataRep
 
                 if (adatumnames.Any() || bdatumnames.Any())
                 {
-                    Logger.Instance.AddLogMessage(String.Format("Connected connectors contain unmatched named feature ports. Port names must match inside connectors. Connectors are: {0} ({1}) and {2} ({3}).", a.CyPhyImpl.ToHyperLink(), String.Join(",", adatumnames.ToArray()), b.CyPhyImpl.ToHyperLink(), String.Join(",", bdatumnames)), Severity.Error);
+                    Logger.Instance.AddLogMessage(String.Format("Connected connectors contain unmatched named feature ports. Port names must match inside connectors. Connectors are: {0} ({1}) and {2} ({3}).",
+                        a.CyPhyImpl.ToHyperLink(Traceability), String.Join(",", adatumnames.ToArray()), b.CyPhyImpl.ToHyperLink(Traceability), String.Join(",", bdatumnames)), Severity.Error);
                     return true;
                 }
             }

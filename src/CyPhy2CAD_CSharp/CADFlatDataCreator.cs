@@ -279,7 +279,7 @@ namespace CyPhy2CAD_CSharp
             };
 
             List<Tuple<DataRep.Datum, DataRep.Datum>> constraintPairs = new List<Tuple<DataRep.Datum,DataRep.Datum>>();
-            bool result = DataRep.StructuralInterfaceConstraint.MatchStructuralInterfaceDatums(a, b, constraintPairs);
+            bool result = DataRep.StructuralInterfaceConstraint.MatchStructuralInterfaceDatums(a, b, constraintPairs, Traceability);
             edge.ConstraintPairs.AddRange(constraintPairs);
 
             // TODO: Add more checking for this
