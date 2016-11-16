@@ -40,7 +40,5 @@ namespace CyPhyMetaLink
                 }
             }
         }
-
-
     }   // end class
 }   // end namespace

@@ -48,11 +48,11 @@ namespace CyPhy2CAD_CSharp
         private void Initialize()
         {
             visitedPorts = new List<string>();
-            visitedConns = new List<string>();   
+            visitedConns = new List<string>();
             FoundConnectedNodes = new List<GmeCommon.Interfaces.FCO>();
         }
 
-        private MgaFCO GetRefportOrParent(MgaConnection conn, string role="src")
+        private MgaFCO GetRefportOrParent(MgaConnection conn, string role = "src")
         {
             MgaConnPoint connPoint = conn.ConnPoints.Cast<MgaConnPoint>().Where(cp => cp.ConnRole == role).First();
             if (connPoint.References != null && connPoint.References.Count > 0)
@@ -68,18 +68,21 @@ namespace CyPhy2CAD_CSharp
             while (container != null)
             {
                 if (container.Guid == topAssembly.Guid)
+                {
                     return true;
+                }
+
                 container = container.ParentContainer;
             }
             return false;
         }
 
         private void VisitConnector(CyPhy.Connector connector, MgaFCO parent)
-        { 
+        {
             if (!visitedPorts.Contains(connector.ID + "_" + parent.ID))
             {
                 visitedPorts.Add(connector.ID + "_" + parent.ID);
-                
+
                 bool parentIsComponent = (connector.ParentContainer is CyPhy.Component);
                 bool isStart = (connector.ID == startNodeID);
 
@@ -90,20 +93,31 @@ namespace CyPhy2CAD_CSharp
 
                 foreach (CyPhy.ConnectorComposition conn in connector.SrcConnections.ConnectorCompositionCollection)
                 {
-                    if (topAssembly != null && !IsParent(conn, topAssembly)) continue;
+                    if (topAssembly != null && !IsParent(conn, topAssembly))
+                    {
+                        continue;
+                    }
+
                     if (parent.ObjType != GME.MGA.Meta.objtype_enum.OBJTYPE_REFERENCE ||
-                        GetRefportOrParent((MgaConnection) conn.Impl, "src").ID == parent.ID)
+                       GetRefportOrParent((MgaConnection)conn.Impl, "src").ID == parent.ID)
+                    {
                         VisitConnector(conn.SrcEnds.Connector, parent);
+                    }
                 }
 
                 foreach (CyPhy.ConnectorComposition conn in connector.DstConnections.ConnectorCompositionCollection)
                 {
-                    if (topAssembly != null && !IsParent(conn, topAssembly)) continue;
+                    if (topAssembly != null && !IsParent(conn, topAssembly))
+                    {
+                        continue;
+                    }
+
                     if (parent.ObjType != GME.MGA.Meta.objtype_enum.OBJTYPE_REFERENCE ||
-                        GetRefportOrParent((MgaConnection)conn.Impl, "dst").ID == parent.ID)
-                    VisitConnector(conn.DstEnds.Connector, parent);
-                }                 
-                
+                       GetRefportOrParent((MgaConnection)conn.Impl, "dst").ID == parent.ID)
+                    {
+                        VisitConnector(conn.DstEnds.Connector, parent);
+                    }
+                }
             }
         }
 
@@ -132,8 +146,7 @@ namespace CyPhy2CAD_CSharp
                 {
                     visitedConns.Add(conn.ID);
                     VisitCADDatum(conn.DstEnds.CADDatum);
-                }                    
-                
+                }
             }
         }
 
@@ -142,12 +155,17 @@ namespace CyPhy2CAD_CSharp
             CyPhy.Connector dstconnector = connection.DstEnds.Connector;
             CyPhy.Connector srcconnector = connection.SrcEnds.Connector;
             if (dstconnector != null)
+            {
                 VisitConnector(dstconnector, GetRefportOrParent((MgaConnection)connection.Impl, "dst"));
+            }
+
             if (srcconnector != null)
+            {
                 VisitConnector(srcconnector, GetRefportOrParent((MgaConnection)connection.Impl, "src"));
+            }
         }
 
-#region Deprecated
+        #region Deprecated
         // META-947: deprecated
         /*
         private void VisitStructuralInterface(CyPhy.StructuralPortType port)
@@ -177,7 +195,7 @@ namespace CyPhy2CAD_CSharp
             }
         }
         */
-#endregion
+        #endregion
 
         public int GetVisitedConnectionCount()
         {
@@ -235,9 +253,13 @@ namespace CyPhy2CAD_CSharp
             portsFound = new List<CyPhy.Port>();
             visitedItems = new List<string>();
             if (port.Kind == "OrdinalPoint")
+            {
                 portKind = "Point";
+            }
             else
+            {
                 portKind = port.Kind;
+            }
 
             VisitPort(port);
         }
@@ -253,12 +275,14 @@ namespace CyPhy2CAD_CSharp
                     CyPhy.Port feature = conn.SrcEnds.Port;
                     if (feature != null)
                     {
-                        if (feature.ParentContainer.Kind == "CADModel" && feature.Kind == portKind)     
+                        if (feature.ParentContainer.Kind == "CADModel" && feature.Kind == portKind)
                         {
-                            portsFound.Add(feature);        
+                            portsFound.Add(feature);
                         }
                         else
+                        {
                             VisitPort(feature);
+                        }
                     }
                 }
 
@@ -267,12 +291,14 @@ namespace CyPhy2CAD_CSharp
                     CyPhy.Port feature = conn.DstEnds.Port;
                     if (feature != null)
                     {
-                        if (feature.ParentContainer.Kind == "CADModel" && feature.Kind == portKind)        
+                        if (feature.ParentContainer.Kind == "CADModel" && feature.Kind == portKind)
                         {
-                            portsFound.Add(feature);           
+                            portsFound.Add(feature);
                         }
                         else
+                        {
                             VisitPort(feature);
+                        }
                     }
                 }
 
@@ -284,10 +310,14 @@ namespace CyPhy2CAD_CSharp
                         if (surface != null)
                         {
                             if (surface.ParentContainer.Kind == "CADModel")
+                            {
                                 portsFound.Add(surface);
+                            }
                         }
                         else
+                        {
                             VisitPort(surface);
+                        }
                     }
 
                     foreach (CyPhy.SurfaceReverseMap conn in (port as CyPhy.Surface).DstConnections.SurfaceReverseMapCollection)
@@ -296,10 +326,14 @@ namespace CyPhy2CAD_CSharp
                         if (surface != null)
                         {
                             if (surface.ParentContainer.Kind == "CADModel")
+                            {
                                 portsFound.Add(surface);
+                            }
                         }
                         else
+                        {
                             VisitPort(surface);
+                        }
                     }
                 }
             }
@@ -337,7 +371,7 @@ namespace CyPhy2CAD_CSharp
                 {
                     caddatum_list.Add(conn.SrcEnds.CADDatum);
                 }
-                
+
                 foreach (CyPhy.PortComposition conn in datum_1.DstConnections.PortCompositionCollection)
                 {
                     caddatum_list.Add(conn.DstEnds.CADDatum);
@@ -363,7 +397,9 @@ namespace CyPhy2CAD_CSharp
                     if (datum_2.ParentContainer.ID == CadModelID)
                     {
                         if (datum_2.Kind == DatumKind)
+                        {
                             datumFound.Add(datum_2);
+                        }
                     }
                 }
             }
@@ -389,7 +425,11 @@ namespace CyPhy2CAD_CSharp
                 var connections = current.SrcConnections.ConnectorCompositionCollection.Union(conn.DstConnections.ConnectorCompositionCollection);
                 foreach (var connection in connections)
                 {
-                    if (visited.Contains(connection)) continue;
+                    if (visited.Contains(connection))
+                    {
+                        continue;
+                    }
+
                     visited.Add(connection);
                     if (connection.ParentContainer != current.ParentContainer)
                     {
@@ -439,7 +479,9 @@ namespace CyPhy2CAD_CSharp
             if (!geometryFound.Any())
             {
                 if (IsAGeometry(start.MetaBase.Name))
+                {
                     geometryFound.Add(start);
+                }
             }
         }
 
@@ -458,9 +500,13 @@ namespace CyPhy2CAD_CSharp
                 {
                     MgaFCO end = null;
                     if (connection.Src == start)
+                    {
                         end = connection.Dst;
+                    }
                     else if (connection.Dst == start)
+                    {
                         end = connection.Src;
+                    }
 
                     visitedConns.Add(connection.ID);
 
@@ -471,7 +517,9 @@ namespace CyPhy2CAD_CSharp
             {
                 // already found a geometry
                 if (IsAGeometry(start.MetaBase.Name))
+                {
                     geometryFound.Add(start);
+                }
             }
         }
 
@@ -487,7 +535,7 @@ namespace CyPhy2CAD_CSharp
         public List<string> Visited;
         public List<MgaFCO> Found { get; set; }
         public List<string> ConnectionTypes { get; set; }
- 
+
         public GeneralTraversal(List<string> connectionTypes, string parentType)
         {
             ParentType = parentType;
@@ -503,7 +551,7 @@ namespace CyPhy2CAD_CSharp
                 .Cast<IMgaConnPoint>()
                 .Select(x => x.Owner)
                 .Cast<IMgaSimpleConnection>()
-                .Where(x=> ConnectionTypes.Contains(x.MetaBase.Name) == true && !Visited.Contains(x.ID));
+                .Where(x => ConnectionTypes.Contains(x.MetaBase.Name) == true && !Visited.Contains(x.ID));
 
             if (conns.Any())
             {
@@ -511,9 +559,13 @@ namespace CyPhy2CAD_CSharp
                 {
                     MgaFCO end = null;
                     if (conn.Src == start)
+                    {
                         end = conn.Dst;
+                    }
                     else if (conn.Dst == start)
+                    {
                         end = conn.Src;
+                    }
 
                     Visited.Add(conn.ID);
                     FindConnectedFCOs(end);
@@ -522,12 +574,10 @@ namespace CyPhy2CAD_CSharp
             else
             {
                 if (start.ParentModel.MetaBase.Name == ParentType)
+                {
                     Found.Add(start);
+                }
             }
-
         }
-        
-
     }
-
 }   // end namespace

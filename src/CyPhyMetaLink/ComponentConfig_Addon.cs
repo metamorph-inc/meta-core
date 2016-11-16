@@ -5,7 +5,6 @@ using GME.MGA;
 
 namespace GME.CSharp
 {
-    
     abstract class ComponentConfig_Addon
     {
         // Set paradigm name. Provide * if you want to register it for all paradigms.

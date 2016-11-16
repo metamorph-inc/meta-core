@@ -66,7 +66,6 @@ namespace GME.CSharp
                     " but the GME interface version is " + (int)((IGMEVersionInfo)registrar).version +
                     "\n\nPlease install a compatible GME version or update the interop dlls.");
             }
-
         }
 
         public static void UnregisterInterpreter()

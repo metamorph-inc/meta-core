@@ -209,7 +209,9 @@ namespace CyPhyMetaLink
                 foreach (var connector in comp.Children.ConnectorCollection)
                 {
                     if (connector.Guid.ToString() == guid)
+                    {
                         return connector;
+                    }
                 }
             }
             return null;
@@ -220,7 +222,9 @@ namespace CyPhyMetaLink
             foreach (var connector in component.Children.ConnectorCollection)
             {
                 if (connector.Guid.ToString() == guid)
+                {
                     return connector;
+                }
             }
             return null;
         }
@@ -230,7 +234,9 @@ namespace CyPhyMetaLink
             foreach (var datum in cadmodel.Children.CADDatumCollection)
             {
                 if (datum.Attributes.DatumName.ToLower() == name.ToLower())
+                {
                     return datum;
+                }
             }
             return null;
         }
@@ -263,7 +269,7 @@ namespace CyPhyMetaLink
                 }
                 if (componentRef.AllReferred is CyPhyML.ComponentAssembly)
                 {
-                    ca = (CyPhyML.ComponentAssembly) componentRef.AllReferred;
+                    ca = (CyPhyML.ComponentAssembly)componentRef.AllReferred;
                 }
                 else
                 {
@@ -344,7 +350,9 @@ namespace CyPhyMetaLink
                 {
                     CyPhyML.Component comp = FindAVMComponent(project, avmid, components);
                     if (comp != null)
+                    {
                         return comp;
+                    }
                 }
             }
             else
@@ -353,12 +361,16 @@ namespace CyPhyMetaLink
                 {
                     CyPhyML.Component comp = FindAVMComponent(project, avmid, components);
                     if (comp != null)
+                    {
                         return comp;
+                    }
                 }
                 foreach (var component in root.Children.ComponentCollection)
                 {
                     if (component.Attributes.AVMID == avmid)
+                    {
                         return component;
+                    }
                 }
             }
             return null;
@@ -369,7 +381,6 @@ namespace CyPhyMetaLink
         /// </summary>
         public static IEnumerable<CyPhyML.ComponentAssembly> GetContainingAssemblies(CyPhyML.Component component)
         {
-
             Queue<CyPhyML.ComponentAssembly> containingAssemblies = new Queue<CyPhyML.ComponentAssembly>();
             foreach (CyPhyML.ComponentRef compref in component.ReferencedBy.ComponentRef)
             {
@@ -401,7 +412,6 @@ namespace CyPhyMetaLink
         /// </summary>
         public static IEnumerable<CyPhyML.ComponentAssembly> GetContainingAssemblies(CyPhyML.ComponentAssembly assembly)
         {
-
             Queue<CyPhyML.ComponentAssembly> containingAssemblies = new Queue<CyPhyML.ComponentAssembly>();
             containingAssemblies.Enqueue(assembly);
             while (containingAssemblies.Count > 0)
@@ -450,11 +460,17 @@ namespace CyPhyMetaLink
             {
                 foreach (CyPhyML.ComponentAssembly assembly in assemblies.Children.ComponentAssemblyCollection)
                 {
-                    if (assembly.Guid.ToString() == id) return assembly.Name;
+                    if (assembly.Guid.ToString() == id)
+                    {
+                        return assembly.Name;
+                    }
+
                     foreach (var componentref in assembly.Children.ComponentRefCollection)
                     {
                         if (componentref.Guid.ToString() == id || componentref.Attributes.InstanceGUID == id)
+                        {
                             return componentref.Name;
+                        }
                     }
                 }
             }
@@ -563,7 +579,5 @@ namespace CyPhyMetaLink
                 }
             }
         }
-
-
     }
 }

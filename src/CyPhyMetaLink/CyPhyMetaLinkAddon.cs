@@ -83,7 +83,6 @@ namespace CyPhyMetaLink
         bool enabled = true;
         public void Enable(bool newval)
         {
-
             if (!newval)
             {
                 // clear table
@@ -110,13 +109,19 @@ namespace CyPhyMetaLink
         public object get_ComponentParameter(string Name)
         {
             if (Name == "type")
+            {
                 return "csharp";
+            }
 
             if (Name == "path")
+            {
                 return GetType().Assembly.Location;
+            }
 
             if (Name == "fullname")
+            {
                 return GetType().FullName;
+            }
 
             object value;
             if (componentParameters != null && componentParameters.TryGetValue(Name, out value))
@@ -174,6 +179,5 @@ namespace CyPhyMetaLink
         }
 
         #endregion
-
     }
 }

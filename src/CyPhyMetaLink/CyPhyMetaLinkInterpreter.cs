@@ -226,7 +226,7 @@ namespace CyPhyMetaLink
                 GC.WaitForPendingFinalizers();
             }
         }
-        
+
 
         private void LinkComponent(CyPhyML.Component component, MgaFCO selectedCADModel)
         {
@@ -412,7 +412,9 @@ namespace CyPhyMetaLink
             {
                 topasm = Run(project, currentobj, param);
                 if (topasm != null)
+                {
                     propagateAddon.AssemblyID = topasm.Guid.ToString();
+                }
             });
 
             if (topasm == null)
@@ -533,13 +535,19 @@ namespace CyPhyMetaLink
         public object get_ComponentParameter(string Name)
         {
             if (Name == "type")
+            {
                 return "csharp";
+            }
 
             if (Name == "path")
+            {
                 return GetType().Assembly.Location;
+            }
 
             if (Name == "fullname")
+            {
                 return GetType().FullName;
+            }
 
             object value;
             if (componentParameters != null && componentParameters.TryGetValue(Name, out value))
@@ -593,7 +601,6 @@ namespace CyPhyMetaLink
         public static void GMERegister(Type t)
         {
             Registrar.RegisterInterpreter();
-
         }
 
         [ComUnregisterFunctionAttribute]
@@ -630,7 +637,9 @@ namespace CyPhyMetaLink
 
 #if DEBUG
             if (topasm != null)
+            {
                 GMEConsole.Out.WriteLine("TopAsm:" + topasm.Name);
+            }
 #endif
 
             ProjectDirectory = Path.GetDirectoryName(currentobj.Project.ProjectConnStr.Substring("MGA=".Length));
@@ -643,7 +652,9 @@ namespace CyPhyMetaLink
                 InstanceId = (CyPhyMetaLinkAddon.IdCounter++).ToString()
             };
             if (!Directory.Exists(cdata.WorkingDir))
+            {
                 Directory.CreateDirectory(cdata.WorkingDir);
+            }
 
             // [3]
             DialogResult ok = DialogResult.Cancel;
@@ -656,7 +667,9 @@ namespace CyPhyMetaLink
                     cdata.AuxDir = mf.AuxiliaryDir;
 
                     if (ok != DialogResult.OK)
+                    {
                         return null;
+                    }
                 }
             }
 
@@ -666,6 +679,5 @@ namespace CyPhyMetaLink
         }
 
         string ProjectDirectory;
-
     }
 }

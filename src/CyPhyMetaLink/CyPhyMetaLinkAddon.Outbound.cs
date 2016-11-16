@@ -57,7 +57,6 @@ namespace CyPhyMetaLink
                 MgaModel ancestor = fco.ParentModel;
                 while (ancestor != null)
                 {
-
                     if (ancestor.Meta.Name == "ComponentAssembly")
                     {
                         var assembly = CyPhyMLClasses.ComponentAssembly.Cast(ancestor);
@@ -78,7 +77,7 @@ namespace CyPhyMetaLink
                     else if (ancestor.Meta.Name == "Component")
                     {
                         var component = CyPhyMLClasses.Component.Cast(ancestor);
-                        if (syncedComponents.Count > 0 && ((topicGuid!=null&&syncedComponents.ContainsKey(topicGuid)) || syncedComponents.ContainsKey(component.Attributes.AVMID)))
+                        if (syncedComponents.Count > 0 && ((topicGuid != null && syncedComponents.ContainsKey(topicGuid)) || syncedComponents.ContainsKey(component.Attributes.AVMID)))
                         {
                             topicGuid = component.Attributes.AVMID;
                         }
@@ -207,7 +206,6 @@ namespace CyPhyMetaLink
 
             if ((eventMask & uOBJEVENT_PRE_STATUS) != 0)
             {
-
                 if (param != null)
                 {
                     string paramString = param as string;
@@ -292,7 +290,11 @@ namespace CyPhyMetaLink
                 // Change of a parameter on componentref
                 if (CyphyMetaLinkUtils.IsComponentRef(subject))
                 {
-                    if (!syncedComponents.ContainsKey(CyPhyMLClasses.Property.Cast(subject).ParentContainer.Guid.ToString())) return;
+                    if (!syncedComponents.ContainsKey(CyPhyMLClasses.Property.Cast(subject).ParentContainer.Guid.ToString()))
+                    {
+                        return;
+                    }
+
                     string paramName = null;
                     object[] paramData = param as object[];
                     string p = paramData[0].ToString();
@@ -314,7 +316,6 @@ namespace CyPhyMetaLink
                                 MetaLinkProtobuf.Edit editMsg = UpdateComponentNameProtoBufMsg(CyPhyMLClasses.ComponentRef.Cast(subject), paramValue);
                                 bridgeClient.SendToMetaLinkBridge(editMsg);
                             }
-
                         }
                     }
                 }
@@ -322,7 +323,6 @@ namespace CyPhyMetaLink
 
             if ((eventMask & uOBJEVENT_ATTR) != 0 && param != null && (eventMask & uOBJEVENT_DESTROYED) == 0)
             {
-
                 // GMEConsole.Info.WriteLine("CyPhyMLPropagate OBJEVENT_ATTR");
 
                 object[] paramData = param as object[];
@@ -337,7 +337,9 @@ namespace CyPhyMetaLink
                         {
                             string tmp = s.Substring(s.IndexOf(':') + 1);
                             if (tmp == "Value" || tmp == "InstanceGUID")
+                            {
                                 attributeName = tmp;
+                            }
                         }
                     }
                 }
@@ -360,15 +362,24 @@ namespace CyPhyMetaLink
                         // Does this parameter belong to the Meta-Linked assembly?
                         if (kind == "Property")
                         {
-                            if (!syncedComponents.ContainsKey(CyPhyMLClasses.Property.Cast(subject).ParentContainer.Guid.ToString())) return;
+                            if (!syncedComponents.ContainsKey(CyPhyMLClasses.Property.Cast(subject).ParentContainer.Guid.ToString()))
+                            {
+                                return;
+                            }
                         }
                         else if (kind == "Parameter")
                         {
-                            if (!syncedComponents.ContainsKey(CyPhyMLClasses.Parameter.Cast(subject).ParentContainer.Guid.ToString())) return;
+                            if (!syncedComponents.ContainsKey(CyPhyMLClasses.Parameter.Cast(subject).ParentContainer.Guid.ToString()))
+                            {
+                                return;
+                            }
                         }
                         else if (kind == "Metric")
                         {
-                            if (!syncedComponents.ContainsKey(CyPhyMLClasses.Metric.Cast(subject).ParentContainer.Guid.ToString())) return;
+                            if (!syncedComponents.ContainsKey(CyPhyMLClasses.Metric.Cast(subject).ParentContainer.Guid.ToString()))
+                            {
+                                return;
+                            }
                         }
                         // If any parameter changes, the whole assembly needs to be re-built
                         // The elaborator can't trace back the original references
@@ -399,7 +410,7 @@ namespace CyPhyMetaLink
 
                     }
                 }
-                
+
                 else if (attributeName == "InstanceGUID")
                 {
                     MgaFCO mgaFCO = subject as MgaFCO;
@@ -408,14 +419,11 @@ namespace CyPhyMetaLink
                         AddComponent(subject);
                     }
                 }
-                
-
             }       // end if (eventMask)
 
 
             if ((eventMask & uOBJEVENT_PROPERTIES) != 0)
             {
-
                 if (CyphyMetaLinkUtils.IsComponent(subject))
                 {
                     if (param != null)
@@ -423,7 +431,10 @@ namespace CyPhyMetaLink
                         object[] paramData = param as object[];
                         string parameterName = ((string)paramData[0]).Substring(((string)paramData[0]).IndexOf(':') + 1);
 
-                        if (parameterName != "Name") return;
+                        if (parameterName != "Name")
+                        {
+                            return;
+                        }
 
                         GMEConsole.Error.WriteLine("Name change detected, old name = \"" + ((string)paramData[1]) + "\", new name = \"" + subject.Name + "\"");
 
@@ -468,7 +479,6 @@ namespace CyPhyMetaLink
                     AddConnection(subject);
                 }
             }
-
         }
 
         /// <summary>
@@ -488,18 +498,19 @@ namespace CyPhyMetaLink
             CyPhyML.ComponentRef componentRef = CyPhyMLClasses.ComponentRef.Cast(mgaComponentRef);
 
             // Does this component belong to the Meta-Linked assembly?
-            if (!syncedComponents.ContainsKey(componentRef.ParentContainer.Guid.ToString()) && !syncedComponents.ContainsKey(componentRef.Guid.ToString())) return;
+            if (!syncedComponents.ContainsKey(componentRef.ParentContainer.Guid.ToString()) && !syncedComponents.ContainsKey(componentRef.Guid.ToString()))
+            {
+                return;
+            }
 
             CyPhyML.Component component = componentRef.Referred.Component;
             if (component != null)
             {
-
                 // [6] Create Protobuf message
                 MetaLinkProtobuf.Edit message = AddComponentProtoBufMsg(componentRef);
 
                 if (message != null)
                 {
-
                     // [6.5] Add SearchPath to message
                     try
                     {
@@ -580,8 +591,11 @@ namespace CyPhyMetaLink
             if (connection != null)
             {
                 // Is this an event from a Meta-Linked assembly?
-                if (!syncedComponents.ContainsKey(connection.ParentContainer.Guid.ToString())) return;
-                
+                if (!syncedComponents.ContainsKey(connection.ParentContainer.Guid.ToString()))
+                {
+                    return;
+                }
+
                 // snyako: removing and adding that connection back doesn't always work as connection doesn't always map the same way in Creo. Need to investigate this
                 // Currently just re-sync the whole assembly
                 CyPhyML.ComponentAssembly assembly = CyphyMetaLinkUtils.GetComponentAssemblyByGuid(addon.Project, AssemblyID);
@@ -702,7 +716,6 @@ namespace CyPhyMetaLink
                     }
                  */
             }
-               
         }
 
 #if false
@@ -796,9 +809,13 @@ namespace CyPhyMetaLink
             if (interests.ContainsKey(topicstr))
             {
                 if (!removeInterest)
+                {
                     interests[topicstr]--;
+                }
                 else
+                {
                     interests[topicstr] = 0;
+                }
 
                 if (interests[topicstr] == 0)
                 {
@@ -900,7 +917,9 @@ namespace CyPhyMetaLink
                     foreach (var component in CyphyMetaLinkUtils.CollectComponentsRecursive(targetAssembly))
                     {
                         if (component is CyPhyML.Component)
+                        {
                             AddSearchPathToEnvironment(component as CyPhyML.Component, env);
+                        }
                     }
 
                     if (env.value.Count > 0)
@@ -1000,13 +1019,12 @@ namespace CyPhyMetaLink
 
         public MetaLinkProtobuf.Edit AddComponentProtoBufMsg(CyPhyML.ComponentRef componentRef)
         {
-
             CyPhyML.Component component = componentRef.Referred.Component;
             CyPhyML.CADModel creocadmodel = null;
             string creomodelname = "";
             string creomodeltype = "";
 #if DEBUG
-                GMEConsole.Info.WriteLine("AVM: " + component.Attributes.AVMID + " InstanceGUID: " + component.Attributes.InstanceGUID + " Rev: " + component.Attributes.Revision + " Ver: " + component.Attributes.Version);
+            GMEConsole.Info.WriteLine("AVM: " + component.Attributes.AVMID + " InstanceGUID: " + component.Attributes.InstanceGUID + " Rev: " + component.Attributes.Revision + " Ver: " + component.Attributes.Version);
 #endif
 
             creocadmodel = CyphyMetaLinkUtils.FindCADModelObject(component);
@@ -1032,12 +1050,14 @@ namespace CyPhyMetaLink
             {
                 creomodelname = "";
 #if DEBUG
-                    GMEConsole.Warning.WriteLine("[" + component.Name + "] is not connected to a Resource, therefore does not have a Creo model name.");
+                GMEConsole.Warning.WriteLine("[" + component.Name + "] is not connected to a Resource, therefore does not have a Creo model name.");
 #endif
             }
 
             if (creomodelname != "")
+            {
                 creomodelname = Path.GetFileNameWithoutExtension(creomodelname);
+            }
 
 
             // [2]
@@ -1071,7 +1091,7 @@ namespace CyPhyMetaLink
 
             foreach (var connector in component.Children.ConnectorCollection)
             {
-                Component_msg.Connectors.Add(new MetaLinkProtobuf.ConnectorType(){ ID = connector.Guid.ToString(), DisplayName = connector.Name });
+                Component_msg.Connectors.Add(new MetaLinkProtobuf.ConnectorType() { ID = connector.Guid.ToString(), DisplayName = connector.Name });
             }
 
 
@@ -1159,7 +1179,5 @@ namespace CyPhyMetaLink
         }
 #endif
         #endregion
-
-
     }   // end class
 }   // end namespace

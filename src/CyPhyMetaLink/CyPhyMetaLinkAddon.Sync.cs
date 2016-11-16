@@ -357,7 +357,6 @@ namespace CyPhyMetaLink
                         AssemblyID = null;
                         HighlightInTree(model, 0);
                         SendDisinterest(true, LastStartedInstance.InstanceId);
-
                     }
                     syncedComponents.Remove(LastStartedInstance.Id);
                 }
@@ -372,11 +371,19 @@ namespace CyPhyMetaLink
 
         private void ShowStartupDialog(bool show)
         {
-            if (TestMode) return;
+            if (TestMode)
+            {
+                return;
+            }
+
             if (show)
+            {
                 StartupDialog.ShowDialog();
+            }
             else
+            {
                 StartupDialog.Hide();
+            }
         }
 
         private bool CloseConnection()
@@ -541,7 +548,7 @@ namespace CyPhyMetaLink
                 {
                     throw new Exception("Error during collecting metalink data." + ex.Message);
                 }
-                
+
                 DateTime t1 = DateTime.Now;
                 // call elaborator and expand the references
                 // Please note that elaborator will change "currentobj"'s internal structure
@@ -556,7 +563,7 @@ namespace CyPhyMetaLink
                 elaborator.ComponentParameter["console_messages"] = "off";
 
                 elaborator.InvokeEx(project, currentobj, (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs")), param);
-                TimeSpan ts = DateTime.Now-t1;
+                TimeSpan ts = DateTime.Now - t1;
                 GMEConsole.Info.WriteLine("Elaborator was running for " + ts.TotalMilliseconds + "ms");
 
                 CyPhy2CAD_CSharp.CyPhy2CADSettings cadSettings = new CyPhy2CAD_CSharp.CyPhy2CADSettings();
@@ -599,7 +606,7 @@ namespace CyPhyMetaLink
                 SendInterest(null, syncedCompData.InstanceId);
                 foreach (var comp in comps)
                 {
-                  //  SendInterest(null, ComponentTopic, comp.Attributes.AVMID);
+                    //  SendInterest(null, ComponentTopic, comp.Attributes.AVMID);
                 }
                 SaveCadAssemblyXml(CADAssembly, designId);
             }
@@ -611,13 +618,21 @@ namespace CyPhyMetaLink
 
         private void HighlightInTree(ISIS.GME.Common.Interfaces.Base item, int highlight)
         {
-            if (TestMode) return;
+            if (TestMode)
+            {
+                return;
+            }
+
             HighlightInTree(item.Impl, highlight);
         }
 
         private void HighlightInTree(IMgaObject item, int highlight)
         {
-            if (TestMode) return;
+            if (TestMode)
+            {
+                return;
+            }
+
             if (GMEConsole.gme == null) // e.g. unit tests
             {
                 return;
@@ -730,9 +745,12 @@ namespace CyPhyMetaLink
 
         private SyncedComponentData GetSyncedCompDataByInstanceId(string instanceid)
         {
-            foreach (KeyValuePair<string,SyncedComponentData> p in syncedComponents)
+            foreach (KeyValuePair<string, SyncedComponentData> p in syncedComponents)
             {
-                if (p.Value.InstanceId == instanceid) return p.Value;
+                if (p.Value.InstanceId == instanceid)
+                {
+                    return p.Value;
+                }
             }
             return null;
         }
@@ -799,7 +817,5 @@ namespace CyPhyMetaLink
             }
             return browser;
         }
-
-
     }
 }
