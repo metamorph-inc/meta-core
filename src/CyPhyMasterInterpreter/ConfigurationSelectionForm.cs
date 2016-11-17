@@ -43,7 +43,6 @@ namespace CyPhyMasterInterpreter
             this.ConfigurationSelectionResult = new ConfigurationSelectionOutput();
 
             this.chbPostJobs.Checked = Properties.Settings.Default.bPostTojobManager;
-            this.chbOpenDashboard.Checked = Properties.Settings.Default.bOpenDashboard;
             this.chbVerbose.Checked = Properties.Settings.Default.bVerboseLogging;
 
             this.InitForm();
@@ -150,14 +149,12 @@ namespace CyPhyMasterInterpreter
         {
             // save settings
             Properties.Settings.Default.bPostTojobManager = this.chbPostJobs.Checked;
-            Properties.Settings.Default.bOpenDashboard = this.chbOpenDashboard.Checked;
             Properties.Settings.Default.bShowDirty = this.chbShowDirty.Checked;
             Properties.Settings.Default.bVerboseLogging = this.chbVerbose.Checked;
             Properties.Settings.Default.Save();
 
             // prepare our results
             this.ConfigurationSelectionResult.KeepTemporaryModels = this.chbSaveTestBenches.Checked;
-            this.ConfigurationSelectionResult.OpenDashboard = this.chbOpenDashboard.Checked;
             this.ConfigurationSelectionResult.PostToJobManager = this.chbPostJobs.Checked;
             this.ConfigurationSelectionResult.VerboseLogging = this.chbVerbose.Checked;
             this.ConfigurationSelectionResult.SelectedConfigurations = this.lbExportedCAs.SelectedItems.Cast<GMELightObject>().ToArray();

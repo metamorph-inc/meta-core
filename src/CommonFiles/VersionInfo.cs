@@ -26,7 +26,6 @@ namespace META
         private static string m_MetaVersion = string.Empty;
         private static string m_GmeVersion = string.Empty;
         private static string m_MetaPath = string.Empty;
-        private static string m_DashboardPath = string.Empty;
 
         private static string m_ProeISISExtPath = string.Empty;
         private static string m_ProeISISExtVer = string.Empty;
@@ -252,25 +251,6 @@ namespace META
                         unknown);
                 }
                 return m_MetaPath;
-            }
-        }
-
-        /// <summary>
-        /// returns with the virtual python environment's Scripts folder
-        /// </summary>
-        public static string DashboardPath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(m_DashboardPath))
-                {
-                    m_DashboardPath = Path.Combine(
-                        MetaPath,
-                        "bin",
-                        "dashboard");
-                }
-
-                return m_DashboardPath;
             }
         }
 

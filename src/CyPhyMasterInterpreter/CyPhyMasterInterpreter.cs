@@ -198,11 +198,6 @@ namespace CyPhyMasterInterpreter
                     }
                 }
 
-                if (selection.OpenDashboard)
-                {
-                    masterInterpreter.OpenDashboardWithChrome();
-                }
-
                 masterInterpreter.WriteSummary(miResults);
             }
         }

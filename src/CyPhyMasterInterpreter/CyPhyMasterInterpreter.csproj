@@ -164,11 +164,6 @@
     <Compile Include="ConfigurationSelectionInput.cs" />
     <Compile Include="CyPhyMasterInterpreterAPI.cs" />
     <Compile Include="ExecutionCanceledByUserException.cs" />
-    <Compile Include="index_html.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>index_html.tt</DependentUpon>
-    </Compile>
     <Compile Include="ComponentConfig.cs" />
     <Compile Include="CyPhyMasterInterpreter.cs" />
     <Compile Include="InterpreterProgressEventArgs.cs" />
@@ -216,17 +211,12 @@
     <Content Include="CyPhyMasterInterpreter.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\export_for_dashboard_scoring.py" />
     <None Include="Resources\gather_stat_json.py" />
     <Content Include="Resources\gather_all_logfiles.py" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="AssemblySignature.snk" />
-    <None Include="index_html.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>index_html.cs</LastGenOutput>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
