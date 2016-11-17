@@ -603,7 +603,6 @@ namespace CyPhyPET
                     upMethodNum = 2;
                     break;
                 case CyPhyClasses.PCCDriver.AttributesClass.PCC_UP_Methods_enum.Most_Probable_Point_Method__UP_MPP_:
-                    this.Logger.WriteWarning("The output from Most Probable Point Method is not compatible with the project analyzer Dashboard.");
                     upMethodNum = 3;
                     break;
                 case CyPhyClasses.PCCDriver.AttributesClass.PCC_UP_Methods_enum.Full_Factorial_Numerical_Integration__UP_FFNI_:
@@ -613,8 +612,6 @@ namespace CyPhyPET
                     upMethodNum = 5;
                     break;
                 case CyPhyClasses.PCCDriver.AttributesClass.PCC_UP_Methods_enum.Polynomial_Chaos_Expansion__UP_PCE_:
-                    this.Logger.WriteWarning("The output from Polynomial Chaos Expansion is not compatible with the project analyzer Dashboard.");
-                    this.Logger.WriteWarning("Trying to display such data might require a refresh in order to view other data again.");
                     upMethodNum = 6;
                     break;
                 default:

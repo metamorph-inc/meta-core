@@ -17,8 +17,6 @@ namespace CyPhyMasterInterpreter
 
         public bool KeepTemporaryModels { get; set; }
 
-        public bool OpenDashboard { get; set; }
-
         public bool VerboseLogging { get; set; }
 
         public List<ConfigurationGroupLight> ConfigurationGroups { get; set; }
@@ -141,10 +139,6 @@ namespace CyPhyMasterInterpreter
             gmeLightObject.GMEId = subject.ID;
 
             // TODO: figure out how to show to the user configurations when they have no uniqie names.
-            //// dashboard shows last 4 digit of the guid
-            //var guidStr = new Guid(subject.GetGuidDisp()).ToString();
-            //string guidPortion = guidStr.Substring(guidStr.Length - 4);
-            //gmeLightObject.Name = string.Format("[#{0}] {1}", guidPortion , subject.Name);
 
             gmeLightObject.Name = subject.Name;
             // TODO: set tool tip to ParentName/ObjectName

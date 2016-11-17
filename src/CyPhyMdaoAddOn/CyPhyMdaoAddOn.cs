@@ -163,22 +163,6 @@ namespace CyPhyMdaoAddOn
             }
             else if ((eventMask & uOBJEVENT_OPENMODEL) != 0)
             {
-            if (subject.MetaBase.Name == "ParametricExploration")
-            {
-                var pet = subject as MgaModel;
-                foreach (MgaModel PCCDriver in pet.GetChildrenOfKind("PCCDriver"))
-                {
-                    var upMethod = PCCDriver.StrAttrByName["PCC_UP_Methods"];
-                    if (upMethod == "UP_MPP" || upMethod == "UP_PCE")
-                    {
-                        GMEConsole.Out.WriteLine("{1}The output of the selected method ({0}) is not compatible with the project analyzer Dashboard.", upMethod, WARNING_BADGE);
-                        if (upMethod == "UP_PCE")
-                        {
-                            GMEConsole.Out.WriteLine("{0}Trying to display such data might require a refresh in order to view other data again.", WARNING_BADGE);
-                        }
-                    }
-                }
-            }
             }
             //MessageBox.Show(eventMask.ToString());
 
@@ -225,16 +209,6 @@ namespace CyPhyMdaoAddOn
             var nbrOfParameters = PCCDriver.ChildFCOs.Cast<MgaFCO>().Where(x => kinds.Contains(x.Meta.Name)).Count();
             var saMethod = PCCDriver.StrAttrByName["PCC_SA_Methods"];
             var upMethod = PCCDriver.StrAttrByName["PCC_UP_Methods"];
-            if (attributeChanged && (upMethod == "UP_MPP" || upMethod == "UP_PCE"))
-            {
-                GMEConsole.Out.WriteLine("{1}The output of the selected method ({0}) is not compatible with the project analyzer Dashboard.", 
-                    upMethod,
-                    WARNING_BADGE);
-                if (upMethod == "UP_PCE")
-                {
-                    GMEConsole.Out.WriteLine("{0}Trying to display such data might require a refresh in order to view other data again.", WARNING_BADGE);
-                }
-            }
             GMEConsole.Out.WriteLine("{2}Iterations : UP : {0}, SA : {1}",
                 this.GetNumberOfIterations(upMethod, nbrOfParameters),
                 this.GetNumberOfIterations(saMethod, nbrOfParameters),

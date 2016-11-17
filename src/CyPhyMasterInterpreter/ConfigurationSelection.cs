@@ -15,8 +15,6 @@ namespace CyPhyMasterInterpreter
         public bool PostToJobManager { get; set; }
         public bool KeepTemporaryModels { get; set; }
         // TODO: add Job Manager Instance selection (maybe url/port number is enough or some kind of descriptor)
-
-        public bool OpenDashboard { get; set; }
     }
 
     [Guid("C0FFF9E6-6E0E-471C-9A2D-182DFC244A7F"),
@@ -41,8 +39,7 @@ namespace CyPhyMasterInterpreter
             ConfigurationSelection config = new ConfigurationSelection()
             {
                 PostToJobManager = this.PostToJobManager,
-                KeepTemporaryModels = this.KeepTemporaryModels,
-                //OpenDashboard=default
+                KeepTemporaryModels = this.KeepTemporaryModels
             };
             try
             {

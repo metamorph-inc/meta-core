@@ -22,45 +22,6 @@
     ComVisible(true)]
     public class CyPhyMasterInterpreterAPI : IDisposable
     {
-        private Action copyDashboard = new Action(() =>
-        {
-            var mutex = new System.Threading.Mutex(false, "OpenMETA_CyPhyMasterInterpreter_dashboard");
-            mutex.WaitOne();
-            try
-            {
-                var sourceDir = VersionInfo.DashboardPath;
-                var destinationDir = Path.Combine("dashboard");
-                var manifestFilename = "manifest.json";
-
-                var manifestSrc = Path.Combine(sourceDir, manifestFilename);
-                var manifestDst = Path.Combine(destinationDir, manifestFilename);
-
-                // read both manifest files
-                if (File.Exists(manifestSrc) &&
-                    File.Exists(manifestDst))
-                {
-                    // compare version number, chance to skip copy
-                    var manifestSrcContent = File.ReadAllText(manifestSrc);
-                    var manifestDstContent = File.ReadAllText(manifestDst);
-                    var manifestSrcObject = Newtonsoft.Json.JsonConvert.DeserializeObject<DashboardManifest>(manifestSrcContent);
-                    var manifestDstObject = Newtonsoft.Json.JsonConvert.DeserializeObject<DashboardManifest>(manifestDstContent);
-                    if (manifestSrcObject.Version == manifestDstObject.Version)
-                    {
-                        // no need for update/copy
-                        return;
-                    }
-                }
-
-                // TODO: we should put dashboard into the project directory and not into the current working directory.
-                DirectoryCopy(sourceDir, destinationDir, true);
-            }
-            finally
-            {
-                mutex.ReleaseMutex();
-                mutex.Dispose();
-            }
-        });
-
         private Dictionary<string, CyPhyGUIs.IInterpreterConfiguration> interpreterConfigurations =
             new Dictionary<string, CyPhyGUIs.IInterpreterConfiguration>();
 
@@ -286,7 +247,6 @@
                     dialogResult = System.Windows.Forms.DialogResult.OK;
                     var selectionResult = selectionForm.ConfigurationSelectionResult;
                     selectionResult.KeepTemporaryModels = false;
-                    selectionResult.OpenDashboard = false;
                     selectionResult.PostToJobManager = false;
                 }
 
@@ -294,7 +254,6 @@
                 {
                     var selectionResult = selectionForm.ConfigurationSelectionResult;
                     results.KeepTemporaryModels = selectionResult.KeepTemporaryModels;
-                    results.OpenDashboard = selectionResult.OpenDashboard;
                     results.PostToJobManager = selectionResult.PostToJobManager;
                     results.SelectedConfigurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
 
@@ -425,9 +384,6 @@
 
             this.Logger.WriteDebug("Start main method for master interpreter.");
 
-            this.Logger.WriteDebug("Copying dashboard.");
-            this.copyDashboard.Invoke();
-
             if (this.ProjectManifest == null)
             {
                 this.ExecuteInTransaction(context, () =>
@@ -469,16 +425,6 @@
                     Percent = 0,
                     Context = context.Name,
                     Title = "Starting"
-                });
-            });
-
-            this.ExecuteInTransaction(context, () =>
-            {
-                this.OnMultipleConfigurationProgress(new ProgressCallbackEventArgs()
-                {
-                    Percent = 1,
-                    Context = context.Name,
-                    Title = "Updating local dashboard"
                 });
             });
 
@@ -541,10 +487,6 @@
                     failures++;
                 }
             }
-
-            this.Logger.WriteDebug("Generate dashboard script files");
-            this.GenerateDashboardScriptFiles();
-            this.Logger.WriteDebug("Dashboard script files generated");
 
             this.ExecuteInTransaction(context, () =>
             {
@@ -698,60 +640,6 @@
         public void Cancel()
         {
             this.IsCancelled = true;
-        }
-
-        public void OpenDashboardWithChrome()
-        {
-            string indexFileName = this.GetIndexFilename();
-
-            // try to get this value better HKLM + 32 vs 64bit...
-            this.Logger.WriteDebug("Requested to dashboard {0} file with chrome");
-
-            // chrome is installed for all users
-            // http://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx#app_exe
-
-            string keyName = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe";
-
-            string chromePath = (string)Microsoft.Win32.Registry.GetValue(
-                keyName,
-                "Path",
-                "ERROR: " + keyName + " InstallLocation does not exist!");
-
-            if (chromePath == null || chromePath.StartsWith("ERROR"))
-            {
-                // Installed only for this user
-                keyName = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe";
-
-                chromePath = (string)Microsoft.Win32.Registry.GetValue(
-                    keyName,
-                    "Path",
-                    "ERROR: " + keyName + " InstallLocation does not exist!");
-            }
-
-            if (chromePath == null || chromePath.StartsWith("ERROR"))
-            {
-                this.Logger.WriteDebug("Chrome was not found on the computer. Searched in {0}",
-                    @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe");
-                this.Logger.WriteWarning("Chrome was not found on your computer. Dashboard will not open.");
-            }
-            else
-            {
-                string chromeExe = Path.Combine(chromePath, "chrome.exe");
-
-                this.Logger.WriteDebug("Chrome found {0}", chromeExe);
-
-                Process p = new Process();
-                p.StartInfo = new ProcessStartInfo()
-                {
-                    Arguments = " --allow-file-access-from-files --new-window \"" + Path.GetFullPath(indexFileName) + "\"",
-                    FileName = chromeExe,
-                    UseShellExecute = false
-                };
-
-                // open dashboard
-                this.Logger.WriteInfo("Opening dashboard, if test bench executions have not finished yet dashboard might be empty. Refresh it after some/all test bench execution finished.");
-                p.Start();
-            }
         }
 
         protected virtual void OnSingleConfigurationProgress(ProgressCallbackEventArgs e)
@@ -1044,92 +932,6 @@
             });
 
             return results;
-        }
-
-        private void GenerateDashboardScriptFiles()
-        {
-            if (this.ProjectManifest == null)
-            {
-                throw new InvalidOperationException();
-            }
-
-            var mutex = new System.Threading.Mutex(false, "OpenMETA_CyPhyMasterInterpreter_dashboard");
-            mutex.WaitOne();
-            try
-            {
-                // Generate python scripts if not already there
-                string export_for_dashboard_scoring = Path.GetFullPath(
-                    Path.Combine(this.ProjectManifest.OutputDirectory, "export_for_dashboard_scoring.py"));
-
-                if (File.Exists(export_for_dashboard_scoring) == false)
-                {
-                    using (StreamWriter writer = new StreamWriter(export_for_dashboard_scoring))
-                    {
-                        writer.WriteLine(Properties.Resources.export_for_dashboard_scoring);
-                    }
-                }
-
-                // Check if the "stats" directory exists; if not, make it
-                string stat_dir_path = Path.GetFullPath(
-                    Path.Combine(this.ProjectManifest.OutputDirectory, "stats"));
-
-                if (Directory.Exists(stat_dir_path) == false)
-                {
-                    Directory.CreateDirectory(stat_dir_path);
-                }
-
-                string gather_stat_json = Path.GetFullPath(
-                    Path.Combine(stat_dir_path, "gather_stat_json.py"));
-
-                if (File.Exists(gather_stat_json))
-                {
-                    File.Delete(gather_stat_json);
-                }
-
-                using (StreamWriter writer = new StreamWriter(gather_stat_json))
-                {
-                    writer.WriteLine(Properties.Resources.gather_stat_json);
-                }
-
-                // Check if the "log" folder exists; if not, create it
-                string log_folder_path = Path.GetFullPath(
-                    Path.Combine(this.ProjectManifest.OutputDirectory, "log"));
-
-                if (Directory.Exists(log_folder_path) == false)
-                {
-                    Directory.CreateDirectory(log_folder_path);
-                }
-
-                string gather_all_logfiles = Path.GetFullPath(
-                    Path.Combine(log_folder_path, "gather_all_logfiles.py"));
-
-                if (File.Exists(gather_all_logfiles))
-                {
-                    File.Delete(gather_all_logfiles);
-                }
-
-                using (StreamWriter writer = new StreamWriter(gather_all_logfiles))
-                {
-                    writer.WriteLine(Properties.Resources.gather_all_logfiles);
-                }
-
-                index_html index = new index_html();
-                index.ProjectName = Path.GetFileNameWithoutExtension(this.ProjectManifest.Project.CyPhyProjectFileName);
-                index.AvmProjectFileName = Path.GetFileName(this.ProjectManifest.m_filename);
-
-                string indexFileName = this.GetIndexFilename();
-
-                using (StreamWriter writer = new StreamWriter(indexFileName))
-                {
-                    string index_content = index.TransformText();
-                    writer.WriteLine(index_content);
-                }
-            }
-            finally
-            {
-                mutex.ReleaseMutex();
-                mutex.Dispose();
-            }
         }
 
         private string GetIndexFilename()
@@ -1633,12 +1435,6 @@
                     }
                 }
             });
-        }
-
-        private class DashboardManifest
-        {
-            [Newtonsoft.Json.JsonProperty(PropertyName = "version")]
-            public string Version { get; set; }
         }
     }
 }
