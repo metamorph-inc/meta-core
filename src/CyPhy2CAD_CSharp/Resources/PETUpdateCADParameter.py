@@ -56,16 +56,22 @@ class Layout_to_CadAssembly(object):
         if 'Parameters' in tbmanifest_dict:
             self.tbmanifest_param_list = tbmanifest_dict['Parameters']
             
-        cadparam_mapping_list = self.parse_json(self.testbench_cadparam_json)
-        for cadparam in cadparam_mapping_list:
-            if 'TestBenchParameterName' in cadparam:
-                value = self.find_testbench_param_value(cadparam['TestBenchParameterName'])
-                if value is not None:               
-                    if cadparam['ComponentInstanceGUID'] not in instanceguid_param_dict:
-                        instanceguid_param_dict[cadparam['ComponentInstanceGUID']] = {}
-                        
-                    instanceguid_param_dict[cadparam['ComponentInstanceGUID']][cadparam['CADParameterName']] = value
-                    print instanceguid_param_dict
+        if not os.path.isfile(self.testbench_cadparam_json):
+            # There are no CAD parameters, even though there are TestBench parameters, so move along.
+            pass
+        else:
+            # Map the TestBench parameters to CAD parameters
+            cadparam_mapping_list = self.parse_json(self.testbench_cadparam_json)
+            for cadparam in cadparam_mapping_list:
+                if 'TestBenchParameterName' in cadparam:
+                    value = self.find_testbench_param_value(cadparam['TestBenchParameterName'])
+                    if value is not None:
+                        if cadparam['ComponentInstanceGUID'] not in instanceguid_param_dict:
+                            instanceguid_param_dict[cadparam['ComponentInstanceGUID']] = {}
+
+                        instanceguid_param_dict[cadparam['ComponentInstanceGUID']][cadparam['CADParameterName']] = value
+                        print instanceguid_param_dict
+
         return instanceguid_param_dict
                 
     def find_testbench_param_value(self, param_name):
